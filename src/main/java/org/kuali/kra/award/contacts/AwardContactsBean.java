@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.contacts;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +33,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 /**
  * This is the base class for handling AwardContacts
  */
-public abstract class AwardContactsBean {
+public abstract class AwardContactsBean implements Serializable {
     private static final String PERSON_IDENTIFIER_FIELD = "personId";
     private static final String ROLODEX_IDENTIFIER_FIELD = "rolodexId";
     
@@ -43,7 +44,7 @@ public abstract class AwardContactsBean {
     protected Person person;
     protected NonOrganizationalRolodex rolodex;
     
-    BusinessObjectService businessObjectService;
+    transient BusinessObjectService businessObjectService;
     private String personId;
 
     private Integer rolodexId;

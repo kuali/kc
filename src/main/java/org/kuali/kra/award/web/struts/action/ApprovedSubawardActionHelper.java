@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.io.Serializable;
+
 import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
 import org.kuali.kra.award.rules.AwardApprovedSubawardRuleImpl;
 import org.kuali.kra.award.web.struts.form.ApprovedSubawardFormHelper;
@@ -22,7 +24,7 @@ import org.kuali.kra.award.web.struts.form.ApprovedSubawardFormHelper;
 /**
  * This class...
  */
-public class ApprovedSubawardActionHelper {
+public class ApprovedSubawardActionHelper implements Serializable {
     
     /**
      * This method is called when adding a new AwardApprovedSubaward

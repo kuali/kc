@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.paymentreports.paymentschedule;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.kuali.kra.award.bo.Award;
@@ -26,7 +27,7 @@ import org.kuali.rice.kns.service.KualiRuleService;
 /**
  * This class supports the AwardForm class
  */
-public class PaymentScheduleBean {    
+public class PaymentScheduleBean implements Serializable {    
     private AwardPaymentSchedule newAwardPaymentSchedule;
     private KualiRuleService ruleService;
     private AwardForm form;

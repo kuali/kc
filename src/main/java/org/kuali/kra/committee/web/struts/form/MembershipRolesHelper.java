@@ -15,12 +15,13 @@
  */
 package org.kuali.kra.committee.web.struts.form;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 
-public class MembershipRolesHelper {
+public class MembershipRolesHelper implements Serializable {
     
     /**
      * Each Helper must contain a reference to its document form

@@ -15,13 +15,14 @@
  */
 package org.kuali.kra.committee.web.struts.form.schedule;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 
 /**
  * This class holds common UI data of all types of recurrence.
  */
-public class ScheduleDetails {
+public class ScheduleDetails implements Serializable {
     
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleDetails.class);
