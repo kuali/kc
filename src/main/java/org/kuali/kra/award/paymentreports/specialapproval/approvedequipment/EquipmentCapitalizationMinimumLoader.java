@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kra.award.bo.Award;
@@ -25,7 +27,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 /**
  * This class provides support to the AwardApprovedEquipmentRule 
  */
-public class EquipmentCapitalizationMinimumLoader {
+public class EquipmentCapitalizationMinimumLoader implements Serializable {
     public static final String PARM_TYPE_CODE = "D";
     static final String FEDERAL_CAPITALIZATION_MIN_PARM_NAME = "federalCapitalizationMinimum";
     static final String FEDERAL_REQUIREMENT = "Federal";

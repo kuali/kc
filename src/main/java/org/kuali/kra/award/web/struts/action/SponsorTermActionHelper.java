@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 /**
  * This is a helper class for AwardPaymentReportsandTermsAction.java
  */
-public class SponsorTermActionHelper {
+public class SponsorTermActionHelper implements Serializable {
     
     private static final String SPONSOR_TERM_CODE = "sponsorTermCode";
     private static final String SPONSOR_TERM_TYPE_CODE = "sponsorTermTypeCode";

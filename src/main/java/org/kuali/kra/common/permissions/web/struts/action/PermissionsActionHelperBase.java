@@ -20,6 +20,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.kns.util.KNSConstants.CONFIRMATION_QUESTION;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -58,7 +59,7 @@ import org.kuali.rice.kns.util.KNSConstants;
  * A subclass is necessary to perform operations specific to the document and roles for the 
  * Permissions web page, e.g. saving users and roles to the database.
  */
-public abstract class PermissionsActionHelperBase {
+public abstract class PermissionsActionHelperBase implements Serializable {
     
     private static final String ADD_USER_METHOD = "addUser";
     private static final String DELETE_USER_METHOD = "deleteUser";
