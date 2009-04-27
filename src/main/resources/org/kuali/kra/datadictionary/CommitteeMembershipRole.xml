@@ -128,6 +128,7 @@
                 p:businessObjectClass="org.kuali.kra.committee.bo.MembershipRole"
                 p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
                 p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
                 p:keyAttribute="membershipRoleCode"
                 p:labelAttribute="description" />
         </property>
