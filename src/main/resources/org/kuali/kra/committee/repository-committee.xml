@@ -134,7 +134,7 @@
          </reference-descriptor>
          
    		<collection-descriptor name="committeeMemberships" element-class-ref="org.kuali.kra.committee.bo.CommitteeMembership" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-   		    <inverse-foreignkey field-ref="id" />
+   		    <inverse-foreignkey field-ref="committeeIdFk" />
    		</collection-descriptor>
    		
    		<collection-descriptor name="committeeSchedules" element-class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -147,8 +147,8 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.committee.bo.CommitteeMembership" table="COMM_MEMBERSHIPS">
-        <field-descriptor name="committeeMembershipId" column="COMM_MEMBERSHIP_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" />
+        <field-descriptor name="committeeMembershipIdFk" column="COMM_MEMBERSHIP_ID_FK" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
+        <field-descriptor name="committeeIdFk" column="COMMITTEE_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
@@ -180,17 +180,17 @@
         </reference-descriptor>
 
         <collection-descriptor name="membershipRoles" element-class-ref="org.kuali.kra.committee.bo.CommitteeMembershipRole" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-            <inverse-foreignkey field-ref="committeeMembershipId" />
+            <inverse-foreignkey field-ref="committeeMembershipIdFk" />
         </collection-descriptor>
         
         <collection-descriptor name="membershipExpertise" element-class-ref="org.kuali.kra.committee.bo.CommitteeMembershipExpertise" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-            <inverse-foreignkey field-ref="committeeMembershipId" />
+            <inverse-foreignkey field-ref="committeeMembershipIdFk" />
         </collection-descriptor>
     </class-descriptor>	
     
     <class-descriptor class="org.kuali.kra.committee.bo.CommitteeMembershipRole" table="COMM_MEMBER_ROLES">
-        <field-descriptor name="committeeMembershipRoleId" column="COMM_MEMBER_ROLES_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
-        <field-descriptor name="committeeMembershipId" column="COMM_MEMBERSHIP_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="committeeMembershipRoleIdFk" column="COMM_MEMBER_ROLES_ID_FK" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
+        <field-descriptor name="committeeMembershipIdFk" column="COMM_MEMBERSHIP_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="membershipId" column="MEMBERSHIP_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="membershipRoleCode" column="MEMBERSHIP_ROLE_CODE" jdbc-type="VARCHAR" />
@@ -207,8 +207,8 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.committee.bo.CommitteeMembershipExpertise" table="COMM_MEMBER_EXPERTISE">
-        <field-descriptor name="committeeMembershipExpertiseId" column="COMM_MEMBER_EXPERTISE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
-        <field-descriptor name="committeeMembershipId" column="COMM_MEMBERSHIP_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="committeeMembershipExpertiseIdFk" column="COMM_MEMBER_EXPERTISE_ID_FK" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
+        <field-descriptor name="committeeMembershipIdFk" column="COMM_MEMBERSHIP_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="membershipId" column="MEMBERSHIP_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="researchAreaCode" column="RESEARCH_AREA_CODE" jdbc-type="VARCHAR" />

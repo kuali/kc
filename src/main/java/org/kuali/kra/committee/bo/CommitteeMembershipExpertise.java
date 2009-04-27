@@ -26,11 +26,11 @@ import org.kuali.kra.bo.ResearchArea;
 public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBase { 
     
     @Id
-    @Column(name = "COMM_MEMBER_ROLES_ID")
-    private Long committeeMembershipExpertiseId;
+    @Column(name = "COMM_MEMBER_ROLES_ID_FK")
+    private Long committeeMembershipExpertiseIdFk;
     
-    @Column(name = "COMM_MEMBERSHIPS_ID")
-    private Long committeeMembershipId;
+    @Column(name = "COMM_MEMBERSHIP_ID_FK")
+    private Long committeeMembershipIdFk;
 
     @Column(name = "MEMBERSHIP_ID")
     private String membershipId;
@@ -47,20 +47,20 @@ public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBa
         setResearchArea(new ResearchArea());
     } 
     
-    public Long getCommitteeMembershipExpertiseId() {
-        return committeeMembershipExpertiseId;
+    public Long getCommitteeMembershipExpertiseIdFk() {
+        return committeeMembershipExpertiseIdFk;
     }
 
-    public void setCommitteeMembershipExpertiseId(Long committeeMembershipExpertiseId) {
-        this.committeeMembershipExpertiseId = committeeMembershipExpertiseId;
+    public void setCommitteeMembershipExpertiseIdFk(Long committeeMembershipExpertiseIdFk) {
+        this.committeeMembershipExpertiseIdFk = committeeMembershipExpertiseIdFk;
     }
 
-    public Long getCommitteeMembershipId() {
-        return committeeMembershipId;
+    public Long getCommitteeMembershipIdFk() {
+        return committeeMembershipIdFk;
     }
 
-    public void setCommitteeMembershipId(Long committeeMembershipId) {
-        this.committeeMembershipId = committeeMembershipId;
+    public void setCommitteeMembershipIdFk(Long committeeMembershipIdFk) {
+        this.committeeMembershipIdFk = committeeMembershipIdFk;
     }
 
     public String getMembershipId() {
@@ -98,8 +98,8 @@ public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBa
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("committeeMembershipExpertiseId", getCommitteeMembershipExpertiseId());
-        hashMap.put("committeeMembershipId", getCommitteeMembershipId());
+        hashMap.put("committeeMembershipExpertiseIdFk", getCommitteeMembershipExpertiseIdFk());
+        hashMap.put("committeeMembershipIdFk", getCommitteeMembershipIdFk());
         hashMap.put("membershipId", getMembershipId());
         hashMap.put("sequenceNumber", getSequenceNumber());
         hashMap.put("researchAreaCode", getResearchAreaCode());

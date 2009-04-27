@@ -32,11 +32,11 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase{
 
     @Id
-    @Column(name = "COMM_MEMBER_ROLES_ID")
-    private Long committeeMembershipRoleId;
+    @Column(name = "COMM_MEMBER_ROLES_ID_FK")
+    private Long committeeMembershipRoleIdFk;
 
-    @Column(name = "COMM_MEMBERSHIPS_ID")
-    private Long committeeMembershipId;
+    @Column(name = "COMM_MEMBERSHIP_ID_FK")
+    private Long committeeMembershipIdFk;
 
     @Column(name = "MEMBERSHIP_ID")
     private String membershipId;
@@ -58,20 +58,20 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase{
     public CommitteeMembershipRole() {
     }
 
-    public Long getCommitteeMembershipRoleId() {
-        return committeeMembershipRoleId;
+    public Long getCommitteeMembershipRoleIdFk() {
+        return committeeMembershipRoleIdFk;
     }
 
-    public void setCommitteeMembershipRoleId(Long committeeMembershipRoleId) {
-        this.committeeMembershipRoleId = committeeMembershipRoleId;
+    public void setCommitteeMembershipRoleIdFk(Long committeeMembershipRoleIdFk) {
+        this.committeeMembershipRoleIdFk = committeeMembershipRoleIdFk;
     }
 
-    public Long getCommitteeMembershipId() {
-        return committeeMembershipId;
+    public Long getCommitteeMembershipIdFk() {
+        return committeeMembershipIdFk;
     }
 
-    public void setCommitteeMembershipId(Long committeeMembershipId) {
-        this.committeeMembershipId = committeeMembershipId;
+    public void setCommitteeMembershipIdFk(Long committeeMembershipIdFk) {
+        this.committeeMembershipIdFk = committeeMembershipIdFk;
     }
 
     public String getMembershipId() {
@@ -125,8 +125,8 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase{
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("committeeMembershipRoleId", getCommitteeMembershipRoleId());
-        hashMap.put("committeeMembershipId", getCommitteeMembershipId());
+        hashMap.put("committeeMembershipRoleIdFk", getCommitteeMembershipRoleIdFk());
+        hashMap.put("committeeMembershipIdFk", getCommitteeMembershipIdFk());
         hashMap.put("membershipId", getMembershipId());
         hashMap.put("sequenceNumber", getSequenceNumber());
         hashMap.put("membershipRoleCode", getMembershipRoleCode());
