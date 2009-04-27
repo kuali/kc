@@ -1612,8 +1612,8 @@ public abstract class KraWebTestBase extends KraTestBase {
         HtmlPage portalPage = getPortalPage();
         HtmlPage docSearchPage = clickOn(portalPage, "Document Search");
 
-        setFieldValue(docSearchPage, "criteria.routeHeaderId", docNbr);
-        docSearchPage = clickOn(docSearchPage, "methodToCall.doDocSearch");
+        setFieldValue(docSearchPage, "routeHeaderId", docNbr);
+        docSearchPage = clickOn(docSearchPage, "methodToCall.search");
         if (docSearchPage.asText().contains("Nothing found to display.")) {
             docPage = null;
         } else if (docSearchPage.asText().contains("No values match this search")) {
