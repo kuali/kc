@@ -27,7 +27,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 /**
  * This class contains all rule methods for actions on Award Direct F and A Distribution tab.
  */
-public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBase implements AwardDirectFandADistributionRule {
+public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBase implements AwardDirectFandADistributionRule{
 
     private static final String NEW_AWARD_DIRECT_FNA_DISTRIBUTION = "newAwardDirectFandADistribution";
     private static final String INVALID_DATES = ".invalidDates";
@@ -62,10 +62,10 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      */
     public boolean processAddAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         this.awardDirectFandADistribution = awardDirectFandADistributionRuleEvent.getAwardDirectFandADistributionForValidation();
-        List<AwardDirectFandADistribution> awardDirectFandADistributions = 
+        List<AwardDirectFandADistribution> thisAwardDirectFandADistributions = 
                                                 awardDirectFandADistributionRuleEvent.getAwardDocument().getAward().getAwardDirectFandADistributions();
         boolean validStartAndEndDates = isStartDatePriorToEndDate();
-        boolean validDatePeriod = doTargetDatesFallWithinOpenPeriod(awardDirectFandADistributions) 
+        boolean validDatePeriod = doTargetDatesFallWithinOpenPeriod(thisAwardDirectFandADistributions) 
                                         && isTargetStartAfterProjectStartDate(awardDirectFandADistributionRuleEvent) 
                                             && isTargetEndDatePriorToProjectEndDate(awardDirectFandADistributionRuleEvent);
         return validStartAndEndDates && validDatePeriod;
@@ -76,11 +76,11 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      * @param awardDirectFandADistributions
      * @return
      */
-    boolean existingDirectFandADistributionsDatesDontOverlap(List<AwardDirectFandADistribution> awardDirectFandADistributions) {
+    boolean existingDirectFandADistributionsDatesDontOverlap(List<AwardDirectFandADistribution> thisAwardDirectFandADistributions) {
         boolean valid = true;
         int currentIndex = 0;
-        for(AwardDirectFandADistribution awardDirectFandADistribution : awardDirectFandADistributions) {
-            if(targetOverlapsWithExistingPeriods(awardDirectFandADistribution, awardDirectFandADistributions, currentIndex)) {
+        for(AwardDirectFandADistribution thisAwardDirectFandADistribution : thisAwardDirectFandADistributions) {
+            if(targetOverlapsWithExistingPeriods(thisAwardDirectFandADistribution, thisAwardDirectFandADistributions, currentIndex)) {
                 valid = false;
                 reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+INVALID_DATES, 
                         KeyConstants.ERROR_OVERLAPPING_EXISTING_DATES);
@@ -98,15 +98,15 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      * @param currentIndex
      * @return
      */
-    boolean targetOverlapsWithExistingPeriods(AwardDirectFandADistribution awardDirectFandADistribution,
-                                                        List<AwardDirectFandADistribution> awardDirectFandADistributions, int currentIndex) {
+    boolean targetOverlapsWithExistingPeriods(AwardDirectFandADistribution thisAwardDirectFandADistribution,
+                                                        List<AwardDirectFandADistribution> thisAwardDirectFandADistributions, int currentIndex) {
         boolean invalid = false;
         Date testStartDate;
         Date testEndDate;
-        Date startDate = awardDirectFandADistribution.getStartDate();
-        Date endDate = awardDirectFandADistribution.getEndDate();
+        Date startDate = thisAwardDirectFandADistribution.getStartDate();
+        Date endDate = thisAwardDirectFandADistribution.getEndDate();
         int newCurrentIndex = 0;
-        for(AwardDirectFandADistribution testAwardDirectFandADistribution : awardDirectFandADistributions) {
+        for(AwardDirectFandADistribution testAwardDirectFandADistribution : thisAwardDirectFandADistributions) {
             testStartDate = testAwardDirectFandADistribution.getStartDate();
             testEndDate = testAwardDirectFandADistribution.getEndDate();
             if(newCurrentIndex != currentIndex){
@@ -139,9 +139,9 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      * @param awardDirectFandADistributions
      * @return
      */
-   boolean doTargetDatesFallWithinOpenPeriod(List<AwardDirectFandADistribution> awardDirectFandADistributions) {
+   boolean doTargetDatesFallWithinOpenPeriod(List<AwardDirectFandADistribution> thisAwardDirectFandADistributions) {
         boolean valid = true;
-        for(AwardDirectFandADistribution testAwardDirectFandADistribution : awardDirectFandADistributions) {
+        for(AwardDirectFandADistribution testAwardDirectFandADistribution : thisAwardDirectFandADistributions) {
             if(doDateRangesOverlap(testAwardDirectFandADistribution, awardDirectFandADistribution)){
                 valid = false;
                 reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+OVERLAPPING_DATE_RANGES, 
@@ -159,11 +159,11 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      * @return
      */
     boolean doDateRangesOverlap(AwardDirectFandADistribution testAwardDirectFandADistribution, 
-                                                AwardDirectFandADistribution awardDirectFandADistribution) {
+                                                AwardDirectFandADistribution thisAwardDirectFandADistribution) {
         Date testStartDate = testAwardDirectFandADistribution.getStartDate();
         Date testEndDate = testAwardDirectFandADistribution.getEndDate();
-        Date startDate = awardDirectFandADistribution.getStartDate();
-        Date endDate = awardDirectFandADistribution.getEndDate();
+        Date startDate = thisAwardDirectFandADistribution.getStartDate();
+        Date endDate = thisAwardDirectFandADistribution.getEndDate();
         return startDate.before(testEndDate) && startDate.after(testStartDate) || endDate.after(testStartDate) && endDate.before(testEndDate);
     }
     

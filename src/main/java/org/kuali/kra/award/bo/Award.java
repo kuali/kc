@@ -24,6 +24,8 @@ import java.util.Map;
 
 import org.apache.axis.utils.StringUtils;
 import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.contacts.AwardUnitContact;
+import org.kuali.kra.award.contacts.SponsorContact;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.contacts.AwardUnitContact;
@@ -1716,7 +1718,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * Sets the awardDirectFandADistribution attribute value.
      * @param awardDirectFandADistribution The awardDirectFandADistribution to set.
      */
-    public void setAwardDirectFandADistributions(List<AwardDirectFandADistribution> awardDirectFandADistributions) {
+    public void setAwardDirectFandADistributions(List<AwardDirectFandADistribution> awardDirectFandADistributions){
+        for(AwardDirectFandADistribution awardDirectFandADistribution : awardDirectFandADistributions){
+            awardDirectFandADistribution.setAward(this);
+        }
         this.awardDirectFandADistributions = awardDirectFandADistributions;
     }
 
