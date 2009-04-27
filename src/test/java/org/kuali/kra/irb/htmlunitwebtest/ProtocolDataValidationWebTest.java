@@ -33,25 +33,28 @@ public class ProtocolDataValidationWebTest extends ProtocolWebTestBase {
      * This method tests turning on Data Validation will add audit errors when none of the audit values are set on the award.
      * @throws Exception when bad happens
      */
-    @Test @Ignore("No audit rules Protocol defined yet.  Add asserts when audit rules are available.")
+    @Test
     public void testTurnOnDataValidation() throws Exception{
-        HtmlPage awardActionsPageAfterActivate = clickOn(getProtocolActionsPage(), METHOD_ACTIVATE);
+        HtmlPage protocolActionsPageAfterActivate = clickOn(getProtocolActionsPage(), METHOD_ACTIVATE);
+        System.err.println(protocolActionsPageAfterActivate.asText());
         //assertContains(awardActionsPageAfterActivate,INSERT_ERROR_HERE);
         //assertContains(awardActionsPageAfterActivate, INSERT_ERROR_HERE);
     }
     
     /**
      * 
-     *This method tests turning off Validation after an Activation
+     * This method tests turning off Validation after an Activation
      * @throws Exception when bad happens
      */
-    @Test @Ignore("No audit rules for Protocol defined yet.  Add asserts when audit rules are available.")
+    @Test @Ignore
     public void testTurnOffDataValidationAfterActivate() throws Exception{
-        HtmlPage awardActionsPageAfterActivate = clickOn(getProtocolActionsPage(), METHOD_ACTIVATE);
+        HtmlPage protocolActionsPageAfterActivate = clickOn(getProtocolActionsPage(), METHOD_ACTIVATE);
+        System.err.println(protocolActionsPageAfterActivate.asText());
         //assertContains(awardActionsPageAfterActivate, INSERT_ERROR_HERE);
         //assertContains(awardActionsPageAfterActivate, INSERT_ERROR_HERE);
-        HtmlPage awardActionsPageAfterDeactivate = clickOn(awardActionsPageAfterActivate, METHOD_DEACTIVATE);
+        HtmlPage protocolActionsPageAfterDeactivate = clickOn(protocolActionsPageAfterActivate, METHOD_DEACTIVATE);
         //assertDoesNotContain(awardActionsPageAfterDeactivate, INSERT_ERROR_HERE);
         //assertDoesNotContain(awardActionsPageAfterDeactivate, INSERT_ERROR_HERE);
+        System.err.println(protocolActionsPageAfterDeactivate.asText());
     }
 }
