@@ -30,7 +30,7 @@ Requirements:
 
 5. Deploy binary/kra-ptd.war to your servlet container (see user guide for your particular servlet container).
 
-6. The KRA application should now be accessible at: {app.host}/{app.context.name} (as specified in the internal kra-config.xml -- app.context.name is kra-ptd, if not overridden).
+6. The KRA application should now be accessible at: {app.host}/{app.context.name} (as specified in the external kra-config.xml -- app.context.name is kra-ptd, if not overridden).
 
 7. Login as 'quickstart' (click on a tab or option and the login screen will appear).
 
