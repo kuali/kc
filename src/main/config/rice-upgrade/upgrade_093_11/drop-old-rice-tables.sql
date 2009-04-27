@@ -118,7 +118,6 @@
  drop table SH_PARM_TYP_T  ;                
  drop table SH_USR_PROP_T  ;
  drop table USER_CHANNEL_SUBSCRIPTIONS   ;  
- drop table USER_ROLES  ;                   
  drop table SH_PARM_NMSPC_T  ;              
  drop table NOTIFICATION_CHANNELS ;         
  drop table FP_DOC_TYPE_T ;                 
