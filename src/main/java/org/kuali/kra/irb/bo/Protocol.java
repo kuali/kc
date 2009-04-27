@@ -319,7 +319,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     }
 
 
-    //TODO add add'l fields
     @Override 
     protected LinkedHashMap<String,Object> toStringMapper() {
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();        
@@ -521,7 +520,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     }    
     
     public String getLeadUnitNumber() {
-        // TODO : for lookup 
         if (StringUtils.isBlank(leadUnitNumber)) {
             if (getLeadUnit() != null) {
                 setLeadUnitNumber(getLeadUnit().getUnitNumber());
@@ -535,7 +533,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     }
 
     public String getPrincipalInvestigatorId() {       
-        // TODO : for lookup 
         if (StringUtils.isBlank(principalInvestigatorId)) {
             if (getPrincipalInvestigator() != null) {
                 ProtocolPerson principalInvestigator = getPrincipalInvestigator();
@@ -620,7 +617,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     }
 
     public ProtocolUnit getLeadUnitForValidation() {
-        // TODO : for refactoring document rule
         if (leadUnitForValidation == null && getPrincipalInvestigator() != null) {
             for (ProtocolUnit protocolUnit : getPrincipalInvestigator().getProtocolUnits()) {
                 if (protocolUnit.getLeadUnitFlag()) {
@@ -672,7 +668,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     }
 
    public String getLeadUnitName() {
-        // TODO : for lookup 
         if (StringUtils.isBlank(leadUnitName)) {
             if (getLeadUnit() != null) {
                 setLeadUnitName(getLeadUnit().getUnitName());

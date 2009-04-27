@@ -17,10 +17,14 @@ package org.kuali.kra.irb.lookup;
 /**
  * 
  * There are so many constants needed in lookup.  Created this class for now.
- * reloacate these constants to where they belong later when we have a definite direction.
+ * TODO : reloacate these constants to where they belong later when we have a definite direction for constants.
  */
 public interface ProtocolLookupConstants {
     
+    /**
+     * 
+     * This class contains the property constants
+     */
     public static class Property {
 
         public static final String ROLODEX_ID = "rolodexId";

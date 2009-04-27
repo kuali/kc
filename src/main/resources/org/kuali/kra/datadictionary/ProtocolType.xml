@@ -46,13 +46,13 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Protocol Type Code" />
 		<property name="shortLabel" value="Protocol Type Code" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="3" />
 		</property>
 		<property name="summary" value="Protocol Type Code" />
 		<property name="description" value="Protocol Type Code" />

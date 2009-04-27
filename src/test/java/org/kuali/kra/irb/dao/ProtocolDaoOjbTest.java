@@ -27,7 +27,10 @@ import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.rice.test.data.PerTestUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
-
+/**
+ * 
+ * This class is to test get protocol search results
+ */
 @PerTestUnitTestData(
     @UnitTestData(
             sqlFiles = {
