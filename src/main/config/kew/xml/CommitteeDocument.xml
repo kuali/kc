@@ -4,7 +4,7 @@
 <documentType>
 <name>CommitteeDocument</name>
 <description>Create a Committee</description>
-<label>Committee</label>
+<label>Committee Document</label>
 <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
