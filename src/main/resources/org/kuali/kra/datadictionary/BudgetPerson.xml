@@ -157,6 +157,7 @@
             p:businessObjectClass="org.kuali.kra.budget.bo.AppointmentType"
             p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
             p:keyAttribute="appointmentTypeCode"
             p:labelAttribute="description" />
     </property>
