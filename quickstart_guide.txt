@@ -16,22 +16,25 @@ Requirements:
 1. Run the database scripts using the instructions provided in db_scripts/ReadMe.txt
 
 2. Place binary/kra-config.xml in one of the configured default locations: {Userhome}/kuali/main/ptd OR /opt/sa_forms/java/ptd/kra/kra-config.xml.
+   (NOTE: This is what is often referred to as the external kra-config.xml, whereas the internal kra-config.xml is located within the webapp)
+   (ADDITIONAL NOTE: If you are upgrading and have an existing kra-config.xml in this location, please replace it, as new parameters are often added)
 	* On Windows with Tomcat running as a service, the best location is usually c:\kuali\main\ptd
 	* To use a different directory, open kra-ptd.war and edit the "config.location" parameter in /WEB-INF/classes/META-INF/kra-config.xml.
+	(NOTE: This file is the internal kra-config.xml and also contains the "environment" parameter referenced in the external kra-config.xml file)
 
-3. Edit parameters in kra-config.xml (that you just placed in step #2) as desired.
+3. Edit parameters in the external kra-config.xml (that you just placed in step #2) as desired.
 	* You will at least need to fill in the following parameters with your database connection information: datasource.url, datasource.username, datasource.password.
 	* You will also need to change app.host to your server's host name (i.e. http://kuali.yourinstitution.edu:8080).
-	* Other commonly changed parameters are: app.code, app.context.name.
+	* Other commonly changed parameters are: app.code, app.context.name (be sure app.context.name matches your deployed webapp -- normally the name of your war file)
 
 4. Obtain ojdbc14.jar from an oracle client install ({OracleHome}/jdbc/lib) or the Oracle site (http://www.oracle.com) and copy it into the common jar file library.
 	* Example: For Tomcat 5.5, copy ojdbc14.jar into {tomcat install dir}/common/lib.
 
 5. Deploy binary/kra-ptd.war to your servlet container (see user guide for your particular servlet container).
 
-6. The KRA application should now be accessible at: {app.host}/{app.context.name} (as specified in kra-config.xml).
+6. The KRA application should now be accessible at: {app.host}/{app.context.name} (as specified in the external kra-config.xml -- app.context.name is kra-ptd, if not overridden).
 
-7. Login as 'quickstart'.
+7. Login as 'quickstart' (click on a tab or option and the login screen will appear).
 
 
 *** Building the Kuali Coeus source ***
