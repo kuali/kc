@@ -75,6 +75,7 @@
 	            p:businessObjectClass="org.kuali.kra.bo.ExemptionType"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
 	            p:keyAttribute="exemptionTypeCode"
 	            p:labelAttribute="description" />
 		</property>

@@ -83,6 +83,7 @@
 	            p:businessObjectClass="org.kuali.kra.bo.SpecialReview"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
 	            p:keyAttribute="specialReviewCode"
 	            p:labelAttribute="description" />
 	    </property>

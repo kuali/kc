@@ -97,6 +97,7 @@
 	            p:businessObjectClass="org.kuali.kra.award.bo.ReportClass"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
 	            p:keyAttribute="reportClassCode"
 	            p:labelAttribute="description" />
 	    </property>
@@ -119,6 +120,7 @@
 	            p:businessObjectClass="org.kuali.kra.award.bo.Report"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
 	            p:keyAttribute="reportCode"
 	            p:labelAttribute="description" />
 	    </property>
@@ -141,6 +143,7 @@
 	            p:businessObjectClass="org.kuali.kra.award.bo.Frequency"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
 	            p:keyAttribute="frequencyCode"
 	            p:labelAttribute="description" />
 	    </property>
@@ -163,6 +166,7 @@
 	            p:businessObjectClass="org.kuali.kra.award.bo.FrequencyBase"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
 	            p:keyAttribute="frequencyBaseCode"
 	            p:labelAttribute="description" />
 	    </property>
@@ -185,6 +189,7 @@
 	            p:businessObjectClass="org.kuali.kra.award.bo.Distribution"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
 	            p:keyAttribute="ospDistributionCode"
 	            p:labelAttribute="description" />
 	    </property>
