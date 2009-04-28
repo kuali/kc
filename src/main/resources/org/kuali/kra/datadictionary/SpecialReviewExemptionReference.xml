@@ -49,7 +49,7 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
-	    <property name="required" value="true" />
+	    <property name="required" value="false" />
 		<property name="control" >
 			<bean parent="SelectControlDefinition"
 	            p:businessObjectClass="org.kuali.kra.bo.ExemptionType"
