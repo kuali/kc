@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.committee.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -25,12 +26,13 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.lookup.CommitteeLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
 public class CommitteeLookupHelperServiceTest extends KraTestBase {
     private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 9;
-    private static final String EDIT_URL = "<a href=\"../committeeCommittee.do?methodToCall=docHandler&command=initiate&docTypeName=CommitteeDocument&committeeId=100\">edit</a>";
+    private static final String EDIT_URL = "../committeeCommittee.do?methodToCall=docHandler&command=initiate&docTypeName=CommitteeDocument&committeeId=100";
     CommitteeLookupableHelperServiceImpl committeeLookupableHelperServiceImpl;
 
     @Before
@@ -73,14 +75,17 @@ public class CommitteeLookupHelperServiceTest extends KraTestBase {
      * This method to check the 'edit' link is correct
      */
     @Test
-    public void testGetActionUrl() {
+    public void testGetCustomActionUrl() {
+        List pkNames = new ArrayList();
+        pkNames.add("committeeId");
         Committee committee = new Committee();
         committee.setCommitteeId("100");
         CommitteeDocument document = new CommitteeDocument();
         document.setDocumentNumber("101");
         committee.setCommitteeDocument(document);
-        String actionUrl = committeeLookupableHelperServiceImpl.getActionUrls(committee);
-        assertEquals(actionUrl, EDIT_URL);
+        List<HtmlData> actionUrls = committeeLookupableHelperServiceImpl.getCustomActionUrls(committee,pkNames);
+        assertEquals(((HtmlData.AnchorHtmlData) actionUrls.get(0)).getHref(), EDIT_URL);                
+    
     }
 
     /*
