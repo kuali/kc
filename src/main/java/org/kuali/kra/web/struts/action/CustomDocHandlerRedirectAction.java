@@ -43,8 +43,9 @@ public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectA
             docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, "actions");
             //docHandler += "&" + KNSConstants.METHOD_TO_CALL_PATH + "=methodToCall.headerTab.headerDispatch.reload.navigateTo.actions.x=Proposal Actions";
         } else if (("ProtocolDocument").equals(request.getParameter("documentTypeName"))) {
-            docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, Constants.HEADER_TAB);
-            docHandler += "&" + KNSConstants.METHOD_TO_CALL_PATH + "=methodToCall.headerTab.headerDispatch.reload.navigateTo.protocolActions.x=Protocol Actions";
+//            docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, Constants.HEADER_TAB);
+//            docHandler += "&" + KNSConstants.METHOD_TO_CALL_PATH + "=methodToCall.headerTab.headerDispatch.reload.navigateTo.protocolActions.x=Protocol Actions";
+            docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, "protocolActions");
         }
           
         returnForward = new ActionForward(docHandler, returnForward.getRedirect());

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.lookup;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +30,9 @@ import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
@@ -44,13 +48,19 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
         return protocolDao.getProtocols(fieldValues);
     }
 
-    
+    /**
+     * add 'copy' link to actions list
+     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     */
     @Override
-    public String getActionUrls(BusinessObject businessObject) {
-        String editLink =  super.getActionUrls(businessObject);
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+        List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
+        AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);;
         ProtocolDocument document = ((Protocol) businessObject).getProtocolDocument();
-        return editLink + "&nbsp<a href=\"../DocCopyHandler.do?docId="+document.getDocumentNumber()
-            +"&command=displayDocSearchView&documentTypeName="+getDocumentTypeName()+"\">copy</a>";
+        htmlData.setHref("../DocCopyHandler.do?docId="+document.getDocumentNumber()
+            +"&command=displayDocSearchView&documentTypeName="+getDocumentTypeName());
+        htmlDataList.add(htmlData);
+        return htmlDataList;
     }
 
 

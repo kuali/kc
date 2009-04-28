@@ -100,8 +100,16 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         return mapping.findForward("specialReview");
     }
     
-    public ActionForward protocolActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((ProtocolForm)form).getActionHelper().prepareView();
+    public ActionForward protocolActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception  {
+        // for protocol lookup copy link - rice 1.1 need this
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        String command = request.getParameter("command");
+        if (KEWConstants.DOCSEARCH_COMMAND.equals(command)) {
+            String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+            protocolForm.setDocument(retrievedDocument);
+        }
+       ((ProtocolForm)form).getActionHelper().prepareView();
         return mapping.findForward("protocolActions");
     }
     
