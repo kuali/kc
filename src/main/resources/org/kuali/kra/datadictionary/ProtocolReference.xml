@@ -153,6 +153,7 @@
             <bean parent="SelectControlDefinition"
                 p:businessObjectClass="org.kuali.kra.irb.bo.ProtocolReferenceType"
                 p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
+            	p:includeBlankRow="false"
                 p:includeKeyInLabel="false"
                 p:keyAttribute="protocolReferenceTypeCode"
                 p:labelAttribute="description" />

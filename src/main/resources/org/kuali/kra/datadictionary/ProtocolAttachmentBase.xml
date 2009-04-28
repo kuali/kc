@@ -83,6 +83,7 @@
 	            p:businessObjectClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
 	            p:keyAttribute="code"
 	            p:labelAttribute="description" />
 	      <!--<bean parent="SelectControlDefinition"

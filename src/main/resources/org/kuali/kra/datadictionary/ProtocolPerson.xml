@@ -147,6 +147,7 @@
             	p:businessObjectClass="org.kuali.kra.irb.personnel.ProtocolPersonRole"
             	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             	p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
             	p:keyAttribute="protocolPersonRoleId"
             	p:labelAttribute="description" />
 		</property>
@@ -184,6 +185,7 @@
             	p:businessObjectClass="org.kuali.kra.bo.AffiliationType"
             	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             	p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
             	p:keyAttribute="affiliationTypeCode"
             	p:labelAttribute="description" />
 		</property>
