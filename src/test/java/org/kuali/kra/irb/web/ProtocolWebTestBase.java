@@ -41,7 +41,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * Abstract Protocol Web Test base class provides common functionalities required by extended class.
  */
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-        @UnitTestFile(filename = "classpath:sql/dml/load_system_params.sql", delimiter = ";"),
+      //  @UnitTestFile(filename = "classpath:sql/dml/load_system_params.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
