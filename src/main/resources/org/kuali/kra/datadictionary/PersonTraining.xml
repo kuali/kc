@@ -157,6 +157,7 @@
 	            p:businessObjectClass="org.kuali.kra.bo.Training"
 	            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
 	            p:keyAttribute="trainingCode"
 	            p:labelAttribute="description" />
 	    </property>

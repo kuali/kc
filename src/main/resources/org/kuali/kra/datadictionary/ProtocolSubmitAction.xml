@@ -55,6 +55,7 @@
             	p:businessObjectClass="org.kuali.kra.irb.bo.ProtocolSubmissionType"
             	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             	p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
             	p:keyAttribute="submissionTypeCode"
             	p:labelAttribute="description" />
 		</property>
