@@ -331,7 +331,7 @@
 		</ruleAttribute>
         <ruleAttribute>
           <name>RuleRoutingAttribute</name>
-          <className>edu.iu.uis.eden.routetemplate.RuleRoutingAttribute</className>
+          <className>org.kuali.rice.kew.routetemplate.RuleRoutingAttribute</className>
           <label>Rule Routing</label>
           <description>Rule Routing</description>
           <messageEntity>TRAVEL</messageEntity>
@@ -431,7 +431,7 @@
 			<parent>EDENSERVICE-DOCS</parent>
 			<description>Workflow Maintenance Document Type Document</description>
 			<label>Workflow Maintenance Document Type Document</label>
-			<postProcessorName>edu.iu.uis.eden.doctype.DocumentTypePostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.kew.doctype.DocumentTypePostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<docHandler>http://localhost:8080/kr-dev/en/DocumentType.do?methodToCall=docHandler</docHandler>
@@ -454,7 +454,7 @@
 			<parent>EDENSERVICE-DOCS</parent>
 			<description>Rule Maintenance Document Type Document</description>
 			<label>Rule Maintenance Document Type Document</label>
-			<postProcessorName>edu.iu.uis.eden.routetemplate.RulePostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.kew.routetemplate.RulePostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<docHandler>http://localhost:8080/kr-dev/en/Rule.do?methodToCall=docHandler</docHandler>
@@ -477,7 +477,7 @@
 			<parent>EDENSERVICE-DOCS</parent>
 			<description>Document to generate a new workgroup</description>
 			<label>Add/modify EDEN workgroup</label>
-			<postProcessorName>edu.iu.uis.eden.workgroup.WorkgroupPostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.kew.workgroup.WorkgroupPostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>

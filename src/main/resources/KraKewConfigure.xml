@@ -359,7 +359,7 @@
 
         <ruleAttribute>
             <name>RuleRoutingAttribute</name>
-            <className>edu.iu.uis.eden.routetemplate.RuleRoutingAttribute</className>
+            <className>org.kuali.rice.kew.routetemplate.RuleRoutingAttribute</className>
             <label>foo</label>
             <description>foo</description>
             <type>RuleAttribute</type>
@@ -381,7 +381,7 @@
       </ruleAttribute>
       <ruleAttribute>
            <name>NotificationChannelSearchableAttribute</name>
-           <className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+           <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
            <label>Notification Channel</label>
            <description>The associated channel that this message was sent on.</description>
            <type>SearchableXmlAttribute</type>
@@ -399,7 +399,7 @@
        </ruleAttribute>
        <ruleAttribute>
            <name>NotificationPrioritySearchableAttribute</name>
-           <className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+           <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
            <label>Notification Priority</label>
            <description>The priority of this notification.</description>
            <type>SearchableXmlAttribute</type>
@@ -417,7 +417,7 @@
        </ruleAttribute>
        <ruleAttribute>
            <name>NotificationContentTypeSearchableAttribute</name>
-           <className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+           <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
            <label>Notification Content Type</label>
            <description>The content type of this notification.</description>
            <type>SearchableXmlAttribute</type>
@@ -435,7 +435,7 @@
        </ruleAttribute>
        <ruleAttribute>
            <name>NotificationProducerSearchableAttribute</name>
-           <className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+           <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
            <label>Notification Producer</label>
            <description>The producer of this notification.</description>
            <type>SearchableXmlAttribute</type>
@@ -453,7 +453,7 @@
        </ruleAttribute>
        <ruleAttribute>
            <name>NotificationRecipientsSearchableAttribute</name>
-           <className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+           <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
            <label>Notification Recipient</label>
            <description>Those who are receiving this notification.</description>
            <type>SearchableXmlAttribute</type>
@@ -471,7 +471,7 @@
        </ruleAttribute>
        <ruleAttribute>
            <name>NotificationSendersSearchableAttribute</name>
-           <className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+           <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
            <label>Notification Senders</label>
            <description>Those who this notification is being sent on behalf of.</description>
            <type>SearchableXmlAttribute</type>
@@ -564,7 +564,7 @@
 			<parent>EDENSERVICE-DOCS</parent>
 			<description>Workflow Maintenance Document Type Document</description>
 			<label>Workflow Maintenance Document Type Document</label>
-			<postProcessorName>edu.iu.uis.eden.doctype.DocumentTypePostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.kew.doctype.DocumentTypePostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/en/DocumentType.do?methodToCall=docHandler</docHandler>
@@ -587,7 +587,7 @@
 			<parent>EDENSERVICE-DOCS</parent>
 			<description>Rule Maintenance Document Type Document</description>
 			<label>Rule Maintenance Document Type Document</label>
-			<postProcessorName>edu.iu.uis.eden.routetemplate.RulePostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.kew.routetemplate.RulePostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/en/Rule.do?methodToCall=docHandler</docHandler>
@@ -610,7 +610,7 @@
 			<parent>EDENSERVICE-DOCS</parent>
 			<description>Document to generate a new workgroup</description>
 			<label>Add/modify EDEN workgroup</label>
-			<postProcessorName>edu.iu.uis.eden.workgroup.WorkgroupPostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.kew.workgroup.WorkgroupPostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
@@ -643,7 +643,7 @@
             <parent>EDENSERVICE-DOCS</parent>
             <description>A document to remove or replace users within rules and workgroups.</description>
             <label>Remove/Replace User</label>
-            <postProcessorName>edu.iu.uis.eden.removereplace.RemoveReplacePostProcessor</postProcessorName>
+            <postProcessorName>org.kuali.rice.kew.removereplace.RemoveReplacePostProcessor</postProcessorName>
             <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
             <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
             <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
