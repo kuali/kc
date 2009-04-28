@@ -235,6 +235,7 @@
                 p:businessObjectClass="org.kuali.kra.committee.bo.CommitteeMembershipType"
                 p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
                 p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
                 p:keyAttribute="membershipTypeCode"
                 p:labelAttribute="description" />
 		</property>
