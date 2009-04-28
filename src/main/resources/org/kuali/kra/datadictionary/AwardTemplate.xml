@@ -105,6 +105,7 @@
 	            p:businessObjectClass="org.kuali.kra.award.bo.AwardStatus"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
 	            p:keyAttribute="statusCode"
 	            p:labelAttribute="description" />
 	    </property>
@@ -189,6 +190,7 @@
 	            p:businessObjectClass="org.kuali.kra.award.bo.AwardBasisOfPayment"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
 	            p:keyAttribute="basisOfPaymentCode"
 	            p:labelAttribute="description" />
 	    </property>
@@ -211,6 +213,7 @@
 	            p:businessObjectClass="org.kuali.kra.award.bo.AwardMethodOfPayment"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
 	            p:keyAttribute="methodOfPaymentCode"
 	            p:labelAttribute="description" />
 	    </property>

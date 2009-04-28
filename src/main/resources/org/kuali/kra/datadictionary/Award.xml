@@ -167,6 +167,7 @@
             p:businessObjectClass="org.kuali.kra.award.bo.Frequency"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
             p:keyAttribute="frequencyCode"
             p:labelAttribute="description" />
     </property>
@@ -191,6 +192,7 @@
             p:businessObjectClass="org.kuali.kra.award.bo.Frequency"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
             p:keyAttribute="frequencyCode"
             p:labelAttribute="description" />
     </property>
@@ -289,6 +291,7 @@
             p:businessObjectClass="org.kuali.kra.award.bo.AwardBasisOfPayment"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
             p:keyAttribute="basisOfPaymentCode"
             p:labelAttribute="description" />
     </property>
@@ -313,6 +316,7 @@
             p:businessObjectClass="org.kuali.kra.award.bo.AwardMethodOfPayment"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
             p:keyAttribute="methodOfPaymentCode"
             p:labelAttribute="description" />
     </property>
@@ -448,6 +452,7 @@
             p:businessObjectClass="org.kuali.kra.award.bo.AwardMethodOfPayment"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
             p:keyAttribute="methodOfPaymentCode"
             p:labelAttribute="description" />
     </property>
@@ -497,6 +502,7 @@
             p:businessObjectClass="org.kuali.kra.award.bo.AwardStatus"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
             p:keyAttribute="statusCode"
             p:labelAttribute="description" />
     </property>
@@ -546,6 +552,7 @@
             p:businessObjectClass="org.kuali.kra.bo.NsfCode"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
             p:keyAttribute="nsfCode"
             p:labelAttribute="description" />
     </property>
@@ -695,6 +702,7 @@
             p:businessObjectClass="org.kuali.kra.bo.AccountType"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
             p:keyAttribute="accountTypeCode"
             p:labelAttribute="description" />
     </property>
@@ -719,6 +727,7 @@
             p:businessObjectClass="org.kuali.kra.award.bo.AwardType"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
             p:keyAttribute="awardTypeCode"
             p:labelAttribute="description" />
     </property>

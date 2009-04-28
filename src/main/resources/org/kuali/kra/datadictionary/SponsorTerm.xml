@@ -93,6 +93,7 @@
 	            p:businessObjectClass="org.kuali.kra.bo.SponsorTermType"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
 	            p:keyAttribute="sponsorTermTypeCode"
 	            p:labelAttribute="description" />
 	    </property>

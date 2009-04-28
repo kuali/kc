@@ -153,6 +153,7 @@
             p:businessObjectClass="org.kuali.kra.bo.CostShareType"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
             p:keyAttribute="costShareTypeCode"
             p:labelAttribute="description" />
     </property>
