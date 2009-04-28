@@ -40,8 +40,8 @@ import org.kuali.rice.kns.web.ui.Row;
 public class ProtocolLookupHelperServiceTest extends KraTestBase {
 
     ProtocolLookupableHelperServiceImpl protocolLookupableHelperServiceImpl;
-    private static final String EDIT_URL ="<a href=\"../protocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName=ProtocolDocument&protocolNumber=100\">edit</a>";
-    private static final String COPY_URL = "<a href=\"../DocCopyHandler.do?docId=101&command=displayDocSearchView&documentTypeName=ProtocolDocument\">copy</a>";
+    private static final String EDIT_URL ="../protocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName=ProtocolDocument&protocolNumber=100";
+    private static final String COPY_URL = "../DocCopyHandler.do?docId=101&command=displayDocSearchView&documentTypeName=ProtocolDocument";
     private static final String UNIT_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Unit&unitNumber=000001&methodToCall=start";
     private static final String PERSON_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Person&personId=000000001&methodToCall=start";
     private static final String ROLODEX_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Rolodex&rolodexId=1727&methodToCall=start";
@@ -102,16 +102,16 @@ public class ProtocolLookupHelperServiceTest extends KraTestBase {
     public void testGetInquiryUrl() {
         Protocol protocol = initProtocol();
         HtmlData inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "leadUnitNumber");
-        assertEquals(((HtmlData.AnchorHtmlData)inquiryUrl).getHref(), UNIT_INQ_URL);
+        assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), UNIT_INQ_URL);
         inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "investigator");
-        assertEquals(((HtmlData.AnchorHtmlData)inquiryUrl).getHref(), PERSON_INQ_URL);
+        assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), PERSON_INQ_URL);
         ProtocolPerson protocolPerson = protocol.getProtocolPersons().get(0);
         protocolPerson.setPersonId("");
         protocolPerson.setRolodexId(new Integer(1727));
         protocol.getProtocolPersons().clear();
         protocol.getProtocolPersons().add(protocolPerson);
         inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "investigator");
-        assertEquals(((HtmlData.AnchorHtmlData)inquiryUrl).getHref(), ROLODEX_INQ_URL);
+        assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), ROLODEX_INQ_URL);
     }
     
     /**
@@ -119,14 +119,23 @@ public class ProtocolLookupHelperServiceTest extends KraTestBase {
      * This method to check the 'edit' link is correct
      */
     @Test
-    public void testGetActionUrl() {
+    public void testGetCustomActionUrls() {
+        List pkNames = new ArrayList();
+        pkNames.add("protocolId");
         Protocol protocol = new Protocol();
         protocol.setProtocolNumber("100");
         ProtocolDocument document = new ProtocolDocument();
         document.setDocumentNumber("101");
         protocol.setProtocolDocument(document);
-        String actionUrl = protocolLookupableHelperServiceImpl.getActionUrls(protocol);
-        assertEquals(actionUrl, EDIT_URL+"&nbsp"+COPY_URL);
+        List<HtmlData> actionUrls = protocolLookupableHelperServiceImpl.getCustomActionUrls(protocol,pkNames);
+        for (HtmlData htmlData : actionUrls) {
+            HtmlData.AnchorHtmlData actionUrl = (HtmlData.AnchorHtmlData) htmlData;
+            if (actionUrl.getMethodToCall().equals("copy")) {
+                assertEquals(((HtmlData.AnchorHtmlData) actionUrl).getHref(), COPY_URL);                
+            } else {
+                assertEquals(((HtmlData.AnchorHtmlData) actionUrl).getHref(), EDIT_URL);                
+            }
+        }
     }
         
     
