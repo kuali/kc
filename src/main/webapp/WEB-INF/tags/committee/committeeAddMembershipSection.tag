@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="committeeMembershipAttributes" value="${DataDictionary.CommitteeMembership.attributes}" />
 
-    <kra:permission value="${KualiForm.committeeHelper.modifyCommittee}">
+    <kra:permission value="${KualiForm.membershipHelper.modifyCommittee}">
         <kul:uncollapsable tabTitle="Add ${KualiForm.document.committee.committeeType.description} Member"
             tabErrorKey="membershipHelper.newCommitteeMembership.*" 
             auditCluster="committeeMembershipAuditErrors" 

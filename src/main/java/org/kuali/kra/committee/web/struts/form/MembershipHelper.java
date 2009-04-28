@@ -17,8 +17,18 @@ package org.kuali.kra.committee.web.struts.form;
 
 import java.io.Serializable;
 
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.document.authorization.CommitteeTask;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
+/**
+ * The MembershipHelper corresponds to the Committee Members tab web page.
+ */
 public class MembershipHelper implements Serializable {
     
     /**
@@ -27,6 +37,7 @@ public class MembershipHelper implements Serializable {
      */
     private CommitteeForm form;
 
+    private boolean modifyCommittee;
     private CommitteeMembership newCommitteeMembership;
 
     public MembershipHelper(CommitteeForm form) {
@@ -35,6 +46,12 @@ public class MembershipHelper implements Serializable {
     }
     
     public void prepareView() {
+        modifyCommittee = canModifyCommittee();
+    }
+    
+    public boolean canModifyCommittee() {
+        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, getCommittee());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
     }
 
     public CommitteeMembership getNewCommitteeMembership() {
@@ -51,5 +68,26 @@ public class MembershipHelper implements Serializable {
 
     public void setForm(CommitteeForm form) {
         this.form = form;
+    }
+    
+    public Committee getCommittee() {
+        return form.getCommitteeDocument().getCommittee();
+    }
+
+    protected TaskAuthorizationService getTaskAuthorizationService() {
+        return KraServiceLocator.getService(TaskAuthorizationService.class);
+    }
+
+    /**
+     * Get the userName of the user for the current session.
+     * @return the current session's userName
+     */
+    protected String getUserName() {
+        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
+         return user.getPersonUserIdentifier();
+    }
+    
+    public boolean getModifyCommittee() {
+        return modifyCommittee;
     }
 }
