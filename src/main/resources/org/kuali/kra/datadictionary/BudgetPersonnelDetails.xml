@@ -313,6 +313,7 @@
             p:businessObjectClass="org.kuali.kra.budget.bo.BudgetPeriodType"
             p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
             p:keyAttribute="budgetPeriodTypeCode"
             p:labelAttribute="description" />
     </property>
