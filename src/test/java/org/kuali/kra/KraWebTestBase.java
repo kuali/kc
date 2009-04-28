@@ -1619,7 +1619,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         } else if (docSearchPage.asText().contains("No values match this search")) {
             docPage = null;
         } else {
-            HtmlAnchor hyperlink = getAnchor(docSearchPage, docNbr);
+            HtmlAnchor hyperlink = getAnchor(docSearchPage, "docId="+docNbr);
             assertNotNull(hyperlink);
             docPage = clickOn(hyperlink);
         }

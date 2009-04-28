@@ -81,6 +81,7 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_sponsor.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_state_code.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_system_params.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_principal.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_unit_administrator_type.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_unit_administrator.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_user_roles.sql", delimiter = ";")

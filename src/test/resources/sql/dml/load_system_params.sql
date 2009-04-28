@@ -299,3 +299,14 @@ Insert into KRNS_PARM_T
 Values
 ('KC-PROTOCOL','D','irb.protocol.billable', 'F1C228F9D4D8408A8E0BBC801C9525ak', 1,'CONFG','Y','Billable is configurable at impl time','A','WorkflowAdmin','Y');
 
+-- krew
+INSERT INTO UNITTEST.KRNS_NMSPC_T(NMSPC_CD, OBJ_ID, VER_NBR, NM, ACTV_IND, APPL_NMSPC_CD)
+  VALUES('KR-WKFLW', '5E1D690C419B3E2EE0404F8189D82677', 0, 'Workflow', 'Y', NULL);
+INSERT INTO UNITTEST.KRNS_PARM_DTL_TYP_T(NMSPC_CD, PARM_DTL_TYP_CD, OBJ_ID, VER_NBR, NM, ACTV_IND)
+  VALUES('KR-WKFLW', 'DocumentSearch', '18695E69ED0D4FBE8B084FCA8066D21C', 1, 'Document Search ', 'Y')
+;
+
+INSERT INTO UNITTEST.KRNS_PARM_T(NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
+  VALUES('KR-WKFLW', 'DocumentSearch', 'DOCUMENT_SEARCH_POPUP_IND', 'E78100F6F14C4932B54F7719FA5C27E9', 1, 'CONFG', 'Y', 'Flag to specify if clicking on a Document ID from Document Search will load the Document in a new window.', 'A', 'WorkflowAdmin', 'Y');
+INSERT INTO UNITTEST.KRNS_PARM_T(NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
+  VALUES('KR-WKFLW', 'DocumentSearch', 'DOCUMENT_SEARCH_ROUTE_LOG_POPUP_IND', '632680DDE9A7478CBD379FAF90C7AE72', 1, 'CONFG', 'N', 'Flag to specify if clicking on a Route Log from Document Search will load the Route Log in a new window.', 'A', 'WorkflowAdmin', 'Y');
