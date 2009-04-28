@@ -292,21 +292,21 @@
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 		<ruleAttribute>
 			<name>TestRuleAttribute</name>
-			<className>edu.iu.uis.eden.routetemplate.TestRuleAttribute</className>
+			<className>org.kuali.rice.kew.routetemplate.TestRuleAttribute</className>
 			<label>Test Rule Attribute</label>
 			<description>Test Rule Attribute</description>
 			<type>RuleAttribute</type>
 		</ruleAttribute>
 				<ruleAttribute>
 			<name>TestRuleAttribute2</name>
-			<className>edu.iu.uis.eden.routetemplate.TestRuleAttribute</className>
+			<className>org.kuali.rice.kew.routetemplate.TestRuleAttribute</className>
 			<label>Test Rule Attribute 2</label>
 			<description>Test Rule Attribute 2</description>
 			<type>RuleAttribute</type>
 		</ruleAttribute>
 		<ruleAttribute>
 			<name>TestRuleAttribute3</name>
-			<className>edu.iu.uis.eden.routetemplate.TestRuleAttribute</className>
+			<className>org.kuali.rice.kew.routetemplate.TestRuleAttribute</className>
 			<label>Test Rule Attribute 3</label>
 			<description>Test Rule Attribute 3</description>
 			<type>RuleAttribute</type>
@@ -330,7 +330,7 @@
 			<name>TestDocumentType</name>
 			<!-- <description>TestDocumentType</description> -->
 			<label>TestDocumentType</label>
-			<postProcessorName>edu.iu.uis.eden.postprocessor.DefaultPostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
 			<superUserWorkgroupName>TestWorkgroup</superUserWorkgroupName>
 			<docHandler>_blank</docHandler>
 			<blanketApproveWorkgroupName>TestWorkgroup</blanketApproveWorkgroupName>
@@ -359,7 +359,7 @@
 				</start>
 				<requests name="RouteLevel1">
 					<activationType>S</activationType>
-					<routeModule>edu.iu.uis.eden.routemodule.TestRouteModule</routeModule>
+					<routeModule>org.kuali.rice.kew.routemodule.TestRouteModule</routeModule>
 				</requests>
 				<requests name="RouteLevel2">
 					<activationType>P</activationType>
@@ -373,7 +373,7 @@
 			<parent>TestDocumentType</parent>
 			<!-- <description>TestDocumentType</description> -->
 			<label>TestDocumentType</label>
-			<postProcessorName>edu.iu.uis.eden.postprocessor.DefaultPostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
 			<superUserWorkgroupName>TestWorkgroup</superUserWorkgroupName>
 			<docHandler>_blank</docHandler>
 			<blanketApproveWorkgroupName>TestWorkgroup</blanketApproveWorkgroupName>
@@ -390,7 +390,7 @@
 			<ignorePrevious>false</ignorePrevious>
 			<responsibilities>
 				<responsibility>
-					<role>edu.iu.uis.eden.routetemplate.TestRuleAttribute!TestRole</role>
+					<role>org.kuali.rice.kew.routetemplate.TestRuleAttribute!TestRole</role>
 					<actionRequested>A</actionRequested>
 					<priority>1</priority>
 				</responsibility>

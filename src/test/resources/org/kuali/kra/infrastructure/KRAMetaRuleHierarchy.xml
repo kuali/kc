@@ -16,7 +16,7 @@
                 <start name="initial"/>
                 <dynamic name="hierarchy">
                     <activationType>S</activationType>
-                    <type>edu.iu.uis.eden.engine.node.hierarchyrouting.HierarchyRoutingNode</type>
+                    <type>org.kuali.rice.kew.engine.node.hierarchyrouting.HierarchyRoutingNode</type>
                     <hierarchyProvider>org.kuali.kra.hierarchyrouting.KraHierarchyProvider</hierarchyProvider>
                     <ruleSelector>HierarchicalNamed</ruleSelector>
                 </dynamic>

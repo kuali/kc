@@ -4,7 +4,7 @@
 		<documentType>
 			<name>AwardDocument</name>
 			<description>Manage Award</description>
-			<label>KC Award</label>
+			<label>Award Document</label>
 			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>

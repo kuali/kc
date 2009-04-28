@@ -93,12 +93,12 @@
 
   <!-- Initializes the Workflow Core; must be executed first (to be safe) -->
   <listener>
-    <listener-class>edu.iu.uis.eden.core.ApplicationInitializeListener</listener-class>
+    <listener-class>org.kuali.rice.kew.core.ApplicationInitializeListener</listener-class>
   </listener>
 
   <servlet>
     <servlet-name>RequestForwardingServlet</servlet-name>
-    <servlet-class>edu.iu.uis.eden.server.RequestForwardingServlet</servlet-class>
+    <servlet-class>org.kuali.rice.kew.server.RequestForwardingServlet</servlet-class>
     <init-param>
         <param-name>.*/(\S+)\.wsdl</param-name>
         <param-value>/remoting/{0}?wsdl</param-value>
@@ -134,28 +134,28 @@
 
   <servlet>
     <servlet-name>edoclite</servlet-name>
-    <servlet-class>edu.iu.uis.eden.edl.EDLServlet</servlet-class>
+    <servlet-class>org.kuali.rice.kew.edl.EDLServlet</servlet-class>
   </servlet>
 
   <servlet>
   	<servlet-name>export</servlet-name>
-  	<servlet-class>edu.iu.uis.eden.export.web.ExportServlet</servlet-class>
+  	<servlet-class>org.kuali.rice.kew.export.web.ExportServlet</servlet-class>
   </servlet>
 
   <servlet>
   	<servlet-name>attachment</servlet-name>
-  	<servlet-class>edu.iu.uis.eden.notes.AttachmentServlet</servlet-class>
+  	<servlet-class>org.kuali.rice.kew.notes.AttachmentServlet</servlet-class>
   </servlet>
 
   <servlet>
 	<servlet-name>remoting</servlet-name>
-	<servlet-class>edu.iu.uis.eden.messaging.servlet.KSBDispatcherServlet</servlet-class>
+	<servlet-class>org.kuali.rice.kew.messaging.servlet.KSBDispatcherServlet</servlet-class>
 	<load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet>
     <servlet-name>actionListCount</servlet-name>
-    <servlet-class>edu.iu.uis.eden.actionlist.ActionListCountServlet</servlet-class>
+    <servlet-class>org.kuali.rice.kew.actionlist.ActionListCountServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
