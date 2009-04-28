@@ -15,13 +15,17 @@
  */
 package org.kuali.kra.lookup;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
@@ -29,12 +33,22 @@ import org.kuali.rice.kns.web.ui.Field;
 
 public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    //@Override
-    public String getActionUrls(BusinessObject businessObject) {
-        return "<a href=\"../"+getHtmlAction()+"?methodToCall=docHandler&command=initiate&docTypeName="+getDocumentTypeName()
-            +"&"+getKeyFieldName()+"="+ObjectUtils.getPropertyValue(businessObject, getKeyFieldName()).toString()+"\">edit</a>";
+    private static final String COLUMN = ":";
+    /**
+     * create 'edit' link
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     */
+    @Override
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+        AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+        htmlData.setHref("../" + getHtmlAction() + "?methodToCall=docHandler&command=initiate&docTypeName=" + getDocumentTypeName()
+                + "&" + getKeyFieldName() + "=" + ObjectUtils.getPropertyValue(businessObject, getKeyFieldName()).toString());
+        htmlDataList.add(htmlData);
+        return htmlDataList;
     }
 
+    
     /**
      * To force to it to show action links, such as 'edit'.
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.core.web.struts.form.LookupForm, java.util.Collection, boolean)
@@ -72,22 +86,11 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
      */
     protected void updateLookupField(Field field, String keyName, String className) {
         if (StringUtils.isNotBlank(keyName) && StringUtils.isNotBlank(className)) {
-            field.setFieldConversions(keyName+":"+field.getPropertyName());
-            field.setLookupParameters(field.getPropertyName()+":"+keyName);
-            field.setInquiryParameters(field.getPropertyName()+":"+keyName);
+            field.setFieldConversions(keyName+COLUMN+field.getPropertyName());
+            field.setLookupParameters(field.getPropertyName()+COLUMN+keyName);
+            field.setInquiryParameters(field.getPropertyName()+COLUMN+keyName);
             field.setQuickFinderClassNameImpl(className);
-            if ("Not Available".equals(field.getPropertyValue())) {
-                field.setPropertyValue("");
-                field.setReadOnly(false);
-            }
-        } else {
-            field.setFieldConversions("");
-            field.setLookupParameters("");
-            field.setInquiryParameters("");
-            field.setQuickFinderClassNameImpl("");
-            field.setPropertyValue("Not Available");
-            field.setReadOnly(true);
-        }
+        } 
         
     }
 
