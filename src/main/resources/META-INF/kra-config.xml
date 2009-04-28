@@ -4,5 +4,6 @@
 	<param name="config.location">classpath:META-INF/common-config-locations.xml</param>
 	<param name="config.location">${user.home}/kuali/main/dev/kra-config-2-0.xml</param>
 	<param name="config.location">${alt.build.location}</param>
+	<param name="config.location">${alt.config.location}</param>
 	<param name="build.version">${build.version}</param>
 </config>
