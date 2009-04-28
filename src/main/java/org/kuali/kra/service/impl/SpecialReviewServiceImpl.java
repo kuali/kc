@@ -105,7 +105,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         List<AbstractSpecialReview> specialReviews = processSpecialReview.getSpecialReviews();
         
         for (AbstractSpecialReview abstractSpecialReview : specialReviews) {
-            String[] exemptionCodes = abstractSpecialReview.getNewExemptionTypeCodes();
+            String[] exemptionCodes = abstractSpecialReview.getExemptionTypeCodes();
             if (exemptionCodes != null) {
                 for (String exemptionTypeCode : exemptionCodes) {
                     AbstractSpecialReviewExemption specialReviewExemption = 
