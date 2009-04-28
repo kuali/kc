@@ -189,6 +189,7 @@
                 p:businessObjectClass="org.kuali.kra.committee.bo.ScheduleStatus"
                 p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder" 
                 p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
                 p:keyAttribute="scheduleStatusCode"
                 p:labelAttribute="description" />
         </property>		
