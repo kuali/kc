@@ -4,7 +4,7 @@
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 		<ruleAttribute>
 			<name>AggregatorSearchAttribute</name>
-			<className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
 			<label>AggregatorSearchAttribute</label>
 			<description>AggregatorSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
@@ -32,7 +32,7 @@
 		</ruleAttribute>
 		<ruleAttribute>
 			<name>BudgetCreatorSearchAttribute</name>
-			<className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
 			<label>BudgetCreatorSearchAttribute</label>
 			<description>BudgetCreatorSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
@@ -57,7 +57,7 @@
 		</ruleAttribute>
 		<ruleAttribute>
 			<name>NarrativeWriterSearchAttribute</name>
-			<className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
 			<label>NarrativeWriterSearchAttribute</label>
 			<description>NarrativeWriterSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
@@ -82,7 +82,7 @@
 		</ruleAttribute>
 		<ruleAttribute>
 			<name>ViewerSearchAttribute</name>
-			<className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
 			<label>ViewerSearchAttribute</label>
 			<description>ViewerSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
@@ -107,7 +107,7 @@
 		</ruleAttribute>
 		<ruleAttribute>		
 			<name>ApproverSearchAttribute</name>
-			<className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
 			<label>ApproverSearchAttribute</label>
 			<description>ApproverSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
@@ -229,7 +229,7 @@
 		<documentType>
 			<name>ProposalDevelopmentDocument</name>
 			<description>Create an Awesome Development Proposal</description>
-			<label>KRA Proposal Development</label>
+			<label>Proposal Development Document</label>
 			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
