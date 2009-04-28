@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.bo.AwardSpecialReview;
+import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.bo.RolePersons;
@@ -104,6 +106,7 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();       
+        List <AwardSpecialReviewExemption> awardSpecialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
         
         Award award = getAward();
         
@@ -121,6 +124,13 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
         managedLists.add(award.getAwardTransferringSponsors());
         managedLists.add(award.getAwardDirectFandADistributions());
         managedLists.add(award.getAwardApprovedSubawards());
+                
+        for (AwardSpecialReview awardSpecialReview : getAward().getSpecialReviews()) {
+            awardSpecialReviewExemptions.addAll(awardSpecialReview.getSpecialReviewExemptions());            
+        }
+        
+        managedLists.add(awardSpecialReviewExemptions);
+        managedLists.add(award.getSpecialReviews());
 
         managedLists.add(awardList);
         

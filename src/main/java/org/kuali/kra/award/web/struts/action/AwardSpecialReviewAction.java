@@ -49,6 +49,8 @@ public class AwardSpecialReviewAction extends AwardAction {
         Award award = awardForm.getAwardDocument().getAward();
         getSpecialReviewService().addSpecialReview(award,awardForm);
         awardForm.setNewSpecialReview(new AwardSpecialReview());
+        awardForm.setNewExemptionTypeCodes(null);
+        
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     private SpecialReviewService<AwardSpecialReview,AwardSpecialReviewExemption> getSpecialReviewService() {
