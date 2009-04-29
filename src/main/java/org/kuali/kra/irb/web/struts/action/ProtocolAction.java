@@ -190,7 +190,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 
                 Class<?> lookupResultsBOClass = Class.forName(protocolForm.getLookupResultsBOClassName());
-                String userName = (new UniversalUser (GlobalVariables.getUserSession().getPerson())).getPrincipalName();
+                String userName = (new UniversalUser (GlobalVariables.getUserSession().getPerson())).getPrincipalId();
                 LookupResultsService service = KraServiceLocator.getService(LookupResultsService.class);
                 Collection<PersistableBusinessObject> selectedBOs
                     = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, userName);
