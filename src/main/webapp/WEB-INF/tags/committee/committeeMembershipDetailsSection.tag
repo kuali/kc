@@ -1,5 +1,7 @@
 <%@ include file="/WEB-INF/jsp/committee/committeeMember.jsp"%>
 
+<c:set var="action" value="committeeMembership" />
+
 <table cellpadding=0 cellspacing=0 summary="">
     <tr>
         <td>
@@ -70,6 +72,11 @@
                                 <kul:htmlControlAttribute property="${committeeMembership}.contactNotes" 
                                                           attributeEntry="${committeeMembershipAttributes.contactNotes}" 
                                                           readOnly="${readOnly}" />
+                                <c:if test="${!readOnly}">
+                                    <kra:expandedTextArea textAreaFieldName="${committeeMembership}.contactNotes" 
+                                                          action="${action}" 
+                                                          textAreaLabel="${committeeMembershipAttributes.contactNotes.label}" />
+                                </c:if>
                             </td>
                             <th align="left">
                                 <div align="right">
@@ -80,6 +87,11 @@
                                 <kul:htmlControlAttribute property="${committeeMembership}.trainingNotes" 
                                                           attributeEntry="${committeeMembershipAttributes.trainingNotes}"
                                                           readOnly="${readOnly}" />
+                                <c:if test="${!readOnly}">
+                                    <kra:expandedTextArea textAreaFieldName="${committeeMembership}.trainingNotes" 
+                                                          action="${action}"
+                                                          textAreaLabel="${committeeMembershipAttributes.trainingNotes.label}" />
+                                </c:if>
                             </td>
                         </tr>
                     </table>
