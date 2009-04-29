@@ -28,7 +28,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * This class implements the specified rule
  */
-public class AwardProjectPersonAddRuleImpl implements AwardProjectPersonAddRule {
+public class AwardProjectPersonAddRuleImpl extends BaseAwardContactAddRule implements AwardProjectPersonAddRule {
 
     /**
      * @see org.kuali.kra.award.contacts.AwardProjectPersonAddRule
@@ -37,12 +37,20 @@ public class AwardProjectPersonAddRuleImpl implements AwardProjectPersonAddRule 
         AwardPerson newProjectPerson = event.getNewProjectPerson();
         Award award = ((AwardDocument) event.getDocument()).getAward();
         
-        boolean valid = checkForExistingPrincipalInvestigators(award, newProjectPerson);
-        valid &= checkForDuplicatePerson(award, newProjectPerson);
-        
-        return valid;
+        return checkForSelectedContactAndRole(newProjectPerson) && (checkForExistingPrincipalInvestigators(award, newProjectPerson) 
+                                                                    & checkForDuplicatePerson(award, newProjectPerson));
     }
     
+    boolean checkForSelectedContactAndRole(AwardContact newContact) {
+        return super.checkForSelectedContactAndRole(newContact, AWARD_PROJECT_PERSON_LIST_ERROR_KEY);
+    }
+    
+    /**
+     * Verify a PI exists
+     * @param award
+     * @param newProjectPerson
+     * @return
+     */
     boolean checkForExistingPrincipalInvestigators(Award award, AwardPerson newProjectPerson) {
         boolean valid = true;
         if(newProjectPerson.isPrincipalInvestigator()) {
@@ -61,6 +69,12 @@ public class AwardProjectPersonAddRuleImpl implements AwardProjectPersonAddRule 
         return valid;
     }
 
+    /**
+     * Verify no duplicate person
+     * @param award
+     * @param newProjectPerson
+     * @return
+     */
     boolean checkForDuplicatePerson(Award award, AwardPerson newProjectPerson) {
         boolean valid = true;
         for(AwardPerson p: award.getProjectPersons()) {
@@ -79,6 +93,11 @@ public class AwardProjectPersonAddRuleImpl implements AwardProjectPersonAddRule 
         return valid;
     }
     
+    /**
+     * verify no duplicate units for a person
+     * @param projectPersons
+     * @return
+     */
     boolean checkForDuplicateUnits(List<AwardPerson> projectPersons) {
         boolean valid = true;
         for(AwardPerson p: projectPersons) {
@@ -91,22 +110,28 @@ public class AwardProjectPersonAddRuleImpl implements AwardProjectPersonAddRule 
             
             valid &= tempUnits.size() == uniqueUnits.size();
             if(!valid) {
-                // remove unique units from list of all units
-                for(Unit u: uniqueUnits) {
-                    tempUnits.remove(u);
-                }
-                // remove duplicates from remaining units
-                Set<Unit> duplicateUnits = new HashSet<Unit>(tempUnits);
-                for(Unit dupeUnit: duplicateUnits) {
-                    GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, 
-                                                            ERROR_AWARD_PROJECT_PERSON_DUPLICATE_UNITS, 
-                                                            dupeUnit.getUnitName(), dupeUnit.getUnitNumber(),
-                                                            p.getFullName());
-                }
+                removeUniqueUnitsFromAllUnits(uniqueUnits, tempUnits);
+                reportDuplicateUnits(p, tempUnits);
             }
         }
         
         return valid;
+    }
+
+    private void reportDuplicateUnits(AwardPerson p, List<Unit> tempUnits) {
+        Set<Unit> duplicateUnits = new HashSet<Unit>(tempUnits);
+        for(Unit dupeUnit: duplicateUnits) {
+            GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, 
+                                                    ERROR_AWARD_PROJECT_PERSON_DUPLICATE_UNITS, 
+                                                    dupeUnit.getUnitName(), dupeUnit.getUnitNumber(),
+                                                    p.getFullName());
+        }
+    }
+
+    private void removeUniqueUnitsFromAllUnits(Set<Unit> uniqueUnits, List<Unit> tempUnits) {
+        for(Unit u: uniqueUnits) {
+            tempUnits.remove(u);
+        }
     }
 
 }
