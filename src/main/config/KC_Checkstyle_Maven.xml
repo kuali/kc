@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Checkstyle-Configuration: KC Coding Standards
+    Description: This configuration is meant to be used with CheckStyle 4.x via the Maven plugin.  This is because Maven does not yet support
+    CheckStyle 5. This is really just a subset of what is in KC-CheckStyle.xml.  Once Maven support CheckStyle 5, this file can go away.
+-->
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN" "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+<module name="Checker">
+    <module name="TreeWalker">
+    	<property name="tabWidth" value="4"/>
+    	<module name="AnonInnerLength">
+      		<property name="severity" value="warning"/>
+      		<property name="max" value="100"/>
+		</module>
+		
+		<!-- new in checkstyle 5 -->
+<!--		<module name="AnnotationUseStyle">-->
+<!--      		<property name="severity" value="error"/>-->
+<!--      		<property name="elementStyle" value="ignore"/>-->
+<!--      		<property name="closingParens" value="ignore"/>-->
+      		<!-- "never" because Sun's compiler cannot handle a trailing comma and will not compile (who broke the build?) -->
+<!--      		<property name="trailingArrayComma" value="never"/>-->
+<!--		</module>-->
+		   
+        <module name="ArrayTypeStyle">
+        	<property name="severity" value="warning"/>
+        </module>
+        
+        <module name="AvoidStarImport">
+        	<property name="severity" value="warning"/>
+        </module>
+        
+        <!-- new in checkstyle 5 -->
+<!--        <module name="AvoidStaticImport">-->
+<!--           <property name="severity" value="warning"/>-->
+<!--        </module>-->
+        
+        <module name="BooleanExpressionComplexity">
+        	<property name="max" value="5"/>
+            <property name="severity" value="info"/>
+        </module>
+        
+        <module name="ClassDataAbstractionCoupling">
+            <property name="severity" value="info"/>
+        </module>
+        
+        <module name="ClassFanOutComplexity">
+            <property name="severity" value="info"/>
+        </module>
+        
+        <!-- new in checkstyle 5 -->
+<!--		<module name="ClassTypeParameterName">-->
+<!--			<property name="severity" value="warning"/>-->
+<!--		</module>-->
+        
+        <module name="ConstantName">
+        	<property name="severity" value="warning"/>
+        </module>
+        
+        <module name="CovariantEquals">
+        	<property name="severity" value="error"/>
+        </module>
+        
+       	<module name="CyclomaticComplexity">
+            <property name="severity" value="info"/>
+        </module>
+        
+        <module name="DeclarationOrder">
+        	<property name="severity" value="warning"/>
+        </module>
+
+		<module name="DefaultComesLast">
+			<property name="severity" value="error"/>
+		</module>
+		
+		<module name="DoubleCheckedLocking">
+			<property name="severity" value="error"/>
+		</module>
+		
+		<module name="EmptyBlock">
+			<property name="option" value="text"/>
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<module name="EmptyForInitializerPad">
+			<property name="severity" value="info"/>
+		</module>
+
+		<module name="EmptyForIteratorPad">
+			<property name="severity" value="info"/>
+		</module>
+
+		<module name="EmptyStatement">
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<!-- new in checkstyle 5 -->
+<!--		<module name="EqualsAvoidNull">-->
+<!--			<property name="severity" value="info"/>-->
+<!--		</module>-->
+		
+		<module name="EqualsHashCode">
+			<!-- <property name="severity" value="error"/>-->
+			<property name="severity" value="warning"/>
+		</module>
+
+		<module name="ExplicitInitialization">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="FallThrough">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="FileContentsHolder">
+		</module>
+		
+		<module name="FinalClass">
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<!-- new in checkstyle 5 -->
+<!--		<module name="GenericWhitespace">-->
+<!--			<property name="severity" value="info"/>-->
+<!--		</module>-->
+		
+		<module name="HiddenField">
+			<property name="severity" value="warning"/>
+			<property name="ignoreConstructorParameter" value="true"/>
+			<property name="ignoreSetter" value="true"/>
+			<property name="ignoreAbstractMethods" value="true"/>
+		</module>
+
+		<module name="HideUtilityClassConstructor">
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<module name="IllegalCatch">
+			<property name="severity" value="info"/>
+		</module>
+
+		<module name="IllegalImport">
+			<property name="severity" value="warning"/>
+			<property name="illegalPkgs" value="sun, org.apache.log4j"/>
+		</module>
+
+		<module name="IllegalInstantiation">
+			<property name="severity" value="info"/>
+    		<property name="classes" value="java.lang.Boolean"/>
+		</module>
+		
+		<module name="IllegalThrows">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="IllegalType">
+			<property name="severity" value="warning"/>
+			<property name="illegalClassNames" value="java.util.GregorianCalendar, java.util.Hashtable, java.util.Vector"/>
+		</module>
+		
+		<!-- TODO need to configure -->
+<!--		<module name="ImportControl">-->
+<!--			<property name="severity" value="ignore"/>-->
+<!--		</module>-->
+
+		<module name="ImportOrder">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="Indentation">
+			<property name="severity" value="info"/>
+		</module>
+
+		<module name="InnerAssignment">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="InterfaceIsType">
+			<property name="severity" value="warning"/>
+		</module>
+
+		<module name="JavaNCSS">
+			<property name="severity" value="info"/>
+		</module>
+
+		<module name="JavadocMethod">
+			<property name="severity" value="info"/>
+			<!-- this will check all scopes but private -->
+		    <property name="scope" value="package"/>
+            <property name="logLoadErrors" value="true"/>
+            <property name="suppressLoadErrors" value="true"/>
+		</module>
+
+		<module name="JavadocStyle">
+			<property name="severity" value="info"/>
+			<!-- this will check all scopes but private -->
+			<property name="scope" value="package"/>
+            <property name="checkEmptyJavadoc" value="true"/>
+		</module>
+		
+		<module name="JavadocType">
+			<property name="severity" value="info"/>
+			<!-- this will check all scopes but private -->
+			<property name="scope" value="package"/>
+		</module>
+		
+		<module name="JavadocVariable">
+			<property name="severity" value="info"/>
+			<!-- this will check all scopes but private -->
+			<property name="scope" value="package"/>
+		</module>
+		
+		<module name="LeftCurly">
+			<property name="severity" value="info"/>
+			<!-- this will check all scopes but private -->
+			<property name="maxLineLength" value="160"/>
+		</module>
+		
+		<module name="LineLength">
+			<property name="severity" value="info"/>
+			<property name="max" value="160"/>
+            <property name="tabWidth" value="4"/>
+		</module>
+		
+		<module name="LocalFinalVariableName">
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<module name="LocalVariableName">
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<module name="MagicNumber">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="MemberName">
+			<property name="severity" value="info"/>
+		</module>
+
+		<module name="MethodLength">
+			<property name="severity" value="info"/>
+			<property name="max" value="30"/>
+			<property name="countEmpty" value="false"/>
+		</module>
+
+		<module name="MethodName">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="MethodParamPad">
+			<property name="severity" value="info"/>
+		</module>
+
+		<!-- new in checkstyle 5 -->
+<!--		<module name="MethodTypeParameterName">-->
+<!--			<property name="severity" value="warning"/>-->
+<!--		</module>-->
+
+		<!-- new in checkstyle 5 -->
+<!--		<module name="MissingDeprecated">-->
+<!--      		<property name="severity" value="warning"/>-->
+<!--		</module>-->
+		
+		<!-- new in checkstyle 5 -->
+<!--		<module name="MissingOverride">-->
+<!--      		<property name="severity" value="warning"/>-->
+      		 <!--set to false when we offically move to Java 6--> 
+<!--      		<property name="javaFiveCompatibility" value="true"/>-->
+<!--		</module>-->
+
+		<module name="MissingSwitchDefault">
+			<property name="severity" value="info"/>
+		</module>
+
+		<module name="ModifiedControlVariable">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="ModifierOrder">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="MultipleStringLiterals">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="MultipleVariableDeclarations">
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<module name="MutableException">
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<module name="NPathComplexity">
+            <property name="severity" value="info"/>
+        </module>
+		
+		<module name="NeedBraces">
+			<property name="severity" value="warning"/>
+		</module>
+		
+        <module name="NestedIfDepth">
+        	<property name="severity" value="info"/>
+            <property name="max" value="3"/>
+        </module>
+        
+        <module name="NestedTryDepth">
+        	<property name="severity" value="info"/>
+            <property name="max" value="3"/>
+        </module>
+		
+		<!-- new in checkstyle 5 -->
+<!--		<module name="NoFinalizer">-->
+<!--			<property name="severity" value="warning"/>-->
+<!--		</module>-->
+		
+		<module name="NoWhitespaceAfter">
+			<property name="severity" value="info"/>
+			<property name="tokens" value="BNOT,DEC,DOT,INC,LNOT,UNARY_MINUS,UNARY_PLUS"/>
+		</module>
+		
+		<module name="NoWhitespaceBefore">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="OperatorWrap">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<!-- new in checkstyle 5 -->
+<!--		<module name="OuterTypeNumber">-->
+<!--			<property name="severity" value="warning"/>-->
+<!--			<property name="max" value="1"/>-->
+<!--		</module>-->
+		
+		<!-- new in checkstyle 5 -->
+<!--		<module name="PackageAnnotation">-->
+<!--      		<property name="severity" value="error"/>-->
+<!--		</module>-->
+		
+		<module name="PackageDeclaration">
+			<property name="severity" value="error"/>
+		</module>
+		
+		<module name="PackageName">
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<module name="ParameterName">
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<module name="ParameterNumber">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="ParenPad">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="RedundantImport">
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<module name="RedundantModifier">
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<module name="RedundantThrows">
+			<property name="severity" value="warning"/>
+			<property name="logLoadErrors" value="true"/>
+            <property name="suppressLoadErrors" value="true"/>
+		</module>
+		
+		<!-- new in checkstyle 5 -->
+<!--		<module name="RegexpSinglelineJava">-->
+<!--			<property name="severity" value="warning"/>-->
+<!--            <property name="format" value="System\.out*$"/>-->
+<!--            <property name="message" value="Use of System.out.* method"/>-->
+<!--            <property name="ignoreComments" value="true"/>-->
+<!--        </module>-->
+        
+        <!-- new in checkstyle 5 -->
+<!--        <module name="RegexpSinglelineJava">-->
+<!--        	<property name="severity" value="warning"/>-->
+<!--            <property name="format" value="System\.err*$"/>-->
+<!--            <property name="message" value="Use of System.err.* method"/>-->
+<!--            <property name="ignoreComments" value="true"/>-->
+<!--        </module>-->
+		
+		<module name="ReturnCount">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="RightCurly">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="SimplifyBooleanExpression">
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<module name="SimplifyBooleanReturn">
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<module name="StaticVariableName">
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<module name="StringLiteralEquality">
+			<property name="severity" value="error"/>
+		</module>
+		
+		<module name="SuperClone">
+			<property name="severity" value="error"/>
+		</module>
+		
+		<module name="SuperFinalize">
+			<property name="severity" value="error"/>
+		</module>
+		
+		<!-- new in checkstyle 5 -->
+<!--		<module name="SuppressWarnings">-->
+<!--      		<property name="severity" value="warning"/>-->
+<!--		</module>-->
+		
+		<module name="ThrowsCount">
+			<property name="severity" value="info"/>
+			<property name="max" value="5"/>
+		</module>
+
+		<module name="TodoComment">
+			<property name="severity" value="info"/>
+			<property name="format" value="TODO:|FIXME:"/>
+		</module>
+
+		<module name="TrailingComment">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="TypeName">
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<module name="TypecastParenPad">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="UnnecessaryParentheses">
+			<property name="severity" value="info"/>
+		</module>
+		
+		<module name="UnusedImports">
+			<property name="severity" value="warning"/>
+		</module>
+		
+		<module name="UpperEll">
+			<property name="severity" value="error"/>
+		</module>
+		
+		<module name="VisibilityModifier">
+			<property name="severity" value="warning"/>
+			<property name="packageAllowed" value="true"/>
+            <property name="protectedAllowed" value="true"/>
+		</module>
+		
+		<module name="WhitespaceAfter">
+			<property name="severity" value="info"/>
+			<property name="tokens" value="TYPECAST"/>
+		</module>
+		
+		<module name="WhitespaceAround">
+			<property name="severity" value="info"/>
+		</module>
+	</module>
+   
+     <!-- moved in checkstyle 5 -->
+<!--  	<module name="FileLength">-->
+<!--		<property name="severity" value="info"/>-->
+<!--	</module>-->
+	
+	<!-- new in checkstyle 5 -->
+<!--	<module name="FileTabCharacter">-->
+<!--		<property name="severity" value="info"/>-->
+<!--		<property name="eachLine" value="false"/>-->
+<!--	</module>-->
+   
+    <!-- new in checkstyle 5 -->
+<!--	<module name="JavadocPackage">-->
+<!--		<property name="severity" value="info"/>-->
+<!--		<property name="allowLegacy" value="false"/>-->
+<!--	</module>-->
+	
+	<module name="NewlineAtEndOfFile">
+		<property name="severity" value="ignore"/>
+	</module>
+	
+	<module name="Translation">
+		<property name="severity" value="info"/>
+	</module>
+	
+	<module name="SuppressionCommentFilter">
+    	<property name="offCommentFormat" value="CHECKSTYLE_OFF: ALL"/>
+    	<property name="onCommentFormat" value="CHECKSTYLE_ON: ALL"/>
+    	
+    	<!-- 
+    		This is for specifying checks that we do not want suppressed with the ALL suppression filter.
+    		Notice the ?!(negative lookahead) in the regex. They can still be suppressed individually if needed.
+    	 -->
+    	<property name="checkFormat" value="^((?!(EqualsHashCode)).)*$"/>
+    </module>
+	
+	<module name="SuppressionCommentFilter">
+    	<property name="offCommentFormat" value="CHECKSTYLE_OFF\:([\w\|]+)"/>
+    	<property name="onCommentFormat" value="CHECKSTYLE_ON\:([\w\|]+)"/>
+    	<property name="checkFormat" value="$1"/>
+    </module>
+    
+    <!-- does the team want to use this?
+    <module name="SuppressWithNearbyCommentFilter">
+    </module>-->
+</module>
