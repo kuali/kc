@@ -104,6 +104,7 @@
                   <td align="left" valign="middle">
 					<div align="left">
                 		<kul:htmlControlAttribute property="document.protocolList[0].protocolLocations[${status.index}].organizationId" readOnly="true" attributeEntry="${protocolLocationAttributes.organizationId}" /> 
+                		<html:hidden property="document.protocolList[0].protocolLocations[${status.index}].organizationId" /> 
                     	<kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.protocolList[0].protocolLocations[${status.index}].organizationId:organizationId" anchor="${currentTabIndex}"/> <br>
                 		<kul:htmlControlAttribute property="document.protocolList[0].protocolLocations[${status.index}].organization.organizationName" readOnly="true" attributeEntry="${organizationAttributes.organizationName}" />
 					</div>
@@ -141,6 +142,7 @@
                   <td align="left" valign="middle">
 					<div align="left">
                 		<kul:htmlControlAttribute property="document.protocolList[0].protocolLocations[${status.index}].organization.humanSubAssurance" readOnly="true" attributeEntry="${protocolLocationAttributes.sequenceNumber}" />
+                		<html:hidden property="document.protocolList[0].protocolLocations[${status.index}].organization.humanSubAssurance"/>
 					</div>
 				  </td>
 				  <c:if test="${!readOnly}">
