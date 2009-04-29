@@ -42,8 +42,8 @@
             	 	</div>
             	</td>
 	            <td class="infoline">
-	              	<div align="center">
-	            		<kul:htmlControlAttribute property="approvedSubawardFormHelper.newAwardApprovedSubaward.amount" attributeEntry="${awardApprovedSubawardAttributes.amount}" />
+	              	<div align="right">
+	            		<kul:htmlControlAttribute property="approvedSubawardFormHelper.newAwardApprovedSubaward.amount" attributeEntry="${awardApprovedSubawardAttributes.amount}" styleClass="text-align: right" />
 	              	</div>
 	            </td>
 	            <td class="infoline">
@@ -62,8 +62,8 @@
 						${awardApprovedSubawards.organizationName}
 					</td>
 	                <td width="20%" valign="middle">
-					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardApprovedSubawards[${status.index}].amount" attributeEntry="${awardApprovedSubawardAttributes.amount}"/>
+					<div align="right">
+                		<kul:htmlControlAttribute property="document.awardList[0].awardApprovedSubawards[${status.index}].amount" attributeEntry="${awardApprovedSubawardAttributes.amount}" styleClass="text-align: right" />
 					</div>
 	                </td>
 					<td width="10%">
@@ -75,9 +75,8 @@
 	            </tr>
         	</c:forEach> 
         	<tr>
-          		<th align="center" scope="row"><div>Total:</div></th>
-          		<th colspan="1" scope="row">&nbsp;</th>
-          		<th align="center"> 		                		
+          		<th colspan="2" align="right" scope="row"><div>Total:</div></th>
+          		<th align="right"> 		                		
 	                	$<fmt:formatNumber value="${KualiForm.document.awardList[0].totalApprovedSubawardAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
 	         	</th>
 	         	<th align="center" scope="row">
