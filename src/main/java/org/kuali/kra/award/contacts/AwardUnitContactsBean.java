@@ -31,6 +31,8 @@ import org.kuali.kra.bo.UnitContactType;
  * This class provides support for the Award Contacts Project Personnel panel
  */
 public class AwardUnitContactsBean extends AwardContactsBean {
+    private static final long serialVersionUID = 1421235654899276682L;
+
     public AwardUnitContactsBean(AwardForm awardForm) {
         super(awardForm);
     }
@@ -121,8 +123,8 @@ public class AwardUnitContactsBean extends AwardContactsBean {
      * @see org.kuali.kra.award.contacts.AwardContactsBean#init()
      */
     @Override
-    protected void init() {
-        newAwardContact = new AwardUnitContact(UnitContactType.CONTACT);
+    protected AwardContact createNewContact() {
+        return new AwardUnitContact(UnitContactType.CONTACT);
     }
     
     /*

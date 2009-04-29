@@ -28,6 +28,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
  * This class provides support for the Award Contacts Project Personnel panel
  */
 public class AwardProjectPersonnelBean extends AwardContactsBean {
+    private static final long serialVersionUID = -8213637358006756203L;
+
     private AwardPersonUnit newAwardPersonUnit;
 
     private transient String selectedLeadUnit;
@@ -48,7 +50,9 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
             initNewAwardPersonUnit();
         }
     }
-    
+    /**
+     * This method is for adding a project person
+     */
     public void addProjectPerson() {
         AwardProjectPersonRuleAddEvent event = generateAddProjectPersonEvent();
         boolean success = new AwardProjectPersonAddRuleImpl().processAddAwardProjectPersonBusinessRules(event);
@@ -56,14 +60,6 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
             getAward().add(getNewProjectPerson());
             init();
         }
-    }
-
-    /**
-     * This method clears the new contact entry
-     */
-    @Override
-    public void clearNewContact() {
-        initNewAwardPerson();
     }
 
     /**
@@ -203,7 +199,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
      */
     @Override
     protected void init() {
-        initNewAwardPerson();
+        super.init();
         initNewAwardPersonUnit();
     }
 
@@ -228,8 +224,9 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
                                                     (AwardPerson) newAwardContact);
     }
 
-    private void initNewAwardPerson() {
-        newAwardContact = new AwardPerson();
+    @Override
+    protected AwardContact createNewContact() {
+        return new AwardPerson();
     }
 
     private void initNewAwardPersonUnit() {

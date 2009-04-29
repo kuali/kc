@@ -24,12 +24,14 @@ import org.kuali.kra.bo.UnitContactType;
  * This class provides support for the Award Contacts Project Personnel panel
  */
 public class AwardCentralAdminContactsBean extends AwardUnitContactsBean {
+    private static final long serialVersionUID = 7614119508539116964L;
+
     public AwardCentralAdminContactsBean(AwardForm awardForm) {
         super(awardForm);
     }
 
     public void addCentralAdminContact() {
-        boolean success = new AwardUnitContactAddRuleImpl().processAddAwardUnitContactBusinessRules(getAward(), getCentralAdminContact());
+        boolean success = new AwardCentralAdminAddRuleImpl().processAddAwardCentralAdminContactBusinessRules(getAward(), getCentralAdminContact());
         if(success){
             getAward().add(getUnitContact());
             init();
@@ -68,7 +70,7 @@ public class AwardCentralAdminContactsBean extends AwardUnitContactsBean {
     }
 
     @Override
-    protected void init() {
-        newAwardContact = new AwardUnitContact(UnitContactType.ADMINISTRATOR);
+    protected AwardContact createNewContact() {
+        return new AwardUnitContact(UnitContactType.ADMINISTRATOR);
     }
 }

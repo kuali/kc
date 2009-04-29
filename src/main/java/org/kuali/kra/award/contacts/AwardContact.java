@@ -290,9 +290,13 @@ public abstract class AwardContact extends AwardAssociate {
      * @param person The person to set.
      */
     public void setPerson(Person person) {
-        this.rolodex = null;
-        this.rolodexId = null;
+        if(person != null && person.getPersonId() == null) {
+            person = null;
+        }
+        
         this.person = person;
+        this.rolodex = null;
+        this.rolodexId = null;        
         if(person != null) {
             this.fullName =  person.getFullName();
             this.personId = person.getPersonId();
@@ -329,6 +333,10 @@ public abstract class AwardContact extends AwardAssociate {
      * @param rolodex The rolodex to set.
      */
     public void setRolodex(NonOrganizationalRolodex rolodex) {
+        if(rolodex != null && rolodex.getRolodexId() == null) {
+            rolodex = null;
+        }
+        
         this.person = null;
         this.personId = null;
         this.rolodex = rolodex;

@@ -16,20 +16,21 @@
 package org.kuali.kra.award.contacts;
 
 import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.bo.UnitContactType;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class implements the specified rule
  */
-public class AwardUnitContactAddRuleImpl extends BaseAwardContactAddRule {
-    public static final String AWARD_UNIT_CONTACT_LIST_ERROR_KEY = "unitContactsBean.newAwardContact";
-    public static final String ERROR_AWARD_UNIT_CONTACT_EXISTS = "error.awardUnitContact.person.exists";
+public class AwardCentralAdminAddRuleImpl extends BaseAwardContactAddRule {
+    public static final String AWARD_CENTRAL_ADMIN_LIST_ERROR_KEY = "centralAdminContactsBean.newAwardContact";
+    public static final String ERROR_AWARD_CENTRAL_ADMIN_EXISTS = "error.awardCentralAdmin.person.exists";
     
     /**
      * @param event
      * @return
      */
-    public boolean processAddAwardUnitContactBusinessRules(Award award, AwardUnitContact newUnitContact) {
+    public boolean processAddAwardCentralAdminContactBusinessRules(Award award, AwardUnitContact newUnitContact) {
         return checkForSelectedContactAndRole(newUnitContact) && checkForDuplicatePerson(award, newUnitContact);
     }
 
@@ -38,7 +39,7 @@ public class AwardUnitContactAddRuleImpl extends BaseAwardContactAddRule {
      * @return
      */
     boolean checkForSelectedContactAndRole(AwardContact newContact) {
-        return super.checkForSelectedContactAndRole(newContact, AWARD_UNIT_CONTACT_LIST_ERROR_KEY);
+        return super.checkForSelectedContactAndRole(newContact, AWARD_CENTRAL_ADMIN_LIST_ERROR_KEY);
     }
     
     boolean checkForDuplicatePerson(Award award, AwardUnitContact newUnitContact) {
@@ -55,7 +56,7 @@ public class AwardUnitContactAddRuleImpl extends BaseAwardContactAddRule {
     }
 
     private void registerError(AwardUnitContact newUnitContact) {
-        GlobalVariables.getErrorMap().putError(AWARD_UNIT_CONTACT_LIST_ERROR_KEY, ERROR_AWARD_UNIT_CONTACT_EXISTS, 
-                                                newUnitContact.getContact().getFullName());
+        GlobalVariables.getErrorMap().putError(AWARD_CENTRAL_ADMIN_LIST_ERROR_KEY, ERROR_AWARD_CENTRAL_ADMIN_EXISTS, 
+                                                newUnitContact.getContact().getFullName());        
     }
 }
