@@ -34,6 +34,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * This is the base class for handling AwardContacts
  */
 public abstract class AwardContactsBean implements Serializable {
+    private static final long serialVersionUID = -4831783382366094280L;
+    
     private static final String PERSON_IDENTIFIER_FIELD = "personId";
     private static final String ROLODEX_IDENTIFIER_FIELD = "rolodexId";
     
@@ -41,23 +43,13 @@ public abstract class AwardContactsBean implements Serializable {
     protected AwardContact newAwardContact;
     protected AwardForm awardForm;
     
-    protected Person person;
-    protected NonOrganizationalRolodex rolodex;
-    
     transient BusinessObjectService businessObjectService;
-    private String personId;
 
+    private String personId;
     private Integer rolodexId;
     
     public AwardContactsBean(AwardForm awardForm) {
         this.awardForm = awardForm;
-        init();
-    }
-    
-    /**
-     * This method clears the new contact entry
-     */
-    public void clearNewContact() {
         init();
     }
     
@@ -112,8 +104,8 @@ public abstract class AwardContactsBean implements Serializable {
      */
     public void setPersonId(String personId) {
         this.personId = personId;
-        this.person = personId != null ? (Person) findContact(PERSON_IDENTIFIER_FIELD, Person.class, personId) : null;
-        setContactPerson(this.person);
+        Person person = personId != null ? (Person) findContact(PERSON_IDENTIFIER_FIELD, Person.class, personId) : null;
+        newAwardContact.setPerson(person);
     }
 
     /**
@@ -121,8 +113,10 @@ public abstract class AwardContactsBean implements Serializable {
      */
     public void setRolodexId(Integer rolodexId) {
         this.rolodexId = rolodexId;
-        this.rolodex = rolodexId != null ? (NonOrganizationalRolodex) findContact(ROLODEX_IDENTIFIER_FIELD, NonOrganizationalRolodex.class, rolodexId) : null;
-        setContactRolodex(this.rolodex);
+        NonOrganizationalRolodex rolodex = rolodexId != null 
+                                               ? (NonOrganizationalRolodex) findContact(ROLODEX_IDENTIFIER_FIELD, NonOrganizationalRolodex.class, rolodexId) 
+                                               : null;
+        newAwardContact.setRolodex(rolodex);
     }
     
     protected Object findContact(String identifierField, @SuppressWarnings("unchecked") Class contactClass, Object contactIdentifier) {
@@ -158,7 +152,13 @@ public abstract class AwardContactsBean implements Serializable {
         return businessObjectService;
     }
     
-    protected abstract void init();
+    protected void init() {
+        this.newAwardContact = createNewContact();
+        this.personId = null;
+        this.rolodexId = null;
+    }
+    
+    protected abstract AwardContact createNewContact();
 
     protected Award getAward() {
         return getDocument().getAward();
@@ -170,15 +170,5 @@ public abstract class AwardContactsBean implements Serializable {
 
     void setBusinessObjectService(BusinessObjectService bos) {
         businessObjectService = bos;
-    }
-    
-    private void setContactPerson(Person person) {
-        this.person = person;
-        newAwardContact.setPerson(person);
-    }
-
-    private void setContactRolodex(NonOrganizationalRolodex rolodex) {
-        this.rolodex = rolodex;
-        newAwardContact.setRolodex(rolodex);
     }
 }

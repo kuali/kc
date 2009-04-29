@@ -21,7 +21,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * This class implements the specified rule
  */
-public class AwardSponsorContactAddRuleImpl {
+public class AwardSponsorContactAddRuleImpl extends BaseAwardContactAddRule {
     public static final String AWARD_SPONSOR_CONTACT_LIST_ERROR_KEY = "sponsorContactsBean.newAwardContact";
     public static final String ERROR_AWARD_SPONSOR_CONTACT_EXISTS = "error.awardSponsorContact.person.exists";
     
@@ -30,13 +30,13 @@ public class AwardSponsorContactAddRuleImpl {
      * @return
      */
     public boolean processAddAwardSponsorContactBusinessRules(Award award, AwardSponsorContact newContact) {
-        return checkForDuplicatePerson(award, newContact);
+        return checkForSelectedContactAndRole(newContact, AWARD_SPONSOR_CONTACT_LIST_ERROR_KEY) && checkForDuplicatePerson(award, newContact);
     }
 
     boolean checkForDuplicatePerson(Award award, AwardSponsorContact newContact) {
         boolean valid = true;
         for(AwardSponsorContact unitContact: award.getSponsorContacts()) {
-            valid = !unitContact.getPersonId().equals(newContact.getPersonId());
+            valid = !unitContact.getRolodexId().equals(newContact.getRolodexId());
             if(!valid) {
                 GlobalVariables.getErrorMap().putError(AWARD_SPONSOR_CONTACT_LIST_ERROR_KEY, ERROR_AWARD_SPONSOR_CONTACT_EXISTS, newContact.getFullName());
                 break;

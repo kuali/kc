@@ -25,6 +25,8 @@ import org.kuali.kra.award.web.struts.form.AwardForm;
  * This class provides support for the Award Contacts Project Personnel panel
  */
 public class AwardSponsorContactsBean extends AwardContactsBean {
+    private static final long serialVersionUID = -5443573805950047573L;
+
     public AwardSponsorContactsBean(AwardForm awardForm) {
         super(awardForm);
     }
@@ -68,8 +70,8 @@ public class AwardSponsorContactsBean extends AwardContactsBean {
     }
 
     @Override
-    protected void init() {
-        newAwardContact = new AwardSponsorContact();
+    protected AwardContact createNewContact() {
+        return new AwardSponsorContact();
     }
 
     @Override

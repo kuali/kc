@@ -42,35 +42,24 @@
 			<tr>
 				<th class="infoline" scope="row">Add</th>
 				<td nowrap class="grid" class="infoline">
-					<c:choose>                  
-						<c:when test="${empty KualiForm.projectPersonnelBean.newProjectPerson.contact.identifier}">
-							<div>
-								<label><span style="margin-right: 30;">Add Employee: </span></label>
-	        					<kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.fullName" 
-	              							attributeEntry="${awardPersonAttributes.fullName}" readOnly="false"/>
-	              				<label>
-	              					<kul:lookup boClassName="org.kuali.kra.bo.Person" fieldConversions="personId:projectPersonnelBean.personId" anchor="${tabKey}" 
-		  	 									lookupParameters="projectPersonnelBean.personId:personId"/>
-		  	 					</label>
-		  	 				</div>
-		  	 				<div>
-	              				<label><span style="margin-right: 3;">Add Non-employee:</span></label>
-	          					<kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.fullName" 
-	              								attributeEntry="${awardPersonAttributes.fullName}" readOnly="false"/>
-	          					<label>
-	          						<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" fieldConversions="rolodexId:projectPersonnelBean.rolodexId" 
-	          									anchor="${tabKey}" lookupParameters="projectPersonnelBean.rolodexId:rolodexId"/>
-	          					</label>
-	          				</div>                 	
-						</c:when>
-						<c:otherwise>
-							<div align="center">
-	              				<label><kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.fullName" 
-	              							attributeEntry="${awardPersonAttributes.fullName}" readOnly="true"/></label>
-																				            			
-							</div>
-						</c:otherwise>
-					</c:choose>
+					<div>
+						<label><span style="margin-right: 30;">Add Employee: </span></label>
+    					<kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.person.fullName" 
+          							attributeEntry="${awardPersonAttributes.fullName}" readOnly="false"/>
+          				<label>
+          					<kul:lookup boClassName="org.kuali.kra.bo.Person" fieldConversions="personId:projectPersonnelBean.personId" anchor="${tabKey}" 
+  	 									lookupParameters="projectPersonnelBean.personId:personId"/>
+  	 					</label>
+  	 				</div>
+  	 				<div>
+          				<label><span style="margin-right: 3;">Add Non-employee:</span></label>
+      					<kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.rolodex.fullName" 
+          								attributeEntry="${awardPersonAttributes.fullName}" readOnly="false"/>
+      					<label>
+      						<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" fieldConversions="rolodexId:projectPersonnelBean.rolodexId" 
+      									anchor="${tabKey}" lookupParameters="projectPersonnelBean.rolodexId:rolodexId"/>
+      					</label>
+      				</div>
 	        	</td>
 	        	<td class="infoline">
 	        		<div align="center">
@@ -94,15 +83,9 @@
 	        		</div>
 	        	</td>
 	        	<td class="infoline">
-	        		<c:choose>
-		        		<c:when test="${not empty KualiForm.projectPersonnelBean.newProjectPerson.contact.identifier}">
-			        		<div align="center">	        			
-			        			<html:image property="methodToCall.addProjectPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact" styleClass="tinybutton" />
-			        			<html:image property="methodToCall.clearNewProjectPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton" />
-			        		</div>
-			        	</c:when>
-			        	<c:otherwise>&nbsp;</c:otherwise>
-			        </c:choose>
+	        		<div align="center">
+	        			<html:image property="methodToCall.addProjectPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact" styleClass="tinybutton" />
+	        		</div>
 	        	</td>
 			</tr>
 			
