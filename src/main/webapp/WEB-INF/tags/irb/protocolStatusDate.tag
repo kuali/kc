@@ -9,7 +9,9 @@
 <table cellpadding=0 cellspacing=0 summary="">
  	<tr>
 	 	<th width="30%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolNumber}"/></div></th>
-       	<td width="20%"><kul:htmlControlAttribute property="document.protocolList[0].protocolNumber" attributeEntry="${protocolAttributes.protocolNumber}" readOnly="true" /></td>
+       	<td width="20%"><kul:htmlControlAttribute property="document.protocolList[0].protocolNumber" attributeEntry="${protocolAttributes.protocolNumber}" readOnly="true" />
+       	      <html:hidden property="document.protocolList[0].protocolNumber" />
+       	</td>
 	 	<th width="30%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolStatusCode}"  /></div></th>
         <td width="20%">${KualiForm.document.protocolList[0].protocolStatus.description}&nbsp;</td>
  	</tr>
