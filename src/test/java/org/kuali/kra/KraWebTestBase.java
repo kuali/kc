@@ -481,7 +481,7 @@ public abstract class KraWebTestBase extends KraTestBase {
 
             HtmlTableRow row = (HtmlTableRow) rows.get(0);
             List cells = row.getCells();
-            HtmlTableCell cell = (HtmlTableCell) cells.get(cells.size() - 1);
+            HtmlTableCell cell = (HtmlTableCell) cells.get(0);
             anchor = (HtmlAnchor) getFirstChild(cell);
             page = (HtmlPage) anchor.click();
         }else{
