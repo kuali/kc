@@ -558,11 +558,44 @@ public abstract class KraWebTestBase extends KraTestBase {
             selectAllBtn = (HtmlImageInput) getElement(resultsPage, "methodToCall.selectAll.(::;true;::).x", null, null);
         }
         HtmlPage selectedPage = (HtmlPage) selectAllBtn.click();
+        setCheckboxes(selectedPage);
 
         HtmlImageInput returnAllBtn = (HtmlImageInput) getElement(selectedPage, "methodToCall.prepareToReturnSelectedResults.x", null, null);
         HtmlPage returnPage = (HtmlPage) returnAllBtn.click();
 
         return returnPage;
+    }
+
+    /*
+     * This is a hack.  When the "select all" button is clicked on by a real
+     * user using a browser, the returned checkbox html elements have the
+     * value attribute set to "checked".  But for HTML Unit, the value is an
+     * empty string.  Therefore, we have to programmatically set the value
+     * to "checked".
+     */
+    private void setCheckboxes(HtmlPage page) {
+        List<HtmlElement> elements = getInputElements(page, "checkbox");
+        for (HtmlElement element : elements) {
+            element.setAttributeValue("value", "checked");
+        }
+    }
+
+    /*
+     * Get all of the HTML Input elements of a given type.
+     */
+    private List<HtmlElement> getInputElements(HtmlPage page, String type) {
+        List<HtmlElement> elements = new ArrayList<HtmlElement>();
+        Iterator iterator = page.getAllHtmlChildElements();
+        while (iterator.hasNext()) {
+            HtmlElement e = (HtmlElement) iterator.next();
+            if (StringUtils.equalsIgnoreCase("input", e.getTagName())) {
+                String value = e.getAttributeValue("type");
+                if (StringUtils.equalsIgnoreCase(type, value)) {
+                    elements.add(e);
+                }
+            }
+        }
+        return elements;
     }
 
     /**

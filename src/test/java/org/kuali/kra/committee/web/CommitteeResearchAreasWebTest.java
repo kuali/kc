@@ -29,18 +29,14 @@ public class CommitteeResearchAreasWebTest extends CommitteeWebTestBase {
      * Setup and TearDown
      ***********************************************************************/
     
-    private boolean javaScriptEnabled;
-    
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        javaScriptEnabled = webClient.isJavaScriptEnabled();
         webClient.setJavaScriptEnabled(false);
     }
     
     @After
     public void tearDown() throws Exception {
-        webClient.setJavaScriptEnabled(javaScriptEnabled);
         super.tearDown();
     }
     
@@ -63,7 +59,7 @@ public class CommitteeResearchAreasWebTest extends CommitteeWebTestBase {
         committeePage = multiLookup(committeePage, "committeeResearchAreas", "researchAreaCode", "01.0101");
       
         /*
-         * Verify that the table has three row (title, form, and new research area row),
+         * Verify that the table has three rows (title, form, and new research area row),
          * and verify that the new research area is what we expected from the lookup.
          */
         HtmlTable table = getTable(committeePage, "researchAreaTableId");
