@@ -18,10 +18,11 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="awardSponsorContactAttributes" value="${DataDictionary.AwardSponsorContact.attributes}" />
+<c:set var="awardContactAttributes" value="${DataDictionary.AwardContact.attributes}" />
 
 <%-- kra:section permission="modifyAward" --%>
 <kul:tab defaultOpen="false" tabItemCount="${KualiForm.sponsorContactsBean.sponsorContactsCount}" 
-				tabTitle="Sponsor Contacts" tabErrorKey="newAwardContact*,document.awardList[0].sponsorContacts*" >
+				tabTitle="Sponsor Contacts" tabErrorKey="sponsorContactsBean.newAwardContact*,document.awardList[0].sponsorContacts*" >
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Sponsor Contacts</span>
@@ -41,24 +42,12 @@
 			<tr>
 				<th class="infoline" scope="row">Add</th>
 				<td nowrap class="grid" class="infoline">
-					<c:choose>                  
-						<c:when test="${empty KualiForm.sponsorContactsBean.newAwardContact.contact.identifier}">
-							<div align="center">
-	        					<input type="text" size="20" value="" readonly="true"/>
-	              				<label>
-		  	 						<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" fieldConversions="rolodexId:sponsorContactsBean.rolodexId" 
-	          									anchor="${tabKey}" lookupParameters="sponsorContactsBean.rolodexId:rolodexId"/>
-		  	 					</label>
-		  	 				</div>
-						</c:when>
-						<c:otherwise>
-							<div align="center">
-	              				<label><kul:htmlControlAttribute property="sponsorContactsBean.newAwardContact.fullName" 
-	              							attributeEntry="${awardSponsorContactAttributes.fullName}" readOnly="true"/></label>
-																				            			
-							</div>
-						</c:otherwise>
-					</c:choose>
+					<kul:htmlControlAttribute property="sponsorContactsBean.newAwardContact.rolodex.fullName" 
+      								attributeEntry="${awardContactAttributes.fullName}" readOnly="false"/>
+  					<label>
+  						<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" fieldConversions="rolodexId:sponsorContactsBean.rolodexId" 
+  									anchor="${tabKey}" lookupParameters="sponsorContactsBean.rolodexId:rolodexId"/>
+  					</label>					
         		</td>
 	        	<td class="infoline">
 	        		<div align="center">
@@ -78,15 +67,9 @@
 	        		<c:out value="${KualiForm.sponsorContactsBean.newAwardContact.contact.emailAddress}" />&nbsp;
 	        	</td>
 	        	<td class="infoline">
-	        		<c:choose>
-		        		<c:when test="${not empty KualiForm.sponsorContactsBean.newAwardContact.contact.identifier}">
-			        		<div align="center">	        			
-			        			<html:image property="methodToCall.addSponsorContact" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact" styleClass="tinybutton" />
-			        			<html:image property="methodToCall.clearNewSponsorContact" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton" />
-			        		</div>
-			        	</c:when>
-			        	<c:otherwise>&nbsp;</c:otherwise>
-			        </c:choose>
+	        		<div align="center">	        			
+			        	<html:image property="methodToCall.addSponsorContact" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact" styleClass="tinybutton" />
+			        </div>
 	        	</td>
 			</tr>
 				

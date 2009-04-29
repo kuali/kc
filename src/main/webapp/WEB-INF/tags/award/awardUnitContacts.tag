@@ -18,6 +18,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="awardUnitContactAttributes" value="${DataDictionary.AwardUnitContact.attributes}" />
+<c:set var="awardContactAttributes" value="${DataDictionary.AwardContact.attributes}" />
 <c:set var="award" value="${KualiForm.document.award}" />
  
 <%-- kra:section permission="modifyAward" --%>
@@ -42,24 +43,12 @@
 			<tr>
 				<th class="infoline" scope="row">Add</th>
 				<td nowrap class="grid" class="infoline">
-					<c:choose>                  
-						<c:when test="${empty KualiForm.unitContactsBean.newAwardContact.contact.identifier}">
-							<div align="center">
-	        					<input type="text" size="20" value="" readonly="true"/>
-	              				<label>
-	              					<kul:lookup boClassName="org.kuali.kra.bo.Person" fieldConversions="personId:unitContactsBean.personId" anchor="${tabKey}" 
-		  	 									lookupParameters="unitContactsBean.personId:personId"/>
-		  	 					</label>
-		  	 				</div>
-						</c:when>
-						<c:otherwise>
-							<div align="center">
-	              				<label><kul:htmlControlAttribute property="unitContactsBean.newAwardContact.fullName" 
-	              							attributeEntry="${awardUnitContactAttributes.fullName}" readOnly="true"/></label>
-																				            			
-							</div>
-						</c:otherwise>
-					</c:choose>
+					<kul:htmlControlAttribute property="unitContactsBean.newAwardContact.fullName" 
+      							attributeEntry="${awardContactAttributes.fullName}" readOnly="false"/>
+      				<label>
+      					<kul:lookup boClassName="org.kuali.kra.bo.Person" fieldConversions="personId:unitContactsBean.personId" anchor="${tabKey}" 
+ 									lookupParameters="unitContactsBean.personId:personId"/>
+ 					</label>
         		</td>
 	        	<td class="infoline">
 	        		<div align="center">
@@ -79,15 +68,9 @@
 	        		<c:out value="${KualiForm.unitContactsBean.newAwardContact.contact.emailAddress}" />&nbsp;
 	        	</td>
 	        	<td class="infoline">
-	        		<c:choose>
-		        		<c:when test="${not empty KualiForm.unitContactsBean.newAwardContact.contact.identifier}">
-			        		<div align="center">	        			
-			        			<html:image property="methodToCall.addUnitContact" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact" styleClass="tinybutton" />
-			        			<html:image property="methodToCall.clearNewUnitContact" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton" />
-			        		</div>
-			        	</c:when>
-			        	<c:otherwise>&nbsp;</c:otherwise>
-			        </c:choose>
+	        		<div align="center">
+	        			<html:image property="methodToCall.addUnitContact" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact" styleClass="tinybutton" />
+	        		</div>
 	        	</td>
 			</tr>
 				

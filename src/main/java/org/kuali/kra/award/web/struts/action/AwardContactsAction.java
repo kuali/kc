@@ -43,6 +43,14 @@ public class AwardContactsAction extends AwardAction {
     private static final String DELETE_PROJECT_PERSON_UNIT_PREFIX = "deleteProjectPersonUnit.";
     private static final String LINE_SUFFIX = ".line";
 
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward addNewProjectPersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
         
@@ -50,73 +58,112 @@ public class AwardContactsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward addProjectPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
         getProjectPersonnelBean(form).addProjectPerson();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward addSponsorContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
         getSponsorContactsBean(form).addSponsorContact();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward addCentralAdminContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
         getCentralAdminContactsBean(form).addCentralAdminContact();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward addUnitContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
         getUnitContactsBean(form).addUnitContact();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
-    public ActionForward clearNewProjectPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-                                                                                                                        throws Exception {
-        getProjectPersonnelBean(form).clearNewContact();
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-    }
 
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward clearNewProjectPersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
         getProjectPersonnelBean(form).clearNewProjectPersonUnit();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
-    public ActionForward clearNewCentralAdminContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-                                                                                                                        throws Exception {
-        getCentralAdminContactsBean(form).clearNewContact();
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-    }
-    
-    public ActionForward clearNewUnitContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-                                                                                                                        throws Exception {
-        getUnitContactsBean(form).clearNewContact();
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-    }
-    
-    public ActionForward clearNewSponsorContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-                                                                                                                        throws Exception {
-        getSponsorContactsBean(form).clearNewContact();
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-    }
-    
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteProjectPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
-        
         getProjectPersonnelBean(form).deleteProjectPerson(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteProjectPersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
         getProjectPersonnelBean(form).deleteProjectPersonUnit(getProjectPersonIndex(request), getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteUnitContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
     
@@ -124,6 +171,14 @@ public class AwardContactsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteCentralAdminContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
     
@@ -131,6 +186,14 @@ public class AwardContactsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteSponsorContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
     
