@@ -24,6 +24,10 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  */
 public class ModifyAwardPermissionsAuthorizer extends AwardAuthorizer {
 
+    /**
+     * 
+     * @see org.kuali.kra.award.document.authorizer.AwardAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.award.document.authorization.AwardTask)
+     */
     @Override
     public boolean isAuthorized(String userName, AwardTask task) {
         return hasPermission(userName, task.getAward(), PermissionConstants.MODIFY_AWARD);

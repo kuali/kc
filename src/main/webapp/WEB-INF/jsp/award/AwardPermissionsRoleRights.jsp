@@ -15,8 +15,6 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:out value="AwardPermissionsRolerights.jsp - assignedRoles action value is: ${KualiForm.actionName}" />
-
 <kra:infopage title="Rights" action="permissions" htmlFormAction="${KualiForm.actionName}Permissions">
 
 	<kra-permissions:rolesRights />

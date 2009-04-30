@@ -40,7 +40,6 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class AwardDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
     
     private static final String TRUE = "TRUE";
-    private static final String FALSE = "FALSE";
     
     /**
      * Used for permissions
@@ -55,21 +54,14 @@ public class AwardDocumentAuthorizer extends TransactionalDocumentAuthorizerBase
         
         String username = user.getPersonUserIdentifier();
         if (awardDocument.getAward().getAwardId() == null) {
-            if (canCreateAward(user)) {
-                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
-            } 
-            else {
-                editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
-            }
-        } 
-        else {
+            String editMode = canCreateAward(user) ? AuthorizationConstants.EditMode.FULL_ENTRY : AuthorizationConstants.EditMode.UNVIEWABLE;
+            editModeMap.put(editMode, TRUE);
+        }else {
             if (canExecuteAwardTask(username, awardDocument, TaskName.MODIFY_AWARD)) {  
                 editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
-            }
-            else if (canExecuteAwardTask(username, awardDocument, TaskName.VIEW_AWARD)) {
+            }else if (canExecuteAwardTask(username, awardDocument, TaskName.VIEW_AWARD)) {
                 editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
-            }
-            else {
+            }else {
                 editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
             }
         }
@@ -77,14 +69,27 @@ public class AwardDocumentAuthorizer extends TransactionalDocumentAuthorizerBase
         return editModeMap;
     }
     
+    /**
+     * 
+     * 
+     * @param documentTypeName
+     * @param user
+     */
     public void canInitiate(String documentTypeName, UniversalUser user) {
-        //super.canInitiate(documentTypeName, user);
+        super.canInitiate(documentTypeName, user);
         if (!canCreateAward(user)) {
             throw new DocumentInitiationAuthorizationException(KeyConstants.ERROR_AUTHORIZATION_DOCUMENT_INITIATION, 
                                                                new String[] { user.getPersonUserIdentifier(), documentTypeName });
         }
     }
 
+    /**
+     * 
+     * This method determines if user has initiate authorization on the document.
+     * @param document
+     * @param user
+     * @return
+     */
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
    
         AwardDocument awardDocument = (AwardDocument) document;
@@ -92,14 +97,18 @@ public class AwardDocumentAuthorizer extends TransactionalDocumentAuthorizerBase
         boolean permission;
         if (awardDocument.getAward().getAwardId() == null) {
             permission = canCreateAward(user);
-        }
-        else {
+        }else {
             String username = user.getPersonUserIdentifier();
             permission = canExecuteAwardTask(username, awardDocument, TaskName.MODIFY_AWARD);
         }
         return permission;
     }
    
+    /**
+     * 
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getDocumentActions(org.kuali.rice.kns.document.Document, 
+     *                                                                                              org.kuali.rice.kim.bo.Person, java.util.Set)
+     */
     @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
         super.getDocumentActions(document, user, documentActions);
@@ -126,9 +135,8 @@ public class AwardDocumentAuthorizer extends TransactionalDocumentAuthorizerBase
      */
     private boolean canCreateAward(UniversalUser user) {
         String username = user.getPersonUserIdentifier();
-        ApplicationTask task = new ApplicationTask(TaskName.CREATE_AWARD);       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthenticationService.isAuthorized(username, task);
+        ApplicationTask task = new ApplicationTask(TaskName.CREATE_AWARD);
+        return getTaskAuthorizationService().isAuthorized(username, task);
     }
     
     /**
@@ -139,8 +147,16 @@ public class AwardDocumentAuthorizer extends TransactionalDocumentAuthorizerBase
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteAwardTask(String username, AwardDocument doc, String taskName) {
-        AwardTask task = new AwardTask(taskName, doc.getAward());       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthenticationService.isAuthorized(username, task);
-    }    
+        AwardTask task = new AwardTask(taskName, doc.getAward());
+        return getTaskAuthorizationService().isAuthorized(username, task);
+    }
+    
+    /**
+     * 
+     * This is a helper method for retrieving TaskAuthorizationService using the service locator.
+     * @return
+     */
+    protected TaskAuthorizationService getTaskAuthorizationService(){
+        return (TaskAuthorizationService) KraServiceLocator.getService(TaskAuthorizationService.class);        
+    }
 }
