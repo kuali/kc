@@ -4,7 +4,7 @@
 <documentType>
 <name>ActivityTypeMaintenanceDocument</name>
 <description>Create a New Activity Type</description>
-<label>Activity Type</label>
+<label>Activity Type Maintenance Document</label>
 <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
