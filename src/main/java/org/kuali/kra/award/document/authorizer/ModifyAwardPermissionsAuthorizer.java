@@ -16,7 +16,7 @@
 package org.kuali.kra.award.document.authorizer;
 
 import org.kuali.kra.award.document.authorization.AwardTask;
-import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.AwardPermissionConstants;
 
 /**
  * The Modify Award Permissions Authorizer checks to see if the user has 
@@ -30,6 +30,6 @@ public class ModifyAwardPermissionsAuthorizer extends AwardAuthorizer {
      */
     @Override
     public boolean isAuthorized(String userName, AwardTask task) {
-        return hasPermission(userName, task.getAward(), PermissionConstants.MODIFY_AWARD);
+        return hasPermission(userName, task.getAward(), AwardPermissionConstants.MODIFY_AWARD.getAwardPermission());
     }
 }

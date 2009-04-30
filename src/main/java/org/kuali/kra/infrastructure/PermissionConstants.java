@@ -69,16 +69,5 @@ public interface PermissionConstants {
     public static final String MAINTAIN_MINUTES = "MAINTAIN_MINUTES";
     public static final String GENERATE_AGENDA = "GENERATE_AGENDA";
     
-    /*
-     * Award Permissions
-     */
-    public static final String CREATE_AWARD = "CREATE_AWARD";
-    public static final String MODIFY_AWARD = "MODIFY_AWARD";
-    public static final String VIEW_AWARD = "VIEW_AWARD";
-    public static final String MAINTAIN_AWARD_ACCESS = "MAINTAIN_AWARD_ACCESS";
-    public static final String ADD_AWARD_NOTES = "ADD_AWARD_NOTES";    
-    public static final String MAINTAIN_AWARD_RELATED_PROJ = "MAINTAIN_AWARD_RELATED_PROJ";
-    public static final String EDIT_AWARD_BILLABLE = "EDIT_AWARD_BILLABLE";    
-    public static final String MAINTAIN_AWARD_SUBMISSIONS = "MAINTAIN_AWARD_SUBMISSIONS";
-     
+    
 }
