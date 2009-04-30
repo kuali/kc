@@ -33,20 +33,34 @@ public class ModifyAwardAuthorizer extends AwardAuthorizer {
      * @see org.kuali.kra.irb.document.authorizer.AwardAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.AwardTask)
      */
     public boolean isAuthorized(String username, AwardTask task) {
-        boolean hasPermission = true;
+        
         Award award = task.getAward();
-        Long awardId = award.getAwardId();
-        if (awardId == null) {
-            
-            // We have to consider the case when we are saving the award for the first time.
-            
-            hasPermission = hasUnitPermission(username, PermissionConstants.CREATE_AWARD);
-        }else {
-            /*
-             * After the initial save, the award can only be modified has the required permission.
-             */
-            hasPermission = hasPermission(username, award, PermissionConstants.MODIFY_AWARD);
-        }
-        return hasPermission;
+        return award.isNew() ? canUserCreateAward(username, award) : canUserModifyAward(username, award);
     }
+    
+    /**
+     * 
+     * We have to consider the case when we are saving the award for the first time.
+     * 
+     * @param username
+     * @param award
+     * @return
+     */
+    protected boolean canUserCreateAward(String username, Award award){
+        return hasUnitPermission(username, PermissionConstants.CREATE_AWARD);
+    }
+    
+    /**
+     * 
+     * After the initial save, the award can only be modified has the required permission.
+     * 
+     * @param username
+     * @param award
+     * @return
+     */
+    protected boolean canUserModifyAward(String username, Award award){
+        return hasPermission(username, award, PermissionConstants.MODIFY_AWARD);
+    }
+    
+    
 }
