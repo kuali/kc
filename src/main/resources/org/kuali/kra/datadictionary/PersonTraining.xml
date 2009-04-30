@@ -65,24 +65,6 @@
 	            </list>
 	          </property>
 	        </bean>
-	        <bean parent="RelationshipDefinition">
-	          <property name="objectAttributeName" value="person" />
-	          <property name="primitiveAttributes" >
-	            <list>
-	              <bean parent="PrimitiveAttributeDefinition"
-	                    p:sourceName="personId"
-	                    p:targetName="personId" />
-	            </list>
-	          </property>
-	          <property name="supportAttributes" >
-	            <list>
-	              <bean parent="SupportAttributeDefinition"
-	                    p:identifier="true"
-	                    p:sourceName="person.personId"
-	                    p:targetName="personId" />
-	            </list>
-	          </property>
-	        </bean>
 	      </list>
 	    </property>
 		
@@ -268,8 +250,8 @@
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
 								p:attributeName="personId" />
-							<bean parent="FieldDefinition"
-								p:attributeName="trainingCode" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="training.description" />
 							<bean parent="FieldDefinition"
 								p:attributeName="dateRequested" />
 							<bean parent="FieldDefinition"
