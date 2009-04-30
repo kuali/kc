@@ -83,4 +83,16 @@ public class AwardTest {
         item.setAmount(new KualiDecimal(amount));
         return item;
     }
+    
+    @Test
+    public void testIsNew_CaseAwardIdIsNull(){
+        awardBo.setAwardId(null);
+        Assert.assertTrue(awardBo.isNew());
+    }
+    
+    @Test
+    public void testIsNew_CaseAwardIdIsNotNull(){
+        awardBo.setAwardId(new Long(1));
+        Assert.assertFalse(awardBo.isNew());
+    }
 }

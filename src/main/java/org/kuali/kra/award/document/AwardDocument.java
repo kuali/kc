@@ -148,7 +148,7 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
     @Override
     protected List<RolePersons> getAllRolePersons() {
         KraAuthorizationService awardAuthService = 
-               (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class); 
+               (KraAuthorizationService) getKraAuthorizationService(); 
         return awardAuthService.getAllRolePersons(getAward());
     }
     
@@ -159,5 +159,9 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
             personUnits.addAll(p.getUnits());
         }
         managedLists.add(personUnits);
+    }
+    
+    protected KraAuthorizationService getKraAuthorizationService(){
+        return (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class);
     }
 }
