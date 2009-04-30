@@ -29,6 +29,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 
+/**
+ * 
+ * This tests the Award Permissions tab functionality.
+ * 
+ */
 public class AwardPermissionsWebTest extends AwardWebTestBase {
     
     private static final String QUICKSTART_USERNAME = "quickstart";
@@ -43,8 +48,7 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
     private static final String USER2_USERNAME = "ljoconno";
     private static final String USER2_FULLNAME = "Lora OConnor";
     
-    private static final String USER3_USERNAME = "bhutchin";
-    private static final String USER3_FULLNAME = "Bryan Hutchinson";
+    private static final String USER3_USERNAME = "bhutchin";    
         
     private static final String AGGREGATORS_ID = "Award Aggregator";
     private static final String VIEWERS_ID = "Award Viewer";
@@ -81,6 +85,12 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
     private static final String AGGREGATOR_FIELD_ID = "permissionsHelper.editRoles.roleStates[0].state";
     private static final String VIEWER_FIELD_ID = "permissionsHelper.editRoles.roleStates[1].state";
     
+    private static final String AT_LEAST_ONE_AGGREGATOR_MESSAGE = "Must have at least one Award Aggregator";
+    
+    /**
+     * 
+     * This is a User class used specifically for Tests.
+     */
     private class User {
         String username;
         String fullname;
@@ -88,6 +98,15 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
         String unitName;
         String[] roleNames;
         
+        /**
+         * 
+         * Constructs a User object
+         * @param username
+         * @param fullname
+         * @param unitNumber
+         * @param unitName
+         * @param roleName
+         */
         User(String username, String fullname, String unitNumber, String unitName, String roleName) {
             this.username = username;
             this.fullname = fullname;
@@ -97,7 +116,16 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
             this.roleNames[0] = roleName;
         }
         
-        User(String username, String fullname, String unitNumber, String unitName, String roleNames[]) {
+        /**
+         * 
+         * Constructs a User object
+         * @param username
+         * @param fullname
+         * @param unitNumber
+         * @param unitName
+         * @param roleNames
+         */
+        User(String username, String fullname, String unitNumber, String unitName, String[] roleNames) {
             this.username = username;
             this.fullname = fullname;
             this.unitNumber = unitNumber;
@@ -105,6 +133,10 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
             this.roleNames = roleNames;
         }
         
+        /**
+         * 
+         * @see java.lang.Object#equals(java.lang.Object)
+         */
         public boolean equals(Object obj) {
             return true;
         }
@@ -116,6 +148,10 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
     
     private boolean javaScriptEnabled;
     
+    /**
+     * 
+     * @see org.kuali.kra.award.htmlunitwebtest.AwardWebTestBase#setUp()
+     */
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -123,6 +159,10 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
         webClient.setJavaScriptEnabled(false);
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.award.htmlunitwebtest.AwardWebTestBase#tearDown()
+     */
     @After
     public void tearDown() throws Exception {
         webClient.setJavaScriptEnabled(javaScriptEnabled);
@@ -372,7 +412,7 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
         HtmlTableRow row1 = findRowByUsername(permissionsPage, USER1_USERNAME);
         HtmlElement deleteBtn1 = getElementByName(row1, DELETE_BTN, true);
         permissionsPage = clickOn(deleteBtn1);        
-        HtmlElement btn = getElementByName(permissionsPage, "methodToCall.processAnswer.button0", true);
+        HtmlElement btn = getElementByName(permissionsPage, YES_BTN_ID, true);
         permissionsPage = clickOn(btn);
         
         HtmlTableRow row = findRowByUsername(permissionsPage, QUICKSTART_USERNAME);
@@ -383,7 +423,7 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
         
         List<String> errors = getErrors(permissionsPage, USER_TAB_DIV);
         assertEquals(errors.size(), 1);
-        assertTrue(containsError(errors, "Must have at least one Award Aggregator"));
+        assertTrue(containsError(errors, AT_LEAST_ONE_AGGREGATOR_MESSAGE));
     }
   
     /**
@@ -496,7 +536,7 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
 
         List<String> errors = getErrors(editRolesPage, ROLES_TAB_DIV);
         assertEquals(errors.size(), 1);
-        assertTrue(containsError(errors, "Must have at least one Award Aggregator"));
+        assertTrue(containsError(errors, AT_LEAST_ONE_AGGREGATOR_MESSAGE));
     }
     
     /**

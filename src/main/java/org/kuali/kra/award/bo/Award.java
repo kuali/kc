@@ -24,8 +24,6 @@ import java.util.Map;
 
 import org.apache.axis.utils.StringUtils;
 import org.kuali.kra.award.contacts.AwardPerson;
-import org.kuali.kra.award.contacts.AwardUnitContact;
-import org.kuali.kra.award.contacts.SponsorContact;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.contacts.AwardUnitContact;
@@ -1773,7 +1771,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     public String[] getRoleNames(){
-        String[] roleNames = { RoleConstants.AWARD_AGGREGATOR, 
+        String[] roleNames = { RoleConstants.AWARD_CREATOR,
                 RoleConstants.AWARD_VIEWER};
         
         return roleNames;
@@ -1802,5 +1800,9 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
             }
         }
         return leadUnit;
+    }
+    
+    public boolean isNew(){
+        return awardId == null;
     }
 }

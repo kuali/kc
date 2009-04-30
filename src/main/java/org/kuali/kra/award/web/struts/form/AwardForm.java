@@ -126,7 +126,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase
      */
     public void initialize() {
         initializeHeaderNavigationTabs();
-        //setPermissionsHelper(new PermissionsHelper(this));
         //newAwardCostShare = new AwardCostShare();
         newAwardFandaRate = new AwardFandaRate();
         setNewAwardReportTerm(new ArrayList<AwardReportTerm>());
