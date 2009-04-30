@@ -1,0 +1,222 @@
+#created on: Apr 4, 2009
+package updateProtocol
+
+#list any import classes here.
+
+import org.kuali.kra.irb.brms.ProtocolActionUpdateMapping;
+
+function void setProtocolSubmissionStatusCode(ProtocolActionUpdateMapping protocolAction, String newProtocolSubmissionStatusCode) {
+	//Test this with OJB, if you have to find object with new status code and re-attache to protocol submission status???
+    protocolAction.getProtocolSubmissionStatus().setProtocolSubmissionStatusCode(newProtocolSubmissionStatusCode);  
+} 
+
+function void setProtocolStatusCode(ProtocolActionUpdateMapping protocolAction, String newProtocolStatusCode) {
+    protocolAction.getProtocol().setProtocolStatusCode(newProtocolStatusCode);  
+} 
+
+rule "fn_assign_to_agenda: Submission Status = 101 (Assiged to Agenda);"
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "200")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "101");
+end
+
+rule "fn_defer: Submission Status = 206 (Deferred); Protocol Status = 103 (Deferred)"
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "201")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "206");
+	setProtocolStatusCode(protocolAction, "103");
+end
+
+rule "fn_table: Submission Status = 201 (Substantive Revisions Required); Protocol Status = 104 (Tabled)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "202")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "201");
+	setProtocolStatusCode(protocolAction, "104");
+end
+
+rule "fn_approve: Submission Status = 203;" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "204", protocolNumberARCondition in ("A", "R") )
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "203");
+end
+
+rule "fn_approve: Submission Status = 203; Protocol Status = 200" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "204", protocolNumberARCondition not in ("A", "R"))
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "203");
+	setProtocolStatusCode(protocolAction, "200");
+end
+
+rule "fn_SMRReqd: Submission Status = 202 (Specific Minor Revisions Required); Protocol Status = 102 (Specific Minor Revisions Required)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "203")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "202");
+	setProtocolStatusCode(protocolAction, "102");
+end
+
+rule "fn_close: Submission Status = 207 (Closed); Protocol Status = 301 (Closed by investigator)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "300", submissionTypeCode == "109")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "207");
+	setProtocolStatusCode(protocolAction, "301");
+end
+
+rule "fn_close: Protocol Status = 300 (Closed by IRB Administrator)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "300", submissionTypeCode != "109")
+then	
+	setProtocolStatusCode(protocolAction, "300");
+end
+
+rule "fn_terminate: Submission Status = 208 (Terminated); Protocol Status = 303 (Terminated by investigator)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "301", submissionTypeCode == "108")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "208");
+	setProtocolStatusCode(protocolAction, "303");
+end
+
+rule "fn_terminate: Protocol Status = 307 (Terminated by IRB Administrator)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "301", submissionTypeCode != "108")
+then	
+	setProtocolStatusCode(protocolAction, "307");
+end
+
+rule "fn_suspend: Submission Status = 209 (Suspended); Protocol Status =  302 (Suspended by investigator)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "302", submissionTypeCode == "110")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "209");
+	setProtocolStatusCode(protocolAction, "302");
+end
+
+rule "fn_suspend: Protocol Status =  308 (Suspended by IRB Administrator)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "302", submissionTypeCode != "110")
+then	
+	setProtocolStatusCode(protocolAction, "308");
+end
+
+rule "fn_suspend_by_dsmb: Submission Status = 209 (Suspended); Protocol Status =  311 (Suspended by DSMB)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "306", submissionTypeCode == "110")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "209");
+	setProtocolStatusCode(protocolAction, "311");
+end
+
+rule "fn_suspend_by_dsmb: Protocol Status =  311 (Suspended by DSMB)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "306", submissionTypeCode != "110")
+then	
+	setProtocolStatusCode(protocolAction, "311");
+end
+
+rule "fn_expire: Protocol Status =  305 (Expire)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "305")
+then	
+	setProtocolStatusCode(protocolAction, "305");
+end
+
+rule "fn_withdraw: Submission Status =  210 (Withdrawn )" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "303")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "210");
+end
+
+rule "fn_withdraw: Protocol Status =  304 (Withdrawn) " 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "303", protocolStatusCode == "101")
+then	
+	setProtocolStatusCode(protocolAction, "304");
+end
+
+rule "fn_disapprove: Submission Status = 205(Disapproved); Protocol Status =  306(Disapprove)  " 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "304")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "205");
+	setProtocolStatusCode(protocolAction, "306");
+end
+
+rule "fn_expeditedApprove: Protocol Status = 203" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "205", protocolNumberARCondition in ("A", "R"))
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "203");
+end
+
+rule "fn_expeditedApprove: Submission Status = 200; Protocol Status = 203" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "205", protocolNumberARCondition not in ("A", "R"))
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "203");
+	setProtocolStatusCode(protocolAction, "200");
+end
+
+rule "fn_grantExempt: Submission Status = 204 (Exemption Granted); Protocol Status = 203" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "206")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "204");
+	setProtocolStatusCode(protocolAction, "203");
+end
+
+rule "fn_IRB_Review_Not_Required: fn_grantExempt: Submission Status = 104 (IRB review not nequired) ; Protocol Status = 310" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "210")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "104");
+	setProtocolStatusCode(protocolAction, "310");
+end
+
+rule "fn_closed_For_Enrollment: Submission Status = 211 (Closed for Enrollment); Protocol Status =  201 (Active Closed for Enrollment)**/" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "207", submissionTypeCode == "111")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "211");
+	setProtocolStatusCode(protocolAction, "201");
+end
+
+rule "fn_closed_For_Enrollment: Protocol Status =  201 (Active Closed for Enrollment)**/" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "207")
+then	
+	setProtocolStatusCode(protocolAction, "201");
+end
+
+

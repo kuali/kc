@@ -1,0 +1,45 @@
+#created on: Apr 2, 2009
+package actionMapping;
+
+import org.kuali.kra.brms.ProtocolActionMapping;
+
+rule "Check for ProtocolAction for Action Type Code 100"
+salience 100
+when
+	protocolAction : ProtocolActionMapping( actionTypeCode == "100", protocolStatusCode in ("100","101"))
+then	
+	protocolAction.setValidToPerform(true);
+end
+
+rule "Check for ProtocolAction for Action Type Code 101"
+salience 100
+when
+	protocolAction : ProtocolActionMapping( actionTypeCode == "101", protocolStatusCode in ("100","101"))
+then	
+	protocolAction.setValidToPerform(true);
+end
+
+
+rule "Check for ProtocolAction for Action Type Code 200"
+salience 100
+when
+	protocolAction : ProtocolActionMapping( actionTypeCode == "200", protocolStatusCode in ("200","201"))
+then	
+	protocolAction.setValidToPerform(true);
+end
+rule "Check for ProtocolAction for Action Type Code 300"
+salience 100
+when
+	protocolAction : ProtocolActionMapping( actionTypeCode == "300", protocolStatusCode in ("300","301"), reviewTypeCode not in ("1","2"))
+then	
+	protocolAction.setValidToPerform(true);
+end
+
+rule "Check for ProtocolAction for Action Type Code 300 & reviewtype in (1,2)"
+salience 100
+when
+	protocolAction : ProtocolActionMapping( actionTypeCode == "400", protocolStatusCode in ("300","301"), reviewTypeCode in ("1","2"))
+then	
+	protocolAction.setValidToPerform(true);
+end
+

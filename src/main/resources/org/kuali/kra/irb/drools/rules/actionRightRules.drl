@@ -1,0 +1,26 @@
+#created on: Apr 5, 2009
+package actionRightMapping
+
+#list any import classes here.
+
+import org.kuali.kra.brms.ActionRightMapping;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.service.ProtocolAuthorizationService;
+#declare any global variables here
+
+function boolean hasPermission(ActionRightMapping actionRight) {
+	return ((ProtocolAuthorizationService)KraServiceLocator.getService("protocolAuthorizationService")).hasPermission(GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), actionRight.getProtocol(), actionRight.getRightId());
+} 
+
+
+
+rule "Check for ProtocolAction for status = 100"
+salience 100
+when
+	actionRight : ActionRightMapping(actionTypeCode in ('100','101', '200','300','400'),unitIndicator not in ('leadUnit','homeUnit'))
+then	
+    actionRight.setRightId("MODIFY_PROTOCOL");
+    #actionRight.setRightId("MODIFY_ANY_PROTOCOL");
+	actionRight.setAuthorizedToPerform(hasPermission(actionRight));
+end
