@@ -300,7 +300,7 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
      * home unit field filled in with the lead unit of the award.
      * @throws Exception
      */    
-    //TODO: Disabling this test until lead unit is implemented.
+    //TODO: Disabling this test until lead unit is implemented. - JIRA for this is KCAWD-199.
     //This test verifies that the Award Document has a particular lead unit. Since there is no leadunit field in Award as of now ,
     //we can not continue to run this test.
     public void testUserLookup() throws Exception {
