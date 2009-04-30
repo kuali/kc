@@ -4,7 +4,7 @@
 <documentType>
 <name>InstituteRateMaintenanceDocument</name>
 <description>Create/Edit an Institute Rate</description>
-<label>Institute Rate</label>
+<label>Institute Rates Maintenance Document</label>
 <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>

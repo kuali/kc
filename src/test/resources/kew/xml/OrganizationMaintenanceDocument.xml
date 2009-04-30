@@ -4,7 +4,7 @@
     <documentType>
       <name>OrganizationMaintenanceDocument</name>
       <description>Create/Edit an Organization</description>
-      <label>Organization</label>
+      <label>Organization Maintenance Document</label>
       <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
       <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>

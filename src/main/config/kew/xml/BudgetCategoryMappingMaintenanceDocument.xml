@@ -4,7 +4,7 @@
 <documentType>
 <name>BudgetCategoryMappingMaintenanceDocument</name>
 <description>Create/Edit a Budget Category Mapping</description>
-<label>Budget Category Mapping</label>
+<label>Budget Category Mapping Maintenance Document</label>
 <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>

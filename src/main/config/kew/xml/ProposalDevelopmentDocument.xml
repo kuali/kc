@@ -335,7 +335,7 @@
 			<description>
 				Create an Awesome Development Proposal
 			</description>
-			<label>KRA Proposal Development</label>
+			<label>Proposal Development Document</label>
 			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 		 	<superUserWorkgroupName>KC:OSP Superuser</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC:OSP Superuser</blanketApproveWorkgroupName>
