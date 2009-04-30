@@ -101,7 +101,8 @@
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
-      		<bean parent="HiddenControlDefinition" />
+      		<bean parent="TextControlDefinition" 
+      		      p:size="22" />
 		</property>
 		<property name="summary" value="Person Training Id" />
 		<property name="description" value="Person Training Id" />
@@ -300,9 +301,6 @@
 		</property>
 		<property name="lookupFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="personTrainingId" 
-					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="personId" />
 				<bean parent="FieldDefinition"
