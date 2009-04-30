@@ -74,13 +74,6 @@ public interface TaskName {
     public static final String ADD_COMMITTEE = "addCommittee";
     public static final String MODIFY_COMMITTEE = "modifyCommittee";
     public static final String VIEW_COMMITTEE = "viewCommittee";
-    
-    /*
-     * Award Tasks.
-     */
-    public static final String MODIFY_AWARD = "modifyAward";
-    public static final String VIEW_AWARD = "viewAward";
-    public static final String MODIFY_AWARD_ROLES = "modifyAwardRoles";
-    public static final String ADD_AWARD_NOTES = "addAwardNotes";   
+       
     
 }

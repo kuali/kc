@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.web.struts.form;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
@@ -28,8 +29,12 @@ import org.kuali.rice.kns.service.KualiRuleService;
 /**
  * This class supports the AwardForm class and the Award Time & Money Action class
  */
-public class AwardDirectFandADistributionBean {
+public class AwardDirectFandADistributionBean implements Serializable{
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 6274443203617122440L;
     private AwardForm parent;
     private AwardDirectFandADistribution newAwardDirectFandADistribution;
     

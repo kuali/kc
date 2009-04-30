@@ -17,7 +17,7 @@ package org.kuali.kra.award.document.authorizer;
 
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.authorization.AwardTask;
-import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.AwardPermissionConstants;
 
 /**
  * The Modify Award Authorizer checks to see if the user has 
@@ -47,7 +47,7 @@ public class ModifyAwardAuthorizer extends AwardAuthorizer {
      * @return
      */
     protected boolean canUserCreateAward(String username, Award award){
-        return hasUnitPermission(username, PermissionConstants.CREATE_AWARD);
+        return hasUnitPermission(username, AwardPermissionConstants.CREATE_AWARD.getAwardPermission());
     }
     
     /**
@@ -59,7 +59,7 @@ public class ModifyAwardAuthorizer extends AwardAuthorizer {
      * @return
      */
     protected boolean canUserModifyAward(String username, Award award){
-        return hasPermission(username, award, PermissionConstants.MODIFY_AWARD);
+        return hasPermission(username, award, AwardPermissionConstants.MODIFY_AWARD.getAwardPermission());
     }
     
     
