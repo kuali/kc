@@ -594,6 +594,16 @@
                 	<artifactId>commons-io</artifactId>
                 	<version>1.4</version>
             	</dependency>
+		    	<dependency>
+		      		<groupId>org.drools</groupId>
+		      		<artifactId>drools-core</artifactId>
+		      		<version>4.0.7</version>
+		    	</dependency>
+		    	<dependency>
+					<groupId>org.drools</groupId>
+					<artifactId>drools-decisiontables</artifactId>
+					<version>4.0.7</version>
+				</dependency>                
 			</dependencies>
 		</profile>
 		
