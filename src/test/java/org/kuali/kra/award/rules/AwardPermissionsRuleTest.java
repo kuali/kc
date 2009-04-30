@@ -28,6 +28,7 @@ import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.web.bean.Role;
 import org.kuali.kra.common.permissions.web.bean.User;
+import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -123,7 +124,7 @@ public class AwardPermissionsRuleTest extends AwardRuleTestBase {
         AwardDocument document = getNewAwardDocument();
         List<User> users = getPermissionUsers();
         PermissionsUserEditRoles editRoles = createPermissionsUserEditRoles("aslusar");
-        editRoles.setRoleState(RoleConstants.AWARD_VIEWER, Boolean.TRUE);
+        editRoles.setRoleState(AwardRoleConstants.AWARD_VIEWER.getAwardRole(), Boolean.TRUE);
         assertTrue(rule.processEditPermissionsUserRolesBusinessRules(document, users, editRoles));
     }
 
@@ -137,8 +138,8 @@ public class AwardPermissionsRuleTest extends AwardRuleTestBase {
         AwardDocument document = getNewAwardDocument();
         List<User> users = getPermissionUsers();
         PermissionsUserEditRoles editRoles = createPermissionsUserEditRoles("aslusar");
-        editRoles.setRoleState(RoleConstants.AWARD_AGGREGATOR, Boolean.TRUE);
-        editRoles.setRoleState(RoleConstants.AWARD_VIEWER, Boolean.TRUE);
+        editRoles.setRoleState(AwardRoleConstants.AWARD_AGGREGATOR.getAwardRole(), Boolean.TRUE);
+        editRoles.setRoleState(AwardRoleConstants.AWARD_VIEWER.getAwardRole(), Boolean.TRUE);
         assertFalse(rule.processEditPermissionsUserRolesBusinessRules(document, users, editRoles));
         assertError(Constants.PERMISSIONS_EDIT_ROLES_PROPERTY_KEY, KeyConstants.ERROR_PERMISSIONS_ADMINSTRATOR_INCLUSIVE);
     }
@@ -153,9 +154,9 @@ public class AwardPermissionsRuleTest extends AwardRuleTestBase {
         PermissionsUserEditRoles editRoles = new PermissionsUserEditRoles();
         editRoles.setUserName(username);
         List<PermissionsRoleState> roleStates = new ArrayList<PermissionsRoleState>();
-        Role role = new Role(RoleConstants.AWARD_AGGREGATOR, "Aggregator");
+        Role role = new Role(AwardRoleConstants.AWARD_AGGREGATOR.toString(), "Aggregator");
         roleStates.add(new PermissionsRoleState(role));
-        role = new Role(RoleConstants.AWARD_VIEWER, "Viewer");
+        role = new Role(AwardRoleConstants.AWARD_VIEWER.toString(), "Viewer");
         roleStates.add(new PermissionsRoleState(role));
         editRoles.setRoleStates(roleStates);
         return editRoles;
@@ -171,7 +172,7 @@ public class AwardPermissionsRuleTest extends AwardRuleTestBase {
         AwardDocument document = getNewAwardDocument();
         List<User> users = getPermissionUsers();
         PermissionsUserEditRoles editRoles = createPermissionsUserEditRoles("quickstart");
-        editRoles.setRoleState(RoleConstants.AWARD_VIEWER, Boolean.TRUE);
+        editRoles.setRoleState(AwardRoleConstants.AWARD_VIEWER.toString(), Boolean.TRUE);
         assertFalse(rule.processEditPermissionsUserRolesBusinessRules(document, users, editRoles));
         assertError(Constants.PERMISSIONS_EDIT_ROLES_PROPERTY_KEY, KeyConstants.ERROR_PERMISSIONS_LAST_ADMINSTRATOR);
     }
@@ -186,14 +187,14 @@ public class AwardPermissionsRuleTest extends AwardRuleTestBase {
         Person person = new Person();
         person.setUserName("quickstart");
         User user = new User(person);
-        Role role = new Role(RoleConstants.AWARD_AGGREGATOR, "Aggregator");
+        Role role = new Role(AwardRoleConstants.AWARD_AGGREGATOR.toString(), "Aggregator");
         user.addRole(role);
         users.add(user);
         
         person = new Person();
         person.setUserName("aslusar");
         user = new User(person);
-        role = new Role(RoleConstants.AWARD_VIEWER, "Viewer");
+        role = new Role(AwardRoleConstants.AWARD_VIEWER.toString(), "Viewer");
         user.addRole(role);
         users.add(user);
         
@@ -208,7 +209,7 @@ public class AwardPermissionsRuleTest extends AwardRuleTestBase {
     private PermissionsUser createPermissionsUser(String userName) {
         PermissionsUser user = new PermissionsUser();
         user.setUserName(userName);
-        user.setRoleName(RoleConstants.AWARD_AGGREGATOR);
+        user.setRoleName(AwardRoleConstants.AWARD_AGGREGATOR.toString());
         return user;
     }
 }

@@ -21,6 +21,7 @@ import java.util.Set;
 
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.infrastructure.AwardTaskNames;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -57,9 +58,9 @@ public class AwardDocumentAuthorizer extends TransactionalDocumentAuthorizerBase
             String editMode = canCreateAward(user) ? AuthorizationConstants.EditMode.FULL_ENTRY : AuthorizationConstants.EditMode.UNVIEWABLE;
             editModeMap.put(editMode, TRUE);
         }else {
-            if (canExecuteAwardTask(username, awardDocument, TaskName.MODIFY_AWARD)) {  
+            if (canExecuteAwardTask(username, awardDocument, AwardTaskNames.MODIFY_AWARD.getAwardTaskName())) {  
                 editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
-            }else if (canExecuteAwardTask(username, awardDocument, TaskName.VIEW_AWARD)) {
+            }else if (canExecuteAwardTask(username, awardDocument, AwardTaskNames.VIEW_AWARD.getAwardTaskName())) {
                 editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
             }else {
                 editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
@@ -99,7 +100,7 @@ public class AwardDocumentAuthorizer extends TransactionalDocumentAuthorizerBase
             permission = canCreateAward(user);
         }else {
             String username = user.getPersonUserIdentifier();
-            permission = canExecuteAwardTask(username, awardDocument, TaskName.MODIFY_AWARD);
+            permission = canExecuteAwardTask(username, awardDocument, AwardTaskNames.MODIFY_AWARD.getAwardTaskName());
         }
         return permission;
     }

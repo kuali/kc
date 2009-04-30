@@ -16,7 +16,7 @@
 package org.kuali.kra.award.document.authorizer;
 
 import org.kuali.kra.award.document.authorization.AwardTask;
-import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.AwardPermissionConstants;
 
 /**
  * The View Award Authorizer determines if a user has the right
@@ -28,6 +28,6 @@ public class ViewAwardAuthorizer extends AwardAuthorizer {
      * @see org.kuali.kra.irb.document.authorizer.AwardAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.AwardTask)
      */
     public boolean isAuthorized(String username, AwardTask task) {
-        return hasPermission(username, task.getAward(), PermissionConstants.VIEW_AWARD);
+        return hasPermission(username, task.getAward(), AwardPermissionConstants.VIEW_AWARD.getAwardPermission());
     }
 }
