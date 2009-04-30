@@ -4,7 +4,7 @@
 <documentType>
 <name>ValidCeRateTypeMaintenanceDocument</name>
 <description>Create/Edit a Valid Cost Element Rate Type</description>
-<label>Valid Cost Element Rate Type</label>
+<label>Valid Cost Element Rate Types Maintenance Document</label>
 <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>

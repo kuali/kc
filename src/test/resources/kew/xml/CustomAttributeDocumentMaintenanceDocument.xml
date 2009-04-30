@@ -4,7 +4,7 @@
     <documentType>
       <name>CustomAttributeDocumentMaintenanceDocument</name>
       <description>Create/Edit a Custom Attribute Document</description>
-      <label>Custom Attribute Document</label>
+      <label>CustomAttributeDocument Maintenance Document</label>
       <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
       <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
