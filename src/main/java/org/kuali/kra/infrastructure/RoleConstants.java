@@ -46,10 +46,6 @@ public interface RoleConstants {
     public static final String IRB_ADMINISTRATOR = "IRB Administrator";
     public static final String IRB_REVIEWER = "IRB Reviewer";
     
-    public static final String AWARD_CREATOR = "Award Creator";
-    public static final String AWARD_AGGREGATOR = "Award Aggregator";
-    public static final String AWARD_VIEWER = "Award Viewer";
-    public static final String AWARD_UNASSIGNED = "Award Unassigned";
 }
 
 

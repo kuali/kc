@@ -25,9 +25,10 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
+import org.kuali.kra.infrastructure.AwardRoleConstants;
+import org.kuali.kra.infrastructure.AwardTaskNames;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.KraAuthorizationService;
 
 /**
@@ -66,9 +67,9 @@ public class AwardPermissionsHelper extends PermissionsHelperBase {
     private void buildDisplayNameMap() {
         if (displayNameMap == null) {
             displayNameMap = new HashMap<String, String>();
-            displayNameMap.put(RoleConstants.AWARD_AGGREGATOR, AGGREGATOR_NAME);
-            displayNameMap.put(RoleConstants.AWARD_VIEWER, VIEWER_NAME);
-            displayNameMap.put(RoleConstants.AWARD_UNASSIGNED, UNASSIGNED_NAME);
+            displayNameMap.put(AwardRoleConstants.AWARD_AGGREGATOR.getAwardRole(), AGGREGATOR_NAME);
+            displayNameMap.put(AwardRoleConstants.AWARD_VIEWER.getAwardRole(), VIEWER_NAME);
+            displayNameMap.put(AwardRoleConstants.AWARD_UNASSIGNED.getAwardRole(), UNASSIGNED_NAME);
         }
     }
 
@@ -88,7 +89,7 @@ public class AwardPermissionsHelper extends PermissionsHelperBase {
      */
     @Override
     public String getUnassignedRoleName() {
-        return RoleConstants.AWARD_UNASSIGNED;
+        return AwardRoleConstants.AWARD_UNASSIGNED.getAwardRole();
     }
 
     /**
@@ -96,8 +97,8 @@ public class AwardPermissionsHelper extends PermissionsHelperBase {
      */
     @Override
     protected boolean isStandardRoleName(String roleName) {
-        return StringUtils.equals(roleName, RoleConstants.AWARD_AGGREGATOR) ||
-               StringUtils.equals(roleName, RoleConstants.AWARD_VIEWER);
+        return StringUtils.equals(roleName, AwardRoleConstants.AWARD_AGGREGATOR.getAwardRole()) ||
+               StringUtils.equals(roleName, AwardRoleConstants.AWARD_VIEWER.getAwardRole());
     }
     
     /**
@@ -127,7 +128,7 @@ public class AwardPermissionsHelper extends PermissionsHelperBase {
      */
     @Override
     public boolean canModifyPermissions() {
-        AwardTask task = new AwardTask(TaskName.MODIFY_AWARD_ROLES, getAward());
+        AwardTask task = new AwardTask(AwardTaskNames.MODIFY_AWARD_ROLES.getAwardTaskName(), getAward());
         return getTaskAuthorizationService().isAuthorized(getUserName(), task);
     }
 }

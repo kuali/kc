@@ -16,7 +16,7 @@
 package org.kuali.kra.award.rules;
 
 import org.kuali.kra.common.permissions.rules.PermissionsRuleBase;
-import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.infrastructure.AwardRoleConstants;
 
 /**
  * Business Rule to determine the legality of modifying the access
@@ -31,6 +31,6 @@ public class AwardPermissionsRule extends PermissionsRuleBase {
      */
     @Override
     protected String getAdministratorRoleName() {
-        return RoleConstants.AWARD_AGGREGATOR;
+        return AwardRoleConstants.AWARD_AGGREGATOR.getAwardRole();
     }   
 }

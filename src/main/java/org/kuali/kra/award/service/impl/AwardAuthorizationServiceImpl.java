@@ -24,8 +24,8 @@ import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.service.AwardAuthorizationService;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.RolePersons;
+import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.pojo.QualifiedRole;
 import org.kuali.kra.kim.service.PersonService;
 import org.kuali.kra.kim.service.QualifiedRoleService;
@@ -186,12 +186,12 @@ public class AwardAuthorizationServiceImpl implements AwardAuthorizationService 
     public List<RolePersons> getAllRolePersons(Award award) {
         List<RolePersons> rolePersonsList = new ArrayList<RolePersons>();
       
-        List<String> usernames = getUserNames(award, RoleConstants.AWARD_AGGREGATOR);
+        List<String> usernames = getUserNames(award, AwardRoleConstants.AWARD_AGGREGATOR.getAwardRole());
         RolePersons rolePersons = new RolePersons();
         rolePersons.setAggregator(usernames);
         rolePersonsList.add(rolePersons);
         
-        usernames = getUserNames(award, RoleConstants.AWARD_VIEWER);
+        usernames = getUserNames(award, AwardRoleConstants.AWARD_VIEWER.getAwardRole());
         rolePersons = new RolePersons();
         rolePersons.setViewer(usernames);
         rolePersonsList.add(rolePersons);

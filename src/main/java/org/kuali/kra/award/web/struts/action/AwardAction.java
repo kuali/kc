@@ -30,9 +30,9 @@ import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.common.customattributes.CustomDataAction;
+import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
@@ -116,7 +116,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-        kraAuthService.addRole(username, RoleConstants.AWARD_AGGREGATOR, doc.getAward());
+        kraAuthService.addRole(username, AwardRoleConstants.AWARD_AGGREGATOR.getAwardRole(), doc.getAward());
     }
     
     /**
