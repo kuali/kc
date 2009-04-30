@@ -185,7 +185,7 @@
 				</dependency>
 				<dependency>
 					<groupId>org.kuali.rice</groupId>
-					<artifactId>rice-impl</artifactId>
+					<artifactId>rice-kns</artifactId>
 					<version>1.1.0-SNAPSHOT</version>
 					<exclusions>
 						<exclusion>
@@ -358,6 +358,11 @@
                     <artifactId>transactions</artifactId>
                     <version>3.2.1</version>
                 </dependency>
+                <dependency>
+                	<groupId>commons-io</groupId>
+                	<artifactId>commons-io</artifactId>
+                	<version>1.4</version>
+            	</dependency>
 			</dependencies>
 		</profile>
 		<profile>
@@ -493,13 +498,13 @@
 					<artifactId>jaxb-verification</artifactId>
 					<version>1.0.4</version>
 				</dependency>
-				<!--
+				<!-- 
 				<dependency>
 					<groupId>jaxb</groupId>
 					<artifactId>jaxb-xjc</artifactId>
 					<version>1.0.4</version>
 				</dependency>
-				-->
+				 -->
 				<dependency>
 					<groupId>jaxrpc</groupId>
 					<artifactId>jaxrpc</artifactId>
@@ -584,6 +589,11 @@
                     <artifactId>transactions</artifactId>
                     <version>3.2.1</version>
                 </dependency>
+                <dependency>
+                	<groupId>commons-io</groupId>
+                	<artifactId>commons-io</artifactId>
+                	<version>1.4</version>
+            	</dependency>
 			</dependencies>
 		</profile>
 		
