@@ -4,7 +4,7 @@
 <documentType>
 <name>ValidCalcTypeMaintenanceDocument</name>
 <description>Create/Edit a Valid Calculation Type</description>
-<label>Valid Calculation Type</label>
+<label>Valid Calc Types Maintenance Document</label>
 <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>

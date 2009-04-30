@@ -4,7 +4,7 @@
 <documentType>
 <name>CostElementMaintenanceDocument</name>
 <description>Create/Edit a Cost Element</description>
-<label>Cost Element</label>
+<label>Cost Element Maintenance Document</label>
 <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
