@@ -77,12 +77,7 @@
 	      </notifier>
 	    </notifiers>
 	  </ciManagement>
-	  
-	<properties>
-        <servlet-api.version>2.4</servlet-api.version>
-    </properties>
-	
-	
+
 	<profiles>
 		<profile>
 			<id>war</id>
@@ -651,6 +646,11 @@
 			<name>apache</name>
 			<url>http://people.apache.org/repo/m2-ibiblio-rsync-repository</url>
 		</repository>
+		<repository>
+			<id>jboss</id>
+			<name>jboss</name>
+			<url>http://repository.jboss.com/maven2</url>
+		</repository>
 	</repositories>
 	<reporting>
 		<plugins>
@@ -672,6 +672,16 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				 <version>2.4</version>
 			 </plugin> 
+<!-- will uncomment when CheckStyle 5 is ready
+			 <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<configuration>-->
+					<!-- increase this to support checkstyle 5 when it comes out -->
+<!--				<version>${version.maven-checkstyle-plugin}</version>
+				</configuration>
+			</plugin>
+-->
 		</plugins>
 	</reporting>
 	<scm>
@@ -690,4 +700,16 @@
 	  </site>
 	</distributionManagement>
   	
+  	<properties>
+  		<servlet-api.version>2.4</servlet-api.version>
+
+		<!-- Checkstyle config -->
+<!-- will uncomment when CheckStyle 5 is ready  
+		<checkstyle.config.location>${basedir}/src/main/config/KC_Checkstyle_Maven.xml</checkstyle.config.location>
+		<checkstyle.enable.rss>false</checkstyle.enable.rss>
+		<checkstyle.enable.rules.summary>false</checkstyle.enable.rules.summary>
+		<version.maven-checkstyle-plugin>2.2</version.maven-checkstyle-plugin>
+-->
+	</properties>
+
 </project>
