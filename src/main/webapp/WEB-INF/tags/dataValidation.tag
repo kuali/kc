@@ -17,7 +17,6 @@
 <%@ attribute name="auditActivated" required="true" type="java.lang.Boolean" description="whether audit is activated" %>
 <%@ attribute name="topTab" required="true" type="java.lang.Boolean" description="is this the top tab on the page" %>
 
-<%@ attribute name="tabErrorKeys" required="false" type="java.lang.String" description="The tab error keys used by the data validation tab" %>
 <%@ attribute name="categories" required="false" type="java.lang.String" description="comma-separated string of validation categories (ex: Validation Errors,Warnings). If not set a default will be used." %>
 <%@ tag body-content="scriptless" description="The instructions for using the validation. If not set a default will be used." example="You can activate a Validation check...</p><ul><li>errors</li><li>warnings</li></ul>" %>
 
@@ -28,7 +27,7 @@
 	<div id="workarea">
 </c:if>
 	
-<kul:tab tabTitle="${title}" defaultOpen="${auditActivated}" tabErrorKey="${tabErrorKeys}" transparentBackground="${topTab}">
+<kul:tab tabTitle="${title}" defaultOpen="${auditActivated}" transparentBackground="${topTab}">
 	<div class="tab-container" align="center">
 		<h3> 
 			<span class="subhead-left">${title}</span>

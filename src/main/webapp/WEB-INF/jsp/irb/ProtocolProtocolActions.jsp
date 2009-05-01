@@ -30,7 +30,7 @@
   	
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol Actions" /></div>
 <kra-irb:protocolRequestAction />
-<kra:dataValidation auditActivated="${KualiForm.auditActivated}" tabErrorKeys="" topTab="false"/>
+<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"/>
 <kra-irb:protocolSummaryViewPrint/>
 <kra-irb:protocolCopyProtocol />
 
