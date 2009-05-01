@@ -46,49 +46,67 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
      * 
      */
     public ProtocolAssociate() {
-         setSequenceNumber(new Integer(0));
+         this.setSequenceNumber(Integer.valueOf(0));
     }
     
     /**
-     * @return
+     * Gets the sequence number.
+     * @return sequence number.
      */
     public Integer getSequenceNumber() {
-        return sequenceNumber;
+        return this.sequenceNumber;
     }
 
     /**
-     * @param sequenceNumber
+     * Sets the sequence number.
+     * @param sequenceNumber sequence number.
      */
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
+    
+    /**
+     * Gets the protocol number.
+     * @return protocol number.
+     */
+    public String getProtocolNumber() {
+        return this.protocolNumber;
+    }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * Sets the protocol number.
+     * @param protocolNumber protocol number.
+     */
+    public void setProtocolNumber(String protocolNumber) {
+        this.protocolNumber = protocolNumber;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("protocolNumber", protocolNumber);
-        map.put("sequenceNumber", sequenceNumber);
+        map.put("protocolNumber", this.protocolNumber);
+        map.put("sequenceNumber", this.sequenceNumber);
         return map;
     }
 
     /**
-     * @see java.lang.Object#hashCode()
+     * {@inheritDoc}
      */
 // TODO : uncomment hashcode & equal methods when all bo implement their own hashcode & equal
 //    @Override
 //    public int hashCode() {
 //        final int PRIME = 31;
 //        int result = 1;
-//        result = PRIME * result + ((protocolNumber == null) ? 0 : protocolNumber.hashCode());
-//        result = PRIME * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+//        result = PRIME * result + ((this.protocolNumber == null) ? 0 : this.protocolNumber.hashCode());
+//        result = PRIME * result + ((this.sequenceNumber == null) ? 0 : this.sequenceNumber.hashCode());
 //        return result;
 //    }
 
     /**
-     * @see java.lang.Object#equals(java.lang.Object)
+     * {@inheritDoc}
      */
 //    @Override
 //    public boolean equals(Object obj) {
@@ -102,29 +120,20 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
 //            return false;
 //        }
 //        ProtocolAssociate other = (ProtocolAssociate) obj;
-//        if (protocolNumber == null) {
+//        if (this.protocolNumber == null) {
 //            if (other.protocolNumber != null) {
 //                return false;
 //            }
-//        } else if (!protocolNumber.equals(other.protocolNumber)) {
+//        } else if (!this.protocolNumber.equals(other.protocolNumber)) {
 //            return false;
 //        }
-//        if (sequenceNumber == null) {
+//        if (this.sequenceNumber == null) {
 //            if (other.sequenceNumber != null) {
 //                return false;
 //            }
-//        } else if (!sequenceNumber.equals(other.sequenceNumber)) {
+//        } else if (!this.sequenceNumber.equals(other.sequenceNumber)) {
 //            return false;
 //        }
 //        return true;
 //    }
-
-    public String getProtocolNumber() {
-        return protocolNumber;
-    }
-
-    public void setProtocolNumber(String protocolNumber) {
-        this.protocolNumber = protocolNumber;
-    }
-
 }

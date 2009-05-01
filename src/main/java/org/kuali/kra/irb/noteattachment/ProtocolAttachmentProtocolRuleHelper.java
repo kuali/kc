@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -102,33 +103,7 @@ class ProtocolAttachmentProtocolRuleHelper {
         
         return true;
     }
-    
-    /**
-     * Checks for a valid status. Creates a hard error.
-     * 
-     * <p>
-     * This method does not validate the existence of a status.  This is
-     * because status is not a required field.
-     * </p>
-     * 
-     * @param attachmentProtocol the attachment.
-     * @return true is valid.
-     */
-    boolean validStatus(final ProtocolAttachmentProtocol attachmentProtocol) {
-        
-        if (attachmentProtocol.getStatus() == null || attachmentProtocol.getStatus().getCode() == null) {
-            return true;
-        }
-              
-        final ProtocolAttachmentStatus status = this.attachmentService.getStatusFromCode(attachmentProtocol.getStatus().getCode());
-        if (status == null) {
-            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentProtocol.PropertyName.STATUS + ".code",
-                KeyConstants.ERROR_PROTOCOL_ATTACHMENT_INVALID_STATUS);
-            return false;
-        }
-        return true;
-    }
-    
+      
     /**
      * Checks that the status is marked complete. Creates an audit error.
      * @param attachmentProtocol the attachment.
@@ -140,6 +115,27 @@ class ProtocolAttachmentProtocolRuleHelper {
                 KeyConstants.AUDIT_ERROR_PROTOCOL_ATTACHMENT_STATUS_COMPLETE, NOTE_AND_ATTACHMENT_LINK);
             this.errorReporter.reportAuditError(error, NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY, NOTES_ATTACHMENTS_CLUSTER_LABEL, Constants.AUDIT_ERRORS);
             return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Validates that the selected status exists in the system (is valid).
+     * Currently always returns true because status is not required.
+     * @param attachment the attachment.
+     * @return true if valid.
+     */
+    boolean validStatus(final ProtocolAttachmentProtocol attachment) {
+        
+        //This assumes that the status object has been refreshed from the DB
+        //and if not found the refresh action set the person to null.
+        //This is an artifact of using anon keys
+        
+        //this got much more complex using anon keys
+        if (attachment.getStatus() == null
+            || StringUtils.isBlank(attachment.getStatus().getCode())) {
+            //status not a required field
+            return true;
         }
         return true;
     }

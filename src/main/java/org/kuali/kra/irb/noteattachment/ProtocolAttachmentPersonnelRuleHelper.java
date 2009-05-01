@@ -82,6 +82,10 @@ class ProtocolAttachmentPersonnelRuleHelper {
      */
     boolean duplicateTypePerson(final ProtocolAttachmentPersonnel attachmentPersonnel, final Protocol protocol) {
         
+        if (attachmentPersonnel.getType() == null || attachmentPersonnel.getPerson() == null) {
+            return true;
+        }
+        
         for (ProtocolAttachmentPersonnel attachment : protocol.getAttachmentPersonnels()) {
             if (!attachment.getId().equals(attachmentPersonnel.getId())
                 && attachment.getType().equals(attachmentPersonnel.getType())
@@ -102,6 +106,11 @@ class ProtocolAttachmentPersonnelRuleHelper {
      * @return true is valid.
      */
     boolean availablePerson(final ProtocolAttachmentPersonnel attachmentPersonnel, final Protocol protocol) {
+        
+        if (attachmentPersonnel.getPerson() == null) {
+            return true;
+        }
+        
         boolean personAvilable = false;
         for (ProtocolPerson person : protocol.getProtocolPersons()) {
             if (attachmentPersonnel.getPerson().getProtocolPersonId().equals(person.getProtocolPersonId())) {
@@ -113,6 +122,25 @@ class ProtocolAttachmentPersonnelRuleHelper {
             final ProtocolPerson person = this.attachmentService.getPerson(attachmentPersonnel.getPerson().getProtocolPersonId());
             this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentPersonnel.PropertyName.PERSON + ".protocolPersonId",
                 KeyConstants.ERROR_PROTOCOL_ATTACHMENT_INVALID_PERSON, (person != null) ? person.getPersonName() : "");
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Validates that the selected person exists in the system (is valid). Creates a hard error.
+     * @param attachment the attachment.
+     * @return true if valid.
+     */
+    boolean validPerson(final ProtocolAttachmentPersonnel attachment) {
+        //This assumes that the person object has been refreshed from the DB
+        //and if not found the refresh action set the person to null.
+        //This is an artifact of using anon keys
+        
+        if (attachment.getPerson() == null) {
+            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentPersonnel.PropertyName.PERSON + ".protocolPersonId",
+                KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_PERSON);
             return false;
         }
         

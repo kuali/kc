@@ -16,8 +16,11 @@
 package org.kuali.kra.irb.noteattachment;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.document.ProtocolDocument;
@@ -151,8 +154,7 @@ public class ProtocolAttachmentHelper implements Serializable {
      * Adds the "new" ProtocolAttachmentProtocol to the Protocol Document.  Before
      * adding this method executes validation.  If the validation fails the attachment is not added.
      */
-    public void addNewProtocolAttachmentProtocol() {
-        
+    void addNewProtocolAttachmentProtocol() {      
         /*
          * Since this event isn't created by the framework and this rule isn't executed by the framework,
          * is it necessary to even create a event?  Does the rule have to implement BusinessRule?  There
@@ -174,8 +176,7 @@ public class ProtocolAttachmentHelper implements Serializable {
      * Adds the "new" ProtocolAttachmentPersonnel to the Protocol Document.  Before
      * adding this method executes validation.  If the validation fails the attachment is not added.
      */
-    public void addNewProtocolAttachmentPersonnel() {
-        
+    void addNewProtocolAttachmentPersonnel() {      
         /*
          * Since this event isn't created by the framework and this rule isn't executed by the framework,
          * is it necessary to even create a event?  Does the rule have to implement BusinessRule?  There
@@ -201,7 +202,7 @@ public class ProtocolAttachmentHelper implements Serializable {
      * @param attachmentNumber the item to delete.
      * @return whether a delete successfully executed.
      */
-    public boolean deleteExistingAttachmentProtocol(int attachmentNumber) {
+    boolean deleteExistingAttachmentProtocol(final int attachmentNumber) {
 
         if (!this.validIndexForList(attachmentNumber, this.getProtocol().getAttachmentProtocols())) {
             return false;
@@ -219,7 +220,7 @@ public class ProtocolAttachmentHelper implements Serializable {
      * @param attachmentNumber the item to delete.
      * @return the ProtocolAttachmentProtocol
      */
-    public ProtocolAttachmentProtocol retrieveExistingAttachmentProtocol(int attachmentNumber) {
+    ProtocolAttachmentProtocol retrieveExistingAttachmentProtocol(final int attachmentNumber) {
         
         if (!this.validIndexForList(attachmentNumber, this.getProtocol().getAttachmentProtocols())) {
             return null;
@@ -236,7 +237,7 @@ public class ProtocolAttachmentHelper implements Serializable {
      * @param attachmentNumber the item to delete.
      * @return whether a delete successfully executed.
      */
-    public boolean deleteExistingAttachmentPersonnel(int attachmentNumber) {
+    boolean deleteExistingAttachmentPersonnel(final int attachmentNumber) {
 
         if (!this.validIndexForList(attachmentNumber, this.getProtocol().getAttachmentPersonnels())) {
             return false;
@@ -254,7 +255,7 @@ public class ProtocolAttachmentHelper implements Serializable {
      * @param attachmentNumber the item to delete.
      * @return the ProtocolAttachmentPersonnel
      */
-    public ProtocolAttachmentPersonnel retrieveExistingAttachmentPersonnel(int attachmentNumber) {
+    ProtocolAttachmentPersonnel retrieveExistingAttachmentPersonnel(final int attachmentNumber) {
         
         if (!this.validIndexForList(attachmentNumber, this.getProtocol().getAttachmentPersonnels())) {
             return null;
@@ -270,7 +271,7 @@ public class ProtocolAttachmentHelper implements Serializable {
      * @param forList the list
      * @return true if a valid index
      */
-    private boolean validIndexForList(int index, List<?> forList) {      
+    private boolean validIndexForList(final int index, final List<?> forList) {      
         return forList != null && index >= 0 && index <= forList.size() - 1;
     }
     
@@ -286,5 +287,64 @@ public class ProtocolAttachmentHelper implements Serializable {
      */
     private void initAttachmentPersonnel() {
         this.setNewAttachmentPersonnel(new ProtocolAttachmentPersonnel(this.getProtocol()));
+    }
+    
+    /** refreshes all attachment's references that can change on the protocol. */
+    void refreshAttachmentReferences() {
+        this.refreshAttachmentReferences(this.getProtocol().getAttachmentPersonnels());
+        this.refreshAttachmentReferences(this.getProtocol().getAttachmentProtocols());
+        this.refreshAttachmentReferences(Collections.singletonList(this.newAttachmentPersonnel));
+        this.refreshAttachmentReferences(Collections.singletonList(this.newAttachmentProtocol));
+    }
+    
+    /** 
+     * refreshes a given Collection of attachment's references that can change.
+     * @param attachments the attachments.
+     */
+    private void refreshAttachmentReferences(final Collection<? extends ProtocolAttachmentBase> attachments) {
+        assert attachments != null : "the attachments was null";
+        
+        for (ProtocolAttachmentBase attachment : attachments) {   
+            if (attachment instanceof ProtocolAttachmentProtocol) {
+                final ProtocolAttachmentProtocol protocolAttachment  = (ProtocolAttachmentProtocol) attachment;
+                if (protocolAttachment.getStatus() != null && protocolAttachment.getStatus().getCode() != null) {
+                    protocolAttachment.setStatus(this.notesService.getStatusFromCode(protocolAttachment.getStatus().getCode()));    
+                }
+            }
+            
+            if (attachment instanceof ProtocolAttachmentPersonnel) {
+                final ProtocolAttachmentPersonnel personnelAttachment  = (ProtocolAttachmentPersonnel) attachment;
+                if (personnelAttachment.getPerson() != null && personnelAttachment.getPerson().getProtocolPersonId() != null) {
+                    personnelAttachment.setPerson(this.notesService.getPerson(personnelAttachment.getPerson().getProtocolPersonId()));
+                }
+            }
+            
+            if (attachment.getType() != null && attachment.getType().getCode() != null) {
+                attachment.setType(this.notesService.getTypeFromCode(attachment.getType().getCode()));    
+            }
+        }
+    }
+    
+    
+    /** Syncs all new files for attachments on the protocol. */
+    void syncNewFiles() {
+        this.syncNewFiles(this.getProtocol().getAttachmentPersonnels());
+        this.syncNewFiles(this.getProtocol().getAttachmentProtocols());
+        this.syncNewFiles(Collections.singletonList(this.newAttachmentPersonnel));
+        this.syncNewFiles(Collections.singletonList(this.newAttachmentProtocol));
+    }
+    
+    /** 
+     * Syncs all new files for a given Collection of attachments on the protocol.
+     * @param attachments the attachments.
+     */
+    private void syncNewFiles(final Collection<? extends ProtocolAttachmentBase> attachments) {
+        assert attachments != null : "the attachments was null";
+        
+        for (final ProtocolAttachmentBase attachment : attachments) {
+            if (attachment.getNewFile() != null && StringUtils.isNotBlank(attachment.getNewFile().getFileName())) {
+                attachment.setFile(ProtocolAttachmentFile.createFromFormFile(attachment.getNewFile()));
+            }
+        }
     }
 }

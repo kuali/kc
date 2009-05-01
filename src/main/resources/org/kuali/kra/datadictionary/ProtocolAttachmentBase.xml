@@ -33,6 +33,8 @@
 			<list>
 				<ref bean="ProtocolAttachmentBase-id" />
 				<ref bean="ProtocolAttachmentBase-protocolId" />
+				<ref bean="ProtocolAttachmentBase-protocolNumber" />
+				<ref bean="ProtocolAttachmentBase-sequenceNumber" />
 				<ref bean="ProtocolAttachmentBase-typeCode" />
 				<ref bean="ProtocolAttachmentBase-attachmentVersionNumber" />
 				<ref bean="ProtocolAttachmentBase-documentId" />
@@ -65,9 +67,15 @@
 
 	<bean id="ProtocolAttachmentBase-protocolId" parent="ProtocolAttachmentBase-protocolId-parentBean" />
 	<bean id="ProtocolAttachmentBase-protocolId-parentBean" abstract="true" parent="Protocol-protocolId">
-		<property name="name" value="protocol.protocolId" />
+		<property name="name" value="protocolId" />
 		<property name="required" value="true" />
 	</bean>
+	
+	<bean id="ProtocolAttachmentBase-protocolNumber" parent="ProtocolAttachmentBase-protocolNumber-parentBean" />
+	<bean id="ProtocolAttachmentBase-protocolNumber-parentBean" abstract="true" parent="ProtocolAssociate-protocolNumber"/>
+	
+	<bean id="ProtocolAttachmentBase-sequenceNumber" parent="ProtocolAttachmentBase-sequenceNumber-parentBean" />
+	<bean id="ProtocolAttachmentBase-sequenceNumber-parentBean" abstract="true" parent="ProtocolAssociate-sequenceNumber"/>
 
 	<bean id="ProtocolAttachmentBase-typeCode" parent="ProtocolAttachmentBase-typeCode-parentBean" />
 	<bean id="ProtocolAttachmentBase-typeCode-parentBean" abstract="true" parent="ProtocolAttachmentType-code">
@@ -147,10 +155,10 @@
 	</bean>
 	
 	<bean id="ProtocolAttachmentBase-versionNumber" parent="ProtocolAttachmentBase-versionNumber-parentBean" />
-	<bean id="ProtocolAttachmentBase-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+	<bean id="ProtocolAttachmentBase-versionNumber-parentBean" abstract="true" parent="ProtocolAssociate-versionNumber" />
 	
 	<bean id="ProtocolAttachmentBase-updateUser" parent="ProtocolAttachmentBase-updateUser-parentBean" />
-	<bean id="ProtocolAttachmentBase-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser">
+	<bean id="ProtocolAttachmentBase-updateUser-parentBean" abstract="true" parent="ProtocolAssociate-updateUser">
 	  <property name="label" value="Uploaded By" />
 	  <property name="shortLabel" value="Uploaded By" />
 	  <property name="summary" value="Uploaded By" />
@@ -158,7 +166,7 @@
 	</bean>
 	
 	<bean id="ProtocolAttachmentBase-updateTimestamp" parent="ProtocolAttachmentBase-updateTimestamp-parentBean" />
-	<bean id="ProtocolAttachmentBase-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp">
+	<bean id="ProtocolAttachmentBase-updateTimestamp-parentBean" abstract="true" parent="ProtocolAssociate-updateTimestamp">
       <property name="label" value="Posted Timestamp" />
 	  <property name="shortLabel" value="Posted Timestamp" />
 	  <property name="summary" value="Posted Timestamp" />
@@ -167,7 +175,7 @@
   
 	<!-- Business Object Inquiry Definition -->
 	<bean id="ProtocolAttachmentBase-inquiryDefinition" parent="ProtocolAttachmentBase-inquiryDefinition-parentBean" />
-	<bean id="ProtocolAttachmentBase-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+	<bean id="ProtocolAttachmentBase-inquiryDefinition-parentBean" abstract="true" parent="ProtocolAssociate-inquiryDefinition">
 		<property name="title" value="Id" />
 		<property name="inquirySections" >
 			<list>
@@ -175,12 +183,12 @@
 					<property name="title" value="Id" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
-						<list>
+						<list merge="true">
 							<bean parent="FieldDefinition"
 								p:attributeName="id" 
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
-								p:attributeName="protocol.protocolId" />
+								p:attributeName="protocolId" />
 							<bean parent="FieldDefinition"
 								p:attributeName="type.code" />
 							<bean parent="FieldDefinition"
@@ -191,10 +199,6 @@
 								p:attributeName="file.id" />
 							<bean parent="FieldDefinition"
 								p:attributeName="description" />
-							<bean parent="FieldDefinition"
-								p:attributeName="updateUser" />
-							<bean parent="FieldDefinition"
-								p:attributeName="updateTimestamp" />
 						</list>
 					</property>
 				</bean>
@@ -204,7 +208,7 @@
 	
 		<!-- Business Object Lookup Definition -->
 	<bean id="ProtocolAttachmentBase-lookupDefinition" parent="ProtocolAttachmentBase-lookupDefinition-parentBean" />
-	<bean id="ProtocolAttachmentBase-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+	<bean id="ProtocolAttachmentBase-lookupDefinition-parentBean" abstract="true" parent="ProtocolAssociate-lookupDefinition">
 		<property name="title" value="Protocol AttachmentLookup" />
         <property name="lookupableID" value="ProtocolAttachmentBaseLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
@@ -214,12 +218,12 @@
 		</bean>
 		</property>
 		<property name="lookupFields" >
-			<list>
+			<list merge="true">
 				<bean parent="FieldDefinition"
 					p:attributeName="id" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocol.protocolId" />
+					p:attributeName="protocolId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="type.code" />
 				<bean parent="FieldDefinition"
@@ -230,19 +234,15 @@
 					p:attributeName="file.id" />
 				<bean parent="FieldDefinition"
 					p:attributeName="description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="updateUser" />
-				<bean parent="FieldDefinition"
-					p:attributeName="updateTimestamp" />
 			</list>
 		</property>
 		<property name="resultFields" >
-			<list>
+			<list merge="true">
 				<bean parent="FieldDefinition"
 					p:attributeName="id" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocol.protocolId" />
+					p:attributeName="protocolId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="type.code" />
 				<bean parent="FieldDefinition"
@@ -253,10 +253,6 @@
 					p:attributeName="file.id" />
 				<bean parent="FieldDefinition"
 					p:attributeName="description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="updateUser" />
-				<bean parent="FieldDefinition"
-					p:attributeName="updateTimestamp" />
 			</list>
 		</property>
 	</bean>

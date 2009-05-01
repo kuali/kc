@@ -46,6 +46,7 @@
         <property name="label" value="Code" />
         <property name="shortLabel" value="Code" />
         <property name="maxLength" value="3" />
+        <property name="required" value="true" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
@@ -58,7 +59,9 @@
     </bean>
     
     <bean id="ProtocolAttachmentType-description" parent="ProtocolAttachmentType-description-parentBean" />
-    <bean id="ProtocolAttachmentType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
+    <bean id="ProtocolAttachmentType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+    	<property name="required" value="true" />
+    </bean>
 
     <bean id="ProtocolAttachmentType-versionNumber" parent="ProtocolAttachmentType-versionNumber-parentBean" />
     <bean id="ProtocolAttachmentType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
