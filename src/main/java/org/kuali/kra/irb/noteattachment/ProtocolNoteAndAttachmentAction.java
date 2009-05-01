@@ -41,18 +41,20 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     
     /** 
-     * Refreshes the document.
+     * Refreshes the attachments.
      * {@inheritDoc}
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        ((ProtocolForm) form).getNotesAndAttachmentsHelper().refreshAttachmentReferences();
+        ((ProtocolForm) form).getNotesAndAttachmentsHelper().syncNewFiles();
         final ActionForward forward = super.execute(mapping, form, request, response);
-        //FIXME: may want to only refresh the items that can change...
-        ((ProtocolForm) form).getProtocolDocument().refresh();
         
         return forward;
     }
+    
+    
     
     /**
      * Method called when adding an attachment protocol.

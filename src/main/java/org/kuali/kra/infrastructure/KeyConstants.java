@@ -390,7 +390,6 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE = "error.protocolAttachment.duplicate.type";
     public static final String ERROR_PROTOCOL_ATTACHMENT_INVALID_PERSON = "error.protocolAttachment.invalid.person";
     public static final String ERROR_PROTOCOL_ATTACHMENT_INVALID_TYPE = "error.protocolAttachment.invalid.type";
-    public static final String ERROR_PROTOCOL_ATTACHMENT_INVALID_STATUS = "error.protocolAttachment.invalid.status";
     public static final String AUDIT_ERROR_PROTOCOL_ATTACHMENT_STATUS_COMPLETE = "error.protocolAttachment.not.complete";
     
     // IRB Protocol Funding Sources Validation Messages
