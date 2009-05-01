@@ -30,7 +30,7 @@ showDocumentInfo="true"
 							headerTabActive="actions">
 							
 <div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Proposal Actions" /></div>
-<kra:dataValidation auditActivated="${KualiForm.auditActivated}" categories="Validation Errors,Warnings,Grants.Gov Errors" tabErrorKeys="document.audit*,document.datavalidation*,document.noKey" topTab="true">
+<kra:dataValidation auditActivated="${KualiForm.auditActivated}" categories="Validation Errors,Warnings,Grants.Gov Errors" topTab="true">
    <p>You can activate a Validation check to determine any errors or incomplete information. The following Validations types will be determined:</p>
    <ul>
      <li>errors that prevent submission into routing</li>
