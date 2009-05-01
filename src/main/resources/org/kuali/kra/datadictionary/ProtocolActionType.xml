@@ -1,0 +1,162 @@
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="ProtocolActionType" parent="ProtocolActionType-parentBean" />
+	<bean id="ProtocolActionType-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolActionType" />
+		<property name="inquiryDefinition" >
+			<ref bean="ProtocolActionType-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="ProtocolActionType-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="protocolActionTypeCode" />
+		<property name="attributes" >
+			<list>
+				<ref bean="ProtocolActionType-protocolActionTypeCode" />
+				<ref bean="ProtocolActionType-description" />
+				<ref bean="ProtocolActionType-triggerSubmission" />
+				<ref bean="ProtocolActionType-triggerCorrespondence" />
+				<ref bean="ProtocolActionType-versionNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="ProtocolActionType-protocolActionTypeCode" parent="ProtocolActionType-protocolActionTypeCode-parentBean" />
+	<bean id="ProtocolActionType-protocolActionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolActionTypeCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Action Type Code" />
+		<property name="shortLabel" value="Protocol Action Type Code" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="3" />
+		</property>
+		<property name="summary" value="Protocol Action Type Code" />
+		<property name="description" value="Protocol Action Type Code" />
+	</bean>
+	
+    <bean id="ProtocolActionType-description" parent="ProtocolActionType-description-parentBean" />
+    <bean id="ProtocolActionType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
+
+	<bean id="ProtocolActionType-triggerSubmission" parent="ProtocolActionType-triggerSubmission-parentBean" />
+	<bean id="ProtocolActionType-triggerSubmission-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="triggerSubmission" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Trigger Submission" />
+	    <property name="shortLabel" value="Trigger Submission" />
+	    <property name="maxLength" value="1" />
+	    <property name="control" >
+	      <bean parent="CheckboxControlDefinition" />
+	    </property>
+	    <property name="summary" value="Trigger Submission" />
+	    <property name="description" value="Trigger Submission" />
+	</bean>
+
+	<bean id="ProtocolActionType-triggerCorrespondence" parent="ProtocolActionType-triggerCorrespondence-parentBean" />
+	<bean id="ProtocolActionType-triggerCorrespondence-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="triggerCorrespondence" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Trigger Correspondence" />
+	    <property name="shortLabel" value="Trigger Correspondence" />
+	    <property name="maxLength" value="1" />
+	    <property name="control" >
+	      <bean parent="CheckboxControlDefinition" />
+	    </property>
+	    <property name="summary" value="Trigger Correspondence" />
+	    <property name="description" value="Trigger Correspondence" />
+	</bean>
+	
+	<bean id="ProtocolActionType-versionNumber" parent="ProtocolActionType-versionNumber-parentBean" />
+	<bean id="ProtocolActionType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="ProtocolActionType-inquiryDefinition" parent="ProtocolActionType-inquiryDefinition-parentBean" />
+	<bean id="ProtocolActionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Protocol Action Type Code" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Protocol Action Type Code" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="protocolActionTypeCode" 
+								p:forceInquiry="true" />
+							<bean parent="FieldDefinition"
+								p:attributeName="description" />
+						    <bean parent="FieldDefinition"
+						        p:attributeName="triggerSubmission" />
+						    <bean parent="FieldDefinition"
+						        p:attributeName="triggerCorrespondence" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="ProtocolActionType-lookupDefinition" parent="ProtocolActionType-lookupDefinition-parentBean" />
+	<bean id="ProtocolActionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Protocol Action Type Lookup" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="instructions" value="Look up a Protocol Action Type" />
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolActionTypeCode" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="description" />
+			    <bean parent="FieldDefinition"
+					p:attributeName="triggerSubmission" />
+				<bean parent="FieldDefinition"
+					p:attributeName="triggerCorrespondence" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolActionTypeCode" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="description" />
+			    <bean parent="FieldDefinition"
+				    p:attributeName="triggerSubmission" />
+				<bean parent="FieldDefinition"
+					p:attributeName="triggerCorrespondence" />
+			</list>
+		</property>
+	</bean>
+</beans>
