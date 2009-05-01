@@ -502,6 +502,11 @@
 		<property name="severity" value="info"/>
 	</module>
 	
+	<!-- for some reason this filter must be placed BEFORE all other filters...not sure if this is a feature, bug, etc. -->
+	<module name="SuppressionFilter">
+    	<property name="file" value="${basedir}/src/main/config/checkstyle_suppressions.xml"/>
+    </module>
+	
 	<module name="SuppressionCommentFilter">
     	<property name="offCommentFormat" value="CHECKSTYLE_OFF: ALL"/>
     	<property name="onCommentFormat" value="CHECKSTYLE_ON: ALL"/>
