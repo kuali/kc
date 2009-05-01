@@ -41,11 +41,14 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * Abstract Protocol Web Test base class provides common functionalities required by extended class.
  */
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-      //  @UnitTestFile(filename = "classpath:sql/dml/load_system_params.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";") }))
+        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_GROUP.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_STATUS.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE_GROUP.sql", delimiter = ";")}))
 public abstract class ProtocolWebTestBase extends KraWebTestBase {
     
     protected static final String PERSONNEL_LINK_NAME = "personnel.x";
@@ -53,6 +56,7 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
     protected static final String PROTOCOL_ACTIONS_LINK_NAME = "protocolActions.x";
     protected static final String CUSTOM_DATA_LINK_NAME = "customData.x";
     protected static final String SPECIAL_REVIEW_LINK_NAME = "specialReview.x";
+    protected static final String NOTE_ATTACHMENT_LINK_NAME = "noteAndAttachment.x";
     
     /* check for save success - any errors found in the page */
     protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
@@ -347,20 +351,47 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
     }
     
     /**
-     * Get the Permissions Web Page. To do this, we first get the Protocol  
+     * @return the Permissions Web Page.
+     * @throws Exception
+     * @see #getTabPage(String)
+     */
+    protected HtmlPage getPermissionsPage() throws Exception {
+        return getTabPage(PERMISSIONS_LINK_NAME);
+    }
+    
+    /**
+     * @return the Permissions Web Page.
+     * @throws Exception
+     * @see #getTabPage(String)
+     */
+    protected HtmlPage getActionsPage() throws Exception {
+        return getTabPage(PROTOCOL_ACTIONS_LINK_NAME);
+    }
+    
+    /**
+     * @return the Permissions Web Page.
+     * @throws Exception
+     * @see #getTabPage(String)
+     */
+    protected HtmlPage getNoteAttachmentPage() throws Exception {
+        return getTabPage(NOTE_ATTACHMENT_LINK_NAME);
+    }
+    
+    /**
+     * Get the any tab Web Page. To do this, we first get the Protocol  
      * Web Page and fill in the required fields with some default values.  We can 
-     * then navigate to the Permissions Web Page.
+     * then navigate to the Web Page.
      * 
      * @return the Permissions Web Page.
      * @throws Exception
      */
-    protected HtmlPage getPermissionsPage() throws Exception {
+    protected HtmlPage getTabPage(String tab) throws Exception {
         HtmlPage protocolPage = getProtocolHomePage();
         setProtocolRequiredFields(protocolPage);
         setFieldValue(protocolPage, "protocolHelper.leadUnitNumber", "000001");
         protocolPage = savePage(protocolPage);
         validateSavedPage(protocolPage);
-        return clickOnTab(protocolPage, PERMISSIONS_LINK_NAME);
+        return clickOnTab(protocolPage, tab);
     }
     
     /**

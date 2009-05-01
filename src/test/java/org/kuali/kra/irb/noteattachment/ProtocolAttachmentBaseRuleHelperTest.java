@@ -59,7 +59,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         ProtocolAttachmentBase attachment = new ProtocolAttachmentProtocol();
         attachment.setType(new ProtocolAttachmentType("3", "a desc"));
         
-        boolean valid = helper.validDescription(attachment);
+        boolean valid = helper.validDescriptionWhenRequired(attachment);
         
         this.context.assertIsSatisfied();
         
@@ -80,7 +80,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         attachment.setType(new ProtocolAttachmentType("3", "a desc"));
         attachment.setDescription("a desc");
         
-        boolean valid = helper.validDescription(attachment);
+        boolean valid = helper.validDescriptionWhenRequired(attachment);
         
         this.context.assertIsSatisfied();
         
@@ -109,7 +109,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
             will(returnValue(type));
         }});
         
-        boolean valid = helper.validDescription(attachment);
+        boolean valid = helper.validDescriptionWhenRequired(attachment);
         
         this.context.assertIsSatisfied();
         
@@ -140,7 +140,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
             will(returnValue(true));
         }});
         
-        boolean valid = helper.validAgainstDictionary(attachment);
+        boolean valid = helper.validPrimativeFields(attachment);
         
         this.context.assertIsSatisfied();
         
@@ -288,14 +288,14 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         attachment.setType(new ProtocolAttachmentType("11", "a desc"));
         attachment.setAttachmentVersionNumber(1);
         attachment.setDocumentId(1);
-        attachment.setProtocol(null);
+        attachment.setProtocol(ProtocolTestUtil.getProtocol(this.context));
         
         this.context.checking(new Expectations() {{         
             one(ddService).isBusinessObjectValid(attachment, "fooPrefix");
             will(returnValue(false));
         }});
         
-        boolean valid = helper.validAgainstDictionary(attachment);
+        boolean valid = helper.validPrimativeFields(attachment);
         
         this.context.assertIsSatisfied();
         

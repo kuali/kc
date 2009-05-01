@@ -32,7 +32,7 @@
 		<property name="attributes" >
 			<list>
 				<ref bean="ProtocolAttachmentProtocol-id" />
-				<ref bean="ProtocolAttachmentProtocol-protocolId" />
+				<!-- <ref bean="ProtocolAttachmentProtocol-protocolId" />-->
 				<ref bean="ProtocolAttachmentProtocol-typeCode" />
 				<ref bean="ProtocolAttachmentProtocol-attachmentVersionNumber" />
 				<ref bean="ProtocolAttachmentProtocol-documentId" />

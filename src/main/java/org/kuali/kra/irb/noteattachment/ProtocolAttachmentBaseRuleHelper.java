@@ -86,11 +86,15 @@ class ProtocolAttachmentBaseRuleHelper {
     }
     
     /**
-     * Checks for a valid description. Creates a hard error.
+     * Checks for a valid description when description is required. Creates a hard error.
      * @param attachmentBase the attachment.
      * @return true is valid.
      */
-    boolean validDescription(final ProtocolAttachmentBase attachmentBase) {
+    boolean validDescriptionWhenRequired(final ProtocolAttachmentBase attachmentBase) {
+        
+        if (attachmentBase.getType() == null || attachmentBase.getType().getCode() == null) {
+            return true;
+        }
         
         if (StringUtils.isBlank(attachmentBase.getDescription()) && OTHER_TYPE_CODE.equals(attachmentBase.getType().getCode())) {
             final ProtocolAttachmentType type = this.attachmentService.getTypeFromCode(attachmentBase.getType().getCode());
@@ -106,7 +110,7 @@ class ProtocolAttachmentBaseRuleHelper {
      * 
      * <p>
      * This method does not validate the existence of a type code.
-     * This validation is done by {@link #validAgainstDictionary(ProtocolAttachmentBase)}.
+     * This validation is done by {@link #validType(ProtocolAttachmentBase)}.
      * If the type code is blank this method will return true.
      * </p>
      * 
@@ -132,13 +136,58 @@ class ProtocolAttachmentBaseRuleHelper {
         return false;
     }
     
-    
     /**
-     * Executes the Data Dictionary Validation. Creates a hard error(s).
+     * Validates that the selected type exists in the system (is valid). Creates a hard error.
+
      * @param attachmentBase the attachment.
      * @return true if valid.
      */
-    boolean validAgainstDictionary(final ProtocolAttachmentBase attachmentBase) {
+    boolean validType(final ProtocolAttachmentBase attachmentBase) {
+        //This assumes that the status object has been refreshed from the DB
+        //and if not found the refresh action set the person to null.
+        //This is an artifact of using anon keys
+
+        if (attachmentBase.getType() == null
+            || StringUtils.isBlank(attachmentBase.getType().getCode())) {
+            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE + ".code",
+                KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_TYPE);
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Validates that the selected file contains valid fields. Creates a hard error.
+
+     * @param attachmentBase the attachment.
+     * @return true if valid.
+     */
+    boolean validFile(final ProtocolAttachmentBase attachmentBase) {
+        //This assumes that the status object has been refreshed from the DB
+        //and if not found the refresh action set the person to null.
+        //This is an artifact of using anon keys
+        
+        final boolean valid;
+        
+        //this got much more complex using anon keys
+        if (attachmentBase.getFile() == null) {
+            valid = false;
+            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.FILE + ".id",
+                KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_FILE);
+        } else {
+            valid = this.validationService.isBusinessObjectValid(attachmentBase.getFile(), this.propertyPrefix);
+        }
+        
+        return valid;
+    }
+    
+    /**
+     * Validates the attachment's primatative fields (non reference fields). Creates a hard error.
+     * 
+     * @param attachmentBase the attachment
+     * @return true if valid.
+     */
+    boolean validPrimativeFields(final ProtocolAttachmentBase attachmentBase) {
         return this.validationService.isBusinessObjectValid(attachmentBase, this.propertyPrefix);
     }
 }
