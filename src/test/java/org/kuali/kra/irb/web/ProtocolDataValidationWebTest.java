@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.htmlunitwebtest;
+package org.kuali.kra.irb.web;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -33,10 +33,9 @@ public class ProtocolDataValidationWebTest extends ProtocolWebTestBase {
      * This method tests turning on Data Validation will add audit errors when none of the audit values are set on the award.
      * @throws Exception when bad happens
      */
-    @Test
+    @Test @Ignore
     public void testTurnOnDataValidation() throws Exception{
-        HtmlPage protocolActionsPageAfterActivate = clickOn(getProtocolActionsPage(), METHOD_ACTIVATE);
-        System.err.println(protocolActionsPageAfterActivate.asText());
+        HtmlPage protocolActionsPageAfterActivate = clickOn(getActionsPage(), METHOD_ACTIVATE);
         //assertContains(awardActionsPageAfterActivate,INSERT_ERROR_HERE);
         //assertContains(awardActionsPageAfterActivate, INSERT_ERROR_HERE);
     }
@@ -48,13 +47,11 @@ public class ProtocolDataValidationWebTest extends ProtocolWebTestBase {
      */
     @Test @Ignore
     public void testTurnOffDataValidationAfterActivate() throws Exception{
-        HtmlPage protocolActionsPageAfterActivate = clickOn(getProtocolActionsPage(), METHOD_ACTIVATE);
-        System.err.println(protocolActionsPageAfterActivate.asText());
+        HtmlPage protocolActionsPageAfterActivate = clickOn(getActionsPage(), METHOD_ACTIVATE);
         //assertContains(awardActionsPageAfterActivate, INSERT_ERROR_HERE);
         //assertContains(awardActionsPageAfterActivate, INSERT_ERROR_HERE);
         HtmlPage protocolActionsPageAfterDeactivate = clickOn(protocolActionsPageAfterActivate, METHOD_DEACTIVATE);
         //assertDoesNotContain(awardActionsPageAfterDeactivate, INSERT_ERROR_HERE);
         //assertDoesNotContain(awardActionsPageAfterDeactivate, INSERT_ERROR_HERE);
-        System.err.println(protocolActionsPageAfterDeactivate.asText());
     }
 }

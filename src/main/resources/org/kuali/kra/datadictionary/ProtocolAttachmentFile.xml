@@ -62,9 +62,10 @@
     <bean id="ProtocolAttachmentFile-name-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="name" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Name" />
-        <property name="shortLabel" value="Name" />
+        <property name="label" value="File Name" />
+        <property name="shortLabel" value="File Name" />
         <property name="maxLength" value="150" />
+        <property name="required" value="true" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern"
             	p:allowWhitespace="true" />
@@ -73,8 +74,8 @@
 			<bean parent="TextControlDefinition"
 				p:size="150" />
         </property>
-        <property name="summary" value="Name" />
-        <property name="description" value="Name" />
+        <property name="summary" value="File Name" />
+        <property name="description" value="File Name" />
     </bean>
     
     <bean id="ProtocolAttachmentFile-type" parent="ProtocolAttachmentFile-type-parentBean" />

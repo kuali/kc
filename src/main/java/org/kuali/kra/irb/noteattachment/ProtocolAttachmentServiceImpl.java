@@ -81,16 +81,13 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
             throw new IllegalArgumentException("the attachment is null");
         }
         
-        if (attachment.getNewFile() == null) {
-            throw new IllegalArgumentException("the newFile is null");
-        }
-
-        attachment.setFile(ProtocolAttachmentFile.createFromFormFile(attachment.getNewFile()));
-        
         //bogus numbers
         attachment.setAttachmentVersionNumber(Integer.valueOf(1));
         attachment.setDocumentId(Integer.valueOf(1));
         
+        /* {@link BusinessObjectService#linkAndSave(PersistableBusinessObject)}
+         * because rice cannot handle anon keys in OBJ.
+         */
         this.boService.save(attachment);
     }
     

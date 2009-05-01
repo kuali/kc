@@ -19,18 +19,19 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.bo.Protocol;
 
 /**
  * This is the base class for all Protocol Attachments.
  */
-public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
 
     private static final long serialVersionUID = -2519574730475246022L;
 
     private Long id;
     
+    private Long protocolId;
     private Protocol protocol;
     
     private ProtocolAttachmentType type;
@@ -51,7 +52,7 @@ public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjec
     }
     
     /**
-     * Convenience ctor to set the protocol.
+     * Convenience ctor to set the protocol, protocol id and the protocolNumber from the passed in protocol.
      * 
      * <p>
      * This ctor does not validate any of the properties.
@@ -61,6 +62,7 @@ public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjec
      */
     public ProtocolAttachmentBase(final Protocol protocol) {
         this.protocol = protocol;
+        this.initProtocolInfo(protocol);
     }
     
     /**
@@ -80,6 +82,22 @@ public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjec
     }
        
     /**
+     * Gets the Protocol id.
+     * @return the Protocol
+     */
+    public Long getProtocolId() {
+        return this.protocolId;
+    }
+    
+    /**
+     * Sets the Protocol & and the protocolNumber from the passed in protocol.
+     * @param protocolId the Protocol id
+     */
+    public void setProtocolId(Long protocolId) {
+        this.protocolId = protocolId;
+    }
+    
+    /**
      * Gets the Protocol.
      * @return the Protocol
      */
@@ -88,11 +106,12 @@ public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjec
     }
     
     /**
-     * Sets the Protocol.
+     * Sets the Protocol & and the protocolNumber from the passed in protocol.
      * @param protocol the Protocol
      */
     public void setProtocol(Protocol protocol) {
         this.protocol = protocol;
+        this.initProtocolInfo(protocol);
     }
     
     /**
@@ -203,7 +222,7 @@ public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjec
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
         hashMap.put(PropertyName.ATTACHMENT_VERSION.getPropertyName(), this.getAttachmentVersionNumber());
         hashMap.put(PropertyName.DESCRIPTION.getPropertyName(), this.getDescription());
         hashMap.put(PropertyName.DOCUMENT_ID.getPropertyName(), this.getDocumentId());
@@ -212,6 +231,15 @@ public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjec
         hashMap.put(PropertyName.TYPE.getPropertyName(), this.getType());
         hashMap.put(PropertyName.GROUP_CODE.getPropertyName(), this.getGroupCode());
         return hashMap;
+    }
+    
+    /**
+     * Sets the protocol id and protocolNumber from the passed in protocol.
+     * @param aProtocol the Protocol
+     */
+    private void initProtocolInfo(Protocol aProtocol) {
+        this.setProtocolId(aProtocol.getProtocolId());
+        this.setProtocolNumber(aProtocol.getProtocolNumber());
     }
     
     /**
@@ -238,7 +266,7 @@ public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjec
      */
     public static enum PropertyName {
         ATTACHMENT_VERSION("attachmentVersionNumber"), DESCRIPTION("description"), DOCUMENT_ID("documentId"),
-        FILE("file"), ID("id"), PROTOCOL("protocol"), TYPE("type"), GROUP_CODE("groupCode");
+        FILE("file"), ID("id"), PROTOCOL_ID("protocolId"), TYPE("type"), GROUP_CODE("groupCode");
         
         private final String name;
         
