@@ -94,8 +94,8 @@
 	<bean id="ProtocolAttachmentProtocol-contactName-parentBean" abstract="true" parent="AttributeDefinition">
 	  <property name="name" value="contactName" />
 	  <property name="forceUppercase" value="false" />
-	  <property name="label" value="Constact Name" />
-	  <property name="shortLabel" value="Constact Name" />
+	  <property name="label" value="Contact Name" />
+	  <property name="shortLabel" value="Contact Name" />
 	  <property name="maxLength" value="30" />
 	  <property name="validationPattern" >
 	    <bean parent="AnyCharacterValidationPattern" />
@@ -104,8 +104,8 @@
 	    <bean parent="TextControlDefinition"
 	          p:size="35" />
 	  </property>
-	  <property name="summary" value="Constact Name" />
-	  <property name="description" value="Constact Name" />
+	  <property name="summary" value="Contact Name" />
+	  <property name="description" value="Contact Name" />
 	</bean>
 	
 	<bean id="ProtocolAttachmentProtocol-contactEmailAddress" parent="ProtocolAttachmentProtocol-contactEmailAddress-parentBean" />
