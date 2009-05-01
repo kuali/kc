@@ -38,13 +38,15 @@ public class ProtocolAction extends KraPersistableBusinessObjectBase {
     @Id 
     @Column(name="ACTION_ID")
     private Integer actionId; 
+    
+    private String protocolActionTypeCode;
 
     @Column(name="PROTOCOL_NUMBER")
     private String protocolNumber; 
 
     @Column(name="SEQUENCE_NUMBER")
     private Integer sequenceNumber; 
-
+    
     @Column(name="COMMENTS")
     private String comments; 
 
@@ -60,6 +62,10 @@ public class ProtocolAction extends KraPersistableBusinessObjectBase {
     @JoinColumn(name="SUBMISSION_NUMBER", insertable=false, updatable=false)
     private ProtocolSubmission protocolSubmission;    
     
+    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name="PROTOCOL_ACTION_TYPE_CODE", insertable=false, updatable=false)
+    private ProtocolActionType protocolActionType;
+    
     public ProtocolAction() { 
 
     } 
@@ -70,6 +76,14 @@ public class ProtocolAction extends KraPersistableBusinessObjectBase {
 
     public void setActionId(Integer actionId) {
         this.actionId = actionId;
+    }
+    
+    public String getProtocolActionTypeCode() {
+        return protocolActionTypeCode;
+    }
+
+    public void setProtocolActionTypeCode(String protocolActionTypeCode) {
+        this.protocolActionTypeCode = protocolActionTypeCode;
     }
 
     public String getProtocolNumber() {
@@ -120,17 +134,26 @@ public class ProtocolAction extends KraPersistableBusinessObjectBase {
     public ProtocolSubmission getProtocolSubmission() {
         return protocolSubmission;
     }
+    
+    public void setProtocolActionType(ProtocolActionType protocolActionType) {
+        this.protocolActionType = protocolActionType;
+    }
+
+    public ProtocolActionType getProtocolActionType() {
+        return protocolActionType;
+    }
 
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("actionId", this.getActionId());
+        hashMap.put("protocolActionTypeCode", getProtocolActionTypeCode());
         hashMap.put("protocolNumber", this.getProtocolNumber());
         hashMap.put("sequenceNumber", this.getSequenceNumber());
         hashMap.put("comments", this.getComments());
         hashMap.put("actionDate", this.getActionDate());
         return hashMap;
     }
-    
+
 }

@@ -667,6 +667,9 @@
 		<reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.bo.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="submissionNumber"/>
 		</reference-descriptor>
+		<reference-descriptor name="protocolActionType" class-ref="org.kuali.kra.irb.bo.ProtocolActionType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolActionTypeCode"/>
+		</reference-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolSubmission" table="PROTOCOL_SUBMISSION">
@@ -759,6 +762,17 @@
 	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolReviewerType" table="PROTOCOL_REVIEWER_TYPE">
 		<field-descriptor name="reviewerTypeCode" column="REVIEWER_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolActionType" table="PROTOCOL_ACTION_TYPE">
+		<field-descriptor name="protocolActionTypeCode" column="PROTOCOL_ACTION_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="triggerSubmission" column="TRIGGER_SUBMISSION" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="triggerCorrespondence" column="TRIGGER_CORRESPONDENCE" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
