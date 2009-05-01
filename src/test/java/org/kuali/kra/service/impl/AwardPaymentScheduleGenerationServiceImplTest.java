@@ -48,22 +48,23 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 @RunWith(JMock.class)
 public class AwardPaymentScheduleGenerationServiceImplTest {
     
-    public static final int START_DATE_YEAR_2009 = 2009;
-    public static final int START_DATE_YEAR_2011 = 2011;
-    public static final int START_DATE_MONTH_APRIL = 3;
-    public static final int START_DATE_MONTH_MAY = 4;
-    public static final int START_DATE_MONTH_JULY = 6;
-    public static final int START_DATE_MONTH_AUGUST = 7;
-    public static final int FIRST_DAY_OF_MONTH = 1;
-    public static final int ZERO =0;
-    public static final int THIRTY_DAYS = 30;
-    public static final int THREE_MONTHS = 3;
-    public static final String ZERO_HOURS = "00:00";
-    public static final String FREQUENCY_BASE_CODE_ONE = "1";
-    public static final String FREQUENCY_BASE_CODE_FOUR = "4";
-    public static final String FREQUENCY_BASE_CODE_TWO = "2";
-    public static final String REPORT_CLASS_CODE_CODE_SIX = "6";
-    public static final int PERIOD_IN_YEARS = 1;
+    private static final int START_DATE_YEAR_2009 = 2009;
+    private static final int START_DATE_YEAR_2011 = 2011;
+    private static final int START_DATE_MONTH_APRIL = 3;
+    private static final int START_DATE_MONTH_OCT = 9;
+    private static final int START_DATE_MONTH_MAY = 4;
+    private static final int START_DATE_MONTH_JULY = 6;
+    private static final int START_DATE_MONTH_AUGUST = 7;
+    private static final int FIRST_DAY_OF_MONTH = 1;
+    private static final int ZERO =0;
+    private static final int THIRTY_DAYS = 30;
+    private static final int THREE_MONTHS = 3;
+    private static final String ZERO_HOURS = "00:00";
+    private static final String FREQUENCY_BASE_CODE_ONE = "1";
+    private static final String FREQUENCY_BASE_CODE_FOUR = "4";
+    private static final String FREQUENCY_BASE_CODE_TWO = "2";
+    private static final String REPORT_CLASS_CODE_CODE_SIX = "6";
+    private static final int PERIOD_IN_YEARS = 1;
     
     Award award;
     List<AwardReportTerm> awardReportTerms;
@@ -77,13 +78,15 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
     
     @Before
     public void setUp() throws Exception {
-        award = new Award();
+        award = new Award();        
         frequency = new Frequency();        
         awardReportTerms = new ArrayList<AwardReportTerm>();        
         newAwardReportTerm = new AwardReportTerm();        
         awardPaymentScheduleGenerationServiceImpl = new AwardPaymentScheduleGenerationServiceImpl();
         calendar = new GregorianCalendar();
         calendar1 = new GregorianCalendar();
+        setMapOfDatesOnAward(award);
+        awardPaymentScheduleGenerationServiceImpl.initializeDatesForThisAward(award);
     }
 
     @After
@@ -97,12 +100,27 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         calendar1 = null;
     }
     
+    public void setMapOfDatesOnAward(Award award){
+        calendar.clear();
+        calendar.set(START_DATE_YEAR_2009, START_DATE_MONTH_APRIL, FIRST_DAY_OF_MONTH);
+        award.setAwardEffectiveDate(new java.sql.Date(calendar.getTimeInMillis()));
+        calendar.clear();
+        calendar.set(START_DATE_YEAR_2009, START_DATE_MONTH_MAY, FIRST_DAY_OF_MONTH);
+        award.setAwardExecutionDate(new java.sql.Date(calendar.getTimeInMillis()));
+        calendar.clear();
+        calendar.set(START_DATE_YEAR_2009, START_DATE_MONTH_JULY, FIRST_DAY_OF_MONTH);
+        award.setProjectEndDate(new java.sql.Date(calendar.getTimeInMillis()));
+    }
+    
     @Test
     public final void testGetStartDate(){
         newAwardReportTerm.setFrequencyBaseCode(FREQUENCY_BASE_CODE_ONE);
         calendar.clear();
-        calendar.set(START_DATE_YEAR_2009, START_DATE_MONTH_APRIL, FIRST_DAY_OF_MONTH);
+        calendar.set(START_DATE_YEAR_2009, START_DATE_MONTH_MAY, FIRST_DAY_OF_MONTH);
+        
         newAwardReportTerm.setFrequency(frequency);
+        newAwardReportTerm.setAward(award);
+        
         java.util.Date startDate = awardPaymentScheduleGenerationServiceImpl.getStartDate(newAwardReportTerm);
         
         Assert.assertEquals(calendar.getTime(), startDate);
@@ -113,13 +131,13 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
     public final void testGetEndDate(){
         calendar.clear();
         calendar.set(START_DATE_YEAR_2009, START_DATE_MONTH_JULY, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
-        awardPaymentScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);
+        awardPaymentScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);        
         java.util.Date endDate = awardPaymentScheduleGenerationServiceImpl.getEndDate(FREQUENCY_BASE_CODE_FOUR, calendar.getTime());
         calendar.add(Calendar.YEAR, 1);        
         Assert.assertEquals(calendar.getTime(),endDate);
         endDate = awardPaymentScheduleGenerationServiceImpl.getEndDate(FREQUENCY_BASE_CODE_TWO, calendar.getTime());
         calendar.clear();
-        calendar.set(START_DATE_YEAR_2011, START_DATE_MONTH_MAY, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
+        calendar.set(START_DATE_YEAR_2009, START_DATE_MONTH_JULY, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         Assert.assertEquals(calendar.getTime(),endDate);
     }
     
@@ -252,7 +270,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
     @Test
     public void testGetScheduledDatesSuccessCaseWhenRepeatFlagIsTrue() throws ParseException{        
         calendar.clear();
-        calendar.set(START_DATE_YEAR_2011, START_DATE_MONTH_AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
+        calendar.set(START_DATE_YEAR_2009, START_DATE_MONTH_OCT, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         final java.util.Date START_DATE = calendar.getTime();
         final int DAY_OF_MONTH = calendar.get(Calendar.DAY_OF_MONTH);
         calendar.add(Calendar.YEAR, 1);
@@ -299,7 +317,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
     public void testGetScheduledDatesSuccessCaseWhenRepeatFlagIsFalse() throws ParseException{
         
         calendar.clear();
-        calendar.set(START_DATE_YEAR_2009, START_DATE_MONTH_JULY, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
+        calendar.set(START_DATE_YEAR_2009, START_DATE_MONTH_AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         final java.util.Date START_DATE = calendar.getTime();
         final int DAY_OF_MONTH = calendar.get(Calendar.DAY_OF_MONTH);
         calendar.add(Calendar.YEAR, 1);
