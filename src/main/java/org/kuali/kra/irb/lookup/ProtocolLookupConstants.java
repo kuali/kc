@@ -36,6 +36,8 @@ public interface ProtocolLookupConstants {
         public static final String FUNDING_SOURCE_TYPE_CODE = "fundingSourceTypeCode";
         public static final String RESEARCH_AREA_CODE = "researchAreaCode";
         public static final String PROTOCOL_ID = "protocolId";
+        public static final String PROTOCOL_TYPE_CODE = "protocolTypeCode";
+        public static final String PROTOCOL_STATUS_CODE = "protocolStatusCode";
         public static final String PERFORMING_ORGANIZATION_ID = "performingOrganizationId";
         public static final String PROTOCOL_PERSON_ROLE_ID = "protocolPersonRoleId";
         public static final String PROTOCOL_ORGANIZATION_TYPE_CODE = "protocolOrganizationTypeCode";
