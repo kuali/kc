@@ -603,12 +603,18 @@
 		      		<groupId>org.drools</groupId>
 		      		<artifactId>drools-core</artifactId>
 		      		<version>4.0.7</version>
-		    	</dependency>
+		    	</dependency>                 
 		    	<dependency>
 					<groupId>org.drools</groupId>
 					<artifactId>drools-decisiontables</artifactId>
-					<version>4.0.7</version>
-				</dependency>                
+					<version>4.0.7</version>					 
+		      		<exclusions>
+                       <exclusion>
+                         <groupId>org.eclipse.jdt</groupId>
+                         <artifactId>core</artifactId>
+		      		   </exclusion>
+                    </exclusions>
+				</dependency>				             
 			</dependencies>
 		</profile>
 		
