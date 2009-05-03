@@ -39,6 +39,7 @@ import org.kuali.rice.kns.web.ui.Row;
 public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {    
 
     private static final String RESEARCH_AREA_CLASS_PATH = "org.kuali.kra.bo.ResearchArea";
+    private static final String ORGANIZATION_CLASS_PATH = "org.kuali.kra.bo.Organization";
     ProtocolDao protocolDao;
 
     @Override
@@ -75,6 +76,11 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE)) {
                     super.updateLookupField(field,ProtocolLookupConstants.Property.RESEARCH_AREA_CODE,RESEARCH_AREA_CLASS_PATH);
+                } else if (field.getPropertyName().equals(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID)) {
+                    super.updateLookupField(field,ProtocolLookupConstants.Property.ORGANIZATION_ID,ORGANIZATION_CLASS_PATH);
+                } else if (field.getPropertyName().equals(ProtocolLookupConstants.Property.PROTOCOL_STATUS_CODE) || field.getPropertyName().equals(ProtocolLookupConstants.Property.PROTOCOL_TYPE_CODE)) {
+                    // to disable lookup/inquiry display
+                    field.setQuickFinderClassNameImpl(KNSConstants.EMPTY_STRING);
                 }
             }
         }
