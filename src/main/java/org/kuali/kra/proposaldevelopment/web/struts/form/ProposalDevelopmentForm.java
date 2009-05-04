@@ -1359,11 +1359,14 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     @Override
     public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
         // TODO rice upgrade temp hack - to populate customdata
-        if (requestParameterName.startsWith("customAttributeValue")) {
-            return true;
-        } else {
-            return super.shouldPropertyBePopulatedInForm(requestParameterName, request);
-        }
+        // use expandedtextarea will cause issues with editableproperties in formdata.
+        // the sessiondocument is not working well with this.  not sure if this should be a rice issue.
+//        if (requestParameterName.startsWith("customAttributeValue")) {
+//            return true;
+//        } else {
+//            return super.shouldPropertyBePopulatedInForm(requestParameterName, request);
+//        }
+        return true;
     }
 
 }
