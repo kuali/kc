@@ -26,7 +26,7 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
  */
 class ProtocolAttachmentBaseRuleHelper {
 
-    private static final String OTHER_TYPE_CODE = "11";
+    private static final String OTHER_TYPE_CODE = "9";
 
     private final ProtocolAttachmentService attachmentService;
     private final DictionaryValidationService validationService;

@@ -98,14 +98,14 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
         
         ProtocolAttachmentBase attachment = new ProtocolAttachmentProtocol();
-        attachment.setType(new ProtocolAttachmentType("11", "a desc"));
+        attachment.setType(new ProtocolAttachmentType("9", "a desc"));
         
         this.context.checking(new Expectations() {{
             ProtocolAttachmentType type = new ProtocolAttachmentType();
-            type.setCode("11");
+            type.setCode("9");
             type.setDescription("not Other");
             
-            one(paService).getTypeFromCode("11");
+            one(paService).getTypeFromCode("9");
             will(returnValue(type));
         }});
         
@@ -128,7 +128,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
-        attachment.setType(new ProtocolAttachmentType("11", "a desc"));
+        attachment.setType(new ProtocolAttachmentType("9", "a desc"));
         attachment.setAttachmentVersionNumber(1);
         attachment.setDocumentId(1);
         Protocol protocol = ProtocolTestUtil.getProtocol(this.context);
@@ -180,12 +180,12 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
-        attachment.setType(new ProtocolAttachmentType("11", "a desc"));
+        attachment.setType(new ProtocolAttachmentType("9", "a desc"));
         
         this.context.checking(new Expectations() {{         
             Collection<ProtocolAttachmentType> types = new ArrayList<ProtocolAttachmentType>();
             ProtocolAttachmentType aType = new ProtocolAttachmentType();
-            aType.setCode("11");
+            aType.setCode("9");
             types.add(aType);
             
             one(paService).getTypesForGroup(attachment.getGroupCode());
@@ -211,7 +211,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
-        attachment.setType(new ProtocolAttachmentType("11", "a desc"));
+        attachment.setType(new ProtocolAttachmentType("9", "a desc"));
         
         this.context.checking(new Expectations() {{         
             
@@ -225,10 +225,10 @@ public class ProtocolAttachmentBaseRuleHelperTest {
             will(returnValue(types));
             
             ProtocolAttachmentType aType2 = new ProtocolAttachmentType();
-            aType2.setCode("11");
+            aType2.setCode("9");
             aType2.setDescription("a desc");
             
-            one(paService).getTypeFromCode("11");
+            one(paService).getTypeFromCode("9");
             will(returnValue(aType2));
         }});
         
@@ -251,7 +251,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
-        attachment.setType(new ProtocolAttachmentType("11", "a desc"));
+        attachment.setType(new ProtocolAttachmentType("9", "a desc"));
         
         this.context.checking(new Expectations() {{         
             Collection<ProtocolAttachmentType> types = new ArrayList<ProtocolAttachmentType>();
@@ -262,7 +262,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
             one(paService).getTypesForGroup(attachment.getGroupCode());
             will(returnValue(types));
             
-            one(paService).getTypeFromCode("11");
+            one(paService).getTypeFromCode("9");
             will(returnValue(null));
         }});
         
@@ -285,7 +285,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
-        attachment.setType(new ProtocolAttachmentType("11", "a desc"));
+        attachment.setType(new ProtocolAttachmentType("9", "a desc"));
         attachment.setAttachmentVersionNumber(1);
         attachment.setDocumentId(1);
         attachment.setProtocol(ProtocolTestUtil.getProtocol(this.context));
