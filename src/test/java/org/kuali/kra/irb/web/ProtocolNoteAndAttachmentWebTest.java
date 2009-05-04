@@ -36,7 +36,7 @@ public class ProtocolNoteAndAttachmentWebTest extends ProtocolWebTestBase {
     private static final String EMAIL = "axl@gnr.com";
     private static final String NAME = "AxlRose";
     private static final String COMMENTS = "some comments";
-    private static final String TYPE_CODE_11 = "11";
+    private static final String TYPE_CODE_9 = "9";
     private static final String METHOD_TO_CALL_DELETE_ATTACHMENT_PERSONNEL = "methodToCall.deleteAttachmentPersonnel";
     private static final String METHOD_TO_CALL_ADD_ATTACHMENT_PERSONNEL = "methodToCall.addAttachmentPersonnel";
     private static final String NEW_ATTACHMENT_PERSONNEL_NEW_FILE_NAME = "notesAndAttachmentsHelper.newAttachmentPersonnel.newFile";
@@ -193,7 +193,7 @@ public class ProtocolNoteAndAttachmentWebTest extends ProtocolWebTestBase {
     private HtmlPage addPersonnelAttachment(HtmlPage initalPage) throws Exception {
         //should find the PI - Terry Durkin
         selectAnyOption(initalPage, NEW_ATTACHMENT_PERSONNEL_PERSON_PROTOCOL_PERSON_ID_NAME);
-        setFieldValue(initalPage, NEW_ATTACHMENT_PERSONNEL_TYPE_CODE_NAME, TYPE_CODE_11);
+        setFieldValue(initalPage, NEW_ATTACHMENT_PERSONNEL_TYPE_CODE_NAME, TYPE_CODE_9);
         setFieldValue(initalPage, NEW_ATTACHMENT_PERSONNEL_DESCRIPTION_NAME, DESCRIPTION);
         setFieldValue(initalPage, NEW_ATTACHMENT_PERSONNEL_NEW_FILE_NAME, this.getFilePath(ProtocolNoteAndAttachmentWebTest.class));
         return clickOnByName(initalPage, METHOD_TO_CALL_ADD_ATTACHMENT_PERSONNEL, true);
