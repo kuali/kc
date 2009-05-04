@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.irb.lookup;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +31,6 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
