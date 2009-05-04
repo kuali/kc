@@ -133,7 +133,7 @@
 				  
 				  <td class="infoline">
 					<div align="center">
-						<html:image property="methodToCall.deleteAwardPaymentSchedule.line${status.index}.anchor${currentTabIndex}"
+						<html:image property="methodToCall.deletePaymentScheduleItem.line${status.index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 					</div>
                   </td>
