@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rules;
+package org.kuali.kra.irb.permission;
 
 import org.kuali.kra.common.permissions.rules.PermissionsRuleBase;
 import org.kuali.kra.infrastructure.RoleConstants;
