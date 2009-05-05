@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.web.struts.form;
+package org.kuali.kra.irb.permission;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +29,7 @@ import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
 import org.kuali.kra.irb.service.ProtocolAuthorizationService;
+import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
 /**
  * The PermissionsHelper is used to manage the Permissions tab web page.

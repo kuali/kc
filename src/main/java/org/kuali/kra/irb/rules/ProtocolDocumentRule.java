@@ -33,6 +33,7 @@ import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.noteattachment.SaveProtocolAttachmentPersonnelRuleImpl;
 import org.kuali.kra.irb.noteattachment.SaveProtocolAttachmentProtocolRuleImpl;
 import org.kuali.kra.irb.noteattachment.SubmitProtocolAttachmentProtocolRuleImpl;
+import org.kuali.kra.irb.permission.ProtocolPermissionsRule;
 import org.kuali.kra.irb.personnel.AddProtocolPersonnelEvent;
 import org.kuali.kra.irb.personnel.AddProtocolPersonnelRule;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelAuditRule;

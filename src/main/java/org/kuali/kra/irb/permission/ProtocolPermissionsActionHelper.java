@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.web.struts.action;
+package org.kuali.kra.irb.permission;
 
 import org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -26,7 +26,7 @@ import org.kuali.rice.kns.document.Document;
  * for the Permissions tab web page.  The ProtocolPermissionsAction delegates all
  * of the work to this helper.
  */
-public class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
+class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
 
     /**
      * Constructs a ProtocolPermissionsActionHelper.
