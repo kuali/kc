@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.irb.bo;
+package org.kuali.kra.irb.specialreview;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.AbstractSpecialReview;
+import org.kuali.kra.irb.bo.Protocol;
 /**
  * 
  * This class represents ProtocolSpecialReview BO

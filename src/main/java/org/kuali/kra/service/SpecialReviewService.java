@@ -18,8 +18,6 @@ package org.kuali.kra.service;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.bo.AbstractSpecialReviewExemption;
 import org.kuali.kra.document.SpecialReviewHandler;
-import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.bo.ProtocolSpecialReviewExemption;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 
 /**
