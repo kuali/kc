@@ -1,0 +1,18 @@
+<!--
+	This contains the forwards for Protocol.
+	This fragment is included in the struts-config.xml file so that the protocol
+	forwards within different actions do not have to be duplicated.
+	
+	This duplication occurs as a result of our "repackaging by unit-of-work" effort.  Since
+	I couldn't find a struts solution for this problem, this is what I came up with :-)
+ -->
+<forward name="protocol" path="/WEB-INF/jsp/irb/ProtocolProtocol.jsp" />
+<forward name="personnel" path="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" />
+<forward name="permissions" path="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" />
+<forward name="permissionsRoleRights" path="/WEB-INF/jsp/irb/ProtocolPermissionsRoleRights.jsp" />
+<forward name="permissionsEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsEditRoles.jsp" />
+<forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsCloseEditRoles.jsp" />
+<forward name="noteAndAttachment" path="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" />
+<forward name="protocolActions" path="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" />
+<forward name="customData" path="/WEB-INF/jsp/irb/ProtocolCustomData.jsp" />
+<forward name="specialReview" path="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" />

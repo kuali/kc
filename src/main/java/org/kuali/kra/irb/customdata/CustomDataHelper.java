@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.web.struts.form;
+package org.kuali.kra.irb.customdata;
 
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
+import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
 /**
  * The CustomDataHelper is used to manage the Custom Data tab web page.

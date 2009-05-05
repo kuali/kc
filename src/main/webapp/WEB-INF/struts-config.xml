@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd" [
+	<!ENTITY protocol_forwards SYSTEM "struts_protocol_forwards.xml">
+	]>
 
 <struts-config>
     <data-sources />
@@ -181,47 +183,31 @@
       <!--  KRA IRB Mapping -->
       <action path="/protocol*" name="ProtocolForm" input="/WEB-INF/jsp/irb/Protocol{1}.jsp" type="org.kuali.kra.irb.web.struts.action.Protocol{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/irb/Protocol{1}.jsp" />
-          <forward name="protocol" path="/WEB-INF/jsp/irb/ProtocolProtocol.jsp" />
-          <forward name="personnel" path="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" />
-          <forward name="permissions" path="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" />
-          <forward name="permissionsRoleRights" path="/WEB-INF/jsp/irb/ProtocolPermissionsRoleRights.jsp" />
-      	  <forward name="permissionsEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsEditRoles.jsp" />
-      	  <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsCloseEditRoles.jsp" />
-      	  <forward name="noteAndAttachment" path="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" />
-          <forward name="protocolActions" path="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" />
-          <forward name="customData" path="/WEB-INF/jsp/irb/ProtocolCustomData.jsp" />
-          <forward name="specialReview" path="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" />
-          <forward name="checkListItemDescription" path="/WEB-INF/jsp/irb/ProtocolCheckListItemDescription.jsp" />
+		  &protocol_forwards;
       </action>
       
       <!--  KRA IRB Personnel Mapping -->
       <action path="/personnel" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" type="org.kuali.kra.irb.personnel.ProtocolPersonnelAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" />
-          <forward name="protocol" path="/WEB-INF/jsp/irb/ProtocolProtocol.jsp" />
-          <forward name="personnel" path="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" />
-          <forward name="permissions" path="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" />
-          <forward name="permissionsRoleRights" path="/WEB-INF/jsp/irb/ProtocolPermissionsRoleRights.jsp" />
-      	  <forward name="permissionsEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsEditRoles.jsp" />
-      	  <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsCloseEditRoles.jsp" />
-      	  <forward name="noteAndAttachment" path="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" />
-          <forward name="protocolActions" path="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" />
-          <forward name="customData" path="/WEB-INF/jsp/irb/ProtocolCustomData.jsp" />
-          <forward name="specialReview" path="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" />
+		  &protocol_forwards;
       </action>
       
-            <!--  KRA IRB Note And Attachment Mapping -->
+      <!--  KRA IRB Note And Attachment Mapping -->
       <action path="/protocolNoteAndAttachment" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolNoteAttachment.jsp" type="org.kuali.kra.irb.noteattachment.ProtocolNoteAndAttachmentAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" />
-		<forward name="protocol" path="/WEB-INF/jsp/irb/ProtocolProtocol.jsp" />
-		<forward name="personnel" path="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" />
-		<forward name="permissions" path="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" />
-		<forward name="permissionsRoleRights" path="/WEB-INF/jsp/irb/ProtocolPermissionsRoleRights.jsp" />
-		<forward name="permissionsEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsEditRoles.jsp" />
-		<forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsCloseEditRoles.jsp" />
-		<forward name="noteAndAttachment" path="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" />
-		<forward name="protocolActions" path="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" />
-		<forward name="customData" path="/WEB-INF/jsp/irb/ProtocolCustomData.jsp" />
-		<forward name="specialReview" path="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" />
+		&protocol_forwards;
+      </action>
+      
+      <!--  KRA IRB Permissions Mapping -->
+      <action path="/protocolPermissions" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" type="org.kuali.kra.irb.permission.ProtocolPermissionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" />
+		&protocol_forwards;
+      </action>
+      
+      <!--  KRA IRB Custom data Mapping -->
+      <action path="/protocolCustomData" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" type="org.kuali.kra.irb.customdata.ProtocolCustomDataAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm" >
+		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolCustomData.jsp" />
+		&protocol_forwards;
       </action>
       
       <!--  KRA Committee Mapping -->
