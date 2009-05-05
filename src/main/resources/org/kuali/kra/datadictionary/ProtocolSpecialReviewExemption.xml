@@ -21,7 +21,7 @@
 
 	<bean id="ProtocolSpecialReviewExemption" parent="ProtocolSpecialReviewExemption-parentBean" />
 	<bean id="ProtocolSpecialReviewExemption-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolSpecialReviewExemption" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolSpecialReviewExemption-inquiryDefinition" />
 		</property>
