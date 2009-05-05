@@ -23,7 +23,7 @@
 
 	<bean id="ProtocolSpecialReview" parent="ProtocolSpecialReview-parentBean" />
 	<bean id="ProtocolSpecialReview-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolSpecialReview" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.specialreview.ProtocolSpecialReview" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolSpecialReview-inquiryDefinition" />
 		</property>

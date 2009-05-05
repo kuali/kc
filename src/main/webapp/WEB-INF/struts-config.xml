@@ -210,6 +210,12 @@
 		&protocol_forwards;
       </action>
       
+      <!--  KRA IRB Custom data Mapping -->
+      <action path="/protocolSpecialReview" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" type="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm" >
+		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" />
+		&protocol_forwards;
+      </action>
+      
       <!--  KRA Committee Mapping -->
       <action path="/committee*" name="CommitteeForm" input="/WEB-INF/jsp/committee/Committee{1}.jsp" type="org.kuali.kra.committee.web.struts.action.Committee{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/committee/Committee{1}.jsp" />
