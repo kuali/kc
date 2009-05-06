@@ -25,10 +25,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
+import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.irb.auth.ViewProtocolAuthorizer;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.document.authorization.ProtocolTask;
-import org.kuali.kra.irb.document.authorizer.ViewProtocolAuthorizer;
-import org.kuali.kra.irb.service.ProtocolAuthorizationService;
 
 /**
  * Test the View Protocol Authorizer.

@@ -26,7 +26,7 @@ public interface SaveProtocolPersonnelRule extends BusinessRule {
     
     /**
      * Rule invoked upon saving protocol personnel to a 
-     * <code>{@link org.kuali.kra.irb.document.ProtocolDocument}</code>
+     * <code>{@link org.kuali.kra.irb.ProtocolDocument}</code>
      *
      * @return boolean
      */

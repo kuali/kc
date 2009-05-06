@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.protocol;
 
-import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.rule.event.ProtocolEventBase;
-import org.kuali.kra.irb.rule.event.ProtocolEventBase.ErrorType;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolEventBase;
+import org.kuali.kra.irb.ProtocolEventBase.ErrorType;
 import org.kuali.rice.kns.document.Document;
 
 /**

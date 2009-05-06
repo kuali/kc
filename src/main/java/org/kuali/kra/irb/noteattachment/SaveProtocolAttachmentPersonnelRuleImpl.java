@@ -17,12 +17,12 @@ package org.kuali.kra.irb.noteattachment;
 
 import java.util.List;
 
-import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolDocument;
 
 /**
  * Class handles rules for saving a {@link ProtocolAttachmentPersonnel ProtocolAttachmentPersonnel}.
  * This class does not have a corresponding event or Rule interface because it is just used-by the mega
- * {@link org.kuali.kra.irb.rules.ProtocolDocumentRule ProtocolDocumentRule} for save events.
+ * {@link org.kuali.kra.irb.ProtocolDocumentRule ProtocolDocumentRule} for save events.
  */
 public class SaveProtocolAttachmentPersonnelRuleImpl {
   

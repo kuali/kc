@@ -7,7 +7,7 @@
 <c:set var="textAreaFieldName" value="document.protocolList[0].description" />
 <c:set var="textAreaFieldName1" value="newProtocolReference.comments" />
 <c:set var="action" value="protocolProtocol" />
-<c:set var="className" value="org.kuali.kra.irb.document.ProtocolDocument" />
+<c:set var="className" value="${KualiForm.document.class.name}" />
 
 <c:set var="researchAreasAttributes" value="${DataDictionary.ResearchArea.attributes}" />
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />

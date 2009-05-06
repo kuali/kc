@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.service;
+package org.kuali.kra.irb;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,10 +28,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolDao;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolLookupableHelperServiceImpl;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.dao.ProtocolDao;
-import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.lookup.ProtocolLookupableHelperServiceImpl;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.ui.Field;

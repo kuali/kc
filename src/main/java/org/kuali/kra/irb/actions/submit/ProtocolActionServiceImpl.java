@@ -17,7 +17,6 @@ package org.kuali.kra.irb.actions.submit;
 
 import org.kuali.kra.drools.util.DroolsRuleHandler;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.brms.ProtocolActionUpdateMapping;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 

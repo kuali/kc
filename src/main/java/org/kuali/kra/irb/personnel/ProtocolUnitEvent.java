@@ -13,25 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.dao;
+package org.kuali.kra.irb.personnel;
 
-import java.util.List;
-import java.util.Map;
-
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
- * 
- * This class is used to run ojb query directly.
+ * Event triggered when a protocol unit state is modified on a 
+ * <code>{@link ProtocolDocument}</code>
+ *
  */
-public interface ProtocolDao {
-    
+public interface ProtocolUnitEvent extends KualiDocumentEvent {
     /**
-     * 
-     * This method get protocols lookup search results.
-     * @param fieldValues
-     * @return
+     * @return <code>{@link ProtocolUnit}</code> that triggered this event.
      */
-    List<Protocol> getProtocols(Map<String,String> fieldValues);
+    public ProtocolUnit getProtocolUnit();
+    
+    public int getPersonIndex();
 
 }

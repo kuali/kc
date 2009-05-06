@@ -24,8 +24,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.web.struts.action.ProtocolAction;
-import org.kuali.kra.irb.web.struts.form.ProtocolForm;
+import org.kuali.kra.irb.ProtocolAction;
+import org.kuali.kra.irb.ProtocolForm;
 
 /**
  * This class represents the Struts Action for Notes & Attachments page(ProtocolNoteAndAttachment.jsp).

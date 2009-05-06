@@ -36,7 +36,7 @@
 	</bean>
 	<!-- Protocol Services -->
 	
-	<bean id="protocolAuthorizationService" class="org.kuali.kra.irb.service.impl.ProtocolAuthorizationServiceImpl">
+	<bean id="protocolAuthorizationService" class="org.kuali.kra.irb.auth.ProtocolAuthorizationServiceImpl">
 		<property name="unitAuthorizationService">
 			<ref bean="unitAuthorizationService" />
 		</property>
@@ -67,7 +67,7 @@
         </property>
     </bean> 
 
-    <bean id="lookupableDevelopmentProposalService" class="org.kuali.kra.irb.service.impl.LookupableDevelopmentProposalServiceImpl">
+    <bean id="lookupableDevelopmentProposalService" class="org.kuali.kra.irb.LookupableDevelopmentProposalServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
@@ -116,20 +116,20 @@
         <property name="groupName" value="protocol" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.kra.irb.document.authorizer.ModifyProtocolAuthorizer" parent="parentProtocolAuthorizer">
+                <bean class="org.kuali.kra.irb.auth.ModifyProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="modifyProtocol" />
                 </bean>
                 
-                <bean class="org.kuali.kra.irb.document.authorizer.ViewProtocolAuthorizer" parent="parentProtocolAuthorizer">
+                <bean class="org.kuali.kra.irb.auth.ViewProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="viewProtocol" />
                 </bean>
                 
-                <bean class="org.kuali.kra.irb.document.authorizer.AddProtocolBillableAuthorizer" parent="parentProtocolAuthorizer">
+                <bean class="org.kuali.kra.irb.auth.AddProtocolBillableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="modifyBillable" />
                 </bean>
                 
                 <!--  Task Authorizer for modifying persons and their roles on a proposal -->
-                <bean class="org.kuali.kra.irb.document.authorizer.ModifyProtocolPermissionsAuthorizer" parent="parentProtocolAuthorizer">
+                <bean class="org.kuali.kra.irb.auth.ModifyProtocolPermissionsAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="modifyProtocolRoles" />
                 </bean>
             </list>
@@ -148,14 +148,14 @@
   		</property>  		
 	</bean>	
 
-	<bean id="protocolLookupableHelperService" class="org.kuali.kra.irb.lookup.ProtocolLookupableHelperServiceImpl" 
+	<bean id="protocolLookupableHelperService" class="org.kuali.kra.irb.ProtocolLookupableHelperServiceImpl" 
  		scope="prototype" parent="lookupableHelperService">
         <property name="protocolDao">
             <ref bean="protocolDao" />
         </property>
   	</bean>
 
-    <bean id="protocolDao" parent="platformAwareDao" class="org.kuali.kra.irb.dao.ojb.ProtocolDaoOjb">
+    <bean id="protocolDao" parent="platformAwareDao" class="org.kuali.kra.irb.ProtocolDaoOjb">
         <property name="lookupDao">
             <ref bean="lookupDao" />
         </property>
