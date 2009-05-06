@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.web;
 
 import org.junit.Test;
-import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolDocument;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 

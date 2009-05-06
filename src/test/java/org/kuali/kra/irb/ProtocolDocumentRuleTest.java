@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rules;
+package org.kuali.kra.irb;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolDocumentRule;
+import org.kuali.kra.irb.rules.ProtocolRuleTestBase;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;

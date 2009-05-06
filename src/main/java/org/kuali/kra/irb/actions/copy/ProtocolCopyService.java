@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.copy;
 
-import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolDocument;
 
 /**
  * The Protocol Copy Service is responsible for copying protocols.

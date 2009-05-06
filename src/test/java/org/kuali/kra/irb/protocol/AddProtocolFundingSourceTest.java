@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.protocol.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.ProtocolFundingSourceRule;

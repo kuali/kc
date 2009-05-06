@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.lookup;
+package org.kuali.kra.irb;
 /**
  * 
  * There are so many constants needed in lookup.  Created this class for now.

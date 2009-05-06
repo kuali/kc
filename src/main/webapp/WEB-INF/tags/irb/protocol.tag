@@ -4,7 +4,7 @@
 <c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
 <c:set var="textAreaFieldName" value="document.protocolList[0].title" />
 <c:set var="action" value="protocol" />
-<c:set var="className" value="org.kuali.kra.irb.document.ProtocolDocument" />
+<c:set var="className" value="${KualiForm.document.class.name}" />
 
 <kul:tab tabTitle="Protocol Document" defaultOpen="true" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
