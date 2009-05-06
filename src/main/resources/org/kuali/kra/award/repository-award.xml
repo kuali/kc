@@ -802,7 +802,7 @@
 		</collection-descriptor>
 	--></class-descriptor>
 	<class-descriptor class="org.kuali.kra.award.bo.AwardTemplateComment" table="AWARD_TEMPLATE_COMMENTS">
-		<field-descriptor name="templateCommentsId" column="TEMPLATE_COMMENTS_ID" jdbc-type="INTEGER" primarykey="true"  sequence-name="SEQ_AWARD_TEMPLATE" autoincrement="true" />
+		<field-descriptor name="templateCommentsId" column="AWARD_TEMPLATE_COMMENTS_ID" jdbc-type="INTEGER" primarykey="true"  sequence-name="SEQ_AWARD_TEMPLATE" autoincrement="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT"  locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="templateCode" column="AWARD_TEMPLATE_CODE" jdbc-type="INTEGER" access="anonymous" />
@@ -867,7 +867,7 @@
 		<reference-descriptor name="awardTemplate" class-ref="org.kuali.kra.award.bo.AwardTemplate" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="templateCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="sponsorTerms" class-ref="org.kuali.kra.bo.SponsorTerm" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="sponsorTerm" class-ref="org.kuali.kra.bo.SponsorTerm" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="sponsorTermId"/>
 		</reference-descriptor>
 	</class-descriptor>
