@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -58,4 +59,12 @@ public interface CommitteeService {
      * @return the list of active members who will be at the meeting
      */
     public List<CommitteeMembership> getAvailableMembers(String committeeId, String scheduleId);
+    
+    /**
+     * Get the committee schedule.
+     * @param committee the committee to search
+     * @param scheduleId the id of the schedule to find
+     * @return the schedule or null if not found
+     */
+    public CommitteeSchedule getCommitteeSchedule(Committee committee, String scheduleId);
 }

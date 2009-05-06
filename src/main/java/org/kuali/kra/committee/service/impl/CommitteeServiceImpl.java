@@ -60,7 +60,7 @@ public class CommitteeServiceImpl implements CommitteeService {
     @SuppressWarnings("unchecked")
     public Committee getCommitteeById(String committeeId) {
         Committee committee = null;
-        if (committeeId != null) {
+        if (!StringUtils.isBlank(committeeId)) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("committeeId", committeeId);
             Collection<Committee> committees = businessObjectService.findMatching(Committee.class, fieldValues);
@@ -212,12 +212,9 @@ public class CommitteeServiceImpl implements CommitteeService {
     }
 
     /**
-     * Get the schedule for a committee.
-     * @param committee the committee
-     * @param scheduleId the schedule's id
-     * @return the schedule or null if not found
+     * @see org.kuali.kra.committee.service.CommitteeService#getCommitteeSchedule(org.kuali.kra.committee.bo.Committee, java.lang.String)
      */
-    private CommitteeSchedule getCommitteeSchedule(Committee committee, String scheduleId) {
+    public CommitteeSchedule getCommitteeSchedule(Committee committee, String scheduleId) {
         List<CommitteeSchedule> schedules = committee.getCommitteeSchedules();
         for (CommitteeSchedule schedule : schedules) {
             if (StringUtils.equals(schedule.getScheduleId(), scheduleId)) {

@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.bo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -124,6 +125,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     private List<ProtocolAttachmentProtocol> attachmentProtocols;
     private List<ProtocolAttachmentPersonnel> attachmentPersonnels;
     
+    private List<ProtocolAction> protocolActions;
+    private List<ProtocolSubmission> protocolSubmissions;
     
     private ProtocolSubmission protocolSubmission;
     
@@ -147,6 +150,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         initializeProtocolLocation();
         protocolFundingSources = new ArrayList<ProtocolFundingSource>();        
         specialReviews = new ArrayList<ProtocolSpecialReview>();
+        setProtocolActions(new ArrayList<ProtocolAction>());
+        setProtocolSubmissions(new ArrayList<ProtocolSubmission>());
         // set statuscode default
         setProtocolStatusCode(Constants.DEFAULT_PROTOCOL_STATUS_CODE);
         this.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
@@ -827,7 +832,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         committee.setCommitteeName("Test By Kiltesh");
         this.protocolSubmission.setCommittee(committee);
         
-        this.protocolSubmission.setSubmissionDate(new java.sql.Date(new java.util.Date().getTime()));
+        this.protocolSubmission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
         
         ProtocolSubmissionType submissionType = new ProtocolSubmissionType();
         submissionType.setDescription("Initial Protocol Application for Approval ");
@@ -891,5 +896,21 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
 
     public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
         this.protocolSubmission = protocolSubmission;
+    }
+
+    public void setProtocolActions(List<ProtocolAction> protocolActions) {
+        this.protocolActions = protocolActions;
+    }
+
+    public List<ProtocolAction> getProtocolActions() {
+        return protocolActions;
+    }
+
+    public void setProtocolSubmissions(List<ProtocolSubmission> protocolSubmissions) {
+        this.protocolSubmissions = protocolSubmissions;
+    }
+
+    public List<ProtocolSubmission> getProtocolSubmissions() {
+        return protocolSubmissions;
     }
 }
