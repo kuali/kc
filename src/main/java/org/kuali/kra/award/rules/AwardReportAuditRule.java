@@ -47,7 +47,7 @@ public class AwardReportAuditRule implements DocumentAuditRule {
         AwardDocument awardDocument = (AwardDocument)document;
         auditErrors = new ArrayList<AuditError>();
         
-        boolean emptyAwardReportTerms = awardDocument.getAward().getAwardReportTerms().size() == ZERO;
+        boolean emptyAwardReportTerms = awardDocument.getAward().getAwardReportTermItems().size() == ZERO;
         if (emptyAwardReportTerms) {
             valid = false;
             addErrorToAuditErrors();

@@ -24,7 +24,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.bo.AwardFandaRate;
-import org.kuali.kra.award.bo.AwardReportTerm;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;

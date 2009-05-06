@@ -24,8 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.bo.AwardComment;
 import org.kuali.kra.award.bo.AwardFandaRate;
-import org.kuali.kra.award.bo.AwardReportTerm;
-import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.bo.AwardSpecialReview;
 import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
 import org.kuali.kra.award.bo.ReportClass;
@@ -35,6 +33,7 @@ import org.kuali.kra.award.contacts.AwardSponsorContactsBean;
 import org.kuali.kra.award.contacts.AwardUnitContactsBean;
 import org.kuali.kra.award.detailsdates.DetailsAndDatesFormHelper;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportsBean;
 import org.kuali.kra.award.paymentreports.paymentschedule.PaymentScheduleBean;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBean;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.ApprovedForeignTravelBean;
@@ -73,15 +72,13 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     
     private String lookupResultsBOClassName;
     private String lookupResultsSequenceNumber;
-    private int awardReportTermPanelNumber;
+    
     private AwardSpecialReview newAwardSpecialReview;
     private List<AwardSpecialReviewExemption> newSpecialReviewExemptions;
     private String[] newExemptionTypeCodes;
     private AwardComment newAwardCostShareComment;
     
-    private AwardFandaRate newAwardFandaRate;
-    private List<AwardReportTerm> newAwardReportTerm;
-    private List<AwardReportTermRecipient> newAwardReportTermRecipient;
+    private AwardFandaRate newAwardFandaRate;    
     private List<KeyLabelPair> reportClasses;
     
     private ApprovedEquipmentBean approvedEquipmentBean;
@@ -98,6 +95,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private ReportClass reportClassForPaymentsAndInvoices;
     private PaymentScheduleBean paymentScheduleBean;
     private ApprovedForeignTravelBean approvedForeignTravelBean;
+    private AwardReportsBean awardReportsBean;
+    
     
     private boolean auditActivated;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
@@ -127,9 +126,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     public void initialize() {
         initializeHeaderNavigationTabs();
         //newAwardCostShare = new AwardCostShare();
-        newAwardFandaRate = new AwardFandaRate();
-        setNewAwardReportTerm(new ArrayList<AwardReportTerm>());
-        setNewAwardReportTermRecipient(new ArrayList<AwardReportTermRecipient>()); 
+        newAwardFandaRate = new AwardFandaRate(); 
         //setNewSponsorTerms(new ArrayList<SponsorTerm>());
         newAwardSpecialReview = new AwardSpecialReview();
         newSpecialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
@@ -144,6 +141,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         unitContactsBean = new AwardUnitContactsBean(this);
         sponsorContactsBean = new AwardSponsorContactsBean(this);
         detailsAndDatesFormHelper = new DetailsAndDatesFormHelper(this);
+        awardReportsBean = new AwardReportsBean(this);
         //directFandADistributionFormHelper = new DirectFandADistributionFormHelper(this);
         awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         setPermissionsHelper(new PermissionsHelper(this));
@@ -254,22 +252,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     protected String getLockRegion() {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_AWARD;
     }
-    public List<AwardReportTerm> getNewAwardReportTerm() {
-        return newAwardReportTerm;
-    }
-
-    public void setNewAwardReportTerm(List<AwardReportTerm> newAwardReportTerm) {
-        this.newAwardReportTerm = newAwardReportTerm;
-    }
-
-    public List<AwardReportTermRecipient> getNewAwardReportTermRecipient() {
-        return newAwardReportTermRecipient;
-    }
-
-    public void setNewAwardReportTermRecipient(List<AwardReportTermRecipient> newAwardReportTermRecipient) {
-        this.newAwardReportTermRecipient = newAwardReportTermRecipient;
-    }
-
+    
     /**
      * Gets the lookupResultsBOClassName attribute. 
      * @return Returns the lookupResultsBOClassName.
@@ -372,15 +355,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     public AwardProjectPersonnelBean getProjectPersonnelBean() {
         return projectPersonnelBean;
     }
-    
-    public int getAwardReportTermPanelNumber() {
-        return awardReportTermPanelNumber;
-    }
-
-    public void setAwardReportTermPanelNumber(int awardReportTermPanelNumber) {
-        this.awardReportTermPanelNumber = awardReportTermPanelNumber;
-    }
-    
+        
     public List<KeyLabelPair> getReportClasses() {
         return reportClasses;
     }
@@ -544,5 +519,21 @@ public class AwardForm extends KraTransactionalDocumentFormBase
      */
     public void setAwardDirectFandADistributionBean(AwardDirectFandADistributionBean awardDirectFandADistributionBean) {
         this.awardDirectFandADistributionBean = awardDirectFandADistributionBean;
+    }
+
+    /**
+     * Gets the awardReportsBean attribute. 
+     * @return Returns the awardReportsBean.
+     */
+    public AwardReportsBean getAwardReportsBean() {
+        return awardReportsBean;
+    }
+
+    /**
+     * Sets the awardReportsBean attribute value.
+     * @param awardReportsBean The awardReportsBean to set.
+     */
+    public void setAwardReportsBean(AwardReportsBean awardReportsBean) {
+        this.awardReportsBean = awardReportsBean;
     }
 }

@@ -30,11 +30,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.AwardReportsService;
@@ -75,7 +75,7 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
         keyLabelPairList.add(new KeyLabelPair(3, "test3"));
         keyLabelPairList.add(new KeyLabelPair(4, "test4"));
         keyLabelPairList.add(new KeyLabelPair(5, "test5"));
-        award.getAwardReportTerms().add(new AwardReportTerm());
+        award.getAwardReportTermItems().add(new AwardReportTerm());
     }
 
     @After

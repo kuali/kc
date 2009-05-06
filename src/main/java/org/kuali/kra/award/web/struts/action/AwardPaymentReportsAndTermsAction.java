@@ -26,15 +26,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardReportTerm;
-import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.bo.AwardSponsorTerm;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
-import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardPaymentScheduleGenerationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -76,7 +73,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         AwardDocument awardDocument = (AwardDocument) awardForm.getAwardDocument();
         Award award = awardDocument.getAward();
         
-        getAwardPaymentScheduleGenerationService().generatePaymentSchedules(award, award.getAwardReportTerms());
+        getAwardPaymentScheduleGenerationService().generatePaymentSchedules(award, award.getAwardReportTermItems());
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
@@ -195,48 +192,14 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     public ActionForward addAwardReportTerm(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        AwardForm awardForm = (AwardForm) form;
-        AwardDocument awardDocument= (AwardDocument) awardForm.getAwardDocument();
-        
-        awardForm.setAwardReportTermPanelNumber(getReportClassCodeIndex(request));
-        
-        AwardReportTerm newAwardReportTerm = 
-            awardForm.getNewAwardReportTerm().get(getReportClassCodeIndex(request));
-        
-        newAwardReportTerm.setReportClassCode(getReportClass(request));
-        
-        if(getKualiRuleService().applyRules(new AddAwardReportTermEvent(Constants.EMPTY_STRING,
-                awardForm.getAwardDocument(), newAwardReportTerm))){            
-            awardDocument.getAward().setAwardReportTerms(addAwardReportTermToAward(
-                    awardDocument.getAward(),newAwardReportTerm));            
-            awardForm.getNewAwardReportTerm().set(
-                    getReportClassCodeIndex(request),new AwardReportTerm());            
-            awardForm.getNewAwardReportTermRecipient().add(new AwardReportTermRecipient());
-        }
+        ((AwardForm) form).getAwardReportsBean().addAwardReportTermItem(getReportClass(request), getReportClassCodeIndex(request));
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
     /**
      * 
-     * This method adds the newAwardReportTerm to the list of <code>AwardReportTerm</code> objects.
-     * @param award
-     * @param newAwardReportTerm
-     * @param reportClass
-     * @return
-     */
-    protected List<AwardReportTerm> addAwardReportTermToAward(Award award, AwardReportTerm newAwardReportTerm){        
-        newAwardReportTerm.setAward(award);
-        award.getAwardReportTerms().add(newAwardReportTerm);
-        return award.getAwardReportTerms();
-    }
-    
-    /**
-     * 
      * This method deletes a AwardReportTerm from the list of AwardReportTerm objects.
-     * This method also calls another method which fetches a list of recipients that need to be deleted;
-     * since all the recipients associated with the AwardReportTerm also need to be deleted and 
-     * then all those objects are deleted.
      * 
      * @param mapping
      * @param form
@@ -248,10 +211,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     public ActionForward deleteAwardReportTerm(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        AwardForm awardForm = (AwardForm) form;
-        AwardDocument awardDocument = awardForm.getAwardDocument();
-        
-        awardDocument.getAward().getAwardReportTerms().remove(getLineToDelete(request));
+        (((AwardForm) form).getAwardReportsBean()).deleteAwardReportTermItem(getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
@@ -285,76 +245,14 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     public ActionForward addRecipient(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        AwardForm awardForm = (AwardForm) form;
-        AwardDocument awardDocument = awardForm.getAwardDocument();
-        
-        awardForm.setAwardReportTermPanelNumber(getAwardReportTermIndex(request));
-        
-        AwardReportTermRecipient newAwardReportTermRecipient = awardForm.getNewAwardReportTermRecipient().
-                                                get(getAwardReportTermIndex(request));
-        
-        if(newAwardReportTermRecipient.getContactId()!=null){
-            populateContactTypeAndRolodex(newAwardReportTermRecipient);
-        }else if(newAwardReportTermRecipient.getRolodexId()!=null){
-            newAwardReportTermRecipient.setContactTypeCode(getKualiConfigurationService().getParameter(Constants
-                    .PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
-                    ,KeyConstants.CONTACT_TYPE_OTHER).getParameterValue());
-            
-        }
-        
-        if(getKualiRuleService().applyRules(new AddAwardReportTermRecipientEvent(Constants.EMPTY_STRING,
-                awardDocument, newAwardReportTermRecipient))){
-            awardDocument.getAward().getAwardReportTerms().get(getAwardReportTermIndex(request)).
-                    getAwardReportTermRecipients().add(newAwardReportTermRecipient);
-            awardForm.getNewAwardReportTermRecipient().set(getAwardReportTermIndex(request), 
-                                                            new AwardReportTermRecipient());
-        }
+        ((AwardForm) form).getAwardReportsBean().addAwardReportTermRecipientItem(getAwardReportTermIndex(request));
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
     /**
-     * Currently this method sets the rolodex id to a constant value 
-     * and sets the contactTypeCode to 1 of the 6 values listed in the switch case.
-     * These values correspond to the hard coded values finder - ContactTypeValuesFinder.
-     * 
-     * @param newAwardReportTermRecipient
-     */
-    //TODO: this method should be refactored once the contact functionality is complete
-    protected void populateContactTypeAndRolodex(
-            AwardReportTermRecipient newAwardReportTermRecipient){
-        
-        newAwardReportTermRecipient.setRolodexId(HARDCODED_ROLODEX_ID);
-        switch(newAwardReportTermRecipient.getContactId().intValue()){
-            case 1:
-                newAwardReportTermRecipient.setContactTypeCode("6");
-                break;
-            case 2:
-                newAwardReportTermRecipient.setContactTypeCode("5");
-                break;
-            case 3:
-                newAwardReportTermRecipient.setContactTypeCode("4");
-                break;
-            case 4:
-                newAwardReportTermRecipient.setContactTypeCode("3");
-                break;
-            case 5:
-                newAwardReportTermRecipient.setContactTypeCode("2");
-                break;
-            case 6:
-                newAwardReportTermRecipient.setContactTypeCode("9");
-                break;
-            default:                
-                break;
-        }
-    }
-    
-    /**
      * 
      * This method deletes a recipient.
-     * It reads the recipientsSize from the request; it deletes a AwardReportTerm object from the list
-     * if the size is more than 1, otherwise it sets the contactTypeCode, rolodexId and numberOfCopies
-     * to null.
      * 
      * @param mapping
      * @param form
@@ -365,10 +263,9 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */
     public ActionForward deleteRecipient(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm) form;
-        AwardDocument awardDocument = awardForm.getAwardDocument();
-        awardDocument.getAward().getAwardReportTerms().get(getAwardReportTermIndex(request)).
-            getAwardReportTermRecipients().remove(getLineToDelete(request));
+        
+        (((AwardForm) form).getAwardReportsBean()).deleteAwardReportTermRecipientItem(getAwardReportTermIndex(request), getLineToDelete(request));
+        
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
@@ -389,10 +286,10 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         AwardDocument awardDocument = awardForm.getAwardDocument();
         
         if(clearRolodexRequestIsNotForAddLine(getLineToDelete(request))){
-            clearRolodexIdField(awardDocument.getAward().getAwardReportTerms().get(getAwardReportTermIndex(
+            clearRolodexIdField(awardDocument.getAward().getAwardReportTermItems().get(getAwardReportTermIndex(
                     request)).getAwardReportTermRecipients().get(getLineToDelete(request)));
         }else{
-            clearRolodexIdField(awardForm.getNewAwardReportTermRecipient().get(getAwardReportTermIndex(
+            clearRolodexIdField(awardForm.getAwardReportsBean().getNewAwardReportTermRecipients().get(getAwardReportTermIndex(
                     request)));
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
@@ -591,11 +488,11 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         List<AwardReportTermRecipient> persistableObjects = new ArrayList<AwardReportTermRecipient>();
         List<String> referenceObjectNames = new ArrayList<String>();
         
-        for(AwardReportTermRecipient awardReportTermRecipient : awardForm.getNewAwardReportTermRecipient()){
+        for(AwardReportTermRecipient awardReportTermRecipient : awardForm.getAwardReportsBean().getNewAwardReportTermRecipients()){
             persistableObjects.add(awardReportTermRecipient);
             referenceObjectNames.add(ROLODEX);            
         }
-        for(AwardReportTerm awardReportTerm : awardDocument.getAward().getAwardReportTerms()){
+        for(AwardReportTerm awardReportTerm : awardDocument.getAward().getAwardReportTermItems()){
             for(AwardReportTermRecipient awardReportTermRecipient : awardReportTerm.getAwardReportTermRecipients()){
                 persistableObjects.add(awardReportTermRecipient);
                 referenceObjectNames.add(ROLODEX);

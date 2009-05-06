@@ -28,6 +28,7 @@ import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
@@ -40,7 +41,6 @@ import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -112,8 +112,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 //    private Map<Integer, AwardComment> commentMap;
     private Map<String, AwardComment> commentMap;
     private List<AwardCostShare> awardCostShares;
-    private List<AwardFandaRate> awardFandaRate;
-    private List<AwardReportTerm> awardReportTerms;
+    private List<AwardFandaRate> awardFandaRate;    
+    private List<AwardReportTerm> awardReportTermItems;
     private List<AwardSponsorTerm> awardSponsorTerms;
     private List<AwardDirectFandADistribution> awardDirectFandADistributions;
 
@@ -1322,22 +1322,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setAwardFandaRate(List<AwardFandaRate> awardFandaRate) {
         this.awardFandaRate = awardFandaRate;
     }
-    
-    /**
-     * This method...
-     * @return
-     */
-    public List<AwardReportTerm> getAwardReportTerms() {
-        return awardReportTerms;
-    }
-
-    /**
-     * This method...
-     * @param awardReportTerms
-     */
-    public void setAwardReportTerms(List<AwardReportTerm> awardReportTerms) {
-        this.awardReportTerms = awardReportTerms;
-    }
 
     /**
      * Gets the keywords attribute. 
@@ -1418,6 +1402,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         awardSponsorContact.setAward(this);
     }
     
+    public void add(AwardReportTerm awardReportTerm) {        
+        awardReportTermItems.add(awardReportTerm);
+        awardReportTerm.setAward(this);
+    }
+    
     /**
      * Add an Award Unit or Central Administration contact
      * @param newAwardApprovedEquipment
@@ -1462,8 +1451,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         setAwardCostShares(new ArrayList<AwardCostShare>());
         setAwardComments(new ArrayList<AwardComment>());
         awardApprovedSubawards = new ArrayList<AwardApprovedSubaward>();
-        setAwardFandaRate(new ArrayList<AwardFandaRate>());
-        setAwardReportTerms(new ArrayList<AwardReportTerm>());
+        setAwardFandaRate(new ArrayList<AwardFandaRate>());      
+        setAwardReportTermItems(new ArrayList<AwardReportTerm>()) ;
         keywords = new ArrayList<AwardScienceKeyword>();
         specialReviews = new ArrayList<AwardSpecialReview>();
         approvedEquipmentItems = new ArrayList<AwardApprovedEquipment>();
@@ -1805,5 +1794,21 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
     
     public boolean isNew(){
         return awardId == null;
+    }
+
+    /**
+     * Gets the awardReportTermItems attribute. 
+     * @return Returns the awardReportTermItems.
+     */
+    public List<AwardReportTerm> getAwardReportTermItems() {
+        return awardReportTermItems;
+    }
+
+    /**
+     * Sets the awardReportTermItems attribute value.
+     * @param awardReportTermItems The awardReportTermItems to set.
+     */
+    public void setAwardReportTermItems(List<AwardReportTerm> awardReportTermItems) {
+        this.awardReportTermItems = awardReportTermItems;
     }
 }
