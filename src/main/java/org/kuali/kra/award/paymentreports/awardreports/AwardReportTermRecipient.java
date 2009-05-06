@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.award.bo;
+package org.kuali.kra.award.paymentreports.awardreports;
 
 import java.util.LinkedHashMap;
+
+import org.kuali.kra.award.bo.AwardReportTermRecipientBase;
 
 /**
  * 
@@ -209,59 +211,9 @@ public class AwardReportTermRecipient extends AwardReportTermRecipientBase {
         this.contactId = contactId;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((awardReportTerm == null) ? 0 : awardReportTerm.hashCode());
-        result = prime * result + ((awardReportTermId == null) ? 0 : awardReportTermId.hashCode());
-        result = prime * result + ((awardReportTermRecipientId == null) ? 0 : awardReportTermRecipientId.hashCode());
-        result = prime * result + ((contactId == null) ? 0 : contactId.hashCode());
-        return result;
-    }
+    
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        AwardReportTermRecipient other = (AwardReportTermRecipient) obj;
-        if (awardReportTerm == null) {
-            if (other.awardReportTerm != null)
-                return false;
-        }
-        else if (!awardReportTerm.equals(other.awardReportTerm))
-            return false;
-        if (awardReportTermId == null) {
-            if (other.awardReportTermId != null)
-                return false;
-        }
-        else if (!awardReportTermId.equals(other.awardReportTermId))
-            return false;
-        if (awardReportTermRecipientId == null) {
-            if (other.awardReportTermRecipientId != null)
-                return false;
-        }
-        else if (!awardReportTermRecipientId.equals(other.awardReportTermRecipientId))
-            return false;
-        if (contactId == null) {
-            if (other.contactId != null)
-                return false;
-        }
-        else if (!contactId.equals(other.contactId))
-            return false;
-        return true;
-    }
-
+    
    
     
 }

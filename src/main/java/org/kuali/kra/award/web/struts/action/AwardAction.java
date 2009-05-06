@@ -24,10 +24,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.bo.AwardReportTerm;
-import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
@@ -268,9 +268,9 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
                                                     awardForm.getAwardDocument().getAward());
         awardForm.setReportClasses((List<KeyLabelPair>) initializedObjects.get(
                                       Constants.REPORT_CLASSES_KEY_FOR_INITIALIZE_OBJECTS));
-        awardForm.setNewAwardReportTerm((List<AwardReportTerm>) initializedObjects.get(
+        awardForm.getAwardReportsBean().setNewAwardReportTerms((List<AwardReportTerm>) initializedObjects.get(
                                           Constants.NEW_AWARD_REPORT_TERMS_LIST_KEY_FOR_INITIALIZE_OBJECTS));
-        awardForm.setNewAwardReportTermRecipient((List<AwardReportTermRecipient>) initializedObjects.get(
+        awardForm.getAwardReportsBean().setNewAwardReportTermRecipients((List<AwardReportTermRecipient>) initializedObjects.get(
                                                     Constants.NEW_AWARD_REPORT_TERM_RECIPIENTS_LIST_KEY_FOR_INITIALIZE_OBJECTS));
         awardForm.setReportClassForPaymentsAndInvoices((ReportClass) initializedObjects.get(
                                                         Constants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL));

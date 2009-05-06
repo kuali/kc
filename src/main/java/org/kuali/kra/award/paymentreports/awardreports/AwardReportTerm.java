@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.award.bo;
+package org.kuali.kra.award.paymentreports.awardreports;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.bo.AwardReportTermBase;
 
 
 /**
@@ -157,10 +160,7 @@ public class AwardReportTerm extends AwardReportTermBase {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((award == null) ? 0 : award.hashCode());
         result = prime * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
-        result = prime * result + ((awardReportTermId == null) ? 0 : awardReportTermId.hashCode());
-        result = prime * result + ((awardReportTermRecipients == null) ? 0 : awardReportTermRecipients.hashCode());
         result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
         return result;
     }
@@ -169,46 +169,16 @@ public class AwardReportTerm extends AwardReportTermBase {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(Object obj) {        
+        if (this == obj){
             return true;
-        if (!super.equals(obj))
+        }   
+        if (!super.equals(obj)){
             return false;
-        if (getClass() != obj.getClass())
+        }   
+        if (!(obj instanceof AwardReportTerm)){
             return false;
-        AwardReportTerm other = (AwardReportTerm) obj;
-        if (award == null) {
-            if (other.award != null)
-                return false;
-        }
-        else if (!award.equals(other.award))
-            return false;
-        if (awardNumber == null) {
-            if (other.awardNumber != null)
-                return false;
-        }
-        else if (!awardNumber.equals(other.awardNumber))
-            return false;
-        if (awardReportTermId == null) {
-            if (other.awardReportTermId != null)
-                return false;
-        }
-        else if (!awardReportTermId.equals(other.awardReportTermId))
-            return false;
-        if (awardReportTermRecipients == null) {
-            if (other.awardReportTermRecipients != null)
-                return false;
-        }
-        else if (!awardReportTermRecipients.equals(other.awardReportTermRecipients))
-            return false;
-        if (sequenceNumber == null) {
-            if (other.sequenceNumber != null)
-                return false;
-        }
-        else if (!sequenceNumber.equals(other.sequenceNumber))
-            return false;
+        }   
         return true;
-    }
-
-   
+    }   
 }
