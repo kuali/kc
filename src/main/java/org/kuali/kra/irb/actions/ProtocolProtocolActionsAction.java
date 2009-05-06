@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.web.struts.action;
+package org.kuali.kra.irb.actions;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
@@ -29,9 +29,10 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.bo.ProtocolReviewType;
 import org.kuali.kra.irb.rule.event.ProtocolSubmitActionEvent;
-import org.kuali.kra.irb.service.ProtocolCopyService;
+import org.kuali.kra.irb.web.struts.action.ProtocolAction;
 import org.kuali.kra.irb.web.struts.bean.ProtocolSubmitAction;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;

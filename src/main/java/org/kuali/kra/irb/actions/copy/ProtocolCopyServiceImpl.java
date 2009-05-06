@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.service.impl;
+package org.kuali.kra.irb.actions.copy;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,7 +23,6 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.service.ProtocolAuthorizationService;
-import org.kuali.kra.irb.service.ProtocolCopyService;
 import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.SystemAuthorizationService;
@@ -59,7 +58,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolCopyServiceImpl implements ProtocolCopyService {
+class ProtocolCopyServiceImpl implements ProtocolCopyService {
     
     private DocumentService documentService;
     private SystemAuthorizationService systemAuthorizationService;
@@ -90,7 +89,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
     }
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolCopyService#copyProtocol(org.kuali.kra.irb.document.ProtocolDocument)
+     * @see org.kuali.kra.irb.actions.copy.ProtocolCopyService#copyProtocol(org.kuali.kra.irb.document.ProtocolDocument)
      */
     public String copyProtocol(ProtocolDocument srcDoc) throws Exception {
        
