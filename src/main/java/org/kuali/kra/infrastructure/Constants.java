@@ -297,6 +297,7 @@ public interface Constants {
     public static final String MAPPING_AWARD_BASIC = "basic";
     public static final String MAPPING_AWARD_HOME_PAGE = "home";
     public static final String MAPPING_AWARD_CONTACTS_PAGE = "contacts";
+    public static final String MAPPING_AWARD_COMMITMENTS_PAGE = "commitments";
     public static final String MAPPING_AWARD_TIME_AND_MONEY_PAGE = "timeAndMoney";
     public static final String MAPPING_AWARD_PAYMENT_REPORTS_AND_TERMS_PAGE = "paymentReportsAndTerms";
     public static final String MAPPING_AWARD_SPECIAL_REVIEW_PAGE = "specialReview";
