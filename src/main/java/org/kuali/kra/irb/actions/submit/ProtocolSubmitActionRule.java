@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rules;
+package org.kuali.kra.irb.actions.submit;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,21 +23,15 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.bo.ProtocolReviewType;
-import org.kuali.kra.irb.bo.ProtocolReviewerType;
-import org.kuali.kra.irb.bo.ProtocolSubmissionType;
 import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.rule.ExecuteProtocolActionRule;
-import org.kuali.kra.irb.web.struts.bean.ProtocolReviewerBean;
-import org.kuali.kra.irb.web.struts.bean.ProtocolSubmitAction;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class ProtocolActionRule extends ResearchDocumentRuleBase implements ExecuteProtocolActionRule {
+public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implements ExecuteProtocolSubmitActionRule {
 
-    public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitAction submitAction) {
+    public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitActionBean submitAction) {
         boolean isValid = true;
         
         String submissionTypeCode = submitAction.getSubmissionTypeCode();

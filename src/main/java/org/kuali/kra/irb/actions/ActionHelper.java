@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.web.struts.form;
+package org.kuali.kra.irb.actions;
 
 import java.io.Serializable;
 
-import org.kuali.kra.irb.web.struts.bean.ProtocolSubmitAction;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionBean;
+import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
 /**
  * The form helper class for the Protocol Actions tab.
@@ -30,7 +31,7 @@ public class ActionHelper implements Serializable {
      */
     private ProtocolForm form;
     
-    private ProtocolSubmitAction protocolSubmitAction;
+    private ProtocolSubmitActionBean protocolSubmitAction;
    
     /**
      * Constructs an ActionHelper.
@@ -38,14 +39,14 @@ public class ActionHelper implements Serializable {
      */
     public ActionHelper(ProtocolForm form) {
         this.form = form;
-        protocolSubmitAction = new ProtocolSubmitAction(this);
+        protocolSubmitAction = new ProtocolSubmitActionBean(this);
     }
     
     public void prepareView() {
         protocolSubmitAction.prepareView();
     }
     
-    public ProtocolSubmitAction getProtocolSubmitAction() {
+    public ProtocolSubmitActionBean getProtocolSubmitAction() {
         return protocolSubmitAction;
     }
 

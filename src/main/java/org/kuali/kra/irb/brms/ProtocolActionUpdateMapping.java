@@ -16,8 +16,8 @@
 package org.kuali.kra.irb.brms;
 
 import org.kuali.kra.drools.brms.FactBean;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.bo.ProtocolSubmissionStatus;
 
 public class ProtocolActionUpdateMapping implements FactBean {
     

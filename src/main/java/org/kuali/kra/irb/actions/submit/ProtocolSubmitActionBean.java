@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.web.struts.bean;
+package org.kuali.kra.irb.actions.submit;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,11 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.bo.ExemptStudiesCheckListItem;
-import org.kuali.kra.irb.bo.ExpeditedReviewCheckListItem;
-import org.kuali.kra.irb.bo.ProtocolReviewType;
-import org.kuali.kra.irb.service.CheckListService;
-import org.kuali.kra.irb.web.struts.form.ActionHelper;
+import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -35,7 +31,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * in the Submit for Review Action.
  */
 @SuppressWarnings("unchecked")
-public class ProtocolSubmitAction implements Serializable{
+public class ProtocolSubmitActionBean implements Serializable{
     
     private ActionHelper actionHelper;
     private String submissionTypeCode = "";
@@ -58,7 +54,7 @@ public class ProtocolSubmitAction implements Serializable{
     private int checkListItemDescriptionIndex = 0;
     private String selectedProtocolReviewTypeCode = null;
     
-    public ProtocolSubmitAction(ActionHelper actionHelper) {
+    public ProtocolSubmitActionBean(ActionHelper actionHelper) {
         this.actionHelper = actionHelper;
     }
     

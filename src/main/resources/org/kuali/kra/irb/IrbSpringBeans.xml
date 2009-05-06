@@ -169,11 +169,11 @@
         </property>
 	</bean>	
 	
-	<bean id="checkListService" class="org.kuali.kra.irb.service.impl.CheckListServiceImpl">
+	<bean id="checkListService" class="org.kuali.kra.irb.actions.submit.CheckListServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
-	<bean id="protocolActionAjaxService" class="org.kuali.kra.irb.service.impl.ProtocolActionAjaxServiceImpl">
+	<bean id="protocolActionAjaxService" class="org.kuali.kra.irb.actions.submit.ProtocolActionAjaxServiceImpl">
 		<property name="committeeService" ref="committeeService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>

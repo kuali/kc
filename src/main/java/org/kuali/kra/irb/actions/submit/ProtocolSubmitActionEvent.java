@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rule.event;
+package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.rule.ExecuteProtocolActionRule;
-import org.kuali.kra.irb.web.struts.bean.ProtocolSubmitAction;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.rule.BusinessRule;
 
@@ -26,9 +24,9 @@ public class ProtocolSubmitActionEvent  extends KraDocumentEventBase {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolSubmitActionEvent.class);
     
-    private ProtocolSubmitAction submitAction;
+    private ProtocolSubmitActionBean submitAction;
     
-    public ProtocolSubmitActionEvent(ProtocolDocument document, ProtocolSubmitAction submitAction) {
+    public ProtocolSubmitActionEvent(ProtocolDocument document, ProtocolSubmitActionBean submitAction) {
         super("Submitting for review for document " + getDocumentId(document), "", document);
         this.submitAction = submitAction;
         logEvent();
@@ -51,10 +49,10 @@ public class ProtocolSubmitActionEvent  extends KraDocumentEventBase {
     }
 
     public Class getRuleInterfaceClass() {
-        return ExecuteProtocolActionRule.class;
+        return ExecuteProtocolSubmitActionRule.class;
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((ExecuteProtocolActionRule) rule).processSubmitAction((ProtocolDocument) getDocument(), submitAction);
+        return ((ExecuteProtocolSubmitActionRule) rule).processSubmitAction((ProtocolDocument) getDocument(), submitAction);
     }
 }

@@ -26,6 +26,9 @@ import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionBean;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.document.ProtocolDocument;
@@ -44,14 +47,12 @@ import org.kuali.kra.irb.rule.AddProtocolLocationRule;
 import org.kuali.kra.irb.rule.AddProtocolParticipantRule;
 import org.kuali.kra.irb.rule.AddProtocolReferenceRule;
 import org.kuali.kra.irb.rule.AddProtocolUnitRule;
-import org.kuali.kra.irb.rule.ExecuteProtocolActionRule;
 import org.kuali.kra.irb.rule.event.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolLocationEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolUnitEvent;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
-import org.kuali.kra.irb.web.struts.bean.ProtocolSubmitAction;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.SpecialReviewRule;
@@ -71,7 +72,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, AddProtocolFundingSourceRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, SpecialReviewRule<ProtocolSpecialReview>, BusinessRuleInterface, ExecuteProtocolActionRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, AddProtocolFundingSourceRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, SpecialReviewRule<ProtocolSpecialReview>, BusinessRuleInterface, ExecuteProtocolSubmitActionRule {
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId";
@@ -363,9 +364,9 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     }
 
     /**
-     * @see org.kuali.kra.irb.rule.ExecuteProtocolActionRule#processSubmitAction(org.kuali.kra.irb.document.ProtocolDocument, org.kuali.kra.irb.web.struts.bean.ProtocolSubmitAction)
+     * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.irb.document.ProtocolDocument, org.kuali.kra.irb.actions.submit.ProtocolSubmitActionBean)
      */
-    public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitAction submitAction) {
-        return new ProtocolActionRule().processSubmitAction(document, submitAction);
+    public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitActionBean submitAction) {
+        return new ProtocolSubmitActionRule().processSubmitAction(document, submitAction);
     }
 }

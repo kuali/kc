@@ -13,21 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.service.impl;
+package org.kuali.kra.irb.actions.submit;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kra.irb.bo.ExemptStudiesCheckListItem;
-import org.kuali.kra.irb.bo.ExpeditedReviewCheckListItem;
-import org.kuali.kra.irb.service.CheckListService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * The implementation of the Check List Service.
  */
-public class CheckListServiceImpl implements CheckListService {
+class CheckListServiceImpl implements CheckListService {
 
     private BusinessObjectService businessObjectService;
     
@@ -40,7 +37,7 @@ public class CheckListServiceImpl implements CheckListService {
     }
     
     /**
-     * @see org.kuali.kra.irb.service.CheckListService#getExpeditedReviewCheckList()
+     * @see org.kuali.kra.irb.actions.submit.CheckListService#getExpeditedReviewCheckList()
      */
     @SuppressWarnings("unchecked")
     public List<ExpeditedReviewCheckListItem> getExpeditedReviewCheckList() { 
@@ -51,7 +48,7 @@ public class CheckListServiceImpl implements CheckListService {
     }
 
     /**
-     * @see org.kuali.kra.irb.service.CheckListService#getExemptStudiesCheckList()
+     * @see org.kuali.kra.irb.actions.submit.CheckListService#getExemptStudiesCheckList()
      */
     @SuppressWarnings("unchecked")
     public List<ExemptStudiesCheckListItem> getExemptStudiesCheckList() {
