@@ -91,7 +91,7 @@
             <param name="beanName" value="protocolFundingSourceService" />
             <include method="calculateProtocolFundingSource" />
         </create>
-        <convert converter="bean" match="org.kuali.kra.irb.bo.ProtocolFundingSource">
+        <convert converter="bean" match="org.kuali.kra.irb.protocol.ProtocolFundingSource">
             <param name="include" value="fundingSourceTitle,fundingSourceName" />            
         </convert>
 		<create creator="spring" javascript="AwardReportsService">
