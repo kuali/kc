@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implements ExecuteProtocolSubmitActionRule {
 
-    public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitActionBean submitAction) {
+    public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitAction submitAction) {
         boolean isValid = true;
         
         String submissionTypeCode = submitAction.getSubmissionTypeCode();

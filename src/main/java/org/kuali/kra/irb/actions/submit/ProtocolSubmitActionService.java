@@ -15,10 +15,17 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.kra.irb.bo.Protocol;
 
-public interface ExecuteProtocolSubmitActionRule extends BusinessRule {
+/**
+ * Handles the processing of submitting a protocol to the IRB office.
+ */
+public interface ProtocolSubmitActionService {
 
-    public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitAction submitAction);
+    /**
+     * Submit a protocol to the IRB office for review.
+     * @param protocol the protocol
+     * @param submitAction the submission data
+     */
+    public void submitToIrbForReview(Protocol protocol, ProtocolSubmitAction submitAction);
 }
