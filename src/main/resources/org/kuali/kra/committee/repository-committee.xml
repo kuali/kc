@@ -129,7 +129,7 @@
             <foreignkey field-ref="committeeTypeCode" />
          </reference-descriptor>
          
-         <reference-descriptor name="reviewType" class-ref="org.kuali.kra.irb.bo.ProtocolReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
+         <reference-descriptor name="reviewType" class-ref="org.kuali.kra.irb.actions.submit.ProtocolReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="reviewTypeCode" />
          </reference-descriptor>
          

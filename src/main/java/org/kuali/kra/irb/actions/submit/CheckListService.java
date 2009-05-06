@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.service;
+package org.kuali.kra.irb.actions.submit;
 
 import java.util.List;
 
-import org.kuali.kra.irb.bo.ExemptStudiesCheckListItem;
-import org.kuali.kra.irb.bo.ExpeditedReviewCheckListItem;
 
 /**
  * The Check List Service is responsible for handling
