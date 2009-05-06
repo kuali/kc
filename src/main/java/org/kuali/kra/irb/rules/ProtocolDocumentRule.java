@@ -30,7 +30,6 @@ import org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.noteattachment.SaveProtocolAttachmentPersonnelRuleImpl;
 import org.kuali.kra.irb.noteattachment.SaveProtocolAttachmentProtocolRuleImpl;
@@ -42,15 +41,20 @@ import org.kuali.kra.irb.personnel.ProtocolPersonnelAuditRule;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelRule;
 import org.kuali.kra.irb.personnel.SaveProtocolPersonnelEvent;
 import org.kuali.kra.irb.personnel.SaveProtocolPersonnelRule;
-import org.kuali.kra.irb.rule.AddProtocolFundingSourceRule;
-import org.kuali.kra.irb.rule.AddProtocolLocationRule;
-import org.kuali.kra.irb.rule.AddProtocolParticipantRule;
-import org.kuali.kra.irb.rule.AddProtocolReferenceRule;
+import org.kuali.kra.irb.protocol.AddProtocolFundingSourceEvent;
+import org.kuali.kra.irb.protocol.AddProtocolFundingSourceRule;
+import org.kuali.kra.irb.protocol.AddProtocolLocationEvent;
+import org.kuali.kra.irb.protocol.AddProtocolLocationRule;
+import org.kuali.kra.irb.protocol.AddProtocolParticipantEvent;
+import org.kuali.kra.irb.protocol.AddProtocolParticipantRule;
+import org.kuali.kra.irb.protocol.AddProtocolReferenceEvent;
+import org.kuali.kra.irb.protocol.AddProtocolReferenceRule;
+import org.kuali.kra.irb.protocol.ProtocolFundingSourceRule;
+import org.kuali.kra.irb.protocol.ProtocolLocationRule;
+import org.kuali.kra.irb.protocol.ProtocolParticipant;
+import org.kuali.kra.irb.protocol.ProtocolParticipantRule;
+import org.kuali.kra.irb.protocol.ProtocolReferenceRule;
 import org.kuali.kra.irb.rule.AddProtocolUnitRule;
-import org.kuali.kra.irb.rule.event.AddProtocolFundingSourceEvent;
-import org.kuali.kra.irb.rule.event.AddProtocolLocationEvent;
-import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
-import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolUnitEvent;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.rule.BusinessRuleInterface;
@@ -230,7 +234,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     }
 
     /**
-     * @see org.kuali.kra.irb.rule.AddProtocolParticipantRule#processAddParticipantBusinessRules(org.kuali.kra.irb.document.ProtocolDocument, org.kuali.kra.irb.bo.ProtocolParticipant)
+     * @see org.kuali.kra.irb.protocol.AddProtocolParticipantRule#processAddParticipantBusinessRules(org.kuali.kra.irb.document.ProtocolDocument, org.kuali.kra.irb.protocol.ProtocolParticipant)
      */
     public boolean processAddProtocolParticipantBusinessRules(AddProtocolParticipantEvent addProtocolParticipantEvent) {
         return new ProtocolParticipantRule().processAddProtocolParticipantBusinessRules(addProtocolParticipantEvent);
@@ -243,7 +247,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     }
 
     /**
-     * @see org.kuali.kra.irb.rule.AddProtocolLocationRule#processAddProtocolLocationBusinessRules(org.kuali.kra.irb.rule.event.AddProtocolLocationEvent)
+     * @see org.kuali.kra.irb.protocol.AddProtocolLocationRule#processAddProtocolLocationBusinessRules(org.kuali.kra.irb.protocol.AddProtocolLocationEvent)
      */
     public boolean processAddProtocolLocationBusinessRules(AddProtocolLocationEvent addProtocolLocationEvent) {
 
@@ -270,7 +274,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     }
     
     /**
-     * @see org.kuali.kra.irb.rule.AddProtocolFundingSourceRule#processAddProtocolFundingSourceBusinessRules(org.kuali.kra.irb.rule.event.AddProtocolFundingSourceEvent)
+     * @see org.kuali.kra.irb.protocol.AddProtocolFundingSourceRule#processAddProtocolFundingSourceBusinessRules(org.kuali.kra.irb.protocol.AddProtocolFundingSourceEvent)
      */
     public boolean processAddProtocolFundingSourceBusinessRules(AddProtocolFundingSourceEvent addProtocolFundingSourceEvent) {
 
