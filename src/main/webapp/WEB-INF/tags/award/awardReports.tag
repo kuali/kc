@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:tab tabTitle="Reports" defaultOpen="false" tabErrorKey="document.awardList[0].awardReportTerms*" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
+<kul:tab tabTitle="Reports" defaultOpen="false" tabErrorKey="document.awardList[0].awardReportTermItems*" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
     	<h3>
     		<span class="subhead-left">Report Classes</span>
