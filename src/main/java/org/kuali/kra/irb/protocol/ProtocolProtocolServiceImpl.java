@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -34,7 +34,7 @@ class ProtocolProtocolServiceImpl implements ProtocolProtocolService{
     
     /**
      * 
-     * @see org.kuali.kra.irb.protocol.ProtocolProtocolService#loadProtocolForEdit(org.kuali.kra.irb.document.ProtocolDocument, java.lang.String)
+     * @see org.kuali.kra.irb.protocol.ProtocolProtocolService#loadProtocolForEdit(org.kuali.kra.irb.ProtocolDocument, java.lang.String)
      */
     @SuppressWarnings("unchecked") 
     public void loadProtocolForEdit(ProtocolDocument document, String protocolNumber) {

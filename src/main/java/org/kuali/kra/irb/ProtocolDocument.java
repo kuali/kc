@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.irb.document;
+package org.kuali.kra.irb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,8 @@ import java.util.List;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.service.ProtocolAuthorizationService;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 

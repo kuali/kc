@@ -27,9 +27,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.service.ProtocolAuthorizationService;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;

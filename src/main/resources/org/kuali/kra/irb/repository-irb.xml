@@ -18,7 +18,7 @@
 
 <descriptor-repository version="1.0">
 
-	<class-descriptor class="org.kuali.kra.irb.document.ProtocolDocument" table="PROTOCOL_DOCUMENT">
+	<class-descriptor class="org.kuali.kra.irb.ProtocolDocument" table="PROTOCOL_DOCUMENT">
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -58,7 +58,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<reference-descriptor name="protocolDocument" class-ref="org.kuali.kra.irb.document.ProtocolDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+    	<reference-descriptor name="protocolDocument" class-ref="org.kuali.kra.irb.ProtocolDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
 		<reference-descriptor name="protocolStatus" class-ref="org.kuali.kra.irb.bo.ProtocolStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -119,7 +119,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolUnit" table="PROTOCOL_UNITS">
+	<class-descriptor class="org.kuali.kra.irb.personnel.ProtocolUnit" table="PROTOCOL_UNITS">
 		<field-descriptor name="protocolUnitsId" column="PROTOCOL_UNITS_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true"/>
 		<field-descriptor name="protocolPersonId" column="PROTOCOL_PERSON_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -386,7 +386,7 @@
 		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.irb.personnel.ProtocolPersonRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rolodexId"/>
 		</reference-descriptor>
-		<collection-descriptor name="protocolUnits" proxy="true" element-class-ref="org.kuali.kra.irb.bo.ProtocolUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="protocolUnits" proxy="true" element-class-ref="org.kuali.kra.irb.personnel.ProtocolUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="protocolPersonId"/>
 		</collection-descriptor>
 		

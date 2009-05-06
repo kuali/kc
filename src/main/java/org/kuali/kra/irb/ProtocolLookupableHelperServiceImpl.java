@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.lookup;
+package org.kuali.kra.irb;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.dao.ProtocolDao;
-import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -34,10 +34,10 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
-public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {    
+class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {    
 
-    private static final String RESEARCH_AREA_CLASS_PATH = "org.kuali.kra.bo.ResearchArea";
-    private static final String ORGANIZATION_CLASS_PATH = "org.kuali.kra.bo.Organization";
+    private static final String RESEARCH_AREA_CLASS_PATH = ResearchArea.class.getName();
+    private static final String ORGANIZATION_CLASS_PATH = Organization.class.getName();
     ProtocolDao protocolDao;
 
     @Override
@@ -127,14 +127,17 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
         return super.getInquiryUrl(inqBo, inqPropertyName);
     }
 
+    @Override
     protected String getHtmlAction() {
         return "protocolProtocol.do";
     }
     
+    @Override
     protected String getDocumentTypeName() {
         return "ProtocolDocument";
     }
     
+    @Override
     protected String getKeyFieldName() {
         return "protocolNumber";
     }

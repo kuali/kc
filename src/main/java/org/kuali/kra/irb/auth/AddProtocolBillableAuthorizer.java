@@ -13,22 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rule;
+package org.kuali.kra.irb.auth;
 
-import org.kuali.kra.irb.rule.event.AddProtocolUnitEvent;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.irb.bo.Protocol;
 
-/**
- * This class adds rule for adding new <code>ProtocolPerson</code> object
- */
-public interface AddProtocolUnitRule extends BusinessRule {
+
+public class AddProtocolBillableAuthorizer extends ProtocolAuthorizer {
 
     /**
-     * This method evaluates to true if ProtocolUnit objects satisfy required fields and business rules.
-     * Protocol unit number is mandatory.
-     * @param addProtocolPersonnelEvent
-     * @return boolean true for valid object and false for invalid entry
+     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
-    public boolean processAddProtocolUnitBusinessRules(AddProtocolUnitEvent addProtocolUnitEvent);
+    @Override
+    public boolean isAuthorized(String username, ProtocolTask task) {
+        Protocol protocol = task.getProtocol();
+        return hasPermission(username, protocol, PermissionConstants.EDIT_PROTOCOL_BILLABLE);
+    }
 
 }

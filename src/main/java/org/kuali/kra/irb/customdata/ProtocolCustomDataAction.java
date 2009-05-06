@@ -25,8 +25,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.web.struts.action.ProtocolAction;
-import org.kuali.kra.irb.web.struts.form.ProtocolForm;
+import org.kuali.kra.irb.ProtocolAction;
+import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
@@ -59,7 +59,7 @@ public class ProtocolCustomDataAction extends ProtocolAction {
     }
     
     /**
-     * @see org.kuali.kra.irb.web.struts.action.ProtocolAction#isValidSave(org.kuali.kra.irb.web.struts.form.ProtocolForm)
+     * @see org.kuali.kra.irb.ProtocolAction#isValidSave(org.kuali.kra.irb.ProtocolForm)
      */
     @Override
     protected boolean isValidSave(ProtocolForm protocolForm) {

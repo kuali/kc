@@ -17,8 +17,8 @@ package org.kuali.kra.irb.actions;
 
 import java.io.Serializable;
 
+import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionBean;
-import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
 /**
  * The form helper class for the Protocol Actions tab.

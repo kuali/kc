@@ -18,7 +18,8 @@ package org.kuali.kra.irb.protocol;
 import java.util.HashMap;
 
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.lookup.ProtocolLookupableHelperServiceImpl;
+import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+
 
 public interface ProtocolFundingSourceService {
 
@@ -53,7 +54,7 @@ public interface ProtocolFundingSourceService {
     
     public String updateLookupParameter(String parameter, String boClassName, String fieldConversions);
     
-    public ProtocolLookupableHelperServiceImpl getProtocolLookupableHelperService();
+    public KraLookupableHelperServiceImpl getProtocolLookupableHelperService();
     
     public String getViewProtocolFundingSourceUrl(ProtocolFundingSource protocolFundingSource, ProtocolProtocolAction action) throws Exception;
 }

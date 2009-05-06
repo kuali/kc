@@ -23,7 +23,7 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.protocol.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.protocol.ParticipantType;
 import org.kuali.kra.irb.protocol.ProtocolParticipant;

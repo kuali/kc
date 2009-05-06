@@ -26,11 +26,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelServiceImpl;
+import org.kuali.kra.irb.personnel.ProtocolUnit;
 import org.kuali.kra.irb.service.mocks.MockProtocolPersonTrainingService;
 
 public class ProtocolPersonnelServiceTest {

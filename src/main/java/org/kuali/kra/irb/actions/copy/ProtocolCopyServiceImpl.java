@@ -21,8 +21,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.service.ProtocolAuthorizationService;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.SystemAuthorizationService;
@@ -89,7 +89,7 @@ class ProtocolCopyServiceImpl implements ProtocolCopyService {
     }
     
     /**
-     * @see org.kuali.kra.irb.actions.copy.ProtocolCopyService#copyProtocol(org.kuali.kra.irb.document.ProtocolDocument)
+     * @see org.kuali.kra.irb.actions.copy.ProtocolCopyService#copyProtocol(org.kuali.kra.irb.ProtocolDocument)
      */
     public String copyProtocol(ProtocolDocument srcDoc) throws Exception {
        
