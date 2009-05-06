@@ -42,7 +42,12 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
-import org.kuali.kra.irb.service.ProtocolLocationService;
+import org.kuali.kra.irb.protocol.ProtocolFundingSource;
+import org.kuali.kra.irb.protocol.ProtocolLocation;
+import org.kuali.kra.irb.protocol.ProtocolLocationService;
+import org.kuali.kra.irb.protocol.ProtocolParticipant;
+import org.kuali.kra.irb.protocol.ProtocolReference;
+import org.kuali.kra.irb.protocol.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.rice.kns.util.TypedArrayList;
 

@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.lookup.keyvalue;
 
 import org.junit.Test;
+import org.kuali.kra.irb.protocol.ParticipantTypeValuesFinder;
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 
 /**
