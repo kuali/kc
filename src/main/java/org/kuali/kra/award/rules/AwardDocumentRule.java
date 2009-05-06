@@ -24,7 +24,6 @@ import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardDirectFandADistribution;
 import org.kuali.kra.award.bo.AwardFandaRate;
-import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardSpecialReview;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRuleImpl;
@@ -36,6 +35,15 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
+import org.kuali.kra.award.paymentreports.awardreports.AddAwardReportTermRecipientRuleEvent;
+import org.kuali.kra.award.paymentreports.awardreports.AddAwardReportTermRuleEvent;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipientRule;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipientRuleEvent;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipientRuleImpl;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRule;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleEvent;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleImpl;
 import org.kuali.kra.award.paymentreports.paymentschedule.AddAwardPaymentScheduleRuleEvent;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRule;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRuleEvent;
@@ -47,12 +55,8 @@ import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.Equi
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRule;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleEvent;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleImpl;
-import org.kuali.kra.award.rule.AddAwardReportTermRecipientRule;
-import org.kuali.kra.award.rule.AddAwardReportTermRule;
 import org.kuali.kra.award.rule.AddFandaRateRule;
 import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
-import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
-import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
 import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
 import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
 import org.kuali.kra.award.rule.event.AwardCostShareRuleEvent;
@@ -85,13 +89,13 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
 public class AwardDocumentRule extends ResearchDocumentRuleBase implements AwardPaymentScheduleRule, 
                                                                             AwardApprovedEquipmentRule, 
                                                                             AwardApprovedForeignTravelRule, 
-                                                                            AddFandaRateRule,SpecialReviewRule<AwardSpecialReview>,
-                                                                            AddAwardReportTermRule, 
-                                                                            AddAwardReportTermRecipientRule,
+                                                                            AddFandaRateRule,SpecialReviewRule<AwardSpecialReview>,                                                                            
                                                                             AwardDetailsAndDatesRule,
                                                                             CustomAttributeRule,
                                                                             AwardProjectPersonsSaveRule,
-                                                                            PermissionsRule {
+                                                                            PermissionsRule,
+                                                                            AwardReportTermRule,
+                                                                            AwardReportTermRecipientRule{
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
@@ -457,7 +461,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         GlobalVariables.getErrorMap().addToErrorPath(AWARD_ERROR_PATH);        
         
         AwardDocument awardDocument = (AwardDocument) document;
-        for(AwardReportTerm awardReportTerm: awardDocument.getAward().getAwardReportTerms()){
+        for(AwardReportTerm awardReportTerm: awardDocument.getAward().getAwardReportTermItems()){
             retval = evaluateBusinessRuleForReportCodeField(awardReportTerm, i);
             retval = evaluateBusinessRuleForFrequencyCodeField(awardReportTerm, i);
             retval = evaluateBusinessRuleForFrequencyBaseCodeField(awardReportTerm, i);
@@ -560,23 +564,69 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     
     /**
      * 
-     * @see org.kuali.kra.award.rule.AddAwardReportTermRule#processAddAwardReportTermEvent(
-     * org.kuali.kra.award.rule.event.AddAwardReportTermEvent)
+     * @see org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRule#processAwardReportTermBusinessRules(
+     *          org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleEvent)
      */
-    public boolean processAddAwardReportTermEvent(AddAwardReportTermEvent 
-            addAwardReportTermEvent) {
-        return new AwardReportTermRule().processAddAwardReportTermEvent(addAwardReportTermEvent);        
+    public boolean processAwardReportTermBusinessRules(AwardReportTermRuleEvent event){
+        return new AwardReportTermRuleImpl().processAwardReportTermBusinessRules(event);
     }
     
     /**
      * 
-     * @see org.kuali.kra.award.rule.AddAwardReportTermRecipientRule#processAddAwardReportTermRecipientEvent(
-     * org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent)
+     * @see org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRule#processAddAwardReportTermBusinessRules(
+     *          org.kuali.kra.award.paymentreports.awardreports.AddAwardReportTermRuleEvent)
      */
-    public boolean processAddAwardReportTermRecipientEvent(AddAwardReportTermRecipientEvent 
-            addAwardReportTermRecipientEvent) {
-        return new AwardReportTermRecipientRule().processAddAwardReportTermRecipientEvent(
-                addAwardReportTermRecipientEvent);        
+    public boolean processAddAwardReportTermBusinessRules(AddAwardReportTermRuleEvent event){
+        return new AwardReportTermRuleImpl().processAddAwardReportTermBusinessRules(event);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipientRule#processAwardReportTermRecipientBusinessRules(
+     *          org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipientRuleEvent)
+     */
+    public boolean processAwardReportTermRecipientBusinessRules(AwardReportTermRecipientRuleEvent event){
+        return new AwardReportTermRecipientRuleImpl().processAwardReportTermRecipientBusinessRules(event);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipientRule#processAddAwardReportTermRecipientBusinessRules(
+     *          org.kuali.kra.award.paymentreports.awardreports.AddAwardReportTermRecipientRuleEvent)
+     */
+    public boolean processAddAwardReportTermRecipientBusinessRules(AddAwardReportTermRecipientRuleEvent event){
+        return new AwardReportTermRecipientRuleImpl().processAddAwardReportTermRecipientBusinessRules(event);
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param addAwardReportTermRecipientRuleEvent
+     * @return
+     */
+    public boolean processAddAwardReportTermRecipientEvent(AddAwardReportTermRecipientRuleEvent 
+            addAwardReportTermRecipientRuleEvent) {
+        return new AwardReportTermRecipientRuleImpl().processAddAwardReportTermRecipientBusinessRules(addAwardReportTermRecipientRuleEvent);        
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param event
+     * @return
+     */
+    public boolean processAwardReportTermEvent(AwardReportTermRuleEvent event){
+        return new AwardReportTermRuleImpl().processAwardReportTermBusinessRules(event);
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param event
+     * @return
+     */
+    public boolean processAwardReportTermRecipientEvent(AwardReportTermRecipientRuleEvent event){
+        return new AwardReportTermRecipientRuleImpl().processAwardReportTermRecipientBusinessRules(event);
     }
     
     

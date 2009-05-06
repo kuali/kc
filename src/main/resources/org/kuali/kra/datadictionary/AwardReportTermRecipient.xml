@@ -23,7 +23,7 @@
 
 	<bean id="AwardReportTermRecipient" parent="AwardReportTermRecipient-parentBean" />
 	<bean id="AwardReportTermRecipient-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardReportTermRecipient" />
+		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient" />
 		<property name="inquiryDefinition" >
 			<ref bean="AwardReportTermRecipient-inquiryDefinition" />
 		</property>

@@ -21,12 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardReportTerm;
-import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.AwardReportsService;
@@ -146,7 +146,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         List<AwardReportTermRecipient> newAwardReportTermRecipients 
             = new ArrayList<AwardReportTermRecipient>();        
         
-        for(AwardReportTerm awardReportTerm : award.getAwardReportTerms()){    
+        for(AwardReportTerm awardReportTerm : award.getAwardReportTermItems()){    
             newAwardReportTermRecipients.add(new AwardReportTermRecipient());
         }
         

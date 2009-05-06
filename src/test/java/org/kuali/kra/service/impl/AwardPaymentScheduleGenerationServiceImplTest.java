@@ -31,8 +31,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.Frequency;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.paymentschedule.FrequencyBaseConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -279,7 +279,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         newAwardReportTerm.setReportClassCode(REPORT_CLASS_CODE_CODE_SIX);
         newAwardReportTerm.setFrequencyBaseCode(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase());
         awardReportTerms.add(newAwardReportTerm);
-        award.setAwardReportTerms(awardReportTerms);
+        award.setAwardReportTermItems(awardReportTerms);
         
         final ScheduleService scheduleService = context.mock(ScheduleService.class);
         final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);
@@ -326,7 +326,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         newAwardReportTerm.setReportClassCode(REPORT_CLASS_CODE_CODE_SIX);
         newAwardReportTerm.setFrequencyBaseCode(FrequencyBaseConstants.AWARD_EXECUTION_DATE.getfrequencyBase());
         awardReportTerms.add(newAwardReportTerm);
-        award.setAwardReportTerms(awardReportTerms);
+        award.setAwardReportTermItems(awardReportTerms);
         
         final ScheduleService scheduleService = context.mock(ScheduleService.class);
         final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);

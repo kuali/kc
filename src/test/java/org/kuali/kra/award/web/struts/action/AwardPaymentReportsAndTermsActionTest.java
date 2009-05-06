@@ -24,9 +24,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardReportTerm;
-import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.bo.AwardSponsorTerm;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 
 /**
  * 
@@ -125,37 +125,6 @@ public class AwardPaymentReportsAndTermsActionTest {
         awardSponsorTerm1 = null;
         awardSponsorTerms = null;
 
-    }
-    
-    @Test
-    public void testAddAwardReportTermToAward(){
-        awardPaymentReportsAndTermsAction.addAwardReportTermToAward(award, awardReportTerm1);
-        awardPaymentReportsAndTermsAction.addAwardReportTermToAward(award, awardReportTerm2);
-        awardPaymentReportsAndTermsAction.addAwardReportTermToAward(award, awardReportTerm3);
-        Assert.assertEquals(3, award.getAwardReportTerms().size());
-    }
-    
-    @Test
-    public void testPopulateContactTypeAndRolodex(){
-        awardReportTermRecipient1.setContactId(new Long(1));
-        awardPaymentReportsAndTermsAction.populateContactTypeAndRolodex(awardReportTermRecipient1);
-        Assert.assertEquals("6", awardReportTermRecipient1.getContactTypeCode());
-        Assert.assertEquals(MOCK_ROLODEX_ID_FOR_CONTACT, awardReportTermRecipient1.getRolodexId());
-        awardReportTermRecipient1.setContactId(new Long(2));
-        awardPaymentReportsAndTermsAction.populateContactTypeAndRolodex(awardReportTermRecipient1);
-        Assert.assertEquals("5", awardReportTermRecipient1.getContactTypeCode());
-        awardReportTermRecipient1.setContactId(new Long(3));
-        awardPaymentReportsAndTermsAction.populateContactTypeAndRolodex(awardReportTermRecipient1);
-        Assert.assertEquals("4", awardReportTermRecipient1.getContactTypeCode());
-        awardReportTermRecipient1.setContactId(new Long(4));
-        awardPaymentReportsAndTermsAction.populateContactTypeAndRolodex(awardReportTermRecipient1);
-        Assert.assertEquals("3", awardReportTermRecipient1.getContactTypeCode());
-        awardReportTermRecipient1.setContactId(new Long(5));
-        awardPaymentReportsAndTermsAction.populateContactTypeAndRolodex(awardReportTermRecipient1);
-        Assert.assertEquals("2", awardReportTermRecipient1.getContactTypeCode());
-        awardReportTermRecipient1.setContactId(new Long(6));
-        awardPaymentReportsAndTermsAction.populateContactTypeAndRolodex(awardReportTermRecipient1);
-        Assert.assertEquals("9", awardReportTermRecipient1.getContactTypeCode());        
     }
     
     @Test

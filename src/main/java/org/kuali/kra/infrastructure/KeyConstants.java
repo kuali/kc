@@ -295,15 +295,13 @@ public final class KeyConstants {
     public static final String ERROR_FISCAL_YEAR_INCORRECT_FORMAT = "error.fiscalYear.IncorrectFormat";
     
     //Award Reports
-    public static final String ERROR_REQUIRED_REPORT_CODE = "error.required.report.code";
-    public static final String ERROR_REQUIRED_FREQUENCY_CODE = "error.required.frequency.code";
-    public static final String ERROR_REQUIRED_FREQUENCY_BASE_CODE = "error.required.frequency.base.code";
-    public static final String ERROR_REQUIRED_DISTRIBUTION_CODE = "error.required.distribution.code";
-    public static final String ERROR_REQUIRED_DUE_DATE = "error.required.due.date";
+    public static final String ERROR_REQUIRED = "error.required";    
     public static final String ERROR_REQUIRED_CONTACT_TYPE = "error.required.contact.type";
     public static final String ERROR_REQUIRED_ROLODEX_ID = "error.required.rolodex.id";
     public static final String ERROR_EMPTY_REPORT_TERMS = "error.empty.report.terms";
     public static final String ERROR_EMPTY_TERMS = "error.empty.terms";
+    public static final String ERROR_AWARD_REPORT_TERM_ITEM_NOT_UNIQUE = "error.awardReportTermItem.notunique";
+    public static final String ERROR_AWARD_REPORT_TERM_RECIPIENT_ITEM_NOT_UNIQUE = "error.awardReportTermRecipientItem.notunique";
     
     //Award System Parameters    
     public static final String MIT_IDC_VALIDATION_ENABLED = "mit.idc.validation.enabled";
