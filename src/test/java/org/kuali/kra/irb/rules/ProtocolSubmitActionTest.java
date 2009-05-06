@@ -20,8 +20,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionBean;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.web.struts.bean.ProtocolSubmitAction;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
@@ -42,7 +43,7 @@ import org.kuali.rice.test.data.UnitTestFile;
     )
 public class ProtocolSubmitActionTest extends ProtocolRuleTestBase {
 
-    private ProtocolActionRule rule = null;
+    private ProtocolSubmitActionRule rule = null;
     private static final String VALID_SUBMISSION_TYPE = "100";
     private static final String VALID_REVIEW_TYPE = "1";
     private static final String INVALID_SUBMISSION_TYPE = "ahfgdfsgr#%$#$%#$%";
@@ -51,7 +52,7 @@ public class ProtocolSubmitActionTest extends ProtocolRuleTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        rule = new ProtocolActionRule();
+        rule = new ProtocolSubmitActionRule();
     }
 
     @After
@@ -67,7 +68,7 @@ public class ProtocolSubmitActionTest extends ProtocolRuleTestBase {
     @Test
     public void testSubmitOK() throws Exception {
         ProtocolDocument document = getNewProtocolDocument();
-        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        ProtocolSubmitActionBean submitAction = new ProtocolSubmitActionBean(null);
         submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
         submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
         assertTrue(rule.processSubmitAction(document, submitAction));
@@ -81,7 +82,7 @@ public class ProtocolSubmitActionTest extends ProtocolRuleTestBase {
     @Test
     public void testSubmissionTypeEmpty() throws Exception {
         ProtocolDocument document = getNewProtocolDocument();
-        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        ProtocolSubmitActionBean submitAction = new ProtocolSubmitActionBean(null);
         submitAction.setSubmissionTypeCode("");
         submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
         assertFalse(rule.processSubmitAction(document, submitAction));
@@ -96,7 +97,7 @@ public class ProtocolSubmitActionTest extends ProtocolRuleTestBase {
     @Test
     public void testReviewTypeEmpty() throws Exception {
         ProtocolDocument document = getNewProtocolDocument();
-        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        ProtocolSubmitActionBean submitAction = new ProtocolSubmitActionBean(null);
         submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
         submitAction.setProtocolReviewTypeCode("");
         assertFalse(rule.processSubmitAction(document, submitAction));
@@ -111,7 +112,7 @@ public class ProtocolSubmitActionTest extends ProtocolRuleTestBase {
     @Test
     public void testSubmissionTypeInvalid() throws Exception {
         ProtocolDocument document = getNewProtocolDocument();
-        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        ProtocolSubmitActionBean submitAction = new ProtocolSubmitActionBean(null);
         submitAction.setSubmissionTypeCode(INVALID_SUBMISSION_TYPE);
         submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
         assertFalse(rule.processSubmitAction(document, submitAction));
@@ -126,7 +127,7 @@ public class ProtocolSubmitActionTest extends ProtocolRuleTestBase {
     @Test
     public void testReviewTypeInvalid() throws Exception {
         ProtocolDocument document = getNewProtocolDocument();
-        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        ProtocolSubmitActionBean submitAction = new ProtocolSubmitActionBean(null);
         submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
         submitAction.setProtocolReviewTypeCode(INVALID_REVIEW_TYPE);
         assertFalse(rule.processSubmitAction(document, submitAction));

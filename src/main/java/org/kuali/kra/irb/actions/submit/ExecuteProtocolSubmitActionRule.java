@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rule;
+package org.kuali.kra.irb.actions.submit;
 
 import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.web.struts.bean.ProtocolSubmitAction;
 import org.kuali.rice.kns.rule.BusinessRule;
 
-public interface ExecuteProtocolActionRule extends BusinessRule {
+public interface ExecuteProtocolSubmitActionRule extends BusinessRule {
 
-    public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitAction submitAction);
+    public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitActionBean submitAction);
 }

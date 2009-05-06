@@ -6,7 +6,7 @@
 
   <bean id="ExemptStudiesCheckListItem" parent="ExemptStudiesCheckListItem-parentBean" />
   <bean id="ExemptStudiesCheckListItem-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.irb.bo.ExemptStudiesCheckListItem" />
+    <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem" />
     <property name="inquiryDefinition" >
       <ref bean="ExemptStudiesCheckListItem-inquiryDefinition" />
     </property>

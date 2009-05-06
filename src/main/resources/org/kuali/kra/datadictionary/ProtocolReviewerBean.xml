@@ -21,7 +21,7 @@
 
 	<bean id="ProtocolReviewerBean" parent="ProtocolReviewerBean-parentBean" />
 	<bean id="ProtocolReviewerBean-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.web.struts.bean.ProtocolReviewerBean" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ProtocolReviewerBean" />
 		<property name="titleAttribute" value="reviewerTypeCode" />
 		<property name="attributes" >
 			<list>
@@ -46,7 +46,7 @@
 	    <property name="required" value="false" />
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.irb.bo.ProtocolReviewerType"
+	            p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolReviewerType"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
             	p:includeBlankRow="false"

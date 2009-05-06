@@ -202,7 +202,7 @@
 		&protocol_forwards;
       </action>
       
-      <action path="/protocolCustomData" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" type="org.kuali.kra.irb.customdata.ProtocolCustomDataAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm" >
+      <action path="/protocolCustomData" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolCustomData.jsp" type="org.kuali.kra.irb.customdata.ProtocolCustomDataAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm" >
 		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolCustomData.jsp" />
 		&protocol_forwards;
       </action>
@@ -212,7 +212,7 @@
 		&protocol_forwards;
       </action>
       
-      <action path="/protocolProtocolActions" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" type="org.kuali.kra.irb.actions.ProtocolProtocolActionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+      <action path="/protocolProtocolActions" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" type="org.kuali.kra.irb.actions.ProtocolProtocolActionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" />
 	    &protocol_forwards;
       </action>

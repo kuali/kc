@@ -13,19 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.service.impl;
+package org.kuali.kra.irb.actions.submit;
 
 import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.irb.bo.ProtocolReviewerType;
-import org.kuali.kra.irb.service.ProtocolActionAjaxService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
-public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService {
+class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService {
 
     private CommitteeService committeeService;
     private BusinessObjectService businessObjectService;
@@ -47,7 +45,7 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
     }
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolActionAjaxService#getValidCommitteeDates(java.lang.String)
+     * @see org.kuali.kra.irb.actions.submit.ProtocolActionAjaxService#getValidCommitteeDates(java.lang.String)
      */
     public String getValidCommitteeDates(String committeeId) {
         StringBuffer ajaxList = new StringBuffer();
@@ -59,7 +57,7 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
     }
 
     /**
-     * @see org.kuali.kra.irb.service.ProtocolActionAjaxService#getReviewers(java.lang.String, java.lang.String)
+     * @see org.kuali.kra.irb.actions.submit.ProtocolActionAjaxService#getReviewers(java.lang.String, java.lang.String)
      */
     public String getReviewers(String committeeId, String scheduleId) {
         StringBuffer ajaxList = new StringBuffer();
@@ -71,7 +69,7 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
     }
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolActionAjaxService#getReviewerTypes()
+     * @see org.kuali.kra.irb.actions.submit.ProtocolActionAjaxService#getReviewerTypes()
      */
     public String getReviewerTypes() {
         StringBuffer ajaxList = new StringBuffer();
