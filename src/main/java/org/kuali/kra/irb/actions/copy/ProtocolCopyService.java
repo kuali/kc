@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.service;
+package org.kuali.kra.irb.actions.copy;
 
 import org.kuali.kra.irb.document.ProtocolDocument;
 

@@ -181,41 +181,43 @@
           <forward name="awardActions" path="/WEB-INF/jsp/award/AwardActions.jsp" />                    
       </action>
       
-      <!--  KRA IRB Mapping -->
+      <!--  KRA IRB Mapping START -->
       <action path="/protocol*" name="ProtocolForm" input="/WEB-INF/jsp/irb/Protocol{1}.jsp" type="org.kuali.kra.irb.web.struts.action.Protocol{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/irb/Protocol{1}.jsp" />
 		  &protocol_forwards;
       </action>
       
-      <!--  KRA IRB Personnel Mapping -->
       <action path="/personnel" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" type="org.kuali.kra.irb.personnel.ProtocolPersonnelAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" />
 		  &protocol_forwards;
       </action>
       
-      <!--  KRA IRB Note And Attachment Mapping -->
       <action path="/protocolNoteAndAttachment" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolNoteAttachment.jsp" type="org.kuali.kra.irb.noteattachment.ProtocolNoteAndAttachmentAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" />
 		&protocol_forwards;
       </action>
       
-      <!--  KRA IRB Permissions Mapping -->
       <action path="/protocolPermissions" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" type="org.kuali.kra.irb.permission.ProtocolPermissionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" />
 		&protocol_forwards;
       </action>
       
-      <!--  KRA IRB Custom data Mapping -->
       <action path="/protocolCustomData" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" type="org.kuali.kra.irb.customdata.ProtocolCustomDataAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm" >
 		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolCustomData.jsp" />
 		&protocol_forwards;
       </action>
-      
-      <!--  KRA IRB Custom data Mapping -->
+
       <action path="/protocolSpecialReview" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" type="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm" >
 		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" />
 		&protocol_forwards;
       </action>
+      
+      <action path="/protocolProtocolActions" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" type="org.kuali.kra.irb.actions.ProtocolProtocolActionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" />
+	    &protocol_forwards;
+      </action>
+      <!--  KRA IRB Mapping END -->
+      
       
       <!--  KRA Committee Mapping -->
       <action path="/committee*" name="CommitteeForm" input="/WEB-INF/jsp/committee/Committee{1}.jsp" type="org.kuali.kra.committee.web.struts.action.Committee{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
