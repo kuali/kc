@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -39,23 +41,47 @@ public class ProtocolSubmission extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = -5443313755174483591L;
 
     @Id 
-    @Column(name="SUBMISSION_NUMBER")
-    private Integer submissionNumber; 
-
+    @Column(name = "SUBMISSION_ID")
+    private Long submissionId;
+    
     @Column(name="PROTOCOL_NUMBER")
     private String protocolNumber; 
 
     @Column(name="SEQUENCE_NUMBER")
     private Integer sequenceNumber; 
-
+    
+    @Column(name="SUBMISSION_NUMBER")
+    private Integer submissionNumber; 
+    
     @Column(name="SCHEDULE_ID")
     private String scheduleId; 
 
     @Column(name="COMMITTEE_ID")
     private String committeeId; 
 
+    @Column(name = "PROTOCOL_ID")
+    private Long protocolId;
+    
+    @Column(name = "COMITTEE_ID_FK")
+    private Long committeeIdFk;
+    
+    @Column(name = "SCHEDULE_ID_FK")
+    private Long scheduleIdFk;
+    
+    @Column(name = "SUBMISSION_TYPE_CODE")
+    private String submissionTypeCode;
+    
+    @Column(name = "SUBMISSION_TYPE_QUAL_CODE")
+    private String submissionTypeQualifierCode;
+    
+    @Column(name = "SUBMISSION_STATUS_CODE")
+    private String submissionStatusCode;
+    
+    @Column(name = "PROTOCOL_REVIEW_TYPE_CODE")
+    private String protocolReviewTypeCode;
+    
     @Column(name="SUBMISSION_DATE")
-    private Date submissionDate; 
+    private Timestamp submissionDate; 
 
     @Column(name="COMMENTS")
     private String comments; 
@@ -72,6 +98,11 @@ public class ProtocolSubmission extends KraPersistableBusinessObjectBase {
     @Column(name="VOTING_COMMENTS")
     private String votingComments; 
     
+    private List<ProtocolExemptStudiesCheckListItem> exemptStudiesCheckList = new ArrayList<ProtocolExemptStudiesCheckListItem>();
+    private List<ProtocolExpeditedReviewCheckListItem> expeditedReviewCheckList = new ArrayList<ProtocolExpeditedReviewCheckListItem>();
+    
+    private List<ProtocolReviewer> protocolReviewers = new ArrayList<ProtocolReviewer>();
+    
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="SUBMISSION_TYPE_CODE", insertable=false, updatable=false)
     private ProtocolSubmissionType protocolSubmissionType;
@@ -81,7 +112,7 @@ public class ProtocolSubmission extends KraPersistableBusinessObjectBase {
     private ProtocolSubmissionQualifierType protocolSubmissionQualifierType;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="COMM_SCHEDULE_ID", insertable=false, updatable=false)
+    @JoinColumn(name="SCHEDULE_ID_FK", insertable=false, updatable=false)
     private CommitteeSchedule committeeSchedule;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
@@ -93,7 +124,7 @@ public class ProtocolSubmission extends KraPersistableBusinessObjectBase {
     private ProtocolReviewType protocolReviewType;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="COMMITTEE_ID_NEW", insertable=false, updatable=false)
+    @JoinColumn(name="COMMITTEE_ID_FK", insertable=false, updatable=false)
     private Committee committee;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
@@ -103,6 +134,14 @@ public class ProtocolSubmission extends KraPersistableBusinessObjectBase {
     public ProtocolSubmission() { 
 
     } 
+    
+    public Long getSubmissionId() {
+        return submissionId;
+    }
+    
+    public void setSubmissionId(Long submissionId) {
+        this.submissionId = submissionId;
+    }
     
     public Integer getSubmissionNumber() {
         return submissionNumber;
@@ -139,16 +178,72 @@ public class ProtocolSubmission extends KraPersistableBusinessObjectBase {
     public String getCommitteeId() {
         return committeeId;
     }
-
+    
     public void setCommitteeId(String committeeId) {
         this.committeeId = committeeId;
     }
+    
+    public Long getProtocolId() {
+        return protocolId;
+    }
+    
+    public void setProtocolId(Long protocolId) {
+        this.protocolId = protocolId;
+    }
+    
+    public Long getCommitteeIdFk() {
+        return committeeIdFk;
+    }
+    
+    public void setCommitteeIdFk(Long committeeIdFk) {
+        this.committeeIdFk = committeeIdFk;
+    }
+    
+    public Long getScheduleIdFk() {
+        return scheduleIdFk;
+    }
+    
+    public void setScheduleIdFk(Long scheduleIdFk) {
+        this.scheduleIdFk = scheduleIdFk;
+    }
+    
+    public String getSubmissionTypeCode() {
+        return submissionTypeCode;
+    }
 
-    public Date getSubmissionDate() {
+    public void setSubmissionTypeCode(String submissionTypeCode) {
+        this.submissionTypeCode = submissionTypeCode;
+    }
+
+    public String getSubmissionTypeQualifierCode() {
+        return submissionTypeQualifierCode;
+    }
+
+    public void setSubmissionTypeQualifierCode(String submissionTypeQualifierCode) {
+        this.submissionTypeQualifierCode = submissionTypeQualifierCode;
+    }
+
+    public String getSubmissionStatusCode() {
+        return submissionStatusCode;
+    }
+
+    public void setSubmissionStatusCode(String submissionStatusCode) {
+        this.submissionStatusCode = submissionStatusCode;
+    }
+
+    public String getProtocolReviewTypeCode() {
+        return protocolReviewTypeCode;
+    }
+
+    public void setProtocolReviewTypeCode(String protocolReviewTypeCode) {
+        this.protocolReviewTypeCode = protocolReviewTypeCode;
+    }
+
+    public Timestamp getSubmissionDate() {
         return submissionDate;
     }
 
-    public void setSubmissionDate(Date submissionDate) {
+    public void setSubmissionDate(Timestamp submissionDate) {
         this.submissionDate = submissionDate;
     }
 
@@ -190,6 +285,30 @@ public class ProtocolSubmission extends KraPersistableBusinessObjectBase {
 
     public void setVotingComments(String votingComments) {
         this.votingComments = votingComments;
+    }
+    
+    public void setExemptStudiesCheckList(List<ProtocolExemptStudiesCheckListItem> exemptStudiesCheckList) {
+        this.exemptStudiesCheckList = exemptStudiesCheckList;
+    }
+
+    public List<ProtocolExemptStudiesCheckListItem> getExemptStudiesCheckList() {
+        return exemptStudiesCheckList;
+    }
+    
+    public void setExpeditedReviewCheckList(List<ProtocolExpeditedReviewCheckListItem> expeditedReviewCheckList) {
+        this.expeditedReviewCheckList = expeditedReviewCheckList;
+    }
+
+    public List<ProtocolExpeditedReviewCheckListItem> getExpeditedReviewCheckList() {
+        return expeditedReviewCheckList;
+    }
+
+    public void setProtocolReviewers(List<ProtocolReviewer> protocolReviewers) {
+        this.protocolReviewers = protocolReviewers;
+    }
+
+    public List<ProtocolReviewer> getProtocolReviewers() {
+        return protocolReviewers;
     }
 
     public Protocol getProtocol() {
@@ -252,18 +371,27 @@ public class ProtocolSubmission extends KraPersistableBusinessObjectBase {
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("submissionId", getSubmissionId());
         hashMap.put("submissionNumber", this.getSubmissionNumber());
         hashMap.put("protocolNumber", this.getProtocolNumber());
         hashMap.put("sequenceNumber", this.getSequenceNumber());
         hashMap.put("scheduleId", this.getScheduleId());
         hashMap.put("committeeId", this.getCommitteeId());
+        hashMap.put("protocolId", getProtocolId());
+        hashMap.put("comitteeIdFk", getCommitteeIdFk());
+        hashMap.put("scheduleIdFk", getScheduleIdFk());
+        hashMap.put("submissionTypeCode", getSubmissionTypeCode());
+        hashMap.put("submissionTypeQualifierCode", getSubmissionTypeQualifierCode());
+        hashMap.put("submissionStatusCode", getSubmissionStatusCode());
+        hashMap.put("protocolReviewTypeCode", getProtocolReviewTypeCode());
         hashMap.put("submissionDate", this.getSubmissionDate());
         hashMap.put("comments", this.getComments());
         hashMap.put("yesVoteCount", this.getYesVoteCount());
         hashMap.put("noVoteCount", this.getNoVoteCount());
         hashMap.put("abstainerCount", this.getAbstainerCount());
         hashMap.put("votingComments", this.getVotingComments());
+        hashMap.put("exemptStudiesCheckList", getExemptStudiesCheckList());
+        hashMap.put("expeditedReviewCheckList", getExpeditedReviewCheckList());
         return hashMap;
     }
-    
 }

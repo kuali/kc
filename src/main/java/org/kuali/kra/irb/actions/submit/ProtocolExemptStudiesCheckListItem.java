@@ -21,32 +21,30 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.bo.Protocol;
 
 @SuppressWarnings("serial")
-public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
+public class ProtocolExemptStudiesCheckListItem extends KraPersistableBusinessObjectBase {
 
-    private Long protocolReviewerId;
+    private Long protocolExemptCheckListId;
     private Long protocolId;
     private Long submissionIdFk;
     private String protocolNumber;
     private Integer sequenceNumber;
     private Integer submissionNumber;
-    private String personId;
-    private boolean nonEmployeeFlag;
-    private String reviewerTypeCode;
+    private String exemptStudiesCheckListCode;
     
     private Protocol protocol;
     private ProtocolSubmission protocolSubmission;
-    private ProtocolReviewerType protocolReviewerType;
+    private ExemptStudiesCheckListItem exemptStudiesCheckListItem;
 
-    public ProtocolReviewer() {
+    public ProtocolExemptStudiesCheckListItem() {
         
     }
 
-    public Long getProtocolReviewerId() {
-        return protocolReviewerId;
+    public Long getProtocolExemptCheckListId() {
+        return protocolExemptCheckListId;
     }
 
-    public void setProtocolReviewerId(Long protocolReviewerId) {
-        this.protocolReviewerId = protocolReviewerId;
+    public void setProtocolExemptCheckListId(Long protocolExemptCheckListId) {
+        this.protocolExemptCheckListId = protocolExemptCheckListId;
     }
 
     public Long getProtocolId() {
@@ -89,28 +87,12 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
         this.submissionNumber = submissionNumber;
     }
 
-    public String getPersonId() {
-        return personId;
+    public String getExemptStudiesCheckListCode() {
+        return exemptStudiesCheckListCode;
     }
 
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
-
-    public boolean getNonEmployeeFlag() {
-        return nonEmployeeFlag;
-    }
-
-    public void setNonEmployeeFlag(boolean nonEmployeeFlag) {
-        this.nonEmployeeFlag = nonEmployeeFlag;
-    }
-    
-    public void setReviewerTypeCode(String reviewerTypeCode) {
-        this.reviewerTypeCode = reviewerTypeCode;
-    }
-
-    public String getReviewerTypeCode() {
-        return reviewerTypeCode;
+    public void setExemptStudiesCheckListCode(String exemptStudiesCheckListCode) {
+        this.exemptStudiesCheckListCode = exemptStudiesCheckListCode;
     }
     
     public Protocol getProtocol() {
@@ -128,28 +110,27 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
     public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
         this.protocolSubmission = protocolSubmission;
     }
-
-    public ProtocolReviewerType getProtocolReviewerType() {
-        return protocolReviewerType;
+    
+    public void setExemptStudiesCheckListItem(ExemptStudiesCheckListItem exemptStudiesCheckListItem) {
+        this.exemptStudiesCheckListItem = exemptStudiesCheckListItem;
     }
 
-    public void setProtocolReviewerType(ProtocolReviewerType protocolReviewerType) {
-        this.protocolReviewerType = protocolReviewerType;
+    public ExemptStudiesCheckListItem getExemptStudiesCheckListItem() {
+        return exemptStudiesCheckListItem;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
-        map.put("protocolReviewerId", getProtocolReviewerId());
+        map.put("protocolExemptCheckListId", getProtocolExemptCheckListId());
         map.put("protocolId", getProtocolId());
         map.put("submissionIdFk", getSubmissionIdFk());
         map.put("protocolNumber", getProtocolNumber());
         map.put("sequenceNumber", getSequenceNumber());
         map.put("submissionNumber", getSubmissionNumber());
-        map.put("personId", getPersonId());
-        map.put("nonEmployeeFlag", getNonEmployeeFlag());
-        map.put("reviewerTypeCode", getReviewerTypeCode());
+        map.put("exemptStudiesCheckListCode", getExemptStudiesCheckListCode());
         return map;
     }
+
 }

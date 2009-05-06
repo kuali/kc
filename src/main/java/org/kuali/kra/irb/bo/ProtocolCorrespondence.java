@@ -36,16 +36,31 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
 
     @Id 
     @Column(name="ID")
-    private Integer id; 
+    private Long id; 
 
     @Column(name="PROTOCOL_NUMBER")
     private String protocolNumber; 
 
     @Column(name="SEQUENCE_NUMBER")
     private Integer sequenceNumber; 
+    
+    @Column(name = "ACTION_ID")
+    private Integer actionId;
+    
+    @Column(name = "PROTOCOL_ID")
+    private Long protocolId;
+    
+    @Column(name = "ACTION_ID_FK")
+    private Long actionIdFk;
+    
+    @Column(name = "PROTO_CORRESP_TYPE_CODE")
+    private String protoCorrespTypeCode;
 
     @Column(name="CORRESPONDENCE")
     private byte[] correspondence; 
+    
+    @Column(name = "FINAL_FLAG")
+    private boolean finalFlag;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="PROTOCOL_ID", insertable=false, updatable=false)
@@ -56,18 +71,18 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
     private ProtocolCorrespondenceType protocolCorrespondenceType;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="ACTION_ID", insertable=false, updatable=false)
+    @JoinColumn(name="ACTION_ID_FK", insertable=false, updatable=false)
     private ProtocolAction protocolAction;
     
-    public ProtocolCorrespondence() { 
+    public ProtocolCorrespondence() {
 
     } 
     
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -86,6 +101,38 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
+    
+    public Integer getActionId() {
+        return actionId;
+    }
+
+    public void setActionId(Integer actionId) {
+        this.actionId = actionId;
+    }
+
+    public Long getProtocolId() {
+        return protocolId;
+    }
+
+    public void setProtocolId(Long protocolId) {
+        this.protocolId = protocolId;
+    }
+
+    public Long getActionIdFk() {
+        return actionIdFk;
+    }
+
+    public void setActionIdFk(Long actionIdFk) {
+        this.actionIdFk = actionIdFk;
+    }
+
+    public String getProtoCorrespTypeCode() {
+        return protoCorrespTypeCode;
+    }
+
+    public void setProtoCorrespTypeCode(String protoCorrespTypeCode) {
+        this.protoCorrespTypeCode = protoCorrespTypeCode;
+    }
 
     public byte[] getCorrespondence() {
         return correspondence;
@@ -93,6 +140,14 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
 
     public void setCorrespondence(byte[] correspondence) {
         this.correspondence = correspondence;
+    }
+    
+    public void setFinalFlag(boolean finalFlag) {
+        this.finalFlag = finalFlag;
+    }
+
+    public boolean getFinalFlag() {
+        return finalFlag;
     }
 
     public Protocol getProtocol() {
@@ -126,8 +181,13 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
         hashMap.put("id", this.getId());
         hashMap.put("protocolNumber", this.getProtocolNumber());
         hashMap.put("sequenceNumber", this.getSequenceNumber());
+        hashMap.put("actionId", getActionId());
         hashMap.put("correspondence", this.getCorrespondence());
+        hashMap.put("protocolId", getProtocolId());
+        hashMap.put("actionIdFk", getActionIdFk());
+        hashMap.put("protoCorrespTypeCode", getProtoCorrespTypeCode());
+        hashMap.put("finalFlag", getFinalFlag());
         return hashMap;
     }
-    
+
 }

@@ -26,6 +26,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 @SuppressWarnings("serial")
 public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     
+    public static final String SUBMIT_TO_IRB = "101";
+    
     private String protocolActionTypeCode;
     
     private String description;

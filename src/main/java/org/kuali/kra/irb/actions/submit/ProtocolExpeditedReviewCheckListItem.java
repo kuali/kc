@@ -21,32 +21,30 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.bo.Protocol;
 
 @SuppressWarnings("serial")
-public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
+public class ProtocolExpeditedReviewCheckListItem extends KraPersistableBusinessObjectBase {
 
-    private Long protocolReviewerId;
+    private Long protocolExpeditedCheckListId;
     private Long protocolId;
     private Long submissionIdFk;
     private String protocolNumber;
     private Integer sequenceNumber;
     private Integer submissionNumber;
-    private String personId;
-    private boolean nonEmployeeFlag;
-    private String reviewerTypeCode;
+    private String expeditedReviewCheckListCode;
     
     private Protocol protocol;
     private ProtocolSubmission protocolSubmission;
-    private ProtocolReviewerType protocolReviewerType;
+    private ExpeditedReviewCheckListItem expeditedReviewCheckListItem;
 
-    public ProtocolReviewer() {
+    public ProtocolExpeditedReviewCheckListItem() {
         
     }
 
-    public Long getProtocolReviewerId() {
-        return protocolReviewerId;
+    public Long getProtocolExpeditedCheckListId() {
+        return protocolExpeditedCheckListId;
     }
 
-    public void setProtocolReviewerId(Long protocolReviewerId) {
-        this.protocolReviewerId = protocolReviewerId;
+    public void setProtocolExpeditedCheckListId(Long protocolExpeditedCheckListId) {
+        this.protocolExpeditedCheckListId = protocolExpeditedCheckListId;
     }
 
     public Long getProtocolId() {
@@ -89,30 +87,14 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
         this.submissionNumber = submissionNumber;
     }
 
-    public String getPersonId() {
-        return personId;
+    public String getExpeditedReviewCheckListCode() {
+        return expeditedReviewCheckListCode;
     }
 
-    public void setPersonId(String personId) {
-        this.personId = personId;
+    public void setExpeditedReviewCheckListCode(String expeditedReviewCheckListCode) {
+        this.expeditedReviewCheckListCode = expeditedReviewCheckListCode;
     }
 
-    public boolean getNonEmployeeFlag() {
-        return nonEmployeeFlag;
-    }
-
-    public void setNonEmployeeFlag(boolean nonEmployeeFlag) {
-        this.nonEmployeeFlag = nonEmployeeFlag;
-    }
-    
-    public void setReviewerTypeCode(String reviewerTypeCode) {
-        this.reviewerTypeCode = reviewerTypeCode;
-    }
-
-    public String getReviewerTypeCode() {
-        return reviewerTypeCode;
-    }
-    
     public Protocol getProtocol() {
         return protocol;
     }
@@ -129,27 +111,25 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
         this.protocolSubmission = protocolSubmission;
     }
 
-    public ProtocolReviewerType getProtocolReviewerType() {
-        return protocolReviewerType;
+    public ExpeditedReviewCheckListItem getExpeditedReviewCheckListItem() {
+        return expeditedReviewCheckListItem;
     }
 
-    public void setProtocolReviewerType(ProtocolReviewerType protocolReviewerType) {
-        this.protocolReviewerType = protocolReviewerType;
+    public void setExpeditedReviewCheckListItem(ExpeditedReviewCheckListItem expeditedReviewCheckListItem) {
+        this.expeditedReviewCheckListItem = expeditedReviewCheckListItem;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
-        map.put("protocolReviewerId", getProtocolReviewerId());
+        map.put("protocolExemptCheckListId", getProtocolExpeditedCheckListId());
         map.put("protocolId", getProtocolId());
         map.put("submissionIdFk", getSubmissionIdFk());
         map.put("protocolNumber", getProtocolNumber());
         map.put("sequenceNumber", getSequenceNumber());
         map.put("submissionNumber", getSubmissionNumber());
-        map.put("personId", getPersonId());
-        map.put("nonEmployeeFlag", getNonEmployeeFlag());
-        map.put("reviewerTypeCode", getReviewerTypeCode());
+        map.put("expeditedReviewCheckListCode", getExpeditedReviewCheckListCode());
         return map;
     }
 }

@@ -24,9 +24,9 @@ public class ProtocolSubmitActionEvent  extends KraDocumentEventBase {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolSubmitActionEvent.class);
     
-    private ProtocolSubmitActionBean submitAction;
+    private ProtocolSubmitAction submitAction;
     
-    public ProtocolSubmitActionEvent(ProtocolDocument document, ProtocolSubmitActionBean submitAction) {
+    public ProtocolSubmitActionEvent(ProtocolDocument document, ProtocolSubmitAction submitAction) {
         super("Submitting for review for document " + getDocumentId(document), "", document);
         this.submitAction = submitAction;
         logEvent();

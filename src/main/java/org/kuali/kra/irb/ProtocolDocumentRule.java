@@ -27,7 +27,7 @@ import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionBean;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.noteattachment.SaveProtocolAttachmentPersonnelRuleImpl;
@@ -370,7 +370,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     /**
      * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.submit.ProtocolSubmitActionBean)
      */
-    public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitActionBean submitAction) {
+    public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitAction submitAction) {
         return new ProtocolSubmitActionRule().processSubmitAction(document, submitAction);
     }
 }

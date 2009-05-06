@@ -33,8 +33,9 @@ import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionBean;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -140,14 +141,20 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolSubmitActionBean submitAction = protocolForm.getActionHelper().getProtocolSubmitAction();
+        ProtocolSubmitAction submitAction = protocolForm.getActionHelper().getProtocolSubmitAction();
         if (applyRules(new ProtocolSubmitActionEvent(protocolForm.getProtocolDocument(), submitAction))) {
             if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getCommitteeId(), submitAction.getScheduleId())) {
                 return confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response), CONFIRM_SUBMIT_FOR_REVIEW_KEY, "");
             }
+            getProtocolActionService().submitToIrbForReview(protocolForm.getProtocolDocument().getProtocol(),
+                                                            submitAction);
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    private ProtocolSubmitActionService getProtocolActionService() {
+        return KraServiceLocator.getService(ProtocolSubmitActionService.class);
     }
 
     /*
@@ -173,6 +180,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         
         if (CONFIRM_SUBMIT_FOR_REVIEW_KEY.equals(question)) {
+            ProtocolForm protocolForm = (ProtocolForm) form;
+            ProtocolSubmitAction submitAction = protocolForm.getActionHelper().getProtocolSubmitAction();
+            getProtocolActionService().submitToIrbForReview(protocolForm.getProtocolDocument().getProtocol(),
+                                                            submitAction);
         }
         
         return mapping.findForward(MAPPING_BASIC);
