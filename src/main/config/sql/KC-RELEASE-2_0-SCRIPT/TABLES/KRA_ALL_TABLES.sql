@@ -720,6 +720,14 @@ CREATE TABLE FUNDING_SOURCE_TYPE (
     VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
     OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
+CREATE TABLE GROUP_TYPES ( 
+    GROUP_TYPE_CODE NUMBER(3,0) NOT NULL, 
+    GROUP_NAME VARCHAR2(200) NOT NULL, 
+    UPDATE_TIMESTAMP DATE NOT NULL, 
+    UPDATE_USER VARCHAR2(60) NOT NULL, 
+    VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
+    OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
+
 CREATE TABLE IDC_RATE_TYPE ( 	
 	IDC_RATE_TYPE_CODE NUMBER(3,0) NOT NULL, 
 	DESCRIPTION VARCHAR2(200) NOT NULL, 
@@ -792,18 +800,21 @@ CREATE TABLE PROTOCOL (
 	VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
 	OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
-create table protocol_actions (
-  action_id                  number (6)     not null,
-  protocol_id 			     number(12,0)   not NULL,
-  protocol_number            varchar2 (20)  not null,
-  sequence_number            number (4)     not null,  
-  submission_number          number (4),
-  comments                   varchar2 (2000),
-  update_timestamp           date           not null,
-  update_user                varchar2 (8)   not null,
-  action_date                date,
-  ver_nbr 				     number(8,0)    default 1 NOT NULL, 
-  obj_id				     varchar2(36)   default SYS_GUID() NOT NULL);
+CREATE TABLE PROTOCOL_ACTIONS (
+    PROTOCOL_ACTION_ID NUMBER(12,0) NOT NULL,
+    PROTOCOL_NUMBER    VARCHAR2(20) NOT NULL,
+    SEQUENCE_NUMBER    NUMBER(4) NOT NULL,
+    SUBMISSION_NUMBER  NUMBER(4),
+    ACTION_ID          NUMBER(6) NOT NULL,
+    PROTOCOL_ACTION_TYPE_CODE VARCHAR2(3) NOT NULL,
+    PROTOCOL_ID        NUMBER(12,0) NOT NULL,
+    SUBMISSION_ID_FK   NUMBER(12,0),
+    COMMENTS           VARCHAR2 (2000),
+    ACTION_DATE        DATE,
+    UPDATE_TIMESTAMP   DATE,
+    UPDATE_USER        VARCHAR2(60),
+    VER_NBR            NUMBER(8,0) DEFAULT 1 NOT NULL, 
+    OBJ_ID             VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
 CREATE TABLE PROTOCOL_ATTACHMENT_FILE
    (PA_FILE_ID NUMBER NOT NULL ENABLE, 
@@ -884,18 +895,20 @@ CREATE TABLE PROTOCOL_ATTACHMENT_TYPE_GROUP
     UPDATE_TIMESTAMP DATE NOT NULL ENABLE,
     UPDATE_USER VARCHAR2(10) NOT NULL ENABLE);
 
-create table protocol_correspondence (
-  id					   number(12,0)  not null,
-  protocol_id 			   number(12,0)  not NULL,
-  protocol_number          varchar2 (20) not null,
-  sequence_number          number (4)    not null,
-  action_id                number (6)    not null,
-  proto_corresp_type_code  varchar2 (3)    not null,
-  correspondence           blob          default empty_blob(),
-  update_timestamp         date          not null,
-  update_user              varchar2 (8)  not null,
-  ver_nbr 				   number(8,0) DEFAULT 1 NOT NULL, 
-  obj_id				   varchar2(36) DEFAULT SYS_GUID() NOT NULL);
+CREATE TABLE PROTOCOL_CORRESPONDENCE (
+    ID                       NUMBER(12,0) NOT NULL,
+    PROTOCOL_NUMBER          VARCHAR2(20) NOT NULL,
+    SEQUENCE_NUMBER          NUMBER(4) NOT NULL,
+    ACTION_ID                NUMBER(6) NOT NULL,
+    PROTOCOL_ID              NUMBER(12,0) NOT NULL,
+    ACTION_ID_FK             NUMBER(12,0) NOT NULL,
+    PROTO_CORRESP_TYPE_CODE  VARCHAR2(3) NOT NULL,
+    CORRESPONDENCE           BLOB DEFAULT EMPTY_BLOB(),
+    FINAL_FLAG               CHAR(1) NOT NULL,
+    UPDATE_TIMESTAMP         DATE,
+    UPDATE_USER              VARCHAR2(60),
+    VER_NBR                  NUMBER(8,0) DEFAULT 1 NOT NULL, 
+    OBJ_ID                   VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
 CREATE TABLE PROTOCOL_DOCUMENT(
 DOCUMENT_NUMBER NUMBER(10) NOT NULL,
@@ -904,6 +917,19 @@ OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID()  NOT NULL,
 UPDATE_TIMESTAMP DATE NOT NULL,
 UPDATE_USER VARCHAR2(10) NOT NULL);
 
+CREATE TABLE PROTOCOL_EXEMPT_CHKLST ( 
+    PROTOCOL_EXEMPT_CHKLST_ID NUMBER(12,0) NOT NULL,
+    PROTOCOL_ID NUMBER(12,0) NOT NULL,
+    SUBMISSION_ID_FK NUMBER(12,0) NOT NULL,
+    PROTOCOL_NUMBER VARCHAR2(20) NOT NULL,
+    SEQUENCE_NUMBER NUMBER(4,0) NOT NULL,
+    SUBMISSION_NUMBER NUMBER(4,0) NOT NULL,
+    EXEMPT_STUDIES_CHECKLIST_CODE VARCHAR2(3) NOT NULL,
+    UPDATE_TIMESTAMP DATE NOT NULL, 
+    UPDATE_USER VARCHAR2(60) NOT NULL,
+    VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
+    OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
+    
 CREATE TABLE PROTOCOL_EXEMPT_NUMBER (
     PROTOCOL_EXEMPT_NUMBER_ID  NUMBER(12,0) NOT NULL,
     PROTOCOL_SPECIAL_REVIEW_ID NUMBER(12,0) NOT NULL,
@@ -913,6 +939,19 @@ CREATE TABLE PROTOCOL_EXEMPT_NUMBER (
     VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,
     OBJ_ID VARCHAR2(36 BYTE) DEFAULT SYS_GUID() NOT NULL ENABLE);
 
+CREATE TABLE PROTOCOL_EXPIDITED_CHKLST ( 
+    PROTOCOL_EXPEDITED_CHKLST_ID NUMBER(12,0) NOT NULL,
+    PROTOCOL_ID NUMBER(12,0) NOT NULL,
+    SUBMISSION_ID_FK NUMBER(12,0) NOT NULL,
+    PROTOCOL_NUMBER VARCHAR2(20) NOT NULL,
+    SEQUENCE_NUMBER NUMBER(4,0) NOT NULL,
+    SUBMISSION_NUMBER NUMBER(4,0) NOT NULL,
+    EXPEDITED_REV_CHKLST_CODE VARCHAR2(3) NOT NULL,
+    UPDATE_TIMESTAMP DATE NOT NULL, 
+    UPDATE_USER VARCHAR2(60) NOT NULL,
+    VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
+    OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
+    
 CREATE TABLE PROTOCOL_FUNDING_SOURCE ( 
     PROTOCOL_FUNDING_SOURCE_ID NUMBER(12,0) NOT NULL, 
     PROTOCOL_ID NUMBER(12,0) NOT NULL, 
@@ -1025,6 +1064,21 @@ CREATE TABLE PROTOCOL_REVIEWER_TYPE (
     VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
     OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
     
+CREATE TABLE PROTOCOL_REVIEWERS ( 
+    PROTOCOL_REVIEWER_ID NUMBER(12,0) NOT NULL,
+    PROTOCOL_ID NUMBER(12,0) NOT NULL,
+    SUBMISSION_ID_FK NUMBER(12,0) NOT NULL,
+    PROTOCOL_NUMBER VARCHAR2(20) NOT NULL,
+    SEQUENCE_NUMBER NUMBER(4,0) NOT NULL,
+    SUBMISSION_NUMBER NUMBER(4,0) NOT NULL,
+    PERSON_ID VARCHAR2(60) NOT NULL,
+    NON_EMPLOYEE_FLAG CHAR(1) NOT NULL,
+    REVIEWER_TYPE_CODE VARCHAR2(3) NOT NULL,
+    UPDATE_TIMESTAMP DATE NOT NULL, 
+    UPDATE_USER VARCHAR2(60) NOT NULL,
+    VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
+    OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
+    
 CREATE TABLE PROTOCOL_REVIEW_TYPE ( 
     PROTOCOL_REVIEW_TYPE_CODE VARCHAR2(3) NOT NULL, 
     DESCRIPTION VARCHAR2(200) NOT NULL, 
@@ -1072,29 +1126,30 @@ CREATE TABLE PROTOCOL_STATUS (
 	VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
 	OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
-create table protocol_submission (
-  submission_number          number (4)     not null,  
-  protocol_number            varchar2 (20)  not null,
-  sequence_number            number (4)     not null,  
-  schedule_id                varchar2 (10),
-  committee_id               varchar2 (15),
-  submission_type_code       varchar2 (3)     not null,
-  submission_type_qual_code  varchar2 (3),
-  submission_status_code     varchar2 (3)     not null,  
-  protocol_id 				 number(12,0)   not null,
-  comm_schedule_id			 number(12)     not null,
-  committee_id_new		 	 number(12)     not null,
-  protocol_review_type_code  varchar2(3) not NULL,  
-  submission_date            date           not null,
-  comments                   varchar2 (2000),
-  yes_vote_count             number (3),
-  no_vote_count              number (3),
-  abstainer_count            number (3),
-  voting_comments            varchar2 (2000),
-  update_timestamp           date,
-  update_user                varchar2 (8),
-  ver_nbr 				  	 number(8,0) DEFAULT 1 NOT NULL, 
-  obj_id				  	 varchar2(36) DEFAULT SYS_GUID() NOT NULL);
+CREATE TABLE PROTOCOL_SUBMISSION (
+    SUBMISSION_ID              NUMBER(12) NOT NULL,
+    PROTOCOL_NUMBER            VARCHAR2(20) NOT NULL,
+    SEQUENCE_NUMBER            NUMBER(4) NOT NULL,  
+    SUBMISSION_NUMBER          NUMBER(4) NOT NULL,  
+    SCHEDULE_ID                VARCHAR2(10),
+    COMMITTEE_ID               VARCHAR2(15),
+    PROTOCOL_ID                NUMBER(12,0) NOT NULL,
+    SCHEDULE_ID_FK             NUMBER(12),
+    COMMITTEE_ID_FK            NUMBER(12),
+    SUBMISSION_TYPE_CODE       VARCHAR2(3) NOT NULL,
+    SUBMISSION_TYPE_QUAL_CODE  VARCHAR2(3),
+    SUBMISSION_STATUS_CODE     VARCHAR2(3) NOT NULL,  
+    PROTOCOL_REVIEW_TYPE_CODE  VARCHAR2(3) NOT NULL,  
+    SUBMISSION_DATE            DATE NOT NULL,
+    COMMENTS                   VARCHAR2(2000),
+    YES_VOTE_COUNT             NUMBER(3),
+    NO_VOTE_COUNT              NUMBER(3),
+    ABSTAINER_COUNT            NUMBER(3),
+    VOTING_COMMENTS            VARCHAR2(2000),
+    UPDATE_TIMESTAMP           DATE,
+    UPDATE_USER                VARCHAR2(60),
+    VER_NBR                    NUMBER(8,0) DEFAULT 1 NOT NULL, 
+    OBJ_ID                     VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
 CREATE TABLE PROTOCOL_TYPE ( 
 	PROTOCOL_TYPE_CODE VARCHAR2(3) NOT NULL, 
