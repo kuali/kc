@@ -32,6 +32,7 @@ public class ProtocolReviewerBean extends BusinessObjectBase {
     private String fullName;
     private boolean checked = false;
     private String reviewerTypeCode;
+    private boolean nonEmployeeFlag;
     
     public String getPersonId() {
         return personId;
@@ -64,6 +65,14 @@ public class ProtocolReviewerBean extends BusinessObjectBase {
     public void setReviewerTypeCode(String reviewerTypeCode) {
         this.reviewerTypeCode = reviewerTypeCode;
     }
+    
+    public boolean getNonEmployeeFlag() {
+        return nonEmployeeFlag;
+    }
+    
+    public void setNonEmployeeFlag(boolean nonEmployeeFlag) {
+        this.nonEmployeeFlag = nonEmployeeFlag;
+    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -73,10 +82,11 @@ public class ProtocolReviewerBean extends BusinessObjectBase {
         map.put("fullName", getFullName());
         map.put("checked", getChecked());
         map.put("reviewTypeCode", getReviewerTypeCode());
+        map.put("nonEmployeeFlag", getNonEmployeeFlag());
         return map;
     }
 
     public void refresh() {
-        // TODO Auto-generated method stub
+       
     }
 }

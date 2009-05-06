@@ -178,4 +178,8 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
+	<bean id="protocolSubmitActionService" class="org.kuali.kra.irb.actions.submit.ProtocolSubmitActionServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="committeeService" ref="committeeService" />
+	</bean>
 </beans>

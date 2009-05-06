@@ -30,7 +30,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * This class is really just a "form" for submitting a protocol for review
  * in the Submit for Review Action.
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "serial" })
 public class ProtocolSubmitAction implements Serializable{
     
     private ActionHelper actionHelper;
@@ -101,7 +101,14 @@ public class ProtocolSubmitAction implements Serializable{
             List<CommitteeMembership> members = getCommitteeService().getAvailableMembers(committeeId, scheduleId);
             for (CommitteeMembership member : members) {
                 ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
-                reviewer.setPersonId(member.getPersonId());
+                if (!StringUtils.isBlank(member.getPersonId())) {
+                    reviewer.setPersonId(member.getPersonId());
+                    reviewer.setNonEmployeeFlag(false);
+                }
+                else {
+                    reviewer.setPersonId(member.getRolodexId().toString());
+                    reviewer.setNonEmployeeFlag(true);
+                }
                 reviewer.setFullName(member.getPersonName());
                 reviewers.add(reviewer);
             }
@@ -144,12 +151,20 @@ public class ProtocolSubmitAction implements Serializable{
         this.newCommitteeId = committeeId;
     }
     
+    public String getNewCommitteeId() {
+        return newCommitteeId;
+    }
+    
     public String getScheduleId() {
         return scheduleId;
     }
     
     public void setScheduleId(String scheduleId) {
         this.newScheduleId = scheduleId;
+    }
+    
+    public String getNewScheduleId() {
+        return newScheduleId;
     }
     
     public List<ProtocolReviewerBean> getReviewers() {

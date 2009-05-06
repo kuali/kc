@@ -18,11 +18,12 @@ package org.kuali.kra.irb.actions;
 import java.io.Serializable;
 
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionBean;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 
 /**
  * The form helper class for the Protocol Actions tab.
  */
+@SuppressWarnings("serial")
 public class ActionHelper implements Serializable {
 
     /**
@@ -31,7 +32,7 @@ public class ActionHelper implements Serializable {
      */
     private ProtocolForm form;
     
-    private ProtocolSubmitActionBean protocolSubmitAction;
+    private ProtocolSubmitAction protocolSubmitAction;
    
     /**
      * Constructs an ActionHelper.
@@ -39,14 +40,14 @@ public class ActionHelper implements Serializable {
      */
     public ActionHelper(ProtocolForm form) {
         this.form = form;
-        protocolSubmitAction = new ProtocolSubmitActionBean(this);
+        protocolSubmitAction = new ProtocolSubmitAction(this);
     }
     
     public void prepareView() {
         protocolSubmitAction.prepareView();
     }
     
-    public ProtocolSubmitActionBean getProtocolSubmitAction() {
+    public ProtocolSubmitAction getProtocolSubmitAction() {
         return protocolSubmitAction;
     }
 

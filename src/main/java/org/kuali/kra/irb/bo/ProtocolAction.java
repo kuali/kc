@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.bo;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import javax.persistence.CascadeType;
@@ -37,30 +37,42 @@ public class ProtocolAction extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = -2148599171919464303L;
 
     @Id 
+    @Column(name = "PROTOCOL_ACTION_ID")
+    private Long protocolActionId;
+    
     @Column(name="ACTION_ID")
     private Integer actionId; 
-    
-    private String protocolActionTypeCode;
 
     @Column(name="PROTOCOL_NUMBER")
     private String protocolNumber; 
 
     @Column(name="SEQUENCE_NUMBER")
-    private Integer sequenceNumber; 
+    private Integer sequenceNumber;
+    
+    @Column(name = "SUBMISSION_NUMBER")
+    private Integer submissionNumber;
+    
+    @Column(name = "PROTOCOL_ID")
+    private Long protocolId;
+    
+    @Column(name = "SUBMISSION_ID_FK")
+    private Long submissionIdFk;
+    
+    @Column(name = "PROTOCOL_ACTION_TYPE_CODE")
+    private String protocolActionTypeCode;
     
     @Column(name="COMMENTS")
     private String comments; 
 
     @Column(name="ACTION_DATE")
-    private Date actionDate; 
-
+    private Timestamp actionDate;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="PROTOCOL_ID", insertable=false, updatable=false)
     private Protocol protocol;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="SUBMISSION_NUMBER", insertable=false, updatable=false)
+    @JoinColumn(name="SUBMISSION_ID_FK", insertable=false, updatable=false)
     private ProtocolSubmission protocolSubmission;    
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
@@ -70,6 +82,14 @@ public class ProtocolAction extends KraPersistableBusinessObjectBase {
     public ProtocolAction() { 
 
     } 
+    
+    public Long getProtocolActionId() {
+        return protocolActionId;
+    }
+
+    public void setProtocolActionId(Long protocolActionId) {
+        this.protocolActionId = protocolActionId;
+    }
     
     public Integer getActionId() {
         return actionId;
@@ -102,6 +122,30 @@ public class ProtocolAction extends KraPersistableBusinessObjectBase {
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
+    
+    public void setSubmissionNumber(Integer submissionNumber) {
+        this.submissionNumber = submissionNumber;
+    }
+
+    public Integer getSubmissionNumber() {
+        return submissionNumber;
+    }
+    
+    public Long getProtocolId() {
+        return protocolId;
+    }
+
+    public void setProtocolId(Long protocolId) {
+        this.protocolId = protocolId;
+    }
+
+    public Long getSubmissionIdFk() {
+        return submissionIdFk;
+    }
+
+    public void setSubmissionIdFk(Long submissionIdFk) {
+        this.submissionIdFk = submissionIdFk;
+    }
 
     public String getComments() {
         return comments;
@@ -111,11 +155,11 @@ public class ProtocolAction extends KraPersistableBusinessObjectBase {
         this.comments = comments;
     }
 
-    public Date getActionDate() {
+    public Timestamp getActionDate() {
         return actionDate;
     }
 
-    public void setActionDate(Date actionDate) {
+    public void setActionDate(Timestamp actionDate) {
         this.actionDate = actionDate;
     }
 
@@ -126,7 +170,6 @@ public class ProtocolAction extends KraPersistableBusinessObjectBase {
     public void setProtocol(Protocol protocol) {
         this.protocol = protocol;
     }
-
 
     public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
         this.protocolSubmission = protocolSubmission;
@@ -143,15 +186,18 @@ public class ProtocolAction extends KraPersistableBusinessObjectBase {
     public ProtocolActionType getProtocolActionType() {
         return protocolActionType;
     }
-
+    
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("protocolActionId", getProtocolActionId());
         hashMap.put("actionId", this.getActionId());
         hashMap.put("protocolActionTypeCode", getProtocolActionTypeCode());
         hashMap.put("protocolNumber", this.getProtocolNumber());
         hashMap.put("sequenceNumber", this.getSequenceNumber());
+        hashMap.put("protocolId", getProtocolId());
+        hashMap.put("submissionIdFk", getSubmissionIdFk());
         hashMap.put("comments", this.getComments());
         hashMap.put("actionDate", this.getActionDate());
         return hashMap;
