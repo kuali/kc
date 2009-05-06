@@ -22,8 +22,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.permissions.web.struts.action.PermissionsAction;
-import org.kuali.kra.irb.web.struts.action.ProtocolAction;
-import org.kuali.kra.irb.web.struts.form.ProtocolForm;
+import org.kuali.kra.irb.ProtocolAction;
+import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**

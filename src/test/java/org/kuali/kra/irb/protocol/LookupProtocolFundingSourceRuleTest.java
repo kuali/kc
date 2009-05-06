@@ -17,10 +17,10 @@ package org.kuali.kra.irb.protocol;
 
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.ProtocolEventBase;
 import org.kuali.kra.irb.protocol.LookupProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.LookupProtocolFundingSourceRule;
 import org.kuali.kra.irb.protocol.ProtocolFundingSourceServiceImpl.FundingSourceLookup;
-import org.kuali.kra.irb.rule.event.ProtocolEventBase;
 import org.kuali.kra.rules.TemplateRuleTest;
 
 public class LookupProtocolFundingSourceRuleTest {

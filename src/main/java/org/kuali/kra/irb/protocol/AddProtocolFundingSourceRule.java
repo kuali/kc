@@ -21,7 +21,7 @@ public interface AddProtocolFundingSourceRule extends BusinessRule {
 
     /**
      * Rule invoked upon saving protocol funding source to a 
-     * <code>{@link org.kuali.kra.irb.document.ProtocolDocument}</code>
+     * <code>{@link org.kuali.kra.irb.ProtocolDocument}</code>
      *
      * @return boolean
      */

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**

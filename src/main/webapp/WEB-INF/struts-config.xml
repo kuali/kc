@@ -17,7 +17,7 @@
 		<form-bean name="ChangePasswordForm" type="org.kuali.kra.web.struts.form.ChangePasswordForm" />
 		<form-bean name="UnitHierarchyForm" type="org.kuali.kra.web.struts.form.UnitHierarchyForm" />
 		<form-bean name="SponsorHierarchyForm" type="org.kuali.kra.web.struts.form.SponsorHierarchyForm" />
-		<form-bean name="ProtocolForm" type="org.kuali.kra.irb.web.struts.form.ProtocolForm" />
+		<form-bean name="ProtocolForm" type="org.kuali.kra.irb.ProtocolForm" />
 		<form-bean name="ResearchAreasForm" type="org.kuali.kra.web.struts.form.ResearchAreasForm" />
 		<form-bean name="CommitteeForm" type="org.kuali.kra.committee.web.struts.form.CommitteeForm" />
     </form-beans>

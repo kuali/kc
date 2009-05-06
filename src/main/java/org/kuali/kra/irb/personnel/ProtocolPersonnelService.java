@@ -18,7 +18,6 @@ package org.kuali.kra.irb.personnel;
 import java.util.List;
 
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.bo.ProtocolUnit;
 
 
 public interface ProtocolPersonnelService {

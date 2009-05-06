@@ -17,7 +17,7 @@ package org.kuali.kra.irb.personnel;
 
 import static org.kuali.kra.logging.BufferedLogger.info;
 
-import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
 

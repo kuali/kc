@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.irb.bo;
+package org.kuali.kra.irb.personnel;
 
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.irb.ProtocolAssociate;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
 
 public class ProtocolUnit extends ProtocolAssociate { 
 	

@@ -25,7 +25,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -341,7 +340,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
 
     /**
-     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#isDuplicateUnit(java.util.List, org.kuali.kra.irb.bo.ProtocolUnit)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#isDuplicateUnit(java.util.List, org.kuali.kra.irb.personnel.ProtocolUnit)
      */
     public boolean isDuplicateUnit(ProtocolPerson protocolPerson, ProtocolUnit newProtocolUnit) {
         boolean duplicateUnit = false;

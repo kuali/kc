@@ -30,7 +30,7 @@ import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.permission.ProtocolPermissionsRule;
 import org.kuali.kra.irb.rules.ProtocolRuleTestBase;
 

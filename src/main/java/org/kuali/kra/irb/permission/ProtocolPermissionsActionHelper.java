@@ -17,8 +17,8 @@ package org.kuali.kra.irb.permission;
 
 import org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.service.ProtocolAuthorizationService;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.rice.kns.document.Document;
 
 /**

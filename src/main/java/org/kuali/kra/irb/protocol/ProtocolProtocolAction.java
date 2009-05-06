@@ -31,10 +31,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.rule.event.ProtocolEventBase;
-import org.kuali.kra.irb.web.struts.action.ProtocolAction;
-import org.kuali.kra.irb.web.struts.form.ProtocolForm;
+import org.kuali.kra.irb.ProtocolAction;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolEventBase;
+import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -47,7 +47,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class ProtocolProtocolAction extends ProtocolAction {
     
     /**
-     * @see org.kuali.kra.irb.web.struts.action.ProtocolAction#isValidSave(org.kuali.kra.irb.web.struts.form.ProtocolForm)
+     * @see org.kuali.kra.irb.ProtocolAction#isValidSave(org.kuali.kra.irb.ProtocolForm)
      */
     @Override
     protected boolean isValidSave(ProtocolForm protocolForm) {    
@@ -95,7 +95,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
 
     /**
-     * @see org.kuali.kra.irb.web.struts.action.ProtocolAction#processMultipleLookupResults(org.kuali.kra.irb.document.ProtocolDocument,
+     * @see org.kuali.kra.irb.ProtocolAction#processMultipleLookupResults(org.kuali.kra.irb.ProtocolDocument,
      * java.lang.Class, java.util.Collection)
      */
     @Override

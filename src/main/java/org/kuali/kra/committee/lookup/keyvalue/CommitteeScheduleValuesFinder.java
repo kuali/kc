@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.web.struts.form.ProtocolForm;
+import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;

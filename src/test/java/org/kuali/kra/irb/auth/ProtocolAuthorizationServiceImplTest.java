@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.service;
+package org.kuali.kra.irb.auth;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -30,8 +30,8 @@ import org.junit.Test;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.irb.auth.ProtocolAuthorizationServiceImpl;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.service.impl.ProtocolAuthorizationServiceImpl;
 import org.kuali.kra.kim.mocks.MockKimDatabase;
 import org.kuali.kra.kim.mocks.MockKimPersonService;
 import org.kuali.kra.kim.mocks.MockKimQualifiedRoleService;

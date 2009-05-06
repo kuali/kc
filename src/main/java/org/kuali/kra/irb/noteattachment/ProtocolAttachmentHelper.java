@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
 /**
  * This is the "Helper" class for ProtocolNoteAndAttachment.

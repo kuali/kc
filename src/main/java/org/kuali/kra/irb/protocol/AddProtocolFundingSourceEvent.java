@@ -20,8 +20,8 @@ import static org.kuali.kra.logging.BufferedLogger.info;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.irb.rule.event.ProtocolEventBase;
-import org.kuali.kra.irb.rule.event.ProtocolEventBase.ErrorType;
+import org.kuali.kra.irb.ProtocolEventBase;
+import org.kuali.kra.irb.ProtocolEventBase.ErrorType;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
 
