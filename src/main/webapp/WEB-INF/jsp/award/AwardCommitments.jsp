@@ -16,22 +16,19 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="awardTimeAndMoney"
+	htmlFormAction="awardCommitments"
 	documentTypeName="AwardDocument"
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="timeAndMoney">
+  	headerTabActive="commitments">
   	
-This is the Award Time & Money - Under Construction
-<div align="right"><kul:help documentTypeName="AwardDocument" pageName="TimeAndMoney" /></div>
+<div align="right"><kul:help documentTypeName="AwardDocument" pageName="Commitments" /></div>
 
-<kra-a:awardTimeAndMoney />
-<kra-a:awardBudget />
-<kra-a:awardDirectFnAFundsDistribution />
-<kra-a:awardSummary />
-<kra-a:awardHistory />
+<kra-a:awardCostShare />
+<kra-a:awardFandARates />
+<kra-a:awardPreAwardAuthorizations />
 
 <kul:panelFooter />
 
