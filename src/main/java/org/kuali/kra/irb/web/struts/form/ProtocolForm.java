@@ -30,6 +30,7 @@ import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.customdata.CustomDataHelper;
 import org.kuali.kra.irb.document.ProtocolDocument;

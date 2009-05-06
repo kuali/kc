@@ -13,43 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.bo;
+package org.kuali.kra.irb.actions.submit;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-/**
- * A Protocol Review Type refers to the type of review that an
- * IRB Committee will perform, e.g. Full, Expedited, Exempt, etc.
- */
 @SuppressWarnings("serial")
-public class ProtocolReviewType extends KraPersistableBusinessObjectBase {
-    
-    public static final String EXPEDITED_REVIEW_TYPE_CODE = "2";
-    public static final String EXEMPT_STUDIES_REVIEW_TYPE_CODE = "3";
+public class ProtocolReviewerType extends KraPersistableBusinessObjectBase {
 
-    @Column(name = "PROTOCOL_REVIEW_TYPE_CODE")
-    private String reviewTypeCode;
-    
-    @Column(name = "DESCRIPTION")
+    private String reviewerTypeCode;
     private String description;
     
-    /**
-     * Constructs a ProtocolReviewType.
-     */
-    public ProtocolReviewType() {
+    public ProtocolReviewerType() {
         
     }
-    
-    public String getReviewTypeCode() {
-        return reviewTypeCode;
+
+    public String getReviewerTypeCode() {
+        return reviewerTypeCode;
     }
 
-    public void setReviewTypeCode(String reviewTypeCode) {
-        this.reviewTypeCode = reviewTypeCode;
+    public void setreviewerTypeCode(String reviewerTypeCode) {
+        this.reviewerTypeCode = reviewerTypeCode;
     }
 
     public String getDescription() {
@@ -59,12 +44,12 @@ public class ProtocolReviewType extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
+    
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
-        map.put("reviewTypeCode", getReviewTypeCode());
+        map.put("reviewerTypeCode", getReviewerTypeCode());
         map.put("description", getDescription());
         return map;
     }

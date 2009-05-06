@@ -3,7 +3,7 @@
   <bean id="ExpeditedReviewCheckListMaintenanceDocument" parent="ExpeditedReviewCheckListMaintenanceDocument-parentBean"/>
 
   <bean id="ExpeditedReviewCheckListMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.irb.bo.ExpeditedReviewCheckListItem"/>
+    <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>

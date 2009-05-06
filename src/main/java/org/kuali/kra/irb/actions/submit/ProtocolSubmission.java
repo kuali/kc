@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.bo;
+package org.kuali.kra.irb.actions.submit;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
@@ -30,6 +30,7 @@ import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.irb.bo.Protocol;
 
 @Entity 
 @Table(name="PROTOCOL_SUBMISSION")

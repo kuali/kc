@@ -21,7 +21,7 @@
 
 	<bean id="ProtocolReviewType" parent="ProtocolReviewType-parentBean" />
 	<bean id="ProtocolReviewType-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolReviewType" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ProtocolReviewType" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolReviewType-inquiryDefinition" />
 		</property>

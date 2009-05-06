@@ -27,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.irb.bo.ProtocolReviewType;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 
 /**
  * Represents a single committee within an institution.
