@@ -51,17 +51,17 @@
 		</property>
 	</bean>
 	
-	<bean id="protocolReferenceService" class="org.kuali.kra.irb.service.impl.ProtocolReferenceServiceImpl">
+	<bean id="protocolReferenceService" class="org.kuali.kra.irb.protocol.ProtocolReferenceServiceImpl">
 	</bean>	
 
-	<bean id="protocolResearchAreaService" class="org.kuali.kra.irb.service.impl.ProtocolResearchAreaServiceImpl">
+	<bean id="protocolResearchAreaService" class="org.kuali.kra.irb.protocol.ProtocolResearchAreaServiceImpl">
 	</bean>	
 	
-	<bean id="protocolLocationService" class="org.kuali.kra.irb.service.impl.ProtocolLocationServiceImpl">
+	<bean id="protocolLocationService" class="org.kuali.kra.irb.protocol.ProtocolLocationServiceImpl">
         <property name="organizationService" ref="organizationService" />
 	</bean>
 		
-    <bean id="protocolParticipantTypeService" class="org.kuali.kra.irb.service.impl.ProtocolParticipantServiceImpl">
+    <bean id="protocolParticipantTypeService" class="org.kuali.kra.irb.protocol.ProtocolParticipantServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
@@ -73,7 +73,7 @@
         </property>
     </bean> 
     
-    <bean id="protocolFundingSourceService" class="org.kuali.kra.irb.service.impl.ProtocolFundingSourceServiceImpl">
+    <bean id="protocolFundingSourceService" class="org.kuali.kra.irb.protocol.ProtocolFundingSourceServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="unitService" ref="unitService" />
         <property name="sponsorService" ref="sponsorService" />
@@ -163,7 +163,7 @@
             <ref bean="dataDictionaryService" />
         </property>
 	</bean>	
-	<bean id="protocolProtocolService" class="org.kuali.kra.irb.service.impl.ProtocolProtocolServiceImpl">
+	<bean id="protocolProtocolService" class="org.kuali.kra.irb.protocol.ProtocolProtocolServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>

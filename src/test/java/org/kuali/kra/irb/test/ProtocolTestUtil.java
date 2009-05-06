@@ -18,7 +18,7 @@ package org.kuali.kra.irb.test;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.service.ProtocolLocationService;
+import org.kuali.kra.irb.protocol.ProtocolLocationService;
 
 /**
  * Utility for working with Protocol objects for testing.

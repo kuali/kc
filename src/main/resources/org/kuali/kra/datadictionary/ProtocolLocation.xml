@@ -21,7 +21,7 @@
 
 	<bean id="ProtocolLocation" parent="ProtocolLocation-parentBean" />
 	<bean id="ProtocolLocation-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolLocation" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.protocol.ProtocolLocation" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolLocation-inquiryDefinition" />
 		</property>
@@ -111,7 +111,7 @@
 		<property name="required" value="true" />
     	<property name="control" >
       		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.irb.bo.ProtocolOrganizationType"
+            	p:businessObjectClass="org.kuali.kra.irb.protocol.ProtocolOrganizationType"
             	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             	p:includeKeyInLabel="false"
             	p:includeBlankRow="false"

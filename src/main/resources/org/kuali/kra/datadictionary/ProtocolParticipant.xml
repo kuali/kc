@@ -23,7 +23,7 @@
 
 	<bean id="ProtocolParticipant" parent="ProtocolParticipant-parentBean" />
 	<bean id="ProtocolParticipant-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolParticipant" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.protocol.ProtocolParticipant" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolParticipant-inquiryDefinition" />
 		</property>
@@ -88,7 +88,7 @@
 		<property name="required" value="true" />
 		<property name="control" >
             <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.irb.lookup.keyvalue.ParticipantTypeValuesFinder" 
+                p:valuesFinderClass="org.kuali.kra.irb.protocol.ParticipantTypeValuesFinder" 
                 p:includeKeyInLabel="false" />
         </property>
 	</bean>

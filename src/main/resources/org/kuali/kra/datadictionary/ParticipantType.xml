@@ -23,7 +23,7 @@
 
 	<bean id="ParticipantType" parent="ParticipantType-parentBean" />
 	<bean id="ParticipantType-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ParticipantType" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.protocol.ParticipantType" />
 		<property name="inquiryDefinition" >
 			<ref bean="ParticipantType-inquiryDefinition" />
 		</property>
