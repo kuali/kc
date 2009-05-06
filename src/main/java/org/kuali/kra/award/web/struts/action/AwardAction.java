@@ -186,6 +186,20 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     
     /**
      * 
+     * This method gets called upon navigation to Commitments tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward commitments(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) { 
+        return mapping.findForward(Constants.MAPPING_AWARD_COMMITMENTS_PAGE);
+    }
+
+    /**
+     * 
      * This method gets called upon navigation to Time & Money tab.
      * @param mapping
      * @param form
