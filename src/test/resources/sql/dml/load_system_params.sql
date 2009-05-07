@@ -310,3 +310,8 @@ INSERT INTO KRNS_PARM_T(NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PAR
   VALUES('KR-WKFLW', 'DocumentSearch', 'DOCUMENT_SEARCH_POPUP_IND', 'E78100F6F14C4932B54F7719FA5C27E9', 1, 'CONFG', 'Y', 'Flag to specify if clicking on a Document ID from Document Search will load the Document in a new window.', 'A', 'WorkflowAdmin', 'Y');
 INSERT INTO KRNS_PARM_T(NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
   VALUES('KR-WKFLW', 'DocumentSearch', 'DOCUMENT_SEARCH_ROUTE_LOG_POPUP_IND', '632680DDE9A7478CBD379FAF90C7AE72', 1, 'CONFG', 'N', 'Flag to specify if clicking on a Route Log from Document Search will load the Route Log in a new window.', 'A', 'WorkflowAdmin', 'Y');
+
+INSERT INTO KRNS_PARM_T
+(NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM,                     OBJ_ID,     VER_NBR,  PARM_TYP_CD,  TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
+VALUES('KC-AWARD',    'D',             'award.creditsplit.enabled',    sys_guid(),    1,     'CONFG',         'Y',    'Determines whether the Credit Split is turned on for Award',    'A',    'WorkflowAdmin',    'Y');
+  

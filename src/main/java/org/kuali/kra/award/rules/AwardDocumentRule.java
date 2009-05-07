@@ -25,6 +25,13 @@ import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardDirectFandADistribution;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.bo.AwardSpecialReview;
+import org.kuali.kra.award.contacts.AwardCreditSplitBean;
+import org.kuali.kra.award.contacts.AwardPersonCreditSplitRule;
+import org.kuali.kra.award.contacts.AwardPersonCreditSplitRuleEvent;
+import org.kuali.kra.award.contacts.AwardPersonCreditSplitRuleImpl;
+import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplitRule;
+import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplitRuleEvent;
+import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplitRuleImpl;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRuleImpl;
 import org.kuali.kra.award.contacts.SaveAwardProjectPersonsRuleEvent;
@@ -89,9 +96,12 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
 public class AwardDocumentRule extends ResearchDocumentRuleBase implements AwardPaymentScheduleRule, 
                                                                             AwardApprovedEquipmentRule, 
                                                                             AwardApprovedForeignTravelRule, 
-                                                                            AddFandaRateRule,SpecialReviewRule<AwardSpecialReview>,                                                                            
+                                                                            AddFandaRateRule,
+                                                                            SpecialReviewRule<AwardSpecialReview>,
                                                                             AwardDetailsAndDatesRule,
                                                                             CustomAttributeRule,
+                                                                            AwardPersonCreditSplitRule,
+                                                                            AwardPersonUnitCreditSplitRule,
                                                                             AwardProjectPersonsSaveRule,
                                                                             PermissionsRule,
                                                                             AwardReportTermRule,
@@ -247,9 +257,11 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processAwardReportTermBusinessRules(document);
         retval &= processAwardDirectFandADistributionBusinessRules(document);
         retval &= processSaveAwardProjectPersonsBusinessRules(errorMap, awardDocument);
+        retval &= processAwardPersonCreditSplitBusinessRules(awardDocument);
+        retval &= processAwardPersonUnitCreditSplitBusinessRules(awardDocument);
         
         return retval;
-    }
+    }    
     
     private boolean processApprovedEquipmentBusinessRules(ErrorMap errorMap, AwardDocument awardDocument) {
         boolean success = true;
@@ -742,6 +754,14 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     public boolean processCustomAttributeRules(SaveCustomAttributeEvent saveCustomAttributeEvent) {
         return new KraCustomAttributeRule().processCustomAttributeRules(saveCustomAttributeEvent);
     }
+    
+    public boolean checkAwardPersonCreditSplitTotals(AwardPersonCreditSplitRuleEvent event) {
+        return new AwardPersonCreditSplitRuleImpl().checkAwardPersonCreditSplitTotals(event);
+    }
+
+    public boolean checkAwardPersonUnitCreditSplitTotals(AwardPersonUnitCreditSplitRuleEvent event) {
+        return new AwardPersonUnitCreditSplitRuleImpl().checkAwardPersonUnitCreditSplitTotals(event);
+    }
 
     private boolean processSaveAwardProjectPersonsBusinessRules(ErrorMap errorMap, AwardDocument document) {
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
@@ -752,5 +772,14 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         
         return success;
+    }
+
+    private boolean processAwardPersonCreditSplitBusinessRules(AwardDocument document) {
+        return new AwardCreditSplitBean(document).recalculateCreditSplit();
+        
+    }
+    
+    private boolean processAwardPersonUnitCreditSplitBusinessRules(AwardDocument document) {
+        return new AwardCreditSplitBean(document).recalculateCreditSplit();
     }
 }

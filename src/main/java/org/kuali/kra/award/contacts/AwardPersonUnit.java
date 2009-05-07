@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.award.contacts;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
@@ -32,9 +34,10 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
     
     private Long awardPersonUnitId;
     private AwardPerson awardPerson;
-    private boolean leadUnit;
-    
+    private boolean leadUnit;    
     private Unit unit;
+    
+    private List<AwardPersonUnitCreditSplit> creditSplits;
     
     // OJB Hack
     private String unitNumber;
@@ -45,6 +48,7 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
      */
     public AwardPersonUnit() {
         super();
+        creditSplits = new ArrayList<AwardPersonUnitCreditSplit>();
     }
     /**
      * Constructs a AwardPersonUnit
@@ -54,6 +58,7 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
         this();
         setAwardPerson(awardPerson);
     }
+    
     /**
      * Constructs a AwardPersonUnit
      * @param awardPerson
@@ -61,11 +66,12 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
      * @param isLeadUnit
      */
     AwardPersonUnit(AwardPerson awardPerson, Unit unit, boolean isLeadUnit) {
-        super();
+        this();
         this.awardPerson = awardPerson;
         this.unit = unit;
-        leadUnit = isLeadUnit;
+        leadUnit = isLeadUnit;        
     }
+    
     /**
      * Find the lead unit from among award awardPerson units
      * @param awardPersonUnits
@@ -80,12 +86,25 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
         }
         return foundLeadUnit;
     }
+    
+    /**
+     * @param creditSplit
+     */
+    public void add(AwardPersonUnitCreditSplit creditSplit) {
+       creditSplits.add(creditSplit);
+       creditSplit.setAwardPersonUnit(this);
+    }
+    
     /**
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(AwardPersonUnit other) {
         return this.unit.getUnitName().compareToIgnoreCase(other.getUnit().getUnitName());
     }
+    
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -115,20 +134,18 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
         return true;
     }
     /**
-     * @return
-     */
-    public AwardContact getAwardPerson() {
-        return awardPerson;
-    }
-    
-    /**
      * Gets the awardPersonId attribute. 
      * @return Returns the awardPersonId.
      */
     public Long getAwardContactId() {
         return awardContactId;
     }
-    
+    /**
+     * @return
+     */
+    public AwardContact getAwardPerson() {
+        return awardPerson;
+    }
     /**
      * Gets the awardPersonUnitId attribute. 
      * @return Returns the awardPersonUnitId.
@@ -137,6 +154,25 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
         return awardPersonUnitId;
     }
     
+    /**
+     * @param index
+     * @return
+     */
+    public AwardPersonUnitCreditSplit getCreditSplit(int index) {
+        return creditSplits.get(index);
+    }
+    
+    /**
+     * Gets the creditSplits attribute. 
+     * @return Returns the creditSplits.
+     */
+    public List<AwardPersonUnitCreditSplit> getCreditSplits() {
+        return creditSplits;
+    }
+    
+    /**
+     * @return
+     */
     public String getFullName() {
         return awardPerson != null ? (awardPerson.getContact() != null ? awardPerson.getContact().getFullName() : null) : null;
     }
@@ -148,19 +184,26 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
         return unit;
     }
     
+    /**
+     * @return
+     */
     public String getUnitName() {
         return unit != null ? unit.getUnitName() : null;
     }
-
+    
+    /**
+     * @return
+     */
     public String getUnitNumber() {
         return unitNumber;
     }
-    
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
-        final int VALUE1 = 1231;
-        final int VALUE2 = 1237;
         int result = 1;
         result = PRIME * result + ((awardPerson == null) ? 0 : awardPerson.hashCode());
         result = PRIME * result + ((unit == null) ? 0 : unit.hashCode());
@@ -175,14 +218,6 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
     }
     
     /**
-     * @param awardPerson
-     */
-    public void setAwardPerson(AwardPerson awardPerson) {
-        this.awardPerson = awardPerson;
-        this.awardContactId = awardPerson != null ? awardPerson.getAwardContactId() : null;
-    }
-    
-    /**
      * Sets the awardPersonId attribute value.
      * @param awardPersonId The awardPersonId to set.
      */
@@ -191,11 +226,27 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
     }
     
     /**
+     * @param awardPerson
+     */
+    public void setAwardPerson(AwardPerson awardPerson) {
+        this.awardPerson = awardPerson;
+        this.awardContactId = awardPerson != null ? awardPerson.getAwardContactId() : null;
+    }
+    
+    /**
      * Sets the awardPersonUnitId attribute value.
      * @param awardPersonUnitId The awardPersonUnitId to set.
      */
     public void setAwardPersonUnitId(Long awardPersonUnitId) {
         this.awardPersonUnitId = awardPersonUnitId;
+    }
+    
+    /**
+     * Sets the creditSplits attribute value.
+     * @param creditSplits The creditSplits to set.
+     */
+    public void setCreditSplits(List<AwardPersonUnitCreditSplit> creditSplits) {
+        this.creditSplits = creditSplits;
     }
     
     /**

@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.contacts.AwardCentralAdminContactsBean;
+import org.kuali.kra.award.contacts.AwardCreditSplitBean;
 import org.kuali.kra.award.contacts.AwardProjectPersonnelBean;
 import org.kuali.kra.award.contacts.AwardSponsorContactsBean;
 import org.kuali.kra.award.contacts.AwardUnitContactsBean;
@@ -201,6 +202,22 @@ public class AwardContactsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
+
+    /**
+     * Simply returns and the recalculation will happen
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward recalculateCreditSplit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+                                                                                                                        throws Exception {
+        getAwardCreditSplitBean(form).recalculateCreditSplit();
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+
     /**
      * @return
      */
@@ -216,6 +233,10 @@ public class AwardContactsAction extends AwardAction {
         }
 
         return selectedPersonIndex;
+    }
+    
+    private AwardCreditSplitBean getAwardCreditSplitBean(ActionForm form) {
+        return ((AwardForm) form).getAwardCreditSplitBean();
     }
     
     private AwardCentralAdminContactsBean getCentralAdminContactsBean(ActionForm form) {

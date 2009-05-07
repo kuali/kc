@@ -39,6 +39,8 @@ public class AwardPerson extends AwardContact {
     private KualiDecimal summerEffort;
     private KualiDecimal totalEffort;
     private List<AwardPersonUnit> units;
+    private List<AwardPersonCreditSplit> creditSplits;
+    
     public AwardPerson() {
         super();
         init();  
@@ -47,11 +49,19 @@ public class AwardPerson extends AwardContact {
         super(rolodex, contactRole);
         init();
     }
-
     public AwardPerson(Person person, ContactRole role) {
         super(person, role);
         init();
     }
+    
+    /**
+     * @param creditSplit
+     */
+    public void add(AwardPersonCreditSplit creditSplit) {
+       creditSplits.add(creditSplit);
+       creditSplit.setAwardPerson(this);
+    }
+    
     /**
      * 
      * This method associates a unit to the 
@@ -82,9 +92,7 @@ public class AwardPerson extends AwardContact {
     public Unit findLeadUnit() {
         return AwardPersonUnit.findLeadUnit(units);
     }
-    
-    
-    
+
     /**
      * Gets the academicYearEffort attribute. 
      * @return Returns the academicYearEffort.
@@ -102,13 +110,28 @@ public class AwardPerson extends AwardContact {
     }
     
     /**
+     * @param index
+     * @return
+     */
+    public AwardPersonCreditSplit getCreditSplit(int index) {
+        return creditSplits.get(index);
+    }
+    
+    /**
+     * @return
+     */
+    public List<AwardPersonCreditSplit> getCreditSplits() {
+       return creditSplits; 
+    }
+    
+    /**
      * Gets the summerEffort attribute. 
      * @return Returns the summerEffort.
      */
     public KualiDecimal getSummerEffort() {
         return summerEffort;
     }
-
+    
     /**
      * Gets the totalEffort attribute. 
      * @return Returns the totalEffort.
@@ -117,6 +140,14 @@ public class AwardPerson extends AwardContact {
         return totalEffort;
     }
 
+    /**
+     * @param index
+     * @return
+     */
+    public AwardPersonUnit getUnit(int index) {
+        return units.get(index);
+    }
+    
     /**
      * Gets the units attribute. 
      * @return Returns the units.
@@ -140,7 +171,7 @@ public class AwardPerson extends AwardContact {
     public boolean isFaculty() {
         return faculty;
     }
-    
+
     /**
      * This method determines if person is KeyPerson
      * @return
@@ -163,13 +194,21 @@ public class AwardPerson extends AwardContact {
     public void setAcademicYearEffort(KualiDecimal academicYearEffort) {
         this.academicYearEffort = academicYearEffort;
     }
-
+    
     /**
      * Sets the calendarYearEffort attribute value.
      * @param calendarYearEffort The calendarYearEffort to set.
      */
     public void setCalendarYearEffort(KualiDecimal calendarYearEffort) {
         this.calendarYearEffort = calendarYearEffort;
+    }
+
+    /**
+     * Sets the creditSplits attribute value.
+     * @param creditSplits The creditSplits to set.
+     */
+    public void setCreditSplits(List<AwardPersonCreditSplit> creditSplits) {
+        this.creditSplits = creditSplits;
     }
 
     /**
@@ -222,6 +261,7 @@ public class AwardPerson extends AwardContact {
     }
     protected void init() {
         units = new ArrayList<AwardPersonUnit>();
+        creditSplits = new ArrayList<AwardPersonCreditSplit>();        
     }
     
     /**

@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.axis.utils.StringUtils;
 import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.contacts.AwardPersonCreditSplit;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.contacts.AwardUnitContact;
@@ -54,7 +55,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public static final String AWARD_NAMESPACE_CODE = "KC-AWARD";
     
     private static final String ONE = "1";
-    private static final String AWARD_TITLE = "Award";
     private static final String YES_FLAG = "Y";
     
     private static final long serialVersionUID = 3797220122448310165L;
@@ -307,6 +307,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public List<AwardUnitContact> getAwardUnitContacts() {
         return awardUnitContacts;
+    }
+    
+    /**
+     * @param index
+     * @return
+     */
+    public AwardPerson getProjectPerson(int index) {
+        return projectPersons.get(index);
     }
     
     /**
@@ -759,8 +767,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setCompetingRenewalProposalDue(Integer competingRenewalProposalDue) {
         this.competingRenewalProposalDue = competingRenewalProposalDue;
     }
-
-
+    
     /**
      * 
      * @return
