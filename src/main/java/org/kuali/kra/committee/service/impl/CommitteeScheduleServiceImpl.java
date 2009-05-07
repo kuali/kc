@@ -36,7 +36,7 @@ import org.kuali.kra.committee.web.struts.form.schedule.MonthlyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 import org.kuali.kra.scheduling.sequence.DefaultScheduleSequence;
 import org.kuali.kra.scheduling.sequence.ScheduleSequence;

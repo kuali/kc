@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.RolePersons;
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 
 /**
  * The Protocol Authorization Service handles access to Protocol Documents.

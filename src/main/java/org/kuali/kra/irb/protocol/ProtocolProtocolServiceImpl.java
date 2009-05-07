@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**

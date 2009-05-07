@@ -22,11 +22,11 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolActionServiceImpl;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.test.ProtocolTestUtil;
 import org.kuali.rice.kns.service.BusinessObjectService;
 

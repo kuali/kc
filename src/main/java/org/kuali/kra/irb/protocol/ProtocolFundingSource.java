@@ -21,8 +21,8 @@ import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
-import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.springframework.util.StringUtils;
 

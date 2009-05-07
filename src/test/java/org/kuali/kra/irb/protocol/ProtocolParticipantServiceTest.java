@@ -26,7 +26,7 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.ParticipantType;
 import org.kuali.kra.irb.protocol.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.ProtocolParticipantService;
