@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 
@@ -27,7 +27,7 @@ class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaService {
 
        
     /**
-     * @see org.kuali.kra.irb.protocol.ProtocolResearchAreaService#addProtocolResearchArea(org.kuali.kra.irb.bo.Protocol, org.kuali.kra.bo.ResearchArea)
+     * @see org.kuali.kra.irb.protocol.ProtocolResearchAreaService#addProtocolResearchArea(org.kuali.kra.irb.Protocol, org.kuali.kra.bo.ResearchArea)
      */
     public void addProtocolResearchArea(Protocol protocol, Collection<PersistableBusinessObject> selectedBOs) {
         for (PersistableBusinessObject bo : selectedBOs) {

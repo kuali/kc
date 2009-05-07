@@ -17,7 +17,7 @@ package org.kuali.kra.irb.noteattachment;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 
 /**
  * This class represents the Protocol Attachment Protocol.

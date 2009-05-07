@@ -18,7 +18,6 @@ package org.kuali.kra.irb;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.irb.bo.Protocol;
 
 /**
  * 

@@ -18,7 +18,7 @@ package org.kuali.kra.irb.protocol;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.service.OrganizationService;
 
 
@@ -34,7 +34,7 @@ class ProtocolLocationServiceImpl implements ProtocolLocationService {
     
     
     /**
-     * @see org.kuali.kra.irb.protocol.ProtocolLocationService#addProtocolLocation(org.kuali.kra.irb.bo.Protocol, org.kuali.kra.irb.protocol.ProtocolLocation)
+     * @see org.kuali.kra.irb.protocol.ProtocolLocationService#addProtocolLocation(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.protocol.ProtocolLocation)
      */
     public void addProtocolLocation(Protocol protocol, ProtocolLocation protocolLocation) {
         
@@ -49,7 +49,7 @@ class ProtocolLocationServiceImpl implements ProtocolLocationService {
     }
 
     /**
-     * @see org.kuali.kra.irb.protocol.ProtocolLocationService#addDefaultProtocolLocation(org.kuali.kra.irb.bo.Protocol)
+     * @see org.kuali.kra.irb.protocol.ProtocolLocationService#addDefaultProtocolLocation(org.kuali.kra.irb.Protocol)
      */
     public void addDefaultProtocolLocation(Protocol protocol) {
         if(protocol.getProtocolLocations().size() == 0) {
@@ -68,7 +68,7 @@ class ProtocolLocationServiceImpl implements ProtocolLocationService {
     }
        
     /**
-     * @see org.kuali.kra.irb.protocol.ProtocolLocationService#clearProtocolLocation(org.kuali.kra.irb.bo.Protocol, int)
+     * @see org.kuali.kra.irb.protocol.ProtocolLocationService#clearProtocolLocation(org.kuali.kra.irb.Protocol, int)
      */
     public void clearProtocolLocationAddress(Protocol protocol, int lineNumber) {
 

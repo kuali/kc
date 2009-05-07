@@ -17,10 +17,10 @@ package org.kuali.kra.irb.customdata;
 
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
-import org.kuali.kra.irb.bo.Protocol;
 
 /**
  * The CustomDataHelper is used to manage the Custom Data tab web page.

@@ -19,8 +19,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
-import org.kuali.kra.irb.bo.Protocol;
 
 /**
  * This class represents the Protocol Location Business Object.
