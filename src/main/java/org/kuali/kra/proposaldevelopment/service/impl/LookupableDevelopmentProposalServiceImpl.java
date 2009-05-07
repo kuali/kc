@@ -13,22 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb;
+package org.kuali.kra.proposaldevelopment.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.irb.bo.LookupableDevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.service.LookupableDevelopmentProposalService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
-class LookupableDevelopmentProposalServiceImpl implements LookupableDevelopmentProposalService {
+public class LookupableDevelopmentProposalServiceImpl implements LookupableDevelopmentProposalService {
 
     private BusinessObjectService businessObjectService;
 
     /** {@inheritDoc} 
      * 
-     * @see org.kuali.kra.irb.LookupableDevelopmentProposalService#getLookupableDevelopmentProposal(java.lang.String)
+     * @see org.kuali.kra.proposaldevelopment.service.LookupableDevelopmentProposalService#getLookupableDevelopmentProposal(java.lang.String)
      */
     public LookupableDevelopmentProposal getLookupableDevelopmentProposal(String proposalNumber) {
         LookupableDevelopmentProposal devProposal = null;

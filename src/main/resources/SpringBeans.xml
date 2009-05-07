@@ -1339,5 +1339,11 @@
 			<ref bean="kimServiceHelper" />
 		</property>
  	</bean>
+ 	
+ 	<bean id="lookupableDevelopmentProposalService" class="org.kuali.kra.proposaldevelopment.service.impl.LookupableDevelopmentProposalServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
 	
 </beans>
