@@ -65,13 +65,7 @@
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
-    </bean> 
-
-    <bean id="lookupableDevelopmentProposalService" class="org.kuali.kra.irb.LookupableDevelopmentProposalServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-    </bean> 
+    </bean>  
     
     <bean id="protocolFundingSourceService" class="org.kuali.kra.irb.protocol.ProtocolFundingSourceServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />

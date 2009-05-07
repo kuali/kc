@@ -23,12 +23,12 @@ import org.kuali.kra.award.service.AwardService;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.LookupableDevelopmentProposalService;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.bo.LookupableDevelopmentProposal;
 
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.LookupableDevelopmentProposalService;
 import org.kuali.kra.service.FundingSourceTypeService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
