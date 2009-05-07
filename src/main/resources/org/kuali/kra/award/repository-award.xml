@@ -182,8 +182,34 @@
 		
 		<collection-descriptor name="units" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardPersonUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none"> 
             <inverse-foreignkey field-ref="awardContactId" />
-        </collection-descriptor>	
+        </collection-descriptor>
+        
+        <collection-descriptor name="creditSplits" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardPersonCreditSplit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="awardContactId"/>
+		</collection-descriptor>	
 	</class-descriptor>
+	 
+	<class-descriptor class="org.kuali.kra.award.contacts.AwardPersonCreditSplit" table="AWARD_PERSON_CREDIT_SPLITS">
+        <field-descriptor name="awardPersonCreditSplitId" column="AWARD_PERSON_CREDIT_SPLIT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
+        
+        <!-- OJB Hacks -->
+        <field-descriptor name="awardContactId" column="AWARD_PERSON_ID" jdbc-type="BIGINT" nullable="false" />
+        <field-descriptor name="invCreditTypeCode" column="INV_CREDIT_TYPE_CODE" jdbc-type="VARCHAR" />
+        
+        <field-descriptor name="credit" column="CREDIT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+        
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+    	<reference-descriptor name="investigatorCreditType" class-ref="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType">
+			<foreignkey field-ref="invCreditTypeCode" />
+		</reference-descriptor>
+		<reference-descriptor name="awardPerson" class-ref="org.kuali.kra.award.contacts.AwardPerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="awardContactId"/> 
+		</reference-descriptor>
+    </class-descriptor>
 	 
 	<class-descriptor class="org.kuali.kra.award.contacts.AwardPersonUnit" table="AWARD_PERSON_UNITS">
 		<field-descriptor name="awardPersonUnitId" column="AWARD_PERSON_UNIT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
@@ -203,7 +229,32 @@
 		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/> 
 		</reference-descriptor>
+		<collection-descriptor name="creditSplits" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardPersonUnitCreditSplit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="awardPersonUnitId"/>
+		</collection-descriptor>
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.award.contacts.AwardPersonUnitCreditSplit" table="AWARD_PERS_UNIT_CRED_SPLITS">
+        <field-descriptor name="awardPersonUnitCreditSplitId" column="APU_CREDIT_SPLIT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
+        
+        <!-- OJB Hacks -->
+        <field-descriptor name="awardPersonUnitId" column="AWARD_PERSON_UNIT_ID" jdbc-type="BIGINT" nullable="false" />
+        <field-descriptor name="invCreditTypeCode" column="INV_CREDIT_TYPE_CODE" jdbc-type="VARCHAR" />
+        
+        <field-descriptor name="credit" column="CREDIT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+        
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+    	<reference-descriptor name="investigatorCreditType" class-ref="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType">
+			<foreignkey field-ref="invCreditTypeCode" />
+		</reference-descriptor>
+		<reference-descriptor name="awardPersonUnit" class-ref="org.kuali.kra.award.contacts.AwardPersonUnit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="awardPersonUnitId"/> 
+		</reference-descriptor>
+    </class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment" table="AWARD_APPROVED_EQUIPMENT">
 		<field-descriptor name="approvedEquipmentId" column="AWARD_APPROVED_EQUIPMENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
