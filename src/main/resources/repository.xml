@@ -3002,5 +3002,17 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal" table="EPS_PROPOSAL">
+        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_PROPOSAL_NUMBER_KRA" autoincrement="true" access="readonly"/>
+        <field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+        <reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="sponsorCode"/>
+        </reference-descriptor>      
+    </class-descriptor>
 
 </descriptor-repository>

@@ -23,7 +23,7 @@
 
     <bean id="LookupableDevelopmentProposal" parent="LookupableDevelopmentProposal-parentBean" />
     <bean id="LookupableDevelopmentProposal-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.irb.bo.LookupableDevelopmentProposal" />
+        <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal" />
         <property name="lookupDefinition" >
             <ref bean="LookupableDevelopmentProposal-lookupDefinition" />
         </property>

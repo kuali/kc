@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb;
+package org.kuali.kra.proposaldevelopment.service;
 
-import org.kuali.kra.irb.bo.LookupableDevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal;
+
 
 /**
  * 
