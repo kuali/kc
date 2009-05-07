@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.bo.ProtocolAction;
 import org.kuali.kra.irb.bo.ProtocolActionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -61,7 +61,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * Also, for a submission, a Submission BO must be created.  It contains all of the relevant
      * data for a submission: type, checklists, reviewers, etc.
      * 
-     * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#submitToIrbForReview(org.kuali.kra.irb.bo.Protocol, org.kuali.kra.irb.actions.submit.ProtocolSubmitAction)
+     * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#submitToIrbForReview(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.submit.ProtocolSubmitAction)
      */
     public void submitToIrbForReview(Protocol protocol, ProtocolSubmitAction submitAction) {
         

@@ -28,6 +28,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 
 @Entity 

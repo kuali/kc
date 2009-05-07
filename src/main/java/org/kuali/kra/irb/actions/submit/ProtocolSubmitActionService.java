@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 
 /**
  * Handles the processing of submitting a protocol to the IRB office.

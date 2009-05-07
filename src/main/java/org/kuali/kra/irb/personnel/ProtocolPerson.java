@@ -21,8 +21,8 @@ import java.util.List;
 
 import org.kuali.kra.bo.AffiliationType;
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
-import org.kuali.kra.irb.bo.Protocol;
 
 public class ProtocolPerson extends ProtocolAssociate {
     /**

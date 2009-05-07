@@ -19,7 +19,7 @@ package org.kuali.kra.irb.specialreview;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.AbstractSpecialReview;
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 /**
  * 
  * This class represents ProtocolSpecialReview BO

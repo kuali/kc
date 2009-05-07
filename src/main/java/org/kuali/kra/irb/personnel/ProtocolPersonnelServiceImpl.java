@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -60,7 +60,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
 
     /**
-     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#addProtocolPerson(org.kuali.kra.irb.bo.Protocol, org.kuali.kra.irb.personnel.ProtocolPerson)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#addProtocolPerson(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.personnel.ProtocolPerson)
      */
     public void addProtocolPerson(Protocol protocol, ProtocolPerson protocolPerson) {
         
@@ -79,7 +79,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
 
     /**
-     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#deleteProtocolPerson(org.kuali.kra.irb.bo.Protocol, int)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#deleteProtocolPerson(org.kuali.kra.irb.Protocol, int)
      */
     public void deleteProtocolPerson(Protocol protocol) {
         List<ProtocolPerson> deletedPersons = new ArrayList<ProtocolPerson>();
@@ -117,7 +117,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
     
     /**
-     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#addProtocolPersonUnit(org.kuali.kra.irb.bo.Protocol, org.kuali.kra.irb.personnel.ProtocolPerson)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#addProtocolPersonUnit(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.personnel.ProtocolPerson)
      */
     public void addProtocolPersonUnit(List<ProtocolUnit> protocolPersonUnits, ProtocolPerson protocolPerson, int selectedPersonIndex) {
         ProtocolUnit newProtocolPersonUnit = protocolPersonUnits.get(selectedPersonIndex);

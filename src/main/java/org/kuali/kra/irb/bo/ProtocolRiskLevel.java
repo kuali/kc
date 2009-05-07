@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.RiskLevel;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.ProtocolDocument;
 

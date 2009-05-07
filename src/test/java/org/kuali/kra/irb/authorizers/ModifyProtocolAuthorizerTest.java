@@ -25,10 +25,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.auth.ModifyProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.irb.auth.ProtocolTask;
-import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.service.UnitAuthorizationService;
 
 /**

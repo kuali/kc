@@ -19,8 +19,8 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
-import org.kuali.kra.irb.bo.Protocol;
 
 /**
  * This is the base class for all Protocol Attachments.

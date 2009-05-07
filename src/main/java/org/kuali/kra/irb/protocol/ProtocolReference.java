@@ -27,8 +27,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
-import org.kuali.kra.irb.bo.Protocol;
 
 @Entity 
 @Table(name="PROTOCOL_REFERENCES")

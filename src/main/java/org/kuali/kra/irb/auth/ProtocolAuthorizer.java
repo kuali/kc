@@ -17,7 +17,7 @@ package org.kuali.kra.irb.auth;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 
 /**
  * A Protocol Authorizer determines if a user can perform

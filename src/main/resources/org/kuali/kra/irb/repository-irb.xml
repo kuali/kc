@@ -27,7 +27,7 @@
     	<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.kns.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
-    	<collection-descriptor name="protocolList" proxy="true" element-class-ref="org.kuali.kra.irb.bo.Protocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    	<collection-descriptor name="protocolList" proxy="true" element-class-ref="org.kuali.kra.irb.Protocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>
     	<!-- GENERATE NEXT VALUE -->
@@ -37,7 +37,7 @@
 		<!-- GENERATE NEXT VALUE -->
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.irb.bo.Protocol" table="PROTOCOL">
+	<class-descriptor class="org.kuali.kra.irb.Protocol" table="PROTOCOL">
 		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous"/>
 		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
@@ -156,7 +156,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 		<reference-descriptor name="researchAreas" class-ref="org.kuali.kra.bo.ResearchArea" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -178,7 +178,7 @@
 		<field-descriptor name="status" column="STATUS"  jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 		<reference-descriptor name="riskLevel" class-ref="org.kuali.kra.bo.RiskLevel" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -294,7 +294,7 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolId"/>
         </reference-descriptor>
         <reference-descriptor name="fundingSourceType" class-ref="org.kuali.kra.bo.FundingSourceType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -443,7 +443,7 @@
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 		<reference-descriptor name="specialReview" class-ref="org.kuali.kra.bo.SpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -581,7 +581,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 		
@@ -619,7 +619,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 
@@ -670,7 +670,7 @@
 		<field-descriptor name="actionDate" column="ACTION_DATE" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 		<reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -714,7 +714,7 @@
 		<reference-descriptor name="schedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleIdFk"/>
 		</reference-descriptor>
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 		<reference-descriptor name="protocolReviewType" class-ref="org.kuali.kra.irb.actions.submit.ProtocolReviewType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -751,7 +751,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 		<reference-descriptor name="protocolCorrespondenceType" class-ref="org.kuali.kra.irb.bo.ProtocolCorrespondenceType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -812,7 +812,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 		<reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -835,7 +835,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 		<reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -860,7 +860,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 		<reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 

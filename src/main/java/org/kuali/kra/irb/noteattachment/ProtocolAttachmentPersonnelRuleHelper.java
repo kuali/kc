@@ -17,7 +17,7 @@ package org.kuali.kra.irb.noteattachment;
 
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.rules.ErrorReporter;
 
