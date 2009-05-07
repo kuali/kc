@@ -29,7 +29,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionRule;
-import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.noteattachment.SaveProtocolAttachmentPersonnelRuleImpl;
 import org.kuali.kra.irb.noteattachment.SaveProtocolAttachmentProtocolRuleImpl;
 import org.kuali.kra.irb.noteattachment.SubmitProtocolAttachmentProtocolRuleImpl;

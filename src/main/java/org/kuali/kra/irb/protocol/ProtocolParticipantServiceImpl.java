@@ -18,7 +18,7 @@ package org.kuali.kra.irb.protocol;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**

@@ -18,7 +18,7 @@ package org.kuali.kra.irb.protocol;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.ProtocolLocation;
 import org.kuali.kra.irb.protocol.ProtocolLocationService;
 import org.kuali.kra.irb.protocol.ProtocolLocationServiceImpl;

@@ -23,7 +23,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.ProtocolResearchAreaService;
 import org.kuali.kra.irb.protocol.ProtocolResearchAreaServiceImpl;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;

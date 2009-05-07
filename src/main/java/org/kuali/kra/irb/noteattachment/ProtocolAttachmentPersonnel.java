@@ -17,7 +17,7 @@ package org.kuali.kra.irb.noteattachment;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 
 /**

@@ -18,7 +18,7 @@ package org.kuali.kra.irb.actions.submit;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 
 @SuppressWarnings("serial")
 public class ProtocolReviewer extends KraPersistableBusinessObjectBase {

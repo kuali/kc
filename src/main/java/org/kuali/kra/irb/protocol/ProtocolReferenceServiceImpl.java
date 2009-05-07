@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.protocol;
 
 
-import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.Protocol;
 
 
 class ProtocolReferenceServiceImpl implements ProtocolReferenceService {
