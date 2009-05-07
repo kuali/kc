@@ -31,7 +31,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolLookupableHelperServiceImpl;
-import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.ui.Field;
