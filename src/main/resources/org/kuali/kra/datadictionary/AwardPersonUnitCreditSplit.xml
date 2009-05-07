@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AwardPersonUnitCreditSplit" parent="AwardPersonUnitCreditSplit-parentBean" />
+
+  <bean id="AwardPersonUnitCreditSplit-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.award.contacts.AwardPersonUnitCreditSplit" />
+    <property name="titleAttribute" value="invCreditTypeCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AwardPersonUnitCreditSplit-credit" />
+      </list>
+    </property>
+  </bean>
+
+  <!-- Attribute Definitions -->
+  
+  <bean id="AwardPersonUnitCreditSplit-credit" parent="AwardPersonUnitCreditSplit-credit-parentBean" />
+  <bean id="AwardPersonUnitCreditSplit-credit-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="credit" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Credit" />
+    <property name="shortLabel" value="Credit" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="6"
+            p:scale="2" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="description" value="Credit" />
+  </bean>
+</beans>

@@ -238,5 +238,5 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
         for(AwardPersonUnit associatedUnit: awardPerson.getUnits()) {
             associatedUnit.setLeadUnit(associatedUnit.getUnit().getUnitName().equals(unitName));
         }
-    }
+    }    
 }
