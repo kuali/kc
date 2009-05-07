@@ -28,6 +28,7 @@ import org.kuali.kra.award.bo.AwardSpecialReview;
 import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
 import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.contacts.AwardCentralAdminContactsBean;
+import org.kuali.kra.award.contacts.AwardCreditSplitBean;
 import org.kuali.kra.award.contacts.AwardProjectPersonnelBean;
 import org.kuali.kra.award.contacts.AwardSponsorContactsBean;
 import org.kuali.kra.award.contacts.AwardUnitContactsBean;
@@ -103,6 +104,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     
     private PermissionsHelper permissionsHelper;
     
+    private AwardCreditSplitBean awardCreditSplitBean; 
+    
     /**
      * 
      * Constructs a AwardForm.
@@ -146,6 +149,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         setPermissionsHelper(new PermissionsHelper(this));
         //sponsorTermTypes = new ArrayList<KeyLabelPair>();
+        awardCreditSplitBean = new AwardCreditSplitBean(this);
     }    
     
     /**
@@ -364,8 +368,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         this.reportClasses = reportClasses;
     }
 
-
-
     /**
      * Gets the approvedSubawardFormHelper attribute. 
      * @return Returns the approvedSubawardFormHelper.
@@ -373,8 +375,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     public ApprovedSubawardFormHelper getApprovedSubawardFormHelper() {
         return approvedSubawardFormHelper;
     }
-
-
 
     /**
      * Sets the approvedSubawardFormHelper attribute value.
@@ -505,6 +505,13 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         this.auditActivated = awardAuditActivated;
     }
 
+    /**
+     * @return
+     */
+    public AwardCreditSplitBean getAwardCreditSplitBean() {
+        return awardCreditSplitBean;
+    }
+    
     /**
      * Gets the awardDirectFandADistributionBean attribute. 
      * @return Returns the awardDirectFandADistributionBean.

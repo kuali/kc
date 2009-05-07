@@ -160,6 +160,9 @@
 					<td colspan="6">&nbsp;</td>
 				</tr>	                     
 	    	</c:forEach>	    	
-	    </table>	    
-    </div>
+	    </table>
+	    <c:if test="${KualiForm.awardCreditSplitBean.awardCreditsLimitApplicable}" > 
+	    	<kra-a:creditSplit/>
+	    </c:if>	    
+    </div>    
 </kul:tabTop>
