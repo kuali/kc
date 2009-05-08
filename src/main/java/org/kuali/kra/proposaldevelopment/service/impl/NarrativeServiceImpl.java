@@ -161,7 +161,7 @@ public class NarrativeServiceImpl implements NarrativeService {
                                RoleConstants.VIEWER,
                                RoleConstants.UNASSIGNED };
         
-        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        KraAuthorizationService kraAuthorizationService = getKraAuthorizationService();
         List<Person> allPersons = new ArrayList<Person>();
         for (String roleName : roleNames) {
             List<Person> persons = kraAuthorizationService.getPersonsInRole(proposalDevelopmentDocument, roleName);
@@ -445,7 +445,16 @@ public class NarrativeServiceImpl implements NarrativeService {
             }
 
             }
-        }   
+        }
+    
+    /**
+     * 
+     * This is a helper method for retrieving KraAuthorizationService
+     * @return
+     */
+    protected KraAuthorizationService getKraAuthorizationService(){
+        return KraServiceLocator.getService(KraAuthorizationService.class);
+    }
 
     
 }
