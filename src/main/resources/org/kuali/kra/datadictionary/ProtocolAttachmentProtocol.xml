@@ -32,7 +32,7 @@
 		<property name="attributes" >
 			<list>
 				<ref bean="ProtocolAttachmentProtocol-id" />
-				<!-- <ref bean="ProtocolAttachmentProtocol-protocolId" />-->
+				<ref bean="ProtocolAttachmentProtocol-protocolId" />
 				<ref bean="ProtocolAttachmentProtocol-typeCode" />
 				<ref bean="ProtocolAttachmentProtocol-attachmentVersionNumber" />
 				<ref bean="ProtocolAttachmentProtocol-documentId" />
@@ -73,12 +73,13 @@
 	
 	<bean id="ProtocolAttachmentProtocol-statusCode" parent="ProtocolAttachmentProtocol-statusCode-parentBean" />
 	<bean id="ProtocolAttachmentProtocol-statusCode-parentBean" abstract="true" parent="ProtocolAttachmentStatus-code">
-		<property name="name" value="status.code" />
+		<property name="name" value="statusCode" />
 		<property name="label" value="Status" />
         <property name="shortLabel" value="Status" />
         <property name="summary" value="Status" />
         <property name="description" value="Status" />
         <property name="maxLength" value="3"/>
+		<property name="required" value="false"/>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
 	            p:businessObjectClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus"
@@ -161,7 +162,7 @@
 					<property name="inquiryFields" >
 						<list merge="true">
 							<bean parent="FieldDefinition"
-								p:attributeName="status.code" />
+								p:attributeName="statusCode" />
 							<bean parent="FieldDefinition"
 								p:attributeName="contactName" />
 							<bean parent="FieldDefinition"
@@ -187,7 +188,7 @@
 		<property name="lookupFields" >
 			<list merge="true">
 				<bean parent="FieldDefinition"
-					p:attributeName="status.code" />
+					p:attributeName="statusCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="contactName" />
 				<bean parent="FieldDefinition"
@@ -201,7 +202,7 @@
 		<property name="resultFields" >
 			<list merge="true">
 				<bean parent="FieldDefinition"
-					p:attributeName="status.code" />
+					p:attributeName="statusCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="contactName" />
 				<bean parent="FieldDefinition"

@@ -27,6 +27,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     private static final long serialVersionUID = -7115904344245464654L;
     private static final String GROUP_CODE = "1";
     
+    private String statusCode;
     private ProtocolAttachmentStatus status;
     
     private String contactName;
@@ -134,6 +135,22 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
         this.comments = comments;
     }
     
+    /**
+     * Gets the status Code. 
+     * @return the status Code.
+     */
+    public String getStatusCode() {
+        return this.statusCode;
+    }
+
+    /**
+     * Sets the status Code.
+     * @param statusCode the status Code.
+     */
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
+    }
+
     /** {@inheritDoc} */
     @Override
     public String getGroupCode() {
@@ -149,7 +166,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
         hashMap.put(PropertyName.EMAIL.getPropertyName(), this.getContactEmailAddress());
         hashMap.put(PropertyName.CONTACT_NAME.getPropertyName(), this.getContactName());
         hashMap.put(PropertyName.PHONE.getPropertyName(), this.getContactPhoneNumber());
-        hashMap.put(PropertyName.STATUS.getPropertyName(), this.getStatus());
+        hashMap.put(PropertyName.STATUS_CODE.getPropertyName(), this.getStatus());
         return hashMap;
     }
     
@@ -158,7 +175,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
      */
     public static enum PropertyName {
         COMMENTS("comments"), EMAIL("contactEmailAddress"), CONTACT_NAME("contactName"),
-        PHONE("contactPhoneNumber"), STATUS("status");
+        PHONE("contactPhoneNumber"), STATUS_CODE("statusCode");
         
         private final String name;
         
