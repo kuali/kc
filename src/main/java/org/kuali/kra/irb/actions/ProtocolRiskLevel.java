@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.irb.bo;
+package org.kuali.kra.irb.actions;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
