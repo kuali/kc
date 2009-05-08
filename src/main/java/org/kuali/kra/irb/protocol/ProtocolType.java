@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.irb.bo;
+package org.kuali.kra.irb.protocol;
 
 import java.util.LinkedHashMap;
 

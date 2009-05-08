@@ -23,7 +23,7 @@
 
 	<bean id="ProtocolRiskLevel" parent="ProtocolRiskLevel-parentBean" />
 	<bean id="ProtocolRiskLevel-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolRiskLevel" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.ProtocolRiskLevel" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolRiskLevel-inquiryDefinition" />
 		</property>

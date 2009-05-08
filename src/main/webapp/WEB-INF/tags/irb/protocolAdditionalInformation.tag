@@ -17,7 +17,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Additional Information</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.bo.ProtocolType" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.protocol.ProtocolType" altText="help"/></span>
         </h3>
 
 			<table cellpadding=0 cellspacing=0 summary="">

@@ -21,7 +21,7 @@
 
 	<bean id="ProtocolType" parent="ProtocolType-parentBean" />
 	<bean id="ProtocolType-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolType" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.protocol.ProtocolType" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolType-inquiryDefinition" />
 		</property>
