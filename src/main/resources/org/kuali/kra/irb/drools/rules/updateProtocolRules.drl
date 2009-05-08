@@ -3,12 +3,39 @@ package updateProtocol
 
 #list any import classes here.
 
-import org.kuali.kra.irb.brms.ProtocolActionUpdateMapping;
+import org.kuali.kra.irb.actions.submit.ProtocolActionUpdateMapping;
+
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 
 function void setProtocolSubmissionStatusCode(ProtocolActionUpdateMapping protocolAction, String newProtocolSubmissionStatusCode) {
-	//Test this with OJB, if you have to find object with new status code and re-attache to protocol submission status???
+	//TODO Test this with OJB, if you have to find object with new status code and re-attache to protocol submission status???
     protocolAction.getProtocolSubmissionStatus().setProtocolSubmissionStatusCode(newProtocolSubmissionStatusCode);  
 } 
+
+function void setNewProtocolSubmission(ProtocolActionUpdateMapping protocolAction, String submissionTypeCode, String reviewCode, String submissionStatusCode) {
+	ProtocolSubmission protocolSubmission = new ProtocolSubmission();
+	
+	ProtocolSubmissionType submissionType = new ProtocolSubmissionType();
+	submissionType.setSubmissionTypeCode(submissionTypeCode);
+	protocolSubmission.setProtocolSubmissionType(submissionType);
+	
+	ProtocolReviewType protocolReviewType = new ProtocolReviewType();
+	protocolReviewType.setReviewTypeCode(reviewCode); 
+	protocolSubmission.setProtocolReviewType(protocolReviewType);
+	
+	ProtocolSubmissionStatus protocolSubmissionStatus = new ProtocolSubmissionStatus();
+	protocolSubmissionStatus.setProtocolSubmissionStatusCode(submissionStatusCode);
+	protocolSubmission.setSubmissionStatus(protocolSubmissionStatus);
+	
+	//TODO check submission number and increment to 1 if mounted bo does not contain latest submission number
+	protocolSubmission.setSubmissionNumber(protocolAction.getProtocol().getProtocolSubmission().getSubmissionNumber() + 1);
+	
+	//TODO should it be set to one to many or one to one mount
+	protocolAction.getProtocol().setProtocolSubmission(protocolSubmission);
+}
 
 function void setProtocolStatusCode(ProtocolActionUpdateMapping protocolAction, String newProtocolStatusCode) {
     protocolAction.getProtocol().setProtocolStatusCode(newProtocolStatusCode);  
@@ -219,4 +246,126 @@ then
 	setProtocolStatusCode(protocolAction, "201");
 end
 
+rule "fn_request_for_termination: submissionTypeCode = 108, reviewCode = 1, submissionStatusCode = 102**/" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "104")
+then	
+	setNewProtocolSubmission(protocolAction, "108", "1", "102");
+end
 
+rule "fn_request_for_suspension: submissionTypeCode = 110, reviewCode = 1, submissionStatusCode = 102**/" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "106")
+then	
+	setNewProtocolSubmission(protocolAction, "110", "1", "102");
+end
+
+rule "fn_request_to_close: submissionTypeCode = 109, reviewCode = 1, submissionStatusCode = 102**/" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "105")
+then	
+	setNewProtocolSubmission(protocolAction, "109", "1", "102");
+end
+
+rule "fn_request_to_close_enrollment: submissionTypeCode = 111, reviewCode = 1, submissionStatusCode = 102" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "108")
+then	
+	setNewProtocolSubmission(protocolAction, "111", "1", "102");
+end
+
+rule "fn_assign_to_schedule: Updates all the Submission with the given Committee Id & Schedule Id" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "109")
+then	
+	//TODO update all protocol submission's and committee schedule, following statement should be removed
+	setNewProtocolSubmission(protocolAction, "111", "1", "102");
+end
+
+rule "fn_Response_Approve: Submission Status = 203;" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "208", protocolNumberARCondition in ("A", "R") )
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "203");
+end
+
+rule "fn_Response_Approve: Submission Status = 203; Protocol Status = 200" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "208", protocolNumberARCondition not in ("A", "R"))
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "203");
+	setProtocolStatusCode(protocolAction, "200");
+end
+
+rule "fn_IRB_Acknowledge: Submission Status = 212" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "209")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "212");
+end
+
+rule "fn_request_for_data_analysis: submissionTypeCode = 113, reviewCode = 1, submissionStatusCode = 102" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "114")
+then	
+	setNewProtocolSubmission(protocolAction, "113", "1", "102");
+end
+
+rule "fn_request_to_reopen_enroll: submissionTypeCode = 114, reviewCode = 1, submissionStatusCode = 102" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "115")
+then	
+	setNewProtocolSubmission(protocolAction, "114", "1", "102");
+end
+
+rule "fn_notify_irb: submissionTypeCode = 112, reviewCode = 7, submissionStatusCode = 102" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "116")
+then	
+	setNewProtocolSubmission(protocolAction, "112", "7", "102");
+end
+
+rule "fn_data_analysis_only: Submission Status = 211 (Closed for Enrollment); Protocol Status =  202 (Active Data Analysis Only)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "211", submissionTypeCode == "111")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "211");
+	setProtocolStatusCode(protocolAction, "202");
+end
+
+rule "fn_data_analysis_only: Protocol Status =  202 (Active Data Analysis Only)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "211", submissionTypeCode != "111")
+then	
+	setProtocolStatusCode(protocolAction, "202");
+end
+
+rule "fn_re_open_Enrollment: Submission Status = 211 (Closed for Enrollment); Protocol Status =  202 (Active Open for Enrollment)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "212", submissionTypeCode == "115")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "211");
+	setProtocolStatusCode(protocolAction, "200");
+end
+
+rule "fn_re_open_Enrollment: Protocol Status =  202 (Active Open for Enrollment)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "212", submissionTypeCode != "115")
+then	
+	setProtocolStatusCode(protocolAction, "200");
+end

@@ -64,6 +64,28 @@ public class ProtocolActionServiceTest {
     
     public static final String ATC207 = "207";
     
+    public static final String ATC104 = "104";
+    
+    public static final String ATC106 = "106";
+    
+    public static final String ATC105 = "105";
+    
+    public static final String ATC108 = "108";
+    
+    public static final String ATC208 = "208";
+    
+    public static final String ATC209 = "209";
+    
+    public static final String ATC114 = "114";
+    
+    public static final String ATC115 = "115";
+    
+    public static final String ATC116 = "116";
+    
+    public static final String ATC211 = "211";
+    
+    public static final String ATC212 = "212";
+    
     private Mockery context;
     
     private Protocol protocol;
@@ -90,6 +112,8 @@ public class ProtocolActionServiceTest {
         ProtocolSubmissionType protocolSubmissionType = new ProtocolSubmissionType();
         protocolSubmission.setProtocolSubmissionType(protocolSubmissionType);
         
+        
+        protocolSubmission.setSubmissionNumber(1);
         protocol.setProtocolSubmission(protocolSubmission);
         
         protocol.setProtocolNumber("001Z");
@@ -263,5 +287,118 @@ public class ProtocolActionServiceTest {
         protocol.getProtocolSubmission().getProtocolSubmissionType().setSubmissionTypeCode("XXX"); 
         protocolActionService.updateProtocolStatus(ATC207, protocol);        
         assertEquals("201", protocol.getProtocolStatusCode());
+    }
+    
+    @Test
+    public void testActionTypeCode104() { 
+        protocolActionService.updateProtocolStatus(ATC104, protocol);       
+        assertEquals("108",protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode());
+        assertEquals("1",protocol.getProtocolSubmission().getProtocolReviewType().getReviewTypeCode());
+        assertEquals("102",protocol.getProtocolSubmission().getSubmissionStatus().getProtocolSubmissionStatusCode());
+        assertEquals(2,protocol.getProtocolSubmission().getSubmissionNumber().intValue());
+    }
+    
+    @Test
+    public void testActionTypeCode106() { 
+        protocolActionService.updateProtocolStatus(ATC106, protocol);       
+        assertEquals("110",protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode());
+        assertEquals("1",protocol.getProtocolSubmission().getProtocolReviewType().getReviewTypeCode());
+        assertEquals("102",protocol.getProtocolSubmission().getSubmissionStatus().getProtocolSubmissionStatusCode());
+        assertEquals(2,protocol.getProtocolSubmission().getSubmissionNumber().intValue());
+    }
+    
+    @Test
+    public void testActionTypeCode105() { 
+        protocolActionService.updateProtocolStatus(ATC105, protocol);       
+        assertEquals("109",protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode());
+        assertEquals("1",protocol.getProtocolSubmission().getProtocolReviewType().getReviewTypeCode());
+        assertEquals("102",protocol.getProtocolSubmission().getSubmissionStatus().getProtocolSubmissionStatusCode());
+        assertEquals(2,protocol.getProtocolSubmission().getSubmissionNumber().intValue());
+    }
+    
+    @Test
+    public void testActionTypeCode108() { 
+        protocolActionService.updateProtocolStatus(ATC108, protocol);       
+        assertEquals("111",protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode());
+        assertEquals("1",protocol.getProtocolSubmission().getProtocolReviewType().getReviewTypeCode());
+        assertEquals("102",protocol.getProtocolSubmission().getSubmissionStatus().getProtocolSubmissionStatusCode());
+        assertEquals(2,protocol.getProtocolSubmission().getSubmissionNumber().intValue());
+    }
+    
+    @Test
+    public void testActionTypeCode208ProtocolARNumber() {
+        protocol.setProtocolNumber("001A");
+        protocolActionService.updateProtocolStatus(ATC208, protocol);        
+        assertEquals("203", protocol.getProtocolSubmission().getSubmissionStatus().getProtocolSubmissionStatusCode());
+    }
+    
+    @Test
+    public void testActionTypeCode208ProtocolARNumberNOTIN() {   
+        protocolActionService.updateProtocolStatus(ATC208, protocol);        
+        assertEquals("203", protocol.getProtocolSubmission().getSubmissionStatus().getProtocolSubmissionStatusCode());
+        assertEquals("200", protocol.getProtocolStatusCode());
+    }
+    
+    @Test
+    public void testActionTypeCode209() {
+        protocolActionService.updateProtocolStatus(ATC209, protocol);        
+        assertEquals("212", protocol.getProtocolSubmission().getSubmissionStatus().getProtocolSubmissionStatusCode());
+    }
+    
+    @Test
+    public void testActionTypeCode114() { 
+        protocolActionService.updateProtocolStatus(ATC114, protocol);       
+        assertEquals("113",protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode());
+        assertEquals("1",protocol.getProtocolSubmission().getProtocolReviewType().getReviewTypeCode());
+        assertEquals("102",protocol.getProtocolSubmission().getSubmissionStatus().getProtocolSubmissionStatusCode());
+        assertEquals(2,protocol.getProtocolSubmission().getSubmissionNumber().intValue());
+    }
+    
+    @Test
+    public void testActionTypeCode115() { 
+        protocolActionService.updateProtocolStatus(ATC115, protocol);       
+        assertEquals("114",protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode());
+        assertEquals("1",protocol.getProtocolSubmission().getProtocolReviewType().getReviewTypeCode());
+        assertEquals("102",protocol.getProtocolSubmission().getSubmissionStatus().getProtocolSubmissionStatusCode());
+        assertEquals(2,protocol.getProtocolSubmission().getSubmissionNumber().intValue());
+    }
+    
+    @Test
+    public void testActionTypeCode116() { 
+        protocolActionService.updateProtocolStatus(ATC116, protocol);       
+        assertEquals("112",protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode());
+        assertEquals("7",protocol.getProtocolSubmission().getProtocolReviewType().getReviewTypeCode());
+        assertEquals("102",protocol.getProtocolSubmission().getSubmissionStatus().getProtocolSubmissionStatusCode());
+        assertEquals(2,protocol.getProtocolSubmission().getSubmissionNumber().intValue());
+    }
+    
+    @Test
+    public void testActionTypeCode211SubmissionTypeCode111() {         
+        protocol.getProtocolSubmission().getProtocolSubmissionType().setSubmissionTypeCode("111");        
+        protocolActionService.updateProtocolStatus(ATC211, protocol);        
+        assertEquals("211", protocol.getProtocolSubmission().getSubmissionStatus().getProtocolSubmissionStatusCode());
+        assertEquals("202", protocol.getProtocolStatusCode());
+    }
+    
+    @Test
+    public void testActionTypeCode211SubmissionTypeCodeNOT111() {         
+        protocol.getProtocolSubmission().getProtocolSubmissionType().setSubmissionTypeCode("XXX");        
+        protocolActionService.updateProtocolStatus(ATC211, protocol);        
+        assertEquals("202", protocol.getProtocolStatusCode());
+    }
+    
+    @Test
+    public void testActionTypeCode212SubmissionTypeCode111() {         
+        protocol.getProtocolSubmission().getProtocolSubmissionType().setSubmissionTypeCode("115");        
+        protocolActionService.updateProtocolStatus(ATC212, protocol);        
+        assertEquals("211", protocol.getProtocolSubmission().getSubmissionStatus().getProtocolSubmissionStatusCode());
+        assertEquals("200", protocol.getProtocolStatusCode());
+    }
+    
+    @Test
+    public void testActionTypeCode212SubmissionTypeCodeNOT111() {         
+        protocol.getProtocolSubmission().getProtocolSubmissionType().setSubmissionTypeCode("XXX");        
+        protocolActionService.updateProtocolStatus(ATC212, protocol);        
+        assertEquals("200", protocol.getProtocolStatusCode());
     }
 }
