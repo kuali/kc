@@ -50,8 +50,8 @@
                 <!-- <bean parent="MaintainableFieldDefinition"
                     p:name="id"
                     p:required="true" />-->
-                <bean parent="MaintainableFieldDefinition" p:name="type.code" p:required="true"/>
-                <bean parent="MaintainableFieldDefinition" p:name="group.code" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="typeCode" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="groupCode" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
             </list>
         </property>

@@ -395,8 +395,6 @@
 		<collection-descriptor name="protocolUnits" proxy="true" element-class-ref="org.kuali.kra.irb.personnel.ProtocolUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="protocolPersonId"/>
 		</collection-descriptor>
-		
-		<object-cache class="org.apache.ojb.broker.cache.ObjectCacheEmptyImpl" />
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.irb.personnel.ProtocolPersonRoleMapping" table="PROTOCOL_PERSON_ROLE_MAPPING">
@@ -491,8 +489,6 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		
-		<object-cache class="org.apache.ojb.broker.cache.ObjectCacheEmptyImpl"/>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" table="PROTOCOL_ATTACHMENT_TYPE">
@@ -502,8 +498,6 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		
-		<object-cache class="org.apache.ojb.broker.cache.ObjectCacheEmptyImpl" />
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentGroup" table="PROTOCOL_ATTACHMENT_GROUP">
@@ -546,20 +540,15 @@
 	
 	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol" table="PROTOCOL_ATTACHMENT_PROTOCOL">
 		<field-descriptor name="id" column="PA_PROTOCOL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
-		<!-- 
-			cannot use anon access because of the way attachments must get saved
-			in order for an attachment to save correctly I would need to use a auto-update="link"
-			for the protocol object which then causes an infinite loop in rice validation...
-		-->
 		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT"/>
 		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR" access="anonymous" />
+		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="attachmentVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
-		<field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT" access="anonymous"/>
+		<field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="statusCode" column="STATUS_CD" jdbc-type="VARCHAR" access="anonymous" />
+		<field-descriptor name="statusCode" column="STATUS_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="contactName" column="CONTACT_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="contactEmailAddress" column="EMAIL_ADDRESS" jdbc-type="VARCHAR" />
 		<field-descriptor name="contactPhoneNumber" column="PHONE_NUMBER" jdbc-type="VARCHAR" />
@@ -588,20 +577,15 @@
 	
 	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" table="PROTOCOL_ATTACHMENT_PERSONNEL">
 		<field-descriptor name="id" column="PA_PERSONNEL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
-		<!-- 
-			cannot use anon access because of the way attachments must get saved
-			in order for an attachment to save correctly I would need to use a auto-update="link"
-			for the protocol object which then causes an infinite loop in rice validation...
-		-->
 		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR" access="anonymous" />
+		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="attachmentVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
-		<field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT" access="anonymous" />
+		<field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="INTEGER" access="anonymous" />
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

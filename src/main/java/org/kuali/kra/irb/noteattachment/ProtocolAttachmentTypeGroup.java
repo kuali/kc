@@ -27,7 +27,11 @@ public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBas
     private static final long serialVersionUID = 2053606476193782286L;
 
     private Long id;
+    
+    private String typeCode;
     private ProtocolAttachmentType type;
+    
+    private String groupCode;
     private ProtocolAttachmentGroup group;
 
     /**
@@ -100,6 +104,38 @@ public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBas
         this.group = group;
     }
     
+    /**
+     * Gets the typeCode attribute. 
+     * @return Returns the typeCode.
+     */
+    public String getTypeCode() {
+        return this.typeCode;
+    }
+
+    /**
+     * Sets the typeCode attribute value.
+     * @param typeCode The typeCode to set.
+     */
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
+    }
+
+    /**
+     * Gets the group Code. 
+     * @return the group Code.
+     */
+    public String getGroupCode() {
+        return this.groupCode;
+    }
+
+    /**
+     * Sets the group Code.
+     * @param groupCode the group Code.
+     */
+    public void setGroupCode(String groupCode) {
+        this.groupCode = groupCode;
+    }
+
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {

@@ -306,22 +306,14 @@ public class ProtocolAttachmentHelper implements Serializable {
         
         for (ProtocolAttachmentBase attachment : attachments) {   
             if (attachment instanceof ProtocolAttachmentProtocol) {
-                final ProtocolAttachmentProtocol protocolAttachment  = (ProtocolAttachmentProtocol) attachment;
-                if (protocolAttachment.getStatus() != null && protocolAttachment.getStatus().getCode() != null) {
-                    protocolAttachment.setStatus(this.notesService.getStatusFromCode(protocolAttachment.getStatus().getCode()));    
-                }
+                attachment.refreshReferenceObject("status");   
             }
             
             if (attachment instanceof ProtocolAttachmentPersonnel) {
-                final ProtocolAttachmentPersonnel personnelAttachment  = (ProtocolAttachmentPersonnel) attachment;
-                if (personnelAttachment.getPerson() != null && personnelAttachment.getPerson().getProtocolPersonId() != null) {
-                    personnelAttachment.setPerson(this.notesService.getPerson(personnelAttachment.getPerson().getProtocolPersonId()));
-                }
+                attachment.refreshReferenceObject("person");
             }
-            
-            if (attachment.getType() != null && attachment.getType().getCode() != null) {
-                attachment.setType(this.notesService.getTypeFromCode(attachment.getType().getCode()));    
-            }
+
+            attachment.refreshReferenceObject("type");
         }
     }
     

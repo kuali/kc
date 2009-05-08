@@ -95,7 +95,7 @@ class ProtocolAttachmentProtocolRuleHelper {
         for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
             if (!attachment.getId().equals(attachmentProtocol.getId())
                 && attachment.getType().equals(attachmentProtocol.getType())) {
-                this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE + ".code",
+                this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE_CODE,
                     KeyConstants.ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE);
                 return false;
             }
@@ -111,7 +111,7 @@ class ProtocolAttachmentProtocolRuleHelper {
      */
     boolean validStatusForSubmission(final ProtocolAttachmentProtocol attachmentProtocol) {
         if (attachmentProtocol.getStatus() == null || !COMPLETE_STATUS_CODE.equals(attachmentProtocol.getStatus().getCode())) {
-            final AuditError error = new AuditError(this.propertyPrefix + "." + ProtocolAttachmentProtocol.PropertyName.STATUS.getPropertyName() + ".code",
+            final AuditError error = new AuditError(this.propertyPrefix + "." + ProtocolAttachmentProtocol.PropertyName.STATUS_CODE,
                 KeyConstants.AUDIT_ERROR_PROTOCOL_ATTACHMENT_STATUS_COMPLETE, NOTE_AND_ATTACHMENT_LINK);
             this.errorReporter.reportAuditError(error, NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY, NOTES_ATTACHMENTS_CLUSTER_LABEL, Constants.AUDIT_ERRORS);
             return false;

@@ -21,7 +21,7 @@
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentProtocols" value="${KualiForm.document.protocolList[0].attachmentProtocols}"/>
 
-<kul:tab tabTitle="Protocol Attachments(${fn:length(KualiForm.document.protocolList[0].attachmentProtocols)})" defaultOpen="false" tabErrorKey="notesAndAttachmentsHelper.newAttachmentProtocol.*" transparentBackground="true" tabAuditKey="document.protocolList[0].attachmentProtocol*">
+<kul:tab tabTitle="Protocol Attachments(${fn:length(KualiForm.document.protocolList[0].attachmentProtocols)})" defaultOpen="false" tabErrorKey="notesAndAttachmentsHelper.newAttachmentProtocol.*" transparentBackground="true" tabAuditKey="document.protocolList[0].attachmentProtocols*">
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left">Add Protocol Attachment</span>
@@ -31,12 +31,12 @@
          	<tr>
          		<th>
          			<div align="right">
-         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['type.code']}" noColon="false"/>
+         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['typeCode']}" noColon="false"/>
          			</div>
          		</th>
          		<td align="left" valign="middle" class="infoline">
                 	<div align="left">
-                		<c:set var="property" value="notesAndAttachmentsHelper.newAttachmentProtocol.type.code" />
+                		<c:set var="property" value="notesAndAttachmentsHelper.newAttachmentProtocol.typeCode" />
                 	
                			<%-- attachment type finder logic start--%>
 							<jsp:useBean id="typeParamsType" class="java.util.HashMap"/>
@@ -56,7 +56,7 @@
 				</td>
 				<th>
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['file.id']}" noColon="false" />
+						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['fileId']}" noColon="false" />
 					</div>
 				</th>
        			<td align="left" valign="middle" class="infoline">
@@ -76,12 +76,12 @@
          	<tr>
          		<th>
          			<div align="right">
-         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['status.code']}" noColon="false"/>
+         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['statusCode']}" noColon="false"/>
          			</div>
          		</th>
          		<td align="left" valign="middle" class="infoline">
                 	<div align="left">
-                		<kul:htmlControlAttribute property="notesAndAttachmentsHelper.newAttachmentProtocol.status.code" attributeEntry="${protocolAttachmentProtocolAttributes['status.code']}"/>
+                		<kul:htmlControlAttribute property="notesAndAttachmentsHelper.newAttachmentProtocol.statusCode" attributeEntry="${protocolAttachmentProtocolAttributes['statusCode']}"/>
 	            	</div>
 				</td>
 				<th>
@@ -174,28 +174,28 @@
 		</table>
 		
 		<c:forEach var="attachmentProtocol" items="${KualiForm.document.protocolList[0].attachmentProtocols}" varStatus="itrStatus">
-			<kul:innerTab tabTitle="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description}" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.protocolList[0].attachmentProtocol[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
+			<kul:innerTab tabTitle="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description}" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*,document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
 				<div class="innerTab-container" align="left">
             		<table class=tab cellpadding=0 cellspacing="0" summary="">
 						<tr>
 			         		<th>
 			         			<div align="right">
-			         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['type.code']}" noColon="false" />
+			         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['typeCode']}" noColon="false" />
 			         			</div>
 			         		</th>
 			         		<td align="left" valign="middle" class="infoline">
 			                	<div align="left">
-			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocol[${itrStatus.index}].type.code" attributeEntry="${protocolAttachmentProtocolAttributes['type.code']}" readOnly="true" readOnlyAlternateDisplay="${attachmentProtocol.type.description}" />
+			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].typeCode" attributeEntry="${protocolAttachmentProtocolAttributes['typeCode']}" readOnly="true" readOnlyAlternateDisplay="${attachmentProtocol.type.description}" />
 				            	</div>
 							</td>
 							<th>
 								<div align="right">
-									<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['file.id']}" noColon="false" />
+									<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['fileId']}" noColon="false" />
 								</div>
 							</th>
 			       			<td align="left" valign="middle" class="infoline">
 			              		<div align="left" style="display: none;" id="attachmentProtocolFile${itrStatus.index}">
-			              			<html:file property="document.protocolList[0].attachmentProtocol[${itrStatus.index}].newFile" />
+			              			<html:file property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].newFile" />
 			           			</div>
 			           			<div align="left" id="attachmentProtocolFileName${itrStatus.index}">
 			              			${attachmentProtocol.file.name}
@@ -205,12 +205,12 @@
 			         	<tr>
 			         		<th>
 			         			<div align="right">
-			         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['status.code']}" noColon="false"/>
+			         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['statusCode']}" noColon="false"/>
 			         			</div>
 			         		</th>
 			         		<td align="left" valign="middle" class="infoline">
 			                	<div align="left">
-			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocol[${itrStatus.index}].status.code" attributeEntry="${protocolAttachmentProtocolAttributes['status.code']}"/>
+			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].statusCode" attributeEntry="${protocolAttachmentProtocolAttributes['statusCode']}"/>
 				            	</div>
 							</td>
 							<th>
@@ -220,7 +220,7 @@
 							</th>
 			         		<td align="left" valign="middle" class="infoline">
 			                	<div align="left">
-			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocol[${itrStatus.index}].contactName" attributeEntry="${protocolAttachmentProtocolAttributes.contactName}"/>
+			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].contactName" attributeEntry="${protocolAttachmentProtocolAttributes.contactName}"/>
 				            	</div>
 							</td>
 			         	</tr>
@@ -232,7 +232,7 @@
 			         		</th>
 			         		<td align="left" valign="middle" class="infoline">
 			                	<div align="left">
-			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocol[${itrStatus.index}].updateUser" attributeEntry="${protocolAttachmentProtocolAttributes.updateUser}" readOnly="true"/>
+			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].updateUser" attributeEntry="${protocolAttachmentProtocolAttributes.updateUser}" readOnly="true"/>
 				            	</div>
 							</td>
 							<th>
@@ -242,7 +242,7 @@
 							</th>
 			         			<td align="left" valign="middle" class="infoline">
 			                	<div align="left">
-			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocol[${itrStatus.index}].contactEmailAddress" attributeEntry="${protocolAttachmentProtocolAttributes.contactEmailAddress}"/>
+			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].contactEmailAddress" attributeEntry="${protocolAttachmentProtocolAttributes.contactEmailAddress}"/>
 				            	</div>
 							</td>
 			         	</tr>
@@ -254,7 +254,7 @@
 			         		</th>
 			         		<td align="left" valign="middle" class="infoline">
 			                	<div align="left">
-			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocol[${itrStatus.index}].updateTimestamp" attributeEntry="${protocolAttachmentProtocolAttributes.updateTimestamp}" readOnly="true"/>
+			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].updateTimestamp" attributeEntry="${protocolAttachmentProtocolAttributes.updateTimestamp}" readOnly="true"/>
 				            	</div>
 							</td>
 							<th>
@@ -264,7 +264,7 @@
 							</th>
 			         		<td align="left" valign="middle" class="infoline">
 			                	<div align="left">
-			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocol[${itrStatus.index}].contactPhoneNumber" attributeEntry="${protocolAttachmentProtocolAttributes.contactPhoneNumber}"/>
+			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].contactPhoneNumber" attributeEntry="${protocolAttachmentProtocolAttributes.contactPhoneNumber}"/>
 				            	</div>
 							</td>
 			         	</tr>
@@ -276,8 +276,8 @@
 			         		</th>
 			         		<td align="left" valign="middle" class="infoline">
 			                	<div align="left">
-			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocol[${itrStatus.index}].comments" attributeEntry="${protocolAttachmentProtocolAttributes.comments}"/>
-			                		<kra:expandedTextArea textAreaFieldName="document.protocolList[0].attachmentProtocol[${itrStatus.index}].comments" action="${action}" textAreaLabel="${protocolAttachmentProtocolAttributes.comments.label}" />
+			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].comments" attributeEntry="${protocolAttachmentProtocolAttributes.comments}"/>
+			                		<kra:expandedTextArea textAreaFieldName="document.protocolList[0].attachmentProtocols[${itrStatus.index}].comments" action="${action}" textAreaLabel="${protocolAttachmentProtocolAttributes.comments.label}" />
 				            	</div>
 							</td>
 							<th>
@@ -287,8 +287,8 @@
 							</th>
 			         		<td align="left" valign="middle" class="infoline">
 			                	<div align="left">
-			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocol[${itrStatus.index}].description" attributeEntry="${protocolAttachmentProtocolAttributes.description}"/>
-			                		<kra:expandedTextArea textAreaFieldName="document.protocolList[0].attachmentProtocol[${itrStatus.index}].description" action="${action}" textAreaLabel="${protocolAttachmentProtocolAttributes.description.label}" />
+			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].description" attributeEntry="${protocolAttachmentProtocolAttributes.description}"/>
+			                		<kra:expandedTextArea textAreaFieldName="document.protocolList[0].attachmentProtocols[${itrStatus.index}].description" action="${action}" textAreaLabel="${protocolAttachmentProtocolAttributes.description.label}" />
 				            	</div>
 							</td>
 			         	</tr>
