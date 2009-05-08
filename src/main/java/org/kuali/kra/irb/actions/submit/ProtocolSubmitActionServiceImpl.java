@@ -22,8 +22,8 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.bo.ProtocolAction;
-import org.kuali.kra.irb.bo.ProtocolActionType;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**

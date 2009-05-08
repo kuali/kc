@@ -61,14 +61,14 @@
     	<reference-descriptor name="protocolDocument" class-ref="org.kuali.kra.irb.ProtocolDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
-		<reference-descriptor name="protocolStatus" class-ref="org.kuali.kra.irb.bo.ProtocolStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocolStatus" class-ref="org.kuali.kra.irb.actions.ProtocolStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolStatusCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="protocolType" class-ref="org.kuali.kra.irb.bo.ProtocolType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocolType" class-ref="org.kuali.kra.irb.protocol.ProtocolType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolTypeCode"/>
 		</reference-descriptor>
 			
-    	<collection-descriptor name="protocolRiskLevels" proxy="true" element-class-ref="org.kuali.kra.irb.bo.ProtocolRiskLevel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    	<collection-descriptor name="protocolRiskLevels" proxy="true" element-class-ref="org.kuali.kra.irb.actions.ProtocolRiskLevel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="protocolId" />
     	</collection-descriptor>
    		<collection-descriptor name="protocolResearchAreas" element-class-ref="org.kuali.kra.irb.protocol.ProtocolResearchArea" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -99,7 +99,7 @@
 		<collection-descriptor name="attachmentPersonnels" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="protocolId" />
 		</collection-descriptor>	
-		<collection-descriptor name="protocolActions" element-class-ref="org.kuali.kra.irb.bo.ProtocolAction" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="protocolActions" element-class-ref="org.kuali.kra.irb.actions.ProtocolAction" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
         <collection-descriptor name="protocolSubmissions" element-class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -107,7 +107,7 @@
         </collection-descriptor>      	
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolStatus" table="PROTOCOL_STATUS">
+	<class-descriptor class="org.kuali.kra.irb.actions.ProtocolStatus" table="PROTOCOL_STATUS">
 		<field-descriptor name="protocolStatusCode" column="PROTOCOL_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -116,7 +116,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolType" table="PROTOCOL_TYPE">
+	<class-descriptor class="org.kuali.kra.irb.protocol.ProtocolType" table="PROTOCOL_TYPE">
 		<field-descriptor name="protocolTypeCode" column="PROTOCOL_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -164,7 +164,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 		
-	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolRiskLevel" table="PROTOCOL_RISK_LEVELS">
+	<class-descriptor class="org.kuali.kra.irb.actions.ProtocolRiskLevel" table="PROTOCOL_RISK_LEVELS">
 		<field-descriptor name="protocolRiskLevelId" column="PROTOCOL_RISK_LEVELS_ID" jdbc-type="INTEGER" primarykey="true"  sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
 		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -608,7 +608,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolCorrespondenceType" table="PROTO_CORRESP_TYPE">
+	<class-descriptor class="org.kuali.kra.irb.actions.ProtocolCorrespondenceType" table="PROTO_CORRESP_TYPE">
 		<field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="moduleId" column="MODULE_ID" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -627,7 +627,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolAction" table="PROTOCOL_ACTIONS">
+	<class-descriptor class="org.kuali.kra.irb.actions.ProtocolAction" table="PROTOCOL_ACTIONS">
 	    <field-descriptor name="protocolActionId" column="PROTOCOL_ACTION_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID" />
 		<field-descriptor name="actionId" column="ACTION_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
@@ -648,7 +648,7 @@
 		<reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="submissionIdFk"/>
 		</reference-descriptor>
-		<reference-descriptor name="protocolActionType" class-ref="org.kuali.kra.irb.bo.ProtocolActionType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocolActionType" class-ref="org.kuali.kra.irb.actions.ProtocolActionType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolActionTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -709,7 +709,7 @@
         </collection-descriptor> 
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolCorrespondence" table="PROTOCOL_CORRESPONDENCE">
+	<class-descriptor class="org.kuali.kra.irb.actions.ProtocolCorrespondence" table="PROTOCOL_CORRESPONDENCE">
 		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID"/>
 		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
@@ -726,10 +726,10 @@
 		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
-		<reference-descriptor name="protocolCorrespondenceType" class-ref="org.kuali.kra.irb.bo.ProtocolCorrespondenceType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocolCorrespondenceType" class-ref="org.kuali.kra.irb.actions.ProtocolCorrespondenceType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protoCorrespTypeCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="protocolAction" class-ref="org.kuali.kra.irb.bo.ProtocolAction" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocolAction" class-ref="org.kuali.kra.irb.actions.ProtocolAction" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="actionIdFk"/>
 		</reference-descriptor>
 	</class-descriptor>	
@@ -761,7 +761,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolActionType" table="PROTOCOL_ACTION_TYPE">
+	<class-descriptor class="org.kuali.kra.irb.actions.ProtocolActionType" table="PROTOCOL_ACTION_TYPE">
 		<field-descriptor name="protocolActionTypeCode" column="PROTOCOL_ACTION_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="triggerSubmission" column="TRIGGER_SUBMISSION" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />

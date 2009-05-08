@@ -2946,7 +2946,7 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 <!-- 
-		<collection-descriptor name="protocolRiskLevels" proxy="true" element-class-ref="org.kuali.kra.irb.bo.ProtocolRiskLevel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<collection-descriptor name="protocolRiskLevels" proxy="true" element-class-ref="org.kuali.kra.irb.actions.ProtocolRiskLevel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<inverse-foreignkey field-ref="riskLevelCode"/>
 		</collection-descriptor>
 -->
