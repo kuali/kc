@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rules;
+package org.kuali.kra.irb.protocol;
 
 import java.util.List;
 
@@ -28,6 +28,7 @@ import org.kuali.kra.irb.protocol.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.protocol.ParticipantType;
 import org.kuali.kra.irb.protocol.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.ProtocolParticipantRule;
+import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
