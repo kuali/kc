@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.service;
+package org.kuali.kra.irb.personnel;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -31,7 +31,7 @@ import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelServiceImpl;
 import org.kuali.kra.irb.personnel.ProtocolUnit;
-import org.kuali.kra.irb.service.mocks.MockProtocolPersonTrainingService;
+import org.kuali.kra.irb.test.mocks.MockProtocolPersonTrainingService;
 
 public class ProtocolPersonnelServiceTest {
     protected static final String PRINCIPAL_INVESTIGATOR_PERSON_ID = "000000001";

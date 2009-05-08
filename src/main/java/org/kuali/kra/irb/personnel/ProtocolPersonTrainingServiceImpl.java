@@ -25,7 +25,7 @@ import org.kuali.kra.bo.PersonTraining;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 
-public class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTrainingService {
+class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTrainingService {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolPersonTrainingServiceImpl.class);
     private BusinessObjectService businessObjectService;

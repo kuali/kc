@@ -29,7 +29,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 /**
  * Handles the processing of submitting a protocol to the IRB office for review.
  */
-public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionService {
+class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionService {
 
     private static final String NEXT_ACTION_ID_KEY = "actionId";
     private static final String NEXT_SUBMISSION_NUMBER_KEY = "submissionNumber";

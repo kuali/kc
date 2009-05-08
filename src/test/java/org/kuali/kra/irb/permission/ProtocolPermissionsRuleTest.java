@@ -32,7 +32,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.permission.ProtocolPermissionsRule;
-import org.kuali.kra.irb.rules.ProtocolRuleTestBase;
+import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 
 /**
  * Test the business rules for Protocol Permissions.

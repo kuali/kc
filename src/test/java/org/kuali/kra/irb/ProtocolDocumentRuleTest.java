@@ -22,7 +22,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolDocumentRule;
-import org.kuali.kra.irb.rules.ProtocolRuleTestBase;
+import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
