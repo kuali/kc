@@ -37,7 +37,6 @@ class AddProtocolAttachmentProtocolRuleImpl implements AddProtocolAttachmentProt
         valid &= this.baseHelper.validDescriptionWhenRequired(newAttachmentProtocol);
         valid &= this.protocolHelper.validStatus(newAttachmentProtocol);
         valid &= this.baseHelper.validFile(newAttachmentProtocol);
-        valid &= this.baseHelper.validType(newAttachmentProtocol);
         
         return valid;
     }

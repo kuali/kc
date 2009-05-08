@@ -130,7 +130,7 @@ class ProtocolAttachmentBaseRuleHelper {
         }
         
         final ProtocolAttachmentType type = this.attachmentService.getTypeFromCode(attachmentBase.getType().getCode());
-        this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE + ".code",
+        this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE_CODE,
             KeyConstants.ERROR_PROTOCOL_ATTACHMENT_INVALID_TYPE, (type != null) ? type.getDescription(): "");
         
         return false;
@@ -138,7 +138,7 @@ class ProtocolAttachmentBaseRuleHelper {
     
     /**
      * Validates that the selected type exists in the system (is valid). Creates a hard error.
-
+     * 
      * @param attachmentBase the attachment.
      * @return true if valid.
      */
@@ -149,7 +149,7 @@ class ProtocolAttachmentBaseRuleHelper {
 
         if (attachmentBase.getType() == null
             || StringUtils.isBlank(attachmentBase.getType().getCode())) {
-            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE + ".code",
+            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE_CODE,
                 KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_TYPE);
             return false;
         }
@@ -172,7 +172,7 @@ class ProtocolAttachmentBaseRuleHelper {
         //this got much more complex using anon keys
         if (attachmentBase.getFile() == null) {
             valid = false;
-            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.FILE + ".id",
+            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.FILE_ID,
                 KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_FILE);
         } else {
             valid = this.validationService.isBusinessObjectValid(attachmentBase.getFile(), this.propertyPrefix);
@@ -182,12 +182,20 @@ class ProtocolAttachmentBaseRuleHelper {
     }
     
     /**
-     * Validates the attachment's primatative fields (non reference fields). Creates a hard error.
+     * Validates the attachment's primitive fields (non reference fields). Creates a hard error.
      * 
      * @param attachmentBase the attachment
      * @return true if valid.
      */
     boolean validPrimativeFields(final ProtocolAttachmentBase attachmentBase) {
-        return this.validationService.isBusinessObjectValid(attachmentBase, this.propertyPrefix);
+        
+        final Long oldFileId = attachmentBase.getFileId();
+        try {
+            //adding a bogus file id to pass the validation service since the fileId is DB generated
+            attachmentBase.setFileId(Long.valueOf(0));
+            return this.validationService.isBusinessObjectValid(attachmentBase, this.propertyPrefix);
+        } finally {
+            attachmentBase.setFileId(oldFileId);
+        }
     }
 }

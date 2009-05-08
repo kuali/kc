@@ -90,7 +90,7 @@ class ProtocolAttachmentPersonnelRuleHelper {
             if (!attachment.getId().equals(attachmentPersonnel.getId())
                 && attachment.getType().equals(attachmentPersonnel.getType())
                 && attachment.getPerson().getProtocolPersonId().equals(attachmentPersonnel.getPerson().getProtocolPersonId())) {
-                this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE + ".code",
+                this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE_CODE,
                     KeyConstants.ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE);
                 return false;
             }
@@ -120,7 +120,7 @@ class ProtocolAttachmentPersonnelRuleHelper {
         
         if (!personAvilable) {
             final ProtocolPerson person = this.attachmentService.getPerson(attachmentPersonnel.getPerson().getProtocolPersonId());
-            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentPersonnel.PropertyName.PERSON + ".protocolPersonId",
+            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentPersonnel.PropertyName.PERSON_ID,
                 KeyConstants.ERROR_PROTOCOL_ATTACHMENT_INVALID_PERSON, (person != null) ? person.getPersonName() : "");
             return false;
         }
@@ -139,7 +139,7 @@ class ProtocolAttachmentPersonnelRuleHelper {
         //This is an artifact of using anon keys
         
         if (attachment.getPerson() == null) {
-            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentPersonnel.PropertyName.PERSON + ".protocolPersonId",
+            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentPersonnel.PropertyName.PERSON_ID,
                 KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_PERSON);
             return false;
         }

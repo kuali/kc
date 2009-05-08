@@ -47,14 +47,11 @@ public class SaveProtocolAttachmentPersonnelRuleImpl {
             final ProtocolAttachmentPersonnel attachment = attachments.get(i);
             this.setPropertyPrefixes(NoteAndAttachmentPrefix.ATTACHMENT_PERSONNEL.getIndexedPrefix(i));         
             
-            valid &= this.baseHelper.validPrimativeFields(attachment);
             valid &= this.baseHelper.validTypeForGroup(attachment);
             valid &= this.baseHelper.validDescriptionWhenRequired(attachment);
             valid &= this.personnelHelper.duplicateTypePerson(attachment, document.getProtocol());
             valid &= this.personnelHelper.availablePerson(attachment, document.getProtocol());
-            valid &= this.personnelHelper.validPerson(attachment);
             valid &= this.baseHelper.validFile(attachment);
-            valid &= this.baseHelper.validType(attachment);
         }
         
         return valid;
