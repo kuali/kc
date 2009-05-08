@@ -36,7 +36,7 @@ class ProtocolActionServiceImpl {
 
         DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/updateProtocolRules.drl");
         updateHandle.executeRules(protocolAction);
-
+        //TODO transaction
         businessObjectService.save(protocol);
     }
 
