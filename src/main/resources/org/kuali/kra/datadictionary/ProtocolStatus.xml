@@ -21,7 +21,7 @@
 
 	<bean id="ProtocolStatus" parent="ProtocolStatus-parentBean" />
 	<bean id="ProtocolStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolStatus" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.ProtocolStatus" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolStatus-inquiryDefinition" />
 		</property>

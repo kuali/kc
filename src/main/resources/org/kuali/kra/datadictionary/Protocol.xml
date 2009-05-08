@@ -164,7 +164,7 @@
     	<property name="required" value="true" />
     	<property name="control" >
       		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.irb.bo.ProtocolType"
+            	p:businessObjectClass="org.kuali.kra.irb.protocol.ProtocolType"
             	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             	p:includeKeyInLabel="false" 
             	p:includeBlankRow="false"
@@ -187,7 +187,7 @@
 		</property>
     	<property name="control" >
       		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.irb.bo.ProtocolStatus"
+            	p:businessObjectClass="org.kuali.kra.irb.actions.ProtocolStatus"
             	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             	p:includeKeyInLabel="false"
             	p:includeBlankRow="false"
