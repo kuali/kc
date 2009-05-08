@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rules;
+package org.kuali.kra.irb.personnel;
 
 import static org.kuali.rice.kns.util.GlobalVariables.getAuditErrorMap;
 
@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelAuditRule;
+import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 /**
  * This class is to test protocol personnel audit rule error message
  */
@@ -31,7 +32,7 @@ public class ProtocolPersonnelAuditRuleTest extends ProtocolRuleTestBase {
     private ProtocolDocument document;
 
     /**
-     * @see org.kuali.kra.irb.rules.ProtocolRuleTestBase#setUp()
+     * @see org.kuali.kra.irb.test.ProtocolRuleTestBase#setUp()
      */
     @Before
     public void setUp() throws Exception {
@@ -42,7 +43,7 @@ public class ProtocolPersonnelAuditRuleTest extends ProtocolRuleTestBase {
     }
     
     /**
-     * @see org.kuali.kra.irb.rules.ProtocolRuleTestBase#tearDown()
+     * @see org.kuali.kra.irb.test.ProtocolRuleTestBase#tearDown()
      */
     @After
     public void tearDown() throws Exception {

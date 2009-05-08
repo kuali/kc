@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.lookup.keyvalue;
+package org.kuali.kra.irb.protocol;
 
 import org.junit.Test;
 import org.kuali.kra.irb.protocol.ParticipantTypeValuesFinder;

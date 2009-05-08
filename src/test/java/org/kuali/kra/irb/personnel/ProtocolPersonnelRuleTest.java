@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rules;
+package org.kuali.kra.irb.personnel;
 
 import org.junit.After;
 import org.junit.Before;
@@ -25,6 +25,7 @@ import org.kuali.kra.irb.personnel.AddProtocolPersonnelEvent;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelRule;
 import org.kuali.kra.irb.personnel.SaveProtocolPersonnelEvent;
+import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
