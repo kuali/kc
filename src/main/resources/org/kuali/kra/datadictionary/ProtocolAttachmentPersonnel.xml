@@ -69,7 +69,7 @@
 	
 	<bean id="ProtocolAttachmentPersonnel-personId" parent="ProtocolAttachmentPersonnel-personId-parentBean" />
 	<bean id="ProtocolAttachmentPersonnel-personId-parentBean" abstract="true" parent="ProtocolPerson-protocolPersonId" >
-		<property name="name" value="person.protocolPersonId" />
+		<property name="name" value="personId" />
 		<property name="label" value="Person" />
 		<property name="shortLabel" value="Person" />
 		<property name="required" value="true" />
@@ -106,7 +106,7 @@
 					<property name="inquiryFields" >
 						<list merge="true">
 							<bean parent="FieldDefinition"
-								p:attributeName="person.protocolPersonId" />
+								p:attributeName="personId" />
 						</list>
 					</property>
 				</bean>
@@ -124,13 +124,13 @@
 		<property name="lookupFields" >
 			<list merge="true">
 				<bean parent="FieldDefinition"
-					p:attributeName="person.protocolPersonId" />
+					p:attributeName="personId" />
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list merge="true">
 				<bean parent="FieldDefinition"
-					p:attributeName="person.protocolPersonId" />
+					p:attributeName="personId" />
 			</list>
 		</property>
 	</bean>

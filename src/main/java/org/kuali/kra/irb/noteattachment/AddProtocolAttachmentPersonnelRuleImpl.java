@@ -39,9 +39,7 @@ class AddProtocolAttachmentPersonnelRuleImpl implements AddProtocolAttachmentPer
         valid &= this.baseHelper.validDescriptionWhenRequired(newAttachmentPersonnel);
         valid &= this.personnelHelper.duplicateTypePerson(newAttachmentPersonnel, document.getProtocol());
         valid &= this.personnelHelper.availablePerson(newAttachmentPersonnel, document.getProtocol());
-        valid &= this.personnelHelper.validPerson(newAttachmentPersonnel);
         valid &= this.baseHelper.validFile(newAttachmentPersonnel);
-        valid &= this.baseHelper.validType(newAttachmentPersonnel);
                
         return valid;
     }

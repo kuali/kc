@@ -60,7 +60,7 @@
     
     <bean id="ProtocolAttachmentStatus-description" parent="ProtocolAttachmentStatus-description-parentBean" />
     <bean id="ProtocolAttachmentStatus-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
-    	<property name="required" value="true" />
+    <property name="required" value="true" />
     </bean>
 
     <bean id="ProtocolAttachmentStatus-versionNumber" parent="ProtocolAttachmentStatus-versionNumber-parentBean" />

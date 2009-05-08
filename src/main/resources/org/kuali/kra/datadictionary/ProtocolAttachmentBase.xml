@@ -79,7 +79,7 @@
 
 	<bean id="ProtocolAttachmentBase-typeCode" parent="ProtocolAttachmentBase-typeCode-parentBean" />
 	<bean id="ProtocolAttachmentBase-typeCode-parentBean" abstract="true" parent="ProtocolAttachmentType-code">
-		<property name="name" value="type.code" />
+		<property name="name" value="typeCode" />
 		<property name="label" value="Attachment Type" />
         <property name="shortLabel" value="Attachment Type" />
         <property name="summary" value="Attachment Type" />
@@ -137,7 +137,7 @@
 	
 	<bean id="ProtocolAttachmentBase-fileId" parent="ProtocolAttachmentBase-fileId-parentBean" />
 	<bean id="ProtocolAttachmentBase-fileId-parentBean" abstract="true" parent="ProtocolAttachmentFile-id">
-		<property name="name" value="file.id" />
+		<property name="name" value="fileId" />
 		<property name="label" value="File Name" />
 		<property name="shortLabel" value="File Name" />
 		<property name="summary" value="File Name" />
@@ -190,13 +190,13 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="protocolId" />
 							<bean parent="FieldDefinition"
-								p:attributeName="type.code" />
+								p:attributeName="typeCode" />
 							<bean parent="FieldDefinition"
 								p:attributeName="attachmentVersionNumber" />
 							<bean parent="FieldDefinition"
 								p:attributeName="documentId" />
 							<bean parent="FieldDefinition"
-								p:attributeName="file.id" />
+								p:attributeName="fileId" />
 							<bean parent="FieldDefinition"
 								p:attributeName="description" />
 						</list>
@@ -225,13 +225,13 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="type.code" />
+					p:attributeName="typeCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="attachmentVersionNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="documentId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="file.id" />
+					p:attributeName="fileId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="description" />
 			</list>
@@ -244,13 +244,13 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="type.code" />
+					p:attributeName="typeCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="attachmentVersionNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="documentId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="file.id" />
+					p:attributeName="fileId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="description" />
 			</list>

@@ -21,8 +21,8 @@ package org.kuali.kra.irb.noteattachment;
 public enum NoteAndAttachmentPrefix {
     NEW_ATTACHMENT_PROTOCOL("notesAndAttachmentsHelper.newAttachmentProtocol", false),
     NEW_ATTACHMENT_PERSONNEL("notesAndAttachmentsHelper.newAttachmentPersonnel", false),
-    ATTACHMENT_PROTOCOL("document.protocolList[0].attachmentProtocol", true),
-    ATTACHMENT_PERSONNEL("document.protocolList[0].attachmentPersonnel", true);
+    ATTACHMENT_PROTOCOL("document.protocolList[0].attachmentProtocols", true),
+    ATTACHMENT_PERSONNEL("document.protocolList[0].attachmentPersonnels", true);
     
     private final String name;
     private final boolean indexed;
