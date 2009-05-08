@@ -102,24 +102,22 @@ public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
      */
     public NarrativeRight getDefaultNarrativeRight(String roleName) {
         List<Permission> permissions = systemAuthorizationService.getPermissionsForRole(roleName);
-        NarrativeRight right;
-        if (isPermissionInList(PermissionConstants.MODIFY_NARRATIVE, permissions)) {
-            right = NarrativeRight.MODIFY_NARRATIVE_RIGHT;
-        }
-        else if (isPermissionInList(PermissionConstants.VIEW_NARRATIVE, permissions)) {
-            right = NarrativeRight.VIEW_NARRATIVE_RIGHT;
-        }
-        else {
-            right = NarrativeRight.NO_NARRATIVE_RIGHT;
-        }
-        return right;
+        return getNarrativeRight(permissions);
     }
     
     public NarrativeRight getDefaultNarrativeRight(List<String> roleNames) {
         List<Permission> permissions = new ArrayList<Permission>();
         for (String roleName : roleNames) {
-            permissions.addAll(systemAuthorizationService.getPermissionsForRole(roleName));
+            permissions.addAll(systemAuthorizationService.getPermissionsForRole(roleName));            
         }
+        return getNarrativeRight(permissions);
+    }
+    /**
+     * This is a helper method - retrieves the particular Narrative right(permission) if its present in the list of give permissions...
+     * @param permissions
+     * @return
+     */
+    private NarrativeRight getNarrativeRight(List<Permission> permissions) {
         NarrativeRight right;
         if (isPermissionInList(PermissionConstants.MODIFY_NARRATIVE, permissions)) {
             right = NarrativeRight.MODIFY_NARRATIVE_RIGHT;

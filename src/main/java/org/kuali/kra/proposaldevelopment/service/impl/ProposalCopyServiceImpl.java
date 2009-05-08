@@ -740,7 +740,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private void initializeAuthorization(ProposalDevelopmentDocument doc) {
         UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
-        KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+        KraAuthorizationService kraAuthService = getKraAuthorizationService();
         kraAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
     }
     
@@ -1097,6 +1097,15 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+    
+    /**
+     * 
+     * This is a helper method for retrieving KraAuthorizationService
+     * @return
+     */
+    protected KraAuthorizationService getKraAuthorizationService(){
+        return KraServiceLocator.getService(KraAuthorizationService.class);
     }
     
 }
