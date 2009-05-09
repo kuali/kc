@@ -18,13 +18,16 @@
 <%-- Member of awardProjectPersonnel.tag --%>
 
 <%@ attribute name="awardContact" required="true" type="org.kuali.kra.award.contacts.AwardPerson" %>
-<%@ attribute name="awardContactRowStatusIndex" required="true" %>
+<%@ attribute name="awardPersonIndex" required="true" %>
 
 <c:set var="awardPersonUnitAttributes" value="${DataDictionary.AwardPersonUnit.attributes}" />
 <c:set var="isPrincipalInvestigator" value="${awardContact.principalInvestigator}" />
 
+<c:set var="newAwardPersonUnits" value="${KualiForm.projectPersonnelBean.newAwardPersonUnits}" />
+<c:set var="targetAwardPersonUnit" value="${newAwardPersonUnits[awardPersonIndex]}" />
+
 <kul:innerTab tabTitle="Unit Details" parentTab="${awardContact.fullName}" defaultOpen="false" 
-				tabErrorKey="document.award[${awardPersonUnitRowStatus.index}].awardContact*,projectPersonnelBean.newAwardPersonUnit">
+				tabErrorKey="document.award[${awardPersonUnitRowStatus.index}].awardContact*,projectPersonnelBean.newAwardPersonUnit*">
 	<table>
 		<tr>
 			<th class="infoline">
@@ -50,7 +53,7 @@
 			<c:if test="${isPrincipalInvestigator}" >
 				<th class="infoline">
 					<div align="center">
-					<kul:htmlControlAttribute property="projectPersonnelBean.newAwardPersonUnit.leadUnit" 
+					<kul:htmlControlAttribute property="projectPersonnelBean.newAwardPersonUnit[${awardPersonIndex}].leadUnit" 
 												attributeEntry="${awardPersonUnitAttributes.leadUnit}" />
 					</div>
 				</th>
@@ -58,17 +61,17 @@
 			<th class="infoline">
 				<div align="center">
 					<c:choose>                  
-						<c:when test="${empty KualiForm.projectPersonnelBean.newAwardPersonUnit.unit}">
+						<c:when test="${empty targetAwardPersonUnit.unit}">
 							<div>
 								<label><span style="margin-right: 3;">(select)</span></label>
-								<kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:projectPersonnelBean.newUnitNumber" 
-  											anchor="${tabKey}" lookupParameters="projectPersonnelBean.newUnitNumber:unitNumber"/>
+								<kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:projectPersonnelBean.newAwardPersonUnit[${awardPersonIndex}].unitNumber" 
+  											anchor="${tabKey}" lookupParameters="projectPersonnelBean.newAwardPersonUnit[${awardPersonIndex}].unitNumber:unitNumber"/>
 		  	 				</div>
 						</c:when>
 						<c:otherwise>
 							<div align="center">
 	              				<label>
-	              				<c:out value="${KualiForm.projectPersonnelBean.newAwardPersonUnit.unit.unitName}" />
+	              				<c:out value="${targetAwardPersonUnit.unit.unitName}" />
 	              				</label>										            			
 							</div>
 						</c:otherwise>
@@ -78,13 +81,13 @@
 			<th class="infoline">
 				<div align="center">
 					<c:choose>                  
-						<c:when test="${empty KualiForm.projectPersonnelBean.newAwardPersonUnit.unit}">
+						<c:when test="${empty targetAwardPersonUnit.unit}">
 							&nbsp;
 						</c:when>
 						<c:otherwise>
 							<div align="center">
 	              				<label>
-	              				<c:out value="${KualiForm.projectPersonnelBean.newAwardPersonUnit.unit.unitNumber}" />
+	              				<c:out value="${targetAwardPersonUnit.unit.unitNumber}" />
 	              				</label>
 																				            			
 							</div>
@@ -94,9 +97,9 @@
 			</th>			
 			<th class="infoline">
 				<c:choose>
-					<c:when test="${not empty KualiForm.projectPersonnelBean.newAwardPersonUnit.unit}">
+					<c:when test="${not empty targetAwardPersonUnit.unit}">
 		        		<div align="center">	        			
-		        			<html:image property="methodToCall.addNewProjectPersonUnit.line${awardContactRowStatusIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact" styleClass="tinybutton" />
+		        			<html:image property="methodToCall.addNewProjectPersonUnit.line${awardPersonIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact" styleClass="tinybutton" />
 		        			<html:image property="methodToCall.clearNewProjectPersonUnit" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton" />
 		        		</div>
 		        	</c:when>
@@ -130,7 +133,7 @@
 				</td>
 				<td class="infoline">
 					<div align="center">
-						<html:image property="methodToCall.deleteProjectPersonUnit.${awardContactRowStatusIndex}.line${awardPersonUnitRowStatus.index}.anchor${currentTabIndex}"
+						<html:image property="methodToCall.deleteProjectPersonUnit.${awardPersonIndex}.line${awardPersonUnitRowStatus.index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 					</div>
                 </td>
