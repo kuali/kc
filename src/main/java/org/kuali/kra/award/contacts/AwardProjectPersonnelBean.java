@@ -30,26 +30,27 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 public class AwardProjectPersonnelBean extends AwardContactsBean {
     private static final long serialVersionUID = -8213637358006756203L;
 
-    private AwardPersonUnit newAwardPersonUnit;
+    private AwardPersonUnit[] newAwardPersonUnits;
 
     private transient String selectedLeadUnit;
-    
+
     public AwardProjectPersonnelBean(AwardForm awardForm) {
         super(awardForm);        
     }
-
+    
     public void addNewProjectPersonUnit(int projectPersonIndex) {
         AwardPerson person = (AwardPerson) getAward().getProjectPersons().get(projectPersonIndex);
-        AwardPersonUnitRuleAddEvent event = generateAddPersonUnitEvent(person);
+        AwardPersonUnitRuleAddEvent event = generateAddPersonUnitEvent(person, projectPersonIndex);
         boolean success = new AwardPersonUnitAddRuleImpl().processAddAwardPersonUnitBusinessRules(event);
         if(success) {
-            person.add(newAwardPersonUnit);
-            if(newAwardPersonUnit.isLeadUnit()) {
-                setSelectedLeadUnit(newAwardPersonUnit.getUnitName());
+            person.add(newAwardPersonUnits[projectPersonIndex]);
+            if(newAwardPersonUnits[projectPersonIndex].isLeadUnit()) {
+                setSelectedLeadUnit(newAwardPersonUnits[projectPersonIndex].getUnitName());
             }
             initNewAwardPersonUnit();
         }
     }
+
     /**
      * This method is for adding a project person
      */
@@ -61,7 +62,6 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
             init();
         }
     }
-
     /**
      * This method clears the NewProjectPersonUnit
      */
@@ -79,7 +79,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
             projectPersons.remove(lineToDelete);
         }        
     }
-    
+
     /**
      * This method deletes a ProjectPersonUnit from the list 
      * @param projectPersonIndex
@@ -93,8 +93,19 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
      * Gets the newAwardPersonUnit attribute. 
      * @return Returns the newAwardPersonUnit.
      */
-    public AwardPersonUnit getNewAwardPersonUnit() {
-        return newAwardPersonUnit;
+    public AwardPersonUnit getNewAwardPersonUnit(int projectPersonIndex) {
+        return newAwardPersonUnits[projectPersonIndex];
+    }
+    
+    /**
+     * Gets the newAwardPersonUnits attribute. 
+     * @return Returns the newAwardPersonUnits.
+     */
+    public AwardPersonUnit[] getNewAwardPersonUnits() {
+        for(AwardPersonUnit apu: newAwardPersonUnits) {
+            lazyLoadUnit(apu);
+        }
+        return newAwardPersonUnits;
     }
     
     /**
@@ -108,8 +119,8 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
      * Gets the newUnitNumber attribute. 
      * @return Returns the newUnitNumber.
      */
-    public String getNewUnitNumber() {
-        return newAwardPersonUnit.getUnit() != null ? newAwardPersonUnit.getUnit().getUnitNumber() : null;
+    public String getNewUnitNumber(int projectPersonIndex) {
+        return newAwardPersonUnits[projectPersonIndex].getUnit() != null ? newAwardPersonUnits[projectPersonIndex].getUnit().getUnitNumber() : null;
     }
     
     /**
@@ -146,35 +157,35 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
         return selectedLeadUnit;
     }
     
-    public String getUnitName() {
-        return newAwardPersonUnit.getUnit() != null ? newAwardPersonUnit.getUnit().getUnitName() : null; 
+    public String getUnitName(int projectPersonIndex) {
+        return newAwardPersonUnits[projectPersonIndex].getUnit() != null ? newAwardPersonUnits[projectPersonIndex].getUnit().getUnitName() : null; 
     }
      
-    public String getUnitNumber() {
-        return getNewUnitNumber();
+    public String getUnitNumber(int projectPersonIndex) {
+        return getNewUnitNumber(projectPersonIndex);
     }
     
-    /**
-     * Sets the newAwardPersonUnit attribute value.
-     * @param newAwardPersonUnit The newAwardPersonUnit to set.
-     */
-    public void setNewAwardPersonUnit(AwardPersonUnit newAwardPersonUnit) {
-        this.newAwardPersonUnit = newAwardPersonUnit;
-    }
+//    /**
+//     * Sets the newAwardPersonUnit attribute value.
+//     * @param newAwardPersonUnit The newAwardPersonUnit to set.
+//     */
+//    public void setNewAwardPersonUnit(AwardPersonUnit newAwardPersonUnit) {
+//        this.newAwardPersonUnit = newAwardPersonUnit;
+//    }
     
-    /**
-     * Sets the newUnitNumber attribute value.
-     * @param newUnitNumber The newUnitNumber to set.
-     */
-    public void setNewUnitNumber(String newUnitNumber) {
-        Unit newUnit = null;
-        if(newUnitNumber != null) {
-            Map<String, Object> identifiers = new HashMap<String, Object>();
-            identifiers.put("unitNumber", newUnitNumber);
-            newUnit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, identifiers);
-        }
-        newAwardPersonUnit.setUnit(newUnit);        
-    }
+//    /**
+//     * Sets the newUnitNumber attribute value.
+//     * @param newUnitNumber The newUnitNumber to set.
+//     */
+//    public void setNewUnitNumber(String newUnitNumber) {
+//        Unit newUnit = null;
+//        if(newUnitNumber != null) {
+//            Map<String, Object> identifiers = new HashMap<String, Object>();
+//            identifiers.put("unitNumber", newUnitNumber);
+//            newUnit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, identifiers);
+//        }
+//        newAwardPersonUnit.setUnit(newUnit);        
+//    }
 
     /**
      * Sets the selectedLeadUnit attribute value.
@@ -186,6 +197,11 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     }
 
 
+    @Override
+    protected AwardContact createNewContact() {
+        return new AwardPerson();
+    }
+    
     /**
      * @see org.kuali.kra.award.contacts.AwardContactsBean#getContactRoleType()
      */
@@ -193,7 +209,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     protected Class<? extends ContactRole> getContactRoleType() {
         return ProposalPersonRole.class;
     }
-    
+
     /**
      * @see org.kuali.kra.award.contacts.AwardContactsBean#init()
      */
@@ -202,7 +218,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
         super.init();
         initNewAwardPersonUnit();
     }
-
+    
     private AwardPerson findPrincipalInvestigator() {
         AwardPerson awardPerson = null;
         for(AwardContact person: getAward().getProjectPersons()) {
@@ -214,25 +230,37 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
         return awardPerson;
     }
     
-    private AwardPersonUnitRuleAddEvent generateAddPersonUnitEvent(AwardPerson projectPerson) {
+    private AwardPersonUnitRuleAddEvent generateAddPersonUnitEvent(AwardPerson projectPerson, int addUnitPersonIndex) {
         return new AwardPersonUnitRuleAddEvent("AwardPersonUnitRuleAddEvent", "projectPersonnelBean.newAwardPersonUnit", getDocument(), 
-                                                                        projectPerson, newAwardPersonUnit);
+                                                                        projectPerson, newAwardPersonUnits[addUnitPersonIndex]);
     }
-    
+
     private AwardProjectPersonRuleAddEvent generateAddProjectPersonEvent() {
         return new AwardProjectPersonRuleAddEvent("AddAwardProjectPersonRuleEvent", "projectPersonnelBean.newAwardContact", getDocument(), 
                                                     (AwardPerson) newAwardContact);
     }
 
-    @Override
-    protected AwardContact createNewContact() {
-        return new AwardPerson();
-    }
-
     private void initNewAwardPersonUnit() {
-        newAwardPersonUnit = new AwardPersonUnit(getNewProjectPerson());
+        newAwardPersonUnits = new AwardPersonUnit[getAward().getProjectPersons().size()];
+        int personIndex = 0;
+        for(AwardPerson p: getAward().getProjectPersons()) {
+            newAwardPersonUnits[personIndex++] = new AwardPersonUnit(p);
+        }
     }
 
+    /**
+     * This method...
+     * @param awardPersonUnit
+     */
+    private void lazyLoadUnit(AwardPersonUnit awardPersonUnit) {
+        if(awardPersonUnit.getUnitNumber() != null && awardPersonUnit.getUnit() == null) {
+            Map<String, Object> identifiers = new HashMap<String, Object>();
+            identifiers.put("unitNumber", awardPersonUnit.getUnitNumber());
+            Unit newUnit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, identifiers);
+            awardPersonUnit.setUnit(newUnit);
+        }
+    }
+    
     private void setLeadUnitSelectionStates(String unitName) {
         AwardPerson awardPerson = findPrincipalInvestigator();
         for(AwardPersonUnit associatedUnit: awardPerson.getUnits()) {
