@@ -21,7 +21,7 @@
 
 <%-- kra:section permission="modifyAward" --%>
 <kul:tabTop tabTitle="Project Personnel (${KualiForm.projectPersonnelBean.projectPersonnelCount})" defaultOpen="false" 
-			 tabErrorKey="document.awardList[0].projectPersons*,projectPersonnelBean.newAwardContact*">
+			 tabErrorKey="document.awardList[0].projectPerson*,projectPersonnelBean.newAwardContact*,">
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Project Personnel</span>
@@ -153,7 +153,7 @@
 	            </tr>
 	            <tr>
 	            	<td colspan="6">
-	            		<kra-a:awardProjectPersonnelUnits awardContact="${awardContact}" awardContactRowStatusIndex="${awardContactRowStatus.index}" />
+	            		<kra-a:awardProjectPersonnelUnits awardContact="${awardContact}" awardPersonIndex="${awardContactRowStatus.index}" />
 	            	</td>
 	            </tr>
 	            <tr>
