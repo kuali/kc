@@ -24,7 +24,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 /**
  * The implementation of the Check List Service.
  */
-class CheckListServiceImpl implements CheckListService {
+public class CheckListServiceImpl implements CheckListService {
 
     private BusinessObjectService businessObjectService;
     
