@@ -21,9 +21,11 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
@@ -39,6 +41,7 @@ import org.kuali.rice.test.data.UnitTestFile;
             sqlFiles = {
                 @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";")
                ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
+               ,@UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";")
             }
         )
     )
@@ -66,6 +69,7 @@ public class ProtocolSubmitActionTest extends ProtocolRuleTestBase {
      * Test a valid submission.
      * @throws Exception
      */
+    @SuppressWarnings("deprecation")
     @Test
     public void testSubmitOK() throws Exception {
         ProtocolDocument document = getNewProtocolDocument();
@@ -134,5 +138,82 @@ public class ProtocolSubmitActionTest extends ProtocolRuleTestBase {
         assertFalse(rule.processSubmitAction(document, submitAction));
         assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode", 
                     KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_INVALID);
+    }
+    
+    /**
+     * Test validation for a couple of reviewers.  
+     * There should be no errors.
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testOKReviewers() throws WorkflowException {
+        ProtocolDocument document = getNewProtocolDocument();
+        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
+        submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
+        ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
+        reviewer.setChecked(false);
+        reviewer.setReviewerTypeCode("");
+        submitAction.getReviewers().add(reviewer);
+        reviewer = new ProtocolReviewerBean();
+        reviewer.setChecked(true);
+        reviewer.setReviewerTypeCode("1");
+        submitAction.getReviewers().add(reviewer);
+        assertTrue(rule.processSubmitAction(document, submitAction));
+        assertEquals(GlobalVariables.getErrorMap().size(), 0);
+    }
+    
+    /**
+     * Test a reviewer that is "unchecked" but has a reviewer type set.
+     */
+    @Test
+    public void testUncheckedReviewer() throws WorkflowException {
+        ProtocolDocument document = getNewProtocolDocument();
+        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
+        submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
+        ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
+        reviewer.setChecked(false);
+        reviewer.setReviewerTypeCode("1");
+        submitAction.getReviewers().add(reviewer);
+        assertFalse(rule.processSubmitAction(document, submitAction));
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[0].reviewerTypeCode", 
+                    KeyConstants.ERROR_PROTOCOL_REVIEWER_NOT_CHECKED_BUT_TYPE_SELECTED);
+    }
+    
+    /**
+     * Test a reviewer that is "checked" but does not have a reviewer type.
+     */
+    @Test
+    public void testCheckedReviewer() throws WorkflowException {
+        ProtocolDocument document = getNewProtocolDocument();
+        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
+        submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
+        ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
+        reviewer.setChecked(true);
+        reviewer.setReviewerTypeCode("");
+        submitAction.getReviewers().add(reviewer);
+        assertFalse(rule.processSubmitAction(document, submitAction));
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[0].reviewerTypeCode", 
+                    KeyConstants.ERROR_PROTOCOL_REVIEWER_NO_TYPE_BUT_REVIEWER_CHECKED);
+    }
+    
+    /**
+     * Test a reviewer that has an invalid reviewer type.
+     */
+    @Test
+    public void testInvalidReviewerType() throws WorkflowException {
+        ProtocolDocument document = getNewProtocolDocument();
+        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
+        submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
+        ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
+        reviewer.setChecked(true);
+        reviewer.setReviewerTypeCode("xx");
+        submitAction.getReviewers().add(reviewer);
+        assertFalse(rule.processSubmitAction(document, submitAction));
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[0].reviewerTypeCode", 
+                    KeyConstants.ERROR_PROTOCOL_REVIEWER_TYPE_INVALID);
     }
 }
