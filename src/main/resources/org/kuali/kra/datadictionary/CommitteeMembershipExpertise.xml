@@ -28,10 +28,10 @@
         <property name="lookupDefinition" >
             <ref bean="CommitteeMembershipExpertise-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="CommitteeMembershipExpertiseIdFk" />
+        <property name="titleAttribute" value="CommitteeMembershipExpertiseId" />
         <property name="attributes" >
             <list>
-                <ref bean="CommitteeMembershipExpertise-committeeMembershipExpertiseIdFk" />
+                <ref bean="CommitteeMembershipExpertise-committeeMembershipExpertiseId" />
                 <ref bean="CommitteeMembershipExpertise-committeeMembershipIdFk" />
                 <ref bean="CommitteeMembershipExpertise-membershipId" />
                 <ref bean="CommitteeMembershipExpertise-sequenceNumber" />
@@ -43,12 +43,12 @@
 
     <!-- Attribute Definitions -->
     
-    <bean id="CommitteeMembershipExpertise-committeeMembershipExpertiseIdFk" parent="CommitteeMembershipExpertise-committeeMembershipExpertiseIdFk-parentBean" />
-    <bean id="CommitteeMembershipExpertise-committeeMembershipExpertiseIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="committeeMembershipExpertiseIdFk" />
+    <bean id="CommitteeMembershipExpertise-committeeMembershipExpertiseId" parent="CommitteeMembershipExpertise-committeeMembershipExpertiseId-parentBean" />
+    <bean id="CommitteeMembershipExpertise-committeeMembershipExpertiseId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="committeeMembershipExpertiseId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Committee Membership Expertise Id Fk" />
-        <property name="shortLabel" value="Committee Membership Expertise Id Fk" />
+        <property name="label" value="Committee Membership Expertise Id" />
+        <property name="shortLabel" value="Committee Membership Expertise Id" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -57,8 +57,8 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="Committee Membership Expertise Id Fk" />
-        <property name="description" value="Committee Membership Expertise Id Fk" />
+        <property name="summary" value="Committee Membership Expertise Id" />
+        <property name="description" value="Committee Membership Expertise Id" />
     </bean>
 
     <bean id="CommitteeMembershipExpertise-committeeMembershipIdFk" parent="CommitteeMembershipExpertise-committeeMembershipIdFk-parentBean" />
@@ -150,7 +150,7 @@
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                                p:attributeName="CommitteeMembershipExpertiseIdFk" 
+                                p:attributeName="CommitteeMembershipExpertiseId" 
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="committeeMembershipIdFk" />
@@ -180,7 +180,7 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="CommitteeMembershipExpertiseIdFk" 
+                    p:attributeName="CommitteeMembershipExpertiseId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="committeeMembershipIdFk" />
@@ -195,7 +195,7 @@
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="CommitteeMembershipExpertiseIdFk" 
+                    p:attributeName="CommitteeMembershipExpertiseId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="committeeMembershipIdFk" />

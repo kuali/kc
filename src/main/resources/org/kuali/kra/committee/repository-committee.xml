@@ -147,7 +147,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.committee.bo.CommitteeMembership" table="COMM_MEMBERSHIPS">
-        <field-descriptor name="committeeMembershipIdFk" column="COMM_MEMBERSHIP_ID_FK" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
+        <field-descriptor name="committeeMembershipId" column="COMM_MEMBERSHIP_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
         <field-descriptor name="committeeIdFk" column="COMMITTEE_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
@@ -189,7 +189,7 @@
     </class-descriptor>	
     
     <class-descriptor class="org.kuali.kra.committee.bo.CommitteeMembershipRole" table="COMM_MEMBER_ROLES">
-        <field-descriptor name="committeeMembershipRoleIdFk" column="COMM_MEMBER_ROLES_ID_FK" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
+        <field-descriptor name="committeeMembershipRoleId" column="COMM_MEMBER_ROLES_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
         <field-descriptor name="committeeMembershipIdFk" column="COMM_MEMBERSHIP_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="membershipId" column="MEMBERSHIP_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
@@ -207,7 +207,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.committee.bo.CommitteeMembershipExpertise" table="COMM_MEMBER_EXPERTISE">
-        <field-descriptor name="committeeMembershipExpertiseIdFk" column="COMM_MEMBER_EXPERTISE_ID_FK" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
+        <field-descriptor name="committeeMembershipExpertiseId" column="COMM_MEMBER_EXPERTISE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
         <field-descriptor name="committeeMembershipIdFk" column="COMM_MEMBERSHIP_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="membershipId" column="MEMBERSHIP_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
