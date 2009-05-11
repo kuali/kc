@@ -171,6 +171,9 @@ public class CommitteeServiceImpl implements CommitteeService {
      */
     private String getDescription(CommitteeSchedule schedule) {
         Date date = schedule.getScheduledDate();
+        if (schedule.getPlace() == null) {
+            return dateFormat.format(date) + ", [no location], " + timeFormat.format(schedule.getActualTime());
+        }
         return dateFormat.format(date) + ", " + schedule.getPlace() + ", " + timeFormat.format(schedule.getActualTime());
     }
 
