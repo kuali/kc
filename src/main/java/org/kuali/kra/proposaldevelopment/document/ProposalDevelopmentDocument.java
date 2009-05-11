@@ -1533,21 +1533,34 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         return DOCUMENT_TYPE_CODE;
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentNumberForPermission()
+     */
     public String getDocumentNumberForPermission(){
         return proposalNumber;
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentKey()
+     */
     public String getDocumentKey(){
         return Permissionable.PROPOSAL_KEY;
     }
     
-    public String[] getRoleNames(){
-        String[] roleNames = { RoleConstants.AGGREGATOR, 
-                RoleConstants.BUDGET_CREATOR, 
-                RoleConstants.NARRATIVE_WRITER, 
-                RoleConstants.VIEWER, 
-                "approver"
-        };
+    /**
+     * 
+     * @see org.kuali.kra.common.permissions.Permissionable#getRoleNames()
+     */
+    public List<String> getRoleNames(){
+        List<String> roleNames = new ArrayList<String>();
+        
+        roleNames.add(RoleConstants.AGGREGATOR);
+        roleNames.add(RoleConstants.BUDGET_CREATOR);
+        roleNames.add(RoleConstants.NARRATIVE_WRITER);
+        roleNames.add(RoleConstants.VIEWER);
+        roleNames.add("approver");
         
         return roleNames;
     }

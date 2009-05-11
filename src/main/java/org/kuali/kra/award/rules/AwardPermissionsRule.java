@@ -31,6 +31,6 @@ public class AwardPermissionsRule extends PermissionsRuleBase {
      */
     @Override
     protected String getAdministratorRoleName() {
-        return AwardRoleConstants.AWARD_AGGREGATOR.getAwardRole();
+        return AwardRoleConstants.AWARD_MODIFIER.getAwardRole();
     }   
 }

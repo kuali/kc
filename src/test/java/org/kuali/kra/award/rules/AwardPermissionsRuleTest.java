@@ -138,7 +138,7 @@ public class AwardPermissionsRuleTest extends AwardRuleTestBase {
         AwardDocument document = getNewAwardDocument();
         List<User> users = getPermissionUsers();
         PermissionsUserEditRoles editRoles = createPermissionsUserEditRoles("aslusar");
-        editRoles.setRoleState(AwardRoleConstants.AWARD_AGGREGATOR.getAwardRole(), Boolean.TRUE);
+        editRoles.setRoleState(AwardRoleConstants.AWARD_MODIFIER.getAwardRole(), Boolean.TRUE);
         editRoles.setRoleState(AwardRoleConstants.AWARD_VIEWER.getAwardRole(), Boolean.TRUE);
         assertFalse(rule.processEditPermissionsUserRolesBusinessRules(document, users, editRoles));
         assertError(Constants.PERMISSIONS_EDIT_ROLES_PROPERTY_KEY, KeyConstants.ERROR_PERMISSIONS_ADMINSTRATOR_INCLUSIVE);
@@ -154,7 +154,7 @@ public class AwardPermissionsRuleTest extends AwardRuleTestBase {
         PermissionsUserEditRoles editRoles = new PermissionsUserEditRoles();
         editRoles.setUserName(username);
         List<PermissionsRoleState> roleStates = new ArrayList<PermissionsRoleState>();
-        Role role = new Role(AwardRoleConstants.AWARD_AGGREGATOR.toString(), "Aggregator");
+        Role role = new Role(AwardRoleConstants.AWARD_MODIFIER.toString(), "Aggregator");
         roleStates.add(new PermissionsRoleState(role));
         role = new Role(AwardRoleConstants.AWARD_VIEWER.toString(), "Viewer");
         roleStates.add(new PermissionsRoleState(role));
@@ -187,7 +187,7 @@ public class AwardPermissionsRuleTest extends AwardRuleTestBase {
         Person person = new Person();
         person.setUserName("quickstart");
         User user = new User(person);
-        Role role = new Role(AwardRoleConstants.AWARD_AGGREGATOR.toString(), "Aggregator");
+        Role role = new Role(AwardRoleConstants.AWARD_MODIFIER.toString(), "Aggregator");
         user.addRole(role);
         users.add(user);
         
@@ -209,7 +209,7 @@ public class AwardPermissionsRuleTest extends AwardRuleTestBase {
     private PermissionsUser createPermissionsUser(String userName) {
         PermissionsUser user = new PermissionsUser();
         user.setUserName(userName);
-        user.setRoleName(AwardRoleConstants.AWARD_AGGREGATOR.toString());
+        user.setRoleName(AwardRoleConstants.AWARD_MODIFIER.toString());
         return user;
     }
 }
