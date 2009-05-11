@@ -91,7 +91,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     public void addCommitteeMembershipRole(Committee committee, int selectedMembershipIndex, CommitteeMembershipRole committeeMembershipRole) {
         CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
         
-        committeeMembershipRole.setCommitteeMembershipIdFk(committeeMembership.getCommitteeMembershipIdFk());
+        committeeMembershipRole.setCommitteeMembershipIdFk(committeeMembership.getCommitteeMembershipId());
         committeeMembershipRole.setMembershipId(committeeMembership.getMembershipId());
         committeeMembershipRole.setSequenceNumber(0);
 
@@ -116,7 +116,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
         for (ResearchArea researchArea: researchAreas) {
             CommitteeMembershipExpertise membershipExpertise = new CommitteeMembershipExpertise();
             membershipExpertise.setResearchAreaCode(researchArea.getResearchAreaCode());
-            membershipExpertise.setCommitteeMembershipIdFk(committeeMembership.getCommitteeMembershipIdFk());
+            membershipExpertise.setCommitteeMembershipIdFk(committeeMembership.getCommitteeMembershipId());
             membershipExpertise.setMembershipId(committeeMembership.getMembershipId());
             membershipExpertise.setSequenceNumber(0);
 
