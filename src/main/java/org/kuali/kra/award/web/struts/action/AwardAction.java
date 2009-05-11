@@ -116,7 +116,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-        kraAuthService.addRole(username, AwardRoleConstants.AWARD_AGGREGATOR.getAwardRole(), doc.getAward());
+        kraAuthService.addRole(username, AwardRoleConstants.AWARD_MODIFIER.getAwardRole(), doc.getAward());
     }
     
     /**

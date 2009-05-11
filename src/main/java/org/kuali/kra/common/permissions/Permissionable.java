@@ -15,19 +15,37 @@
  */
 package org.kuali.kra.common.permissions;
 
+import java.util.List;
+
 /**
  * This class...
  */
 public interface Permissionable {
     
-    public static final String PROPOSAL_KEY = "kra.proposal";
-    public static final String AWARD_KEY = "kra.award";
+    String PROPOSAL_KEY = "kra.proposal";
+    String AWARD_KEY = "kra.award";
     
-    public String getDocumentNumberForPermission();
+    /**
+     * 
+     * This method returns the appropriate document number for implementing documents
+     * For award it would be awardNumber and for PDD it would be proposal Number.
+     * @return
+     */
+    String getDocumentNumberForPermission();
     
-    public String getDocumentKey();
+    /**
+     * 
+     * This method returns unique key for implementing document.
+     * 
+     * @return
+     */
+    String getDocumentKey();
     
-    public String[] getRoleNames();
-    
+    /**
+     * 
+     * This method gets all the role names for particular document. 
+     * @return
+     */
+    List<String> getRoleNames();
     
 }
