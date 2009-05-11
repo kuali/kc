@@ -178,13 +178,15 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         return persons;
     }
     
+    
     /**
-     * @see org.kuali.kra.award.service.KraAuthorizationService#getAllRolePersons(org.kuali.kra.common.permissions.Permissionable)
+     * 
+     * @see org.kuali.kra.service.KraAuthorizationService#getAllRolePersons(org.kuali.kra.common.permissions.Permissionable)
      */
     public List<RolePersons> getAllRolePersons(Permissionable permissionable) {
         List<RolePersons> rolePersonsList = new ArrayList<RolePersons>();
         
-        String[] roleNames = permissionable.getRoleNames();
+        List<String> roleNames = permissionable.getRoleNames();
         
         for (String roleName : roleNames) {
             List<String> usernames = getUserNames(permissionable, roleName);

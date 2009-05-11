@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.apache.axis.utils.StringUtils;
 import org.kuali.kra.award.contacts.AwardPerson;
-import org.kuali.kra.award.contacts.AwardPersonCreditSplit;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.contacts.AwardUnitContact;
@@ -1459,7 +1458,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         setAwardComments(new ArrayList<AwardComment>());
         awardApprovedSubawards = new ArrayList<AwardApprovedSubaward>();
         setAwardFandaRate(new ArrayList<AwardFandaRate>());      
-        setAwardReportTermItems(new ArrayList<AwardReportTerm>()) ;
+        setAwardReportTermItems(new ArrayList<AwardReportTerm>());
         keywords = new ArrayList<AwardScienceKeyword>();
         specialReviews = new ArrayList<AwardSpecialReview>();
         approvedEquipmentItems = new ArrayList<AwardApprovedEquipment>();
@@ -1759,19 +1758,34 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return returnValue;
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentNumberForPermission()
+     */
     public String getDocumentNumberForPermission(){
         return awardNumber;
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentKey()
+     */
     public String getDocumentKey(){
         return Permissionable.AWARD_KEY;
     }
     
-    public String[] getRoleNames(){
-        String[] roleNames = { AwardRoleConstants.AWARD_CREATOR.getAwardRole(),
-                AwardRoleConstants.AWARD_VIEWER.getAwardRole()};
+    /**
+     * 
+     * @see org.kuali.kra.common.permissions.Permissionable#getRoleNames()
+     */
+    public List<String> getRoleNames(){        
+        List<String> roles = new ArrayList<String>();
         
-        return roleNames;
+        for(AwardRoleConstants awardRoleConstants:AwardRoleConstants.values()){            
+            roles.add(awardRoleConstants.getAwardRole());
+        }
+        
+        return roles;        
     }
 
     public List<AwardAmountInfo> getAwardAmountInfos() {
