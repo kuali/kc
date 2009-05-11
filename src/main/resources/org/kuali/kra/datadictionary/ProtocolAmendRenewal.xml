@@ -28,9 +28,10 @@
         <property name="lookupDefinition" >
             <ref bean="ProtocolAmendRenewal-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="protoAmendRenNumber" />
+        <property name="titleAttribute" value="id" />
         <property name="attributes" >
             <list>
+                <ref bean="ProtocolAmendRenewal-id" />
                 <ref bean="ProtocolAmendRenewal-protoAmendRenNumber" />
                 <ref bean="ProtocolAmendRenewal-dateCreated" />
                 <ref bean="ProtocolAmendRenewal-summary" />
@@ -44,6 +45,24 @@
 
     <!-- Attribute Definitions -->
     
+    <bean id="ProtocolAmendRenewal-id" parent="ProtocolAmendRenewal-id-parentBean" />
+    <bean id="ProtocolAmendRenewal-id-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="id" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Id" />
+        <property name="shortLabel" value="Id" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Id" />
+        <property name="description" value="Id" />
+    </bean>
+
     <bean id="ProtocolAmendRenewal-protoAmendRenNumber" parent="ProtocolAmendRenewal-protoAmendRenNumber-parentBean" />
     <bean id="ProtocolAmendRenewal-protoAmendRenNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protoAmendRenNumber" />
@@ -151,17 +170,19 @@
     <!-- Business Object Inquiry Definition -->
     <bean id="ProtocolAmendRenewal-inquiryDefinition" parent="ProtocolAmendRenewal-inquiryDefinition-parentBean" />
     <bean id="ProtocolAmendRenewal-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="Proto Amend Ren Number" />
+        <property name="title" value="Id" />
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Proto Amend Ren Number" />
+                    <property name="title" value="Id" />
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                                p:attributeName="protoAmendRenNumber" 
+                                p:attributeName="id" 
                                 p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="protoAmendRenNumber" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="dateCreated" />
                             <bean parent="FieldDefinition"
@@ -192,8 +213,10 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="protoAmendRenNumber" 
+                    p:attributeName="id" 
                     p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="protoAmendRenNumber" />
                 <bean parent="FieldDefinition"
                     p:attributeName="dateCreated" />
                 <bean parent="FieldDefinition"
@@ -209,8 +232,10 @@
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="protoAmendRenNumber" 
+                    p:attributeName="id" 
                     p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="protoAmendRenNumber" />
                 <bean parent="FieldDefinition"
                     p:attributeName="dateCreated" />
                 <bean parent="FieldDefinition"
