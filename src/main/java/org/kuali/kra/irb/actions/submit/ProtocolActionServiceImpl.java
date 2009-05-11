@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.submit;
 
 import org.kuali.kra.drools.util.DroolsRuleHandler;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 
@@ -24,12 +25,12 @@ class ProtocolActionServiceImpl {
 
     private BusinessObjectService businessObjectService;
 
-    public void updateProtocolStatus(String actionTypeCode, Protocol protocol) {
+    public void updateProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol) {
         
         String protocolNumberUpper = protocol.getProtocolNumber().toUpperCase();        
         String specialCondition = (protocolNumberUpper.contains("A")? "A" : (protocolNumberUpper.contains("R")? "R" : "NONE"));
         
-        ProtocolActionUpdateMapping protocolAction = new ProtocolActionUpdateMapping(actionTypeCode, protocol
+        ProtocolActionUpdateMapping protocolAction = new ProtocolActionUpdateMapping(protocolActionBo.getProtocolActionTypeCode(), protocol
                 .getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode(), protocol.getProtocolStatusCode(), specialCondition);
         protocolAction.setProtocol(protocol);
         protocolAction.setProtocolSubmissionStatus(protocol.getProtocolSubmission().getSubmissionStatus());
@@ -42,5 +43,11 @@ class ProtocolActionServiceImpl {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    private void logAction(ProtocolAction protocolActionBo, Protocol protocol) {
+        
+        
+        
     }
 }

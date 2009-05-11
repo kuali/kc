@@ -842,5 +842,21 @@
 			<foreignkey field-ref="reviewerTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>	
+
+	<class-descriptor class="org.kuali.kra.irb.actions.submit.ProtocolAmendRenewal" table="PROTO_AMEND_RENEWAL">
+		<field-descriptor name="protoAmendRenNumber" column="PROTO_AMEND_REN_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="dateCreated" column="DATE_CREATED" jdbc-type="DATE" />
+		<field-descriptor name="summary" column="SUMMARY" jdbc-type="VARCHAR" />
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolId"/>
+		</reference-descriptor>
+	</class-descriptor>
 		
 </descriptor-repository>
