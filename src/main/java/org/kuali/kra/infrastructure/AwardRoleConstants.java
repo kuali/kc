@@ -20,8 +20,15 @@ package org.kuali.kra.infrastructure;
  * This class...
  */
 public enum AwardRoleConstants {    
-    
-    AWARD_CREATOR("Award Creator"),AWARD_AGGREGATOR("Award Aggregator"),AWARD_VIEWER("Award Viewer"),AWARD_UNASSIGNED("Award Unassigned");
+
+    APPLICATION_ADMINISTRATOR("Application Administrator"), AWARD_BUDGET_APPROVER("Award Budget Approver"),
+    AWARD_BUDGET_ADMINISTRATOR("Award Budget Admnistrator"), AWARD_MODIFIER("Award Modifier"),
+    OSP_ADMINISTRATOR("OSP Administrator"), AWARD_BUDGET_AGGREGATOR("Award Budget Aggregator"),
+    AWARD_BUDGET_MAINTAINER("Award Budget Maintainer"), AWARD_DOCUMENTS_MAINTAINER("Award Documents Maintainer"),
+    AWARD_BUDGET_MODIFIER("Award Budget Modifier"),AWARD_VIEWER("Award Viewer"),
+    AWARD_BUDGET_VIEWER("Award Budget Viewer"),AWARD_DOCUMENTS_VIEWER("Award Documents Viewer"),
+    DEPARTMENTS_AWARDS_VIEWER("Departments Awards Viewer"),TEMPLATE_VIEWER("Template Viewer"),
+    AWARD_UNASSIGNED("Award Unassigned");
 
     private String role;   
      

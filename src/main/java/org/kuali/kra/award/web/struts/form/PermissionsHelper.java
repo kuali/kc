@@ -67,7 +67,7 @@ public class PermissionsHelper extends PermissionsHelperBase {
     private void buildDisplayNameMap() {
         if (displayNameMap == null) {
             displayNameMap = new HashMap<String, String>();
-            displayNameMap.put(AwardRoleConstants.AWARD_AGGREGATOR.getAwardRole(), AGGREGATOR_NAME);
+            displayNameMap.put(AwardRoleConstants.AWARD_MODIFIER.getAwardRole(), AGGREGATOR_NAME);
             displayNameMap.put(AwardRoleConstants.AWARD_VIEWER.getAwardRole(), VIEWER_NAME);
             displayNameMap.put(AwardRoleConstants.AWARD_UNASSIGNED.getAwardRole(), UNASSIGNED_NAME);
         }
@@ -97,7 +97,7 @@ public class PermissionsHelper extends PermissionsHelperBase {
      */
     @Override
     protected boolean isStandardRoleName(String roleName) {
-        return StringUtils.equals(roleName, AwardRoleConstants.AWARD_AGGREGATOR.getAwardRole()) 
+        return StringUtils.equals(roleName, AwardRoleConstants.AWARD_MODIFIER.getAwardRole()) 
                 || StringUtils.equals(roleName, AwardRoleConstants.AWARD_VIEWER.getAwardRole());
     }
     
