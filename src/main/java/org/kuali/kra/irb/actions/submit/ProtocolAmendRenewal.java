@@ -37,8 +37,11 @@ import org.kuali.kra.irb.Protocol;
 public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 1317253368511551232L;
-
+    
     @Id 
+    @Column(name="ID")
+    private String id; 
+
     @Column(name="PROTO_AMEND_REN_NUMBER")
     private String protoAmendRenNumber; 
 
@@ -63,11 +66,19 @@ public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase {
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="PROTOCOL_ID", insertable=false, updatable=false)
     private Protocol protocol;
-
+    
     public ProtocolAmendRenewal() { 
 
     } 
     
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getProtoAmendRenNumber() {
         return protoAmendRenNumber;
     }
@@ -128,6 +139,7 @@ public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase {
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("id", this.getId());
         hashMap.put("protoAmendRenNumber", this.getProtoAmendRenNumber());
         hashMap.put("dateCreated", this.getDateCreated());
         hashMap.put("summary", this.getSummary());

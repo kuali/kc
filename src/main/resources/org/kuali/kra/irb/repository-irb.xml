@@ -844,7 +844,8 @@
 	</class-descriptor>	
 
 	<class-descriptor class="org.kuali.kra.irb.actions.submit.ProtocolAmendRenewal" table="PROTO_AMEND_RENEWAL">
-		<field-descriptor name="protoAmendRenNumber" column="PROTO_AMEND_REN_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="id" column="ID" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="protoAmendRenNumber" column="PROTO_AMEND_REN_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="dateCreated" column="DATE_CREATED" jdbc-type="DATE" />
 		<field-descriptor name="summary" column="SUMMARY" jdbc-type="VARCHAR" />
 		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="INTEGER" />
