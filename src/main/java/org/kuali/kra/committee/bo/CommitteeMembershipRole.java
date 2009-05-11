@@ -32,8 +32,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase{
 
     @Id
-    @Column(name = "COMM_MEMBER_ROLES_ID_FK")
-    private Long committeeMembershipRoleIdFk;
+    @Column(name = "COMM_MEMBER_ROLES_ID")
+    private Long committeeMembershipRoleId;
 
     @Column(name = "COMM_MEMBERSHIP_ID_FK")
     private Long committeeMembershipIdFk;
@@ -58,12 +58,12 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase{
     public CommitteeMembershipRole() {
     }
 
-    public Long getCommitteeMembershipRoleIdFk() {
-        return committeeMembershipRoleIdFk;
+    public Long getCommitteeMembershipRoleId() {
+        return committeeMembershipRoleId;
     }
 
-    public void setCommitteeMembershipRoleIdFk(Long committeeMembershipRoleIdFk) {
-        this.committeeMembershipRoleIdFk = committeeMembershipRoleIdFk;
+    public void setCommitteeMembershipRoleId(Long committeeMembershipRoleId) {
+        this.committeeMembershipRoleId = committeeMembershipRoleId;
     }
 
     public Long getCommitteeMembershipIdFk() {
@@ -125,7 +125,7 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase{
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("committeeMembershipRoleIdFk", getCommitteeMembershipRoleIdFk());
+        hashMap.put("committeeMembershipRoleId", getCommitteeMembershipRoleId());
         hashMap.put("committeeMembershipIdFk", getCommitteeMembershipIdFk());
         hashMap.put("membershipId", getMembershipId());
         hashMap.put("sequenceNumber", getSequenceNumber());
