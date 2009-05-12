@@ -15,15 +15,15 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-
-
 <c:set var="attributes" value="${DataDictionary.ProtocolSubmitAction.attributes}" />
 <c:set var="expeditedAttributes" value="${DataDictionary.ExpeditedReviewCheckListItem.attributes}" />
 <c:set var="exemptAttributes" value="${DataDictionary.ExemptStudiesCheckListItem.attributes}" />
 <c:set var="reviewerAttributes" value="${DataDictionary.ProtocolReviewerBean.attributes}" />
 <c:set var="action" value="protocolProtocolAction" />
 
-<kul:innerTab tabTitle="Submit for Review" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolSubmitAction.*">
+<kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
+
+<kul:innerTab tabTitle="Submit for Review" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolSubmitAction*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
@@ -242,3 +242,5 @@
         updateCheckList('actionHelper.protocolSubmitAction.protocolReviewTypeCode');
     </script>
 </kul:innerTab>
+
+</kra:permission>
