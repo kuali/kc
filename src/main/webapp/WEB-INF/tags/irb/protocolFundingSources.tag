@@ -108,7 +108,8 @@
 	                <td class="infoline">
 	                        <div align="center">
 	                            <html:image property="methodToCall.addProtocolFundingSource.anchor${tabKey}"
-	                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+	                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
+	                            styleClass="tinybutton"/>
 	                        </div>
 	                </td>
 	            </tr>
@@ -150,8 +151,8 @@
                             <html:image property="methodToCall.deleteProtocolFundingSource.line${status.index}.anchor${currentTabIndex}"
                                 src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
                         </c:if>
-
-                        <c:if test="${!(protocolFundingSource.fundingSourceType.description == 'Other')}">
+                        
+                        <c:if test="${(protocolFundingSource.viewableFundingSource)}">
    
                                <html:image property="methodToCall.viewProtocolFundingSource.line${status.index}.anchor${currentTabIndex}"
                                 alt="view funding source"
@@ -168,4 +169,4 @@
             </c:forEach>
         </table>
 	</div>	
-</kul:tab>		
+</kul:tab>	

@@ -59,4 +59,6 @@ public interface ProtocolFundingSourceService {
     public String getViewProtocolFundingSourceUrl(ProtocolFundingSource protocolFundingSource, ProtocolProtocolAction action) throws Exception;
     
     public boolean updateSourceNameEditable(String fundingTypeCode);
+    
+    public boolean isViewable(int fundingTypeCode);
 }
