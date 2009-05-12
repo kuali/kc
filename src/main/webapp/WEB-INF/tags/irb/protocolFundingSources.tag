@@ -3,10 +3,12 @@
 <c:set var="protocolFundingSourceAttributes" value="${DataDictionary.ProtocolFundingSource.attributes}" />
 <c:set var="fundingSourceTypeAttributes" value="${DataDictionary.FundingSourceType.attributes}" />
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
+<c:set var="allowEditName" value="${KualiForm.protocolHelper.editProtocolFundingSourceName}" />
 
 
 <kul:tab tabTitle="Funding Sources" defaultOpen="true" tabErrorKey="document.protocol.protocolFundingSource*,protocolHelper.newFundingSource*,protocolHelper.newFundingSource.fundingSourceTypeCode*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
+
     	<h3>
     		<span class="subhead-left">Funding Sources</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.protocol.bo.ProtocolType" altText="help"/></span>
@@ -32,13 +34,23 @@
 	<%-- --%>               
 	                <td>
 	                    <div align="center">
+	                 
+	                        <input type="hidden" name="protocolHelper.editProtocolFundingSourceName" 
+	                               value="${editName}">            
+	                    
 	                        <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSourceTypeCode" 
+	                                                  onchange="updateSourceNameEditable(
+	                                                             'protocolHelper.newFundingSource.fundingSourceTypeCode', 
+                                                                 'protocolHelper.newFundingSource.fundingSource',
+	                                                             'protocolHelper.newFundingSource.fundingSourceName', 
+	                                                             'protocolHelper.newFundingSource.fundingSourceTitle');"	                                                             
 	                                                  attributeEntry="${protocolFundingSourceAttributes.fundingSourceTypeCode}" />
 	                    </div>
 	                </td> 
 	
 	                
 	                <td>
+	                
 	                        <div align="center">
 	                        <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSource" 
 	                                                  attributeEntry="${protocolFundingSourceAttributes.fundingSource}"
@@ -51,23 +63,46 @@
 	<%--                          lookupKeyPath="document.protocolList[0].newFundingSource.fundingSourceTypeType.description" 
 	 --%>                        
 	                        <kul:fundingSourceLookup boClassName="${document.protocolList[0].newFundingSource.fundingSourceType.description}" 
-	                         fieldConversions="unitNumber:document.protocolList[0].newFundingSource.fundingSource,unitName:document.protocolList[0].newFundingSource.fundingSourceName" anchor="${currentTabIndex}"/> 
+	                         fieldConversions="" anchor="${currentTabIndex}"/> 
 	                        </div>
 	                
 	                </td>
 	             
 	                <td>
+	                
 	                    <div align="center">
-	                    <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSourceName" 
-	                                            attributeEntry="${protocolFundingSourceAttributes.fundingSourceName}" />
-	                    </div>
+                        <div id="protocolHelper.newFundingSource.fundingSourceName.master.div" >
+                        
+	                        <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSourceName" 
+	                                                      attributeEntry="${protocolFundingSourceAttributes.fundingSourceName}" />    
+	                                                      
+	                        <div id="protocolHelper.newFundingSource.fundingSourceName.div" >                                       		               
+	                        </div>
+                        </div>
+	                                                             
+	                                            
+                        </div>
 	                </td>
+	                
 	                <td>
 	                <div align="center">
-	                    <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSourceTitle" 
-	                                            readOnly="true"      attributeEntry="${protocolFundingSourceAttributes.fundingSourceTitle}" />
-	                </div>
-	                   <c:out value="${document.protocolList[0].newFundingSource.fundingSourceTitle}" />
+                                    <c:if test="${empty KualiForm.protocolHelper.newFundingSource.fundingSourceTitle}">
+                                        <input type="hidden" name="protocolHelper.newFundingSource.fundingSourceTitle" value="">              
+                                    </c:if>   
+                                <div id="protocolHelper.newFundingSource.fundingSourceTitle.div" >
+                                    <c:if test="${!empty KualiForm.protocolHelper.newFundingSource.fundingSource} && ${KualiForm.protocolHelper.newFundingSource.fundingSource} != null }">   
+                                        <c:choose>
+                                            <c:when test="${empty KualiForm.protocolHelper.newFundingSource.fundingSourceTitle}">
+                                                <span style='color: red;'>not found</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:out value="${KualiForm.protocolHelper.newFundingSource.fundingSourceTitle}"/>
+                                            </c:otherwise>  
+                                        </c:choose> 
+                                     </c:if>                                
+                                </div>                    
+                    </div>
+
 	                </td>
 	
 	                <td class="infoline">

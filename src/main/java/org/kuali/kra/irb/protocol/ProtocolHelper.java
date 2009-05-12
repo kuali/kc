@@ -66,6 +66,17 @@ public class ProtocolHelper implements Serializable {
     private String organizationName;
     private ProtocolFundingSource newFundingSource;
     
+    private boolean editProtocolFundingSourceName = false;
+
+    
+    public boolean isEditProtocolFundingSourceName() {
+        return editProtocolFundingSourceName;
+    }
+
+    public void setEditProtocolFundingSourceName(boolean editProtocolFundingSourceName) {
+        this.editProtocolFundingSourceName = editProtocolFundingSourceName;
+    }
+
     //Must be set to true, in case if order of method call in prepareview() is altered, functionality of billable will not break. 
     private boolean displayBillable = true;
 

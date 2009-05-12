@@ -57,4 +57,6 @@ public interface ProtocolFundingSourceService {
     public KraLookupableHelperServiceImpl getProtocolLookupableHelperService();
     
     public String getViewProtocolFundingSourceUrl(ProtocolFundingSource protocolFundingSource, ProtocolProtocolAction action) throws Exception;
+    
+    public boolean updateSourceNameEditable(String fundingTypeCode);
 }

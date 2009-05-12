@@ -355,6 +355,7 @@ public interface Constants {
     
     public static final String PROTO_FUNDING_SRC_TYPE_CODE_FIELD = "protocolHelper.newFundingSource.fundingSourceTypeCode";
     public static final String PROTO_FUNDING_SRC_NAME_FIELD = "protocolHelper.newFundingSource.fundingSourceName";
+    public static final String PROTO_FUNDING_SRC_NAME_FIELD_DIV = "protocolHelper.newFundingSource.fundingSourceName.div";
     public static final String PROTO_FUNDING_SRC_TITLE_FIELD = "protocolHelper.newFundingSource.fundingSourceTitle";
     public static final String PROTO_FUNDING_SRC_ID_FIELD = "protocolHelper.newFundingSource.fundingSource";
     
