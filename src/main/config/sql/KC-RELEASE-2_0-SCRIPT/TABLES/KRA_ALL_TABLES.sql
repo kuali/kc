@@ -205,6 +205,19 @@ CREATE TABLE AWARD_COST_SHARE (
 	OBJ_ID 					VARCHAR2(36) DEFAULT SYS_GUID()
 );
 
+CREATE TABLE AWARD_CUSTOM_DATA ( 
+    AWARD_CUSTOM_DATA_ID				NUMBER(8,0),
+    AWARD_ID       					NUMBER,
+    AWARD_NUMBER						VARCHAR2(10),
+    SEQUENCE_NUMBER        				NUMBER(8,0),
+    CUSTOM_ATTRIBUTE_ID					NUMBER(8,0),
+    VALUE							VARCHAR2(2000),
+    UPDATE_TIMESTAMP       				DATE,
+    UPDATE_USER            				VARCHAR2(60),
+    VER_NBR 						NUMBER(8,0) DEFAULT 1,
+    OBJ_ID 							VARCHAR2(36) DEFAULT SYS_GUID()
+);
+
 CREATE TABLE AWARD_DOCUMENT(
 	DOCUMENT_NUMBER VARCHAR2(10) NOT NULL,
 	VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL,
@@ -562,7 +575,7 @@ CREATE TABLE COMMITTEE_TYPE (
     OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
 CREATE TABLE COMM_MEMBERSHIPS ( 
-    COMM_MEMBERSHIP_ID_FK NUMBER(12,0) NOT NULL,
+    COMM_MEMBERSHIP_ID NUMBER(12,0) NOT NULL,
     COMMITTEE_ID_FK NUMBER(12,0) NOT NULL,
     COMMITTEE_ID VARCHAR2(15) NOT NULL,
     PERSON_ID VARCHAR2(9) NULL,
@@ -591,7 +604,7 @@ CREATE TABLE COMM_MEMBERSHIP_TYPE (
     OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
 CREATE TABLE COMM_MEMBER_EXPERTISE ( 
-    COMM_MEMBER_EXPERTISE_ID_FK NUMBER(12,0) NOT NULL, 
+    COMM_MEMBER_EXPERTISE_ID NUMBER(12,0) NOT NULL, 
     COMM_MEMBERSHIP_ID_FK NUMBER(12,0) NOT NULL, 
     MEMBERSHIP_ID VARCHAR2(10) NOT NULL, 
     SEQUENCE_NUMBER NUMBER(4,0) NOT NULL, 
@@ -602,7 +615,7 @@ CREATE TABLE COMM_MEMBER_EXPERTISE (
     OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
 CREATE TABLE COMM_MEMBER_ROLES ( 
-    COMM_MEMBER_ROLES_ID_FK NUMBER(12,0) NOT NULL, 
+    COMM_MEMBER_ROLES_ID NUMBER(12,0) NOT NULL, 
     COMM_MEMBERSHIP_ID_FK NUMBER(12,0) NOT NULL, 
     MEMBERSHIP_ID VARCHAR2(10) NOT NULL, 
     SEQUENCE_NUMBER NUMBER(4,0) NOT NULL, 
@@ -782,6 +795,19 @@ CREATE TABLE PERSON_TRAINING (
 	VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
 	OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
+create table proto_amend_renewal (
+  id            		  varchar2 (10)  not null,
+  proto_amend_ren_number  varchar2 (20)  not null,
+  date_created            date          not null,
+  summary                 CLOB,
+  protocol_id             number(12,0) not null,
+  protocol_number         varchar2 (20),
+  sequence_number         number (4),
+  update_timestamp        date          not null,
+  update_user             varchar2 (8)  not null, 
+  ver_nbr                 number(8,0) DEFAULT 1 NOT NULL, 
+  obj_id                  varchar2(36) DEFAULT SYS_GUID() NOT NULL);
+  
 create table proto_corresp_type (
   proto_corresp_type_code  varchar2 (3)    not null,
   description              varchar2 (200)  not null,
