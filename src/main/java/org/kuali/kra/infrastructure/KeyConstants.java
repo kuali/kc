@@ -340,14 +340,14 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_TYPE_NOT_FOUND = "error.protocolRequiredFields.typeCode.notFound";
 
     // IRB Protocol Actions Required Fields Validation Messages
-    public static final String ERROR_PROTOCOL_SUBMISSION_TYPE_NOT_SELECTED = "error.protocolRequiredFields.submissionTypeCode.notFound";
-    public static final String ERROR_PROTOCOL_SUBMISSION_TYPE_INVALID = "error.protocolRequiredFields.submissionTypeCode.invalid";
-    public static final String ERROR_PROTOCOL_REVIEW_TYPE_NOT_SELECTED = "error.protocolRequiredFields.reviewTypeCode.notFound";
-    public static final String ERROR_PROTOCOL_REVIEW_TYPE_INVALID = "error.protocolRequiredFields.reviewTypeCode.invalid";
-    public static final String ERROR_PROTOCOL_REVIEWER_NO_TYPE_BUT_REVIEWER_CHECKED = "error.protocolRequiredFields.reviewerTypeCode.notFoundButReviewerChecked";
-    public static final String ERROR_PROTOCOL_REVIEWER_NOT_CHECKED_BUT_TYPE_SELECTED = "error.protocolRequiredFields.reviewerTypeCode.selectedButReviewerUnchecked";
-    public static final String ERROR_PROTOCOL_REVIEWER_TYPE_INVALID = "error.protocolRequiredFields.reviewerTypeCode.invalid";
-
+    public static final String ERROR_PROTOCOL_SUBMISSION_TYPE_NOT_SELECTED = "error.protocol.submissionTypeCode.notFound";
+    public static final String ERROR_PROTOCOL_SUBMISSION_TYPE_INVALID = "error.protocol.submissionTypeCode.invalid";
+    public static final String ERROR_PROTOCOL_REVIEW_TYPE_NOT_SELECTED = "error.protocol.reviewTypeCode.notFound";
+    public static final String ERROR_PROTOCOL_REVIEW_TYPE_INVALID = "error.protocol.reviewTypeCode.invalid";
+    public static final String ERROR_PROTOCOL_REVIEWER_NO_TYPE_BUT_REVIEWER_CHECKED = "error.protocol.reviewerTypeCode.notFoundButReviewerChecked";
+    public static final String ERROR_PROTOCOL_REVIEWER_NOT_CHECKED_BUT_TYPE_SELECTED = "error.protocol.reviewerTypeCode.selectedButReviewerUnchecked";
+    public static final String ERROR_PROTOCOL_REVIEWER_TYPE_INVALID = "error.protocol.reviewerTypeCode.invalid";
+    public static final String ERROR_PROTOCOL_AT_LEAST_ONE_CHECKLIST_ITEM = "error.protocol.checkList.one";
     //  Committee Messages
     public static final String ERROR_COMMITTEE_DUPLICATE_ID = "error.committee.duplicateId";
     

@@ -65,8 +65,6 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
 
     private static final String VALID_SUBMISSION_TYPE = "100";
     private static final String VALID_REVIEW_TYPE = "1";
-    private static final String EXPEDITED_REVIEW_TYPE = "2";
-    private static final String EXEMPT_REVIEW_TYPE = "3";
     
     private DocumentService documentService;
     private ProtocolSubmitActionServiceImpl protocolSubmitActionService;
@@ -172,7 +170,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
     @Test
     public void testExemptCheckList() throws WorkflowException {
         ProtocolDocument protocolDocument = createProtocolDocument();
-        ProtocolSubmitAction submitAction = createSubmitAction("666", "1", EXEMPT_REVIEW_TYPE);
+        ProtocolSubmitAction submitAction = createSubmitAction("666", "1", ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
         addExemptCheckList(submitAction);
         
         Committee committee = createCommittee("666");
@@ -194,7 +192,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
     @Test
     public void testExpeditedCheckList() throws WorkflowException {
         ProtocolDocument protocolDocument = createProtocolDocument();
-        ProtocolSubmitAction submitAction = createSubmitAction("666", "1", EXPEDITED_REVIEW_TYPE);
+        ProtocolSubmitAction submitAction = createSubmitAction("666", "1", ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE);
         addExpeditedCheckList(submitAction);
         
         Committee committee = createCommittee("666");
@@ -241,7 +239,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         item.setChecked(false);        
         list.add(item);
         
-        submitAction.setExpeditedReviewCheckListList(list);
+        submitAction.setExpeditedReviewCheckList(list);
     }
 
     /*

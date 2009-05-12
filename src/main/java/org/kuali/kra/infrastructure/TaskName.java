@@ -67,6 +67,7 @@ public interface TaskName {
     public static final String CREATE_PROTOCOL_AMMENDMENT = "createAmmendment";
     public static final String CREATE_PROTOCOL_RENEWAL = "createRenewal";
     public static final String MODIFY_PROTOCOL_BILLABLE = "modifyBillable";
+    public static final String SUBMIT_PROTOCOL = "submitProtocol";
     
     /*
      * Committee Tasks.

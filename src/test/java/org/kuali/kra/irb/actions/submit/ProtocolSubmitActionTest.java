@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +45,8 @@ import org.kuali.rice.test.data.UnitTestFile;
                 @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";")
                ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
                ,@UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";")
+               ,@UnitTestFile(filename = "classpath:sql/dml/load_EXEMPT_STUDIES_CHECKLIST.sql", delimiter = ";")
+               ,@UnitTestFile(filename = "classpath:sql/dml/load_EXPEDITED_REVIEW_CHECKLIST.sql", delimiter = ";")
             }
         )
     )
@@ -138,6 +143,84 @@ public class ProtocolSubmitActionTest extends ProtocolRuleTestBase {
         assertFalse(rule.processSubmitAction(document, submitAction));
         assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode", 
                     KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_INVALID);
+    }
+    
+    /**
+     * Verify that for an exempt review type, the validation will
+     * pass if there is at least one check list item that is selected.
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testExemptCheckListOK() throws WorkflowException {
+        ProtocolDocument document = getNewProtocolDocument();
+        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
+        List<ExemptStudiesCheckListItem> checkList = new ArrayList<ExemptStudiesCheckListItem>();
+        ExemptStudiesCheckListItem item = new ExemptStudiesCheckListItem();
+        item.setChecked(true);
+        checkList.add(item);
+        submitAction.setExemptStudiesCheckList(checkList);
+        submitAction.setProtocolReviewTypeCode(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
+        assertTrue(rule.processSubmitAction(document, submitAction));
+        assertEquals(GlobalVariables.getErrorMap().size(), 0);
+    }
+    
+    /**
+     * Verify that for an exempt review type, the validation will
+     * fail if there isn't any check list items selected.
+     */
+    @Test
+    public void testExemptCheckListNone() throws WorkflowException {
+        ProtocolDocument document = getNewProtocolDocument();
+        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
+        submitAction.setProtocolReviewTypeCode(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
+        List<ExemptStudiesCheckListItem> checkList = new ArrayList<ExemptStudiesCheckListItem>();
+        ExemptStudiesCheckListItem item = new ExemptStudiesCheckListItem();
+        item.setChecked(false);
+        submitAction.setExemptStudiesCheckList(checkList);
+        assertFalse(rule.processSubmitAction(document, submitAction));
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY, 
+                    KeyConstants.ERROR_PROTOCOL_AT_LEAST_ONE_CHECKLIST_ITEM);
+    }
+    
+    /**
+     * Verify that for an expedited review type, the validation will
+     * pass if there is at least one check list item that is selected.
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testExpeditedCheckListOK() throws WorkflowException {
+        ProtocolDocument document = getNewProtocolDocument();
+        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
+        List<ExpeditedReviewCheckListItem> checkList = new ArrayList<ExpeditedReviewCheckListItem>();
+        ExpeditedReviewCheckListItem item = new ExpeditedReviewCheckListItem();
+        item.setChecked(true);
+        checkList.add(item);
+        submitAction.setExpeditedReviewCheckList(checkList);
+        submitAction.setProtocolReviewTypeCode(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE);
+        assertTrue(rule.processSubmitAction(document, submitAction));
+        assertEquals(GlobalVariables.getErrorMap().size(), 0);
+    }
+    
+    /**
+     * Verify that for an expedited review type, the validation will
+     * fail if there isn't any check list items selected.
+     */
+    @Test
+    public void testExpeditedCheckListNone() throws WorkflowException {
+        ProtocolDocument document = getNewProtocolDocument();
+        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
+        submitAction.setProtocolReviewTypeCode(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE);
+        List<ExpeditedReviewCheckListItem> checkList = new ArrayList<ExpeditedReviewCheckListItem>();
+        ExpeditedReviewCheckListItem item = new ExpeditedReviewCheckListItem();
+        item.setChecked(false);
+        submitAction.setExpeditedReviewCheckList(checkList);
+        assertFalse(rule.processSubmitAction(document, submitAction));
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY, 
+                    KeyConstants.ERROR_PROTOCOL_AT_LEAST_ONE_CHECKLIST_ITEM);
     }
     
     /**
