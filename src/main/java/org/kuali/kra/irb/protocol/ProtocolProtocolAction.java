@@ -364,10 +364,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         // Note that if the getSelectedLine doesn't find the line number in the new window's request attributes, 
         // so we'll get it from the parameter list instead 
         String line = request.getParameter("line");                
-        int lineNumber = getSelectedLine(request);
-        if (!(lineNumber >=0)) {
-            lineNumber = Integer.parseInt(line);
-        }
+        int lineNumber = Integer.parseInt(line);
         
         ProtocolFundingSource protocolFundingSource = 
             protocolForm.getDocument().getProtocol().getProtocolFundingSources().get(lineNumber);
@@ -411,6 +408,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         String boClassName = null;
         
         ProtocolForm protocolForm = (ProtocolForm)form;
+
         if (protocolForm.getProtocolHelper().getNewFundingSource().getFundingSourceType() != null) {
             boClassName = protocolForm.getProtocolHelper().getNewFundingSource().getFundingSourceType().getDescription();
         }
@@ -430,6 +428,9 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
             request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, updatedParameter);
             returnAction = super.performLookup(mapping, form, request, response);
+            
+            protocolForm.getProtocolHelper().setEditProtocolFundingSourceName(false);
+
         } else {
             returnAction =  mapping.findForward(MAPPING_BASIC);             
         }
