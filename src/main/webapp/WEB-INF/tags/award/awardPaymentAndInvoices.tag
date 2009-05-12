@@ -18,6 +18,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="awardPaymentAndInvoiceRequirementsCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
+<c:set var="action" value="awardPaymentReportsAndTerms" />
 
 <kul:tabTop tabTitle="Payment & Invoices" defaultOpen="false" tabErrorKey="" >
 	<div class="tab-container" align="right">
