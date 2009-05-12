@@ -566,6 +566,17 @@ CREATE OR REPLACE VIEW OSP$PERSON_TRAINING AS SELECT
 	UPDATE_TIMESTAMP, 
 	UPDATE_USER
 FROM PERSON_TRAINING;
+
+CREATE OR REPLACE VIEW OSP$proto_amend_renewal AS SELECT 
+  proto_amend_ren_number,
+  date_created,
+  summary,
+  protocol_number,
+  sequence_number,
+  update_timestamp,
+  update_user
+FROM proto_amend_renewal;
+
 CREATE OR REPLACE VIEW osp$proto_corresp_type AS SELECT
   proto_corresp_type_code,
   description,
