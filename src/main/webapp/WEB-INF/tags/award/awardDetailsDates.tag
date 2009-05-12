@@ -13,6 +13,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+<%-- member of AwardHome.jsp --%>
+
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
@@ -30,7 +32,7 @@
 <table cellpAdding="0" cellspacing="0" summary="">
   	<tr>
     	<th><div align="right">*Award ID:</div></th>
-    	<td>${KualiForm.awardDocument.award.awardId}</td>
+    	<td>${KualiForm.awardDocument.award.awardId}&nbsp;</td>
     	<th>
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountTypeCode}" /></div>
 		</th>
@@ -192,17 +194,17 @@
             </div>
         </th>
         <td class="infoline">
-        	<kul:htmlControlAttribute property="detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" onblur="loadSponsorName('detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode', 'newAwardTransferringSponsorName');" />
-            <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode,sponsorName:detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsor.sponsorName" anchor="${tabKey}" />
-            <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode:sponsorCode" anchor="${tabKey}" />
+        	<kul:htmlControlAttribute property="detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor.sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" onblur="loadSponsorName('detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor.sponsorCode', 'newAwardTransferringSponsorName');" />
+            <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor.sponsorCode,sponsorName:detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor.sponsor.sponsorName" anchor="${tabKey}" />
+            <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor.sponsorCode:sponsorCode" anchor="${tabKey}" />
             <div id="newAwardTransferringSponsorName.div">
-            	<c:if test="${!empty KualiForm.detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode}">
+            	<c:if test="${!empty KualiForm.detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor.sponsorCode}">
             		<c:choose>
-						<c:when test="${empty KualiForm.detailsAndDatesFormHelper.newAwardTransferringSponsor}">
+						<c:when test="${empty KualiForm.detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor}">
 	                    	<span style='color: red;'>not found</span>
 	               		</c:when>
 	                  	<c:otherwise>
-							<c:out value="${KualiForm.detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorName}" />
+							<c:out value="${KualiForm.detailsAndDatesFormHelper.sponsorToBecomeAwardTransferringSponsor.sponsorName}" />
 						</c:otherwise>
 					</c:choose>
             	</c:if>

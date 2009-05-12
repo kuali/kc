@@ -210,16 +210,7 @@ public class AwardHomeAction extends AwardAction {
      */
     public ActionForward addAwardTransferringSponsor(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm) form;
-        Sponsor awardTransferringSponsor = awardForm.getDetailsAndDatesFormHelper().getNewAwardTransferringSponsor();
-        boolean rulePassed = getKualiRuleService().applyRules(
-                new AddAwardTransferringSponsorEvent("", awardForm.getAwardDocument(), 
-                        awardForm.getAwardDocument().getAward(), awardTransferringSponsor));
-        if (rulePassed) {
-            Sponsor dbSponsor = (Sponsor) getBusinessObjectService().retrieve(awardTransferringSponsor);
-            awardForm.getAwardDocument().getAward().addAwardTransferringSponsor(dbSponsor);
-        }
-        
+        ((AwardForm) form).getDetailsAndDatesFormHelper().addAwardTransferringSponsor();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -236,8 +227,7 @@ public class AwardHomeAction extends AwardAction {
      */
     public ActionForward deleteAwardTransferringSponsor(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm) form;
-        awardForm.getAwardDocument().getAward().getAwardTransferringSponsors().remove(getLineToDelete(request));
+        ((AwardForm) form).getDetailsAndDatesFormHelper().deleteAwardTransferringSponsor(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
