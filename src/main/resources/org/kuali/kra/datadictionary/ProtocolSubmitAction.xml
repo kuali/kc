@@ -71,13 +71,10 @@
 		<property name="shortLabel" value="Submission Review Type" />
 		<property name="maxLength" value="3" />
 		<property name="required" value="true" />
-		<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolReviewType"
-            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            	p:includeKeyInLabel="false"
-            	p:keyAttribute="reviewTypeCode"
-            	p:labelAttribute="description" />
+		<property name="control" >	
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.irb.actions.submit.ProtocolReviewTypeValuesFinder"
+                  p:includeKeyInLabel="false" />
 		</property>
 		<property name="summary" value="Submission Review Type" />
 		<property name="description" value="Submission Review Type" />
