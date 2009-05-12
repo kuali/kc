@@ -52,7 +52,7 @@
 	        </td>
 	        <td class="infoline">
 	        	<div align="center">
-	    	    	<kul:htmlControlAttribute property="approvedEquipmentBean.newAwardApprovedEquipment.amount" attributeEntry="${approvedEquipmentAttributes.amount}"/>
+	    	    	<kul:htmlControlAttribute property="approvedEquipmentBean.newAwardApprovedEquipment.amount" attributeEntry="${approvedEquipmentAttributes.amount}" styleClass="amount"/>
 	    	  	</div>
 	        </td>
 	        <td class="infoline">
