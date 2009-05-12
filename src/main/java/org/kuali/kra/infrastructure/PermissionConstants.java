@@ -43,6 +43,7 @@ public interface PermissionConstants {
     public static final String CREATE_PROTOCOL = "CREATE_PROTOCOL";
     public static final String MODIFY_PROTOCOL = "MODIFY_PROTOCOL";
     public static final String VIEW_PROTOCOL = "VIEW_PROTOCOL";
+    public static final String SUBMIT_PROTOCOL = "SUBMIT_PROTOCOL";
     public static final String MAINTAIN_PROTOCOL_ACCESS = "MAINTAIN_PROTOCOL_ACCESS";
     public static final String ADD_PROTOCOL_NOTES = "ADD_PROTOCOL_NOTES";
     public static final String CREATE_AMMENDMENT = "CREATE_AMMENDMENT";

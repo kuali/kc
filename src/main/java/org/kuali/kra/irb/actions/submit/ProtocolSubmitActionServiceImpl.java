@@ -22,6 +22,7 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -272,6 +273,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * @return the next value
      */
     private Integer getNextValue(Protocol protocol, String key) {
-        return protocol.getProtocolDocument().getDocumentNextValue(key);
+        ProtocolDocument protocolDocument = protocol.getProtocolDocument();
+        return protocolDocument.getDocumentNextValue(key);
     }
 }
