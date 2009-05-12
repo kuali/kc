@@ -17,15 +17,8 @@
 
 <kra:infopage title="Checklist Item" action="protocolActions" htmlFormAction="protocolProtocolActions">
 
-	<kul:tabTop defaultOpen="true" tabTitle="Checklist Item">
-	    <div class="tab-container" align="center" style="margin:0px; padding:0px; border-width:0px">
-            <table cellpadding="0" cellspacing="0" summary="">
-                <tr><td style="padding: 5px">
-                    ${KualiForm.actionHelper.protocolSubmitAction.checkListItemDescription}
-                </td></tr>
-            </table>
-        </div>
-    </kul:tabTop>
-	<kul:panelFooter />	
-		
+    <div align="center">
+        <textarea title="Description" class="" style="" id="description" rows="15" cols="60" tabindex="0" name="description">${KualiForm.actionHelper.protocolSubmitAction.checkListItemDescription}</textarea> 
+    </div>
+    
 </kra:infopage>
