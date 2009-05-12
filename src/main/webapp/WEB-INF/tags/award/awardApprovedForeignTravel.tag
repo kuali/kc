@@ -61,7 +61,7 @@
             </td>
             <td class="infoline">
             	<div align="center">
-        	    	<kul:htmlControlAttribute property="approvedForeignTravelBean.newApprovedForeignTravel.amount" attributeEntry="${approvedForeignTravelAttributes.amount}"/>
+        	    	<kul:htmlControlAttribute property="approvedForeignTravelBean.newApprovedForeignTravel.amount" attributeEntry="${approvedForeignTravelAttributes.amount}" styleClass="amount"/>
         	  	</div>
             </td>
             <td class="infoline">
