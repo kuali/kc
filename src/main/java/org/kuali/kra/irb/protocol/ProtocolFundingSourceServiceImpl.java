@@ -23,6 +23,8 @@ import org.kuali.kra.award.service.AwardService;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
@@ -36,6 +38,7 @@ import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.springframework.util.StringUtils;
 
@@ -184,21 +187,33 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
             } else if (FundingSourceLookup.UNIT.getFundingTypeCode()==(Integer.valueOf(sourceType))) {
                 source.setFundingSourceName(getUnitService().getUnitName(sourceId));
             } else if (FundingSourceLookup.AWARD.getFundingTypeCode()==(Integer.valueOf(sourceType))) {
-                Award award  = getAwardService().getAward(sourceId);
-                if (award != null) {
-                    source.setFundingSourceName(award.getSponsorName()!=null?award.getSponsorName():"");
-                    source.setFundingSourceTitle(award.getTitle()!=null?award.getTitle():"");
+                if (isLinkedWithAward()) {
+                    Award award  = getAwardService().getAward(sourceId);
+                    if (award != null) {
+                        source.setFundingSourceName(award.getSponsorName()!=null?award.getSponsorName():"");
+                        source.setFundingSourceTitle(award.getTitle()!=null?award.getTitle():"");
+                    }
+                } else {
+                    source.setFundingSourceName(sourceName);
                 }
             }
             else if (FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode()==(Integer.valueOf(sourceType))) {
-                LookupableDevelopmentProposal devProposal = getLookupableDevelopmentProposalService().getLookupableDevelopmentProposal(sourceId);
-                if (devProposal != null) {
-                    source.setFundingSourceName(devProposal.getSponsorName()!=null?devProposal.getSponsorName():"");
-                    source.setFundingSourceTitle(devProposal.getTitle()!=null?devProposal.getTitle():"");
+                if (isLinkedWithDevProposal()) {
+                    LookupableDevelopmentProposal devProposal = getLookupableDevelopmentProposalService().getLookupableDevelopmentProposal(sourceId);
+                    if (devProposal != null) {
+                        source.setFundingSourceName(devProposal.getSponsorName()!=null?devProposal.getSponsorName():"");
+                        source.setFundingSourceTitle(devProposal.getTitle()!=null?devProposal.getTitle():"");
+                    }
+                } else {
+                    source.setFundingSourceName(sourceName);
                 }
             }
             else if (FundingSourceLookup.INSTITUTE_PROPOSAL.getFundingTypeCode()==(Integer.valueOf(sourceType))) {
-                //TODO Add guts here when InstituteProposal is built...
+                if (isLinkedWithProposal()) {
+                    //TODO Add guts here when InstituteProposal is built...
+                } else {
+                    source.setFundingSourceName(sourceName);
+                }
             }
         } 
         return source;
@@ -212,19 +227,25 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     public boolean isValidIdForType(ProtocolFundingSource source) {
         boolean ret= false;
 
-        if (source != null 
-                && source.getFundingSourceType() != null )  {
-
+        if (source != null && source.getFundingSourceType() != null )  {
             if (source.getFundingSourceType().getDescription().equalsIgnoreCase(FundingSourceLookup.OTHER.getLookupName())) {
                 ret=true;
-            } else  {
+            } else if (source.getFundingSourceType().getDescription().equalsIgnoreCase(FundingSourceLookup.AWARD.getLookupName())
+                    && !isLinkedWithAward() ) {
+                ret=true;
+            } else if (source.getFundingSourceType().getDescription().equalsIgnoreCase(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getLookupName())
+                    && !isLinkedWithDevProposal() ) {
+                ret=true;
+            } else if (source.getFundingSourceType().getDescription().equalsIgnoreCase(FundingSourceLookup.INSTITUTE_PROPOSAL.getLookupName())
+                    && !isLinkedWithProposal() ) {
+                ret=true;
+            } else {
                 String typeCode = source.getFundingSourceTypeCode().toString();
                 String src = source.getFundingSource();
                 String name = source.getFundingSourceName();
                 String title = source.getFundingSourceTitle();
                 
-                ProtocolFundingSource testSrc = 
-                    calculateProtocolFundingSource(typeCode, src, name, title);
+                ProtocolFundingSource testSrc = calculateProtocolFundingSource(typeCode, src, name, title);       
                 
                 if (testSrc != null && (StringUtils.hasText(testSrc.getFundingSourceName())) ) {
                     ret=true;
@@ -338,16 +359,80 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         return retUrl;
     }
     
+    protected boolean isLinkedWithDevProposal() {
+        boolean ret = true;
+        if (getKualiConfigurationService().getParameterWithoutExceptions(
+                Constants.PARAMETER_MODULE_PROTOCOL,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK)!= null) {
+            ret = getKualiConfigurationService().getIndicatorParameter(Constants.PARAMETER_MODULE_PROTOCOL,
+                    Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK);
+        }
+        return ret;        
+    }
+    
+    protected boolean isLinkedWithProposal() {
+        boolean ret = true;
+        if (getKualiConfigurationService().getParameterWithoutExceptions(
+                Constants.PARAMETER_MODULE_PROTOCOL,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK)!= null) {
+            ret = getKualiConfigurationService().getIndicatorParameter(Constants.PARAMETER_MODULE_PROTOCOL,
+                    Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK);
+        }
+//        return ret;        
+        return false;        
+    }
+    
+    protected boolean isLinkedWithAward() {
+        boolean ret = true;
+        if (getKualiConfigurationService().getParameterWithoutExceptions(
+                Constants.PARAMETER_MODULE_PROTOCOL,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ENABLE_PROTOCOL_TO_AWARD_LINK)!= null) {
+            ret = getKualiConfigurationService().getIndicatorParameter(Constants.PARAMETER_MODULE_PROTOCOL,
+                    Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ENABLE_PROTOCOL_TO_AWARD_LINK);
+        }
+        return ret;        
+    }
+    
     public boolean updateSourceNameEditable(String fundingTypeCode) {
         boolean isEditable = false;
         if (StringUtils.hasText(fundingTypeCode) ) {
             Integer val =  Integer.valueOf(fundingTypeCode);
             if (val.equals(FundingSourceLookup.OTHER.getFundingTypeCode())) {        
                 isEditable = true;
+            } else if (val.equals(FundingSourceLookup.AWARD.getFundingTypeCode())
+                       && !isLinkedWithAward()) {
+                isEditable = true;
+            } else if (val.equals(FundingSourceLookup.INSTITUTE_PROPOSAL.getFundingTypeCode())
+                       && !isLinkedWithProposal()) {
+                isEditable = true;
+            }else if (val.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode()) 
+                      && !isLinkedWithDevProposal()) {
+                isEditable = true;
             }
         }
         return isEditable;
     }
+    
+    public boolean isViewable(int fundingTypeCode) {
+        boolean ret = true;
+        if ((fundingTypeCode == FundingSourceLookup.OTHER.getFundingTypeCode())) {
+            ret = false;
+        } else if ((fundingTypeCode == FundingSourceLookup.INSTITUTE_PROPOSAL.getFundingTypeCode()) && !isLinkedWithProposal()) {
+            ret = false;
+        } else if ((fundingTypeCode == FundingSourceLookup.AWARD.getFundingTypeCode()) && !isLinkedWithAward()) {
+            ret = false;
+        } else if ((fundingTypeCode == FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode()) && !isLinkedWithDevProposal()) {
+            ret = false;
+        } 
+        return ret;
+    }
+
 
     
     private DocumentService getDocumentService() {
@@ -356,4 +441,9 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     public void setDocumentService(DocumentService documentService) {
         this.documentService =  documentService;
     }
+    
+    private KualiConfigurationService getKualiConfigurationService() {
+        return KraServiceLocator.getService(KualiConfigurationService.class);        
+    }
+    
 }
