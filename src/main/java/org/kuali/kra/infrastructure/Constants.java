@@ -336,6 +336,9 @@ public interface Constants {
     public static final String TERMS_PANEL_ANCHOR = "Terms";
     public static final String TERMS_PANEL_NAME = "Terms";
 
+    // Award Rules
+    public static final String COST_SHARE_ADD_ACTION_PROPERTY_KEY = "newAwardCostShare";
+    
     // IRB
     public static final String PARTICIPANTS_PROPERTY_KEY = "participantsHelper.newProtocolParticipant";
     public static final String DEFAULT_PROTOCOL_ORGANIZATION_TYPE_CODE = "1";
