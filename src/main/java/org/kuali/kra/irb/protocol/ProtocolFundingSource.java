@@ -21,6 +21,7 @@ import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -174,6 +175,10 @@ public class ProtocolFundingSource extends ProtocolAssociate {
     public void setFundingSourceType(FundingSourceType fundingSourceType) {
         this.fundingSourceType = fundingSourceType;
     }
+    
+    public boolean isViewableFundingSource() {
+        return getProtocolFundingSourceService().isViewable(this.fundingSourceTypeCode);        
+    }
 
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
@@ -210,5 +215,9 @@ public class ProtocolFundingSource extends ProtocolAssociate {
         
         
         return isEqual;
+    }
+    
+    protected ProtocolFundingSourceService getProtocolFundingSourceService() {
+        return KraServiceLocator.getService(ProtocolFundingSourceService.class);
     }
 }
