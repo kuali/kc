@@ -29,11 +29,29 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
+/**
+ * Validate a protocol submission to the IRB for review.
+ */
 public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implements ExecuteProtocolSubmitActionRule {
 
+    /**
+     * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.submit.ProtocolSubmitAction)
+     */
     public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitAction submitAction) {
-        boolean isValid = true;
+       
+        boolean isValid = validateSubmissionType(submitAction);
+        isValid &= validateProtocolReviewType(submitAction);
+        isValid &= validateCheckLists(submitAction);
+        isValid &= validateReviewers(submitAction);
         
+        return isValid;
+    }
+
+    /**
+     * Validate the Submission Type.
+     */
+    private boolean validateSubmissionType(ProtocolSubmitAction submitAction) {
+        boolean isValid = true;
         String submissionTypeCode = submitAction.getSubmissionTypeCode();
         if (StringUtils.isBlank(submissionTypeCode)) {
             // If the user didn't select a submission type, i.e. he/she choose the "select:" option,
@@ -47,7 +65,14 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
             this.reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".submissionTypeCode", 
                              KeyConstants.ERROR_PROTOCOL_SUBMISSION_TYPE_INVALID, new String[] { submissionTypeCode });
         }
-        
+        return isValid;
+    }
+    
+    /**
+     * Validate the Protocol Review Type.
+     */
+    private boolean validateProtocolReviewType(ProtocolSubmitAction submitAction) {
+        boolean isValid = true;
         String protocolReviewTypeCode = submitAction.getProtocolReviewTypeCode();
         if (StringUtils.isBlank(protocolReviewTypeCode)) {
             // If the user didn't select a review type, i.e. he/she choose the "select:" option,
@@ -61,7 +86,46 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
             this.reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode", 
                              KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_INVALID, new String[] { protocolReviewTypeCode });
         }
-        
+        return isValid;
+    }
+    
+    /**
+     * Validate the checklist.  There must be at least one check list item selected if the review
+     * type is exempt or expedited.
+     */
+    private boolean validateCheckLists(ProtocolSubmitAction submitAction) {
+        String protocolReviewTypeCode = submitAction.getProtocolReviewTypeCode();
+        if (StringUtils.equals(protocolReviewTypeCode, ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE)) {
+            List<ExemptStudiesCheckListItem> checkList = submitAction.getExemptStudiesCheckList();
+            for (ExemptStudiesCheckListItem item : checkList) {
+                if (item.getChecked()) {
+                    return true;
+                }
+            }
+            reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY, 
+                        KeyConstants.ERROR_PROTOCOL_AT_LEAST_ONE_CHECKLIST_ITEM);
+            return false;
+        }
+        else if (StringUtils.equals(protocolReviewTypeCode, ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE)) {
+            List<ExpeditedReviewCheckListItem> checkList = submitAction.getExpeditedReviewCheckList();
+            for (ExpeditedReviewCheckListItem item : checkList) {
+                if (item.getChecked()) {
+                    return true;
+                }
+            }
+            reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY, 
+                        KeyConstants.ERROR_PROTOCOL_AT_LEAST_ONE_CHECKLIST_ITEM);
+            return false;
+        }
+        return true;
+    }
+
+    
+    /**
+     * Validate the reviewers.
+     */
+    private boolean validateReviewers(ProtocolSubmitAction submitAction) {
+        boolean isValid = true;
         List<ProtocolReviewerBean> reviewers = submitAction.getReviewers();
         for (int i=0; i<reviewers.size(); i++) {
             ProtocolReviewerBean reviewer = reviewers.get(i);
@@ -69,7 +133,6 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
                 isValid = false;
             }
         }
-        
         return isValid;
     }
 
