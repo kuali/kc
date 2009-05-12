@@ -16,3 +16,4 @@
 <forward name="protocolActions" path="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" />
 <forward name="customData" path="/WEB-INF/jsp/irb/ProtocolCustomData.jsp" />
 <forward name="specialReview" path="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" />
+<forward name="checkListItemDescription" path="/WEB-INF/jsp/irb/ProtocolCheckListItemDescription.jsp" />
