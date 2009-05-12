@@ -1654,7 +1654,7 @@ function protocolCheckListItemPop(methodName, lineNum, docFormKey, sessionDocume
     	                               "&documentWebScope=" + documentWebScope +
     	                               "&line=" + lineNum,
     	                               "CheckListItem", 
-    	                               "width=800, height=350, scrollbars=yes, resizable=yes");   
+    	                               "width=500, height=350, scrollbars=yes, resizable=yes");   
 }
 
 /*
