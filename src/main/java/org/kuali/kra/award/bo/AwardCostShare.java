@@ -121,11 +121,16 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
     }
     
     /**
-     * This method...
+     * This method returns the primary key of the Cost Share BO
      * @return
      */
     public Integer getCostShareTypeCode() {
-        return costShareType.getCostShareTypeCode();
+        if (costShareType == null) {
+            return null;
+        }
+        else {
+            return costShareType.getCostShareTypeCode();
+        }
     }
 
 
