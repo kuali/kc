@@ -27,35 +27,35 @@ public class AccountType extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = -8445736738959087012L;
     
     private Integer accountTypeCode; 
-	private String description; 
-	
-	public AccountType() { 
+    private String description;
 
-	} 
-	
-	public Integer getAccountTypeCode() {
-		return accountTypeCode;
-	}
+    public AccountType() { 
 
-	public void setAccountTypeCode(Integer accountTypeCode) {
-		this.accountTypeCode = accountTypeCode;
-	}
+    } 
+    
+    public Integer getAccountTypeCode() {
+           return accountTypeCode;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setAccountTypeCode(Integer accountTypeCode) {
+           this.accountTypeCode = accountTypeCode;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	@Override 
-	protected LinkedHashMap<String,Object> toStringMapper() {
-		LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-		hashMap.put("accountTypeCode", getAccountTypeCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override 
+    protected LinkedHashMap<String,Object> toStringMapper() {
+        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
+        hashMap.put("accountTypeCode", getAccountTypeCode());
+        hashMap.put("description", getDescription());
+        return hashMap;
+    }
 
     @Override
     public int hashCode() {
@@ -74,18 +74,18 @@ public class AccountType extends KraPersistableBusinessObjectBase {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final AccountType other = (AccountType) obj;
+        final AccountType OTHER = (AccountType) obj;
         if (accountTypeCode == null) {
-            if (other.accountTypeCode != null)
+            if (OTHER.accountTypeCode != null)
                 return false;
         }
-        else if (!accountTypeCode.equals(other.accountTypeCode))
+        else if (!accountTypeCode.equals(OTHER.accountTypeCode))
             return false;
         if (description == null) {
-            if (other.description != null)
+            if (OTHER.description != null)
                 return false;
         }
-        else if (!description.equals(other.description))
+        else if (!description.equals(OTHER.description))
             return false;
         return true;
     }

@@ -17,7 +17,7 @@ package org.kuali.kra.award.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.bo.Sponsor;
 
 /**
@@ -25,104 +25,70 @@ import org.kuali.kra.bo.Sponsor;
  * 
  * @author Kuali Coeus Development Team (kc.dev@kuali.org)
  */
-public class AwardTransferringSponsor extends KraPersistableBusinessObjectBase { 
-	
+public class AwardTransferringSponsor extends AwardAssociate { 
+    
     private static final long serialVersionUID = -3642740671361484212L;
     
-    private Integer awardTransferringSponsorId; 
-	private String awardNumber; 
-	private Integer sequenceNumber; 
-	private String sponsorCode; 
-	
-	private Sponsor sponsor; 
-	private Award award; 
-	
-	public AwardTransferringSponsor() { 
+    private Integer awardTransferringSponsorId;
+    private String sponsorCode;
+    
+    private Sponsor sponsor;
+    
+    public AwardTransferringSponsor() { 
 
-	} 
+    } 
     
     public AwardTransferringSponsor(Award award, Sponsor sponsor) {
         this.setAward(award);
         this.setSponsor(sponsor);
     }
-	
-	public Integer getAwardTransferringSponsorId() {
-		return awardTransferringSponsorId;
-	}
+    
+    public Integer getAwardTransferringSponsorId() {
+        return awardTransferringSponsorId;
+    }
 
-	public void setAwardTransferringSponsorId(Integer awardTransferringSponsorId) {
-		this.awardTransferringSponsorId = awardTransferringSponsorId;
-	}
+    public void setAwardTransferringSponsorId(Integer awardTransferringSponsorId) {
+        this.awardTransferringSponsorId = awardTransferringSponsorId;
+    }
 
-	public String getAwardNumber() {
-		return awardNumber;
-	}
+    public String getSponsorCode() {
+        return sponsorCode;
+    }
 
-	public void setAwardNumber(String awardNumber) {
-		this.awardNumber = awardNumber;
-	}
+    public void setSponsorCode(String sponsorCode) {
+        this.sponsorCode = sponsorCode;
+    }
 
-	public Integer getSequenceNumber() {
-		return sequenceNumber;
-	}
+    public Sponsor getSponsor() {
+        return sponsor;
+    }
 
-	public void setSequenceNumber(Integer sequenceNumber) {
-		this.sequenceNumber = sequenceNumber;
-	}
-
-	public String getSponsorCode() {
-		return sponsorCode;
-	}
-
-	public void setSponsorCode(String sponsorCode) {
-		this.sponsorCode = sponsorCode;
-	}
-
-	public Sponsor getSponsor() {
-		return sponsor;
-	}
-
-	public void setSponsor(Sponsor sponsor) {
-		this.sponsor = sponsor;
+    public void setSponsor(Sponsor sponsor) {
+        this.sponsor = sponsor;
         if (sponsor == null) {
             sponsorCode = null;
         } else {
             sponsorCode = sponsor.getSponsorCode();
         }
-	}
+    }
 
-	public Award getAward() {
-		return award;
-	}
-
-	public void setAward(Award award) {
-        this.award = award;
-        if(award == null) {
-            sequenceNumber = null;
-            awardNumber = null;
-        } else {
-            sequenceNumber = award.getSequenceNumber();
-            awardNumber = award.getAwardNumber();
-        }
-	}
-
-	@Override 
-	protected LinkedHashMap<String,Object> toStringMapper() {
-		LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-		hashMap.put("awardTransferringSponsorId", getAwardTransferringSponsorId());
-		hashMap.put("awardNumber", getAwardNumber());
-		hashMap.put("sequenceNumber", getSequenceNumber());
-		hashMap.put("sponsorCode", getSponsorCode());
-		return hashMap;
-	}
+    @Override 
+    protected LinkedHashMap<String,Object> toStringMapper() {
+        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
+        hashMap.put("awardTransferringSponsorId", getAwardTransferringSponsorId());
+        hashMap.put("awardNumber", getAwardNumber());
+        hashMap.put("sequenceNumber", getSequenceNumber());
+        hashMap.put("sponsorCode", getSponsorCode());
+        return hashMap;
+    }
 
     @Override
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
+        result = PRIME * result + ((getAwardNumber() == null) ? 0 : getAwardNumber().hashCode());
         result = PRIME * result + ((awardTransferringSponsorId == null) ? 0 : awardTransferringSponsorId.hashCode());
-        result = PRIME * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+        result = PRIME * result + ((getSequenceNumber() == null) ? 0 : getSequenceNumber().hashCode());
         result = PRIME * result + ((sponsorCode == null) ? 0 : sponsorCode.hashCode());
         return result;
     }
@@ -135,30 +101,30 @@ public class AwardTransferringSponsor extends KraPersistableBusinessObjectBase {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final AwardTransferringSponsor other = (AwardTransferringSponsor) obj;
-        if (awardNumber == null) {
-            if (other.awardNumber != null)
+        final AwardTransferringSponsor OTHER = (AwardTransferringSponsor) obj;
+        if (getAwardNumber() == null) {
+            if (OTHER.getAwardNumber() != null)
                 return false;
         }
-        else if (!awardNumber.equals(other.awardNumber))
+        else if (!getAwardNumber().equals(OTHER.getAwardNumber()))
             return false;
         if (awardTransferringSponsorId == null) {
-            if (other.awardTransferringSponsorId != null)
+            if (OTHER.awardTransferringSponsorId != null)
                 return false;
         }
-        else if (!awardTransferringSponsorId.equals(other.awardTransferringSponsorId))
+        else if (!awardTransferringSponsorId.equals(OTHER.awardTransferringSponsorId))
             return false;
-        if (sequenceNumber == null) {
-            if (other.sequenceNumber != null)
+        if (getSequenceNumber() == null) {
+            if (OTHER.getSequenceNumber() != null)
                 return false;
         }
-        else if (!sequenceNumber.equals(other.sequenceNumber))
+        else if (!getSequenceNumber().equals(OTHER.getSequenceNumber()))
             return false;
         if (sponsorCode == null) {
-            if (other.sponsorCode != null)
+            if (OTHER.sponsorCode != null)
                 return false;
         }
-        else if (!sponsorCode.equals(other.sponsorCode))
+        else if (!sponsorCode.equals(OTHER.sponsorCode))
             return false;
         return true;
     }
