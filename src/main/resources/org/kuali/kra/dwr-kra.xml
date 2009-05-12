@@ -90,6 +90,7 @@
          <create creator="spring" javascript="ProtocolFundingSourceService">
             <param name="beanName" value="protocolFundingSourceService" />
             <include method="calculateProtocolFundingSource" />
+            <include method="updateSourceNameEditable" />
         </create>
         <convert converter="bean" match="org.kuali.kra.irb.protocol.ProtocolFundingSource">
             <param name="include" value="fundingSourceTitle,fundingSourceName" />            
