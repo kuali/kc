@@ -35,7 +35,7 @@ public class AwardHomeWebTest extends AwardWebTestBase {
     protected static final String ACCOUNT_ID = AWARD_ID_PREFIX + "accountNumber";
     protected static final String CFDA_NUMBER = AWARD_ID_PREFIX + "cfdaNumber";
     protected static final String NSF_CODE = AWARD_ID_PREFIX + "nsfCode";
-    protected static final String NEW_TRANSFERRING_SPONSOR_LOOKUP = "newAwardTransferringSponsor.sponsorCode";
+    protected static final String NEW_TRANSFERRING_SPONSOR_LOOKUP = "sponsorToBecomeAwardTransferringSponsor.sponsorCode";
     
     private static final String TEST_CFDA_VALUE = "00.000";
     private static final String TEST_NSF_CODE_VALUE = "A.03";

@@ -32,7 +32,7 @@ public class AddAwardTransferringSponsorEvent extends KraDocumentEventBase {
     private static final org.apache.commons.logging.Log LOG = 
         org.apache.commons.logging.LogFactory.getLog(AddAwardTransferringSponsorEvent.class);
     
-    private Sponsor awardTransferringSponsor;
+    private Sponsor sponsorToBecomeAwardTransferringSponsor;
     private Award award;
     
     /**
@@ -42,9 +42,9 @@ public class AddAwardTransferringSponsorEvent extends KraDocumentEventBase {
      * @param document
      * @param awardTransferringSponsor
      */
-    public AddAwardTransferringSponsorEvent(String errorPathPrefix, AwardDocument document, Award award, Sponsor awardTransferringSponsor) {
+    public AddAwardTransferringSponsorEvent(String errorPathPrefix, AwardDocument document, Award award, Sponsor sponsor) {
         super("adding an award transferring sponsor object" + getDocumentId(document), errorPathPrefix, document);
-        this.awardTransferringSponsor = awardTransferringSponsor;
+        this.sponsorToBecomeAwardTransferringSponsor = sponsor;
         this.award = award;
         logEvent();
     }
@@ -72,18 +72,18 @@ public class AddAwardTransferringSponsorEvent extends KraDocumentEventBase {
                     this.getClass().getName(), "."));
             logMessage.append(" with ");
 
-            if (getAwardTransferringSponsor() == null) {
+            if (getSponsorToBecomeAwardTransferringSponsor() == null) {
                 logMessage.append("null Award Transferring Sponsor");
             } else {
-                logMessage.append(getAwardTransferringSponsor().toString());
+                logMessage.append(getSponsorToBecomeAwardTransferringSponsor().toString());
             }
 
             LOG.debug(logMessage);            
         }
     }
 
-    public Sponsor getAwardTransferringSponsor() {
-        return awardTransferringSponsor;
+    public Sponsor getSponsorToBecomeAwardTransferringSponsor() {
+        return sponsorToBecomeAwardTransferringSponsor;
     }
 
     public Award getAward() {

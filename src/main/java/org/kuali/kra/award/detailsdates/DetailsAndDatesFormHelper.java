@@ -20,6 +20,9 @@ import java.io.Serializable;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiRuleService;
 
 /**
  * This class encapsulates presentation-specific data and behavior
@@ -27,9 +30,10 @@ import org.kuali.kra.bo.Sponsor;
  */
 public class DetailsAndDatesFormHelper implements Serializable {
     
+    private static final long serialVersionUID = 3960093546695537698L;
+
     private AwardForm parent;
-    
-    private Sponsor newAwardTransferringSponsor;
+    private Sponsor sponsorToBecomeAwardTransferringSponsor;
     
     /**
      * Constructs a ApprovedSubawardFormHelper
@@ -43,15 +47,15 @@ public class DetailsAndDatesFormHelper implements Serializable {
      * Initialize subform
      */
     public void init() {
-        newAwardTransferringSponsor = new Sponsor(); 
+        sponsorToBecomeAwardTransferringSponsor = new Sponsor(); 
     }
     
-    public Sponsor getNewAwardTransferringSponsor() {
-        return newAwardTransferringSponsor;
+    public Sponsor getSponsorToBecomeAwardTransferringSponsor() {
+        return sponsorToBecomeAwardTransferringSponsor;
     }
 
-    public void setNewAwardTransferringSponsor(Sponsor newAwardTransferringSponsor) {
-        this.newAwardTransferringSponsor = newAwardTransferringSponsor;
+    public void setSponsorToBecomeAwardTransferringSponsor(Sponsor sponsorToBecomeAwardTransferringSponsor) {
+        this.sponsorToBecomeAwardTransferringSponsor = sponsorToBecomeAwardTransferringSponsor;
     }
 
     public AwardForm getParent() {
@@ -64,6 +68,51 @@ public class DetailsAndDatesFormHelper implements Serializable {
 
     public AwardDocument getAwardDocument() {
         return parent.getAwardDocument();
+    }
+    
+    /**
+     * 
+     * This method adds a new AwardTransferringSponsor to the list. 
+     * It uses {@link KeywordsService} to process the request 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public void addAwardTransferringSponsor() throws Exception {
+        Sponsor awardTransferringSponsor = parent.getDetailsAndDatesFormHelper().getSponsorToBecomeAwardTransferringSponsor();
+        boolean rulePassed = getKualiRuleService().applyRules(
+                new AddAwardTransferringSponsorEvent("", parent.getAwardDocument(), 
+                        parent.getAwardDocument().getAward(), awardTransferringSponsor));
+        if (rulePassed) {
+            Sponsor dbSponsor = (Sponsor) getBusinessObjectService().retrieve(awardTransferringSponsor);
+            parent.getAwardDocument().getAward().addAwardTransferringSponsor(dbSponsor);
+        }
+    }
+    
+    /**
+     * 
+     * This method removes an AwardTransferringSponsor from the list. 
+     * It uses {@link KeywordsService} to process the request 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public void deleteAwardTransferringSponsor(int lineToDelete) throws Exception {
+        parent.getAwardDocument().getAward().getAwardTransferringSponsors().remove(lineToDelete);
+    }
+    
+    protected BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+    
+    protected KualiRuleService getKualiRuleService() {
+        return KraServiceLocator.getService(KualiRuleService.class);
     }
     
 }

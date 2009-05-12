@@ -37,7 +37,7 @@ public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase imple
      */
     public boolean processAddAwardTransferringSponsorEvent(AddAwardTransferringSponsorEvent addAwardTransferringSponsorEvent) {
         boolean valid = true;
-        Sponsor sponsor = addAwardTransferringSponsorEvent.getAwardTransferringSponsor();
+        Sponsor sponsor = addAwardTransferringSponsorEvent.getSponsorToBecomeAwardTransferringSponsor();
         if (isUnknownSponsor(sponsor)) {
             valid = false;
             reportError(SPONSOR_CODE_PROPERTY_NAME, KeyConstants.ERROR_INVALID_AWARD_TRANSFERRING_SPONSOR);
