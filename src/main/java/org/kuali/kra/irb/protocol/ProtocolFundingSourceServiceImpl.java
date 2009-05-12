@@ -43,7 +43,7 @@ import org.springframework.util.StringUtils;
  * This Service implementation provides the required logic for performing a multi-type lookup for funding sources. 
  * And business rule management for a a protocol's funding source list.
  */
-class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceService {
+public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceService {
 
     private UnitService unitService;
     private SponsorService sponsorService;
@@ -276,6 +276,10 @@ class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceService {
     
             fieldConversions.append(sourceLookup.getName()+COLON);
             fieldConversions.append(Constants.PROTO_FUNDING_SRC_NAME_FIELD+COMMA);
+
+            fieldConversions.append(sourceLookup.getName()+COLON);
+            fieldConversions.append(Constants.PROTO_FUNDING_SRC_NAME_FIELD_DIV+COMMA);
+            
             
             //Note: not all funding sources have a title
             if (StringUtils.hasText(sourceLookup.getTitle())) {
@@ -321,18 +325,30 @@ class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceService {
             sponsor.setSponsorCode(protocolFundingSource.getFundingSource());
             HtmlData forward = 
                 getProtocolLookupableHelperService().getInquiryUrl(sponsor, FundingSourceLookup.SPONSOR.getkeyCode());
-            retUrl = Utilities.substituteConfigParameters("${kuali.docHandler.url.prefix}/kr/"+forward);
+            retUrl = Utilities.substituteConfigParameters("${kuali.docHandler.url.prefix}/kr/"+((HtmlData.AnchorHtmlData)forward).getHref());
         } else  if (fundingCode.equals(FundingSourceLookup.UNIT.getFundingTypeCode())) {
             Unit unit = new Unit();
             unit.setUnitNumber(protocolFundingSource.getFundingSource());
             HtmlData forward = 
                 getProtocolLookupableHelperService().getInquiryUrl(unit, FundingSourceLookup.UNIT.getkeyCode());
-            retUrl = Utilities.substituteConfigParameters("${kuali.docHandler.url.prefix}/kr/"+forward);
+            retUrl = Utilities.substituteConfigParameters("${kuali.docHandler.url.prefix}/kr/"+((HtmlData.AnchorHtmlData)forward).getHref());
         }
 //TODO add Institute proposal when ready
         
         return retUrl;
     }
+    
+    public boolean updateSourceNameEditable(String fundingTypeCode) {
+        boolean isEditable = false;
+        if (StringUtils.hasText(fundingTypeCode) ) {
+            Integer val =  Integer.valueOf(fundingTypeCode);
+            if (val.equals(FundingSourceLookup.OTHER.getFundingTypeCode())) {        
+                isEditable = true;
+            }
+        }
+        return isEditable;
+    }
+
     
     private DocumentService getDocumentService() {
         return documentService;
