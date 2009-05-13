@@ -17,16 +17,15 @@ package org.kuali.kra.irb.protocol;
 
 import java.util.HashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.service.AwardService;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
-
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -36,11 +35,9 @@ import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.springframework.util.StringUtils;
 
 /**
  * This Service implementation provides the required logic for performing a multi-type lookup for funding sources. 
@@ -52,7 +49,6 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     private SponsorService sponsorService;
     private AwardService awardService;
     private FundingSourceTypeService fundingSourceTypeService;
-    private BusinessObjectService businessObjectService;
     private LookupableDevelopmentProposalService lookupableDevelopmentProposalService;
     private KraLookupableHelperServiceImpl protocolLookupableHelperService;
     private DocumentService documentService;
@@ -141,14 +137,6 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         this.fundingSourceTypeService = fundingSourceTypeService;
     }
 
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
     public void setUnitService(UnitService unitService) {
         this.unitService = unitService;
     }
@@ -165,20 +153,16 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         this.lookupableDevelopmentProposalService = lookupableDevelopmentProposalService;
     }
 
-    public void addProtocolFundingSource(Protocol protocol, ProtocolFundingSource fundingSource) {
-         protocol.getProtocolFundingSources().add(fundingSource);
-    }
-
     public void deleteProtocolFundingSource(Protocol protocol, int lineNumber) {
          protocol.getProtocolFundingSources().remove(lineNumber);
     }
 
 
     /** {@inheritDoc} */
-    public ProtocolFundingSource calculateProtocolFundingSource(String sourceType, String sourceId, String sourceName, String sourceTitle) {
+    public ProtocolFundingSource updateProtocolFundingSource(String sourceType, String sourceId, String sourceName) {
         ProtocolFundingSource source = null;
         
-        if (StringUtils.hasText(sourceType) && StringUtils.hasText(sourceId)) {   
+        if (StringUtils.isNotBlank(sourceType) && StringUtils.isNotBlank(sourceId)) {   
             source = new ProtocolFundingSource(sourceId, getFundingSourceTypeService().getFundingSourceType(sourceType),null,""); 
             if ( FundingSourceLookup.OTHER.getFundingTypeCode()==(Integer.valueOf(sourceType))) {
                 source.setFundingSourceName(sourceName);
@@ -245,9 +229,9 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
                 String name = source.getFundingSourceName();
                 String title = source.getFundingSourceTitle();
                 
-                ProtocolFundingSource testSrc = calculateProtocolFundingSource(typeCode, src, name, title);       
+                ProtocolFundingSource testSrc = updateProtocolFundingSource(typeCode, src, name);       
                 
-                if (testSrc != null && (StringUtils.hasText(testSrc.getFundingSourceName())) ) {
+                if (testSrc != null && (StringUtils.isNotBlank(testSrc.getFundingSourceName())) ) {
                     ret=true;
                 }
             }
@@ -303,7 +287,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
             
             
             //Note: not all funding sources have a title
-            if (StringUtils.hasText(sourceLookup.getTitle())) {
+            if (StringUtils.isNotBlank(sourceLookup.getTitle())) {
                 fieldConversions.append(sourceLookup.getTitle()+COLON);
                 fieldConversions.append(Constants.PROTO_FUNDING_SRC_TITLE_FIELD);
             }
@@ -400,7 +384,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     
     public boolean updateSourceNameEditable(String fundingTypeCode) {
         boolean isEditable = false;
-        if (StringUtils.hasText(fundingTypeCode) ) {
+        if (StringUtils.isNotBlank(fundingTypeCode) && !fundingTypeCode.equalsIgnoreCase("select") ) {
             Integer val =  Integer.valueOf(fundingTypeCode);
             if (val.equals(FundingSourceLookup.OTHER.getFundingTypeCode())) {        
                 isEditable = true;

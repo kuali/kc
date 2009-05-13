@@ -21,16 +21,19 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.ProtocolEventBase;
-import org.kuali.kra.irb.ProtocolEventBase.ErrorType;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
 
+/**
+ * 
+ * This class implements the tightly coupled Event-Rule approach to Kuali Rule processing for Adding a Protocol Funding Source.
+ */
 public class AddProtocolFundingSourceEvent extends ProtocolEventBase<ProtocolFundingSourceRule> {
     
     private static final org.apache.commons.logging.Log LOG = 
         org.apache.commons.logging.LogFactory.getLog(AddProtocolFundingSourceEvent.class);
     
-    private static String MSG = "adding a funding source to a Protocol document ";
+    private static final String MSG = "adding a funding source to a Protocol document ";
     private ProtocolFundingSource fundingSource;
     private List<ProtocolFundingSource> protocolFundingSources;
 

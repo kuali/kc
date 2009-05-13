@@ -370,7 +370,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Award Number" />
     <property name="shortLabel" value="Award Number" />
-    <property name="maxLength" value="6" />
+    <property name="maxLength" value="10" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
@@ -389,7 +389,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Award Id" />
     <property name="shortLabel" value="Award Id" />
-    <property name="maxLength" value="6" />
+    <property name="maxLength" value="12" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>

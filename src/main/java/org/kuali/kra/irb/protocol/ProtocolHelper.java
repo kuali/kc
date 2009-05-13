@@ -179,30 +179,26 @@ public class ProtocolHelper implements Serializable {
     public void syncFundingSources(Protocol protocol) {
         if (protocol != null) {
             if (newFundingSource != null) {
-                
-                if (newFundingSource.getFundingSourceType() != null
-                        && newFundingSource.getFundingSourceType().getFundingSourceTypeCode() != null
-                        && StringUtils.isNotEmpty(newFundingSource.getFundingSource()) ) {
-
-                    ProtocolFundingSource syncedSource = getProtocolFundingSourceService().calculateProtocolFundingSource(
-                            newFundingSource.getFundingSourceType().getFundingSourceTypeCode().toString(),
-                            newFundingSource.getFundingSource(), newFundingSource.getFundingSourceName(),
-                            newFundingSource.getFundingSourceTitle());
-                    newFundingSource.setFundingSourceName(syncedSource.getFundingSourceName());
-                    newFundingSource.setFundingSourceTitle(syncedSource.getFundingSourceTitle());
-                }
+                syncFundingSource(newFundingSource);
             }
             for (ProtocolFundingSource source : protocol.getProtocolFundingSources()) {
-                if (source.getFundingSourceType() != null && source.getFundingSourceType().getFundingSourceTypeCode() != null
-                        && source.getFundingSource() != null) {
-
-                    ProtocolFundingSource syncedSource = getProtocolFundingSourceService().calculateProtocolFundingSource(
-                            source.getFundingSourceType().getFundingSourceTypeCode().toString(), source.getFundingSource(),
-                            source.getFundingSourceName(), source.getFundingSourceTitle());
-                    source.setFundingSourceName(syncedSource.getFundingSourceName());
-                    source.setFundingSourceTitle(syncedSource.getFundingSourceTitle());
-                }
+                syncFundingSource(source);
             }
+        }
+    }
+    
+    private void syncFundingSource(ProtocolFundingSource source) {
+         if (source.getFundingSourceType() != null 
+                && source.getFundingSourceType().getFundingSourceTypeCode() != null
+                && source.getFundingSource() != null) {
+
+            ProtocolFundingSource syncedSource = 
+                getProtocolFundingSourceService().updateProtocolFundingSource(
+                    source.getFundingSourceType().getFundingSourceTypeCode().toString(), 
+                    source.getFundingSource(),
+                    source.getFundingSourceName());
+            source.setFundingSourceName(syncedSource.getFundingSourceName());
+            source.setFundingSourceTitle(syncedSource.getFundingSourceTitle());
         }
     }
     
