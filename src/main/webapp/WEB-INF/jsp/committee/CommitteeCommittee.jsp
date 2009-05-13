@@ -36,7 +36,7 @@
 <kul:panelFooter />
 	<kul:documentControls 
 		transactionalDocument="false"
-		suppressRoutingControls="true"
+		suppressRoutingControls="false"
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"
@@ -53,4 +53,5 @@ var kualiElements = kualiForm.elements;
 <script>
 loadUnitNameTo('document.committeeList[0].homeUnitNumber','document.committee.homeUnitName');
 </script>
+
 </kul:documentPage>
