@@ -52,13 +52,19 @@ public class CommitteeCommitteeAction extends CommitteeAction {
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         // Following is for committee lookup - edit committee 
+        CommitteeForm committeeForm = ((CommitteeForm)form);
         String commandParam = request.getParameter(KNSConstants.PARAMETER_COMMAND);
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate") && StringUtils.isNotBlank(request.getParameter(COMMITTEE_ID))) {
-            ((CommitteeForm)form).getCommitteeDocument().setCommittee(getCommitteeService().getCommitteeById(request.getParameter(COMMITTEE_ID)));
+            committeeForm.getCommitteeDocument().setCommittee(getCommitteeService().getCommitteeById(request.getParameter(COMMITTEE_ID)));
         }
-
-        ((CommitteeForm) form).getCommitteeHelper().prepareView();
-        ((CommitteeForm)form).getMembershipHelper().prepareView();
+        if (StringUtils.isNotBlank(commandParam) && commandParam.equals("displayDocSearchView") && StringUtils.isNotBlank(request.getParameter("viewDocument"))) {
+            committeeForm.getLookupHelper().setViewOnly(true);
+            committeeForm.getLookupHelper().resetDocumentActionsForView();
+        }
+        if (!committeeForm.getLookupHelper().isViewOnly()) {
+            committeeForm.getCommitteeHelper().prepareView();
+            committeeForm.getMembershipHelper().prepareView();
+        }
         
         return actionForward;
     }

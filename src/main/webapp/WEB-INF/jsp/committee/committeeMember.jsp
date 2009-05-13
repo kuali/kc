@@ -6,4 +6,4 @@
 
 <c:set var="committeeMembershipAttributes" value="${DataDictionary.CommitteeMembership.attributes}" />
 <c:set var="personAttributes" value="${DataDictionary.Person.attributes}" />
-<c:set var="readOnly" value="${!KualiForm.membershipHelper.modifyCommittee}" />
+<c:set var="readOnly" value="${!KualiForm.membershipHelper.modifyCommittee or KualiForm.lookupHelper.viewOnly}"  scope="request"/>
