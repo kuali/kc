@@ -22,6 +22,9 @@ import org.kuali.kra.service.impl.SimpleTestServiceFirstImpl;
 import org.kuali.kra.service.impl.SimpleTestServiceSecondImpl;
 import org.springframework.context.ConfigurableApplicationContext;
 
+/**
+ * Test class for overriding SpringContext using KraServiceLocatorConfigurer
+ */
 public class SpringContextOverrideTest extends org.junit.Assert {
     
     @Test
@@ -30,16 +33,19 @@ public class SpringContextOverrideTest extends org.junit.Assert {
         ConfigurableApplicationContext existingAppContext = KraServiceLocator.getAppContextWithoutInitializing();
         assertNull(existingAppContext);
         
+        assertEquals(0, KraServiceLocatorConfigurer.getContextDepth());
         ConfigurableApplicationContext customAppContext = KraServiceLocatorConfigurer.getEmptyApplicationContext();
         customAppContext.getBeanFactory().registerSingleton("simpleTestService", new SimpleTestServiceFirstImpl());
         KraServiceLocatorConfigurer.pushApplicationContext(customAppContext);
+        assertEquals(1, KraServiceLocatorConfigurer.getContextDepth());
         
         TesterClass testerClass = new TesterClass();
-        assertEquals(testerClass.getValue(), 1);
+        assertEquals(1, testerClass.getValue());
         
         KraServiceLocatorConfigurer.popApplicationContext();
         
         existingAppContext = KraServiceLocator.getAppContextWithoutInitializing();
+        assertEquals(0, KraServiceLocatorConfigurer.getContextDepth());
         assertNull(existingAppContext);
     }
     
@@ -50,22 +56,24 @@ public class SpringContextOverrideTest extends org.junit.Assert {
         KraServiceLocatorConfigurer.pushApplicationContext("TestSpringBeans.xml");
         
         TesterClass testerClass = new TesterClass();
-        assertEquals(testerClass.getValue(), 1);
+        assertEquals(1, testerClass.getValue());
         
         // Replace the app context with a new empty context with the old one as its parent.  Should still find the bean.
         KraServiceLocatorConfigurer.pushApplicationContext("EmptySpringBeans.xml");
-        assertEquals(testerClass.getValue(), 1);
+        assertEquals(1, testerClass.getValue());
         
         // Override the parent context definition in the child context.
         ConfigurableApplicationContext customAppContext = KraServiceLocatorConfigurer.getEmptyApplicationContext();
         customAppContext.getBeanFactory().registerSingleton("simpleTestService", new SimpleTestServiceSecondImpl());
         KraServiceLocatorConfigurer.pushApplicationContext(customAppContext);
-        assertEquals(testerClass.getValue(), 2);
+        assertEquals(2, testerClass.getValue());
+        assertEquals(3, KraServiceLocatorConfigurer.getContextDepth());
         
         // Now remove the new one - should be back to old impl
         KraServiceLocatorConfigurer.popApplicationContext();
-        assertEquals(testerClass.getValue(), 1);
+        assertEquals(1, testerClass.getValue());
     }
+    
     
     protected class TesterClass {
         
