@@ -382,8 +382,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
                     Constants.PARAMETER_COMPONENT_DOCUMENT,
                 Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK);
         }
-//        return ret;        
-        return false;        
+        return ret;        
     }
     
     protected boolean isLinkedWithAward() {
