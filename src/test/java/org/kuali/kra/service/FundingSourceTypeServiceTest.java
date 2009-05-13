@@ -62,10 +62,10 @@ public class FundingSourceTypeServiceTest {
     }
     
     /**
-     * This method is to mock OrganizationServiceImpl
-     * Test both valid and invalid organization here
-     * @param organizationIdValue
-     * @param validOrganization
+     * This method is to mock FundingSourceTypeServiceImpl
+     * Test both valid and invalid FundingSourceType here
+     * @param FundingSourceTypeIdValue
+     * @param validFundingSourceType
      */
     private void mockFundingSourceType(String typeIdValue, boolean valid) {
         FundingSourceTypeServiceImpl funSrcTypeServiceImpl = new FundingSourceTypeServiceImpl();

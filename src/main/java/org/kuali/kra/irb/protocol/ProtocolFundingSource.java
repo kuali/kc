@@ -27,6 +27,10 @@ import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.springframework.util.StringUtils;
 
+/**
+ * 
+ * This class provides fundamental elements of protocol funding source data for Protocols.
+ */
 public class ProtocolFundingSource extends ProtocolAssociate {
 
     private Long protocolFundingSourceId;
@@ -212,9 +216,16 @@ public class ProtocolFundingSource extends ProtocolAssociate {
         } else if (protocolFundingSource.getFundingSourceTypeCode().intValue() != getFundingSourceTypeCode().intValue()) {
             isEqual=false;
         }
-        
-        
         return isEqual;
+    }
+        
+    @Override
+    public int hashCode() {
+          final int PRIME = 31;
+          int result = 1;
+          result = PRIME * result + ((this.getFundingSource() == null) ? 0 : this.getFundingSource().hashCode());
+          result = PRIME * result + ((this.getFundingSourceTypeCode() == null) ? 0 : this.getFundingSourceTypeCode().hashCode());
+          return result;
     }
     
     protected ProtocolFundingSourceService getProtocolFundingSourceService() {

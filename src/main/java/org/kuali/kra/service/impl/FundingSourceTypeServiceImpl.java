@@ -31,12 +31,6 @@ public class FundingSourceTypeServiceImpl implements FundingSourceTypeService {
 
     private BusinessObjectService businessObjectService;
 
-    
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -51,7 +45,7 @@ public class FundingSourceTypeServiceImpl implements FundingSourceTypeService {
         FundingSourceType sourceType = null;
 
         Map<String, String> primaryKeys = new HashMap<String, String>();
-        if (StringUtils.isNotEmpty(sourceTypeId)) {
+        if (StringUtils.isNotBlank(sourceTypeId)) {
             primaryKeys.put("fundingSourceTypeCode", sourceTypeId);
             sourceType = (FundingSourceType)businessObjectService.findByPrimaryKey(FundingSourceType.class, primaryKeys);
         }

@@ -6,7 +6,7 @@
 <c:set var="allowEditName" value="${KualiForm.protocolHelper.editProtocolFundingSourceName}" />
 
 
-<kul:tab tabTitle="Funding Sources" defaultOpen="true" tabErrorKey="document.protocol.protocolFundingSource*,protocolHelper.newFundingSource*,protocolHelper.newFundingSource.fundingSourceTypeCode*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
+<kul:tab tabTitle="Funding Sources" defaultOpen="false" tabErrorKey="document.protocol.protocolFundingSource*,protocolHelper.newFundingSource*,protocolHelper.newFundingSource.fundingSourceTypeCode*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
 
     	<h3>
@@ -62,7 +62,7 @@
 	
 	<%--                          lookupKeyPath="document.protocolList[0].newFundingSource.fundingSourceTypeType.description" 
 	 --%>                        
-	                        <kul:fundingSourceLookup boClassName="${document.protocolList[0].newFundingSource.fundingSourceType.description}" 
+	                        <kra-irb:fundingSourceLookup boClassName="${document.protocolList[0].newFundingSource.fundingSourceType.description}" 
 	                         fieldConversions="" anchor="${currentTabIndex}"/> 
 	                        </div>
 	                
