@@ -23,7 +23,7 @@ import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
-class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService {
+public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService {
 
     private CommitteeService committeeService;
     private BusinessObjectService businessObjectService;
