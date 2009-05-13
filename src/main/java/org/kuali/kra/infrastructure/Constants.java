@@ -386,8 +386,8 @@ public interface Constants {
    
     public static final String MAPPING_CHECKLIST_ITEM_DESCRIPITION = "checkListItemDescription";
     
-    // Protocol Linking
-    public static final String ENABLE_PROTOCOL_TO_AWARD_LINK  = "Y";
-    public static final String ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK = "Y";
-    public static final String ENABLE_PROTOCOL_TO_PROPOSAL_LINK = "N";
+    // Protocol Linking  System Parameters 
+    public static final String ENABLE_PROTOCOL_TO_AWARD_LINK  = "irb.protocol.award.linking.enabled";
+    public static final String ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK = "irb.protocol.development.proposal.linking.enabled";
+    public static final String ENABLE_PROTOCOL_TO_PROPOSAL_LINK = "irb.protocol.institute.proposal.linking.enabled";
 }

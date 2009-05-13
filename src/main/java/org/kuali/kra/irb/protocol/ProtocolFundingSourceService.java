@@ -20,7 +20,10 @@ import java.util.HashMap;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 
-
+/**
+ * This Service provides the required API for performing a multi-type lookup for funding sources. Business rules used by the View,
+ * And business rule management for a a protocol's funding source list.
+ */
 public interface ProtocolFundingSourceService {
 
 
@@ -38,7 +41,15 @@ public interface ProtocolFundingSourceService {
      */
     public abstract void deleteProtocolFundingSource(Protocol protocol, int lineNumber);
 
-    
+    /**
+     * 
+     * This method is used used by Ajax and the action to set the name and title for a funding source.
+     * @param sourceId
+     * @param sourceType
+     * @param sourceName
+     * @param sourceTitle
+     * @return
+     */
     public abstract ProtocolFundingSource calculateProtocolFundingSource(String sourceId, String sourceType, String sourceName, String sourceTitle);
     
     /**
@@ -50,15 +61,49 @@ public interface ProtocolFundingSourceService {
     public boolean isValidIdForType(ProtocolFundingSource source);
     
 
+    /**
+     * 
+     * This method returns lookup parameters to create a fundingSource lookup URL based on funding source type
+     * @param boName
+     * @return
+     */
     public HashMap<String, String> getLookupParameters(String boName);
     
+    /**
+     * 
+     * This method creates the actual lookup URL for a funding source lookup
+     * @param parameter
+     * @param boClassName
+     * @param fieldConversions
+     * @return
+     */
     public String updateLookupParameter(String parameter, String boClassName, String fieldConversions);
     
     public KraLookupableHelperServiceImpl getProtocolLookupableHelperService();
     
+    /**
+     * 
+     * This method is used by protocolFundingSource Lookup action to create view URL based on funding source type
+     * @param protocolFundingSource
+     * @param action
+     * @return
+     * @throws Exception
+     */
     public String getViewProtocolFundingSourceUrl(ProtocolFundingSource protocolFundingSource, ProtocolProtocolAction action) throws Exception;
     
+    /**
+     * 
+     * This method is used by Ajax call to make fundingSource Name editable for certain types of funding sources
+     * @param fundingTypeCode
+     * @return
+     */
     public boolean updateSourceNameEditable(String fundingTypeCode);
     
+    /**
+     * 
+     * This method used to set the view button based on funding type and configuration
+     * @param fundingTypeCode
+     * @return
+     */
     public boolean isViewable(int fundingTypeCode);
 }

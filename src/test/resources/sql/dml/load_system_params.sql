@@ -299,6 +299,21 @@ Insert into KRNS_PARM_T
 Values
 ('KC-PROTOCOL','D','irb.protocol.billable', 'F1C228F9D4D8408A8E0BBC801C9525ak', 1,'CONFG','Y','Billable is configurable at impl time','A','WorkflowAdmin','Y');
 
+Insert into KRNS_PARM_T 
+( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
+Values
+('KC-PROTOCOL','D','irb.protocol.award.linking.enabled', sys_guid(), 1,'CONFG','Y','Linking from Award to Protocol Funding source is configurable at impl time','A','WorkflowAdmin','Y');
+
+Insert into KRNS_PARM_T 
+( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
+Values
+('KC-PROTOCOL','D','irb.protocol.development.proposal.linking.enabled', sys_guid(), 1,'CONFG','Y','Linking from Award to Protocol Funding source is configurable at impl time','A','WorkflowAdmin','Y');
+
+Insert into KRNS_PARM_T 
+( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
+Values
+('KC-PROTOCOL','D','irb.protocol.institute.proposal.linking.enabled', sys_guid(), 1,'CONFG','N','Linking from Award to Protocol Funding source is configurable at impl time','A','WorkflowAdmin','Y');
+
 -- krew
 INSERT INTO KRNS_NMSPC_T(NMSPC_CD, OBJ_ID, VER_NBR, NM, ACTV_IND, APPL_NMSPC_CD)
   VALUES('KR-WKFLW', '5E1D690C419B3E2EE0404F8189D82677', 0, 'Workflow', 'Y', NULL);
