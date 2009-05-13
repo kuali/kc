@@ -23,8 +23,14 @@ import java.util.Map.Entry;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.service.CommitteeAuthorizationService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
@@ -111,6 +117,27 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     
     protected String getKeyFieldName() {
         return "committeeId";
+    }
+    
+    @Override
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+        if(getCommitteeAuthorizationService().hasPermission(getUserName(), (Committee) businessObject, PermissionConstants.MODIFY_COMMITTEE)) {
+            htmlDataList =  super.getCustomActionUrls(businessObject, pkNames);
+        }
+        if(getCommitteeAuthorizationService().hasPermission(getUserName(), (Committee) businessObject, PermissionConstants.VIEW_COMMITTEE)) {
+            htmlDataList.add(getViewLink(((Committee) businessObject).getCommitteeDocument()));
+        }
+        return htmlDataList;
+    }
+
+    private CommitteeAuthorizationService getCommitteeAuthorizationService() {
+        return KraServiceLocator.getService(CommitteeAuthorizationService.class);
+    }
+
+    private String getUserName() {
+        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
+         return user.getPersonUserIdentifier();
     }
 
 }
