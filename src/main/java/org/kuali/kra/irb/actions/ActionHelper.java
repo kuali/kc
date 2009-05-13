@@ -15,8 +15,12 @@
  */
 package org.kuali.kra.irb.actions;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
@@ -26,6 +30,8 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -41,6 +47,10 @@ public class ActionHelper implements Serializable {
     private ProtocolForm form;
     
     private boolean canSubmitProtocol = false;
+    private boolean canSelectCommittee = false;
+    private boolean canSelectSchedule = false;
+    private boolean canSelectReviewers = false;
+    
     private ProtocolSubmitAction protocolSubmitAction;
    
     /**
@@ -55,8 +65,21 @@ public class ActionHelper implements Serializable {
     public void prepareView() {
         protocolSubmitAction.prepareView();
         canSubmitProtocol = hasSubmitProtocolPermission();
+        canSelectCommittee = getParameterValue(Constants.PARAMETER_PROTOCOL_SELECT_COMMITTEE);
+        canSelectSchedule = getParameterValue(Constants.PARAMETER_PROTOCOL_SELECT_SCHEDULE);
+        canSelectReviewers = getParameterValue(Constants.PARAMETER_PROTOCOL_SELECT_REVIEWERS);
     }
     
+    private boolean getParameterValue(String parameterName) {
+        KualiConfigurationService configService = getService(KualiConfigurationService.class);
+        Parameter param = configService.getParameterWithoutExceptions(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, parameterName);
+        if (param == null) {
+            return false;
+        }
+        String value = param.getParameterValue();        
+        return StringUtils.equalsIgnoreCase(value, "true");
+    }
+
     private Protocol getProtocol() {
         ProtocolDocument document = form.getDocument();
         if (document == null || document.getProtocol() == null) {
@@ -93,5 +116,17 @@ public class ActionHelper implements Serializable {
     private String getUserName() {
          UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
          return user.getPersonUserIdentifier();
+    }
+
+    public boolean getCanSelectCommittee() {
+        return canSelectCommittee;
+    }
+
+    public boolean getCanSelectSchedule() {
+        return canSelectSchedule;
+    }
+
+    public boolean getCanSelectReviewers() {
+        return canSelectReviewers;
     }
 }

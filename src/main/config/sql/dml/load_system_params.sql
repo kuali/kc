@@ -747,3 +747,19 @@ INSERT INTO SH_PARM_T
 	VALUES 
 	('KC-AWARD','D','scheduleGenerationPeriodInYearsWhenFrequencyBaseCodeIsFinalExpirationDate',sys_guid(),1,'CONFG','1','Schedule Generation Period In Years When Frequency Base Code Is Final Expiration Date','A','WorkflowAdmin','Y');
 commit;
+
+Insert into SH_PARM_T
+   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd, grp_nm, ACTIVE_IND)
+ Values
+   ('KC-PROTOCOL', 'D', 'protocolSelectSubmissionCommittee', sys_guid(), 1, 'CONFG', 'True', 'Implementing institution can decide on whether to allow a committee to be selected upon an IRB submittal', 'A', 'WorkflowAdmin', 'Y');
+
+Insert into SH_PARM_T
+   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd, grp_nm, ACTV_IND)
+ Values
+   ('KC-PROTOCOL', 'D', 'protocolSelectSubmissionSchedule', sys_guid(), 1, 'CONFG', 'True', 'Implementing institution can decide on whether to allow a committee schedule to be selected upon an IRB submittal', 'A', 'WorkflowAdmin', 'Y');
+
+Insert into SH_PARM_T
+   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd, grp_nm, ACTV_IND)
+ Values
+   ('KC-PROTOCOL', 'D', 'protocolSelectSubmissionReviewers', sys_guid(), 1, 'CONFG', 'True', 'Implementing institution can decide on whether to allow reviewers to be selected upon an IRB submittal', 'A', 'WorkflowAdmin', 'Y');
+
