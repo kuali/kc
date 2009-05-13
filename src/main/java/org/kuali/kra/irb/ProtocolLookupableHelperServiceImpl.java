@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,11 +25,16 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -52,12 +58,18 @@ class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-        List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
-        AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);;
-        ProtocolDocument document = ((Protocol) businessObject).getProtocolDocument();
-        htmlData.setHref("../DocCopyHandler.do?docId="+document.getDocumentNumber()
-            +"&command=displayDocSearchView&documentTypeName="+getDocumentTypeName());
-        htmlDataList.add(htmlData);
+        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+        if(getProtocolAuthorizationService().hasPermission(getUserName(), (Protocol) businessObject, PermissionConstants.MODIFY_PROTOCOL)) {
+            htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
+            AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
+            ProtocolDocument document = ((Protocol) businessObject).getProtocolDocument();
+            htmlData.setHref("../DocCopyHandler.do?docId=" + document.getDocumentNumber()
+                    + "&command=displayDocSearchView&documentTypeName=" + getDocumentTypeName());
+            htmlDataList.add(htmlData);
+        }
+        if(getProtocolAuthorizationService().hasPermission(getUserName(), (Protocol) businessObject, PermissionConstants.VIEW_PROTOCOL)) {
+            htmlDataList.add(getViewLink(((Protocol) businessObject).getProtocolDocument()));
+        }
         return htmlDataList;
     }
 
@@ -141,5 +153,14 @@ class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl
         return "protocolNumber";
     }
 
-    
+    private ProtocolAuthorizationService getProtocolAuthorizationService() {
+        return KraServiceLocator.getService(ProtocolAuthorizationService.class);
+    }
+
+    private String getUserName() {
+         UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
+         return user.getPersonUserIdentifier();
+    }
+
+
 }

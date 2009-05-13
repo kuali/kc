@@ -23,6 +23,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -48,6 +49,14 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
         return htmlDataList;
     }
 
+    protected AnchorHtmlData getViewLink(Document document) {
+        AnchorHtmlData htmlData = new AnchorHtmlData();
+        htmlData.setDisplayText("view");
+        htmlData.setHref("../" + getHtmlAction() + "?methodToCall=docHandler&command=displayDocSearchView&docTypeName=" + getDocumentTypeName()
+                + "&docId="+document.getDocumentNumber()+"&viewDocument=true");
+        return htmlData;
+
+    }
     
     /**
      * To force to it to show action links, such as 'edit'.
