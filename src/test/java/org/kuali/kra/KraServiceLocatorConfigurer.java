@@ -106,5 +106,19 @@ public class KraServiceLocatorConfigurer extends KraServiceLocator {
     public static boolean isApplicationContextInitialized() {
         return getAppContextWithoutInitializing() != null;
     }
+    
+    /**
+     * Returns int corresponding to the number of contexts in the chain
+     */
+    public static int getContextDepth() {
+        return getContextDepth(getAppContextWithoutInitializing());
+    }
+    
+    private static int getContextDepth(ApplicationContext appContext) {
+        if (appContext == null) {
+            return 0;
+        }
+        return 1 + getContextDepth(appContext.getParent());
+    }
 
 }
