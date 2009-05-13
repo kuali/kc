@@ -229,7 +229,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
      * @return the Header Dispatch action
      */
     public String getHeaderDispatch() {
-        return this.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE) ? "save" : "reload";
+        return StringUtils.isNotBlank((String)this.getDocumentActions().get(KNSConstants.KUALI_ACTION_CAN_SAVE)) ? "save" : "reload";
     }
     
     protected abstract String getLockRegion();
