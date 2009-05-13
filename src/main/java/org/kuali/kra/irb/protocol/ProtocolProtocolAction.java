@@ -323,8 +323,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         
         if(applyRules(event)) {
             ((ProtocolForm)form).getProtocolHelper().syncFundingSources(protocolForm.getDocument().getProtocol());
-            getProtocolFundingSourceService().addProtocolFundingSource(protocolForm.getDocument().getProtocol(), 
-                    protocolForm.getProtocolHelper().getNewFundingSource());
+            protocolForm.getDocument().getProtocol().getProtocolFundingSources().add(protocolForm.getProtocolHelper().getNewFundingSource());
             protocolForm.getProtocolHelper().setNewFundingSource(new ProtocolFundingSource());
         }        
 
@@ -447,9 +446,9 @@ public class ProtocolProtocolAction extends ProtocolAction {
     
     /**
      * This method is to get protocol location service
-     * @return ProtocolLocationService
+     * @return ProtocolFundingSourceService
      */
-    protected ProtocolFundingSourceService getProtocolFundingSourceService() {        
+    private ProtocolFundingSourceService getProtocolFundingSourceService() {        
         return (ProtocolFundingSourceService) KraServiceLocator.getService(ProtocolFundingSourceService.class);
     }
     

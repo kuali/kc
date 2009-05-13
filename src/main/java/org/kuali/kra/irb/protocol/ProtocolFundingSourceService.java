@@ -25,21 +25,13 @@ import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
  * And business rule management for a a protocol's funding source list.
  */
 public interface ProtocolFundingSourceService {
-
-
-    /**
-     * This method adds ProtocolFundingSource to the List of ProtocolFundingSources.
-     * @param protocol which contains list of ProtocolFundingSources.
-     */
-    public abstract void addProtocolFundingSource(Protocol protocol, ProtocolFundingSource fundingSource);
     
-
     /**
      * This method deletes ProtocolFundingSource from the List at specified position(lineNumber)
      * @param protocol which contains list of ProtocolFundingSources
      * @param lineNumber to be deleted
      */
-    public abstract void deleteProtocolFundingSource(Protocol protocol, int lineNumber);
+    public void deleteProtocolFundingSource(Protocol protocol, int lineNumber);
 
     /**
      * 
@@ -47,10 +39,9 @@ public interface ProtocolFundingSourceService {
      * @param sourceId
      * @param sourceType
      * @param sourceName
-     * @param sourceTitle
      * @return
      */
-    public abstract ProtocolFundingSource calculateProtocolFundingSource(String sourceId, String sourceType, String sourceName, String sourceTitle);
+    public ProtocolFundingSource updateProtocolFundingSource(String sourceId, String sourceType, String sourceName);
     
     /**
      * 
@@ -78,9 +69,7 @@ public interface ProtocolFundingSourceService {
      * @return
      */
     public String updateLookupParameter(String parameter, String boClassName, String fieldConversions);
-    
-    public KraLookupableHelperServiceImpl getProtocolLookupableHelperService();
-    
+        
     /**
      * 
      * This method is used by protocolFundingSource Lookup action to create view URL based on funding source type

@@ -68,7 +68,6 @@
     </bean>  
     
     <bean id="protocolFundingSourceService" class="org.kuali.kra.irb.protocol.ProtocolFundingSourceServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
         <property name="unitService" ref="unitService" />
         <property name="sponsorService" ref="sponsorService" />
         <property name="awardService" ref="awardService" />

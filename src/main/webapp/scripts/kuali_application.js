@@ -88,7 +88,7 @@ function loadFundingSourceNameTitle(fundingTypeCodeFieldName, fundingIdFieldName
 				setRecipientValue( fundingTitleFieldName,  wrapError( "not found" ), true );
 			}
 		};
-		ProtocolFundingSourceService.calculateProtocolFundingSource(fundingTypeCode, fundingId, fundingName, fundingTitle, dwrReply);
+		ProtocolFundingSourceService.updateProtocolFundingSource(fundingTypeCode, fundingId, fundingName, dwrReply);
 	}
 }
  

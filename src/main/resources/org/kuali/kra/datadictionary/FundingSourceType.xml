@@ -47,20 +47,20 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Funding Source Type Code" />
 		<property name="shortLabel" value="Funding Source Type Code" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="3" />
 		</property>
 		<property name="summary" value="Funding Source Type Code" />
 		<property name="description" value="Funding Source Type Code" />
 	</bean>
 
 	<bean id="FundingSourceType-description" parent="FundingSourceType-description-parentBean" />
-	<bean id="FundingSourceType-description-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="FundingSourceType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" >
 		<property name="name" value="description" />
 		<property name="required" value="true" />
 		
