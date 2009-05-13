@@ -748,9 +748,6 @@ VALUES ( SEQ_SPONSOR_TERM.nextval,9, 25, 'Sponsor will pay reasonable cost of 2 
 
 commit;
 
-INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_NM,FDOC_TYP_ACTIVE_CD) VALUES ('PRET','PROTOCOL REFERENCE TYPE','Y'); 
-COMMIT; 
-
 INSERT INTO AFFILIATION_TYPE (AFFILIATION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
 VALUES(2, 'Non-Faculty', sysdate, user);
 INSERT INTO AFFILIATION_TYPE(AFFILIATION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
@@ -844,9 +841,6 @@ INSERT INTO AFFILIATION_TYPE (AFFILIATION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTA
 VALUES(5, 'Faculty Supervisor', sysdate, user);
 
 commit;
-
-insert into FP_DOC_TYPE_T (FDOC_TYP_CD, VER_NBR, FDOC_NM, FDOC_TYP_ACTIVE_CD)
-values ('AWRD', 1, 'AWARD', 'Y');
 
 insert into CUSTOM_ATTRIBUTE_DOCUMENT (DOCUMENT_TYPE_CODE, CUSTOM_ATTRIBUTE_ID, IS_REQUIRED, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, ACTIVE_FLAG)
 values ('AWRD', 1, 'Y', sysdate, 'quickstart', 1, 'Y');
@@ -983,11 +977,6 @@ VALUES ( 8, 'Massachusetts Eye \& Ear Infirmary - Human Subjects', sysdate, user
 INSERT INTO TRAINING ( TRAINING_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
 VALUES ( 9, 'University of Miami CITI Ethics Training program', sysdate, user ); 
 
-
-INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_NM,FDOC_TYP_ACTIVE_CD) VALUES ('TRAI','TRAINING','Y');
-
-commit;
-
 INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('1','Approval Letter','Y',sysdate,'KRADEV');
 INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('2','Rejection Letter','Y',sysdate,'KRADEV');
 INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('3','Notice Of Deferral','Y',sysdate,'KRADEV');
@@ -1070,17 +1059,10 @@ INSERT INTO EXPEDITED_REVIEW_CHECKLIST (EXPEDITED_REV_CHKLST_CODE, DESCRIPTION, 
 
 INSERT INTO EXPEDITED_REVIEW_CHECKLIST (EXPEDITED_REV_CHKLST_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('11', 'Continuing review of research, not conducted under an investigational new drug application or investigational device exemption where categories two (2) through eight (8) do not apply but the IRB has determined and documented at a convened meeting that the research involves no greater than minimal risk and no additional risks have been identified.', sysdate,'KRADEV');
 
-
-INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_NM,FDOC_TYP_ACTIVE_CD) VALUES ('ESCK','EXEMPT STUDIES CHECKLIST','Y');
-INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_NM,FDOC_TYP_ACTIVE_CD) VALUES ('ERCK','EXPEDITED REVIEW CHECKLIST','Y');
-
 commit;
 
 INSERT INTO PROTOCOL_REVIEWER_TYPE (REVIEWER_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('1', 'primary', sysdate, 'KRADEV');
 INSERT INTO PROTOCOL_REVIEWER_TYPE (REVIEWER_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('2', 'secondary', sysdate, 'KRADEV');
-
-
-INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_NM,FDOC_TYP_ACTIVE_CD) VALUES ('PRRT','PROTOCOL_REVIEWER_TYPE','Y');
 
 commit;
 
@@ -1115,4 +1097,19 @@ INSERT INTO KRNS_PARM_T
 (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND) 
 VALUES('KC-AWARD', 'D', 'award.creditsplit.enabled', sys_guid(), 1, 'CONFG', 'Y', 'Determines whether the Credit Split is turned on for Award', 'A', 'WorkflowAdmin', 'Y'); 
   
+Insert into KRNS_PARM_T 
+( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
+Values
+('KC-PROTOCOL','D','irb.protocol.award.linking.enabled', sys_guid(), 1,'CONFG','Y','Linking from Award to Protocol Funding source is configurable at impl time','A','WorkflowAdmin','Y');
+
+Insert into KRNS_PARM_T 
+( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
+Values
+('KC-PROTOCOL','D','irb.protocol.development.proposal.linking.enabled', sys_guid(), 1,'CONFG','Y','Linking from Award to Protocol Funding source is configurable at impl time','A','WorkflowAdmin','Y');
+
+Insert into KRNS_PARM_T 
+( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
+Values
+('KC-PROTOCOL','D','irb.protocol.institute.proposal.linking.enabled', sys_guid(), 1,'CONFG','N','Linking from Award to Protocol Funding source is configurable at impl time','A','WorkflowAdmin','Y');
+
 commit;
