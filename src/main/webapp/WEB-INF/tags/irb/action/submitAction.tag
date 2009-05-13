@@ -65,89 +65,114 @@
                     </td>
                 </tr>
                 
-                <tr>
-                	<th width="15%"> 
-                        <div align="right">
-                            <kul:htmlAttributeLabel attributeEntry="${attributes.committeeId}" />
-                        </div>
-                    </th>
-                    <td>
-                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.committeeId" 
-                                                  attributeEntry="${attributes.committeeId}" 
-                                                  onchange="loadScheduleDates('actionHelper.protocolSubmitAction.committeeId', 'actionHelper.protocolSubmitAction.scheduleId');" />
-                    </td>
-                    <th width="20%"> 
-                        <div align="right">
-                              <kul:htmlAttributeLabel attributeEntry="${attributes.scheduleId}" />
-                        </div>
-                    </th>
-                    <td>
-                        <nobr>
-                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.scheduleId" 
-                                                  attributeEntry="${attributes.scheduleId}"
-                                                  onchange="displayReviewers()" />
-                        </nobr>
-                    </td>
-                </tr>
+                <c:if test="${KualiForm.actionHelper.canSelectCommittee}">
+	                <tr>
+	                	<th width="15%"> 
+	                        <div align="right">
+	                            <kul:htmlAttributeLabel attributeEntry="${attributes.committeeId}" />
+	                        </div>
+	                    </th>
+	                    <c:choose>
+	                        <c:when test="${KualiForm.actionHelper.canSelectSchedule}">
+	                            <td>
+			                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.committeeId" 
+			                                                  attributeEntry="${attributes.committeeId}" 
+			                                                  onchange="loadScheduleDates('actionHelper.protocolSubmitAction.committeeId', 'actionHelper.protocolSubmitAction.scheduleId');" />
+	                    	    </td>
+	                        </c:when>
+	                    	<c:otherwise>
+	                    		 <td colspan="3">
+	                    		     <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.committeeId" 
+			                                                  attributeEntry="${attributes.committeeId}" />
+			                     </td>
+	                    	</c:otherwise>
+	                    </c:choose>
+	                   
+	                    <c:if test="${KualiForm.actionHelper.canSelectSchedule}">
+		                    <th width="20%"> 
+		                        <div align="right">
+		                              <kul:htmlAttributeLabel attributeEntry="${attributes.scheduleId}" />
+		                        </div>
+		                    </th>
+		                    <td>
+		                        <nobr>
+		                        <c:choose>
+		                            <c:when test="${KualiForm.actionHelper.canSelectReviewers}">
+				                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.scheduleId" 
+				                                                  attributeEntry="${attributes.scheduleId}"
+				                                                  onchange="displayReviewers()" />
+				                    </c:when>
+				                    <c:otherwise>
+				                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.scheduleId" 
+				                                                  attributeEntry="${attributes.scheduleId}" />
+				                    </c:otherwise>
+				                </c:choose>
+		                        </nobr>
+		                    </td>
+	                    </c:if>
+	                </tr>
                 
-                <c:choose>
-                    <c:when test="${empty KualiForm.actionHelper.protocolSubmitAction.scheduleId}">
-                        <tr id="reviewers" style="display: none">
-                    </c:when>
-                    <c:otherwise>
-                        <tr id="reviewers">
-                    </c:otherwise>
-                </c:choose>
-                    <th>
-                        <div align="right">
-                            Reviewers:
-                        </div>
-                    </th>
-                    
-                    <td colspan="3">
-                        <div width="100%">
-                            <table style="border: 0 none yellow">
-                                <tr valign="top">
-                                    <td width="50%" style="border: 0 none">
-				                        <table id="reviewersTableLeft" style="border: 0 none" cellpadding="0" cellspacing="0" summary="">
-				                        	<c:forEach var="reviewer" items="${KualiForm.actionHelper.protocolSubmitAction.leftReviewers}" varStatus="status">
-				                        	    <tr>
-				                        	        <td style="border: 0 none">
-				                        	            <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.reviewer[${status.index}].checked"
-                                                                                  attributeEntry="${reviewerAttributes.checked}"/>
-                                                        ${reviewer.fullName}
-                                                    </td>
-				                        	        <td style="border: 0 none">
-				                        	            <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.reviewer[${status.index}].reviewerTypeCode"
-                                                                                  attributeEntry="${reviewerAttributes.reviewerTypeCode}"/>
-									                </td>
-									            </tr>
-				                        	</c:forEach>
-				                        </table>
-		                    		</td>
-		                    		<td style="border: 0 none">
-				                        <table id="reviewersTableRight" style="border: 0 none" cellpadding="0" cellspacing="0" summary="">
-				                        	<c:set var="numLeftReviewers" value="${fn:length(KualiForm.actionHelper.protocolSubmitAction.leftReviewers)}" />
-				                        	<c:forEach var="reviewer" items="${KualiForm.actionHelper.protocolSubmitAction.rightReviewers}" varStatus="status">
-				                        	    <tr>
-				                        	        <td style="border: 0 none">
-				                        	            <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.reviewer[${status.index + numLeftReviewers}].checked"
-                                                                                  attributeEntry="${reviewerAttributes.checked}"/>
-                                                        ${reviewer.fullName}
-                                                    </td>
-				                        	        <td style="border: 0 none">
-				                        	            <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.reviewer[${status.index + numLeftReviewers}].reviewerTypeCode"
-                                                                                  attributeEntry="${reviewerAttributes.reviewerTypeCode}"/>
-									                </td>
-									            </tr>
-				                        	</c:forEach>
-				                        </table>
-				                    </td>
-				                </tr>
-				            </table>
-	                    </div>
-                    </td>
-                </tr>
+                    <c:if test="${KualiForm.actionHelper.canSelectReviewers}">
+		                <c:choose>
+		                    <c:when test="${empty KualiForm.actionHelper.protocolSubmitAction.scheduleId}">
+		                        <tr id="reviewers" style="display: none">
+		                    </c:when>
+		                    <c:otherwise>
+		                        <tr id="reviewers">
+		                    </c:otherwise>
+		                </c:choose>
+		                    <th>
+		                        <div align="right">
+		                            Reviewers:
+		                        </div>
+		                    </th>
+		                    
+		                    <td colspan="3">
+		                        <div width="100%">
+		                            <table style="border: 0 none yellow">
+		                                <tr valign="top">
+		                                    <td width="50%" style="border: 0 none">
+						                        <table id="reviewersTableLeft" style="border: 0 none" cellpadding="0" cellspacing="0" summary="">
+						                        	<c:forEach var="reviewer" items="${KualiForm.actionHelper.protocolSubmitAction.leftReviewers}" varStatus="status">
+						                        	    <tr>
+						                        	        <td style="border: 0 none">
+						                        	            <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.reviewer[${status.index}].checked"
+		                                                                                  attributeEntry="${reviewerAttributes.checked}"/>
+		                                                        ${reviewer.fullName}
+		                                                    </td>
+						                        	        <td style="border: 0 none">
+						                        	            <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.reviewer[${status.index}].reviewerTypeCode"
+		                                                                                  attributeEntry="${reviewerAttributes.reviewerTypeCode}"/>
+											                </td>
+											            </tr>
+						                        	</c:forEach>
+						                        </table>
+				                    		</td>
+				                    		<td style="border: 0 none">
+						                        <table id="reviewersTableRight" style="border: 0 none" cellpadding="0" cellspacing="0" summary="">
+						                        	<c:set var="numLeftReviewers" value="${fn:length(KualiForm.actionHelper.protocolSubmitAction.leftReviewers)}" />
+						                        	<c:forEach var="reviewer" items="${KualiForm.actionHelper.protocolSubmitAction.rightReviewers}" varStatus="status">
+						                        	    <tr>
+						                        	        <td style="border: 0 none">
+						                        	            <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.reviewer[${status.index + numLeftReviewers}].checked"
+		                                                                                  attributeEntry="${reviewerAttributes.checked}"/>
+		                                                        ${reviewer.fullName}
+		                                                    </td>
+						                        	        <td style="border: 0 none">
+						                        	            <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.reviewer[${status.index + numLeftReviewers}].reviewerTypeCode"
+		                                                                                  attributeEntry="${reviewerAttributes.reviewerTypeCode}"/>
+											                </td>
+											            </tr>
+						                        	</c:forEach>
+						                        </table>
+						                    </td>
+						                </tr>
+						            </table>
+			                    </div>
+		                    </td>
+	                	</tr>
+	                </c:if>
+                </c:if>
                    
                 <c:choose>
 	                <c:when test="${KualiForm.actionHelper.protocolSubmitAction.protocolReviewTypeCode == '2'}">

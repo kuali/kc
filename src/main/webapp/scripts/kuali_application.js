@@ -1608,7 +1608,10 @@ function loadFrequencyBaseCode(frequencyCodeFieldName, frequencyBaseCodeFieldNam
  * into the drop-down menu for scheduled dates.
  */
 function loadScheduleDates(committeeElementId, scheduleElementId) {
-    document.getElementById("reviewers").style.display = 'none';
+    reviewersElement = document.getElementById("reviewers");
+    if (reviewersElement != null) {
+        reviewersElement.style.display = 'none';
+    }
 	var committeeId = DWRUtil.getValue(committeeElementId);
 	var scheduleElement = document.getElementsByName(scheduleElementId);
 	var dwrReply = {
