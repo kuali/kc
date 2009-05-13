@@ -18,7 +18,7 @@
 <kra:infopage title="Checklist Item" action="protocolActions" htmlFormAction="protocolProtocolActions">
 
     <div align="center">
-        <textarea title="Description" class="" style="" id="description" rows="15" cols="60" tabindex="0" name="description">${KualiForm.actionHelper.protocolSubmitAction.checkListItemDescription}</textarea> 
+        <textarea title="Description" class="" style="" id="description" rows="15" cols="60" tabindex="0" name="description" readonly="readonly">${KualiForm.actionHelper.protocolSubmitAction.checkListItemDescription}</textarea> 
     </div>
     
 </kra:infopage>
