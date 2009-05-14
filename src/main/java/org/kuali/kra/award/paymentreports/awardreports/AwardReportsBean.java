@@ -16,14 +16,19 @@
 package org.kuali.kra.award.paymentreports.awardreports;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 
@@ -32,8 +37,10 @@ import org.kuali.rice.kns.service.KualiRuleService;
  */
 public class AwardReportsBean implements Serializable {    
     
-    private static final int HARDCODED_ROLODEX_ID = 20083;
-    
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -7425300585057908055L;
     private List<AwardReportTerm> newAwardReportTerms;
     private List<AwardReportTermRecipient> newAwardReportTermRecipients;    
     private KualiRuleService ruleService;
@@ -85,14 +92,13 @@ public class AwardReportsBean implements Serializable {
         }else if(newAwardReportTermRecipient.getRolodexId()!=null){
             newAwardReportTermRecipient.setContactTypeCode(getKualiConfigurationService().getParameter(Constants
                     .PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
-                    ,KeyConstants.CONTACT_TYPE_OTHER).getParameterValue());
-            
+                    ,KeyConstants.CONTACT_TYPE_OTHER).getParameterValue());            
         }
         
         AddAwardReportTermRecipientRuleEvent event = generateAddAwardReportTermRecipientEvent(index);
         boolean success = getRuleService().applyRules(event);
-        if(success){
-            getAward().getAwardReportTermItems().get(index).getAwardReportTermRecipients().add(getNewAwardReportTermRecipients().get(index));
+        if(success){            
+            getAward().getAwardReportTermItems().get(index).getAwardReportTermRecipients().add(newAwardReportTermRecipient);
             initRecipient(index);
         }
         return success;
@@ -208,39 +214,37 @@ public class AwardReportsBean implements Serializable {
     }
     
     /**
-     * Currently this method sets the rolodex id to a constant value 
-     * and sets the contactTypeCode to 1 of the 6 values listed in the switch case.
-     * These values correspond to the hard coded values finder - ContactTypeValuesFinder.
+     * 
      * 
      * @param newAwardReportTermRecipient
      */
-    //TODO: this method should be refactored once the contact functionality is complete
     void populateContactTypeAndRolodex(
             AwardReportTermRecipient newAwardReportTermRecipient){
         
-        newAwardReportTermRecipient.setRolodexId(HARDCODED_ROLODEX_ID);
-        switch(newAwardReportTermRecipient.getContactId().intValue()){
-            case 1:
-                newAwardReportTermRecipient.setContactTypeCode("6");
-                break;
-            case 2:
-                newAwardReportTermRecipient.setContactTypeCode("5");
-                break;
-            case 3:
-                newAwardReportTermRecipient.setContactTypeCode("4");
-                break;
-            case 4:
-                newAwardReportTermRecipient.setContactTypeCode("3");
-                break;
-            case 5:
-                newAwardReportTermRecipient.setContactTypeCode("2");
-                break;
-            case 6:
-                newAwardReportTermRecipient.setContactTypeCode("9");
-                break;
-            default:                
-                break;
+        Collection<AwardSponsorContact> awardSponsorContacts = getSponsorContactsUsingKeyValuesService(newAwardReportTermRecipient.getContactId());
+        
+        if(awardSponsorContacts.size()>1){
+            throw new MultipleSponsorContactsException(awardSponsorContacts.size());
         }
+        
+        for(AwardSponsorContact awardSponsorContact: awardSponsorContacts){
+            newAwardReportTermRecipient.setRolodexId(awardSponsorContact.getRolodexId());
+            newAwardReportTermRecipient.setContactTypeCode(awardSponsorContact.getContactRoleCode());            
+        }        
+    }
+    
+    /**
+     * 
+     * This method retrieves all the sponsor contacts for the particular contact id provided.
+     * 
+     * @param contactId
+     * @return
+     */
+    @SuppressWarnings("all")
+    Collection<AwardSponsorContact> getSponsorContactsUsingKeyValuesService(Long contactId){        
+        Map<String, Long> map = new HashMap<String, Long>();
+        map.put("awardContactId", contactId);
+        return getKeyValuesService().findMatching(AwardSponsorContact.class, map);
     }
     
     /**
@@ -251,6 +255,16 @@ public class AwardReportsBean implements Serializable {
      */
     protected KualiConfigurationService getKualiConfigurationService(){
         return KraServiceLocator.getService(KualiConfigurationService.class);
+    }
+    
+    /**
+     * 
+     * This is a wrapper method for the retrieval of KeyValuesService.
+     * 
+     * @return
+     */
+    protected KeyValuesService getKeyValuesService(){
+        return KraServiceLocator.getService(KeyValuesService.class);
     }
     
 }

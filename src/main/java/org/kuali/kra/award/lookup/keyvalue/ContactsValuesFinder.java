@@ -16,54 +16,94 @@
 package org.kuali.kra.award.lookup.keyvalue;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kra.award.contacts.AwardSponsorContact;
+import org.kuali.kra.award.web.struts.form.AwardForm;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * 
- * This class is a values finder for Contact.
+ * This class is a values finder for Sponsor Contacts.
  * 
  */
-//TODO: this method should be refactored once the contact functionality is complete
 public class ContactsValuesFinder extends KeyValuesBase {
     
     /**
-     * Constructs the list of Contacts.  Each entry
-     * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
-     * contact_id and the "value" is the textual description that is viewed
-     * by a user - the value is a combination of contact type and rolodex which
-     * is added in the Contacts screen.  
+     * This method retrieves a Collection of AwardSponsorContact objects and puts them in a key-label pair in a particular pattern.
      * 
-     * This Valuesfinder class has hard coded values. It should be refactored in future
-     * to when Contacts functinality is complete.
+     * It puts awardContactId as the key and role description + "-" + contact organization name as value.
+     *   
      * 
-     * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
-     * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
-     */    
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     */
+    @SuppressWarnings("all")
     public List<KeyLabelPair> getKeyValues() {
-        //KeyValuesService keyValuesService = 
-            //(KeyValuesService) KraServiceLocator.getService("keyValuesService");
         
-        //Collection reportClasses = keyValuesService.findAll(ReportClass.class);
+        Collection<AwardSponsorContact> awardSponsorContacts = getKeyValuesService().findAll(AwardSponsorContact.class);
+        
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        
         keyValues.add(new KeyLabelPair("", "select "));
-        keyValues.add(new KeyLabelPair(1, "Subcontracting Reporting Contact - University of California"));
-        keyValues.add(new KeyLabelPair(2, "Property Office Contact-1 - University of California"));
-        keyValues.add(new KeyLabelPair(3, "Intellectual Property Contact - University of California"));
-        keyValues.add(new KeyLabelPair(4, "Payment/Fiscal Reporting Contact - University of California"));
-        keyValues.add(new KeyLabelPair(5, "Awarding Office Contact--1 - University of California"));
-        keyValues.add(new KeyLabelPair(6, "Procurement Reporting Contact-1 - University of California"));
-        /*for (Iterator iter = reportClasses.iterator(); iter.hasNext();) {
-            ReportClass reportClass = (ReportClass) iter.next();
-            keyValues.add(new KeyLabelPair(reportClass.getReportClassCode(),
-                    reportClass.getDescription()));                            
-        }*/
+        
+        Long awardId = ((AwardForm)GlobalVariables.getKualiForm()).getAwardDocument().getAward().getAwardId();
+        
+        refreshAwardSponsorContacts(awardSponsorContacts);
+        
+        for(AwardSponsorContact awardSponsorContact : awardSponsorContacts){                      
+            if(awardId == awardSponsorContact.getAward().getAwardId()){
+                keyValues.add(new KeyLabelPair(awardSponsorContact.getAwardContactId()
+                        ,awardSponsorContact.getContactRole().getRoleDescription() + " - " + awardSponsorContact.getContactOrganizationName()));    
+            }
+        }        
                 
         return keyValues;
+    }
+    
+    /**
+     * 
+     * This is a wrapper method for the retrieval of KeyValuesService.
+     * 
+     * @return
+     */
+    protected KeyValuesService getKeyValuesService(){
+        return KraServiceLocator.getService(KeyValuesService.class);
+    }
+    
+    /**
+     * 
+     * This method collects all AwardSponsorContacts and then does a one-transaction refreshReferenceObject
+     * on Award BO.
+     * 
+     * @param awardSponsorContacts
+     */
+    private void refreshAwardSponsorContacts(Collection<AwardSponsorContact> awardSponsorContacts) {
+        List<AwardSponsorContact> persistableObjects = new ArrayList<AwardSponsorContact>();
+        List<String> referenceObjectNames = new ArrayList<String>();
+        
+        for(AwardSponsorContact awardSponsorContact : awardSponsorContacts){
+            persistableObjects.add(awardSponsorContact);
+            referenceObjectNames.add("award");            
+        }
+        
+        if(persistableObjects.size()>0 && referenceObjectNames.size()>0 ){
+            getPersistenceService().retrieveReferenceObjects(persistableObjects, referenceObjectNames);
+        }
+    }
+    
+    /**
+     * 
+     * This is a wrapper method for the retrieval of PersistenceService.
+     * 
+     * @return
+     */
+    protected PersistenceService getPersistenceService(){
+        return KraServiceLocator.getService(PersistenceService.class);
     }
    
 }
