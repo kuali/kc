@@ -320,10 +320,10 @@ public class ProtocolProtocolAction extends ProtocolAction {
                     fundingSource,
                     fundingSourceList);
 
+        protocolForm.getProtocolHelper().syncFundingSources(protocolDocument.getProtocol());
         
         if(applyRules(event)) {
-            ((ProtocolForm)form).getProtocolHelper().syncFundingSources(protocolForm.getDocument().getProtocol());
-            protocolForm.getDocument().getProtocol().getProtocolFundingSources().add(protocolForm.getProtocolHelper().getNewFundingSource());
+            protocolDocument.getProtocol().getProtocolFundingSources().add(protocolForm.getProtocolHelper().getNewFundingSource());
             protocolForm.getProtocolHelper().setNewFundingSource(new ProtocolFundingSource());
         }        
 
