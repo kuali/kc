@@ -108,7 +108,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Sponsor primeSponsor;
 
     private List<AwardComment> awardComments;
-//    private Map<Integer, AwardComment> commentMap;
+
+    private List<AwardCustomData> awardCustomDataList;
+    
     private Map<String, AwardComment> commentMap;
     private List<AwardCostShare> awardCostShares;
     private List<AwardFandaRate> awardFandaRate;    
@@ -1467,6 +1469,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         paymentScheduleItems = new ArrayList<AwardPaymentSchedule>();
         awardTransferringSponsors = new ArrayList<AwardTransferringSponsor>();
         awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
+        awardCustomDataList = new ArrayList<AwardCustomData>();
         
         projectPersons = new ArrayList<AwardPerson>();
         awardUnitContacts = new ArrayList<AwardUnitContact>();
@@ -1477,6 +1480,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         awardAmountInfo.setAward(this);
         awardAmountInfo.setAmountSequenceNumber(1);
         awardAmountInfos.add(awardAmountInfo);
+        
+        //customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
     }
 
     /**
@@ -1831,5 +1836,21 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
      */
     public void setAwardReportTermItems(List<AwardReportTerm> awardReportTermItems) {
         this.awardReportTermItems = awardReportTermItems;
+    }
+
+    /**
+     * Gets the awardCustomDataList attribute. 
+     * @return Returns the awardCustomDataList.
+     */
+    public List<AwardCustomData> getAwardCustomDataList() {
+        return awardCustomDataList;
+    }
+
+    /**
+     * Sets the awardCustomDataList attribute value.
+     * @param awardCustomDataList The awardCustomDataList to set.
+     */
+    public void setAwardCustomDataList(List<AwardCustomData> awardCustomDataList) {
+        this.awardCustomDataList = awardCustomDataList;
     }
 }
