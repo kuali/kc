@@ -58,7 +58,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-class ProtocolCopyServiceImpl implements ProtocolCopyService {
+public class ProtocolCopyServiceImpl implements ProtocolCopyService {
     
     private DocumentService documentService;
     private SystemAuthorizationService systemAuthorizationService;
