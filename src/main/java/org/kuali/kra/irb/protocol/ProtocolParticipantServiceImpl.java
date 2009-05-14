@@ -28,7 +28,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-class ProtocolParticipantServiceImpl implements ProtocolParticipantService {
+public class ProtocolParticipantServiceImpl implements ProtocolParticipantService {
 
     private BusinessObjectService businessObjectService;
 
