@@ -19,7 +19,7 @@ package org.kuali.kra.irb.protocol;
 import org.kuali.kra.irb.Protocol;
 
 
-class ProtocolReferenceServiceImpl implements ProtocolReferenceService {
+public class ProtocolReferenceServiceImpl implements ProtocolReferenceService {
     
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolReferenceServiceImpl.class);
