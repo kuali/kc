@@ -22,5 +22,6 @@
 			<span class="subhead-left">Available Actions</span>
 		</h3>
 		<kra-irb-action:submitAction />
+		<kra-irb-action:withdrawAction />
 	</div>
 </kul:tabTop>

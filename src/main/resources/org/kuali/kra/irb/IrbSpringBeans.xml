@@ -179,4 +179,8 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="committeeService" ref="committeeService" />
 	</bean>
+	
+	<bean id="protocolWithdrawService" class="org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
 </beans>
