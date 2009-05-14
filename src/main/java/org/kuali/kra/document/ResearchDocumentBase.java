@@ -97,7 +97,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     /**
      * This method populates the customAttributes for this document.
      */
-    private void populateCustomAttributes() {
+    protected void populateCustomAttributes() {
         CustomAttributeService customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
         Map<String, CustomAttributeDocument> customAttributeDocuments = customAttributeService.getDefaultCustomAttributesForDocumentType(getDocumentTypeCode(), documentNumber);
         setCustomAttributeDocuments(customAttributeDocuments);

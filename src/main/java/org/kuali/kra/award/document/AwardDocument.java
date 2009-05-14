@@ -17,15 +17,18 @@ package org.kuali.kra.award.document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardSpecialReview;
 import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
@@ -140,6 +143,7 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
     protected void init() {
         awardList = new ArrayList<Award>();
         awardList.add(new Award());
+        populateCustomAttributes();
     }
     
     /**
@@ -163,5 +167,15 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
     
     protected KraAuthorizationService getKraAuthorizationService(){
         return (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class);
+    }
+    
+    /**
+     * This method populates the customAttributes for this document.
+     */
+    @Override
+    protected void populateCustomAttributes() {
+        CustomAttributeService customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
+        Map<String, CustomAttributeDocument> customAttributeDocuments = customAttributeService.getDefaultAwardCustomAttributeDocuments();
+        setCustomAttributeDocuments(customAttributeDocuments);
     }
 }
