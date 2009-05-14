@@ -26,7 +26,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 
-class ProtocolActionServiceImpl {
+public class ProtocolActionServiceImpl {
 
     private BusinessObjectService businessObjectService;
     
