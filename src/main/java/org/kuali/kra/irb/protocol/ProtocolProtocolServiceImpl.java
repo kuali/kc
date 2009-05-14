@@ -28,7 +28,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * 
  * This class implements protocol service details.
  */
-class ProtocolProtocolServiceImpl implements ProtocolProtocolService{
+public class ProtocolProtocolServiceImpl implements ProtocolProtocolService{
 
     BusinessObjectService businessObjectService;
     

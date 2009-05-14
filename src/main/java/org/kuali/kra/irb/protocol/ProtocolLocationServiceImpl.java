@@ -22,7 +22,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.service.OrganizationService;
 
 
-class ProtocolLocationServiceImpl implements ProtocolLocationService {
+public class ProtocolLocationServiceImpl implements ProtocolLocationService {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolLocationServiceImpl.class);
     private OrganizationService organizationService;
