@@ -56,7 +56,7 @@ public class ContactsValuesFinder extends KeyValuesBase {
         refreshAwardSponsorContacts(awardSponsorContacts);
         
         for(AwardSponsorContact awardSponsorContact : awardSponsorContacts){                      
-            if(awardId == awardSponsorContact.getAward().getAwardId()){
+            if(awardId.equals(awardSponsorContact.getAward().getAwardId())){
                 keyValues.add(new KeyLabelPair(awardSponsorContact.getAwardContactId()
                         ,awardSponsorContact.getContactRole().getRoleDescription() + " - " + awardSponsorContact.getContactOrganizationName()));    
             }
