@@ -41,6 +41,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
             sqlFiles = {
                 @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";")
                ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
+               ,@UnitTestFile(filename = "classpath:sql/dml/load_COMM_MEMBERSHIP_TYPE.sql", delimiter = ";")
+               ,@UnitTestFile(filename = "classpath:sql/dml/load_MEMBERSHIP_ROLE.sql", delimiter = ";")
             }
         )
     )
@@ -48,7 +50,7 @@ public abstract class CommitteeWebTestBase extends KraWebTestBase {
     
     protected static final String COMMITTEE_LINK_NAME = "committee.x";
     protected static final String SCHEDULE_LINK_NAME = "schedule.x";
-    protected static final String MEMBERS_LINK_NAME = "members.x";
+    protected static final String MEMBERS_LINK_NAME = "committeeMembership.x";
     
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
     protected static final String COMMITTEE_TYPE_CODE_ID = "document.committeeList[0].committeeTypeCode";
@@ -70,10 +72,17 @@ public abstract class CommitteeWebTestBase extends KraWebTestBase {
     protected static final String DEFAULT_NAME = "Committee Test";
     protected static final String DEFAULT_ADV_SUBMISSION_DAYS_REQUIRED = "1";
     protected static final String DEFAULT_REVIEW_TYPE_CODE = "1"; // FULL
-    protected static final String DEFAULT_COMMITTEE_ID = "999";
     protected static final String DEFAULT_DESCRIPTION = "xxx";
     protected static final String DEFAULT_SCHEDULE_DESCRIPTION = "foo";
     
+    protected static final String SAVE_PAGE = "methodToCall.save";
+    /* check for save success - any errors found in the page */
+    protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
+    protected static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
+
+    
+    private static Integer nextCommitteeId = 0;
+
     private HtmlPage committeePage;
     
     /**
@@ -125,7 +134,7 @@ public abstract class CommitteeWebTestBase extends KraWebTestBase {
      * We don't want to test within the Portal.  This means that we will extract the
      * committee web page from within the Portal's Inline Frame (iframe).
      * 
-     * @return the Comittee web page.
+     * @return the Committee web page.
      */
     protected final HtmlPage getCommitteePage() {
         return this.committeePage;
@@ -153,7 +162,7 @@ public abstract class CommitteeWebTestBase extends KraWebTestBase {
                                 DEFAULT_NAME,
                                 DEFAULT_MIN_MEMBERS_REQUIRED,
                                 DEFAULT_ADV_SUBMISSION_DAYS_REQUIRED,
-                                DEFAULT_COMMITTEE_ID,
+                                getNextCommitteeID(),
                                 DEFAULT_DESCRIPTION,
                                 DEFAULT_SCHEDULE_DESCRIPTION);
     }
@@ -215,6 +224,29 @@ public abstract class CommitteeWebTestBase extends KraWebTestBase {
     }
     
     /**
+     * This method is to save a given page
+     * @param page
+     * @return saved page
+     * @throws Exception
+     */
+    protected HtmlPage savePage(HtmlPage page) throws Exception {
+        HtmlPage savedPage = clickOn(page, SAVE_PAGE);
+        return savedPage;
+    }
+
+    /**
+     * This method is to validate a saved page. Check to see if there are no errors in the page
+     * and save success message is displayed
+     * @param page
+     * @return
+     * @throws Exception
+     */
+    protected void validateSavedPage(HtmlPage page) throws Exception {
+        assertDoesNotContain(page, ERRORS_FOUND_ON_PAGE);
+        assertContains(page,SAVE_SUCCESS_MESSAGE);        
+    }
+
+    /**
      * Get the Members Web Page. To do this, we first
      * get the Committee Web Page and fill in the required
      * fields with some default values.  We can then navigate to the
@@ -226,6 +258,8 @@ public abstract class CommitteeWebTestBase extends KraWebTestBase {
     protected HtmlPage getMembersPage() throws Exception {
         HtmlPage committeePage = this.getCommitteePage();
         this.setDefaultRequiredFields(committeePage);
+        committeePage = savePage(committeePage);
+        validateSavedPage(committeePage);
         HtmlPage membersPage = clickOnTab(committeePage, MEMBERS_LINK_NAME);
         return membersPage;
     }
@@ -286,5 +320,15 @@ public abstract class CommitteeWebTestBase extends KraWebTestBase {
      */
     protected HtmlPage clickScheduleHyperlink(HtmlPage page) throws Exception {
         return clickOnTab(page, SCHEDULE_LINK_NAME);
+    }
+    
+    /**
+     * This method returns the committee ID for the next committee that is created.
+     *  
+     * @return String - containing the next available committee ID
+     */
+    protected String getNextCommitteeID() {
+        nextCommitteeId++;
+        return nextCommitteeId.toString();
     }
 }
