@@ -40,6 +40,7 @@ import org.kuali.kra.kim.bo.KimRoleAttribute;
 import org.kuali.kra.kim.bo.KimRoleGroup;
 import org.kuali.kra.kim.bo.KimRolePermission;
 import org.kuali.kra.kim.bo.KimRolePerson;
+import org.kuali.kra.kim.exception.DuplicateRoleNameException;
 import org.kuali.kra.kim.exception.UnknownGroupNameException;
 import org.kuali.kra.kim.exception.UnknownNamespaceNameException;
 import org.kuali.kra.kim.exception.UnknownPermissionNameException;
@@ -350,10 +351,15 @@ public class ServiceBase {
      */
     public final KimRole getRoleByName(String roleName) {
         Collection<KimRole> roles = findMatching(KimRole.class, "name", roleName);
-		if (roles.size() != 1) {
-		    throw new UnknownRoleNameException(roleName);
-		}
-		
+        if (roles.size() != 1) {
+            if(roles.size() > 1){
+                throw new DuplicateRoleNameException(roleName);    
+            }else{
+                throw new UnknownRoleNameException(roleName);
+            }
+            
+        }
+        
         return roles.iterator().next();
     }
     
