@@ -19,7 +19,7 @@
 <c:set var="expeditedAttributes" value="${DataDictionary.ExpeditedReviewCheckListItem.attributes}" />
 <c:set var="exemptAttributes" value="${DataDictionary.ExemptStudiesCheckListItem.attributes}" />
 <c:set var="reviewerAttributes" value="${DataDictionary.ProtocolReviewerBean.attributes}" />
-<c:set var="action" value="protocolProtocolAction" />
+<c:set var="action" value="protocolProtocolActions" />
 
 <kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
 

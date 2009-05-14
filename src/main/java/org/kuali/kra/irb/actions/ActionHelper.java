@@ -27,6 +27,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
+import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -52,6 +53,7 @@ public class ActionHelper implements Serializable {
     private boolean canSelectReviewers = false;
     
     private ProtocolSubmitAction protocolSubmitAction;
+    private ProtocolWithdrawBean protocolWithdrawBean;
    
     /**
      * Constructs an ActionHelper.
@@ -60,6 +62,7 @@ public class ActionHelper implements Serializable {
     public ActionHelper(ProtocolForm form) {
         this.form = form;
         protocolSubmitAction = new ProtocolSubmitAction(this);
+        protocolWithdrawBean = new ProtocolWithdrawBean();
     }
     
     public void prepareView() {
@@ -128,5 +131,9 @@ public class ActionHelper implements Serializable {
 
     public boolean getCanSelectReviewers() {
         return canSelectReviewers;
+    }
+
+    public ProtocolWithdrawBean getProtocolWithdrawBean() {
+        return protocolWithdrawBean;
     }
 }

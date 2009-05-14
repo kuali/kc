@@ -36,6 +36,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
+import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -236,7 +237,29 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         return mapping.findForward(Constants.MAPPING_CHECKLIST_ITEM_DESCRIPITION);
     }
+    
+    /**
+     * Withdraw a previously submitted protocol.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward withdrawProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        getProtocolWithdrawService().withdraw(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolWithdrawBean());
 
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    private ProtocolWithdrawService getProtocolWithdrawService() {
+        return KraServiceLocator.getService(ProtocolWithdrawService.class);
+    }
+    
     /**
      * Get the line number.
      * 
