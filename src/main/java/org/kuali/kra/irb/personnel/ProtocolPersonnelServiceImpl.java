@@ -29,7 +29,7 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 
-class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
+public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolPersonnelServiceImpl.class);
     private BusinessObjectService businessObjectService;
