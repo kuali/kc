@@ -17,6 +17,8 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.irb.protocol.ProtocolFundingSource;
+
 public class FundingSourceType extends KraPersistableBusinessObjectBase {
 
     /**
@@ -65,6 +67,33 @@ public class FundingSourceType extends KraPersistableBusinessObjectBase {
         hashMap.put("description", getDescription());
         hashMap.put("fundingSourceTypeFlag", getFundingSourceTypeFlag());
         return hashMap;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        boolean isEqual=true;
+        if (obj==null || !(obj instanceof FundingSourceType)) {
+             return false;
+        }
+        
+        FundingSourceType fundingSourceType = (FundingSourceType) obj;
+        if (!fundingSourceType.getDescription().equalsIgnoreCase(getDescription())) {
+            isEqual=false;
+        } else if (fundingSourceType.getFundingSourceTypeCode().intValue() != getFundingSourceTypeCode().intValue()) {
+            isEqual=false;
+        } else if (fundingSourceType.getFundingSourceTypeFlag() != getFundingSourceTypeFlag()) {
+            isEqual=false;
+        }
+        return isEqual;
+    }
+        
+    @Override
+    public int hashCode() {
+          final int PRIME = 31;
+          int result = 1;
+          result = PRIME * result + ((this.getDescription() == null) ? 0 : this.getDescription().hashCode());
+          result = PRIME * result + ((this.getFundingSourceTypeCode() == null) ? 0 : this.getFundingSourceTypeCode().hashCode());
+          return result;
     }
 
 }

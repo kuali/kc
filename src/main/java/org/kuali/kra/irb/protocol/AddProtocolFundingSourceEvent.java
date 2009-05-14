@@ -68,17 +68,6 @@ public class AddProtocolFundingSourceEvent extends ProtocolEventBase<ProtocolFun
         LOG.debug(logMessage);   
     }
 
-    public Class getRuleInterfaceClass() {
-        return AddProtocolFundingSourceRule.class;
-
-    }
-
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        info("Calling processAddProtocolFundingSourceBusinessRules on ", rule.getClass().getSimpleName());
-        return ((AddProtocolFundingSourceRule) rule).processAddProtocolFundingSourceBusinessRules(this);
-        
-    }
-
     public ProtocolFundingSource getFundingSource() {
         return fundingSource;
     }

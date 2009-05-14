@@ -31,7 +31,6 @@
 	        	       <c:out value="Add:" />
 	                </th>  
 	                               
-	<%-- --%>               
 	                <td>
 	                    <div align="center">
 	                 
@@ -60,8 +59,7 @@
 	                                                          'protocolHelper.newFundingSource.fundingSourceName',
 	                                                          'protocolHelper.newFundingSource.fundingSourceTitle');" />
 	
-	<%--                          lookupKeyPath="document.protocolList[0].newFundingSource.fundingSourceTypeType.description" 
-	 --%>                        
+                        
 	                        <kra-irb:fundingSourceLookup boClassName="${document.protocolList[0].newFundingSource.fundingSourceType.description}" 
 	                         fieldConversions="" anchor="${currentTabIndex}"/> 
 	                        </div>
