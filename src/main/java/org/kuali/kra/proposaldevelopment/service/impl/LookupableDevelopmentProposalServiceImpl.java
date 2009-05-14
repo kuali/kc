@@ -37,13 +37,13 @@ public class LookupableDevelopmentProposalServiceImpl implements LookupableDevel
         Map<String, String> primaryKeys = new HashMap<String, String>();
         if (StringUtils.isNotEmpty(proposalNumber)) {
             primaryKeys.put("proposalNumber", proposalNumber);
-            devProposal = (LookupableDevelopmentProposal)businessObjectService.findByPrimaryKey(LookupableDevelopmentProposal.class, primaryKeys);
+            devProposal = (LookupableDevelopmentProposal) getBusinessObjectService().findByPrimaryKey(LookupableDevelopmentProposal.class, primaryKeys);
         }
 
         return devProposal;
     }
 
-    public BusinessObjectService getBusinessObjectService() {
+    private BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 

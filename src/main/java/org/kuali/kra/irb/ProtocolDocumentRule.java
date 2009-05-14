@@ -43,7 +43,6 @@ import org.kuali.kra.irb.personnel.ProtocolUnitRule;
 import org.kuali.kra.irb.personnel.SaveProtocolPersonnelEvent;
 import org.kuali.kra.irb.personnel.SaveProtocolPersonnelRule;
 import org.kuali.kra.irb.protocol.AddProtocolFundingSourceEvent;
-import org.kuali.kra.irb.protocol.AddProtocolFundingSourceRule;
 import org.kuali.kra.irb.protocol.AddProtocolLocationEvent;
 import org.kuali.kra.irb.protocol.AddProtocolLocationRule;
 import org.kuali.kra.irb.protocol.AddProtocolParticipantEvent;
@@ -75,7 +74,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, AddProtocolFundingSourceRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, SpecialReviewRule<ProtocolSpecialReview>, BusinessRuleInterface, ExecuteProtocolSubmitActionRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, SpecialReviewRule<ProtocolSpecialReview>, BusinessRuleInterface, ExecuteProtocolSubmitActionRule {
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId";

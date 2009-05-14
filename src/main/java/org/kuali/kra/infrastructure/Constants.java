@@ -17,6 +17,12 @@
 package org.kuali.kra.infrastructure;
 
 public interface Constants {
+    
+    //Generic constants
+    public static final String COLON=":";
+    public static final String COMMA=",";
+    
+    
     public static final String KRA_SESSION_KEY = "kra.session";
     public static final String APP_CONTEXT_KEY = "app.context.name";
     public static final String DATASOURCE = "kraDataSource";
