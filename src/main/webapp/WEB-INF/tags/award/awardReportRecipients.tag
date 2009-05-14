@@ -67,8 +67,8 @@
 		        <c:out value="${status.index+1}" />
 	        </th>
 	        <td width="5%" valign="middle">
-	        <div align="center">
-	            <kul:htmlControlAttribute property="document.awardList[0].awardReportTermItems[${index}].awardReportTermRecipients[${status.index}].contactId" attributeEntry="${awardReportTermRecipientAttributes.contactId}" readOnly="true" styleClass="fixed-size-select" />	            
+	        <div align="center">	            
+	            <c:out value="${KualiForm.document.awardList[0].awardReportTermItems[index].awardReportTermRecipients[status.index].contactType.description}" />	            
 	        </div>
 	        </td>	        
 	        <td width="5%" valign="middle">

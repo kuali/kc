@@ -32,7 +32,7 @@ public class AwardReportTermRecipient extends AwardReportTermRecipientBase {
      */
     private static final long serialVersionUID = -3941499915900100395L;
     private Long awardReportTermRecipientId;
-    private Integer awardReportTermId;
+    private Long awardReportTermId;
     private Long contactId;
 //    private String contactTypeCode; 
 //    private Integer rolodexId;
@@ -54,7 +54,7 @@ public class AwardReportTermRecipient extends AwardReportTermRecipientBase {
      * 
      * @return
      */
-    public Integer getAwardReportTermId() {
+    public Long getAwardReportTermId() {
         return awardReportTermId;
     }
 
@@ -62,7 +62,7 @@ public class AwardReportTermRecipient extends AwardReportTermRecipientBase {
      * 
      * @param awardReportTermId
      */
-    public void setAwardReportTermId(Integer awardReportTermId) {
+    public void setAwardReportTermId(Long awardReportTermId) {
         this.awardReportTermId = awardReportTermId;
     }
 
