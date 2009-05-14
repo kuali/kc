@@ -39,7 +39,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
-class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {    
+public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {    
 
     private static final String RESEARCH_AREA_CLASS_PATH = ResearchArea.class.getName();
     private static final String ORGANIZATION_CLASS_PATH = Organization.class.getName();
