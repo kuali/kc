@@ -53,18 +53,52 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     private KraLookupableHelperServiceImpl protocolLookupableHelperService;
     private DocumentService documentService;
     
+    private static final String BO_SPONSOR_NAME = "sponsor.sponsorName";
+    private static final String TITLE = "title";
+    
+    private static final String SPONSOR_ID = "sponsorCode";
+    private static final String SPONSOR_NAME = "sponsorName";
+    private static final String UNIT_ID = "unitNumber";
+    private static final String UNIT_NAME = "unitName";
+    private static final String PROP_ID = "proposalNumber";
+    private static final String AWARD_ID = "awardId";
+    
     /**
      * This enum captures the elements for fundingSource for managing the multi type lookup,
      * it is inherently tightly coupled with the primary keyvalues of the FundingSourceTable
      */
     enum FundingSourceLookup {
-        SPONSOR("Sponsor", Sponsor.class,"sponsorCode","sponsorName","",1),
-        UNIT("Unit", Unit.class,"unitNumber","unitName","",2),
-        OTHER("Other", Object.class,"","","",3),
-        PROPOSAL_DEVELOPMENT("Development Proposal", LookupableDevelopmentProposal.class,"proposalNumber","sponsor.sponsorName","title",4),
+        SPONSOR             ("Sponsor",              
+                             Sponsor.class,
+                             SPONSOR_ID,
+                             SPONSOR_NAME,
+                             Constants.EMPTY_STRING,1),
+        UNIT                ("Unit",
+                              Unit.class,
+                              UNIT_ID,
+                              UNIT_NAME,
+                              Constants.EMPTY_STRING,2),
+        OTHER               ("Other",                
+                              Object.class,                      
+                              Constants.EMPTY_STRING,
+                              Constants.EMPTY_STRING,
+                              Constants.EMPTY_STRING,3),
+        PROPOSAL_DEVELOPMENT("Development Proposal", 
+                              LookupableDevelopmentProposal.class,
+                              PROP_ID,
+                              BO_SPONSOR_NAME,
+                              TITLE,4),
         //TODO when institute proposal is impl'd change below to institute proposal lookup
-        INSTITUTE_PROPOSAL("Institute Proposal", LookupableDevelopmentProposal.class,"proposalNumber","sponsor.sponsorName","title",5),
-        AWARD("Award", Award.class,"awardId","sponsor.sponsorName","title",6),
+        INSTITUTE_PROPOSAL  ("Institute Proposal",   
+                              LookupableDevelopmentProposal.class,
+                              PROP_ID,
+                              BO_SPONSOR_NAME,
+                              TITLE,5),
+        AWARD               ("Award",                
+                              Award.class,
+                              AWARD_ID,
+                              BO_SPONSOR_NAME,
+                              TITLE,6),
         ;
 
         private Class<?> clazz;
@@ -105,11 +139,11 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         }   
     }
 
-    public LookupableDevelopmentProposalService getLookupableDevelopmentProposalService() {
+    private LookupableDevelopmentProposalService getLookupableDevelopmentProposalService() {
         return lookupableDevelopmentProposalService;
     }
     
-    public KraLookupableHelperServiceImpl getProtocolLookupableHelperService() {
+    private KraLookupableHelperServiceImpl getProtocolLookupableHelperService() {
         return protocolLookupableHelperService;
     }
     
@@ -163,7 +197,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         ProtocolFundingSource source = null;
         
         if (StringUtils.isNotBlank(sourceType) && StringUtils.isNotBlank(sourceId)) {   
-            source = new ProtocolFundingSource(sourceId, getFundingSourceTypeService().getFundingSourceType(sourceType),null,""); 
+            source = new ProtocolFundingSource(sourceId, getFundingSourceTypeService().getFundingSourceType(sourceType),null,Constants.EMPTY_STRING); 
             if ( FundingSourceLookup.OTHER.getFundingTypeCode()==(Integer.valueOf(sourceType))) {
                 source.setFundingSourceName(sourceName);
             } else if (FundingSourceLookup.SPONSOR.getFundingTypeCode()==(Integer.valueOf(sourceType))) {
@@ -174,8 +208,8 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
                 if (isLinkedWithAward()) {
                     Award award  = getAwardService().getAward(sourceId);
                     if (award != null) {
-                        source.setFundingSourceName(award.getSponsorName()!=null?award.getSponsorName():"");
-                        source.setFundingSourceTitle(award.getTitle()!=null?award.getTitle():"");
+                        source.setFundingSourceName(award.getSponsorName()!=null?award.getSponsorName():Constants.EMPTY_STRING);
+                        source.setFundingSourceTitle(award.getTitle()!=null?award.getTitle():Constants.EMPTY_STRING);
                     }
                 } else {
                     source.setFundingSourceName(sourceName);
@@ -185,8 +219,8 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
                 if (isLinkedWithDevProposal()) {
                     LookupableDevelopmentProposal devProposal = getLookupableDevelopmentProposalService().getLookupableDevelopmentProposal(sourceId);
                     if (devProposal != null) {
-                        source.setFundingSourceName(devProposal.getSponsorName()!=null?devProposal.getSponsorName():"");
-                        source.setFundingSourceTitle(devProposal.getTitle()!=null?devProposal.getTitle():"");
+                        source.setFundingSourceName(devProposal.getSponsorName()!=null?devProposal.getSponsorName():Constants.EMPTY_STRING);
+                        source.setFundingSourceTitle(devProposal.getTitle()!=null?devProposal.getTitle():Constants.EMPTY_STRING);
                     }
                 } else {
                     source.setFundingSourceName(sourceName);
@@ -271,24 +305,22 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     }
     
     private String createCustomFieldConversions(FundingSourceLookup sourceLookup) {
-        StringBuffer fieldConversions = fieldConversions = new StringBuffer();
+        StringBuffer fieldConversions = new StringBuffer();
         if (sourceLookup != FundingSourceLookup.OTHER) {
             
-            String COLON=":";
-            String COMMA=","; 
-            fieldConversions.append(sourceLookup.getkeyCode()+COLON);
-            fieldConversions.append(Constants.PROTO_FUNDING_SRC_ID_FIELD+COMMA);
+            fieldConversions.append(sourceLookup.getkeyCode()+Constants.COLON);
+            fieldConversions.append(Constants.PROTO_FUNDING_SRC_ID_FIELD+Constants.COMMA);
     
-            fieldConversions.append(sourceLookup.getName()+COLON);
-            fieldConversions.append(Constants.PROTO_FUNDING_SRC_NAME_FIELD+COMMA);
+            fieldConversions.append(sourceLookup.getName()+Constants.COLON);
+            fieldConversions.append(Constants.PROTO_FUNDING_SRC_NAME_FIELD+Constants.COMMA);
 
-            fieldConversions.append(sourceLookup.getName()+COLON);
-            fieldConversions.append(Constants.PROTO_FUNDING_SRC_NAME_FIELD_DIV+COMMA);
+            fieldConversions.append(sourceLookup.getName()+Constants.COLON);
+            fieldConversions.append(Constants.PROTO_FUNDING_SRC_NAME_FIELD_DIV+Constants.COMMA);
             
             
             //Note: not all funding sources have a title
             if (StringUtils.isNotBlank(sourceLookup.getTitle())) {
-                fieldConversions.append(sourceLookup.getTitle()+COLON);
+                fieldConversions.append(sourceLookup.getTitle()+Constants.COLON);
                 fieldConversions.append(Constants.PROTO_FUNDING_SRC_TITLE_FIELD);
             }
         }
@@ -313,7 +345,9 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
 
         Integer fundingCode = protocolFundingSource.getFundingSourceType().getFundingSourceTypeCode();
         String retUrl=null;
+        String maintDocLookupPrefix= "${kuali.docHandler.url.prefix}/kr/";
         
+      //TODO add Institute proposal when ready
         if (fundingCode.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode())) {        
             String docNum = protocolFundingSource.getFundingProposal().getDocumentNumber();            
             ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(docNum);
@@ -330,15 +364,14 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
             sponsor.setSponsorCode(protocolFundingSource.getFundingSource());
             HtmlData forward = 
                 getProtocolLookupableHelperService().getInquiryUrl(sponsor, FundingSourceLookup.SPONSOR.getkeyCode());
-            retUrl = Utilities.substituteConfigParameters("${kuali.docHandler.url.prefix}/kr/"+((HtmlData.AnchorHtmlData)forward).getHref());
+            retUrl = Utilities.substituteConfigParameters(maintDocLookupPrefix+((HtmlData.AnchorHtmlData)forward).getHref());
         } else  if (fundingCode.equals(FundingSourceLookup.UNIT.getFundingTypeCode())) {
             Unit unit = new Unit();
             unit.setUnitNumber(protocolFundingSource.getFundingSource());
             HtmlData forward = 
                 getProtocolLookupableHelperService().getInquiryUrl(unit, FundingSourceLookup.UNIT.getkeyCode());
-            retUrl = Utilities.substituteConfigParameters("${kuali.docHandler.url.prefix}/kr/"+((HtmlData.AnchorHtmlData)forward).getHref());
+            retUrl = Utilities.substituteConfigParameters(maintDocLookupPrefix+((HtmlData.AnchorHtmlData)forward).getHref());
         }
-//TODO add Institute proposal when ready
         
         return retUrl;
     }

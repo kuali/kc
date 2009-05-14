@@ -17,6 +17,7 @@ package org.kuali.kra.irb.protocol;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
@@ -25,7 +26,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.springframework.util.StringUtils;
 
 /**
  * 
@@ -33,6 +33,10 @@ import org.springframework.util.StringUtils;
  */
 public class ProtocolFundingSource extends ProtocolAssociate {
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -6137366673402413087L;
     private Long protocolFundingSourceId;
     private Long protocolId;
     private Integer fundingSourceTypeCode;
@@ -80,7 +84,7 @@ public class ProtocolFundingSource extends ProtocolAssociate {
 
     public ProposalDevelopmentDocument getFundingProposal() {
         if (ProtocolFundingSourceServiceImpl.FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode()==getFundingSourceType().getFundingSourceTypeCode() 
-                && StringUtils.hasText(getFundingSource())) {
+                && StringUtils.isNotBlank(getFundingSource())) {
             this.refreshReferenceObject("fundingProposal");
         }
         return fundingProposal;
@@ -91,8 +95,8 @@ public class ProtocolFundingSource extends ProtocolAssociate {
     }
 
     public Award getFundingAward() {
-        if (getFundingSourceType().getDescription().compareTo("Award")==0 
-                && StringUtils.hasText(getFundingSource())) {
+        if (ProtocolFundingSourceServiceImpl.FundingSourceLookup.AWARD.getFundingTypeCode()==getFundingSourceType().getFundingSourceTypeCode()         
+                && StringUtils.isNotBlank(getFundingSource())) {
             this.refreshReferenceObject("fundingAward");
         }
         return fundingAward;
@@ -213,7 +217,7 @@ public class ProtocolFundingSource extends ProtocolAssociate {
         ProtocolFundingSource protocolFundingSource = (ProtocolFundingSource) obj;
         if (!protocolFundingSource.getFundingSource().equalsIgnoreCase(getFundingSource())) {
             isEqual=false;
-        } else if (protocolFundingSource.getFundingSourceTypeCode().intValue() != getFundingSourceTypeCode().intValue()) {
+        } else if (!protocolFundingSource.getFundingSourceTypeCode().equals(getFundingSourceTypeCode())) {
             isEqual=false;
         }
         return isEqual;
