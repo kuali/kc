@@ -23,7 +23,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 
-class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaService {
+public class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaService {
 
        
     /**
