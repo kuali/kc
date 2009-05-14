@@ -34,6 +34,12 @@ public interface CustomAttributeService {
      * @return a List of custom attribute documents for this document
      */
     public Map<String, CustomAttributeDocument> getDefaultCustomAttributesForDocumentType(String documentTypeCode, String documentNumber);
+    
+    /**
+     * This method gets the default CustomAttributeDocuments from the database.
+     * @return
+     */
+    public Map<String, CustomAttributeDocument> getDefaultAwardCustomAttributeDocuments();
 
     /**
      * This method persists the custom attribute values for a ResearchDocumentBase.

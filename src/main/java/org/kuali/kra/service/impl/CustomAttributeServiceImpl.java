@@ -78,7 +78,24 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         return customAttributeDocuments;
 
     }
-
+    
+    /**
+     * @see org.kuali.kra.service.CustomAttributeService#getDefaultAwardCustomAttributeDocuments()
+     */
+    @SuppressWarnings("unchecked")
+    public Map<String, CustomAttributeDocument> getDefaultAwardCustomAttributeDocuments() {
+        Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put(KNSPropertyConstants.DOCUMENT_TYPE_CODE, "AWRD");
+        List<CustomAttributeDocument> customAttributeDocumentList = 
+            (List<CustomAttributeDocument>) getBusinessObjectService().findMatching(CustomAttributeDocument.class, queryMap);
+        for(CustomAttributeDocument customAttributeDocument:customAttributeDocumentList) {
+            if (customAttributeDocument.isActive()) {
+                customAttributeDocuments.put(customAttributeDocument.getCustomAttributeId().toString(), customAttributeDocument);
+            }
+        }
+        return customAttributeDocuments;
+    }
     /**
      * @see org.kuali.kra.service.CustomAttributeService#saveCustomAttributeValues(org.kuali.kra.document.ResearchDocumentBase)
      */

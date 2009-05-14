@@ -68,6 +68,7 @@ import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
 import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
 import org.kuali.kra.award.rule.event.AwardCostShareRuleEvent;
 import org.kuali.kra.award.rule.event.AwardDirectFandADistributionRuleEvent;
+import org.kuali.kra.award.rule.event.AwardSaveCustomDataRuleEvent;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
@@ -226,6 +227,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
             PermissionsUserEditRoles editRoles) {
         return new AwardPermissionsRule().processEditPermissionsUserRolesBusinessRules(document, users, editRoles);
     }
+    
 
     /**
      * 
@@ -259,6 +261,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processSaveAwardProjectPersonsBusinessRules(errorMap, awardDocument);
         retval &= processAwardPersonCreditSplitBusinessRules(awardDocument);
         retval &= processAwardPersonUnitCreditSplitBusinessRules(awardDocument);
+        retval &= processSaveAwardCustomDataBusinessRules(document);
         
         return retval;
     }    
@@ -351,6 +354,30 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                awardDocument, 
                                                                    awardDirectFandADistributions);
         valid &= new AwardDirectFandADistributionRuleImpl().processAwardDirectFandADistributionBusinessRules(event);
+        errorMap.removeFromErrorPath(errorPath);
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        return valid;
+    }
+    
+    /**
+    *
+    * process save Custom Data Business Rules.
+    * @param awardDocument
+    * @return
+    */
+    private boolean processSaveAwardCustomDataBusinessRules(Document document) {
+        boolean valid = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        AwardDocument awardDocument = (AwardDocument) document;
+        int i = 0;
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        String errorPath = "";
+        errorMap.addToErrorPath(errorPath);
+        AwardSaveCustomDataRuleEvent event = new AwardSaveCustomDataRuleEvent(errorPath, 
+                                                               awardDocument);
+        valid &= new AwardCustomDataRuleImpl().processSaveAwardCustomDataBusinessRules(event);
         errorMap.removeFromErrorPath(errorPath);
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
