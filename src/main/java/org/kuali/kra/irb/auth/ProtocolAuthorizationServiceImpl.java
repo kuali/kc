@@ -35,7 +35,7 @@ import org.kuali.kra.service.UnitAuthorizationService;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-class ProtocolAuthorizationServiceImpl implements ProtocolAuthorizationService {
+public class ProtocolAuthorizationServiceImpl implements ProtocolAuthorizationService {
     
     private static final String PROTOCOL_KEY = "kra.protocol";
     
