@@ -91,10 +91,6 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
 
         AwardForm awardForm = (AwardForm) form;   
         ActionForward forward = super.save(mapping, form, request, response);
-        
-        if (isValidSave(awardForm)) {
-            forward = super.save(mapping, form, request, response);
-        }
 
         if (awardForm.getMethodToCall().equals("save") && awardForm.isAuditActivated()) {
             forward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
@@ -311,7 +307,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      */
     public ActionForward customData(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {        
-        return CustomDataAction.customData(mapping, form, request, response);
+        return CustomDataAction.awardCustomData(mapping, form, request, response);
     }
     
     /**

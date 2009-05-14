@@ -18,6 +18,7 @@ package org.kuali.kra.award.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.AwardAssociate;
+import org.kuali.kra.bo.CustomAttribute;
 
 /**
  * This class is the BO representation of an Award Custom Data.
@@ -30,8 +31,25 @@ public class AwardCustomData extends AwardAssociate {
     private static final long serialVersionUID = 4125090813618033094L;
     private Long awardCustomDataId;
     private String value;
+    private Long customAttributeId;
+    
+    private CustomAttribute customAttribute;
     
     
+    /**
+     * Gets the customAttributeId attribute. 
+     * @return Returns the customAttributeId.
+     */
+    public Long getCustomAttributeId() {
+        return customAttributeId;
+    }
+    /**
+     * Sets the customAttributeId attribute value.
+     * @param customAttributeId The customAttributeId to set.
+     */
+    public void setCustomAttributeId(Long customAttributeId) {
+        this.customAttributeId = customAttributeId;
+    }
     /**
      * Gets the awardCustomDataId attribute. 
      * @return Returns the awardCustomDataId.
@@ -108,6 +126,20 @@ public class AwardCustomData extends AwardAssociate {
         else if (!value.equals(other.value))
             return false;
         return true;
+    }
+    /**
+     * Gets the customAttribute attribute. 
+     * @return Returns the customAttribute.
+     */
+    public CustomAttribute getCustomAttribute() {
+        return customAttribute;
+    }
+    /**
+     * Sets the customAttribute attribute value.
+     * @param customAttribute The customAttribute to set.
+     */
+    public void setCustomAttribute(CustomAttribute customAttribute) {
+        this.customAttribute = customAttribute;
     }
     
 }

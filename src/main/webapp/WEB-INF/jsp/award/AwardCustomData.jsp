@@ -31,7 +31,7 @@
   	
   	<div align="right"><kul:help documentTypeName="${KualiForm.documentTypeName}" pageName="Custom Data" /></div>
 
-	<kra-customdata:customDataTab name="${KualiForm.actionName}" />
+	<kra-a:awardCustomDataTab name="${KualiForm.actionName}" />
 	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
 </kul:documentPage>

@@ -39,13 +39,14 @@
 				<th  align="right">
 					<c:if test="${customAttributeDocument.required}">*</c:if>${customAttributeDocument.customAttribute.label}:
 				</th>
-				<td width="45%">
+				<td width="45%">		
 				<c:forEach var="customAttributeDocument1" items="${KualiForm.document.customAttributeDocuments}" > 
 				  	<c:if test="${customAttributeDocument1.key == customAttributeDocument.customAttributeId}" >
 				  	   <c:set var="customAttributeValue" value="${customAttributeDocument1.value.customAttribute.value}" />
 				  	</c:if>
 				</c:forEach>
 				<c:set var="customAttributeId" value="customDataHelper.customAttributeValues(id${customAttributeDocument.customAttributeId})" />
+				
           	  <c:set var="customAttributeErrorStyle" value="" scope="request"/>
 				<c:forEach items="${ErrorPropertyList}" var="key">
 				    <c:if test="${key eq customAttributeId}">
@@ -69,7 +70,6 @@
                 	</c:when>
                 	<c:otherwise>
                 		<input id="${customAttributeId}" type="text" name="${customAttributeId}" value='${customAttributeValue}' style="${customAttributeErrorStyle}"/>
-
 						<c:if test="${not empty customAttributeDocument.customAttribute.lookupClass}">
 							<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" fieldConversions="${customAttributeDocument.customAttribute.lookupReturn}:${customAttributeId}," fieldLabel="${customAttributeDocument.customAttribute.label}"  anchor="${tabKey}"/>
 						</c:if>
