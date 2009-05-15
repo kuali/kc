@@ -1,0 +1,1 @@
+function doedit(obj) { return }
