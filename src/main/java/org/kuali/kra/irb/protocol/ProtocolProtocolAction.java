@@ -20,6 +20,7 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -423,10 +424,10 @@ public class ProtocolProtocolAction extends ProtocolAction {
                     boClassName, ProtocolEventBase.ErrorType.HARDERROR );
                         
         if(applyRules(event)) {
-            HashMap<String, String> map = getProtocolFundingSourceService().getLookupParameters(boClassName);
+            Entry<String, String> entry = getProtocolFundingSourceService().getLookupParameters(boClassName);
 
-            boClassName = map.keySet().iterator().next();
-            String fieldConversions = map.get(boClassName);
+            boClassName = entry.getKey();
+            String fieldConversions = entry.getValue();
             String fullParameter = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
             String updatedParameter = getProtocolFundingSourceService().updateLookupParameter(fullParameter, boClassName,
                     fieldConversions);

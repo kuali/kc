@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.protocol;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.bo.Award;
@@ -35,6 +36,7 @@ import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -50,7 +52,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     private AwardService awardService;
     private FundingSourceTypeService fundingSourceTypeService;
     private LookupableDevelopmentProposalService lookupableDevelopmentProposalService;
-    private KraLookupableHelperServiceImpl protocolLookupableHelperService;
+    private LookupableHelperService protocolLookupableHelperService;
     private DocumentService documentService;
     
     private static final String BO_SPONSOR_NAME = "sponsor.sponsorName";
@@ -143,11 +145,11 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         return lookupableDevelopmentProposalService;
     }
     
-    private KraLookupableHelperServiceImpl getProtocolLookupableHelperService() {
+    private LookupableHelperService getProtocolLookupableHelperService() {
         return protocolLookupableHelperService;
     }
     
-    public void setProtocolLookupableHelperService(KraLookupableHelperServiceImpl protocolLookupableHelperService) {
+    public void setProtocolLookupableHelperService(LookupableHelperService protocolLookupableHelperService) {
         this.protocolLookupableHelperService =  protocolLookupableHelperService;
     }
     
@@ -275,7 +277,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
 
     
     /** {@inheritDoc} */
-    public HashMap<String, String>  getLookupParameters(String boClassName) {        
+    public Entry<String, String>  getLookupParameters(String boClassName) {        
         HashMap<String, String> boAndFields = new HashMap<String, String>();
         FundingSourceLookup sourceLookup = FundingSourceLookup.OTHER;
         
@@ -301,7 +303,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
             boAndFields.put(sourceLookup.getBOClass().getName(), fieldConversions);
         }
         
-        return boAndFields;
+        return boAndFields.entrySet().iterator().next();
     }
     
     private String createCustomFieldConversions(FundingSourceLookup sourceLookup) {
