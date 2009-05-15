@@ -76,7 +76,8 @@ public class ProtocolAttachmentTypeByGroupValuesFinderTest {
     public void getTypeWithFilterTypes() {
         final KeyValuesFinder usedFinder = this.context.mock(KeyValuesFinder.class);
         
-        ProtocolAttachmentTypeByGroupValuesFinder finder = new ProtocolAttachmentTypeByGroupValuesFinder() {
+        ProtocolAttachmentTypeByGroupValuesFinder<ProtocolAttachmentProtocol> finder
+            = new ProtocolAttachmentTypeByGroupValuesFinder<ProtocolAttachmentProtocol>() {
             @Override
             KeyValuesFinder createKeyValuesFinder() {
                 return usedFinder;
@@ -84,12 +85,12 @@ public class ProtocolAttachmentTypeByGroupValuesFinderTest {
         };
         finder.setGroupCode("1");
         
-        ProtocolAttachmentBase pa = new ProtocolAttachmentProtocol();
+        ProtocolAttachmentProtocol pa = new ProtocolAttachmentProtocol();
         ProtocolAttachmentType type = new ProtocolAttachmentType();
         type.setCode("1");
         pa.setType(type);
         pa.setType(new ProtocolAttachmentType("1", "a desc"));
-        Collection<ProtocolAttachmentBase> filterTypes = Collections.singletonList(pa);
+        Collection<ProtocolAttachmentProtocol> filterTypes = Collections.singletonList(pa);
         finder.setFilterTypes(filterTypes);
         
         final List<KeyLabelPair> kv = new ArrayList<KeyLabelPair>();

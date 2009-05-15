@@ -56,7 +56,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         
         ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
         
-        ProtocolAttachmentBase attachment = new ProtocolAttachmentProtocol();
+        ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
         attachment.setType(new ProtocolAttachmentType("3", "a desc"));
         
         boolean valid = helper.validDescriptionWhenRequired(attachment);
@@ -76,7 +76,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         
         ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
         
-        ProtocolAttachmentBase attachment = new ProtocolAttachmentProtocol();
+        ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
         attachment.setType(new ProtocolAttachmentType("3", "a desc"));
         attachment.setDescription("a desc");
         
@@ -97,7 +97,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         
         ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
         
-        ProtocolAttachmentBase attachment = new ProtocolAttachmentProtocol();
+        ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
         attachment.setType(new ProtocolAttachmentType("9", "a desc"));
         
         this.context.checking(new Expectations() {{

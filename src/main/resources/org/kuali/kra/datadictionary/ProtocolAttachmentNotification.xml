@@ -1,0 +1,142 @@
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="ProtocolAttachmentNotification" parent="ProtocolAttachmentNotification-parentBean" />
+	<bean id="ProtocolAttachmentNotification-parentBean" abstract="true" parent="ProtocolAttachmentBase">
+		<property name="businessObjectClass" value="org.kuali.kra.irb.noteattachment.ProtocolAttachmentNotification" />
+		<property name="inquiryDefinition" >
+			<ref bean="ProtocolAttachmentNotification-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="ProtocolAttachmentNotification-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="id" />
+		<property name="attributes" >
+			<list>
+				<ref bean="ProtocolAttachmentNotification-id" />
+				<ref bean="ProtocolAttachmentNotification-protocolId" />
+				<ref bean="ProtocolAttachmentNotification-attachmentVersionNumber" />
+				<ref bean="ProtocolAttachmentNotification-documentId" />
+				<ref bean="ProtocolAttachmentNotification-fileId" />
+				<ref bean="ProtocolAttachmentNotification-actionDate" />
+				<ref bean="ProtocolAttachmentNotification-comments" />
+				<ref bean="ProtocolAttachmentNotification-versionNumber" />
+				<ref bean="ProtocolAttachmentNotification-updateUser" />
+				<ref bean="ProtocolAttachmentNotification-updateTimestamp" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ProtocolAttachmentNotification-id" parent="ProtocolAttachmentNotification-id-parentBean" />
+	<bean id="ProtocolAttachmentNotification-id-parentBean" abstract="true" parent="ProtocolAttachmentBase-id" />
+
+	<bean id="ProtocolAttachmentNotification-protocolId" parent="ProtocolAttachmentNotification-protocolId-parentBean" />
+	<bean id="ProtocolAttachmentNotification-protocolId-parentBean" abstract="true" parent="ProtocolAttachmentBase-protocolId"/>
+	
+	<bean id="ProtocolAttachmentNotification-attachmentVersionNumber" parent="ProtocolAttachmentNotification-attachmentVersionNumber-parentBean" />
+	<bean id="ProtocolAttachmentNotification-attachmentVersionNumber-parentBean" abstract="true" parent="ProtocolAttachmentBase-attachmentVersionNumber" />
+	
+	<bean id="ProtocolAttachmentNotification-documentId" parent="ProtocolAttachmentNotification-documentId-parentBean" />
+	<bean id="ProtocolAttachmentNotification-documentId-parentBean" abstract="true" parent="ProtocolAttachmentBase-documentId" />
+	
+	<bean id="ProtocolAttachmentNotification-fileId" parent="ProtocolAttachmentNotification-fileId-parentBean" />
+	<bean id="ProtocolAttachmentNotification-fileId-parentBean" abstract="true" parent="ProtocolAttachmentBase-fileId"/>
+	
+	<bean id="ProtocolAttachmentNotification-actionDate" parent="ProtocolAttachmentNotification-actionDate-parentBean" />
+	<bean id="ProtocolAttachmentNotification-actionDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+	  <property name="name" value="actionDate" />
+	  <property name="label" value="Action Date" />
+	  <property name="shortLabel" value="Action Date" />
+	  <property name="summary" value="Action Date" />
+	  <property name="description" value="Action Date" />
+	  <property name="required" value="false" />
+	</bean>
+	
+	<bean id="ProtocolAttachmentNotification-comments" parent="ProtocolAttachmentNotification-comments-parentBean" />
+	<bean id="ProtocolAttachmentNotification-comments-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+	  <property name="name" value="comments" />
+	  <property name="label" value="Comments" />
+	  <property name="shortLabel" value="Comments" />
+	  <property name="summary" value="Comments" />
+	  <property name="maxLength" value="300" />
+	  <property name="description" value="Comments" />
+		<property name="control" >
+			<bean parent="TextareaControlDefinition"
+	            p:rows="3"
+	            p:cols="40"/>
+        </property>
+	</bean>
+	
+	<bean id="ProtocolAttachmentNotification-versionNumber" parent="ProtocolAttachmentNotification-versionNumber-parentBean" />
+	<bean id="ProtocolAttachmentNotification-versionNumber-parentBean" abstract="true" parent="ProtocolAttachmentBase-versionNumber" />
+	
+	<bean id="ProtocolAttachmentNotification-updateUser" parent="ProtocolAttachmentNotification-updateUser-parentBean" />
+	<bean id="ProtocolAttachmentNotification-updateUser-parentBean" abstract="true" parent="ProtocolAttachmentBase-updateUser"/>
+	
+	<bean id="ProtocolAttachmentNotification-updateTimestamp" parent="ProtocolAttachmentNotification-updateTimestamp-parentBean" />
+	<bean id="ProtocolAttachmentNotification-updateTimestamp-parentBean" abstract="true" parent="ProtocolAttachmentBase-updateTimestamp"/>
+  
+	<!-- Business Object Inquiry Definition -->
+	<bean id="ProtocolAttachmentNotification-inquiryDefinition" parent="ProtocolAttachmentNotification-inquiryDefinition-parentBean" />
+	<bean id="ProtocolAttachmentNotification-inquiryDefinition-parentBean" abstract="true" parent="ProtocolAttachmentBase-inquiryDefinition">
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Id" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list merge="true">
+							<bean parent="FieldDefinition"
+								p:attributeName="actionDate" />
+							<bean parent="FieldDefinition"
+								p:attributeName="comments" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Business Object Lookup Definition -->
+	<bean id="ProtocolAttachmentNotification-lookupDefinition" parent="ProtocolAttachmentNotification-lookupDefinition-parentBean" />
+	<bean id="ProtocolAttachmentNotification-lookupDefinition-parentBean" abstract="true" parent="ProtocolAttachmentBase-lookupDefinition">
+		<property name="title" value="Protocol Attachment Lookup" />
+        <property name="lookupableID" value="ProtocolAttachmentNotificationLookupable" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="instructions" value="Look up a Protocol Attachment" />
+		<property name="lookupFields" >
+			<list merge="true">
+				<bean parent="FieldDefinition"
+					p:attributeName="actionDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="comments" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list merge="true">
+				<bean parent="FieldDefinition"
+					p:attributeName="actionDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="comments" />
+			</list>
+		</property>
+	</bean>
+</beans>
