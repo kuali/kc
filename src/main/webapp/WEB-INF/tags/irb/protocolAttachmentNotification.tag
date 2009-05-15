@@ -26,7 +26,7 @@
 	<div class="tab-container" align="center">
    		<%-- add functionality for dev only - START --%>
    		<h3>
-   			<span class="subhead-left">Add Notification Attachment - FOR DEVELOPMENT ONLY</span>
+   			<span class="subhead-left">Add Notification Attachment - <em>FOR DEVELOPMENT ONLY</em></span>
    			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.noteattachment.ProtocolAttachmentNotification" altText="help"/></span>
        </h3>
        <table cellpadding="4" cellspacing="0" summary="">
@@ -148,8 +148,9 @@
 							<%-- delete functionality for dev only - START --%>
 							<html:image property="methodToCall.deleteAttachmentNotification.line${itrStatus.index}.anchor${currentTabIndex}"
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
-								alt="Delete Notification Attachment"/>
+								alt="Delete Notification Attachment - FOR DEVELOPMENT ONLY"/>
 							<%-- delete functionality for dev only - END --%>
+							<div><em>DELETE - DEV ONLY</em></div>
 						</div>
 	         		</td>
 				</tr>
