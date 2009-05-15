@@ -80,7 +80,7 @@
 	.pageheader
 	{
 		height:70px;
-		background:url(../images/masthead1.gif);
+		background:url(../../kr/static/images/masthead1.gif);
 	}
 	.header
 	{
@@ -151,12 +151,12 @@
 		width:12px;
 		height:17px;
 		background-position:left top;
-		background:url(../images/annotate-tl1.gif);
+		background:url(../../kr/static/images/annotate-tl1.gif);
 	}
 	.controlpanel_02
 	{
 		background-position:left top;
-		background:url(../images/annotate-back.gif);
+		background:url(../../kr/static/images/annotate-back.gif);
 		color:#666666;
 		font-weight:bold;
 		text-align:left;
@@ -165,12 +165,12 @@
 	{
 		width:12px;
 		background-position:right top;
-		background:url(../images/annotate-tr1.gif);
+		background:url(../../kr/static/images/annotate-tr1.gif);
 	}
 	.controlpanel_04
 	{
 		background-position:left;
-		background:url(../images/annotate-l.gif);
+		background:url(../../kr/static/images/annotate-l.gif);
 	}
 	.controlpanel_05
 	{
@@ -180,23 +180,23 @@
 	.controlpanel_06
 	{
 		background-position:right;
-		background:url(../images/annotate-r2.gif);
+		background:url(../../kr/static/images/annotate-r2.gif);
 	}
 	.controlpanel_07
 	{
 		height:24px;
 		background-position:left bottom;
-		background:url(../images/annotate-bl1.gif);
+		background:url(../../kr/static/images/annotate-bl1.gif);
 	}
 	.controlpanel_08
 	{
 		background-position:bottom;
-		background:url(../images/annotate-back-b2.gif);
+		background:url(../../kr/static/images/annotate-back-b2.gif);
 	}
 	.controlpanel_09
 	{
 		background-position:right bottom;
-		background:url(../images/annotate-br1.gif);
+		background:url(../../kr/static/images/annotate-br1.gif);
 	}
 	
 /*PANEL*/
@@ -211,30 +211,30 @@
 		width:12px;
 		height:29px;
 		background-position:left;
-		background:url(../images/tab-topleft.gif);
+		background:url(../../kr/static/images/tab-topleft.gif);
 	}
 	.toppanelhead2
 	{
 		width:300px;
-		background:url(../images/tab-back.gif);
+		background:url(../../kr/static/images/tab-back.gif);
 		color:#666666;
 		font-weight:bold;
 	}
 	.toppanelhead3
 	{
 		width:100px;
-		background:url(../images/tab-ogee.gif);
+		background:url(../../kr/static/images/tab-ogee.gif);
 	}
 	.toppanelhead4
 	{
 		background-position:right;
-		background:url(../images/tab-shortside.gif);
+		background:url(../../kr/static/images/tab-shortside.gif);
 	}
 	.toppanelhead5
 	{
 		width:12px;
 		background-position:left;
-		background:url(../images/tab-topright.gif);
+		background:url(../../kr/static/images/tab-topright.gif);
 	}
 	/*mid panel head*/
 	.midpanelhead1
@@ -242,37 +242,37 @@
 		width:12px;
 		height:29px;
 		background-position:left;
-		background:url(../images/tab-midleft.gif);
+		background:url(../../kr/static/images/tab-midleft.gif);
 	}
 	.midpanelhead2
 	{
 		width:300px;
-		background:url(../images/tab-back.gif);
+		background:url(../../kr/static/images/tab-back.gif);
 		color:#666666;
 		font-weight:bold;
 	}
 	.midpanelhead3
 	{
 		width:100px;
-		background:url(../images/tab-midogee.gif);
+		background:url(../../kr/static/images/tab-midogee.gif);
 	}
 	.midpanelhead4
 	{
 		background-position:right;
-		background:url(../images/tab-midshortside.gif);
+		background:url(../../kr/static/images/tab-midshortside.gif);
 	}
 	.midpanelhead5
 	{
 		width:12px;
 		background-position:left;
-		background:url(../images/tab-midright.gif);
+		background:url(../../kr/static/images/tab-midright.gif);
 	}
 	/*panel content*/
 	.panelcontent1
 	{
 		width:12px;
 		background-position:left;
-		background:url(../images/panelcontent1.gif);
+		background:url(../../kr/static/images/panelcontent1.gif);
 	}
 	.panelcontent2
 	{
@@ -287,7 +287,7 @@
 	{
 		width:12px;
 		background-position:left;
-		background:url(../images/panelcontent3.gif);
+		background:url(../../kr/static/images/panelcontent3.gif);
 	}
 	/*panel foot*/
 	.panelfoot1
@@ -295,17 +295,17 @@
 		width:12px;
 		height:20px;
 		background-position:left;
-		background:url(../images/panelfoot1.gif);
+		background:url(../../kr/static/images/panelfoot1.gif);
 	}
 	.panelfoot2
 	{
-		background:url(../images/panelfoot2.gif);
+		background:url(../../kr/static/images/panelfoot2.gif);
 	}
 	.panelfoot3
 	{
 		width:12px;
 		background-position:left;
-		background:url(../images/panelfoot3.gif);
+		background:url(../../kr/static/images/panelfoot3.gif);
 	}
 
 /*ELEMENT*/
@@ -369,7 +369,7 @@
 	}
 	.elementtable th
 	{
-		background-image:url(../images/th-back.gif);
+		background-image:url(../../kr/static/images/th-back.gif);
 		font-weight:bold;
 		border-color:#999999;
     	border-style:solid;
@@ -394,7 +394,7 @@
 	}
 	.hierarchydetail
 	{
-		background-image:url("../images/th-back.gif");
+		background-image:url("../../kr/static/images/th-back.gif");
 		/*border-top: solid #939393 1px;
 		border-bottom: solid #939393 1px;
 		border-right: solid #939393 1px;
@@ -411,7 +411,7 @@
 	}
 	.infoline
 	{
-		background-image: url("../images/th-back1.gif");
+		background-image: url("../../kr/static/images/th-back1.gif");
 		background-position: bottom;
 	}
 	.justifyright
