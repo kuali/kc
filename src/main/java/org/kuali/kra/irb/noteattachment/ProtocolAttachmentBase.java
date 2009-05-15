@@ -33,18 +33,13 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
     
     private Long protocolId;
     private Protocol protocol;
-    
-    private String typeCode;
-    private ProtocolAttachmentType type;
-    
+       
     private Integer attachmentVersionNumber;
     private Integer documentId;
     
     private Long fileId;
     private ProtocolAttachmentFile file;
     private transient FormFile newFile;
-    
-    private String description;
     
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -117,22 +112,6 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
     }
     
     /**
-     * Gets the Protocol Attachment Base Type.
-     * @return the Protocol Attachment Base Type
-     */
-    public ProtocolAttachmentType getType() {
-        return this.type;
-    }
-    
-    /**
-     * Sets the Protocol Attachment Base Type.
-     * @param type the Protocol Attachment Base Type
-     */
-    public void setType(ProtocolAttachmentType type) {
-        this.type = type;
-    }
-    
-    /**
      * Gets the Protocol Attachment Base Version Number.
      * @return the Protocol Attachment Base Version Number
      */
@@ -181,22 +160,6 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
     }
     
     /**
-     * Gets the Protocol Attachment Base Description.
-     * @return the Protocol Attachment Base Description
-     */
-    public String getDescription() {
-        return this.description;
-    }
-    
-    /**
-     * Sets the Protocol Attachment Base Description.
-     * @param description the Protocol Attachment Base Description
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    
-    /**
      * Gets the Protocol Attachment Base New File.
      * @return the Protocol Attachment Base New File
      */
@@ -210,22 +173,6 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
      */
     public void setNewFile(FormFile newFile) {
         this.newFile = newFile;
-    }
-    
-    /**
-     * Gets the type Code . 
-     * @return the type Code.
-     */
-    public String getTypeCode() {
-        return this.typeCode;
-    }
-
-    /**
-     * Sets the type Code.
-     * @param typeCode the type Code.
-     */
-    public void setTypeCode(String typeCode) {
-        this.typeCode = typeCode;
     }
 
     /**
@@ -244,26 +191,16 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
         this.fileId = fileId;
     }
     
-    /**
-     * The group code that the Protocol Attachment belongs to.
-     * The group code relates to {@link ProtocolAttachmentGroup ProtocolAttachmentGroup}.
-     * 
-     * @return the group code.
-     */
-    //this would be just as good as a static method except they cannot be abstract.
-    public abstract String getGroupCode();
+
     
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = super.toStringMapper();
         hashMap.put(PropertyName.ATTACHMENT_VERSION.getPropertyName(), this.getAttachmentVersionNumber());
-        hashMap.put(PropertyName.DESCRIPTION.getPropertyName(), this.getDescription());
         hashMap.put(PropertyName.DOCUMENT_ID.getPropertyName(), this.getDocumentId());
         hashMap.put(PropertyName.FILE_ID.getPropertyName(), this.getFileId());
         hashMap.put(PropertyName.ID.getPropertyName(), this.getId());
-        hashMap.put(PropertyName.TYPE_CODE.getPropertyName(), this.getTypeCode());
-        hashMap.put(PropertyName.GROUP_CODE.getPropertyName(), this.getGroupCode());
         return hashMap;
     }
     
@@ -299,8 +236,8 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
      * Contains all the property names in this class.
      */
     public static enum PropertyName {
-        ATTACHMENT_VERSION("attachmentVersionNumber"), DESCRIPTION("description"), DOCUMENT_ID("documentId"),
-        FILE_ID("fileId"), ID("id"), PROTOCOL_ID("protocolId"), TYPE_CODE("typeCode"), GROUP_CODE("groupCode");
+        ATTACHMENT_VERSION("attachmentVersionNumber"), DOCUMENT_ID("documentId"),
+        FILE_ID("fileId"), ID("id"), PROTOCOL_ID("protocolId");
         
         private final String name;
         

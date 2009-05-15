@@ -87,18 +87,19 @@ class ProtocolAttachmentBaseRuleHelper {
     
     /**
      * Checks for a valid description when description is required. Creates a hard error.
-     * @param attachmentBase the attachment.
+     * @param <T> the attachment "type"
+     * @param attachment the attachment.
      * @return true is valid.
      */
-    boolean validDescriptionWhenRequired(final ProtocolAttachmentBase attachmentBase) {
+    <T extends ProtocolAttachmentBase & TypedAttachment> boolean validDescriptionWhenRequired(final T attachment) {
         
-        if (attachmentBase.getType() == null || attachmentBase.getType().getCode() == null) {
+        if (attachment.getType() == null || attachment.getType().getCode() == null) {
             return true;
         }
         
-        if (StringUtils.isBlank(attachmentBase.getDescription()) && OTHER_TYPE_CODE.equals(attachmentBase.getType().getCode())) {
-            final ProtocolAttachmentType type = this.attachmentService.getTypeFromCode(attachmentBase.getType().getCode());
-            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.DESCRIPTION,
+        if (StringUtils.isBlank(attachment.getDescription()) && OTHER_TYPE_CODE.equals(attachment.getType().getCode())) {
+            final ProtocolAttachmentType type = this.attachmentService.getTypeFromCode(attachment.getType().getCode());
+            this.errorReporter.reportError(this.propertyPrefix + "." + TypedAttachment.PropertyName.DESCRIPTION,
                 KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_DESC, (type != null) ? type.getDescription(): "");
             return false;
         }
@@ -114,23 +115,24 @@ class ProtocolAttachmentBaseRuleHelper {
      * If the type code is blank this method will return true.
      * </p>
      * 
-     * @param attachmentBase the attachment.
+     * @param <T> the attachment "type"
+     * @param attachment the attachment.
      * @return true is valid.
      */
-    boolean validTypeForGroup(final ProtocolAttachmentBase attachmentBase) {
+    <T extends ProtocolAttachmentBase & TypedAttachment> boolean validTypeForGroup(final T attachment) {
         
-        if (attachmentBase.getType() == null || attachmentBase.getType().getCode() == null) {
+        if (attachment.getType() == null || attachment.getType().getCode() == null) {
             return true;
         }
         
-        for (ProtocolAttachmentType type : this.attachmentService.getTypesForGroup(attachmentBase.getGroupCode())) {
-            if (type != null && attachmentBase.getType().getCode().equals(type.getCode())) {
+        for (ProtocolAttachmentType type : this.attachmentService.getTypesForGroup(attachment.getGroupCode())) {
+            if (type != null && attachment.getType().getCode().equals(type.getCode())) {
                 return true;
             }
         }
         
-        final ProtocolAttachmentType type = this.attachmentService.getTypeFromCode(attachmentBase.getType().getCode());
-        this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE_CODE,
+        final ProtocolAttachmentType type = this.attachmentService.getTypeFromCode(attachment.getType().getCode());
+        this.errorReporter.reportError(this.propertyPrefix + "." + TypedAttachment.PropertyName.TYPE_CODE,
             KeyConstants.ERROR_PROTOCOL_ATTACHMENT_INVALID_TYPE, (type != null) ? type.getDescription(): "");
         
         return false;
@@ -139,17 +141,18 @@ class ProtocolAttachmentBaseRuleHelper {
     /**
      * Validates that the selected type exists in the system (is valid). Creates a hard error.
      * 
-     * @param attachmentBase the attachment.
+     * @param <T> the attachment "type"
+     * @param attachment the attachment.
      * @return true if valid.
      */
-    boolean validType(final ProtocolAttachmentBase attachmentBase) {
+    <T extends ProtocolAttachmentBase & TypedAttachment> boolean validType(final T attachment) {
         //This assumes that the status object has been refreshed from the DB
         //and if not found the refresh action set the person to null.
         //This is an artifact of using anon keys
 
-        if (attachmentBase.getType() == null
-            || StringUtils.isBlank(attachmentBase.getType().getCode())) {
-            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE_CODE,
+        if (attachment.getType() == null
+            || StringUtils.isBlank(attachment.getType().getCode())) {
+            this.errorReporter.reportError(this.propertyPrefix + "." + TypedAttachment.PropertyName.TYPE_CODE,
                 KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_TYPE);
             return false;
         }

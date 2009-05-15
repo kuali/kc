@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.noteattachment;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -41,6 +42,8 @@ public class ProtocolAttachmentHelper implements Serializable {
     
     private ProtocolAttachmentProtocol newAttachmentProtocol;
     private ProtocolAttachmentPersonnel newAttachmentPersonnel;
+    private ProtocolAttachmentNotification newAttachmentNotification;
+    
     private boolean modifyProtocol;
 
     /**
@@ -134,6 +137,27 @@ public class ProtocolAttachmentHelper implements Serializable {
     }
     
     /**
+     * Gets the new attachment notification. This method will not return null.
+     * Also, The ProtocolAttachmentNotification should have a valid protocol Id at this point.
+     * @return the new attachment notification
+     */
+    public ProtocolAttachmentNotification getNewAttachmentNotification() {
+        if (this.newAttachmentNotification == null) {
+            this.initAttachmentNotification();
+        }
+        
+        return this.newAttachmentNotification;
+    }
+
+    /**
+     * Sets the new attachment notification.
+     * @param newAttachmentNotification the new attachment notification
+     */
+    public void setNewAttachmentNotification(ProtocolAttachmentNotification newAttachmentNotification) {
+        this.newAttachmentNotification = newAttachmentNotification;
+    }
+    
+    /**
      * returns whether a protocol can be modified.
      * @return true if modification is allowed false if not.
      */
@@ -195,6 +219,28 @@ public class ProtocolAttachmentHelper implements Serializable {
     }
     
     /**
+     * Adds the "new" ProtocolAttachmentNotification to the Protocol Document.  Before
+     * adding this method executes validation.  If the validation fails the attachment is not added.
+     */
+    void addNewProtocolAttachmentNotification() {      
+        /*
+         * Since this event isn't created by the framework and this rule isn't executed by the framework,
+         * is it necessary to even create a event?  Does the rule have to implement BusinessRule?  There
+         * doesn't seem to be many advantages to doing these things...
+         */
+//        final AddProtocolAttachmentNotificationRule rule = new AddProtocolAttachmentNotificationRuleImpl();
+//        final AddProtocolAttachmentNotificationEvent event = new AddProtocolAttachmentNotificationEvent(this.form.getDocument(), this.newAttachmentNotification);
+//        
+//        if (!rule.processAddProtocolAttachmentNotificationRules(event)) {
+//            return;
+//        }
+        
+        this.getProtocol().addAttachmentNotification(this.newAttachmentNotification);
+        this.notesService.saveAttatchment(this.newAttachmentNotification);
+        this.initAttachmentNotification();
+    }
+    
+    /**
      * Deletes the "existing" ProtocolAttachmentProtocol from the Protocol Document.
      * If attachmentNumber is not valid then this method does returns false.  This is because
      * the item to delete comes from the client and may not be a valid item.
@@ -203,12 +249,47 @@ public class ProtocolAttachmentHelper implements Serializable {
      * @return whether a delete successfully executed.
      */
     boolean deleteExistingAttachmentProtocol(final int attachmentNumber) {
-
-        if (!this.validIndexForList(attachmentNumber, this.getProtocol().getAttachmentProtocols())) {
+        return deleteExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentProtocols());
+    }
+    
+    /**
+     * Deletes the "existing" ProtocolAttachmentPersonnel from the Protocol Document.
+     * If attachmentNumber is not valid then this method does returns false.  This is because
+     * the item to delete comes from the client and may not be a valid item.
+     * 
+     * @param attachmentNumber the item to delete.
+     * @return whether a delete successfully executed.
+     */
+    boolean deleteExistingAttachmentPersonnel(final int attachmentNumber) {
+        return deleteExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentPersonnels());
+    }
+    
+    /**
+     * Deletes the "existing" ProtocolAttachmentNotification from the Protocol Document.
+     * If attachmentNumber is not valid then this method does returns false.  This is because
+     * the item to delete comes from the client and may not be a valid item.
+     * 
+     * @param attachmentNumber the item to delete.
+     * @return whether a delete successfully executed.
+     */
+    boolean deleteExistingAttachmentNotification(final int attachmentNumber) {
+        return deleteExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentNotifications());
+    }
+    
+    /** 
+     * Removes an attachment from the passed in List if a valid index.
+     * @param <T> the attachment type
+     * @param index the index
+     * @param attachments the attachment list
+     * @return true deleted false if not a valid index
+     */
+    private static <T extends ProtocolAttachmentBase> boolean deleteExistingAttachment(final int index, final List<T> attachments) {
+        
+        if (!validIndexForList(index, attachments)) {
             return false;
         }
         
-        this.getProtocol().getAttachmentProtocols().remove(attachmentNumber);
+        attachments.remove(index);
         return true;
     }
     
@@ -221,30 +302,7 @@ public class ProtocolAttachmentHelper implements Serializable {
      * @return the ProtocolAttachmentProtocol
      */
     ProtocolAttachmentProtocol retrieveExistingAttachmentProtocol(final int attachmentNumber) {
-        
-        if (!this.validIndexForList(attachmentNumber, this.getProtocol().getAttachmentProtocols())) {
-            return null;
-        }
-        
-        return this.getProtocol().getAttachmentProtocols().get(attachmentNumber);
-    }
-    
-    /**
-     * Deletes the "existing" ProtocolAttachmentPersonnel from the Protocol Document.
-     * If attachmentNumber is not valid then this method does returns false.  This is because
-     * the item to delete comes from the client and may not be a valid item.
-     * 
-     * @param attachmentNumber the item to delete.
-     * @return whether a delete successfully executed.
-     */
-    boolean deleteExistingAttachmentPersonnel(final int attachmentNumber) {
-
-        if (!this.validIndexForList(attachmentNumber, this.getProtocol().getAttachmentPersonnels())) {
-            return false;
-        }
-        
-        this.getProtocol().getAttachmentPersonnels().remove(attachmentNumber);
-        return true;
+        return retrieveExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentProtocols());
     }
     
     /**
@@ -256,12 +314,34 @@ public class ProtocolAttachmentHelper implements Serializable {
      * @return the ProtocolAttachmentPersonnel
      */
     ProtocolAttachmentPersonnel retrieveExistingAttachmentPersonnel(final int attachmentNumber) {
-        
-        if (!this.validIndexForList(attachmentNumber, this.getProtocol().getAttachmentPersonnels())) {
+        return retrieveExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentPersonnels());
+    }
+    
+    /**
+     * Retrieves the "existing" ProtocolAttachmentNotification from the Protocol Document.
+     * If attachmentNumber is not valid then this method returns {@code null}.  This is because
+     * the item to retrieve comes from the client and may not be a valid item.
+     * 
+     * @param attachmentNumber the item to delete.
+     * @return the ProtocolAttachmentNotification
+     */
+    ProtocolAttachmentNotification retrieveExistingAttachmentNotification(final int attachmentNumber) {
+        return retrieveExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentNotifications());
+    }
+    
+    /** 
+     * Retrieves an attachment from the passed in List if a valid index.
+     * @param <T> the attachment type
+     * @param index the index
+     * @param attachments the attachment list
+     * @return the attachment or null if not a valid index or if the reference at the index is null
+     */
+    private static <T extends ProtocolAttachmentBase> T retrieveExistingAttachment(final int index, final List<T> attachments) {
+        if (!validIndexForList(index, attachments)) {
             return null;
         }
         
-        return this.getProtocol().getAttachmentPersonnels().get(attachmentNumber);
+        return attachments.get(index);
     }
     
     /**
@@ -271,7 +351,7 @@ public class ProtocolAttachmentHelper implements Serializable {
      * @param forList the list
      * @return true if a valid index
      */
-    private boolean validIndexForList(final int index, final List<?> forList) {      
+    private static boolean validIndexForList(final int index, final List<?> forList) {      
         return forList != null && index >= 0 && index <= forList.size() - 1;
     }
     
@@ -287,6 +367,13 @@ public class ProtocolAttachmentHelper implements Serializable {
      */
     private void initAttachmentPersonnel() {
         this.setNewAttachmentPersonnel(new ProtocolAttachmentPersonnel(this.getProtocol()));
+    }
+    
+    /**
+     * initializes a new attachment notification setting the protocol id.
+     */
+    private void initAttachmentNotification() {
+        this.setNewAttachmentNotification(new ProtocolAttachmentNotification(this.getProtocol()));
     }
     
     /** refreshes all attachment's references that can change on the protocol. */
@@ -313,17 +400,21 @@ public class ProtocolAttachmentHelper implements Serializable {
                 attachment.refreshReferenceObject("person");
             }
 
-            attachment.refreshReferenceObject("type");
+            if (attachment instanceof TypedAttachment) {
+                attachment.refreshReferenceObject("type");
+            }
         }
     }
     
     
-    /** Syncs all new files for attachments on the protocol. */
+    /** Syncs all "new" files for attachments on the protocol. If a new file does not exist then this method does nothing. */
     void syncNewFiles() {
         this.syncNewFiles(this.getProtocol().getAttachmentPersonnels());
         this.syncNewFiles(this.getProtocol().getAttachmentProtocols());
+        this.syncNewFiles(this.getProtocol().getAttachmentNotifications());
         this.syncNewFiles(Collections.singletonList(this.newAttachmentPersonnel));
         this.syncNewFiles(Collections.singletonList(this.newAttachmentProtocol));
+        this.syncNewFiles(Collections.singletonList(this.newAttachmentNotification));
     }
     
     /** 

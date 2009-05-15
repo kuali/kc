@@ -337,7 +337,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         boolean valid = true;
         valid &= new SaveProtocolAttachmentPersonnelRuleImpl().processSaveProtocolAttachmentPersonnelRules(document);
         valid &= new SaveProtocolAttachmentProtocolRuleImpl().processSaveProtocolAttachmentProtocolRules(document);
-     
+        //valid &= new SaveProtocolAttachmentNotificationRuleImpl().processSaveProtocolAttachmentNotificationRules(document);
         return valid;
     }
 
