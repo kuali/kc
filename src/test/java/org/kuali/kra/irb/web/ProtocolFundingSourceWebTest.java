@@ -17,9 +17,17 @@ package org.kuali.kra.irb.web;
 
 import org.junit.Test;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.rice.test.data.PerSuiteUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+/**
+ * Abstract Protocol Web Test base class provides common functionalities required by extended class.
+ */
+@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
+        @UnitTestFile(filename = "classpath:sql/dml/load_FUNDING_SOURCE_TYPE.sql", delimiter = ";"),}))
 public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
     
     private static final String PROTOCOL_FUNDINGSOURCE_TYPE_FIELD = "protocolHelper.newFundingSource.fundingSourceTypeCode";
@@ -28,12 +36,15 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
     
 
     private static final String ADD_LOCATION = "methodToCall.addProtocolFundingSource.anchorFundingSources";
-    private static final String DELETELINE0_LOCATION = "methodToCall.deleteProtocolFundingSource.line0.anchor5";
-    private static final String VIEWLINE0_LOCATION = "methodToCall.viewProtocolFundingSource.line0.anchor5";
+    private static final String DELETELINE_1_LOCATION = "methodToCall.deleteProtocolFundingSource.line1.anchor5";
+    
+    private static final String VIEWLINE_0_LOCATION = "methodToCall.viewProtocolFundingSource.line0.anchor5";
 
     
-    private static final String USAF_FUNDINGSOURCE_NAME = "Air Force";
-    private static final String USAF_FUNDINGSOURCE_ID = "000100";
+    private static final String FUNDINGSOURCE_NAME_1 = "Arkansas Enterprises for the Blind";
+    private static final String FUNDINGSOURCE_ID_1 = "005174";
+    private static final String FUNDINGSOURCE_NAME_2 = "Department of Homeland Security";
+    private static final String FUNDINGSOURCE_ID_2 = "000162";
     private static final String SPONSOR_FUNDINGSOURCE_VAL = "1";
 
     @Test
@@ -41,21 +52,38 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
         HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
         String documentNumber = getDocNbr(protocolPage);
   
-        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, USAF_FUNDINGSOURCE_ID);
-        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, USAF_FUNDINGSOURCE_NAME);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, FUNDINGSOURCE_ID_1);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, FUNDINGSOURCE_NAME_1);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, SPONSOR_FUNDINGSOURCE_VAL);
+        protocolPage = clickOn(protocolPage, ADD_LOCATION);
+        
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, FUNDINGSOURCE_ID_2);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, FUNDINGSOURCE_NAME_2);
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, SPONSOR_FUNDINGSOURCE_VAL);
         protocolPage = clickOn(protocolPage, ADD_LOCATION);
 
         protocolPage = saveDoc(protocolPage);
         
         assertContains(protocolPage, "Document was successfully saved.");
-        assertContains(protocolPage, USAF_FUNDINGSOURCE_ID);
-        assertContains(protocolPage, USAF_FUNDINGSOURCE_NAME);
+        assertContains(protocolPage, FUNDINGSOURCE_ID_1);
+        assertContains(protocolPage, FUNDINGSOURCE_NAME_1);
+        assertContains(protocolPage, FUNDINGSOURCE_ID_2);
+        assertContains(protocolPage, FUNDINGSOURCE_NAME_2);
        
-        // Verify that the values are stored in the database
+        
+        protocolPage = clickOn(protocolPage, DELETELINE_1_LOCATION);
+
+        protocolPage = saveDoc(protocolPage);
+
+        assertContains(protocolPage, "Document was successfully saved.");
+        assertContains(protocolPage, FUNDINGSOURCE_ID_1);
+        assertContains(protocolPage, FUNDINGSOURCE_NAME_1);
+        assertDoesNotContain(protocolPage, FUNDINGSOURCE_ID_2);
+        assertDoesNotContain(protocolPage, FUNDINGSOURCE_NAME_2);
+       
         ProtocolDocument doc = (ProtocolDocument) getDocument(documentNumber);
         assertNotNull(doc);
-        assertEquals(USAF_FUNDINGSOURCE_NAME, doc.getProtocol().getProtocolFundingSources().get(0).getFundingSourceName() );
+        assertEquals(FUNDINGSOURCE_NAME_1, doc.getProtocol().getProtocolFundingSources().get(0).getFundingSourceName() );
      }
 
 }
