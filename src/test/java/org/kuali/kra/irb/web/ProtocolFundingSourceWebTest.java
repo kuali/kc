@@ -37,7 +37,7 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
     private static final String SPONSOR_FUNDINGSOURCE_VAL = "1";
 
     @Test
-    public void testCustomDataPage() throws Exception {
+    public void testFundingSourcePage() throws Exception {
         HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
         String documentNumber = getDocNbr(protocolPage);
   
