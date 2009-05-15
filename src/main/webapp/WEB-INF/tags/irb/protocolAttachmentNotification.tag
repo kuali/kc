@@ -20,6 +20,7 @@
 <c:set var="readOnly" value="${!KualiForm.notesAndAttachmentsHelper.modifyProtocol}" />
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentNotifications" value="${KualiForm.document.protocolList[0].attachmentNotifications}"/>
+<c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.PROTOCOL_ATTACHMENT_NOTIFICATION_COMMENTS%>" />
 
 <kul:tab tabTitle="Notifications From Attachments(${fn:length(attachmentNotifications)})" defaultOpen="false" tabErrorKey="notesAndAttachmentsHelper.newAttachmentNotification.*,document.protocol.attachmentNotifications*" transparentBackground="false">
 	<div class="tab-container" align="center">
@@ -112,7 +113,7 @@
        <table cellpadding="4" cellspacing="0" summary="">
         	<c:forEach var="attachmentNotification" items="${attachmentNotifications}" varStatus="itrStatus">
 				<tr>
-					<td rowspan="3">
+					<td rowspan="2">
 	         			<div align="center">
 	                		${itrStatus.index + 1}
 		            	</div>
@@ -138,7 +139,7 @@
 	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentNotifications[${itrStatus.index}].actionDate" attributeEntry="${protocolAttachmentNotificationAttributes.actionDate}" datePicker="true" readOnly="true"/>
 		            	</div>
 					</td>
-					<td rowspan="3">
+					<td rowspan="2">
 						<div align="center">
 							<html:image property="methodToCall.viewAttachmentNotification.line${itrStatus.index}.anchor${currentTabIndex}"
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
@@ -159,22 +160,8 @@
 	         			</div>
 	         		</th>
 	         		<td colspan="3" align="left" valign="middle">
-	         			<%-- using table for positioning - this should be done w/ div and or span...if I get get the css correct--%>
-	                	<table cellpadding="0" cellspacing="0" summary="" style="border-style: none;"> 
-	                		<tr>
-                                 <td style="border-style: none;" align="left" valign="middle">
-                                  	<kul:htmlControlAttribute property="document.protocolList[0].attachmentNotifications[${itrStatus.index}].comments" attributeEntry="${protocolAttachmentNotificationAttributes.comments}" readOnly="true"/>
-                                 </td>
-                                 <td style="border-style: none;" align="left" valign="middle">
-                                 	<div align="right">
-		               					<input class="tinybutton" type="image"
-										src='${ConfigProperties.kra.externalizable.images.url}openreadonly_greenarrow01.png'
-										alt="View Expanded Description"
-										onclick="return false;"/>
-									</div>
-                                 </td>
-                             </tr>
-						</table>
+	         			<kra:truncateComment textAreaFieldName="document.protocolList[0].attachmentNotifications[${itrStatus.index}].comments" action="${action}" textAreaLabel="${protocolAttachmentNotificationAttributes.comments.label}"
+    	                	textValue="${attachmentNotification.comments}" displaySize="${commentDisplayLength}"/>
 					</td>
 	         	</tr>
          	</c:forEach>
