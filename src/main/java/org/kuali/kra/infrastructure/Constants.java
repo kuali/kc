@@ -385,6 +385,9 @@ public interface Constants {
     //Protocol Summary Print View
     public static final Integer PROTOCOL_SUMMARY_VOTINGCOMMENTS = 250;
     
+    //Protocol Attachment Notification
+    public static final Integer PROTOCOL_ATTACHMENT_NOTIFICATION_COMMENTS = 250;
+    
     // Committee
     public static final String COMMITTEE_PROPERTY_KEY = "committee";
     
