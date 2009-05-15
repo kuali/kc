@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.protocol;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
@@ -47,14 +48,6 @@ import org.kuali.rice.kns.util.KNSConstants;
  */
 public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceService {
 
-    private UnitService unitService;
-    private SponsorService sponsorService;
-    private AwardService awardService;
-    private FundingSourceTypeService fundingSourceTypeService;
-    private LookupableDevelopmentProposalService lookupableDevelopmentProposalService;
-    private LookupableHelperService protocolLookupableHelperService;
-    private DocumentService documentService;
-    
     private static final String BO_SPONSOR_NAME = "sponsor.sponsorName";
     private static final String TITLE = "title";
     
@@ -64,6 +57,17 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     private static final String UNIT_NAME = "unitName";
     private static final String PROP_ID = "proposalNumber";
     private static final String AWARD_ID = "awardId";
+    
+    private UnitService unitService;
+    private SponsorService sponsorService;
+    private AwardService awardService;
+    private FundingSourceTypeService fundingSourceTypeService;
+    private LookupableDevelopmentProposalService lookupableDevelopmentProposalService;
+    private LookupableHelperService protocolLookupableHelperService;
+    private DocumentService documentService;
+    
+    
+    private Map<Integer , FundingSourceLookup> fundingEnumMap;
     
     /**
      * This enum captures the elements for fundingSource for managing the multi type lookup,
@@ -140,6 +144,21 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
             return fundingTypeCode;
         }   
     }
+    
+    public ProtocolFundingSourceServiceImpl() {
+        initFundingTypeMap();
+        
+    }
+    
+    private void initFundingTypeMap() {
+        fundingEnumMap = new HashMap<Integer, FundingSourceLookup>();
+        fundingEnumMap.put(FundingSourceLookup.AWARD.getFundingTypeCode(), FundingSourceLookup.AWARD);
+        fundingEnumMap.put(FundingSourceLookup.INSTITUTE_PROPOSAL.getFundingTypeCode(), FundingSourceLookup.INSTITUTE_PROPOSAL);
+        fundingEnumMap.put(FundingSourceLookup.OTHER.getFundingTypeCode(), FundingSourceLookup.OTHER);
+        fundingEnumMap.put(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode(), FundingSourceLookup.PROPOSAL_DEVELOPMENT);
+        fundingEnumMap.put(FundingSourceLookup.SPONSOR.getFundingTypeCode(), FundingSourceLookup.SPONSOR);
+        fundingEnumMap.put(FundingSourceLookup.UNIT.getFundingTypeCode(), FundingSourceLookup.UNIT);
+    }
 
     private LookupableDevelopmentProposalService getLookupableDevelopmentProposalService() {
         return lookupableDevelopmentProposalService;
@@ -200,42 +219,48 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         
         if (StringUtils.isNotBlank(sourceType) && StringUtils.isNotBlank(sourceId)) {   
             source = new ProtocolFundingSource(sourceId, getFundingSourceTypeService().getFundingSourceType(sourceType),null,Constants.EMPTY_STRING); 
-            if ( FundingSourceLookup.OTHER.getFundingTypeCode()==(Integer.valueOf(sourceType))) {
-                source.setFundingSourceName(sourceName);
-            } else if (FundingSourceLookup.SPONSOR.getFundingTypeCode()==(Integer.valueOf(sourceType))) {
-                source.setFundingSourceName(getSponsorService().getSponsorName(sourceId));
-            } else if (FundingSourceLookup.UNIT.getFundingTypeCode()==(Integer.valueOf(sourceType))) {
-                source.setFundingSourceName(getUnitService().getUnitName(sourceId));
-            } else if (FundingSourceLookup.AWARD.getFundingTypeCode()==(Integer.valueOf(sourceType))) {
-                if (isLinkedWithAward()) {
-                    Award award  = getAwardService().getAward(sourceId);
-                    if (award != null) {
-                        source.setFundingSourceName(award.getSponsorName()!=null?award.getSponsorName():Constants.EMPTY_STRING);
-                        source.setFundingSourceTitle(award.getTitle()!=null?award.getTitle():Constants.EMPTY_STRING);
+            
+            switch (fundingEnumMap.get(Integer.valueOf(sourceType))) {
+                case OTHER:
+                    source.setFundingSourceName(sourceName);
+                    break;
+                case SPONSOR:
+                    source.setFundingSourceName(getSponsorService().getSponsorName(sourceId));
+                    break;
+                case UNIT:
+                    source.setFundingSourceName(getUnitService().getUnitName(sourceId));
+                    break;
+                case AWARD:
+                    if (isLinkedWithAward()) {
+                        Award award  = getAwardService().getAward(sourceId);
+                        if (award != null) {
+                            source.setFundingSourceName(award.getSponsorName()!=null?award.getSponsorName():Constants.EMPTY_STRING);
+                            source.setFundingSourceTitle(award.getTitle()!=null?award.getTitle():Constants.EMPTY_STRING);
+                        }
+                    } else {
+                        source.setFundingSourceName(sourceName);
                     }
-                } else {
-                    source.setFundingSourceName(sourceName);
-                }
-            }
-            else if (FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode()==(Integer.valueOf(sourceType))) {
-                if (isLinkedWithDevProposal()) {
-                    LookupableDevelopmentProposal devProposal = getLookupableDevelopmentProposalService().getLookupableDevelopmentProposal(sourceId);
-                    if (devProposal != null) {
-                        source.setFundingSourceName(devProposal.getSponsorName()!=null?devProposal.getSponsorName():Constants.EMPTY_STRING);
-                        source.setFundingSourceTitle(devProposal.getTitle()!=null?devProposal.getTitle():Constants.EMPTY_STRING);
+                    break;
+                 case PROPOSAL_DEVELOPMENT:
+                    if (isLinkedWithDevProposal()) {
+                        LookupableDevelopmentProposal devProposal = getLookupableDevelopmentProposalService().getLookupableDevelopmentProposal(sourceId);
+                        if (devProposal != null) {
+                            source.setFundingSourceName(devProposal.getSponsorName()!=null?devProposal.getSponsorName():Constants.EMPTY_STRING);
+                            source.setFundingSourceTitle(devProposal.getTitle()!=null?devProposal.getTitle():Constants.EMPTY_STRING);
+                        }
+                    } else {
+                        source.setFundingSourceName(sourceName);
                     }
-                } else {
-                    source.setFundingSourceName(sourceName);
+                    break;
+                 case INSTITUTE_PROPOSAL:
+                    if (isLinkedWithProposal()) {
+                        //TODO Add guts here when InstituteProposal is built...
+                    } else {
+                        source.setFundingSourceName(sourceName);
+                    }
+                    break;
                 }
             }
-            else if (FundingSourceLookup.INSTITUTE_PROPOSAL.getFundingTypeCode()==(Integer.valueOf(sourceType))) {
-                if (isLinkedWithProposal()) {
-                    //TODO Add guts here when InstituteProposal is built...
-                } else {
-                    source.setFundingSourceName(sourceName);
-                }
-            }
-        } 
         return source;
     }
 
