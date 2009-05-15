@@ -38,9 +38,6 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
     private static final String ADD_LOCATION = "methodToCall.addProtocolFundingSource.anchorFundingSources";
     private static final String DELETELINE_1_LOCATION = "methodToCall.deleteProtocolFundingSource.line1.anchor5";
     
-    private static final String VIEWLINE_0_LOCATION = "methodToCall.viewProtocolFundingSource.line0.anchor5";
-
-    
     private static final String FUNDINGSOURCE_NAME_1 = "Arkansas Enterprises for the Blind";
     private static final String FUNDINGSOURCE_ID_1 = "005174";
     private static final String FUNDINGSOURCE_NAME_2 = "Department of Homeland Security";
