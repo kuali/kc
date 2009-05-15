@@ -17,8 +17,10 @@ package org.kuali.kra.award.web.struts.action;
 
 import java.io.Serializable;
 
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
 import org.kuali.kra.award.rules.AwardApprovedSubawardRuleImpl;
+import org.kuali.kra.award.rules.AwardDocumentRule;
 import org.kuali.kra.award.web.struts.form.ApprovedSubawardFormHelper;
 
 /**
@@ -46,5 +48,19 @@ public class ApprovedSubawardActionHelper implements Serializable {
                 formHelper.init();
             }
             return success;
+    }
+
+    /**
+    /**
+     * This method is called when recalculating the total subawards amount
+     * @param formHelper
+     * @return
+     * @throws Exception
+     */
+    public boolean recalculateSubawardTotal(ApprovedSubawardFormHelper formHelper) throws Exception {
+        AwardDocumentRule rule = new AwardDocumentRule();
+        AwardDocument document = formHelper.getAwardDocument();
+        boolean success = rule.processApprovedSubawardBusinessRules(document);
+        return success;
     }
 }
