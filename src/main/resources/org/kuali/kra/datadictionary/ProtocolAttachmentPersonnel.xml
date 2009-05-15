@@ -53,7 +53,26 @@
 	<bean id="ProtocolAttachmentPersonnel-protocolId-parentBean" abstract="true" parent="ProtocolAttachmentBase-protocolId"/>
 
 	<bean id="ProtocolAttachmentPersonnel-typeCode" parent="ProtocolAttachmentPersonnel-typeCode-parentBean" />
-	<bean id="ProtocolAttachmentPersonnel-typeCode-parentBean" abstract="true" parent="ProtocolAttachmentBase-typeCode"/>
+	<bean id="ProtocolAttachmentPersonnel-typeCode-parentBean" abstract="true" parent="ProtocolAttachmentType-code">
+		<property name="name" value="typeCode" />
+		<property name="label" value="Attachment Type" />
+        <property name="shortLabel" value="Attachment Type" />
+        <property name="summary" value="Attachment Type" />
+        <property name="description" value="Attachment Type" />
+        <property name="maxLength" value="3" />
+        <property name="required" value="true" />
+	    <property name="control" >
+	      <bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType"
+	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+	            p:keyAttribute="code"
+	            p:labelAttribute="description" />
+	      <!--<bean parent="SelectControlDefinition"
+	            p:valuesFinderClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder" />-->
+	    </property>
+	</bean>
 	
 	<bean id="ProtocolAttachmentPersonnel-attachmentVersionNumber" parent="ProtocolAttachmentPersonnel-attachmentVersionNumber-parentBean" />
 	<bean id="ProtocolAttachmentPersonnel-attachmentVersionNumber-parentBean" abstract="true" parent="ProtocolAttachmentBase-attachmentVersionNumber" />
@@ -65,7 +84,13 @@
 	<bean id="ProtocolAttachmentPersonnel-fileId-parentBean" abstract="true" parent="ProtocolAttachmentBase-fileId"/>
 
 	<bean id="ProtocolAttachmentPersonnel-description" parent="ProtocolAttachmentPersonnel-description-parentBean" />
-	<bean id="ProtocolAttachmentPersonnel-description-parentBean" abstract="true" parent="ProtocolAttachmentBase-description"/>
+	<bean id="ProtocolAttachmentPersonnel-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+		<property name="control" >
+			<bean parent="TextareaControlDefinition"
+	            p:rows="3"
+	            p:cols="40"/> 
+        </property>
+	</bean>
 	
 	<bean id="ProtocolAttachmentPersonnel-personId" parent="ProtocolAttachmentPersonnel-personId-parentBean" />
 	<bean id="ProtocolAttachmentPersonnel-personId-parentBean" abstract="true" parent="ProtocolPerson-protocolPersonId" >
@@ -106,6 +131,10 @@
 					<property name="inquiryFields" >
 						<list merge="true">
 							<bean parent="FieldDefinition"
+								p:attributeName="typeCode" />
+							<bean parent="FieldDefinition"
+								p:attributeName="description" />
+							<bean parent="FieldDefinition"
 								p:attributeName="personId" />
 						</list>
 					</property>
@@ -124,11 +153,19 @@
 		<property name="lookupFields" >
 			<list merge="true">
 				<bean parent="FieldDefinition"
+					p:attributeName="typeCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="description" />
+				<bean parent="FieldDefinition"
 					p:attributeName="personId" />
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list merge="true">
+				<bean parent="FieldDefinition"
+					p:attributeName="typeCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="description" />
 				<bean parent="FieldDefinition"
 					p:attributeName="personId" />
 			</list>

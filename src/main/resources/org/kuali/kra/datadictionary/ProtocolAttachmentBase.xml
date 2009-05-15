@@ -35,11 +35,9 @@
 				<ref bean="ProtocolAttachmentBase-protocolId" />
 				<ref bean="ProtocolAttachmentBase-protocolNumber" />
 				<ref bean="ProtocolAttachmentBase-sequenceNumber" />
-				<ref bean="ProtocolAttachmentBase-typeCode" />
 				<ref bean="ProtocolAttachmentBase-attachmentVersionNumber" />
 				<ref bean="ProtocolAttachmentBase-documentId" />
 				<ref bean="ProtocolAttachmentBase-fileId" />
-				<ref bean="ProtocolAttachmentBase-description" />
 				<ref bean="ProtocolAttachmentBase-versionNumber" />
 				<ref bean="ProtocolAttachmentBase-updateUser" />
 				<ref bean="ProtocolAttachmentBase-updateTimestamp" />
@@ -76,28 +74,6 @@
 	
 	<bean id="ProtocolAttachmentBase-sequenceNumber" parent="ProtocolAttachmentBase-sequenceNumber-parentBean" />
 	<bean id="ProtocolAttachmentBase-sequenceNumber-parentBean" abstract="true" parent="ProtocolAssociate-sequenceNumber"/>
-
-	<bean id="ProtocolAttachmentBase-typeCode" parent="ProtocolAttachmentBase-typeCode-parentBean" />
-	<bean id="ProtocolAttachmentBase-typeCode-parentBean" abstract="true" parent="ProtocolAttachmentType-code">
-		<property name="name" value="typeCode" />
-		<property name="label" value="Attachment Type" />
-        <property name="shortLabel" value="Attachment Type" />
-        <property name="summary" value="Attachment Type" />
-        <property name="description" value="Attachment Type" />
-        <property name="maxLength" value="3" />
-        <property name="required" value="true" />
-	    <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType"
-	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-            	p:includeBlankRow="false"
-	            p:keyAttribute="code"
-	            p:labelAttribute="description" />
-	      <!--<bean parent="SelectControlDefinition"
-	            p:valuesFinderClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder" />-->
-	    </property>
-	</bean>
 	
 	<bean id="ProtocolAttachmentBase-attachmentVersionNumber" parent="ProtocolAttachmentBase-attachmentVersionNumber-parentBean" />
 	<bean id="ProtocolAttachmentBase-attachmentVersionNumber-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -145,14 +121,7 @@
 		<property name="required" value="true" />
 	</bean>
 	
-	<bean id="ProtocolAttachmentBase-description" parent="ProtocolAttachmentBase-description-parentBean" />
-	<bean id="ProtocolAttachmentBase-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
-		<property name="control" >
-			<bean parent="TextareaControlDefinition"
-	            p:rows="3"
-	            p:cols="40"/> 
-        </property>
-	</bean>
+
 	
 	<bean id="ProtocolAttachmentBase-versionNumber" parent="ProtocolAttachmentBase-versionNumber-parentBean" />
 	<bean id="ProtocolAttachmentBase-versionNumber-parentBean" abstract="true" parent="ProtocolAssociate-versionNumber" />
@@ -190,15 +159,11 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="protocolId" />
 							<bean parent="FieldDefinition"
-								p:attributeName="typeCode" />
-							<bean parent="FieldDefinition"
 								p:attributeName="attachmentVersionNumber" />
 							<bean parent="FieldDefinition"
 								p:attributeName="documentId" />
 							<bean parent="FieldDefinition"
 								p:attributeName="fileId" />
-							<bean parent="FieldDefinition"
-								p:attributeName="description" />
 						</list>
 					</property>
 				</bean>
@@ -225,15 +190,11 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="typeCode" />
-				<bean parent="FieldDefinition"
 					p:attributeName="attachmentVersionNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="documentId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="fileId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -244,15 +205,11 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="typeCode" />
-				<bean parent="FieldDefinition"
 					p:attributeName="attachmentVersionNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="documentId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="fileId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="description" />
 			</list>
 		</property>
 	</bean>

@@ -19,13 +19,13 @@
 <c:set var="notesAndAttachmentsHelper" value="${KualiForm.notesAndAttachmentsHelper}" />
 <c:set var="readOnly" value="${!KualiForm.notesAndAttachmentsHelper.modifyProtocol}" />
 <c:set var="action" value="protocolNoteAndAttachment" />
-<c:set var="attachmentPersonnels" value="${KualiForm.document.protocol.attachmentPersonnels}"/>
+<c:set var="attachmentPersonnels" value="${KualiForm.document.protocolList[0].attachmentPersonnels}"/>
 
-<kul:tab tabTitle="Personnel Attachments(${fn:length(KualiForm.document.protocol.attachmentPersonnels)})" defaultOpen="false" tabErrorKey="notesAndAttachmentsHelper.newAttachmentPersonnel.*,document.protocol.attachmentPersonnels*" transparentBackground="false">
+<kul:tab tabTitle="Personnel Attachments(${fn:length(attachmentPersonnels)})" defaultOpen="false" tabErrorKey="notesAndAttachmentsHelper.newAttachmentPersonnel.*,document.protocol.attachmentPersonnels*" transparentBackground="false">
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left">Add Personnel Attachment</span>
-   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.ProtocolAttachmentPersonnel" altText="help"/></span>
+   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" altText="help"/></span>
        </h3>
        <table cellpadding="4" cellspacing="0" summary="">
          	<tr>
@@ -151,44 +151,44 @@
 				</td>
 			</tr>
 			
-			<c:forEach var="attachmentPersonnel" items="${KualiForm.document.protocol.attachmentPersonnels}" varStatus="itrStatus">
+			<c:forEach var="attachmentPersonnel" items="${attachmentPersonnels}" varStatus="itrStatus">
 				<tr>
 	         		<td>
 	         			<div align="center">
 	                		${itrStatus.index + 1}
 		            	</div>
 	         		</td>
-	         		<td align="left" valign="middle" class="infoline">
+	         		<td align="left" valign="middle">
 	                	<div align="left">
 	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnels[${itrStatus.index}].updateTimestamp" attributeEntry="${protocolAttachmentPersonnelAttributes.updateTimestamp}" readOnly="true"/>
 		            	</div>
 					</td>
-	         		<td align="left" valign="middle" class="infoline">
+	         		<td align="left" valign="middle">
 	                	<div align="left">
 	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnels[${itrStatus.index}].updateUser" attributeEntry="${protocolAttachmentPersonnelAttributes.updateUser}" readOnly="true"/>
 		            	</div>
 					</td>
-					<td align="left" valign="middle" class="infoline">
+					<td align="left" valign="middle">
 	                	<div align="left">
 	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnels[${itrStatus.index}].person.personName" attributeEntry="${protocolAttachmentPersonnelAttributes['personId']}" readOnly="true"/>
 		            	</div>
 					</td>
-	         		<td align="left" valign="middle" class="infoline">
+	         		<td align="left" valign="middle">
 	                	<div align="left">
 	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnels[${itrStatus.index}].typeCode" attributeEntry="${protocolAttachmentPersonnelAttributes['typeCode']}" readOnly="true" readOnlyAlternateDisplay="${attachmentPersonnel.type.description}"/>
 		            	</div>
 					</td>
-					<td align="left" valign="middle" class="infoline">
+					<td align="left" valign="middle">
 	                	<div align="left">
 	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnels[${itrStatus.index}].description" attributeEntry="${protocolAttachmentPersonnelAttributes.description}" readOnly="true"/>
 		            	</div>
 					</td>
-	       			<td align="left" valign="middle" class="infoline">
+	       			<td align="left" valign="middle">
 	           			<div align="left" id="attachmentPersonnelFileName${itrStatus.index}">
 	              			${attachmentPersonnel.file.name}
 	           			</div>
 					</td>
-					<td align="center" valign="middle" class="infoline">
+					<td align="center" valign="middle">
 						<div align="center">
 							<html:image property="methodToCall.viewAttachmentPersonnel.line${itrStatus.index}.anchor${currentTabIndex}"
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"

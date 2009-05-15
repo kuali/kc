@@ -22,7 +22,7 @@ import org.kuali.kra.irb.Protocol;
 /**
  * This class represents the Protocol Attachment Protocol.
  */
-public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
+public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implements TypedAttachment {
 
     private static final long serialVersionUID = -7115904344245464654L;
     private static final String GROUP_CODE = "1";
@@ -34,6 +34,10 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     private String contactEmailAddress;
     private String contactPhoneNumber;
     private String comments;
+    
+    private String typeCode;
+    private ProtocolAttachmentType type;
+    private String description;
     
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -152,9 +156,38 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     }
 
     /** {@inheritDoc} */
-    @Override
+    public ProtocolAttachmentType getType() {
+        return this.type;
+    }
+
+    /** {@inheritDoc} */
+    public void setType(ProtocolAttachmentType type) {
+        this.type = type;
+    }
+
+    /** {@inheritDoc} */
+    public String getTypeCode() {
+        return this.typeCode;
+    }
+
+    /** {@inheritDoc} */
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
+    }
+    
+    /** {@inheritDoc} */
     public String getGroupCode() {
         return GROUP_CODE;
+    }
+    
+    /** {@inheritDoc} */
+    public String getDescription() {
+        return this.description;
+    }
+
+    /** {@inheritDoc} */
+    public void setDescription(String description) {
+        this.description = description;
     }
     
     /** {@inheritDoc} */
@@ -167,6 +200,9 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
         hashMap.put(PropertyName.CONTACT_NAME.getPropertyName(), this.getContactName());
         hashMap.put(PropertyName.PHONE.getPropertyName(), this.getContactPhoneNumber());
         hashMap.put(PropertyName.STATUS_CODE.getPropertyName(), this.getStatus());
+        hashMap.put(TypedAttachment.PropertyName.TYPE_CODE.getPropertyName(), this.getTypeCode());
+        hashMap.put(TypedAttachment.PropertyName.GROUP_CODE.getPropertyName(), this.getGroupCode());
+        hashMap.put(TypedAttachment.PropertyName.DESCRIPTION.getPropertyName(), this.getDescription());
         return hashMap;
     }
     
