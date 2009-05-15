@@ -41,6 +41,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentNotification;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -127,6 +128,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     private List<ProtocolSpecialReview> specialReviews;
     private List<ProtocolAttachmentProtocol> attachmentProtocols;
     private List<ProtocolAttachmentPersonnel> attachmentPersonnels;
+    private List<ProtocolAttachmentNotification> attachmentNotifications;
     
     private List<ProtocolAction> protocolActions;
     private List<ProtocolSubmission> protocolSubmissions;
@@ -757,6 +759,15 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     public void setAttachmentProtocols(List<ProtocolAttachmentProtocol> attachmentProtocols) {
         this.attachmentProtocols = attachmentProtocols;
     }
+    
+    /**
+     * adds an attachment protocol.
+     * @param attachmentProtocol the attachment protocol
+     * @throws NullPointerException if attachmentProtocol is null
+     */
+    public void addAttachmentProtocol(ProtocolAttachmentProtocol attachmentProtocol) {
+        ProtocolAttachmentBase.addAttachmentToCollection(attachmentProtocol, this.getAttachmentProtocols());
+    }
 
     /**
      * Gets the attachment personnels. Cannot return {@code null}.
@@ -795,14 +806,43 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     public void addAttachmentPersonnel(ProtocolAttachmentPersonnel attachmentPersonnel) {
         ProtocolAttachmentBase.addAttachmentToCollection(attachmentPersonnel, this.getAttachmentPersonnels());
     }
+
+    /**
+     * Gets the attachment notifications. Cannot return {@code null}.
+     * @return the attachment notifications
+     */
+    public List<ProtocolAttachmentNotification> getAttachmentNotifications() {
+        if (this.attachmentNotifications == null) {
+            this.attachmentNotifications = new ArrayList<ProtocolAttachmentNotification>();
+        }
+        
+        return this.attachmentNotifications;
+    }
     
     /**
-     * adds an attachment protocol.
-     * @param attachmentProtocol the attachment protocol
-     * @throws NullPointerException if attachmentProtocol is null
+     * Gets an attachment notification.
+     * @param index the index
+     * @return an attachment notification
      */
-    public void addAttachmentProtocol(ProtocolAttachmentProtocol attachmentProtocol) {
-        ProtocolAttachmentBase.addAttachmentToCollection(attachmentProtocol, this.getAttachmentProtocols());
+    public ProtocolAttachmentNotification getAttachmentNotification(int index) {
+        return this.attachmentNotifications.get(index);
+    }
+
+    /**
+     * Sets the attachment notifications.
+     * @param attachmentNotifications the attachment notifications
+     */
+    public void setAttachmentNotifications(List<ProtocolAttachmentNotification> attachmentNotifications) {
+        this.attachmentNotifications = attachmentNotifications;
+    }
+    
+    /**
+     * add an attachment notification.
+     * @param attachmentNotification the attachment notification
+     * @throws NullPointerException if attachmentNotification is null
+     */
+    public void addAttachmentNotification(ProtocolAttachmentNotification attachmentNotification) {
+        ProtocolAttachmentBase.addAttachmentToCollection(attachmentNotification, this.getAttachmentNotifications());
     }
 
     public String getKeyPerson() {

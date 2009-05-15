@@ -53,14 +53,14 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  * 
  * See {@link #getKeyValues()}.
  */
-public class ProtocolAttachmentTypeByGroupValuesFinder extends KeyValuesBase {
+public class ProtocolAttachmentTypeByGroupValuesFinder <T extends ProtocolAttachmentBase & TypedAttachment> extends KeyValuesBase {
     
     private static final String GROUP_CODE_NAME = "groupCode";
     private static final String TYPE_DESCRIPTION_NAME = "type.description";
     private static final String TYPE_CODE_NAME = "type.code";
     
     private String groupCode;
-    private Collection<ProtocolAttachmentBase> filterTypes;
+    private Collection<T> filterTypes;
 
     /**
      * Gets the keyvalue pair for {@link ProtocolAttachmentTypeGroup ProtocolAttachmentTypeGroup}.
@@ -127,7 +127,7 @@ public class ProtocolAttachmentTypeByGroupValuesFinder extends KeyValuesBase {
             return false;
         }
         
-        for (final ProtocolAttachmentBase attachment : this.filterTypes) {
+        for (final TypedAttachment attachment : this.filterTypes) {
             if (attachment.getType().getCode().equals(typeCode)) {
                 return true;
             }
@@ -155,16 +155,16 @@ public class ProtocolAttachmentTypeByGroupValuesFinder extends KeyValuesBase {
      * Gets the types to filter.
      * @return the types to filter
      */
-    public Collection<ProtocolAttachmentBase> getFilterTypes() {
-        return (this.filterTypes != null) ? new ArrayList<ProtocolAttachmentBase>(this.filterTypes) : null;
+    public Collection<T> getFilterTypes() {
+        return (this.filterTypes != null) ? new ArrayList<T>(this.filterTypes) : null;
     }
 
     /**
      * Sets the types to filter.
      * @param filterTypes the types to filter
      */
-    public void setFilterTypes(final Collection<ProtocolAttachmentBase> filterTypes) {
-        this.filterTypes = (filterTypes != null) ? new ArrayList<ProtocolAttachmentBase>(filterTypes) : null;
+    public void setFilterTypes(final Collection<T> filterTypes) {
+        this.filterTypes = (filterTypes != null) ? new ArrayList<T>(filterTypes) : null;
     }
     
     /**
