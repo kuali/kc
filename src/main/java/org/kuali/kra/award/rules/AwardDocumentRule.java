@@ -417,7 +417,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     * @param awardDocument
     * @return
     */
-    private boolean processApprovedSubawardBusinessRules(Document document) {
+    public boolean processApprovedSubawardBusinessRules(Document document) {
         boolean valid = true;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         AwardDocument awardDocument = (AwardDocument) document;

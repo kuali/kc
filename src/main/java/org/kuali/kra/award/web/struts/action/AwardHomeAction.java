@@ -127,6 +127,7 @@ public class AwardHomeAction extends AwardAction {
     public ActionForward recalculateSubawardTotal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
        
+        approvedSubawardActionHelper.recalculateSubawardTotal(((AwardForm) form).getApprovedSubawardFormHelper());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
    

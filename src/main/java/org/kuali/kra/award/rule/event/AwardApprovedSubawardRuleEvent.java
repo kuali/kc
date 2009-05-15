@@ -39,6 +39,7 @@ public class AwardApprovedSubawardRuleEvent extends KraDocumentEventBase {
      * @param errorPathPrefix
      * @param awardDocument
      * @param awardApprovedSubaward
+     * @param awardApprovedSubawards
      */
     public AwardApprovedSubawardRuleEvent(String errorPathPrefix, 
                                            AwardDocument awardDocument,

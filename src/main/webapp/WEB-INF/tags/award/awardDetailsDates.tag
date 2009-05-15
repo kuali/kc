@@ -20,7 +20,7 @@
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 <c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" />
 
-<kul:tab tabTitle="Details & Dates" defaultOpen="false" tabErrorKey="document.award*,detailsAndDatesFormHelper*">
+<kul:tab tabTitle="Details & Dates" defaultOpen="false" tabErrorKey="document.awardList[0].statusCode,document.awardList[0].activityTypeCode,document.awardList[0].awardTypeCode,document.awardList[0].title,document.awardList[0].beginDate,document.awardList[0].awardAmountInfos[0].finalExpirationDate,document.awardList[0].awardEffectiveDate,document.awardList[0].awardExecutionDate,detailsAndDatesFormHelper*">
 
 <!-- Institution -->
 <div class="tab-container" align="center">
