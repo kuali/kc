@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.irb.protocol;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Map.Entry;
 
 import junit.framework.TestCase;
 
@@ -31,14 +32,16 @@ import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.service.AwardService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.irb.protocol.ProtocolFundingSource;
-import org.kuali.kra.irb.protocol.ProtocolFundingSourceServiceImpl;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.ProtocolFundingSourceServiceImpl.FundingSourceLookup;
 import org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.service.LookupableDevelopmentProposalService;
 import org.kuali.kra.service.FundingSourceTypeService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.LookupableHelperService;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -82,6 +85,13 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
     private final String institutePropSourceTypeId = "5";
     private final String awardSourceTypeId = "6";
     
+    private Sponsor goodSponsor;
+    private Sponsor lookupUrlSponsor;
+    private AnchorHtmlData inquiryUrl;
+    private String inquiryUrlString = "inquiry.do?businessObjectClassName=org.kuali.kra.bo.Sponsor&sponsorCode=005174&methodToCall=start";
+    private String expectedLookupUrl = "http://localhost:8080/kra-/kr/"+inquiryUrlString;
+
+    
     private FundingSourceType fundingSponsorSourceType;
     private FundingSourceType fundingUnitSourceType;
     private FundingSourceType fundingOtherSourceType;
@@ -123,7 +133,7 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
         fundingAwardSourceType.setFundingSourceTypeFlag(true);
         fundingAwardSourceType.setDescription("Award");
         
-        Sponsor goodSponsor = new Sponsor();
+        goodSponsor = new Sponsor();
         goodSponsor.setSponsorName(sponsorNameAirForce);
         goodSponsor.setSponsorCode(sponsorIdAirForce);
 
@@ -134,7 +144,12 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
         devProposalGood = new LookupableDevelopmentProposal();
         devProposalGood.setTitle(devProposalTitleGood);
         devProposalGood.setSponsor(goodSponsor);   
+                
+        inquiryUrl = new AnchorHtmlData();
+        inquiryUrl.setHref(inquiryUrlString);
     }    
+    
+
     
     @Test
     public void testCalculateSponsorFundingSource() throws Exception {
@@ -383,44 +398,44 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         String fieldConversions;
         
-        HashMap<String, String> map = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.SPONSOR.getLookupName());
-        Assert.assertNotNull(map);
+        Entry<String, String> entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.SPONSOR.getLookupName());
+        Assert.assertNotNull(entry);
         fieldConversions = 
-            (String) map.get(FundingSourceLookup.SPONSOR.getBOClass().getName());
+            (String) entry.getValue();
         Assert.assertThat(fieldConversions, 
                 JUnitMatchers.containsString("sponsorCode:protocolHelper.newFundingSource.fundingSource,sponsorName:"));
 
-        map = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.UNIT.getLookupName());
-        Assert.assertNotNull(map);
+        entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.UNIT.getLookupName());
+        Assert.assertNotNull(entry);
         fieldConversions = 
-            (String) map.get(FundingSourceLookup.UNIT.getBOClass().getName());
+            (String) entry.getValue();
         Assert.assertThat(fieldConversions, 
                 JUnitMatchers.containsString("unitNumber:protocolHelper.newFundingSource.fundingSource,unitName:"));
         
-        map = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getLookupName());
-        Assert.assertNotNull(map);
+        entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getLookupName());
+        Assert.assertNotNull(entry);
         fieldConversions = 
-            (String) map.get(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getBOClass().getName());
+            (String) entry.getValue();
         Assert.assertThat(fieldConversions, 
                 JUnitMatchers.containsString("proposalNumber:protocolHelper.newFundingSource.fundingSource,sponsor.sponsorName:protocolHelper"));
 
-        map = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.AWARD.getLookupName());
-        Assert.assertNotNull(map);
+        entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.AWARD.getLookupName());
+        Assert.assertNotNull(entry);
         fieldConversions = 
-            (String) map.get(FundingSourceLookup.AWARD.getBOClass().getName());
+            (String) entry.getValue();
         Assert.assertThat(fieldConversions, 
                 JUnitMatchers.containsString("awardId:protocolHelper.newFundingSource.fundingSource,sponsor.sponsorName:protocolHelper"));
 
         
         try {
-            map = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.INSTITUTE_PROPOSAL.getLookupName());
+            entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.INSTITUTE_PROPOSAL.getLookupName());
             fail("IllegalArgumentException was not thrown for invalid test case using INSTITUTE_PROPOSAL");
         } catch (IllegalArgumentException e) {
             //yup
         }
         
         try {
-            map = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.OTHER.getLookupName());
+            entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.OTHER.getLookupName());
             fail("IllegalArgumentException was not thrown for invalid test case using OTHER");
         } catch (IllegalArgumentException e) {
             //yup
@@ -432,10 +447,10 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
     public void testUpdateLookupParameter() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         String fieldConversions;
-        HashMap<String, String> map = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.SPONSOR.getLookupName());
-        Assert.assertNotNull(map);
+        Entry<String, String> entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.SPONSOR.getLookupName());
+        Assert.assertNotNull(entry);
         fieldConversions = 
-            (String) map.get(FundingSourceLookup.SPONSOR.getBOClass().getName());
+            (String) entry.getValue();
         Assert.assertThat(fieldConversions, 
                 JUnitMatchers.containsString("sponsorCode:protocolHelper.newFundingSource.fundingSource,sponsorName:"));
         String parameter = KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL+
@@ -448,10 +463,55 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
                     FundingSourceLookup.SPONSOR.getBOClass().getName(), 
                     fieldConversions);
         Assert.assertThat(updatedParam, 
-                JUnitMatchers.containsString("(!!org.kuali.kra.bo.Sponsor!!)(((sponsorCode:protocolHelper.newFundingSource.fundingSource,sponsorName:protocolHelper.newFundingSource.fundingSourceName,)))"));
+                JUnitMatchers.containsString("(!!org.kuali.kra.bo.Sponsor!!)(((sponsorCode:protocolHelper.newFundingSource.fundingSource,sponsorName:protocolHelper.newFundingSource.fundingSourceName,sponsorName:protocolHelper.newFundingSource.fundingSourceName.div,)))"));
 
     }
     
+    @Test
+    public void testAddDeleteSponsorFundingSource() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setSponsorService(getSponsorService());
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, sponsorIdAirForce, null);
+        assertNotNull(fundingSource);
+        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
+        
+        Protocol protocol = new Protocol();
+        ArrayList<ProtocolFundingSource> protocolFundingSources = new ArrayList<ProtocolFundingSource>();
+        protocolFundingSources.add(fundingSource);
+        protocol.setProtocolFundingSources(protocolFundingSources);
+        
+        assertFalse(protocol.getProtocolFundingSources().isEmpty());
+        protocolFundingSourceService.deleteProtocolFundingSource(protocol, 0);
+        assertTrue(protocol.getProtocolFundingSources().isEmpty()); 
+    }
+    
+    
+    @Test
+    public void testAddandGetViewFundingSourceUrl() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setSponsorService(getSponsorService());
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, sponsorIdAirForce, null);
+        assertNotNull(fundingSource);
+        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
+        
+        Protocol protocol = new Protocol();
+        ArrayList<ProtocolFundingSource> protocolFundingSources = new ArrayList<ProtocolFundingSource>();
+        protocolFundingSources.add(fundingSource);
+        protocol.setProtocolFundingSources(protocolFundingSources);
+        
+        lookupUrlSponsor = new Sponsor();
+        lookupUrlSponsor.setSponsorCode(sponsorIdAirForce);
+
+        
+        ProtocolProtocolAction action = new ProtocolProtocolAction();
+        protocolFundingSourceService.setProtocolLookupableHelperService(getProtocolLookupableHelperServiceForSponsorInquiryUrl());
+        String viewUrl = protocolFundingSourceService.getViewProtocolFundingSourceUrl(fundingSource, action);
+        
+        assertNotNull(viewUrl);        
+        Assert.assertThat(viewUrl,JUnitMatchers.containsString(expectedLookupUrl));
+    }
     
     protected BusinessObjectService buildBusinessObjectService() {
         BusinessObjectService service = null;
@@ -503,7 +563,15 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
         }});
         return lookupableDevelopmentProposalService;
     }
-    
+
+    protected LookupableHelperService getProtocolLookupableHelperServiceForSponsorInquiryUrl() {
+        final LookupableHelperService protocolLookupableHelperService = context.mock(LookupableHelperService.class);
+        context.checking(new Expectations() {{
+            allowing(protocolLookupableHelperService).getInquiryUrl(with(any(Sponsor.class)), with(any(String.class))); 
+            will(returnValue(inquiryUrl));
+        }});
+        return protocolLookupableHelperService;
+    }
 
 
     protected FundingSourceTypeService getFundingSourceTypeService() {

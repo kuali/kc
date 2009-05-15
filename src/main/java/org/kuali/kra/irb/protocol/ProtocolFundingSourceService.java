@@ -15,10 +15,9 @@
  */
 package org.kuali.kra.irb.protocol;
 
-import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 
 /**
  * This Service provides the required API for performing a multi-type lookup for funding sources. Business rules used by the View,
@@ -58,7 +57,7 @@ public interface ProtocolFundingSourceService {
      * @param boName
      * @return
      */
-    public HashMap<String, String> getLookupParameters(String boName);
+    public Entry<String, String> getLookupParameters(String boName);
     
     /**
      * 
