@@ -47,8 +47,9 @@ public class AwardReportsBean implements Serializable {
     private AwardForm form;
     
     /**
-     * Constructs a PaymentScheduleBean
-     * @param parent
+     * 
+     * Constructs a AwardReportsBean.java.
+     * @param form
      */
     public AwardReportsBean(AwardForm form) {
         this.form = form;
@@ -63,7 +64,7 @@ public class AwardReportsBean implements Serializable {
     }
     
     /**
-     * This method is called when adding a new payment schedule item
+     * This method is called when adding a new Award Report Term Item
      * @param formHelper
      * @return
      */
@@ -80,7 +81,7 @@ public class AwardReportsBean implements Serializable {
     }
     
     /**
-     * This method is called when adding a new payment schedule item
+     * This method is called when adding a new Award Report Term Recipient Item
      * @param formHelper
      * @return
      */
@@ -105,8 +106,9 @@ public class AwardReportsBean implements Serializable {
     }
 
     /**
-     * This method delets a selected payment schedule item
-     * @param formHelper
+     * 
+     * This method deletes a selected Award Report Term Item
+     * 
      * @param deletedItemIndex
      */
     public void deleteAwardReportTermItem(int deletedItemIndex) {
@@ -116,6 +118,13 @@ public class AwardReportsBean implements Serializable {
         }        
     }
     
+    /**
+     * 
+     * This method deletes a selected Award Report Term Recipient Item
+     * 
+     * @param awardReportTermIndex
+     * @param deletedItemIndex
+     */
     public void deleteAwardReportTermRecipientItem(int awardReportTermIndex, int deletedItemIndex) {
         List<AwardReportTermRecipient> items = getAward().getAwardReportTermItems().get(awardReportTermIndex).getAwardReportTermRecipients();
         if(deletedItemIndex >= 0 && deletedItemIndex < items.size()) {
@@ -123,6 +132,9 @@ public class AwardReportsBean implements Serializable {
         }        
     }
     
+    public void generateReportSchedules(){
+        System.out.println("Generate reports is called.");
+    }
 
     
     /**
@@ -133,6 +145,7 @@ public class AwardReportsBean implements Serializable {
     }
 
     /**
+     * 
      * @return
      */
     public AwardDocument getAwardDocument() {
@@ -140,20 +153,30 @@ public class AwardReportsBean implements Serializable {
     }
     
     /**
-     * Initialize subform
+     * This method is for initializing the new <code>AwardReportTerm</code> object after the add operation.
      */
     public void init(int index) {
         this.getNewAwardReportTerms().set(index, new AwardReportTerm());
         this.getNewAwardReportTermRecipients().add(new AwardReportTermRecipient());
     }
     
+    /**
+     * 
+     * This method is for initializing the new <code>AwardReportTermRecipient</code> object after the add operation.
+     * @param index
+     */
     public void initRecipient(int index) {
         getNewAwardReportTermRecipients().set(index, new AwardReportTermRecipient());        
     }
     
+    /**
+     * 
+     * This method retrieves the KualiRuleService
+     * @return
+     */
     protected KualiRuleService getRuleService() {
         if(ruleService == null) {
-            ruleService = (KualiRuleService) KraServiceLocator.getService("kualiRuleService"); 
+            ruleService = (KualiRuleService) KraServiceLocator.getService(KualiRuleService.class); 
         }
         return ruleService;
     }
@@ -162,6 +185,15 @@ public class AwardReportsBean implements Serializable {
         this.ruleService = ruleService;
     }
     
+    /**
+     * 
+     * This method generates the <code>AddAwardReportTermRuleEvent</code> event.
+     * 
+     * @param newAwardReportTerm
+     * @param reportClassCode
+     * @param index
+     * @return
+     */
     AddAwardReportTermRuleEvent generateAddAwardReportTermEvent(AwardReportTerm newAwardReportTerm, String reportClassCode, int index) {
         AddAwardReportTermRuleEvent event = new AddAwardReportTermRuleEvent(
                                                             "awardReportsBean.newAwardReportTerms[" + index + "]",
@@ -171,6 +203,13 @@ public class AwardReportsBean implements Serializable {
         return event;
     }
     
+    /**
+     * 
+     * This method generates the <code>AddAwardReportTermRecipientRuleEvent</code> event.
+     * 
+     * @param index
+     * @return
+     */
     AddAwardReportTermRecipientRuleEvent generateAddAwardReportTermRecipientEvent(int index) {        
         AddAwardReportTermRecipientRuleEvent event = new AddAwardReportTermRecipientRuleEvent(
                                                             "awardReportsBean.newAwardReportTermRecipients[" + index + "]",
@@ -214,12 +253,11 @@ public class AwardReportsBean implements Serializable {
     }
     
     /**
-     * 
+     * This method retrieves the contact type code and rolodex id from the selected sponsor contact
      * 
      * @param newAwardReportTermRecipient
      */
-    void populateContactTypeAndRolodex(
-            AwardReportTermRecipient newAwardReportTermRecipient){
+    void populateContactTypeAndRolodex(AwardReportTermRecipient newAwardReportTermRecipient){
         
         Collection<AwardSponsorContact> awardSponsorContacts = getSponsorContactsUsingKeyValuesService(newAwardReportTermRecipient.getContactId());
         
@@ -235,7 +273,7 @@ public class AwardReportsBean implements Serializable {
     
     /**
      * 
-     * This method retrieves all the sponsor contacts for the particular contact id provided.
+     * This method retrieves all the sponsor contact for the particular contact id provided.
      * 
      * @param contactId
      * @return
