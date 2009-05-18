@@ -15,10 +15,7 @@
  */
 package org.kuali.kra.irb.actions.withdraw;
 
-import java.sql.Timestamp;
-
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -28,8 +25,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  */
 public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
 
-    private static final String NEXT_ACTION_ID_KEY = "actionId";
-    
     private BusinessObjectService businessObjectService;
 
     /**
@@ -44,39 +39,9 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
      * @see org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService#withdraw(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean)
      */
     public void withdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) {
-        ProtocolAction protocolAction = createProtocolAction(protocol, withdrawBean);
+        ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.REQUEST_TO_WITHDRAW);
+        protocolAction.setComments(withdrawBean.getReason());
         protocol.getProtocolActions().add(protocolAction);
         businessObjectService.save(protocol.getProtocolDocument());
-    }
-    
-    /**
-     * Create a Protocol Action for a Withdrawal that will be written to the database.
-     * @param protocol the protocol
-     * @param withdrawBean the withdrawal data
-     * @return
-     */
-    public ProtocolAction createProtocolAction(Protocol protocol, ProtocolWithdrawBean withdrawBean) {
-        ProtocolAction protocolAction = new ProtocolAction();
-        protocolAction.setProtocolId(protocol.getProtocolId());
-        protocolAction.setProtocolNumber(protocol.getProtocolNumber());
-        protocolAction.setSequenceNumber(protocol.getSequenceNumber());
-        protocolAction.setActionId(getNextValue(protocol, NEXT_ACTION_ID_KEY));
-        protocolAction.setActionDate(new Timestamp(System.currentTimeMillis()));
-        protocolAction.setProtocolActionTypeCode(ProtocolActionType.REQUEST_TO_WITHDRAW);
-        protocolAction.setComments(withdrawBean.getReason());
-        protocolAction.setSubmissionIdFk(protocol.getProtocolSubmission().getSubmissionId());
-        protocolAction.setSubmissionNumber(protocol.getProtocolSubmission().getSubmissionNumber());
-        return protocolAction;
-    }
-    
-    /**
-     * Get the next value in a sequence.
-     * @param protocol the protocol
-     * @param key the unique key of the sequence
-     * @return the next value
-     */
-    private Integer getNextValue(Protocol protocol, String key) {
-        ProtocolDocument protocolDocument = protocol.getProtocolDocument();
-        return protocolDocument.getDocumentNextValue(key);
     }
 }
