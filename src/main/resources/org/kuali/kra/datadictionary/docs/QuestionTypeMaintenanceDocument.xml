@@ -1,5 +1,5 @@
 <!--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -19,37 +19,37 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="QuestionCategoryMaintenanceDocument" parent="QuestionCategoryMaintenanceDocument-parentBean" />
-    <bean id="QuestionCategoryMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.bo.QuestionCategory" />
+    <bean id="QuestionTypeMaintenanceDocument" parent="QuestionTypeMaintenanceDocument-parentBean" />
+    <bean id="QuestionTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.bo.QuestionType" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="maintainableSections" >
             <list>
-                <ref bean="QuestionCategoryMaintenanceDocument-EditQuestionCategory" />
+                <ref bean="QuestionTypeMaintenanceDocument-EditQuestionType" />
             </list>
         </property>
         <property name="lockingKeys" >
             <list>
-                <value>categoryTypeCode</value>
+                <value>questionTypeId</value>
             </list>
         </property>
-        <property name="documentTypeName" value="QuestionCategoryMaintenanceDocument" />
+        <property name="documentTypeName" value="QuestionTypeMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
     </bean>
 
     <!-- Maintenance Section Definitions -->
     
-    <bean id="QuestionCategoryMaintenanceDocument-EditQuestionCategory" parent="QuestionCategoryMaintenanceDocument-EditQuestionCategory-parentBean" />
-    <bean id="QuestionCategoryMaintenanceDocument-EditQuestionCategory-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit Question Category" />
-        <property name="title" value="Edit Question Category" />
+    <bean id="QuestionTypeMaintenanceDocument-EditQuestionType" parent="QuestionTypeMaintenanceDocument-EditQuestionType-parentBean" />
+    <bean id="QuestionTypeMaintenanceDocument-EditQuestionType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Question Type" />
+        <property name="title" value="Edit Question Type" />
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="categoryTypeCode"
+                    p:name="questionTypeId"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="categoryName"
+                    p:name="questionTypeName"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />

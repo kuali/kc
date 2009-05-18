@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire.bo;
+package org.kuali.kra.questionnaire.question.bo;
 
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
