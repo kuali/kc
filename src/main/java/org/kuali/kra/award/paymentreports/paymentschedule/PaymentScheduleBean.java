@@ -16,18 +16,27 @@
 package org.kuali.kra.award.paymentreports.paymentschedule;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.AwardScheduleGenerationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 
 /**
  * This class supports the AwardForm class
  */
 public class PaymentScheduleBean implements Serializable {    
+    
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -5513993757805685581L;
     private AwardPaymentSchedule newAwardPaymentSchedule;
     private KualiRuleService ruleService;
     private AwardForm form;
@@ -66,6 +75,26 @@ public class PaymentScheduleBean implements Serializable {
             items.remove(deletedItemIndex);
         }        
     }
+    
+    /**
+     * 
+     * This method generates the payment schedules by calling the <code>AwardScheduleGenerationService</code>
+     * @throws ParseException
+     */
+    public void generatePaymentSchedules() throws ParseException{
+        List<Date> dates = new ArrayList<Date>();
+        
+        dates = getAwardScheduleGenerationService().generateSchedules(getAward(), getAward().getAwardReportTermItems());
+        
+        for(Date date: dates){
+            newAwardPaymentSchedule = new AwardPaymentSchedule();
+            java.sql.Date sqldate = new java.sql.Date(date.getTime());
+            newAwardPaymentSchedule.setDueDate(sqldate);            
+            getAward().add(newAwardPaymentSchedule);
+        }
+        init();
+     
+    }
 
     /**
      * @return
@@ -95,17 +124,30 @@ public class PaymentScheduleBean implements Serializable {
         newAwardPaymentSchedule = new AwardPaymentSchedule(); 
     }
     
+    /**
+     * 
+     * This is a helper method for the retrieval of KualiRuleService
+     * @return
+     */
     protected KualiRuleService getRuleService() {
         if(ruleService == null) {
-            ruleService = (KualiRuleService) KraServiceLocator.getService("kualiRuleService"); 
+            ruleService = (KualiRuleService) KraServiceLocator.getService(KualiRuleService.class); 
         }
         return ruleService;
     }
     
+    /**
+     * 
+     * @param ruleService
+     */
     protected void setRuleService(KualiRuleService ruleService) {
         this.ruleService = ruleService;
     }
     
+    /**
+     * 
+     * @return
+     */
     AddAwardPaymentScheduleRuleEvent generateAddEvent() {        
         AddAwardPaymentScheduleRuleEvent event = new AddAwardPaymentScheduleRuleEvent(
                                                             "paymentScheduleBean.newAwardPaymentSchedule",
@@ -129,5 +171,14 @@ public class PaymentScheduleBean implements Serializable {
      */
     public void setNewAwardPaymentSchedule(AwardPaymentSchedule newAwardPaymentSchedule) {
         this.newAwardPaymentSchedule = newAwardPaymentSchedule;
+    }
+    
+    /**
+     * 
+     * This is a helper method to retrieve the AwardScheduleGenerationService.
+     * @return
+     */
+    protected AwardScheduleGenerationService getAwardScheduleGenerationService(){
+        return KraServiceLocator.getService(AwardScheduleGenerationService.class);
     }
 }
