@@ -25,6 +25,16 @@
 			<givenName>Ad</givenName>
 			<lastName>Min</lastName>
 		</user>
+		 <user>
+            <workflowId>superuser</workflowId>
+            <emplId>superuser</emplId>
+            <authenticationId>superuser</authenticationId>
+            <uuId>superuser</uuId>
+            <emailAddress>superuser@localhost</emailAddress>
+            <displayName>superuser</displayName>
+            <givenName>superuser</givenName>
+            <lastName>superuser</lastName>
+        </user>
 		<user>
 			<workflowId>kr</workflowId>
 			<authenticationId>kr</authenticationId>
@@ -39,6 +49,7 @@
 			<description>WorkflowAdmin</description>
 			<members>
 				<principalName>quickstart</principalName>
+				<principalName>superuser</principalName>
 			</members>
 		</group>
 		<group>
@@ -48,6 +59,7 @@
 			<description>TestWorkgroup</description>
 			<members>
 				<principalName>quickstart</principalName>
+				<principalName>superuser</principalName>
 			</members>
 		</group>
 		
