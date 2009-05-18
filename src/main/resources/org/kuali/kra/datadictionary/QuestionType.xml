@@ -1,5 +1,5 @@
 <!--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -19,33 +19,33 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="QuestionCategory" parent="QuestionCategory-parentBean" />
-    <bean id="QuestionCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.bo.QuestionCategory" />
+    <bean id="QuestionType" parent="QuestionType-parentBean" />
+    <bean id="QuestionType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.bo.QuestionType" />
         <property name="inquiryDefinition" >
-            <ref bean="QuestionCategory-inquiryDefinition" />
+            <ref bean="QuestionType-inquiryDefinition" />
         </property>
         <property name="lookupDefinition" >
-            <ref bean="QuestionCategory-lookupDefinition" />
+            <ref bean="QuestionType-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="categoryTypeCode" />
+        <property name="titleAttribute" value="questionTypeId" />
         <property name="attributes" >
             <list>
-                <ref bean="QuestionCategory-categoryTypeCode" />
-                <ref bean="QuestionCategory-categoryName" />
-                <ref bean="QuestionCategory-versionNumber" />
+                <ref bean="QuestionType-questionTypeId" />
+                <ref bean="QuestionType-questionTypeName" />
+                <ref bean="QuestionType-versionNumber" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
     
-    <bean id="QuestionCategory-categoryTypeCode" parent="QuestionCategory-categoryTypeCode-parentBean" />
-    <bean id="QuestionCategory-categoryTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="categoryTypeCode" />
+    <bean id="QuestionType-questionTypeId" parent="QuestionType-questionTypeId-parentBean" />
+    <bean id="QuestionType-questionTypeId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionTypeId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Category Type Code" />
-        <property name="shortLabel" value="Category Type Code" />
+        <property name="label" value="Question Type Id" />
+        <property name="shortLabel" value="Question Type Id" />
         <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -54,16 +54,16 @@
             <bean parent="TextControlDefinition"
                 p:size="3" />
         </property>
-        <property name="summary" value="Category Type Code" />
-        <property name="description" value="Category Type Code" />
+        <property name="summary" value="Question Type Id" />
+        <property name="description" value="Question Type Id" />
     </bean>
 
-    <bean id="QuestionCategory-categoryName" parent="QuestionCategory-categoryName-parentBean" />
-    <bean id="QuestionCategory-categoryName-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="categoryName" />
+    <bean id="QuestionType-questionTypeName" parent="QuestionType-questionTypeName-parentBean" />
+    <bean id="QuestionType-questionTypeName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionTypeName" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Category Name" />
-        <property name="shortLabel" value="Category Name" />
+        <property name="label" value="Question Type Name" />
+        <property name="shortLabel" value="Question Type Name" />
         <property name="maxLength" value="200" />
         <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -74,30 +74,30 @@
             p:rows="5"
             p:cols="40" />
     </property>
-        <property name="summary" value="Category Name" />
-        <property name="description" value="Category Name" />
+        <property name="summary" value="Question Type Name" />
+        <property name="description" value="Question Type Name" />
     </bean>
 
-    <bean id="QuestionCategory-versionNumber" parent="QuestionCategory-versionNumber-parentBean" />
-    <bean id="QuestionCategory-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <bean id="QuestionType-versionNumber" parent="QuestionType-versionNumber-parentBean" />
+    <bean id="QuestionType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
 
     <!-- Business Object Inquiry Definition -->
-    <bean id="QuestionCategory-inquiryDefinition" parent="QuestionCategory-inquiryDefinition-parentBean" />
-    <bean id="QuestionCategory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="Category Type Code" />
+    <bean id="QuestionType-inquiryDefinition" parent="QuestionType-inquiryDefinition-parentBean" />
+    <bean id="QuestionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Question Type Id" />
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Category Type Code" />
+                    <property name="title" value="Question Type Id" />
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                                p:attributeName="categoryTypeCode" 
+                                p:attributeName="questionTypeId" 
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="categoryName" />
+                                p:attributeName="questionTypeName" />
                         </list>
                     </property>
                 </bean>
@@ -106,11 +106,11 @@
     </bean>
 
     <!-- Business Object Lookup Definition -->
-    <bean id="QuestionCategory-lookupDefinition" parent="QuestionCategory-lookupDefinition-parentBean" />
-    <bean id="QuestionCategory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Question Category Lookup" />
+    <bean id="QuestionType-lookupDefinition" parent="QuestionType-lookupDefinition-parentBean" />
+    <bean id="QuestionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Question Type Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Question Category" />
+        <property name="instructions" value="Look up a Question Type" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>
@@ -118,19 +118,19 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="categoryTypeCode" 
+                    p:attributeName="questionTypeId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="categoryName" />
+                    p:attributeName="questionTypeName" />
             </list>
         </property>
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="categoryTypeCode" 
+                    p:attributeName="questionTypeId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="categoryName" />
+                    p:attributeName="questionTypeName" />
             </list>
         </property>
     </bean>
