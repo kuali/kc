@@ -204,6 +204,7 @@ insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (5, 'tdurkin', 'fK69AT
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (6, 'pcberg', 'fK69ATFsAydwQuteang+xMva+Tc=');
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (7, 'jtester', 'fK69ATFsAydwQuteang+xMva+Tc=');
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (8, 'KULUSER', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (9, 'superuser', 'fK69ATFsAydwQuteang+xMva+Tc=');
 
 insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG)
 values (1, '000000003', 1, '000001', 'N', 'Y');
@@ -282,3 +283,19 @@ values (25, '000000008', 13, '000001', 'Y', 'Y');
 
 insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG)
 values (26, '000000003', 18, '000001', 'Y', 'Y');
+
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG)
+values (27, '000000009', 1, '000001', 'N', 'Y');
+
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG)
+values (28, '000000009', 9, '000001', 'Y', 'Y');
+
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG)
+values (29, '000000009', 12, '000001', 'Y', 'Y');
+
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG)
+values (30, '000000009', 13, '000001', 'Y', 'Y');
+
+insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG)
+values (31, '000000009', 18, '000001', 'Y', 'Y');
+

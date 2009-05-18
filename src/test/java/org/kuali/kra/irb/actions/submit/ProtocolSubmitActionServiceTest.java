@@ -18,19 +18,27 @@ package org.kuali.kra.irb.actions.submit;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
-import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.committee.test.CommitteeFactory;
+import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
@@ -40,176 +48,166 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionServiceImpl;
-import org.kuali.kra.irb.actions.submit.mocks.MockBusinessObjectService;
-import org.kuali.kra.irb.actions.submit.mocks.MockCommitteeService;
+import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.test.data.PerSuiteUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
 
 /**
  * Test the ProtocolSubmitActionService implementation.
  * 
  * For each of the below tests, the submitToIrbForReview() method is
  * invoked.  This method has no return value.  Rather, this method is
- * simply creating database entries for the submission.  In order to
- * perform the testing, two Mock classes have been created: MockBusinessObjectService
- * and MockCommitteeService.  At the beginning of a test, each of those
- * mocks is created and initialized with the knowledge of how it will
- * be used for that test.  If something unexpected occurs, those mocks
- * will assert errors.
+ * simply creating database entries for the submission.  After calling
+ * the submitToIrbForReview(), a check is done against the database to
+ * verify that the changes occurred as expected.
  */
+@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
+        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_GROUP.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_STATUS.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE_GROUP.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ACTION_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_EXEMPT_STUDIES_CHECKLIST.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_EXPEDITED_REVIEW_CHECKLIST.sql", delimiter = ";")
+}))
 public class ProtocolSubmitActionServiceTest extends KraTestBase {
 
     private static final String VALID_SUBMISSION_TYPE = "100";
     private static final String VALID_REVIEW_TYPE = "1";
     
-    private DocumentService documentService;
     private ProtocolSubmitActionServiceImpl protocolSubmitActionService;
+    private BusinessObjectService businessObjectService;   
     
+    @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
-        documentService = KNSServiceLocator.getDocumentService();
+        GlobalVariables.setUserSession(new UserSession("superuser"));
+        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setAuditErrorMap(new HashMap());
         protocolSubmitActionService = new ProtocolSubmitActionServiceImpl();
+        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        protocolSubmitActionService.setBusinessObjectService(businessObjectService);
     }
-    
+
     @After
     public void tearDown() throws Exception {
+        GlobalVariables.setUserSession(null);
+        GlobalVariables.setErrorMap(null);
+        GlobalVariables.setAuditErrorMap(null);
         super.tearDown();
     }
     
-    /**
+    /*
      * Test a submission without a committee.  This use case is OK
      * and thus no errors should occur.
      */
     @Test
     public void testSubmissionWithNoCommittee() throws WorkflowException {
-        ProtocolDocument protocolDocument = createProtocolDocument();
-        ProtocolSubmitAction submitAction = createSubmitAction("", "", VALID_REVIEW_TYPE);
-        
-        CommitteeService committeeService = new MockCommitteeService(null);
-        protocolSubmitActionService.setCommitteeService(committeeService);
-        
-        ProtocolSubmission protocolSubmission = createProtocolSubmission(protocolDocument.getProtocol(), submitAction);
-        BusinessObjectService businessObjectService = new MockBusinessObjectService(protocolSubmission);
-        protocolSubmitActionService.setBusinessObjectService(businessObjectService);
-        
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+        runTest("", "", VALID_REVIEW_TYPE, null, null, null);
     }
     
-    /**
+    /*
      * Test a submission with no schedule specified.  This use case is OK
      * and thus no errors should occur.
      */
     @Test
     public void testSubmissionWithNoSchedule() throws WorkflowException {
-        ProtocolDocument protocolDocument = createProtocolDocument();
-        ProtocolSubmitAction submitAction = createSubmitAction("666", "", VALID_REVIEW_TYPE);
-        
-        Committee committee = createCommittee("666");
-        CommitteeService committeeService = new MockCommitteeService(committee);
-        protocolSubmitActionService.setCommitteeService(committeeService);
-        
-        ProtocolSubmission protocolSubmission = createProtocolSubmission(protocolDocument.getProtocol(), submitAction);
-        BusinessObjectService businessObjectService = new MockBusinessObjectService(protocolSubmission);
-        protocolSubmitActionService.setBusinessObjectService(businessObjectService);
-        
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+        runTest("666", "", VALID_REVIEW_TYPE, null, null, null);
     }
-    
-    /**
+   
+    /*
      * Test a submission with no reviewers specified.  This use case is OK
      * and thus no errors should occur.
      */
     @Test
     public void testSubmissionWithNoReviewers() throws WorkflowException {
-        ProtocolDocument protocolDocument = createProtocolDocument();
-        ProtocolSubmitAction submitAction = createSubmitAction("666", "1", VALID_REVIEW_TYPE);
-        
-        Committee committee = createCommittee("666");
-        CommitteeService committeeService = new MockCommitteeService(committee);
-        protocolSubmitActionService.setCommitteeService(committeeService);
-        
-        ProtocolSubmission protocolSubmission = createProtocolSubmission(protocolDocument.getProtocol(), submitAction);
-        BusinessObjectService businessObjectService = new MockBusinessObjectService(protocolSubmission);
-        protocolSubmitActionService.setBusinessObjectService(businessObjectService);
-        
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+        runTest("667", "1", VALID_REVIEW_TYPE, null, null, null);
     }
     
-    /**
+    /*
      * Test a submission with a couple of reviewers of which only one is selected.
      * Only that selected reviewer will be added to the database.
      */
     @Test
     public void testSubmissionWithReviewers() throws WorkflowException {
-        ProtocolDocument protocolDocument = createProtocolDocument();
-        ProtocolSubmitAction submitAction = createSubmitAction("666", "1", VALID_REVIEW_TYPE);
-        addReviewers(submitAction);
-        
-        Committee committee = createCommittee("666");
-        CommitteeService committeeService = new MockCommitteeService(committee);
-        protocolSubmitActionService.setCommitteeService(committeeService);
-        
-        ProtocolSubmission protocolSubmission = createProtocolSubmission(protocolDocument.getProtocol(), submitAction);
-        BusinessObjectService businessObjectService = new MockBusinessObjectService(protocolSubmission);
-        protocolSubmitActionService.setBusinessObjectService(businessObjectService);
-        
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+        runTest("668", "1", VALID_REVIEW_TYPE, getReviewers(), null, null);
     }
-    
-    /**
+   
+    /*
      * Test the Exempt Studies review type. A couple of exempt studies check list
      * items will be available of which only one will be selected.  Only the selected
      * one should appear in the database. 
      */
     @Test
     public void testExemptCheckList() throws WorkflowException {
-        ProtocolDocument protocolDocument = createProtocolDocument();
-        ProtocolSubmitAction submitAction = createSubmitAction("666", "1", ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
-        addExemptCheckList(submitAction);
-        
-        Committee committee = createCommittee("666");
-        CommitteeService committeeService = new MockCommitteeService(committee);
-        protocolSubmitActionService.setCommitteeService(committeeService);
-        
-        ProtocolSubmission protocolSubmission = createProtocolSubmission(protocolDocument.getProtocol(), submitAction);
-        BusinessObjectService businessObjectService = new MockBusinessObjectService(protocolSubmission);
-        protocolSubmitActionService.setBusinessObjectService(businessObjectService);
-        
-        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+        runTest("669", "1", ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE, null, getExemptCheckList(), null);
     }
     
-    /**
+    /*
      * Test the Expedited Review review type. A couple of expedited review check list
      * items will be available of which only one will be selected.  Only the selected
      * one should appear in the database.  
      */
     @Test
     public void testExpeditedCheckList() throws WorkflowException {
-        ProtocolDocument protocolDocument = createProtocolDocument();
-        ProtocolSubmitAction submitAction = createSubmitAction("666", "1", ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE);
-        addExpeditedCheckList(submitAction);
+        runTest("670", "1", ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE, null, null, getExpeditedCheckList());
+    }
+    
+    /*
+     * Runs a test for the configuration defined by the input parameters.
+     */
+    private void runTest(String committeeId, String scheduleId, String protocolReviewTypeCode, 
+                         List<ProtocolReviewerBean> reviewers,
+                         List<ExemptStudiesCheckListItem> exemptStudiesCheckList,
+                         List<ExpeditedReviewCheckListItem> expeditedReviewCheckList) throws WorkflowException {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        ProtocolSubmitAction submitAction = createSubmitAction(committeeId, scheduleId, protocolReviewTypeCode);
+        if (reviewers != null) {
+            for (ProtocolReviewerBean reviewer : reviewers) {
+                submitAction.getReviewers().add(reviewer);
+            }
+        }
+       
+        submitAction.setExemptStudiesCheckList(exemptStudiesCheckList);
+        submitAction.setExpeditedReviewCheckList(expeditedReviewCheckList);
         
-        Committee committee = createCommittee("666");
-        CommitteeService committeeService = new MockCommitteeService(committee);
-        protocolSubmitActionService.setCommitteeService(committeeService);
-        
-        ProtocolSubmission protocolSubmission = createProtocolSubmission(protocolDocument.getProtocol(), submitAction);
-        BusinessObjectService businessObjectService = new MockBusinessObjectService(protocolSubmission);
+        if (!StringUtils.isBlank(committeeId)) {
+            createCommittee(committeeId);
+        }
         protocolSubmitActionService.setBusinessObjectService(businessObjectService);
         
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+    
+        ProtocolSubmission protocolSubmission = findSubmission(protocolDocument.getProtocol().getProtocolId());
+        assertNotNull(protocolSubmission);
+        
+        ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
+        assertNotNull(protocolAction);
+        
+        verifyAction(protocolAction, protocolSubmission);
+        verifySubmission(protocolSubmission, protocolDocument.getProtocol(), submitAction);
     }
     
-    /**
-     * Add a couple of exempt check list items to the protocol submission action.
+    /*
+     * Get a couple of exempt check list items.
      */
-    private void addExemptCheckList(ProtocolSubmitAction submitAction) {
+    private List<ExemptStudiesCheckListItem> getExemptCheckList() {
         List<ExemptStudiesCheckListItem> list = new ArrayList<ExemptStudiesCheckListItem>();
         ExemptStudiesCheckListItem item = new ExemptStudiesCheckListItem();
         item.setExemptStudiesCheckListCode("1");
@@ -221,13 +219,13 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         item.setChecked(false);        
         list.add(item);
         
-        submitAction.setExemptStudiesCheckList(list);
+        return list;
     }
     
-    /**
-     * Add a couple of expedited review check list items to the protocol submission action.
+    /*
+     * Get a couple of expedited review check list items.
      */
-    private void addExpeditedCheckList(ProtocolSubmitAction submitAction) {
+    private List<ExpeditedReviewCheckListItem> getExpeditedCheckList() {
         List<ExpeditedReviewCheckListItem> list = new ArrayList<ExpeditedReviewCheckListItem>();
         ExpeditedReviewCheckListItem item = new ExpeditedReviewCheckListItem();
         item.setExpeditedReviewCheckListCode("1");
@@ -239,40 +237,79 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         item.setChecked(false);        
         list.add(item);
         
-        submitAction.setExpeditedReviewCheckList(list);
+        return list;
     }
 
     /*
-     * Add a couple of reviewers to the protocol submission action.
+     * Get a couple of reviewers.
      */
-    private void addReviewers(ProtocolSubmitAction submitAction) {
+    private List<ProtocolReviewerBean> getReviewers() {
+        List<ProtocolReviewerBean> reviewers = new ArrayList<ProtocolReviewerBean>();
         ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
         reviewer.setChecked(true);
-        reviewer.setPersonId("dbarre");
+        reviewer.setPersonId("quickstart");
         reviewer.setNonEmployeeFlag(false);
-        reviewer.setReviewerTypeCode("101");
-        submitAction.getReviewers().add(reviewer);
+        reviewer.setReviewerTypeCode("1");
+        reviewers.add(reviewer);
         
         reviewer = new ProtocolReviewerBean();
         reviewer.setChecked(false);
         reviewer.setPersonId("aslusar");
         reviewer.setNonEmployeeFlag(false);
-        reviewer.setReviewerTypeCode("101");
-        submitAction.getReviewers().add(reviewer);
+        reviewer.setReviewerTypeCode("1");
+        reviewers.add(reviewer);
+        
+        return reviewers;
     }
 
     /*
      * Create a committee.
      */
-    private Committee createCommittee(String committeeId) {
-        Committee committee = new Committee();
-        committee.setCommitteeId(committeeId);
+    private CommitteeDocument createCommittee(String committeeId) throws WorkflowException {
+        CommitteeDocument committeeDocument = CommitteeFactory.createCommitteeDocument(committeeId);
+        Committee committee = committeeDocument.getCommittee();
         CommitteeSchedule schedule = new CommitteeSchedule();
+        schedule.setCommittee(committee);
+        schedule.setCommitteeId(committee.getId());
         schedule.setScheduleId("1");
+        schedule.setPlace("my office");
+        schedule.setEndTime(new Date(System.currentTimeMillis() + 100));
         schedule.setScheduledDate(new Date(System.currentTimeMillis()));
-        schedule.setTime(new Timestamp(0));
+        schedule.setStartTime(new Date(System.currentTimeMillis() - 100));
+        schedule.setFilter(false);
+        schedule.setMaxProtocols(committee.getMaxProtocols());
+        schedule.setTime(new Timestamp(System.currentTimeMillis()));
+        schedule.setViewTime(new Time12HrFmt(new Timestamp(System.currentTimeMillis())));
+        schedule.setProtocolSubDeadline(new Date(System.currentTimeMillis() - 500));
+        schedule.setScheduleStatusCode(1);
         committee.getCommitteeSchedules().add(schedule);
-        return committee;
+        addMembers(committee);
+        businessObjectService.save(committeeDocument);
+        return committeeDocument;
+    }
+
+    /*
+     * Add a member to the committee.
+     */
+    private void addMembers(Committee committee) {
+        CommitteeMembership member = new CommitteeMembership();
+        member.setCommitteeId(committee.getCommitteeId());
+        member.setCommitteeIdFk(committee.getId());
+        member.setPersonId("quickstart");
+        member.setSequenceNumber(0);
+        member.setPaidMember(true);
+        member.setPersonName("Don");
+        member.setTermStartDate(new Date(System.currentTimeMillis() - 10000));
+        member.setTermEndDate(new Date(System.currentTimeMillis() + 10000));
+        member.setMembershipTypeCode("1");
+        List<CommitteeMembershipRole> roles = new ArrayList<CommitteeMembershipRole>();
+        CommitteeMembershipRole role = new CommitteeMembershipRole();
+        role.setStartDate(member.getTermStartDate());
+        role.setEndDate(member.getTermEndDate());
+        role.setSequenceNumber(0);
+        role.setMembershipRoleCode("1");
+        roles.add(role);
+        member.setMembershipRoles(roles);
     }
 
     /*
@@ -286,80 +323,183 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         submitAction.setScheduleId(scheduleId);
         return submitAction;
     }
-    
+   
     /*
-     * Create a protocol document.
+     * Verify that the created submission and protocol action is what is expected
+     * based upon the "submitAction".
      */
-    private ProtocolDocument createProtocolDocument() throws WorkflowException {
-        ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getNewDocument(ProtocolDocument.class);
-        protocolDocument.setDocumentNextvalues(new ArrayList<DocumentNextvalue>());
-        protocolDocument.getProtocol().setProtocolDocument(protocolDocument);
-        protocolDocument.getProtocol().setProtocolId(999L);
-        protocolDocument.getProtocol().setProtocolNumber("999");
-        protocolDocument.getProtocol().setSequenceNumber(0);
-        return protocolDocument;
-    }
+    private void verifySubmission(ProtocolSubmission submission, Protocol protocol, ProtocolSubmitAction submitAction) {
+        
+        assertEquals(protocol.getProtocolNumber(), submission.getProtocolNumber());
+        assertEquals(protocol.getSequenceNumber(), submission.getSequenceNumber());
+        assertEquals(new Integer(1), submission.getSubmissionNumber());
+        
+        assertEquals(submitAction.getSubmissionTypeCode(), submission.getSubmissionTypeCode());
+        assertEquals(submitAction.getSubmissionQualifierTypeCode(), submission.getSubmissionTypeQualifierCode());
+        assertEquals(submitAction.getProtocolReviewTypeCode(), submission.getProtocolReviewTypeCode());
+       
+        assertEquals(convert(submitAction.getNewCommitteeId()), convert(submission.getCommitteeId()));
+        assertEquals(convert(submitAction.getNewScheduleId()), convert(submission.getScheduleId()));
+        
+        assertEquals(getReviewCount(submitAction.getReviewers()), getCount(submission.getProtocolReviewers()));
+        assertEquals(getExemptStudiesCount(submitAction.getExemptStudiesCheckList()), getCount(submission.getExemptStudiesCheckList()));
+        assertEquals(getExpeditedReviewCount(submitAction.getExpeditedReviewCheckList()), getCount(submission.getExpeditedReviewCheckList()));
     
-    /*
-     * Create a protocol submission.  This will be used by the Mock Business Object Service
-     * to determine if the supplied protocol submission matches this one.
-     */
-    private ProtocolSubmission createProtocolSubmission(Protocol protocol, ProtocolSubmitAction submitAction) {
-        ProtocolSubmission submission = new ProtocolSubmission();
-        submission.setProtocolId(protocol.getProtocolId());
-        submission.setProtocolNumber(protocol.getProtocolNumber());
-        submission.setSequenceNumber(0);
-        submission.setSubmissionNumber(1);
-        submission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
-        submission.setSubmissionTypeCode(submitAction.getSubmissionTypeCode());
-        submission.setSubmissionTypeQualifierCode(submitAction.getSubmissionQualifierTypeCode());
-        submission.setProtocolReviewTypeCode(submitAction.getProtocolReviewTypeCode());
-        submission.setSubmissionStatusCode("100"); 
-        if (!StringUtils.isBlank(submitAction.getNewCommitteeId())) {
-            submission.setCommitteeId(submitAction.getNewCommitteeId());
-            if (!StringUtils.isBlank(submitAction.getNewScheduleId())) {
-                submission.setScheduleId(submitAction.getNewScheduleId());
-                for (ProtocolReviewerBean reviewer : submitAction.getReviewers()) {
-                    if (reviewer.getChecked()) {
-                        ProtocolReviewer pr = new ProtocolReviewer();
-                        pr.setProtocolId(protocol.getProtocolId());
-                        pr.setProtocolNumber(protocol.getProtocolNumber());
-                        pr.setPersonId(reviewer.getPersonId());
-                        pr.setReviewerTypeCode(reviewer.getReviewerTypeCode());
-                        pr.setNonEmployeeFlag(reviewer.getNonEmployeeFlag());
-                        pr.setSequenceNumber(0);
-                        pr.setSubmissionNumber(1);
-                        submission.getProtocolReviewers().add(pr);
-                    }
+        int index = 0;
+        if (submitAction.getReviewers() != null) {
+            for (ProtocolReviewerBean reviewerBean : submitAction.getReviewers()) {
+                if (reviewerBean.getChecked()) {
+                    verifyReviewer(reviewerBean, submission.getProtocolReviewers().get(index++));
                 }
             }
         }
+        
+        index = 0;
         if (submitAction.getExemptStudiesCheckList() != null) {
             for (ExemptStudiesCheckListItem item : submitAction.getExemptStudiesCheckList()) {
                 if (item.getChecked()) {
-                    ProtocolExemptStudiesCheckListItem pitem = new ProtocolExemptStudiesCheckListItem();
-                    pitem.setExemptStudiesCheckListCode(item.getExemptStudiesCheckListCode());
-                    pitem.setProtocolId(protocol.getProtocolId());
-                    pitem.setProtocolNumber(protocol.getProtocolNumber());
-                    pitem.setSequenceNumber(0);
-                    pitem.setSubmissionNumber(1);
-                    submission.getExemptStudiesCheckList().add(pitem);
+                    verifyExemptStudies(item, submission.getExemptStudiesCheckList().get(index++));
                 }
             }
         }
+        
+        index = 0;
         if (submitAction.getExpeditedReviewCheckList() != null) {
             for (ExpeditedReviewCheckListItem item : submitAction.getExpeditedReviewCheckList()) {
                 if (item.getChecked()) {
-                    ProtocolExpeditedReviewCheckListItem pitem = new ProtocolExpeditedReviewCheckListItem();
-                    pitem.setExpeditedReviewCheckListCode(item.getExpeditedReviewCheckListCode());
-                    pitem.setProtocolId(protocol.getProtocolId());
-                    pitem.setProtocolNumber(protocol.getProtocolNumber());
-                    pitem.setSequenceNumber(0);
-                    pitem.setSubmissionNumber(1);
-                    submission.getExpeditedReviewCheckList().add(pitem);
+                    verifyExpeditedReview(item, submission.getExpeditedReviewCheckList().get(index++));
                 }
             }
         }
+    }
+            
+    /*
+     * Count the number of reviewers that have been selected.
+     */
+    private Object getReviewCount(List<ProtocolReviewerBean> reviewers) {
+        int count = 0;
+        if (reviewers != null) {
+            for (ProtocolReviewerBean reviewerBean : reviewers) {
+                if (reviewerBean.getChecked()) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    /*
+     * Count the number of exempt studies items that have been checked.
+     */
+    private int getExemptStudiesCount(List<ExemptStudiesCheckListItem> exemptStudiesCheckList) {
+        int count = 0;
+        if (exemptStudiesCheckList != null) {
+            for (ExemptStudiesCheckListItem item : exemptStudiesCheckList) {
+                if (item.getChecked()) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    
+    /*
+     * Count the number of expedited review items that have been checked.
+     */
+    private int getExpeditedReviewCount(List<ExpeditedReviewCheckListItem> expeditedReviewCheckList) {
+        int count = 0;
+        if (expeditedReviewCheckList != null) {
+            for (ExpeditedReviewCheckListItem item : expeditedReviewCheckList) {
+                if (item.getChecked()) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    /*
+     * Verify that the "protocolExemptStudiesCheckListItem" has the correct exempt studies
+     * type code corresponding to the selected one.
+     */
+    private void verifyExemptStudies(ExemptStudiesCheckListItem exemptStudiesCheckListItem,
+                                     ProtocolExemptStudiesCheckListItem protocolExemptStudiesCheckListItem) {
+        
+        assertEquals(exemptStudiesCheckListItem.getExemptStudiesCheckListCode(),
+                     protocolExemptStudiesCheckListItem.getExemptStudiesCheckListCode());
+    }
+    
+    /*
+     * Verify that the "protocolExpeditedReviewCheckListItem" has the correct expedited review
+     * type code corresponding to the selected one.
+     */
+    private void verifyExpeditedReview(ExpeditedReviewCheckListItem expeditedReviewCheckListItem,
+            ProtocolExpeditedReviewCheckListItem protocolExpeditedReviewCheckListItem) {
+
+        assertEquals(expeditedReviewCheckListItem.getExpeditedReviewCheckListCode(),
+                     protocolExpeditedReviewCheckListItem.getExpeditedReviewCheckListCode());
+    }
+
+    /*
+     * Verify the review in the submission matches the reviewer from the orignal submission request.
+     */
+    private void verifyReviewer(ProtocolReviewerBean protocolReviewerBean, ProtocolReviewer protocolReviewer) {
+        assertEquals(protocolReviewerBean.getPersonId(), protocolReviewer.getPersonId());
+        assertEquals(protocolReviewerBean.getReviewerTypeCode(), protocolReviewer.getReviewerTypeCode());
+        assertEquals(protocolReviewerBean.getNonEmployeeFlag(), protocolReviewer.getNonEmployeeFlag());   
+    }
+    
+
+    /*
+     * Verfy that the Protocol Action is correct.
+     */
+    private void verifyAction(ProtocolAction action, ProtocolSubmission submission) {
+        assertEquals(ProtocolActionType.SUBMIT_TO_IRB, action.getProtocolActionTypeCode());
+        assertEquals(submission.getSubmissionId(), action.getSubmissionIdFk());
+    }
+
+    /*
+     * If a string is null, convert it to an empty string.
+     */
+    private String convert(String s) {
+        if (s == null) return "";
+        return s;
+    }
+
+    /*
+     * Count the number of items in a list.  A null list returns zero.
+     */
+    private int getCount(List<?> list) {
+        if (list == null) return 0;
+        return list.size();
+    }
+
+    /**
+     * Find the ProtocolAction in the database.
+     */
+    @SuppressWarnings("unchecked")
+    private ProtocolAction findProtocolAction(Long protocolId) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("protocolId", protocolId);
+        List<ProtocolAction> actions = (List<ProtocolAction>) businessObjectService.findMatching(ProtocolAction.class, fieldValues);
+        
+        assertEquals(1, actions.size());
+        ProtocolAction action = actions.get(0);
+        return action;
+    }
+
+    /*
+     * Find the ProtocolSubmission in the database.
+     */
+    @SuppressWarnings("unchecked")
+    private ProtocolSubmission findSubmission(Long protocolId) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("protocolId", protocolId);
+        List<ProtocolSubmission> submissions = (List<ProtocolSubmission>) businessObjectService.findMatching(ProtocolSubmission.class, fieldValues);
+        
+        assertEquals(1, submissions.size());
+        ProtocolSubmission submission = submissions.get(0);
         return submission;
     }
+
 }

@@ -52,6 +52,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         super();
         protocolList = new ArrayList<Protocol>();
         Protocol newProtocol = new Protocol();
+        newProtocol.setProtocolDocument(this);
         protocolList.add(newProtocol);
 	} 
 	
