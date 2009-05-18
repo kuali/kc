@@ -51,7 +51,7 @@ public class ContactsValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select "));
         
-        Long awardId = ((AwardForm)GlobalVariables.getKualiForm()).getAwardDocument().getAward().getAwardId();
+        Long awardId = ((AwardForm) GlobalVariables.getKualiForm()).getAwardDocument().getAward().getAwardId();
         
         refreshAwardSponsorContacts(awardSponsorContacts);
         
