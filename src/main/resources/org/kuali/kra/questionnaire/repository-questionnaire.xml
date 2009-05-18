@@ -15,9 +15,18 @@
 -->
 <descriptor-repository version="1.0">
 
-    <class-descriptor class="org.kuali.kra.questionnaire.bo.QuestionCategory" table="GROUP_TYPES">
+    <class-descriptor class="org.kuali.kra.questionnaire.question.bo.QuestionCategory" table="GROUP_TYPES">
         <field-descriptor name="categoryTypeCode" column="GROUP_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="categoryName" column="GROUP_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.questionnaire.question.bo.QuestionType" table="QUESTION_TYPES">
+        <field-descriptor name="questionTypeId" column="QUESTION_TYPE_ID" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="questionTypeName" column="QUESTION_TYPE_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
