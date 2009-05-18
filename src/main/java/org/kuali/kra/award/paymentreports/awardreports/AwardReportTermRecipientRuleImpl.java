@@ -17,7 +17,6 @@ package org.kuali.kra.award.paymentreports.awardreports;
 
 import java.util.List;
 
-import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
