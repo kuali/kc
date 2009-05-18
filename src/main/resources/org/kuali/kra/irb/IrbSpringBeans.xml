@@ -177,7 +177,6 @@
 
 	<bean id="protocolSubmitActionService" class="org.kuali.kra.irb.actions.submit.ProtocolSubmitActionServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="committeeService" ref="committeeService" />
 	</bean>
 	
 	<bean id="protocolWithdrawService" class="org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawServiceImpl">

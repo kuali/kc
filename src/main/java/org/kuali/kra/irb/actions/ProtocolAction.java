@@ -36,7 +36,9 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 public class ProtocolAction extends KraPersistableBusinessObjectBase { 
 
     private static final long serialVersionUID = -2148599171919464303L;
-
+    
+    private static final String NEXT_ACTION_ID_KEY = "actionId";
+    
     @Id 
     @Column(name = "PROTOCOL_ACTION_ID")
     private Long protocolActionId;
@@ -82,7 +84,20 @@ public class ProtocolAction extends KraPersistableBusinessObjectBase {
     
     public ProtocolAction() { 
 
-    } 
+    }
+    
+    public ProtocolAction(Protocol protocol, ProtocolSubmission protocolSubmission, String protocolActionTypeCode) {
+        setProtocolId(protocol.getProtocolId());
+        setProtocolNumber(protocol.getProtocolNumber());
+        setSequenceNumber(0);
+        setActionId(protocol.getNextValue(NEXT_ACTION_ID_KEY));
+        setActionDate(new Timestamp(System.currentTimeMillis()));
+        setProtocolActionTypeCode(protocolActionTypeCode);
+        if (protocolSubmission != null) {
+            setSubmissionIdFk(protocolSubmission.getSubmissionId());
+            setSubmissionNumber(protocolSubmission.getSubmissionNumber());
+        }
+    }
     
     public Long getProtocolActionId() {
         return protocolActionId;
