@@ -956,4 +956,13 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     public List<ProtocolSubmission> getProtocolSubmissions() {
         return protocolSubmissions;
     }
+    
+   /**
+    * Get the next value in a sequence.
+    * @param key the unique key of the sequence
+    * @return the next value
+    */
+   public Integer getNextValue(String key) {
+       return protocolDocument.getDocumentNextValue(key);
+   }
 }
