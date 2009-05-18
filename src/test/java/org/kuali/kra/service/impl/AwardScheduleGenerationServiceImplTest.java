@@ -44,10 +44,10 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * 
- * This class tests the helper methods in AwardPaymentScheduleGenerationServiceImpl
+ * This class tests the helper methods in AwardScheduleGenerationServiceImpl
  */
 @RunWith(JMock.class)
-public class AwardPaymentScheduleGenerationServiceImplTest {
+public class AwardScheduleGenerationServiceImplTest {
     
     private static final int START_DATE_YEAR_2009 = 2009;
     private static final int START_DATE_YEAR_2011 = 2011;
@@ -63,7 +63,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
     List<AwardReportTerm> awardReportTerms;
     AwardReportTerm newAwardReportTerm;
     Frequency frequency;
-    AwardPaymentScheduleGenerationServiceImpl awardPaymentScheduleGenerationServiceImpl;
+    AwardScheduleGenerationServiceImpl awardScheduleGenerationServiceImpl;
     Calendar calendar;
     Calendar calendar1;
     
@@ -75,11 +75,11 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         frequency = new Frequency();        
         awardReportTerms = new ArrayList<AwardReportTerm>();        
         newAwardReportTerm = new AwardReportTerm();        
-        awardPaymentScheduleGenerationServiceImpl = new AwardPaymentScheduleGenerationServiceImpl();
+        awardScheduleGenerationServiceImpl = new AwardScheduleGenerationServiceImpl();
         calendar = new GregorianCalendar();
         calendar1 = new GregorianCalendar();
         setMapOfDatesOnAward(award);
-        awardPaymentScheduleGenerationServiceImpl.initializeDatesForThisAward(award);
+        awardScheduleGenerationServiceImpl.initializeDatesForThisAward(award);
     }
 
     @After
@@ -87,7 +87,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         frequency = null;
         newAwardReportTerm = null;
         awardReportTerms = null;
-        awardPaymentScheduleGenerationServiceImpl = null;
+        awardScheduleGenerationServiceImpl = null;
         newAwardReportTerm = null;
         calendar = null;
         calendar1 = null;
@@ -114,7 +114,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         newAwardReportTerm.setFrequency(frequency);
         newAwardReportTerm.setAward(award);
         
-        java.util.Date startDate = awardPaymentScheduleGenerationServiceImpl.getStartDate(newAwardReportTerm);
+        java.util.Date startDate = awardScheduleGenerationServiceImpl.getStartDate(newAwardReportTerm);
         
         Assert.assertEquals(calendar.getTime(), startDate);
         
@@ -124,11 +124,12 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
     public final void testGetEndDate(){
         calendar.clear();
         calendar.set(START_DATE_YEAR_2009, Calendar.JULY, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
-        awardPaymentScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);        
-        java.util.Date endDate = awardPaymentScheduleGenerationServiceImpl.getEndDate(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase(), calendar.getTime());
+        awardScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);        
+        java.util.Date endDate = awardScheduleGenerationServiceImpl.getEndDate(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase()
+                                    , calendar.getTime());
         calendar.add(Calendar.YEAR, 1);        
         Assert.assertEquals(calendar.getTime(),endDate);
-        endDate = awardPaymentScheduleGenerationServiceImpl.getEndDate(FrequencyBaseConstants.AWARD_EFFECTIVE_DATE.getfrequencyBase(), calendar.getTime());
+        endDate = awardScheduleGenerationServiceImpl.getEndDate(FrequencyBaseConstants.AWARD_EFFECTIVE_DATE.getfrequencyBase(), calendar.getTime());
         calendar.clear();
         calendar.set(START_DATE_YEAR_2009, Calendar.JULY, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         Assert.assertEquals(calendar.getTime(),endDate);
@@ -144,14 +145,14 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         frequency.setNumberOfMonths(null);
         frequency.setAdvanceNumberOfDays(null);
         frequency.setAdvanceNumberOfMonths(null);
-        java.util.Date startDate = awardPaymentScheduleGenerationServiceImpl.getStartDateFromTheBaseDate(calendar, frequency);
+        java.util.Date startDate = awardScheduleGenerationServiceImpl.getStartDateFromTheBaseDate(calendar, frequency);
         Assert.assertEquals(calendar1.getTime(),startDate);
         
         frequency.setNumberOfDays(THIRTY_DAYS);
         frequency.setNumberOfMonths(null);
         frequency.setAdvanceNumberOfDays(null);
         frequency.setAdvanceNumberOfMonths(null);
-        startDate = awardPaymentScheduleGenerationServiceImpl.getStartDateFromTheBaseDate(calendar, frequency);
+        startDate = awardScheduleGenerationServiceImpl.getStartDateFromTheBaseDate(calendar, frequency);
         calendar1.add(Calendar.DAY_OF_YEAR, THIRTY_DAYS);
         Assert.assertEquals(calendar1.getTime(),startDate);
         
@@ -163,7 +164,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         frequency.setNumberOfMonths(null);
         frequency.setAdvanceNumberOfDays(THIRTY_DAYS);
         frequency.setAdvanceNumberOfMonths(null);
-        startDate = awardPaymentScheduleGenerationServiceImpl.getStartDateFromTheBaseDate(calendar, frequency);
+        startDate = awardScheduleGenerationServiceImpl.getStartDateFromTheBaseDate(calendar, frequency);
         calendar1.add(Calendar.DAY_OF_YEAR, -THIRTY_DAYS);
         Assert.assertEquals(calendar1.getTime(),startDate);
         
@@ -175,7 +176,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         frequency.setNumberOfMonths(null);
         frequency.setAdvanceNumberOfDays(null);
         frequency.setAdvanceNumberOfMonths(THREE_MONTHS);
-        startDate = awardPaymentScheduleGenerationServiceImpl.getStartDateFromTheBaseDate(calendar, frequency);
+        startDate = awardScheduleGenerationServiceImpl.getStartDateFromTheBaseDate(calendar, frequency);
         calendar1.add(Calendar.MONTH, -THREE_MONTHS);
         Assert.assertEquals(calendar1.getTime(),startDate);
     }
@@ -191,7 +192,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         calendar1.clear();
         calendar1.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         frequency.setNumberOfDays(THIRTY_DAYS);
-        awardPaymentScheduleGenerationServiceImpl.addOffSetPeriodToStartDate(frequency, calendar);        
+        awardScheduleGenerationServiceImpl.addOffSetPeriodToStartDate(frequency, calendar);        
         calendar1.add(Calendar.DAY_OF_YEAR, THIRTY_DAYS);        
         Assert.assertEquals(calendar1.getTime(),calendar.getTime());
         
@@ -204,7 +205,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         calendar1.clear();
         calendar1.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         frequency.setAdvanceNumberOfDays(THIRTY_DAYS);
-        awardPaymentScheduleGenerationServiceImpl.addOffSetPeriodToStartDate(frequency, calendar);        
+        awardScheduleGenerationServiceImpl.addOffSetPeriodToStartDate(frequency, calendar);        
         calendar1.add(Calendar.DAY_OF_YEAR, -THIRTY_DAYS);        
         Assert.assertEquals(calendar1.getTime(),calendar.getTime());
         
@@ -217,7 +218,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         calendar1.clear();
         calendar1.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         frequency.setAdvanceNumberOfMonths(THREE_MONTHS);
-        awardPaymentScheduleGenerationServiceImpl.addOffSetPeriodToStartDate(frequency, calendar);        
+        awardScheduleGenerationServiceImpl.addOffSetPeriodToStartDate(frequency, calendar);        
         calendar1.add(Calendar.MONTH, -THREE_MONTHS);        
         Assert.assertEquals(calendar1.getTime(),calendar.getTime());
         
@@ -230,7 +231,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         calendar1.clear();
         calendar1.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         
-        awardPaymentScheduleGenerationServiceImpl.addOffSetPeriodToStartDate(frequency, calendar);
+        awardScheduleGenerationServiceImpl.addOffSetPeriodToStartDate(frequency, calendar);
         Assert.assertEquals(calendar1.getTime(),calendar.getTime());
     }
     
@@ -244,7 +245,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         calendar.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         calendar1.clear();
         calendar1.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
-        awardPaymentScheduleGenerationServiceImpl.addNumberOfMonthsToStartDate(frequency, calendar);
+        awardScheduleGenerationServiceImpl.addNumberOfMonthsToStartDate(frequency, calendar);
         calendar1.add(Calendar.MONTH, THREE_MONTHS);
         Assert.assertEquals(calendar1.getTime(),calendar.getTime());
         
@@ -256,12 +257,12 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         calendar.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         calendar1.clear();
         calendar1.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
-        awardPaymentScheduleGenerationServiceImpl.addNumberOfMonthsToStartDate(frequency, calendar);        
+        awardScheduleGenerationServiceImpl.addNumberOfMonthsToStartDate(frequency, calendar);        
         Assert.assertEquals(calendar1.getTime(),calendar.getTime());
     }
     
     @Test
-    public void testGetScheduledDatesSuccessCaseWhenRepeatFlagIsTrue() throws ParseException{        
+    public void testGetDatesSuccessCaseWhenRepeatFlagIsTrue() throws ParseException{        
         calendar.clear();
         calendar.set(START_DATE_YEAR_2009, Calendar.OCTOBER, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         final java.util.Date START_DATE = calendar.getTime();
@@ -298,16 +299,16 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
                     ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);will(returnValue(parameter));
         }});
         
-        awardPaymentScheduleGenerationServiceImpl.setScheduleService(scheduleService);
-        awardPaymentScheduleGenerationServiceImpl.setKualiConfigurationService(kualiConfigurationService);
-        awardPaymentScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);
+        awardScheduleGenerationServiceImpl.setScheduleService(scheduleService);
+        awardScheduleGenerationServiceImpl.setKualiConfigurationService(kualiConfigurationService);
+        awardScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);
         
         Assert.assertEquals(DATES
-                , awardPaymentScheduleGenerationServiceImpl.generateSchedules(award, awardReportTerms));
+                , awardScheduleGenerationServiceImpl.getDates(awardReportTerms));
     }
     
     @Test
-    public void testGetScheduledDatesSuccessCaseWhenRepeatFlagIsFalse() throws ParseException{
+    public void testGetDatesSuccessCaseWhenRepeatFlagIsFalse() throws ParseException{
         
         calendar.clear();
         calendar.set(START_DATE_YEAR_2009, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
@@ -345,10 +346,11 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
                     ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);will(returnValue(parameter));
         }});
         
-        awardPaymentScheduleGenerationServiceImpl.setScheduleService(scheduleService);
-        awardPaymentScheduleGenerationServiceImpl.setKualiConfigurationService(kualiConfigurationService);
-        awardPaymentScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);
+        awardScheduleGenerationServiceImpl.setScheduleService(scheduleService);
+        awardScheduleGenerationServiceImpl.setKualiConfigurationService(kualiConfigurationService);
+        awardScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);
         
-        Assert.assertEquals(DATES, awardPaymentScheduleGenerationServiceImpl.generateSchedules(award, awardReportTerms));
+        Assert.assertEquals(DATES, awardScheduleGenerationServiceImpl.getDates(awardReportTerms));
     }
+    
 }
