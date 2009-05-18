@@ -27,25 +27,24 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
-import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.award.paymentreports.paymentschedule.FrequencyBaseConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.scheduling.sequence.XMonthlyScheduleSequence;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
-import org.kuali.kra.service.AwardPaymentScheduleGenerationService;
+import org.kuali.kra.service.AwardScheduleGenerationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
- * This is the AwardPaymentScheduleGenerationService class.
+ * This is the AwardScheduleGenerationService class.
  */
 
 @Transactional
-public class AwardPaymentScheduleGenerationServiceImpl implements AwardPaymentScheduleGenerationService {
+public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerationService {
     
     public static final String ZERO_HOURS = "00:00";
     public static final String FREQUENCY_OBJECT_STRING = "frequency";
@@ -59,9 +58,9 @@ public class AwardPaymentScheduleGenerationServiceImpl implements AwardPaymentSc
     
     /**
      * 
-     * Constructs a AwardPaymentScheduleGenerationServiceImpl.java.
+     * Constructs a AwardScheduleGenerationServiceImpl.java.
      */
-    public AwardPaymentScheduleGenerationServiceImpl(){
+    public AwardScheduleGenerationServiceImpl(){
         
     }
     
@@ -89,49 +88,40 @@ public class AwardPaymentScheduleGenerationServiceImpl implements AwardPaymentSc
         calendarClassLevel.set(2009, Calendar.AUGUST, 1);//temp hardcoded award effective date of obligation.
         mapOfDates.put(FrequencyBaseConstants.AWARD_EFFECTIVE_DATE_OF_OBLIGATION.getfrequencyBase(), calendarClassLevel.getTime());
     }
+
     /**
      * 
-     * @see org.kuali.kra.service.AwardPaymentScheduleGenerationService#generatePaymentSchedules(org.kuali.kra.award.bo.Award, java.util.List)
+     * @see org.kuali.kra.service.AwardScheduleGenerationService#generateSchedules(org.kuali.kra.award.bo.Award, java.util.List)
      */
-    public void generatePaymentSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException{
+    public List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException{
         
-        List<Date> dates = new ArrayList<Date>();
-        AwardPaymentSchedule newAwardPaymentSchedule;
-        
-        initializeDatesForThisAward(award);
-        
+        initializeDatesForThisAward(award);        
         refreshAwardReportTerms(awardReportTerms);
-        dates = generateSchedules(award,awardReportTerms);
         
         setPeriodInYears(Integer.parseInt(
                 kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
                 ,KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE).getParameterValue()));
         
-        for(Date date: dates){
-            newAwardPaymentSchedule = new AwardPaymentSchedule();
-            java.sql.Date sqldate = new java.sql.Date(date.getTime());
-            newAwardPaymentSchedule.setDueDate(sqldate);
-            newAwardPaymentSchedule.setAward(award);
-            award.add(newAwardPaymentSchedule);
-        }
+        return getDates(awardReportTerms);
+        
     }
 
     /**
-     * 
      * This is a helper method. This method calls evaluates the frequency and frequency base and generates dates either by calling the scheduling service or
      * without that.
      * 
-     * @param award
      * @param awardReportTerms
+     * @param dates
+     * @param calendar
      * @return
      * @throws ParseException
      */
-    protected List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException{
-        List<Date> dates = new ArrayList<Date>();
-        java.util.Date startDate = null;
-        java.util.Date endDate = null;
-        
-        GregorianCalendar calendar = new GregorianCalendar();
+    List<Date> getDates(List<AwardReportTerm> awardReportTerms)
+            throws ParseException {
+        List<Date> dates = new ArrayList<Date>();        
+        java.util.Date startDate;
+        java.util.Date endDate;
+        Calendar calendar = new GregorianCalendar();
         
         for(AwardReportTerm awardReportTerm: awardReportTerms){
             if(StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_AWARD
@@ -147,11 +137,9 @@ public class AwardPaymentScheduleGenerationServiceImpl implements AwardPaymentSc
                     }else{            
                         dates.add(startDate);
                     }                        
-                }
-                
+                }                
             }            
         }
-        
         return dates;
     }
     
@@ -273,7 +261,7 @@ public class AwardPaymentScheduleGenerationServiceImpl implements AwardPaymentSc
      * 
      * @param awardReportTerms
      */
-    protected void refreshAwardReportTerms(List<AwardReportTerm> awardReportTerms) {
+    void refreshAwardReportTerms(List<AwardReportTerm> awardReportTerms) {
         List<AwardReportTerm> persistableObjects = new ArrayList<AwardReportTerm>();
         List<String> referenceObjectNames = new ArrayList<String>();
         

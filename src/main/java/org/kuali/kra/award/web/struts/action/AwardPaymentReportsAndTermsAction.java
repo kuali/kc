@@ -33,7 +33,6 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.AwardPaymentScheduleGenerationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -45,8 +44,7 @@ import org.kuali.rice.kns.util.KNSConstants;
  */
 public class AwardPaymentReportsAndTermsAction extends AwardAction {
     private static final String ROLODEX = "rolodex";
-    private static final String PERIOD = ".";
-    private static final int HARDCODED_ROLODEX_ID = 20083;
+    private static final String PERIOD = ".";    
     private SponsorTermActionHelper sponsorTermActionHelper;
     
     public AwardPaymentReportsAndTermsAction() {
@@ -63,17 +61,14 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     public ActionForward deletePaymentScheduleItem(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) 
                                             throws Exception {
-            (((AwardForm)form).getPaymentScheduleBean()).deletePaymentScheduleItem(getLineToDelete(request));
+            (((AwardForm) form).getPaymentScheduleBean()).deletePaymentScheduleItem(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
     public ActionForward generatePaymentSchedules(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) 
             throws Exception {
-        AwardForm awardForm = (AwardForm) form;
-        AwardDocument awardDocument = (AwardDocument) awardForm.getAwardDocument();
-        Award award = awardDocument.getAward();
         
-        getAwardPaymentScheduleGenerationService().generatePaymentSchedules(award, award.getAwardReportTermItems());
+        (((AwardForm) form).getPaymentScheduleBean()).generatePaymentSchedules();
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
@@ -213,6 +208,13 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         
         (((AwardForm) form).getAwardReportsBean()).deleteAwardReportTermItem(getLineToDelete(request));
         
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward generateReportSchedules(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        (((AwardForm) form).getAwardReportsBean()).generateReportSchedules();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
@@ -480,10 +482,14 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return KraServiceLocator.getService(PersistenceService.class);
     }
     
-    protected AwardPaymentScheduleGenerationService getAwardPaymentScheduleGenerationService(){
-        return KraServiceLocator.getService(AwardPaymentScheduleGenerationService.class);
-    }
-    
+    /**
+     * 
+     * This method adds all the AwardReportTermRecipient objects in the Award and does a retrieves the related Rolodex object for all of them in single 
+     * transaction.
+     * 
+     * @param awardForm
+     * @param awardDocument
+     */
     private void refreshAwardReportTermRecipients(AwardForm awardForm, AwardDocument awardDocument) {
         List<AwardReportTermRecipient> persistableObjects = new ArrayList<AwardReportTermRecipient>();
         List<String> referenceObjectNames = new ArrayList<String>();
@@ -492,6 +498,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             persistableObjects.add(awardReportTermRecipient);
             referenceObjectNames.add(ROLODEX);            
         }
+        
         for(AwardReportTerm awardReportTerm : awardDocument.getAward().getAwardReportTermItems()){
             for(AwardReportTermRecipient awardReportTermRecipient : awardReportTerm.getAwardReportTermRecipients()){
                 persistableObjects.add(awardReportTermRecipient);

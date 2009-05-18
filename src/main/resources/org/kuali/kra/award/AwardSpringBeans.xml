@@ -91,7 +91,7 @@
 		    <ref bean="businessObjectService" />
 		</property>
 	</bean>
-	<bean id="awardPaymentScheduleGenerationService" class="org.kuali.kra.service.impl.AwardPaymentScheduleGenerationServiceImpl">
+	<bean id="awardScheduleGenerationService" class="org.kuali.kra.service.impl.AwardScheduleGenerationServiceImpl">
 		<property name="scheduleService">
 			<ref bean="scheduleService" />
 		</property>
