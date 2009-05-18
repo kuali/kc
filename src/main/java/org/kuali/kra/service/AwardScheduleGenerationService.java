@@ -16,6 +16,7 @@
 package org.kuali.kra.service;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.kra.award.bo.Award;
@@ -23,17 +24,19 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 
 /**
  * 
- * This is the AwardPaymentScheduleGenerationService interface.
+ * This is the AwardScheduleGenerationService interface.
  */
-public interface AwardPaymentScheduleGenerationService {
+public interface AwardScheduleGenerationService {
 
     /**
      * 
-     * This is an abstract method that generates the payment schedules.
+     * This method generates a schedule of dates.
      * 
      * @param award
      * @param awardReportTerms
+     * @return
      * @throws ParseException
      */
-    void generatePaymentSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException;
+    List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException;
+    
 }
