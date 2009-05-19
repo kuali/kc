@@ -60,6 +60,7 @@ public class ActionHelper implements Serializable {
     private ProtocolRequestBean protocolSuspendRequestBean;
     private ProtocolRequestBean protocolCloseEnrollmentRequestBean;
     private ProtocolRequestBean protocolReOpenEnrollmentRequestBean;
+    private ProtocolRequestBean protocolDataAnalysisRequestBean;
    
     /**
      * Constructs an ActionHelper.
@@ -73,6 +74,7 @@ public class ActionHelper implements Serializable {
         protocolSuspendRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_SUSPENSION, ProtocolSubmissionType.REQUEST_FOR_SUSPENSION);
         protocolCloseEnrollmentRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT);
         protocolReOpenEnrollmentRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT, ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT);
+        protocolDataAnalysisRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
     }
     
     public void prepareView() {
@@ -161,5 +163,9 @@ public class ActionHelper implements Serializable {
 
     public ProtocolRequestBean getProtocolReOpenEnrollmentRequestBean() {
         return protocolReOpenEnrollmentRequestBean;
+    }
+    
+    public ProtocolRequestBean getProtocolDataAnalysisRequestBean() {
+        return protocolDataAnalysisRequestBean;
     }
 }
