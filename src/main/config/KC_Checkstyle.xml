@@ -244,7 +244,6 @@
             <property name="severity" value="info"/>
         </module>
         <module name="ArrayTypeStyle"/>
-        <module name="FileContentsHolder"/>
     </module>
     <module name="PackageHtml">
         <property name="severity" value="info"/>
@@ -253,14 +252,4 @@
         <property name="severity" value="ignore"/>
     </module>
     <module name="Translation"/>
-    <module name="SuppressionCommentFilter">
-    	<property name="offCommentFormat" value="CSOFF"/>
-    	<property name="onCommentFormat" value="CSON"/>
-    </module>
-    <module name="SuppressionCommentFilter">
-    	<property name="offCommentFormat" value="CHECKSTYLE_OFF\: ([\w\|]+)"/>
-    	<property name="onCommentFormat" value="CHECKSTYLE_ON\: ([\w\|]+)"/>
-    	<property name="checkFormat" value="$1"/>
-    </module>
-
 </module>
