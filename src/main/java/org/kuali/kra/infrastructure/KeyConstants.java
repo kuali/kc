@@ -276,6 +276,8 @@ public final class KeyConstants {
     
     //Award Sponsor Term
     public static final String ERROR_DUPLICATE_SPONSOR_TERM = "error.awardSponsorTerm.duplicate.term";
+    public static final String ERROR_NO_SPONSOR_TERM = "error.awardSponsorTerm.no.term";
+    public static final String ERROR_INVALID_SPONSOR_TERM = "error.awardSponsorTerm.invalid.term";
     
     //Award Benefits Rates
     public static final String ERROR_BENEFITS_RATES = "error.awardBenefitsRates.invalid.rates";
