@@ -29,6 +29,7 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     public static final String SUBMIT_TO_IRB = "101";
     public static final String REQUEST_TO_WITHDRAW = "107";
     public static final String REQUEST_TO_CLOSE = "105";
+    public static final String REQUEST_FOR_SUSPENSION = "106";
     
     private String protocolActionTypeCode;
     
