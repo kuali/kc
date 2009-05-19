@@ -65,7 +65,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm) form;        
+        AwardForm awardForm = (AwardForm) form;
         ActionForward forward = handleDocument(mapping, form, request, response, awardForm);        
         awardForm.initializeFormOrDocumentBasedOnCommand();
         
@@ -392,6 +392,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         } else {
         forward = super.docHandler(mapping, form, request, response);
         }
+        awardForm.getAwardDocument().populateCustomAttributes();
         return forward;
     }
     

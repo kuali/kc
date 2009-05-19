@@ -57,7 +57,6 @@ public class AwardCustomDataRuleImpl extends ResearchDocumentRuleBase implements
         boolean valid = true;
         for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry : customAttributeDocuments.entrySet()) {
             CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
-            Map<String, Object> primaryKeys = new HashMap<String, Object>();
             CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();
             //set this value from awardCustomDataList so you have all of the data in one object to be passed to helper method.
             if(awardDocument.getAward().getAwardCustomDataList().size() > 0) {
