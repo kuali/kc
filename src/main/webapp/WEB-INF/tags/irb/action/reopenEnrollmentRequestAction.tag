@@ -17,11 +17,11 @@
 
 <c:set var="attributes" value="${DataDictionary.ProtocolRequestBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="textCloseReason" value="actionHelper.protocolCloseEnrollmentRequestBean.reason" />
+<c:set var="textReason" value="actionHelper.protocolReOpenEnrollmentRequestBean.reason" />
 
 <kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
 
-<kul:innerTab tabTitle="Request to Close Enrollment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolCloseEnrollmentRequestBean*">
+<kul:innerTab tabTitle="Request to Re-open Enrollment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolReOpenEnrollmentRequestBean*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
@@ -35,7 +35,7 @@
                     </th>
                     <td>
                         <nobr>
-                        <kul:htmlControlAttribute property="actionHelper.protocolCloseEnrollmentRequestBean.committeeId" attributeEntry="${attributes.committeeId}" />
+                        <kul:htmlControlAttribute property="actionHelper.protocolReOpenEnrollmentRequestBean.committeeId" attributeEntry="${attributes.committeeId}" />
                         </nobr>
                     </td>
                 </tr>
@@ -49,15 +49,15 @@
                     </th>
                     <td>
                         <nobr>
-                        <kul:htmlControlAttribute property="actionHelper.protocolCloseEnrollmentRequestBean.reason" attributeEntry="${attributes.reason}" />
-                        <kra:expandedTextArea textAreaFieldName="${textCloseReason}" action="${action}" textAreaLabel="${attributes.reason.label}" />
+                        <kul:htmlControlAttribute property="actionHelper.protocolReOpenEnrollmentRequestBean.reason" attributeEntry="${attributes.reason}" />
+                        <kra:expandedTextArea textAreaFieldName="${textReason}" action="${action}" textAreaLabel="${attributes.reason.label}" />
                         </nobr>
                     </td>
                 </tr>
                 <tr>
 					<td align="center" colspan="2">
 						<div align="center">
-							<html:image property="methodToCall.closeEnrollmentRequestProtocol.anchor${tabKey}"
+							<html:image property="methodToCall.reopenEnrollmentRequestProtocol.anchor${tabKey}"
 							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
 						</div>
 	                </td>
