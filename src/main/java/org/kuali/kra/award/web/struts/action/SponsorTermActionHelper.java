@@ -36,6 +36,7 @@ import org.kuali.rice.kns.util.KNSConstants;
  */
 public class SponsorTermActionHelper implements Serializable {
     
+    private static final long serialVersionUID = -7294863297504587355L;
     private static final String SPONSOR_TERM_CODE = "sponsorTermCode";
     private static final String SPONSOR_TERM_TYPE_CODE = "sponsorTermTypeCode";
     private static final String PERIOD = ".";
@@ -82,13 +83,26 @@ public class SponsorTermActionHelper implements Serializable {
      * This method adds sponsorTerm from a hardcoded sponsorCode in UI. Pulls the sponsorTerm data from database.
      * @return
      */
-    @SuppressWarnings("unchecked")
     protected boolean addSponsorTermFromDatabase(SponsorTermFormHelper formHelper, HttpServletRequest request) {
-        Collection<SponsorTerm> matchingSponsorTerms = getMatchingSponsorTermFromDatabase(formHelper, request);
-        Object[] matchingSponsorTermsArray = matchingSponsorTerms.toArray();
-        SponsorTerm matchingSponsorTerm = (SponsorTerm) matchingSponsorTermsArray[0];
+        // sponsorTermCode is the value entered into the "Code" field by the user. sponsorTermTypeCode is the
+        // index of the subpanel that contains the field.
+        String sponsorTermCode = formHelper.getNewSponsorTerms().get(getSponsorTermTypeIndex(request)).getSponsorTermCode();
+        int sponsorTermTypeCode = getSponsorTermTypeIndex(request) + 1;
+        Collection<SponsorTerm> matchingSponsorTerms = getMatchingSponsorTermFromDatabase(formHelper, sponsorTermCode, sponsorTermTypeCode);
         
-        AwardSponsorTerm newAwardSponsorTerm = new AwardSponsorTerm(matchingSponsorTerm.getSponsorTermId(), matchingSponsorTerm);
+        Long sponsorTermId;
+        SponsorTerm matchingSponsorTerm;
+        if (matchingSponsorTerms.isEmpty()) {
+            // no sponsor term or invalid, so set it to null
+            matchingSponsorTerm = null;
+            sponsorTermId = null;
+        }
+        else {
+            matchingSponsorTerm = (SponsorTerm) matchingSponsorTerms.iterator().next();
+            sponsorTermId = matchingSponsorTerm.getSponsorTermId();
+        }
+        AwardSponsorTerm newAwardSponsorTerm = new AwardSponsorTerm(sponsorTermId, matchingSponsorTerm);
+        
         return applyRulesToAwardSponsorTerm(newAwardSponsorTerm, formHelper, request);
     }
     
@@ -99,13 +113,15 @@ public class SponsorTermActionHelper implements Serializable {
      * @return
      */
     protected boolean applyRulesToAwardSponsorTerm(AwardSponsorTerm newAwardSponsorTerm, SponsorTermFormHelper formHelper, HttpServletRequest request) {
+        String sponsorTermCode = formHelper.getNewSponsorTerms().get(getSponsorTermTypeIndex(request)).getSponsorTermCode();
+        int sponsorTermTypeCode = getSponsorTermTypeIndex(request) + 1;
         AwardSponsorTermRuleEvent event = 
-            new AwardSponsorTermRuleEvent(NEW_AWARD_SPONSOR_TERM, formHelper.getAwardDocument(), newAwardSponsorTerm);
-         boolean success = new AwardSponsorTermRuleImpl().processAddSponsorTermBusinessRules(event);
-              if(success){
-                  addAwardSponsorTerm(newAwardSponsorTerm, formHelper, request);   
-                  }
-              return success;
+            new AwardSponsorTermRuleEvent(NEW_AWARD_SPONSOR_TERM, formHelper.getAwardDocument(), newAwardSponsorTerm, sponsorTermCode, sponsorTermTypeCode);
+        boolean success = new AwardSponsorTermRuleImpl().processAddSponsorTermBusinessRules(event);
+        if (success) {
+            addAwardSponsorTerm(newAwardSponsorTerm, formHelper, request);
+        }
+        return success;
     }
     
     /**
@@ -123,10 +139,10 @@ public class SponsorTermActionHelper implements Serializable {
      * @return
      */
     @SuppressWarnings("unchecked")
-    protected Collection<SponsorTerm> getMatchingSponsorTermFromDatabase(SponsorTermFormHelper formHelper, HttpServletRequest request) {
+    protected Collection<SponsorTerm> getMatchingSponsorTermFromDatabase(SponsorTermFormHelper formHelper, String sponsorTermCode, int sponsorTermTypeCode) {
         Map<String, Object> matchingSponsorTerm = new HashMap<String, Object>();
-        matchingSponsorTerm.put(SPONSOR_TERM_CODE, formHelper.getNewSponsorTerms().get(getSponsorTermTypeIndex(request)).getSponsorTermCode());
-        matchingSponsorTerm.put(SPONSOR_TERM_TYPE_CODE, Integer.toString(getSponsorTermTypeIndex(request)+1));
+        matchingSponsorTerm.put(SPONSOR_TERM_CODE, sponsorTermCode);
+        matchingSponsorTerm.put(SPONSOR_TERM_TYPE_CODE, Integer.toString(sponsorTermTypeCode));
         return (Collection<SponsorTerm>) getKraBusinessObjectService().findMatching(SponsorTerm.class, matchingSponsorTerm);
     }
     
