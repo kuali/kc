@@ -22,7 +22,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ProtocolSubmissionType extends KraPersistableBusinessObjectBase { 
 	
-	private String submissionTypeCode; 
+	public static final String REQUEST_TO_CLOSE = "109";
+	
+    private String submissionTypeCode; 
 	private String description; 
 	
 	public ProtocolSubmissionType() { 
