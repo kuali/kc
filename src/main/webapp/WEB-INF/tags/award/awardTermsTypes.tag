@@ -21,16 +21,7 @@
 <c:set var="awardSponsorTermAttributes" value="${DataDictionary.AwardSponsorTerm.attributes}" />
 <c:set var="sponsorTermAttributes" value="${DataDictionary.SponsorTerm.attributes}" />
 
-<c:set var="tabErrorKeyString" value=""  />
-<c:set var="tabItemCount" value="0"  />
-<c:forEach var="awardSponsorTerm" items="${KualiForm.document.awardList[0].awardSponsorTerms}" varStatus="status">        		 
-    <c:if test="${awardSponsorTerm.sponsorTermTypeCode == sponsorTermTypeKey }" >
-    		<c:set var="tabItemCount" value="${tabItemCount+1}"  />
-    		<c:set var="tabErrorKeyString" value="newAwardSponsorTerm[${sponsorTermTypeKey}]*"/>
-    </c:if>
-</c:forEach>
-
-<kul:innerTab parentTab="Award Terms" tabItemCount="${tabItemCount}" defaultOpen="false" tabTitle="${sponsorTermTypeLabel}" tabErrorKey="${tabErrorKeyString}" >
+<kul:innerTab parentTab="Award Terms" tabItemCount="${tabItemCount}" defaultOpen="false" tabTitle="${sponsorTermTypeLabel}" tabErrorKey="newAwardSponsorTerm[${sponsorTermTypeKey}]*" >
 	<table border="0" cellpadding="0" cellspacing="0" summary="">
         <tr>
             <th width="6%"><div align="center">&nbsp;</div></th>          		
@@ -56,12 +47,14 @@
 			</div>
             </td>
         </tr>
+        <c:set var="termIndex" value="1" />   <%-- index of the term within the subpanel --%>
         <c:forEach var="awardSponsorTerm" items="${KualiForm.document.awardList[0].awardSponsorTerms}" varStatus="status">              	
 	        <c:choose>                    	
 	            <c:when test="${KualiForm.document.awardList[0].awardSponsorTerms[status.index].sponsorTermTypeCode == sponsorTermTypeKey}">
 	              <tr>
 					<th width="5%" class="infoline">
-						${status.index+1}
+						${termIndex}
+						<c:set var="termIndex" value="${termIndex+1}" />
 					</th>
 	                <td width="10%" valign="left">
 						${awardSponsorTerm.sponsorTermCode}: ${awardSponsorTerm.description}

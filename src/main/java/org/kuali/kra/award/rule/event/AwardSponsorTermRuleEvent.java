@@ -29,18 +29,26 @@ public class AwardSponsorTermRuleEvent extends KraDocumentEventBase {
     
     private static final Logger LOG = Logger.getLogger(AwardCostShareRuleEvent.class);
     private AwardSponsorTerm awardSponsorTerm;
+    private String sponsorTermCode;
+    private int sponsorTermTypeCode;
 
     /**
-     * Constructs a AwardSponsorTermRuleEvent.java.
+     * Constructs a AwardSponsorTermRuleEvent.
      * @param errorPathPrefix
      * @param awardDocument
      * @param awardSponsorTerm
+     * @param sponsorTermCode the sponsor term code from the HTTP request
+     * @param sponsorTermTypeCode the index of the subpanel within the terms panel
      */
     public AwardSponsorTermRuleEvent(String errorPathPrefix, 
                                            AwardDocument awardDocument,
-                                           AwardSponsorTerm awardSponsorTerm) {
+                                           AwardSponsorTerm awardSponsorTerm,
+                                           String sponsorTermCode,
+                                           int sponsorTermTypeCode) {
         super("Cost Share", errorPathPrefix, awardDocument);
         this.awardSponsorTerm = awardSponsorTerm;
+        this.sponsorTermCode = sponsorTermCode;
+        this.sponsorTermTypeCode = sponsorTermTypeCode;
     }
     
     /**
@@ -59,7 +67,14 @@ public class AwardSponsorTermRuleEvent extends KraDocumentEventBase {
         return awardSponsorTerm;
     }
     
-    
+    public String getSponsorTermCode() {
+        return sponsorTermCode;
+    }
+
+    public int getSponsorTermTypeCode() {
+        return sponsorTermTypeCode;
+    }
+
     /**
      * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
      */
