@@ -27,7 +27,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * Abstract Protocol Web Test base class provides common functionalities required by extended class.
  */
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-        @UnitTestFile(filename = "classpath:sql/dml/load_FUNDING_SOURCE_TYPE.sql", delimiter = ";"),}))
+        @UnitTestFile(filename = "classpath:sql/dml/load_FUNDING_SOURCE_TYPE.sql", delimiter = ";")}))
 public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
     
     private static final String PROTOCOL_FUNDINGSOURCE_TYPE_FIELD = "protocolHelper.newFundingSource.fundingSourceTypeCode";
