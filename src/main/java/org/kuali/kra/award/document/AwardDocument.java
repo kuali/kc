@@ -28,7 +28,7 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.CustomAttributeService;
+import org.kuali.kra.service.AwardCustomAttributeService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
@@ -173,9 +173,9 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
      * This method populates the customAttributes for this document.
      */
     @Override
-    protected void populateCustomAttributes() {
-        CustomAttributeService customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
-        Map<String, CustomAttributeDocument> customAttributeDocuments = customAttributeService.getDefaultAwardCustomAttributeDocuments();
+    public void populateCustomAttributes() {
+        AwardCustomAttributeService awardCustomAttributeService = KraServiceLocator.getService(AwardCustomAttributeService.class);
+        Map<String, CustomAttributeDocument> customAttributeDocuments = awardCustomAttributeService.getDefaultAwardCustomAttributeDocuments();
         setCustomAttributeDocuments(customAttributeDocuments);
     }
 }
