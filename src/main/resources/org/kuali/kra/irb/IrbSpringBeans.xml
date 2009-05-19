@@ -182,4 +182,8 @@
 	<bean id="protocolWithdrawService" class="org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+	
+	<bean id="protocolRequestService" class="org.kuali.kra.irb.actions.request.ProtocolRequestServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
 </beans>
