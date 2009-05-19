@@ -26,5 +26,6 @@
 		<kra-irb-action:closeRequestAction />
 		<kra-irb-action:suspendRequestAction />
 		<kra-irb-action:closeEnrollmentRequestAction />
+		<kra-irb-action:reopenEnrollmentRequestAction />
 	</div>
 </kul:tabTop>
