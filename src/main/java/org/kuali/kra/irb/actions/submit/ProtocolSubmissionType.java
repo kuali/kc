@@ -22,7 +22,12 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ProtocolSubmissionType extends KraPersistableBusinessObjectBase { 
 	
+    public static final String INITIAL_SUBMISSION = "100";
+    public static final String CONTINUATION = "101";
+    public static final String AMENDMENT = "102";
+    public static final String RESPONSE_TO_PREV_IRB_NOTIFICATION = "103";
 	public static final String REQUEST_TO_CLOSE = "109";
+	public static final String CONTINUATION_WITH_AMENDMENT = "115";
 	
     private String submissionTypeCode; 
 	private String description; 
