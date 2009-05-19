@@ -57,6 +57,7 @@ public class ActionHelper implements Serializable {
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
     private ProtocolRequestBean protocolCloseRequestBean;
+    private ProtocolRequestBean protocolSuspendRequestBean;
    
     /**
      * Constructs an ActionHelper.
@@ -67,6 +68,7 @@ public class ActionHelper implements Serializable {
         protocolSubmitAction = new ProtocolSubmitAction(this);
         protocolWithdrawBean = new ProtocolWithdrawBean();
         protocolCloseRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, ProtocolSubmissionType.REQUEST_TO_CLOSE);
+        protocolSuspendRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_SUSPENSION, ProtocolSubmissionType.REQUEST_FOR_SUSPENSION);
     }
     
     public void prepareView() {
@@ -143,5 +145,9 @@ public class ActionHelper implements Serializable {
     
     public ProtocolRequestBean getProtocolCloseRequestBean() {
         return protocolCloseRequestBean;
+    }
+
+    public ProtocolRequestBean getProtocolSuspendRequestBean() {
+        return protocolSuspendRequestBean;
     }
 }
