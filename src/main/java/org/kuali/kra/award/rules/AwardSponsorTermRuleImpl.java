@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.kra.award.bo.AwardSponsorTerm;
 import org.kuali.kra.award.rule.AwardSponsorTermRule;
 import org.kuali.kra.award.rule.event.AwardSponsorTermRuleEvent;
+import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -48,9 +49,52 @@ public class AwardSponsorTermRuleImpl extends ResearchDocumentRuleBase implement
      */
     public boolean processAddSponsorTermBusinessRules(AwardSponsorTermRuleEvent awardSponsorTermRuleEvent) {
         this.awardSponsorTerm = awardSponsorTermRuleEvent.getAwardSponsorTermForValidation();
-        boolean validAwardSponsorTermNotDuplicate = validateAwardSponsorTermNotDuplicate(awardSponsorTerm,
-                                                        awardSponsorTermRuleEvent.getAwardDocument().getAward().getAwardSponsorTerms());
-        return validAwardSponsorTermNotDuplicate;
+        int typeCode = awardSponsorTermRuleEvent.getSponsorTermTypeCode();
+        String sponsorTermCode = awardSponsorTermRuleEvent.getSponsorTermCode();
+        boolean valid = true;
+        if (!validateAwardSponsorTermNotEmpty(sponsorTermCode, typeCode))
+            valid = false;
+        else if (!validateAwardSponsorTermValid(awardSponsorTermRuleEvent.getAwardSponsorTermForValidation().getSponsorTerm(), sponsorTermCode, typeCode))
+            valid = false;
+        else if (!validateAwardSponsorTermNotDuplicate(awardSponsorTerm,
+                awardSponsorTermRuleEvent.getAwardDocument().getAward().getAwardSponsorTerms()))
+            valid = false;
+        return valid;
+    }
+    
+    /**
+     * This method reports an error if sponsorTermCode is null (which means the user didn't select a sponsor term).
+     * @param sponsorTermCode
+     * @param sponsorTermTypeCode
+     * @return
+     */
+    private boolean validateAwardSponsorTermNotEmpty(String sponsorTermCode, int sponsorTermTypeCode) {
+        boolean valid = true;
+        
+        if (sponsorTermCode == null) {
+            reportError(NEW_AWARD_SPONSOR_TERM + sponsorTermTypeCode + Constants.RIGHT_SQUARE_BRACKET, 
+                                        KeyConstants.ERROR_NO_SPONSOR_TERM);
+            valid = false;
+        }
+        return valid;
+    }
+    
+    /**
+     * This method reports an error if sponsorTerm is null (which means the user entered an invalid sponsor term code).
+     * @param sponsorTerm
+     * @param sponsorTermCode the value from the HTTP request
+     * @param sponsorTermTypeCode
+     * @return
+     */
+    private boolean validateAwardSponsorTermValid(SponsorTerm sponsorTerm, String sponsorTermCode, int sponsorTermTypeCode) {
+        boolean valid = true;
+        
+        if (sponsorTerm == null) {
+            reportError(NEW_AWARD_SPONSOR_TERM + sponsorTermTypeCode + Constants.RIGHT_SQUARE_BRACKET, 
+                                        KeyConstants.ERROR_INVALID_SPONSOR_TERM, new String[] { sponsorTermCode });
+            valid = false;
+        }
+        return valid;
     }
     
     /**
@@ -65,9 +109,8 @@ public class AwardSponsorTermRuleImpl extends ResearchDocumentRuleBase implement
         for(AwardSponsorTerm tempAwardSponsorTerm : awardSponsorTerms){
             if (awardSponsorTerm.getSponsorTermId().equals(tempAwardSponsorTerm.getSponsorTermId())){
                 valid = false;
-                reportError(NEW_AWARD_SPONSOR_TERM+awardSponsorTerm.getSponsorTerm().
-                                        getSponsorTermTypeCode()+Constants.RIGHT_SQUARE_BRACKET, 
-                                                            KeyConstants.ERROR_DUPLICATE_SPONSOR_TERM);
+                reportError(NEW_AWARD_SPONSOR_TERM + awardSponsorTerm.getSponsorTerm().getSponsorTermTypeCode() + Constants.RIGHT_SQUARE_BRACKET,
+                                        KeyConstants.ERROR_DUPLICATE_SPONSOR_TERM);
             }
         }
         return valid;
