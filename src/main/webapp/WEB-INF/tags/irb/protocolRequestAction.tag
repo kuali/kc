@@ -23,5 +23,6 @@
 		</h3>
 		<kra-irb-action:submitAction />
 		<kra-irb-action:withdrawAction />
+		<kra-irb-action:closeRequestAction />
 	</div>
 </kul:tabTop>
