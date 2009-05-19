@@ -278,6 +278,22 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(MAPPING_BASIC);
     }
     
+    /**
+     * Request a suspension of a protocol.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward suspendRequestProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolSuspendRequestBean());
+        return mapping.findForward(MAPPING_BASIC);
+    }
     
     private ProtocolRequestService getProtocolRequestService() {
         return KraServiceLocator.getService(ProtocolRequestService.class);
