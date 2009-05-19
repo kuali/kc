@@ -30,6 +30,7 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     public static final String REQUEST_TO_WITHDRAW = "107";
     public static final String REQUEST_TO_CLOSE = "105";
     public static final String REQUEST_FOR_SUSPENSION = "106";
+    public static final String REQUEST_TO_CLOSE_ENROLLMENT = "108";
     
     private String protocolActionTypeCode;
     
