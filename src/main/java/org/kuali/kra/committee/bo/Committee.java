@@ -81,6 +81,7 @@ public class Committee extends KraPersistableBusinessObjectBase {
     private List<CommitteeResearchArea> committeeResearchAreas;
     
     // transient lookup fields
+    private static final String CHAIR_MEMBERSHIP_ROLE_CODE = "1";
     private String membershipRoleCode;
     private String committeeChair;
     private String unitName;
@@ -294,7 +295,7 @@ public class Committee extends KraPersistableBusinessObjectBase {
         
         boolean isChairRoleFound = false;
         for (CommitteeMembershipRole committeeMembershipRole : committeeMembership.getMembershipRoles()) {
-            if (committeeMembershipRole.getMembershipRoleCode().equals("1")) {
+            if (committeeMembershipRole.getMembershipRoleCode().equals(CHAIR_MEMBERSHIP_ROLE_CODE)) {
                 isChairRoleFound = true;
                 break;
             }

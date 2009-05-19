@@ -19,9 +19,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.util.KimCommonUtils;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -29,12 +33,14 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 
 public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static final String COLUMN = ":";
+    private static final String VIEW = "view";
     /**
      * create 'edit' link
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
@@ -42,18 +48,33 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-        htmlData.setHref("../" + getHtmlAction() + "?methodToCall=docHandler&command=initiate&docTypeName=" + getDocumentTypeName()
-                + "&" + getKeyFieldName() + "=" + ObjectUtils.getPropertyValue(businessObject, getKeyFieldName()).toString());
-        htmlDataList.add(htmlData);
+
+        Properties parameters = new Properties();
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
+        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.INITIATE_COMMAND);
+        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put(getKeyFieldName(), ObjectUtils.getPropertyValue(businessObject, getKeyFieldName()).toString());
+        String href = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
+        
+        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, 
+                KNSConstants.DOC_HANDLER_METHOD, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
+        htmlDataList.add(anchorHtmlData);
         return htmlDataList;
-    }
+
+}
 
     protected AnchorHtmlData getViewLink(Document document) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
-        htmlData.setDisplayText("view");
-        htmlData.setHref("../" + getHtmlAction() + "?methodToCall=docHandler&command=displayDocSearchView&docTypeName=" + getDocumentTypeName()
-                + "&docId="+document.getDocumentNumber()+"&viewDocument=true");
+        htmlData.setDisplayText(VIEW);
+        Properties parameters = new Properties();
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
+        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
+        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put("viewDocument", "true");
+        parameters.put("docId", document.getDocumentNumber());
+        String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
+        
+        htmlData.setHref(href);
         return htmlData;
 
     }
