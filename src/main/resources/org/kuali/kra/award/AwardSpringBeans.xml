@@ -102,5 +102,8 @@
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
+	<bean id="awardCustomAttributeService" class="org.kuali.kra.service.impl.AwardCustomAttributeServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
 
 </beans>

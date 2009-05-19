@@ -38,8 +38,10 @@ public class AwardCustomDataWebTest extends AwardWebTestBase {
         HtmlPage awardPage = buildAwardDocumentPage();
         String documentNumber = getDocNbr(awardPage);
         HtmlPage customDataPage = clickOnTab(awardPage, CUSTOM_DATA_LINK_NAME);
+        System.out.print(customDataPage.asText());
 
         assertContains(customDataPage, GROUP_NAME);
+        
   
         setFieldValue(customDataPage, TENURED_NAME_ID, TENURED_NAME);
         setFieldValue(customDataPage, GRADUATE_STUDENT_COUNT_ID, GRADUATE_STUDENT_COUNT);
