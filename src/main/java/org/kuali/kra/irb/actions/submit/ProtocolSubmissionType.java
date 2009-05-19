@@ -30,6 +30,7 @@ public class ProtocolSubmissionType extends KraPersistableBusinessObjectBase {
 	public static final String CONTINUATION_WITH_AMENDMENT = "115";
     public static final String REQUEST_FOR_SUSPENSION = "110";
     public static final String REQUEST_TO_CLOSE_ENROLLMENT = "111";
+    public static final String REQUEST_TO_REOPEN_ENROLLMENT = "114";
 	
     private String submissionTypeCode; 
 	private String description; 
