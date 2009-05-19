@@ -34,6 +34,11 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
+/**
+ * 
+ * This class is for committee lookup.
+ */
+@SuppressWarnings("serial")
 public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
     private static final String MEMBERSHIP_ROLE_CODE = "membershipRoleCode";
