@@ -40,17 +40,18 @@ import org.quartz.TriggerUtils;
  * Any date expected before 02/01/09 10:09 will be ignored. Date 02/01/09 10:00 will be ignored.
  * Any date expected after  02/05/09 10:11 will be ignored. Date 02/05/09 12:00 will be ignored.
  */
-public class XMonthlyScheduleSequence implements ScheduleSequence {
+public class XMonthlyScheduleSequenceDecorator extends ScheduleSequenceDecorator {
 
     private Integer frequency;
-
+    
     /**
-     * Constructs a XMonthlyScheduleSequence.java.
-     * @param frequency can be 1(monthly), 2(bi-monthly), 3(quarterly) etc..
+     * Constructs a WeekScheduleSequence.java.
+     * @param frequency can be weekly, biweekly, etc...
+     * @param dayCount can be no of days in week meeting is scheduled.
      */
-    public XMonthlyScheduleSequence(Integer frequency) {
-        super();
-        this.frequency = frequency;
+    public XMonthlyScheduleSequenceDecorator(ScheduleSequence scheduleSequence, Integer frequency) {
+        super(scheduleSequence);
+        this.frequency = frequency;        
     }
 
     /**

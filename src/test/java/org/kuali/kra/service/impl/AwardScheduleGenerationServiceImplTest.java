@@ -36,7 +36,7 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.paymentschedule.FrequencyBaseConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.scheduling.sequence.XMonthlyScheduleSequence;
+import org.kuali.kra.scheduling.sequence.ScheduleSequence;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
 import org.kuali.rice.kns.bo.Parameter;
@@ -291,7 +291,7 @@ public class AwardScheduleGenerationServiceImplTest {
         
         context.checking(new Expectations() {{
             one(scheduleService).getScheduledDates(with(equal(START_DATE)), with(equal(END_DATE)), with(equal(new Time24HrFmt(ZERO_HOURS)))
-                    , with(any(XMonthlyScheduleSequence.class)), with(equal(DAY_OF_MONTH)));will(returnValue(DATES));
+                    , with(any(ScheduleSequence.class)), with(equal(DAY_OF_MONTH)));will(returnValue(DATES));
         }});
         
         context.checking(new Expectations(){{
@@ -337,10 +337,10 @@ public class AwardScheduleGenerationServiceImplTest {
         parameter.setParameterValue(REPORT_CLASS_CODE_CODE_SIX);
         
         context.checking(new Expectations() {{
-            never(scheduleService).getScheduledDates(START_DATE, END_DATE, new Time24HrFmt(ZERO_HOURS)
-                , new XMonthlyScheduleSequence(frequency.getNumberOfMonths()), DAY_OF_MONTH);will(returnValue(DATES));
+            never(scheduleService).getScheduledDates(with(equal(START_DATE)), with(equal(END_DATE)), with(equal(new Time24HrFmt(ZERO_HOURS)))
+                , with(any(ScheduleSequence.class)),with(equal(DAY_OF_MONTH)));will(returnValue(DATES));
         }});
-        
+                
         context.checking(new Expectations(){{
             one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
                     ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);will(returnValue(parameter));

@@ -25,6 +25,7 @@
 <%@ attribute name="auditCluster" required="false" %>
 <%@ attribute name="tabAuditKey" required="false" %>
 <%@ attribute name="useCurrentTabIndexAsKey" required="false" %>
+<%@ attribute name="overrideToggleTabMethod" required="false" %>
 
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
@@ -66,12 +67,12 @@
 </c:if>
               
 	              <div class="innerTab-head">
-	              <c:if test="${!noShowHideButton}" >
+	              <c:if test="${!noShowHideButton}" >	              
 	               <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-	                 <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " align="absmiddle" />&nbsp;
+	                 <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab${overrideToggleTabMethod}(document, '${tabKey}'); " align="absmiddle" />&nbsp;
 	               </c:if>
 	               <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-	                 <html:image  property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " align="absmiddle"/>&nbsp;
+	                 <html:image  property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab${overrideToggleTabMethod}(document, '${tabKey}'); " align="absmiddle"/>&nbsp;
 	               </c:if>
 	               </c:if>
 	               ${tabTitle}

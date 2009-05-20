@@ -1446,7 +1446,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @param newAwardPaymentSchedule
      */
     public void add(AwardPaymentSchedule paymentScheduleItem) {
-        paymentScheduleItems.add(0, paymentScheduleItem);
+        paymentScheduleItems.add(paymentScheduleItem);
         paymentScheduleItem.setAward(this);
     }
     
