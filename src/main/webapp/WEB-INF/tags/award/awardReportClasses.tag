@@ -247,7 +247,10 @@
 	    </tr>
 	    <tr>
 	        <td colspan="6">
-	            <kra-a:awardReportRecipients innerTabParent="${reportClassLabel}" index="${status.index}" />	    
+	            <kra-a:awardReportRecipients innerTabParent="${reportClassLabel}" index="${status.index}" />
+	            <c:if test="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode != reportClassKey}" >
+	            	<kra-a:awardReportDetails innerTabParent="${reportClassLabel}" index="${status.index}" />
+	            </c:if>		    
 	        </td>
 	    </tr>
 	    	</c:if>                   	
