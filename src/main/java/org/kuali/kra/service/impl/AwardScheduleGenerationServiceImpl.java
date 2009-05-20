@@ -30,7 +30,10 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.paymentschedule.FrequencyBaseConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.scheduling.sequence.XMonthlyScheduleSequence;
+import org.kuali.kra.scheduling.sequence.DefaultScheduleSequence;
+import org.kuali.kra.scheduling.sequence.ScheduleSequence;
+import org.kuali.kra.scheduling.sequence.TrimDatesScheduleSequenceDecorator;
+import org.kuali.kra.scheduling.sequence.XMonthlyScheduleSequenceDecorator;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
 import org.kuali.kra.service.AwardScheduleGenerationService;
@@ -131,9 +134,11 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
                 
                 if(startDate!=null){                    
                     calendar.setTime(startDate);
-                    if(endDate!=null && awardReportTerm.getFrequency().getRepeatFlag() && awardReportTerm.getFrequency().getNumberOfMonths()!=null){            
-                        dates = scheduleService.getScheduledDates(startDate, endDate, new Time24HrFmt(ZERO_HOURS)
-                                    , new XMonthlyScheduleSequence(awardReportTerm.getFrequency().getNumberOfMonths()), calendar.get(Calendar.DAY_OF_MONTH));
+                    if(endDate!=null && awardReportTerm.getFrequency().getRepeatFlag() && awardReportTerm.getFrequency().getNumberOfMonths()!=null){
+                        ScheduleSequence scheduleSequence = new XMonthlyScheduleSequenceDecorator(new TrimDatesScheduleSequenceDecorator(
+                                                                    new DefaultScheduleSequence()),awardReportTerm.getFrequency().getNumberOfMonths());
+                        dates = scheduleService.getScheduledDates(startDate, endDate, new Time24HrFmt(ZERO_HOURS), scheduleSequence
+                                    , calendar.get(Calendar.DAY_OF_MONTH));
                     }else{            
                         dates.add(startDate);
                     }                        

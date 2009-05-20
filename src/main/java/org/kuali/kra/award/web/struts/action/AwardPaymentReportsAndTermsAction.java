@@ -80,6 +80,11 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
+    public ActionForward toggleTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+     
+        return super.toggleTab(mapping, form, request, response);
+    }
+    
     /**
      * This method adds a foreign travel trip
      * @param mapping
