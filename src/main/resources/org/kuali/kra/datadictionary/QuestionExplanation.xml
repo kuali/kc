@@ -1,0 +1,177 @@
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="QuestionExplanation" parent="QuestionExplanation-parentBean" />
+    <bean id="QuestionExplanation-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.QuestionExplanation" />
+        <property name="inquiryDefinition" >
+            <ref bean="QuestionExplanation-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="QuestionExplanation-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="questionExplanationId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="QuestionExplanation-questionExplanationId" />
+                <ref bean="QuestionExplanation-questionId" />
+                <ref bean="QuestionExplanation-explanationType" />
+                <ref bean="QuestionExplanation-explanation" />
+                <ref bean="QuestionExplanation-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="QuestionExplanation-questionExplanationId" parent="QuestionExplanation-questionExplanationId-parentBean" />
+    <bean id="QuestionExplanation-questionExplanationId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionExplanationId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Question Explanation Id" />
+        <property name="shortLabel" value="Question Explanation Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Question Explanation Id" />
+        <property name="description" value="Question Explanation Id" />
+    </bean>
+
+    <bean id="QuestionExplanation-questionId" parent="QuestionExplanation-questionId-parentBean" />
+    <bean id="QuestionExplanation-questionId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Question Id" />
+        <property name="shortLabel" value="Question Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Question Id" />
+        <property name="description" value="Question Id" />
+    </bean>
+
+    <bean id="QuestionExplanation-explanationType" parent="QuestionExplanation-explanationType-parentBean" />
+    <bean id="QuestionExplanation-explanationType-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="explanationType" />
+        <property name="label" value="Explanation Type" />
+        <property name="shortLabel" value="Explanation Type" />
+        <property name="summary" value="Explanation Type" />
+        <property name="description" value="Explanation Type" />
+    </bean>
+
+    <bean id="QuestionExplanation-explanation" parent="QuestionExplanation-explanation-parentBean" />
+    <bean id="QuestionExplanation-explanation-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="explanation" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Explanation" />
+        <property name="shortLabel" value="Explanation" />
+        <property name="maxLength" value="4000" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="3"
+                p:cols="20" />
+        </property>
+        <property name="summary" value="Explanation" />
+        <property name="description" value="Explanation" />
+    </bean>
+
+    <bean id="QuestionExplanation-versionNumber" parent="QuestionExplanation-versionNumber-parentBean" />
+    <bean id="QuestionExplanation-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="QuestionExplanation-inquiryDefinition" parent="QuestionExplanation-inquiryDefinition-parentBean" />
+    <bean id="QuestionExplanation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Question Explanation Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Question Explanation Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="questionExplanationId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="questionId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="explanationType" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="explanation" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="QuestionExplanation-lookupDefinition" parent="QuestionExplanation-lookupDefinition-parentBean" />
+    <bean id="QuestionExplanation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Question Explanation Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="instructions" value="Look up a Question Explanation" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionExplanationId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="explanationType" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="explanation" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionExplanationId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="explanationType" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="explanation" />
+            </list>
+        </property>
+    </bean>
+</beans>
