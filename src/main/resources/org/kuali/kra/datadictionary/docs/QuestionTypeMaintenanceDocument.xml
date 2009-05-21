@@ -21,7 +21,7 @@
 
     <bean id="QuestionTypeMaintenanceDocument" parent="QuestionTypeMaintenanceDocument-parentBean" />
     <bean id="QuestionTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.bo.QuestionType" />
+        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.QuestionType" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="maintainableSections" >
             <list>
