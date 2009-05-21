@@ -21,7 +21,7 @@
 
     <bean id="QuestionCategory" parent="QuestionCategory-parentBean" />
     <bean id="QuestionCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.bo.QuestionCategory" />
+        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.QuestionCategory" />
         <property name="inquiryDefinition" >
             <ref bean="QuestionCategory-inquiryDefinition" />
         </property>
@@ -66,14 +66,14 @@
         <property name="shortLabel" value="Category Name" />
         <property name="maxLength" value="200" />
         <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
         </property>
         <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="40" />
-    </property>
+            <bean parent="TextareaControlDefinition"
+                p:rows="5"
+                p:cols="40" />
+        </property>
         <property name="summary" value="Category Name" />
         <property name="description" value="Category Name" />
     </bean>

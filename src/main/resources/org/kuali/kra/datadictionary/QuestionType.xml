@@ -21,7 +21,7 @@
 
     <bean id="QuestionType" parent="QuestionType-parentBean" />
     <bean id="QuestionType-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.bo.QuestionType" />
+        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.QuestionType" />
         <property name="inquiryDefinition" >
             <ref bean="QuestionType-inquiryDefinition" />
         </property>
