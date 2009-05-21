@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2006-2008 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,45 +13,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire.question.bo;
+package org.kuali.kra.questionnaire.question;
+
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
 
-public class QuestionType extends KraPersistableBusinessObjectBase { 
-    
+public class QuestionCategory extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Integer questionTypeId; 
-    private String questionTypeName; 
-    
-    
-    public QuestionType() { 
+    private Integer categoryTypeCode;
+    private String categoryName;
+
+    public QuestionCategory() {
 
     } 
     
-    public Integer getQuestionTypeId() {
-        return questionTypeId;
+    public Integer getCategoryTypeCode() {
+        return categoryTypeCode;
     }
 
-    public void setQuestionTypeId(Integer questionTypeId) {
-        this.questionTypeId = questionTypeId;
+    public void setCategoryTypeCode(Integer categoryTypeCode) {
+        this.categoryTypeCode = categoryTypeCode;
     }
 
-    public String getQuestionTypeName() {
-        return questionTypeName;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setQuestionTypeName(String questionTypeName) {
-        this.questionTypeName = questionTypeName;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("questionTypeId", this.getQuestionTypeId());
-        hashMap.put("questionTypeName", this.getQuestionTypeName());
+        hashMap.put("categoryTypeCode", this.getCategoryTypeCode());
+        hashMap.put("categoryName", this.getCategoryName());
         return hashMap;
     }
     
