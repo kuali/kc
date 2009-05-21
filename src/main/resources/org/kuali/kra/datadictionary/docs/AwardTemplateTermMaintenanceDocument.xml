@@ -64,6 +64,7 @@
 					<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardTemplateTerm"/>
 					<property name="name" value="templateTerms"/>
 					<property name="sourceClassName" value="org.kuali.kra.award.bo.AwardTemplateTerm"/>
+					<property name="alwaysAllowCollectionDeletion" value="true"/>
 					<!--
 						<property name="sourceClassName" value="LookupDefinition" />
 						<property name="sourceAttributeName"
