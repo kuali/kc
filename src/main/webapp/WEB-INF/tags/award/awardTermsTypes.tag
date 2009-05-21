@@ -21,6 +21,13 @@
 <c:set var="awardSponsorTermAttributes" value="${DataDictionary.AwardSponsorTerm.attributes}" />
 <c:set var="sponsorTermAttributes" value="${DataDictionary.SponsorTerm.attributes}" />
 
+<c:set var="tabItemCount" value="0" />
+<c:forEach var="awardSponsorTerm" items="${KualiForm.document.awardList[0].awardSponsorTerms}" varStatus="status">               
+    <c:if test="${awardSponsorTerm.sponsorTermTypeCode == sponsorTermTypeKey }" >
+        <c:set var="tabItemCount" value="${tabItemCount+1}" />
+    </c:if>
+</c:forEach>
+
 <kul:innerTab parentTab="Award Terms" tabItemCount="${tabItemCount}" defaultOpen="false" tabTitle="${sponsorTermTypeLabel}" tabErrorKey="newAwardSponsorTerm[${sponsorTermTypeKey}]*" >
 	<table border="0" cellpadding="0" cellspacing="0" summary="">
         <tr>
