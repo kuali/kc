@@ -1,14 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
-		Copyright 2006-2008 The Kuali Foundation Licensed under the
-		Educational Community License, Version 2.0 (the "License"); you may
-		not use this file except in compliance with the License. You may
-		obtain a copy of the License at http://www.osedu.org/licenses/ECL-2.0
-		Unless required by applicable law or agreed to in writing, software
-		distributed under the License is distributed on an "AS IS" BASIS,
-		WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-		implied. See the License for the specific language governing
-		permissions and limitations under the License.
-	--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2006-2008 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="AwardTemplateReportTermRecipientMaintenanceDocument" parent="AwardTemplateReportTermRecipientMaintenanceDocument-parentBean"/>
 	<bean id="AwardTemplateReportTermRecipientMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
@@ -24,19 +28,10 @@
 				<value>templateReportTermRecipientId</value>
 			</list>
 		</property>
-		
-		
-		
-		
-		
 		<property name="documentTypeName" value="Award Templ Rep Terms Recnt Maintenance Document"/>
 		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-		
-		
 	</bean>
-
 	<!-- Maintenance Section Definitions -->
-
 	<bean id="AwardTemplateReportTermRecipientMaintenanceDocument-EditAwardTemplateReportTermRecipient" parent="AwardTemplateReportTermRecipientMaintenanceDocument-EditAwardTemplateReportTermRecipient-parentBean"/>
 	<bean id="AwardTemplateReportTermRecipientMaintenanceDocument-EditAwardTemplateReportTermRecipient-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Edit Award Template Report Terms Recipient"/>

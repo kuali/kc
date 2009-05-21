@@ -32,15 +32,8 @@
 				<value>templateCode</value>
 			</list>
 		</property>
-		
-		
-		
-		
-		
 		<property name="documentTypeName" value="AwardTemplateMaintenanceDocument"/>
 		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-		
-		
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
