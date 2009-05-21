@@ -61,6 +61,7 @@
 					<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardTemplateContact"/>
 					<property name="name" value="templateContacts"/>
 					<property name="sourceClassName" value="org.kuali.kra.award.bo.AwardTemplateContact"/>
+					<property name="alwaysAllowCollectionDeletion" value="true"/>
 					<!--
 						<property name="collection" value="true" />
 					-->
