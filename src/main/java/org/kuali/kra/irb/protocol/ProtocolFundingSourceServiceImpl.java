@@ -28,7 +28,6 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.LookupableDevelopmentProposalService;
@@ -65,6 +64,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     private LookupableDevelopmentProposalService lookupableDevelopmentProposalService;
     private LookupableHelperService protocolLookupableHelperService;
     private DocumentService documentService;
+    private KualiConfigurationService kualiConfigurationService;
     
     
     private Map<Integer , FundingSourceLookup> fundingEnumMap;
@@ -288,7 +288,6 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
                 String typeCode = source.getFundingSourceTypeCode().toString();
                 String src = source.getFundingSource();
                 String name = source.getFundingSourceName();
-                String title = source.getFundingSourceTitle();
                 
                 ProtocolFundingSource testSrc = updateProtocolFundingSource(typeCode, src, name);       
                 
@@ -463,15 +462,17 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     }
     
     public boolean isViewable(int fundingTypeCode) {
-        boolean ret = true;
-        if ((fundingTypeCode == FundingSourceLookup.OTHER.getFundingTypeCode())) {
-            ret = false;
-        } else if ((fundingTypeCode == FundingSourceLookup.INSTITUTE_PROPOSAL.getFundingTypeCode()) && !isLinkedWithProposal()) {
-            ret = false;
-        } else if ((fundingTypeCode == FundingSourceLookup.AWARD.getFundingTypeCode()) && !isLinkedWithAward()) {
-            ret = false;
-        } else if ((fundingTypeCode == FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode()) && !isLinkedWithDevProposal()) {
-            ret = false;
+        boolean ret = false;
+        if ((fundingTypeCode == FundingSourceLookup.UNIT.getFundingTypeCode())) {
+            ret = true;
+        } else if ((fundingTypeCode == FundingSourceLookup.SPONSOR.getFundingTypeCode())) {
+            ret = true;
+        } else if ((fundingTypeCode == FundingSourceLookup.INSTITUTE_PROPOSAL.getFundingTypeCode()) && isLinkedWithProposal()) {
+            ret = true;
+        } else if ((fundingTypeCode == FundingSourceLookup.AWARD.getFundingTypeCode()) && isLinkedWithAward()) {
+            ret = true;
+        } else if ((fundingTypeCode == FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode()) && isLinkedWithDevProposal()) {
+            ret = true;
         } 
         return ret;
     }
@@ -486,7 +487,14 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     }
     
     private KualiConfigurationService getKualiConfigurationService() {
-        return KraServiceLocator.getService(KualiConfigurationService.class);        
+        if (kualiConfigurationService == null) {
+            kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);        
+        }
+        return kualiConfigurationService;
+    }
+    
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
     }
     
 }
