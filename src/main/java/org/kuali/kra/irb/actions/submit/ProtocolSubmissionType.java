@@ -32,6 +32,7 @@ public class ProtocolSubmissionType extends KraPersistableBusinessObjectBase {
     public static final String REQUEST_TO_CLOSE_ENROLLMENT = "111";
     public static final String REQUEST_TO_REOPEN_ENROLLMENT = "114";
     public static final String REQUEST_FOR_DATA_ANALYSIS_ONLY = "113";
+    public static final String NOTIFY_IRB = "112";  // also known as FYI
 	
     private String submissionTypeCode; 
 	private String description; 
