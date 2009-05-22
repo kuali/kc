@@ -33,6 +33,7 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     public static final String REQUEST_TO_CLOSE_ENROLLMENT = "108";
     public static final String REQUEST_TO_REOPEN_ENROLLMENT = "115";
     public static final String REQUEST_FOR_DATA_ANALYSIS_ONLY = "114";
+    public static final String NOTIFY_IRB = "116";
     
     private String protocolActionTypeCode;
     
