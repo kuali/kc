@@ -32,6 +32,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
+import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
@@ -348,6 +349,27 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     private ProtocolRequestService getProtocolRequestService() {
         return KraServiceLocator.getService(ProtocolRequestService.class);
+    }
+    
+    /**
+     * Notify the IRB office.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward notifyIrbProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        getProtocolNotifyIrbService().submitIrbNotification(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolNotifyIrbBean());
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    private ProtocolNotifyIrbService getProtocolNotifyIrbService() {
+        return KraServiceLocator.getService(ProtocolNotifyIrbService.class);
     }
 
     /**

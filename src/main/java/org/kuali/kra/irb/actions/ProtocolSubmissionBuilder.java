@@ -60,6 +60,10 @@ public class ProtocolSubmissionBuilder {
         protocolSubmission.setProtocolReviewTypeCode(protocolReviewTypeCode);
     }
     
+    public void setComments(String comments) {
+        protocolSubmission.setComments(comments);
+    }
+    
     public boolean setCommittee(String committeeId) {
         Committee committee = getCommitteeService().getCommitteeById(committeeId);
         if (committee != null) {
