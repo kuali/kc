@@ -1,0 +1,122 @@
+#created on: Apr 5, 2009
+package statusActionMapping
+
+#list any import classes here.
+import org.kuali.kra.irb.actions.submit.ProtocolActionMapping;
+import java.util.Arrays;
+
+function void setAction(ProtocolActionMapping protocolAction, boolean flag) {
+    protocolAction.setAllowed(flag);    
+} 
+
+rule "Assign to Agenda"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "200", submissionStatusCode == "100")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Deffer Protocol"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "201", submissionStatusCode in ("100","101"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Substantive Revisions Required(Table) Protocol"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "202", submissionStatusCode in ("100","101","102"), protocolReviewTypeCode in ("2","3"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Substantive Revisions Required(Table) Protocol -- Not Expedited or Exempt"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "202", submissionStatusCode == "101", protocolReviewTypeCode not in ("2","3"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Approve Protocol"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "204", submissionStatusCode == "101")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Expedited or Exempt,  Review type is expedited or Exempt"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "203", submissionStatusCode in ("100","101","102"), protocolReviewTypeCode in ("2","3"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Expedited or Exempt"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "203", submissionStatusCode == "101", protocolReviewTypeCode not in ("2","3"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Close Protocol 1"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "300", protocolStatusCode in ("100", "102", "104", "105", "106", "200", "201", "202", "203", "302", "308",  "304", "311"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Close Protocol 2"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "300", protocolStatusCode in ("200", "201", "202", "203", "302", "308", "311", "102", "104", "304"), submissionStatusCode != "210", submissionTypeCode == "109")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Terminate Protocol 1"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "301", protocolStatusCode in ("200", "201", "202", "203", "300", "301", "302", "305", "308", "311"), submissionStatusCode != "210", submissionTypeCode == "108")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Expire Protocol"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "305", protocolStatusCode in ("200", "201", "202", "203", "300", "301", "302", "304", "305", "308", "310", "311"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Suspend Protocol 1"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "302", protocolStatusCode in ("200", "201", "202", "203"), submissionStatusCode != "210", submissionTypeCode == "110")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Suspended by DSMB 1"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "306", protocolStatusCode in ("200", "201", "202", "203"), submissionStatusCode != "210", submissionTypeCode == "110")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "WithDraw Protocol"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "303", submissionStatusCode in ("100","101","102","201","202"))
+then	
+	setAction(protocolAction, true);
+end
