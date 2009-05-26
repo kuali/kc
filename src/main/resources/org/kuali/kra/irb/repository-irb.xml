@@ -621,7 +621,8 @@
 		<field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="fileId" column="FILE_ID_FK" jdbc-type="BIGINT"/>
 		<field-descriptor name="actionDate" column="ACTION_DATE" jdbc-type="TIMESTAMP"/>
-		<field-descriptor name="comments" column="comments" jdbc-type="VARCHAR" />
+		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+		<field-descriptor name="submissionId" column="SUBMISSION_ID_FK" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -633,6 +634,10 @@
 		
 		<reference-descriptor name="file" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true"> 
 			<foreignkey field-ref="fileId"/>
+		</reference-descriptor>
+		
+		<reference-descriptor name="submission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="true" auto-update="object" auto-delete="true"> 
+			<foreignkey field-ref="submissionId"/>
 		</reference-descriptor>
 	</class-descriptor>
 	
