@@ -21,7 +21,7 @@
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentProtocols" value="${KualiForm.document.protocolList[0].attachmentProtocols}"/>
 
-<kul:tab tabTitle="Protocol Attachments(${fn:length(attachmentProtocols)})" defaultOpen="false" tabErrorKey="notesAndAttachmentsHelper.newAttachmentProtocol.*" transparentBackground="true" tabAuditKey="document.protocolList[0].attachmentProtocols*">
+<kul:tab tabTitle="Protocol Attachments" tabItemCount="${fn:length(attachmentProtocols)}" defaultOpen="false" tabErrorKey="notesAndAttachmentsHelper.newAttachmentProtocol.*" transparentBackground="true" tabAuditKey="document.protocolList[0].attachmentProtocols*">
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left">Add Protocol Attachment</span>
