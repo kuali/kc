@@ -58,7 +58,7 @@
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Submission Type" />
+          <property name="title" value="Submission Qualifier Type" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -80,9 +80,9 @@
   <bean id="ProtocolSubmissionQualifierType-lookupDefinition" parent="ProtocolSubmissionQualifierType-lookupDefinition-parentBean" />
 
   <bean id="ProtocolSubmissionQualifierType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Submission Type Lookup" />
+    <property name="title" value="Submission Qualifier Type Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Submission Type" />
+    <property name="instructions" value="Look up a Submission Qualifier Type" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>
