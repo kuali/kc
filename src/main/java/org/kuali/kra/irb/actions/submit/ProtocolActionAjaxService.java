@@ -22,7 +22,7 @@ public interface ProtocolActionAjaxService {
      * This method is used exclusively by DWR for obtaining a list to show
      * to the end user in a drop-down menu.  To handle the conversion from
      * Java to JavaScript, the list is returned as a comma separated string.
-     * The format is: <key1>,<description1>,<key2>,<description2>,...
+     * The format is: <key1>;<description1>;<key2>;<description2>;...
      * @param committeeId the committee's unique id
      * @return the string representation of schedule dates
      */
@@ -32,7 +32,7 @@ public interface ProtocolActionAjaxService {
      * Get the reviewers based upon a committee and schedule.
      * This method is used exclusively by DWR. To handle the conversion from
      * Java to JavaScript, the list is returned as a comma separated string.
-     * The format is: <personId1>,<fullName1>,<personId2>,<fullName2>,...
+     * The format is: <personId1>;<fullName1>;<personId2>;<fullName2>;...
      * @param committeeId the committee's unique id
      * @param scheduleId the schedule's id
      * @return
@@ -43,7 +43,7 @@ public interface ProtocolActionAjaxService {
      * Get the reviewer types.  This method is used exclusively by DWR. 
      * To handle the conversion from Java to JavaScript, the list is returned 
      * as a comma separated string.  
-     * The format is: <typeCode1>,<description1>,<typeCode2>,<description2>,...
+     * The format is: <typeCode1>;<description1>;<typeCode2>;<description2>;...
      * @return
      */
     public String getReviewerTypes();

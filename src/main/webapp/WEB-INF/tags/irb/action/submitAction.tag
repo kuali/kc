@@ -198,11 +198,8 @@
 	                                                                  attributeEntry="${expeditedAttributes.checked}" />
 	                                       
                                         </td>
-                                        <td style="border-left: 1 none; border-right: 0 none; padding: 5px ">${item.abbrevDescription}</td>
-                                        <td style="vertical-align: bottom; border-left: 0 none; padding: 5px">
-                                            <html:image property="methodToCall.getExpeditedReviewDescription.line${status.index}.anchor${tabKey}"
-    			                                        src='${ConfigProperties.kra.externalizable.images.url}openreadonly_greenarrow01.png' styleClass="tinybutton"
-					                                    onclick="javascript: protocolCheckListItemPop('getExpeditedReviewDescription', '${status.index}', ${KualiForm.formKey}, ${KualiForm.document.sessionDocument});return false"/>		
+                                        <td style="border-left: 1 none; border-right: 0 none; padding: 5px ">
+                                            <kra:truncateComment textAreaFieldName="actionHelper.protocolSubmitAction.expeditedReviewCheckList[${status.index}].description" action="protocolProtocolActions" textAreaLabel="CheckList Item" textValue="${item.description}" displaySize="250"/>
                                         </td>
                                     </tr>
 								</c:forEach>
@@ -235,11 +232,8 @@
 	                                                                  attributeEntry="${exemptAttributes.checked}" />
 	                                       
                                         </td>
-                                        <td style="border-left: 1 none; border-right: 0 none; padding: 5px ">${item.abbrevDescription}</td>
-                                        <td style="vertical-align: bottom; border-left: 0 none; padding: 5px">
-                                            <html:image property="methodToCall.getExemptStudiesDescription.line${status.index}.anchor${tabKey}"
-    			                                        src='${ConfigProperties.kra.externalizable.images.url}openreadonly_greenarrow01.png' styleClass="tinybutton"
-					                                    onclick="javascript: protocolCheckListItemPop('getExemptStudiesDescription', '${status.index}', ${KualiForm.formKey}, ${KualiForm.document.sessionDocument});return false"/>		
+                                        <td style="border-left: 1 none; border-right: 0 none; padding: 5px ">
+                                            <kra:truncateComment textAreaFieldName="actionHelper.protocolSubmitAction.exemptStudiesCheckList[${status.index}].description" action="protocolProtocolActions" textAreaLabel="CheckList Item" textValue="${item.description}" displaySize="250"/>
                                         </td>
                                     </tr>
 								</c:forEach>

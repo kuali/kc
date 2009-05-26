@@ -45,16 +45,9 @@ public class CommitteeValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
         for (Committee committee : committees) {
-            keyValues.add(new KeyLabelPair(committee.getCommitteeId(), getDescription(committee)));
+            keyValues.add(new KeyLabelPair(committee.getCommitteeId(), committee.getCommitteeName()));
         }
         return keyValues;
-    }
-    
-    private String getDescription(Committee committee) {
-        if (StringUtils.isBlank(committee.getCommitteeName())) {
-            return committee.getCommitteeId();
-        }
-        return committee.getCommitteeName();
     }
 
     @SuppressWarnings("unchecked")
