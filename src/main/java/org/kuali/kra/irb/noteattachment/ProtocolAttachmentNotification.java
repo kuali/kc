@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 
 /**
  * This class represents the Protocol Attachment Notification.
@@ -30,6 +31,9 @@ public class ProtocolAttachmentNotification extends ProtocolAttachmentBase {
     
     private Timestamp actionDate;
     private String comments;
+    
+    private ProtocolSubmission submission;
+    private Long submissionId;
     
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -117,6 +121,38 @@ public class ProtocolAttachmentNotification extends ProtocolAttachmentBase {
         this.comments = comments;
     }
     
+    /**
+     * Gets the submission attribute. 
+     * @return Returns the submission.
+     */
+    public ProtocolSubmission getSubmission() {
+        return this.submission;
+    }
+
+    /**
+     * Sets the submission attribute value.
+     * @param submission The submission to set.
+     */
+    public void setSubmission(ProtocolSubmission submission) {
+        this.submission = submission;
+    }
+
+    /**
+     * Gets the submissionId attribute. 
+     * @return Returns the submissionId.
+     */
+    public Long getSubmissionId() {
+        return this.submissionId;
+    }
+
+    /**
+     * Sets the submissionId attribute value.
+     * @param submissionId The submissionId to set.
+     */
+    public void setSubmissionId(Long submissionId) {
+        this.submissionId = submissionId;
+    }
+
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
