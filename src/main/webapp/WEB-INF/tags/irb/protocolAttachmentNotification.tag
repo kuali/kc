@@ -22,7 +22,7 @@
 <c:set var="attachmentNotifications" value="${KualiForm.document.protocolList[0].attachmentNotifications}"/>
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.PROTOCOL_ATTACHMENT_NOTIFICATION_COMMENTS%>" />
 
-<kul:tab tabTitle="Notifications From Attachments(${fn:length(attachmentNotifications)})" defaultOpen="false" tabErrorKey="notesAndAttachmentsHelper.newAttachmentNotification.*,document.protocol.attachmentNotifications*" transparentBackground="false">
+<kul:tab tabTitle="Notifications From Attachments" tabItemCount="${fn:length(attachmentNotifications)}" defaultOpen="false" tabErrorKey="notesAndAttachmentsHelper.newAttachmentNotification.*,document.protocol.attachmentNotifications*" transparentBackground="false">
 	<div class="tab-container" align="center">
    		<%-- add functionality for dev only - START --%>
    		<h3>
