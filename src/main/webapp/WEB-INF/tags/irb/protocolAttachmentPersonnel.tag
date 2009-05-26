@@ -21,7 +21,7 @@
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentPersonnels" value="${KualiForm.document.protocolList[0].attachmentPersonnels}"/>
 
-<kul:tab tabTitle="Personnel Attachments(${fn:length(attachmentPersonnels)})" defaultOpen="false" tabErrorKey="notesAndAttachmentsHelper.newAttachmentPersonnel.*,document.protocol.attachmentPersonnels*" transparentBackground="false">
+<kul:tab tabTitle="Personnel Attachments" tabItemCount="${fn:length(attachmentPersonnels)}" defaultOpen="false" tabErrorKey="notesAndAttachmentsHelper.newAttachmentPersonnel.*,document.protocol.attachmentPersonnels*" transparentBackground="false">
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left">Add Personnel Attachment</span>
