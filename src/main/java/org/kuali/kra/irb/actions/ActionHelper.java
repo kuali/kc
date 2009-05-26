@@ -72,11 +72,16 @@ public class ActionHelper implements Serializable {
         this.form = form;
         protocolSubmitAction = new ProtocolSubmitAction(this);
         protocolWithdrawBean = new ProtocolWithdrawBean();
-        protocolCloseRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, ProtocolSubmissionType.REQUEST_TO_CLOSE);
-        protocolSuspendRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_SUSPENSION, ProtocolSubmissionType.REQUEST_FOR_SUSPENSION);
-        protocolCloseEnrollmentRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT);
-        protocolReOpenEnrollmentRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT, ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT);
-        protocolDataAnalysisRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
+        protocolCloseRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, 
+                                                           ProtocolSubmissionType.REQUEST_TO_CLOSE);
+        protocolSuspendRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_SUSPENSION, 
+                                                             ProtocolSubmissionType.REQUEST_FOR_SUSPENSION);
+        protocolCloseEnrollmentRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, 
+                                                                     ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT);
+        protocolReOpenEnrollmentRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT, 
+                                                                      ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT);
+        protocolDataAnalysisRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, 
+                                                                  ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
         protocolNotifyIrbBean = new ProtocolNotifyIrbBean();
     }
     
@@ -90,7 +95,9 @@ public class ActionHelper implements Serializable {
     
     private boolean getParameterValue(String parameterName) {
         KualiConfigurationService configService = getService(KualiConfigurationService.class);
-        Parameter param = configService.getParameterWithoutExceptions(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, parameterName);
+        Parameter param = configService.getParameterWithoutExceptions(Constants.PARAMETER_MODULE_PROTOCOL, 
+                                                                      Constants.PARAMETER_COMPONENT_DOCUMENT, 
+                                                                      parameterName);
         if (param == null) {
             return false;
         }

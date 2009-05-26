@@ -201,46 +201,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
     /**
-     * Display the description for an Expedited Review Check List Item.
-     * 
-     * @param mapping the mapping associated with this action.
-     * @param form the Protocol form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the name of the HTML page to display
-     * @throws Exception
-     */
-    public ActionForward getExpeditedReviewDescription(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        protocolForm.getActionHelper().getProtocolSubmitAction().setCheckListItemDescriptionInfo(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE,
-                                                                                                 getLineNum(request));
-        
-        return mapping.findForward(Constants.MAPPING_CHECKLIST_ITEM_DESCRIPITION);
-    }
-    
-    /**
-     * Display the description for an Exempt Studies Check List Item.
-     * 
-     * @param mapping the mapping associated with this action.
-     * @param form the Protocol form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the name of the HTML page to display
-     * @throws Exception
-     */
-    public ActionForward getExemptStudiesDescription(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        protocolForm.getActionHelper().getProtocolSubmitAction().setCheckListItemDescriptionInfo(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE,
-                                                                                                 getLineNum(request));
-        
-        return mapping.findForward(Constants.MAPPING_CHECKLIST_ITEM_DESCRIPITION);
-    }
-    
-    /**
      * Withdraw a previously submitted protocol.
      * @param mapping
      * @param form

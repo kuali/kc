@@ -54,20 +54,6 @@ public class ExemptStudiesCheckListItem extends KraPersistableBusinessObjectBase
         return checked;
     }
     
-    /**
-     * This is only used by JSP to obtain an abbreviated check list description.
-     * For descriptions are much too long and we can't display the entire text.
-     * @return the abbreviated description
-     */
-    public String getAbbrevDescription() {
-        if (description.length() < ExpeditedReviewCheckListItem.ABBREV_LENGTH) {
-            return description;
-        }
-        else {
-            return description.substring(0, ExpeditedReviewCheckListItem.ABBREV_LENGTH) + "...";
-        }
-    }
-    
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
