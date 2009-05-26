@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.List;
-
 import org.kuali.kra.drools.util.DroolsRuleHandler;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -31,13 +29,16 @@ public class ProtocolActionServiceImpl {
         this.businessObjectService = businessObjectService;
     }
     
-    public List<String> availableActionTypeCodes(Protocol protocol) {
+    public boolean canPerformAction(String actionTypeCode, Protocol protocol) {    
+        String submissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatusCode();
+        String submissionTypeCode = protocol.getProtocolSubmission().getSubmissionTypeCode();       
+        String protocolReviewTypeCode = protocol.getProtocolSubmission().getProtocolReviewTypeCode();       
+        String protocolStatusCode = protocol.getProtocolStatusCode();
+        ProtocolActionMapping protocolAction = new ProtocolActionMapping(actionTypeCode, submissionStatusCode, submissionTypeCode, protocolReviewTypeCode, protocolStatusCode);
         
-        ProtocolAvailableActionMapping protocolAction = new ProtocolAvailableActionMapping(protocol.getProtocolSubmission().getSubmissionTypeCode());
-        
-        DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/availableActionTypeCodeRules.drl");
+        DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl");
         updateHandle.executeRules(protocolAction);
-        return protocolAction.actionTypeCodes;
+        return protocolAction.isAllowed();
     }
     
     public void updateProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol) {
