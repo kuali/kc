@@ -33,6 +33,7 @@
 			<list>
 				<ref bean="ProtocolAttachmentNotification-id" />
 				<ref bean="ProtocolAttachmentNotification-protocolId" />
+				<ref bean="ProtocolAttachmentNotification-submissionId" />
 				<ref bean="ProtocolAttachmentNotification-attachmentVersionNumber" />
 				<ref bean="ProtocolAttachmentNotification-documentId" />
 				<ref bean="ProtocolAttachmentNotification-fileId" />
@@ -50,6 +51,24 @@
 
 	<bean id="ProtocolAttachmentNotification-protocolId" parent="ProtocolAttachmentNotification-protocolId-parentBean" />
 	<bean id="ProtocolAttachmentNotification-protocolId-parentBean" abstract="true" parent="ProtocolAttachmentBase-protocolId"/>
+	
+	<bean id="ProtocolAttachmentNotification-submissionId" parent="ProtocolAttachmentNotification-submissionId-parentBean" />
+	<bean id="ProtocolAttachmentNotification-submissionId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="submissionId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Submission Id" />
+		<property name="shortLabel" value="Submission Id" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="15" />
+		</property>
+		<property name="summary" value="Submission Id" />
+		<property name="description" value="Submission Id" />
+	</bean>
 	
 	<bean id="ProtocolAttachmentNotification-attachmentVersionNumber" parent="ProtocolAttachmentNotification-attachmentVersionNumber-parentBean" />
 	<bean id="ProtocolAttachmentNotification-attachmentVersionNumber-parentBean" abstract="true" parent="ProtocolAttachmentBase-attachmentVersionNumber" />
