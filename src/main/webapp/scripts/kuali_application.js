@@ -1620,11 +1620,18 @@ function loadScheduleDates(committeeElementId, scheduleElementId) {
 			    scheduleElement[0].innerHTML = "";
 			} else {
 				var dateOptions = data.split(";");
-				var options = '';
+				
+				removeAllChildren(scheduleElement[0]);
+				
+				/*
+				 * Add in the new set of schedules to select from.
+				 */
 				for (var i = 0; i < dateOptions.length; i += 2) {
-				    options += '<option value="' + dateOptions[i] + '">' + dateOptions[i+1] + '</option>';
+				    var option = document.createElement('option');
+				    option.setAttribute('value', dateOptions[i]);
+				    option.text = dateOptions[i + 1];
+				    addSelectOption(scheduleElement[0], option);
 				}
-				scheduleElement[0].innerHTML = options;
 			}
 		},
 		errorHandler:function( errorMessage ) {
@@ -1770,40 +1777,100 @@ function updateReviewerHtml(reviewerData, reviewerTypesData) {
  * Only every other index of reviewersArr is used, starting at beginIndex+1.
  */
 function setReviewers(reviewers, beginIndex, endIndex, reviewerTypes, htmlElement) {
-	var html = '';
+	
+	removeAllChildren(htmlElement);
+				
+    var tbody = document.createElement('tbody');
 	for (var i = beginIndex; i < endIndex; i += 2) {
 		reviewerIndex = i/2;
-		html += '<tr> ' +
-	            '    <td style="border: 0 none">' +
-	            '        <input type="checkbox" ' +
-	            '               name="actionHelper.protocolSubmitAction.reviewer[' + reviewerIndex + '].checked" ' +
-	            '                />' +
-	            '        <input type="hidden" value="actionHelper.protocolSubmitAction.reviewers[' + reviewerIndex + '].checked" name="checkboxToReset"/>' +
-	                     reviewers[i+1] +
-	            '    </td>' +
-	            '    <td style="border: 0 none">' +
-	                     makeReviewerTypesDropDown(reviewerTypes, reviewerIndex) +
-	            '        <input name="actionHelper.protocolSubmitAction.reviewer[' + reviewerIndex + '].personId" ' +
-	            '           value="' + reviewers[i] + '" type="hidden"> ' +
-	            '        <input name="actionHelper.protocolSubmitAction.reviewer[' + reviewerIndex + '].fullName" ' +
-	            '           value="' + reviewers[i+1] + '" type="hidden"> ' +
-	            '    </td>' +
-	            '</tr>';
+		
+		var row = document.createElement('tr');
+		var data = document.createElement('td');
+		
+		data.style.border = "0 none";
+		var checkBox = document.createElement('input');
+		checkBox.setAttribute("type", "checkbox");
+		checkBox.setAttribute("name", "actionHelper.protocolSubmitAction.reviewer[" + reviewerIndex + "].checked");
+		data.appendChild(checkBox);
+		
+		var hidden = document.createElement('input');
+		hidden.setAttribute("type", "hidden");
+		hidden.setAttribute("value", "actionHelper.protocolSubmitAction.reviewer[" + reviewerIndex + "].checked");
+		hidden.setAttribute("name", "checkboxToReset");
+		data.appendChild(hidden);
+		
+		var text = document.createTextNode(reviewers[i+1]);
+		data.appendChild(text);
+		row.appendChild(data);
+		
+		data = document.createElement('td');
+		data.style.border = "0 none";
+		data.appendChild(makeReviewerTypesDropDown(reviewerTypes, reviewerIndex));
+		
+		hidden = document.createElement('input');
+		hidden.setAttribute("type", "hidden");
+		hidden.setAttribute("name", "actionHelper.protocolSubmitAction.reviewer[" + reviewerIndex + "].personId");
+		hidden.setAttribute("value", reviewers[i]);
+		data.appendChild(hidden);
+		
+		hidden = document.createElement('input');
+		hidden.setAttribute("type", "hidden");
+		hidden.setAttribute("name", "actionHelper.protocolSubmitAction.reviewer[" + reviewerIndex + "].fullName");
+		hidden.setAttribute("value", reviewers[i+1]);
+		data.appendChild(hidden);
+		
+		row.appendChild(data);
+		
+		tbody.appendChild(row);
 	}
-	htmlElement.innerHTML = html;
+	
+	htmlElement.appendChild(tbody);
 }
 
 /*
  * Create the select (drop-down menu) of reviewer types.
  */
 function makeReviewerTypesDropDown(reviewerTypes, reviewerIndex) {
-    var html = '<select name="actionHelper.protocolSubmitAction.reviewer[' + reviewerIndex + '].reviewerTypeCode">' +
-	           '	<option value="" selected="selected">select</option>';
+    var selectElement = document.createElement('select');
+    selectElement.setAttribute("name", "actionHelper.protocolSubmitAction.reviewer[" + reviewerIndex + "].reviewerTypeCode");
+    
+    var option = document.createElement('option');
+	option.setAttribute("value", "");
+	option.setAttribute("selected", "selected");
+	option.text = "select";
+	addSelectOption(selectElement, option);
+	
     for (var i = 0; i < reviewerTypes.length; i += 2) {
-    	html += '	<option value="' + reviewerTypes[i] + '">' + reviewerTypes[i+1] + '</option>';
+        option = document.createElement('option');
+		option.setAttribute("value", reviewerTypes[i]);
+		option.text = reviewerTypes[i+1];
+		addSelectOption(selectElement, option);
     }
-    html += '</select>';
-    return html;
+    
+    return selectElement;
+}
+
+/*
+ * Thanks to IE, we can't use appendChild() for adding an option
+ * to a select element.
+ */
+function addSelectOption(selectElement, optionElement) {
+    try {
+       selectElement.add(optionElement,null); // standards compliant
+	}
+	catch (ex) {
+	    selectElement.add(optionElement); // IE only
+	}
+}
+
+/*
+ * Remove all of the child nodes for an element.
+ */
+function removeAllChildren(element) {
+	var length = element.childNodes.length;
+	for (var i = 0; i < length; i++) {
+		element.removeChild(element.childNodes[0]);
+	}
 }
 
 /*
