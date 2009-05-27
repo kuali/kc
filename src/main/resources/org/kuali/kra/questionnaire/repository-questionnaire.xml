@@ -40,13 +40,13 @@
         <reference-descriptor name="questionType" class-ref="org.kuali.kra.questionnaire.question.QuestionType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="questionTypeId"/>
         </reference-descriptor>
-        <collection-descriptor name="questionExplanations" proxy="true" element-class-ref="org.kuali.kra.questionnaire.question.QuestionExplanation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+        <collection-descriptor name="questionExplanations" element-class-ref="org.kuali.kra.questionnaire.question.QuestionExplanation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="questionId"/>
         </collection-descriptor>
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.questionnaire.question.QuestionExplanation" table="QUESTION_EXPLANATION">
-        <field-descriptor name="questionExplanationId" column="QUESTION_EXPLANATION_ID" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="questionExplanationId" column="QUESTION_EXPLANATION_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_QUESTION_ID" autoincrement="true" />
         <field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="INTEGER" />
         <field-descriptor name="explanationType" column="EXPLANATION_TYPE" jdbc-type="VARCHAR" />
         <field-descriptor name="explanation" column="EXPLANATION" jdbc-type="VARCHAR" />

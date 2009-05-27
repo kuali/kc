@@ -54,12 +54,11 @@
             </th>
             <td align="left" valign="middle">
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.categoryTypeCode" 
-                                          attributeEntry="${DataDictionary.Question.attributes.categoryTypeCode}" 
+                                          attributeEntry="${DataDictionary.Question.attributes.categoryTypeCode}"
+                                          readOnlyAlternateDisplay="${KualiForm.document.newMaintainableObject.businessObject.questionCategory.categoryName}" 
                                           readOnly="true" />
-                <br>
-                ${KualiForm.document.newMaintainableObject.businessObject.questionCategory.categoryName}
                 <c:if test="${!readOnly}">
-                    <kul:lookup boClassName="org.kuali.kra.questionnaire.question.QuestionCategory" fieldConversions="categoryTypeCode:document.newMaintainableObject.businessObject.categoryTypeCode" />
+                    <kul:lookup boClassName="org.kuali.kra.questionnaire.question.QuestionCategory" fieldConversions="categoryTypeCode:document.newMaintainableObject.businessObject.categoryTypeCode,categoryName:document.newMaintainableObject.businessObject.questionCategory.categoryName" />
                 </c:if>
                 
             </td>
