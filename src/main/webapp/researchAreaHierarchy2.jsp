@@ -32,14 +32,16 @@
   var i = 0;
   var removedNode;
   $(document).ready(function(){
+    $.ajaxSettings.cache = false; 
     $("#example").treeview();
     $("div#foo").append("Hello World!").css("color","red");
     $("#generate").click(function(){ 
     
        $.ajax({
-         url: 'researchAreasLoad.jsp',
+         url: 'researchAreasInit.jsp',
          type: 'GET',
          dataType: 'html',
+         cache: false,
          timeout: 1000,
          error: function(){
             alert('Error loading XML document');
@@ -61,6 +63,7 @@
            // if (i == 1) {
             var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(item_text);
             var div = $('<div  class="hierarchydetail" style="margin-top:2px; "></div>').attr("id",divId);
+       $(document).ready(function () {
             tag.click(
 					function()
 					{
@@ -70,6 +73,7 @@
 						loadChildrenRA(item_text, tagId);
 					}
 				);
+		}); 		
 //            } else {
 //            var tag = $('<a id="listcontrol04" ></a>').attr("style","margin-left:2px;").html(item_text);
 //            var div = $('<div id="listcontent04" class="hierarchydetail" style="margin-top:2px; "></div>');
@@ -138,18 +142,19 @@ function tbodyTag(name, id) {
 
   var tblTag = $('<table cellpadding="0" cellspacing="0" class="elementtable" width="100%"></table>')
   var tag=$('<th colspan="4"></th>');
-  var image = $('<a href="#"><img src="static/images/tinybutton-removenode.gif" width="79" height="15" border="0" alt="Remove Node" title="Remove this node and its child groups/sponsors"></a>&nbsp').click(function() {
+  var image = $('<a href="#"><img src="static/images/tinybutton-removenode.gif" width="79" height="15" border="0" alt="Remove Node" title="Remove this node and its child groups/sponsors"></a>&nbsp').attr("id","remove"+i).click(function() {
                       var liId="li#"+id;
-                      removedNode = $(liId);
+                      removedNode = $(liId).clone(true);
+                      //removedNode = $(liId); // this will not work because event also lost
                       alert("Remove node "+removedNode.attr("id"));
                       $(liId).remove();
                     }); 
   tag.html(image);
-  image = $('<a href="#"><img src="static/images/tinybutton-cutnode.gif" width="79" height="15" border="0" alt="Cut Node" title="Cut this node and its child roups/sponsors.  (Node will not be removed until you paste it.)"></a>&nbsp').click(function() {
+  image = $('<a href="#"><img src="static/images/tinybutton-cutnode.gif" width="79" height="15" border="0" alt="Cut Node" title="Cut this node and its child roups/sponsors.  (Node will not be removed until you paste it.)"></a>&nbsp').attr("id","cut"+i).click(function() {
                       alert("Cut node");
                     }); 
   image.appendTo(tag);                  
-  image = $('<a href="#"><img src="static/images/tinybutton-pastenode.gif" width="79" height="15" border="0" alt="Paste Node" title="Paste your previously cut node structure under this node"></a>').click(function() {
+  image = $('<a href="#"><img src="static/images/tinybutton-pastenode.gif" width="79" height="15" border="0" alt="Paste Node" title="Paste your previously cut node structure under this node"></a>').attr("id","paste"+i).click(function() {
 
                 if (removedNode) {
                       var parentNode = $("#"+id);
@@ -163,7 +168,87 @@ function tbodyTag(name, id) {
                       }   
                       removedNode.appendTo(ulTag);
                       ulTag.appendTo(parentNode);
-                   }                         
+                      
+                    /*  
+                      alert("remove node"+removedNode.attr("id")+"-"+removedNode.children().size());
+                      for (j=0 ; j < i ; j++)  {
+                        if ( $("#listcontrol"+String(j)).length > 0 ) {
+                          alert("exists "+j);
+                           $("#listcontrol"+String(j)).click(
+					          function()
+					          {
+					             //alert ("click 03");
+						         $(".hierarchydetail:not(#listcontent"+String(j)).slideUp(300);
+						         $("#listcontent"+String(j)).slideToggle(300);
+					           }
+				            );
+				          }                        
+                        }                         
+                      */
+                      
+    //removedNode.hide().with('a',function(){
+       //alert("remove node id ");
+        //$(this).width( $(this).width+200 );
+   // }).fadeIn();
+   
+
+                  
+// traverse child node temporarily removed
+
+
+       // traverse child nodes               
+//       removedNode.find('a').each(function(){
+//       //alert ("find children "+$(this).attr("id")");
+//       if ($(this).attr("id").indexOf("listcontrol") >= 0) {
+//          alert("find children "+$(this).attr("id")+"-"+$(this).attr("id").substr(11,$(this).attr("id").length));
+//          var listContentId = '#listcontent' + $(this).attr("id").substr(11,$(this).attr("id").length);
+//          $(this).click(function()
+//					          {
+//						         $(".hierarchydetail:not(#listcontent5)").slideUp(300);
+//						         $('#listcontent5').slideToggle(300);
+//					           }
+//				            );
+//       }
+//       if ($(this).attr("id").indexOf("addRA") >= 0) {
+//          alert("find children "+$(this).attr("id"));
+//       }
+//       if ($(this).attr("id").indexOf("remove") >= 0) {
+//          alert("find children "+$(this).attr("id"));
+//       }
+//       if ($(this).attr("id").indexOf("cut") >= 0) {
+//          alert("find children "+$(this).attr("id"));
+//          $(this).click(function()
+//					          {
+//						         alert("cut node");
+//					           }
+//				            );
+//       }
+//       if ($(this).attr("id").indexOf("paste") >= 0) {
+//          alert("find children "+$(this).attr("id"));
+//       }
+//       // $(this).width( $(this).width+200 );
+//    }).end() // Traverse back to #elem
+//    .find('div').each(function(){
+//        alert("find children "+$(this).attr("id") );
+//    }).end()
+//    ;
+
+
+
+                   
+                      /*
+                         $("#listcontrol5").click(
+					          function()
+					          {
+					             alert ("click 05");
+						         $(".hierarchydetail:not(#listcontent5)").slideUp(300);
+						         $("#listcontent5").slideToggle(300);
+					           }
+				            );
+                     */
+                     
+                      removedNode = null;
+                   }// if removednode                         
                 }); 
                     
                     
@@ -246,19 +331,22 @@ function setupListItem(name) {
             var tagId = "listcontrol"+i;
             var divId = "listcontent"+i;
             var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(name);
-            var div = $('<div  class="hierarchydetail" style="margin-top:2px; "></div>').attr("id",divId);
-            tag.click(
+            var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; "></div>').attr("id",divId);
+       //$(document).ready(function () {
+            $(tag).click(
 					function()
 					{
 						$(".hierarchydetail:not(#"+divId+")").slideUp(300);
-						div.slideToggle(300);
+						$("#"+divId).slideToggle(300);
+						// comment out temporarily
 						loadChildrenRA(name, tagId);
 					}
 				);
+		//});
 			//alert(tag.html());	
             var listitem = $('<li class="closed"></li>').attr("id",id1).html(tag);
-            tableTag(name, id1).appendTo(div)
-            div.appendTo(listitem);
+            tableTag(name, id1).appendTo(detDiv)
+            detDiv.appendTo(listitem);
             //alert(listitem.html());
             return listitem;
 }
@@ -268,12 +356,23 @@ function loadChildrenRA(nodeName, tagId) {
     var parentNode = $("#"+tagId);
     alert ("load subnodes for "+nodeName+"-"+parentNode.parents('li:eq(0)').attr("id")+"-" );
     var liNode = parentNode.parents('li:eq(0)');
-    alert(liNode.children('ul').size());
-    if (liNode.children('ul').size() == 0 ) {
+    var ulNode = liNode.children('ul:eq(0)');
+    var inputNodev;
+//    alert (ulNode);
+//    if (liNode.children('ul').size() > 0 ) {
+//        inputNodev = ulNode.children('input:eq(0)');
+//    }
+    
+    
+    //if (liNode.children('ul').size() == 0 ) {
+    if (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 ) {
+        alert(liNode.children('ul').size());
         $.ajax({
          url: 'researchAreasLoad.jsp',
          type: 'GET',
          dataType: 'html',
+         data:'researchAreaCode='+getResearchAreaCode(nodeName),
+         cache: false,
          timeout: 1000,
          error: function(){
             alert('Error loading XML document');
@@ -281,10 +380,20 @@ function loadChildrenRA(nodeName, tagId) {
          success: function(xml){
             //alert("success"+xml);
             i++;
-            var ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
+            var ulTag ;
+            if (liNode.children('ul').size() == 0) {
+                ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
+            } else {
+                ulTag = ulNode;
+            }
+           
             //alert(ulTag.html());
             
-            ulTag.appendTo(parentNode);
+            //ulTag.appendTo(parentNode);
+            ulTag.appendTo(liNode);
+            var loadedId = "loaded"+i;
+            var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
+            inputtag.appendTo(ulTag);
             $(xml).find('h3').each(function(){
             var item_text = $(this).text();
             i++;
@@ -299,16 +408,17 @@ function loadChildrenRA(nodeName, tagId) {
             
            // if (i == 1) {
             var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(item_text);
-            var div = $('<div  class="hierarchydetail" style="margin-top:2px; "></div>').attr("id",divId);
+            var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; "></div>').attr("id",divId);
             tag.click(
 					function()
 					{
 					    //alert ("click "+tagId);
 						$(".hierarchydetail:not(#"+divId+")").slideUp(300);
-						div.slideToggle(300);
+						detDiv.slideToggle(300);
 						loadChildrenRA(item_text, tagId);
 					}
 				);
+				alert (tag.attr("onClick"));
 //            } else {
 //            var tag = $('<a id="listcontrol04" ></a>').attr("style","margin-left:2px;").html(item_text);
 //            var div = $('<div id="listcontent04" class="hierarchydetail" style="margin-top:2px; "></div>');
@@ -319,8 +429,8 @@ function loadChildrenRA(nodeName, tagId) {
             var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
             //tag.appendTo(listitem);
             //listitem.appendTo('ul#file31');
-            tableTag(item_text, id).appendTo(div)
-            div.appendTo(listitem);
+            tableTag(item_text, id).appendTo(detDiv)
+            detDiv.appendTo(listitem);
             //listitem.appendTo('ul#file31');
             listitem.appendTo(ulTag);
             if (i==1) {
