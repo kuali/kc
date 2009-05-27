@@ -302,4 +302,317 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase{
         protocol.getProtocolSubmission().setSubmissionStatusCode("202");      
         assertTrue(protocolActionService.canPerformAction("303", protocol)); 
     }
+    
+    @Test
+    public void testActionTypeCode304ReviewTypeCodeNot2or3() {                
+        protocol.getProtocolSubmission().setSubmissionStatusCode("101");      
+        protocol.getProtocolSubmission().setProtocolReviewTypeCode("0");
+        assertTrue(protocolActionService.canPerformAction("304", protocol));   
+    }
+    
+    @Test
+    public void testActionTypeCode304ReviewTypeCode2or3() {         
+        protocol.getProtocolSubmission().setProtocolReviewTypeCode("2");
+        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("100");      
+        assertTrue(protocolActionService.canPerformAction("304", protocol));   
+        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("101");      
+        assertTrue(protocolActionService.canPerformAction("304", protocol));   
+        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("102");      
+        assertTrue(protocolActionService.canPerformAction("304", protocol));  
+        
+        protocol.getProtocolSubmission().setProtocolReviewTypeCode("3");
+        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("100");      
+        assertTrue(protocolActionService.canPerformAction("304", protocol));   
+        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("101");      
+        assertTrue(protocolActionService.canPerformAction("304", protocol));   
+        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("102");      
+        assertTrue(protocolActionService.canPerformAction("304", protocol));  
+    }
+    
+    @Test
+    public void testActionTypeCode103() { 
+        protocol.setProtocolStatusCode("200");          
+        assertTrue(protocolActionService.canPerformAction("103", protocol));    
+        
+        protocol.setProtocolStatusCode("201");      
+        assertTrue(protocolActionService.canPerformAction("103", protocol)); 
+        
+        protocol.setProtocolStatusCode("202");      
+        assertTrue(protocolActionService.canPerformAction("103", protocol)); 
+        
+        protocol.setProtocolStatusCode("203");      
+        assertTrue(protocolActionService.canPerformAction("103", protocol)); 
+        
+        protocol.setProtocolStatusCode("300");      
+        assertTrue(protocolActionService.canPerformAction("103", protocol)); 
+        
+        protocol.setProtocolStatusCode("301");      
+        assertTrue(protocolActionService.canPerformAction("103", protocol)); 
+        
+        protocol.setProtocolStatusCode("302");      
+        assertTrue(protocolActionService.canPerformAction("103", protocol)); 
+        
+        protocol.setProtocolStatusCode("308");      
+        assertTrue(protocolActionService.canPerformAction("103", protocol)); 
+        
+        protocol.setProtocolStatusCode("311");      
+        assertTrue(protocolActionService.canPerformAction("103", protocol)); 
+    }
+    
+    @Test
+    public void testActionTypeCode102() { 
+        protocol.setProtocolStatusCode("200");          
+        assertTrue(protocolActionService.canPerformAction("102", protocol));    
+        
+        protocol.setProtocolStatusCode("201");      
+        assertTrue(protocolActionService.canPerformAction("102", protocol)); 
+        
+        protocol.setProtocolStatusCode("202");      
+        assertTrue(protocolActionService.canPerformAction("102", protocol)); 
+        
+        protocol.setProtocolStatusCode("203");      
+        assertTrue(protocolActionService.canPerformAction("102", protocol)); 
+        
+        protocol.setProtocolStatusCode("300");      
+        assertTrue(protocolActionService.canPerformAction("102", protocol)); 
+        
+        protocol.setProtocolStatusCode("301");      
+        assertTrue(protocolActionService.canPerformAction("102", protocol)); 
+        
+        protocol.setProtocolStatusCode("302");      
+        assertTrue(protocolActionService.canPerformAction("102", protocol)); 
+        
+        protocol.setProtocolStatusCode("308");      
+        assertTrue(protocolActionService.canPerformAction("102", protocol)); 
+        
+        protocol.setProtocolStatusCode("311");      
+        assertTrue(protocolActionService.canPerformAction("102", protocol));
+        
+        protocol.setProtocolStatusCode("305");      
+        assertTrue(protocolActionService.canPerformAction("102", protocol)); 
+    }
+    
+    @Test
+    public void testActionTypeCode205ReviewTypeCode2() {         
+        protocol.getProtocolSubmission().setProtocolReviewTypeCode("2");
+        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("100");      
+        assertTrue(protocolActionService.canPerformAction("205", protocol));   
+        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("101");      
+        assertTrue(protocolActionService.canPerformAction("205", protocol));   
+    }
+    
+    @Test
+    public void testActionTypeCode208ReviewTypeCode6() {         
+        protocol.getProtocolSubmission().setProtocolReviewTypeCode("6");
+        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("100");      
+        assertTrue(protocolActionService.canPerformAction("208", protocol));   
+        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("101");      
+        assertTrue(protocolActionService.canPerformAction("208", protocol));   
+    }
+    
+    @Test
+    public void testActionTypeCode209ReviewTypeCode6() {         
+        protocol.getProtocolSubmission().setSubmissionTypeCode("112");
+        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("100");      
+        assertTrue(protocolActionService.canPerformAction("209", protocol));   
+        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("101");      
+        assertTrue(protocolActionService.canPerformAction("209", protocol));   
+    }
+    
+    @Test
+    public void testActionTypeCode206ReviewTypeCode3() {         
+        protocol.getProtocolSubmission().setProtocolReviewTypeCode("3");
+        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("100");      
+        assertTrue(protocolActionService.canPerformAction("206", protocol));   
+        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("101");      
+        assertTrue(protocolActionService.canPerformAction("206", protocol));   
+    }
+    
+    @Test
+    public void testActionTypeCode210ReviewTypeCode5() {         
+        protocol.getProtocolSubmission().setProtocolReviewTypeCode("5");
+        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("100");      
+        assertTrue(protocolActionService.canPerformAction("210", protocol));   
+        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("101");      
+        assertTrue(protocolActionService.canPerformAction("210", protocol));   
+    }
+
+    @Test
+    public void testActionTypeCode104() { 
+        protocol.setProtocolStatusCode("200");          
+        assertTrue(protocolActionService.canPerformAction("104", protocol));    
+        
+        protocol.setProtocolStatusCode("201");      
+        assertTrue(protocolActionService.canPerformAction("104", protocol)); 
+        
+        protocol.setProtocolStatusCode("202");      
+        assertTrue(protocolActionService.canPerformAction("104", protocol)); 
+        
+        protocol.setProtocolStatusCode("203");      
+        assertTrue(protocolActionService.canPerformAction("104", protocol)); 
+        
+        protocol.setProtocolStatusCode("300");      
+        assertTrue(protocolActionService.canPerformAction("104", protocol)); 
+        
+        protocol.setProtocolStatusCode("301");      
+        assertTrue(protocolActionService.canPerformAction("104", protocol)); 
+        
+        protocol.setProtocolStatusCode("302");      
+        assertTrue(protocolActionService.canPerformAction("104", protocol)); 
+        
+        protocol.setProtocolStatusCode("308");      
+        assertTrue(protocolActionService.canPerformAction("104", protocol)); 
+        
+        protocol.setProtocolStatusCode("311");      
+        assertTrue(protocolActionService.canPerformAction("104", protocol));
+    }
+    
+    @Test
+    public void testActionTypeCode105() { 
+        protocol.setProtocolStatusCode("200");          
+        assertTrue(protocolActionService.canPerformAction("105", protocol));    
+        
+        protocol.setProtocolStatusCode("201");      
+        assertTrue(protocolActionService.canPerformAction("105", protocol)); 
+        
+        protocol.setProtocolStatusCode("202");      
+        assertTrue(protocolActionService.canPerformAction("105", protocol)); 
+        
+        protocol.setProtocolStatusCode("203");      
+        assertTrue(protocolActionService.canPerformAction("105", protocol)); 
+        
+        protocol.setProtocolStatusCode("302");      
+        assertTrue(protocolActionService.canPerformAction("105", protocol)); 
+        
+        protocol.setProtocolStatusCode("308");      
+        assertTrue(protocolActionService.canPerformAction("105", protocol)); 
+        
+        protocol.setProtocolStatusCode("311");      
+        assertTrue(protocolActionService.canPerformAction("105", protocol));
+    }
+    
+    @Test
+    public void testActionTypeCode106() { 
+        protocol.setProtocolStatusCode("200");          
+        assertTrue(protocolActionService.canPerformAction("106", protocol));    
+        
+        protocol.setProtocolStatusCode("201");      
+        assertTrue(protocolActionService.canPerformAction("106", protocol)); 
+        
+        protocol.setProtocolStatusCode("202");      
+        assertTrue(protocolActionService.canPerformAction("106", protocol)); 
+        
+        protocol.setProtocolStatusCode("203");      
+        assertTrue(protocolActionService.canPerformAction("106", protocol)); 
+    }  
+    
+    @Test
+    public void testActionTypeCode108() { 
+        protocol.setProtocolStatusCode("200");          
+        assertTrue(protocolActionService.canPerformAction("108", protocol));     
+    }
+    
+    @Test
+    public void testActionTypeCode207Cond1() { 
+        protocol.setProtocolStatusCode("200");          
+        assertTrue(protocolActionService.canPerformAction("207", protocol));     
+    }
+    
+    @Test
+    public void testActionTypeCode207Cond2() { 
+        protocol.getProtocolSubmission().setSubmissionStatusCode("NOT210"); 
+        protocol.getProtocolSubmission().setSubmissionTypeCode("111");
+        protocol.setProtocolStatusCode("200");          
+        assertTrue(protocolActionService.canPerformAction("207", protocol));     
+    }
+    
+    @Test
+    public void testActionTypeCode209() { 
+        protocol.getProtocolSubmission().setProtocolReviewTypeCode("2");
+        protocol.getProtocolSubmission().setSubmissionStatusCode("NOT100");        
+        assertTrue(protocolActionService.canPerformAction("209", protocol));
+        
+        protocol.getProtocolSubmission().setProtocolReviewTypeCode("3");
+        protocol.getProtocolSubmission().setSubmissionStatusCode("NOT100");        
+        assertTrue(protocolActionService.canPerformAction("209", protocol));
+    }
+    
+    @Test
+    public void testActionTypeCode999() { 
+        protocol.getProtocolSubmission().setSubmissionStatusCode("101");        
+        assertTrue(protocolActionService.canPerformAction("999", protocol));
+    }
+    
+    @Test
+    public void testActionTypeCode114() { 
+        protocol.setProtocolStatusCode("200");      
+        assertTrue(protocolActionService.canPerformAction("114", protocol));
+        
+        protocol.setProtocolStatusCode("201");      
+        assertTrue(protocolActionService.canPerformAction("114", protocol));
+    }
+    
+    @Test
+    public void testActionTypeCode115() { 
+        protocol.setProtocolStatusCode("201");      
+        assertTrue(protocolActionService.canPerformAction("115", protocol));
+    }
+    
+    @Test
+    public void testActionTypeCode211Cond1() {         
+        protocol.getProtocolSubmission().setSubmissionStatusCode("NOT210"); 
+        protocol.getProtocolSubmission().setSubmissionTypeCode("113");
+        
+        protocol.setProtocolStatusCode("200");      
+        assertTrue(protocolActionService.canPerformAction("211", protocol));
+        
+        protocol.setProtocolStatusCode("201");      
+        assertTrue(protocolActionService.canPerformAction("211", protocol));
+    }
+    
+    @Test
+    public void testActionTypeCode212Cond1() {         
+        protocol.getProtocolSubmission().setSubmissionStatusCode("NOT210"); 
+        protocol.getProtocolSubmission().setSubmissionTypeCode("114");
+        
+        protocol.setProtocolStatusCode("201");      
+        assertTrue(protocolActionService.canPerformAction("212", protocol));
+    }
+    
+    @Test
+    public void testActionTypeCode116() {         
+        protocol.setProtocolStatusCode("100");      
+        assertTrue(protocolActionService.canPerformAction("116", protocol));
+        
+        protocol.setProtocolStatusCode("101");      
+        assertTrue(protocolActionService.canPerformAction("116", protocol));
+        
+        protocol.setProtocolStatusCode("102");      
+        assertTrue(protocolActionService.canPerformAction("116", protocol));
+        
+        protocol.setProtocolStatusCode("103");      
+        assertTrue(protocolActionService.canPerformAction("116", protocol));
+        
+        protocol.setProtocolStatusCode("105");      
+        assertTrue(protocolActionService.canPerformAction("116", protocol));
+        
+        protocol.setProtocolStatusCode("106");      
+        assertTrue(protocolActionService.canPerformAction("116", protocol));
+    }
 }
