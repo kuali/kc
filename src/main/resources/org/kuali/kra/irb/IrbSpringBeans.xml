@@ -190,4 +190,8 @@
 	<bean id="protocolNotifyIrbService" class="org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+	
+	<bean id="protocolActionService" class="org.kuali.kra.irb.actions.submit.ProtocolActionServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
 </beans>
