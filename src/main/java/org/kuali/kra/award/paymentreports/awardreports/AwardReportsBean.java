@@ -131,12 +131,7 @@ public class AwardReportsBean implements Serializable {
             items.remove(deletedItemIndex);
         }        
     }
-    
-    public void generateReportSchedules(){
-        System.out.println("Generate reports is called.");
-    }
-
-    
+        
     /**
      * @return
      */

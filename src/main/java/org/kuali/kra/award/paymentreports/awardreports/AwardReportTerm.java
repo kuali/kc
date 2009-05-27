@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTermBase;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReporting;
 
 
 /**
@@ -39,7 +40,8 @@ public class AwardReportTerm extends AwardReportTermBase {
     private String awardNumber; 
     private Integer sequenceNumber; 
     private Award award; 
-    private List<AwardReportTermRecipient> awardReportTermRecipients; 
+    private List<AwardReportTermRecipient> awardReportTermRecipients;
+    private List<AwardReporting> awardReportings;
     
     /**
      * 
@@ -47,6 +49,7 @@ public class AwardReportTerm extends AwardReportTermBase {
      */
     public AwardReportTerm() {
         awardReportTermRecipients = new ArrayList<AwardReportTermRecipient>();
+        awardReportings = new ArrayList<AwardReporting>();
     } 
     
     /**
@@ -180,5 +183,21 @@ public class AwardReportTerm extends AwardReportTermBase {
             return false;
         }   
         return true;
+    }
+
+    /**
+     * Gets the awardReportings attribute. 
+     * @return Returns the awardReportings.
+     */
+    public List<AwardReporting> getAwardReportings() {
+        return awardReportings;
+    }
+
+    /**
+     * Sets the awardReportings attribute value.
+     * @param awardReportings The awardReportings to set.
+     */
+    public void setAwardReportings(List<AwardReporting> awardReportings) {
+        this.awardReportings = awardReportings;
     }   
 }
