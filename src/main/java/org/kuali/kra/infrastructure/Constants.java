@@ -399,4 +399,9 @@ public interface Constants {
     public static final String ENABLE_PROTOCOL_TO_AWARD_LINK  = "irb.protocol.award.linking.enabled";
     public static final String ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK = "irb.protocol.development.proposal.linking.enabled";
     public static final String ENABLE_PROTOCOL_TO_PROPOSAL_LINK = "irb.protocol.institute.proposal.linking.enabled";
+    
+    // Questionnaire
+    public static final String QUESTION_EXPLANATION = "E";
+    public static final String QUESTION_POLICY = "P";
+    public static final String QUESTION_REGULATION = "R";
 }

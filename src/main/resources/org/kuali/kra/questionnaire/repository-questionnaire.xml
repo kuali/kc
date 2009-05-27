@@ -18,6 +18,44 @@
 
 <descriptor-repository version="1.0">
 
+    <class-descriptor class="org.kuali.kra.questionnaire.question.Question" table="QUESTION">
+        <field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="question" column="QUESTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR" />
+        <field-descriptor name="categoryTypeCode" column="GROUP_TYPE_CODE" jdbc-type="INTEGER" />
+        <field-descriptor name="maxAnswers" column="MAX_ANSWERS" jdbc-type="INTEGER" />
+        <field-descriptor name="displayedAnswers" column="DISPLAYED_ANSWERS" jdbc-type="INTEGER" />
+        <field-descriptor name="validAnswer" column="VALID_ANSWER" jdbc-type="VARCHAR" />
+        <field-descriptor name="lookupName" column="LOOKUP_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="questionTypeId" column="ANSWER_DATA_TYPE" jdbc-type="INTEGER" />
+        <field-descriptor name="answerMaxLength" column="ANSWER_MAX_LENGTH" jdbc-type="INTEGER" />
+        <field-descriptor name="lookupGui" column="LOOKUP_GUI" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="questionCategory" class-ref="org.kuali.kra.questionnaire.question.QuestionCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="categoryTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="questionType" class-ref="org.kuali.kra.questionnaire.question.QuestionType" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="questionTypeId"/>
+        </reference-descriptor>
+        <collection-descriptor name="questionExplanations" proxy="true" element-class-ref="org.kuali.kra.questionnaire.question.QuestionExplanation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="questionId"/>
+        </collection-descriptor>
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.questionnaire.question.QuestionExplanation" table="QUESTION_EXPLANATION">
+        <field-descriptor name="questionExplanationId" column="QUESTION_EXPLANATION_ID" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="explanationType" column="EXPLANATION_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="explanation" column="EXPLANATION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+    
     <class-descriptor class="org.kuali.kra.questionnaire.question.QuestionCategory" table="GROUP_TYPES">
         <field-descriptor name="categoryTypeCode" column="GROUP_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="categoryName" column="GROUP_NAME" jdbc-type="VARCHAR" />
