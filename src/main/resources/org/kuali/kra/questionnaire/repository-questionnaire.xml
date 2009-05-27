@@ -13,6 +13,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+
+<!--<!DOCTYPE descriptor-repository PUBLIC "-//Apache Software Foundation//DTD OJB Repository//EN" "../../../../repository.dtd">-->
+
 <descriptor-repository version="1.0">
 
     <class-descriptor class="org.kuali.kra.questionnaire.question.QuestionCategory" table="GROUP_TYPES">
@@ -32,5 +35,44 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.questionnaire.answer.QuestionnaireAnswerHeader" table="QUESTIONNAIRE_ANS_HEADER">
+		<field-descriptor name="questionnaireAnswerHeaderId" column="QUESTIONNAIRE_COMPLETION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTION_ID" autoincrement="true"/>
+		<field-descriptor name="moduleItemCode" column="MODULE_ITEM_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="moduleItemKey" column="MODULE_ITEM_KEY" jdbc-type="VARCHAR" />
+		<field-descriptor name="moduleSubItemCode" column="MODULE_SUB_ITEM_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="moduleSubItemKey" column="MODULE_SUB_ITEM_KEY" jdbc-type="VARCHAR" />
+		<field-descriptor name="questionnaireId" column="QUESTIONNAIRE_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="questionnaireCompletedFlag" column="QUESTIONNAIRE_COMPLETED_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<!-- <reference-descriptor name="questionnaire" class-ref="org.kuali.kra.questionnaire.Questionnaire" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="questionnaireId"/>
+		</reference-descriptor>-->
+		<collection-descriptor name="questionnaireAnswers" proxy="true" element-class-ref="org.kuali.kra.questionnaire.answer.QuestionnaireAnswer" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="questionnaireAnswerHeaderId"/>
+		</collection-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.questionnaire.answer.QuestionnaireAnswer" table="QUESTIONNAIRE_ANSWER">
+		<field-descriptor name="questionnaireAnswerId" column="QUESTIONNAIRE_ANSWER_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTION_ID" autoincrement="true" />
+		<field-descriptor name="questionnaireAnswerHeaderId" column="QUESTIONNAIRE_COMPLETE_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="questionId" column="QUESTION_ID_FK" jdbc-type="INTEGER" />
+		<field-descriptor name="questionNumber" column="QUESTION_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="answerNumber" column="ANSWER_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="answer" column="ANSWER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="questionnaireAnswerHeader" class-ref="org.kuali.kra.questionnaire.answer.QuestionnaireAnswerHeader" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="questionnaireAnswerHeaderId"/>
+		</reference-descriptor>
+		<!-- <reference-descriptor name="question" class-ref="org.kuali.kra.questionnaire.question" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="questionId"/>
+		</reference-descriptor>-->
+	</class-descriptor>
 
 </descriptor-repository>
