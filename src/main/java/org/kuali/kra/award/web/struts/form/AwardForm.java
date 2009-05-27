@@ -35,6 +35,7 @@ import org.kuali.kra.award.contacts.AwardUnitContactsBean;
 import org.kuali.kra.award.detailsdates.DetailsAndDatesFormHelper;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportsBean;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReportingBean;
 import org.kuali.kra.award.paymentreports.paymentschedule.PaymentScheduleBean;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBean;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.ApprovedForeignTravelBean;
@@ -97,6 +98,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private PaymentScheduleBean paymentScheduleBean;
     private ApprovedForeignTravelBean approvedForeignTravelBean;
     private AwardReportsBean awardReportsBean;
+    private AwardReportingBean awardReportingBean;
     
     
     private boolean auditActivated;
@@ -150,6 +152,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         setPermissionsHelper(new PermissionsHelper(this));
         //sponsorTermTypes = new ArrayList<KeyLabelPair>();
         awardCreditSplitBean = new AwardCreditSplitBean(this);
+        awardReportingBean = new AwardReportingBean(this);
     }    
     
     /**
@@ -542,5 +545,21 @@ public class AwardForm extends KraTransactionalDocumentFormBase
      */
     public void setAwardReportsBean(AwardReportsBean awardReportsBean) {
         this.awardReportsBean = awardReportsBean;
+    }
+
+    /**
+     * Gets the awardReportingBean attribute. 
+     * @return Returns the awardReportingBean.
+     */
+    public AwardReportingBean getAwardReportingBean() {
+        return awardReportingBean;
+    }
+
+    /**
+     * Sets the awardReportingBean attribute value.
+     * @param awardReportingBean The awardReportingBean to set.
+     */
+    public void setAwardReportingBean(AwardReportingBean awardReportingBean) {
+        this.awardReportingBean = awardReportingBean;
     }
 }
