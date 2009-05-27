@@ -121,3 +121,202 @@ then
 	setAction(protocolAction, true);
 end
 
+rule "Disapprove Protocol 1"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "304", submissionStatusCode == "101", protocolReviewTypeCode not in ("2","3"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Disapprove Protocol 2"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "304", submissionStatusCode in ("100", "101", "102"), protocolReviewTypeCode in ("2","3"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Create new Amendment"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "103", protocolStatusCode in ("200", "201", "202", "203", "300", "301", "302", "308", "311"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Create new Renewal"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "102", protocolStatusCode in ("200", "201", "202", "203", "300", "301", "302", "308", "311", "305"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Expedited Approval Protocol"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "205", submissionStatusCode in ("100","101"), protocolReviewTypeCode == "2")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Response Approval Protocol"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "208", submissionStatusCode in ("100","101"), protocolReviewTypeCode == "6")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "IRB Acknowledgement FYI Submission"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "209", submissionStatusCode in ("100","101"), submissionTypeCode == "112")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Grant Exemption Protocol"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "206", submissionStatusCode in ("100","101"), protocolReviewTypeCode == "3")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "IRB review not required Protocol Case # 1880"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "210", submissionStatusCode in ("100","101"), protocolReviewTypeCode == "5")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Request for Termination 1"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "104", protocolStatusCode in ("200","201","202","203","300","301","302","308","311"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Request to Close 1"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "105", protocolStatusCode in ("200","201","202","203","302","308","311"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Request for Suspension 1"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "106", protocolStatusCode in ("200","201","202","203"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Request to Close Enrollment 1"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "108", protocolStatusCode in ("200"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Close Enrollment 1"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "207", protocolStatusCode in ("200"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Close Enrollment 2"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "207",submissionStatusCode != "210", protocolStatusCode == "200", submissionTypeCode == "111")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Assign to Schedule 1 //TODO not sure about this cond."
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "209",submissionStatusCode not in ("100","102"),protocolReviewTypeCode in ("2","3"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Assign to Schedule 2 //TODO not sure about this cond."
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "209",submissionStatusCode not in ("100","102"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "This is not a regular action"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "999",submissionStatusCode == "101")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Request for data-analysis only"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "114",protocolStatusCode in ("200", "201"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Request to re-open enrollment"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "115",protocolStatusCode == "201")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Data Anlysis Only 1"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "211",protocolStatusCode in ("200","201"), submissionStatusCode != "210", submissionTypeCode == "113")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Data Anlysis Only 2"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "211",protocolStatusCode in ("200","201"))
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Re-open Enrollment 1"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "212",protocolStatusCode == "201", submissionStatusCode != "210", submissionTypeCode == "114")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Re-open Enrollment 2"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "212",protocolStatusCode == "201")
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Notify IRB"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "116",protocolStatusCode in ("100", "101", "102", "103", "105", "106"))
+then	
+	setAction(protocolAction, true);
+end
