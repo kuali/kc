@@ -57,13 +57,16 @@ public class AwardApprovedForeignTravelWebTest extends AwardPaymentsAndTermsWebT
     
     private static final String INVALID_AMOUNT = "-1.00";
 
-    private static final String TRAVELER1 = "Fred Smith";
+    private static final String PERSON_ID_FIELD = "personId";
+    private static final String TRAVELER1 = "Joe Tester";    
+    private static final String TRAVELER1_ID_VALUE = "000000008";
     private static final String DESTINATION1 = "Tokyo, Japan";
     private static final String START_DATE1 = "05/01/2009";
     private static final String END_DATE1 = "05/10/2009";
     private static final String AMOUNT1 = "3000.00";
     
-    private static final String TRAVELER2 = "Jane Doe";
+    private static final String TRAVELER2 = "Lora OConnor";
+    private static final String TRAVELER2_ID_VALUE = "000000004";
     private static final String DESTINATION2 = "Berlin, Germany";
     private static final String START_DATE2 = "06/01/2009";
     private static final String END_DATE2 = "06/15/2009";
@@ -138,9 +141,9 @@ public class AwardApprovedForeignTravelWebTest extends AwardPaymentsAndTermsWebT
     @Test
     public void testEditingAwardApprovedForeignTravel_CausesDuplicateError() throws Exception{
         addNewForeignTravel(TRAVELER1, DESTINATION1, START_DATE1, END_DATE1, AMOUNT1);
-        addNewForeignTravel(TRAVELER2, DESTINATION1, START_DATE1, END_DATE2, AMOUNT2);
-        save();
-        editExistingRow(1, TRAVELER_NAME_FIELD_NAME, TRAVELER1);
+        addNewForeignTravel(TRAVELER1, DESTINATION2, START_DATE1, END_DATE2, AMOUNT2);
+        save();        
+        editExistingRow(1, DESTINATION_FIELD_NAME, DESTINATION1);
         save();
         assertContains(paymentReportsAndTermsPage, UNIQUE_ERROR_MSG);
     }
@@ -218,8 +221,15 @@ public class AwardApprovedForeignTravelWebTest extends AwardPaymentsAndTermsWebT
         paymentReportsAndTermsPage = save(paymentReportsAndTermsPage);
     }
     
-    private void editExistingRow(int rowNum, String fieldName, String value) {
-        setFieldValue(String.format(EXISTING_ROW_FIELD_NAME, rowNum, fieldName), value);
+    private void editExistingRow(int rowNum, String fieldName, String value) throws IOException {
+        if(TRAVELER_NAME_FIELD_NAME.equals(fieldName)) {
+            if(value != null) {
+                String lookupValue = TRAVELER1.equals(value) ? TRAVELER1_ID_VALUE : TRAVELER2_ID_VALUE;
+                paymentReportsAndTermsPage = lookup(paymentReportsAndTermsPage, String.format("document.awardList[0].approvedForeignTravelTrips[%d].travelerId", rowNum), PERSON_ID_FIELD, lookupValue);            
+            }
+        } else {
+            setFieldValue(String.format(EXISTING_ROW_FIELD_NAME, rowNum, fieldName), value);
+        }
     }
     
     private void checkAddingApprovedForeignTravel_CausesRequiredError(String errorContext) throws Exception {
@@ -248,10 +258,12 @@ public class AwardApprovedForeignTravelWebTest extends AwardPaymentsAndTermsWebT
         assertDoesNotContain(paymentReportsAndTermsPage, EXCEPTION_OR_SYSTEM_ERROR);
     }
     
-    private void addNewForeignTravel(String travelerName, String destination, String startDate, String endDate, 
-                                                                                String amount) throws IOException {
-        populateAddRowFields(travelerName, destination, startDate, endDate, amount);
-        
+    private void addNewForeignTravel(String travelerName, String destination, String startDate, String endDate, String amount) throws IOException {
+        if(travelerName != null) {
+            String lookupValue = TRAVELER1.equals(travelerName) ? TRAVELER1_ID_VALUE : TRAVELER2_ID_VALUE;
+            paymentReportsAndTermsPage = lookup(paymentReportsAndTermsPage, "approvedForeignTravelBean.newApprovedForeignTravel.travelerId", PERSON_ID_FIELD, lookupValue);            
+        }
+        populateAddRowFields(destination, startDate, endDate, amount);
         HtmlForm form = (HtmlForm) paymentReportsAndTermsPage.getForms().get(0);        
         String addButtonName = getImageTagName(paymentReportsAndTermsPage, ADD_BUTTON_CONTEXT);        
         HtmlImageInput addButton = (HtmlImageInput) form.getInputByName(addButtonName);
@@ -266,12 +278,7 @@ public class AwardApprovedForeignTravelWebTest extends AwardPaymentsAndTermsWebT
         return String.format(DELETE_BUTTON_CONTEXT + ".line%d", rowNum);
     }
     
-//    private String getFormattedAmount(double amount) {
-//        return String.format("%12.2f", amount).trim();
-//    }
-    
-    private void populateAddRowFields(String travelerName, String destination, String startDate, String endDate, String amount) {
-        setFieldValue(NEW_TRAVELER_FIELD, travelerName);
+    private void populateAddRowFields(String destination, String startDate, String endDate, String amount) {
         setFieldValue(NEW_DESTINATION_FIELD, destination);
         setFieldValue(NEW_START_DATE_FIELD, startDate);
         setFieldValue(NEW_END_DATE_FIELD, endDate);
