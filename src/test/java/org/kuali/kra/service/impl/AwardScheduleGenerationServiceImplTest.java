@@ -279,8 +279,6 @@ public class AwardScheduleGenerationServiceImplTest {
         newAwardReportTerm.setFrequency(frequency);
         newAwardReportTerm.setReportClassCode(REPORT_CLASS_CODE_CODE_SIX);
         newAwardReportTerm.setFrequencyBaseCode(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase());
-        awardReportTerms.add(newAwardReportTerm);
-        award.setAwardReportTermItems(awardReportTerms);
         
         final ScheduleService scheduleService = context.mock(ScheduleService.class);
         final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);
@@ -304,7 +302,7 @@ public class AwardScheduleGenerationServiceImplTest {
         awardScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);
         
         Assert.assertEquals(DATES
-                , awardScheduleGenerationServiceImpl.getDates(awardReportTerms));
+                , awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm, false));
     }
     
     @Test
@@ -326,8 +324,6 @@ public class AwardScheduleGenerationServiceImplTest {
         newAwardReportTerm.setFrequency(frequency);
         newAwardReportTerm.setReportClassCode(REPORT_CLASS_CODE_CODE_SIX);
         newAwardReportTerm.setFrequencyBaseCode(FrequencyBaseConstants.AWARD_EXECUTION_DATE.getfrequencyBase());
-        awardReportTerms.add(newAwardReportTerm);
-        award.setAwardReportTermItems(awardReportTerms);
         
         final ScheduleService scheduleService = context.mock(ScheduleService.class);
         final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);
@@ -350,7 +346,7 @@ public class AwardScheduleGenerationServiceImplTest {
         awardScheduleGenerationServiceImpl.setKualiConfigurationService(kualiConfigurationService);
         awardScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);
         
-        Assert.assertEquals(DATES, awardScheduleGenerationServiceImpl.getDates(awardReportTerms));
+        Assert.assertEquals(DATES, awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm, false));
     }
     
 }
