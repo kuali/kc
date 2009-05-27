@@ -28,12 +28,13 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class ProtocolActionServiceImpl implements ProtocolActionService {
 
     private BusinessObjectService businessObjectService;
-
+    
+    String[] actn = { "104", "105", "106", "108", "114", "115", "116", "200", "201", "202", "203", "204", "205", "206", "207",
+            "208", "209", "210", "211", "212", "300", "301", "302", "303", "304", "305", "306" };
+    
     private List<String> actions = new ArrayList<String>();
 
     {
-        String[] actn = { "104", "105", "106", "108", "114", "115", "116", "200", "201", "202", "203", "204", "205", "206", "207",
-                "208", "209", "210", "211", "212", "300", "301", "302", "303", "304", "305", "306" };
         actions = Arrays.asList(actn);
     }
 
@@ -52,7 +53,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
                 actionList.add(actionTypeCode);
             }
         }
-        return actionList;
+        return Arrays.asList(actn);
     }
 
     // TODO
