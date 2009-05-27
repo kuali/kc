@@ -113,8 +113,8 @@
     <bean id="Question-categoryTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="categoryTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Category Type Code" />
-        <property name="shortLabel" value="Category Type Code" />
+        <property name="label" value="Category" />
+        <property name="shortLabel" value="Category" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />

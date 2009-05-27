@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.Constants;
 
 public class Question extends KraPersistableBusinessObjectBase { 
     
@@ -159,60 +160,80 @@ public class Question extends KraPersistableBusinessObjectBase {
     }
 
     public String getExplanation() {
-        return "To be implemented: getExplanation()";
+        return getExplanation(Constants.QUESTION_EXPLANATION);
     }
     
     public void setExplanation(String explanation) {
-        
+        setExplanation(explanation, Constants.QUESTION_EXPLANATION);
     }
     
     public String getPolicy() {
-        return "To be implemented: getPolicy()";
+        return getExplanation(Constants.QUESTION_POLICY);
     }
     
     public void setPolicy(String policy) {
-        
+        setExplanation(policy, Constants.QUESTION_POLICY);
     }
     
     public String getRegulation() {
-        return "To be implemented: getRegulation()";
+        return getExplanation(Constants.QUESTION_REGULATION);
     }
     
     public void setRegulation(String regulation) {
-        
+        setExplanation(regulation, Constants.QUESTION_REGULATION);
     }
     
-//    public String getPolicy() {
-//        QuestionExplanation questionPolicy = findExplanationObject(Constants.QUESTION_POLICY);
-//        if (questionPolicy == null) {
-//            return "";
-//        } else {
-//            return questionPolicy.getExplanation();
-//        }
-//    }
-//    
-//    public void setPolicy(String policy) {
-//        QuestionExplanation questionPolicy = findExplanationObject(Constants.QUESTION_POLICY);
-//        if (questionPolicy == null) {
-//            return "";
-//        
-//    }
-//
-//    /**
-//     * This method finds and returns a question explanation object (explanation, policy, and regulation).  If non is found null is returned.
-//     * 
-//     * @param explanationType - use one of the QUESTION_EXPLANATION, QUESTION_POLICY, or QUESTION_REGULATION 
-//     *                          constants to search for the proper type.
-//     * @return QuestionExplanation object containing the question policy.
-//     */
-//    private QuestionExplanation findExplanationObject(String explanationType) {
-//        for (QuestionExplanation questionExplanation: questionExplanations) {
-//            if (questionExplanation.getExplanationType() == explanationType) {
-//                return questionExplanation;
-//            }
-//        }
-//        return null;
-//    }
+    /**
+     * This method returns the question explanation (explanation, policy, or regulation).
+     * 
+     * @param explanationType - use one of the QUESTION_EXPLANATION, QUESTION_POLICY, or QUESTION_REGULATION 
+     *                          constants to return the proper explanation type.
+     * @return The explanation or an empty string if none exists. 
+     */
+    private String getExplanation(String explanationType){ 
+        int index = getExplanationObjectIndex(explanationType);
+        if (index < 0) {
+            return "";
+        } else {
+            return questionExplanations.get(index).getExplanation();
+        }
+    }
+    
+    /**
+     * This method sets the question explanation (explanation, policy, or regulation).
+     * 
+     * @param explanation     - the new text of the explanation.
+     * @param explanationType - use one of the QUESTION_EXPLANATION, QUESTION_POLICY, or QUESTION_REGULATION 
+     *                          constants to set the proper explanation type.
+     */
+    private void setExplanation(String explanation, String explanationType) {
+        int index = getExplanationObjectIndex(explanationType);
+        if (index < 0) {
+            QuestionExplanation questionExplanation = new QuestionExplanation();
+            questionExplanation.setQuestionId(this.questionId);
+            questionExplanation.setExplanationType(explanationType);
+            questionExplanation.setExplanation(explanation);
+            this.questionExplanations.add(questionExplanation);
+        } else {
+            this.questionExplanations.get(index).setExplanation(explanation);
+        }
+    }
+
+    /**
+     * This method returns the index position of a question explanation object (explanation, policy, and regulation).
+     * 
+     * @param explanationType - use one of the QUESTION_EXPLANATION, QUESTION_POLICY, or QUESTION_REGULATION 
+     *                          constants to search for the proper type.
+     * @return Index of object containing the question policy. -1 if not found. 
+     */
+    private int getExplanationObjectIndex(String explanationType) {
+        for (QuestionExplanation questionExplanation: questionExplanations) {
+            if (questionExplanation.getExplanationType().equals(explanationType)) {
+                return questionExplanations.indexOf(questionExplanation);
+            }
+        }
+        return -1;
+    }
 
     /** {@inheritDoc} */
     @Override 
