@@ -33,7 +33,7 @@ public class ProtocolReviewerType extends KraPersistableBusinessObjectBase {
         return reviewerTypeCode;
     }
 
-    public void setreviewerTypeCode(String reviewerTypeCode) {
+    public void setReviewerTypeCode(String reviewerTypeCode) {
         this.reviewerTypeCode = reviewerTypeCode;
     }
 
