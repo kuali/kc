@@ -39,4 +39,6 @@ public interface AwardScheduleGenerationService {
      */
     List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException;
     
+    List<Date> generateSchedules(Award award, AwardReportTerm awardReportTerm) throws ParseException;
+    
 }

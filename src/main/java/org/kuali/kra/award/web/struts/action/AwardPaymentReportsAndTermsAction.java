@@ -81,7 +81,9 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     }
     
     public ActionForward toggleTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-     
+             
+        ((AwardForm) form).getAwardReportingBean().generateReportSchedules(getAwardReportTermIndex(request));
+        
         return super.toggleTab(mapping, form, request, response);
     }
     
@@ -215,14 +217,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
-    public ActionForward generateReportSchedules(ActionMapping mapping, ActionForm form,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        (((AwardForm) form).getAwardReportsBean()).generateReportSchedules();
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-    }
-    
+       
     public ActionForward deleteApprovedEquipmentItem(ActionMapping mapping, ActionForm form, 
                                         HttpServletRequest request, HttpServletResponse response) 
                                                                         throws Exception {
@@ -371,8 +366,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         int awardReportTermIndex = -1;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
-            String awardReportTermIndexString = StringUtils.substringBetween(parameterName, 
-                                                                                ".awardReportTerm", PERIOD);
+            String awardReportTermIndexString = StringUtils.substringBetween(parameterName, ".awardReportTerm", PERIOD);
             awardReportTermIndex= Integer.parseInt(awardReportTermIndexString);
         }
 
