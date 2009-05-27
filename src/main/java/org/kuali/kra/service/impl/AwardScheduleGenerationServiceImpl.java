@@ -97,6 +97,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * @see org.kuali.kra.service.AwardScheduleGenerationService#generateSchedules(org.kuali.kra.award.bo.Award, java.util.List)
      */
     public List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException{
+        List<Date> dates = new ArrayList<Date>();
         
         initializeDatesForThisAward(award);        
         refreshAwardReportTerms(awardReportTerms);
@@ -105,8 +106,30 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
                 kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
                 ,KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE).getParameterValue()));
         
-        return getDates(awardReportTerms);
+        for(AwardReportTerm awardReportTerm: awardReportTerms){
+            dates.addAll(getDates(awardReportTerm, false));
+        }
         
+        return dates;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.service.AwardScheduleGenerationService#generateSchedules(org.kuali.kra.award.bo.Award, java.util.List)
+     */
+    public List<Date> generateSchedules(Award award, AwardReportTerm awardReportTerm) throws ParseException{
+        List<Date> dates = new ArrayList<Date>();
+        
+        initializeDatesForThisAward(award);        
+        awardReportTerm.refreshReferenceObject(FREQUENCY_OBJECT_STRING);
+        
+        setPeriodInYears(Integer.parseInt(
+                kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
+                ,KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE).getParameterValue()));
+        
+        dates.addAll(getDates(awardReportTerm, true));
+        
+        return dates;
     }
 
     /**
@@ -119,7 +142,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * @return
      * @throws ParseException
      */
-    List<Date> getDates(List<AwardReportTerm> awardReportTerms)
+    private List<Date> getDates(List<AwardReportTerm> awardReportTerms)
             throws ParseException {
         List<Date> dates = new ArrayList<Date>();        
         java.util.Date startDate;
@@ -144,9 +167,48 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
                     }                        
                 }                
             }            
-        }
+        }        
         return dates;
     }
+    
+    /**
+     * This is a helper method. This method calls evaluates the frequency and frequency base and generates dates either by calling the scheduling service or
+     * without that.
+     * 
+     * @param awardReportTerms
+     * @param dates
+     * @param calendar
+     * @return
+     * @throws ParseException
+     */
+    protected List<Date> getDates(AwardReportTerm awardReportTerm, boolean isThisNotPaymentPanel) throws ParseException {
+        List<Date> dates = new ArrayList<Date>();        
+        java.util.Date startDate;
+        java.util.Date endDate;
+        Calendar calendar = new GregorianCalendar();
+        
+        startDate = getStartDate(awardReportTerm);
+        endDate = getEndDate(awardReportTerm.getFrequencyBaseCode(),startDate);
+        
+        if(isThisNotPaymentPanel || StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_AWARD
+                ,Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES).getParameterValue())){
+            if(startDate!=null){
+                calendar.setTime(startDate);
+                if(endDate!=null && awardReportTerm.getFrequency().getRepeatFlag() && awardReportTerm.getFrequency().getNumberOfMonths()!=null){
+                    ScheduleSequence scheduleSequence = new XMonthlyScheduleSequenceDecorator(new TrimDatesScheduleSequenceDecorator(
+                                                                new DefaultScheduleSequence()),awardReportTerm.getFrequency().getNumberOfMonths());
+                    dates = scheduleService.getScheduledDates(startDate, endDate, new Time24HrFmt(ZERO_HOURS), scheduleSequence
+                                , calendar.get(Calendar.DAY_OF_MONTH));
+                }else{
+                    dates.add(startDate);
+                }                        
+            }    
+        }               
+                
+        return dates;
+    }    
+    
+    
     
     /**
      * 
