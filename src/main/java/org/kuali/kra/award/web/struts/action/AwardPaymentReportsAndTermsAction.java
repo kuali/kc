@@ -80,11 +80,45 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
-    public ActionForward toggleTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-             
-        ((AwardForm) form).getAwardReportingBean().generateReportSchedules(getAwardReportTermIndex(request));
+    /**
+     * 
+     * Overriding the toggle tab method here. Before calling the super - report schedules are generated as part of the view only report tracking functionality.
+     * 
+     * Essentially we can not have another method by the name same as toggleTab - since this method is very specific to reporting functionality only; if we had
+     * a method by name toggleTab - it would get called for java script not enabled browsers for every panel on this tab. We still want to open the tab after 
+     * generating the report schedules, so calling the super toggleTab here. 
+     * 
+     * We are passing a parameter to innerTab in the UI; through which we will get this method to be called.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward toggleTabReporting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        ((AwardForm) form).getAwardReportingBean().generateReportSchedules(getAwardReportTermIndex(request));    
         
         return super.toggleTab(mapping, form, request, response);
+    }
+    
+    /**
+     * 
+     * This method deletes a report schedule item. 
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteReportScheduleItem(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) 
+                                                    throws Exception {
+            (((AwardForm) form).getAwardReportingBean()).deleteReportScheduleItem(getAwardReportTermIndex(request), getLineToDelete(request));
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
     /**
