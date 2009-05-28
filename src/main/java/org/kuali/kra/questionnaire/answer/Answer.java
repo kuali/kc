@@ -20,51 +20,54 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.questionnaire.question.Question;
 
-public class QuestionnaireAnswer extends KraPersistableBusinessObjectBase { 
+/**
+ * Holds a single answer for a {@link Question Question}.
+ */
+public class Answer extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 1L;
 
-    private Long questionnaireAnswerId; 
+    private Long id; 
 
     private Integer questionNumber; 
     private Integer answerNumber; 
     private String answer; 
     
-    private String questionnaireAnswerHeaderId; 
-    private QuestionnaireAnswerHeader questionnaireAnswerHeader; 
+    private String answerHeaderId; 
+    private AnswerHeader answerHeader; 
     private Integer questionId;
     private Question question; 
     
     /**
-     * Gets the questionnaireAnswerId attribute. 
-     * @return Returns the questionnaireAnswerId.
+     * Gets the id attribute. 
+     * @return Returns the id.
      */
-    public Long getQuestionnaireAnswerId() {
-        return this.questionnaireAnswerId;
+    public Long getId() {
+        return this.id;
     }
 
     /**
-     * Sets the questionnaireAnswerId attribute value.
-     * @param questionnaireAnswerId The questionnaireAnswersId to set.
+     * Sets the id attribute value.
+     * @param id The questionnaireAnswersId to set.
      */
-    public void setQuestionnaireAnswerId(Long questionnaireAnswerId) {
-        this.questionnaireAnswerId = questionnaireAnswerId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
-     * Gets the questionnaireCompletionId attribute. 
-     * @return Returns the questionnaireCompletionId.
+     * Gets the answerHeaderId attribute. 
+     * @return Returns the answerHeaderId.
      */
-    public String getQuestionnaireAnswerHeaderId() {
-        return this.questionnaireAnswerHeaderId;
+    public String getAnswerHeaderId() {
+        return this.answerHeaderId;
     }
 
     /**
-     * Sets the questionnaireAnswerHeaderId attribute value.
-     * @param questionnaireAnswerHeaderId The questionnaireAnswerHeaderId to set.
+     * Sets the answerHeaderId attribute value.
+     * @param answerHeaderId The answerHeaderId to set.
      */
-    public void setQuestionnaireAnswerHeaderId(String questionnaireAnswerHeaderId) {
-        this.questionnaireAnswerHeaderId = questionnaireAnswerHeaderId;
+    public void setAnswerHeaderId(String answerHeaderId) {
+        this.answerHeaderId = answerHeaderId;
     }
 
     /**
@@ -135,16 +138,16 @@ public class QuestionnaireAnswer extends KraPersistableBusinessObjectBase {
      * Gets the questionnaireAnsHeader attribute. 
      * @return Returns the questionnaireAnsHeader.
      */
-    public QuestionnaireAnswerHeader getQuestionnaireAnsHeader() {
-        return this.questionnaireAnswerHeader;
+    public AnswerHeader getAnswerHeader() {
+        return this.answerHeader;
     }
 
     /**
-     * Sets the questionnaireAnswerHeader attribute value.
-     * @param questionnaireAnswerHeader The questionnaireAnswerHeader to set.
+     * Sets the answerHeader attribute value.
+     * @param answerHeader The answerHeader to set.
      */
-    public void setQuestionnaireAnswerHeader(QuestionnaireAnswerHeader questionnaireAnswerHeader) {
-        this.questionnaireAnswerHeader = questionnaireAnswerHeader;
+    public void setAnswerHeader(AnswerHeader answerHeader) {
+        this.answerHeader = answerHeader;
     }
 
     /**
@@ -167,8 +170,8 @@ public class QuestionnaireAnswer extends KraPersistableBusinessObjectBase {
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("questionnaireAnswersId", this.getQuestionnaireAnswerId());
-        hashMap.put("questionnaireAnswerHeaderId", this.getQuestionnaireAnswerHeaderId());
+        hashMap.put("questionnaireAnswersId", this.getId());
+        hashMap.put("answerHeaderId", this.getAnswerHeaderId());
         hashMap.put("questionId", this.getQuestionId());
         hashMap.put("questionNumber", this.getQuestionNumber());
         hashMap.put("answerNumber", this.getAnswerNumber());
