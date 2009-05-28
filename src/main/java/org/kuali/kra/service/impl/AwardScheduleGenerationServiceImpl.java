@@ -57,7 +57,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
     private KualiConfigurationService kualiConfigurationService;
     private int periodInYears;
     private HashMap<String, java.util.Date> mapOfDates;
-    private GregorianCalendar calendarClassLevel;
+    private Calendar calendarClassLevel;
     
     /**
      * 
@@ -129,45 +129,6 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
         
         dates.addAll(getDates(awardReportTerm, true));
         
-        return dates;
-    }
-
-    /**
-     * This is a helper method. This method calls evaluates the frequency and frequency base and generates dates either by calling the scheduling service or
-     * without that.
-     * 
-     * @param awardReportTerms
-     * @param dates
-     * @param calendar
-     * @return
-     * @throws ParseException
-     */
-    private List<Date> getDates(List<AwardReportTerm> awardReportTerms)
-            throws ParseException {
-        List<Date> dates = new ArrayList<Date>();        
-        java.util.Date startDate;
-        java.util.Date endDate;
-        Calendar calendar = new GregorianCalendar();
-        
-        for(AwardReportTerm awardReportTerm: awardReportTerms){
-            if(StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_AWARD
-                    ,Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES).getParameterValue())){
-                startDate = getStartDate(awardReportTerm);
-                endDate = getEndDate(awardReportTerm.getFrequencyBaseCode(),startDate);
-                
-                if(startDate!=null){                    
-                    calendar.setTime(startDate);
-                    if(endDate!=null && awardReportTerm.getFrequency().getRepeatFlag() && awardReportTerm.getFrequency().getNumberOfMonths()!=null){
-                        ScheduleSequence scheduleSequence = new XMonthlyScheduleSequenceDecorator(new TrimDatesScheduleSequenceDecorator(
-                                                                    new DefaultScheduleSequence()),awardReportTerm.getFrequency().getNumberOfMonths());
-                        dates = scheduleService.getScheduledDates(startDate, endDate, new Time24HrFmt(ZERO_HOURS), scheduleSequence
-                                    , calendar.get(Calendar.DAY_OF_MONTH));
-                    }else{            
-                        dates.add(startDate);
-                    }                        
-                }                
-            }            
-        }        
         return dates;
     }
     
@@ -294,7 +255,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * @return
      */
     protected Date getEndDate(String frequencyBaseCode, Date startDate){
-        GregorianCalendar calendar = new GregorianCalendar();
+        Calendar calendar = new GregorianCalendar();
         calendar.clear();
         if(frequencyBaseCode.equals(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase())){
             calendar.setTime(startDate);   
