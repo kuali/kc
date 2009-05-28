@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardScheduleGenerationService;
@@ -62,18 +61,20 @@ public class AwardReportingBean implements Serializable {
     public AwardReportingBean() {
         
     }
-
+    
     /**
      * 
-     * This method deletes a selected Award Report Term Item
+     * This method retrieves the parent award report term and from there retrieves the list of child award reporting objects.
+     * and deletes the one as per the index.
      * 
+     * @param index
      * @param deletedItemIndex
      */
-    public void deleteAwardReportTermItem(int deletedItemIndex) {
-        List<AwardReportTerm> items = getAward().getAwardReportTermItems();
+    public void deleteReportScheduleItem(int index, int deletedItemIndex) {
+        List<AwardReporting> items = getAward().getAwardReportTermItems().get(index).getAwardReportings();
         if(deletedItemIndex >= 0 && deletedItemIndex < items.size()) {
             items.remove(deletedItemIndex);
-        }        
+        }
     }
     
     /**
