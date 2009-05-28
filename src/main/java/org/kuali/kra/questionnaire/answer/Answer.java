@@ -170,7 +170,7 @@ public class Answer extends KraPersistableBusinessObjectBase {
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("questionnaireAnswersId", this.getId());
+        hashMap.put("id", this.getId());
         hashMap.put("answerHeaderId", this.getAnswerHeaderId());
         hashMap.put("questionId", this.getQuestionId());
         hashMap.put("questionNumber", this.getQuestionNumber());
