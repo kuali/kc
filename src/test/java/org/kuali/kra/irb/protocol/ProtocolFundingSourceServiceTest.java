@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.protocol;
 
+import java.util.ArrayList;
 import java.util.Map.Entry;
 
 import junit.framework.TestCase;
@@ -32,12 +33,15 @@ import org.kuali.kra.award.service.AwardService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.ProtocolFundingSourceServiceImpl.FundingSourceLookup;
+import org.kuali.kra.irb.test.ProtocolTestUtil;
 import org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.service.LookupableDevelopmentProposalService;
 import org.kuali.kra.service.FundingSourceTypeService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -469,30 +473,30 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
       
   }
     
-//// This method is an integration test since it requires the Spring framework to launch for OJB stuff
-//    @Test
-//    public void testAddDeleteSponsorFundingSource() throws Exception {
-//        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-//        protocolFundingSourceService.setSponsorService(getSponsorService());
-//        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-//        protocolFundingSourceService.setKualiConfigurationService(getKualiConfigurationService());
-//
-//        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId,
-//                sponsorIdAirForce, null);
-//        assertNotNull(fundingSource);
-//        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
-//
-//        Protocol protocol = new Protocol();
-//        ArrayList<ProtocolFundingSource> protocolFundingSources = new ArrayList<ProtocolFundingSource>();
-//        protocolFundingSources.add(fundingSource);
-//        protocol.setProtocolFundingSources(protocolFundingSources);
-//
-//        assertFalse(protocol.getProtocolFundingSources().isEmpty());
-//        protocolFundingSourceService.deleteProtocolFundingSource(protocol, 0);
-//        assertTrue(protocol.getProtocolFundingSources().isEmpty());
-//    }
-//
-//// This method is an integration test since it requires the Spring framework to launch for OJB stuff
+    @Test
+    public void testAddDeleteSponsorFundingSource() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setSponsorService(getSponsorService());
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        protocolFundingSourceService.setKualiConfigurationService(getKualiConfigurationService());
+
+        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId,
+                sponsorIdAirForce, null);
+        assertNotNull(fundingSource);
+        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
+
+        Protocol protocol = ProtocolTestUtil.getProtocol(this.context);
+
+        ArrayList<ProtocolFundingSource> protocolFundingSources = new ArrayList<ProtocolFundingSource>();
+        protocolFundingSources.add(fundingSource);
+        protocol.setProtocolFundingSources(protocolFundingSources);
+
+        assertFalse(protocol.getProtocolFundingSources().isEmpty());
+        protocolFundingSourceService.deleteProtocolFundingSource(protocol, 0);
+        assertTrue(protocol.getProtocolFundingSources().isEmpty());
+    }
+
+//// This method is an integration test since it requires the Spring framework to use Utilities.substituteConfigParameters launch for OJB stuff
 //    @Test
 //    public void testAddandGetViewFundingSourceUrl() throws Exception {
 //        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
@@ -505,7 +509,6 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
 //
 //        lookupUrlSponsor = new Sponsor();
 //        lookupUrlSponsor.setSponsorCode(sponsorIdAirForce);
-//
 //
 //        ProtocolProtocolAction action = new ProtocolProtocolAction();
 //        protocolFundingSourceService.setProtocolLookupableHelperService(getProtocolLookupableHelperServiceForSponsorInquiryUrl());
