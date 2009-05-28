@@ -20,7 +20,7 @@
 
 <c:set var="awardReportingAttributes" value="${DataDictionary.AwardReporting.attributes}" />
 
-<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Details" useCurrentTabIndexAsKey="true" tabErrorKey="document.awardList[0].awardReportTermItems[${index}].awardReportings*" overrideToggleTabMethodString=".awardReportTerm${index}" >
+<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Details" useCurrentTabIndexAsKey="true" tabErrorKey="document.awardList[0].awardReportTermItems[${index}].awardReportings*" overrideToggleTabMethodString="Reporting.awardReportTerm${index}" >
 
         
         <table cellpadding="0" cellspacing="0" summary="">
@@ -75,7 +75,7 @@
 				  </td>                  
 				  <td class="infoline">
 					<div align="center">
-						<html:image property="methodToCall.deleteAwardReporting.line${status.index}.anchor${currentTabIndex}"
+						<html:image property="methodToCall.deleteReportScheduleItem.awardReportTerm${index}.line${status.index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 					</div>
                   </td>
