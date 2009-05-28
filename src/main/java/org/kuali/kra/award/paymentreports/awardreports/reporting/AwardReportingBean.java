@@ -76,9 +76,14 @@ public class AwardReportingBean implements Serializable {
         }        
     }
     
-    
+    /**
+     * 
+     * This method gets called from the action method to generate report schedules - for the report tracking functionality.
+     * 
+     * @param index
+     * @throws ParseException
+     */
     public void generateReportSchedules(int index) throws ParseException{
-        
         
         List<Date> dates = new ArrayList<Date>();
         
@@ -92,7 +97,6 @@ public class AwardReportingBean implements Serializable {
             newAwardReporting.setDueDate(sqldate);            
             getAward().getAwardReportTermItems().get(index).getAwardReportings().add(newAwardReporting);
         }
-        System.out.println("Generate reports is called.");
     }
 
     
