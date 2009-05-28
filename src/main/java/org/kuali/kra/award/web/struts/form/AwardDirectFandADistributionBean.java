@@ -155,9 +155,15 @@ public class AwardDirectFandADistributionBean implements Serializable{
     private boolean canTargetBeInsertedIntoLastIndex(List<AwardDirectFandADistribution> awardDirectFandADistributions, 
                                                                 AwardDirectFandADistribution thisNewAwardDirectFandADistribution,
                                                                     Date projectEndDate) {
-      AwardDirectFandADistribution lastItemInList = awardDirectFandADistributions.get(awardDirectFandADistributions.size() - 1);
-      return lastItemInList.getEndDate().before(thisNewAwardDirectFandADistribution.getStartDate())
-              && thisNewAwardDirectFandADistribution.getEndDate().before(projectEndDate);
+        boolean isDistrEndDateBeforeProjectEndDate = thisNewAwardDirectFandADistribution.getEndDate().before(projectEndDate);
+        if (awardDirectFandADistributions.isEmpty()) {
+            return isDistrEndDateBeforeProjectEndDate;
+        }
+        else {
+            AwardDirectFandADistribution lastItemInList = awardDirectFandADistributions.get(awardDirectFandADistributions.size() - 1);
+            return lastItemInList.getEndDate().before(thisNewAwardDirectFandADistribution.getStartDate())
+                    && isDistrEndDateBeforeProjectEndDate;
+        }
     }
     
     /**
