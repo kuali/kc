@@ -33,6 +33,11 @@ import org.kuali.rice.kns.service.KualiRuleService;
 public class AwardDirectFandADistributionActionHelper implements Serializable {
 
     /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 8068300104853399208L;
+
+    /**
      * This method is called when adding a new AwardDirectFandADistribution
      * @param formHelper
      * @return

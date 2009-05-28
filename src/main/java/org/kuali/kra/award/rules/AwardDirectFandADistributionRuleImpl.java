@@ -23,6 +23,7 @@ import org.kuali.kra.award.rule.AwardDirectFandADistributionRule;
 import org.kuali.kra.award.rule.event.AwardDirectFandADistributionRuleEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class contains all rule methods for actions on Award Direct F and A Distribution tab.
@@ -30,6 +31,12 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBase implements AwardDirectFandADistributionRule{
 
     private static final String NEW_AWARD_DIRECT_FNA_DISTRIBUTION = "newAwardDirectFandADistribution";
+    private static final String START_DATE_REQUIRED = ".startDateRequired";
+    private static final String END_DATE_REQUIRED = ".endDateRequired";
+    private static final String DIRECT_COST_REQUIRED = ".directCostRequired";
+    private static final String DIRECT_COST_POSITIVE = ".directCostPositive";
+    private static final String INDIRECT_COST_REQUIRED = ".indirectCostRequired";
+    private static final String INDIRECT_COST_POSITIVE = ".indirectCostPositive";
     private static final String INVALID_DATES = ".invalidDates";
     private static final String OVERLAPPING_DATE_RANGES = ".overlappingDateRanges";
     private static final String INVALID_TARGET_START_DATE = ".invalidStartDate";
@@ -61,14 +68,38 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      * (org.kuali.kra.award.rule.event.AwardDirectFandADistributionRuleEvent)
      */
     public boolean processAddAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
+        
         this.awardDirectFandADistribution = awardDirectFandADistributionRuleEvent.getAwardDirectFandADistributionForValidation();
         List<AwardDirectFandADistribution> thisAwardDirectFandADistributions = 
                                                 awardDirectFandADistributionRuleEvent.getAwardDocument().getAward().getAwardDirectFandADistributions();
-        boolean validStartAndEndDates = isStartDatePriorToEndDate();
-        boolean validDatePeriod = doTargetDatesFallWithinOpenPeriod(thisAwardDirectFandADistributions) 
-                                        && isTargetStartAfterProjectStartDate(awardDirectFandADistributionRuleEvent) 
-                                            && isTargetEndDatePriorToProjectEndDate(awardDirectFandADistributionRuleEvent);
-        return validStartAndEndDates && validDatePeriod;
+        
+        boolean isValid = true;
+        
+        if (!isStartDateEntered())
+            isValid = false;
+        if (!isEndDateEntered())
+            isValid = false;
+
+        // if start or end date is null, skip the remaining date checks
+        if (isValid && !isStartDatePriorToEndDate())
+            isValid = false;
+            
+        if (isValid) {
+            boolean validDatePeriod = doTargetDatesFallWithinOpenPeriod(thisAwardDirectFandADistributions)
+                && isTargetStartAfterProjectStartDate(awardDirectFandADistributionRuleEvent) 
+                && isTargetEndDatePriorToProjectEndDate(awardDirectFandADistributionRuleEvent);
+            if (!validDatePeriod) {
+                isValid = false;
+            }
+        }
+
+        // check cost fields
+        if (!isDirectCostValid())
+            isValid = false;
+        if (!isIndirectCostValid())
+            isValid = false;
+            
+        return isValid;
     }
     
     /**
@@ -120,6 +151,75 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
         return invalid;
     }
     
+    
+    /**
+     * This method checks whether the user provided a start date
+     * @return
+     */
+    private boolean isStartDateEntered() {
+        boolean valid = true;
+        if (awardDirectFandADistribution.getStartDate() == null){
+            valid = false;
+            reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+START_DATE_REQUIRED, 
+                    KeyConstants.ERROR_AWARD_FANDA_DISTRIB_START_DATE_REQUIRED);
+        }
+        return valid;
+    }
+    
+    /**
+     * This method checks whether the user provided a end date
+     * @return
+     */
+    private boolean isEndDateEntered() {
+        boolean valid = true;
+        if (awardDirectFandADistribution.getEndDate() == null){
+            valid = false;
+            reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+END_DATE_REQUIRED, 
+                    KeyConstants.ERROR_AWARD_FANDA_DISTRIB_END_DATE_REQUIRED);
+        }
+        return valid;
+    }
+    
+    /**
+     * This method checks whether the user provided a valid Direct Cost amount
+     * @return
+     */
+    private boolean isDirectCostValid() {
+        boolean valid = true;
+        KualiDecimal directCost = awardDirectFandADistribution.getDirectCost();
+        if (directCost == null){
+            valid = false;
+            reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+DIRECT_COST_REQUIRED, 
+                    KeyConstants.ERROR_AWARD_FANDA_DISTRIB_DIRECT_COST_REQUIRED);
+        }
+        else if (!directCost.isPositive()){
+            valid = false;
+            reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+DIRECT_COST_POSITIVE, 
+                    KeyConstants.ERROR_AWARD_FANDA_DISTRIB_DIRECT_COST_POSITIVE);
+        }
+        return valid;
+    }
+    
+    /**
+     * This method checks whether the user provided a valid Indirect Cost amount
+     * @return
+     */
+    private boolean isIndirectCostValid() {
+        boolean valid = true;
+        KualiDecimal indirectCost = awardDirectFandADistribution.getIndirectCost();
+        if (indirectCost == null){
+            valid = false;
+            reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+INDIRECT_COST_REQUIRED, 
+                    KeyConstants.ERROR_AWARD_FANDA_DISTRIB_INDIRECT_COST_REQUIRED);
+        }
+        else if (!indirectCost.isPositive()){
+            valid = false;
+            reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+INDIRECT_COST_POSITIVE, 
+                    KeyConstants.ERROR_AWARD_FANDA_DISTRIB_INDIRECT_COST_POSITIVE);
+        }
+        return valid;
+    }
+    
     /**
      * This method tests that the period start date is prior to the period end date.
      * @return
@@ -149,7 +249,6 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
             }
         }
         return valid;
-        
     }
     
     /**

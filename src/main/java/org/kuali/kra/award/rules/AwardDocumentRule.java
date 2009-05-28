@@ -63,6 +63,7 @@ import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApp
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleEvent;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleImpl;
 import org.kuali.kra.award.rule.AddFandaRateRule;
+import org.kuali.kra.award.rule.AwardDirectFandADistributionRule;
 import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
 import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
@@ -106,7 +107,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                             AwardProjectPersonsSaveRule,
                                                                             PermissionsRule,
                                                                             AwardReportTermRule,
-                                                                            AwardReportTermRecipientRule{
+                                                                            AwardReportTermRecipientRule,
+                                                                            AwardDirectFandADistributionRule{
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
@@ -122,20 +124,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     public boolean processAwardApprovedEquipmentBusinessRules(AwardApprovedEquipmentRuleEvent event) {
         return processApprovedEquipmentBusinessRules(GlobalVariables.getErrorMap(), event.getAwardDocument());
     }
-    
-    /**
-     * @see org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRule#processAwardApprovedEquipmentBusinessRules(org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent)
-     */
-    //public boolean processAddAwardApprovedEquipmentBusinessRules(AddAwardApprovedEquipmentRuleEvent event) {
-     //   return processAddApprovedEquipmentBusinessRules(GlobalVariables.getErrorMap(), event);
-   // }
-    
-    /**
-     * @see org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRule#processAddAwardApprovedForeignTravelBusinessRules(org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AddAwardApprovedForeignTravelRuleEvent)
-     */
-   // public boolean processAddAwardApprovedForeignTravelBusinessRules(AddAwardApprovedForeignTravelRuleEvent event) {
-       // return processAddApprovedForeignTravelBusinessRules(GlobalVariables.getErrorMap(), event);
-    //}
     
     /**
      * @see org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRule#processAwardApprovedForeignTravelBusinessRules
@@ -180,6 +168,11 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     public boolean processAddAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent 
                                                                                         awardDirectFandADistributionRuleEvent) {
         return new AwardDirectFandADistributionRuleImpl().processAddAwardDirectFandADistributionBusinessRules(awardDirectFandADistributionRuleEvent);
+    }
+
+    public boolean processAwardDirectFandADistributionBusinessRules(
+            AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
+        return new AwardDirectFandADistributionRuleImpl().processAwardDirectFandADistributionBusinessRules(awardDirectFandADistributionRuleEvent);
     }
     
     /**
