@@ -20,20 +20,23 @@ import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class QuestionnaireAnswerHeader extends KraPersistableBusinessObjectBase { 
+/**
+ * Holds additional information related to a series of {@link Answer Answers}.
+ */
+public class AnswerHeader extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 1L;
 
-    private Long questionnaireAnswerHeaderId;
+    private Long id;
     private Integer moduleItemCode; 
     private String moduleItemKey; 
     private Integer moduleSubItemCode; 
     private String moduleSubItemKey;
     private Integer questionnaireId;
     //private Questionnaire questionnaire 
-    private boolean questionnaireCompletedFlag; 
+    private boolean completed; 
     
-    private List<QuestionnaireAnswer> questionnaireAnswers; 
+    private List<Answer> answers; 
     
     /**
      * Gets the moduleItemCode attribute. 
@@ -135,48 +138,48 @@ public class QuestionnaireAnswerHeader extends KraPersistableBusinessObjectBase 
      * Gets the questionnaireCompletionId attribute. 
      * @return Returns the questionnaireCompletionId.
      */
-    public Long getQuestionnaireAnswerHeaderId() {
-        return this.questionnaireAnswerHeaderId;
+    public Long getId() {
+        return this.id;
     }
 
     /**
-     * Sets the questionnaireAnswerHeaderId attribute value.
-     * @param questionnaireAnswerHeaderId The questionnaireAnswerHeaderId to set.
+     * Sets the id attribute value.
+     * @param id The id to set.
      */
-    public void setQuestionnaireAnswerHeaderId(Long questionnaireAnswerHeaderId) {
-        this.questionnaireAnswerHeaderId = questionnaireAnswerHeaderId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
-     * Gets the questionnaireCompletedFlag attribute. 
-     * @return Returns the questionnaireCompletedFlag.
+     * Gets the completed attribute. 
+     * @return Returns the completed.
      */
-    public boolean getQuestionnaireCompletedFlag() {
-        return this.questionnaireCompletedFlag;
+    public boolean getCompleted() {
+        return this.completed;
     }
 
     /**
-     * Sets the questionnaireCompletedFlag attribute value.
-     * @param questionnaireCompletedFlag The questionnaireCompletedFlag to set.
+     * Sets the completed attribute value.
+     * @param completed The completed to set.
      */
-    public void setQuestionnaireCompletedFlag(boolean questionnaireCompletedFlag) {
-        this.questionnaireCompletedFlag = questionnaireCompletedFlag;
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     /**
-     * Gets the questionnaireAnswers attribute. 
-     * @return Returns the questionnaireAnswers.
+     * Gets the answers attribute. 
+     * @return Returns the answers.
      */
-    public List<QuestionnaireAnswer> getQuestionnaireAnswers() {
-        return this.questionnaireAnswers;
+    public List<Answer> getAnswers() {
+        return this.answers;
     }
 
     /**
-     * Sets the questionnaireAnswers attribute value.
-     * @param questionnaireAnswers The questionnaireAnswers to set.
+     * Sets the answers attribute value.
+     * @param answers The answers to set.
      */
-    public void setQuestionnaireAnswers(List<QuestionnaireAnswer> questionnaireAnswers) {
-        this.questionnaireAnswers = questionnaireAnswers;
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 
     /** {@inheritDoc} */
@@ -188,8 +191,8 @@ public class QuestionnaireAnswerHeader extends KraPersistableBusinessObjectBase 
         hashMap.put("moduleSubItemCode", this.getModuleSubItemCode());
         hashMap.put("moduleSubItemKey", this.getModuleSubItemKey());
         hashMap.put("questionnaireId", this.getQuestionnaireId());
-        hashMap.put("questionnaireAnswerHeaderId", this.getQuestionnaireAnswerHeaderId());
-        hashMap.put("questionnaireCompletedFlag", Boolean.valueOf(this.getQuestionnaireCompletedFlag()));
+        hashMap.put("id", this.getId());
+        hashMap.put("completed", Boolean.valueOf(this.getCompleted()));
         return hashMap;
     }
 }
