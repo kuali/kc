@@ -281,7 +281,6 @@ public class AwardScheduleGenerationServiceImplTest {
         newAwardReportTerm.setFrequencyBaseCode(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase());
         
         final ScheduleService scheduleService = context.mock(ScheduleService.class);
-        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);
         
         final Parameter parameter = new Parameter();
         parameter.setParameterName(KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);
@@ -295,8 +294,7 @@ public class AwardScheduleGenerationServiceImplTest {
         awardScheduleGenerationServiceImpl.setScheduleService(scheduleService);
         awardScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);
         
-        Assert.assertEquals(DATES
-                , awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm));
+        Assert.assertEquals(DATES, awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm));
     }
     
     @Test
@@ -320,7 +318,6 @@ public class AwardScheduleGenerationServiceImplTest {
         newAwardReportTerm.setFrequencyBaseCode(FrequencyBaseConstants.AWARD_EXECUTION_DATE.getfrequencyBase());
         
         final ScheduleService scheduleService = context.mock(ScheduleService.class);
-        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);
         
         final Parameter parameter = new Parameter();
         parameter.setParameterName(KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);

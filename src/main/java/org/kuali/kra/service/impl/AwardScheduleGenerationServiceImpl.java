@@ -132,6 +132,10 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
         startDate = getStartDate(awardReportTerm);
         endDate = getEndDate(awardReportTerm.getFrequencyBaseCode(),startDate);
         
+        if(endDate.before(startDate)){
+            throw new RuntimeException("End Date is Before Start Date");
+        }
+        
         if(startDate!=null){
             calendar.setTime(startDate);
             if(endDate!=null && awardReportTerm.getFrequency().getRepeatFlag() && awardReportTerm.getFrequency().getNumberOfMonths()!=null){
