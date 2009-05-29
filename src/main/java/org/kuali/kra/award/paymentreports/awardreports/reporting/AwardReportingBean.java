@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardScheduleGenerationService;
@@ -88,7 +89,10 @@ public class AwardReportingBean implements Serializable {
         
         List<Date> dates = new ArrayList<Date>();
         
-        dates = getAwardScheduleGenerationService().generateSchedules(getAward(), getAward().getAwardReportTermItems().get(index));
+        List<AwardReportTerm> awardReportTerms = new ArrayList<AwardReportTerm>();
+        awardReportTerms.add(getAward().getAwardReportTermItems().get(index));
+        
+        dates = getAwardScheduleGenerationService().generateSchedules(getAward(), awardReportTerms, true);
         
         getAward().getAwardReportTermItems().get(index).setAwardReportings(new ArrayList<AwardReporting>());
         
@@ -157,9 +161,9 @@ public class AwardReportingBean implements Serializable {
     * This is a helper method to retrieve the AwardScheduleGenerationService.
     * @return
     */
-   protected AwardScheduleGenerationService getAwardScheduleGenerationService(){
-       return KraServiceLocator.getService(AwardScheduleGenerationService.class);
-   }
+    protected AwardScheduleGenerationService getAwardScheduleGenerationService(){
+        return KraServiceLocator.getService(AwardScheduleGenerationService.class);
+    }
 
     /**
      * Gets the newAwardReportings attribute. 
