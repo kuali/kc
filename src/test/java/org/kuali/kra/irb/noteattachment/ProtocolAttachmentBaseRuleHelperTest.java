@@ -140,7 +140,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
             will(returnValue(true));
         }});
         
-        boolean valid = helper.validPrimativeFields(attachment);
+        boolean valid = helper.validPrimitiveFields(attachment);
         
         this.context.assertIsSatisfied();
         
@@ -295,7 +295,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
             will(returnValue(false));
         }});
         
-        boolean valid = helper.validPrimativeFields(attachment);
+        boolean valid = helper.validPrimitiveFields(attachment);
         
         this.context.assertIsSatisfied();
         

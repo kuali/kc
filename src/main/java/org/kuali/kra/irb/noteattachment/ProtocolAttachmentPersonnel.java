@@ -122,6 +122,12 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase implemen
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    /** {@inheritDoc} */
+    @Override
+    public String getAttachmentDescription() {
+        return "Personnel Attachment";
+    }
 
     /** {@inheritDoc} */
     @Override 

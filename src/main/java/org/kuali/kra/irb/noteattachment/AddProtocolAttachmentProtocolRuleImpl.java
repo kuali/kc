@@ -32,7 +32,7 @@ class AddProtocolAttachmentProtocolRuleImpl implements AddProtocolAttachmentProt
         
         final ProtocolAttachmentProtocol newAttachmentProtocol = event.getNewAttachmentProtocol();
         
-        boolean valid = this.baseHelper.validPrimativeFields(newAttachmentProtocol);
+        boolean valid = this.baseHelper.validPrimitiveFields(newAttachmentProtocol);
         valid &= this.baseHelper.validTypeForGroup(newAttachmentProtocol);
         valid &= this.baseHelper.validDescriptionWhenRequired(newAttachmentProtocol);
         valid &= this.protocolHelper.validStatus(newAttachmentProtocol);

@@ -66,6 +66,15 @@ public interface ProtocolAttachmentService {
     void saveAttatchment(ProtocolAttachmentBase attachment);
     
     /**
+     * Deletes an existing {@link ProtocolAttachmentBase ProtocolAttachmentBase}. It will also
+     * delete any child BOs that should also be removed (ex. the File).
+     * 
+     * @param attachment the attachment.
+     * @throws IllegalArgumentException if the attachment or attachment's new file is null
+     */
+    void deleteAttatchment(ProtocolAttachmentBase attachment);
+    
+    /**
      * Gets a Person BO from personId.
      * 
      * @param personId the person id
