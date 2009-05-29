@@ -191,7 +191,11 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
         this.fileId = fileId;
     }
     
-
+    /**
+     * A human readable description of the attachment type.
+     * @return a description
+     */
+    public abstract String getAttachmentDescription();
     
     /** {@inheritDoc} */
     @Override 

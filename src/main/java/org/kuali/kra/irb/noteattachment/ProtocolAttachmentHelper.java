@@ -283,13 +283,13 @@ public class ProtocolAttachmentHelper implements Serializable {
      * @param attachments the attachment list
      * @return true deleted false if not a valid index
      */
-    private static <T extends ProtocolAttachmentBase> boolean deleteExistingAttachment(final int index, final List<T> attachments) {
+    private <T extends ProtocolAttachmentBase> boolean deleteExistingAttachment(final int index, final List<T> attachments) {
         
         if (!validIndexForList(index, attachments)) {
             return false;
         }
+        this.notesService.deleteAttatchment(attachments.remove(index));
         
-        attachments.remove(index);
         return true;
     }
     
@@ -380,8 +380,9 @@ public class ProtocolAttachmentHelper implements Serializable {
     void refreshAttachmentReferences() {
         this.refreshAttachmentReferences(this.getProtocol().getAttachmentPersonnels());
         this.refreshAttachmentReferences(this.getProtocol().getAttachmentProtocols());
-        this.refreshAttachmentReferences(Collections.singletonList(this.newAttachmentPersonnel));
-        this.refreshAttachmentReferences(Collections.singletonList(this.newAttachmentProtocol));
+        this.refreshAttachmentReferences(Collections.singletonList(this.getNewAttachmentPersonnel()));
+        this.refreshAttachmentReferences(Collections.singletonList(this.getNewAttachmentProtocol()));
+        this.refreshAttachmentReferences(Collections.singletonList(this.getNewAttachmentNotification()));
     }
     
     /** 
@@ -412,9 +413,9 @@ public class ProtocolAttachmentHelper implements Serializable {
         this.syncNewFiles(this.getProtocol().getAttachmentPersonnels());
         this.syncNewFiles(this.getProtocol().getAttachmentProtocols());
         this.syncNewFiles(this.getProtocol().getAttachmentNotifications());
-        this.syncNewFiles(Collections.singletonList(this.newAttachmentPersonnel));
-        this.syncNewFiles(Collections.singletonList(this.newAttachmentProtocol));
-        this.syncNewFiles(Collections.singletonList(this.newAttachmentNotification));
+        this.syncNewFiles(Collections.singletonList(this.getNewAttachmentPersonnel()));
+        this.syncNewFiles(Collections.singletonList(this.getNewAttachmentProtocol()));
+        this.syncNewFiles(Collections.singletonList(this.getNewAttachmentNotification()));
     }
     
     /** 

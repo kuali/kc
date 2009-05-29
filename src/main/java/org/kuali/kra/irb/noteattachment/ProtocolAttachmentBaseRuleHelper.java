@@ -190,7 +190,7 @@ class ProtocolAttachmentBaseRuleHelper {
      * @param attachmentBase the attachment
      * @return true if valid.
      */
-    boolean validPrimativeFields(final ProtocolAttachmentBase attachmentBase) {
+    boolean validPrimitiveFields(final ProtocolAttachmentBase attachmentBase) {
         
         final Long oldFileId = attachmentBase.getFileId();
         try {

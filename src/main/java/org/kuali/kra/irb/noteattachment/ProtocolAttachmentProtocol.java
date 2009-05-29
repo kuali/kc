@@ -191,6 +191,12 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
     }
     
     /** {@inheritDoc} */
+    @Override
+    public String getAttachmentDescription() {
+        return "Protocol Attachment";
+    }
+    
+    /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = super.toStringMapper();
