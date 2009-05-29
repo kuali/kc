@@ -17,5 +17,4 @@
 <div id="workarea">
 	<kra-irb:protocolAttachmentProtocol />
 	<kra-irb:protocolAttachmentPersonnel />
-	<kra-irb:protocolAttachmentNotification />
 <!--</div>-->

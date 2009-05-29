@@ -152,6 +152,12 @@ public class ProtocolAttachmentNotification extends ProtocolAttachmentBase {
     public void setSubmissionId(Long submissionId) {
         this.submissionId = submissionId;
     }
+    
+    /** {@inheritDoc} */
+    @Override
+    public String getAttachmentDescription() {
+        return "Notification Attachment";
+    }
 
     /** {@inheritDoc} */
     @Override 

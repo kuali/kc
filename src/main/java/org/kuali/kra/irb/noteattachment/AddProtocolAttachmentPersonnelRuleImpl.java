@@ -34,7 +34,7 @@ class AddProtocolAttachmentPersonnelRuleImpl implements AddProtocolAttachmentPer
         final ProtocolDocument document = (ProtocolDocument) event.getDocument();
         final ProtocolAttachmentPersonnel newAttachmentPersonnel = event.getNewAttachmentPersonnel();
         
-        boolean valid = this.baseHelper.validPrimativeFields(newAttachmentPersonnel);
+        boolean valid = this.baseHelper.validPrimitiveFields(newAttachmentPersonnel);
         valid &= this.baseHelper.validTypeForGroup(newAttachmentPersonnel);
         valid &= this.baseHelper.validDescriptionWhenRequired(newAttachmentPersonnel);
         valid &= this.personnelHelper.duplicateTypePerson(newAttachmentPersonnel, document.getProtocol());

@@ -92,6 +92,15 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
     }
     
     /** {@inheritDoc} */
+    public void deleteAttatchment(ProtocolAttachmentBase attachment) {
+        if (attachment == null) {
+            throw new IllegalArgumentException("the attachment is null");
+        }
+        
+        this.boService.delete(attachment);
+    }
+    
+    /** {@inheritDoc} */
     public ProtocolPerson getPerson(Integer personId) {
         if (personId == null) {
             throw new IllegalArgumentException("the personId is null");
