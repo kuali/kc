@@ -68,11 +68,11 @@
 		    <th width="6%" class="infoline">
 			    <c:out value="Add:" />
 			</th>
-            <td width="5%" valign="middle" class="infoline">
+            <td nowrap width="5%" valign="middle" class="infoline">
             
             <div align="center">                        
                 <html:select property="awardReportsBean.newAwardReportTerms[${index}].reportCode" tabindex="0" 
-                onchange="javascript: loadFrequencyCode('${reportClassKey}', 'awardReportsBean.newAwardReportTerms[${index}].reportCode','awardReportsBean.newAwardReportTerms[${index}].frequencyCode');return false" styleClass="fixed-size-select" >                                              
+                onchange="javascript: loadFrequencyCode('${reportClassKey}', 'awardReportsBean.newAwardReportTerms[${index}].reportCode','awardReportsBean.newAwardReportTerms[${index}].frequencyCode');return false" >                                              
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder', paramMap1)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.awardReportsBean.newAwardReportTerms[index].reportCode == option.key}">
@@ -90,10 +90,10 @@
             </div>
 			</td>
 			<c:set target="${paramMap2}" property="reportCode" value="${KualiForm.awardReportsBean.newAwardReportTerms[index].reportCode}" />
-            <td width="5%" valign="middle" class="infoline">
+            <td nowrap width="5%" valign="middle" class="infoline">
             <div align="center">                
                 <html:select property="awardReportsBean.newAwardReportTerms[${index}].frequencyCode" tabindex="0" 
-                onchange="javascript: loadFrequencyBaseCode('awardReportsBean.newAwardReportTerms[${index}].frequencyCode','awardReportsBean.newAwardReportTerms[${index}].frequencyBaseCode');return false" styleClass="fixed-size-select" >                
+                onchange="javascript: loadFrequencyBaseCode('awardReportsBean.newAwardReportTerms[${index}].frequencyCode','awardReportsBean.newAwardReportTerms[${index}].frequencyBaseCode');return false" >                
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder', paramMap2)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.awardReportsBean.newAwardReportTerms[index].frequencyCode == option.key}">
@@ -110,10 +110,10 @@
 	            	src='${ConfigProperties.kra.externalizable.images.url}arrow_refresh.png'/>
             </div>
 			</td>
-            <td width="5%" valign="middle" class="infoline">
+            <td nowrap width="5%" valign="middle" class="infoline">
             <c:set target="${paramMap3}" property="frequencyCode" value="${KualiForm.awardReportsBean.newAwardReportTerms[index].frequencyCode}" />
             <div align="center">
-                <html:select property="awardReportsBean.newAwardReportTerms[${index}].frequencyBaseCode" tabindex="0" styleClass="fixed-size-select" >                
+                <html:select property="awardReportsBean.newAwardReportTerms[${index}].frequencyBaseCode" tabindex="0" >                
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder', paramMap3)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.awardReportsBean.newAwardReportTerms[index].frequencyBaseCode == option.key}">
@@ -128,12 +128,12 @@
 	            </html:select>
             </div>
 			</td>
-            <td width="5%" valign="middle" class="infoline">
+            <td nowrap width="5%" valign="middle" class="infoline">
             <div align="center">
                 <kul:htmlControlAttribute property="awardReportsBean.newAwardReportTerms[${index}].ospDistributionCode" attributeEntry="${awardReportTermAttributes.ospDistributionCode}" />
             </div>
 			</td>                
-            <td width="13%" valign="middle" class="infoline">
+            <td nowrap width="13%" valign="middle" class="infoline">
             <div align="center">
                 <kul:htmlControlAttribute property="awardReportsBean.newAwardReportTerms[${index}].dueDate" attributeEntry="${awardReportTermAttributes.dueDate}" datePicker="true" />
             </div>
@@ -153,14 +153,14 @@
 		    <th width="5%" class="infoline" rowspan="2">
 			    <c:out value="${counterReport}" />
 			</th>			                
-	        <td width="5%" valign="middle">	        
+	        <td nowrap width="5%" valign="middle">	        
 			<div align="center">
 				<kul:checkErrors keyMatch="document.awardList[0].awardReportTermItems[${status.index}].reportCode" auditMatch="${property}"/>				
 				<c:if test="${hasErrors==true}" >
     				<c:set var="textStyle" value="background-color:#FFD5D5"/>
   				</c:if>                
                 <html:select property="document.awardList[0].awardReportTermItems[${status.index}].reportCode" tabindex="0" style="${textStyle}" 
-                             onchange="javascript: loadFrequencyCode('${reportClassKey}', 'document.awardList[0].awardReportTermItems[${status.index}].reportCode','document.awardList[0].awardReportTermItems[${status.index}].frequencyCode');return false" styleClass="fixed-size-select" >                                             
+                             onchange="javascript: loadFrequencyCode('${reportClassKey}', 'document.awardList[0].awardReportTermItems[${status.index}].reportCode','document.awardList[0].awardReportTermItems[${status.index}].frequencyCode');return false" >                                             
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder', paramMap1)}" var="option">                	
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.document.awardList[0].awardReportTermItems[status.index].reportCode == option.key}">
@@ -179,14 +179,14 @@
 			</div>
 			</td>
 			<c:set target="${paramMap2}" property="reportCode" value="${KualiForm.document.awardList[0].awardReportTermItems[status.index].reportCode}" />			
-	        <td width="5%" valign="middle">
+	        <td nowrap width="5%" valign="middle">
 			<div align="center">
 				<kul:checkErrors keyMatch="document.awardList[0].awardReportTermItems[${status.index}].frequencyCode" auditMatch="${property}"/>				
 				<c:if test="${hasErrors==true}" >
     				<c:set var="textStyle" value="background-color:#FFD5D5"/>
   				</c:if> 
                 <html:select property="document.awardList[0].awardReportTermItems[${status.index}].frequencyCode" tabindex="0" style="${textStyle}" 
-                	onchange="javascript: loadFrequencyBaseCode('document.awardList[0].awardReportTermItems[${status.index}].frequencyCode','document.awardList[0].awardReportTermItems[${status.index}].frequencyBaseCode');return false" styleClass="fixed-size-select" >                
+                	onchange="javascript: loadFrequencyBaseCode('document.awardList[0].awardReportTermItems[${status.index}].frequencyCode','document.awardList[0].awardReportTermItems[${status.index}].frequencyBaseCode');return false" >                
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder', paramMap2)}" var="option">                	
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.document.awardList[0].awardReportTermItems[status.index].frequencyCode == option.key}">
@@ -205,13 +205,13 @@
 			</div>
 			</td>
 			<c:set target="${paramMap3}" property="frequencyCode" value="${KualiForm.document.awardList[0].awardReportTermItems[status.index].frequencyCode}" />
-	        <td width="5%" valign="middle">
+	        <td nowrap width="5%" valign="middle">
 			<div align="center">
 				<kul:checkErrors keyMatch="document.awardList[0].awardReportTermItems[${status.index}].frequencyBaseCode" auditMatch="${property}"/>				
 				<c:if test="${hasErrors==true}" >
     				<c:set var="textStyle" value="background-color:#FFD5D5"/>
   				</c:if>                 
-                <html:select property="document.awardList[0].awardReportTermItems[${status.index}].frequencyBaseCode" tabindex="0" style="${textStyle}" styleClass="fixed-size-select" >                
+                <html:select property="document.awardList[0].awardReportTermItems[${status.index}].frequencyBaseCode" tabindex="0" style="${textStyle}" >                
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder', paramMap3)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.document.awardList[0].awardReportTermItems[status.index].frequencyBaseCode == option.key}">
@@ -227,12 +227,12 @@
 	            <c:set var="textStyle" value=""/>
 			</div>
 			</td>
-	        <td width="13%" valign="middle">
+	        <td nowrap width="13%" valign="middle">
 			<div align="center">
                 <kul:htmlControlAttribute property="document.awardList[0].awardReportTermItems[${status.index}].ospDistributionCode" attributeEntry="${awardReportTermAttributes.ospDistributionCode}" />
 			</div>
 			</td>	                
-	        <td width="10%" valign="middle">
+	        <td nowrap width="10%" valign="middle">
 			<div align="center">
                 <kul:htmlControlAttribute property="document.awardList[0].awardReportTermItems[${status.index}].dueDate" attributeEntry="${awardReportTermAttributes.dueDate}" datePicker="true" />
 			</div>
