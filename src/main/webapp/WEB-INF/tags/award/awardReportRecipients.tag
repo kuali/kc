@@ -34,7 +34,7 @@
 		    </th>
 		    <td width="5%" valign="middle" class="infoline">
 		    <div align="center">
-	            <kul:htmlControlAttribute property="awardReportsBean.newAwardReportTermRecipients[${index}].contactId" attributeEntry="${awardReportTermRecipientAttributes.contactId}" styleClass="fixed-size-select" />
+	            <kul:htmlControlAttribute property="awardReportsBean.newAwardReportTermRecipients[${index}].contactId" attributeEntry="${awardReportTermRecipientAttributes.contactId}" />
 	        </div>    
 	        </td>	        
 	        <td width="5%" valign="middle" class="infoline">
