@@ -291,18 +291,12 @@ public class AwardScheduleGenerationServiceImplTest {
             one(scheduleService).getScheduledDates(with(equal(START_DATE)), with(equal(END_DATE)), with(equal(new Time24HrFmt(ZERO_HOURS)))
                     , with(any(ScheduleSequence.class)), with(equal(DAY_OF_MONTH)));will(returnValue(DATES));
         }});
-        
-        context.checking(new Expectations(){{
-            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
-                    ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);will(returnValue(parameter));
-        }});
-        
+                        
         awardScheduleGenerationServiceImpl.setScheduleService(scheduleService);
-        awardScheduleGenerationServiceImpl.setKualiConfigurationService(kualiConfigurationService);
         awardScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);
         
         Assert.assertEquals(DATES
-                , awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm, false));
+                , awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm));
     }
     
     @Test
@@ -336,17 +330,11 @@ public class AwardScheduleGenerationServiceImplTest {
             never(scheduleService).getScheduledDates(with(equal(START_DATE)), with(equal(END_DATE)), with(equal(new Time24HrFmt(ZERO_HOURS)))
                 , with(any(ScheduleSequence.class)),with(equal(DAY_OF_MONTH)));will(returnValue(DATES));
         }});
-                
-        context.checking(new Expectations(){{
-            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
-                    ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);will(returnValue(parameter));
-        }});
         
         awardScheduleGenerationServiceImpl.setScheduleService(scheduleService);
-        awardScheduleGenerationServiceImpl.setKualiConfigurationService(kualiConfigurationService);
         awardScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);
         
-        Assert.assertEquals(DATES, awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm, false));
+        Assert.assertEquals(DATES, awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm));
     }
     
 }

@@ -96,7 +96,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * 
      * @see org.kuali.kra.service.AwardScheduleGenerationService#generateSchedules(org.kuali.kra.award.bo.Award, java.util.List)
      */
-    public List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException{
+    public List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms, boolean isThisNotPaymentPanel) throws ParseException{
         List<Date> dates = new ArrayList<Date>();
         
         initializeDatesForThisAward(award);        
@@ -107,27 +107,10 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
                 ,KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE).getParameterValue()));
         
         for(AwardReportTerm awardReportTerm: awardReportTerms){
-            dates.addAll(getDates(awardReportTerm, false));
+            if(canGenerateSchedules(awardReportTerm, isThisNotPaymentPanel)){
+                dates.addAll(getDates(awardReportTerm));
+            }
         }
-        
-        return dates;
-    }
-    
-    /**
-     * 
-     * @see org.kuali.kra.service.AwardScheduleGenerationService#generateSchedules(org.kuali.kra.award.bo.Award, java.util.List)
-     */
-    public List<Date> generateSchedules(Award award, AwardReportTerm awardReportTerm) throws ParseException{
-        List<Date> dates = new ArrayList<Date>();
-        
-        initializeDatesForThisAward(award);        
-        awardReportTerm.refreshReferenceObject(FREQUENCY_OBJECT_STRING);
-        
-        setPeriodInYears(Integer.parseInt(
-                kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
-                ,KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE).getParameterValue()));
-        
-        dates.addAll(getDates(awardReportTerm, true));
         
         return dates;
     }
@@ -136,13 +119,11 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * This is a helper method. This method calls evaluates the frequency and frequency base and generates dates either by calling the scheduling service or
      * without that.
      * 
-     * @param awardReportTerms
-     * @param dates
-     * @param calendar
+     * @param awardReportTerm     
      * @return
      * @throws ParseException
      */
-    protected List<Date> getDates(AwardReportTerm awardReportTerm, boolean isThisNotPaymentPanel) throws ParseException {
+    protected List<Date> getDates(AwardReportTerm awardReportTerm) throws ParseException {
         List<Date> dates = new ArrayList<Date>();        
         java.util.Date startDate;
         java.util.Date endDate;
@@ -151,22 +132,33 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
         startDate = getStartDate(awardReportTerm);
         endDate = getEndDate(awardReportTerm.getFrequencyBaseCode(),startDate);
         
-        if(isThisNotPaymentPanel || StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_AWARD
-                ,Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES).getParameterValue())){
-            if(startDate!=null){
-                calendar.setTime(startDate);
-                if(endDate!=null && awardReportTerm.getFrequency().getRepeatFlag() && awardReportTerm.getFrequency().getNumberOfMonths()!=null){
-                    ScheduleSequence scheduleSequence = new XMonthlyScheduleSequenceDecorator(new TrimDatesScheduleSequenceDecorator(
-                                                                new DefaultScheduleSequence()),awardReportTerm.getFrequency().getNumberOfMonths());
-                    dates = scheduleService.getScheduledDates(startDate, endDate, new Time24HrFmt(ZERO_HOURS), scheduleSequence
-                                , calendar.get(Calendar.DAY_OF_MONTH));
-                }else{
-                    dates.add(startDate);
-                }                        
-            }    
-        }               
-                
+        if(startDate!=null){
+            calendar.setTime(startDate);
+            if(endDate!=null && awardReportTerm.getFrequency().getRepeatFlag() && awardReportTerm.getFrequency().getNumberOfMonths()!=null){
+                ScheduleSequence scheduleSequence = new XMonthlyScheduleSequenceDecorator(new TrimDatesScheduleSequenceDecorator(
+                                                            new DefaultScheduleSequence()),awardReportTerm.getFrequency().getNumberOfMonths());
+                dates = scheduleService.getScheduledDates(startDate, endDate, new Time24HrFmt(ZERO_HOURS), scheduleSequence
+                            , calendar.get(Calendar.DAY_OF_MONTH));
+            }else{
+                dates.add(startDate);
+            }                        
+        }    
+        
         return dates;
+    }
+
+    /**
+     * This method determines if the schedules should be generated for the particular <code>AwardReportTerm</code> object.
+     * 
+     * @param awardReportTerm
+     * @param isThisNotPaymentPanel - if the method is being called for generating schedules on report panel, the value passed will be false;
+     *                                  if the method is being called from payment panel, the value passed will be true.
+     *                                      This is to filter the special report class for payment panel. 
+     * @return
+     */
+    private boolean canGenerateSchedules(AwardReportTerm awardReportTerm, boolean isThisNotPaymentPanel) {
+        return isThisNotPaymentPanel || StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_AWARD
+                ,Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES).getParameterValue());
     }    
     
     
