@@ -24,14 +24,20 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
 /**
  * This class represents the Struts Action for Notes & Attachments page(ProtocolNoteAndAttachment.jsp).
  */
 public class ProtocolNoteAndAttachmentAction extends ProtocolAction {    
     
+    private static final String CONFIRM_YES_DELETE_ATTACHMENT_NOTIFICATION = "confirmDeleteAttachmentNotification";
+    private static final String CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL = "confirmDeleteAttachmentPersonnel";
+    private static final String CONFIRM_YES_DELETE_ATTACHMENT_PROTOCOL = "confirmDeleteAttachmentProtocol";
+    private static final String CONFIRM_NO_DELETE = "";
     private static final String NOT_FOUND_SELECTION = "the attachment was not found for selection ";
     private static final String UNSUPPORTED_ATTACHMENT_TYPE = "unsupported attachment type ";
     
@@ -162,6 +168,21 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     public ActionForward deleteAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+        
+        return confirmDeleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentProtocol.class);
+    }
+    
+    /**
+     * Method called when confirming the deletion an attachment protocol.
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @return an action forward.
+     * @throws Exception if there is a problem executing the request.
+     */
+    public ActionForward confirmDeleteAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return this.deleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentProtocol.class);
     }
     
@@ -177,6 +198,20 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     public ActionForward deleteAttachmentPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+        return confirmDeleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentPersonnel.class);
+    }
+    
+    /**
+     * Method called when confirming the deletion an attachment personnel.
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @return an action forward.
+     * @throws Exception if there is a problem executing the request.
+     */
+    public ActionForward confirmDeleteAttachmentPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return this.deleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentPersonnel.class);
     }
     
@@ -194,6 +229,67 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             HttpServletResponse response) throws Exception {
         return this.deleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentNotification.class);
     }
+    
+    /**
+     * Method called when confirming the deletion an attachment notification.
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @return an action forward.
+     * @throws Exception if there is a problem executing the request.
+     */
+    public ActionForward confirmDeleteAttachmentNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return this.deleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentNotification.class);
+    }
+    
+    /**
+     * Finds the attachment selected the by client which is really just an index.
+     * Then deletes the selected attachment based on the passed-in attachmentType.
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @param attachmentType the attachment type.
+     * @return an action forward.
+     * @throws IllegalArgumentException if the attachmentType is not supported
+     * @throws Exception if there is a problem executing the request.
+     */
+    private ActionForward confirmDeleteAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
+            HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
+        
+        final int selection = this.getSelectedLine(request);
+        final ProtocolAttachmentBase attachment;
+        final String confirmMethod;
+        
+        if (ProtocolAttachmentProtocol.class.equals(attachmentType)) {
+            attachment = form.getNotesAndAttachmentsHelper().retrieveExistingAttachmentProtocol(selection); 
+            confirmMethod = CONFIRM_YES_DELETE_ATTACHMENT_PROTOCOL;
+        } else if (ProtocolAttachmentPersonnel.class.equals(attachmentType)) {
+            attachment = form.getNotesAndAttachmentsHelper().retrieveExistingAttachmentPersonnel(selection);
+            confirmMethod = CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL;
+        } else if (ProtocolAttachmentNotification.class.equals(attachmentType)) {
+            attachment = form.getNotesAndAttachmentsHelper().retrieveExistingAttachmentNotification(selection);
+            confirmMethod = CONFIRM_YES_DELETE_ATTACHMENT_NOTIFICATION;
+        } else {
+            throw new IllegalArgumentException(UNSUPPORTED_ATTACHMENT_TYPE + attachmentType);
+        }
+        
+        if (attachment == null) {
+            LOG.info(NOT_FOUND_SELECTION + selection);
+            //may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        
+        final StrutsConfirmation confirm 
+        = buildParameterizedConfirmationQuestion(mapping, form, request, response, confirmMethod, 
+                KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION, attachment.getAttachmentDescription(), attachment.getFile().getName());
+        
+        return confirm(confirm, confirmMethod, CONFIRM_NO_DELETE);
+    }
+    
     
     /**
      * Finds the attachment selected the by client which is really just an index.
