@@ -84,7 +84,7 @@ public class PaymentScheduleBean implements Serializable {
     public void generatePaymentSchedules() throws ParseException{
         List<Date> dates = new ArrayList<Date>();
         
-        dates = getAwardScheduleGenerationService().generateSchedules(getAward(), getAward().getAwardReportTermItems());
+        dates = getAwardScheduleGenerationService().generateSchedules(getAward(), getAward().getAwardReportTermItems(), false);
         
         for(Date date: dates){
             newAwardPaymentSchedule = new AwardPaymentSchedule();
