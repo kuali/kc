@@ -682,6 +682,25 @@ create table comm_schedule_frequency (
   VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
   OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);  
 
+create table comm_schedule_minutes (
+  id            		     NUMBER(12)  not null,
+  schedule_id_fk             NUMBER(12)      not null,
+  schedule_id                varchar2 (10)  not null,
+  entry_number               number (12)    not null,
+  minute_entry_type_code     number (3)     not null,
+  protocol_id_fk             NUMBER(12)  not null,
+  protocol_number            varchar2 (20),
+  sequence_number            number (4),
+  submission_id_fk           NUMBER(12)  not null,
+  submission_number          number (4),
+  private_comment_flag       varchar2 (1),
+  protocol_contingency_code  varchar2 (4),
+  minute_entry               long,
+  update_timestamp           date           not null,
+  update_user                varchar2 (8)   not null, 
+  ver_nbr                    number(8,0) DEFAULT 1 NOT NULL, 
+  obj_id                     varchar2(36) DEFAULT SYS_GUID() NOT NULL);
+
 CREATE TABLE CONTACT_TYPE ( 
 	VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
 	OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL, 
