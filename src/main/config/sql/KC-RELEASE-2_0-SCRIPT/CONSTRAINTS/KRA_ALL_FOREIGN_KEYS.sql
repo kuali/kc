@@ -311,6 +311,21 @@ ADD CONSTRAINT fk_csa_rolodex_id
 FOREIGN KEY (rolodex_id) 
 REFERENCES rolodex (rolodex_id);
 
+ALTER TABLE comm_schedule_minutes  
+ADD CONSTRAINT fk_csm_schedule_id_fk
+FOREIGN KEY (schedule_id_fk) 
+REFERENCES COMM_SCHEDULE (id);
+
+ALTER TABLE comm_schedule_minutes  
+ADD CONSTRAINT fk_csm_protocol_id_fk 
+FOREIGN KEY (protocol_id_fk) 
+REFERENCES PROTOCOL (PROTOCOL_ID);
+
+ALTER TABLE comm_schedule_minutes  
+ADD CONSTRAINT fk_csm_submission_id_fk 
+FOREIGN KEY (submission_id_fk) 
+REFERENCES PROTOCOL_SUBMISSION (SUBMISSION_ID);
+
 ALTER TABLE COMMITTEE 
 ADD CONSTRAINT FK_COMMITTEE_1
 FOREIGN KEY (COMMITTEE_TYPE_CODE) 
