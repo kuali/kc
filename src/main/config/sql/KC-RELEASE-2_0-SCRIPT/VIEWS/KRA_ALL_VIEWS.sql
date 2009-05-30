@@ -433,9 +433,25 @@ CREATE OR REPLACE VIEW OSP$COMM_MEMBERSHIP_TYPE AS SELECT
     UPDATE_TIMESTAMP, 
     UPDATE_USER
 FROM COMM_MEMBERSHIP_TYPE;
+
+CREATE OR REPLACE VIEW OSP$comm_schedule_minutes AS SELECT 
+  schedule_id,
+  entry_number,
+  minute_entry_type_code,
+  protocol_number,
+  sequence_number,
+  submission_number,
+  private_comment_flag,
+  protocol_contingency_code,
+  minute_entry,
+  update_timestamp,
+  update_user
+FROM comm_schedule_minutes;
+
 CREATE VIEW OSP$COMMITTEE_TYPE
 AS SELECT COMMITTEE_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER
 FROM COMMITTEE_TYPE;
+
 CREATE VIEW OSP$COMMITTEE
 AS SELECT COMMITTEE_ID, COMMITTEE_NAME, HOME_UNIT_NUMBER, DESCRIPTION,
     SCHEDULE_DESCRIPTION, COMMITTEE_TYPE_CODE, MINIMUM_MEMBERS_REQUIRED,
