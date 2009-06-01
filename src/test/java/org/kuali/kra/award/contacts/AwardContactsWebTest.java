@@ -27,6 +27,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * This class loads the Award SpecialReview tab page
  */
 public abstract class AwardContactsWebTest extends AwardWebTestBase {
+    private static final String ROLE_CODE_FIELD_ID = "roleCode";
+
     protected static final String CONTACTS_LINK_NAME = "contacts.x";
 
     protected static final String EMPLOYEE_FULL_NAME = "Joe Tester";
@@ -55,24 +57,27 @@ public abstract class AwardContactsWebTest extends AwardWebTestBase {
         super.tearDown();
     }
     
-    protected void addEmployeeContact() throws Exception {
+    protected void addEmployeeContact(String contactRoleCode) throws Exception {
         assertContains(contactsPage, getTabCountMessage(0));
-        addNewEmployeeContact();
+        addNewEmployeeContact(contactRoleCode);
         checkForErrorsOnPage();
-        assertContains(contactsPage, EMPLOYEE_FULL_NAME);
         assertContains(contactsPage, getTabCountMessage(1));
     }
-    protected void addNewEmployeeContact() throws Exception {
+    protected void addNewEmployeeContact(String contactRoleCode) throws Exception {
         selectEmployee();
+        assertContains(contactsPage, EMPLOYEE_FULL_NAME);
+        selectContactRole(contactRoleCode);
         addSelectedContact();
     }
-    protected void addNewNonEmployeeContact() throws Exception {
+
+    protected void addNewNonEmployeeContact(String contactRoleCode) throws Exception {
         selectNonEmployee();
+        selectContactRole(contactRoleCode);
         addSelectedContact();
     }
-    protected void addNonEmployeeContact() throws Exception {
+    protected void addNonEmployeeContact(String contactRoleCode) throws Exception {
         assertContains(contactsPage, getTabCountMessage(0));
-        addNewNonEmployeeContact();
+        addNewNonEmployeeContact(contactRoleCode);
         checkForErrorsOnPage();
         assertContains(contactsPage, ROLODEX_FULL_NAME);
         assertContains(contactsPage, getTabCountMessage(1));
@@ -127,6 +132,7 @@ public abstract class AwardContactsWebTest extends AwardWebTestBase {
 
     protected abstract String getClearSelectedContactButtonContext();
     protected abstract String getDeleteContactFromTableButtonContext();
+    protected abstract String getContactRoleLookupContext();
 
     protected String getEmployeeLookupContext() {
         throw new RuntimeException(SUBCLASSES_SHOULD_OVERRIDE_THIS_METHOD_MSG);
@@ -156,5 +162,9 @@ public abstract class AwardContactsWebTest extends AwardWebTestBase {
     
     private void deleteContactFromTable(int rowNum) throws IOException {
         contactsPage = pressAButton(contactsPage, buildDeleteButtonMethodToCallName(getDeleteContactFromTableButtonContext(), rowNum));
+    }
+    
+    private void selectContactRole(String contactRoleCode) throws IOException {
+        contactsPage = lookup(contactsPage, getContactRoleLookupContext(), ROLE_CODE_FIELD_ID, contactRoleCode);
     }
 }

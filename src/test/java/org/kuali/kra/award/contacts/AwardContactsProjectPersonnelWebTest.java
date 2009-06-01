@@ -29,7 +29,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * This class tests the ApprovedEquipment panel
  */
 public class AwardContactsProjectPersonnelWebTest extends AwardContactsWebTest {
-    private static final String CONTACT_ROLE_CODE_ID = "projectPersonnelBean.contactRoleCode";
+    private static final String CONTACT_ROLE_CODE = "PI";
+    private static final String CONTACT_ROLE_CONTEXT = "projectPersonnelBean.contactRoleCode";
+    private static final String CONTACT_ROLE_CODE_ID = CONTACT_ROLE_CONTEXT;
     private static final String ADD_NEW_CONTACT_BUTTON_CONTEXT = METHOD_TO_CALL_PREFIX + "addProjectPerson";
     private static final String CLEAR_NEW_CONTACT_BUTTON_CONTEXT = METHOD_TO_CALL_PREFIX + "clearNewProjectPerson";
     private static final String DELETE_CONTACT_BUTTON_CONTEXT = METHOD_TO_CALL_PREFIX + "deleteProjectPerson";
@@ -39,7 +41,7 @@ public class AwardContactsProjectPersonnelWebTest extends AwardContactsWebTest {
     
     @Test
     public void deletingEmployeeProjectPerson() throws Exception {
-        addEmployeeContact();
+        addEmployeeContact(CONTACT_ROLE_CODE);
         deleteContactFromList(EMPLOYEE_FULL_NAME);
     }
     
@@ -55,20 +57,20 @@ public class AwardContactsProjectPersonnelWebTest extends AwardContactsWebTest {
 
     @Test
     public void testAddingProjectPerson_Employee() throws Exception {
-        addEmployeeContact();
+        addEmployeeContact(CONTACT_ROLE_CODE);
     }
     
     @Test
     public void testAddingProjectPersonUnitToEmployee() throws Exception {
         selectSpecificOption(contactsPage, CONTACT_ROLE_CODE_ID, 1);
-        addEmployeeContact();
+        addEmployeeContact(CONTACT_ROLE_CODE);
         addUnit(true);
     }
 
     @Test
     public void testSavingProjectPerson() throws Exception {
         selectSpecificOption(contactsPage, CONTACT_ROLE_CODE_ID, 1);
-        addEmployeeContact();
+        addEmployeeContact(CONTACT_ROLE_CODE);
         addUnit(true);
         save(contactsPage);
         checkForErrorsOnPage();
@@ -96,7 +98,7 @@ public class AwardContactsProjectPersonnelWebTest extends AwardContactsWebTest {
 
     @Test
     public void testAddingProjectPerson_Nonemployee() throws Exception {
-        addNonEmployeeContact();
+        addNonEmployeeContact(CONTACT_ROLE_CODE);
     }
     
     @Test
@@ -131,5 +133,10 @@ public class AwardContactsProjectPersonnelWebTest extends AwardContactsWebTest {
     
     protected String getTabCountMessagePattern() {
         return TAB_COUNT_MSG;
+    }
+
+    @Override
+    protected String getContactRoleLookupContext() {
+        return CONTACT_ROLE_CONTEXT;
     }
 }
