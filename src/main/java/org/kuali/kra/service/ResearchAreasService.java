@@ -20,5 +20,7 @@ public interface ResearchAreasService {
     public String getInitialResearchAreasList();
     public String getSubResearchAreasForTreeView(String researchAreaCode);
     public String getAscendantList(String researchAreaCode);
+    public boolean isResearchAreaExist(String researchAreaCode);
+    public void saveResearchAreas(String sqlScripts);
 
 }

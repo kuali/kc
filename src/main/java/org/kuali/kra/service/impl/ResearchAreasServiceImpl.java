@@ -23,41 +23,46 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.dao.ResearchAreaDao;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ResearchAreasService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class ResearchAreasServiceImpl implements ResearchAreasService {
     private BusinessObjectService businessObjectService;
     private static final String COLUMN = ":";
     private static final String SEPARATOR = ";1;";
-
+    private ResearchAreaDao researchAreaDao;
+    
     public String getInitialResearchAreasList() {
         List<ResearchArea> researchAreasList = getSubResearchAreas("000000");
         if (CollectionUtils.isEmpty(researchAreasList)) {
             return Constants.EMPTY_STRING;
         }
         ResearchArea topResearcgArea = researchAreasList.get(0);
-        String initialResearchAreas = topResearcgArea.getResearchAreaCode() +KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+topResearcgArea.getDescription()+SEPARATOR;
+        String initialResearchAreas = "<h3>"+topResearcgArea.getResearchAreaCode() +KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+topResearcgArea.getDescription()+"</h3><h3>";
         for (ResearchArea researcgArea : getSubResearchAreas(topResearcgArea.getResearchAreaCode())) {
-            initialResearchAreas = initialResearchAreas + researcgArea.getResearchAreaCode() +KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+researcgArea.getDescription()+SEPARATOR;
+            // TODO : limit this for testing
+            if (researcgArea.getResearchAreaCode().startsWith("21.")) {
+            initialResearchAreas = initialResearchAreas + researcgArea.getResearchAreaCode() +KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+researcgArea.getDescription()+"</h3><h3>";
+            }
         }
-        initialResearchAreas = initialResearchAreas.substring(0, initialResearchAreas.length() - 3);
+        initialResearchAreas = initialResearchAreas + KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp().toString()+"</h3>";
+       // initialResearchAreas = initialResearchAreas.substring(0, initialResearchAreas.length() - 4);
 
         return initialResearchAreas;
         
     }
 
     public String getSubResearchAreasForTreeView(String researchAreaCode) {
-        String researchAreas = null;
+        String researchAreas = "<h3>";
         for (ResearchArea researcgArea : getSubResearchAreas(researchAreaCode)) {
-            if (StringUtils.isNotBlank(researchAreas)) {
-                researchAreas = researchAreas +"," +researcgArea.getResearchAreaCode()+KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+researcgArea.getDescription();
-            } else {
-                researchAreas = researcgArea.getResearchAreaCode()+KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+researcgArea.getDescription();                
-            }
+            researchAreas = researchAreas + researcgArea.getResearchAreaCode() +KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+researcgArea.getDescription()+"</h3><h3>";
         }
+        researchAreas = researchAreas.substring(0, researchAreas.length() - 4);        
         return researchAreas;
         
     }
@@ -95,7 +100,19 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         return researchAreasList;
     }
 
+    public boolean isResearchAreaExist(String researchAreaCode) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("parentResearchAreaCode", researchAreaCode);
+        return businessObjectService.findByPrimaryKey(ResearchArea.class, fieldValues) != null;
+    }
 
+    public void saveResearchAreas(String sqlScripts) {
+
+        researchAreaDao.runScripts(sqlScripts.split("#;#"));
+        
+    }
+
+    
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -103,6 +120,10 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public void setResearchAreaDao(ResearchAreaDao researchAreaDao) {
+        this.researchAreaDao = researchAreaDao;
     }
 
 }
