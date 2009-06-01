@@ -25,6 +25,8 @@ import org.junit.Test;
  * This class tests the ApprovedEquipment panel
  */
 public class AwardContactsUnitContactsWebTest extends AwardContactsWebTest {
+    private static final String CONTACT_ROLE_CODE = "1";
+    private static final String CONTACT_ROLE_CONTEXT = "unitContactsBean.contactRoleCode";
     private static final String ADD_NEW_CONTACT_BUTTON_CONTEXT = METHOD_TO_CALL_PREFIX + "addUnitContact";
     private static final String CLEAR_NEW_CONTACT_BUTTON_CONTEXT = METHOD_TO_CALL_PREFIX + "clearNewUnitContact";
     private static final String DELETE_CONTACT_BUTTON_CONTEXT = METHOD_TO_CALL_PREFIX + "deleteUnitContact";
@@ -33,7 +35,7 @@ public class AwardContactsUnitContactsWebTest extends AwardContactsWebTest {
     
     @Test
     public void deletingUnitContact() throws Exception {
-        addNewEmployeeContact();
+        addNewEmployeeContact(CONTACT_ROLE_CODE);
         deleteContactFromList(EMPLOYEE_FULL_NAME);
     }
     
@@ -41,7 +43,7 @@ public class AwardContactsUnitContactsWebTest extends AwardContactsWebTest {
     public void setUp() throws Exception {
         super.setUp();
     }
-    
+
     @After
     public void tearDown() throws Exception {
         super.tearDown();
@@ -49,7 +51,7 @@ public class AwardContactsUnitContactsWebTest extends AwardContactsWebTest {
 
     @Test
     public void testAddingUnitContact() throws Exception {
-        addEmployeeContact();
+        addEmployeeContact(CONTACT_ROLE_CODE);
     }
 
     @Test
@@ -75,5 +77,10 @@ public class AwardContactsUnitContactsWebTest extends AwardContactsWebTest {
     
     protected String getTabCountMessagePattern() {
         return TAB_COUNT_MSG;
+    }
+
+    @Override
+    protected String getContactRoleLookupContext() {
+        return CONTACT_ROLE_CONTEXT;
     }
 }
