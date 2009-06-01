@@ -61,14 +61,17 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         return true;
     }
 
-    public boolean canPerformAction(String actionTypeCode, Protocol protocol) {
+    public boolean canPerformAction(String actionTypeCode, Protocol protocol) {        
         String submissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatusCode();
         String submissionTypeCode = protocol.getProtocolSubmission().getSubmissionTypeCode();
         String protocolReviewTypeCode = protocol.getProtocolSubmission().getProtocolReviewTypeCode();
         String protocolStatusCode = protocol.getProtocolStatusCode();
+        String scheduleId = protocol.getProtocolSubmission().getScheduleId();
+        Integer submissionNumber = protocol.getProtocolSubmission().getSubmissionNumber();  
         ProtocolActionMapping protocolAction = new ProtocolActionMapping(actionTypeCode, submissionStatusCode, submissionTypeCode,
-            protocolReviewTypeCode, protocolStatusCode);
-
+            protocolReviewTypeCode, protocolStatusCode, scheduleId, submissionNumber);
+        protocolAction.setBusinessObjectService(businessObjectService);
+        protocolAction.setProtocol(protocol);
         DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl");
         updateHandle.executeRules(protocolAction);
         return protocolAction.isAllowed();

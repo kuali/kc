@@ -892,5 +892,25 @@
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.irb.actions.submit.CommitteeScheduleMinutes" table="COMM_SCHEDULE_MINUTES">
+		<field-descriptor name="id" column="ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="INTEGER" />
+		<field-descriptor name="scheduleId" column="SCHEDULE_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="entryNumber" column="ENTRY_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="minuteEntryTypeCode" column="MINUTE_ENTRY_TYPE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="protocolIdFk" column="PROTOCOL_ID_FK" jdbc-type="INTEGER" />
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="INTEGER" />
+		<field-descriptor name="submissionNumber" column="SUBMISSION_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="privateCommentFlag" column="PRIVATE_COMMENT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="protocolContingencyCode" column="PROTOCOL_CONTINGENCY_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="minuteEntry" column="MINUTE_ENTRY" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
 		
 </descriptor-repository>
