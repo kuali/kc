@@ -118,7 +118,7 @@
             <forward name="basic" path="/unitHierarchy.jsp" />
         </action>
  		<action path="/researchAreas" name="ResearchAreasForm" type="org.kuali.kra.web.struts.action.ResearchAreasAction">
-            <forward name="basic" path="/researchAreas.jsp" />
+            <forward name="basic" path="/researchAreasLoad.jsp" />
             <forward name="lookup" path="/researchAreaSearch.jsp" />
         </action>
         <action path="/researchAreaSearch" name="ResearchAreasForm" type="org.kuali.kra.web.struts.action.ResearchAreasAction">
