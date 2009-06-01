@@ -74,8 +74,8 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.questionnaire.answer.AnswerHeader" table="QUESTIONNAIRE_ANS_HEADER">
-		<field-descriptor name="answerHeaderId" column="QUESTIONNAIRE_COMPLETION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTION_ID" autoincrement="true"/>
+    <class-descriptor class="org.kuali.kra.questionnaire.answer.AnswerHeader" table="QUESTIONNAIRE_ANSWER_HEADER">
+		<field-descriptor name="answerHeaderId" column="QUESTIONNAIRE_ANSWER_HEADER_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTION_ID" autoincrement="true"/>
 		<field-descriptor name="moduleItemCode" column="MODULE_ITEM_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="moduleItemKey" column="MODULE_ITEM_KEY" jdbc-type="VARCHAR" />
 		<field-descriptor name="moduleSubItemCode" column="MODULE_SUB_ITEM_CODE" jdbc-type="INTEGER" />
@@ -96,7 +96,7 @@
 	
 	<class-descriptor class="org.kuali.kra.questionnaire.answer.Answer" table="QUESTIONNAIRE_ANSWER">
 		<field-descriptor name="answerId" column="QUESTIONNAIRE_ANSWER_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTION_ID" autoincrement="true" />
-		<field-descriptor name="answerHeaderId" column="QUESTIONNAIRE_COMPLETE_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="answerHeaderId" column="QUESTIONNAIRE_AH_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="questionId" column="QUESTION_ID_FK" jdbc-type="INTEGER" />
 		<field-descriptor name="questionNumber" column="QUESTION_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="answerNumber" column="ANSWER_NUMBER" jdbc-type="INTEGER" />

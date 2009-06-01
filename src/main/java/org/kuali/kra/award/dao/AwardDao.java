@@ -13,17 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.bo;
+package org.kuali.kra.award.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.kuali.kra.award.bo.Award;
 
 
 /**
- * This class defines an Award contact role
+ * 
+ * This class is used to run ojb query directly.
  */
-public interface ContactRole {
-    String PI_CODE = "PI";
-    String COI_CODE = "COI";
-    String KEY_PERSON_CODE = "KP";
-        
-    String getRoleCode();
-    String getRoleDescription();
+public interface AwardDao {
+    String PI_NAME = "principalInvestigatorName";
+    String OSP_ADMIN_NAME = "ospAdministratorName";
+    
+    /**
+     * 
+     * This method get protocols lookup search results.
+     * @param fieldValues
+     * @return
+     */
+    List<Award> getAwards(Map<String, String> fieldValues);
+
 }
