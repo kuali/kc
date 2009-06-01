@@ -33,6 +33,7 @@ import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
@@ -63,6 +64,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Integer sequenceNumber;
     private String sponsorCode;
     private Integer statusCode;
+    private AwardStatus awardStatus;
     private Integer templateCode;
     private String accountNumber;
     private String approvedEquipmentIndicator;
@@ -107,6 +109,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Sponsor sponsor;
     private Sponsor primeSponsor;
 
+    private Unit leadUnit;
     private List<AwardComment> awardComments;
 
     private List<AwardCustomData> awardCustomDataList;
@@ -132,6 +135,15 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardPaymentSchedule> paymentScheduleItems;
     private List<AwardTransferringSponsor> awardTransferringSponsors;
     private List<AwardAmountInfo> awardAmountInfos;
+    
+    // Additional fields for lookup
+    private String leadUnitName;
+    private String leadUnitNumber;
+    private Person ospAdministrator;
+    private String ospAdministratorName;
+    private String principalInvestigatorName;
+    private String statusDescription;
+    private String sponsorName;
     
     /**
      * 
@@ -639,7 +651,33 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public String getTransferSponsorIndicator() {
         return transferSponsorIndicator;
     }
-
+    
+    /**
+     * 
+     * This method finds the lead unit name, if any
+     * @return
+     */
+    public String getUnitName() {
+        Unit unit = getLeadUnit();
+        if(unit != null) {
+            leadUnitName = unit.getUnitName(); 
+        }
+        return leadUnitName;
+    }
+    
+    /**
+     * 
+     * This method finds the lead unit number, if any
+     * @return
+     */
+    public String getUnitNumber() {
+        Unit leadUnit = getLeadUnit();
+        if(leadUnit != null) {
+            leadUnitNumber = leadUnit.getUnitNumber(); 
+        }
+        return leadUnitNumber;
+    }
+    
     /**
      * 
      * @param transferSponsorIndicator
@@ -854,7 +892,28 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.nonCompetingContProposalDue = nonCompetingContProposalDue;
     }
 
-
+    /**
+     * @return
+     */
+    public Person getOspAdministrator() {
+        for(AwardUnitContact contact: getAwardUnitContacts()) {
+            if(contact.isOspAdministrator()) {
+                ospAdministrator = contact.getPerson();
+                break;
+            }
+        }
+        return ospAdministrator;
+    }
+    
+    /**
+     * @return
+     */
+    public String getOspAdministratorName() {
+        Person ospAdministrator = getOspAdministrator();
+        ospAdministratorName = ospAdministrator != null ? ospAdministrator.getFullName() : null;
+        return ospAdministratorName;
+    }
+    
     /**
      *
      * @return
@@ -1606,6 +1665,16 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public List<AwardSponsorTerm> getAwardSponsorTerms() {
         return awardSponsorTerms;
     }
+    
+    /**
+     * @return
+     */
+    public AwardStatus getAwardStatus() {
+        if(awardStatus == null && statusCode != null) {
+            refreshReferenceObject("awardStatus");
+        }
+        return awardStatus;
+    }
 
     /**
      * Sets the awardSponsorTerms attribute value.
@@ -1653,10 +1722,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     public String getSponsorName() {
-        if (getSponsor() != null) {
-            return getSponsor().getSponsorName();
-        }
-        return null;
+        Sponsor sponsor = getSponsor();
+        sponsorName = sponsor != null ? sponsor.getSponsorName() : null;
+        return sponsorName;
     }
 
     /**
@@ -1701,6 +1769,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return awardTransferringSponsors;
     }
 
+    /**
+     * @param awardStatus
+     */
+    public void setAwardStatus(AwardStatus awardStatus) {
+        this.awardStatus = awardStatus;
+    }
+    
     public void setAwardTransferringSponsors(List<AwardTransferringSponsor> awardTransferringSponsors) {
         this.awardTransferringSponsors = awardTransferringSponsors;
     }
@@ -1815,6 +1890,7 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
                 }
             }
         }
+        this.leadUnit = leadUnit;
         return leadUnit;
     }
     
@@ -1836,6 +1912,48 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
      */
     public void setAwardReportTermItems(List<AwardReportTerm> awardReportTermItems) {
         this.awardReportTermItems = awardReportTermItems;
+    }
+
+    /**
+     * Find principle investigator, if any
+     * @return Principle investigator. May return null
+     */
+    public AwardPerson getPrincipalInvestigator() {
+        AwardPerson principleInvestigator = null;
+        for(AwardPerson person: projectPersons) {
+            if(person.isPrincipalInvestigator()) {
+                principleInvestigator = person;
+                break;
+            }
+        }
+        return principleInvestigator;
+    }
+    
+    /**
+     * This method find PI name
+     * @return PI name; may return null
+     */
+    public String getPrincipalInvestigatorName() {
+        AwardPerson pi = getPrincipalInvestigator();
+        principalInvestigatorName = pi != null ? pi.getFullName() : null;
+        return principalInvestigatorName;
+    }
+    
+    /**
+     * @param principalInvestigatorName
+     */
+    public void setPrincipalInvestigatorName(String principalInvestigatorName) {
+        this.principalInvestigatorName = principalInvestigatorName;
+    }
+    
+    /**
+     * This method returns the status description
+     * @return
+     */
+    public String getStatusDescription() {
+        AwardStatus status = getAwardStatus();
+        statusDescription = status != null ? status.getDescription() : null;
+        return statusDescription;
     }
 
     /**

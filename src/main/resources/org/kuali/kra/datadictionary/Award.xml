@@ -40,11 +40,12 @@
         <ref bean="Award-activityTypeCode" />
         <ref bean="Award-title" />
         <ref bean="Award-statusCode" />
+        <ref bean="Award-statusDescription" />
         <ref bean="Award-sponsorCode" />
         <ref bean="Award-primeSponsorCode" />
         <ref bean="Award-nsfCode" />
 		<ref bean="Award-awardNumber" />
-        <!-- <ref bean="Award-sponsorName" />  -->
+        <ref bean="Award-sponsorName" />
         <ref bean="Award-awardId" />
         <ref bean="Award-accountNumber" />
         <ref bean="Award-sponsorAwardNumber" />
@@ -58,6 +59,10 @@
         <ref bean="Award-awardTypeCode" />
         <ref bean="Award-obligatedTotal" />
         <ref bean="Award-anticipatedTotal" />
+        <ref bean="Award-principalInvestigatorName" />
+        <ref bean="Award-unitName" />
+        <ref bean="Award-unitNumber" />
+        <ref bean="Award-ospAdministratorName" />
       </list>
     </property>
   </bean>
@@ -400,38 +405,6 @@
     </property>
     <property name="summary" value="Award Id" />
     <property name="description" value="Award Id" />
-  </bean>  
-  
-  <bean id="Award-lookupDefinition" parent="Award-lookupDefinition-parentBean" />
-  <bean id="Award-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Award Lookup" />
-    <property name="lookupableID" value="sponsorLookupable" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up an Award" />
-    <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
-    </property>
-    <property name="lookupFields" >
-      <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="awardId" />
-      </list>
-    </property>
-    <property name="resultFields" >
-      <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="awardId"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="title" />
-        <bean parent="FieldDefinition"
-              p:attributeName="awardNumber" />              
-        <bean parent="FieldDefinition"
-              p:attributeName="sponsorName" />
-      </list>
-    </property>
-    <property name="resultSetLimit" value="50" />
   </bean>
   
   <!-- 
@@ -464,7 +437,6 @@
   <bean id="Award-activityTypeCode" parent="ProposalDevelopmentDocument-activityTypeCode-parentBean" />
   
   <bean id="Award-title" parent="Award-title-parentBean" />
-   
   <bean id="Award-title-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="title" />
     <property name="forceUppercase" value="false" />
@@ -561,7 +533,6 @@
   </bean>
   
   <bean id="Award-accountNumber" parent="Award-accountNumber-parentBean" />
-  
   <bean id="Award-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountNumber" />
     <property name="forceUppercase" value="false" />
@@ -675,7 +646,7 @@
   </bean>
   
   <bean id="Award-awardExecutionDate" parent="Award-awardExecutionDate-parentBean" />
-  
+
   <bean id="Award-awardExecutionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="awardExecutionDate" />
     <property name="label" value="Award Execution Date" />
@@ -781,5 +752,156 @@
     <property name="description" value="Anticipated Total" />
   </bean>
   
-</beans>
+  	<bean id="Award-principalInvestigatorName" parent="Award-principalInvestigatorName-parentBean" />
+	<bean id="Award-principalInvestigatorName-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="principalInvestigatorName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Investigator" />
+		<property name="shortLabel" value="Investigator" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern" >
+      		<bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean p:size="20" parent="TextControlDefinition" />
+		</property>
+		<property name="summary" value="Investigator" />
+		<property name="description" value="Investigator" />
+	</bean>
+	
+	<bean id="Award-unitNumber" parent="Award-unitNumber-parentBean" />
+	<bean id="Award-unitNumber-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="unitNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Unit Number" />
+		<property name="shortLabel" value="Unit Number" />
+		<property name="maxLength" value="150" />
+		<property name="validationPattern" >
+		  <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="control" >
+      		<bean p:size="8" parent="TextControlDefinition" />
+    	</property>
+		<property name="summary" value="The lead unit number for the Award." />
+		<property name="description" value="The lead unit number for the Award." />
+	</bean>
   
+	<bean id="Award-unitName" parent="Award-unitName-parentBean" />
+	<bean id="Award-unitName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="unitName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Unit Name" />
+		<property name="shortLabel" value="Unit Name" />
+		<property name="maxLength" value="150" />
+		<property name="validationPattern" >
+		  <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control" >
+		  <bean p:size="60" parent="TextControlDefinition" />
+		</property>
+		<property name="summary" value="The lead unit name for the Award." />
+		<property name="description" value="The lead unit name for the Award." />
+	</bean>
+	
+	<bean id="Award-ospAdministratorName" parent="Award-ospAdministratorName-parentBean" />
+	<bean id="Award-ospAdministratorName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="ospAdministratorName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="OSP Administrator" />
+		<property name="shortLabel" value="OSP Administrator" />
+		<property name="maxLength" value="150" />
+		<property name="validationPattern" >
+		  <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control" >
+		  <bean p:size="20" parent="TextControlDefinition" />
+		</property>
+		<property name="summary" value="The lead unit OSP Administrator name for the Award." />
+		<property name="description" value="The lead unit OSP Administrator name for the Award." />
+	</bean>
+	
+	<bean id="Award-sponsorName" parent="Award-sponsorName-parentBean" />
+	<bean id="Award-sponsorName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="sponsorName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Sponsor Name" />
+		<property name="shortLabel" value="Sponsor Name" />
+		<property name="maxLength" value="150" />
+		<property name="validationPattern" >
+		  <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control" >
+		  <bean p:size="60" parent="TextControlDefinition" />
+		</property>
+		<property name="summary" value="The sponsor name for the Award." />
+		<property name="description" value="The sponsor name for the Award." />
+	</bean>
+  
+	<bean id="Award-statusDescription" parent="Award-statusDescription-parentBean" />
+	<bean id="Award-statusDescription-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="statusDescription" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Award Status" />
+		<property name="shortLabel" value="Award Status" />
+		<property name="maxLength" value="150" />
+		<property name="validationPattern" >
+		  <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="control" >
+		  <bean p:size="60" parent="TextControlDefinition" />
+		</property>
+		<property name="summary" value="Award Status" />
+		<property name="description" value="Award Status" />
+	</bean>
+  
+  	<!-- Business Object Lookup Definition -->
+	<bean id="Award-lookupDefinition" parent="Award-lookupDefinition-parentBean" />
+  	<bean id="Award-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Award Lookup" />
+		<property name="lookupableID" value="awardLookupable" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="instructions" value="Look up an Award" />
+		<property name="defaultSort" >
+		  <bean parent="SortDefinition">
+		  </bean>
+		</property>
+		<property name="lookupFields" >
+		  <list>
+		  	<bean p:attributeName="awardId" p:forceInquiry="true" parent="FieldDefinition" />
+		    <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition" />
+		    <bean p:attributeName="awardNumber" parent="FieldDefinition" />
+		    <bean p:attributeName="accountNumber" parent="FieldDefinition" />
+		    <bean p:attributeName="statusCode" parent="FieldDefinition" />
+		    <bean p:attributeName="sponsorCode" parent="FieldDefinition" />
+		    <bean p:attributeName="title" parent="FieldDefinition" />
+		    <bean p:attributeName="principalInvestigatorName" parent="FieldDefinition" />
+		    <bean p:attributeName="unitNumber" parent="FieldDefinition" />
+		    <bean p:attributeName="unitName" parent="FieldDefinition" />
+		    <bean p:attributeName="ospAdministratorName" parent="FieldDefinition" />
+		  </list>
+		</property>
+		<property name="resultFields" >
+		  <list>
+		    <bean p:attributeName="awardId" p:forceInquiry="true" parent="FieldDefinition" />
+		    <bean p:attributeName="awardNumber" parent="FieldDefinition" />
+		    <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition" />
+		    <bean p:attributeName="unitNumber" parent="FieldDefinition" />
+		    <bean p:attributeName="unitName" parent="FieldDefinition" />
+		    <bean p:attributeName="accountNumber" parent="FieldDefinition" />
+			<bean p:attributeName="statusDescription" parent="FieldDefinition" />	    
+			<bean p:attributeName="title" parent="FieldDefinition" />
+			<bean p:attributeName="sponsorCode" parent="FieldDefinition" />
+			<bean p:attributeName="sponsorName" parent="FieldDefinition" />
+			<bean p:attributeName="principalInvestigatorName" parent="FieldDefinition" />
+			<bean p:attributeName="ospAdministratorName" parent="FieldDefinition" />
+			<bean p:attributeName="awardEffectiveDate"  parent="FieldDefinition" />
+			<!-- Obligation Expiration Date -->
+			<!-- Final Expiration Date -->
+			<bean p:attributeName="projectEndDate" parent="FieldDefinition" />
+			
+		  </list>
+		</property>
+		<property name="resultSetLimit" value="50" />
+	</bean>
+  
+</beans>

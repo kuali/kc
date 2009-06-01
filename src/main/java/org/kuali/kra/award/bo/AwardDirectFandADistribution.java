@@ -52,6 +52,15 @@ public class AwardDirectFandADistribution extends AwardAssociate {
         setStartDate(periodStartDate);
         setEndDate(periodEndDate);
     }
+
+    /**
+     * FIXME: Field may be dead code
+     * This method added because repository validation fails if no getter present for repository declared field
+     * @return
+     */
+    public Long getAwardAmountInfoId() {
+        return awardAmountInfoId;
+    }
     
     /**
      * Gets the awardDirectFandADistributionId attribute. 

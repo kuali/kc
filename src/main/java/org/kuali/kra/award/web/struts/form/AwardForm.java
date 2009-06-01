@@ -22,6 +22,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardComment;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.bo.AwardSpecialReview;
@@ -42,6 +43,7 @@ import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.Approved
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
+import org.kuali.kra.common.web.struts.form.LookupHelper;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -100,13 +102,11 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private AwardReportsBean awardReportsBean;
     private AwardReportingBean awardReportingBean;
     
-    
     private boolean auditActivated;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
-    
     private PermissionsHelper permissionsHelper;
-    
-    private AwardCreditSplitBean awardCreditSplitBean; 
+    private AwardCreditSplitBean awardCreditSplitBean;
+    private LookupHelper<AwardForm> lookupHelper; 
     
     /**
      * 
@@ -258,6 +258,13 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     @Override
     protected String getLockRegion() {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_AWARD;
+    }
+
+    /**
+     * @return
+     */
+    public LookupHelper<AwardForm> getLookupHelper() {
+        return lookupHelper;
     }
     
     /**
@@ -531,6 +538,20 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         this.awardDirectFandADistributionBean = awardDirectFandADistributionBean;
     }
 
+    /**
+     * @param awardCreditSplitBean
+     */
+    public void setAwardCreditSplitBean(AwardCreditSplitBean awardCreditSplitBean) {
+        this.awardCreditSplitBean = awardCreditSplitBean;
+    }
+    
+    /**
+     * @param projectPersonnelBean
+     */
+    public void setAwardProjectPersonnelBean(AwardProjectPersonnelBean projectPersonnelBean) {
+        this.projectPersonnelBean = projectPersonnelBean;
+    }
+    
     /**
      * Gets the awardReportsBean attribute. 
      * @return Returns the awardReportsBean.

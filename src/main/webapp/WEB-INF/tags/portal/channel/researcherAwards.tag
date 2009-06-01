@@ -17,11 +17,15 @@
 
 <channel:portalChannelTop channelTitle="Awards" />
 <div class="body">
-  <ul class="chan">
-  	<li><portal:portalLink displayTitle="false" title="Create Award" url="awardHome.do?methodToCall=docHandler&command=initiate&docTypeName=AwardDocument">Create Award</portal:portalLink></li>
-  	<!--<li>Create Award</li>-->
-    <li>Awards in Progress</li>
-    <li>All my Awards</li>
-  </ul>
+	<ul class="chan">
+	  	<li><portal:portalLink displayTitle="false" title="Create Award" url="awardHome.do?methodToCall=docHandler&command=initiate&docTypeName=AwardDocument">Create Award</portal:portalLink></li>
+	  	<!--<li>Create Award</li>-->
+	    <li>Awards in Progress</li>
+	    <li>All my Awards</li>
+	</ul>
+	<strong>Lists</strong>
+	<ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Search Awards" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.bo.Award&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    </ul>
 </div>
 <channel:portalChannelBottom />
