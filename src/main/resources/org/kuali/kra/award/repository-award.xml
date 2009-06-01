@@ -81,6 +81,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    	
     	<collection-descriptor name="awardComments" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardComment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>
         </collection-descriptor>
@@ -145,6 +146,9 @@
         <reference-descriptor name="awardDocument" class-ref="org.kuali.kra.award.document.AwardDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
+        <reference-descriptor name="awardStatus" class-ref="org.kuali.kra.award.bo.AwardStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="statusCode"/>
+		</reference-descriptor>
         <collection-descriptor name="awardUnitContacts" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardUnitContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>
         </collection-descriptor>

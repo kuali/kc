@@ -170,6 +170,7 @@
 				<value>protocolLookupable</value>	
 				<value>committeeLookupable</value>	
 				<value>kimIdentityManagementService</value>
+				<value>awardLookupable</value>
 			</set>
 		</property>
 	</bean>	

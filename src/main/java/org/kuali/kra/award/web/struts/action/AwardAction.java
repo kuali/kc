@@ -56,6 +56,7 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  * This class represents base Action class for all the Award pages.
  */
 public class AwardAction extends KraTransactionalDocumentActionBase {
+    protected static final String AWARD_ID_PARAMETER_NAME = "awardId"; 
     
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(

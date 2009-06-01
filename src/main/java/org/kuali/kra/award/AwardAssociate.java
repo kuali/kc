@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.bo.Award;
@@ -23,7 +24,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 /**
  * This class handles the legacy sequenceNumber/awardNumber data from Coeus
  */
-public class AwardAssociate extends KraPersistableBusinessObjectBase {
+public class AwardAssociate extends KraPersistableBusinessObjectBase implements Serializable {
     private static final long serialVersionUID = -1966175324490120727L;
     
     private String awardNumber;
