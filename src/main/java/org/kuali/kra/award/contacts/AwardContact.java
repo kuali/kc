@@ -385,7 +385,7 @@ public abstract class AwardContact extends AwardAssociate {
     /**
      * @see org.kuali.kra.award.contacts.AwardContact#refreshContactRole()
      */
-    protected void refreshContactRole() {
+    protected ContactRole refreshContactRole() {
         ContactRole role;
         if(roleCode != null) {
             role = (ContactRole) getBusinessObjectService().findByPrimaryKey(getContactRoleType(), 
@@ -394,6 +394,7 @@ public abstract class AwardContact extends AwardAssociate {
             role = null;
         }
         setContactRole(role);
+        return role;
     }
     
     @Override    
