@@ -48,5 +48,14 @@ public class MockResearchAreasService implements ResearchAreasService {
         researchArea.setDescription("research area "+researchAreaCode);
         researchAreas.add(researchArea);
     }
+    public boolean isResearchAreaExist(String researchAreaCode) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    public void saveResearchAreas(String sqlScripts) {
+        // TODO Auto-generated method stub
+        
+    }
 
 }
