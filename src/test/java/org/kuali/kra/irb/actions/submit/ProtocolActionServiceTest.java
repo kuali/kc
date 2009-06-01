@@ -17,11 +17,18 @@ package org.kuali.kra.irb.actions.submit;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase{
     
@@ -32,11 +39,16 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase{
     
     private ProtocolActionServiceImpl protocolActionService;
     
+    private BusinessObjectService businessObjectService;
+    
     @Before
     public void setUp() {
         context  = new JUnit4Mockery();
         protocol = getProtocol(context);
         protocolActionService = new ProtocolActionServiceImpl();
+        
+        businessObjectService = context.mock(BusinessObjectService.class);
+        protocolActionService.setBusinessObjectService(businessObjectService);
 
         ProtocolSubmission protocolSubmission = new ProtocolSubmission();        
         protocol.setProtocolSubmission(protocolSubmission);
@@ -44,9 +56,53 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase{
         protocol.setProtocolNumber("001Z");        
     }   
     
+    private void mockMinutes() {
+        context.checking(new Expectations() {{
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("protocolNumber", protocol.getProtocolNumber());
+            fieldValues.put("submissionNumber", protocol.getProtocolSubmission().getSubmissionNumber());
+            allowing(businessObjectService).countMatching(CommitteeScheduleMinutes.class, fieldValues);will(returnValue(1));
+        }});
+    }
+    
+    private void mockSubmissionTrue(final String submissionTypeCode) {
+        context.checking(new Expectations() {{
+            Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+            positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
+            positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
+            List<String> ors = new ArrayList<String>();
+            ors.add("101");
+            ors.add("101"); 
+            ors.add("102");
+            positiveFieldValues.put("submissionStatusCode", ors);
+            
+            Map<String, Object> negativeFieldValues = new HashMap<String, Object>();        
+            negativeFieldValues.put("submissionTypeCode", submissionTypeCode);
+            allowing(businessObjectService).countMatching(ProtocolSubmission.class, positiveFieldValues, negativeFieldValues);will(returnValue(1));
+        }});
+    }
+    
+    private void mockSubmissionFalse(final String submissionTypeCode) {
+        context.checking(new Expectations() {{
+            Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+            positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
+            positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
+            List<String> ors = new ArrayList<String>();
+            ors.add("101");
+            ors.add("101"); 
+            ors.add("102");
+            positiveFieldValues.put("submissionStatusCode", ors);
+            
+            Map<String, Object> negativeFieldValues = new HashMap<String, Object>();        
+            negativeFieldValues.put("submissionTypeCode", submissionTypeCode);
+            allowing(businessObjectService).countMatching(ProtocolSubmission.class, positiveFieldValues, negativeFieldValues);will(returnValue(0));
+        }});
+    }
+    
     @Test
     public void testActionTypeCode200() {                
-        protocol.getProtocolSubmission().setSubmissionStatusCode("100");        
+        protocol.getProtocolSubmission().setSubmissionStatusCode("100");
+        protocol.getProtocolSubmission().setScheduleId("NotNULL");
         assertTrue(protocolActionService.canPerformAction("200", protocol));
     }
     
@@ -67,7 +123,9 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase{
     }
     
     @Test
-    public void testActionTypeCode202ReviewTypeCodeNot1or2() {                
+    public void testActionTypeCode202ReviewTypeCodeNot1or2() { 
+        mockMinutes();
+        
         protocol.getProtocolSubmission().setSubmissionStatusCode("101");      
         protocol.getProtocolSubmission().setProtocolReviewTypeCode("0");
         assertTrue(protocolActionService.canPerformAction("202", protocol));    
@@ -75,12 +133,14 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase{
     
     @Test
     public void testActionTypeCode204() {                
-        protocol.getProtocolSubmission().setSubmissionStatusCode("101");      
+        protocol.getProtocolSubmission().setSubmissionStatusCode("101");
+        protocol.getProtocolSubmission().setSubmissionNumber(123);
         assertTrue(protocolActionService.canPerformAction("204", protocol));    
     }
     
     @Test
-    public void testActionTypeCode203() {                
+    public void testActionTypeCode203() {    
+        protocol.getProtocolSubmission().setSubmissionNumber(123);
         protocol.getProtocolSubmission().setSubmissionStatusCode("101");      
         protocol.getProtocolSubmission().setProtocolReviewTypeCode("2");
         assertTrue(protocolActionService.canPerformAction("203", protocol));
@@ -90,14 +150,19 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase{
     }
     
     @Test
-    public void testActionTypeCode203ReviewTypeCodeNot1or2() {                
+    public void testActionTypeCode203ReviewTypeCodeNot1or2() {  
+        mockMinutes();
+        
         protocol.getProtocolSubmission().setSubmissionStatusCode("101");      
         protocol.getProtocolSubmission().setProtocolReviewTypeCode("0");
         assertTrue(protocolActionService.canPerformAction("203", protocol));   
     }
     
     @Test
-    public void testActionTypeCode300Contd1() {                
+    public void testActionTypeCode300Contd1() {    
+        protocol.getProtocolSubmission().setSubmissionTypeCode("109");
+        mockSubmissionTrue("109");
+        
         protocol.setProtocolStatusCode("100");      
         assertTrue(protocolActionService.canPerformAction("300", protocol));    
         
@@ -139,7 +204,9 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase{
     }
 
     @Test
-    public void testActionTypeCode300Contd2() { 
+    public void testActionTypeCode300Contd2() {         
+        mockSubmissionFalse("109");
+        
         protocol.getProtocolSubmission().setSubmissionStatusCode("Not102"); 
         protocol.getProtocolSubmission().setSubmissionTypeCode("109");
         
@@ -173,9 +240,46 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase{
         protocol.setProtocolStatusCode("304");      
         assertTrue(protocolActionService.canPerformAction("300", protocol)); 
     }
-
+    
     @Test
     public void testActionTypeCode301Contd1() { 
+        mockSubmissionTrue("108");
+        protocol.getProtocolSubmission().setSubmissionTypeCode("108");
+        
+        protocol.setProtocolStatusCode("200");          
+        assertTrue(protocolActionService.canPerformAction("301", protocol));    
+        
+        protocol.setProtocolStatusCode("201");      
+        assertTrue(protocolActionService.canPerformAction("301", protocol)); 
+        
+        protocol.setProtocolStatusCode("202");      
+        assertTrue(protocolActionService.canPerformAction("301", protocol)); 
+        
+        protocol.setProtocolStatusCode("203");      
+        assertTrue(protocolActionService.canPerformAction("301", protocol)); 
+        
+        protocol.setProtocolStatusCode("300");      
+        assertTrue(protocolActionService.canPerformAction("301", protocol)); 
+        
+        protocol.setProtocolStatusCode("301");      
+        assertTrue(protocolActionService.canPerformAction("301", protocol)); 
+        
+        protocol.setProtocolStatusCode("302");      
+        assertTrue(protocolActionService.canPerformAction("301", protocol)); 
+        
+        protocol.setProtocolStatusCode("305");      
+        assertTrue(protocolActionService.canPerformAction("301", protocol)); 
+        
+        protocol.setProtocolStatusCode("308");      
+        assertTrue(protocolActionService.canPerformAction("301", protocol)); 
+        
+        protocol.setProtocolStatusCode("311");      
+        assertTrue(protocolActionService.canPerformAction("301", protocol)); 
+    }
+    
+    @Test
+    public void testActionTypeCode301Contd2() { 
+        mockSubmissionFalse("108");
         protocol.getProtocolSubmission().setSubmissionStatusCode("Not102"); 
         protocol.getProtocolSubmission().setSubmissionTypeCode("108");
         
