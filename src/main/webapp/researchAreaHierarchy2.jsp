@@ -18,6 +18,7 @@
 
 
   <script src="scripts/jquery/jquery.js"></script>
+  <script src="kr/scripts/core.js"></script>
   <link rel="stylesheet" href="css/jquery/screen.css" type="text/css" />
   <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
   <link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
@@ -31,17 +32,30 @@
   var node;
   var i = 0;
   var removedNode;
+  var sqlScripts = "";
+  
   $(document).ready(function(){
     $.ajaxSettings.cache = false; 
     $("#example").treeview();
     $("div#foo").append("Hello World!").css("color","red");
+/*
+    $.ajaxStart(function() {   
+       $("div#foo").text("Loading...");   
+    });  
+    $.ajaxComplete(function() {   
+       $("div#foo").text("");   
+    });  
+*/    
+    
     $("#generate").click(function(){ 
     
        $.ajax({
-         url: 'researchAreasInit.jsp',
+         url: 'researchAreas.do',
          type: 'GET',
          dataType: 'html',
          cache: false,
+         data:'researchAreaCode=000000',
+         async:false,
          timeout: 1000,
          error: function(){
             alert('Error loading XML document');
@@ -69,7 +83,7 @@
 					{
 					    //alert ("click "+tagId);
 						$(".hierarchydetail:not(#"+divId+")").slideUp(300);
-						div.slideToggle(300);
+						$("#"+divId).slideToggle(300);
 						loadChildrenRA(item_text, tagId);
 					}
 				);
@@ -91,8 +105,31 @@
         
             });
          }
-        });    
+        });  
+        return false;  
      });  // generate
+     
+     
+     $("#save").click(function(){    
+       alert ("save"); 
+       $.ajax({
+         url: 'researchAreas.do',
+         type: 'GET',
+         dataType: 'html',
+         cache: false,
+         data:'sqlScripts='+sqlScripts+'&addRA=S',
+         async:false,
+         timeout: 1000,
+         error: function(){
+            alert('Error loading XML document');
+         },
+         success: function(xml){
+            //alert("success"+xml);
+         }
+       });
+       return false;
+      }); 
+       
      
      			<!-- listcontent02 -->
 				$("#listcontrol02").click(
@@ -146,8 +183,11 @@ function tbodyTag(name, id) {
                       var liId="li#"+id;
                       removedNode = $(liId).clone(true);
                       //removedNode = $(liId); // this will not work because event also lost
-                      alert("Remove node "+removedNode.attr("id"));
+                      //alert("Remove node "+removedNode.attr("id"));
+                      alert ($(liId).parents('li:eq(0)').children('a:eq(0)').text());
+                      sqlScripts = sqlScripts +"#;#"+getDeleteClause(getResearchAreaCode(removedNode.children('a:eq(0)').text()), getResearchAreaCode($(liId).parents('li:eq(0)').children('a:eq(0)').text()));
                       $(liId).remove();
+                      alert (sqlScripts);
                     }); 
   tag.html(image);
   image = $('<a href="#"><img src="static/images/tinybutton-cutnode.gif" width="79" height="15" border="0" alt="Cut Node" title="Cut this node and its child roups/sponsors.  (Node will not be removed until you paste it.)"></a>&nbsp').attr("id","cut"+i).click(function() {
@@ -169,84 +209,10 @@ function tbodyTag(name, id) {
                       removedNode.appendTo(ulTag);
                       ulTag.appendTo(parentNode);
                       
-                    /*  
-                      alert("remove node"+removedNode.attr("id")+"-"+removedNode.children().size());
-                      for (j=0 ; j < i ; j++)  {
-                        if ( $("#listcontrol"+String(j)).length > 0 ) {
-                          alert("exists "+j);
-                           $("#listcontrol"+String(j)).click(
-					          function()
-					          {
-					             //alert ("click 03");
-						         $(".hierarchydetail:not(#listcontent"+String(j)).slideUp(300);
-						         $("#listcontent"+String(j)).slideToggle(300);
-					           }
-				            );
-				          }                        
-                        }                         
-                      */
+                      //alert("Remove node "+removedNode.children('a:eq(0)').text());
+                      sqlScripts = sqlScripts +"#;#"+getInsertClause(getResearchAreaCode(removedNode.children('a:eq(0)').text()), getResearchAreaCode(name), getResearchAreaDescription(removedNode.children('a:eq(0)').text()));
+                      //alert (sqlScripts);
                       
-    //removedNode.hide().with('a',function(){
-       //alert("remove node id ");
-        //$(this).width( $(this).width+200 );
-   // }).fadeIn();
-   
-
-                  
-// traverse child node temporarily removed
-
-
-       // traverse child nodes               
-//       removedNode.find('a').each(function(){
-//       //alert ("find children "+$(this).attr("id")");
-//       if ($(this).attr("id").indexOf("listcontrol") >= 0) {
-//          alert("find children "+$(this).attr("id")+"-"+$(this).attr("id").substr(11,$(this).attr("id").length));
-//          var listContentId = '#listcontent' + $(this).attr("id").substr(11,$(this).attr("id").length);
-//          $(this).click(function()
-//					          {
-//						         $(".hierarchydetail:not(#listcontent5)").slideUp(300);
-//						         $('#listcontent5').slideToggle(300);
-//					           }
-//				            );
-//       }
-//       if ($(this).attr("id").indexOf("addRA") >= 0) {
-//          alert("find children "+$(this).attr("id"));
-//       }
-//       if ($(this).attr("id").indexOf("remove") >= 0) {
-//          alert("find children "+$(this).attr("id"));
-//       }
-//       if ($(this).attr("id").indexOf("cut") >= 0) {
-//          alert("find children "+$(this).attr("id"));
-//          $(this).click(function()
-//					          {
-//						         alert("cut node");
-//					           }
-//				            );
-//       }
-//       if ($(this).attr("id").indexOf("paste") >= 0) {
-//          alert("find children "+$(this).attr("id"));
-//       }
-//       // $(this).width( $(this).width+200 );
-//    }).end() // Traverse back to #elem
-//    .find('div').each(function(){
-//        alert("find children "+$(this).attr("id") );
-//    }).end()
-//    ;
-
-
-
-                   
-                      /*
-                         $("#listcontrol5").click(
-					          function()
-					          {
-					             alert ("click 05");
-						         $(".hierarchydetail:not(#listcontent5)").slideUp(300);
-						         $("#listcontent5").slideToggle(300);
-					           }
-				            );
-                     */
-                     
                       removedNode = null;
                    }// if removednode                         
                 }); 
@@ -294,21 +260,53 @@ function tbodyTag(name, id) {
          } else if (trNode.children('td:eq(2)').children('input:eq(0)').attr("value") == "") {
            alert("must enter research area");
          } else {
-           var parentNode = $("#"+id);
-           var ulTag = parentNode.children('ul');
-           if (parentNode.children('ul').size() == 0) {
-               i++;
-               ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
-            }
+         
+         // check if code exists
+             var raExist
+             $.ajax({
+                 url: 'researchAreas.do',
+                 type: 'GET',
+                 dataType: 'html',
+                 data:'researchAreaCode='+trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+'&addRA=Y',
+                 cache: false,
+                 async: false,
+                 timeout: 1000,
+                 error: function(){
+                    alert('Error loading XML document');
+                 },
+                 success: function(xml){
+                    $(xml).find('h3').each(function(){
+                       raExist = $(this).text();
+                    //alert(raExist);
+        
+                     });
+                  }
+               });   // end ajax  
+         
+         
+           if (raExist == 'false') {
+               var parentNode = $("#"+id);
+               var ulTag = parentNode.children('ul');
+               if (parentNode.children('ul').size() == 0) {
+                  i++;
+                  ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
+               }
             
-            ulTag.appendTo(parentNode);                                            
-            var item_text = trNode.children('td:eq(1)').children('input:eq(0)').attr("value") +" : "+trNode.children('td:eq(2)').children('input:eq(0)').attr("value");
-            var listitem = setupListItem(item_text);
-            //alert(listitem.html());
-            listitem.appendTo(ulTag);
-          }  
-                                           
-         }); 
+               ulTag.appendTo(parentNode); 
+                                                          
+               var item_text = trNode.children('td:eq(1)').children('input:eq(0)').attr("value") +" : "+trNode.children('td:eq(2)').children('input:eq(0)').attr("value");
+               var listitem = setupListItem(item_text);
+               //alert(listitem.html());
+               listitem.appendTo(ulTag);
+               
+               // apend to sqlScripts
+               sqlScripts = sqlScripts +"#;#"+getInsertClause(trNode.children('td:eq(1)').children('input:eq(0)').attr("value"), getResearchAreaCode(name), trNode.children('td:eq(2)').children('input:eq(0)').attr("value"));
+               //alert("sqlScripts = "+sqlScripts);
+            }  else {
+                 alert ("Research Area Code already exist");
+            }
+           }                                
+         });  // end addlink click
                 
     tag1.html(addlink);
     tag1.appendTo(trTag1);
@@ -354,7 +352,7 @@ function setupListItem(name) {
 
 function loadChildrenRA(nodeName, tagId) {
     var parentNode = $("#"+tagId);
-    alert ("load subnodes for "+nodeName+"-"+parentNode.parents('li:eq(0)').attr("id")+"-" );
+    //alert ("load subnodes for "+nodeName+"-"+parentNode.parents('li:eq(0)').attr("id")+"-" );
     var liNode = parentNode.parents('li:eq(0)');
     var ulNode = liNode.children('ul:eq(0)');
     var inputNodev;
@@ -366,13 +364,14 @@ function loadChildrenRA(nodeName, tagId) {
     
     //if (liNode.children('ul').size() == 0 ) {
     if (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 ) {
-        alert(liNode.children('ul').size());
+        //alert(liNode.children('ul').size());
         $.ajax({
-         url: 'researchAreasLoad.jsp',
+         url: 'researchAreas.do',
          type: 'GET',
          dataType: 'html',
          data:'researchAreaCode='+getResearchAreaCode(nodeName),
          cache: false,
+         async: false,
          timeout: 1000,
          error: function(){
             alert('Error loading XML document');
@@ -414,11 +413,11 @@ function loadChildrenRA(nodeName, tagId) {
 					{
 					    //alert ("click "+tagId);
 						$(".hierarchydetail:not(#"+divId+")").slideUp(300);
-						detDiv.slideToggle(300);
+						$("#"+divId).slideToggle(300);
 						loadChildrenRA(item_text, tagId);
 					}
 				);
-				alert (tag.attr("onClick"));
+				//alert (tag.attr("onClick"));
 //            } else {
 //            var tag = $('<a id="listcontrol04" ></a>').attr("style","margin-left:2px;").html(item_text);
 //            var div = $('<div id="listcontent04" class="hierarchydetail" style="margin-top:2px; "></div>');
@@ -449,13 +448,53 @@ function getResearchAreaCode(nodeName) {
         var endIdx = nodeName.indexOf(":");
         return nodeName.substring(0, endIdx - 1);    
 }
+function getResearchAreaDescription(nodeName) {
+
+        var endIdx = nodeName.indexOf(":");
+        return nodeName.substring(endIdx+2);    
+}
+
+    function getInsertClause(code, parentCode, description) {
+     
+        var columns="RESEARCH_AREA_CODE,PARENT_RESEARCH_AREA_CODE,HAS_CHILDREN_FLAG, DESCRIPTION, update_timestamp, update_user";
+        // need to rework on real update_user
+        var values="'"+code+"','"+parentCode+"', 'N', '"+description+"', sysdate, user";
+         return "insert into research_areas ("+columns+") values("+values+")";
+     }
+   
+    function getDeleteClause(code, parentCode) {
+     
+         return "delete from research_areas where RESEARCH_AREA_CODE = '" + code +"' and PARENT_RESEARCH_AREA_CODE = '"+parentCode+"'";
+     }
+
+   function okToSave() {
+   	  //if (emptyNodes.indexOf("((#") >= 0) {
+     	  // alert(emptyNodes);
+     //	   alert ("Can't save hierarchy with empty group");
+     //	   return "false";
+     //	} else {
+           alert("oktosave " );
+     		document.getElementById("sqlScripts").value=sqlScripts;
+     	   return "true";
+     	
+     //	}
+   }
+
 
    }); // $(document).ready
+   
+   
+   
 
     </script>
   
 </head>
 <body>
+<form name="ResearchAreasForm" id="kualiForm" method="post" action="/kra-dev/researchAreas.do" 
+    enctype="" > 
+
+	<input type="hidden" id="sqlScripts" name="sqlScripts" />
+
   <ul id="example" class="filetree">
 		<li><span class="folder">Folder 1</span>
 			<ul>
@@ -574,12 +613,17 @@ function getResearchAreaCode(nodeName) {
 	                                          </ul>
 	
 	<div id="foo"/>
-	<input type="submit" id="generate" value="Generate!"> 
+	<input type="submit" id="generate" value="Generate!" /> 
+	<input type="image" id="save" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" /> 
 	<div id="quote"></div>
-	Sponsor <input type="text" name="document.sponsorCode" onblur="loadSponsorName1('document.sponsorCode', 'sponsorName');" id="document.sponsorCode" style="" class="" />
-
-	<div id="sponsorName" >
-                        
-					</div>
+        <div id="globalbuttons" class="globalbuttons">
+           <!--  still posted -->
+          <%--   <input type="submit" name="save" id="generate" 
+				src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif"
+				class="globalbuttons" title="save" alt="save"> --%>
+            <%-- <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.saveSponsorHierarchy" title="save" alt="save" onclick="return okToSave();return false;" />    
+            <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" property="methodToCall.cancelResearchAreas" title="cancel" alt="cancel" /> --%>  
+        </div>
+  </form>
 </body>
  </html>

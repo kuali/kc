@@ -1305,7 +1305,13 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+        <property name="researchAreaDao">
+            <ref bean="researchAreaDao" />
+        </property>
 	</bean>
+
+    <bean id="researchAreaDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.ResearchAreaDaoOjb">
+	</bean>	
 
     <!--  the following are called by irb for now.  move to irb -->
 	<bean id="organizationService" class="org.kuali.kra.service.impl.OrganizationServiceImpl">

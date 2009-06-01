@@ -31,6 +31,8 @@ public class ResearchAreasForm   extends KualiForm {
     private String searchResults;
     private String lookupResultsBOClassName;
     private String researchAreaCode;
+    private String addRA;
+    private String sqlScripts;
 
     private static final Log LOG = LogFactory.getLog(ResearchAreasForm.class);
     /**
@@ -49,14 +51,34 @@ public class ResearchAreasForm   extends KualiForm {
     }
     
     public String getResearchAreas() {
-        if (StringUtils.isBlank(researchAreas)) {
+       if (StringUtils.isBlank(researchAreaCode)) {
             setResearchAreas(KraServiceLocator.getService(ResearchAreasService.class).getInitialResearchAreasList());
-        }
+       } else if (StringUtils.isNotBlank(addRA) && addRA.equals("Y")) {
+           if (KraServiceLocator.getService(ResearchAreasService.class).isResearchAreaExist(researchAreaCode)) {
+               setResearchAreas("<h3>true</h3>");
+           } else {
+               setResearchAreas("<h3>false</h3>");
+           }
+           setAddRA(""); // jquery next request will be reset to ""
+       } else if (StringUtils.isNotBlank(addRA) && addRA.equals("S")) {
+           KraServiceLocator.getService(ResearchAreasService.class).saveResearchAreas(sqlScripts);           
+           setAddRA("");
+       } else {
+           setResearchAreas(KraServiceLocator.getService(ResearchAreasService.class).getSubResearchAreasForTreeView(researchAreaCode));           
+       } 
         return researchAreas;
     }
 
     public void setResearchAreas(String researchAreas) {
         this.researchAreas = researchAreas;
+    }
+
+    @Override
+    public void populate(HttpServletRequest request) {
+        // TODO Auto-generated method stub
+        super.populate(request);
+        this.setResearchAreas("");
+        this.getResearchAreaCode();
     }
 
     public String getSearchResults() {
@@ -81,6 +103,22 @@ public class ResearchAreasForm   extends KualiForm {
 
     public void setResearchAreaCode(String researchAreaCode) {
         this.researchAreaCode = researchAreaCode;
+    }
+
+    public String getAddRA() {
+        return addRA;
+    }
+
+    public void setAddRA(String addRA) {
+        this.addRA = addRA;
+    }
+
+    public String getSqlScripts() {
+        return sqlScripts;
+    }
+
+    public void setSqlScripts(String sqlScripts) {
+        this.sqlScripts = sqlScripts;
     }
 
 
