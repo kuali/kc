@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.ContactRole;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.bo.Unit;
@@ -35,7 +36,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     private transient String selectedLeadUnit;
 
     public AwardProjectPersonnelBean(AwardForm awardForm) {
-        super(awardForm);        
+        super(awardForm);
     }
     
     public void addNewProjectPersonUnit(int projectPersonIndex) {
@@ -47,7 +48,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
             if(newAwardPersonUnits[projectPersonIndex].isLeadUnit()) {
                 setSelectedLeadUnit(newAwardPersonUnits[projectPersonIndex].getUnitName());
             }
-            initNewAwardPersonUnit();
+            initNewAwardPersonUnits();
         }
     }
 
@@ -66,7 +67,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
      * This method clears the NewProjectPersonUnit
      */
     public void clearNewProjectPersonUnit() {
-        initNewAwardPersonUnit();
+        initNewAwardPersonUnits();
     }
 
     /**
@@ -94,7 +95,10 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
      * @return Returns the newAwardPersonUnit.
      */
     public AwardPersonUnit getNewAwardPersonUnit(int projectPersonIndex) {
-        return newAwardPersonUnits[projectPersonIndex];
+        if(newAwardPersonUnits == null | newAwardPersonUnits.length == 0) {
+            initNewAwardPersonUnits();
+        }
+        return newAwardPersonUnits[projectPersonIndex]; 
     }
     
     /**
@@ -216,7 +220,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     @Override
     protected void init() {
         super.init();
-        initNewAwardPersonUnit();
+        initNewAwardPersonUnits();
     }
     
     private AwardPerson findPrincipalInvestigator() {
@@ -240,7 +244,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
                                                     (AwardPerson) newAwardContact);
     }
 
-    private void initNewAwardPersonUnit() {
+    private void initNewAwardPersonUnits() {
         newAwardPersonUnits = new AwardPersonUnit[getAward().getProjectPersons().size()];
         int personIndex = 0;
         for(AwardPerson p: getAward().getProjectPersons()) {
