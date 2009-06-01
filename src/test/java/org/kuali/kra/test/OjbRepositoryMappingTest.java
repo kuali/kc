@@ -21,11 +21,13 @@ import static org.kuali.kra.logging.BufferedLogger.debug;
 import static org.kuali.kra.logging.BufferedLogger.info;
 
 import java.beans.PropertyDescriptor;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,6 +53,9 @@ import org.xml.sax.helpers.DefaultHandler;
  * Unit Tests for validating an OJB repository XML file. The objective is to validate without initializing OJB. If OJB starts up and
  * the repository.xml file is bad, then it will fast-fail. This is an undesirable effect. What is needed is to know that OJB will
  * fail beforehand.
+ * 
+ * NOTE: This class was originally written to handle only repository.xml. Starting with Release 2.0, the modules have their own
+ * repository file(s). This class needs significant modification before it can be considered complete
  * 
  */
 public class OjbRepositoryMappingTest {
@@ -87,11 +92,9 @@ public class OjbRepositoryMappingTest {
     private static Map<String, String> configFileParms;
     
     private String dsUrl;
-    private String dsDriver;
     private String dsUser;
     private String dsPass;
     private String dsSchema;
-    private String configPath;
 
     @BeforeClass
     public static void loadParms() throws Exception {
@@ -149,6 +152,31 @@ public class OjbRepositoryMappingTest {
 
     @Test
     public void verifyTables() throws Exception {
+        for(String repositoryFilePath : repositoryFiles) {
+            verifyTableForRepository(repositoryFilePath);
+        }        
+    }
+    
+    /**
+     * Test for validating <code>&lt;class-descriptor ... /&gt;</code> definitions in the repository
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void verifyClasses() throws Exception {
+        for(String repositoryFilePath : repositoryFiles) {
+            verifyClassesInRepository(repositoryFilePath);
+        }
+    }
+
+    /**
+     * This method verifies the tables for a repository file
+     * @throws SQLException
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
+    private void verifyTableForRepository(String repositoryFilePath) throws SQLException, ParserConfigurationException, SAXException, IOException {
         final OracleDataSource ods = new OracleDataSource();
         ods.setURL(dsUrl);
         ods.setUser(dsUser);
@@ -158,10 +186,8 @@ public class OjbRepositoryMappingTest {
         final DefaultHandler handler = new TableValidationHandler(conn);
 
         info("Starting XML validation");
-        final URL dtdUrl = getClass().getClassLoader().getResource("repository.dtd");
-        final URL repositoryUrl = getClass().getClassLoader().getResource("repository.xml");
+        final URL repositoryUrl = getClass().getClassLoader().getResource(repositoryFilePath);
 
-        info("Found dtd url %s", dtdUrl);
         info("Found repository url %s", repositoryUrl);
 
         final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
@@ -182,19 +208,15 @@ public class OjbRepositoryMappingTest {
     }
 
     /**
-     * Test for validating <code>&lt;class-descriptor ... /&gt;</code> definitions in the repository.xml
-     * 
-     * @throws Exception
+     * This method verifies the classes for a repository file
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
      */
-    @Test
-    public void verifyClasses() throws Exception {
+    private void verifyClassesInRepository(String repositoryFilePath) throws ParserConfigurationException, SAXException, IOException {
         final DefaultHandler handler = new ClassValidationHandler();
 
-        info("Starting XML validation");
-        final URL dtdUrl = getClass().getClassLoader().getResource("repository.dtd");
-        final URL repositoryUrl = getClass().getClassLoader().getResource("repository.xml");
-
-        info("Found dtd url %s", dtdUrl);
+        final URL repositoryUrl = getClass().getClassLoader().getResource(repositoryFiles[0]);
         info("Found repository url %s", repositoryUrl);
 
         final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
