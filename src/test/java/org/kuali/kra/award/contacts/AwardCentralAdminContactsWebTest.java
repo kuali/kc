@@ -24,6 +24,8 @@ import org.junit.Test;
  * This class tests the ApprovedEquipment panel
  */
 public class AwardCentralAdminContactsWebTest extends AwardContactsWebTest {
+    private static final String CONTACT_ROLE_CODE = "1";
+    private static final String CONTACT_ROLE_CONTEXT = "centralAdminContactsBean.contactRoleCode";
     private static final String ADD_NEW_CONTACT_BUTTON_CONTEXT = METHOD_TO_CALL_PREFIX + "addCentralAdminContact";
     private static final String CLEAR_NEW_CONTACT_BUTTON_CONTEXT = METHOD_TO_CALL_PREFIX + "clearNewCentralAdminContact";
     private static final String DELETE_CONTACT_BUTTON_CONTEXT = METHOD_TO_CALL_PREFIX + "deleteCentralAdminContact";
@@ -32,7 +34,7 @@ public class AwardCentralAdminContactsWebTest extends AwardContactsWebTest {
     
     @Test
     public void deletingCentralAdminContact() throws Exception {
-        addNewEmployeeContact();
+        addNewEmployeeContact(CONTACT_ROLE_CODE);
         deleteContactFromList(EMPLOYEE_FULL_NAME);
     }
     
@@ -48,7 +50,7 @@ public class AwardCentralAdminContactsWebTest extends AwardContactsWebTest {
 
     @Test
     public void testAddingCentralAdminContact() throws Exception {
-        addEmployeeContact();
+        addEmployeeContact(CONTACT_ROLE_CODE);
     }
 
     @Test
@@ -70,6 +72,10 @@ public class AwardCentralAdminContactsWebTest extends AwardContactsWebTest {
     
     protected String getEmployeeLookupContext() {
         return EMPLOYEE_LOOKUP_CONTEXT;
+    }
+    
+    protected String getContactRoleLookupContext() {
+        return CONTACT_ROLE_CONTEXT;
     }
     
     protected String getTabCountMessagePattern() {
