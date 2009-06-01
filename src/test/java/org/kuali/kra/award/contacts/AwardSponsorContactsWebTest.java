@@ -23,6 +23,7 @@ import org.junit.Test;
  * This class tests the ApprovedEquipment panel
  */
 public class AwardSponsorContactsWebTest extends AwardContactsWebTest {
+    private static final String CONTACT_ROLE_CODE = "1";
     private static final String ADD_NEW_CONTACT_BUTTON_CONTEXT = METHOD_TO_CALL_PREFIX + "addSponsorContact";
     private static final String CLEAR_NEW_CONTACT_BUTTON_CONTEXT = METHOD_TO_CALL_PREFIX + "clearNewSponsorContact";
     private static final String DELETE_CONTACT_BUTTON_CONTEXT = METHOD_TO_CALL_PREFIX + "deleteSponsorContact";
@@ -41,13 +42,13 @@ public class AwardSponsorContactsWebTest extends AwardContactsWebTest {
 
     @Test
     public void deletingSponsorContact() throws Exception {
-        addNewNonEmployeeContact();
+        addNewNonEmployeeContact(CONTACT_ROLE_CODE);
         deleteContactFromList(ROLODEX_FULL_NAME);
     }
     
     @Test
     public void testAddingSponsorContact() throws Exception {
-        addNonEmployeeContact();
+        addNonEmployeeContact(CONTACT_ROLE_CODE);
     }
 
     @Test
@@ -73,5 +74,10 @@ public class AwardSponsorContactsWebTest extends AwardContactsWebTest {
     
     protected String getRolodexLookupContext() {
         return NONEMPLOYEE_LOOKUP_CONTEXT; 
+    }
+
+    @Override
+    protected String getContactRoleLookupContext() {
+        return "sponsorContactsBean.contactRoleCode";
     }
 }
