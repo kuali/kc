@@ -74,7 +74,7 @@ public class AwardCreditSplitBean implements Serializable {
     }
     
     public AwardPerson getProjectPerson(int index) {
-        return getAward().getProjectPersons().get(index);
+        return getProjectPersons().get(index);
     }
     
     /**
