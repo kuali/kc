@@ -30,9 +30,11 @@ import org.kuali.rice.kns.service.KualiRuleService;
  * This class supports the Award Form / AwardPaymentReportsAndTermsAction classes for SpecialApproval
  */
 public class SpecialApprovalBean implements Serializable {
+    private static final long serialVersionUID = -6976882557080351302L;
+    
     protected AwardForm form;
-    protected KualiRuleService ruleService;
-    private BusinessObjectService businessObjectService;
+    protected transient KualiRuleService ruleService;
+    private transient BusinessObjectService businessObjectService;
     
     protected SpecialApprovalBean(AwardForm form) {
         this.form = form;
