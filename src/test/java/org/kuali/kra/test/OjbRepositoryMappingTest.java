@@ -15,15 +15,12 @@
  */
 package org.kuali.kra.test;
 
-import static java.io.File.separator;
 import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
 import static org.junit.Assert.fail;
 import static org.kuali.kra.logging.BufferedLogger.debug;
 import static org.kuali.kra.logging.BufferedLogger.info;
 
 import java.beans.PropertyDescriptor;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
@@ -32,18 +29,21 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import oracle.jdbc.pool.OracleDataSource;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.StringUtils;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -54,6 +54,8 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  */
 public class OjbRepositoryMappingTest {
+    private static final String TEST_CONFIG_FILE_PATH = "%s/kuali/test/dev/kra-test-config.xml";
+    
     // For XML parsing and validation
     private static final String CLASS_DESCRIPTOR_NAME = "class-descriptor";
     private static final String FIELD_DESCRIPTOR_NAME = "field-descriptor";
@@ -72,10 +74,18 @@ public class OjbRepositoryMappingTest {
     private static final String INVERSE_FOREIGN_KEY_NAME = "inverse-foreignkey";
     private static final String COLLECTION_CLASS_NAME = "collection-class";
     private static final String DATASOURCE_URL_NAME = "datasource.url";
-    private static final String DATASOURCE_DRIVER_NAME = "datasource.driver.name";
     private static final String DATASOURCE_USERNAME_NAME = "datasource.username";
     private static final String DATASOURCE_PASSWORD_NAME = "datasource.password";
+    
+    private static final String[] repositoryFiles = { "repository.xml", 
+                                                        "org/kuali/kra/award/repository-award.xml",  
+                                                        "org/kuali/kra/committee/repository-committee.xml",
+                                                        "org/kuali/kra/irb/repository-irb.xml",
+                                                        "org/kuali/kra/questionnaire/repository-questionnaire.xml"
+                                                      };
 
+    private static Map<String, String> configFileParms;
+    
     private String dsUrl;
     private String dsDriver;
     private String dsUser;
@@ -83,74 +93,57 @@ public class OjbRepositoryMappingTest {
     private String dsSchema;
     private String configPath;
 
+    @BeforeClass
+    public static void loadParms() throws Exception {
+        ConfigFileLoader loader = new ConfigFileLoader(createConfigPath()); 
+        configFileParms = loader.loadConfigFileParms();
+    }
+    
+    @AfterClass
+    public static void unloadParms() throws Exception {
+        if(configFileParms != null) {
+            configFileParms.clear();
+            configFileParms = null;
+        }
+    }
+    
     /**
-     * 
+     * This method creates the config path to the test config file
+     * @return
      */
+    private static String createConfigPath() {
+        return String.format(TEST_CONFIG_FILE_PATH, System.getProperty("user.home"));
+    }
+
     @Before
     public void setUp() throws Exception {
-        configPath = System.getProperty("user.home") + separator + "kuali" + separator + "test" + separator + "dev" + separator
-                + "kra-test-config.xml";
-
-        BufferedReader reader = new BufferedReader(new FileReader(configPath));
-        String line = null;
-        while ((line = reader.readLine()) != null) {
-            if (StringUtils.contains(line, DATASOURCE_URL_NAME)) {
-                dsUrl = getValueFromConfig(line, DATASOURCE_URL_NAME);
-            }
-            else if (StringUtils.contains(line, DATASOURCE_DRIVER_NAME)) {
-                dsDriver = getValueFromConfig(line, DATASOURCE_DRIVER_NAME);
-            }
-            else if (StringUtils.contains(line, DATASOURCE_USERNAME_NAME)) {
-                dsUser = getValueFromConfig(line, DATASOURCE_USERNAME_NAME);
-            }
-            else if (StringUtils.contains(line, DATASOURCE_PASSWORD_NAME)) {
-                dsPass = getValueFromConfig(line, DATASOURCE_PASSWORD_NAME);
-            }
-        }
-
+        dsUrl = configFileParms.get(DATASOURCE_URL_NAME);
+        dsUser = configFileParms.get(DATASOURCE_USERNAME_NAME);
+        dsPass =  configFileParms.get(DATASOURCE_PASSWORD_NAME);
+        
         debug("dsUrl = %s", dsUrl);
         debug("dsUser = %s", dsUser);
         debug("dsSchema = %s", dsSchema);
     }
 
-    private String getValueFromConfig(String line, String name) {
-        String tempLine = StringUtils.substringAfter(line, name + "\">");
-        return tempLine.substring(0, tempLine.indexOf("<"));
-    }
-
     /**
-     * 
+     * Tear down
      */
     @After
     public void tearDown() {
-
+        dsUrl = null;
+        dsUser = null;
+        dsPass =  null;
     }
 
     /**
-     * Just validates the repository.xml against the repository.dtd
-     * 
+     * Validate the XML against the DTD
      * @throws Exception
      */
     @Test
     public void xmlValidation() throws Exception {
-        info("Starting XML validation");
-        final URL dtdUrl = getClass().getClassLoader().getResource("repository.dtd");
-        final URL repositoryUrl = getClass().getClassLoader().getResource("repository.xml");
-
-        info("Found dtd url %s", dtdUrl);
-        info("Found repository url %s", repositoryUrl);
-
-        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-        saxParserFactory.setValidating(true);
-        saxParserFactory.setNamespaceAware(false);
-
-        SAXParser parser = saxParserFactory.newSAXParser();
-        try {
-            parser.parse(repositoryUrl.getFile(), new DefaultHandler());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            fail("Test should not encounter exceptions during parsing.");
+        for(String repositoryFilePath : repositoryFiles) {
+            validateXml(repositoryFilePath);
         }
     }
 
@@ -444,16 +437,6 @@ public class OjbRepositoryMappingTest {
         }
 
         /**
-         * Convenience method for creating a <code>{@link SAXParseException}</code> instance.
-         * 
-         * @param msg
-         * @return SAXParseException
-         */
-        private SAXParseException createSaxParseException(String msg) {
-            return new SAXParseException(msg, locator);
-        }
-
-        /**
          * Accessor for currentMappedClass
          * 
          * @return Class
@@ -676,5 +659,35 @@ public class OjbRepositoryMappingTest {
         public void setConnection(Connection connection) {
             this.connection = connection;
         }
+    }
+    
+    /**
+     * @param repositoryFilePath
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     */
+    private void validateXml(String repositoryFilePath) throws ParserConfigurationException, SAXException {
+        debug("Starting XML validation");        
+        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        saxParserFactory.setValidating(true);
+        saxParserFactory.setNamespaceAware(false);
+
+        SAXParser parser = saxParserFactory.newSAXParser();
+        try {
+            parser.parse(findRepositoryFilePath(repositoryFilePath), new DefaultHandler());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            fail("Test should not encounter exceptions during parsing.");
+        }
+    }
+    
+    /**
+     * This method finds the file path for a repository file
+     * @param repositoryFilePath
+     * @return
+     */
+    private String findRepositoryFilePath(String repositoryFilePath) {
+        return getClass().getClassLoader().getResource(repositoryFilePath).getFile();
     }
 }
