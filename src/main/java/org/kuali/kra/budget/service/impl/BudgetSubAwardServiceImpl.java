@@ -108,9 +108,9 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             budgetSubAwardFiles.setBudgetVersionNumber(budgetSubAwards.getBudgetVersionNumber());
             budgetSubAwardFiles.setSubAwardNumber(budgetSubAwards.getSubAwardNumber());
             budgetSubAwards.setSubAwardXfdFileName(budgetSubAwardBean.getXfdFileName());
-            budgetSubAwards.setXfdUpdateUser(GlobalVariables.getUserSession().getLoggedInUserPrincipalName());
+            budgetSubAwards.setXfdUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
             budgetSubAwards.setXfdUpdateTimestamp(KNSServiceLocator.getDateTimeService().getCurrentTimestamp());
-            budgetSubAwards.setXmlUpdateUser(GlobalVariables.getUserSession().getLoggedInUserPrincipalName());
+            budgetSubAwards.setXmlUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
             budgetSubAwards.setXmlUpdateTimestamp(KNSServiceLocator.getDateTimeService().getCurrentTimestamp());
             budgetSubAwards.setBudgetSubAwardAttachments(getSubAwardAttachments(budgetSubAwardBean));
 //        }

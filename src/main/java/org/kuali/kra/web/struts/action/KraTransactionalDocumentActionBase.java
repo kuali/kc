@@ -293,7 +293,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         forward += KEWConstants.ROUTEHEADER_ID_PARAMETER + "=" + routeHeaderId;
         forward += "&" + KEWConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
         if (GlobalVariables.getUserSession().isBackdoorInUse()) {
-            forward += "&" + KEWConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
+            forward += "&" + KEWConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
         }
         return forward;
     }
