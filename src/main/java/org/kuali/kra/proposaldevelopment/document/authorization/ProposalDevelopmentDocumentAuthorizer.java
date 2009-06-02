@@ -25,12 +25,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.rice.shim.DocumentInitiationAuthorizationException;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
@@ -69,7 +67,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      *            user the lock will be 'owned' by
      * @return true if the given edit mode map has at least one 'entry type' edit mode... false otherwise
      */
-    //@Override
     protected boolean isLockRequiredByUser(Document document, Map editMode, UniversalUser user) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         
@@ -91,7 +88,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @return false if the document will not be using lock descriptors or true if the document will use lock descriptors.
      *         The default return value is false
      */
-    //@Override
     protected boolean useCustomLockDescriptors() {
         return true;
     }
@@ -249,22 +245,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
     }
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
-     *      org.kuali.core.bo.user.UniversalUser)
-     */
-    //@Override
-    public void canInitiate(String documentTypeName, UniversalUser user) {
-        //super.canInitiate(documentTypeName, user);
-        if (!canCreateProposal(user)) {
-            throw new DocumentInitiationAuthorizationException(KeyConstants.ERROR_AUTHORIZATION_DOCUMENT_INITIATION, 
-                                                               new String[] { user.getPersonUserIdentifier(), documentTypeName });
-        }
-    }
-    
-    /**
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
-    //@Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
     
         ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) document;
@@ -329,7 +311,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @return true if the given entry has a key signifying an 'entry type' edit mode and the value is equal to
      *         {@link #EDIT_MODE_DEFAULT_TRUE_VALUE}... false if not
      */
-    //@Override
     protected boolean isEntryEditMode(Map.Entry entry) {
         if (AuthorizationConstants.EditMode.FULL_ENTRY.equals(entry.getKey())
                 || KraAuthorizationConstants.ProposalEditMode.ADD_NARRATIVES.equals(entry.getKey())
@@ -350,14 +331,12 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @param entry - the current 'entry type' edit mode to replace 
      * @return a Map of edit modes that will be used to replace this edit mode (represented by the given entry parameter)
      */
-    //@Override
     protected Map getEntryEditModeReplacementMode(Map.Entry entry) {
         Map editMode = new HashMap(); 
         editMode.put(entryEditModeReplacementMap.get(entry.getKey()), EDIT_MODE_DEFAULT_TRUE_VALUE); 
         return editMode;
     }
     
-    //@Override
     protected Map getEditModeWithEditableModesRemoved(Map currentEditMode) {
         Map editModeMap = new HashMap();
         //Map editModeMap = super.getEditModeWithEditableModesRemoved(currentEditMode);
@@ -370,7 +349,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         return editModeMap;
     }
     
-    //@Override
     protected PessimisticLock createNewPessimisticLock(Document document, Map editMode, UniversalUser user) {
         if (useCustomLockDescriptors()) {
             String lockDescriptor = getCustomLockDescriptor(document, editMode, user);

@@ -19,6 +19,6 @@ package org.kuali.kra.rice.shim;
  */
 public interface UniversalUserDao {
     
-    public UniversalUser getUser(org.kuali.rice.kew.user.UserId userId) throws UserNotFoundException;
+    public UniversalUser getUser(org.kuali.rice.kew.user.UserId userId) throws Exception;
     
 }
