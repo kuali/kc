@@ -17,25 +17,18 @@ package org.kuali.kra.award.document.authorization;
 
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorizer.ResearchDocumentPresentationController;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.rice.shim.DocumentInitiationAuthorizationException;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
-
 
 public class AwardDocumentPresentationController extends ResearchDocumentPresentationController {
 
     public boolean canInitiate(String documentTypeName) {
         //super.canInitiate(documentTypeName, user);
         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-        if (!canCreateAward(user)) {
-            throw new DocumentInitiationAuthorizationException(KeyConstants.ERROR_AUTHORIZATION_DOCUMENT_INITIATION, 
-                                                               new String[] { user.getPersonUserIdentifier(), documentTypeName });
-        }
-        return true;
+        return canCreateAward(user);
     }
 
     /**

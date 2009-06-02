@@ -8,7 +8,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.rice.shim.UniversalUserService;
-import org.kuali.kra.rice.shim.UserNotFoundException;
 import org.kuali.rice.kew.user.AuthenticationUserId;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -95,7 +94,7 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
         try {
             user = KraServiceLocator.getService(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(getUpdateUser()));
         }
-        catch (UserNotFoundException unfe) {
+        catch (Exception unfe) {
         }
         if (ObjectUtils.isNull(user)) {
             return "Person not found";

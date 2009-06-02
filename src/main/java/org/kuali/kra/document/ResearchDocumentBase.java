@@ -32,7 +32,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.rice.shim.UniversalUserService;
-import org.kuali.kra.rice.shim.UserNotFoundException;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.kew.user.AuthenticationUserId;
@@ -209,7 +208,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
                 KraServiceLocator.getService(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
             initiatior.setPerson(initiatorUser);
         }
-        catch (UserNotFoundException e) {
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
         transInfo.setDocumentInitiator(initiatior);
