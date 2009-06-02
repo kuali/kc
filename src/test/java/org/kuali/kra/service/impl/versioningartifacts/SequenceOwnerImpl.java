@@ -31,9 +31,13 @@ public class SequenceOwnerImpl implements SequenceOwner {
     private String name;
     private Integer sequenceNumber;
     private SimpleAssociate associate;
+    private OwnerAssociate ownerAssociate;
     private List<SequenceAssociateChild> children;
     private List<SequenceAssociateAttachmentBO> attachments;
     
+    /**
+     * Constructs a SequenceOwnerImpl.java.
+     */
     public SequenceOwnerImpl() {
         this.name = "SequenceOwner";
         sequenceNumber = 1;
@@ -42,52 +46,101 @@ public class SequenceOwnerImpl implements SequenceOwner {
         attachments = new ArrayList<SequenceAssociateAttachmentBO>();
     }
     
+    /**
+     * @param sequenceAssociateChild
+     */
     public void add(SequenceAssociateChild sequenceAssociateChild) {
         children.add(sequenceAssociateChild);
         sequenceAssociateChild.setOwner(this);
     }
     
+    /**
+     * @param attachmentBO
+     */
     public void add(SequenceAssociateAttachmentBO attachmentBO) {
         attachments.add(attachmentBO);
         attachmentBO.add(this);
     }
     
+    /**
+     * @return
+     */
     public List<SequenceAssociateChild> getChildren() {
         return children;
     }
     
+    /**
+     * @return
+     */
     public SimpleAssociate getAssociate() {
         return associate;
     }
     
+    /**
+     * @param associate
+     */
     public void setAssociate(SimpleAssociate associate) {
         this.associate = associate;
     }
     
+    /**
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
     
+    /**
+     * @return
+     */
     public List<SequenceAssociateAttachmentBO> getAttachments() {
         return attachments;
     }
 
+    /**
+     * Sets the ownerAssociate attribute value.
+     * @param ownerAssociate The ownerAssociate to set.
+     */
+    public void setOwnerAssociate(OwnerAssociate ownerAssociate) {
+        this.ownerAssociate = ownerAssociate;
+    }
+    
+    /**
+     * @param sequenceNumber
+     */
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
 
+    /**
+     * @param children
+     */
     public void setChildren(List<SequenceAssociateChild> children) {
         this.children = children;
     }
 
+    /**
+     * @param attachments
+     */
     public void setAttachments(List<SequenceAssociateAttachmentBO> attachments) {
         this.attachments = attachments;
     }
 
+    /**
+     * Gets the ownerAssociate attribute. 
+     * @return Returns the ownerAssociate.
+     */
+    public OwnerAssociate getOwnerAssociate() {
+        return ownerAssociate;
+    }
+    
     /**
      * @see org.kuali.kra.Sequenceable#getSequenceNumber()
      */
@@ -173,5 +226,17 @@ public class SequenceOwnerImpl implements SequenceOwner {
      */
     public void resetPersistenceState() {
        setSequenceOwnerId(null); 
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("%s [%d]", name, sequenceNumber);
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceOwner#getOwnerSequenceNumber()
+     */
+    public Integer getOwnerSequenceNumber() {
+        return null;
     }
 }

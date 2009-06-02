@@ -23,4 +23,10 @@ public interface SequenceOwner extends SequenceAssociate {
      * This increments sequence number on an owner of a sequence
      */
     void incrementSequenceNumber();
+    
+    /**
+     * This method returns its owner's sequence number. If this is the top level owner; i.e. Protocol or Award, it should return null
+     * @return
+     */
+    Integer getOwnerSequenceNumber();
 }
