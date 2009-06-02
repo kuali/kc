@@ -19,7 +19,6 @@ import org.apache.log4j.Logger;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.rice.shim.UniversalUserDao;
-import org.kuali.kra.rice.shim.UserNotFoundException;
 import org.kuali.kra.service.PersonService;
 import org.kuali.rice.kew.user.UserId;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
@@ -64,14 +63,14 @@ public class KraUniversalUserDaoImpl extends PlatformAwareDaoBaseOjb implements 
      * Get a Universal User based upon its user id, i.e. username.  
      * @see org.kuali.core.dao.UniversalUserDao#getUser(org.kuali.core.bo.user.UserId)
      */
-    public UniversalUser getUser(UserId userId) throws UserNotFoundException {
+    public UniversalUser getUser(UserId userId) throws Exception {
         
         UniversalUser user = null;
         String username = userId.getId();
         
         Person person = personService.getPersonByName(username);
         if (person == null) {
-            throw new UserNotFoundException();
+            throw new Exception();
         }
         user = new UniversalUser();
         user.setPersonUserIdentifier(username);

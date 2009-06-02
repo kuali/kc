@@ -17,14 +17,17 @@ package org.kuali.cas.auth;
 
 import java.security.GeneralSecurityException;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.rice.shim.UniversalUserService;
-import org.kuali.kra.rice.shim.UserNotFoundException;
 import org.kuali.kra.service.PersonService;
+import org.kuali.rice.core.service.EncryptionService;
 import org.kuali.rice.kew.user.AuthenticationUserId;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 import edu.yale.its.tp.cas.auth.provider.WatchfulPasswordHandler;
 
@@ -52,7 +55,12 @@ public class KraPasswordHandler extends WatchfulPasswordHandler {
                     // obtain the user record
                     
                     UniversalUserService uus = KraServiceLocator.getService(UniversalUserService.class);
-                    UniversalUser user = uus.getUniversalUser( new AuthenticationUserId( username ) );
+                    UniversalUser user;
+                    try {
+                        user = uus.getUniversalUser( new AuthenticationUserId( username ) );
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                     if ( LOG.isDebugEnabled() ) {
                         LOG.debug( "Found user " + user.getPersonName() + " with password hash: " + user.getFinancialSystemsEncryptedPasswordText() );
                     }
@@ -70,33 +78,31 @@ public class KraPasswordHandler extends WatchfulPasswordHandler {
                     
                     // check if the password needs to be checked (if in a production environment or password turned on explicitly)
                     // TODO turn this on
-//                    KualiConfigurationService kcs = KraServiceLocator.getService(KualiConfigurationService.class);
-//                    IdentityManagementService ims = KraServiceLocator.getService(IdentityManagementService.class);
-//                    if ( kcs.isProductionEnvironment() || ims.authenticationServiceValidatesPassword() ) {
-//                    
-//                        // if so, hash the passed in password and compare to the hash retrieved from the database
-//                        String hashedPassword = user.getFinancialSystemsEncryptedPasswordText();
-//                        if ( hashedPassword == null ) {
-//                            hashedPassword = "";
-//                        }
-//                        
-//                        EncryptionService es = KraServiceLocator.getService(EncryptionService.class);
-//                        hashedPassword = StringUtils.stripEnd( hashedPassword, EncryptionService.HASH_POST_PREFIX );
-//                        if ( es.hash( password.trim() ).equals( hashedPassword ) ) {
-//                            return true; // password matched
-//                        }
-//                    } else {
+                    KualiConfigurationService kcs = KraServiceLocator.getService(KualiConfigurationService.class);
+                    //IdentityManagementService ims = KraServiceLocator.getService(IdentityManagementService.class);
+                    if ( kcs.isProductionEnvironment()  ) { // || ims.authenticationServiceValidatesPassword()
+                    
+                        // if so, hash the passed in password and compare to the hash retrieved from the database
+                        
+                        String hashedPassword = user.getFinancialSystemsEncryptedPasswordText();
+                        if ( hashedPassword == null ) {
+                            hashedPassword = "";
+                        }
+                        
+                        EncryptionService es = KraServiceLocator.getService(EncryptionService.class);
+                        hashedPassword = StringUtils.stripEnd( hashedPassword, EncryptionService.HASH_POST_PREFIX );
+                        if ( es.hash( password.trim() ).equals( hashedPassword ) ) {
+                            return true; // password matched
+                        }
+                    } else {
                         LOG.warn( "WARNING: password checking is disabled - user " + username + " has been authenticated without a password." );
                         return true; // no need to check password - user's existence is enough 
-                    //}
-                }
+                    }
+                } 
             } catch ( GeneralSecurityException ex ) {
                 LOG.error( "Error validating password", ex );
                 return false; // fail if the hash function fails
-            } catch ( UserNotFoundException ex ) {
-                LOG.info( "User " + username + " was not found in the Person table." );
-                return false; // fail if user does not exist
-            }
+            } 
         }
         LOG.warn( "CAS base password handler failed authenication for " + username + " based on number of attempts." );
         return false; // fail if we get to this point

@@ -20,11 +20,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kra.authorization.ApplicationTask;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rice.shim.DocumentInitiationAuthorizationException;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
@@ -77,22 +75,8 @@ public class ProtocolDocumentAuthorizer extends TransactionalDocumentAuthorizerB
     }
     
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
-     *      org.kuali.core.bo.user.UniversalUser)
-     */
-    //@Override
-    public void canInitiate(String documentTypeName, UniversalUser user) {
-        super.canInitiate(documentTypeName, user);
-        if (!canCreateProtocol(user)) {
-            throw new DocumentInitiationAuthorizationException(KeyConstants.ERROR_AUTHORIZATION_DOCUMENT_INITIATION, 
-                                                               new String[] { user.getPersonUserIdentifier(), documentTypeName });
-        }
-    }
-    
-    /**
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
-    //@Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
    
         ProtocolDocument protocolDocument = (ProtocolDocument) document;
