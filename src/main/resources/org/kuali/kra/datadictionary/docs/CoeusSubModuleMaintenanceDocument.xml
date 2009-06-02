@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="CoeusSubModuleMaintenanceDocument" parent="CoeusSubModuleMaintenanceDocument-parentBean" />
+    <bean id="CoeusSubModuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.CoeusSubModule" />
+        <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
+        <property name="maintainableSections" >
+            <list>
+                <ref bean="CoeusSubModuleMaintenanceDocument-EditCoeusSubModule" />
+            </list>
+        </property>
+        <property name="lockingKeys" >
+            <list>
+                <value>coeusSubModuleId</value>
+            </list>
+        </property>
+        <property name="documentTypeName" value="Coeus Sub Module Maintenance Document" />
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+    
+    <bean id="CoeusSubModuleMaintenanceDocument-EditCoeusSubModule" parent="CoeusSubModuleMaintenanceDocument-EditCoeusSubModule-parentBean" />
+    <bean id="CoeusSubModuleMaintenanceDocument-EditCoeusSubModule-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Coeus Sub Module" />
+        <property name="title" value="Edit Coeus Sub Module" />
+        <property name="maintainableItems" >
+            <list>
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="coeusSubModuleId"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="moduleCode"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="subModuleCode"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="description"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+        </property>
+    </bean>
+</beans>
