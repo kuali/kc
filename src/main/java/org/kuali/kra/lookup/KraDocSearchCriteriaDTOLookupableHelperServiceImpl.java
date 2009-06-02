@@ -37,7 +37,7 @@ public class KraDocSearchCriteriaDTOLookupableHelperServiceImpl extends DocSearc
     
         for (ResultRow resultRow : (List<ResultRow>)resultTable) {
             for (Column column : resultRow.getColumns()) {
-                if (column.getPropertyName().equals("copyDocument")) {
+                if (column.getPropertyName().equals("copyDocument") && column.getColumnAnchor()!= null) {
                     AnchorHtmlData anchor = (AnchorHtmlData)column.getColumnAnchor();
                      String docId = StringUtils.substringBetween(column.getPropertyValue(),"docId=", "&");
                      anchor.setHref(StringUtils.substringBetween(column.getPropertyValue(), "<a href=\"", "docId=")+"docId="+docId);
