@@ -1,0 +1,170 @@
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="CoeusSubModule" parent="CoeusSubModule-parentBean" />
+    <bean id="CoeusSubModule-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.CoeusSubModule" />
+        <property name="inquiryDefinition" >
+            <ref bean="CoeusSubModule-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="CoeusSubModule-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="coeusSubModuleId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="CoeusSubModule-coeusSubModuleId" />
+                <ref bean="CoeusSubModule-moduleCode" />
+                <ref bean="CoeusSubModule-subModuleCode" />
+                <ref bean="CoeusSubModule-description" />
+                <ref bean="CoeusSubModule-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="CoeusSubModule-coeusSubModuleId" parent="CoeusSubModule-coeusSubModuleId-parentBean" />
+    <bean id="CoeusSubModule-coeusSubModuleId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coeusSubModuleId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Coeus Sub Module Id" />
+        <property name="shortLabel" value="Coeus Sub Module Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Coeus Sub Module Id" />
+        <property name="description" value="Coeus Sub Module Id" />
+    </bean>
+
+    <bean id="CoeusSubModule-moduleCode" parent="CoeusSubModule-moduleCode-parentBean" />
+    <bean id="CoeusSubModule-moduleCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="moduleCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Module Code" />
+        <property name="shortLabel" value="Module Code" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Module Code" />
+        <property name="description" value="Module Code" />
+    </bean>
+
+    <bean id="CoeusSubModule-subModuleCode" parent="CoeusSubModule-subModuleCode-parentBean" />
+    <bean id="CoeusSubModule-subModuleCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="subModuleCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sub Module Code" />
+        <property name="shortLabel" value="Sub Module Code" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Sub Module Code" />
+        <property name="description" value="Sub Module Code" />
+    </bean>
+
+    <bean id="CoeusSubModule-description" parent="CoeusSubModule-description-parentBean" />
+  	<bean id="CoeusSubModule-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>
+
+    <bean id="CoeusSubModule-versionNumber" parent="CoeusSubModule-versionNumber-parentBean" />
+    <bean id="CoeusSubModule-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="CoeusSubModule-inquiryDefinition" parent="CoeusSubModule-inquiryDefinition-parentBean" />
+    <bean id="CoeusSubModule-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Coeus Sub Module Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Coeus Sub Module Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="coeusSubModuleId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="moduleCode" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="subModuleCode" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="description" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="CoeusSubModule-lookupDefinition" parent="CoeusSubModule-lookupDefinition-parentBean" />
+    <bean id="CoeusSubModule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Coeus Sub Module Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="instructions" value="Look up a Coeus Sub Module" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="coeusSubModuleId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="moduleCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="subModuleCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="coeusSubModuleId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="moduleCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="subModuleCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+        </property>
+    </bean>
+</beans>

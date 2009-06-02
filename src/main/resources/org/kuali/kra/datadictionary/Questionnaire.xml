@@ -1,0 +1,163 @@
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="Questionnaire" parent="Questionnaire-parentBean" />
+    <bean id="Questionnaire-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.Questionnaire" />
+        <property name="inquiryDefinition" >
+            <ref bean="Questionnaire-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="Questionnaire-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="questionnaireId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="Questionnaire-questionnaireId" />
+                <ref bean="Questionnaire-name" />
+                <ref bean="Questionnaire-description" />
+                <ref bean="Questionnaire-isFinal" />
+                <ref bean="Questionnaire-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="Questionnaire-questionnaireId" parent="Questionnaire-questionnaireId-parentBean" />
+    <bean id="Questionnaire-questionnaireId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionnaireId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Questionnaire Id" />
+        <property name="shortLabel" value="Questionnaire Id" />
+        <property name="maxLength" value="6" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="6" />
+        </property>
+        <property name="summary" value="Questionnaire Id" />
+        <property name="description" value="Questionnaire Id" />
+    </bean>
+
+    <bean id="Questionnaire-name" parent="Questionnaire-name-parentBean" />
+    <bean id="Questionnaire-name-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="name" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Name" />
+        <property name="shortLabel" value="Name" />
+        <property name="maxLength" value="50" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Name" />
+        <property name="description" value="Name" />
+    </bean>
+
+    <bean id="Questionnaire-description" parent="Questionnaire-description-parentBean" />
+  	<bean id="Questionnaire-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+        <property name="maxLength" value="2000" />
+    </bean>
+
+    <bean id="Questionnaire-isFinal" parent="Questionnaire-isFinal-parentBean" />
+    <bean id="Questionnaire-isFinal-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="isFinal" />
+        <property name="label" value="Is Final" />
+        <property name="shortLabel" value="Is Final" />
+        <property name="summary" value="Is Final" />
+        <property name="description" value="Is Final" />
+    </bean>
+
+    <bean id="Questionnaire-versionNumber" parent="Questionnaire-versionNumber-parentBean" />
+    <bean id="Questionnaire-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="Questionnaire-inquiryDefinition" parent="Questionnaire-inquiryDefinition-parentBean" />
+    <bean id="Questionnaire-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Questionnaire Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Questionnaire Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="questionnaireId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="name" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="description" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="isFinal" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="Questionnaire-lookupDefinition" parent="Questionnaire-lookupDefinition-parentBean" />
+    <bean id="Questionnaire-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Questionnaire Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="instructions" value="Look up a Questionnaire" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionnaireId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="name" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="isFinal" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionnaireId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="name" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="isFinal" />
+            </list>
+        </property>
+    </bean>
+</beans>

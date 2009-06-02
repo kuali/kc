@@ -1,0 +1,301 @@
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="QuestionnaireQuestion" parent="QuestionnaireQuestion-parentBean" />
+    <bean id="QuestionnaireQuestion-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.QuestionnaireQuestion" />
+        <property name="inquiryDefinition" >
+            <ref bean="QuestionnaireQuestion-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="QuestionnaireQuestion-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="questionnaireQuestionsId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="QuestionnaireQuestion-questionnaireQuestionsId" />
+                <ref bean="QuestionnaireQuestion-questionnaireId" />
+                <ref bean="QuestionnaireQuestion-questionId" />
+                <ref bean="QuestionnaireQuestion-questionNumber" />
+                <ref bean="QuestionnaireQuestion-parentQuestionNumber" />
+                <ref bean="QuestionnaireQuestion-conditionFlag" />
+                <ref bean="QuestionnaireQuestion-condition" />
+                <ref bean="QuestionnaireQuestion-conditionValue" />
+                <ref bean="QuestionnaireQuestion-questionSeqNumber" />
+                <ref bean="QuestionnaireQuestion-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="QuestionnaireQuestion-questionnaireQuestionsId" parent="QuestionnaireQuestion-questionnaireQuestionsId-parentBean" />
+    <bean id="QuestionnaireQuestion-questionnaireQuestionsId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionnaireQuestionsId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Questionnaire Questions Id" />
+        <property name="shortLabel" value="Questionnaire Questions Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Questionnaire Questions Id" />
+        <property name="description" value="Questionnaire Questions Id" />
+    </bean>
+
+    <bean id="QuestionnaireQuestion-questionnaireId" parent="QuestionnaireQuestion-questionnaireId-parentBean" />
+    <bean id="QuestionnaireQuestion-questionnaireId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionnaireId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Questionnaire Id" />
+        <property name="shortLabel" value="Questionnaire Id" />
+        <property name="maxLength" value="6" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="6" />
+        </property>
+        <property name="summary" value="Questionnaire Id" />
+        <property name="description" value="Questionnaire Id" />
+    </bean>
+
+    <bean id="QuestionnaireQuestion-questionId" parent="QuestionnaireQuestion-questionId-parentBean" />
+    <bean id="QuestionnaireQuestion-questionId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Question Id" />
+        <property name="shortLabel" value="Question Id" />
+        <property name="maxLength" value="6" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="6" />
+        </property>
+        <property name="summary" value="Question Id" />
+        <property name="description" value="Question Id" />
+    </bean>
+
+    <bean id="QuestionnaireQuestion-questionNumber" parent="QuestionnaireQuestion-questionNumber-parentBean" />
+    <bean id="QuestionnaireQuestion-questionNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Question Number" />
+        <property name="shortLabel" value="Question Number" />
+        <property name="maxLength" value="6" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="6" />
+        </property>
+        <property name="summary" value="Question Number" />
+        <property name="description" value="Question Number" />
+    </bean>
+
+    <bean id="QuestionnaireQuestion-parentQuestionNumber" parent="QuestionnaireQuestion-parentQuestionNumber-parentBean" />
+    <bean id="QuestionnaireQuestion-parentQuestionNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="parentQuestionNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Parent Question Number" />
+        <property name="shortLabel" value="Parent Question Number" />
+        <property name="maxLength" value="6" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="6" />
+        </property>
+        <property name="summary" value="Parent Question Number" />
+        <property name="description" value="Parent Question Number" />
+    </bean>
+
+    <bean id="QuestionnaireQuestion-conditionFlag" parent="QuestionnaireQuestion-conditionFlag-parentBean" />
+    <bean id="QuestionnaireQuestion-conditionFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="conditionFlag" />
+        <property name="label" value="Condition Flag" />
+        <property name="shortLabel" value="Condition Flag" />
+        <property name="summary" value="Condition Flag" />
+        <property name="description" value="Condition Flag" />
+    </bean>
+
+    <bean id="QuestionnaireQuestion-condition" parent="QuestionnaireQuestion-condition-parentBean" />
+    <bean id="QuestionnaireQuestion-condition-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="condition" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Condition" />
+        <property name="shortLabel" value="Condition" />
+        <property name="maxLength" value="50" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Condition" />
+        <property name="description" value="Condition" />
+    </bean>
+
+    <bean id="QuestionnaireQuestion-conditionValue" parent="QuestionnaireQuestion-conditionValue-parentBean" />
+    <bean id="QuestionnaireQuestion-conditionValue-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="conditionValue" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Condition Value" />
+        <property name="shortLabel" value="Condition Value" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Condition Value" />
+        <property name="description" value="Condition Value" />
+    </bean>
+
+    <bean id="QuestionnaireQuestion-questionSeqNumber" parent="QuestionnaireQuestion-questionSeqNumber-parentBean" />
+    <bean id="QuestionnaireQuestion-questionSeqNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionSeqNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Question Seq Number" />
+        <property name="shortLabel" value="Question Seq Number" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Question Seq Number" />
+        <property name="description" value="Question Seq Number" />
+    </bean>
+
+    <bean id="QuestionnaireQuestion-versionNumber" parent="QuestionnaireQuestion-versionNumber-parentBean" />
+    <bean id="QuestionnaireQuestion-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="QuestionnaireQuestion-inquiryDefinition" parent="QuestionnaireQuestion-inquiryDefinition-parentBean" />
+    <bean id="QuestionnaireQuestion-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Questionnaire Questions Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Questionnaire Questions Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="questionnaireQuestionsId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="questionnaireId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="questionId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="questionNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="parentQuestionNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="conditionFlag" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="condition" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="conditionValue" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="questionSeqNumber" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="QuestionnaireQuestion-lookupDefinition" parent="QuestionnaireQuestion-lookupDefinition-parentBean" />
+    <bean id="QuestionnaireQuestion-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Questionnaire Questions Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="instructions" value="Look up a Questionnaire Questions" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionnaireQuestionsId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionnaireId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="parentQuestionNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="conditionFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="condition" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="conditionValue" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionSeqNumber" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionnaireQuestionsId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionnaireId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="parentQuestionNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="conditionFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="condition" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="conditionValue" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="questionSeqNumber" />
+            </list>
+        </property>
+    </bean>
+</beans>
