@@ -88,7 +88,7 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
     public S2SServiceImpl() {
         s2sSubmissionTxnBean = new S2SSubmissionDataTxnBean();
         coeusMessageResourcesBean = new CoeusMessageResourcesBean();
-//        loggedinUser = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
+//        loggedinUser = GlobalVariables.getUserSession().getPrincipalName();
 //        userTxn = new UserMaintDataTxnBean();
         try {
             reportFolder = CoeusProperties.getProperty(CoeusPropertyKeys.REPORT_GENERATED_PATH, "Reports");

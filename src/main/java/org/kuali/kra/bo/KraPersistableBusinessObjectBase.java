@@ -43,7 +43,7 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
      */
     private void setUpdateFields() {
         if (!isUpdateUserSet()) {
-            String updateUser = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
+            String updateUser = GlobalVariables.getUserSession().getPrincipalName();
 
             // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
             if (updateUser.length() > 60) {

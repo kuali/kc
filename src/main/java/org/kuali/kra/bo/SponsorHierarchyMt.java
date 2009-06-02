@@ -51,7 +51,7 @@ public class SponsorHierarchyMt extends SponsorHierarchy {
             if (GlobalVariables.getUserSession() == null) {
                 updateUser="quickstart";
             } else {
-                updateUser = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
+                updateUser = GlobalVariables.getUserSession().getPrincipalName();
             }
 
             // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
