@@ -213,22 +213,9 @@
 						</c:when>
 <%--NOTE: DO NOT FORMAT THIS FILE, DISPLAY:COLUMN WILL NOT WORK CORRECTLY IF IT CONTAINS LINE BREAKS --%>
 						<c:otherwise>
-<%-- TODO : hack for 'copy' document - rice 1.1 upgrade --%>
-                                          <c:choose>
-                                             <c:when test="${column.propertyName == 'copyDocument'}">
-     <display:column class="${colClass}" sortable="${column.sortable}"
-			title="${column.columnTitle}" comparator="${column.comparator}">
-			<a href="<c:out value="${column.propertyValue}"/>" target="blank"  title="${column.columnTitle}"> 
-    <c:out value="${fn:substring(column.propertyValue, 0, column.maxLength)}" escapeXml="${column.escapeXMLValue}"/>                 			                    
-     </display:column>
-
-                                              </c:when>
-                                            <c:otherwise>
 							<display:column class="${colClass}" sortable="${column.sortable}"
 								title="${column.columnTitle}" comparator="${column.comparator}"
 								maxLength="${column.maxLength}" decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"><c:out value="${column.propertyValue}"/>&nbsp;</display:column>
-                                              </c:otherwise>
-                                          </c:choose>
                         </c:otherwise>
 					</c:choose>
 				</c:forEach>
