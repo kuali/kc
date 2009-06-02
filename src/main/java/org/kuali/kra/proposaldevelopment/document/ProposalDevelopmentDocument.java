@@ -191,7 +191,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         super.initialize();
         ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
         List<Unit> userUnits = proposalDevelopmentService.getDefaultModifyProposalUnitsForUser(GlobalVariables.getUserSession()
-                .getLoggedInUserPrincipalName());
+                .getPrincipalName());
         if (userUnits.size() == 1) {
             this.setOwnedByUnitNumber(userUnits.get(0).getUnitNumber());
             proposalDevelopmentService.initializeUnitOrganzationLocation(this);

@@ -60,7 +60,7 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
      * @return
      */
     protected String getLoggedInUserNetworkId() {
-        return GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
+        return GlobalVariables.getUserSession().getPrincipalName();
     }
     
     /**

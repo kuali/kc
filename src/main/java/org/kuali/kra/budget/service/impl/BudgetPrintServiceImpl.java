@@ -587,7 +587,7 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
             for(BudgetPeriod budgetPeriod : budgetPeriods) {
                 cvBudgetPeriods.add(coeusBean2KraBoConverterService.convert(budgetPeriod));
             }
-            repParams.put("USER_ID", GlobalVariables.getUserSession().getLoggedInUserPrincipalName());
+            repParams.put("USER_ID", GlobalVariables.getUserSession().getPrincipalName());
             repParams.put("REPORT_ID", selectedBudgetPrintFormId);
             repParams.put("BUDGET_PERIODS", cvBudgetPeriods);
             repParams.put("BUDGET_INFO", coeusBean2KraBoConverterService.convert(budgetDocument));
