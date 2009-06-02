@@ -22,10 +22,8 @@ import java.util.Set;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.AwardTaskNames;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.rice.shim.DocumentInitiationAuthorizationException;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
@@ -70,20 +68,6 @@ public class AwardDocumentAuthorizer extends TransactionalDocumentAuthorizerBase
         return editModeMap;
     }
     
-    /**
-     * 
-     * 
-     * @param documentTypeName
-     * @param user
-     */
-    public void canInitiate(String documentTypeName, UniversalUser user) {
-        super.canInitiate(documentTypeName, user);
-        if (!canCreateAward(user)) {
-            throw new DocumentInitiationAuthorizationException(KeyConstants.ERROR_AUTHORIZATION_DOCUMENT_INITIATION, 
-                                                               new String[] { user.getPersonUserIdentifier(), documentTypeName });
-        }
-    }
-
     /**
      * 
      * This method determines if user has initiate authorization on the document.

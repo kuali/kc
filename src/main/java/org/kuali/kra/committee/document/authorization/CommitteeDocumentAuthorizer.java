@@ -21,10 +21,8 @@ import java.util.Set;
 
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.rice.shim.DocumentInitiationAuthorizationException;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
@@ -77,22 +75,8 @@ public class CommitteeDocumentAuthorizer extends TransactionalDocumentAuthorizer
     }
     
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
-     *      org.kuali.core.bo.user.UniversalUser)
-     */
-    //@Override
-    public void canInitiate(String documentTypeName, UniversalUser user) {
-        super.canInitiate(documentTypeName, user);
-        if (!canCreateCommittee(user)) {
-            throw new DocumentInitiationAuthorizationException(KeyConstants.ERROR_AUTHORIZATION_DOCUMENT_INITIATION, 
-                                                               new String[] { user.getPersonUserIdentifier(), documentTypeName });
-        }
-    }
-    
-    /**
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
-    //@Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
    
         CommitteeDocument committeeDocument = (CommitteeDocument) document;
@@ -132,34 +116,6 @@ public class CommitteeDocumentAuthorizer extends TransactionalDocumentAuthorizer
 
         return documentActions;
     }
-
-    
-//    /**
-//     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
-//     */
-//    @Override
-//    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-//       
-//        // no copy button
-//        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-//        flags.setCanCopy(false);
-//       
-//        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
-//        this.setAnnotateFlag(flags);
-//       
-//        // Any user who has the Initiate Authorization can save and cancel.
-//       
-//        if (this.hasInitiateAuthorization(document, user)) {
-//            flags.setCanSave(true);
-//            flags.setCanCancel(true);
-//        }
-//        else {
-//            flags.setCanSave(false);
-//            flags.setCanCancel(false);
-//        }
-//        
-//        return flags;
-//    }
     
     /**
      * Does the user have permission to create a committee?

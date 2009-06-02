@@ -29,10 +29,8 @@ public interface UniversalUserService {
      * @return Returns a populated UniversalUser object if the User is found, otherwise throws a UserNotFoundException
      * @throws UserNotFoundException
      */
-    public UniversalUser getUniversalUser(String personUniversalIdentifier) throws UserNotFoundException;
-    
-    public UniversalUser getUniversalUser(UserId userId) throws UserNotFoundException;
+    public UniversalUser getUniversalUser(UserId userId) throws Exception;
 
-    public UniversalUser getUniversalUserByAuthenticationUserId( String authenticationUserId ) throws UserNotFoundException;
+    public UniversalUser getUniversalUserByAuthenticationUserId( String authenticationUserId ) throws Exception;
 
 }

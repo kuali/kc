@@ -16,10 +16,8 @@
 package org.kuali.kra.irb.auth;
 
 import org.kuali.kra.authorization.ApplicationTask;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.rice.shim.DocumentInitiationAuthorizationException;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase;
@@ -31,11 +29,7 @@ public class ProtocolDocumentPresentationController extends TransactionalDocumen
     public boolean canInitiate(String documentTypeName) {
        // super.canInitiate(documentTypeName);
         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-        if (!canCreateProtocol(user)) {
-            throw new DocumentInitiationAuthorizationException(KeyConstants.ERROR_AUTHORIZATION_DOCUMENT_INITIATION, 
-                                                               new String[] { user.getPersonUserIdentifier(), documentTypeName });
-        }
-        return true;
+        return canCreateProtocol(user);
     }
     
     /**

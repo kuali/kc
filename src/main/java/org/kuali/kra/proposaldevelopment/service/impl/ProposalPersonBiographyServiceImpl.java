@@ -32,7 +32,6 @@ import org.kuali.kra.proposaldevelopment.dao.AttachmentDao;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.rice.shim.UniversalUserService;
-import org.kuali.kra.rice.shim.UserNotFoundException;
 import org.kuali.rice.kew.user.AuthenticationUserId;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -172,7 +171,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
                 try {
                     personName = KraServiceLocator.getService(UniversalUserService.class).getUniversalUser(new AuthenticationUserId((String)item[1])).getPersonName();
                 }
-                catch (UserNotFoundException unfe) {
+                catch (Exception unfe) {
                 }
                 proposalPersonBiography.setUploadUserDisplay(personName);
             }
