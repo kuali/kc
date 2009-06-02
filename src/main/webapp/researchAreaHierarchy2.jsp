@@ -33,6 +33,7 @@
   var i = 0;
   var removedNode;
   var sqlScripts = "";
+  var ulTagId;
   
   $(document).ready(function(){
     $.ajaxSettings.cache = false; 
@@ -98,6 +99,7 @@
             var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
             //tag.appendTo(listitem);
             //listitem.appendTo('ul#file31');
+            ulTagId = "browser";
             tableTag(item_text, id).appendTo(div)
             div.appendTo(listitem);
             listitem.appendTo('ul#browser');
@@ -240,15 +242,100 @@ function tbodyTag(name, id) {
    
   // 3rd tr
     var trTag1 = $('<tr></tr>');
-    var tag1 = $('<th style="text-align:right;"></th>').html('Add:');
-    var tdTag1 = $('<td></td>').html(getResearchAreaCode(name));
+    var tag1 = $('<th style="text-align:right;"></th>').html('Edit:');
+    var tdTag1 ;
+   // if (i < 6) {
+   // alert(id +"-"+$("ul#"+ulTagId).parents('li:eq(0)').size());
+   // }
+    if ($("ul#"+ulTagId).parents('li:eq(0)').size() == 0) {
+      tdTag1 = $('<td></td>').html(getResearchAreaCode(name));
+      alert(getResearchAreaDescription(name));
+    } else {
+       // alert($("ul#"+ulTagId).parents('li:eq(0)').children('a:eq(0)').size());
+      tdTag1 = $('<td></td>').html(getResearchAreaCode($("ul#"+ulTagId).parents('li:eq(0)').children('a:eq(0)').text()));
+    }
     trTag1.html(tag1);
     tdTag1.appendTo(trTag1);
-    tdTag1 = $('<td></td>').html($('<input type="text" name="m2" value="" style="width:100%;" />').attr("id","researchCode"+i));
+    tdTag1 = $('<td></td>').html(getResearchAreaCode(name));
     tdTag1.appendTo(trTag1);
-    tdTag1 = $('<td></td>').html($('<input type="text" name="m3" value="" style="width:100%;" />').attr("id","desc"+i));
+    tdTag1 = $('<td></td>').html($('<input type="text" name="m3" style="width:100%;" />').attr("id","desc"+i).attr("value",getResearchAreaDescription(name)));
     tdTag1.appendTo(trTag1);
     tag1 = $('<th class="infoline" style="text-align:center;"></th>');
+    var editlink = $('<a href="#"><img src="static/images/tinybutton-add1.gif" width="40" height="15" border="0" title="Add this Sub-group"></a>').attr("id","addRA"+i).click(function() {
+                         
+          //alert("add node"+$(this).parents('tr:eq(0)').children('th').size());
+          var trNode = $(this).parents('tr:eq(0)');
+          //alert(trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+"-"+trNode.children('td:eq(2)').children('input:eq(0)').attr("value"));
+
+         if (trNode.children('td:eq(1)').children('input:eq(0)').attr("value") == "") {
+           alert("must enter research area code");
+         } else if (trNode.children('td:eq(2)').children('input:eq(0)').attr("value") == "") {
+           alert("must enter research area");
+         } else {
+         
+         // check if code exists
+             var raExist
+             $.ajax({
+                 url: 'researchAreas.do',
+                 type: 'GET',
+                 dataType: 'html',
+                 data:'researchAreaCode='+trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+'&addRA=Y',
+                 cache: false,
+                 async: false,
+                 timeout: 1000,
+                 error: function(){
+                    alert('Error loading XML document');
+                 },
+                 success: function(xml){
+                    $(xml).find('h3').each(function(){
+                       raExist = $(this).text();
+                    //alert(raExist);
+        
+                     });
+                  }
+               });   // end ajax  
+         
+         
+           if (raExist == 'false') {
+               var parentNode = $("#"+id);
+               var ulTag = parentNode.children('ul');
+               if (parentNode.children('ul').size() == 0) {
+                  i++;
+                  ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
+               }
+            
+               ulTag.appendTo(parentNode); 
+                                                          
+               var item_text = trNode.children('td:eq(1)').children('input:eq(0)').attr("value") +" : "+trNode.children('td:eq(2)').children('input:eq(0)').attr("value");
+               ulTagId = ulTag.attr("id");
+               var listitem = setupListItem(item_text);
+               //alert(listitem.html());
+               listitem.appendTo(ulTag);
+               
+               // apend to sqlScripts
+               sqlScripts = sqlScripts +"#;#"+getInsertClause(trNode.children('td:eq(1)').children('input:eq(0)').attr("value"), getResearchAreaCode(name), trNode.children('td:eq(2)').children('input:eq(0)').attr("value"));
+               //alert("sqlScripts = "+sqlScripts);
+            }  else {
+                 alert ("Research Area Code already exist");
+            }
+           }                                
+         });  // end addlink click
+                
+    tag1.html(addlink);
+    tag1.appendTo(trTag1);
+   
+   
+  // 4th tr
+    var trTag2 = $('<tr></tr>');
+    var tag2 = $('<th style="text-align:right;"></th>').html('Add:');
+    var tdTag2 = $('<td></td>').html(getResearchAreaCode(name));
+    trTag2.html(tag2);
+    tdTag2.appendTo(trTag2);
+    tdTag2 = $('<td></td>').html($('<input type="text" name="m2" value="" style="width:100%;" />').attr("id","researchCode"+i));
+    tdTag2.appendTo(trTag2);
+    tdTag2 = $('<td></td>').html($('<input type="text" name="m3" value="" style="width:100%;" />').attr("id","desc"+i));
+    tdTag2.appendTo(trTag2);
+    tag2 = $('<th class="infoline" style="text-align:center;"></th>');
     var addlink = $('<a href="#"><img src="static/images/tinybutton-add1.gif" width="40" height="15" border="0" title="Add this Sub-group"></a>').attr("id","addRA"+i).click(function() {
                          
           //alert("add node"+$(this).parents('tr:eq(0)').children('th').size());
@@ -308,12 +395,13 @@ function tbodyTag(name, id) {
            }                                
          });  // end addlink click
                 
-    tag1.html(addlink);
-    tag1.appendTo(trTag1);
+    tag2.html(addlink);
+    tag2.appendTo(trTag2);
     
     
   trTag.appendTo(tblTag);
   trTag1.appendTo(tblTag);
+  trTag2.appendTo(tblTag);
   tag = $('<td class="subelementcontent"></td>').html(tblTag);
   //alert("1"+tag.html());
   tag = $('<tr></tr>').html(tag);
@@ -428,10 +516,12 @@ function loadChildrenRA(nodeName, tagId) {
             var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
             //tag.appendTo(listitem);
             //listitem.appendTo('ul#file31');
+            ulTagId = ulTag.attr("id");
             tableTag(item_text, id).appendTo(detDiv)
             detDiv.appendTo(listitem);
             //listitem.appendTo('ul#file31');
             listitem.appendTo(ulTag);
+            
             if (i==1) {
             //alert (listitem.html());
             }
@@ -451,7 +541,9 @@ function getResearchAreaCode(nodeName) {
 function getResearchAreaDescription(nodeName) {
 
         var endIdx = nodeName.indexOf(":");
+        //alert(endIdx);
         return nodeName.substring(endIdx+2);    
+        //return nodeName;    
 }
 
     function getInsertClause(code, parentCode, description) {
