@@ -126,10 +126,8 @@ public class SequenceUtils {
     }
 
     @SuppressWarnings("unchecked")
-    private Collection<SequenceAssociate> getSequenceAssociateCollection(Sequenceable parent, Method getter)
-            throws IllegalAccessException, InvocationTargetException {
-        Object value = getter.invoke(parent, (Object[]) null);
-        return (Collection<SequenceAssociate>) value;
+    private Collection<SequenceAssociate> getSequenceAssociateCollection(Sequenceable parent, Method getter) throws IllegalAccessException, InvocationTargetException {
+        return (Collection<SequenceAssociate>) getter.invoke(parent, (Object[]) null);
     }
 
     @SuppressWarnings("unchecked")
@@ -150,29 +148,41 @@ public class SequenceUtils {
         return getter;
     }
 
-    private void sequenceAssociations(SequenceAssociate associate) throws IllegalAccessException, InvocationTargetException,
-            NoSuchMethodException {
+    private void sequenceAssociations(SequenceAssociate associate) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         alreadySequencedAssociates.add(associate);
         sequenceOneToOneAssociations(associate);
         sequenceCollections(associate);
     }
 
-
-    private void sequenceOneToOneAssociations(SequenceAssociate parent) throws IllegalAccessException, InvocationTargetException,
-            NoSuchMethodException {
+    private void sequenceOneToOneAssociations(SequenceAssociate parent) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         for (Field field : parent.getClass().getDeclaredFields()) {
             if (isFieldASequenceAssociate(field)) {
                 Method getter = findReadMethod(parent, field);
                 if (getter != null) {
                     SequenceAssociate associate = getSequenceAssociateReference(parent, getter);
                     if (!alreadySequencedAssociates.contains(associate)) {
-                        associate.setSequenceOwner(parent.getSequenceOwner());
+                        SequenceOwner owner = (parent instanceof SequenceOwner ? (SequenceOwner) parent : parent.getSequenceOwner());
+                        associate.setSequenceOwner(owner);
                         associate.resetPersistenceState();
-                        sequenceAssociations(associate);
+                        if(!isAssociateAlsoASequenceOwner(associate)) {
+                            sequenceAssociations(associate);
+                        }
                     }
+                } else {
+                    throw createExceptionForNoGetter(parent, field);
                 }
             }
         }
+    }
+
+    /**
+     * This method...
+     * @param parent
+     * @param field
+     * @return
+     */
+    private RuntimeException createExceptionForNoGetter(SequenceAssociate parent, Field field) {
+        return new RuntimeException(String.format("No getter defined for field %s on class %s", field.getName(), parent.getClass().getName()));
     }
 
     /**
@@ -189,12 +199,19 @@ public class SequenceUtils {
         for (Field field : parent.getClass().getDeclaredFields()) {
             if (isFieldACollection(field)) {
                 Method getter = findReadMethod(parent, field);
-                if (isCollectionElementASequenceAssociate(getter.getGenericReturnType())) {
-                    for (SequenceAssociate associate : getSequenceAssociateCollection(parent, getter)) {
-                        associate.setSequenceOwner(parent.getSequenceOwner());
-                        associate.resetPersistenceState();
-                        sequenceAssociations(associate);
+                if (getter != null) {
+                    if (isCollectionElementASequenceAssociate(getter.getGenericReturnType())) {
+                        SequenceOwner owner = (parent instanceof SequenceOwner ? (SequenceOwner) parent : parent.getSequenceOwner());
+                        for (SequenceAssociate associate : getSequenceAssociateCollection(parent, getter)) {
+                            associate.setSequenceOwner(owner);
+                            associate.resetPersistenceState();
+                            if(!isAssociateAlsoASequenceOwner(associate)) {
+                                sequenceAssociations(associate);
+                            }
+                        }
                     }
+                } else {
+                    throw createExceptionForNoGetter(parent, field);
                 }
             }
         }
@@ -207,6 +224,10 @@ public class SequenceUtils {
 
     private boolean isFieldASequenceAssociate(Field field) {
         return SequenceAssociate.class.isAssignableFrom(field.getType());
+    }
+    
+    private boolean isAssociateAlsoASequenceOwner(SequenceAssociate associate) {
+        return SequenceOwner.class.isAssignableFrom(associate.getClass());
     }
 
     private boolean isFieldACollection(Field field) {
