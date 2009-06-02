@@ -171,6 +171,7 @@
 				<value>committeeLookupable</value>	
 				<value>kimIdentityManagementService</value>
 				<value>awardLookupable</value>
+				<value>docSearchCriteriaDTOLookupable</value>
 			</set>
 		</property>
 	</bean>	
@@ -1352,5 +1353,16 @@
             <ref bean="businessObjectService" />
         </property>
     </bean>
+	
+
+	<!--  try override docsearchlookupable to handle extra 'copyDocument' link result column-->
+    <bean id="kraDocSearchCriteriaDTOLookupHelperService" class="org.kuali.kra.lookup.KraDocSearchCriteriaDTOLookupableHelperServiceImpl" scope="prototype"/>
+
+    <bean id="docSearchCriteriaDTOLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+      <property name="lookupableHelperService">
+        <ref local="kraDocSearchCriteriaDTOLookupHelperService" />
+      </property>
+    </bean>
+	
 	
 </beans>
