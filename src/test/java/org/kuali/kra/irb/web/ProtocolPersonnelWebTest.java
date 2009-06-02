@@ -102,8 +102,9 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
      */
     @Test
     public void testAddCoInvestigator() throws Exception {
+        assertFalse(personnelPage.asText().contains(CO_INVESTIGATOR_NAME));
         HtmlPage personnelPage = getPerson();
-        assertEquals(CO_INVESTIGATOR_NAME, getFieldValue(personnelPage, NEW_PERSON_NAME_FIELD));
+        assertTrue(personnelPage.asText().contains(CO_INVESTIGATOR_NAME));
         personnelPage = addPerson(personnelPage, CO_INVESTIGATOR_ROLE_ID);
         assertFalse(personnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
         saveAndSearchDoc(personnelPage);
@@ -116,8 +117,8 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
      */
     @Test
     public void testClearPerson() throws Exception {
+        assertFalse(personnelPage.asText().contains(CO_INVESTIGATOR_NAME));
         HtmlPage personnelPage = getPerson();
-        assertEquals(CO_INVESTIGATOR_NAME, getFieldValue(personnelPage, NEW_PERSON_NAME_FIELD));
         setFieldValue(personnelPage,NEW_PERSON_ROLE_ID_FIELD, CO_INVESTIGATOR_ROLE_ID);
         assertTrue(personnelPage.asText().contains(CO_INVESTIGATOR_NAME));
         
