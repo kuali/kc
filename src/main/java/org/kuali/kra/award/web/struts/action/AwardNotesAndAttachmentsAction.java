@@ -15,10 +15,36 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.web.struts.form.AwardForm;
+
 /**
  * 
  * This class represents the Struts Action for Notes & Attachments page(AwardNotesAndAttachments.jsp)
  */
 public class AwardNotesAndAttachmentsAction extends AwardAction {    
     
+    /**
+     * 
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#reload(
+     * org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
+     * javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @SuppressWarnings("all")
+    public ActionForward reload(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        AwardForm awardForm = (AwardForm) form;
+        
+        ActionForward actionForward = super.reload(mapping, form, request, response);
+        
+        setAwardCommentScreenDisplayTypesOnForm(awardForm);
+        
+        return actionForward;        
+    }
 }

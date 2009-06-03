@@ -29,11 +29,13 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.web.struts.form.AwardForm;
+import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.AwardCommentService;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.service.AwardSponsorTermService;
@@ -350,8 +352,27 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @return
      */
     public ActionForward notesAndAttachments(ActionMapping mapping, ActionForm form
-            , HttpServletRequest request, HttpServletResponse response) {        
+            , HttpServletRequest request, HttpServletResponse response) {  
+        AwardForm awardForm = (AwardForm) form;
+        setAwardCommentScreenDisplayTypesOnForm(awardForm);
+        
         return mapping.findForward(Constants.MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE);
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected void setAwardCommentScreenDisplayTypesOnForm(AwardForm awardForm) {
+        AwardCommentService awardCommentService = getAwardCommentService();
+        List<CommentType> commentTypes = awardCommentService.retrieveCommentTypesToAwardFormForPanelHeaderDisplay();
+        awardForm.getAwardCommentBean().setAwardCommentScreenDisplayTypes(commentTypes);
+    }
+    
+    /**
+     * 
+     * This method is a helper method to retrieve AwardSponsorTermService.
+     * @return
+     */
+    protected AwardCommentService getAwardCommentService() {
+        return KraServiceLocator.getService(AwardCommentService.class);
     }
     
     /**
