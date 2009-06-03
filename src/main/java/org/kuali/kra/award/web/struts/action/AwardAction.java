@@ -21,13 +21,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
+import org.kuali.kra.award.service.AwardTemplateSyncService;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.common.customattributes.CustomDataAction;
@@ -68,7 +71,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm) form;
+        AwardForm awardForm = (AwardForm) form;        
         ActionForward forward = handleDocument(mapping, form, request, response, awardForm);        
         awardForm.initializeFormOrDocumentBasedOnCommand();
         
@@ -434,5 +437,51 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      */
     protected KualiRuleService getKualiRuleService() {
         return KraServiceLocator.getService(KualiRuleService.class);
+    }
+    
+    public ActionForward syncAwardTemplate(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception{
+        AwardTemplateSyncService awardTemplateSyncService = KraServiceLocator.getService(AwardTemplateSyncService.class);
+        AwardForm awardForm = (AwardForm)form;
+        Award award = awardForm.getAwardDocument().getAward();
+        String syncPropertyName = getSyncPropertyName(request);
+        boolean success = syncPropertyName!=null?
+                awardTemplateSyncService.syncToAward(award, syncPropertyName):
+                    awardTemplateSyncService.syncToAward(award);
+                    
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    /**
+     * Parses the method to call attribute to pick off the class name which should have sync action performed on it.
+     *
+     * @param request
+     * @return
+     */
+    private String getSyncClassName(HttpServletRequest request) {
+        String syncClassName = "";
+        String delimiterString = "";
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            delimiterString = parameterName.indexOf(".syncPropertyName")!=-1?".syncPropertyName":".anchor";
+            syncClassName = StringUtils.substringBetween(parameterName, ".syncClassName", delimiterString);
+        }
+        return syncClassName;
+    }
+    
+    /**
+     * Parses the method to call attribute to pick off the property name of award object 
+     * which should have a sync action performed on it.
+     *
+     * @param request
+     * @return
+     */
+    private String getSyncPropertyName(HttpServletRequest request) {
+        String syncPropertyName = null;
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName) && parameterName.indexOf(".syncPropertyName")!=-1) {
+            syncPropertyName = StringUtils.substringBetween(parameterName, ".syncPropertyName", ".anchor");
+        }
+        return syncPropertyName;
     }
 }

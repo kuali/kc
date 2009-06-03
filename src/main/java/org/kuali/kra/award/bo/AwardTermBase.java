@@ -24,9 +24,24 @@ import org.kuali.kra.bo.SponsorTerm;
  * This class...
  */
 @SuppressWarnings("serial")
-public abstract class AwardTermBase extends KraPersistableBusinessObjectBase {
+public abstract class AwardTermBase extends KraPersistableBusinessObjectBase implements AwardSynchronizable{
     private Integer sponsorTermId; 
-    private SponsorTerm sponsorTerm; 
+    private SponsorTerm sponsorTerm;
+    
+    /**
+     * 
+     * @see org.kuali.kra.award.bo.AwardSynchronizable#getSyncBaseClass()
+     */
+    public Class getSyncBaseClass() {
+        return AwardTermBase.class;
+    }
+    /**
+     * 
+     * @see org.kuali.kra.award.bo.AwardSynchronizable#getAwardSyncClass()
+     */
+    public Class getAwardSyncClass() {
+        return AwardSponsorTerm.class;
+    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

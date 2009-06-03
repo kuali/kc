@@ -211,8 +211,8 @@ public class BudgetSubAwardReader {
         String fileLocation = "att:FileLocation";
         String fileContentId = "att:href";
 
-        //javax.xml.parsers.DocumentBuilderFactory domParserFactory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
-        javax.xml.parsers.DocumentBuilderFactory domParserFactory = new com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl();
+        javax.xml.parsers.DocumentBuilderFactory domParserFactory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
+        //javax.xml.parsers.DocumentBuilderFactory domParserFactory = new com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl();
         javax.xml.parsers.DocumentBuilder domParser = domParserFactory.newDocumentBuilder();
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(xmlContents);
 

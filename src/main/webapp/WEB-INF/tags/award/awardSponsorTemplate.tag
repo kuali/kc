@@ -14,8 +14,37 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="awardAttributes" value="${DataDictionary.AwardDocument.attributes}" />
+<c:set var="awardApprovedSubawardAttributes" value="${DataDictionary.AwardTemplate.attributes}" />
+<c:set var="action" value="awardTemplateSync" />
 
-
-<kul:tab tabTitle="Sponsor Template" defaultOpen="false" tabErrorKey="document.award.fillMeIn*">
-	Under construction
+<kul:tab tabTitle="Sponsor Template" defaultOpen="false" tabErrorKey="document.award.awardTemplate*">
+	<div class="tab-container" align="center">
+    	<h3>
+    		<span class="subhead-left">Sponsor Template</span>
+        </h3>
+        <table id="sponsor-template-table" cellpadding="0" cellspacing="0" summary="Sponsor Template">
+			<tr>
+                <th width="50" align="center" scope="row"><div align="center">Select:</div></th>
+            	<td class="infoline">
+            		<div align="left">
+            		<kul:htmlControlAttribute property="document.award.templateCode" attributeEntry="${awardAttributes.templateCode}" />
+                    <c:out value="${KualiForm.document.award.awardTemplate.description}"/>
+                    <kul:lookup boClassName="org.kuali.kra.award.bo.AwardTemplate" 
+                    fieldConversions="templateCode:document.award.templateCode,description:document.award.awardTemplate.description" anchor="${currentTabIndex}"/> 
+                    <kul:directInquiry boClassName="org.kuali.kra.award.bo.AwardTemplate" inquiryParameters="document.award.templateCode:templateCode" anchor="${currentTabIndex}"/>
+					<span class="fineprint">Note: Award data may have changed since Sponsor Template was applied </span>
+					</div>
+            	</td>
+            </tr>
+            <tr>
+            	<th colspan="2" align="center" scope="row">
+            		<div align="center">
+	         			<html:image property="methodToCall.syncAwardTemplate.anchor${tabKey}"
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctotemplate.gif' styleClass="tinybutton"/>
+					</div>
+	         	</th>
+			</tr>
+		</table>
+	</div>
 </kul:tab>
