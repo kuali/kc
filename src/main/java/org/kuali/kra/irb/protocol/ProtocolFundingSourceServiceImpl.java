@@ -57,6 +57,9 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     private static final String PROP_ID = "proposalNumber";
     private static final String AWARD_ID = "awardId";
     
+    private static String MAINT_DOC_LOOKUP_URL_PREFIX= "${kuali.docHandler.url.prefix}/kr/";
+
+    
     private UnitService unitService;
     private SponsorService sponsorService;
     private AwardService awardService;
@@ -371,7 +374,6 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
 
         Integer fundingCode = protocolFundingSource.getFundingSourceType().getFundingSourceTypeCode();
         String retUrl=null;
-        String maintDocLookupPrefix= "${kuali.docHandler.url.prefix}/kr/";
         
       //TODO add Institute proposal when ready
         if (fundingCode.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode())) {        
@@ -390,32 +392,30 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
             sponsor.setSponsorCode(protocolFundingSource.getFundingSource());
             HtmlData forward = 
                 getProtocolLookupableHelperService().getInquiryUrl(sponsor, FundingSourceLookup.SPONSOR.getkeyCode());
-            retUrl = Utilities.substituteConfigParameters(maintDocLookupPrefix+((HtmlData.AnchorHtmlData)forward).getHref());
+            retUrl = Utilities.substituteConfigParameters(MAINT_DOC_LOOKUP_URL_PREFIX+((HtmlData.AnchorHtmlData)forward).getHref());
         } else  if (fundingCode.equals(FundingSourceLookup.UNIT.getFundingTypeCode())) {
             Unit unit = new Unit();
             unit.setUnitNumber(protocolFundingSource.getFundingSource());
             HtmlData forward = 
                 getProtocolLookupableHelperService().getInquiryUrl(unit, FundingSourceLookup.UNIT.getkeyCode());
-            retUrl = Utilities.substituteConfigParameters(maintDocLookupPrefix+((HtmlData.AnchorHtmlData)forward).getHref());
+            retUrl = Utilities.substituteConfigParameters(MAINT_DOC_LOOKUP_URL_PREFIX+((HtmlData.AnchorHtmlData)forward).getHref());
         }
         
         return retUrl;
     }
     
-    protected boolean isLinkedWithDevProposal() {
+    private boolean isLinkedWithDevProposal() {
         boolean ret = true;
-        if (getKualiConfigurationService().getParameterWithoutExceptions(
-                Constants.PARAMETER_MODULE_PROTOCOL,
-                Constants.PARAMETER_COMPONENT_DOCUMENT,
-                Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK)!= null) {
+        // Just eat this no param found exception
+        try {
             ret = getKualiConfigurationService().getIndicatorParameter(Constants.PARAMETER_MODULE_PROTOCOL,
                     Constants.PARAMETER_COMPONENT_DOCUMENT,
                 Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK);
-        }
+        } catch (Exception e) {}
         return ret;        
     }
     
-    protected boolean isLinkedWithProposal() {
+    private boolean isLinkedWithProposal() {
         boolean ret = true;
         if (getKualiConfigurationService().getParameterWithoutExceptions(
                 Constants.PARAMETER_MODULE_PROTOCOL,
@@ -428,7 +428,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         return ret;        
     }
     
-    protected boolean isLinkedWithAward() {
+    private boolean isLinkedWithAward() {
         boolean ret = true;
         if (getKualiConfigurationService().getParameterWithoutExceptions(
                 Constants.PARAMETER_MODULE_PROTOCOL,

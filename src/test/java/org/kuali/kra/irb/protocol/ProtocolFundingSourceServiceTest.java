@@ -41,7 +41,6 @@ import org.kuali.kra.proposaldevelopment.service.LookupableDevelopmentProposalSe
 import org.kuali.kra.service.FundingSourceTypeService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -499,6 +498,7 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
 //// This method is an integration test since it requires the Spring framework to use Utilities.substituteConfigParameters launch for OJB stuff
 //    @Test
 //    public void testAddandGetViewFundingSourceUrl() throws Exception {
+//        Protocol protocol = new Protocol();
 //        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
 //        protocolFundingSourceService.setSponsorService(getSponsorService());
 //        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
