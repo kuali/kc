@@ -469,11 +469,6 @@
 					<version>1.4</version>
 				</dependency>
 				<dependency>
-					<groupId>fop</groupId>
-					<artifactId>fop</artifactId>
-					<version>0.20.5</version>
-				</dependency>
-				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>gg_forms_jaxb</artifactId>
 					<version>1.0.1</version>
@@ -614,7 +609,12 @@
                          <artifactId>core</artifactId>
 		      		   </exclusion>
                     </exclusions>
-				</dependency>				             
+				</dependency>	
+				<dependency>
+                    <groupId>org.apache.xmlgraphics</groupId>
+                    <artifactId>fop</artifactId>
+                    <version>0.95</version>                     
+                </dependency>   			             
 			</dependencies>
 		</profile>
 		
@@ -672,6 +672,13 @@
 			<name>atlassian</name>
 			<url>http://maven.atlassian.com/repository/public</url>
 		</repository>
+		<repository>
+			  <snapshots />
+			  <id>maven-repo1</id>
+			  <name>maven2 repo</name>
+			  <url>http://repo1.maven.org/maven2</url>
+		</repository> 
+
 	</repositories>
 	<reporting>
 		<plugins>
