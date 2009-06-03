@@ -320,6 +320,17 @@ public interface Constants {
     public static final String PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE = "18";
     public static final String PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE = "19";
     public static final String BENEFITS_RATES_COMMENT_TYPE_CODE = "20";
+    public static final String GENERAL_COMMENT_TYPE_CODE = "2";
+    public static final String FISCAL_REPORT_COMMENT_TYPE_CODE = "3";
+    public static final String INTELLECTUAL_PROPERTY_COMMENT_TYPE_CODE = "4";
+    public static final String PROCUREMENT_COMMENT_TYPE_CODE = "5";
+    public static final String PROPERTY_COMMENT_TYPE_CODE = "6";
+    public static final String SPECIAL_RATE_COMMENT_TYPE_CODE = "7";
+    public static final String SPECIAL_REVIEW_COMMENT_TYPE_CODE = "10";
+    public static final String PROPOSAL_SUMMARY_COMMENT_TYPE_CODE = "12";
+    public static final String PROPOSAL_COMMENT_TYPE_CODE = "13";
+    public static final String PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE = "16";
+   
     public static final Integer MIN_FISCAL_YEAR = 1900;
     public static final Integer MAX_FISCAL_YEAR = 2499;
     
