@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectteam>
+  <projectname>Kuali-Coeus</projectname>
+  <member>
+    <name>Kenton</name>
+    <function>LBA</function>
+    <fun-fact>Ballet Master</fun-fact>
+    <email>kenton@ithrowdancers.com</email>
+  </member>
+  <member>
+    <name>Bryan</name>
+    <function>DM</function>
+    <fun-fact>Tortures his Tastebuds</fun-fact>
+    <email>BH@blackflagwings.com</email>
+  </member>
+  <member>
+    <name>Lin-Long</name>
+    <function>LD</function>
+    <fun-fact>Urr-Backup</fun-fact>
+    <email>ll@yesicanfixthat.org</email>
+  </member>
+    <member>
+    <name>Jack</name>
+    <function>LD</function>
+    <fun-fact>Fmr Jet Jock</fun-fact>
+    <email>jack@wweasles.af.mil.us</email>
+  </member>
+      <member>
+    <name>Geoff</name>
+    <function>LD</function>
+    <fun-fact>Atanarjuat</fun-fact>
+    <email>gm@running.run</email>
+  </member>
+  <member>
+    <name>Terry</name>
+    <function>DM</function>
+    <fun-fact>Dapper in a Kilt</fun-fact>
+    <email>terry@clandurkin.ire</email>
+  </member>
+  <member>
+    <name>Chris</name>
+    <function>LD/DM</function>
+    <fun-fact>Raised by wolves</fun-fact>
+    <email>chris@itlookscleantomehoney.com</email>
+  </member>
+</projectteam>
