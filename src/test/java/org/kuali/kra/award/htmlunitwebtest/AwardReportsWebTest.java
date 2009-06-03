@@ -34,23 +34,24 @@ public class AwardReportsWebTest extends AwardPaymentsAndTermsWebTest {
     private static final String METHOD_TO_CALL_ADD_AWARD_REPORT_TERM_WHERE_CLASS_IS_FISCAL = "methodToCall.addAwardReportTerm.reportClass1.reportClassIndex0";
     private static final String METHOD_TO_CALL_ADD_AWARD_REPORT_TERM_WHERE_CLASS_IS_PROPERTY= "methodToCall.addAwardReportTerm.reportClass2.reportClassIndex3";    
     
-    private static final String NEW_AWARD_REPORT_TERM_0 = "newAwardReportTerm[0]";
+    private static final String NEW_AWARD_REPORT_TERM_0 = "awardReportsBean.newAwardReportTerms[0]";
     private static final String REPORT_CODE_0 = NEW_AWARD_REPORT_TERM_0 + ".reportCode";
     private static final String FREQUENCY_CODE_0 = NEW_AWARD_REPORT_TERM_0 + ".frequencyCode";
     private static final String FREQUENCY_BASE_CODE_0 = NEW_AWARD_REPORT_TERM_0 + ".frequencyBaseCode";
     private static final String OSP_DISTRIBUTION_CODE_0 = NEW_AWARD_REPORT_TERM_0 + ".ospDistributionCode";
     private static final String DUE_DATE_0 = NEW_AWARD_REPORT_TERM_0 + ".dueDate";
-    private static final String NEW_AWARD_REPORT_TERM_3 = "newAwardReportTerm[3]";
+    private static final String NEW_AWARD_REPORT_TERM_3 = "awardReportsBean.newAwardReportTerms[3]";
     private static final String REPORT_CODE_3 = NEW_AWARD_REPORT_TERM_3 + ".reportCode";
     private static final String FREQUENCY_CODE_3 = NEW_AWARD_REPORT_TERM_3 + ".frequencyCode";
     private static final String FREQUENCY_BASE_CODE_3 = NEW_AWARD_REPORT_TERM_3 + ".frequencyBaseCode";
     private static final String OSP_DISTRIBUTION_CODE_3 = NEW_AWARD_REPORT_TERM_3 + ".ospDistributionCode";
     private static final String DUE_DATE_3 = NEW_AWARD_REPORT_TERM_3 + ".dueDate";
-    private static final String REPORT_CODE_MANDATORY_ERROR_MESSAGE = "Type is a mandatory field";
-    private static final String FREQUENCY_CODE_MANDATORY_ERROR_MESSAGE = "Frequency is a mandatory field";
-    private static final String FREQUENCY_BASE_CODE_MANDATORY_ERROR_MESSAGE = "Frequency Base is a mandatory field";
-    private static final String OSP_DISTRIBUTION_CODE_MANDATORY_ERROR_MESSAGE = "OSP File Copy is a mandatory field";
-    private static final String DUE_DATE_MANDATORY_ERROR_MESSAGE = "Due Date is a mandatory field";
+    private static final String IS_REQUIRED_TEXT = " is a required field";
+    private static final String REPORT_CODE_MANDATORY_ERROR_MESSAGE = "Type (Type)" + IS_REQUIRED_TEXT;
+    private static final String FREQUENCY_CODE_MANDATORY_ERROR_MESSAGE = "Frequency (Frequency)" + IS_REQUIRED_TEXT;
+    private static final String FREQUENCY_BASE_CODE_MANDATORY_ERROR_MESSAGE = "Frequency Base (Frequency Base)" + IS_REQUIRED_TEXT;
+    private static final String OSP_DISTRIBUTION_CODE_MANDATORY_ERROR_MESSAGE = "OSP File Copy (OSP File Copy )" + IS_REQUIRED_TEXT;
+    private static final String DUE_DATE_MANDATORY_ERROR_MESSAGE = "Due Date (Due Date)" + IS_REQUIRED_TEXT;    
     private static final String SMALL_BUSINESS_SUBCONTRACTING_PLAN = "document.awardList[0].subPlanFlag";
     private static final String PROCUREMENT_PRIORITY_CODE = "document.awardList[0].procurementPriorityCode";
     /**
@@ -160,6 +161,34 @@ public class AwardReportsWebTest extends AwardPaymentsAndTermsWebTest {
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterOneMoreSave, ERRORS_FOUND_ON_PAGE);        
         assertContains(awardPaymentReportsAndTermsPageAfterOneMoreSave,SAVE_SUCCESS_MESSAGE);
         assertContains(awardPaymentReportsAndTermsPageAfterOneMoreSave,"Property (0) ");        
+    }
+    
+    //@Test
+    public void testAwardReportRecipients() throws Exception{
+        setFieldValue(paymentReportsAndTermsPage, REPORT_CODE_0, "5");
+        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, METHOD_TO_CALL_REFRESH_PULL_DOWN_MENUS);        
+        setFieldValue(paymentReportsAndTermsPage, FREQUENCY_CODE_0, "14");        
+        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, METHOD_TO_CALL_REFRESH_PULL_DOWN_MENUS);        
+        setFieldValue(paymentReportsAndTermsPage, FREQUENCY_BASE_CODE_0, "2");
+        setFieldValue(paymentReportsAndTermsPage, OSP_DISTRIBUTION_CODE_0, "1");
+        setFieldValue(paymentReportsAndTermsPage, DUE_DATE_0, "06/30/2008");
+        
+        final HtmlForm form1 = (HtmlForm) paymentReportsAndTermsPage.getForms().get(0);        
+        String completeButtonName1=getImageTagName(paymentReportsAndTermsPage, METHOD_TO_CALL_ADD_AWARD_REPORT_TERM_WHERE_CLASS_IS_FISCAL);        
+        final HtmlImageInput button1 = (HtmlImageInput) form1.getInputByName(completeButtonName1);
+        HtmlPage awardPaymentReportsAndTermsPageAfterAdd = (HtmlPage) button1.click();
+        
+        HtmlPage awardPaymentReportsAndTermsPageAfterSave = clickOn(awardPaymentReportsAndTermsPageAfterAdd, "methodToCall.save");
+        assertDoesNotContain(awardPaymentReportsAndTermsPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
+        assertDoesNotContain(awardPaymentReportsAndTermsPageAfterSave, ERRORS_FOUND_ON_PAGE);        
+        assertContains(awardPaymentReportsAndTermsPageAfterSave,SAVE_SUCCESS_MESSAGE);
+        
+        HtmlPage page = lookup(awardPaymentReportsAndTermsPageAfterSave,"newAwardReportTermRecipients");
+        
+        assertContains(page, "Sunplus Technology Co., Ltd.");
+        awardPaymentReportsAndTermsPageAfterSave = clickOn(page, "methodToCall.addRecipient.awardReportTerm1");
+        
+        System.out.println(awardPaymentReportsAndTermsPageAfterSave.asText());
     }
     
 }
