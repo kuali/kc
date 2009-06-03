@@ -24,14 +24,28 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * This class is an abstract class for AwardComment
  */
 @SuppressWarnings("serial")
-public abstract class AwardCommentBase extends KraPersistableBusinessObjectBase {
+public abstract class AwardCommentBase extends KraPersistableBusinessObjectBase implements AwardSynchronizable{
 
     private String commentTypeCode; 
     private Boolean checklistPrintFlag; 
     private String comments; 
     
     private CommentType commentType; 
+    /**
+     * 
+     * @see org.kuali.kra.award.bo.AwardSynchronizable#getSyncBaseClass()
+     */
+    public Class getSyncBaseClass() {
+        return AwardCommentBase.class;
+    }
 
+    /**
+     * 
+     * @see org.kuali.kra.award.bo.AwardSynchronizable#getAwardSyncClass()
+     */
+    public Class getAwardSyncClass() {
+        return AwardComment.class;
+    }
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

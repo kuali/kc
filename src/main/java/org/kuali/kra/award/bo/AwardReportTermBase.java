@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -26,7 +27,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * This class represents base class for AwardReportTerm
  */
 @SuppressWarnings("serial")
-public abstract class AwardReportTermBase extends KraPersistableBusinessObjectBase{
+public abstract class AwardReportTermBase extends KraPersistableBusinessObjectBase implements AwardSynchronizable{
 
     
     private String reportClassCode; 
@@ -210,6 +211,22 @@ public abstract class AwardReportTermBase extends KraPersistableBusinessObjectBa
     public void setAwardReportTermRecipients(List<AwardReportTermRecipient> awardReportTermRecipients) {
         this.awardReportTermRecipients = awardReportTermRecipients;
     } 
+    /**
+     * 
+     * @see org.kuali.kra.award.bo.AwardSynchronizable#getSyncBaseClass()
+     */
+    public Class getSyncBaseClass() {
+        return AwardReportTermBase.class;
+    }
+    /**
+     * 
+     * @see org.kuali.kra.award.bo.AwardSynchronizable#getAwardSyncClass()
+     */
+    public Class getAwardSyncClass() {
+        return AwardReportTerm.class;
+    }
+
+
     @SuppressWarnings("unchecked")
     @Override 
     protected LinkedHashMap toStringMapper() {

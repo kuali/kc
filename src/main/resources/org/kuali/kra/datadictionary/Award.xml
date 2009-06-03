@@ -27,8 +27,8 @@
         <ref bean="Award-preAwardInstitutionalAuthorizedAmount" />
         <ref bean="Award-preAwardInstitutionalEffectiveDate" />
         <ref bean="Award-sequenceNumber" />
-        <ref bean="Award-nonCompetingContProposalDue" />
-        <ref bean="Award-competingRenewalProposalDue" />
+        <ref bean="Award-nonCompetingContPrpslDueCode" />
+        <ref bean="Award-competingRenewalPrpslDueCode" />
         <ref bean="Award-specialEbRateOnCampus" />
         <ref bean="Award-specialEbRateOffCampus" />
         <ref bean="Award-subPlanFlag" />
@@ -59,6 +59,7 @@
         <ref bean="Award-awardTypeCode" />
         <ref bean="Award-obligatedTotal" />
         <ref bean="Award-anticipatedTotal" />
+        <ref bean="Award-templateCode" />
         <ref bean="Award-principalInvestigatorName" />
         <ref bean="Award-unitName" />
         <ref bean="Award-unitNumber" />
@@ -155,9 +156,9 @@
     <property name="description" value="Sequence Number" />
   </bean>
   
-  <bean id="Award-nonCompetingContProposalDue" parent="Award-nonCompetingContProposalDue-parentBean" />
+  <bean id="Award-nonCompetingContPrpslDueCode" parent="Award-nonCompetingContPrpslDueCode-parentBean" />
 
-  <bean id="Award-nonCompetingContProposalDue-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Award-nonCompetingContPrpslDueCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nonCompetingContProposalDue" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Non Competing Continuation" />
@@ -180,9 +181,9 @@
     <property name="description" value="Non Competing Continuation" />
   </bean>
   
-  <bean id="Award-competingRenewalProposalDue" parent="Award-competingRenewalProposalDue-parentBean" />
+  <bean id="Award-competingRenewalPrpslDueCode" parent="Award-competingRenewalPrpslDueCode-parentBean" />
 
-  <bean id="Award-competingRenewalProposalDue-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Award-competingRenewalPrpslDueCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="competingRenewalProposalDue" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Competing Renewal" />
@@ -505,6 +506,23 @@
   <bean id="Award-primeSponsorCode" parent="Award-sponsorCode-parentBean">
   	<property name="name" value="primeSponsorCode" />
   	<property name="label" value="Prime Sponsor" />
+  </bean>
+  <bean id="Award-templateCode" parent="Award-templateCode-parentBean"/>
+  <bean id="Award-templateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="templateCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sponsor Template Code" />
+    <property name="shortLabel" value="Sponsor Template" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+		<bean parent="HiddenControlDefinition"/>
+    </property>
+    <property name="summary" value="Sponsor Template Code" />
+    <property name="description" value="Pre-defined Sponsor Template to sync" />
   </bean>
   
   <bean id="Award-nsfCode" parent="Award-nsfCode-parentBean" />
