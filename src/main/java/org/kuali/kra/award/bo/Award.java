@@ -49,7 +49,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * This class is Award Business Object.
  * It implements ProcessKeywords to process all operations related to AwardScenceKeywords.
  */
-public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>,
+public class Award extends AwardBase implements KeywordsManager<AwardScienceKeyword>,
                                                                         SpecialReviewHandler<AwardSpecialReview>, 
                                                                         Permissionable{
     public static final String AWARD_NAMESPACE_CODE = "KC-AWARD";
@@ -65,7 +65,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private String sponsorCode;
     private Integer statusCode;
     private AwardStatus awardStatus;
-    private Integer templateCode;
+//    private Integer templateCode;
     private String accountNumber;
     private String approvedEquipmentIndicator;
     private String approvedForeignTripIndicator;
@@ -85,16 +85,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Integer accountTypeCode;
     private Integer activityTypeCode;
     private Integer awardTypeCode;
-    private String primeSponsorCode;
-    private Integer basisOfPaymentCode;
     private String cfdaNumber;
-    private Integer competingRenewalProposalDue;
     private String documentFundingId;
-    private Integer finalInvoiceDue;
-    private Integer invoiceNumberOfCopies;
-    private Integer methodOfPaymentCode;
-    private Integer nonCompetingContProposalDue;
-    private Integer paymentInvoiceFrequencyCode;
     private KualiDecimal preAwardAuthorizedAmount;
     private Date preAwardEffectiveDate;
     private KualiDecimal preAwardInstitutionalAuthorizedAmount;
@@ -274,21 +266,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
 
-    /**
-     *
-     * @return
-     */
-    public Integer getTemplateCode() {
-        return templateCode;
-    }
-
-    /**
-     *
-     * @param templateCode
-     */
-    public void setTemplateCode(Integer templateCode) {
-        this.templateCode = templateCode;
-    }
 
 
     /**
@@ -738,38 +715,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
 
-    /**
-     *
-     * @return
-     */
-    public String getPrimeSponsorCode() {
-        return primeSponsorCode;
-    }
-
-    /**
-     *
-     * @param primeSponsorCode
-     */
-    public void setPrimeSponsorCode(String primeSponsorCode) {
-        this.primeSponsorCode = primeSponsorCode;
-    }
-
-
-    /**
-     *
-     * @return
-     */
-    public Integer getBasisOfPaymentCode() {
-        return basisOfPaymentCode;
-    }
-
-    /**
-     *
-     * @param basisOfPaymentCode
-     */
-    public void setBasisOfPaymentCode(Integer basisOfPaymentCode) {
-            this.basisOfPaymentCode = basisOfPaymentCode;    
-    }
 
 
     /**
@@ -795,18 +740,19 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @return
      */
-    public Integer getCompetingRenewalProposalDue() {
-        return competingRenewalProposalDue;
-    }
+//    public Integer getCompetingRenewalProposalDue() {
+//        return Integer.parseInt(getCompetingRenewalPrpslDueCode());
+//    }
 
     /**
      *
      * @param competingRenewalProposalDue
      */
-    public void setCompetingRenewalProposalDue(Integer competingRenewalProposalDue) {
-        this.competingRenewalProposalDue = competingRenewalProposalDue;
-    }
-    
+//    public void setCompetingRenewalProposalDue(Integer competingRenewalProposalDue) {
+//        setCompetingRenewalPrpslDueCode(competingRenewalProposalDue.toString());
+//    }
+
+
     /**
      * 
      * @return
@@ -825,72 +771,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
 
-    /**
-     *
-     * @return
-     */
-    public Integer getFinalInvoiceDue() {
-        return finalInvoiceDue;
-    }
-
-    /**
-     *
-     * @param finalInvoiceDue
-     */
-    public void setFinalInvoiceDue(Integer finalInvoiceDue) {
-        this.finalInvoiceDue = finalInvoiceDue;
-    }
-
-
-    /**
-     *
-     * @return
-     */
-    public Integer getInvoiceNumberOfCopies() {
-        return invoiceNumberOfCopies;
-    }
-
-    /**
-     *
-     * @param invoiceNumberOfCopies
-     */
-    public void setInvoiceNumberOfCopies(Integer invoiceNumberOfCopies) {
-        this.invoiceNumberOfCopies = invoiceNumberOfCopies;
-    }
-
-
-    /**
-     *
-     * @return
-     */
-    public Integer getMethodOfPaymentCode() {
-        return methodOfPaymentCode;
-    }
-
-    /**
-     *
-     * @param methodOfPaymentCode
-     */
-    public void setMethodOfPaymentCode(Integer methodOfPaymentCode) {
-            this.methodOfPaymentCode = methodOfPaymentCode;
-    }
-
-
-    /**
-     *
-     * @return
-     */
-    public Integer getNonCompetingContProposalDue() {
-        return nonCompetingContProposalDue;
-    }
-
-    /**
-     *
-     * @param nonCompetingContProposalDue
-     */
-    public void setNonCompetingContProposalDue(Integer nonCompetingContProposalDue) {
-        this.nonCompetingContProposalDue = nonCompetingContProposalDue;
-    }
 
     /**
      * @return
@@ -914,21 +794,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return ospAdministratorName;
     }
     
-    /**
-     *
-     * @return
-     */
-    public Integer getPaymentInvoiceFrequencyCode() {
-        return paymentInvoiceFrequencyCode;
-    }
-
-    /**
-     *
-     * @param paymentInvoiceFrequencyCode
-     */
-    public void setPaymentInvoiceFrequencyCode(Integer paymentInvoiceFrequencyCode) {
-        this.paymentInvoiceFrequencyCode = paymentInvoiceFrequencyCode;
-    }
 
 
     /**
@@ -1102,13 +967,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         hashMap.put("primeSponsorCode", getPrimeSponsorCode());
         hashMap.put("basisOfPaymentCode", getBasisOfPaymentCode());
         hashMap.put("cfdaNumber", getCfdaNumber());
-        hashMap.put("competingRenewalProposalDue", getCompetingRenewalProposalDue());
         hashMap.put("documentFundingId", getDocumentFundingId());
         hashMap.put("finalInvoiceDue", getFinalInvoiceDue());
         hashMap.put("invoiceNumberOfCopies", getInvoiceNumberOfCopies());
         hashMap.put("methodOfPaymentCode", getMethodOfPaymentCode());
-        hashMap.put("nonCompetingContProposalDue", getNonCompetingContProposalDue());
-        hashMap.put("paymentInvoiceFrequencyCode", getPaymentInvoiceFrequencyCode());
         hashMap.put("preAwardAuthorizedAmount", getPreAwardAuthorizedAmount());
         hashMap.put("preAwardEffectiveDate", getPreAwardEffectiveDate());
         hashMap.put("preAwardInstitutionalAuthorizedAmount", getPreAwardInstitutionalAuthorizedAmount());
@@ -1906,7 +1768,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     // Note: following the pattern of Sponsor, this getter indirectly calls a service.
     // Is there a better way?
     public Sponsor getPrimeSponsor() {
-        if(primeSponsor == null && !StringUtils.isEmpty(primeSponsorCode)) {
+      if(primeSponsor == null && !StringUtils.isEmpty(getPrimeSponsorCode())) {
             this.refreshReferenceObject("primeSponsor");
         }
         return primeSponsor;

@@ -20,15 +20,13 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 
-public class AwardTemplateContact extends KraPersistableBusinessObjectBase { 
+public class AwardTemplateContact extends AwardSponsorContactBase { 
 	
-	private Integer templateContactId; 
-//	private Integer templateCode; 
-	private String contactTypeCode; 
-	private Integer rolodexId; 
-	
-	private ContactType contactType; 
-	private Rolodex rolodex; 
+	/**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 5168275576240665727L;
+    private Integer templateContactId; 
 	private AwardTemplate awardTemplate; 
 	
 	public AwardTemplateContact() { 
@@ -43,46 +41,6 @@ public class AwardTemplateContact extends KraPersistableBusinessObjectBase {
 		this.templateContactId = templateContactId;
 	}
 
-//	public Integer getTemplateCode() {
-//		return templateCode;
-//	}
-//
-//	public void setTemplateCode(Integer templateCode) {
-//		this.templateCode = templateCode;
-//	}
-
-	public String getContactTypeCode() {
-		return contactTypeCode;
-	}
-
-	public void setContactTypeCode(String contactTypeCode) {
-		this.contactTypeCode = contactTypeCode;
-	}
-
-	public Integer getRolodexId() {
-		return rolodexId;
-	}
-
-	public void setRolodexId(Integer rolodexId) {
-		this.rolodexId = rolodexId;
-	}
-
-	public ContactType getContactType() {
-		return contactType;
-	}
-
-	public void setContactType(ContactType contactType) {
-		this.contactType = contactType;
-	}
-
-	public Rolodex getRolodex() {
-		return rolodex;
-	}
-
-	public void setRolodex(Rolodex rolodex) {
-		this.rolodex = rolodex;
-	}
-
 	public AwardTemplate getAwardTemplate() {
 		return awardTemplate;
 	}
@@ -91,13 +49,11 @@ public class AwardTemplateContact extends KraPersistableBusinessObjectBase {
 		this.awardTemplate = awardTemplate;
 	}
 
-	@Override 
+	@SuppressWarnings("unchecked")
+    @Override 
 	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
+		LinkedHashMap hashMap = super.toStringMapper();
 		hashMap.put("templateContactId", getTemplateContactId());
-//		hashMap.put("templateCode", getTemplateCode());
-//		hashMap.put("contactTypeCode", getContactTypeCode());
-//		hashMap.put("rolodexId", getRolodexId());
 		return hashMap;
 	}
 	
