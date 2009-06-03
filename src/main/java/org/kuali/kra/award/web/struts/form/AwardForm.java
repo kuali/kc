@@ -22,7 +22,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardComment;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.bo.AwardSpecialReview;
@@ -35,6 +34,7 @@ import org.kuali.kra.award.contacts.AwardSponsorContactsBean;
 import org.kuali.kra.award.contacts.AwardUnitContactsBean;
 import org.kuali.kra.award.detailsdates.DetailsAndDatesFormHelper;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.notesandattachments.comments.AwardCommentBean;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportsBean;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReportingBean;
 import org.kuali.kra.award.paymentreports.paymentschedule.PaymentScheduleBean;
@@ -101,6 +101,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private ApprovedForeignTravelBean approvedForeignTravelBean;
     private AwardReportsBean awardReportsBean;
     private AwardReportingBean awardReportingBean;
+    private AwardCommentBean awardCommentBean;
     
     private boolean auditActivated;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
@@ -153,6 +154,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         //sponsorTermTypes = new ArrayList<KeyLabelPair>();
         awardCreditSplitBean = new AwardCreditSplitBean(this);
         awardReportingBean = new AwardReportingBean(this);
+        awardCommentBean = new AwardCommentBean(this);
     }    
     
     /**
@@ -190,6 +192,13 @@ public class AwardForm extends KraTransactionalDocumentFormBase
      */
     public CostShareFormHelper getCostShareFormHelper() {
         return costShareFormHelper;
+    }
+    
+    /**
+     * @return
+     */
+    public AwardCommentBean getAwardCommentBean() {
+        return awardCommentBean;
     }
     
     /**

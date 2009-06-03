@@ -24,7 +24,7 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="notesAndAttachments">
   	
-This is the Award - Notes & Attachments page - Under Construction
+<kra-a:awardComments/>
 
 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />

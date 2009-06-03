@@ -83,6 +83,98 @@ public class AwardCommentFactory {
     public AwardComment createPreAwardInstitutionalAuthorizationComment(Award award) {
         return createAwardComment(award, Constants.PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
     }
+    
+    /**
+     * This method creates a General Comment
+     * @param award
+     * @return
+     */
+    public AwardComment createGeneralComment(Award award) {
+        return createAwardComment(award, Constants.GENERAL_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+    }
+    
+    /**
+     * This method creates Fiscal Report Comment
+     * @param award
+     * @return
+     */
+    public AwardComment createFiscalReportComment(Award award) {
+        return createAwardComment(award, Constants.FISCAL_REPORT_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+    }
+    
+    /**
+     * This method creates Intellectual Property Comment
+     * @param award
+     * @return
+     */
+    public AwardComment createIntellecutalPropertyComment(Award award) {
+        return createAwardComment(award, Constants.INTELLECTUAL_PROPERTY_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+    }
+    
+    /**
+     * This method creates Procurement Comment
+     * @param award
+     * @return
+     */
+    public AwardComment createProcurementComment(Award award) {
+        return createAwardComment(award, Constants.PROCUREMENT_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+    }
+    
+    /**
+     * This method creates Property comment
+     * @param award
+     * @return
+     */
+    public AwardComment createPropertyComment(Award award) {
+        return createAwardComment(award, Constants.PROPERTY_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+    }
+    
+    /**
+     * This method creates a Special Rate Comment
+     * @param award
+     * @return
+     */
+    public AwardComment createSpecialRateComment(Award award) {
+        return createAwardComment(award, Constants.SPECIAL_RATE_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+    }
+    
+    /**
+     * This method creates a Special Review Comment
+     * @param award
+     * @return
+     */
+    public AwardComment createSpecialReviewComment(Award award) {
+        return createAwardComment(award, Constants.SPECIAL_REVIEW_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+    }
+    
+    /**
+     * This method creates Proposal Summary Comment
+     * @param award
+     * @return
+     */
+    public AwardComment createProposalSummaryComment(Award award) {
+        return createAwardComment(award, Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+    }
+    
+    /**
+     * This method creates Proposal Comment
+     * @param award
+     * @return
+     */
+    public AwardComment createProposalComment(Award award) {
+        return createAwardComment(award, Constants.PROPOSAL_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+    }
+    
+    /**
+     * This method creates Proposal IP Review Comment
+     * @param award
+     * @return
+     */
+    public AwardComment createProposalIPReviewComment(Award award) {
+        return createAwardComment(award, Constants.PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+    }
+    
+    
 
     /**
      * This method returns a new AwardComment

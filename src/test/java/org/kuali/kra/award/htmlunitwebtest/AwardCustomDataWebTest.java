@@ -16,7 +16,6 @@
 package org.kuali.kra.award.htmlunitwebtest;
 
 import org.junit.Test;
-import org.kuali.kra.award.document.AwardDocument;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -30,13 +29,11 @@ public class AwardCustomDataWebTest extends AwardWebTestBase {
     private static final String TENURED_NAME = "Mickey Mouse";
     private static final String GRADUATE_STUDENT_COUNT_ID = "customDataHelper.customAttributeValues(id4)";
     private static final String GRADUATE_STUDENT_COUNT = "12";
-    private static final String FIVE = "5";
-    private static final String FOUR = "4";
+    
 
     @Test
     public void testCustomDataPage() throws Exception {
         HtmlPage awardPage = buildAwardDocumentPage();
-        String documentNumber = getDocNbr(awardPage);
         HtmlPage customDataPage = clickOnTab(awardPage, CUSTOM_DATA_LINK_NAME);
         System.out.print(customDataPage.asText());
 
@@ -51,10 +48,5 @@ public class AwardCustomDataWebTest extends AwardWebTestBase {
         assertContains(customDataPage, TENURED_NAME);
         assertContains(customDataPage, GRADUATE_STUDENT_COUNT);
        
-        // Verify that the values are stored in the database
-        AwardDocument doc = (AwardDocument) getDocument(documentNumber);
-        assertNotNull(doc);
-        assertEquals(TENURED_NAME, doc.getCustomAttributeDocuments(FIVE).getCustomAttribute().getValue());
-        assertEquals(GRADUATE_STUDENT_COUNT, doc.getCustomAttributeDocuments(FOUR).getCustomAttribute().getValue());
     }
 }

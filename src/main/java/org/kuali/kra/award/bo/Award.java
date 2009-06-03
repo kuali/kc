@@ -1214,9 +1214,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
         AwardComment awardComment = getCommentMap().get(Constants.PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createPreAwardSponsorAuthorizationComment(this);  //if null initialize in factory class
-            add(awardComment);  //add the new CostShareComment to the awardComments list.
-            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
+            awardComment = awardCommentFactory.createPreAwardSponsorAuthorizationComment(this);  
+            add(awardComment);  
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
         }
         return awardComment;
     }
@@ -1245,7 +1245,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardComment awardComment = getCommentMap().get(Constants.FANDA_RATE_COMMENT_TYPE_CODE);
         if(awardComment == null){
             awardComment = awardCommentFactory.createFandaRateComment(this);  //if null initialize in factory class
-            awardComments.add(awardComment);  //add the new CostShareComment to the awardComments list.
+            add(awardComment);  //add the new CostShareComment to the awardComments list.
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
         }
         return awardComment;
@@ -1260,7 +1260,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardComment awardComment = getCommentMap().get(Constants.PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE);
         if(awardComment == null){
             awardComment = awardCommentFactory.createPaymentAndInvoiceComment(this);  //if null initialize in factory class
-            awardComments.add(awardComment);  //add the new Payment And Invoice to the awardComments list.
+            add(awardComment);  //add the new Payment And Invoice to the awardComments list.
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
         }
         return awardComment;
@@ -1280,6 +1280,157 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         }
         return awardComment;
     }
+    
+    /**
+    *
+    * Get the award General Comments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getAwardGeneralComments(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
+        AwardComment awardComment = getCommentMap().get(Constants.GENERAL_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createGeneralComment(this);
+            add(awardComment);
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
+        }
+        return awardComment;
+    }
+    
+    /**
+    *
+    * Get the award fiscal report comments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getAwardFiscalReportComments(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
+        AwardComment awardComment = getCommentMap().get(Constants.FISCAL_REPORT_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createFiscalReportComment(this);  
+            add(awardComment);  
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
+        }
+        return awardComment;
+    }
+    
+    /**
+    *
+    * Get the award Intellectual Property comments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getAwardIntellectualPropertyComments(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
+        AwardComment awardComment = getCommentMap().get(Constants.INTELLECTUAL_PROPERTY_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createIntellecutalPropertyComment(this);
+            add(awardComment);
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
+        }
+        return awardComment;
+    }
+    
+    /**
+    *
+    * Get the award Procurement Comments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getAwardProcurementComments(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
+        AwardComment awardComment = getCommentMap().get(Constants.PROCUREMENT_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createProcurementComment(this);
+            add(awardComment);
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
+        }
+        return awardComment;
+    }
+    
+    /**
+    *
+    * Get the award Award Property Comments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getAwardPropertyComments(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
+        AwardComment awardComment = getCommentMap().get(Constants.PROPERTY_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createPropertyComment(this);
+            add(awardComment);
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
+        }
+        return awardComment;
+    }
+    
+    /**
+    *
+    * Get the award Special Rate comments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getAwardSpecialRate(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
+        AwardComment awardComment = getCommentMap().get(Constants.SPECIAL_RATE_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createSpecialRateComment(this);
+            add(awardComment);
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
+        }
+        return awardComment;
+    }
+    
+    /**
+    *
+    * Get the award Special Review Comments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getAwardSpecialReviewComments(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
+        AwardComment awardComment = getCommentMap().get(Constants.SPECIAL_REVIEW_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createSpecialReviewComment(this);
+            add(awardComment);
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
+        }
+        return awardComment;
+    }
+    
+    /**
+    *
+    * Get the award Proposal Summary comments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getawardProposalSummary(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
+        AwardComment awardComment = getCommentMap().get(Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createProposalSummaryComment(this);  
+            add(awardComment);  
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
+        }
+        return awardComment;
+    }
+    
+    /**
+    *
+    * Get the award Proposal comments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getawardProposalComments(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
+        AwardComment awardComment = getCommentMap().get(Constants.PROPOSAL_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createProposalComment(this);
+            add(awardComment);
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
+        }
+        return awardComment;
+    }
+    
+    /**
+    *
+    * Get the award Proposal IP Review Comments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getAwardProposalIPReviewComment(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
+        AwardComment awardComment = getCommentMap().get(Constants.PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createProposalIPReviewComment(this);
+            add(awardComment);
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
+        }
+        return awardComment;
+    }
+    
     
     /**
      * This method calls getTotalAmount to calculate the total of all Commitment Amounts.

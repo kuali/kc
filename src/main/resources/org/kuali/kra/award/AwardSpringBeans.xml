@@ -79,6 +79,11 @@
 	
 	<bean id="awardSponsorTermService" class="org.kuali.kra.service.impl.AwardSponsorTermServiceImpl">
 	</bean>
+	<bean id="awardCommentService" class="org.kuali.kra.service.impl.AwardCommentServiceImpl">
+		<property name="businessObjectService">
+		    <ref bean="businessObjectService" />
+		</property>
+	</bean>
 	<bean id="awardDirectFandADistributionService" class="org.kuali.kra.service.impl.AwardDirectFandADistributionServiceImpl">
 	</bean>
 	<bean id="keywordsService" class="org.kuali.kra.service.impl.KeywordsServiceImpl">
@@ -103,7 +108,9 @@
 		</property>
 	</bean>
 	<bean id="awardCustomAttributeService" class="org.kuali.kra.service.impl.AwardCustomAttributeServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="businessObjectService">
+		    <ref bean="businessObjectService" />
+		</property>
 	</bean>
 
 	<bean id="awardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
