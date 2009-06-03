@@ -14,14 +14,27 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="syncPropertyName" value="awardComments" />
 
 <kul:tabTop tabTitle="Comments" defaultOpen="false" tabErrorKey="*">
 	<div class="tab-container" align="center">
-    	<h3>
+    	<table id="comments-table" cellpadding="0" cellspacing="0" summary="Sponsor Template">
+		<tr>
+        <h3>
     		<span class="subhead-left">Comments</span>
         </h3>
          <c:forEach var="commentType" items="${KualiForm.awardCommentBean.awardCommentScreenDisplayTypes}" varStatus="commentTypeIndex">        	        	
 			<kra-a:awardCommentsTypes index="${commentTypeIndex.index}" commentTypeDescription="${commentType.description}" />
 		</c:forEach>
+		</tr>
+		<tr>
+          	<th colspan="2" align="center" scope="row">
+          		<div align="center">
+        			<html:image property="methodToCall.syncAwardTemplate.syncPropertyName${syncPropertyName}.anchor${tabKey}"
+				src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctotemplate.gif' styleClass="tinybutton"/>
+			</div>
+        	</th>
+		</tr>
+		</table>
  	</div>
 </kul:tabTop>

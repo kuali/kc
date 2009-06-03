@@ -58,15 +58,15 @@
 		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="awardTypeCode" column="AWARD_TYPE_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="primeSponsorCode" column="PRIME_SPONSOR_CODE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="basisOfPaymentCode" column="BASIS_OF_PAYMENT_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="basisOfPaymentCode" column="BASIS_OF_PAYMENT_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="cfdaNumber" column="CFDA_NUMBER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="competingRenewalProposalDue" column="COMPETING_RENEWAL_PRPSL_DUE" jdbc-type="INTEGER"/>
+		<field-descriptor name="competingRenewalPrpslDueCode" column="COMPETING_RENEWAL_PRPSL_DUE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="documentFundingId" column="DFAFS_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="finalInvoiceDue" column="FINAL_INVOICE_DUE" jdbc-type="INTEGER"/>
 		<field-descriptor name="invoiceNumberOfCopies" column="INVOICE_NUMBER_OF_COPIES" jdbc-type="INTEGER"/>
-		<field-descriptor name="methodOfPaymentCode" column="METHOD_OF_PAYMENT_CODE" jdbc-type="INTEGER"/>
-		<field-descriptor name="nonCompetingContProposalDue" column="NON_COMPETING_CONT_PRPSL_DUE" jdbc-type="INTEGER"/>
-		<field-descriptor name="paymentInvoiceFrequencyCode" column="PAYMENT_INVOICE_FREQ_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="methodOfPaymentCode" column="METHOD_OF_PAYMENT_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="nonCompetingContPrpslDueCode" column="NON_COMPETING_CONT_PRPSL_DUE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="paymentInvoiceFreqCode" column="PAYMENT_INVOICE_FREQ_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="preAwardAuthorizedAmount" column="PRE_AWARD_AUTHORIZED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="preAwardEffectiveDate" column="PRE_AWARD_EFFECTIVE_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="preAwardInstitutionalAuthorizedAmount" column="PRE_AWARD_IN_AUTHORIZED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
@@ -158,6 +158,27 @@
         <collection-descriptor name="awardCustomDataList" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>
         </collection-descriptor>
+        <reference-descriptor name="awardTemplate" class-ref="org.kuali.kra.award.bo.AwardTemplate" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="templateCode" />
+        </reference-descriptor>
+        		<reference-descriptor name="primeSponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="primeSponsorCode"/>
+		</reference-descriptor>
+ 		<reference-descriptor name="awardMethodOfPayment" class-ref="org.kuali.kra.award.bo.AwardMethodOfPayment" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="methodOfPaymentCode"/>
+		</reference-descriptor>
+ 		<reference-descriptor name="awardBasisOfPayment" class-ref="org.kuali.kra.award.bo.AwardBasisOfPayment" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="basisOfPaymentCode"/>
+		</reference-descriptor>
+ 		<reference-descriptor name="nonCompetingContPrpslDue" class-ref="org.kuali.kra.award.bo.Frequency" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="nonCompetingContPrpslDueCode"/>
+		</reference-descriptor>
+ 		<reference-descriptor name="competingRenewalPrpslDue" class-ref="org.kuali.kra.award.bo.Frequency" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="competingRenewalPrpslDueCode"/>
+		</reference-descriptor>
+ 		<reference-descriptor name="paymentInvoiceFrequency" class-ref="org.kuali.kra.award.bo.Frequency" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="paymentInvoiceFreqCode"/>
+		</reference-descriptor>
 	</class-descriptor>	
 	
 	<class-descriptor class="org.kuali.kra.award.contacts.AwardPerson" table="AWARD_PERSONS">
@@ -781,10 +802,10 @@
  		<collection-descriptor name="templateTerms" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardTemplateTerm" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="templateCode"/>
 		</collection-descriptor>
- 		<reference-descriptor name="awardStatus" class-ref="org.kuali.kra.award.bo.AwardStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+ 		<reference-descriptor name="awardTemplateStatus" class-ref="org.kuali.kra.award.bo.AwardStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="statusCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="primeSponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="primeSponsorCode"/>
 		</reference-descriptor>
  		<reference-descriptor name="awardMethodOfPayment" class-ref="org.kuali.kra.award.bo.AwardMethodOfPayment" auto-retrieve="false" auto-update="none" auto-delete="none"> 
