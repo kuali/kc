@@ -30,10 +30,9 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase 
                                             implements AwardApprovedSubawardRule {
     
-    private static final String NEW_AWARD_APPROVED_SUBAWAD = "newAwardApprovedSubaward";
+    private static final String NEW_AWARD_APPROVED_SUBAWARD = "approvedSubawardFormHelper.newAwardApprovedSubaward";
     private static final String ORGANIZATION_NAME = ".organizationName";
-    
-    //private static final Integer ZERO = 0;
+    private static final String AMOUNT = ".amount";
     
     List<AwardApprovedSubaward> awardApprovedSubawards;
     AwardApprovedSubaward awardApprovedSubaward;
@@ -133,7 +132,7 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
         boolean valid = true;
         if(awardApprovedSubaward.getOrganizationName() == null) {
             valid = false;
-            reportError(NEW_AWARD_APPROVED_SUBAWAD+ORGANIZATION_NAME, 
+            reportError(NEW_AWARD_APPROVED_SUBAWARD+ORGANIZATION_NAME, 
                     KeyConstants.ERROR_ORGANIZATION_NAME_IS_NULL);
         }else {
             valid = validateApprovedSubawardDuplicateOrganization();
@@ -152,7 +151,7 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
               if(awardApprovedSubaward.getOrganizationName().equals
                       (loopAwardApprovedSubaward.getOrganizationName())){
                   valid = false;
-                  reportError(NEW_AWARD_APPROVED_SUBAWAD+ORGANIZATION_NAME, 
+                  reportError(NEW_AWARD_APPROVED_SUBAWARD+ORGANIZATION_NAME, 
                           KeyConstants.ERROR_DUPLICATE_ORGANIZATION_NAME);
                   break;
               }
@@ -169,7 +168,7 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
     public boolean validateApprovedSubawardAmount(){
         boolean valid = awardApprovedSubaward.getAmount().isGreaterThan(new KualiDecimal(0.00));
         if(!valid) {
-            reportError(NEW_AWARD_APPROVED_SUBAWAD+".amount", 
+            reportError(NEW_AWARD_APPROVED_SUBAWARD+AMOUNT, 
                     KeyConstants.ERROR_AMOUNT_IS_ZERO);
         }
         return valid;

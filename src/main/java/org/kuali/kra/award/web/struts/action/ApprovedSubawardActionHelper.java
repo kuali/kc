@@ -28,6 +28,8 @@ import org.kuali.kra.award.web.struts.form.ApprovedSubawardFormHelper;
  */
 public class ApprovedSubawardActionHelper implements Serializable {
     
+    private static final long serialVersionUID = -6683397794718075987L;
+
     /**
      * This method is called when adding a new AwardApprovedSubaward
      * @param formHelper
