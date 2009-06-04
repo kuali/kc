@@ -76,10 +76,11 @@
             var divId = "listcontent"+i;
             
            // if (i == 1) {
-            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(item_text);
+            var idDiv = $('<div></div>').attr("id","itemText"+i).html(item_text); // for later change RA description
+            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
             var div = $('<div  class="hierarchydetail" style="margin-top:2px; "></div>').attr("id",divId);
-       $(document).ready(function () {
-            tag.click(
+            $(document).ready(function () {
+                tag.click(
 					function()
 					{
 					    //alert ("click "+tagId);
@@ -88,7 +89,7 @@
 						loadChildrenRA(item_text, tagId);
 					}
 				);
-		}); 		
+		     }); 		
 //            } else {
 //            var tag = $('<a id="listcontrol04" ></a>').attr("style","margin-left:2px;").html(item_text);
 //            var div = $('<div id="listcontent04" class="hierarchydetail" style="margin-top:2px; "></div>');
@@ -168,7 +169,7 @@
 function tableTag(name, id) {
 
        var link = $('<a href="#" class="hidedetail"><img src="kr/static/images/tinybutton-hide.gif" align="absmiddle" border="0" width="45" height="15"></a>');
-       var tag = $('<th  class="subelementheader" align="left"></th>').html(name);
+       var tag = $('<th  class="subelementheader" align="left"></th>').attr("id","raHeader"+i).html(name);
        link.prependTo(tag);
        tag = $('<tr></tr>').html(tag);
        tag = $('<thead></thead>').html(tag);
@@ -258,70 +259,22 @@ function tbodyTag(name, id) {
     tdTag1.appendTo(trTag1);
     tdTag1 = $('<td></td>').html(getResearchAreaCode(name));
     tdTag1.appendTo(trTag1);
-    tdTag1 = $('<td></td>').html($('<input type="text" name="m3" style="width:100%;" />').attr("id","desc"+i).attr("value",getResearchAreaDescription(name)));
+    tdTag1 = $('<td></td>').html($('<input type="text" name="m3" style="width:100%;" />').attr("id","cdesc"+i).attr("value",getResearchAreaDescription(name)));
     tdTag1.appendTo(trTag1);
     tag1 = $('<th class="infoline" style="text-align:center;"></th>');
-    var editlink = $('<a href="#"><img src="static/images/tinybutton-add1.gif" width="40" height="15" border="0" title="Add this Sub-group"></a>').attr("id","addRA"+i).click(function() {
-                         
-          //alert("add node"+$(this).parents('tr:eq(0)').children('th').size());
-          var trNode = $(this).parents('tr:eq(0)');
-          //alert(trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+"-"+trNode.children('td:eq(2)').children('input:eq(0)').attr("value"));
-
-         if (trNode.children('td:eq(1)').children('input:eq(0)').attr("value") == "") {
-           alert("must enter research area code");
-         } else if (trNode.children('td:eq(2)').children('input:eq(0)').attr("value") == "") {
-           alert("must enter research area");
-         } else {
-         
-         // check if code exists
-             var raExist
-             $.ajax({
-                 url: 'researchAreas.do',
-                 type: 'GET',
-                 dataType: 'html',
-                 data:'researchAreaCode='+trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+'&addRA=Y',
-                 cache: false,
-                 async: false,
-                 timeout: 1000,
-                 error: function(){
-                    alert('Error loading XML document');
-                 },
-                 success: function(xml){
-                    $(xml).find('h3').each(function(){
-                       raExist = $(this).text();
-                    //alert(raExist);
-        
-                     });
-                  }
-               });   // end ajax  
-         
-         
-           if (raExist == 'false') {
-               var parentNode = $("#"+id);
-               var ulTag = parentNode.children('ul');
-               if (parentNode.children('ul').size() == 0) {
-                  i++;
-                  ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
-               }
-            
-               ulTag.appendTo(parentNode); 
-                                                          
-               var item_text = trNode.children('td:eq(1)').children('input:eq(0)').attr("value") +" : "+trNode.children('td:eq(2)').children('input:eq(0)').attr("value");
-               ulTagId = ulTag.attr("id");
-               var listitem = setupListItem(item_text);
-               //alert(listitem.html());
-               listitem.appendTo(ulTag);
-               
-               // apend to sqlScripts
-               sqlScripts = sqlScripts +"#;#"+getInsertClause(trNode.children('td:eq(1)').children('input:eq(0)').attr("value"), getResearchAreaCode(name), trNode.children('td:eq(2)').children('input:eq(0)').attr("value"));
-               //alert("sqlScripts = "+sqlScripts);
-            }  else {
-                 alert ("Research Area Code already exist");
-            }
-           }                                
-         });  // end addlink click
+    var editlink = $('<a href="#"><img src="static/images/tinybutton-update.gif" width="40" height="15" border="0" title="update"></a>').attr("id","editRA"+i).click(function() {
+          var header = $("#raHeader"+$(this).attr("id").substring(6));
+          //$("#raHeader"+i) will not work because "i" is evaluated when this function is called; not when this function is created
+          alert ($(this).attr("id").substring(6));
+          var newdesc = getResearchAreaCode(header.text())+" : "+$("#cdesc"+$(this).attr("id").substring(6)).attr("value");
+          header.html(newdesc);
+          $("#itemText"+$(this).attr("id").substring(6)).html(newdesc);
+          // lots of trouble to update the description on item, so add additional 'div' tag for this purposes.          
+          // tried many different ways, include 'replace', but it did not work.   So, finally decide on this approach.
+          
+          });  // end editlink click
                 
-    tag1.html(addlink);
+    tag1.html(editlink);
     tag1.appendTo(trTag1);
    
    
@@ -416,7 +369,8 @@ function setupListItem(name) {
             var id1 = "item"+i;
             var tagId = "listcontrol"+i;
             var divId = "listcontent"+i;
-            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(name);
+            var idDiv = $('<div></div>').attr("id","itemText"+i).html(name); // for later change RA description
+            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
             var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; "></div>').attr("id",divId);
        //$(document).ready(function () {
             $(tag).click(
@@ -484,17 +438,13 @@ function loadChildrenRA(nodeName, tagId) {
             $(xml).find('h3').each(function(){
             var item_text = $(this).text();
             i++;
-            //var item = $(this).find('item').text()
-            //alert(item_text+"-")
-            //var text1 = $('<span class="file"></span>').html(item_text);
-            //alert(text1)
-           // $('<li></li>').html($('<span class="file"></span>').html(item_text)).appendTo('ul#file31');
             var id = "item"+i;
             var tagId = "listcontrol"+i;
             var divId = "listcontent"+i;
             
            // if (i == 1) {
-            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(item_text);
+            var idDiv = $('<div></div>').attr("id","itemText"+i).html(item_text); // for later change RA description
+            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
             var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; "></div>').attr("id",divId);
             tag.click(
 					function()
@@ -505,14 +455,6 @@ function loadChildrenRA(nodeName, tagId) {
 						loadChildrenRA(item_text, tagId);
 					}
 				);
-				//alert (tag.attr("onClick"));
-//            } else {
-//            var tag = $('<a id="listcontrol04" ></a>').attr("style","margin-left:2px;").html(item_text);
-//            var div = $('<div id="listcontent04" class="hierarchydetail" style="margin-top:2px; "></div>');
-//            }
-             //<div class="hierarchydetail" id="listcontent02" style="margin-top:2px;">
-            
-            //var text = <a id="listcontrol02" style="margin-left:2px;">01. : AGRICULTURE, AGRICULTURE OPERATIONS, AND RELATED SCIENCES</a>
             var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
             //tag.appendTo(listitem);
             //listitem.appendTo('ul#file31');
@@ -560,16 +502,10 @@ function getResearchAreaDescription(nodeName) {
      }
 
    function okToSave() {
-   	  //if (emptyNodes.indexOf("((#") >= 0) {
-     	  // alert(emptyNodes);
-     //	   alert ("Can't save hierarchy with empty group");
-     //	   return "false";
-     //	} else {
            alert("oktosave " );
      		document.getElementById("sqlScripts").value=sqlScripts;
      	   return "true";
      	
-     //	}
    }
 
 
