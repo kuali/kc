@@ -244,6 +244,11 @@
 					<version>1.4</version>
 				</dependency>
 				<dependency>
+					<groupId>org.apache.xmlgraphics</groupId>
+					<artifactId>fop</artifactId>
+					<version>0.95</version>
+				</dependency>
+				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>gg_forms_jaxb</artifactId>
 					<version>1.0.1</version>
