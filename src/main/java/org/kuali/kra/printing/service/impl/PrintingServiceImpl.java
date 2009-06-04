@@ -49,6 +49,7 @@ public class PrintingServiceImpl implements PrintingService {
 
 
     protected OutputStream writeToPdf(InputStream xmlFo) {
+        // Even though we are producing an OS Stream here, i'm writing a file for initial prototyping
         File fo = new File("src/main/webapp/static/printing/data/KCTestPrintableTestData.pdf");
 
         OutputStream out = null;
@@ -58,7 +59,7 @@ public class PrintingServiceImpl implements PrintingService {
             // configure foUserAgent as desired
 
             // Setup output stream.  Note: Using BufferedOutputStream
-            // for performance reasons (helpful with FileOutputStreams).
+            // for performance reasons (helpful with FileOutputStreams). Again, wont use FOS in actual impl.
             out = new FileOutputStream(fo);
             out = new BufferedOutputStream(out);
 
@@ -110,9 +111,13 @@ public class PrintingServiceImpl implements PrintingService {
         TransformerFactory factory = TransformerFactory.newInstance();
 
         //TODO initialize size for perf later
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ByteArrayOutputStream out = null;
 
         ArrayList<Source> transforms = printableArtifact.getXSLT();
+        InputStream xml = printableArtifact.renderXML();
+        Source src = new StreamSource(xml);
+
+        // Allow for multiple transforms here based on transforms list from printable artifact.
         for (Source xslt : transforms) {
             Transformer transformer = null;
             try {
@@ -122,9 +127,11 @@ public class PrintingServiceImpl implements PrintingService {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
-            InputStream xml = printableArtifact.renderXML();
-            Source src = new StreamSource(xml);
 
+            if (out != null) {
+                src = new StreamSource(new ByteArrayInputStream(out.toByteArray()));
+            }
+            out = new ByteArrayOutputStream();
             Result res = new StreamResult(out);
             try {
                 transformer.transform(src, res);
