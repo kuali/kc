@@ -31,7 +31,6 @@ This is the Award Payments, Reports & Terms - Under Construction
 
 <kra-a:awardPaymentAndInvoices />
 <kra-a:awardReports />
-<kra-a:awardReportingRequirements />
 <kra-a:awardTerms />
 <kra-a:awardSpecialApproval />
 <kra-a:awardCloseout />
