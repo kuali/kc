@@ -110,7 +110,7 @@ public class Questionnaire extends KraPersistableBusinessObjectBase {
 
     
     
-    public List<QuestionnaireUsage> getQuestionnaireUsage() {
+    public List<QuestionnaireUsage> getQuestionnaireUsages() {
         return questionnaireUsages;
     }
 
