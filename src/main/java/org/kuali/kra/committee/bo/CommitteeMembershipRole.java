@@ -24,7 +24,6 @@ import javax.persistence.Id;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.service.impl.versioningartifacts.SequenceOwnerImpl;
 
 /**
  * 
