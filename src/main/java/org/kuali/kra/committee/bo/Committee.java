@@ -24,7 +24,6 @@ import javax.persistence.Id;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.document.CommitteeDocument;
@@ -34,7 +33,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
  * Represents a single committee within an institution.
  */
 @SuppressWarnings("serial")
-public class Committee extends KraPersistableBusinessObjectBase implements SequenceOwner {
+public class Committee extends KraPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "ID")
@@ -42,9 +41,6 @@ public class Committee extends KraPersistableBusinessObjectBase implements Seque
     
     @Column(name = "COMMITTEE_ID")
     private String committeeId;
-    
-    @Column(name = "SEQUENCE_NUMBER")
-    private Integer sequenceNumber;
     
     @Column(name = "COMMITTEE_NAME")
     private String committeeName;
@@ -95,7 +91,6 @@ public class Committee extends KraPersistableBusinessObjectBase implements Seque
      * Constructs a Committee.
      */
     public Committee() {
-        setSequenceNumber(1);
         setCommitteeResearchAreas(new ArrayList<CommitteeResearchArea>());
         setCommitteeMemberships(new ArrayList<CommitteeMembership>());
         setCommitteeSchedules(new ArrayList<CommitteeSchedule>());
@@ -118,14 +113,6 @@ public class Committee extends KraPersistableBusinessObjectBase implements Seque
         for (CommitteeResearchArea ra : committeeResearchAreas) {
             ra.setCommitteeId(committeeId);
         }
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
     }
 
     public String getCommitteeName() {
@@ -262,7 +249,6 @@ public class Committee extends KraPersistableBusinessObjectBase implements Seque
         LinkedHashMap map = new LinkedHashMap();
         map.put("id", getId());
         map.put("committeeId", getCommitteeId());
-        map.put("sequenceNumber", getSequenceNumber());
         map.put("committeeName", getCommitteeName());
         map.put("homeUnitNumber", getHomeUnitNumber());
         map.put("reviewTypeCode", getReviewTypeCode());
@@ -343,26 +329,6 @@ public class Committee extends KraPersistableBusinessObjectBase implements Seque
 
     public void setResearchAreaCode(String researchAreaCode) {
         this.researchAreaCode = researchAreaCode;
-    }
-
-    public Integer getOwnerSequenceNumber() {
-        return null;
-    }
-
-    public void incrementSequenceNumber() {
-        sequenceNumber++;
-    }
-
-    public SequenceOwner getSequenceOwner() {
-        return this;
-    }
-
-    public void setSequenceOwner(SequenceOwner newOwner) {
-        // do nothing - this is root sequence association
-    }
-
-    public void resetPersistenceState() {
-        setId(null);
     }
 
 }

@@ -20,12 +20,10 @@ import java.util.LinkedHashMap;
 import javax.persistence.Column;
 import javax.persistence.Id;
 
-import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ResearchArea;
 
-public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBase implements SequenceAssociate { 
+public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBase { 
     
     @Id
     @Column(name = "COMM_MEMBER_ROLES_ID")
@@ -44,8 +42,6 @@ public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBa
     private String researchAreaCode; 
     
     private ResearchArea researchArea;
-    
-    private CommitteeMembership committeeMembership;
     
     public CommitteeMembershipExpertise() { 
         setResearchArea(new ResearchArea());
@@ -98,47 +94,6 @@ public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBa
     public void setResearchArea(ResearchArea researchArea) {
         this.researchArea = researchArea;
     }
-    
-    public CommitteeMembership getCommitteeMembership() {
-        return committeeMembership;
-    }
-
-    public void setCommitteeMembership(CommitteeMembership committeeMembership) {
-        this.committeeMembership = committeeMembership;
-        if (committeeMembership != null) {
-            this.sequenceNumber = committeeMembership.getSequenceNumber();
-        } else {
-            this.sequenceNumber = null;
-        }
-    }
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (obj.getClass() != this.getClass()) {
-            return false;
-        }
-        CommitteeMembershipExpertise committeeMembershipExpertise = (CommitteeMembershipExpertise) obj;
-        if (this.committeeMembershipIdFk != null && this.committeeMembershipIdFk.equals(committeeMembershipExpertise.committeeMembershipIdFk) &&
-                this.researchAreaCode != null && this.researchAreaCode.equals(committeeMembershipExpertise.researchAreaCode)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + (this.committeeMembershipIdFk == null ? 0 : this.committeeMembershipIdFk.hashCode());
-        result = PRIME * result + (this.researchAreaCode == null ? 0 : this.researchAreaCode.hashCode());
-        return result;
-    }
 
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
@@ -155,16 +110,24 @@ public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBa
         setMembershipId(committeeMembership.getMembershipId());
     }
     
-    public SequenceOwner getSequenceOwner() {
-        return this.committeeMembership.getSequenceOwner();
-    }
+    /**
+     * Indicates if the <code>CommitteeMemershipExpertise</code> is "equal to" this one. Equal is defined that the <code>researchAreaCode</code>
+     * are the same.
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        boolean isEquals = false;
+        
+        if (obj instanceof CommitteeMembershipExpertise) {
+            CommitteeMembershipExpertise committeeMembershipExpertise = (CommitteeMembershipExpertise) obj;
+            String researchAreaCode = committeeMembershipExpertise.researchAreaCode;
 
-    public void setSequenceOwner(SequenceOwner newOwner) {
-        setCommitteeMembership((CommitteeMembership) newOwner);
-    }
+            isEquals = ((researchAreaCode == null && this.researchArea == null) || (researchAreaCode != null && researchAreaCode.equals(this.researchAreaCode)));
+        }
 
-    public void resetPersistenceState() {
-        setCommitteeMembershipExpertiseId(null);
+        return isEquals;
     }
 
 }
