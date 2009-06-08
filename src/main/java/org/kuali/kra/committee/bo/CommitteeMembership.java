@@ -24,8 +24,6 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Id;
 
-import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
@@ -36,8 +34,7 @@ import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-@SuppressWarnings("serial")
-public class CommitteeMembership extends KraPersistableBusinessObjectBase implements SequenceAssociate {
+public class CommitteeMembership extends KraPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "COMM_MEMBERSHIP_ID")
@@ -84,7 +81,7 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
 
     @Column(name = "TRAINING_NOTES")
     private String trainingNotes;
-
+    
     private List<CommitteeMembershipRole> membershipRoles;
     private List<CommitteeMembershipExpertise> membershipExpertise;
 
@@ -92,9 +89,7 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
 
     private Person person;
     private ProtocolPersonRolodex rolodex;
-
-    private Committee committee;
-
+    
     private boolean delete;
 
     public CommitteeMembership() {
@@ -234,7 +229,7 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
 
     public void setMembershipRoles(List<CommitteeMembershipRole> membershipRoles) {
         this.membershipRoles = membershipRoles;
-        for (CommitteeMembershipRole role : membershipRoles) {
+        for (CommitteeMembershipRole role: membershipRoles) {
             role.init(this);
         }
     }
@@ -242,14 +237,14 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
     public List<CommitteeMembershipRole> getMembershipRoles() {
         return membershipRoles;
     }
-
+    
     public void setMembershipExpertise(List<CommitteeMembershipExpertise> committeeMembershipExpertise) {
         this.membershipExpertise = committeeMembershipExpertise;
-        for (CommitteeMembershipExpertise expertise : committeeMembershipExpertise) {
+        for (CommitteeMembershipExpertise expertise: committeeMembershipExpertise) {
             expertise.init(this);
         }
     }
-
+    
     public List<CommitteeMembershipExpertise> getMembershipExpertise() {
         return membershipExpertise;
     }
@@ -278,54 +273,12 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
         this.rolodex = rolodex;
     }
 
-    public Committee getCommittee() {
-        return committee;
-    }
-
-    public void setCommittee(Committee committee) {
-        this.committee = committee;
-    }
-
     public boolean isDelete() {
         return delete;
     }
 
     public void setDelete(boolean delete) {
         this.delete = delete;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (obj.getClass() != this.getClass()) {
-            return false;
-        }
-        CommitteeMembership committeeMembership = (CommitteeMembership) obj;
-        if (this.committeeIdFk != null && this.committeeIdFk.equals(committeeMembership.committeeIdFk)
-                && (this.personId != null && this.personId.equals(committeeMembership.personId) 
-                        || this.rolodexId != null && this.rolodexId.equals(committeeMembership.rolodexId))
-                && (this.termStartDate != null && this.termStartDate.equals(committeeMembership.termStartDate))) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result +(this.committeeIdFk == null ? 0 : this.committeeIdFk.hashCode());
-        result = PRIME * result +(this.personId == null ? 0 : this.personId.hashCode());
-        result = PRIME * result +(this.rolodexId == null ? 0 : this.rolodexId.hashCode());
-        result = PRIME * result +(this.termStartDate == null ? 0 : this.termStartDate.hashCode());
-        return result;
     }
 
     @Override
@@ -353,8 +306,9 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * Returns if the committee membership is active or inactive. (Current date within term dates.)
-     * 
+     * Returns if the committee membership is active or inactive.
+     * (Current date within term dates.)
+     *  
      * @return <code>active</code> if the current date is within the committee membership's term, <code>inactive</code> otherwise
      * @throws NullPointerException - if either the termStartDate or termEndDate are null.
      */
@@ -362,39 +316,27 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
         java.util.Date currentDate = new java.util.Date();
         if (currentDate.before(getTermStartDate()) || currentDate.after(getTermEndDate())) {
             return "inactive";
-        }
-        else {
+        } else {
             return "active";
         }
     }
-
+    
     /**
-     * Indicates if the committee memberships are of the same person (i.e. the personId and rolodexId are the same).
+     * Indicates if the committee memberships are of the same person (i.e. the personId and rolodexId are
+     * the same).
      * 
      * @param committeeMembership - the committee membership to compare against
      * @return <code>true</code> if both committee membership belong to the same person, <code>false</code> otherwise
      */
     public boolean isSamePerson(CommitteeMembership committeeMembership) {
         boolean isEquals = false;
-
-        if (this.personId != null && this.personId.equals(committeeMembership.personId) || this.rolodexId != null
-                && this.rolodexId.equals(committeeMembership.rolodexId)) {
+        
+        if (this.personId != null && this.personId.equals(committeeMembership.personId)
+                || this.rolodexId != null && this.rolodexId.equals(committeeMembership.rolodexId)){
             isEquals = true;
         }
-
+        
         return isEquals;
-    }
-
-    public SequenceOwner getSequenceOwner() {
-        return this.committee.getSequenceOwner();
-    }
-
-    public void setSequenceOwner(SequenceOwner newOwner) {
-        setCommittee((Committee) newOwner);
-    }
-
-    public void resetPersistenceState() {
-        setCommitteeMembershipId(null);
     }
 
 }
