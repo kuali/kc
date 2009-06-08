@@ -21,7 +21,10 @@ import java.util.LinkedHashMap;
 import javax.persistence.Column;
 import javax.persistence.Id;
 
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.service.impl.versioningartifacts.SequenceOwnerImpl;
 
 /**
  * 
@@ -29,7 +32,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase{
+public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase
+                                     implements SequenceAssociate {
 
     @Id
     @Column(name = "COMM_MEMBER_ROLES_ID")
@@ -54,6 +58,8 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase{
     private Date endDate; 
     
     private MembershipRole membershipRole;
+    
+    private CommitteeMembership committeeMembership;
 
     public CommitteeMembershipRole() {
     }
@@ -122,6 +128,50 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase{
         this.membershipRole = membershipRole;
     }
     
+    public CommitteeMembership getCommitteeMembership() {
+        return committeeMembership;
+    }
+
+    public void setCommitteeMembership(CommitteeMembership committeeMembership) {
+        this.committeeMembership = committeeMembership;
+        if (committeeMembership != null) {
+            this.sequenceNumber = committeeMembership.getSequenceNumber();
+        } else {
+            this.sequenceNumber = null;
+        }
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+        CommitteeMembershipRole committeeMembershipRole = (CommitteeMembershipRole) obj;
+        if (this.committeeMembershipIdFk != null && this.committeeMembershipIdFk.equals(committeeMembershipRole.committeeMembershipIdFk) &&
+                this.committeeMembershipRoleId != null && this.committeeMembershipRoleId.equals(committeeMembershipRole.committeeMembershipRoleId) &&
+                this.startDate != null && this.startDate.equals(committeeMembershipRole.startDate)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + (this.committeeMembershipIdFk == null ? 0 : this.committeeMembershipIdFk.hashCode());
+        result = PRIME * result + (this.committeeMembershipRoleId == null ? 0 : this.committeeMembershipRoleId.hashCode());
+        result = PRIME * result + (this.startDate == null ? 0 : this.startDate.hashCode());
+        return result;
+    }
+
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
@@ -137,6 +187,18 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase{
     
     public void init(CommitteeMembership committeeMembership) {
         setMembershipId(committeeMembership.getMembershipId());
+    }
+
+    public SequenceOwner getSequenceOwner() {
+        return this.committeeMembership.getSequenceOwner();
+    }
+
+    public void setSequenceOwner(SequenceOwner newOwner) {
+        setCommitteeMembership((CommitteeMembership)newOwner);
+    }
+
+    public void resetPersistenceState() {
+        setCommitteeMembershipRoleId(null);
     }
 
 }
