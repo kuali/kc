@@ -103,6 +103,7 @@
 		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true"/>
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous"/>
 		<field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="committeeName" column="COMMITTEE_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="homeUnitNumber" column="HOME_UNIT_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="committeeDescription" column="DESCRIPTION" jdbc-type="VARCHAR" />
