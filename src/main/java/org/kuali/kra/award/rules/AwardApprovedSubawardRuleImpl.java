@@ -190,8 +190,12 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
     * @return Boolean
     */
     public boolean validateApprovedSubawardAmount(){
-        boolean valid = awardApprovedSubaward.getAmount().isGreaterThan(new KualiDecimal(0.00));
-        if(!valid) {
+        KualiDecimal amount = awardApprovedSubaward.getAmount();
+        boolean valid = true;
+        if (amount == null)
+            valid = false;   // a "required field" error is already reported by the framework, so don't call reportError
+        else if(!amount.isGreaterThan(new KualiDecimal(0.00))) {
+            valid = false;
             reportError(NEW_AWARD_APPROVED_SUBAWARD+AMOUNT, 
                     KeyConstants.ERROR_AMOUNT_IS_ZERO);
         }
