@@ -286,6 +286,7 @@ public final class KeyConstants {
     public static final String ERROR_AMOUNT_IS_ZERO = "error.awardApprovedSubaward.Amount.equals.zero";
     public static final String ERROR_DUPLICATE_ORGANIZATION_NAME = "error.awardApprovedSubaward.duplicate.organization.name";
     public static final String ERROR_ORGANIZATION_NAME_IS_NULL = "error.awardApprovedSubaward.organization.is.null";
+    public static final String ERROR_ORGANIZATION_NAME_IS_INVALID = "error.awardApprovedSubaward.invalid.organization.name";
     //Award Cost Share Confirmation Questions
     public static final String QUESTION_DELETE_COST_SHARE = "document.question.deleteCostShare.text";
     
