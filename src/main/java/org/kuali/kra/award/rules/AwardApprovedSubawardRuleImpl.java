@@ -15,13 +15,18 @@
  */
 package org.kuali.kra.award.rules;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.rule.AwardApprovedSubawardRule;
 import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
+import org.kuali.kra.bo.Organization;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -130,14 +135,33 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
      */
     public boolean validateApprovedSubawardOrganization(){
         boolean valid = true;
-        if(awardApprovedSubaward.getOrganizationName() == null) {
+        String organizationName = awardApprovedSubaward.getOrganizationName();
+        if(organizationName == null) {
             valid = false;
             reportError(NEW_AWARD_APPROVED_SUBAWARD+ORGANIZATION_NAME, 
                     KeyConstants.ERROR_ORGANIZATION_NAME_IS_NULL);
         }else {
-            valid = validateApprovedSubawardDuplicateOrganization();
+            valid = validateOrganizationExists(organizationName) && validateApprovedSubawardDuplicateOrganization();
         }
         return valid;
+    }
+    
+    /**
+     * This method tests whether a Organization BO with a given organization name exists.
+     * @param organizationName
+     * @return
+     */
+    private boolean validateOrganizationExists(String organizationName) {
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map<String,String> fieldValues = new HashMap<String,String>();
+        fieldValues.put("organizationName", organizationName);
+        
+        boolean isValid = true;
+        if (businessObjectService.countMatching(Organization.class, fieldValues) != 1) {
+            this.reportError(NEW_AWARD_APPROVED_SUBAWARD+ORGANIZATION_NAME, KeyConstants.ERROR_ORGANIZATION_NAME_IS_INVALID, new String[] { organizationName });
+            return false;
+        }
+        return isValid;
     }
     
     /**
