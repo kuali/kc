@@ -90,10 +90,10 @@
             <inverse-foreignkey field-ref="awardId"/>
         </collection-descriptor>
         
-        <collection-descriptor name="awardCostShares" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="awardCostShares" proxy="true" element-class-ref="org.kuali.kra.award.commitments.AwardCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>
         </collection-descriptor>
-        <collection-descriptor name="awardFandaRate" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardFandaRate" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="awardFandaRate" proxy="true" element-class-ref="org.kuali.kra.award.commitments.AwardFandaRate" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="awardId" />
     	</collection-descriptor>
     	
@@ -316,7 +316,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />		 
 	</class-descriptor>
 	 
-	<class-descriptor class="org.kuali.kra.award.bo.AwardCostShare" table="AWARD_COST_SHARE">
+	<class-descriptor class="org.kuali.kra.award.commitments.AwardCostShare" table="AWARD_COST_SHARE">
 		<field-descriptor name="awardCostShareId" column="AWARD_COST_SHARE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_COST_SHARE_ID" />
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous"/>
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR"/>
@@ -392,7 +392,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.award.bo.AwardFandaRate" table="AWARD_IDC_RATE">
+	<class-descriptor class="org.kuali.kra.award.commitments.AwardFandaRate" table="AWARD_IDC_RATE">
 		<field-descriptor name="awardFandaRateId" column="AWARD_IDC_RATE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />

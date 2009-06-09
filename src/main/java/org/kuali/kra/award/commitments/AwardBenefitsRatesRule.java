@@ -13,16 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rule;
+package org.kuali.kra.award.commitments;
 
-import org.kuali.kra.award.rule.event.AwardCostShareRuleEvent;
 import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
- * This class...
+ * This interface defines methods that must be supplied in AwardBenefitsRatesRuleImpl
  */
-public interface AwardCostShareRule extends BusinessRule {
+public interface AwardBenefitsRatesRule extends BusinessRule {
 
-    public boolean processCostShareBusinessRules(AwardCostShareRuleEvent 
-            awardCostShareRuleEvent);
+    /**
+     * This method is called to process business rules in any implementing class.
+     * @param awardBenefitsRatesRuleEvent
+     * @return
+     */
+    public boolean processBenefitsRatesBusinessRules(AwardBenefitsRatesRuleEvent 
+            awardBenefitsRatesRuleEvent);
 }

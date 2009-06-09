@@ -17,9 +17,9 @@ package org.kuali.kra.award.web.struts.action;
 
 import java.io.Serializable;
 
-import org.kuali.kra.award.rule.event.AwardCostShareRuleEvent;
-import org.kuali.kra.award.rules.AwardCostShareRuleImpl;
-import org.kuali.kra.award.web.struts.form.CostShareFormHelper;
+import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
+import org.kuali.kra.award.commitments.AwardCostShareRuleImpl;
+import org.kuali.kra.award.commitments.CostShareFormHelper;
 
 /**
  * This class...

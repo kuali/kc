@@ -22,8 +22,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardCostShare;
-import org.kuali.kra.award.bo.AwardFandaRate;
+import org.kuali.kra.award.commitments.AwardCostShare;
+import org.kuali.kra.award.commitments.AwardFandaRate;
+import org.kuali.kra.award.web.struts.action.AwardCommitmentsAction;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.rice.kns.util.KualiDecimal;
 

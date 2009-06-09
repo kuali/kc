@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rules;
+package org.kuali.kra.award.commitments;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.bo.AwardFandaRate;
-import org.kuali.kra.award.rule.AddFandaRateRule;
-import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -34,8 +31,8 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
 
     /**
      * 
-     * @see org.kuali.kra.award.rule.AddFandaRateRule
-     * #processAddFandaRateBusinessRules(org.kuali.kra.award.rule.event.AddAwardFandaRateEvent)
+     * @see org.kuali.kra.award.commitments.AddFandaRateRule
+     * #processAddFandaRateBusinessRules(org.kuali.kra.award.commitments.AddAwardFandaRateEvent)
      */
     public boolean processAddFandaRateBusinessRules(AddAwardFandaRateEvent
             addAwardFandaRateEvent) {

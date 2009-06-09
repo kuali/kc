@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.axis.utils.StringUtils;
+import org.kuali.kra.award.commitments.AwardCostShare;
+import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.AwardSponsorContact;

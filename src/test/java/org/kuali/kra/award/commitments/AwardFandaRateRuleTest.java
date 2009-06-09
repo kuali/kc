@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rules;
+package org.kuali.kra.award.commitments;
 
 import java.sql.Date;
 
@@ -21,7 +21,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.bo.AwardFandaRate;
+import org.kuali.kra.award.commitments.AwardFandaRate;
+import org.kuali.kra.award.commitments.AwardFandaRateRule;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -63,7 +64,7 @@ public class AwardFandaRateRuleTest {
     }
 
     /**
-     * Test method for {@link org.kuali.kra.award.rules.AwardFandaRateRule#evaluateRuleForApplicableFandaRate(org.kuali.kra.award.bo.AwardFandaRate)}.
+     * Test method for {@link org.kuali.kra.award.commitments.AwardFandaRateRule#evaluateRuleForApplicableFandaRate(org.kuali.kra.award.commitments.AwardFandaRate)}.
      */
     @Test
     public final void testEvaluateRuleForApplicableIndirectCostRate() {
@@ -83,7 +84,7 @@ public class AwardFandaRateRuleTest {
     }
 
     /**
-     * Test method for {@link org.kuali.kra.award.rules.AwardFandaRateRule#evaluateRuleForFandaRateTypeCode(org.kuali.kra.award.bo.AwardFandaRate)}.
+     * Test method for {@link org.kuali.kra.award.commitments.AwardFandaRateRule#evaluateRuleForFandaRateTypeCode(org.kuali.kra.award.commitments.AwardFandaRate)}.
      */
     @Test
     public final void testEvaluateRuleForIdcRateTypeCode() {
@@ -91,7 +92,7 @@ public class AwardFandaRateRuleTest {
     }
 
     /**
-     * Test method for {@link org.kuali.kra.award.rules.AwardFandaRateRule#evaluateRuleForFiscalYear(org.kuali.kra.award.bo.AwardFandaRate)}.
+     * Test method for {@link org.kuali.kra.award.commitments.AwardFandaRateRule#evaluateRuleForFiscalYear(org.kuali.kra.award.commitments.AwardFandaRate)}.
      */
     @Test
     public final void testEvaluateRuleForFiscalYear() {
@@ -99,7 +100,7 @@ public class AwardFandaRateRuleTest {
     }
 
     /**
-     * Test method for {@link org.kuali.kra.award.rules.AwardFandaRateRule#evaluateRuleForStartAndEndDates(org.kuali.kra.award.bo.AwardFandaRate)}.
+     * Test method for {@link org.kuali.kra.award.commitments.AwardFandaRateRule#evaluateRuleForStartAndEndDates(org.kuali.kra.award.commitments.AwardFandaRate)}.
      */
     @Test
     public final void testEvaluateRuleForStartAndEndDates() {

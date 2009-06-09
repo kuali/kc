@@ -13,21 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rule;
+package org.kuali.kra.award.commitments;
 
-import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
-import org.kuali.rice.kns.rule.BusinessRule;
+import java.util.List;
+
 
 /**
- * This interface defines methods that must be supplied in AwardBenefitsRatesRuleImpl
+ * 
+ * This is the AwardFandaRateService interface.
  */
-public interface AwardBenefitsRatesRule extends BusinessRule {
-
+public interface AwardFandaRateService {
+    
     /**
-     * This method is called to process business rules in any implementing class.
-     * @param awardBenefitsRatesRuleEvent
+     * 
+     * This method returns the start and end dates for a given fiscal year.
+     * The Start Date for a fiscal year would be 07/01/<fiscalYear-1> and 
+     * End Date would be 06/30/<fiscalYear> 
+     * @param fiscalYear
      * @return
      */
-    public boolean processBenefitsRatesBusinessRules(AwardBenefitsRatesRuleEvent 
-            awardBenefitsRatesRuleEvent);
+    public List<String> getStartAndEndDatesBasedOnFiscalYear(String fiscalYear);
+    
 }

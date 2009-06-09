@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rules;
+package org.kuali.kra.award.commitments;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,7 +31,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.ValidRates;
-import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
+import org.kuali.kra.award.commitments.AwardBenefitsRatesRuleEvent;
+import org.kuali.kra.award.commitments.AwardBenefitsRatesRuleImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
