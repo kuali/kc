@@ -73,6 +73,13 @@ public class AwardPaymentSchedule extends AwardAssociate {
     public KualiDecimal getAmount() {
         return amount;
     }
+    
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.awardPaymentScheduleId = null;
+    }
 
     public void setAmount(KualiDecimal amount) {
         this.amount = amount;

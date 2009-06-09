@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTermBase;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReporting;
@@ -30,7 +32,7 @@ import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReporting;
  * This class represents the AwardReportTerm business object 
  * 
  */
-public class AwardReportTerm extends AwardReportTermBase { 
+public class AwardReportTerm extends AwardReportTermBase implements SequenceAssociate { 
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -97,9 +99,8 @@ public class AwardReportTerm extends AwardReportTermBase {
      * @param sequenceNumber
      */
     public void setSequenceNumber(Integer sequenceNumber) {
-        // do nothing
+        this.sequenceNumber = sequenceNumber;
     }
-
 
     /**
      *
@@ -199,5 +200,26 @@ public class AwardReportTerm extends AwardReportTermBase {
      */
     public void setAwardReportings(List<AwardReporting> awardReportings) {
         this.awardReportings = awardReportings;
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     */
+    public SequenceOwner getSequenceOwner() {
+        return getAward();
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     */
+    public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
+        setAward((Award) newlyVersionedOwner);
+    }
+
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.awardReportTermId = null;
     }   
 }

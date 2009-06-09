@@ -187,6 +187,14 @@ public class AwardDirectFandADistribution extends AwardAssociate {
         map.put("indirectCost", indirectCost);
         return map;
     }
+    
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.awardDirectFandADistributionId = null;
+    }
+    
     /**
      * @see java.lang.Object#hashCode()
      */

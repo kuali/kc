@@ -18,7 +18,7 @@ package org.kuali.kra.award.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.award.AwardAssociate;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 // TODO gmcgrego - I created this class, but only needed to use finalExpirationDate.
@@ -29,13 +29,11 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * 
  * @author Kuali Coeus development team (kc.dev@kuali.org)
  */
-public class AwardAmountInfo extends KraPersistableBusinessObjectBase { 
+public class AwardAmountInfo extends AwardAssociate { 
     
     private static final long serialVersionUID = 1L;
 
     private Long awardAmountInfoId; 
-    private String awardNumber; 
-    private Integer sequenceNumber; 
     private Integer amountSequenceNumber; 
     private Long anticipatedTotalAmount; 
     private Long antDistributableAmount; 
@@ -57,8 +55,7 @@ public class AwardAmountInfo extends KraPersistableBusinessObjectBase {
     private KualiDecimal anticipatedTotalIndirect; 
     private KualiDecimal obligatedTotalDirect; 
     private KualiDecimal obligatedTotalIndirect; 
-    
-    private Award award; 
+     
     // private AwardBudgetInfo awardBudgetInfo; 
     // private AwardAmtFnaDistribution awardAmtFnaDistribution; 
     
@@ -77,22 +74,6 @@ public class AwardAmountInfo extends KraPersistableBusinessObjectBase {
 
     public void setAwardAmountInfoId(Long awardAmountInfoId) {
         this.awardAmountInfoId = awardAmountInfoId;
-    }
-
-    public String getAwardNumber() {
-        return awardNumber;
-    }
-
-    public void setAwardNumber(String awardNumber) {
-        this.awardNumber = awardNumber;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
     }
 
     public Integer getAmountSequenceNumber() {
@@ -263,21 +244,6 @@ public class AwardAmountInfo extends KraPersistableBusinessObjectBase {
         this.obligatedTotalIndirect = obligatedTotalIndirect;
     }
 
-    public Award getAward() {
-        return award;
-    }
-
-    public void setAward(Award award) {
-        this.award = award;
-        if(award == null) {
-            sequenceNumber = null;
-            awardNumber = null;
-        } else {
-            sequenceNumber = award.getSequenceNumber();
-            awardNumber = award.getAwardNumber();
-        }
-    }
-
 //    public AwardBudgetInfo getAwardBudgetInfo() {
 //        return awardBudgetInfo;
 //    }
@@ -324,5 +290,11 @@ public class AwardAmountInfo extends KraPersistableBusinessObjectBase {
         hashMap.put("obligatedTotalIndirect", this.getObligatedTotalIndirect());
         return hashMap;
     }
-    
+
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.awardAmountInfoId = null;
+    }
 }

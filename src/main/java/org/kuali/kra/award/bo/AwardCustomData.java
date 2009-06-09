@@ -71,6 +71,14 @@ public class AwardCustomData extends AwardAssociate {
     public String getValue() {
         return value;
     }
+    
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.awardCustomDataId = null;
+    }
+    
     /**
      * Sets the value attribute value.
      * @param value The value to set.
