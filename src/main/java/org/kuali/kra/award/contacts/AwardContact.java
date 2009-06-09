@@ -256,6 +256,13 @@ public abstract class AwardContact extends AwardAssociate {
     }
        
     /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.awardContactId = null;
+    }
+    
+    /**
      * Sets the awardContactId attribute value.
      * @param awardContactId The awardContactId to set.
      */

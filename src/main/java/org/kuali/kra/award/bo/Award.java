@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.axis.utils.StringUtils;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -34,7 +35,6 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
@@ -53,7 +53,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class Award extends AwardBase implements KeywordsManager<AwardScienceKeyword>,
                                                                         SpecialReviewHandler<AwardSpecialReview>, 
-                                                                        Permissionable{
+                                                                        Permissionable, SequenceOwner {
     public static final String AWARD_NAMESPACE_CODE = "KC-AWARD";
     
     private static final String ONE = "1";
@@ -218,8 +218,7 @@ public class Award extends AwardBase implements KeywordsManager<AwardScienceKeyw
 
 
     /**
-     *
-     * @return
+     * @see org.kuali.kra.Sequenceable#getSequenceNumber()
      */
     public Integer getSequenceNumber() {
         return sequenceNumber;
@@ -267,11 +266,8 @@ public class Award extends AwardBase implements KeywordsManager<AwardScienceKeyw
         this.statusCode = statusCode;
     }
 
-
-
-
     /**
-     *
+     * 
      * @return
      */
     public String getAccountNumber() {
@@ -1471,12 +1467,29 @@ public class Award extends AwardBase implements KeywordsManager<AwardScienceKeyw
     }
 
     /**
-     * Add an
+     * Add an ApprovedEquipment item
      * @param newAwardApprovedEquipment
      */
     public void add(AwardApprovedEquipment approvedEquipmentItem) {
         approvedEquipmentItems.add(0, approvedEquipmentItem);
         approvedEquipmentItem.setAward(this);
+    }
+    
+    /**
+     * Add an AwardFandaRate
+     * @param fandaRate
+     */
+    public void add(AwardFandaRate fandaRate) {
+        awardFandaRate.add(fandaRate);
+        fandaRate.setAward(this);
+    }
+    
+    /**
+     * @param awardSpecialReview
+     */
+    public void add(AwardSpecialReview awardSpecialReview) {
+       specialReviews.add(awardSpecialReview);
+       awardSpecialReview.setAward(this);
     }
     
     public void add(AwardSponsorContact awardSponsorContact) {
@@ -1985,5 +1998,40 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
      */
     public void setAwardCustomDataList(List<AwardCustomData> awardCustomDataList) {
         this.awardCustomDataList = awardCustomDataList;
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceOwner#getOwnerSequenceNumber()
+     */
+    public Integer getOwnerSequenceNumber() {
+        return null;
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceOwner#incrementSequenceNumber()
+     */
+    public void incrementSequenceNumber() {
+       this.sequenceNumber++; 
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     */
+    public SequenceOwner getSequenceOwner() {
+        return this;
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     */
+    public void setSequenceOwner(SequenceOwner newOwner) {
+       // no-op
+    }
+
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.awardId = null;
     }
 }

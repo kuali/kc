@@ -17,15 +17,13 @@ package org.kuali.kra.award.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.award.AwardAssociate;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class is the Business Object representation of an Award Approved Subaward
  */
-public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase implements ValuableItem {
-    
-    
+public class AwardApprovedSubaward extends AwardAssociate implements ValuableItem {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -33,11 +31,6 @@ public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase impl
     private Long awardApprovedSubawardId;
     private String organizationName;
     private KualiDecimal amount;
-    private Award award;
-    private String awardNumber;
-    private Integer sequenceNumber;
-    
-
 
     public AwardApprovedSubaward() {
         setAmount(new KualiDecimal(0.00));
@@ -100,73 +93,6 @@ public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase impl
     public void setAmount(KualiDecimal amount) {
         this.amount = amount;
     }
-
-
-
-    /**
-     * This method...
-     * @return
-     */
-    public Award getAward() {
-        return award;
-    }
-
-
-
-    /**
-     * This method...
-     * @param award
-     */
-    public void setAward(Award award) {
-        this.award = award;
-        if(award == null) {
-            sequenceNumber = null;
-            awardNumber = null;
-        } else {
-            sequenceNumber = award.getSequenceNumber();
-            awardNumber = award.getAwardNumber();
-        }
-    }
-
-
-
-    /**
-     * This method...
-     * @return
-     */
-    public String getAwardNumber() {
-        return awardNumber;
-    }
-
-
-
-    /**
-     * This method...
-     * @param awardNumber
-     */
-    public void setAwardNumber(String awardNumber) {
-        //do nothing
-    }
-
-
-
-    /**
-     * This method...
-     * @return
-     */
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-
-
-    /**
-     * This method...
-     * @param sequenceNumber
-     */
-    public void setSequenceNumber(Integer sequenceNumber) {
-        //do nothing
-    }
     
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
@@ -191,12 +117,10 @@ public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase impl
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((amount == null) ? 0 : amount.hashCode());
-        result = PRIME * result + ((award == null) ? 0 : award.hashCode());
+        result = PRIME * super.hashCode();
+        result = PRIME * result + ((amount == null) ? 0 : amount.hashCode());        
         result = PRIME * result + ((awardApprovedSubawardId == null) ? 0 : awardApprovedSubawardId.hashCode());
-        result = PRIME * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
         result = PRIME * result + ((organizationName == null) ? 0 : organizationName.hashCode());
-        result = PRIME * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
         return result;
     }
 
@@ -215,19 +139,15 @@ public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase impl
         if (getClass() != obj.getClass()){
             return false;
         }
+        if(!super.equals(obj)) {
+            return false;
+        }
         final AwardApprovedSubaward OTHER = (AwardApprovedSubaward) obj;
         if (amount == null) {
             if (OTHER.amount != null){
                 return false;
             }
         }else if (!amount.equals(OTHER.amount)){
-            return false;
-        }
-        if (award == null) {
-            if (OTHER.award != null){
-                return false;
-            }
-        }else if (!award.equals(OTHER.award)){
             return false;
         }
         if (awardApprovedSubawardId == null) {
@@ -237,13 +157,6 @@ public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase impl
         }else if (!awardApprovedSubawardId.equals(OTHER.awardApprovedSubawardId)){
             return false;
         }
-        if (awardNumber == null) {
-            if (OTHER.awardNumber != null){
-                return false;
-            }
-        }else if (!awardNumber.equals(OTHER.awardNumber)){
-            return false;
-        }
         if (organizationName == null) {
             if (OTHER.organizationName != null){
                 return false;
@@ -251,15 +164,14 @@ public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase impl
         }else if (!organizationName.equals(OTHER.organizationName)){
             return false;
         }
-        if (sequenceNumber == null) {
-            if (OTHER.sequenceNumber != null){
-                return false;
-            }
-        }else if (!sequenceNumber.equals(OTHER.sequenceNumber)){
-            return false;
-        }
         return true;
     }
     //CSON
 
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.awardApprovedSubawardId = null;   
+    }
 }

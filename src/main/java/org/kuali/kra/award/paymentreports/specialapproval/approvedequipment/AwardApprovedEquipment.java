@@ -17,6 +17,8 @@ package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.bo.ValuableItem;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -217,7 +219,14 @@ public class AwardApprovedEquipment extends AwardAssociate implements ValuableIt
         }
         return true;
     }
-
+    
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.approvedEquipmentId = null;
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -231,6 +240,4 @@ public class AwardApprovedEquipment extends AwardAssociate implements ValuableIt
         map.put("vendor", vendor);
         return map;
     }
-        
-    
 }
