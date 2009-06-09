@@ -26,6 +26,7 @@
 		<property name="attributes" >
 			<list>
 			    <ref bean="ProtocolRequestBean-committeeId" />
+			    <ref bean="ProtocolRequestBean-fileName" />
 				<ref bean="ProtocolRequestBean-reason" />
 			</list>
 		</property>
@@ -50,6 +51,26 @@
 		<property name="description" value="Committee" />
 	</bean>
 	
+	<bean id="ProtocolRequestBean-fileName" parent="ProtocolRequestBean-fileName-parentBean" />
+    <bean id="ProtocolRequestBean-fileName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="fileName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="File Name" />
+        <property name="shortLabel" value="File Name" />
+        <property name="maxLength" value="150" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                  p:allowWhitespace="true" />
+        </property>
+        <property name="required" value="false" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="52" />
+        </property>
+        <property name="summary" value="File Name" />
+        <property name="description" value="This is the name of the file path and name that the user is uploading; can be typed in or the user can use the &quot;browse&quot; feature to find the file on their computer or attached mass storage device" />
+    </bean>
+    
     <bean id="ProtocolRequestBean-reason" parent="ProtocolRequestBean-reason-parentBean" />
 	<bean id="ProtocolRequestBean-reason-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="reason" />
