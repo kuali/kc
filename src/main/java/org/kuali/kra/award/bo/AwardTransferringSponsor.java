@@ -46,6 +46,14 @@ public class AwardTransferringSponsor extends AwardAssociate {
     public Integer getAwardTransferringSponsorId() {
         return awardTransferringSponsorId;
     }
+    
+
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.awardTransferringSponsorId = null;
+    }
 
     public void setAwardTransferringSponsorId(Integer awardTransferringSponsorId) {
         this.awardTransferringSponsorId = awardTransferringSponsorId;

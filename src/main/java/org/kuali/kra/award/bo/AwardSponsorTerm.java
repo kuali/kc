@@ -17,7 +17,7 @@ package org.kuali.kra.award.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -25,7 +25,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 /**
  * This class is business object representation of AwardSponsorTerm.
  */
-public class AwardSponsorTerm extends KraPersistableBusinessObjectBase {
+public class AwardSponsorTerm extends AwardAssociate {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -36,9 +36,6 @@ public class AwardSponsorTerm extends KraPersistableBusinessObjectBase {
    
     private Long awardSponsorTermId;
     private Long sponsorTermId;
-    private Award award;
-    private String awardNumber;
-    private Integer sequenceNumber;
     private SponsorTerm sponsorTerm;
     
     /**
@@ -91,64 +88,6 @@ public class AwardSponsorTerm extends KraPersistableBusinessObjectBase {
     public void setSponsorTermId(Long sponsorTermId) {
         this.sponsorTermId = sponsorTermId;
     }
-
-    /**
-     * This method returns the awardNumber
-     * @return
-     */
-    public String getAwardNumber() {
-        return awardNumber;
-     }
-    
-    /**
-     * This method sets the awardNumber
-     * @param awardNumber
-     */
-    public void setAwardNumber(String awardNumber) {
-        //do nothing
-     }
-    
-
-    /**
-     * This method returns the award
-     * @return
-     */
-    public Award getAward() {
-        return award;
-    }
-
-
-    /**
-     * This method sets the award, awardNumber and sequenceNumber
-     * @param award
-     */
-    public void setAward(Award award) {
-        this.award = award;
-        if(award == null) {
-            sequenceNumber = null;
-            awardNumber = null;
-        } else {
-            sequenceNumber = award.getSequenceNumber();
-            awardNumber = award.getAwardNumber();
-        }
-    }
-
-    /**
-     * This method returns the sequence number
-     * @return
-     */
-    public int getSequenceNumber() {
-        return sequenceNumber;
-     }
-
-
-    /**
-     * This method does nothing
-     * @param sequenceNumber
-     */
-    public void setSequenceNumber(Integer sequenceNumber) {
-        // do nothing
-    }
     
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -161,7 +100,6 @@ public class AwardSponsorTerm extends KraPersistableBusinessObjectBase {
         hashMap.put("awardNumber", getAwardNumber());
         hashMap.put("sequenceNumber", getSequenceNumber());
         return hashMap;
-
     }
     
     /**
@@ -223,11 +161,9 @@ public class AwardSponsorTerm extends KraPersistableBusinessObjectBase {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((award == null) ? 0 : award.hashCode());
-        result = prime * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
+        result = prime * super.hashCode();
         result = prime * result + ((awardSponsorTermId == null) ? 0 : awardSponsorTermId.hashCode());
         result = prime * result + ((businessObjectService == null) ? 0 : businessObjectService.hashCode());
-        result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
         result = prime * result + ((sponsorTerm == null) ? 0 : sponsorTerm.hashCode());
         result = prime * result + ((sponsorTermId == null) ? 0 : sponsorTermId.hashCode());
         return result;
@@ -244,19 +180,10 @@ public class AwardSponsorTerm extends KraPersistableBusinessObjectBase {
             return false;
         if (getClass() != obj.getClass())
             return false;
+        if(!super.equals(obj)) {
+            return false;
+        }
         final AwardSponsorTerm other = (AwardSponsorTerm) obj;
-        if (award == null) {
-            if (other.award != null)
-                return false;
-        }
-        else if (!award.equals(other.award))
-            return false;
-        if (awardNumber == null) {
-            if (other.awardNumber != null)
-                return false;
-        }
-        else if (!awardNumber.equals(other.awardNumber))
-            return false;
         if (awardSponsorTermId == null) {
             if (other.awardSponsorTermId != null)
                 return false;
@@ -268,12 +195,6 @@ public class AwardSponsorTerm extends KraPersistableBusinessObjectBase {
                 return false;
         }
         else if (!businessObjectService.equals(other.businessObjectService))
-            return false;
-        if (sequenceNumber == null) {
-            if (other.sequenceNumber != null)
-                return false;
-        }
-        else if (!sequenceNumber.equals(other.sequenceNumber))
             return false;
         if (sponsorTerm == null) {
             if (other.sponsorTerm != null)
@@ -288,6 +209,13 @@ public class AwardSponsorTerm extends KraPersistableBusinessObjectBase {
         else if (!sponsorTermId.equals(other.sponsorTermId))
             return false;
         return true;
+    }
+
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.awardSponsorTermId = null;
     }
 
 }

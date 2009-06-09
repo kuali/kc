@@ -19,23 +19,20 @@ package org.kuali.kra.award.commitments;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.award.AwardAssociate;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * 
  * This class represents the AwardFandaRate Business Object.
  */
-public class AwardFandaRate extends KraPersistableBusinessObjectBase { 
+public class AwardFandaRate extends AwardAssociate { 
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1L;
     private Long awardFandaRateId;
-    private String awardNumber;
-    private Integer sequenceNumber;
     private KualiDecimal applicableFandaRate; 
     private Integer fandaRateTypeCode; 
     private String fiscalYear; 
@@ -45,7 +42,6 @@ public class AwardFandaRate extends KraPersistableBusinessObjectBase {
     private String destinationAccount; 
     private Date startDate; 
     private Date endDate;
-    private Award award; 
     
     /**
      * 
@@ -82,6 +78,13 @@ public class AwardFandaRate extends KraPersistableBusinessObjectBase {
         return applicableFandaRate;
     }
 
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.awardFandaRateId = null;
+    }
+    
     /**
      * 
      * This method...
@@ -256,61 +259,18 @@ public class AwardFandaRate extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * 
-     * This method...
-     * @return
-     */
-    public Award getAward() {
-        return award;
-    }
-
-    /**
-     * 
-     * This method...
-     * @param award
-     */
-    public void setAward(Award award) {
-        this.award = award;
-        if(award == null) {
-            sequenceNumber = null;
-            awardNumber = null;
-        } else {
-            sequenceNumber = award.getSequenceNumber();
-            awardNumber = award.getAwardNumber();
-        }
-    }
-
-    public String getAwardNumber() {
-        return awardNumber;
-    }
-
-    public void setAwardNumber(String awardNumber) {
-        //do nothing
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        //do nothing
-    }
-
-    /**
      * @see java.lang.Object#hashCode()
      */
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + ((applicableFandaRate == null) ? 0 : applicableFandaRate.hashCode());
-        result = prime * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
         result = prime * result + ((destinationAccount == null) ? 0 : destinationAccount.hashCode());
         result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
         result = prime * result + ((fandaRateTypeCode == null) ? 0 : fandaRateTypeCode.hashCode());
         result = prime * result + ((fiscalYear == null) ? 0 : fiscalYear.hashCode());
         result = prime * result + ((onCampusFlag == null) ? 0 : onCampusFlag.hashCode());
-        result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
         result = prime * result + ((sourceAccount == null) ? 0 : sourceAccount.hashCode());
         result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
         result = prime * result + ((underrecoveryOfIndirectCost == null) ? 0 : underrecoveryOfIndirectCost.hashCode());
@@ -342,18 +302,14 @@ public class AwardFandaRate extends KraPersistableBusinessObjectBase {
      * @return
      */
     public boolean equals(AwardFandaRate awardFandaRate) {
+        if(!super.equals(awardFandaRate)) {
+            return false;
+        }
         if (applicableFandaRate == null) {
             if (awardFandaRate.applicableFandaRate != null){
                 return false;
             }                
         }else if (!applicableFandaRate.equals(awardFandaRate.applicableFandaRate)){
-            return false;
-        }            
-        if (awardNumber == null) {
-            if (awardFandaRate.awardNumber != null){
-                return false;
-            }                
-        }else if (!awardNumber.equals(awardFandaRate.awardNumber)){
             return false;
         }            
         if (destinationAccount == null) {
@@ -391,13 +347,6 @@ public class AwardFandaRate extends KraPersistableBusinessObjectBase {
         }else if (!onCampusFlag.equals(awardFandaRate.onCampusFlag)){
             return false;
         }            
-        if (sequenceNumber == null) {
-            if (awardFandaRate.sequenceNumber != null){
-                return false;
-            }   
-        }else if (!sequenceNumber.equals(awardFandaRate.sequenceNumber)){
-            return false;
-        }            
         if (sourceAccount == null) {
             if (awardFandaRate.sourceAccount != null){
                 return false;
@@ -420,6 +369,5 @@ public class AwardFandaRate extends KraPersistableBusinessObjectBase {
             return false;
         }   
         return true;
-    }
-    
+    }    
 }

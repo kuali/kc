@@ -151,6 +151,12 @@
     <property name="dbPlatform" ref="dbPlatform" />
   </bean>
 
+	<!--
+		If we want to inject the local bean into the Rice context (and override the identically-named 
+		Rice bean if it exists) we need to add it to overridableServices.  If it's purely a KC service, 
+		or we want to use a different implementation of a Rice service in the KC context but not override 
+		the Rice impl bean in the Rice context, we don't add it.   
+	 -->
 	<bean id="kraRootResourceLoader" class="org.kuali.kra.rice.KraResourceLoader">
 		<!-- Define service names that are overridable -->
 		<property name="overridableServices">
@@ -1364,5 +1370,6 @@
       </property>
     </bean>
 	
+	<bean id="versioningService" class="org.kuali.kra.service.impl.VersioningServiceImpl" />
 	
 </beans>

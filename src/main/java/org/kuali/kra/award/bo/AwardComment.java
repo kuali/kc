@@ -16,11 +16,14 @@
 package org.kuali.kra.award.bo;
 
 import java.util.LinkedHashMap;
+
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SequenceOwner;
 /**
  * This class is business object representation of an Award Comment
  */
 
-public class AwardComment extends AwardCommentBase {
+public class AwardComment extends AwardCommentBase implements SequenceAssociate {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -37,6 +40,27 @@ public class AwardComment extends AwardCommentBase {
      */
     public AwardComment() {
         super();
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     */
+    public SequenceOwner getSequenceOwner() {
+        return getAward();
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     */
+    public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
+        setAward((Award) newlyVersionedOwner);        
+    }
+
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        awardCommentId = null;
     }
     
     /**
@@ -96,20 +120,12 @@ public class AwardComment extends AwardCommentBase {
         }
     }
 
-
-
-
     /**
-     * This method...
      * @return
      */
-    public int getSequenceNumber() {
+    public Integer getSequenceNumber() {
         return sequenceNumber;//temp
      }
-
-
-
-
 
     /**
      * This method...
@@ -186,5 +202,4 @@ public class AwardComment extends AwardCommentBase {
             return false;
         return true;
     }
-
 }

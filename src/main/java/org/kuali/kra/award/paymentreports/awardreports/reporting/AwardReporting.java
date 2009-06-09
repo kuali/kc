@@ -108,6 +108,13 @@ public class AwardReporting extends AwardAssociate {
     public Date getActivityDate() {
         return activityDate;
     }
+    
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.awardReportingId = null;
+    }
 
     public void setActivityDate(Date activityDate) {
         this.activityDate = activityDate;

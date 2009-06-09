@@ -135,6 +135,13 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     }
 
     /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.approvedForeignTravelId = null;
+    }
+    
+    /**
      * Sets the approvedForeignTravelId attribute value.
      * @param approvedEquipmentId The approvedForeignTravelId to set.
      */
