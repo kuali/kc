@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rule;
+package org.kuali.kra.award.commitments;
 
-import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 import org.kuali.rice.kns.rule.BusinessRule;
 
 /**

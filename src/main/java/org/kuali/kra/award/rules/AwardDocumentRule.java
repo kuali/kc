@@ -21,10 +21,17 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
-import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardDirectFandADistribution;
-import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.bo.AwardSpecialReview;
+import org.kuali.kra.award.commitments.AddAwardFandaRateEvent;
+import org.kuali.kra.award.commitments.AddFandaRateRule;
+import org.kuali.kra.award.commitments.AwardBenefitsRatesRuleEvent;
+import org.kuali.kra.award.commitments.AwardBenefitsRatesRuleImpl;
+import org.kuali.kra.award.commitments.AwardCostShare;
+import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
+import org.kuali.kra.award.commitments.AwardCostShareRuleImpl;
+import org.kuali.kra.award.commitments.AwardFandaRate;
+import org.kuali.kra.award.commitments.AwardFandaRateRule;
 import org.kuali.kra.award.contacts.AwardCreditSplitBean;
 import org.kuali.kra.award.contacts.AwardPersonCreditSplitRule;
 import org.kuali.kra.award.contacts.AwardPersonCreditSplitRuleEvent;
@@ -62,12 +69,8 @@ import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.Equi
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRule;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleEvent;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleImpl;
-import org.kuali.kra.award.rule.AddFandaRateRule;
 import org.kuali.kra.award.rule.AwardDirectFandADistributionRule;
-import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
-import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
-import org.kuali.kra.award.rule.event.AwardCostShareRuleEvent;
 import org.kuali.kra.award.rule.event.AwardDirectFandADistributionRuleEvent;
 import org.kuali.kra.award.rule.event.AwardSaveCustomDataRuleEvent;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
@@ -454,9 +457,9 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     
     /**
      * 
-     * @see org.kuali.kra.award.rule.AddFandaRateRule#
+     * @see org.kuali.kra.award.commitments.AddFandaRateRule#
      * processAddFandaRateBusinessRules(
-     * org.kuali.kra.award.rule.event.AddAwardFandaRateEvent)
+     * org.kuali.kra.award.commitments.AddAwardFandaRateEvent)
      */
     public boolean processAddFandaRateBusinessRules(AddAwardFandaRateEvent 
             addAwardFandaRateEvent) {        

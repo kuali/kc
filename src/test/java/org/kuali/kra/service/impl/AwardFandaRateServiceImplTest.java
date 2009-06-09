@@ -27,6 +27,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.kra.award.commitments.AwardFandaRateServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 

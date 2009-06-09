@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.award.bo;
+package org.kuali.kra.award.commitments;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 

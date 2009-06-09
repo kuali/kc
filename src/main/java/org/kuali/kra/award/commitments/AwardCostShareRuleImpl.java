@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rules;
+package org.kuali.kra.award.commitments;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kra.award.bo.AwardCostShare;
-import org.kuali.kra.award.rule.AwardCostShareRule;
-import org.kuali.kra.award.rule.event.AwardCostShareRuleEvent;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -39,8 +36,8 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
     AwardCostShare awardCostShare;
     
     /**
-     * @see org.kuali.kra.award.rule.AwardCostShareRule#processCostShareBusinessRules
-     * (org.kuali.kra.award.rule.event.AwardCostShareRuleEvent)
+     * @see org.kuali.kra.award.commitments.AwardCostShareRule#processCostShareBusinessRules
+     * (org.kuali.kra.award.commitments.AwardCostShareRuleEvent)
      */
     public boolean processCostShareBusinessRules(AwardCostShareRuleEvent awardCostShareRuleEvent) {
         this.awardCostShare = awardCostShareRuleEvent.getCostShareForValidation();
