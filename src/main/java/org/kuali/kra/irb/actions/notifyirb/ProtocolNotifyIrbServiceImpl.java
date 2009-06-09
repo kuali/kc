@@ -15,10 +15,14 @@
  */
 package org.kuali.kra.irb.actions.notifyirb;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
+import org.kuali.kra.irb.actions.ProtocolSubmissionDoc;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
@@ -28,6 +32,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * Protocol Request Service Implementation.
  */
 public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
+    
+    private static final String NEXT_SUBMISSION_DOCUMENT_ID_KEY = "submissionDocId";
     
     private BusinessObjectService businessObjectService;
 
@@ -48,6 +54,7 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
          * to the protocol action entry.
          */
         ProtocolSubmission submission = createProtocolSubmission(protocol, notifyIrbBean);
+        addAttachment(submission, notifyIrbBean);
         
         ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.NOTIFY_IRB);
         protocolAction.setComments(notifyIrbBean.getComment());
@@ -69,5 +76,38 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
         submissionBuilder.setCommittee(notifyIrbBean.getCommitteeId());
         submissionBuilder.setComments(notifyIrbBean.getComment());
         return submissionBuilder.create();
+    }
+    
+    private void addAttachment(ProtocolSubmission submission, ProtocolNotifyIrbBean notifyIrbBean) {
+        try {
+            if (notifyIrbBean.getFile() != null) {
+                byte[] data = notifyIrbBean.getFile().getFileData();
+                if (data.length > 0) {
+                    ProtocolSubmissionDoc submissionDoc = createProtocolSubmissionDoc(submission, notifyIrbBean.getFile().getFileName(), data);
+                    businessObjectService.save(submissionDoc);
+                }
+            }
+        }
+        catch (FileNotFoundException ex) {
+            throw new RuntimeException(ex);
+        }
+        catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private ProtocolSubmissionDoc createProtocolSubmissionDoc(ProtocolSubmission submission, String fileName, byte[] document) {
+        ProtocolSubmissionDoc submissionDoc = new ProtocolSubmissionDoc();
+        submissionDoc.setProtocolNumber(submission.getProtocolNumber());
+        submissionDoc.setSequenceNumber(submission.getSequenceNumber());
+        submissionDoc.setSubmissionNumber(submission.getSubmissionNumber());
+        submissionDoc.setProtocolId(submission.getProtocolId());
+        submissionDoc.setSubmissionIdFk(submission.getSubmissionId());
+        submissionDoc.setProtocol(submission.getProtocol());
+        submissionDoc.setProtocolSubmission(submission);
+        submissionDoc.setDocumentId(submission.getProtocol().getNextValue(NEXT_SUBMISSION_DOCUMENT_ID_KEY));
+        submissionDoc.setFileName(fileName);
+        submissionDoc.setDocument(document);
+        return submissionDoc;
     }
 }
