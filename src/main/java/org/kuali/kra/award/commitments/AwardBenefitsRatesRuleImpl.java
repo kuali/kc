@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rules;
+package org.kuali.kra.award.commitments;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,8 +21,6 @@ import java.util.Map;
 
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.ValidRates;
-import org.kuali.kra.award.rule.AwardBenefitsRatesRule;
-import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -40,8 +38,8 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
     BusinessObjectService businessObjectService;
     
     /**
-     * @see org.kuali.kra.award.rule.AwardBenefitsRatesRule#processBenefitsRatesBusinessRules
-     * (org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent)
+     * @see org.kuali.kra.award.commitments.AwardBenefitsRatesRule#processBenefitsRatesBusinessRules
+     * (org.kuali.kra.award.commitments.AwardBenefitsRatesRuleEvent)
      */
     public boolean processBenefitsRatesBusinessRules(AwardBenefitsRatesRuleEvent event) {
         return validateBenefitsRatesInValidRatesTable(event.getAward());

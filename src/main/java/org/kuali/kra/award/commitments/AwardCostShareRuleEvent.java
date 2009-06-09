@@ -13,28 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rule.event;
+package org.kuali.kra.award.commitments;
 
 import org.apache.log4j.Logger;
-import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.rule.AwardBenefitsRatesRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This class...
  */
-public class AwardBenefitsRatesRuleEvent extends KraDocumentEventBase {
-
-    private static final Logger LOG = Logger.getLogger(AwardBenefitsRatesRuleEvent.class);
-    private Award award;
+public class AwardCostShareRuleEvent extends KraDocumentEventBase {
+    private static final Logger LOG = Logger.getLogger(AwardCostShareRuleEvent.class);
     
-    public AwardBenefitsRatesRuleEvent(String errorPathPrefix, 
-                                        Award award,
-                                        AwardDocument awardDocument) {
-        super("Benefits Rates", errorPathPrefix, awardDocument);
-        this.award = award;
+    private AwardCostShare awardCostShare;
+
+    public AwardCostShareRuleEvent(String errorPathPrefix, 
+                                           AwardDocument awardDocument,
+                                           AwardCostShare awardCostShare) {
+        super("Cost Share", errorPathPrefix, awardDocument);
+        this.awardCostShare = awardCostShare;
     }
     
     /**
@@ -45,13 +43,21 @@ public class AwardBenefitsRatesRuleEvent extends KraDocumentEventBase {
         return (AwardDocument) getDocument();
     }
     
+    /**
+     * This method returns the equipment item for validation
+     * @return
+     */
+    public AwardCostShare getCostShareForValidation() {
+        return awardCostShare;
+    }
+    
     
     /**
      * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
      */
     @Override
     protected void logEvent() {
-        LOG.info("Logging AwardBenefitsRatesRuleEvent");
+        LOG.info("Logging AwardCostShareRuleEvent");
     }
 
     /**
@@ -59,22 +65,14 @@ public class AwardBenefitsRatesRuleEvent extends KraDocumentEventBase {
      */
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
-        return AwardBenefitsRatesRule.class;
+        return AwardCostShareRule.class;
     }
 
     /**
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AwardBenefitsRatesRule)rule).processBenefitsRatesBusinessRules(this);
-    }
-
-    /**
-     * Gets the award attribute. 
-     * @return Returns the award.
-     */
-    public Award getAward() {
-        return award;
+        return ((AwardCostShareRule)rule).processCostShareBusinessRules(this);
     }
 
 }

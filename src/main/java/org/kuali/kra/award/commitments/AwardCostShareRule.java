@@ -13,25 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service;
+package org.kuali.kra.award.commitments;
 
-import java.util.List;
-
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
- * 
- * This is the AwardFandaRateService interface.
+ * This class...
  */
-public interface AwardFandaRateService {
-    
-    /**
-     * 
-     * This method returns the start and end dates for a given fiscal year.
-     * The Start Date for a fiscal year would be 07/01/<fiscalYear-1> and 
-     * End Date would be 06/30/<fiscalYear> 
-     * @param fiscalYear
-     * @return
-     */
-    public List<String> getStartAndEndDatesBasedOnFiscalYear(String fiscalYear);
-    
+public interface AwardCostShareRule extends BusinessRule {
+
+    public boolean processCostShareBusinessRules(AwardCostShareRuleEvent 
+            awardCostShareRuleEvent);
 }

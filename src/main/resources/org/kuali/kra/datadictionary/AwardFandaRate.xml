@@ -23,7 +23,7 @@
 
 	<bean id="AwardFandaRate" parent="AwardFandaRate-parentBean" />
 	<bean id="AwardFandaRate-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardFandaRate" />
+		<property name="businessObjectClass" value="org.kuali.kra.award.commitments.AwardFandaRate" />
 		<property name="inquiryDefinition" >
 			<ref bean="AwardFandaRate-inquiryDefinition" />
 		</property>

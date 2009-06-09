@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.kra.award.commitments;
 
 import java.sql.Date;
 import java.text.DateFormat;
@@ -25,7 +25,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.AwardFandaRateService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
@@ -47,7 +46,7 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
     
     /**
      * 
-     * @see org.kuali.kra.service.AwardFandaRateService#getStartAndEndDatesBasedOnFiscalYear(java.lang.String)
+     * @see org.kuali.kra.award.commitments.AwardFandaRateService#getStartAndEndDatesBasedOnFiscalYear(java.lang.String)
      */
     public List<String> getStartAndEndDatesBasedOnFiscalYear(String fiscalYear){
         List<String> listDates = new ArrayList<String>();

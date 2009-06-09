@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rules;
+package org.kuali.kra.award.commitments;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.bo.AwardCostShare;
+import org.kuali.kra.award.commitments.AwardCostShare;
+import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
+import org.kuali.kra.award.commitments.AwardCostShareRuleImpl;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.rule.event.AwardCostShareRuleEvent;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -70,8 +71,8 @@ public class AwardCostShareRuleTest {
     }
     
     /**
-     * Test method for {@link org.kuali.kra.award.rules.AwardCostShareRule#processCommonValidations
-     * (org.kuali.kra.award.bo.AwardCostShare)}.
+     * Test method for {@link org.kuali.kra.award.commitments.AwardCostShareRule#processCommonValidations
+     * (org.kuali.kra.award.commitments.AwardCostShare)}.
      */
     @Test
     public final void testProcessCommonValidations() {
@@ -79,9 +80,8 @@ public class AwardCostShareRuleTest {
     }
     
     /**
-     * Test method for {@link org.kuali.kra.award.rules
-     * .AwardCostShareRule#validateCostShareSourceAndDestinationForEquality
-     * (org.kuali.kra.award.bo.AwardCostShare)}.
+     * Test method for {@link org.kuali.kra.award.commitments.AwardCostShareRule#validateCostShareSourceAndDestinationForEquality
+     * (org.kuali.kra.award.commitments.AwardCostShare)}.
      */
     @Test
     public final void testValidateCostShareSourceAndDestinationForEquality() {
@@ -94,8 +94,8 @@ public class AwardCostShareRuleTest {
     }
     
     /**
-     * Test method for {@link org.kuali.kra.award.rules.AwardCostShareRule#validateCostShareFiscalYearRange
-     * (org.kuali.kra.award.bo.AwardCostShare)}.
+     * Test method for {@link org.kuali.kra.award.commitments.AwardCostShareRule#validateCostShareFiscalYearRange
+     * (org.kuali.kra.award.commitments.AwardCostShare)}.
      */
     @Test
     public final void testValidateCostShareFiscalYearRange() {
