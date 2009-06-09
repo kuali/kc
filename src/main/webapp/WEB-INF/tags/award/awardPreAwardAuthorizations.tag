@@ -19,7 +19,7 @@
 <c:set var="awardPreAwardAuthorizationCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 <c:set var="action" value="awardTimeAndMoney" />
 
-<kul:tab tabTitle="Preaward Authorizations" defaultOpen="false" tabErrorKey="document.awardList[0].*">
+<kul:tab tabTitle="Preaward Authorizations" defaultOpen="false" tabErrorKey="document.awardList[0].preAwardAuthorizedAmount,document.awardList[0].preAwardEffectiveDate">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Sponsor Authorization</span>
