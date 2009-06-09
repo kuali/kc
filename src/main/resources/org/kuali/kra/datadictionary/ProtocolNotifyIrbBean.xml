@@ -28,6 +28,7 @@
 			    <ref bean="ProtocolNotifyIrbBean-submissionQualifierTypeCode" />
 			    <ref bean="ProtocolNotifyIrbBean-committeeId" />
 				<ref bean="ProtocolNotifyIrbBean-comment" />
+				<ref bean="ProtocolNotifyIrbBean-fileName" />
 			</list>
 		</property>
 	</bean>
@@ -86,5 +87,25 @@
 		<property name="summary" value="Comment" />
 		<property name="description" value="Comment" />
 	</bean>	
+	
+	<bean id="ProtocolNotifyIrbBean-fileName" parent="ProtocolNotifyIrbBean-fileName-parentBean" />
+    <bean id="ProtocolNotifyIrbBean-fileName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="fileName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="File Name" />
+        <property name="shortLabel" value="File Name" />
+        <property name="maxLength" value="150" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                  p:allowWhitespace="true" />
+        </property>
+        <property name="required" value="false" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="52" />
+        </property>
+        <property name="summary" value="File Name" />
+        <property name="description" value="This is the name of the file path and name that the user is uploading; can be typed in or the user can use the &quot;browse&quot; feature to find the file on their computer or attached mass storage device" />
+  </bean>
 
 </beans>
