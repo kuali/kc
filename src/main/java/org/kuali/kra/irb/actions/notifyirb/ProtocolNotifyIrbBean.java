@@ -17,6 +17,8 @@ package org.kuali.kra.irb.actions.notifyirb;
 
 import java.io.Serializable;
 
+import org.apache.struts.upload.FormFile;
+
 /**
  * 
  */
@@ -26,6 +28,8 @@ public class ProtocolNotifyIrbBean implements Serializable{
     private String submissionQualifierTypeCode;
     private String committeeId;
     private String comment = "";
+    private String fileName;
+    private transient FormFile file;
     
     public ProtocolNotifyIrbBean() {
         
@@ -53,5 +57,21 @@ public class ProtocolNotifyIrbBean implements Serializable{
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+    
+    public FormFile getFile() {
+        return file;
+    }
+
+    public void setFile(FormFile file) {
+        this.file = file;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }
