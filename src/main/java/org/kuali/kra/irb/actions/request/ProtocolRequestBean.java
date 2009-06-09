@@ -17,6 +17,8 @@ package org.kuali.kra.irb.actions.request;
 
 import java.io.Serializable;
 
+import org.apache.struts.upload.FormFile;
+
 /**
  * The ProtocolRequestBean is used for some of the common, yet simple,
  * protocol request actions.  Those actions are:
@@ -33,12 +35,14 @@ import java.io.Serializable;
  * see the ActionHelper class for how this class is used.
  */
 @SuppressWarnings("serial")
-public class ProtocolRequestBean implements Serializable{
+public class ProtocolRequestBean implements Serializable {
     
     private String protocolActionTypeCode;
     private String submissionTypeCode;
     private String committeeId;
     private String reason = "";
+    private String fileName;
+    private transient FormFile file;
     
     public ProtocolRequestBean(String protocolActionTypeCode, String submissionTypeCode) {
         this.protocolActionTypeCode = protocolActionTypeCode;
@@ -67,5 +71,21 @@ public class ProtocolRequestBean implements Serializable{
 
     public String getSubmissionTypeCode() {
         return submissionTypeCode;
+    }
+    
+    public FormFile getFile() {
+        return file;
+    }
+
+    public void setFile(FormFile file) {
+        this.file = file;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }
