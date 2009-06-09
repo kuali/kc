@@ -15,13 +15,19 @@
  */
 package org.kuali.kra.irb.actions;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.struts.upload.FormFile;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -31,8 +37,10 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class ProtocolSubmissionBuilder {
 
     private static final String NEXT_SUBMISSION_NUMBER_KEY = "submissionNumber";
+    private static final String NEXT_SUBMISSION_DOCUMENT_ID_KEY = "submissionDocId";
     
     private ProtocolSubmission protocolSubmission;
+    private List<FormFile> attachments = new ArrayList<FormFile>();
     
     public ProtocolSubmissionBuilder(Protocol protocol, String submissionTypeCode) {
         protocolSubmission = new ProtocolSubmission();
@@ -49,6 +57,7 @@ public class ProtocolSubmissionBuilder {
     public ProtocolSubmission create() {
         getBusinessObjectService().save(protocolSubmission);
         protocolSubmission.getProtocol().getProtocolSubmissions().add(protocolSubmission);
+        saveAttachments();
         return protocolSubmission;
     }
     
@@ -133,6 +142,49 @@ public class ProtocolSubmissionBuilder {
         chkLstItem.setSubmissionNumber(protocolSubmission.getSubmissionNumber());
         chkLstItem.setExpeditedReviewCheckListCode(expeditedReviewCheckListCode);
         return chkLstItem;
+    }
+    
+    public void addAttachment(FormFile file) {
+        if (file != null) {
+            attachments.add(file);
+        }
+    }
+    
+    private void saveAttachments() {
+        for (FormFile file : attachments) {
+            saveAttachment(file);
+        }
+    }
+    
+    private void saveAttachment(FormFile file) {
+        try {
+            byte[] data = file.getFileData();
+            if (data.length > 0) {
+                ProtocolSubmissionDoc submissionDoc = createProtocolSubmissionDoc(protocolSubmission, file.getFileName(), data);
+                getBusinessObjectService().save(submissionDoc);
+            }
+        }
+        catch (FileNotFoundException ex) {
+            throw new RuntimeException(ex);
+        }
+        catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    
+    private ProtocolSubmissionDoc createProtocolSubmissionDoc(ProtocolSubmission submission, String fileName, byte[] document) {
+        ProtocolSubmissionDoc submissionDoc = new ProtocolSubmissionDoc();
+        submissionDoc.setProtocolNumber(submission.getProtocolNumber());
+        submissionDoc.setSequenceNumber(submission.getSequenceNumber());
+        submissionDoc.setSubmissionNumber(submission.getSubmissionNumber());
+        submissionDoc.setProtocolId(submission.getProtocolId());
+        submissionDoc.setSubmissionIdFk(submission.getSubmissionId());
+        submissionDoc.setProtocol(submission.getProtocol());
+        submissionDoc.setProtocolSubmission(submission);
+        submissionDoc.setDocumentId(submission.getProtocol().getNextValue(NEXT_SUBMISSION_DOCUMENT_ID_KEY));
+        submissionDoc.setFileName(fileName);
+        submissionDoc.setDocument(document);
+        return submissionDoc;
     }
     
     private CommitteeService getCommitteeService() {
