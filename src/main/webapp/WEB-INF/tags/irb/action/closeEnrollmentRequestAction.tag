@@ -38,6 +38,14 @@
                         <kul:htmlControlAttribute property="actionHelper.protocolCloseEnrollmentRequestBean.committeeId" attributeEntry="${attributes.committeeId}" />
                         </nobr>
                     </td>
+                    <th>
+	          		    <div align="right">
+	          		        <kul:htmlAttributeLabel attributeEntry="${attributes.fileName}"/>
+	          		    </div>
+	          		</th>
+	                <td align="left" valign="middle">
+	                	<html:file property="actionHelper.protocolCloseEnrollmentRequestBean.file" />
+					</td>
                 </tr>
                 <tr>
                     <th width="15%"> 
@@ -47,7 +55,7 @@
                             </nobr>
                         </div>
                     </th>
-                    <td>
+                    <td colspan="3">
                         <nobr>
                         <kul:htmlControlAttribute property="actionHelper.protocolCloseEnrollmentRequestBean.reason" attributeEntry="${attributes.reason}" />
                         <kra:expandedTextArea textAreaFieldName="${textCloseReason}" action="${action}" textAreaLabel="${attributes.reason.label}" />
@@ -55,7 +63,7 @@
                     </td>
                 </tr>
                 <tr>
-					<td align="center" colspan="2">
+					<td align="center" colspan="4">
 						<div align="center">
 							<html:image property="methodToCall.closeEnrollmentRequestProtocol.anchor${tabKey}"
 							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
