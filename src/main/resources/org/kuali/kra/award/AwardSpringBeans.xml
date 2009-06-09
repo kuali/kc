@@ -62,7 +62,7 @@
         </property>
     </bean>
     
-	<bean id="awardFandaRateService" class="org.kuali.kra.service.impl.AwardFandaRateServiceImpl">
+	<bean id="awardFandaRateService" class="org.kuali.kra.award.commitments.AwardFandaRateServiceImpl">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>		

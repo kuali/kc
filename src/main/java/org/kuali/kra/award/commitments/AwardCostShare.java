@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.bo;
+package org.kuali.kra.award.commitments;
 
 import java.sql.Date;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.bo.ValuableItem;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
