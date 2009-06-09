@@ -28,16 +28,22 @@
                 <tr>
                     <th width="15%"> 
                         <div align="right">
+                            <nobr>
                             <kul:htmlAttributeLabel attributeEntry="${attributes.submissionQualifierTypeCode}" />
+                            </nobr>
                         </div>
                     </th>
                     <td>
                         <kul:htmlControlAttribute property="actionHelper.protocolNotifyIrbBean.submissionQualifierTypeCode" attributeEntry="${attributes.submissionQualifierTypeCode}" />
                     </td>
-                    <th>
-                    </th>
-                    <td>
-                    </td>
+	          		<th>
+	          		    <div align="right">
+	          		        <kul:htmlAttributeLabel attributeEntry="${attributes.fileName}"/>
+	          		    </div>
+	          		</th>
+	                <td align="left" valign="middle">
+	                	<html:file property="actionHelper.protocolNotifyIrbBean.file" />
+					</td>
                 </tr>
                 <tr>
                     <th width="15%"> 
