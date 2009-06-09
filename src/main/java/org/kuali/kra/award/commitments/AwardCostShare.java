@@ -19,10 +19,9 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.bo.ValuableItem;
 import org.kuali.kra.bo.CostShareType;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -30,23 +29,19 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * This class is business object representation of an Award Cost Share
  */
-public class AwardCostShare extends KraPersistableBusinessObjectBase implements ValuableItem {
+public class AwardCostShare extends AwardAssociate implements ValuableItem {
     private static final long serialVersionUID = -839007857238262207L;
     
     private Long awardCostShareId;
     private String fiscalYear;
     private KualiDecimal costSharePercentage;
-    @SuppressWarnings("unused")
     private Integer costShareTypeCode;
     private Date verificationDate;
     private KualiDecimal costShareMet;
     private String source;
     private String destination;
     private KualiDecimal commitmentAmount;
-    private Award award;
     private CostShareType costShareType;
-    private String awardNumber;
-    private Integer sequenceNumber;
     
     /**
      * 
@@ -55,48 +50,6 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
     public AwardCostShare() {
         super();                
     }
-
-    /**
-     * This method...
-     * @return
-     */
-    public String getAwardNumber() {
-        return awardNumber;
-     }
-    
-    /**
-     * This method...
-     * @param awardNumber
-     */
-    public void setAwardNumber(String awardNumber) {
-        //do nothing
-     }
-    
-
-    /**
-     * This method...
-     * @return
-     */
-    public Award getAward() {
-        return award;
-    }
-
-
-    /**
-     * This method...
-     * @param award
-     */
-    public void setAward(Award award) {
-        this.award = award;
-        if(award == null) {
-            sequenceNumber = null;
-            awardNumber = null;
-        } else {
-            sequenceNumber = award.getSequenceNumber();
-            awardNumber = award.getAwardNumber();
-        }
-    }
-
 
     /**
      * This method...
@@ -144,25 +97,6 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
         this.costShareType = costShareType;
         this.costShareTypeCode = costShareType.getCostShareTypeCode();
     }
-
-
-    /**
-     * This method...
-     * @return
-     */
-    public int getSequenceNumber() {
-        return sequenceNumber;
-     }
-
-
-    /**
-     * This method...
-     * @param sequenceNumber
-     */
-    public void setSequenceNumber(Integer sequenceNumber) {
-        // do nothing
-    }
-
 
     /**
      * This method...
@@ -261,8 +195,6 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
     protected LinkedHashMap<String,Object> toStringMapper() {        
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
         hashMap.put("awardCostShareId", getAwardCostShareId());
-        hashMap.put("awardNumber", getAwardNumber());
-        hashMap.put("sequenceNumber", getSequenceNumber());
         hashMap.put("fiscalYear", getFiscalYear());
         hashMap.put("costSharePercentage", getCostSharePercentage());
         hashMap.put("source", getSource());
@@ -314,17 +246,14 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result + ((award == null) ? 0 : award.hashCode());
+        int result = super.hashCode();
         result = prime * result + ((awardCostShareId == null) ? 0 : awardCostShareId.hashCode());
-        result = prime * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
         result = prime * result + ((commitmentAmount == null) ? 0 : commitmentAmount.hashCode());
         result = prime * result + ((costSharePercentage == null) ? 0 : costSharePercentage.hashCode());
         result = prime * result + ((costShareType == null) ? 0 : costShareType.hashCode());
         result = prime * result + ((costShareTypeCode == null) ? 0 : costShareTypeCode.hashCode());
         result = prime * result + ((destination == null) ? 0 : destination.hashCode());
         result = prime * result + ((fiscalYear == null) ? 0 : fiscalYear.hashCode());
-        result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
         result = prime * result + ((source == null) ? 0 : source.hashCode());
         return result;
     }
@@ -340,24 +269,15 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final AwardCostShare other = (AwardCostShare) obj;
-        if (award == null) {
-            if (other.award != null)
-                return false;
-        }
-        else if (!award.equals(other.award))
+        if(!super.equals(obj)) {
             return false;
+        }
+        final AwardCostShare other = (AwardCostShare) obj;
         if (awardCostShareId == null) {
             if (other.awardCostShareId != null)
                 return false;
         }
         else if (!awardCostShareId.equals(other.awardCostShareId))
-            return false;
-        if (awardNumber == null) {
-            if (other.awardNumber != null)
-                return false;
-        }
-        else if (!awardNumber.equals(other.awardNumber))
             return false;
         if (commitmentAmount == null) {
             if (other.commitmentAmount != null)
@@ -394,12 +314,6 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
                 return false;
         }
         else if (!fiscalYear.equals(other.fiscalYear))
-            return false;
-        if (sequenceNumber == null) {
-            if (other.sequenceNumber != null)
-                return false;
-        }
-        else if (!sequenceNumber.equals(other.sequenceNumber))
             return false;
         if (source == null) {
             if (other.source != null)
@@ -441,5 +355,12 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
      */
     public void setCostShareMet(KualiDecimal costShareMet) {
         this.costShareMet = costShareMet;
+    }
+
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.awardCostShareId = null;
     }
 }

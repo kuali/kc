@@ -25,9 +25,9 @@ public interface SequenceAssociate extends Sequenceable {
     /**
      * This sets the sequence owner on the associate. 
      * Should no-op if this associate has no sequence owner 
-     * @param owner
+     * @param newlyVersionedOwner
      */
-    void setSequenceOwner(SequenceOwner newOwner);
+    void setSequenceOwner(SequenceOwner newlyVersionedOwner);
     
     /**
      * @return the SequenceOwner is returned; "this" should be returned if this associate is the sequence owner

@@ -18,12 +18,14 @@ package org.kuali.kra.award.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.AbstractSpecialReview;
 /**
  * 
  * This class represents AwardSpecialReview BO
  */
-public class AwardSpecialReview extends AbstractSpecialReview<AwardSpecialReviewExemption> { 
+public class AwardSpecialReview extends AbstractSpecialReview<AwardSpecialReviewExemption> implements SequenceAssociate { 
 	//TODO: awardnumber, sequencenumber to be added
 	/**
      * Comment for <code>serialVersionUID</code>
@@ -121,6 +123,34 @@ public class AwardSpecialReview extends AbstractSpecialReview<AwardSpecialReview
     @Override
     public Long getSpecialReviewId() {
         return awardSpecialReviewId;
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     */
+    public SequenceOwner getSequenceOwner() {
+        return getAward();
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     */
+    public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
+        setAward((Award) newlyVersionedOwner);
+    }
+
+    /**
+     * @see org.kuali.kra.Sequenceable#getSequenceNumber()
+     */
+    public Integer getSequenceNumber() {
+        return award != null ? award.getSequenceNumber() : null;
+    }
+    
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.awardSpecialReviewId = null;
     }
 	
 }
