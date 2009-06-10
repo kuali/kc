@@ -39,7 +39,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
      * @see org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService#withdraw(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean)
      */
     public void withdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) {
-        ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.REQUEST_TO_WITHDRAW);
+        ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.WITHDRAWN);
         protocolAction.setComments(withdrawBean.getReason());
         protocol.getProtocolActions().add(protocolAction);
         businessObjectService.save(protocol.getProtocolDocument());
