@@ -15,12 +15,14 @@
  */
 package org.kuali.kra.irb;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
@@ -301,5 +303,61 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
+    
+    /**
+     * select count(b.protocol_number)
+                into li_SubmissionCount
+                from osp$protocol b
+                    where b.protocol_number like as_protocol_number || '%'  and
+                    b.sequence_number = (select max(a.sequence_number) from osp$protocol a
+                                    where a.protocol_number = b.protocol_number) and
+                    b.protocol_status_code in (100, 101, 102, 103, 104, 105, 106);
+           
+        Replaced above query with following query by removing sub-query and added java code to to get sub-query behaviour.
+    
+        select (b.protocol_number) from protocol b where b.protocol_number like '001%' and 
+        b.protocol_status_code in (100, 101, 102, 103, 104, 105, 106);
 
+     * @see org.kuali.kra.irb.ProtocolDao#getProtocolSubmissionCount(java.lang.String, java.lang.String)
+     */
+    @SuppressWarnings("unchecked")
+    public Integer getProtocolSubmissionCount(String protocolNumber) {
+        Criteria crit = new Criteria();
+        
+        crit.addLike("protocolNumber", protocolNumber + "%");
+        
+        List<String> list = new ArrayList<String>();
+        list.add("100");
+        list.add("101");
+        list.add("102");
+        list.add("103");
+        list.add("104");
+        list.add("105");
+        list.add("106");
+        crit.addIn("protocolStatusCode", list);
+        
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(Protocol.class, crit);
+        query.setAttributes(new String[] { "sequenceNumber" });
+        
+        System.out.println("Query " + query.toString());
+        
+        Iterator<Object[]> it = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        
+        TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
+       
+        while(it.hasNext()) {
+            Object[] row = it.next();
+            Integer key = ((BigDecimal) row[0]).intValue();
+            Integer val = map.get(key);
+            if(null != val) {
+                map.put(key, ++val);
+            } else {
+                map.put(key, 1);
+            }           
+        }
+        
+        Integer protocolSubmissionCount = map.get(map.lastKey());
+
+        return protocolSubmissionCount;
+    }
 }

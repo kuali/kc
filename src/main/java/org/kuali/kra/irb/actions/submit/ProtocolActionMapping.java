@@ -15,18 +15,24 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.kuali.kra.drools.brms.FactBean;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ProtocolActionMapping implements FactBean {
     
     private BusinessObjectService businessObjectService;
+    
+    private ProtocolDao dao;
     
     String submissionStatusCode;
     
@@ -61,6 +67,10 @@ public class ProtocolActionMapping implements FactBean {
         this.businessObjectService = businessObjectService;
     }
     
+    public void setDao(ProtocolDao dao) {
+        this.dao = dao;
+    }
+
     public void setProtocol(Protocol protocol) {
         this.protocol = protocol;
     }
@@ -82,7 +92,7 @@ public class ProtocolActionMapping implements FactBean {
         positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
  
         List<String> ors = new ArrayList<String>();
-        ors.add("101");
+        ors.add("100");
         ors.add("101"); 
         ors.add("102");
         positiveFieldValues.put("submissionStatusCode", ors);
@@ -91,9 +101,52 @@ public class ProtocolActionMapping implements FactBean {
         negativeFieldValues.put("submissionTypeCode", submissionTypeCode);
         
         int count = businessObjectService.countMatching(ProtocolSubmission.class, positiveFieldValues, negativeFieldValues);
-        boolean flag = false;
+        boolean flag = true;
         if(count > 0)
-            flag = true;
+            flag = false;
+        return flag;
+    }
+    
+    public boolean getSubmissionCountCond2() {
+        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+        positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
+        positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
+ 
+        List<String> ors = new ArrayList<String>();
+        ors.add("100");
+        ors.add("101"); 
+        ors.add("102");
+        positiveFieldValues.put("submissionStatusCode", ors);
+        
+        int count = businessObjectService.countMatching(ProtocolSubmission.class, positiveFieldValues);
+        boolean flag = true;
+        if(count > 0)
+            flag = false;
+        return flag;
+    }
+    
+    public boolean getSubmissionCountCond3() {
+        int count = dao.getProtocolSubmissionCount(protocol.getProtocolNumber());
+        boolean flag = true;
+        if(count > 0)
+            flag = false;
+        return flag;
+    }
+    
+    /**
+     * This method finds number of reviewers tied to protocol submission. Implementation in lieu of following query 
+     *           SELECT count(OSP$PROTOCOL_REVIEWERS.PERSON_ID)
+     *           INTO li_PersonCnt
+     *           FROM OSP$PROTOCOL_REVIEWERS
+     *           WHERE OSP$PROTOCOL_REVIEWERS.PROTOCOL_NUMBER = AS_PROTOCOL_NUMBER
+     *           AND OSP$PROTOCOL_REVIEWERS.SUBMISSION_NUMBER = AS_SUBMISSION_NUMBER; 
+     * @return
+     */
+    public boolean getProtocolReviewerCountCond1() {       
+        int count = protocol.getProtocolSubmission().getProtocolReviewers().size();
+        boolean flag = true;
+        if(count == 0)
+            flag = false;
         return flag;
     }
     

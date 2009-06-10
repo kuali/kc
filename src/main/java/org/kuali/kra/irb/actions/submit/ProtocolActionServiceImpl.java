@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.kuali.kra.drools.util.DroolsRuleHandler;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -28,6 +29,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class ProtocolActionServiceImpl implements ProtocolActionService {
 
     private BusinessObjectService businessObjectService;
+    
+    private ProtocolDao protocolDao;
     
     String[] actn = { "104", "105", "106", "108", "114", "115", "116", "200", "201", "202", "203", "204", "205", "206", "207",
             "208", "209", "210", "211", "212", "300", "301", "302", "303", "304", "305", "306" };
@@ -40,6 +43,10 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public void setProtocolDao(ProtocolDao protocolDao) {
+        this.protocolDao = protocolDao;
     }
 
     /**
@@ -71,7 +78,8 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         ProtocolActionMapping protocolAction = new ProtocolActionMapping(actionTypeCode, submissionStatusCode, submissionTypeCode,
             protocolReviewTypeCode, protocolStatusCode, scheduleId, submissionNumber);
         protocolAction.setBusinessObjectService(businessObjectService);
-        protocolAction.setProtocol(protocol);
+        protocolAction.setDao(protocolDao);
+        protocolAction.setProtocol(protocol);        
         DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl");
         updateHandle.executeRules(protocolAction);
         return protocolAction.isAllowed();
