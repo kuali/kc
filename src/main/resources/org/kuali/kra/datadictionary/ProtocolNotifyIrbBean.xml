@@ -44,12 +44,9 @@
 		<property name="maxLength" value="3" />
 		<property name="required" value="false" />
 		<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType"
-            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            	p:includeKeyInLabel="false"
-            	p:keyAttribute="submissionQualifierTypeCode"
-            	p:labelAttribute="description" />
+			<bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.irb.actions.notifyirb.SubmissionQualifierTypeValuesFinder"
+                  p:includeKeyInLabel="false" />
 		</property>
 		<property name="summary" value="Submission Type" />
 		<property name="description" value="Submission Type" />
