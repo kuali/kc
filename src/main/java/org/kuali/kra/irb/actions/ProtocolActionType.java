@@ -27,7 +27,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     
     public static final String SUBMIT_TO_IRB = "101";
-    public static final String REQUEST_TO_WITHDRAW = "107";
+    public static final String WITHDRAWN = "303";
     public static final String REQUEST_TO_CLOSE = "105";
     public static final String REQUEST_FOR_SUSPENSION = "106";
     public static final String REQUEST_TO_CLOSE_ENROLLMENT = "108";
