@@ -194,4 +194,5 @@
 	<bean id="protocolActionService" class="org.kuali.kra.irb.actions.submit.ProtocolActionServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+	
 </beans>
