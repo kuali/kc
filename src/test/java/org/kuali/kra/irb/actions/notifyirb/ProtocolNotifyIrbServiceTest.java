@@ -53,13 +53,7 @@ import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 
 /**
- * Test the ProtocolRequestService implementation.
- * 
- * For each of the below tests, the submitRequest() method is
- * invoked.  This method has no return value.  Rather, this method is
- * simply creating database entries for the submission.  After calling
- * the submitRequest(), a check is done against the database to
- * verify that the changes occurred as expected.
+ * Test the ProtocolNotifyIrbService implementation.
  */
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
