@@ -27,7 +27,7 @@
         <field-descriptor name="displayedAnswers" column="DISPLAYED_ANSWERS" jdbc-type="INTEGER" />
         <field-descriptor name="validAnswer" column="VALID_ANSWER" jdbc-type="VARCHAR" />
         <field-descriptor name="lookupName" column="LOOKUP_NAME" jdbc-type="VARCHAR" />
-        <field-descriptor name="questionTypeId" column="ANSWER_DATA_TYPE" jdbc-type="INTEGER" />
+        <field-descriptor name="questionTypeId" column="QUESTION_TYPE_ID" jdbc-type="INTEGER" />
         <field-descriptor name="answerMaxLength" column="ANSWER_MAX_LENGTH" jdbc-type="INTEGER" />
         <field-descriptor name="lookupGui" column="LOOKUP_GUI" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
