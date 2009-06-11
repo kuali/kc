@@ -19,12 +19,25 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * This class...
+ * This is an Annotation to represent any award syncable list properties
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AwardSyncableList {
     public static final String DEFAULT_METHOD = "defaultMethod";
+    /**
+     * 
+     * Set this property to the Class within a list
+     * For eg: for List<AwardComment> awardComments, it should be set to AwardComment.class
+     *
+     */
     Class    syncClass();
+    /**
+     * Set this property to the variable name representing its parent.
+     * 
+     */
     String   parentPropertyName() default "award";
+    /**
+     *If the sync functionality to be overwritten in the service, set the name of the method here and implement the same in service. 
+     */
     String   syncMethodName() default DEFAULT_METHOD;
 }

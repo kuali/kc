@@ -19,7 +19,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * This class...
+ * This Annotation represents award syncable property
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AwardSyncable {}
