@@ -15,12 +15,14 @@
  */
 package org.kuali.kra.award.bo;
 
+import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public class AwardTemplateReportTerm extends AwardReportTermBase { 
+public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase{ 
 	
 	/**
      * Comment for <code>serialVersionUID</code>
@@ -29,6 +31,21 @@ public class AwardTemplateReportTerm extends AwardReportTermBase {
     private Integer templateReportTermId; 
 	private Integer templateCode; 
 	private List<AwardTemplateReportTermRecipient> awardTemplateReportTermRecipients;
+	
+    private String reportClassCode; 
+    private String reportCode; 
+    private String frequencyCode; 
+    private String frequencyBaseCode; 
+    private String ospDistributionCode;
+    private Date dueDate;
+
+    private Distribution distribution; 
+    private Frequency frequency; 
+    private FrequencyBase frequencyBase; 
+    private Report report; 
+    private ReportClass reportClass;
+    private List awardReportTermRecipients;
+
 	
 	public AwardTemplateReportTerm() { 
 	    awardTemplateReportTermRecipients = new TypedArrayList(AwardTemplateReportTermRecipient.class);
@@ -80,6 +97,7 @@ public class AwardTemplateReportTerm extends AwardReportTermBase {
      */
     public void setAwardTemplateReportTermRecipients(List<AwardTemplateReportTermRecipient> awardTemplateReportTermRecipients) {
         this.awardTemplateReportTermRecipients = awardTemplateReportTermRecipients;
+        this.awardReportTermRecipients = awardTemplateReportTermRecipients;
     }
 
     /**
@@ -126,6 +144,190 @@ public class AwardTemplateReportTerm extends AwardReportTermBase {
         else if (!templateReportTermId.equals(other.templateReportTermId))
             return false;
         return true;
+    }
+
+    /**
+     * Gets the reportClassCode attribute. 
+     * @return Returns the reportClassCode.
+     */
+    public String getReportClassCode() {
+        return reportClassCode;
+    }
+
+    /**
+     * Sets the reportClassCode attribute value.
+     * @param reportClassCode The reportClassCode to set.
+     */
+    public void setReportClassCode(String reportClassCode) {
+        this.reportClassCode = reportClassCode;
+    }
+
+    /**
+     * Gets the reportCode attribute. 
+     * @return Returns the reportCode.
+     */
+    public String getReportCode() {
+        return reportCode;
+    }
+
+    /**
+     * Sets the reportCode attribute value.
+     * @param reportCode The reportCode to set.
+     */
+    public void setReportCode(String reportCode) {
+        this.reportCode = reportCode;
+    }
+
+    /**
+     * Gets the frequencyCode attribute. 
+     * @return Returns the frequencyCode.
+     */
+    public String getFrequencyCode() {
+        return frequencyCode;
+    }
+
+    /**
+     * Sets the frequencyCode attribute value.
+     * @param frequencyCode The frequencyCode to set.
+     */
+    public void setFrequencyCode(String frequencyCode) {
+        this.frequencyCode = frequencyCode;
+    }
+
+    /**
+     * Gets the frequencyBaseCode attribute. 
+     * @return Returns the frequencyBaseCode.
+     */
+    public String getFrequencyBaseCode() {
+        return frequencyBaseCode;
+    }
+
+    /**
+     * Sets the frequencyBaseCode attribute value.
+     * @param frequencyBaseCode The frequencyBaseCode to set.
+     */
+    public void setFrequencyBaseCode(String frequencyBaseCode) {
+        this.frequencyBaseCode = frequencyBaseCode;
+    }
+
+    /**
+     * Gets the ospDistributionCode attribute. 
+     * @return Returns the ospDistributionCode.
+     */
+    public String getOspDistributionCode() {
+        return ospDistributionCode;
+    }
+
+    /**
+     * Sets the ospDistributionCode attribute value.
+     * @param ospDistributionCode The ospDistributionCode to set.
+     */
+    public void setOspDistributionCode(String ospDistributionCode) {
+        this.ospDistributionCode = ospDistributionCode;
+    }
+
+    /**
+     * Gets the dueDate attribute. 
+     * @return Returns the dueDate.
+     */
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    /**
+     * Sets the dueDate attribute value.
+     * @param dueDate The dueDate to set.
+     */
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    /**
+     * Gets the distribution attribute. 
+     * @return Returns the distribution.
+     */
+    public Distribution getDistribution() {
+        return distribution;
+    }
+
+    /**
+     * Sets the distribution attribute value.
+     * @param distribution The distribution to set.
+     */
+    public void setDistribution(Distribution distribution) {
+        this.distribution = distribution;
+    }
+
+    /**
+     * Gets the frequency attribute. 
+     * @return Returns the frequency.
+     */
+    public Frequency getFrequency() {
+        return frequency;
+    }
+
+    /**
+     * Sets the frequency attribute value.
+     * @param frequency The frequency to set.
+     */
+    public void setFrequency(Frequency frequency) {
+        this.frequency = frequency;
+    }
+
+    /**
+     * Gets the frequencyBase attribute. 
+     * @return Returns the frequencyBase.
+     */
+    public FrequencyBase getFrequencyBase() {
+        return frequencyBase;
+    }
+
+    /**
+     * Sets the frequencyBase attribute value.
+     * @param frequencyBase The frequencyBase to set.
+     */
+    public void setFrequencyBase(FrequencyBase frequencyBase) {
+        this.frequencyBase = frequencyBase;
+    }
+
+    /**
+     * Gets the report attribute. 
+     * @return Returns the report.
+     */
+    public Report getReport() {
+        return report;
+    }
+
+    /**
+     * Sets the report attribute value.
+     * @param report The report to set.
+     */
+    public void setReport(Report report) {
+        this.report = report;
+    }
+
+    /**
+     * Gets the reportClass attribute. 
+     * @return Returns the reportClass.
+     */
+    public ReportClass getReportClass() {
+        return reportClass;
+    }
+
+    /**
+     * Sets the reportClass attribute value.
+     * @param reportClass The reportClass to set.
+     */
+    public void setReportClass(ReportClass reportClass) {
+        this.reportClass = reportClass;
+    }
+
+    /**
+     * Gets the awardReportTermRecipients attribute. 
+     * @return Returns the awardReportTermRecipients.
+     */
+    public List getAwardReportTermRecipients() {
+        return getAwardTemplateReportTermRecipients();
     }
 	
 }

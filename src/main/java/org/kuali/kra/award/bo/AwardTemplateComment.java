@@ -17,7 +17,9 @@ package org.kuali.kra.award.bo;
 
 import java.util.LinkedHashMap;
 
-public class AwardTemplateComment extends AwardCommentBase { 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+public class AwardTemplateComment extends KraPersistableBusinessObjectBase { 
 	
 	/**
      * Comment for <code>serialVersionUID</code>
@@ -26,6 +28,10 @@ public class AwardTemplateComment extends AwardCommentBase {
     private Integer templateCommentsId; 
 	private AwardTemplate template; 
 	
+    private String commentTypeCode; 
+    private Boolean checklistPrintFlag; 
+    private String comments; 
+
 	public AwardTemplateComment() { 
 
 	} 
@@ -49,9 +55,57 @@ public class AwardTemplateComment extends AwardCommentBase {
 	@SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
+		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("templateCommentsId", getTemplateCommentsId());
 		return hashMap;
 	}
+
+    /**
+     * Gets the commentTypeCode attribute. 
+     * @return Returns the commentTypeCode.
+     */
+    public String getCommentTypeCode() {
+        return commentTypeCode;
+    }
+
+    /**
+     * Sets the commentTypeCode attribute value.
+     * @param commentTypeCode The commentTypeCode to set.
+     */
+    public void setCommentTypeCode(String commentTypeCode) {
+        this.commentTypeCode = commentTypeCode;
+    }
+
+    /**
+     * Gets the checklistPrintFlag attribute. 
+     * @return Returns the checklistPrintFlag.
+     */
+    public Boolean getChecklistPrintFlag() {
+        return checklistPrintFlag;
+    }
+
+    /**
+     * Sets the checklistPrintFlag attribute value.
+     * @param checklistPrintFlag The checklistPrintFlag to set.
+     */
+    public void setChecklistPrintFlag(Boolean checklistPrintFlag) {
+        this.checklistPrintFlag = checklistPrintFlag;
+    }
+
+    /**
+     * Gets the comments attribute. 
+     * @return Returns the comments.
+     */
+    public String getComments() {
+        return comments;
+    }
+
+    /**
+     * Sets the comments attribute value.
+     * @param comments The comments to set.
+     */
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 	
 }

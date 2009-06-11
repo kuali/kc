@@ -17,13 +17,13 @@ package org.kuali.kra.award.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.award.AwardAssociate;
+import org.kuali.kra.bo.CommentType;
 /**
  * This class is business object representation of an Award Comment
  */
 
-public class AwardComment extends AwardCommentBase implements SequenceAssociate {
+public class AwardComment extends AwardAssociate {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -31,8 +31,13 @@ public class AwardComment extends AwardCommentBase implements SequenceAssociate 
     private static final long serialVersionUID = 3611932717292205490L;
     private Long awardCommentId;
     private Award award;
-    private String awardNumber;
-    private Integer sequenceNumber;
+    
+    @AwardSyncable private String commentTypeCode; 
+    @AwardSyncable private Boolean checklistPrintFlag; 
+    @AwardSyncable private String comments; 
+    
+    private CommentType commentType; 
+    
     
     /**
      * 
@@ -40,27 +45,6 @@ public class AwardComment extends AwardCommentBase implements SequenceAssociate 
      */
     public AwardComment() {
         super();
-    }
-
-    /**
-     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
-     */
-    public SequenceOwner getSequenceOwner() {
-        return getAward();
-    }
-
-    /**
-     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
-     */
-    public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
-        setAward((Award) newlyVersionedOwner);        
-    }
-
-    /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
-     */
-    public void resetPersistenceState() {
-        awardCommentId = null;
     }
     
     /**
@@ -83,17 +67,17 @@ public class AwardComment extends AwardCommentBase implements SequenceAssociate 
      * This method...
      * @return
      */
-    public String getAwardNumber() {
-        return awardNumber;
-     }
+//    public String getAwardNumber() {
+//        return awardNumber;
+//     }
     
-    /**
-     * This method...
-     * @param awardNumber
-     */
-    public void setAwardNumber(String awardNumber) {
-        //do nothing
-     }
+//    /**
+//     * This method...
+//     * @param awardNumber
+//     */
+//    public void setAwardNumber(String awardNumber) {
+//        //do nothing
+//     }
 
     /**
      * This method...
@@ -111,33 +95,41 @@ public class AwardComment extends AwardCommentBase implements SequenceAssociate 
      */
     public void setAward(Award award) {
         this.award = award;
-        if(award == null) {
-            sequenceNumber = null;
-            awardNumber = null;
-        } else {
-            sequenceNumber = (award.getSequenceNumber());
-            awardNumber = (award.getAwardNumber());
-        }
-    }
-
-    /**
-     * @return
-     */
-    public Integer getSequenceNumber() {
-        return sequenceNumber;//temp
-     }
-
-    /**
-     * This method...
-     * @param sequenceNumber
-     */
-    public void setSequenceNumber(Integer sequenceNumber) {
-       //do nothing
+//        if(award == null) {
+//            sequenceNumber = null;
+//            awardNumber = null;
+//        } else {
+//            sequenceNumber = (award.getSequenceNumber());
+//            awardNumber = (award.getAwardNumber());
+//        }
     }
 
 
 
 
+//    /**
+//     * This method...
+//     * @return
+//     */
+//    public int getSequenceNumber() {
+//        return sequenceNumber;//temp
+//     }
+//
+//
+//
+//
+//
+//    /**
+//     * This method...
+//     * @param sequenceNumber
+//     */
+//    public void setSequenceNumber(Integer sequenceNumber) {
+//       //do nothing
+//    }
+//
+//
+//
+//
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -159,8 +151,8 @@ public class AwardComment extends AwardCommentBase implements SequenceAssociate 
         int result = super.hashCode();
         result = prime * result + ((award == null) ? 0 : award.hashCode());
         result = prime * result + ((awardCommentId == null) ? 0 : awardCommentId.hashCode());
-        result = prime * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
-        result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+//        result = prime * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
+//        result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
         return result;
     }
 
@@ -188,18 +180,88 @@ public class AwardComment extends AwardCommentBase implements SequenceAssociate 
         }
         else if (!awardCommentId.equals(other.awardCommentId))
             return false;
-        if (awardNumber == null) {
-            if (other.awardNumber != null)
-                return false;
-        }
-        else if (!awardNumber.equals(other.awardNumber))
-            return false;
-        if (sequenceNumber == null) {
-            if (other.sequenceNumber != null)
-                return false;
-        }
-        else if (!sequenceNumber.equals(other.sequenceNumber))
-            return false;
+//        if (awardNumber == null) {
+//            if (other.awardNumber != null)
+//                return false;
+//        }
+//        else if (!awardNumber.equals(other.awardNumber))
+//            return false;
+//        if (sequenceNumber == null) {
+//            if (other.sequenceNumber != null)
+//                return false;
+//        }
+//        else if (!sequenceNumber.equals(other.sequenceNumber))
+//            return false;
         return true;
     }
+
+    /**
+     * Gets the commentTypeCode attribute. 
+     * @return Returns the commentTypeCode.
+     */
+    public String getCommentTypeCode() {
+        return commentTypeCode;
+    }
+
+    /**
+     * Sets the commentTypeCode attribute value.
+     * @param commentTypeCode The commentTypeCode to set.
+     */
+    public void setCommentTypeCode(String commentTypeCode) {
+        this.commentTypeCode = commentTypeCode;
+    }
+
+    /**
+     * Gets the checklistPrintFlag attribute. 
+     * @return Returns the checklistPrintFlag.
+     */
+    public Boolean getChecklistPrintFlag() {
+        return checklistPrintFlag;
+    }
+
+    /**
+     * Sets the checklistPrintFlag attribute value.
+     * @param checklistPrintFlag The checklistPrintFlag to set.
+     */
+    public void setChecklistPrintFlag(Boolean checklistPrintFlag) {
+        this.checklistPrintFlag = checklistPrintFlag;
+    }
+
+    /**
+     * Gets the comments attribute. 
+     * @return Returns the comments.
+     */
+    public String getComments() {
+        return comments;
+    }
+
+    /**
+     * Sets the comments attribute value.
+     * @param comments The comments to set.
+     */
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    /**
+     * Gets the commentType attribute. 
+     * @return Returns the commentType.
+     */
+    public CommentType getCommentType() {
+        return commentType;
+    }
+
+    /**
+     * Sets the commentType attribute value.
+     * @param commentType The commentType to set.
+     */
+    public void setCommentType(CommentType commentType) {
+        this.commentType = commentType;
+    }
+
+    public void resetPersistenceState() {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
