@@ -58,6 +58,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Question Id" />
         <property name="shortLabel" value="Question Id" />
+        <property name="required" value="true" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -76,6 +77,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Question" />
         <property name="shortLabel" value="Question" />
+        <property name="required" value="true" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern"
@@ -96,6 +98,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Status" />
         <property name="shortLabel" value="Status" />
+        <property name="required" value="true" />
         <property name="maxLength" value="1" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -115,6 +118,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Category" />
         <property name="shortLabel" value="Category" />
+        <property name="required" value="true" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
