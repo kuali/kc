@@ -40,6 +40,9 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  */
 public class CommitteeServiceImpl implements CommitteeService {
 
+    private static final String COMMITTEE_ID = "committeeId";
+    private static final String NO_PLACE = "[no location]";
+    
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
     private static SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
 
@@ -62,7 +65,7 @@ public class CommitteeServiceImpl implements CommitteeService {
         Committee committee = null;
         if (!StringUtils.isBlank(committeeId)) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("committeeId", committeeId);
+            fieldValues.put(COMMITTEE_ID, committeeId);
             Collection<Committee> committees = businessObjectService.findMatching(Committee.class, fieldValues);
             if (committees.size() > 0) {
                 /*
@@ -172,7 +175,7 @@ public class CommitteeServiceImpl implements CommitteeService {
     private String getDescription(CommitteeSchedule schedule) {
         Date date = schedule.getScheduledDate();
         if (schedule.getPlace() == null) {
-            return dateFormat.format(date) + ", [no location], " + timeFormat.format(schedule.getActualTime());
+            return dateFormat.format(date) + ", " + NO_PLACE + ", " + timeFormat.format(schedule.getActualTime());
         }
         return dateFormat.format(date) + ", " + schedule.getPlace() + ", " + timeFormat.format(schedule.getActualTime());
     }
