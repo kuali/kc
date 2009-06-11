@@ -35,7 +35,7 @@ public class AwardSponsorTerm extends AwardAssociate {
     BusinessObjectService businessObjectService;
    
     private Long awardSponsorTermId;
-    private Long sponsorTermId;
+    @AwardSyncable private Long sponsorTermId;
     private SponsorTerm sponsorTerm;
     
     /**

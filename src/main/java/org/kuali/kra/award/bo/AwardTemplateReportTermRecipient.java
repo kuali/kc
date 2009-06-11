@@ -18,7 +18,10 @@ package org.kuali.kra.award.bo;
 
 import java.util.LinkedHashMap;
 
-public class AwardTemplateReportTermRecipient extends AwardReportTermRecipientBase { 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Rolodex;
+
+public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObjectBase { 
 	
 	/**
      * Comment for <code>serialVersionUID</code>
@@ -27,6 +30,14 @@ public class AwardTemplateReportTermRecipient extends AwardReportTermRecipientBa
     private Integer templateReportTermRecipientId; 
 	private Integer templateReportTermId; 
 	private AwardTemplateReportTerm awardTemplateReportTerm;
+	
+    private String contactTypeCode; 
+    private Integer rolodexId;
+    private Integer numberOfCopies; 
+    
+    private ContactType contactType;
+    private Rolodex rolodex; 
+
 	
 	public AwardTemplateReportTermRecipient() { 
 
@@ -120,6 +131,86 @@ public class AwardTemplateReportTermRecipient extends AwardReportTermRecipientBa
         else if (!templateReportTermRecipientId.equals(other.templateReportTermRecipientId))
             return false;
         return true;
+    }
+
+    /**
+     * Gets the contactTypeCode attribute. 
+     * @return Returns the contactTypeCode.
+     */
+    public String getContactTypeCode() {
+        return contactTypeCode;
+    }
+
+    /**
+     * Sets the contactTypeCode attribute value.
+     * @param contactTypeCode The contactTypeCode to set.
+     */
+    public void setContactTypeCode(String contactTypeCode) {
+        this.contactTypeCode = contactTypeCode;
+    }
+
+    /**
+     * Gets the rolodexId attribute. 
+     * @return Returns the rolodexId.
+     */
+    public Integer getRolodexId() {
+        return rolodexId;
+    }
+
+    /**
+     * Sets the rolodexId attribute value.
+     * @param rolodexId The rolodexId to set.
+     */
+    public void setRolodexId(Integer rolodexId) {
+        this.rolodexId = rolodexId;
+    }
+
+    /**
+     * Gets the numberOfCopies attribute. 
+     * @return Returns the numberOfCopies.
+     */
+    public Integer getNumberOfCopies() {
+        return numberOfCopies;
+    }
+
+    /**
+     * Sets the numberOfCopies attribute value.
+     * @param numberOfCopies The numberOfCopies to set.
+     */
+    public void setNumberOfCopies(Integer numberOfCopies) {
+        this.numberOfCopies = numberOfCopies;
+    }
+
+    /**
+     * Gets the contactType attribute. 
+     * @return Returns the contactType.
+     */
+    public ContactType getContactType() {
+        return contactType;
+    }
+
+    /**
+     * Sets the contactType attribute value.
+     * @param contactType The contactType to set.
+     */
+    public void setContactType(ContactType contactType) {
+        this.contactType = contactType;
+    }
+
+    /**
+     * Gets the rolodex attribute. 
+     * @return Returns the rolodex.
+     */
+    public Rolodex getRolodex() {
+        return rolodex;
+    }
+
+    /**
+     * Sets the rolodex attribute value.
+     * @param rolodex The rolodex to set.
+     */
+    public void setRolodex(Rolodex rolodex) {
+        this.rolodex = rolodex;
     }
 	
 }

@@ -453,30 +453,13 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     }
     
     /**
-     * Parses the method to call attribute to pick off the class name which should have sync action performed on it.
-     *
-     * @param request
-     * @return
-     */
-    private String getSyncClassName(HttpServletRequest request) {
-        String syncClassName = "";
-        String delimiterString = "";
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        if (StringUtils.isNotBlank(parameterName)) {
-            delimiterString = parameterName.indexOf(".syncPropertyName")!=-1?".syncPropertyName":".anchor";
-            syncClassName = StringUtils.substringBetween(parameterName, ".syncClassName", delimiterString);
-        }
-        return syncClassName;
-    }
-    
-    /**
      * Parses the method to call attribute to pick off the property name of award object 
      * which should have a sync action performed on it.
      *
      * @param request
      * @return
      */
-    private String getSyncPropertyName(HttpServletRequest request) {
+    protected String getSyncPropertyName(HttpServletRequest request) {
         String syncPropertyName = null;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName) && parameterName.indexOf(".syncPropertyName")!=-1) {

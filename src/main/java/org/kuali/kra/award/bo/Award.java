@@ -35,6 +35,7 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
@@ -51,7 +52,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * This class is Award Business Object.
  * It implements ProcessKeywords to process all operations related to AwardScenceKeywords.
  */
-public class Award extends AwardBase implements KeywordsManager<AwardScienceKeyword>,
+public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>,
                                                                         SpecialReviewHandler<AwardSpecialReview>, 
                                                                         Permissionable, SequenceOwner {
     public static final String AWARD_NAMESPACE_CODE = "KC-AWARD";
@@ -67,7 +68,6 @@ public class Award extends AwardBase implements KeywordsManager<AwardScienceKeyw
     private String sponsorCode;
     private Integer statusCode;
     private AwardStatus awardStatus;
-//    private Integer templateCode;
     private String accountNumber;
     private String approvedEquipmentIndicator;
     private String approvedForeignTripIndicator;
@@ -100,19 +100,43 @@ public class Award extends AwardBase implements KeywordsManager<AwardScienceKeyw
     private String subPlanFlag;
     private String title;
     
+    @AwardSyncable private Integer templateCode; 
+    @AwardSyncable private String primeSponsorCode; 
+    @AwardSyncable private String nonCompetingContPrpslDueCode; 
+    @AwardSyncable private String competingRenewalPrpslDueCode; 
+    @AwardSyncable private String basisOfPaymentCode; 
+    @AwardSyncable private String methodOfPaymentCode; 
+    @AwardSyncable private String paymentInvoiceFreqCode; 
+    @AwardSyncable private Integer invoiceNumberOfCopies; 
+    @AwardSyncable private Integer finalInvoiceDue;
+    
+    private AwardTemplate awardTemplate;
+    private Frequency nonCompetingContPrpslDue;
+    private Frequency competingRenewalPrpslDue;
+    private Frequency paymentInvoiceFrequency;
+    private AwardBasisOfPayment awardBasisOfPayment;
+    private AwardMethodOfPayment awardMethodOfPayment;
+    
+    
+    
     private Sponsor sponsor;
     private Sponsor primeSponsor;
 
     private Unit leadUnit;
+    @AwardSyncableList(syncClass = AwardComment.class,syncMethodName="syncAwardComments")
     private List<AwardComment> awardComments;
+    @AwardSyncableList(syncClass = AwardReportTerm.class)
+    private List<AwardReportTerm> awardReportTermItems;
+    @AwardSyncableList(syncClass = AwardSponsorTerm.class)
+    private List<AwardSponsorTerm> awardSponsorTerms;
+    @AwardSyncableList(syncClass = AwardSponsorContact.class)
+    private List<AwardSponsorContact> sponsorContacts;
 
     private List<AwardCustomData> awardCustomDataList;
     
     private Map<String, AwardComment> commentMap;
     private List<AwardCostShare> awardCostShares;
     private List<AwardFandaRate> awardFandaRate;    
-    private List<AwardReportTerm> awardReportTermItems;
-    private List<AwardSponsorTerm> awardSponsorTerms;
     private List<AwardDirectFandADistribution> awardDirectFandADistributions;
 
     private List<AwardApprovedSubaward> awardApprovedSubawards;
@@ -121,7 +145,6 @@ public class Award extends AwardBase implements KeywordsManager<AwardScienceKeyw
     
     private List<AwardPerson> projectPersons;
     private List<AwardUnitContact> awardUnitContacts;
-    private List<AwardSponsorContact> sponsorContacts;
     
     private List<AwardSpecialReview> specialReviews;
     private List<AwardApprovedEquipment> approvedEquipmentItems;
@@ -181,6 +204,14 @@ public class Award extends AwardBase implements KeywordsManager<AwardScienceKeyw
             }
         }
         return commentMap;
+    }
+
+    /**
+     * Gets the templateCode attribute. 
+     * @return Returns the templateCode.
+     */
+    public Integer getTemplateCode() {
+        return templateCode;
     }
     
     /**
@@ -2001,6 +2032,237 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
     }
 
     /**
+     * Sets the templateCode attribute value.
+     * @param templateCode The templateCode to set.
+     */
+    public void setTemplateCode(Integer templateCode) {
+        this.templateCode = templateCode;
+    }
+
+    /**
+     * Gets the primeSponsorCode attribute. 
+     * @return Returns the primeSponsorCode.
+     */
+    public String getPrimeSponsorCode() {
+        return primeSponsorCode;
+    }
+
+    /**
+     * Sets the primeSponsorCode attribute value.
+     * @param primeSponsorCode The primeSponsorCode to set.
+     */
+    public void setPrimeSponsorCode(String primeSponsorCode) {
+        this.primeSponsorCode = primeSponsorCode;
+    }
+
+    /**
+     * Gets the nonCompetingContPrpslDueCode attribute. 
+     * @return Returns the nonCompetingContPrpslDueCode.
+     */
+    public String getNonCompetingContPrpslDueCode() {
+        return nonCompetingContPrpslDueCode;
+    }
+
+    /**
+     * Sets the nonCompetingContPrpslDueCode attribute value.
+     * @param nonCompetingContPrpslDueCode The nonCompetingContPrpslDueCode to set.
+     */
+    public void setNonCompetingContPrpslDueCode(String nonCompetingContPrpslDueCode) {
+        this.nonCompetingContPrpslDueCode = nonCompetingContPrpslDueCode;
+    }
+
+    /**
+     * Gets the competingRenewalPrpslDueCode attribute. 
+     * @return Returns the competingRenewalPrpslDueCode.
+     */
+    public String getCompetingRenewalPrpslDueCode() {
+        return competingRenewalPrpslDueCode;
+    }
+
+    /**
+     * Sets the competingRenewalPrpslDueCode attribute value.
+     * @param competingRenewalPrpslDueCode The competingRenewalPrpslDueCode to set.
+     */
+    public void setCompetingRenewalPrpslDueCode(String competingRenewalPrpslDueCode) {
+        this.competingRenewalPrpslDueCode = competingRenewalPrpslDueCode;
+    }
+
+    /**
+     * Gets the basisOfPaymentCode attribute. 
+     * @return Returns the basisOfPaymentCode.
+     */
+    public String getBasisOfPaymentCode() {
+        return basisOfPaymentCode;
+    }
+
+    /**
+     * Sets the basisOfPaymentCode attribute value.
+     * @param basisOfPaymentCode The basisOfPaymentCode to set.
+     */
+    public void setBasisOfPaymentCode(String basisOfPaymentCode) {
+        this.basisOfPaymentCode = basisOfPaymentCode;
+    }
+
+    /**
+     * Gets the methodOfPaymentCode attribute. 
+     * @return Returns the methodOfPaymentCode.
+     */
+    public String getMethodOfPaymentCode() {
+        return methodOfPaymentCode;
+    }
+
+    /**
+     * Sets the methodOfPaymentCode attribute value.
+     * @param methodOfPaymentCode The methodOfPaymentCode to set.
+     */
+    public void setMethodOfPaymentCode(String methodOfPaymentCode) {
+        this.methodOfPaymentCode = methodOfPaymentCode;
+    }
+
+    /**
+     * Gets the paymentInvoiceFreqCode attribute. 
+     * @return Returns the paymentInvoiceFreqCode.
+     */
+    public String getPaymentInvoiceFreqCode() {
+        return paymentInvoiceFreqCode;
+    }
+
+    /**
+     * Sets the paymentInvoiceFreqCode attribute value.
+     * @param paymentInvoiceFreqCode The paymentInvoiceFreqCode to set.
+     */
+    public void setPaymentInvoiceFreqCode(String paymentInvoiceFreqCode) {
+        this.paymentInvoiceFreqCode = paymentInvoiceFreqCode;
+    }
+
+    /**
+     * Gets the invoiceNumberOfCopies attribute. 
+     * @return Returns the invoiceNumberOfCopies.
+     */
+    public Integer getInvoiceNumberOfCopies() {
+        return invoiceNumberOfCopies;
+    }
+
+    /**
+     * Sets the invoiceNumberOfCopies attribute value.
+     * @param invoiceNumberOfCopies The invoiceNumberOfCopies to set.
+     */
+    public void setInvoiceNumberOfCopies(Integer invoiceNumberOfCopies) {
+        this.invoiceNumberOfCopies = invoiceNumberOfCopies;
+    }
+
+    /**
+     * Gets the finalInvoiceDue attribute. 
+     * @return Returns the finalInvoiceDue.
+     */
+    public Integer getFinalInvoiceDue() {
+        return finalInvoiceDue;
+    }
+
+    /**
+     * Sets the finalInvoiceDue attribute value.
+     * @param finalInvoiceDue The finalInvoiceDue to set.
+     */
+    public void setFinalInvoiceDue(Integer finalInvoiceDue) {
+        this.finalInvoiceDue = finalInvoiceDue;
+    }
+
+    /**
+     * Gets the awardTemplate attribute. 
+     * @return Returns the awardTemplate.
+     */
+    public AwardTemplate getAwardTemplate() {
+        return awardTemplate;
+    }
+
+    /**
+     * Sets the awardTemplate attribute value.
+     * @param awardTemplate The awardTemplate to set.
+     */
+    public void setAwardTemplate(AwardTemplate awardTemplate) {
+        this.awardTemplate = awardTemplate;
+    }
+
+    /**
+     * Gets the nonCompetingContPrpslDue attribute. 
+     * @return Returns the nonCompetingContPrpslDue.
+     */
+    public Frequency getNonCompetingContPrpslDue() {
+        return nonCompetingContPrpslDue;
+    }
+
+    /**
+     * Sets the nonCompetingContPrpslDue attribute value.
+     * @param nonCompetingContPrpslDue The nonCompetingContPrpslDue to set.
+     */
+    public void setNonCompetingContPrpslDue(Frequency nonCompetingContPrpslDue) {
+        this.nonCompetingContPrpslDue = nonCompetingContPrpslDue;
+    }
+
+    /**
+     * Gets the competingRenewalPrpslDue attribute. 
+     * @return Returns the competingRenewalPrpslDue.
+     */
+    public Frequency getCompetingRenewalPrpslDue() {
+        return competingRenewalPrpslDue;
+    }
+
+    /**
+     * Sets the competingRenewalPrpslDue attribute value.
+     * @param competingRenewalPrpslDue The competingRenewalPrpslDue to set.
+     */
+    public void setCompetingRenewalPrpslDue(Frequency competingRenewalPrpslDue) {
+        this.competingRenewalPrpslDue = competingRenewalPrpslDue;
+    }
+
+    /**
+     * Gets the paymentInvoiceFrequency attribute. 
+     * @return Returns the paymentInvoiceFrequency.
+     */
+    public Frequency getPaymentInvoiceFrequency() {
+        return paymentInvoiceFrequency;
+    }
+
+    /**
+     * Sets the paymentInvoiceFrequency attribute value.
+     * @param paymentInvoiceFrequency The paymentInvoiceFrequency to set.
+     */
+    public void setPaymentInvoiceFrequency(Frequency paymentInvoiceFrequency) {
+        this.paymentInvoiceFrequency = paymentInvoiceFrequency;
+    }
+
+    /**
+     * Gets the awardBasisOfPayment attribute. 
+     * @return Returns the awardBasisOfPayment.
+     */
+    public AwardBasisOfPayment getAwardBasisOfPayment() {
+        return awardBasisOfPayment;
+    }
+
+    /**
+     * Sets the awardBasisOfPayment attribute value.
+     * @param awardBasisOfPayment The awardBasisOfPayment to set.
+     */
+    public void setAwardBasisOfPayment(AwardBasisOfPayment awardBasisOfPayment) {
+        this.awardBasisOfPayment = awardBasisOfPayment;
+    }
+
+    /**
+     * Gets the awardMethodOfPayment attribute. 
+     * @return Returns the awardMethodOfPayment.
+     */
+    public AwardMethodOfPayment getAwardMethodOfPayment() {
+        return awardMethodOfPayment;
+    }
+
+    /**
+     * Sets the awardMethodOfPayment attribute value.
+     * @param awardMethodOfPayment The awardMethodOfPayment to set.
+     */
+    public void setAwardMethodOfPayment(AwardMethodOfPayment awardMethodOfPayment) {
+        this.awardMethodOfPayment = awardMethodOfPayment;
+    }
+    /**
      * @see org.kuali.kra.SequenceOwner#getOwnerSequenceNumber()
      */
     public Integer getOwnerSequenceNumber() {
@@ -2034,4 +2296,5 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
     public void resetPersistenceState() {
         this.awardId = null;
     }
+
 }

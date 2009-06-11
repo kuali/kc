@@ -15,13 +15,27 @@
  */
 package org.kuali.kra.award.service;
 
+import java.util.List;
+
 import org.kuali.kra.award.bo.Award;
 
 /**
  * This class is used for sync AwardSponsorTemplate details to different Award Details Objects.
  */
 public interface AwardTemplateSyncService {
+    /**
+     * 
+     * This method is to sync entire AwardTemplate details to Award object. 
+     * @param award
+     * @return true if successful
+     */
     public boolean syncToAward(Award award);
+    /**
+     * 
+     * This method is to sync a particular syncable list from award template
+     * @param award
+     * @param syncPropertyName is the name of member variable to represent syncable list
+     * @return true if successful
+     */
     public boolean syncToAward(Award award,String syncPropertyName);
-
 }

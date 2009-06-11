@@ -192,10 +192,15 @@ public class AwardHomeAction extends AwardAction {
             throws Exception {
         super.refresh(mapping, form, request, response);
         AwardForm awardMultiLookupForm = (AwardForm) form;
+        String lookupResultsBOClassName = request.getParameter(KNSConstants.LOOKUP_RESULTS_BO_CLASS_NAME);
+        String lookupResultsSequenceNumber = request.getParameter(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+        awardMultiLookupForm.setLookupResultsBOClassName(lookupResultsBOClassName);
+        awardMultiLookupForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         Award awardDocument = awardMultiLookupForm.getAwardDocument().getAward();
         getKeywordService().addKeywords(awardDocument, awardMultiLookupForm);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
+    
     /**
      * 
      * This method...
