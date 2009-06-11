@@ -45,6 +45,13 @@ public class Question extends KraPersistableBusinessObjectBase {
     
     public Question() { 
         setQuestionExplanations(new ArrayList<QuestionExplanation>());
+        
+        //initialize fields since they can not be null and they are not being displayed
+        //in the gui yet.
+        maxAnswers = 0;
+        displayedAnswers = 0;
+        validAnswer = "x";
+        questionTypeId = 0;
     } 
 
     public Integer getQuestionId() {
@@ -136,6 +143,11 @@ public class Question extends KraPersistableBusinessObjectBase {
     }
 
     public QuestionCategory getQuestionCategory() {
+        // Refresh of the reference object is needed so that the category name is displayed
+        // after a save or refresh.  Otherwise the category type code is displayed.
+        if (this.questionCategory == null) {
+            refreshReferenceObject("questionCategory");
+        }
         return questionCategory;
     }
 
@@ -227,9 +239,15 @@ public class Question extends KraPersistableBusinessObjectBase {
      * @return Index of object containing the question policy. -1 if not found. 
      */
     private int getExplanationObjectIndex(String explanationType) {
-        for (QuestionExplanation questionExplanation: questionExplanations) {
+        // Refresh of the reference object is needed so that the explanations are displayed
+        // after a save or refresh.
+        if (this.questionExplanations.isEmpty()) {
+            refreshReferenceObject("questionExplanations");
+        }
+
+        for (QuestionExplanation questionExplanation: getQuestionExplanations()) {
             if (questionExplanation.getExplanationType().equals(explanationType)) {
-                return questionExplanations.indexOf(questionExplanation);
+                return getQuestionExplanations().indexOf(questionExplanation);
             }
         }
         return -1;
