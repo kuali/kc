@@ -29,7 +29,7 @@ public class AwardScienceKeyword extends AbstractScienceKeyword{
      */
     private static final long serialVersionUID = -8415861677886653309L;
     private Long awardScienceKeywordId;
-//    private Long awardId;//anonymous
+    private Award award;
     /**
      * Empty constructor for AwardScienceKeyword.
      */
@@ -44,7 +44,6 @@ public class AwardScienceKeyword extends AbstractScienceKeyword{
      */
     public AwardScienceKeyword(Long awardId, ScienceKeyword scienceKeyword) {
         super();
-//        setAwardId(awardId);
         setScienceKeywordDescription(scienceKeyword.getDescription());
         setScienceKeywordCode(scienceKeyword.getScienceKeywordCode());
         setScienceKeyword(scienceKeyword);
@@ -55,28 +54,11 @@ public class AwardScienceKeyword extends AbstractScienceKeyword{
     @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = super.toStringMapper();
-//		hashMap.put("awardId", getAwardId());
 		hashMap.put("scienceCode", getScienceKeywordCode());
         hashMap.put("versionNumber", getVersionNumber());
         hashMap.put("objectId", getObjectId());
 		return hashMap;
 	}
-
-//    /**
-//     * Gets the awardId attribute. 
-//     * @return Returns the AwardId.
-//     */
-//    public Long getAwardId() {
-//        return awardId;
-//    }
-//
-//    /**
-//     * Sets the awardId attribute value.
-//     * @param awardId The awardId to set.
-//     */
-//    public void setAwardId(Long awardId) {
-//        this.awardId = awardId;
-//    }
 
     /**
      * Gets the awardScienceKeywordId attribute. 
@@ -92,6 +74,22 @@ public class AwardScienceKeyword extends AbstractScienceKeyword{
      */
     public void setAwardScienceKeywordId(Long awardScienceKeywordId) {
         this.awardScienceKeywordId = awardScienceKeywordId;
+    }
+
+    /**
+     * Gets the award attribute. 
+     * @return Returns the award.
+     */
+    public Award getAward() {
+        return award;
+    }
+
+    /**
+     * Sets the award attribute value.
+     * @param award The award to set.
+     */
+    public void setAward(Award award) {
+        this.award = award;
     }
 
 }
