@@ -35,6 +35,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * This class is the implementation of KeywordsService to handle the requests from keywords panel in general
  */
+@SuppressWarnings("unchecked")
 public class KeywordsServiceImpl implements KeywordsService {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeywordsServiceImpl.class);
 
@@ -50,7 +51,6 @@ public class KeywordsServiceImpl implements KeywordsService {
     /**
      * @see org.kuali.kra.service.KeywordsService#deleteKeyword(org.kuali.kra.document.ResearchDocumentBase, org.kuali.kra.bo.ScienceKeyword)
      */
-    @SuppressWarnings("unchecked")
     public void deleteKeyword(KeywordsManager keywordsDocument) {
         List<AbstractScienceKeyword> scienceKeywords = keywordsDocument.getKeywords();
         for (int i = scienceKeywords.size()-1; i >=0 ; i--) {
@@ -89,7 +89,6 @@ public class KeywordsServiceImpl implements KeywordsService {
      * Method to add keywords into keywards list associated with particular BO/Document
      * @see org.kuali.kra.service.KeywordsService#addKeywords(org.kuali.kra.document.KeywordsManager, org.kuali.kra.web.struts.form.MultiLookupFormBase)
      */
-    @SuppressWarnings("unchecked")
     public void addKeywords(KeywordsManager document, MultiLookupFormBase multiLookUpForm) {
         try{
             // check to see if we are coming back from a lookup
@@ -101,7 +100,7 @@ public class KeywordsServiceImpl implements KeywordsService {
                     Class lookupResultsBOClass = Class.forName(multiLookUpForm.getLookupResultsBOClassName());
                     Collection<PersistableBusinessObject> rawValues = KNSServiceLocator.getLookupResultsService()
                             .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-                                    ((UniversalUser) GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier());
+                                    new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier());
                     if (lookupResultsBOClass.isAssignableFrom(ScienceKeyword.class)) {
                         KeywordsService keywordsService = KraServiceLocator.getService(KeywordsService.class);//move this to separate method and give protected access
                         for (Iterator iter = rawValues.iterator(); iter.hasNext();) {

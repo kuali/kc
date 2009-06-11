@@ -17,9 +17,11 @@ package org.kuali.kra.award.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.bo.SponsorTermType;
 
-public class AwardTemplateTerm extends AwardTermBase { 
+public class AwardTemplateTerm extends KraPersistableBusinessObjectBase{ 
 	
 	/**
      * Comment for <code>serialVersionUID</code>
@@ -29,6 +31,10 @@ public class AwardTemplateTerm extends AwardTermBase {
 	private String sponsorTermTypeCode;
 	private AwardTemplate awardTemplate; 
     private SponsorTermType sponsorTermType; 
+    
+    @AwardSyncable private Integer sponsorTermId; 
+    private SponsorTerm sponsorTerm;
+
 	
 	public AwardTemplateTerm() { 
 
@@ -54,7 +60,8 @@ public class AwardTemplateTerm extends AwardTermBase {
 	@SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
+        LinkedHashMap hashMap = new LinkedHashMap();
+        hashMap.put("awardSponsorTermId", getSponsorTermId());
 		hashMap.put("awardTemplateTermsId", getAwardTemplateTermId());
 		return hashMap;
 	}
@@ -90,6 +97,38 @@ public class AwardTemplateTerm extends AwardTermBase {
      */
     public void setSponsorTermType(SponsorTermType sponsorTermType) {
         this.sponsorTermType = sponsorTermType;
+    }
+
+    /**
+     * Gets the sponsorTermId attribute. 
+     * @return Returns the sponsorTermId.
+     */
+    public Integer getSponsorTermId() {
+        return sponsorTermId;
+    }
+
+    /**
+     * Sets the sponsorTermId attribute value.
+     * @param sponsorTermId The sponsorTermId to set.
+     */
+    public void setSponsorTermId(Integer sponsorTermId) {
+        this.sponsorTermId = sponsorTermId;
+    }
+
+    /**
+     * Gets the sponsorTerm attribute. 
+     * @return Returns the sponsorTerm.
+     */
+    public SponsorTerm getSponsorTerm() {
+        return sponsorTerm;
+    }
+
+    /**
+     * Sets the sponsorTerm attribute value.
+     * @param sponsorTerm The sponsorTerm to set.
+     */
+    public void setSponsorTerm(SponsorTerm sponsorTerm) {
+        this.sponsorTerm = sponsorTerm;
     }
 	
 }

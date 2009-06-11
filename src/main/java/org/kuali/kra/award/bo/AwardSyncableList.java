@@ -15,11 +15,16 @@
  */
 package org.kuali.kra.award.bo;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
- * This interface is for making any award template BO as synchornizable to award BO. 
- * All award BOs which needs to be synced should implement this interface
+ * This class...
  */
-public interface AwardSynchronizable {
-    public Class getSyncBaseClass();
-    public Class getAwardSyncClass();
+@Retention(RetentionPolicy.RUNTIME)
+public @interface AwardSyncableList {
+    public static final String DEFAULT_METHOD = "defaultMethod";
+    Class    syncClass();
+    String   parentPropertyName() default "award";
+    String   syncMethodName() default DEFAULT_METHOD;
 }
