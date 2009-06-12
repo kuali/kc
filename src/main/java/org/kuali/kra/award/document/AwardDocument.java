@@ -20,12 +20,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardSpecialReview;
-import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
+import org.kuali.kra.award.specialreview.AwardSpecialReview;
+import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;

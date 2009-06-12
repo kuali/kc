@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rule.event;
+package org.kuali.kra.award.timeandmoney;
 
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.kra.award.bo.AwardDirectFandADistribution;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.rule.AwardDirectFandADistributionRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.rule.BusinessRule;
 
