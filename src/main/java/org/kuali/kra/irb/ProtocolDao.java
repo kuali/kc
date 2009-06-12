@@ -33,6 +33,6 @@ public interface ProtocolDao {
      */
     List<Protocol> getProtocols(Map<String,String> fieldValues);
     
-    Integer getProtocolSubmissionCount(String protocolNumber);
+    Integer getProtocolSubmissionCountFromProtocol(String protocolNumber);
 
 }
