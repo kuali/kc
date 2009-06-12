@@ -70,7 +70,7 @@ public class XMonthlyScheduleSequenceDecorator extends ScheduleSequenceDecorator
             
             int i=0;
             for(Date date: dates){
-                if(i==0 || i%frequency==0){
+                if(i%frequency==0){
                     filteredDates.add(date);
                 }
                 i++;
