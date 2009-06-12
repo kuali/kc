@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rules;
+package org.kuali.kra.award.timeandmoney;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -25,7 +25,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardDirectFandADistribution;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleImpl;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 

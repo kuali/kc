@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.award.bo;
+package org.kuali.kra.award.specialreview;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.bo.AbstractSpecialReview;
 /**
  * 

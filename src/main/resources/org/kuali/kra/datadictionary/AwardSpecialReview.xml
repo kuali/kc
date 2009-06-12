@@ -23,7 +23,7 @@
 
 	<bean id="AwardSpecialReview" parent="AwardSpecialReview-parentBean" />
 	<bean id="AwardSpecialReview-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardSpecialReview" />
+		<property name="businessObjectClass" value="org.kuali.kra.award.specialreview.AwardSpecialReview" />
 		<property name="inquiryDefinition" >
 			<ref bean="AwardSpecialReview-inquiryDefinition" />
 		</property>
