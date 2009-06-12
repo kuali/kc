@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -120,6 +121,55 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase{
         }});
     }
     
+    private void mockSubmissionTrueCondt2(final String submissionTypeCode) {
+        context.checking(new Expectations() {{
+            Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+            positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
+            positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
+            List<String> ors = new ArrayList<String>();
+            ors.add("100");
+            ors.add("101"); 
+            ors.add("102");
+            positiveFieldValues.put("submissionStatusCode", ors);
+            positiveFieldValues.put("submissionTypeCode", submissionTypeCode);
+            
+            allowing(businessObjectService).countMatching(ProtocolSubmission.class, positiveFieldValues);will(returnValue(0));
+        }});
+    }
+    
+    private void mockSubmissionFalseCondt2(final String submissionTypeCode) {
+        context.checking(new Expectations() {{
+            Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+            positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
+            positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
+            List<String> ors = new ArrayList<String>();
+            ors.add("100");
+            ors.add("101"); 
+            ors.add("102");
+            positiveFieldValues.put("submissionStatusCode", ors);
+            positiveFieldValues.put("submissionTypeCode", submissionTypeCode);
+            
+            allowing(businessObjectService).countMatching(ProtocolSubmission.class, positiveFieldValues);will(returnValue(1));
+        }});
+    }
+    
+    private void mockSubmissionCondt3() {
+        context.checking(new Expectations() {{
+            Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+            positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
+            positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
+            List<String> ors = new ArrayList<String>();
+            ors.add("100");
+            ors.add("101"); 
+            ors.add("102");
+            positiveFieldValues.put("submissionStatusCode", ors);
+            
+            List<ProtocolSubmission> list = new ArrayList<ProtocolSubmission>();
+            
+            allowing(businessObjectService).findMatching(ProtocolSubmission.class, positiveFieldValues);will(returnValue(list));
+        }});
+    }
+    
     private void mockProtocolDaoCondt1() {
         context.checking(new Expectations() {{
             Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
@@ -131,7 +181,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase{
             ors.add("102");
             positiveFieldValues.put("submissionStatusCode", ors);
 
-            allowing(dao).getProtocolSubmissionCount(protocol.getProtocolNumber());will(returnValue(0));
+            allowing(dao).getProtocolSubmissionCountFromProtocol(protocol.getProtocolNumber());will(returnValue(0));
         }});
     }
     
@@ -643,7 +693,15 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase{
     }
 
     @Test
-    public void testActionTypeCode104() { 
+    public void testActionTypeCode104True() {
+        
+        mockSubmissionCondt3();
+        mockSubmissionTrueCondt2("109");
+        mockSubmissionTrueCondt2("110");
+        mockSubmissionTrueCondt2("111");
+        mockSubmissionTrueCondt2("108");
+        mockSubmissionTrueCondt2("113");
+        mockSubmissionTrueCondt2("114");        
         protocol.setProtocolStatusCode("200");          
         assertTrue(protocolActionService.canPerformAction("104", protocol));    
         
@@ -670,6 +728,43 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase{
         
         protocol.setProtocolStatusCode("311");      
         assertTrue(protocolActionService.canPerformAction("104", protocol));
+    }
+    
+    @Test
+    public void testActionTypeCode104False() { 
+        mockSubmissionCondt3();
+        mockSubmissionFalseCondt2("109");
+        mockSubmissionFalseCondt2("110");
+        mockSubmissionFalseCondt2("111");
+        mockSubmissionFalseCondt2("108");
+        mockSubmissionFalseCondt2("113");
+        mockSubmissionFalseCondt2("114");        
+        protocol.setProtocolStatusCode("200");          
+        assertFalse(protocolActionService.canPerformAction("104", protocol));    
+        
+        protocol.setProtocolStatusCode("201");      
+        assertFalse(protocolActionService.canPerformAction("104", protocol)); 
+        
+        protocol.setProtocolStatusCode("202");      
+        assertFalse(protocolActionService.canPerformAction("104", protocol)); 
+        
+        protocol.setProtocolStatusCode("203");      
+        assertFalse(protocolActionService.canPerformAction("104", protocol)); 
+        
+        protocol.setProtocolStatusCode("300");      
+        assertFalse(protocolActionService.canPerformAction("104", protocol)); 
+        
+        protocol.setProtocolStatusCode("301");      
+        assertFalse(protocolActionService.canPerformAction("104", protocol)); 
+        
+        protocol.setProtocolStatusCode("302");      
+        assertFalse(protocolActionService.canPerformAction("104", protocol)); 
+        
+        protocol.setProtocolStatusCode("308");      
+        assertFalse(protocolActionService.canPerformAction("104", protocol)); 
+        
+        protocol.setProtocolStatusCode("311");      
+        assertFalse(protocolActionService.canPerformAction("104", protocol));
     }
     
     @Test

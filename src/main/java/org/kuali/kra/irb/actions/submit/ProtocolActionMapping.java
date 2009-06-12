@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -126,7 +127,103 @@ public class ProtocolActionMapping implements FactBean {
     }
     
     public boolean getSubmissionCountCond3() {
-        int count = dao.getProtocolSubmissionCount(protocol.getProtocolNumber());
+        int count = dao.getProtocolSubmissionCountFromProtocol(protocol.getProtocolNumber());
+        boolean flag = true;
+        if(count > 0)
+            flag = false;
+        return flag;
+    }
+    
+    public boolean getSubmissionCountCond4() {
+        
+        boolean retVal = true;
+        
+        submissionTypeCode = "109";
+        retVal &= submissionCountHelper();
+        
+        submissionTypeCode = "110";
+        retVal &= submissionCountHelper();
+        
+        submissionTypeCode = "111";
+        retVal &= submissionCountHelper();
+        
+        submissionTypeCode = "108";
+        retVal &= submissionCountHelper();
+        
+        submissionTypeCode = "113";
+        retVal &= submissionCountHelper();
+        
+        submissionTypeCode = "114";
+        retVal &= submissionCountHelper();
+        
+        return retVal;
+    }
+    
+    private boolean submissionCountHelper() {
+        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+        positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
+        positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
+ 
+        List<String> ors = new ArrayList<String>();
+        ors.add("100");
+        ors.add("101"); 
+        ors.add("102");
+        positiveFieldValues.put("submissionStatusCode", ors);
+        
+        positiveFieldValues.put("submissionTypeCode", submissionTypeCode);
+        
+        int count = businessObjectService.countMatching(ProtocolSubmission.class, positiveFieldValues);
+        boolean flag = true;
+        if(count > 0)
+            flag = false;
+        return flag;
+    }
+    /**
+     * select count(protocol_number)
+                                    into li_SubmissionCount
+                                    from osp$protocol_submission
+                                    where protocol_number = as_protocol_number and
+                                    sequence_number = as_sequence_number and
+                                    submission_status_code in (100, 101, 102) and
+                                    submission_number = (select max(a.submission_number)
+                                                 from osp$protocol_submission a
+                                                 where osp$protocol_submission.protocol_number = a.protocol_number and
+                                                 osp$protocol_submission.sequence_number = a.sequence_number);
+     * 
+     * @return
+     */
+    
+    @SuppressWarnings("unchecked")
+    public boolean getSubmissionCountCond5() {                
+        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+        positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
+        positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
+ 
+        List<String> ors = new ArrayList<String>();
+        ors.add("100");
+        ors.add("101"); 
+        ors.add("102");
+        positiveFieldValues.put("submissionStatusCode", ors);
+        
+        List<ProtocolSubmission> list = (List<ProtocolSubmission>)businessObjectService.findMatching(ProtocolSubmission.class, positiveFieldValues);
+  
+        TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
+       
+        for(ProtocolSubmission ps : list) {
+            Integer key = ps.getSubmissionNumber();
+            Integer val = map.get(key);
+            if(null != val) {
+                map.put(key, ++val);
+            } else {
+                map.put(key, 1);
+            }
+        }
+        Integer count = null;
+        if(map.isEmpty())
+            count = 0;      
+        else
+            count = map.get(map.lastKey());
+        
         boolean flag = true;
         if(count > 0)
             flag = false;
