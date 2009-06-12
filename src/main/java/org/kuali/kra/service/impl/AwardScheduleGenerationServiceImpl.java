@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.bo.Award;
@@ -54,10 +55,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
     
     private ScheduleService scheduleService;
     private PersistenceService persistenceService;
-    private KualiConfigurationService kualiConfigurationService;
-    private int periodInYears;
-    private HashMap<String, java.util.Date> mapOfDates;
-    private Calendar calendarClassLevel;
+    private KualiConfigurationService kualiConfigurationService;    
     
     /**
      * 
@@ -73,23 +71,22 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * 
      * @param award
      */
-    protected void initializeDatesForThisAward(Award award){
-        calendarClassLevel = new GregorianCalendar();
-        mapOfDates = new HashMap<String, java.util.Date>();
+    protected void initializeDatesForThisAward(Award award, Map<String, java.util.Date> mapOfDates){
+        Calendar calendar = new GregorianCalendar();
         
         mapOfDates.put(FrequencyBaseConstants.AWARD_EXECUTION_DATE.getfrequencyBase(), award.getAwardExecutionDate()); 
         
         mapOfDates.put(FrequencyBaseConstants.AWARD_EFFECTIVE_DATE.getfrequencyBase(), award.getAwardEffectiveDate());
         
-        calendarClassLevel.clear();
-        calendarClassLevel.set(2009, Calendar.JUNE, 1);//temp hardcoded award expiration date of obligation.
-        mapOfDates.put(FrequencyBaseConstants.AWARD_EXPIRATION_DATE_OF_OBLIGATION.getfrequencyBase(), calendarClassLevel.getTime());
+        calendar.clear();
+        calendar.set(2009, Calendar.JUNE, 1);//temp hardcoded award expiration date of obligation.
+        mapOfDates.put(FrequencyBaseConstants.AWARD_EXPIRATION_DATE_OF_OBLIGATION.getfrequencyBase(), calendar.getTime());
         
         mapOfDates.put(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase(), award.getProjectEndDate());
         
-        calendarClassLevel.clear();
-        calendarClassLevel.set(2009, Calendar.AUGUST, 1);//temp hardcoded award effective date of obligation.
-        mapOfDates.put(FrequencyBaseConstants.AWARD_EFFECTIVE_DATE_OF_OBLIGATION.getfrequencyBase(), calendarClassLevel.getTime());
+        calendar.clear();
+        calendar.set(2009, Calendar.AUGUST, 1);//temp hardcoded award effective date of obligation.
+        mapOfDates.put(FrequencyBaseConstants.AWARD_EFFECTIVE_DATE_OF_OBLIGATION.getfrequencyBase(), calendar.getTime());
     }
 
     /**
@@ -98,17 +95,14 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      */
     public List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms, boolean isThisNotPaymentPanel) throws ParseException{
         List<Date> dates = new ArrayList<Date>();
+        Map<String, java.util.Date> mapOfDates = new HashMap<String, java.util.Date>();
         
-        initializeDatesForThisAward(award);        
+        initializeDatesForThisAward(award, mapOfDates);        
         refreshAwardReportTerms(awardReportTerms);
-        
-        setPeriodInYears(Integer.parseInt(
-                kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
-                ,KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE).getParameterValue()));
         
         for(AwardReportTerm awardReportTerm: awardReportTerms){
             if(canGenerateSchedules(awardReportTerm, isThisNotPaymentPanel)){
-                dates.addAll(getDates(awardReportTerm));
+                dates.addAll(getDates(awardReportTerm, mapOfDates));
             }
         }
         
@@ -123,14 +117,14 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * @return
      * @throws ParseException
      */
-    protected List<Date> getDates(AwardReportTerm awardReportTerm) throws ParseException {
+    protected List<Date> getDates(AwardReportTerm awardReportTerm, Map<String, java.util.Date> mapOfDates) throws ParseException {
         List<Date> dates = new ArrayList<Date>();        
         java.util.Date startDate;
         java.util.Date endDate;
         Calendar calendar = new GregorianCalendar();
         
-        startDate = getStartDate(awardReportTerm);
-        endDate = getEndDate(awardReportTerm.getFrequencyBaseCode(),startDate);
+        startDate = getStartDate(awardReportTerm, mapOfDates);
+        endDate = getEndDate(awardReportTerm.getFrequencyBaseCode(),startDate, mapOfDates);
         
         if(endDate.before(startDate)){
             throw new RuntimeException("End Date is Before Start Date");
@@ -161,7 +155,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * @return
      */
     private boolean canGenerateSchedules(AwardReportTerm awardReportTerm, boolean isThisNotPaymentPanel) {
-        return isThisNotPaymentPanel || StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_AWARD
+        return isThisNotPaymentPanel || StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD
                 ,Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES).getParameterValue());
     }    
     
@@ -174,10 +168,8 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * @param awardReportTerm
      * @return
      */
-    protected Date getStartDate(AwardReportTerm awardReportTerm){
+    protected Date getStartDate(AwardReportTerm awardReportTerm, Map<String, java.util.Date> mapOfDates){
         Calendar calendar = new GregorianCalendar();
-        
-        calendar.clear();
         
         if(mapOfDates.containsKey(awardReportTerm.getFrequencyBaseCode())){
             calendar.setTime(mapOfDates.get(awardReportTerm.getFrequencyBaseCode()));
@@ -250,12 +242,13 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * @param startDate
      * @return
      */
-    protected Date getEndDate(String frequencyBaseCode, Date startDate){
+    protected Date getEndDate(String frequencyBaseCode, Date startDate, Map<String, java.util.Date> mapOfDates){
         Calendar calendar = new GregorianCalendar();
-        calendar.clear();
+        
         if(frequencyBaseCode.equals(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase())){
             calendar.setTime(startDate);   
-            calendar.add(Calendar.YEAR, getPeriodInYears());            
+            calendar.add(Calendar.YEAR, Integer.parseInt(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
+                    ,KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE).getParameterValue()));            
         }else{
             calendar.setTime(mapOfDates.get(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase()));
         }
@@ -330,23 +323,6 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
-
-    /**
-     * Gets the periodInYears attribute. 
-     * @return Returns the periodInYears.
-     */
-    public int getPeriodInYears() {
-        return periodInYears;
-    }
-
-    /**
-     * Sets the periodInYears attribute value.
-     * @param periodInYears The periodInYears to set.
-     */
-    public void setPeriodInYears(int periodInYears) {
-        this.periodInYears = periodInYears;
-    }
-
 }
 
     
