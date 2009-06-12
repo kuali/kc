@@ -77,6 +77,8 @@
 		<field-descriptor name="specialEbRateOnCampus" column="SPECIAL_EB_RATE_ON_CAMPUS" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="subPlanFlag" column="SUB_PLAN_FLAG" jdbc-type="VARCHAR"/>
 		<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="archiveLocation" column="ARCHIVE_LOCATION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="closeoutDate" column="CLOSEOUT_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
@@ -156,6 +158,9 @@
             <inverse-foreignkey field-ref="awardId"/>
         </collection-descriptor>
         <collection-descriptor name="awardCustomDataList" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="awardId"/>
+        </collection-descriptor>
+        <collection-descriptor name="awardCloseoutItems" proxy="true" element-class-ref="org.kuali.kra.award.paymentreports.closeout.AwardCloseout" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>
         </collection-descriptor>
         <reference-descriptor name="awardTemplate" class-ref="org.kuali.kra.award.bo.AwardTemplate" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -1125,6 +1130,40 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<reference-descriptor name="customAttribute" class-ref="org.kuali.kra.bo.CustomAttribute" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="customAttributeId"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.award.paymentreports.closeout.AwardCloseout" table="AWARD_CLOSEOUT" >
+		<field-descriptor name="awardCloseoutId" column="AWARD_CLOSEOUT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_AWARD_CLOSEOUT" />
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />
+		<field-descriptor name="closeoutReportCode" column="CLOSEOUT_REPORT_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="closeoutReportName" column="CLOSEOUT_REPORT_NAME" jdbc-type="VARCHAR" />		
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="finalSubmissionDate" column="FINAL_SUBMISSION_DATE" jdbc-type="DATE" />
+		<field-descriptor name="dueDate" column="DUE_DATE" jdbc-type="DATE" />
+		<field-descriptor name="multiple" column="MULTIPLE" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />		
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="award" class-ref="org.kuali.kra.award.bo.Award" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="awardId"/>
+		</reference-descriptor>
+		<reference-descriptor name="closeoutReportType" class-ref="org.kuali.kra.award.paymentreports.closeout.CloseoutReportType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="closeoutReportCode"/>
+		</reference-descriptor>		
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.award.paymentreports.closeout.CloseoutReportType" table="CLOSEOUT_REPORT_TYPE">
+		<field-descriptor name="closeoutReportCode" column="CLOSEOUT_REPORT_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />				
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="award" class-ref="org.kuali.kra.award.bo.Award" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="awardId"/>
 		</reference-descriptor>
 	</class-descriptor>
 	

@@ -257,6 +257,11 @@ public final class KeyConstants {
     public static final String ERROR_AWARD_PAYMENT_SCHEDULE_DUE_DATE_REQUIRED = "error.required";
     public static final String ERROR_AWARD_PAYMENT_SCHEDULE_ITEM_NOT_UNIQUE = "error.awardPaymentSchedule.notunique";
     
+    //Award Closeout
+    public static final String ERROR_AWARD_CLOSEOUT_REPORT_NAME_REQUIRED = "error.required";
+    public static final String ERROR_AWARD_CLOSEOUT_ITEM_NOT_UNIQUE = "error.awardCloseout.notunique";
+    
+    
     // Award Details and Dates
     public static final String ERROR_INVALID_AWARD_TRANSFERRING_SPONSOR = "error.sponsor.invalid";
     public static final String ERROR_DUPLICATE_AWARD_TRANSFERRING_SPONSOR = "error.sponsor.duplicate";
@@ -328,6 +333,11 @@ public final class KeyConstants {
     public static final String PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE
         = "scheduleGenerationPeriodInYearsWhenFrequencyBaseCodeIsFinalExpirationDate";
     public static final String CONTACT_TYPE_OTHER = "contactTypeOther";
+    public static final String CLOSE_OUT_REPORT_TYPE_USER_DEFINED = "closeoutReportTypeUserDefined";
+    public static final String CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT = "closeoutReportTypeFinancialReport";
+    public static final String CLOSE_OUT_REPORT_TYPE_TECHNICAL = "closeoutReportTypeTechnical";
+    public static final String CLOSE_OUT_REPORT_TYPE_PATENT = "closeoutReportTypePatent";
+    public static final String CLOSE_OUT_REPORT_TYPE_PROPERTY = "closeoutReportTypeProperty";
     
     //Award Validation Error Messages
     public static final String INDIRECT_COST_RATE_NOT_IN_PAIR = "indirectCostRate.not.in.pair";
