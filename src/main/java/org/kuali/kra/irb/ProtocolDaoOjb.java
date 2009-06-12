@@ -31,6 +31,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.ProtocolLocation;
@@ -312,16 +313,16 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
                     b.sequence_number = (select max(a.sequence_number) from osp$protocol a
                                     where a.protocol_number = b.protocol_number) and
                     b.protocol_status_code in (100, 101, 102, 103, 104, 105, 106);
-           
+                   
         Replaced above query with following query by removing sub-query and added java code to to get sub-query behaviour.
     
         select (b.protocol_number) from protocol b where b.protocol_number like '001%' and 
         b.protocol_status_code in (100, 101, 102, 103, 104, 105, 106);
 
-     * @see org.kuali.kra.irb.ProtocolDao#getProtocolSubmissionCount(java.lang.String, java.lang.String)
+     * @see org.kuali.kra.irb.ProtocolDao#getProtocolSubmissionCount(java.lang.String)
      */
     @SuppressWarnings("unchecked")
-    public Integer getProtocolSubmissionCount(String protocolNumber) {
+    public Integer getProtocolSubmissionCountFromProtocol(String protocolNumber) {
         Criteria crit = new Criteria();
         
         crit.addLike("protocolNumber", protocolNumber + "%");
@@ -354,10 +355,13 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
             } else {
                 map.put(key, 1);
             }           
-        }
-        
-        Integer protocolSubmissionCount = map.get(map.lastKey());
+        }        
+        Integer count = null;
+        if(map.isEmpty())
+            count = 0;      
+        else
+            count = map.get(map.lastKey());
 
-        return protocolSubmissionCount;
+        return count;
     }
 }

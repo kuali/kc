@@ -48,7 +48,7 @@ public class ProtocolDaoOjbTest extends KraTestBase {
     @Test
     public void test() {
 
-        Integer val = getProtocolDao().getProtocolSubmissionCount("001");
+        Integer val = getProtocolDao().getProtocolSubmissionCountFromProtocol("001");
         assertEquals(new Integer(3),val);
         
     }
