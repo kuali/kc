@@ -220,7 +220,7 @@ end
 rule "Request for Termination 1"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "104", protocolStatusCode in ("200","201","202","203","300","301","302","308","311"))
+	protocolAction : ProtocolActionMapping(actionTypeCode == "104", protocolStatusCode in ("200","201","202","203","300","301","302","308","311"), submissionCountCond4 == true, submissionCountCond5 == true)
 then	
 	setAction(protocolAction, true);
 end
