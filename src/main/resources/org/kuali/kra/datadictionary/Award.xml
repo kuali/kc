@@ -64,6 +64,8 @@
         <ref bean="Award-unitName" />
         <ref bean="Award-unitNumber" />
         <ref bean="Award-ospAdministratorName" />
+        <ref bean="Award-archiveLocation" />
+        <ref bean="Award-closeoutDate" />
       </list>
     </property>
   </bean>
@@ -871,7 +873,34 @@
 		<property name="summary" value="Award Status" />
 		<property name="description" value="Award Status" />
 	</bean>
-  
+	
+	<bean id="Award-archiveLocation" parent="Award-archiveLocation-parentBean" />
+	<bean id="Award-archiveLocation-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="archiveLocation" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Archive Location" />
+		<property name="shortLabel" value="Archive Location" />
+		<property name="maxLength" value="500" />
+		<property name="validationPattern" >
+		  <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="control" >
+		  <bean p:size="50" parent="TextControlDefinition" />
+		</property>
+		<property name="summary" value="Archive Location" />
+		<property name="description" value="Archive Location" />
+	</bean>
+	
+	<bean id="Award-closeoutDate" parent="Award-closeoutDate-parentBean" />
+	<bean id="Award-closeoutDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+	    <property name="name" value="closeoutDate" />
+	    <property name="label" value="Archive Date" />
+	    <property name="shortLabel" value="Archive Date" />
+	    <property name="required" value="false" />
+	    <property name="summary" value="Archive Date" />
+	    <property name="description" value="Archive Date" />
+  	</bean>
+	
   	<!-- Business Object Lookup Definition -->
 	<bean id="Award-lookupDefinition" parent="Award-lookupDefinition-parentBean" />
   	<bean id="Award-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
@@ -896,6 +925,8 @@
 		    <bean p:attributeName="unitNumber" parent="FieldDefinition" />
 		    <bean p:attributeName="unitName" parent="FieldDefinition" />
 		    <bean p:attributeName="ospAdministratorName" parent="FieldDefinition" />
+		    <bean p:attributeName="archiveLocation" parent="FieldDefinition" />
+		    <bean p:attributeName="closeoutDate" parent="FieldDefinition" />
 		  </list>
 		</property>
 		<property name="resultFields" >
@@ -916,6 +947,8 @@
 			<!-- Obligation Expiration Date -->
 			<!-- Final Expiration Date -->
 			<bean p:attributeName="projectEndDate" parent="FieldDefinition" />
+			<bean p:attributeName="archiveLocation" parent="FieldDefinition" />
+		    <bean p:attributeName="closeoutDate" parent="FieldDefinition" />
 			
 		  </list>
 		</property>

@@ -56,6 +56,10 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipientR
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRule;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleEvent;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleImpl;
+import org.kuali.kra.award.paymentreports.closeout.AddAwardCloseoutRuleEvent;
+import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRule;
+import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRuleEvent;
+import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRuleImpl;
 import org.kuali.kra.award.paymentreports.paymentschedule.AddAwardPaymentScheduleRuleEvent;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRule;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRuleEvent;
@@ -112,7 +116,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                             PermissionsRule,
                                                                             AwardReportTermRule,
                                                                             AwardReportTermRecipientRule,
-                                                                            AwardDirectFandADistributionRule{
+                                                                            AwardDirectFandADistributionRule,
+                                                                            AwardCloseoutRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
@@ -172,6 +177,24 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     public boolean processAddAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent 
                                                                                         awardDirectFandADistributionRuleEvent) {
         return new AwardDirectFandADistributionRuleImpl().processAddAwardDirectFandADistributionBusinessRules(awardDirectFandADistributionRuleEvent);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRule#processAddAwardCloseoutBusinessRules(
+     *              org.kuali.kra.award.paymentreports.closeout.AddAwardCloseoutRuleEvent)
+     */
+    public boolean processAddAwardCloseoutBusinessRules(AddAwardCloseoutRuleEvent addAwardCloseoutRuleEvent) {
+        return new AwardCloseoutRuleImpl().processAddAwardCloseoutBusinessRules(addAwardCloseoutRuleEvent);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRule#processAwardCloseoutBusinessRules(
+     *          org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRuleEvent)
+     */
+    public boolean processAwardCloseoutBusinessRules(AwardCloseoutRuleEvent awardCloseoutRuleEvent) {
+        return new AwardCloseoutRuleImpl().processAwardCloseoutBusinessRules(awardCloseoutRuleEvent);
     }
 
     public boolean processAwardDirectFandADistributionBusinessRules(

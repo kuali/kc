@@ -36,6 +36,8 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.notesandattachments.comments.AwardCommentBean;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportsBean;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReportingBean;
+import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutBean;
+import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
 import org.kuali.kra.award.paymentreports.paymentschedule.PaymentScheduleBean;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBean;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.ApprovedForeignTravelBean;
@@ -48,6 +50,7 @@ import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.web.struts.form.LookupHelper;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -57,6 +60,7 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
@@ -97,6 +101,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private ApprovedSubawardFormHelper approvedSubawardFormHelper;
     private DetailsAndDatesFormHelper detailsAndDatesFormHelper;
     private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
+    private AwardCloseoutBean awardCloseoutBean;
     
     private ReportClass reportClassForPaymentsAndInvoices;
     private PaymentScheduleBean paymentScheduleBean;
@@ -118,7 +123,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     public AwardForm() {
         super();        
         this.setDocument(new AwardDocument());
-        initialize();
+        initialize();        
     }
     
     // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
@@ -157,7 +162,18 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         awardCreditSplitBean = new AwardCreditSplitBean(this);
         awardReportingBean = new AwardReportingBean(this);
         awardCommentBean = new AwardCommentBean(this);
-    }    
+        awardCloseoutBean = new AwardCloseoutBean(this);
+        awardCloseoutBean.setCloseoutReportTypeUserDefined(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD 
+                ,Constants.PARAMETER_COMPONENT_DOCUMENT ,KeyConstants.CLOSE_OUT_REPORT_TYPE_USER_DEFINED).getParameterValue());
+        awardCloseoutBean.setCloseoutReportTypeFinancialReport(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD
+                ,Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT).getParameterValue());
+        awardCloseoutBean.setCloseoutReportTypeTechnical(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD
+                ,Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.CLOSE_OUT_REPORT_TYPE_TECHNICAL).getParameterValue());
+        awardCloseoutBean.setCloseoutReportTypePatent(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.CLOSE_OUT_REPORT_TYPE_PATENT).getParameterValue());
+        awardCloseoutBean.setCloseoutReportTypeProperty(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD
+                ,Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.CLOSE_OUT_REPORT_TYPE_PROPERTY).getParameterValue());        
+    }
     
     /**
      * 
@@ -593,5 +609,30 @@ public class AwardForm extends KraTransactionalDocumentFormBase
      */
     public void setAwardReportingBean(AwardReportingBean awardReportingBean) {
         this.awardReportingBean = awardReportingBean;
+    }
+
+    /**
+     * Gets the awardCloseoutBean attribute. 
+     * @return Returns the awardCloseoutBean.
+     */
+    public AwardCloseoutBean getAwardCloseoutBean() {
+        return awardCloseoutBean;
+    }
+
+    /**
+     * Sets the awardCloseoutBean attribute value.
+     * @param awardCloseoutBean The awardCloseoutBean to set.
+     */
+    public void setAwardCloseoutBean(AwardCloseoutBean awardCloseoutBean) {
+        this.awardCloseoutBean = awardCloseoutBean;
+    }
+    
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    protected KualiConfigurationService getKualiConfigurationService(){
+        return KraServiceLocator.getService(KualiConfigurationService.class);
     }
 }

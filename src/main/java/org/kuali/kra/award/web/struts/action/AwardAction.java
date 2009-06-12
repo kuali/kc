@@ -30,12 +30,14 @@ import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
+import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
 import org.kuali.kra.award.service.AwardTemplateSyncService;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.AwardCommentService;
@@ -106,19 +108,40 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     }
     
     /**
-     * Create the original set of Award Users for a new Award Document.
-     * The creator the protocol is assigned to the AWARD_AGGREGATOR role.
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#initialDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#initialDocumentSave(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
         AwardForm awardForm = (AwardForm) form;
-        AwardDocument doc = awardForm.getAwardDocument();
         
+        createInitialAwardUsers(awardForm.getAwardDocument().getAward());
+        populateStaticCloseoutReports(awardForm);
+        
+    }
+
+    /**
+     * Create the original set of Award Users for a new Award Document.
+     * The creator the award is assigned to the AWARD_MODIFIER role.
+     * 
+     * @param doc
+     */
+    private void createInitialAwardUsers(Award award) {
         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-        kraAuthService.addRole(username, AwardRoleConstants.AWARD_MODIFIER.getAwardRole(), doc.getAward());
+        kraAuthService.addRole(username, AwardRoleConstants.AWARD_MODIFIER.getAwardRole(), award);
+    }
+    
+    /**
+     * 
+     * This method populates the initial static AwardCloseout reports upon the creation of an Award.
+     * 
+     * @param form
+     */
+    protected void populateStaticCloseoutReports(AwardForm form){
+        CloseoutReportTypeValuesFinder closeoutReportTypeValuesFinder = new CloseoutReportTypeValuesFinder();
+        
+        form.getAwardCloseoutBean().addAwardCloseoutStaticItems(closeoutReportTypeValuesFinder.getKeyValues());
     }
     
     /**
