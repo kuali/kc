@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.lookup.keyvalue;
+package org.kuali.kra.award.paymentreports.closeout;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kra.award.bo.ReportClass;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
@@ -29,7 +29,7 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  * 
  * This class is a values finder for <code>ReportClass</code> business object.
  */
-public class ReportClassValuesFinder extends KeyValuesBase {
+public class CloseoutReportTypeValuesFinder extends KeyValuesBase {
     
     /**
      * Constructs the list of Report Classes using KeyValuesService.  
@@ -40,12 +40,14 @@ public class ReportClassValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */    
     public List<KeyLabelPair> getKeyValues() {
-        Collection<ReportClass> reportClasses = (Collection<ReportClass>)getKeyValuesService().findAll(ReportClass.class);
+        Collection<CloseoutReportType> closeoutReportTypes = (Collection<CloseoutReportType>)getKeyValuesService().findAll(CloseoutReportType.class);
         
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
-        for(ReportClass reportClass: reportClasses){
-            keyValues.add(new KeyLabelPair(reportClass.getReportClassCode(), reportClass.getDescription()));
+        for(CloseoutReportType closeoutReportType: closeoutReportTypes){
+            if(!StringUtils.equalsIgnoreCase(closeoutReportType.getCloseoutReportCode(), "UD")){
+                keyValues.add(new KeyLabelPair(closeoutReportType.getCloseoutReportCode(), closeoutReportType.getDescription()));    
+            }
         }
         
         return keyValues;

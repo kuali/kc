@@ -96,8 +96,7 @@ public class AwardCustomDataRuleImpl extends ResearchDocumentRuleBase implements
         if (customAttributeDataType != null) {
             Integer maxLength = customAttribute.getDataLength();
             if ((maxLength != null) && (maxLength.intValue() < attributeValue.length())) {
-                GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_MAX_LENGTH,
-                        new String[] { customAttribute.getLabel(), maxLength.toString() });
+                GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_MAX_LENGTH, customAttribute.getLabel(), maxLength.toString());
                 return false;
             }
             ValidationPattern validationPattern = null;

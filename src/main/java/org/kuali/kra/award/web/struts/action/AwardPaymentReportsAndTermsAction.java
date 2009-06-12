@@ -15,8 +15,12 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,12 +34,16 @@ import org.kuali.kra.award.bo.AwardSponsorTerm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
+import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
+import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * 
@@ -135,6 +143,11 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         ((AwardForm) form).getApprovedForeignTravelBean().addApprovedForeignTravel();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
+    
+    
+    
+    
+    
     
     /**
      * This method forces recalculation
@@ -251,6 +264,23 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
+    
+    public ActionForward addAwardCloseout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        ((AwardForm) form).getAwardCloseoutBean().addAwardCloseoutItem();
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward deleteAwardCloseout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+                                                throws Exception {
+        
+        (((AwardForm) form).getAwardCloseoutBean()).deleteAwardCloseoutItem(getLineToDelete(request));
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    
        
     public ActionForward deleteApprovedEquipmentItem(ActionMapping mapping, ActionForm form, 
                                         HttpServletRequest request, HttpServletResponse response) 
@@ -483,6 +513,20 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     
     /**
      * 
+     * @see org.kuali.kra.award.web.struts.action.AwardAction#save(org.apache.struts.action.ActionMapping,
+     *               org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+        
+        ((AwardForm) form).getAwardCloseoutBean().updateCloseoutDueDatesBeforeSave();   
+        
+        return super.save(mapping, form, request, response);
+    }
+
+    
+    /**
+     * 
      * This method is a convenience method for deleting an <code>AwardSponsorTerm</code> from
      * <code>Award</code> business object. This way the delete functionality can be tested
      * independently using a JUnit Test.
@@ -543,4 +587,5 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             getPersistenceService().retrieveReferenceObjects(persistableObjects, referenceObjectNames);
         }
     }
+    
 }
