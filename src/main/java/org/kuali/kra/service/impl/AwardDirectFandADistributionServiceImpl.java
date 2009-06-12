@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardDirectFandADistribution;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.springframework.transaction.annotation.Transactional;
 
