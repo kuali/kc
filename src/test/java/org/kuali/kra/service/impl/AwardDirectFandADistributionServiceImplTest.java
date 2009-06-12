@@ -25,7 +25,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardDirectFandADistribution;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 
 /**
  * This class tests public methods in AwardDirectFandADistributionServiceImpl.

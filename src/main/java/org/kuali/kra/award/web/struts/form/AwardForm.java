@@ -23,8 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.bo.AwardComment;
-import org.kuali.kra.award.bo.AwardSpecialReview;
-import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
 import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.commitments.CostShareFormHelper;
@@ -41,6 +39,9 @@ import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReportingB
 import org.kuali.kra.award.paymentreports.paymentschedule.PaymentScheduleBean;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBean;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.ApprovedForeignTravelBean;
+import org.kuali.kra.award.specialreview.AwardSpecialReview;
+import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionBean;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;

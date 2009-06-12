@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rules;
+package org.kuali.kra.award.timeandmoney;
 
 import java.sql.Date;
 import java.util.List;
 
-import org.kuali.kra.award.bo.AwardDirectFandADistribution;
-import org.kuali.kra.award.rule.AwardDirectFandADistributionRule;
-import org.kuali.kra.award.rule.event.AwardDirectFandADistributionRuleEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -45,8 +42,8 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
     List<AwardDirectFandADistribution> awardDirectFandADistributions;
     
     /**
-     *  @see org.kuali.kra.award.rule.AwardDirectFandADistributionRule#processAwardDirectFandADistributionRuleBusinessRules
-     * (org.kuali.kra.award.rule.event.AwardDirectFandADistributionRuleEvent)
+     *  @see org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRule#processAwardDirectFandADistributionRuleBusinessRules
+     * (org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleEvent)
      */
     public boolean processAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         this.awardDirectFandADistributions = awardDirectFandADistributionRuleEvent.getAwardDirectFandADistributionsForValidation();
@@ -64,8 +61,8 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
     
     
     /**
-     * @see org.kuali.kra.award.rule.AwardDirectFandADistributionRule#processAddAwardDirectFandADistributionRuleBusinessRules
-     * (org.kuali.kra.award.rule.event.AwardDirectFandADistributionRuleEvent)
+     * @see org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRule#processAddAwardDirectFandADistributionRuleBusinessRules
+     * (org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleEvent)
      */
     public boolean processAddAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         

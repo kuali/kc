@@ -119,7 +119,7 @@
    		<collection-descriptor name="keywords" element-class-ref="org.kuali.kra.award.bo.AwardScienceKeyword" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="awardId" />
 		</collection-descriptor>
-   		<collection-descriptor name="specialReviews" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+   		<collection-descriptor name="specialReviews" proxy="true" element-class-ref="org.kuali.kra.award.specialreview.AwardSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="awardId" />
 		</collection-descriptor>
 		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -137,7 +137,7 @@
     	<collection-descriptor name="awardTransferringSponsors" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardTransferringSponsor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="awardId" />
     	</collection-descriptor>
-		<collection-descriptor name="awardDirectFandADistributions" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardDirectFandADistribution" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="awardDirectFandADistributions" proxy="true" element-class-ref="org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="awardId" />
     	</collection-descriptor>
     	<collection-descriptor name="awardAmountInfos" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardAmountInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
@@ -450,7 +450,7 @@
 		</reference-descriptor>
 	</class-descriptor>		
 	
-	<class-descriptor class="org.kuali.kra.award.bo.AwardSpecialReview" table="AWARD_SPECIAL_REVIEW">
+	<class-descriptor class="org.kuali.kra.award.specialreview.AwardSpecialReview" table="AWARD_SPECIAL_REVIEW">
 		<field-descriptor name="awardSpecialReviewId" column="AWARD_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" 
 			autoincrement="true" sequence-name="SEQ_AWARD_SPECIAL_REVIEW_ID"/>
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous"/>
@@ -479,12 +479,12 @@
 			<foreignkey field-ref="approvalTypeCode"/>
 			<foreignkey field-ref="specialReviewCode"/>
 		</reference-descriptor>
-		<collection-descriptor name="specialReviewExemptions" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardSpecialReviewExemption" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="specialReviewExemptions" proxy="true" element-class-ref="org.kuali.kra.award.specialreview.AwardSpecialReviewExemption" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="awardSpecialReviewId"/>
 		</collection-descriptor> 
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.award.bo.AwardSpecialReviewExemption" table="AWARD_EXEMPT_NUMBER">
+	<class-descriptor class="org.kuali.kra.award.specialreview.AwardSpecialReviewExemption" table="AWARD_EXEMPT_NUMBER">
 		<field-descriptor name="awardSpecialReviewExemptionId" column="AWARD_EXEMPT_NUMBER_ID" jdbc-type="BIGINT" primarykey="true" 
 			autoincrement="true" sequence-name="SEQ_AWARD_EXEMPT_NUMBER_ID"/>
 		<field-descriptor name="awardSpecialReviewId" column="AWARD_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" access="anonymous"/>
@@ -493,7 +493,7 @@
 		<field-descriptor name="exemptionTypeCode" column="EXEMPTION_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<reference-descriptor name="awardSpecialReview" class-ref="org.kuali.kra.award.bo.AwardSpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="awardSpecialReview" class-ref="org.kuali.kra.award.specialreview.AwardSpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="awardSpecialReviewId"/>
 		</reference-descriptor>
 		<reference-descriptor name="exemptionType" class-ref="org.kuali.kra.bo.ExemptionType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -1051,7 +1051,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.award.bo.AwardDirectFandADistribution" table="AWARD_AMT_FNA_DISTRIBUTION">
+	<class-descriptor class="org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution" table="AWARD_AMT_FNA_DISTRIBUTION">
 		<field-descriptor name="awardDirectFandADistributionId" column="AWARD_AMT_FNA_DISTRIBUTION_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_AMT_FNA_DSTRBTN_ID" />
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous"/>
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR"/>

@@ -35,6 +35,8 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
+import org.kuali.kra.award.specialreview.AwardSpecialReview;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.ScienceKeyword;

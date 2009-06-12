@@ -21,7 +21,7 @@
 
 	<bean id="AwardSpecialReviewExemption" parent="AwardSpecialReviewExemption-parentBean" />
 	<bean id="AwardSpecialReviewExemption-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardSpecialReviewExemption" />
+		<property name="businessObjectClass" value="org.kuali.kra.award.specialreview.AwardSpecialReviewExemption" />
 		<property name="inquiryDefinition" >
 			<ref bean="AwardSpecialReviewExemption-inquiryDefinition" />
 		</property>
