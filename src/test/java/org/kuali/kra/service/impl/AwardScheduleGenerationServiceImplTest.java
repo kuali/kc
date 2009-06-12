@@ -15,11 +15,14 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -56,8 +59,8 @@ public class AwardScheduleGenerationServiceImplTest {
     private static final int THIRTY_DAYS = 30;
     private static final int THREE_MONTHS = 3;
     private static final String ZERO_HOURS = "00:00";
-    private static final String REPORT_CLASS_CODE_CODE_SIX = "6";
-    private static final int PERIOD_IN_YEARS = 1;
+    private static final String REPORT_CLASS_CODE_CODE_SIX = "6";    
+    private static final String PERIOD_IN_YEARS = "1";
     
     Award award;
     List<AwardReportTerm> awardReportTerms;
@@ -66,6 +69,7 @@ public class AwardScheduleGenerationServiceImplTest {
     AwardScheduleGenerationServiceImpl awardScheduleGenerationServiceImpl;
     Calendar calendar;
     Calendar calendar1;
+    Map<String, java.util.Date> mapOfDates;
     
     private Mockery context = new JUnit4Mockery();
     
@@ -79,7 +83,9 @@ public class AwardScheduleGenerationServiceImplTest {
         calendar = new GregorianCalendar();
         calendar1 = new GregorianCalendar();
         setMapOfDatesOnAward(award);
-        awardScheduleGenerationServiceImpl.initializeDatesForThisAward(award);
+        mapOfDates = new HashMap<String, java.util.Date>();
+        awardScheduleGenerationServiceImpl.initializeDatesForThisAward(award, mapOfDates);
+        
     }
 
     @After
@@ -101,7 +107,7 @@ public class AwardScheduleGenerationServiceImplTest {
         calendar.set(START_DATE_YEAR_2009, Calendar.MAY, FIRST_DAY_OF_MONTH);
         award.setAwardExecutionDate(new java.sql.Date(calendar.getTimeInMillis()));
         calendar.clear();
-        calendar.set(START_DATE_YEAR_2009, Calendar.JULY, FIRST_DAY_OF_MONTH);
+        calendar.set(START_DATE_YEAR_2009, Calendar.SEPTEMBER, FIRST_DAY_OF_MONTH);
         award.setProjectEndDate(new java.sql.Date(calendar.getTimeInMillis()));
     }
     
@@ -113,8 +119,9 @@ public class AwardScheduleGenerationServiceImplTest {
         
         newAwardReportTerm.setFrequency(frequency);
         newAwardReportTerm.setAward(award);
+        newAwardReportTerm.setDueDate(new Date(calendar.getTimeInMillis()));
         
-        java.util.Date startDate = awardScheduleGenerationServiceImpl.getStartDate(newAwardReportTerm);
+        java.util.Date startDate = awardScheduleGenerationServiceImpl.getStartDate(newAwardReportTerm, mapOfDates);
         
         Assert.assertEquals(calendar.getTime(), startDate);
         
@@ -124,14 +131,24 @@ public class AwardScheduleGenerationServiceImplTest {
     public final void testGetEndDate(){
         calendar.clear();
         calendar.set(START_DATE_YEAR_2009, Calendar.JULY, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
-        awardScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);        
+        
+        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);
+        
+        final Parameter parameter = new Parameter();
+        parameter.setParameterName(KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);
+        parameter.setParameterValue(PERIOD_IN_YEARS);
+        
+        context.checking(new Expectations() {{
+            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);will(returnValue(parameter));
+        }});
+        awardScheduleGenerationServiceImpl.setKualiConfigurationService(kualiConfigurationService);
         java.util.Date endDate = awardScheduleGenerationServiceImpl.getEndDate(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase()
-                                    , calendar.getTime());
+                                    , calendar.getTime(), mapOfDates);
         calendar.add(Calendar.YEAR, 1);        
         Assert.assertEquals(calendar.getTime(),endDate);
-        endDate = awardScheduleGenerationServiceImpl.getEndDate(FrequencyBaseConstants.AWARD_EFFECTIVE_DATE.getfrequencyBase(), calendar.getTime());
+        endDate = awardScheduleGenerationServiceImpl.getEndDate(FrequencyBaseConstants.AWARD_EFFECTIVE_DATE.getfrequencyBase(), calendar.getTime(), mapOfDates);
         calendar.clear();
-        calendar.set(START_DATE_YEAR_2009, Calendar.JULY, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
+        calendar.set(START_DATE_YEAR_2009, Calendar.SEPTEMBER, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         Assert.assertEquals(calendar.getTime(),endDate);
     }
     
@@ -264,7 +281,7 @@ public class AwardScheduleGenerationServiceImplTest {
     @Test
     public void testGetDatesSuccessCaseWhenRepeatFlagIsTrue() throws ParseException{        
         calendar.clear();
-        calendar.set(START_DATE_YEAR_2009, Calendar.OCTOBER, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
+        calendar.set(START_DATE_YEAR_2009, Calendar.DECEMBER, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         final java.util.Date START_DATE = calendar.getTime();
         final int DAY_OF_MONTH = calendar.get(Calendar.DAY_OF_MONTH);
         calendar.add(Calendar.YEAR, 1);
@@ -281,20 +298,25 @@ public class AwardScheduleGenerationServiceImplTest {
         newAwardReportTerm.setFrequencyBaseCode(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase());
         
         final ScheduleService scheduleService = context.mock(ScheduleService.class);
+        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);
         
         final Parameter parameter = new Parameter();
-        parameter.setParameterName(KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);
-        parameter.setParameterValue(REPORT_CLASS_CODE_CODE_SIX);
+        parameter.setParameterName(KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);
+        parameter.setParameterValue(PERIOD_IN_YEARS);
         
         context.checking(new Expectations() {{
             one(scheduleService).getScheduledDates(with(equal(START_DATE)), with(equal(END_DATE)), with(equal(new Time24HrFmt(ZERO_HOURS)))
                     , with(any(ScheduleSequence.class)), with(equal(DAY_OF_MONTH)));will(returnValue(DATES));
         }});
+        
+        context.checking(new Expectations() {{
+            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);will(returnValue(parameter));
+        }});
                         
         awardScheduleGenerationServiceImpl.setScheduleService(scheduleService);
-        awardScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);
+        awardScheduleGenerationServiceImpl.setKualiConfigurationService(kualiConfigurationService);
         
-        Assert.assertEquals(DATES, awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm));
+        Assert.assertEquals(DATES, awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm, mapOfDates));
     }
     
     @Test
@@ -319,19 +341,13 @@ public class AwardScheduleGenerationServiceImplTest {
         
         final ScheduleService scheduleService = context.mock(ScheduleService.class);
         
-        final Parameter parameter = new Parameter();
-        parameter.setParameterName(KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);
-        parameter.setParameterValue(REPORT_CLASS_CODE_CODE_SIX);
-        
         context.checking(new Expectations() {{
             never(scheduleService).getScheduledDates(with(equal(START_DATE)), with(equal(END_DATE)), with(equal(new Time24HrFmt(ZERO_HOURS)))
                 , with(any(ScheduleSequence.class)),with(equal(DAY_OF_MONTH)));will(returnValue(DATES));
         }});
         
-        awardScheduleGenerationServiceImpl.setScheduleService(scheduleService);
-        awardScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);
-        
-        Assert.assertEquals(DATES, awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm));
+        awardScheduleGenerationServiceImpl.setScheduleService(scheduleService);        
+        Assert.assertEquals(DATES, awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm, mapOfDates));
     }
     
 }
