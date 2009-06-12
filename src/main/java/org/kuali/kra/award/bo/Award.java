@@ -32,6 +32,7 @@ import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
+import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
@@ -101,6 +102,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private KualiDecimal specialEbRateOnCampus;
     private String subPlanFlag;
     private String title;
+    private String archiveLocation; 
+    private Date closeoutDate;
     
     @AwardSyncable private Integer templateCode; 
     @AwardSyncable private String primeSponsorCode; 
@@ -154,6 +157,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardPaymentSchedule> paymentScheduleItems;
     private List<AwardTransferringSponsor> awardTransferringSponsors;
     private List<AwardAmountInfo> awardAmountInfos;
+    private List<AwardCloseout> awardCloseoutItems;
     
     // Additional fields for lookup
     private String leadUnitName;
@@ -962,6 +966,22 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.title = title;
     }
     
+    public String getArchiveLocation() {
+        return archiveLocation;
+    }
+
+    public void setArchiveLocation(String archiveLocation) {
+        this.archiveLocation = archiveLocation;
+    }
+
+    public Date getCloseoutDate() {
+        return closeoutDate;
+    }
+
+    public void setCloseoutDate(Date closeoutDate) {
+        this.closeoutDate = closeoutDate;
+    }
+    
 
     /**
      * 
@@ -1014,6 +1034,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         hashMap.put("title", getTitle());
         hashMap.put("awardCostShares", getAwardCostShares());
         hashMap.put("awardComments", getAwardComments());
+        hashMap.put("archiveLocation", this.getArchiveLocation());
+        hashMap.put("closeoutDate", this.getCloseoutDate());
         return hashMap;
     }    
 
@@ -1535,6 +1557,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         awardReportTerm.setAward(this);
     }
     
+    public void add(AwardCloseout awardCloseoutItem) {        
+        awardCloseoutItems.add(awardCloseoutItem);
+        awardCloseoutItem.setAward(this);
+    }
+    
     /**
      * Add an Award Unit or Central Administration contact
      * @param newAwardApprovedEquipment
@@ -1590,6 +1617,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         awardTransferringSponsors = new ArrayList<AwardTransferringSponsor>();
         awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
         awardCustomDataList = new ArrayList<AwardCustomData>();
+        awardCloseoutItems = new ArrayList<AwardCloseout>();
         
         projectPersons = new ArrayList<AwardPerson>();
         awardUnitContacts = new ArrayList<AwardUnitContact>();
@@ -2032,7 +2060,24 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
     public void setAwardCustomDataList(List<AwardCustomData> awardCustomDataList) {
         this.awardCustomDataList = awardCustomDataList;
     }
+    
+    /**
+     * Gets the awardCloseoutItems attribute. 
+     * @return Returns the awardCloseoutItems.
+     */
+    public List<AwardCloseout> getAwardCloseoutItems() {
+        return awardCloseoutItems;
+    }
 
+    /**
+     * Sets the awardCloseoutItems attribute value.
+     * @param awardCloseoutItems The awardCloseoutItems to set.
+     */
+    public void setAwardCloseoutItems(List<AwardCloseout> awardCloseoutItems) {
+        this.awardCloseoutItems = awardCloseoutItems;
+    }
+
+    
     /**
      * Sets the templateCode attribute value.
      * @param templateCode The templateCode to set.
