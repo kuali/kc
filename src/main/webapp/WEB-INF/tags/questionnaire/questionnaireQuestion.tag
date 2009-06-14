@@ -1,5 +1,9 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="readOnly" value="false"  scope="request"/>
+<%-- example to register for security reason 
+<c:set var="epMethodToCallAttribute" value="methodToCall.performLookup.(!!org.kuali.kra.budget.bo.RateClassType!!).(((rateClassType:document.newMaintainableObject.rateClassType,))).((#document.newMaintainableObject.rateClassType:rateClassType,#)).((<>)).(([])).((**)).((^^)).((&&)).((/rateClassTypeT/)).((~~)).anchor1"/>
+${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)} 
+--%>
 
 <div class="tab-container" align="center">
     <h3>
@@ -8,11 +12,12 @@
     </h3>
         
         
-  <table id="response-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
+  <table id="question-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
    <tr>
      <td>  
        Question : 
-           <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.questionnaireQuestions[0].questionId" 
+           <%-- <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.questionnaireQuestions[0].questionId" --%> 
+           <kul:htmlControlAttribute property="questionId" 
                                           attributeEntry="${DataDictionary.QuestionnaireQuestion.attributes.questionId}"  />
       </td>        
       <td>
@@ -48,7 +53,38 @@
 	</ul>
     </td>
    </tr>
+   <tr>
+       <input name="aq01sc" type="radio" checked="checked" />as sibling&nbsp;&nbsp;&nbsp;
+       <input name="aq01sc" type="radio" />as child
+       <input type="image" tabindex="1000009" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:document.newMaintainableObject.businessObject.questionnaireQuestions[0].questionId,))).((#document.newMaintainableObject.businessObject.questionnaireQuestions[0].questionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/questionId/)).((~~)).anchor1"
+   src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search Question" title="Search Question" />
+       
+       <kul:multipleValueLookup boClassName="org.kuali.kra.questionnaire.question.Question" 
+                                                                 lookedUpCollectionName="questionnaireQuestions"
+                                                                 anchor="${currentTabIndex}.qnIndex${memberIndex}"/>
+yes.        
+   </tr>
+   <%-- Test: add new question, when it return question lookup, the dynamically qn are still ok--%>
+   <c:set var="index" value="0"/>
+   <c:forEach var="question" items="${KualiForm.document.newMaintainableObject.businessObject.questionnaireQuestions}" varStatus="status">
+     <tr> <td>
+     
+        <input type="text" id = "document.newMaintainableObject.businessObject.questionnaireQuestions[${status.index}].questionId" 
+           name = "document.newMaintainableObject.businessObject.questionnaireQuestions[${status.index}].questionId" 
+           value = "${question.questionId}"/>
+		   <c:set var="index" value="${index+1}"/>
+     
+     </td></tr>
+   
+   </c:forEach>
+      <input type = "hidden" id = "qncount" value = "${index}" /> 
   </table>
 
+<%-- 
+<ul>
+<c:forEach var="i" begin="1" end="100" step="1" varStatus ="status">
+</c:forEach>
+</ul>
+--%>
 
 </div>

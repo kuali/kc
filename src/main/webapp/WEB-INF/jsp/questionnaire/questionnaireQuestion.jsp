@@ -35,9 +35,10 @@
   <link rel="stylesheet" href="/${fn:trim(ConfigProperties.app.context.name)}/css/jquery/jquery.treeview.css" type="text/css" />
   <%-- link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/treeview/jquery.treeview.css" type="text/css" /--%>
   <script type="text/javascript" src="/${fn:trim(ConfigProperties.app.context.name)}/scripts/jquery/jquery.treeview.js"></script>
+  <script type="text/javascript" src="/${fn:trim(ConfigProperties.app.context.name)}/scripts/questionnaire.js"></script>
 
 
-<kul:tab tabTitle="Questions" defaultOpen="true" useCurrentTabIndexAsKey="true"> 
+<kul:tab tabTitle="Questionnaire" defaultOpen="true" useCurrentTabIndexAsKey="true"> 
     <kra-questionnaire:questionnaireCore />
     <kra-questionnaire:questionnaireQuestion />
 </kul:tab>
@@ -45,6 +46,7 @@
     <script>
   var node;
   var i = 1;
+  var j = 0;
   var removedNode;
   var jsContextPath = "${pageContext.request.contextPath}";
   $(document).ready(function(){
@@ -55,7 +57,7 @@
   
   
   function getQuestion() {
-  alert("jsContextPath"+jsContextPath);
+  //alert("jsContextPath"+jsContextPath);
      var qnaireid =  "qnaireid"+i
      var question = $('<li class="closed"></li>').attr("id", qnaireid);
   
@@ -106,7 +108,7 @@ thtmp = $('<th colspan="3"></th>');
   atag.appendTo(thtmp);
   
   image = $('<a href="#"><img src="/kra-dev/static/images/tinybutton-removenode.gif" width="79" height="15" border="0" alt="Remove Node" title="Remove this node and its child groups/sponsors"></a>&nbsp').attr("id","remove"+i).click(function() {
-                      var liId="li#"+id;
+                      var liId="li#"+qnaireid;
                       removedNode = $(liId).clone(true);
                       //removedNode = $(liId); // this will not work because event also lost
                       alert("Remove node "+removedNode.attr("id"));
@@ -147,19 +149,39 @@ trtmp.appendTo(tbl80);
    var tbl95 = $('<table style="border:none; width:100%;" cellpadding="0" cellspacing="0"></table>').attr("id","tbl95"+i);
   trtmp = $('<tr></tr>');
   tdtmp = $('<td style="border:none; width:170px;"></td>');
-  $('<input name="aq01sc" type="radio" checked="checked" />').appendTo(tdtmp);
+  // name attribute has to be in 'input' definition, otherwise, IE7 will not work.
+  $('<input type="radio" name = "radio" checked="checked" value="sibling" />').attr("class","radioQn"+i).attr("name","radioQn"+i).appendTo(tdtmp);
   $('<span>as sibling&nbsp;&nbsp;&nbsp</span>').appendTo(tdtmp);
-  $('<input name="aq02s1" type="radio" />').appendTo(tdtmp);
+  $('<input type="radio" name = "radio" value="child" />').attr("class","radioQn"+i).attr("name","radioQn"+i).appendTo(tdtmp);
   $('<span>as child</span>').appendTo(tdtmp);
   tdtmp.appendTo(trtmp);
   
   tdtmp = $('<td style="border:none;"></td>').html($('<input type="text" style="width:100%" value="" />'));
   tdtmp.appendTo(trtmp);
   tdtmp = $('<td style="border:none; width:30px; text-align:center;"></td>');
-  image = $('<a href="#"><img src="/kra-dev/static/images/searchicon.gif" border="0" class="tinybutton"  alt="Search Question" title="Search Question"></a>&nbsp').attr("id","search"+i).click(function() {
-                      alert("Search question");
-                    }); 
+  // lookup  example
+  // <input type="image" tabindex="1000014" name="methodToCall.performLookup.(!!org.kuali.kra.bo.Sponsor!!).(((sponsorCode:document.sponsorCode,sponsorName:document.sponsor.sponsorName))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchorRequiredFieldsforSavingDocument"
+  // src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search " title="Search " />
+
+  atag = $('<a href="#"></a>');
+  //.click(function() {
+   //// the expression,$(this).attr("id").substring(6)+":checked").val(), is to use "class" to seach the value of radio buttons
+    // alert("Search question"+$(".radioQn"+$(this).attr("id").substring(6)+":checked").val());
+    //                });
+   qntag = $('<input type="hidden"/>').attr("id","qid"+i).attr("name","qid"+i);
+   qntag.appendTo(tdtmp);
+  image = $('<img src="/kra-dev/static/images/searchicon.gif" border="0" class="tinybutton"  alt="Search Question" title="Search Question">').attr("id","search"+i); 
+  //image.attr("name","methodToCall\.performLookup\.(!!org\.kuali\.kra\.questionnaire\.question\.Question!!)\.(((questionId:document\.newMaintainableObject\.questionId,)))\.((#document\.newMaintainableObject\.questionId:questionId,#))\.((<>))\.(([]))\.((**))\.((^^))\.((&&))\.((/rateClassTypeT/))\.((~~))\.anchor1");
+  image.attr("name","methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:document.newMaintainableObject.questionId,))).((#document.newMaintainableObject.questionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/rateClassTypeT/)).((~~)).anchor1");
+  atag.html(image);
+  atag.appendTo(tdtmp);
+  //name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:document.newMaintainableObject.businessObject.questionnaireQuestions[0].questionId,))).((#document.newMaintainableObject.businessObject.questionnaireQuestions[0].questionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/questionId/)).((~~)).anchor1"
+  image = $('<input type="image" src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search Question" title="Search Question" />').attr("id","search"+i);
+  image.attr("name","methodToCall\.performLookup\.(!!org\.kuali\.kra\.questionnaire\.question\.Question!!)\.(((questionId:document\.newMaintainableObject\.businessObject\.questionnaireQuestions[0]\.questionId,)))\.((#document\.newMaintainableObject\.businessObject\.questionnaireQuestions[0]\.questionId:questionId,#))\.((<>))\.(([]))\.((**))\.((^^))\.((&&))\.((/questionId/))\.((~~))\.anchor1");
   image.appendTo(tdtmp);
+  //var testlookup = $('<input type="image" tabindex="1000009" name="methodToCall\.performLookup\.(!!org\.kuali\.kra\.budget\.bo\.RateClassType!!)\.(((rateClassType:document\.newMaintainableObject\.rateClassType,)))\.((#document\.newMaintainableObject\.rateClassType:rateClassType,#))\.((<>))\.(([]))\.((**))\.((^^))\.((&&))\.((/rateClassTypeT/))\.((~~))\.anchor1" src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search Rate Class Type" title="Search Rate Class Type" />');
+  //testlookup.appendTo(tdtmp);
+  
   tdtmp.appendTo(trtmp);
   trtmp.appendTo(tbl95);
   trtmp1 = $('<tr></tr>');
@@ -350,7 +372,9 @@ tbl196.appendTo(div192);
   
    function addQuestion() {
      //alert($("#document\\.newMaintainableObject\\.businessObject\\.questionnaireQuestions\\[0\\]\\.questionId").attr("value"));
-     var qid = $("#document\\.newMaintainableObject\\.businessObject\\.questionnaireQuestions\\[0\\]\\.questionId");
+     //var qid = $("#document\\.newMaintainableObject\\.businessObject\\.questionnaireQuestions\\[0\\]\\.questionId");
+     var qid = $("#questionId");
+     //alert ("qid "+qid.attr("id"));
      if (qid.attr("value").trim() == "") {
         alert("Please enter question description");
        // var branches = $("<li><span class='folder'>New Sublist</span><ul>" + 
@@ -367,7 +391,7 @@ tbl196.appendTo(div192);
      
                  i++;
 
-            var listitem = getQuestion();
+            var listitem = getQuestionNew("Test Question","V.1.01");
 			var ultag = $('<ul></ul>');
             ultag.appendTo(listitem);
             
@@ -379,7 +403,14 @@ tbl196.appendTo(div192);
            add: listitem
         });
 
-        
+        var intag = $('<input type ="text"></input>').attr("value",qid.attr("value").trim());
+        var name = "document\.newMaintainableObject\.businessObject\.questionnaireQuestions["+j+"]\.questionId";
+        intag.attr("id",name).attr("name",name);
+        j++;
+        var trtmp = $('<tr></tr>');
+        var tdtmp = $('<td></td>').html(intag);
+        trtmp.html(tdtmp);
+        trtmp.appendTo($("#question-table"));
      
      
      } //end else
@@ -711,45 +742,34 @@ function getResearchAreaCode(nodeName) {
 }
    
    
-     $(document).ready(function(){
-        // initial state
-            $("#HSdiv02b").hide();
-        // toggle state
-            $("#HScontrol02b").toggle(
-                function()
-                {
-                    $("#HSdiv02b").slideDown(400);
-                    $("#HScontrol02b").attr("src","/kra-dev/kr/static/images/tinybutton-hide.gif");
-                },
-                function()
-                {
-                    $("#HSdiv02b").slideUp(200);
-                    $("#HScontrol02b").attr("src","/kra-dev/kr/static/images/tinybutton-show.gif");
-                }
-            );	
-    });
-
  
-     $(document).ready(function(){
-        // initial state
-            $("#HSdiv01").hide();
-        // toggle state
-            $("#HScontrol01").toggle(
-                function()
-                {
-                    $("#HSdiv01").slideDown(400);
-                    $("#HScontrol01").attr("src","/kra-dev/kr/static/images/tinybutton-hide.gif");
-                },
-                function()
-                {
-                    $("#HSdiv01").slideUp(200);
-                    $("#HScontrol01").attr("src","/kra-dev/kr/static/images/tinybutton-show.gif");
-                }
-            );	
+    $(document).ready(function(){
+        
+       //alert("qncount= "+$("#qncount").attr("value"));
+       // kind of set up questions when return from lookup.  still has long way to go.
+       $("#questionId").attr("value","10");
+       	for(var k= 1; k <= $("#qncount").attr("value"); k++) {
+       	//for(var k= 1; k <= 100; k++) {
+       	   addQuestion();
+       	}
+        //alert(k)
+  
     });
-
- 
    
+      var opArray = ['select', 'and', 'or'];
+      var responseArray = ['select', 'Contains text value', 'Matches text', 'Less than number', 'Less than or equals number', 'Equals number', 'Greater than or equals number', 'Greater than number', 'Before date', 'After date'];
    
+      var responseOptions = $('<select name="CustomData"></select>');
+      $('<option value="0" selected="selected">select</option>').appendTo(responseOptions);
+      $('<option value="1">Contains text value</option>').appendTo(responseOptions);
+      $('<option value="2">Matches text</option>').appendTo(responseOptions);
+      $('<option value="3">Less than number</option>').appendTo(responseOptions);
+      $('<option value="4">Less than or equals number</option>').appendTo(responseOptions);
+      $('<option value="5">Equals number</option>').appendTo(responseOptions);
+      $('<option value="6">Greater than or equals number</option>').appendTo(responseOptions);
+      $('<option value="7">Greater than number</option>').appendTo(responseOptions);
+      $('<option value="8">Before date</option>').appendTo(responseOptions);
+      $('<option value="9">After date</option>').appendTo(responseOptions);
+     
    
     </script>
