@@ -124,7 +124,7 @@ public class AwardCloseoutBean implements Serializable {
         for (KeyLabelPair keyLabelPair : keyLabelPairs) {
             awardCloseout.setCloseoutReportCode(keyLabelPair.getKey().toString());
             awardCloseout.setCloseoutReportName(keyLabelPair.getLabel());
-            getAward().add(awardCloseout);
+            getAward().addStaticCloseout(awardCloseout);
             awardCloseout = new AwardCloseout();
         }
     }
