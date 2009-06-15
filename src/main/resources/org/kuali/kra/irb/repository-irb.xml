@@ -935,4 +935,31 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
+	<class-descriptor class="org.kuali.kra.irb.actions.amendrenew.ProtocolModule" table="PROTOCOL_MODULES">
+		<field-descriptor name="protocolModuleCode" column="PROTOCOL_MODULE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule" table="PROTO_AMEND_RENEW_MODULES">
+		<field-descriptor name="protocolAmendRenewModuleId" column="PROTO_AMEND_RENEW_MODULES_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+		<field-descriptor name="protocolAmendRenewModuleNumber" column="PROTO_AMEND_RENEWAL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="protocolModuleCode" column="PROTOCOL_MODULE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolId"/>
+		</reference-descriptor>
+		<reference-descriptor name="protocolModule" class-ref="org.kuali.kra.irb.actions.amendrenew.ProtocolModule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolModuleCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
 </descriptor-repository>

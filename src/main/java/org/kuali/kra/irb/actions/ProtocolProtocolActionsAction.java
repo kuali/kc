@@ -333,6 +333,22 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
     /**
+     * Create an Amendment.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward createAmendment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    /**
      * Get the line number.
      * 
      * @param request the HTTP request
