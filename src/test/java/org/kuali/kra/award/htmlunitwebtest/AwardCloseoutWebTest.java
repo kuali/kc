@@ -73,29 +73,66 @@ public class AwardCloseoutWebTest extends AwardPaymentsAndTermsWebTest {
         super.tearDown();
     }
     
-    @Test    
-    public void testAwardCloseoutAddDeleteUserDefinedReport() throws Exception{
+    @Test
+    public void testAwardCloseoutStaticReportsArePersistedUponAwardCreation(){        
+        assertContains(paymentReportsAndTermsPage, "1 Financial Report");
+        assertContains(paymentReportsAndTermsPage, "2 Technical");
+        assertContains(paymentReportsAndTermsPage, "3 Patent");
+        assertContains(paymentReportsAndTermsPage, "4 Property");
+    }
+    
+    @Test
+    public void testAwardCloseoutValidations() throws Exception{
+        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.addAwardCloseout.anchorAwardCloseout");
+        assertContains(paymentReportsAndTermsPage,ERRORS_FOUND_ON_PAGE);
+        assertContains(paymentReportsAndTermsPage,"Final Report (Final Report) is a required field.");
+        
         setFieldValue(paymentReportsAndTermsPage, "awardCloseoutBean.newAwardCloseout.closeoutReportName", "Test Report 1");
         setFieldValue(paymentReportsAndTermsPage, "awardCloseoutBean.newAwardCloseout.dueDate", "5");
         setFieldValue(paymentReportsAndTermsPage, "awardCloseoutBean.newAwardCloseout.finalSubmissionDate", "5");
         
         paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.addAwardCloseout.anchorAwardCloseout");
         assertContains(paymentReportsAndTermsPage,ERRORS_FOUND_ON_PAGE);
-        assertContains(paymentReportsAndTermsPage,"5 is not a valid date. Valid date format is xx/xx/xxxx.");
+        assertContains(paymentReportsAndTermsPage,"5 is not a valid date. Valid date format is xx/xx/xxxx.");        
+    }
+    
+    @Test
+    public void testNonCloseoutNonReportFieldsValidations() throws Exception{
+        setFieldValue(paymentReportsAndTermsPage,"document.awardList[0].closeoutDate","32423as");        
+        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.save");                
+        assertContains(paymentReportsAndTermsPage, ERRORS_FOUND_ON_PAGE);        
+        assertContains(paymentReportsAndTermsPage,"32423as is not a valid date. Valid date format is xx/xx/xxxx.");                
+    }
+    
+    
+    @Test
+    public void testNonCloseoutNonReportFieldsPersistence() throws Exception{
+        setFieldValue(paymentReportsAndTermsPage,"document.awardList[0].archiveLocation","Test Archive Location");
+        setFieldValue(paymentReportsAndTermsPage,"document.awardList[0].closeoutDate","06/15/2009");
         
+        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.save");
+        assertDoesNotContain(paymentReportsAndTermsPage, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
+        assertDoesNotContain(paymentReportsAndTermsPage, ERRORS_FOUND_ON_PAGE);        
+        assertContains(paymentReportsAndTermsPage,SAVE_SUCCESS_MESSAGE);
+        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.reload");
+        assertContains(paymentReportsAndTermsPage,"Test Archive Location");
+        assertContains(paymentReportsAndTermsPage,"06/15/2009");        
+    }
+    
+    @Test    
+    public void testAwardCloseoutAddDeleteUserDefinedReport() throws Exception{        
         setFieldValue(paymentReportsAndTermsPage, "awardCloseoutBean.newAwardCloseout.closeoutReportName", "Test Report 1");
         setFieldValue(paymentReportsAndTermsPage, "awardCloseoutBean.newAwardCloseout.dueDate", "5/15/2009");
         setFieldValue(paymentReportsAndTermsPage, "awardCloseoutBean.newAwardCloseout.finalSubmissionDate", "5/15/2009");
         paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.addAwardCloseout.anchorAwardCloseout");
-        System.out.println(paymentReportsAndTermsPage.asText());
+        
         paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.save");
         System.out.println(paymentReportsAndTermsPage.asText());
         assertDoesNotContain(paymentReportsAndTermsPage, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
         assertDoesNotContain(paymentReportsAndTermsPage, ERRORS_FOUND_ON_PAGE);        
         assertContains(paymentReportsAndTermsPage,SAVE_SUCCESS_MESSAGE);
-        
-        
-        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.deleteAwardCloseout.line4");
+                
+        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.deleteAwardCloseout.line4.anchor22");
         paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.save");
         assertDoesNotContain(paymentReportsAndTermsPage, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
         assertDoesNotContain(paymentReportsAndTermsPage, ERRORS_FOUND_ON_PAGE);        
