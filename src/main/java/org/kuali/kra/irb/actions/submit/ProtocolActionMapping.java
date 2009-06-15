@@ -76,6 +76,22 @@ public class ProtocolActionMapping implements FactBean {
         this.protocol = protocol;
     }
     
+    @SuppressWarnings("unchecked")
+    public String getProtocolSubmissionScheduleId() {
+        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+        positiveFieldValues.put("protocolNumber", protocol.getProtocolNumber());
+        positiveFieldValues.put("sequenceNumber", protocol.getSequenceNumber());
+        positiveFieldValues.put("submissionNumber", protocol.getProtocolSubmission().getSubmissionNumber());
+        
+        List<ProtocolSubmission> list = (List<ProtocolSubmission>) businessObjectService.findMatching(ProtocolSubmission.class, positiveFieldValues);
+        String retVal = null;
+        if(!list.isEmpty()) {
+            ProtocolSubmission ps = list.get(0);
+            retVal = ps.getScheduleId();
+        }
+        return retVal;
+    }
+    
     public boolean getMinutesCount() {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("protocolNumber", protocol.getProtocolNumber());
