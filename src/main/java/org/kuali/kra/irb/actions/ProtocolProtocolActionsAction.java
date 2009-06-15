@@ -31,6 +31,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
@@ -345,8 +346,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
+        getProtocolAmendRenewService().createAmendment(protocolForm.getProtocolDocument(), 
+                                                       protocolForm.getActionHelper().getProtocolAmendmentBean());
         return mapping.findForward(MAPPING_BASIC);
     }
+    
+    private ProtocolAmendRenewService getProtocolAmendRenewService() {
+        return KraServiceLocator.getService(ProtocolAmendRenewService.class);
+    }
+
     
     /**
      * Get the line number.
