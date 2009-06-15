@@ -50,6 +50,7 @@ import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
 import org.kuali.kra.award.paymentreports.awardreports.AddAwardReportTermRecipientRuleEvent;
 import org.kuali.kra.award.paymentreports.awardreports.AddAwardReportTermRuleEvent;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipientRule;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipientRuleEvent;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipientRuleImpl;
@@ -124,6 +125,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     public static final boolean VALIDATION_REQUIRED = true;
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
     private static final String AWARD_REPORT_TERMS = "awardReportTerms";
+    private static final String AWARD_REPORT_TERM_ITEMS = "awardReportTermItems";
     private static final String AWARD_ERROR_PATH_PREFIX = "document.awardList[0].";
 
     /**
@@ -521,9 +523,10 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         
         AwardDocument awardDocument = (AwardDocument) document;
         for(AwardReportTerm awardReportTerm: awardDocument.getAward().getAwardReportTermItems()){
-            retval = evaluateBusinessRuleForReportCodeField(awardReportTerm, i);
-            retval = evaluateBusinessRuleForFrequencyCodeField(awardReportTerm, i);
-            retval = evaluateBusinessRuleForFrequencyBaseCodeField(awardReportTerm, i);
+            retval &= evaluateBusinessRuleForReportCodeField(awardReportTerm, i);
+            retval &= evaluateBusinessRuleForFrequencyCodeField(awardReportTerm, i);
+            retval &= evaluateBusinessRuleForFrequencyBaseCodeField(awardReportTerm, i);
+            retval &= evaluateBusinessRuleForRecipients(awardReportTerm, i);
             i++;
         }
         
@@ -599,6 +602,30 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                 isValid = true;                    
             }
         }
+        return isValid;
+    }
+
+    /**
+     * This method checks that each of the report term's recipients has a name/organization
+     * @param awardReportTerm
+     * @param index
+     * @return
+     */
+    protected boolean evaluateBusinessRuleForRecipients(AwardReportTerm awardReportTerm, int index) {
+        boolean isValid = true;
+
+        List<AwardReportTermRecipient> recipients = awardReportTerm.getAwardReportTermRecipients();
+        for (int i=0; i<recipients.size(); i++) {
+            AwardReportTermRecipient recipient = recipients.get(i);
+            if (recipient.getRolodexId() == null) {
+                GlobalVariables.getErrorMap().putError(AWARD_REPORT_TERM_ITEMS + Constants.LEFT_SQUARE_BRACKET + index
+                        + Constants.RIGHT_SQUARE_BRACKET
+                        + ".awardReportTermRecipients" + Constants.LEFT_SQUARE_BRACKET + i + Constants.RIGHT_SQUARE_BRACKET + ".rolodexId" 
+                        , KeyConstants.ERROR_REQUIRED_ORGANIZATION, new Integer(i+1).toString());
+                isValid = false;
+            }
+        }
+        
         return isValid;
     }
     
