@@ -246,4 +246,9 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
             return this.name;
         }
     }
+
+    public void init(Protocol protocol) {
+        setProtocolNumber(protocol.getProtocolNumber());
+        setProtocol(protocol);
+    }
 }
