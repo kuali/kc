@@ -135,6 +135,7 @@
     
     <bean id="protocolCopyService" class="org.kuali.kra.irb.actions.copy.ProtocolCopyServiceImpl">
         <property name="documentService" ref="documentService" />
+        <property name="businessObjectService" ref="businessObjectService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
         <property name="protocolAuthorizationService" ref="protocolAuthorizationService" />
     </bean>
