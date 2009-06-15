@@ -26,6 +26,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
@@ -63,7 +64,8 @@ public class ActionHelper implements Serializable {
     private ProtocolRequestBean protocolReOpenEnrollmentRequestBean;
     private ProtocolRequestBean protocolDataAnalysisRequestBean;
     private ProtocolNotifyIrbBean protocolNotifyIrbBean;
-   
+    private ProtocolAmendmentBean protocolAmendmentBean;
+    
     /**
      * Constructs an ActionHelper.
      * @param form the protocol form
@@ -83,6 +85,7 @@ public class ActionHelper implements Serializable {
         protocolDataAnalysisRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, 
                                                                   ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
         protocolNotifyIrbBean = new ProtocolNotifyIrbBean();
+        protocolAmendmentBean = new ProtocolAmendmentBean();
     }
     
     public void prepareView() {
@@ -181,5 +184,9 @@ public class ActionHelper implements Serializable {
     
     public ProtocolNotifyIrbBean getProtocolNotifyIrbBean() {
         return protocolNotifyIrbBean;
+    }
+    
+    public ProtocolAmendmentBean getProtocolAmendmentBean() {
+        return protocolAmendmentBean;
     }
 }
