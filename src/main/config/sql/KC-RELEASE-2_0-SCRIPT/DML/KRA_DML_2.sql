@@ -1138,6 +1138,27 @@ Insert into KRNS_PARM_T
    (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd, grp_nm, ACTV_IND)
  Values
    ('KC-PROTOCOL', 'D', 'protocolSelectSubmissionReviewers', sys_guid(), 1, 'CONFG', 'True', 'Implementing institution can decide on whether to allow reviewers to be selected upon an IRB submittal', 'A', 'WorkflowAdmin', 'Y');
+INSERT INTO KRNS_PARM_T 
+	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD,GRP_NM,ACTV_IND) 
+	VALUES 
+	('KC-AWARD','D','closeoutReportTypeUserDefined',sys_guid(),1,'CONFG','UD','User Defined Close out Report Type','A','WorkflowAdmin','Y');
+INSERT INTO KRNS_PARM_T 
+	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD,GRP_NM,ACTV_IND) 
+	VALUES 
+	('KC-AWARD','D','closeoutReportTypeFinancialReport',sys_guid(),1,'CONFG','1','This system parameter maps the CloseoutReportType Financial Report(closeoutReoprtTypeCode=1) with ReportClass Fiscal(reportClassCode=1). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A','WorkflowAdmin','Y');
+INSERT INTO KRNS_PARM_T 
+	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD,GRP_NM,ACTV_IND) 
+	VALUES 
+	('KC-AWARD','D','closeoutReportTypeTechnical',sys_guid(),1,'CONFG','4','This system parameter maps the CloseoutReportType Technical(closeoutReoprtTypeCode=4) with ReportClass Technical Management(reportClassCode=4). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A','WorkflowAdmin','Y');
+INSERT INTO KRNS_PARM_T 
+	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD,GRP_NM,ACTV_IND) 
+	VALUES 
+	('KC-AWARD','D','closeoutReportTypePatent',sys_guid(),1,'CONFG','3','This system parameter maps the CloseoutReportType Patent(closeoutReoprtTypeCode=3) with ReportClass Intellectual Property(reportClassCode=3). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A','WorkflowAdmin','Y');
+INSERT INTO KRNS_PARM_T 
+	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD,GRP_NM,ACTV_IND) 
+	VALUES 
+	('KC-AWARD','D','closeoutReportTypeProperty',sys_guid(),1,'CONFG','2','This system parameter maps the CloseoutReportType Property(closeoutReoprtTypeCode=2) with ReportClass Property(reportClassCode=2). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A','WorkflowAdmin','Y');
+	
 
 commit;
 
@@ -1152,3 +1173,24 @@ COMMIT;
 UPDATE organization SET organization_name = trim(organization_name);
 
 commit;
+
+INSERT INTO PROTOCOL_MODULES (PROTOCOL_MODULE_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('001', 'General Info', sysdate,'KRADEV');
+INSERT INTO PROTOCOL_MODULES (PROTOCOL_MODULE_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('002', 'Protocol Personnel', sysdate,'KRADEV');
+INSERT INTO PROTOCOL_MODULES (PROTOCOL_MODULE_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('004', 'Areas of Research', sysdate,'KRADEV');
+INSERT INTO PROTOCOL_MODULES (PROTOCOL_MODULE_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('006', 'Subjects', sysdate,'KRADEV');
+INSERT INTO PROTOCOL_MODULES (PROTOCOL_MODULE_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('007', 'Special Review', sysdate,'KRADEV');
+INSERT INTO PROTOCOL_MODULES (PROTOCOL_MODULE_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('008', 'Add/Modify Attachments', sysdate,'KRADEV');
+INSERT INTO PROTOCOL_MODULES (PROTOCOL_MODULE_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('016', 'Protocol References', sysdate,'KRADEV');
+INSERT INTO PROTOCOL_MODULES (PROTOCOL_MODULE_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('017', 'Protocol Organizations', sysdate,'KRADEV');
+INSERT INTO PROTOCOL_MODULES (PROTOCOL_MODULE_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('023', 'Others', sysdate,'KRADEV');
+INSERT INTO PROTOCOL_MODULES (PROTOCOL_MODULE_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('024', 'Funding Source', sysdate,'KRADEV');
+
+commit;
+INSERT INTO CLOSEOUT_REPORT_TYPE(CLOSEOUT_REPORT_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES('1', 'Financial Report', sysdate,'KRADEV');
+INSERT INTO CLOSEOUT_REPORT_TYPE(CLOSEOUT_REPORT_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES('4', 'Technical', sysdate,'KRADEV');
+INSERT INTO CLOSEOUT_REPORT_TYPE(CLOSEOUT_REPORT_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES('3', 'Patent', sysdate,'KRADEV');
+INSERT INTO CLOSEOUT_REPORT_TYPE(CLOSEOUT_REPORT_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES('2', 'Property', sysdate,'KRADEV');
+INSERT INTO CLOSEOUT_REPORT_TYPE(CLOSEOUT_REPORT_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES('UD', 'USER DEFINED', sysdate,'KRADEV');
+
+
+commit;	
