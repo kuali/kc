@@ -380,6 +380,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */
     protected void clearRolodexIdField(AwardReportTermRecipient awardReportTermRecipient){
         awardReportTermRecipient.setRolodexId(null);
+        awardReportTermRecipient.setRolodex(null);
     }
     /**
      * 
