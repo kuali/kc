@@ -965,4 +965,25 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
    public Integer getNextValue(String key) {
        return protocolDocument.getDocumentNextValue(key);
    }
+
+    public void setProtocolAttachmentProtocols(List<ProtocolAttachmentProtocol> attachmentProtocols) {
+        this.attachmentProtocols = attachmentProtocols;
+        for (ProtocolAttachmentProtocol attachment : attachmentProtocols) {
+            attachment.init(this);
+        }
+    }
+
+    public void setProtocolAttachmentPersonnel(List<ProtocolAttachmentPersonnel> attachmentPersonnels) {
+        this.attachmentPersonnels = attachmentPersonnels;
+        for (ProtocolAttachmentPersonnel attachment : attachmentPersonnels) {
+            attachment.init(this);
+        }
+    }
+
+    public void setProtocolAttachmentNotifications(List<ProtocolAttachmentNotification> attachmentNotifications) {
+        this.attachmentNotifications = attachmentNotifications;
+        for (ProtocolAttachmentNotification attachment : attachmentNotifications) {
+            attachment.init(this);
+        }
+    }
 }
