@@ -13,20 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rule;
-
-import org.kuali.kra.award.rule.event.AwardSaveCustomDataRuleEvent;
-import org.kuali.rice.kns.rule.BusinessRule;
+package org.kuali.kra.institutionalproposal.web.struts.action;
 
 /**
- * This class is the interface for Award Custom Data Business rules.
+ * This class...
  */
-public interface AwardCustomDataRule extends BusinessRule {
+public class InstitutionalProposalSpecialReviewAction extends InstitutionalProposalAction {
 
-    /**
-     * This method...
-     * @param awardSaveCustomDataRuleEvent
-     * @return
-     */
-    boolean processSaveAwardCustomDataBusinessRules(AwardSaveCustomDataRuleEvent awardSaveCustomDataRuleEvent);
 }
