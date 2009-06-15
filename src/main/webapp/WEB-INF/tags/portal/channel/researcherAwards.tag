@@ -22,6 +22,7 @@
 	  	<!--<li>Create Award</li>-->
 	    <li>Awards in Progress</li>
 	    <li>All my Awards</li>
+	    <li><portal:portalLink displayTitle="false" title="Create Institutional Proposal" url="institutionalProposalHome.do?methodToCall=docHandler&command=initiate&docTypeName=InstitutionalProposalDocument">Create Institutional Proposal</portal:portalLink></li>
 	</ul>
 	<strong>Lists</strong>
 	<ul class="chan">

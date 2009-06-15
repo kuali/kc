@@ -13,20 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rule;
+package org.kuali.kra.institutionalproposal.document;
 
-import org.kuali.kra.award.rule.event.AwardSaveCustomDataRuleEvent;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.kra.document.ResearchDocumentBase;
 
 /**
- * This class is the interface for Award Custom Data Business rules.
+ * This class...
  */
-public interface AwardCustomDataRule extends BusinessRule {
+public class InstitutionalProposalDocument extends ResearchDocumentBase {
 
     /**
-     * This method...
-     * @param awardSaveCustomDataRuleEvent
-     * @return
+     * Comment for <code>serialVersionUID</code>
      */
-    boolean processSaveAwardCustomDataBusinessRules(AwardSaveCustomDataRuleEvent awardSaveCustomDataRuleEvent);
+    private static final long serialVersionUID = 5101782927161970631L;
+
+    /**
+     * @see org.kuali.kra.document.ResearchDocumentBase#getDocumentTypeCode()
+     */
+    @Override
+    public String getDocumentTypeCode() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
