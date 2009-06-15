@@ -62,6 +62,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     
     private static final String ONE = "1";
     private static final String YES_FLAG = "Y";
+    private static final int TOTAL_STATIC_REPORTS = 4;
     
     private static final long serialVersionUID = 3797220122448310165L;
     private Long awardId;
@@ -1557,7 +1558,12 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         awardReportTerm.setAward(this);
     }
     
-    public void add(AwardCloseout awardCloseoutItem) {        
+    public void add(AwardCloseout awardCloseoutItem) {
+        awardCloseoutItems.add(TOTAL_STATIC_REPORTS, awardCloseoutItem);        
+        awardCloseoutItem.setAward(this);
+    }
+    
+    public void addStaticCloseout(AwardCloseout awardCloseoutItem) {
         awardCloseoutItems.add(awardCloseoutItem);
         awardCloseoutItem.setAward(this);
     }
