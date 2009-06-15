@@ -20,6 +20,7 @@
 		<form-bean name="ProtocolForm" type="org.kuali.kra.irb.ProtocolForm" />
 		<form-bean name="ResearchAreasForm" type="org.kuali.kra.web.struts.form.ResearchAreasForm" />
 		<form-bean name="CommitteeForm" type="org.kuali.kra.committee.web.struts.form.CommitteeForm" />
+		<form-bean name="InstitutionalProposalForm" type="org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm" />
     </form-beans>
 
     <global-exceptions>
@@ -179,6 +180,18 @@
           <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/award/AwardPermissionsCloseEditRoles.jsp" />
           <forward name="notesAndAttachments" path="/WEB-INF/jsp/award/AwardNotesAndAttachments.jsp" />
           <forward name="awardActions" path="/WEB-INF/jsp/award/AwardActions.jsp" />                    
+      </action>
+      
+       <!--  Institutional Proposal -->      
+      <action path="/institutionalProposal*" name="InstitutionalProposalForm" input="/WEB-INF/jsp/institutionalproposal/InstitutionalProposal{1}.jsp" type="org.kuali.kra.institutionalproposal.web.struts.action.InstitutionalProposal{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposal{1}.jsp" />
+          <forward name="home" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalHome.jsp" />
+          <forward name="contacts" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalContacts.jsp" />
+          <forward name="specialReview" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalSpecialReview.jsp" />
+          <forward name="customData" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalCustomData.jsp" />
+          <forward name="intellectualPropertyReview" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalIntellectualPropertyReview.jsp" />
+          <forward name="distribution" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalDistribution.jsp" />
+          <forward name="institutionalProposalActions" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalActions.jsp" />                    
       </action>
       
       <!--  KRA IRB Mapping START -->    

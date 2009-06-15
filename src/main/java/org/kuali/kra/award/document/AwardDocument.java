@@ -51,7 +51,7 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
      */
     private static final long serialVersionUID = 1668673531338660064L;
     
-    private static final String DOCUMENT_TYPE_CODE = "AWRD";
+    public static final String DOCUMENT_TYPE_CODE = "AWRD";
     
     private List<Award> awardList;
     

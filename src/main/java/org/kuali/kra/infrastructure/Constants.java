@@ -314,6 +314,16 @@ public interface Constants {
     public static final String MAPPING_AWARD_ACTIONS_PAGE = "awardActions";
     public static final String MAPPING_REPORTS_TAB = "reports";
     
+  //Institutional Proposal
+    public static final String MAPPING_INSTITUTIONAL_PROPOSAL_BASIC = "basic";
+    public static final String MAPPING_INSTITUTIONAL_PROPOSAL_HOME_PAGE = "home";
+    public static final String MAPPING_INSTITUTIONAL_PROPOSAL_CONTACTS_PAGE = "contacts";
+    public static final String MAPPING_INSTITUTIONAL_PROPOSAL_SPECIAL_REVIEW_PAGE = "specialReview";
+    public static final String MAPPING_INSTITUTIONAL_PROPOSAL_CUSTOM_DATA_PAGE = "customData";
+    public static final String MAPPING_INSTITUTIONAL_PROPOSAL_INTELLECTUAL_PROPERTY_REVIEW_PAGE = "intellectualPropertyReview";
+    public static final String MAPPING_INSTITUTIONAL_PROPOSAL_DISTRIBUTION_PAGE = "distribution";
+    public static final String MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE = "institutionalProposalActions";
+    
     public static final String COST_SHARE_COMMENT_TYPE_CODE = "9";
     public static final String FANDA_RATE_COMMENT_TYPE_CODE = "8";
     public static final String PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE = "1";

@@ -35,3 +35,4 @@ This is where application specific (kra) tag includes would go.
 <%@ taglib tagdir="/WEB-INF/tags/questionnaire" prefix="kra-questionnaire"%>
 <%@ taglib tagdir="/WEB-INF/tags/customdata" prefix="kra-customdata" %>
 <%@ taglib tagdir="/WEB-INF/tags/irb/action" prefix="kra-irb-action" %>
+<%@ taglib tagdir="/WEB-INF/tags/institutionalproposal" prefix="kra-ip"%>
