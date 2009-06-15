@@ -195,4 +195,8 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
+	<bean id="protocolAmendRenewService" class="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewServiceImpl">
+		<property name="protocolCopyService" ref="protocolCopyService" />
+	</bean>
+	
 </beans>
