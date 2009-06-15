@@ -25,6 +25,7 @@
   	headerTabActive="notesAndAttachments">
   	
 <kra-a:awardComments/>
+<kra-a:awardCommentTemplate/>
 
 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />

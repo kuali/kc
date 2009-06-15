@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="InstitutionalProposalDocument" parent="InstitutionalProposalDocument-parentBean"/>
+
+  <bean id="InstitutionalProposalDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    
+    
+    
+    
+    <property name="usePessimisticLocking" value="true"/>
+    <property name="useWorkflowPessimisticLocking" value="false"/>
+    
+    <property name="documentTypeName" value="InstitutionalProposalDocument"/>
+    <property name="documentClass" value="org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.institutionalproposal.rules.InstitutionalProposalDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.institutionalproposal.document.authorization.InstitutionalProposalDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kra.institutionalproposal.document.authorization.InstitutionalProposalDocumentPresentationController"/>
+    
+    <property name="allowsCopy" value="true"/>
+    <property name="headerNavigationList">
+      <list>
+        <bean parent="HeaderNavigation">
+        
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="x" p:parameterName="x" p:parameterDetailType="x"/>
+          </property>
+          
+          <property name="headerTabDisplayName" value="Institute Proposal"/>
+          <property name="headerTabNavigateTo" value="home"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+       
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="x" p:parameterName="x" p:parameterDetailType="x"/>
+          </property>
+          
+          <property name="headerTabDisplayName" value="Contacts"/>
+          <property name="headerTabNavigateTo" value="contacts"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+        
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="x" p:parameterName="x" p:parameterDetailType="x"/>
+          </property>
+         
+          <property name="headerTabDisplayName" value="Custom Data"/>
+          <property name="headerTabNavigateTo" value="customData"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+        
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="x" p:parameterName="x" p:parameterDetailType="x"/>
+          </property>
+        
+          <property name="headerTabDisplayName" value="Special Review"/>
+          <property name="headerTabNavigateTo" value="specialReview"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+       
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="x" p:parameterName="x" p:parameterDetailType="x"/>
+          </property>
+          
+          <property name="headerTabDisplayName" value="Intellectual Property Review"/>
+          <property name="headerTabNavigateTo" value="intellectualPropertyReview"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+        
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="x" p:parameterName="x" p:parameterDetailType="x"/>
+          </property>
+        
+          <property name="headerTabDisplayName" value="Distribution"/>
+          <property name="headerTabNavigateTo" value="distribution"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+        
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="x" p:parameterName="x" p:parameterDetailType="x"/>
+          </property>
+         
+          <property name="headerTabDisplayName" value="Institutional Proposal Actions"/>
+          <property name="headerTabNavigateTo" value="institutionalProposalActions"/>
+        </bean>
+      </list>
+    </property>
+    
+    <property name="attributes">
+      <list>      	
+        <ref bean="InstitutionalProposalDocument-versionNumber"/>        
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->	
+  
+  <bean id="InstitutionalProposalDocument-versionNumber" parent="InstitutionalProposalDocument-versionNumber-parentBean"/>
+
+  <bean id="InstitutionalProposalDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+</beans>

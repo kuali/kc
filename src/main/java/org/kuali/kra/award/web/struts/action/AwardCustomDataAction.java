@@ -94,10 +94,10 @@ public class AwardCustomDataAction extends AwardAction {
             for(AwardCustomData awardCustomData : awardForm.getAwardDocument().getAward().getAwardCustomDataList()) {
                 if(customAttributeId == awardCustomData.getCustomAttributeId()) {
                     awardCustomData.setValue(value);
-                   }
                 }
             }
         }
+    }
     
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#postDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
