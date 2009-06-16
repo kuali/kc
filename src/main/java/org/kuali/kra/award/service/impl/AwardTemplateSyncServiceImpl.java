@@ -258,7 +258,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      */
     public void syncAwardComments(Award awardObject, List<AwardTemplateComment> awardTemplateComments){
         LOG.info("In award comments sync**********^^^^^^^^^^^^^^^^^");
-        //TODO:implement award comments sync
+        awardObject.addTemplateComments(awardTemplateComments);
     }
     /**
      * 
