@@ -33,6 +33,7 @@ import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
+import org.kuali.kra.irb.protocol.ProtocolNumberService;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
