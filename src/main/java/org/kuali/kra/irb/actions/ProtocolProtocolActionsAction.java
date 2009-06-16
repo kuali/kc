@@ -346,9 +346,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        getProtocolAmendRenewService().createAmendment(protocolForm.getProtocolDocument(), 
-                                                       protocolForm.getActionHelper().getProtocolAmendmentBean());
-        return mapping.findForward(MAPPING_BASIC);
+        String newDocId = getProtocolAmendRenewService().createAmendment(protocolForm.getProtocolDocument(), 
+                                                                         protocolForm.getActionHelper().getProtocolAmendmentBean());
+        // Switch over to the new protocol document and
+        // go to the Protocol tab web page.
+        
+        protocolForm.setDocId(newDocId);
+        loadDocument(protocolForm);
+    
+        return mapping.findForward(PROTOCOL_TAB);
+        
+       // return mapping.findForward(MAPPING_BASIC);
     }
     
     private ProtocolAmendRenewService getProtocolAmendRenewService() {
