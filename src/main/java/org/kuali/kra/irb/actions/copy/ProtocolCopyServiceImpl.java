@@ -30,9 +30,9 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentNotification;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.kra.irb.personnel.ProtocolUnit;
 import org.kuali.kra.irb.protocol.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.ProtocolLocation;
+import org.kuali.kra.irb.protocol.ProtocolNumberService;
 import org.kuali.kra.irb.protocol.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.ProtocolReference;
 import org.kuali.kra.irb.protocol.ProtocolResearchArea;
@@ -41,7 +41,6 @@ import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -77,9 +76,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class ProtocolCopyServiceImpl implements ProtocolCopyService {
     
     private DocumentService documentService;
-    private BusinessObjectService businessObjectService;
     private SystemAuthorizationService systemAuthorizationService;
     private ProtocolAuthorizationService protocolAuthorizationService;
+    private ProtocolNumberService protocolNumberService;
     
     /**
      * Set the Document Service.
@@ -87,10 +86,6 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
-    }
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
     
     /**
@@ -110,13 +105,26 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
     }
     
     /**
+     * Set the Protocol Number Service
+     * @param protocolNumberService the Protocol Number Service
+     */
+    public void setProtocolNumberService(ProtocolNumberService protocolNumberService) {
+        this.protocolNumberService = protocolNumberService;
+    }
+    
+    /**
      * @see org.kuali.kra.irb.actions.copy.ProtocolCopyService#copyProtocol(org.kuali.kra.irb.ProtocolDocument)
      */
     public String copyProtocol(ProtocolDocument srcDoc) throws Exception {
-       
-        ProtocolDocument newDoc = createNewProtocol(srcDoc);
-        copyProtocolLists(srcDoc, newDoc);
-         
+        return copyProtocol(srcDoc, protocolNumberService.generateProtocolNumber());
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.actions.copy.ProtocolCopyService#copyProtocol(org.kuali.kra.irb.ProtocolDocument, java.lang.String)
+     */
+    public String copyProtocol(ProtocolDocument srcDoc, String protocolNumber) throws Exception {
+        ProtocolDocument newDoc = createNewProtocol(srcDoc, protocolNumber);
+        
         documentService.saveDocument(newDoc);
             
         // Can't initialize authorization until a protocol is saved
@@ -136,30 +144,21 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
      * @return
      * @throws Exception
      */
-    private ProtocolDocument createNewProtocol(ProtocolDocument srcDoc) throws Exception {
+    private ProtocolDocument createNewProtocol(ProtocolDocument srcDoc, String protocolNumber) throws Exception {
         DocumentService docService = KNSServiceLocator.getDocumentService();
         ProtocolDocument newDoc = (ProtocolDocument) docService.getNewDocument(srcDoc.getClass());
             
+        newDoc.getProtocol().setProtocolNumber(protocolNumber);
+        newDoc.getProtocol().setSequenceNumber(0);
+        
         copyOverviewProperties(srcDoc, newDoc);
         copyRequiredProperties(srcDoc, newDoc);
         copyAdditionalProperties(srcDoc, newDoc);
-        newDoc.getProtocol().setProtocolPersons((List<ProtocolPerson>) deepCopy(srcDoc.getProtocol().getProtocolPersons()));
-        for (ProtocolPerson pp : newDoc.getProtocol().getProtocolPersons()) {
-            pp.setProtocolNumber("0");
-            for (ProtocolUnit unit : pp.getProtocolUnits()) {
-                unit.setProtocolNumber("0");
-            }
-        }
+        copyProtocolLists(srcDoc, newDoc);
+        newDoc.getProtocol().setProtocolNumber(protocolNumber);
         
         newDoc.getDocumentHeader().setDocumentTemplateNumber(srcDoc.getDocumentNumber());
         documentService.saveDocument(newDoc);  
-        
-        for (ProtocolPerson pp : newDoc.getProtocol().getProtocolPersons()) {
-            pp.setProtocolNumber(newDoc.getProtocol().getProtocolNumber());
-            for (ProtocolUnit unit : pp.getProtocolUnits()) {
-                unit.setProtocolNumber(newDoc.getProtocol().getProtocolNumber());
-            }
-        }
         
         return newDoc;
     }
@@ -207,6 +206,13 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         destDoc.getProtocol().setReferenceNumber1(srcDoc.getProtocol().getReferenceNumber1());
         destDoc.getProtocol().setReferenceNumber2(srcDoc.getProtocol().getReferenceNumber2());
         destDoc.getProtocol().setDescription(srcDoc.getProtocol().getDescription());
+        destDoc.getProtocol().setVulnerableSubjectIndicator(srcDoc.getProtocol().getVulnerableSubjectIndicator());
+        destDoc.getProtocol().setCorrespondentIndicator(srcDoc.getProtocol().getCorrespondentIndicator());
+        destDoc.getProtocol().setFundingSourceIndicator(srcDoc.getProtocol().getFundingSourceIndicator());
+        destDoc.getProtocol().setKeyStudyPersonIndicator(srcDoc.getProtocol().getKeyStudyPersonIndicator());
+        destDoc.getProtocol().setRelatedProjectsIndicator(srcDoc.getProtocol().getRelatedProjectsIndicator());
+        destDoc.getProtocol().setReferenceIndicator(srcDoc.getProtocol().getReferenceIndicator());
+        destDoc.getProtocol().setSpecialReviewIndicator(srcDoc.getProtocol().getSpecialReviewIndicator());
     }
     
     /**
@@ -250,7 +256,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         destProtocol.setProtocolReferences((List<ProtocolReference>) deepCopy(srcProtocol.getProtocolReferences()));
         destProtocol.setProtocolLocations((List<ProtocolLocation>) deepCopy(srcProtocol.getProtocolLocations()));
         destProtocol.setProtocolFundingSources((List<ProtocolFundingSource>) deepCopy(srcProtocol.getProtocolFundingSources()));
-      //  destProtocol.setProtocolPersons((List<ProtocolPerson>) deepCopy(srcProtocol.getProtocolPersons()));
+        destProtocol.setProtocolPersons((List<ProtocolPerson>) deepCopy(srcProtocol.getProtocolPersons()));
         destProtocol.setSpecialReviews((List<ProtocolSpecialReview>) deepCopy(srcProtocol.getSpecialReviews()));
         destProtocol.setProtocolAttachmentProtocols((List<ProtocolAttachmentProtocol>) deepCopy(srcProtocol.getAttachmentProtocols()));
         destProtocol.setProtocolAttachmentPersonnel((List<ProtocolAttachmentPersonnel>) deepCopy(srcProtocol.getAttachmentPersonnels()));
