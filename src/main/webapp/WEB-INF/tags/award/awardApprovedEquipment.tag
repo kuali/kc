@@ -15,10 +15,10 @@
 --%>
 <%-- member of awardSpecialApproval.tag --%>
 
-<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%@ include file="/WEB-INF/jsp/award/awardTldHeader.jsp"%>
 
-<kul:innerTab parentTab="Special Approval" tabItemCount="${KualiForm.document.awardList[0].approvedEquipmentItemCount}" defaultOpen="false" 
-				tabTitle="Approved Equipment" tabErrorKey="approvedEquipmentBean.newAwardApprovedEquipment*,document.awardList[0].approvedEquipmentItems*" >
+<kul:innerTab parentTab="Special Approval" tabItemCount="${formAward.approvedEquipmentItemCount}" defaultOpen="false" 
+				tabTitle="Approved Equipment" tabErrorKey="approvedEquipmentBean.newAwardApprovedEquipment*,${docAward}.approvedEquipmentItems*" >
 	<c:set var="approvedEquipmentAttributes" value="${DataDictionary.AwardApprovedEquipment.attributes}" />	
 	
 	<kra:softError softErrorKey="approvedEquipmentItems" />
@@ -63,29 +63,29 @@
 	        </td>
 	  	</tr>
 	
-	 	<c:forEach var="approvedEquipmentItem" items="${KualiForm.document.awardList[0].approvedEquipmentItems}" varStatus="status">
+	 	<c:forEach var="approvedEquipmentItem" items="${formAward.approvedEquipmentItems}" varStatus="status">
 	         <tr>
 				<th width="5%" class="infoline">
 					<c:out value="${status.index+1}" />
 				</th>
 	            <td width="20%" valign="middle">
 	            	<div align="center">
-						<kul:htmlControlAttribute property="document.awardList[0].approvedEquipmentItems[${status.index}].item" attributeEntry="${approvedEquipmentAttributes.item}"/>
+						<kul:htmlControlAttribute property="${docAward}.approvedEquipmentItems[${status.index}].item" attributeEntry="${approvedEquipmentAttributes.item}"/>
 					</div>
 				</td>
 	            <td width="20%" valign="middle">
 	            	<div align="center">
-						<kul:htmlControlAttribute property="document.awardList[0].approvedEquipmentItems[${status.index}].vendor" attributeEntry="${approvedEquipmentAttributes.vendor}"/>
+						<kul:htmlControlAttribute property="${docAward}.approvedEquipmentItems[${status.index}].vendor" attributeEntry="${approvedEquipmentAttributes.vendor}"/>
 					</div>
 				</td>
 	            <td width="20%" valign="middle">
 	            	<div align="center">                	
-						<kul:htmlControlAttribute property="document.awardList[0].approvedEquipmentItems[${status.index}].model" attributeEntry="${approvedEquipmentAttributes.model}"/>
+						<kul:htmlControlAttribute property="${docAward}.approvedEquipmentItems[${status.index}].model" attributeEntry="${approvedEquipmentAttributes.model}"/>
 					</div> 
 				</td>
 	            <td width="20%" valign="middle">
 	            	<div align="center">                	
-						<kul:htmlControlAttribute property="document.awardList[0].approvedEquipmentItems[${status.index}].amount" 
+						<kul:htmlControlAttribute property="${docAward}.approvedEquipmentItems[${status.index}].amount" 
 								attributeEntry="${approvedEquipmentAttributes.amount}" styleClass="amount" />
 					</div> 
 				</td>
@@ -103,7 +103,7 @@
 	  		<th colspan="3" scope="row">&nbsp;</th>
 	  		<th align="right">
 	  			<div align="right">
-	  				<fmt:formatNumber type="CURRENCY" value="${KualiForm.document.award.totalApprovedEquipmentAmount}" />
+	  				<fmt:formatNumber type="CURRENCY" value="${formAward.totalApprovedEquipmentAmount}" />
 	            </div>
 	     	</th>
 	     	<th scope="row">

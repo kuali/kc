@@ -15,10 +15,10 @@
 --%>
 <%-- member of awardSpecialApproval.tag --%>
 
-<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%@ include file="/WEB-INF/jsp/award/awardTldHeader.jsp"%>
  
-<kul:innerTab parentTab="Special Approval" tabItemCount="${KualiForm.document.awardList[0].approvedForeignTravelTripCount}" defaultOpen="false" 
-				tabTitle="Approved Foreign Travel" tabErrorKey="approvedForeignTravelBean.newApprovedForeignTravel*,document.awardList[0].approvedForeignTravelTrips*" >
+<kul:innerTab parentTab="Special Approval" tabItemCount="${formAward.approvedForeignTravelTripCount}" defaultOpen="false" 
+				tabTitle="Approved Foreign Travel" tabErrorKey="approvedForeignTravelBean.newApprovedForeignTravel*,${docAward}.approvedForeignTravelTrips*" >
 				
 	<c:set var="approvedForeignTravelAttributes" value="${DataDictionary.AwardApprovedForeignTravel.attributes}" />
 			
@@ -72,38 +72,38 @@
             </td>
       	</tr>
 		
-		<c:forEach var="approvedForeignTravelTrip" items="${KualiForm.document.awardList[0].approvedForeignTravelTrips}" varStatus="status">
+		<c:forEach var="approvedForeignTravelTrip" items="${formAward.approvedForeignTravelTrips}" varStatus="status">
              <tr>
 				<th width="10%" class="infoline">
 					<c:out value="${status.index+1}" />
 				</th>
                 <td width="15%" valign="middle">
                 	<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].approvedForeignTravelTrips[${status.index}].travelerName" 
+                		<kul:htmlControlAttribute property="${docAward}.approvedForeignTravelTrips[${status.index}].travelerName" 
                 								attributeEntry="${approvedForeignTravelAttributes.travelerName}" readOnly="true"/>
                 		<kul:lookup boClassName="org.kuali.kra.bo.Person" 
-                				fieldConversions="personId:document.awardList[0].approvedForeignTravelTrips[${status.index}].travelerId" anchor="${tabKey}" 
-        	  	 				lookupParameters="document.awardList[0].approvedForeignTravelTrips[${status.index}].travelerId:personId" />
+                				fieldConversions="personId:${docAward}.approvedForeignTravelTrips[${status.index}].travelerId" anchor="${tabKey}" 
+        	  	 				lookupParameters="${docAward}.approvedForeignTravelTrips[${status.index}].travelerId:personId" />
 					</div>
 				</td>
                 <td width="15%" valign="middle">
                 	<div align="center">
-						<kul:htmlControlAttribute property="document.awardList[0].approvedForeignTravelTrips[${status.index}].destination" attributeEntry="${approvedForeignTravelAttributes.destination}"/>
+						<kul:htmlControlAttribute property="${docAward}.approvedForeignTravelTrips[${status.index}].destination" attributeEntry="${approvedForeignTravelAttributes.destination}"/>
 					</div>
 				</td>
                 <td width="15%" valign="middle">
                 	<div align="center">                	
-						<kul:htmlControlAttribute property="document.awardList[0].approvedForeignTravelTrips[${status.index}].startDate" attributeEntry="${approvedForeignTravelAttributes.startDate}"/>
+						<kul:htmlControlAttribute property="${docAward}.approvedForeignTravelTrips[${status.index}].startDate" attributeEntry="${approvedForeignTravelAttributes.startDate}"/>
 					</div> 
 				</td>
 				<td width="15%" valign="middle">
                 	<div align="center">                	
-						<kul:htmlControlAttribute property="document.awardList[0].approvedForeignTravelTrips[${status.index}].endDate" attributeEntry="${approvedForeignTravelAttributes.endDate}"/>
+						<kul:htmlControlAttribute property="${docAward}.approvedForeignTravelTrips[${status.index}].endDate" attributeEntry="${approvedForeignTravelAttributes.endDate}"/>
 					</div> 
 				</td>
                 <td width="15%" valign="middle">
                 	<div align="center">                	
-						<kul:htmlControlAttribute property="document.awardList[0].approvedForeignTravelTrips[${status.index}].amount" 
+						<kul:htmlControlAttribute property="${docAward}.approvedForeignTravelTrips[${status.index}].amount" 
 								attributeEntry="${approvedForeignTravelAttributes.amount}" styleClass="amount" />
 					</div> 
 				</td>
@@ -121,7 +121,7 @@
       		<th colspan="4" scope="row">&nbsp;</th>
       		<th align="right">
       			<div align="right">
-      				<fmt:formatNumber type="CURRENCY" value="${KualiForm.document.award.totalApprovedApprovedForeignTravelAmount}" />
+      				<fmt:formatNumber type="CURRENCY" value="${formAward.totalApprovedApprovedForeignTravelAmount}" />
                 </div>
          	</th>
          	<th scope="row">

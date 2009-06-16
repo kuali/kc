@@ -38,7 +38,7 @@ public class EquipmentCapitalizationMinimumLoader implements Serializable {
     
     private static final String CONFIG_PARM_NOT_NUMERIC_MSG = "Configuration parameter %s is not numeric";
     
-    private KualiConfigurationService configurationService;
+    private transient KualiConfigurationService configurationService;
         
     /**
      * This method gets the minimum capitalization requirement
