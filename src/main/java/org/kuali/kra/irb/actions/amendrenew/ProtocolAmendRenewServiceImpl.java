@@ -21,14 +21,28 @@ import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 
 public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService {
 
+    private static final String AMEND_RENEW_NEXT_VALUE = "amendRenew";
+    
     private ProtocolCopyService protocolCopyService;
     
     public void setProtocolCopyService(ProtocolCopyService protocolCopyService) {
         this.protocolCopyService = protocolCopyService;
     }
     
-    public void createAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
-        String docNbr = protocolCopyService.copyProtocol(protocolDocument);
+    public String createAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
+        String docNbr = protocolCopyService.copyProtocol(protocolDocument, generateProtocolAmendmentNumber(protocolDocument));
         
+        return docNbr;
+    }
+
+    private String generateProtocolAmendmentNumber(ProtocolDocument protocolDocument) {
+        String protocolNumber = protocolDocument.getProtocol().getProtocolNumber();
+        Integer nextValue = protocolDocument.getDocumentNextValue(AMEND_RENEW_NEXT_VALUE);
+        String s = nextValue.toString();
+        int length = s.length();
+        for (int i = 0; i < 3 - length; i++) {
+            s = "0" + s;
+        }
+        return protocolNumber + "A" + s;
     }
 }

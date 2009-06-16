@@ -19,5 +19,5 @@ import org.kuali.kra.irb.ProtocolDocument;
 
 public interface ProtocolAmendRenewService {
 
-    public void createAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception;
+    public String createAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception;
 }
