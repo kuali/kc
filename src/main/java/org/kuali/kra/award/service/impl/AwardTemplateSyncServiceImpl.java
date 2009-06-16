@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.bo.Award;
@@ -130,7 +131,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
             awardtemplateClass.getField(propertyName);
             awardTemplateObjects = (List)ObjectUtils.getPropertyValue(awardTemplateObject, propertyName);
         }catch(NoSuchFieldException nsfe){
-            Method method = awardtemplateClass.getMethod("get"+propertyName, (Class[])null);
+            Method method = awardtemplateClass.getMethod("get"+StringUtils.capitalize(propertyName), (Class[])null);
             awardTemplateObjects = (List) method.invoke(awardTemplateObject, (Object[])null);
         }
         Field field = awardObject.getClass().getField(propertyName);
