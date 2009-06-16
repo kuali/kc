@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.bo.Award;
@@ -44,24 +43,6 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
     private static final Log LOG = LogFactory.getLog(AwardTemplateSyncServiceImpl.class);
 
 
-    /**
-     * This method is used to sync member properties of an award template object to an award object
-     * 
-     * @param awardTemplateObject
-     * @param awardObject
-     */
-    private void sync(Object awardTemplateObject, Object awardObject) throws Exception{
-        Field[] fields = awardObject.getClass().getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
-            Field field = fields[i];
-            if (field.isAnnotationPresent(AwardSyncable.class)){
-                copyField(awardTemplateObject, awardObject, field);
-            }
-            if(field.isAnnotationPresent(AwardSyncableList.class)){
-                extractListFromParentAndSync(awardTemplateObject, awardObject, field);
-            }
-        }
-    }
 
     /**
      * 
@@ -90,6 +71,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      */
     @SuppressWarnings("unchecked")
     private void extractListFromParentAndSync(Object awardTemplateObject, Object awardObject, Field field) throws Exception {
+        field.setAccessible(true);
         List<Object> awardTemplateObjectList = (List)ObjectUtils.getPropertyValue(awardTemplateObject, field.getName());
         AwardSyncableList awardSyncableList = field.getAnnotation(AwardSyncableList.class);
         if(awardTemplateObjectList!=null && !awardTemplateObjectList.isEmpty()){
@@ -123,20 +105,30 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @param propertyName
      * @throws Exception
      */
-    @SuppressWarnings("unchecked")
     private void sync(Object awardTemplateObject, Object awardObject,String propertyName) throws Exception{
-        Class awardtemplateClass =  awardTemplateObject.getClass();
-        List<Object> awardTemplateObjects = new ArrayList();
-        try{
-            awardtemplateClass.getField(propertyName);
-            awardTemplateObjects = (List)ObjectUtils.getPropertyValue(awardTemplateObject, propertyName);
-        }catch(NoSuchFieldException nsfe){
-            Method method = awardtemplateClass.getMethod("get"+StringUtils.capitalize(propertyName), (Class[])null);
-            awardTemplateObjects = (List) method.invoke(awardTemplateObject, (Object[])null);
-        }
-        Field field = awardObject.getClass().getField(propertyName);
-        extractListFromParentAndSync(awardObject, awardTemplateObjects, field);
+        Field field = awardObject.getClass().getDeclaredField(propertyName);
+        extractListFromParentAndSync(awardTemplateObject,awardObject,field);
     }
+    /**
+     * This method is used to sync member properties of an award template object to an award object
+     * 
+     * @param awardTemplateObject
+     * @param awardObject
+     */
+    private void sync(Object awardTemplateObject, Object awardObject) throws Exception{
+        Field[] fields = awardObject.getClass().getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            if (field.isAnnotationPresent(AwardSyncable.class)){
+                copyField(awardTemplateObject, awardObject, field);
+            }
+            if(field.isAnnotationPresent(AwardSyncableList.class)){
+                extractListFromParentAndSync(awardTemplateObject, awardObject, field);
+            }
+        }
+    }
+
+    
     /**
      * This copies value from Award Template object to Award object
      * @param awardTemplateObject
@@ -190,7 +182,6 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
             Map<String, Integer> primaryKeys = new HashMap<String, Integer>();
             primaryKeys.put("templateCode", award.getTemplateCode());
             awardTemplate = (AwardTemplate) businessObjectService.findByPrimaryKey(AwardTemplate.class, primaryKeys);
-            awardTemplate.getAwardComments();
         }
         return awardTemplate;
     }
