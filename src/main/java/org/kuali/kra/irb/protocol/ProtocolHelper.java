@@ -303,8 +303,10 @@ public class ProtocolHelper implements Serializable {
      * "add" element in the required fields panel view like most growing lists
      */
     public void prepareRequiredFieldsForSave() {
-
-        getProtocol().setProtocolNumber(getProtocolNumberService().generateProtocolNumber());
+        
+        if (getProtocol().getProtocolNumber() == null) {
+            getProtocol().setProtocolNumber(getProtocolNumberService().generateProtocolNumber());
+        }
         
         findPrincipalInvestigatorIdFromFields();
         findAndSetLeadUnitFromFields();
@@ -315,13 +317,12 @@ public class ProtocolHelper implements Serializable {
             getProtocolPersonnelService().updatePrincipalInvestigator(getProtocol(),createPrincipalInvestigator());
         }
         getProtocol().setLeadUnitForValidation(createLeadUnit());
-
     }
     
     private ProtocolNumberService getProtocolNumberService() {
         return KraServiceLocator.getService(ProtocolNumberService.class);
     }
-
+    
     /**
      * This is used to calculate princiapal investigator ID from fields
      * it's the values set rolodex id or person id depening on 
