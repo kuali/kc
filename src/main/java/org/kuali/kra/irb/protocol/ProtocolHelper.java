@@ -304,6 +304,8 @@ public class ProtocolHelper implements Serializable {
      */
     public void prepareRequiredFieldsForSave() {
 
+        getProtocol().setProtocolNumber(getProtocolNumberService().generateProtocolNumber());
+        
         findPrincipalInvestigatorIdFromFields();
         findAndSetLeadUnitFromFields();
 
@@ -316,6 +318,10 @@ public class ProtocolHelper implements Serializable {
 
     }
     
+    private ProtocolNumberService getProtocolNumberService() {
+        return KraServiceLocator.getService(ProtocolNumberService.class);
+    }
+
     /**
      * This is used to calculate princiapal investigator ID from fields
      * it's the values set rolodex id or person id depening on 
@@ -365,7 +371,7 @@ public class ProtocolHelper implements Serializable {
 
         pi = new ProtocolPerson();
         pi.setProtocolPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
-        pi.setProtocolNumber("0");
+        pi.setProtocolNumber(getProtocol().getProtocolNumber());
         pi.setSequenceNumber(0);
         pi.refreshReferenceObject("protocolPersonRole");
         if (isNonEmployeeFlag()) {
@@ -380,6 +386,7 @@ public class ProtocolHelper implements Serializable {
         ProtocolUnit unit = createLeadUnit();
         if (unit != null) {
             unit.setPersonId(pi.getPersonId());
+            unit.setProtocolNumber(getProtocol().getProtocolNumber());
             unit.refreshReferenceObject("unit");
             pi.getProtocolUnits().add(unit);
         }

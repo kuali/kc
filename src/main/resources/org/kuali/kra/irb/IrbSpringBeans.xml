@@ -200,4 +200,8 @@
 		<property name="protocolCopyService" ref="protocolCopyService" />
 	</bean>
 	
+	<bean id="protocolNumberService" class="org.kuali.kra.irb.protocol.ProtocolNumberServiceImpl">
+		<property name="sequenceAccessorService" ref="sequenceAccessorService" />
+	</bean>
+	
 </beans>
