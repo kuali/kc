@@ -124,7 +124,15 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      */
     @SuppressWarnings("unchecked")
     private void sync(Object awardTemplateObject, Object awardObject,String propertyName) throws Exception{
-        List<Object> awardTemplateObjects = (List)ObjectUtils.getPropertyValue(awardTemplateObject, propertyName);
+        Class awardtemplateClass =  awardTemplateObject.getClass();
+        List<Object> awardTemplateObjects = new ArrayList();
+        try{
+            awardtemplateClass.getField(propertyName);
+            awardTemplateObjects = (List)ObjectUtils.getPropertyValue(awardTemplateObject, propertyName);
+        }catch(NoSuchFieldException nsfe){
+            Method method = awardtemplateClass.getMethod("get"+propertyName, (Class[])null);
+            awardTemplateObjects = (List) method.invoke(awardTemplateObject, (Object[])null);
+        }
         Field field = awardObject.getClass().getField(propertyName);
         extractListFromParentAndSync(awardObject, awardTemplateObjects, field);
     }
@@ -181,6 +189,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
             Map<String, Integer> primaryKeys = new HashMap<String, Integer>();
             primaryKeys.put("templateCode", award.getTemplateCode());
             awardTemplate = (AwardTemplate) businessObjectService.findByPrimaryKey(AwardTemplate.class, primaryKeys);
+            awardTemplate.getAwardComments();
         }
         return awardTemplate;
     }
