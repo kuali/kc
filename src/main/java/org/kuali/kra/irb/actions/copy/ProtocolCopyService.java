@@ -33,4 +33,17 @@ public interface ProtocolCopyService {
      * @throws Exception if anything really bad happens
      */
     public String copyProtocol(ProtocolDocument doc) throws Exception;
+   
+    /**
+     * Copy a protocol document with a given protocol number.  This is
+     * used when protocols are copied for amendments and renewals.  Instead
+     * of creating a new protocol number, the original one is appended to.
+     * 
+     * @param doc the protocol document to copy.
+     * @param protocolNumber the protocol number to assign to the protocol
+     * @return the document number of the new document that is saved in the database; 
+     *         otherwise null if an error occurred, e.g. the user didn't have permission to copy the document
+     * @throws Exception if anything really bad happens
+     */
+    public String copyProtocol(ProtocolDocument doc, String protocolNumber) throws Exception;
 }
