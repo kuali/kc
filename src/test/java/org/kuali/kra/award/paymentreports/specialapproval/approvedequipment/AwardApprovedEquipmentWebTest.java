@@ -138,7 +138,7 @@ public class AwardApprovedEquipmentWebTest extends AwardPaymentsAndTermsWebTest 
         saveWithErrorCheck();
         editExistingRow(0, ITEM_FIELD_NAME, ITEM1);
         saveWithoutErrorCheck();
-        assertContains(paymentReportsAndTermsPage, UNIQUE_ERROR_MSG);
+        assertErrorTextContainedWithinSection(paymentReportsAndTermsPage, UNIQUE_ERROR_MSG, "tab-SpecialApproval:ApprovedEquipment-div");
     }
     
     @Test

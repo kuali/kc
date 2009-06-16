@@ -63,6 +63,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
  * This class is the KRA base class for web tests
  */
 public abstract class KraWebTestBase extends KraTestBase {
+    private static final String SECTION_ERROR_LABEL = "Errors found in this Section:";
     protected static final String HELP_PAGE_TITLE = "Kuali Research Administration Online Help";
     static final Logger LOG = Logger.getLogger(KraWebTestBase.class);
     private static final String QUICKSTART_USER = "quickstart";
@@ -1822,5 +1823,29 @@ public abstract class KraWebTestBase extends KraTestBase {
     
     private String createExpectedFieldNotFoundMessage(HtmlPage page, String fieldId) {
         return String.format("Expected field %s was not found on page titled %s", fieldId, page.getTitleText());
+    }
+
+    /**
+     * This method is a weak check for error text falling in the proper location. 
+     * It just checks that the error text falls after a div with the specified id and 
+     * also after the "Errors found in this Section:" message. However, since no check is done 
+     * using the HTML DOM, it's not guaranteed that the error does appear inside the tab
+     *  
+     * @param page
+     * @param expectedErrorText This is the error message text expected to be displayed
+     * @param containingElementId This would typically be the generated id for the tab
+     */
+    protected void assertErrorTextContainedWithinSection(HtmlPage page, String expectedErrorText, String containingElementId) {
+        final String xml = page.asXml();
+        final int textPosition = xml.indexOf(expectedErrorText);
+        assertTrue("Text not found on page: " + expectedErrorText, textPosition > -1);
+        final int idPosition = xml.indexOf(containingElementId);
+        assertTrue("Containing id not found on page: " + containingElementId, idPosition > -1);
+        final int sectionErrorMessagePosition = xml.indexOf(SECTION_ERROR_LABEL, idPosition);
+        assertTrue("Errors not found in section. Please check tabErrorKey.", sectionErrorMessagePosition > -1);
+        // This next check is in case there are other tabs in error. We just check if the error message comes after 
+        // the element with specified ID and the section error message. It's a weak check and probably redundant for most tests
+        assertTrue("Section errors not found after containingElementId", (sectionErrorMessagePosition > idPosition && textPosition > sectionErrorMessagePosition));
+        
     }
 }
