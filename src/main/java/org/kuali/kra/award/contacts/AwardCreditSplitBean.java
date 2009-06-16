@@ -30,7 +30,6 @@ import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.impl.KualiConfigurationServiceImpl;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -40,7 +39,7 @@ public class AwardCreditSplitBean implements Serializable {
     static final String PERSON_TOTALS_KEY = "personTotalsKey";
     
     private static final long serialVersionUID = 1330497293834315534L;
-    private static Logger LOGGER = Logger.getLogger(KualiConfigurationServiceImpl.class);
+    private static Logger LOGGER = Logger.getLogger(AwardCreditSplitBean.class);
     private static final String PARM_TYPE_CODE = "D";
     private static final String YES = "Y";
     private static final String AWARD_CREDIT_SPLIT_PARM_NAME = "award.creditsplit.enabled";
