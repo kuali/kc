@@ -146,6 +146,7 @@ public class AwardApprovedForeignTravelWebTest extends AwardPaymentsAndTermsWebT
         editExistingRow(1, DESTINATION_FIELD_NAME, DESTINATION1);
         save();
         assertContains(paymentReportsAndTermsPage, UNIQUE_ERROR_MSG);
+        assertErrorTextContainedWithinSection(paymentReportsAndTermsPage, UNIQUE_ERROR_MSG, "tab-SpecialApproval:ApprovedForeignTravel-div");
     }
     
     @Test
