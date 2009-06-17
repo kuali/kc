@@ -1,5 +1,5 @@
  <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@
 
 	<c:set var="extraButtonSource" value="${moveUpBtn} ${moveDownBtn}" />
 
-	<kul:checkErrors keyMatch="document.proposalPersons[${status.index}]*,newProposalPersonDegree[${status.index}]*" auditMatch="document.proposalPerson*"/>
+	<kul:checkErrors keyMatch="document.proposalPersons[${status.index}]*,newProposalPersonDegree[${status.index}]*" auditMatch="document.proposalPersons[${status.index}]*"/>
 	<c:set var="isOpen" value="${hasErrors ? true : isOpen}"/>
 	<c:choose>
 		<c:when test="${KualiForm.document.nih}">

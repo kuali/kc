@@ -1,5 +1,5 @@
  <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@
 				  </c:if>
 			</c:forEach>
 
-<kul:tab tabTitle="${trunGroupName}" spanForLongTabTitle="true" defaultOpen="false" tabErrorKey="document.proposalYnq[${groupName}]*, ${dateValidationError}" auditCluster="ynqAuditErrors*" tabAuditKey="document.proposalYnq[${groupName}]*" transparentBackground="${transparent}">
+<kul:tab tabTitle="${trunGroupName}" spanForLongTabTitle="true" defaultOpen="false" tabErrorKey="document.proposalYnq[${groupName}]*, ${dateValidationError}" auditCluster="ynqAuditErrors${fullGroupName}" tabAuditKey="document.proposalYnq[${groupName}]*" transparentBackground="${transparent}" useRiceAuditMode="true" >
 <c:set var="tabErrorKey" value="document.proposalYnq[${gps.index}]"/>
     <c:set var="proposalYnq" value="document.proposalYnqs[${gps.index}]" /> 
     <c:set var="transparent" value="false" />
