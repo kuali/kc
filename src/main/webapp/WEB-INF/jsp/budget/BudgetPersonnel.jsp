@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,63 +17,43 @@
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
 
 <c:if test="${KualiForm.editingMode['modifyBudgets']}">
-	<c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_synctoprop.gif" />
-	<c:set var="extraButtonProperty" value="methodToCall.synchToProposal" />
-	<c:set var="extraButtonAlt" value="Synch to Proposal" />
+	<c:set var="extraButtons" value="${KualiForm.extraPersonnelButtons}" scope="request"/>
 </c:if>
-
-
 
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="budgetPersonnel"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
+  	showTabButtons="true" 
   	headerTabActive="personnel"
   	extraTopButtons="${KualiForm.extraTopButtons}">
   	
-  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Project Personnel" /></div>
+  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Personnel" /></div>
   	
-	<kra:section permission="modifyBudgets">
-	  	<kul:uncollapsable tabTitle="Add Project Personnel">
-	  		<div align="center">
-	            <table cellpadding="0" cellspacing="0" class="grid" summary="">
-	              	<tr>
-	                	<th class="grid"><div align="right">Person:</div></th>
-	                	<td nowrap class="grid">
-	                		<label>Employee Search</label>
-	                  		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.Person" 
-	                        	lookedUpCollectionName="newBudgetPersons" /></label><br>
-	                        <label>Non-employee Search</label>
-	                  		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
-	                        	lookedUpCollectionName="newBudgetRolodexes" /></label><br>
-	                        <label>To be named</label>
-	                       	<label><kul:multipleValueLookup boClassName="org.kuali.kra.budget.bo.TbnPerson" 
-	                        	lookedUpCollectionName="newTbnPersons" /></label>
-	                	</td>
-	              	</tr>
-	            </table>
-	        </div>
-		</kul:uncollapsable> 
-	</kra:section>
-	<br/>
+	<kra-b:budgetExpensesSelectBudgetPeriod />
+	<br><br>
 	
-	<kra-b:budgetPersonnel/>
-
-	<kul:documentControls 
-		transactionalDocument="false"
-		suppressRoutingControls="true"
-		viewOnly="${KualiForm.editingMode['viewOnly']}"
-		extraButtonSource="${extraButtonSource}"
-		extraButtonProperty="${extraButtonProperty}"
-		extraButtonAlt="${extraButtonAlt}"
-		/>
-		
-<script type="text/javascript">
+	<kra-b:projectPersonnel/>
+	
+	<c:set var="action" value="budgetExpensesAction" />
+	<c:set var="budgetCategoryTypeCodeKey" value="${KualiForm.document.budgetCategoryTypeCodes[0].key}" />
+	<c:set var="budgetCategoryTypeCodeLabel" value="${KualiForm.document.budgetCategoryTypeCodes[0].label}" />
+	<c:set var="catCodes" value="0" />
+	
+	<kra-b:budgetExpenseBudgetOverview transparentBackground="false" defaultOpen="false" /> 
+	<kra-b:budgetPersonnelDetail budgetCategoryTypeCodeKey="${budgetCategoryTypeCodeKey}" budgetCategoryTypeCodeLabel="${budgetCategoryTypeCodeLabel}" catCodes="${catCodes}"/>
+	
+	<kul:panelFooter />
+	
+	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" extraButtons="${extraButtons}"  viewOnly="${KualiForm.editingMode['viewOnly']}" />	
+	
+	<SCRIPT type="text/javascript">
 	var kualiForm = document.forms['KualiForm'];
 	var kualiElements = kualiForm.elements;
-</script>
-		
-<script language="javascript" src="scripts/kuali_application.js"></script>		
+	</SCRIPT>
+	
+<script language="javascript" src="scripts/kuali_application.js"></script>	
 <script language="javascript" src="dwr/interface/JobCodeService.js"></script>
+	
 </kul:documentPage>
