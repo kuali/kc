@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -47,10 +47,10 @@
 	</c:otherwise>
 </c:choose>
 <tr>
-    <th width="5%" rowspan="${rowSpanCount}"  class="infoline">
+    <th width="6%" rowspan="${rowSpanCount}" class="darkInfoline">
 		<c:out value="${budgetLineItemSequenceNumber+1}" />
 	</th>	
-           		<td  valign="middle" nowrap="true">
+           		<td  width="38%" valign="middle" nowrap="true" >
 				<div align="center">
 					<c:set var="costElementOptions" value="" />
 					<c:forEach items="${krafn:getOptionList('org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder', paramMap)}" var="option">
@@ -74,55 +74,35 @@
 				</div>				
 				</td>
 				<c:set var="textAreaFieldNameLineItemDescription" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemDescription" />
-				<td width="10%" valign="middle">
+				<td width="25%" valign="middle" >
 					<div align=center>
                		<kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].lineItemDescription" attributeEntry="${budgetLineItemAttributes.lineItemDescription}" readOnly="${budgetExpensePanelReadOnlyIfBudgetVersionIsFinal}"/>
                		<kra:expandedTextArea textAreaFieldName="${textAreaFieldNameLineItemDescription}" action="${action}" textAreaLabel="${budgetLineItemAttributes.lineItemDescription.label}" />
 					</div>
 				</td>
-				<td width="10%" valign="middle">
+                <td width="6%" valign="middle" >
 					<div align=center>
-               		<kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].underrecoveryAmount" attributeEntry="${budgetLineItemAttributes.underrecoveryAmount}" styleClass="amount" readOnly="${budgetExpensePanelReadOnly}"/>
-					</div>
-				</td>
-                <td width="10%" valign="middle">
-					<div align=center>
-               		<kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].costSharingAmount" attributeEntry="${budgetLineItemAttributes.costSharingAmount}" styleClass="amount" readOnly="${budgetExpensePanelReadOnly}"/>
-					</div>
-				</td>
-                <td width="10%" valign="middle">
-					<div align=center>
-               		<kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].quantity" attributeEntry="${budgetLineItemAttributes.quantity}" readOnly="${budgetExpensePanelReadOnly}"/>
+               		<kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].quantity" attributeEntry="${budgetLineItemAttributes.quantity}" styleClass="text-right" readOnly="${budgetExpensePanelReadOnly}"/>
 					</div>
                 </td>
-                <td width="15%" valign="middle">                	
+                <td width="16%" valign="middle" >               	
 					<div align=center>
                  		<kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].lineItemCost" attributeEntry="${budgetLineItemAttributes.lineItemCost}" styleClass="amount" readOnly="${budgetExpensePanelReadOnly}"/> 
 					</div>
 				</td>
-				<td valign="middle">&nbsp;
-					<table style="border-width: 0px;" cellspacing=0 cellpadding=0>
-		   			   <tr style="border-width: 0px;">
-			             <td style="border-width: 0px;" width="35%" align=right>
-			                <kra:section permission="modifyBudgets">
-			                    <html:image property="methodToCall.deleteBudgetLineItem.line${budgetLineItemNumber}.anchor${currentTabIndex}"
-			                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-			                </kra:section>
-			            </td>
-			            <td style="border-width: 0px;" width="65%">
-			                <c:if test="${budgetCategoryTypeCode=='P' }">
-			                    <html:image property="methodToCall.personnelBudget.line${budgetLineItemNumber}.anchor${currentTabIndex}"
-			                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-personnelbudget.gif' styleClass="tinybutton"/>
-			                </c:if>
-			            </td>
-			    	</tr>
-		        </table>  
+				<td width="8%" valign="middle" >&nbsp;
+					<div align=center>
+                 		<kra:section permission="modifyBudgets">
+			                  <html:image property="methodToCall.deleteBudgetLineItem.line${budgetLineItemNumber}.anchor${currentTabIndex}"
+			                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" />
+			             </kra:section> 
+					</div>
                 </td>
 	        </tr>
 	        <c:choose>
 	        <c:when test="${empty KualiForm.viewBudgetView || KualiForm.viewBudgetView == 0}" >     
 	        <tr>
-	        	<td colspan = "7">
+	        	<td colspan="7" class="darkInfoline">
 	        		<kra-b:budgetLineItemFullView budgetPeriod = "${budgetPeriod}" budgetCategoryTypeCode = "${budgetCategoryTypeCode}" budgetLineItemNumber="${budgetLineItemNumber}" innerTabParent="${innerTabParent}" budgetExpensePanelReadOnly="${budgetExpensePanelReadOnly}" budgetExpensePanelReadOnlyIfBudgetVersionIsFinal="${budgetExpensePanelReadOnlyIfBudgetVersionIsFinal}"/>
 	       		</td>
 	     	</tr>

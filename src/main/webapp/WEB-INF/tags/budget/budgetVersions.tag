@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -27,13 +27,24 @@
 <c:set var="budgetVersionOverviewAttributes" value="${DataDictionary.BudgetVersionOverview.attributes}" />
 <c:set var="javascriptEnabled" value="true" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
-
+<c:set var="readonly" value="true"/>
+<kra:section permission="modifyProposalBudget">
+  <c:set var="readonly" value="false"/>
+ </kra:section> 
 <kul:tabTop tabTitle="Budget Versions (${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})" defaultOpen="true" tabErrorKey="document.proposal.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey}" auditCluster="budgetVersionErrors" tabAuditKey="document.budgetVersionOverview">
+
 	<div class="tab-container" align="center">
-    	<h3>
-    		<span class="subhead-left">Budget Versions</span>
+
+		<c:forEach var="warning" items="${budgetModularWarnings}">
+			<ul class="warnings">
+				<li class="warnings"><c:out value="${warning}"/></li>
+			</ul>
+		</c:forEach>
+
+    	<div class="h2-container">
+    		<span class="subhead-left"><h2>Budget Versions</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.BudgetStatus" altText="help"/></span>
-        </h3>
+        </div>
         <table id="budget-versions-table" cellpadding="0" cellspacing="0" summary="Budget Versions">
 			<tr>
 				<th scope="row">&nbsp;</th>
@@ -109,12 +120,12 @@
 		            	<div align="center">
 		            		<!--  This field is to hold select status if it's disabled by javascript -->
 		            		<html:hidden name="KualiForm" property="${version}.budgetStatus" disabled="true" />
-		            		<kul:htmlControlAttribute property="${version}.budgetStatus" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" onchange="javascript: toggleFinalCheckboxes(document)" disabled="${viewOnly}"/>
+		            		<kul:htmlControlAttribute property="${version}.budgetStatus" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" onchange="javascript: toggleFinalCheckboxes(document)" disabled="${readonly}"/>
 		            	</div>
             		</td>
 	            	<td class="tab-subhead1">
 	            		<div align="center">
-	            			<kul:htmlControlAttribute property="${version}.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: enableBudgetStatus(document, '${status.index}')" disabled="${viewOnly}"/>
+	            			<kul:htmlControlAttribute property="${version}.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: enableBudgetStatus(document, '${status.index}')" disabled="${readonly}"/>
 	            			<!--  This field is to hold checkbox status if it's disabled by javascript -->
 	            			<html:hidden name="KualiForm" property="${version}.finalVersionFlag" disabled="true" />
 	            		</div>
@@ -131,15 +142,15 @@
 	           		</kra:section>
          		</tr>
          		<tbody style="${displayStyle}">
-         		<tr>
+	         		<tr>
             		<th align="right" scope="row">&nbsp;</th>
             		<td colspan="8" style="padding:0px; border-left:none">
             			<table cellpadding="0" cellspacing="0" summary="" style="width:100%;">
                 			<tr>
 	                    		<th width="1%" nowrap><div align="right">Residual Funds:</div></th>
 	                    		<td align="left" width="12%">${budgetVersion.residualFunds}&nbsp;</td>
-	                    		<th width="40%" nowrap><div align="right">OH Rate Type:</div></th>
-	                    		<td align="left" width="99%">${rateClassMap[budgetVersion.ohRateTypeCode].description}&nbsp;</td>
+	                    		<th width="40%" nowrap><div align="right">F&A Rate Type:</div></th>
+	                    		<td align="left" width="99%">${budgetVersion.rateClass.description}&nbsp;</td>
                   			</tr>
 	                  		<tr>
 	                    		<th nowrap><div align="right">Cost Sharing:</div></th>
@@ -167,10 +178,10 @@
 </kul:tabTop>
 <kul:panelFooter />
 <c:choose>                    	
-	<c:when test="${viewOnly}">
+	<c:when test="${readonly}">
 		<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" onLoad="toggleFinalCheckboxesAndDisable(document);" />
  	</c:when>
 	<c:otherwise>
 		<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" onLoad="toggleFinalCheckboxes(document); setupBudgetStatuses(document);" />
 	</c:otherwise>
-</c:choose>                    
+</c:choose>                      
