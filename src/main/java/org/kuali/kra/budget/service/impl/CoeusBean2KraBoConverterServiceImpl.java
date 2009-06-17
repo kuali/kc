@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,20 @@
  */
 package org.kuali.kra.budget.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.SqlTimestampConverter;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
@@ -24,6 +37,8 @@ import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.CoeusBean2KraBoConverterService;
+import org.kuali.kra.s2s.bo.S2sOppForms;
+import org.kuali.kra.s2s.service.impl.S2SServiceImpl;
 
 import edu.mit.coeus.budget.bean.BudgetDetailBean;
 import edu.mit.coeus.budget.bean.BudgetDetailCalAmountsBean;
@@ -31,6 +46,7 @@ import edu.mit.coeus.budget.bean.BudgetInfoBean;
 import edu.mit.coeus.budget.bean.BudgetPeriodBean;
 import edu.mit.coeus.budget.bean.BudgetPersonnelCalAmountsBean;
 import edu.mit.coeus.budget.bean.BudgetPersonnelDetailsBean;
+import edu.mit.coeus.s2s.bean.FormInfoBean;
 
 /**
  * This class...

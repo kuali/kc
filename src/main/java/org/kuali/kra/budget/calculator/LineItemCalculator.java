@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,9 @@ package org.kuali.kra.budget.calculator;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -33,6 +35,8 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
+
+import static org.kuali.kra.logging.BufferedLogger.*;
 
 /**
  * 
@@ -52,12 +56,22 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
     }
 
     private boolean isDocumentOhRateSameAsFormOhRate() {
-        if (bd.getOhRateClassCode() != null || ((BudgetForm)GlobalVariables.getKualiForm()) != null) {
-            return false;
+        if(bd.getOhRateClassCode()!= null && ((BudgetForm)GlobalVariables.getKualiForm())!= null && StringUtils.equalsIgnoreCase(bd.getOhRateClassCode(), ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue())){
+            return true;
         }
-
-        return StringUtils.equalsIgnoreCase(bd.getOhRateClassCode(),
-                                            ((BudgetForm) GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue());
+        
+        return false;        
+    }
+    
+    private Map<String, Boolean> saveApplyRateFlagsForReset() {
+        Map<String, Boolean> applyRateFlags = new HashMap<String, Boolean>();
+        if(bli != null && CollectionUtils.isNotEmpty(bli.getBudgetLineItemCalculatedAmounts())) {
+            for(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : bli.getBudgetLineItemCalculatedAmounts()) {
+                applyRateFlags.put(budgetLineItemCalculatedAmount.getRateClassCode()+budgetLineItemCalculatedAmount.getRateTypeCode(), budgetLineItemCalculatedAmount.getApplyRateFlag());
+            }
+        }
+        
+        return applyRateFlags;
     }
 
     public void populateCalculatedAmountLineItems() {
@@ -68,17 +82,25 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             setCalculatedAmounts(bd,bli);
         }
 
-        if(isDocumentOhRateSameAsFormOhRate()){
+        if(!isDocumentOhRateSameAsFormOhRate()){
             Long versionNumber = null;
             if (CollectionUtils.isNotEmpty(bli.getBudgetLineItemCalculatedAmounts())) {
                 versionNumber = bli.getBudgetLineItemCalculatedAmounts().get(0).getVersionNumber();
             }
+            //Save applyRateFlag to set it back on the new Calculated Amounts
+            Map<String, Boolean> applyRateFlags = saveApplyRateFlagsForReset();
+
             bli.setBudgetLineItemCalculatedAmounts(new ArrayList<BudgetLineItemCalculatedAmount>());
             
             setCalculatedAmounts(bd,bli);
-            if (versionNumber != null) {
-                for(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : bli.getBudgetLineItemCalculatedAmounts()){
-                    budgetLineItemCalculatedAmount.setVersionNumber(versionNumber);
+            
+            for(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : bli.getBudgetLineItemCalculatedAmounts()){
+                if (versionNumber != null) {
+                        budgetLineItemCalculatedAmount.setVersionNumber(versionNumber);
+                }
+                
+                if(applyRateFlags != null && applyRateFlags.get(budgetLineItemCalculatedAmount.getRateClassCode() + budgetLineItemCalculatedAmount.getRateTypeCode()) != null) {
+                    budgetLineItemCalculatedAmount.setApplyRateFlag(applyRateFlags.get(budgetLineItemCalculatedAmount.getRateClassCode() + budgetLineItemCalculatedAmount.getRateTypeCode()));
                 }
             }
         }
@@ -170,8 +192,10 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
                 BudgetDecimal calculatedCost = rateAndCost.getCalculatedCost();
                 BudgetDecimal calculatedCostSharing = rateAndCost.getCalculatedCostSharing();
                 
-                budgetRateBase.setBaseCost(breakUpInterval.getApplicableAmt());
-                budgetRateBase.setBaseCostSharing(breakUpInterval.getApplicableAmtCostSharing());
+//                budgetRateBase.setBaseCost(breakUpInterval.getApplicableAmt());
+                budgetRateBase.setBaseCostSharing(rateAndCost.getBaseCostSharingAmount());
+                budgetRateBase.setBaseCost(rateAndCost.getBaseAmount());
+//              budgetRateBase.setBaseCostSharing(breakUpInterval.getApplicableAmtCostSharing());
                 
                 budgetRateBase.setBudgetPeriodId(bli.getBudgetPeriodId());
                 budgetRateBase.setBudgetPeriod(bli.getBudgetPeriod());

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
 import org.kuali.kra.budget.bo.BudgetModular;
 import org.kuali.kra.budget.bo.BudgetPeriod;
@@ -31,11 +33,13 @@ import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.bo.CostElement;
+import org.kuali.kra.budget.bo.ValidCeJobCode;
 import org.kuali.kra.budget.bo.ValidCeRateType;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder;
 import org.kuali.kra.budget.service.BudgetPersonService;
 import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
@@ -50,6 +54,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class implements methods specified by BudgetDocumentService interface
@@ -96,6 +101,9 @@ public class BudgetServiceImpl implements BudgetService {
                 budgetDocument.addBudgetPerson(budgetPerson);
             }
         }
+
+        //Rates-Refresh Scenario-1
+        budgetDocument.setRateClassTypesReloaded(true);
         
         documentService.saveDocument(budgetDocument);
         
@@ -175,6 +183,11 @@ public class BudgetServiceImpl implements BudgetService {
         this.budgetPersonService = budgetPersonService;
     }
     
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    
     /**
      * Recurse through all of the BOs and if a BO has a ProposalNumber property,
      * set its value to the new proposal number.
@@ -250,6 +263,25 @@ public class BudgetServiceImpl implements BudgetService {
         return false;
     }
     
+    public Collection<BudgetProposalRate> getSavedProposalRates(ProposalDevelopmentDocument pdDoc, String budgetVersionNumber) {
+        Map qMap = new HashMap();
+        qMap.put("proposalNumber",pdDoc.getProposalNumber());
+        qMap.put("budgetVersionNumber",budgetVersionNumber);
+        return businessObjectService.findMatching(BudgetProposalRate.class, qMap);
+    }
+    
+    public boolean checkActivityTypeChange(Collection<BudgetProposalRate> allPropRates, String proposalActivityTypeCode) {
+        if (CollectionUtils.isNotEmpty(allPropRates)) {
+            Equals equalsActivityType = new Equals("activityTypeCode", proposalActivityTypeCode);
+            QueryList matchActivityTypePropRates = new QueryList(allPropRates).filter(equalsActivityType);
+            if (CollectionUtils.isEmpty(matchActivityTypePropRates) || allPropRates.size() != matchActivityTypePropRates.size()) {
+                return true;
+            }
+        }
+                
+        return false;
+    }
+    
     public boolean checkActivityTypeChange(ProposalDevelopmentDocument pdDoc, String budgetVersionNumber) {
         Map qMap = new HashMap();
         qMap.put("proposalNumber",pdDoc.getProposalNumber());
@@ -268,7 +300,6 @@ public class BudgetServiceImpl implements BudgetService {
         return false;
         
     }
-    
     
     public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem) {
         //QueryEngine queryEngine = new QueryEngine();
@@ -318,6 +349,110 @@ public class BudgetServiceImpl implements BudgetService {
                 
         return "x";
         
+    }
+
+    public List<ValidCeJobCode> getApplicableCostElements(String proposalNumber, String budgetVersionNumber, String personSequenceNumber) {
+        List<ValidCeJobCode> validCostElements = null;
+
+        String jobCodeValidationEnabledInd = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.BUDGET_JOBCODE_VALIDATION_ENABLED).getParameterValue();
+        
+        if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) { 
+            Map fieldValues = new HashMap();
+            fieldValues.put("proposalNumber", proposalNumber);
+            fieldValues.put("budgetVersionNumber", budgetVersionNumber);
+            fieldValues.put("personSequenceNumber", personSequenceNumber);
+            BudgetPerson budgetPerson = (BudgetPerson) businessObjectService.findByPrimaryKey(BudgetPerson.class, fieldValues);
+            
+            fieldValues.clear();
+            if(budgetPerson != null && StringUtils.isNotEmpty(budgetPerson.getJobCode())) {
+                fieldValues.put("jobCode", budgetPerson.getJobCode().toUpperCase());
+                validCostElements = (List<ValidCeJobCode>) businessObjectService.findMatching(ValidCeJobCode.class, fieldValues);
+            }
+        }
+        
+        return validCostElements;
+    }
+    
+    public String getApplicableCostElementsForAjaxCall(String proposalNumber, String budgetVersionNumber,
+        String personSequenceNumber, String budgetCategoryTypeCode) {
+        
+        String resultStr = "";
+        List<ValidCeJobCode> validCostElements = getApplicableCostElements(proposalNumber, budgetVersionNumber, personSequenceNumber);
+        
+        if(CollectionUtils.isNotEmpty(validCostElements)) {
+            for (ValidCeJobCode validCE : validCostElements) {
+                Map fieldValues = new HashMap();
+                fieldValues.put("costElement", validCE.getCostElement());
+                CostElement costElement = (CostElement) businessObjectService.findByPrimaryKey(CostElement.class, fieldValues);
+                resultStr += "," + validCE.getCostElement() + ";" + costElement.getDescription();
+            }
+            resultStr += ",ceLookup;false";
+        } else {
+            CostElementValuesFinder ceValuesFinder = new CostElementValuesFinder();
+            ceValuesFinder.setBudgetCategoryTypeCode(budgetCategoryTypeCode);
+            List<KeyLabelPair> allPersonnelCostElements = ceValuesFinder.getKeyValues();
+            for (KeyLabelPair keyLabelPair : allPersonnelCostElements) {
+                if(StringUtils.isNotEmpty(keyLabelPair.getKey().toString())) {
+                    resultStr += "," + keyLabelPair.getKey() + ";" + keyLabelPair.getLabel();
+                }
+            }
+            resultStr += ",ceLookup;true";
+        }
+        
+        return resultStr;
+    }
+
+    public List<String> getExistingGroupNames(String proposalNumber, String budgetVersionNumber, String budgetPeriod) {
+        List<String> groupNames = new ArrayList<String>();
+        Map fieldValues = new HashMap();
+        fieldValues.put("proposalNumber", proposalNumber);
+        fieldValues.put("budgetVersionNumber", budgetVersionNumber);
+        fieldValues.put("budgetPeriodId", budgetPeriod);
+        List<BudgetLineItem> budgetLineItems = (List<BudgetLineItem>) businessObjectService.findByPrimaryKey(BudgetLineItem.class, fieldValues);
+        
+        for(BudgetLineItem budgetLineItem: budgetLineItems) {
+            if(StringUtils.isNotEmpty(budgetLineItem.getGroupName())) {
+                groupNames.add(budgetLineItem.getGroupName());
+            }
+        }
+        
+        return groupNames;
+    }
+
+    public String getExistingGroupNamesForAjaxCall(String proposalNumber, String budgetVersionNumber, String budgetPeriod) {
+        List<String> groupNames = getExistingGroupNames(proposalNumber, budgetVersionNumber, budgetPeriod);
+        String resultStr = "";
+        
+        for (String groupName : groupNames) {
+            resultStr += "," + groupName;
+        }
+        
+        return resultStr;
+    }
+    
+    public String getBudgetExpensePanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
+        StringBuffer panelName = new StringBuffer();
+        if(budgetLineItem.getBudgetCategory() == null) {
+            budgetLineItem.refreshReferenceObject("budgetCategory");
+        }
+        
+        if(budgetLineItem.getBudgetCategory() != null && budgetLineItem.getBudgetCategory().getBudgetCategoryType() == null) {
+            budgetLineItem.getBudgetCategory().refreshReferenceObject("budgetCategoryType");
+        }
+        
+        if(budgetLineItem.getBudgetCategory() != null && budgetLineItem.getBudgetCategory().getBudgetCategoryType() != null) {
+            panelName.append(budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription());
+//            panelName.append(" (");
+//            panelName.append(budgetPeriod.getBudgetLineItems().size());
+//            panelName.append(" line item");
+//            if(budgetPeriod.getBudgetLineItems().size() > 1)
+//                panelName.append("s");
+//            panelName.append(")");
+        }
+        
+        return panelName.toString();
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,20 @@
  */
 package org.kuali.kra.budget.calculator;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.RandomAccess;
 
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
@@ -37,15 +43,21 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * This class...
  */
-public class QueryList<E> extends ArrayList<E> {
-    /** Operator which filters active beans(i.e not deleted beans) */    
-//    public static Operator FILTER_ACTIVE_BEANS = new Or(new Equals("acType", null),new NotEquals("acType",TypeConstants.DELETE_RECORD));
+public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Serializable {
 
+    private static final long serialVersionUID = -3215265492607686197L;
+    
+    //using delegation to make it easier to swap out underlying implementation
+    //also helps with possible inheritance bugs...
+    //cannot make final because of clone otherwise this should always assumed to be non-null upon construction
+    private /*final*/ ArrayList<E> backingList;
+    
     public QueryList() {
+        this.backingList = new ArrayList<E>();
     }
-    public QueryList(List dataList) {
-        this();
-        addAll(dataList);
+    
+    public QueryList(Collection<E> dataList) {
+        this.backingList = new ArrayList<E>(dataList);
     }
     
     /** Overridden method for sorting. By default it will sort in ascending order.
@@ -334,7 +346,6 @@ public class QueryList<E> extends ArrayList<E> {
             field = dataClass.getDeclaredField(fieldName);
             
             Class fieldClass = field.getType();
-            String fieldTypeName = fieldClass.getName();
             if(! (fieldClass.equals(Integer.class) ||
             fieldClass.equals(Long.class) ||
             fieldClass.equals(Double.class) ||
@@ -343,10 +354,10 @@ public class QueryList<E> extends ArrayList<E> {
             fieldClass.equals(BigInteger.class) ||
             fieldClass.equals(BudgetDecimal.class) ||
             fieldClass.equals(KualiDecimal.class) ||
-            fieldTypeName.equalsIgnoreCase("int") ||
-            fieldTypeName.equalsIgnoreCase("long") ||
-            fieldTypeName.equalsIgnoreCase("float") ||
-            fieldTypeName.equalsIgnoreCase("double") )) {
+            fieldClass.equals(int.class) ||
+            fieldClass.equals(long.class) ||
+            fieldClass.equals(float.class) ||
+            fieldClass.equals(double.class) )) {
                 throw new UnsupportedOperationException("Data Type not numeric");
             }
             
@@ -459,80 +470,157 @@ public class QueryList<E> extends ArrayList<E> {
         return value;
     }
     
-    /** returns multiple field sort operator for the fields in the base bean in
-     * either ascending or descending order.
-     * @param field fields to sort.
-     * @param baseBean base bean containing fields.
-     * @param ascending sorting order.
-     * true - ascending
-     * false - descending
-     * @return multiple field sort Operator
-     */    
-    private Operator getMultipleFieldSortOperator(String field[], Object baseBean, boolean ascending) {
-        int fields = field.length;
-        Or multipleFieldSortOperator;
+    /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
+    @Override
+    public QueryList<E> clone() {
         
-        And andArray[] = new And[fields - 1];
+        final QueryList<E> ql;
         
-        //Make all Relational Operators.
-        RelationalOperator relationalOperator[] = new RelationalOperator[fields];
-        for(int index = 0; index < fields; index++) {
-            if(! ascending) {
-                GreaterThan gt = new GreaterThan(field[index], (Comparable)getFieldValue(field[index], baseBean));
-                relationalOperator[index] = gt;
-            }else if(ascending) {
-                LesserThan lt = new LesserThan(field[index], (Comparable)getFieldValue(field[index], baseBean));
-                relationalOperator[index] = lt;
-            }
+        try {
+            ql = (QueryList<E>) super.clone();
+        } catch (CloneNotSupportedException e) { 
+            throw new AssertionError("not Cloneable");
         }
-        
-        //Generate Equals
-        for(int index = 1; index < fields; index++) {
-            Equals equals[] = new Equals[index];
-            for(int count = 0; count < index; count++) {
-                Equals eq = new Equals(field[count], (Comparable)getFieldValue(field[count], baseBean));
-                equals[count] = eq;
-            }
-            
-            //Combine Equals and make And Operators
-            And and = null;
-            boolean even = (equals.length % 2) == 0;
-            for(int count = 0; count < equals.length; count++) {
-                if(equals.length == 1) {
-                    and = new And(equals[count], relationalOperator[index]);
-                    andArray[index - 1] = and;
-                    break;
-                }else if(even && count == index - 1) {
-                    and = new And(and, relationalOperator[index]);
-                    andArray[index - 1] = and;
-                    break;
-                }else if(!even && count == index - 1) {
-                    and = new And(and, relationalOperator[index]);
-                    andArray[index - 1] = and;
-                    break;
-                }else {
-                    and = new And(equals[count], equals[count + 1]);
-                }
-                
-            }//End For count
-        }//End For index
-        
-        //Combine Greater Than and Equals and make Or operators
-        multipleFieldSortOperator = new Or(relationalOperator[0], andArray[0]);
-        for(int index = 1; index < andArray.length; index++) {
-            multipleFieldSortOperator = new Or(multipleFieldSortOperator, andArray[index]);
-        }
-        
-        return multipleFieldSortOperator;
-    }
-    
-    /**
-     *  Overridden method of super class, java.util.Vector.
-     * @return string representation of this.
-     */
-    public String toString(){
-        return super.toString();
-    }
-    
 
+        ArrayList<E> bl = (ArrayList<E>) this.backingList.clone();
+        ql.backingList = new ArrayList(bl);
+        
+        return ql;
+    }
+    
+    //delegate methods.
+    
+    /** {@inheritDoc} */
+    public boolean add(E o) {
+        return this.backingList.add(o);
+    }
+
+    /** {@inheritDoc} */
+    public void add(int index, E element) {
+        this.backingList.add(index, element);
+    }
+
+    /** {@inheritDoc} */
+    public boolean addAll(Collection<? extends E> c) {
+        return this.backingList.addAll(c);
+    }
+
+    /** {@inheritDoc} */
+    public boolean addAll(int index, Collection<? extends E> c) {
+        return this.backingList.addAll(index, c);
+    }
+
+    /** {@inheritDoc} */
+    public void clear() {
+        this.backingList.clear();
+    }
+
+    /** {@inheritDoc} */
+    public boolean contains(Object o) {
+        return this.backingList.contains(o);
+    }
+
+    /** {@inheritDoc} */
+    public boolean containsAll(Collection<?> c) {
+        return this.backingList.containsAll(c);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object o) {
+        return this.backingList.equals(o);
+    }
+
+    /** {@inheritDoc} */
+    public E get(int index) {
+        return this.backingList.get(index);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        return this.backingList.hashCode();
+    }
+
+    /** {@inheritDoc} */
+    public int indexOf(Object o) {
+        return this.backingList.indexOf(o);
+    }
+
+    /** {@inheritDoc} */
+    public boolean isEmpty() {
+        return this.backingList.isEmpty();
+    }
+
+    /** {@inheritDoc} */
+    public Iterator<E> iterator() {
+        return this.backingList.iterator();
+    }
+
+    /** {@inheritDoc} */
+    public int lastIndexOf(Object o) {
+        return this.backingList.lastIndexOf(o);
+    }
+
+    /** {@inheritDoc} */
+    public ListIterator<E> listIterator() {
+        return this.backingList.listIterator();
+    }
+
+    /** {@inheritDoc} */
+    public ListIterator<E> listIterator(int index) {
+        return this.backingList.listIterator(index);
+    }
+
+    /** {@inheritDoc} */
+    public E remove(int index) {
+        return this.backingList.remove(index);
+    }
+
+    /** {@inheritDoc} */
+    public boolean remove(Object o) {
+        return this.backingList.remove(o);
+    }
+
+    /** {@inheritDoc} */
+    public boolean removeAll(Collection<?> c) {
+        return this.backingList.removeAll(c);
+    }
+
+    /** {@inheritDoc} */
+    public boolean retainAll(Collection<?> c) {
+        return this.backingList.retainAll(c);
+    }
+
+    /** {@inheritDoc} */
+    public E set(int index, E element) {
+        return this.backingList.set(index, element);
+    }
+
+    /** {@inheritDoc} */
+    public int size() {
+        return this.backingList.size();
+    }
+
+    /** {@inheritDoc} */
+    public List<E> subList(int fromIndex, int toIndex) {
+        return this.backingList.subList(fromIndex, toIndex);
+    }
+
+    /** {@inheritDoc} */
+    public Object[] toArray() {
+        return this.backingList.toArray();
+    }
+
+    /** {@inheritDoc} */
+    public <T> T[] toArray(T[] a) {
+        return this.backingList.toArray(a);
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        return this.backingList.toString();
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,19 +21,22 @@ public interface JobCodeService {
 
     /**
      * 
-     * This method...
-     * @param JobCode
-     * @return
-     */
-    public JobCode findJobCodeRef(String JobCode);
-    
-    /**
+     * This method provides the appropriate JobCode Title
+     * for a particular jobCode string.
      * 
-     * This method...
      * @param JobCode
      * @return
      */
     public String findJobCodeTitle(String JobCode);
     
+    /**
+     * 
+     * This method provides the appropriate JobCode object
+     * for a particular jobCode string.
+     * 
+     * @param JobCode
+     * @return
+     */
+    public JobCode findJobCodeRef(String jobCode);
     
 }

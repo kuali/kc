@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ public class BudgetAction extends ProposalActionBase {
     private static final Log LOG = LogFactory.getLog(BudgetAction.class);
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -96,7 +96,7 @@ public class BudgetAction extends ProposalActionBase {
 
     /**
      * Need to suppress buttons here when 'Totals' tab is clicked.
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -159,6 +159,47 @@ public class BudgetAction extends ProposalActionBase {
         reconcilePersonnelRoles(budgetForm.getBudgetDocument());
         
         return mapping.findForward("personnel");
+    }
+    
+    private String getPersonnelBudgetCategoryTypeCode() {
+        KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+        return kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL).getParameterValue();
+    }
+    
+    protected void populatePersonnelCategoryTypeCodes(BudgetForm budgetForm) {
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        
+        BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
+        List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();   
+        String personnelBudgetCategoryTypeCode = getPersonnelBudgetCategoryTypeCode();
+        
+        for(KeyLabelPair budgetCategoryType: budgetCategoryTypeValuesFinder.getKeyValues()){
+            String budgetCategoryTypeCode = (String) budgetCategoryType.getKey();
+            if(StringUtils.isNotBlank(budgetCategoryTypeCode) && StringUtils.equalsIgnoreCase(budgetCategoryTypeCode, personnelBudgetCategoryTypeCode)) {
+                budgetCategoryTypes.add(budgetCategoryType);
+                BudgetLineItem newBudgetLineItem = new BudgetLineItem();
+                budgetForm.getNewBudgetLineItems().add(newBudgetLineItem);
+            }
+        }
+        budgetDocument.setBudgetCategoryTypeCodes(budgetCategoryTypes); 
+    }
+    
+    protected void populateNonPersonnelCategoryTypeCodes(BudgetForm budgetForm) {
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        
+        BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
+        List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();      
+        String personnelBudgetCategoryTypeCode = getPersonnelBudgetCategoryTypeCode();
+        
+        for(KeyLabelPair budgetCategoryType: budgetCategoryTypeValuesFinder.getKeyValues()){
+            String budgetCategoryTypeCode = (String) budgetCategoryType.getKey();
+            if(StringUtils.isNotBlank(budgetCategoryTypeCode) && !StringUtils.equalsIgnoreCase(budgetCategoryTypeCode, personnelBudgetCategoryTypeCode)) {
+                budgetCategoryTypes.add(budgetCategoryType);
+                BudgetLineItem newBudgetLineItem = new BudgetLineItem();
+                budgetForm.getNewBudgetLineItems().add(newBudgetLineItem);
+            }
+        }
+        budgetDocument.setBudgetCategoryTypeCodes(budgetCategoryTypes); 
     }
 
     public ActionForward expenses(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

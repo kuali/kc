@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,9 @@ package org.kuali.kra.budget.lookup.keyvalue;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -32,6 +34,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * Finds the available set of supported Narrative Statuses.  See
@@ -50,16 +54,21 @@ public class BudgetPersonValuesFinder extends KeyValuesBase {
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyLabelPairs = null;
-        
+        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
         KualiForm form = GlobalVariables.getKualiForm();
         if(form instanceof KualiDocumentFormBase) {
             Document doc = ((KualiDocumentFormBase) form).getDocument();
             if(doc instanceof BudgetDocument) {
-                List<BudgetPerson> budgetPersons = ((BudgetDocument)doc).getBudgetPersons();
+                BudgetDocument budgetDocument = (BudgetDocument) doc;
+                Map queryMap = new HashMap();
+                queryMap.put("proposalNumber", budgetDocument.getProposalNumber());
+                queryMap.put("budgetVersionNumber", budgetDocument.getBudgetVersionNumber());
+                List<BudgetPerson> budgetPersons = (List<BudgetPerson>) boService.findMatching(BudgetPerson.class, queryMap);
+
                 keyLabelPairs = buildKeyLabelPairs(budgetPersons);
             }
         }
@@ -81,11 +90,11 @@ public class BudgetPersonValuesFinder extends KeyValuesBase {
                     
                 }
                 if (!duplicatePerson) {
-                    keyLabelPairs.add(new KeyLabelPair(budgetPerson.getPersonSequenceNumber(), 
-                                        (budgetPerson.getPersonName())+" - "+budgetPerson.getJobCode()));
+                  keyLabelPairs.add(new KeyLabelPair(budgetPerson.getPersonSequenceNumber(), budgetPerson.getPersonName() + " - " + budgetPerson.getJobCode()));
                 }
             }
         }
+        keyLabelPairs.add(new KeyLabelPair("-1", "Summary"));
         return keyLabelPairs;
     }
 }

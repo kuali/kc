@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 package org.kuali.kra.budget.service.impl;
-
-import static org.kuali.kra.logging.BufferedLogger.debug;
 
 import java.sql.Date;
 import java.util.Iterator;
@@ -39,6 +37,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import static org.kuali.kra.logging.BufferedLogger.*;
 
 /**
  * This class...
@@ -50,8 +50,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     /**
      * @see org.kuali.kra.budget.service.BudgetPersonnelBudgetService#addBudgetPersonnelDetails(org.kuali.kra.budget.bo.BudgetLineItem, org.kuali.kra.budget.bo.BudgetPersonnelDetails)
      */
-    public void addBudgetPersonnelDetails(BudgetDocument budgetDocument,int budgetPeriodIndex,int budgetLineItemIndex, BudgetPersonnelDetails newBudgetPersonnelDetails) {
-        BudgetLineItem budgetLineItem = budgetDocument.getBudgetPeriod(budgetPeriodIndex).getBudgetLineItems().get(budgetLineItemIndex);
+    public void addBudgetPersonnelDetails(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails) {
         try {
             ConvertUtils.register(new SqlDateConverter(null), java.sql.Date.class);
             ConvertUtils.register(new SqlTimestampConverter(null), java.sql.Timestamp.class);
@@ -66,10 +65,13 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         newBudgetPersonnelDetails.setPersonNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
         newBudgetPersonnelDetails.setPersonSequenceNumber(newBudgetPersonnelDetails.getPersonSequenceNumber());
         BudgetPerson budgetPerson = budgetPersonService.findBudgetPerson(newBudgetPersonnelDetails);
-        newBudgetPersonnelDetails.setPersonId(budgetPerson.getPersonRolodexTbnId());
-        newBudgetPersonnelDetails.setJobCode(budgetPerson.getJobCode());
+        if(budgetPerson != null) {
+            newBudgetPersonnelDetails.setPersonId(budgetPerson.getPersonRolodexTbnId());
+            newBudgetPersonnelDetails.setJobCode(budgetPerson.getJobCode());
+            newBudgetPersonnelDetails.setBudgetPerson(budgetPerson);
+        }
         newBudgetPersonnelDetails.setSequenceNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
-        budgetCalculationService.populateCalculatedAmount(budgetDocument, newBudgetPersonnelDetails);
+        //budgetCalculationService.populateCalculatedAmount(budgetDocument, newBudgetPersonnelDetails);
         newBudgetPersonnelDetails.refreshNonUpdateableReferences();
         budgetLineItem.getBudgetPersonnelDetailsList().add(newBudgetPersonnelDetails);
     }
@@ -131,6 +133,8 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         budgetPersonnelDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());
         budgetPersonnelDetails.setCostElement(budgetLineItem.getCostElement());
         budgetPersonnelDetails.setCostElementBO(budgetLineItem.getCostElementBO());
+        budgetPersonnelDetails.setApplyInRateFlag(budgetLineItem.getApplyInRateFlag());
+        budgetPersonnelDetails.setOnOffCampusFlag(budgetLineItem.getOnOffCampusFlag());
     }
 
     public void deleteBudgetPersonnelDetails(BudgetDocument budgetDocument, int selectedBudgetPeriodIndex,
