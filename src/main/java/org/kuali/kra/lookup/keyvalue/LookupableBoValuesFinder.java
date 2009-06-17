@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,8 @@ public class LookupableBoValuesFinder extends KeyValuesBase {
         keyValues.add(new KeyLabelPair("", "select"));
 
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
-       
+        // this only has entries that have been loaded - force load?
+
     	Map<String, BusinessObjectEntry> businessObjectEntries = dataDictionaryService.getDataDictionary().getBusinessObjectEntries();
     	for (String businessObject: businessObjectEntries.keySet()) {
     	    if ((businessObjectEntries.get(businessObject).hasLookupDefinition()) && (businessObject.startsWith("org.kuali.kra"))) {

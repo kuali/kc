@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -113,7 +113,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
 
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document, org.kuali.rice.kns.bo.user.UniversalUser)
      */
     public Map getEditMode(Document doc, UniversalUser user) {
         
@@ -245,7 +245,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
     }
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
     
@@ -277,7 +277,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
     }
     
     /**
-     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {

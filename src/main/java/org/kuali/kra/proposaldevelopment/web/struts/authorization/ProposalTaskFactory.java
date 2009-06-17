@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ public class ProposalTaskFactory extends WebTaskFactoryImpl {
      */
     public Task createTask(ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        return new ProposalTask(getTaskName(), proposalDevelopmentForm.getProposalDevelopmentDocument());
+        return new ProposalTask(getTaskName(), proposalDevelopmentForm.getDocument());
     }
 
     /**

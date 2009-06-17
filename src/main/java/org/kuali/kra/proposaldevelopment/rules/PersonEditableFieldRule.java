@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ public class PersonEditableFieldRule extends MaintenanceDocumentRuleBase {
         /**
          * Looks at existing persisted <code>{@link PersonEditableField}</code> BO's to see if this one already exists.
          * 
-         * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+         * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
          */ 
         protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
             boolean retval = true;
@@ -53,8 +53,11 @@ public class PersonEditableFieldRule extends MaintenanceDocumentRuleBase {
                 PersonEditableField newField = (PersonEditableField) getNewBo();
                 
                 for (PersonEditableField existingField : (Collection<PersonEditableField>) getBusinessObjectService().findAll(PersonEditableField.class)) {
-                    retval &= !ObjectUtils.equalByKeys(existingField, newField);
-                    GlobalVariables.getErrorMap().putError(PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY, ERROR_PERSON_EDITABLE_FIELD_EXISTS, existingField.getFieldName()); 
+                    if(ObjectUtils.equalByKeys(existingField, newField)) {
+                        GlobalVariables.getErrorMap().putError(PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY, ERROR_PERSON_EDITABLE_FIELD_EXISTS, existingField.getFieldName());
+                        retval = false;
+                        break;
+                    }
                 }
             }
             
@@ -62,7 +65,7 @@ public class PersonEditableFieldRule extends MaintenanceDocumentRuleBase {
         }
         
         /**
-         * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+         * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
          */
         protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
             return true;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,7 +81,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     private String hierarchyname="Sponsor Groups";
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -102,7 +102,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         }
 
         if (KEWConstants.INITIATE_COMMAND.equals(proposalDevelopmentForm.getCommand())) {
-            proposalDevelopmentForm.getProposalDevelopmentDocument().initialize();
+            proposalDevelopmentForm.getDocument().initialize();
         }else{
             proposalDevelopmentForm.initialize();
         }
@@ -115,7 +115,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         
         ActionForward actionForward = super.execute(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
          String keywordPanelDisplay = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
                     Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.KEYWORD_PANEL_DISPLAY);        
             request.getSession().setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
@@ -132,11 +132,11 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             //if(isPrincipalInvestigator){
             //}
             
-            /*if(proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()!=null){
-                proposalDevelopmentForm.setAdditionalDocInfo1(new KeyLabelPair("datadictionary.Sponsor.attributes.sponsorCode.label",proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()));
+            /*if(proposalDevelopmentForm.getDocument().getSponsorCode()!=null){
+                proposalDevelopmentForm.setAdditionalDocInfo1(new KeyLabelPair("datadictionary.Sponsor.attributes.sponsorCode.label",proposalDevelopmentForm.getDocument().getSponsorCode()));
             }
-            if(proposalDevelopmentForm.getProposalDevelopmentDocument().getPrincipalInvestigator()!=null){
-                proposalDevelopmentForm.setAdditionalDocInfo2(new KeyLabelPair("${Document.DataDictionary.ProposalDevelopmentDocument.attributes.sponsorCode.label}",proposalDevelopmentForm.getProposalDevelopmentDocument().getPrincipalInvestigator().getFullName()));
+            if(proposalDevelopmentForm.getDocument().getPrincipalInvestigator()!=null){
+                proposalDevelopmentForm.setAdditionalDocInfo2(new KeyLabelPair("${Document.DataDictionary.ProposalDevelopmentDocument.attributes.sponsorCode.label}",proposalDevelopmentForm.getDocument().getPrincipalInvestigator().getFullName()));
             }*/
     
             // setup any Proposal Development System Parameters that will be needed
@@ -167,12 +167,12 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(KualiDocumentFormBase)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(KualiDocumentFormBase)
      */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
-        getKeyPersonnelService().populateDocument(((ProposalDevelopmentForm) kualiDocumentFormBase).getProposalDevelopmentDocument());
+        getKeyPersonnelService().populateDocument(((ProposalDevelopmentForm) kualiDocumentFormBase).getDocument());
     }
 
     @Override
@@ -181,7 +181,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         // We will need to determine if the proposal is being saved for the first time.
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
        
 		updateProposalDocument(proposalDevelopmentForm);
         ActionForward forward = super.save(mapping, form, request, response);
@@ -195,7 +195,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     }
     
     protected void updateProposalDocument(ProposalDevelopmentForm pdForm) {
-        ProposalDevelopmentDocument pdDocument = pdForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument pdDocument = pdForm.getDocument();
         ProposalDevelopmentDocument updatedDocCopy = getProposalDoc(pdDocument.getDocumentNumber());
         
         //For Budget Lock region, this is the only way in which a Proposal Document might get updated
@@ -240,7 +240,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
      */
     public ActionForward keyPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        getKeyPersonnelService().populateDocument(pdform.getProposalDevelopmentDocument());
+        getKeyPersonnelService().populateDocument(pdform.getDocument());
               
         // Let this be taken care of in KeyPersonnelAction execute() method
         if (this instanceof ProposalDevelopmentKeyPersonnelAction) {
@@ -275,17 +275,17 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         String headerTabCall = getHeaderTabDispatch(request);
         if(StringUtils.isEmpty(headerTabCall)) {
-            pdForm.getProposalDevelopmentDocument().refreshPessimisticLocks();
+            pdForm.getDocument().refreshPessimisticLocks();
         }        
-        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews()));
-        setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
+        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getDocument().getBudgetVersionOverviews()));
+        setBudgetStatuses(pdForm.getDocument());
         return mapping.findForward("budgetVersions");
     }
     
     public ActionForward abstractsAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         // TODO temporarily to set up proposal person- remove this once keyperson is completed and htmlunit testing fine
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
         doc.populateNarrativeRightsForLoggedinUser();
 
         /*
@@ -310,7 +310,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
 
         Map<String, CustomAttributeDocument> customAttributeDocuments = doc.getCustomAttributeDocuments();
         String documentNumber = doc.getDocumentNumber();
@@ -343,7 +343,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
 
     public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         PrintService printService = KraServiceLocator.getService(PrintService.class);
         printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getSponsorCode());
         return mapping.findForward("actions");
@@ -382,12 +382,12 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     }
     
     /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#initialDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#initialDocumentSave(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = pdForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = pdForm.getDocument();
         initializeProposalUsers(doc);
     }
     
@@ -434,7 +434,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
 
         ((KualiForm) form).setTabStates(new HashMap());
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getDocument();
 
         UniversalUser currentUser =  new UniversalUser(GlobalVariables.getUserSession().getPerson());
         for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getProposalPersons().iterator(); person_it.hasNext();) {

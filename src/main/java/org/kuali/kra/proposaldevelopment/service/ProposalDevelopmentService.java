@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ import java.util.List;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.service.BudgetService;
+import org.kuali.kra.proposaldevelopment.bo.ProposalExemptNumber;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -105,6 +107,15 @@ public interface ProposalDevelopmentService {
      * @param versionName of the {@link BudgetVersionOverview}
      */
     public void addBudgetVersion(ProposalDevelopmentDocument document, String versionName) throws WorkflowException;
+
+    /**
+     * Determine if the names of a {@link BudgetVersionOverview} instances in the given {@link  ProposalDevelopmentDocument} instance is valid
+     *
+     * @param document {@link ProposalDevelopmentDocument} instance to get {@link BudgetVersionOverview} instances from
+     * @param versionName to check
+     * @return true for valid false otherwie
+     */
+    public boolean isBudgetVersionNameValid(ProposalDevelopmentDocument document, String versionName);
 
     /**
      * Retrieve injected <code>{@link BudgetService}</code> singleton

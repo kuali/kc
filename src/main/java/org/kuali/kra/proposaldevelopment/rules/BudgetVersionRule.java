@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2006-2009 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddBudgetVersionRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
+import static org.kuali.kra.logging.BufferedLogger.*;
 
 /**
  * A composited rule of the {@link BudgetDocumentRule}. It is expected that the {@link BudgetDocumentRule} will call this rule directly on save,
@@ -82,6 +83,7 @@ public class BudgetVersionRule  implements AddBudgetVersionRule {
      */
     private boolean containsVersionOverview(BudgetVersionCollection document, String versionName) {
         for (BudgetVersionOverview version : document.getBudgetVersionOverviews()) {
+            info("Comparing ", version.getDocumentDescription(), " to ", versionName);
             if (version.getDocumentDescription().equals(versionName)) {
                 return true;
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,15 +29,19 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
+import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
 /**
  * 
@@ -278,7 +282,7 @@ public class Narrative extends KraPersistableBusinessObjectBase {
         }
        
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.DOWNLOAD_NARRATIVE, getProposalDevelopmentDocument(), this));
+        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.DOWNLOAD_NARRATIVE, getDocument(), this));
     }
 
     /**
@@ -291,7 +295,7 @@ public class Narrative extends KraPersistableBusinessObjectBase {
         }
       
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.REPLACE_NARRATIVE, getProposalDevelopmentDocument(), this));
+        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.REPLACE_NARRATIVE, getDocument(), this));
     }
     
     /**
@@ -304,7 +308,7 @@ public class Narrative extends KraPersistableBusinessObjectBase {
         }
       
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.DELETE_NARRATIVE, getProposalDevelopmentDocument(), this));
+        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.DELETE_NARRATIVE, getDocument(), this));
     }
     
     /**
@@ -317,7 +321,7 @@ public class Narrative extends KraPersistableBusinessObjectBase {
         }
       
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.MODIFY_NARRATIVE_RIGHTS, getProposalDevelopmentDocument(), this));
+        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.MODIFY_NARRATIVE_RIGHTS, getDocument(), this));
     }
     
     /**
@@ -326,11 +330,11 @@ public class Narrative extends KraPersistableBusinessObjectBase {
      * 
      * @return the current document or null if not found
      */
-    private ProposalDevelopmentDocument getProposalDevelopmentDocument() {
+    private ProposalDevelopmentDocument getDocument() {
         ProposalDevelopmentDocument doc = null;
         ProposalDevelopmentForm form = (ProposalDevelopmentForm) GlobalVariables.getKualiForm();
         if (form != null) {
-            doc = form.getProposalDevelopmentDocument();
+            doc = form.getDocument();
         }
         return doc;
     }

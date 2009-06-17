@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,15 +21,20 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.CustomAttribute;
+import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
+import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.ProposalDataOverrideRule;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.CustomAttributeService;
+import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -49,9 +54,9 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
     private static Map<String, String> validationClasses = new HashMap<String, String>();
 
     static {
-        validationClasses.put("STRING", "org.kuali.core.datadictionary.validation.charlevel.AnyCharacterValidationPattern");
-        validationClasses.put("DATE", "org.kuali.core.datadictionary.validation.fieldlevel.DateValidationPattern");
-        validationClasses.put("NUMBER", "org.kuali.core.datadictionary.validation.charlevel.NumericValidationPattern");
+        validationClasses.put("STRING", "org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern");
+        validationClasses.put("DATE", "org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern");
+        validationClasses.put("NUMBER", "org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern");
     }
 
     public boolean processProposalDataOverrideRules(ProposalDataOverrideEvent proposalDataOverrideEvent) {
@@ -59,6 +64,12 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
         ProposalChangedData proposalOverriddenData = proposalDataOverrideEvent.getProposalChangedData();
         boolean valid = true;
         DataDictionaryService dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
+        
+        String overriddenValue = proposalOverriddenData.getChangedValue();
+        KraPersistenceStructureService kraPersistenceStructureService = KraServiceLocator.getService(KraPersistenceStructureService.class);
+        Map<String, String> columnToAttributesMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(ProposalOverview.class);
+        String overriddenName = dataDictionaryService.getAttributeErrorLabel(ProposalDevelopmentDocument.class, columnToAttributesMap.get(proposalOverriddenData.getColumnName()));
+        Boolean isRequiredField = dataDictionaryService.isAttributeRequired(ProposalDevelopmentDocument.class, columnToAttributesMap.get(proposalOverriddenData.getColumnName()));
         
         if (StringUtils.isEmpty(proposalOverriddenData.getColumnName())) {
             valid = false;
@@ -68,6 +79,12 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
         if(proposalOverriddenData != null && StringUtils.isNotEmpty(proposalOverriddenData.getChangedValue())) {
             valid &= validateAttributeFormat(proposalOverriddenData, dataDictionaryService);
         }
+        
+        if (isRequiredField && StringUtils.isEmpty(overriddenValue)){
+            valid = false;
+            GlobalVariables.getErrorMap().putError("newProposalChangedData.changedValue", RiceKeyConstants.ERROR_REQUIRED, overriddenName);
+        }
+        
         
         if(proposalOverriddenData != null && StringUtils.isNotEmpty(proposalOverriddenData.getComments())) {
             int commentsMaxLength = dataDictionaryService.getAttributeMaxLength(ProposalChangedData.class, "comments");

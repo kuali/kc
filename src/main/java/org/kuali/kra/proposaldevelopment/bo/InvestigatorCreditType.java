@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * Class representation of the Person <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
  *
  * @see org.kuali.rice.kns.bo.BusinessObject
- * @see org.kuali.core.bo.PersistableBusinessObject
+ * @see org.kuali.rice.kns.bo.PersistableBusinessObject
  * $Id: InvestigatorCreditType.java,v 1.6 2008-07-23 19:16:37 gmcgrego Exp $
  */
 public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {

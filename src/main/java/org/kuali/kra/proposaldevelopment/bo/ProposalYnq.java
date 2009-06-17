@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,10 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Ynq;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.YnqConstants;
 
-public class ProposalYnq extends KraPersistableBusinessObjectBase {
+public class ProposalYnq extends KraPersistableBusinessObjectBase implements Comparable<ProposalYnq>{
 
 	private String proposalNumber;
 	private String questionId;
@@ -138,5 +140,9 @@ public class ProposalYnq extends KraPersistableBusinessObjectBase {
 
     public void setReviewDateRequiredDescription(String reviewDateRequiredDescription) {
         this.reviewDateRequiredDescription = reviewDateRequiredDescription;
+    }
+    
+    public int compareTo(ProposalYnq proposalYnq) {
+        return this.getQuestionId().compareTo(proposalYnq.getQuestionId());
     }
 }

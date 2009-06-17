@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.UnitAclEntry;
+import org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -37,16 +39,16 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
     
     private static final String PROPOSAL_ROLE_TYPE = "P";
     
-    private KraAuthorizationService kraAuthorizationService;
+    private ProposalAuthorizationService proposalAuthorizationService;
     private BusinessObjectService businessObjectService;
     private PersonService personService;
     
     /**
-     * Set the Kra Authorization Service.  Injected by the Spring Framework.
-     * @param kraAuthorizationService the proposal authorization service
+     * Set the Proposal Authorization Service.  Injected by the Spring Framework.
+     * @param proposalAuthorizationService the proposal authorization service
      */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
-        this.kraAuthorizationService = kraAuthorizationService;
+    public void setProposalAuthorizationService(ProposalAuthorizationService proposalAuthorizationService) {
+        this.proposalAuthorizationService = proposalAuthorizationService;
     }
     
     /**
@@ -76,7 +78,7 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
             String personId = proposalRoleTemplate.getPersonId();
             String username = personService.getPerson(personId).getUserName();
             if (username != null && !StringUtils.equals(username, creatorUsername)) {
-                kraAuthorizationService.addRole(username, proposalRoleTemplate.getRoleName(), doc);
+                proposalAuthorizationService.addRole(username, proposalRoleTemplate.getRoleName(), doc);
             }
         }
     }

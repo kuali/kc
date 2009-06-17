@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,6 +73,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 
 /**
  * Main Business Rule class for <code>{@link ProposalDevelopmentDocument}</code>. Responsible for delegating rules to independent rule classes.
@@ -119,6 +120,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument, false);
         valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument.getBudgetVersionOverviews(), false);
         valid &= processProposalGrantsGovBusinessRule(proposalDevelopmentDocument);
+        valid &= processSponsorProgramBusinessRule(proposalDevelopmentDocument);
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
 
         return valid;
@@ -141,73 +143,13 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         for (ProposalSpecialReview propSpecialReview : proposalDevelopmentDocument.getPropSpecialReviews()) {
             errorMap.addToErrorPath("propSpecialReview[" + i + "]");
-            propSpecialReview.refreshReferenceObject("validSpecialReviewApproval");
-            if (StringUtils.isNotBlank(propSpecialReview.getApprovalTypeCode()) && StringUtils.isNotBlank(propSpecialReview.getSpecialReviewCode())) {
-                ValidSpecialReviewApproval validSpRevApproval = propSpecialReview.getValidSpecialReviewApproval();
-                if (validSpRevApproval != null) {
-                    if (validSpRevApproval.isProtocolNumberFlag() && StringUtils.isBlank(propSpecialReview.getProtocolNumber())) {
-                        valid = false;
-                        errorMap.putError("protocolNumber", KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, "Protocol Number",
-                                validSpRevApproval.getSpecialReview().getDescription() + "/"
-                                        + validSpRevApproval.getSpecialReviewApprovalType().getDescription());
-                    }
-                    if (validSpRevApproval.isApplicationDateFlag() && propSpecialReview.getApplicationDate() == null) {
-                        valid = false;
-                        errorMap.putError("applicationDate", KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW,
-                                "Protocol Number", validSpRevApproval.getSpecialReview().getDescription() + "/"
-                                        + validSpRevApproval.getSpecialReviewApprovalType().getDescription());
-                    }
-                    if (validSpRevApproval.isApprovalDateFlag() && propSpecialReview.getApprovalDate() == null) {
-                        valid = false;
-                        errorMap.putError("approvalDate", KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, "Protocol Number",
-                                validSpRevApproval.getSpecialReview().getDescription() + "/"
-                                        + validSpRevApproval.getSpecialReviewApprovalType().getDescription());
-                    }
-                    if (validSpRevApproval.isExemptNumberFlag() && (propSpecialReview.getProposalExemptNumbers() == null || propSpecialReview.getProposalExemptNumbers().size() < 1)) {
-                        valid = false;
-                        errorMap.removeFromErrorPath("propSpecialReview[" + i + "]");
-                        errorMap.removeFromErrorPath("document");
-                        errorMap.putError("documentExemptNumbers[" + i + "]", KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, "Exempt Number",
-                                validSpRevApproval.getSpecialReview().getDescription() + "/"
-                                        + validSpRevApproval.getSpecialReviewApprovalType().getDescription());
-                        errorMap.addToErrorPath("document");
-                        errorMap.addToErrorPath("propSpecialReview[" + i + "]");
-                    }
-                    if (!validSpRevApproval.isExemptNumberFlag() && propSpecialReview.getProposalExemptNumbers() != null && propSpecialReview.getProposalExemptNumbers().size() > 0) {
-                        valid = false;
-                        errorMap.removeFromErrorPath("propSpecialReview[" + i + "]");
-                        errorMap.removeFromErrorPath("document");
-                        errorMap.putError("documentExemptNumbers[" + i + "]", KeyConstants.ERROR_EXEMPT_NUMBER_SELECTED,
-                                validSpRevApproval.getSpecialReview().getDescription() + "/"
-                                        + validSpRevApproval.getSpecialReviewApprovalType().getDescription());
-                        errorMap.addToErrorPath("document");
-                        errorMap.addToErrorPath("propSpecialReview[" + i + "]");
-                    }
-
-
-                } else {
-                    // TODO : not sure if no valid sp set, and exempt# is selected, should this be an error ?
-//                    if (propSpecialReview.getProposalExemptNumbers() != null && propSpecialReview.getProposalExemptNumbers().size() > 0) {
-//                        valid = false;
-//                        errorMap.removeFromErrorPath("propSpecialReview[" + i + "]");
-//                        errorMap.removeFromErrorPath("document");
-//                        propSpecialReview.refreshReferenceObject("specialReview");
-//                        propSpecialReview.refreshReferenceObject("specialReviewApprovalType");
-//                        errorMap.putError("documentExemptNumbers[" + i + "]", KeyConstants.ERROR_EXEMPT_NUMBER_SELECTED,
-//                                propSpecialReview.getSpecialReview().getDescription() + "/"
-//                                        + propSpecialReview.getSpecialReviewApprovalType().getDescription());
-//                        errorMap.addToErrorPath("document");
-//                        errorMap.addToErrorPath("propSpecialReview[" + i + "]");
-//                    }
-                }
-
-            }
-            if (propSpecialReview.getApplicationDate() !=null && propSpecialReview.getApprovalDate() != null && propSpecialReview.getApprovalDate().before(propSpecialReview.getApplicationDate())) {
-                errorMap.putError("approvalDate", KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW,
-                        "Approval Date","Application Date"); 
-            }
-
-            errorMap.removeFromErrorPath("propSpecialReview[" + i++ + "]");
+            
+            ProposalDevelopmentProposalSpecialReviewRule specialReviewRule = new ProposalDevelopmentProposalSpecialReviewRule();
+            valid &= specialReviewRule.processValidSpecialReviewBusinessRules(propSpecialReview, "documentExemptNumbers[" + i + "]");
+            valid &= specialReviewRule.processProposalSpecialReviewBusinessRules(propSpecialReview);
+            
+            errorMap.removeFromErrorPath("propSpecialReview[" + i + "]");
+            i++;
         }
         return valid;
     }
@@ -272,28 +214,29 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             String ynqAnswer = proposalYnq.getAnswer();
             /* look for answers - required for routing */
             if(docRouting && StringUtils.isBlank(proposalYnq.getAnswer())) {
+                info("no answer");
                 valid = false;
                 errorMap.putError("answer", KeyConstants.ERROR_REQUIRED_ANSWER, errorParameter);
             }
             /* look for date requried */
             String dateRequiredFor = proposalYnq.getYnq().getDateRequiredFor();
             if(dateRequiredFor != null) {
-                if (StringUtils.isNotBlank(proposalYnq.getAnswer()) && 
+                if (StringUtils.isNotBlank(ynqAnswer) && 
                         dateRequiredFor.contains(ynqAnswer) && 
-                        proposalYnq.getReviewDate() == null
-                       ) {
-                        valid = false;
-                        errorMap.putError("reviewDate", KeyConstants.ERROR_REQUIRED_FOR_REVIEW_DATE);
+                        proposalYnq.getReviewDate() == null) {
+                    info("No review date");
+                    valid = false;
+                    errorMap.putError("reviewDate", KeyConstants.ERROR_REQUIRED_FOR_REVIEW_DATE);
                 }
             }
 
             /* look for explanation requried */
             String explanationRequiredFor = proposalYnq.getYnq().getExplanationRequiredFor();
             if(explanationRequiredFor != null) {
-                if (StringUtils.isNotBlank(proposalYnq.getAnswer()) && 
+                if (StringUtils.isNotBlank(ynqAnswer) && 
                     explanationRequiredFor.contains(ynqAnswer) && 
-                    StringUtils.isBlank(proposalYnq.getExplanation())
-                   ) {
+                    StringUtils.isBlank(proposalYnq.getExplanation())) {
+                    info("No explanation date");
                     valid = false;
                     errorMap.putError("explanation", KeyConstants.ERROR_REQUIRED_FOR_EXPLANATION);
                 }
@@ -308,7 +251,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     private HashMap getQuestionSerialNumberBasedOnGroup(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         HashMap ynqGroupSerial = new HashMap();
         for (YnqGroupName ynqGroupName : proposalDevelopmentDocument.getYnqGroupNames()) {
-            Integer serialNumber = 1;
+            Integer serialNumber = Integer.valueOf(1);
             for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getProposalYnqs()) {
                 if(ynqGroupName.getGroupName().equalsIgnoreCase(proposalYnq.getYnq().getGroupName())) {
                     ynqGroupSerial.put(proposalYnq.getQuestionId(), serialNumber);
@@ -408,7 +351,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         boolean valid = true;
 
         if (proposalDevelopmentDocument.getOrganizationId()!=null && (proposalDevelopmentDocument.getProposalLocations().size()==0 ||
-                (proposalDevelopmentDocument.getProposalLocations().size()==1 && ((ProposalLocation)(proposalDevelopmentDocument.getProposalLocations().get(0))).getLocationSequenceNumber()==null))) {
+                (proposalDevelopmentDocument.getProposalLocations().size()==1 && ((proposalDevelopmentDocument.getProposalLocations().get(0))).getLocationSequenceNumber()==null))) {
             GlobalVariables.getErrorMap().removeFromErrorPath("document");
             reportError("newPropLocation.location", KeyConstants.ERROR_REQUIRED_FOR_PROPLOCATION);
             GlobalVariables.getErrorMap().addToErrorPath("document");
@@ -442,7 +385,26 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         return new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person);
     }
+    /**
+     * Validate Sponsor/program Information rule. Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
+     * @param proposalDevelopmentDocument
+     * @return
+    */
+    private boolean processSponsorProgramBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        
+        boolean valid = true;
+        String regExpr = "(\\d{2})(\\.)(\\d{3})[a-zA-z]?";
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        if(StringUtils.isNotBlank(proposalDevelopmentDocument.getCfdaNumber()) && !(proposalDevelopmentDocument.getCfdaNumber().matches(regExpr)) && GlobalVariables.getErrorMap().getMessages("document.cfdaNumber") == null) 
+        {
+            errorMap.putError("cfdaNumber", RiceKeyConstants.ERROR_INVALID_FORMAT, new String []{dataDictionaryService.getAttributeErrorLabel(ProposalDevelopmentDocument.class, "cfdaNumber"), proposalDevelopmentDocument.getCfdaNumber() });
+            valid = false;
+         }
+        return valid;
+    }
    
+      
     /**
      * @see org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule#processAddNarrativeBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,org.kuali.kra.proposaldevelopment.bo.Narrative)
      */
@@ -450,8 +412,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return new ProposalDevelopmentNarrativeRule().processAddNarrativeBusinessRules(addNarrativeEvent);    }
 
     /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
      */
+    @Override
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
         
@@ -462,6 +425,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         retval &= new ProposalDevelopmentSponsorProgramInformationAuditRule().processRunAuditBusinessRules(document);
         
         retval &= new KeyPersonnelAuditRule().processRunAuditBusinessRules(document);
+        
+        //audit for Proposal Attachments to ensure status code is set to complete.
+        retval &= new ProposalDevelopmentProposalAttachmentsAuditRule().processRunAuditBusinessRules(document);
         
         //Change for KRACOEUS-1403
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
@@ -525,7 +491,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      * @see org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentsRule#processAddPersonnelAttachmentsBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentsEvent)
      */
     public boolean processSavePersonnelAttachmentBusinessRules(SavePersonnelAttachmentEvent savePersonnelAttachmentEvent) {
-        return new ProposalDevelopmentPersonnelAttachmentRule().processSavePersonnelAttachmentBusinessRules(savePersonnelAttachmentEvent);    
+        return new ProposalDevelopmentPersonnelAttachmentRule().processSavePersonnelAttachmentBusinessRules(savePersonnelAttachmentEvent);
     }
 
     /**
@@ -596,7 +562,8 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     public boolean processCustomAttributeRules(SaveCustomAttributeEvent saveCustomAttributeEvent) {
         return new KraCustomAttributeRule().processCustomAttributeRules(saveCustomAttributeEvent);    
     }
-    
+
+    @Override
     protected KualiConfigurationService getKualiConfigurationService(){
         return KraServiceLocator.getService(KualiConfigurationService.class);
     }

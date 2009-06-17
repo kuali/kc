@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentAction {
 
@@ -43,7 +45,7 @@ public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentActi
             throws Exception {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
 
         for (Map.Entry<String, String[]>customAttributeValue: proposalDevelopmentForm.getCustomAttributeValues().entrySet()) {
             String customAttributeId = customAttributeValue.getKey().substring(2);
@@ -58,7 +60,7 @@ public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentActi
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
 
         //Does not seem we need this any more.
         // TODO : if there is no issue in QA, then remove this. 
@@ -94,7 +96,7 @@ public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentActi
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         boolean rulePassed = true;
         // check any business rules
         rulePassed &= getKualiRuleService().applyRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING,proposalDevelopmentDocument));
