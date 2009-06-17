@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -34,9 +34,9 @@
 
 <kul:tabTop tabTitle="Modular Budget Overview (${periodLabel})" defaultOpen="true" tabErrorKey="document.modularBudget">
 	<div class="tab-container" align="center">
-   		<h3>
-   			<span class="subhead-left">Modular Budget Overview (${periodLabel})</span>
-       	</h3>
+   		<div class="h2-container">
+   			<span class="subhead-left"><h2>Modular Budget Overview (${periodLabel})</h2></span>
+       	</div>
         <table cellpadding="0" cellspacing="0" summary="Overview Breakdown">
             <tr>
               	<th width="35%"><div align="right">${periodLabel} Start Date:</div></th>
@@ -46,7 +46,7 @@
               				<bean:write name="KualiForm" property="document.budgetPeriod[${periodNum - 1}].startDate"/>
               			</c:when>
               			<c:otherwise>
-              				${KualiForm.document.proposal.requestedStartDateInitial}
+              				<fmt:formatDate value="${KualiForm.document.proposal.requestedStartDateInitial}" pattern="MM/dd/yyyy" />
               			</c:otherwise>
               		</c:choose>
               	</td>
@@ -79,12 +79,12 @@
               				<bean:write name="KualiForm" property="document.budgetPeriod[${periodNum - 1}].endDate"/>
               			</c:when>
               			<c:otherwise>
-              				${KualiForm.document.proposal.requestedEndDateInitial}
+              				<fmt:formatDate value="${KualiForm.document.proposal.requestedEndDateInitial}" pattern="MM/dd/yyyy" />
               			</c:otherwise>
               		</c:choose>
               	</td>
               	<th><div align="right">Project Total Requested Cost:</div></th>
-              	<td>$ ${KualiForm.budgetModularSummary.totalRequestedCost}</td>
+              	<td><fmt:formatNumber currencySymbol="$ " type="currency" value="${KualiForm.budgetModularSummary.totalRequestedCost}"/></td>
             </tr>
     	</table>
     </div>
@@ -92,10 +92,10 @@
 
 <kul:tab tabTitle="Direct Cost" defaultOpen="false" tabErrorKey="document.budgetPeriod[${periodNum - 1}].budgetModular.directCostLessConsortiumFna,document.budgetPeriod[${periodNum - 1}].budgetModular.consortiumFna">
 	<div class="tab-container" align="center">
-   		<h3>
-   			<span class="subhead-left">Direct Cost</span>
+   		<div class="h2-container">
+   			<span class="subhead-left"><h2>Direct Cost</h2></span>
    			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetModular" altText="help"/></span>
-       	</h3>
+       	</div>
 		<table cellpadding=0 cellspacing="0" summary="Direct Cost Breakdown">
             <tr>
               	<th width="35%"><div align="right">Direct Cost Less Consortium F&amp;A: </div></th>
@@ -142,17 +142,17 @@
 
 <kul:tab tabTitle="F&A" defaultOpen="false" tabErrorKey="document.budgetPeriod[${periodNum - 1}].budgetModular.budgetModularIdc*,newBudgetModularIdc*">
 	<div class="tab-container" align="center">
-   		<h3>
-   			<span class="subhead-left">F&A</span>
+   		<div class="h2-container">
+   			<span class="subhead-left"><h2>F&A</h2></span>
    			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetModularIdc" altText="help"/></span>
-       	</h3>
+       	</div>
 		<table align="center" border="0" cellpadding="2" cellspacing="0" width="98%">
         	<tbody>
              	<tr align="center" valign="top">
                		<th>&nbsp;</th>
                		<th>F&amp;A Rate Type</th>
-               		<th>IDC Rate</th>
-               		<th>IDC Base</th>
+               		<th>F&amp;A Rate</th>
+               		<th>F&amp;A Base</th>
                		<th>Funds Requested</th>
                		<c:if test="${periodDisplay}"><th>Actions</th></c:if>
              	</tr>
@@ -182,7 +182,9 @@
 	                	<c:if test="${periodDisplay}">
 	                		<td class="infoline">
 	                			<div align=center>
-	                				<html:image property="methodToCall.add" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+	                				<kra:section permission="modifyBudgets">
+	                					<html:image property="methodToCall.add" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+	                				</kra:section>
 	                			</div>
 	                		</td>
 	                	</c:if>
@@ -218,7 +220,9 @@
 						                </td>
 						                <td class="infoline">
 						                	<div align=center>
-						                		<html:image property="methodToCall.delete.line${idcStatus.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+						                		<kra:section permission="modifyBudgets">
+						                			<html:image property="methodToCall.delete.line${idcStatus.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+						                		</kra:section>
 						                	</div>
 						                </td>
 				             		</tr>
@@ -272,7 +276,9 @@
               		<c:if test="${periodDisplay}">
 						<td class="infoline">
               				<div align="center">
-              					<html:image property="methodToCall.recalculate" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
+              					<kra:section permission="modifyBudgets">
+              						<html:image property="methodToCall.recalculate" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
+              					</kra:section>
               				</div>
               			</td>
               		</c:if>

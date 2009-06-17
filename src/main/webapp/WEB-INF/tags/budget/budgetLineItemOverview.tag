@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<kul:uncollapsable tabTitle="Select View:" tabErrorKey="personnelBudget*">
+<kra:uncollapsable tabTitle="Select View:" tabErrorKey="personnelBudget*">
        <div align="center">
            <table cellpadding="0" cellspacing="0" class="grid" summary="">
              <tr>
@@ -30,4 +30,4 @@
            <br>
            <html:image property="methodToCall.updatePersonnelBudgetView" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif" title="Update View" alt="Update View" styleClass="tinybutton"/>
 	</div>
-</kul:uncollapsable>
+</kra:uncollapsable>
