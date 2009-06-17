@@ -1,5 +1,5 @@
 /*
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@ VALUES ( 11, 'Service Facilities', sysdate, user );
 CREATE SEQUENCE SEQ_AWARD_TRANS_SPONSOR_ID START WITH 1 MAXVALUE 99999999 MINVALUE 1 NOCYCLE NOCACHE NOORDER;
 
 /*
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -136,7 +136,7 @@ REFERENCES AWARD (MIT_AWARD_NUMBER, SEQUENCE_NUMBER)
 *************** MODIFIED FOREIGN KEY COLUMN - Composite keys are removed from KCRA ************ */ 
 
 /*
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.

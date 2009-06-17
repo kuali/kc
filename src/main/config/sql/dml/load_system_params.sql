@@ -693,6 +693,21 @@ INSERT
 INTO sh_parm_t(nmspc_cd,    parm_dtl_typ_cd,    parm_nm,    parm_typ_cd,    txt,    parm_desc_txt,    cons_cd,    grp_nm,    active_ind)
 VALUES('KRA-PD',    'A',    'numberPerSponsorHierarchyGroup',   'CONFG',    '300',    'Number of nodes per sponsor group',    'A',    'WorkflowAdmin',    'Y');
 
+insert into sh_parm_t (nmspc_cd, parm_dtl_typ_cd, parm_nm, parm_typ_cd, txt, parm_desc_txt, cons_cd, grp_nm, active_ind)
+values ('KRA-B', 'D', 'JOBCODE_VALIDATION_ENABLED', 'CONFG', 'Y', 'Whether Job code based validation is enabled', 'A', 'WorkflowAdmin', 'Y');
+
+insert into sh_parm_t (nmspc_cd, parm_dtl_typ_cd, parm_nm, parm_typ_cd, txt, parm_desc_txt, cons_cd, active_ind) 
+VALUES ('KRA-B','D','budgetPersonDetailsDefaultPeriodType','CONFG','3','The Period Type of a newly budgeted Person should default to','A','Y');
+
+insert into sh_parm_t (nmspc_cd, parm_dtl_typ_cd, parm_nm, parm_typ_cd, txt, parm_desc_txt, cons_cd, active_ind)   
+VALUES ('KRA-B','A','instituteRateClassTypes','CONFG','E;I;O;V;X','Manages a list of Institute rate class types.','A','Y');
+
+insert into sh_parm_t (nmspc_cd, parm_dtl_typ_cd, parm_nm, parm_typ_cd, txt, parm_desc_txt, cons_cd, active_ind)  
+VALUES ('KRA-B','A','instituteLaRateClassTypes','CONFG','Y;L','Manages a list of Institute La rate class types.','A','Y');
+
+insert into sh_parm_t (nmspc_cd, parm_dtl_typ_cd, parm_nm, parm_typ_cd, txt, parm_desc_txt, cons_cd, grp_nm, active_ind)
+VALUES ('KRA-B', 'D', 'budgetCategoryType.personnel', 'CONFG', 'P', 'Personnel Budget Category Type', 'A', 'WorkflowAdmin', 'Y');
+
 Insert into parm_nmSPC_T
 ( nmspc_cd, OBJ_ID, VER_NBR, parm_nmSPC_NM, ACTIVE_IND)
 Values 
@@ -767,19 +782,3 @@ INSERT INTO KRNS_PARM_T
 	VALUES 
 	('KC-AWARD','D','closeoutReportTypeProperty',sys_guid(),1,'CONFG','2','This system parameter maps the CloseoutReportType Property(closeoutReoprtTypeCode=2) with ReportClass Property(reportClassCode=2). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A','WorkflowAdmin','Y');
 commit;
-
-Insert into SH_PARM_T
-   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd, grp_nm, ACTIVE_IND)
- Values
-   ('KC-PROTOCOL', 'D', 'protocolSelectSubmissionCommittee', sys_guid(), 1, 'CONFG', 'True', 'Implementing institution can decide on whether to allow a committee to be selected upon an IRB submittal', 'A', 'WorkflowAdmin', 'Y');
-
-Insert into SH_PARM_T
-   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd, grp_nm, ACTV_IND)
- Values
-   ('KC-PROTOCOL', 'D', 'protocolSelectSubmissionSchedule', sys_guid(), 1, 'CONFG', 'True', 'Implementing institution can decide on whether to allow a committee schedule to be selected upon an IRB submittal', 'A', 'WorkflowAdmin', 'Y');
-
-Insert into SH_PARM_T
-   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd, grp_nm, ACTV_IND)
- Values
-   ('KC-PROTOCOL', 'D', 'protocolSelectSubmissionReviewers', sys_guid(), 1, 'CONFG', 'True', 'Implementing institution can decide on whether to allow reviewers to be selected upon an IRB submittal', 'A', 'WorkflowAdmin', 'Y');
-
