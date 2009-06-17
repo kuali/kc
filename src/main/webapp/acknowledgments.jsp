@@ -18,7 +18,7 @@
 <h3><a name="Acknowledgements-"></a><font color="maroon">Acknowledgments</font></h3>
 
 <p><img src="http://opensource.org/trademarks/osi-certified/web/osi-certified-60x50.png" align="right" border="0" /><br/>
-Copyright 2005-2007  The Kuali Foundation.  All rights reserved.  Kuali is licensed for use pursuant to the Educational Community License v. 1.0.  Portions of Kuali are copyrighted by other parties, including the parties listed below.  You should refer to the licenses directory for complete copyright and licensing information.  Questions about licensing should be directed to <span class="nobr"><a href="mailto:license@kuali.org" title="Send mail to license@kuali.org" rel="nofollow">license@kuali.org</a>.</span></p>
+Copyright 2006-2009 The Kuali Foundation.  All rights reserved.  Kuali is licensed for use pursuant to the Educational Community License v. 1.0.  Portions of Kuali are copyrighted by other parties, including the parties listed below.  You should refer to the licenses directory for complete copyright and licensing information.  Questions about licensing should be directed to <span class="nobr"><a href="mailto:license@kuali.org" title="Send mail to license@kuali.org" rel="nofollow">license@kuali.org</a>.</span></p>
 
 <h3><a name="Acknowledgements-ThirdPartyContributions"></a>Third Party Contributions</h3>
 

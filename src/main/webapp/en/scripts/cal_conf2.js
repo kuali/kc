@@ -15,10 +15,10 @@ addCalendar("advancedToDateApproved", "Select Date", "toDateApproved", "Document
 addCalendar("advancedToDateFinalized", "Select Date", "toDateFinalized", "DocumentSearchForm");
 
 // calendars for ActionList Criteria.jsp
-addCalendar("lastAssignedDateFrom", "Select Date", "lastAssignedDateFrom", "ActionListFilterFormNew");
-addCalendar("lastAssignedDateTo", "Select Date", "lastAssignedDateTo", "ActionListFilterFormNew");
-addCalendar("createDateFrom", "Select Date", "createDateFrom", "ActionListFilterFormNew");
-addCalendar("createDateTo", "Select Date", "createDateTo", "ActionListFilterFormNew");
+addCalendar("lastAssignedDateFrom", "Select Date", "lastAssignedDateFrom", "ActionListFilterForm");
+addCalendar("lastAssignedDateTo", "Select Date", "lastAssignedDateTo", "ActionListFilterForm");
+addCalendar("createDateFrom", "Select Date", "createDateFrom", "ActionListFilterForm");
+addCalendar("createDateTo", "Select Date", "createDateTo", "ActionListFilterForm");
 //addCalendar("Calendar2", "Select Date", "chnl_end_ts_txt", "ActionListFilterForm");
 
 // calendars for Rule Rule.jsp
