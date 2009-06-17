@@ -1,5 +1,5 @@
 <!--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -66,14 +66,14 @@
         <property name="shortLabel" value="Category Name" />
         <property name="maxLength" value="200" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
         </property>
         <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="5"
-                p:cols="40" />
-        </property>
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="40" />
+    </property>
         <property name="summary" value="Category Name" />
         <property name="description" value="Category Name" />
     </bean>

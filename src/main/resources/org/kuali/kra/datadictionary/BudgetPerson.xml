@@ -44,11 +44,11 @@
 
   <bean id="BudgetPerson-effectiveDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
     <property name="name" value="effectiveDate" />
-    <property name="label" value="Effective Date" />
-    <property name="shortLabel" value="Effective Date" />
+    <property name="label" value="Salary Effective Date" />
+    <property name="shortLabel" value="Salary Effective Date" />
     <property name="required" value="true" />
-    <property name="summary" value="Effective Date" />
-    <property name="description" value="Effective Date." />
+    <property name="summary" value="Salary Effective Date" />
+    <property name="description" value="Salary Effective Date." />
   </bean>
   <bean id="BudgetPerson-jobCode" parent="BudgetPerson-jobCode-parentBean" />
 
@@ -88,21 +88,7 @@
   </bean>
   <bean id="BudgetPerson-personId" parent="BudgetPerson-personId-parentBean" />
 
-  <bean id="BudgetPerson-personId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personId" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Person Id" />
-    <property name="shortLabel" value="Person Id" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="Person Id" />
-    <property name="description" value="Person Id" />
+  <bean id="BudgetPerson-personId-parentBean" abstract="true" parent="Person-personId">
   </bean>
   <bean id="BudgetPerson-proposalNumber" parent="BudgetPerson-proposalNumber-parentBean" />
 
@@ -178,6 +164,10 @@
 
   <bean id="BudgetPerson-personName-parentBean" abstract="true" parent="Person-fullName">
     <property name="name" value="personName" />
+    <property name="label" value="Personnel" />
+    <property name="shortLabel" value="Personnel" />
+    <property name="summary" value="Personnel" />
+    <property name="description" value="Personnel" />
   </bean>
   <bean id="BudgetPerson-jobTitle" parent="BudgetPerson-jobTitle-parentBean" />
 

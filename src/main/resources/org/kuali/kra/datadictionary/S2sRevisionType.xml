@@ -39,13 +39,8 @@
       <bean parent="AlphaNumericValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.bo.S2sRevisionType"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="s2sRevisionTypeCode"
-            p:labelAttribute="description" />
+      <bean parent="TextControlDefinition"
+            p:size="4" />
     </property>
     <property name="summary" value="S2s Revision Type Code" />
     <property name="description" value="S2s Revision Type Code" />

@@ -20,6 +20,7 @@
         <ref bean="ValidCeRateType-costElement" />
         <ref bean="ValidCeRateType-rateClassCode" />
         <ref bean="ValidCeRateType-rateTypeCode" />
+        <ref bean="ValidCeRateType-active" />
         <ref bean="ValidCeRateType-versionNumber" />
       </list>
     </property>
@@ -83,6 +84,15 @@
     <property name="summary" value="Rate Type Code" />
     <property name="description" value="Rate Type Code" />
   </bean>
+  <bean id="ValidCeRateType-active" parent="ValidCeRateType-active-parentBean" />
+
+  <bean id="ValidCeRateType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Active" />
+    <property name="summary" value="Active" />
+    <property name="description" value="Active" />
+  </bean>
   <bean id="ValidCeRateType-versionNumber" parent="ValidCeRateType-versionNumber-parentBean" />
 
   <bean id="ValidCeRateType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -111,6 +121,8 @@
               <bean parent="FieldDefinition"
                     p:attributeName="rateTypeCode"
                     p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -139,6 +151,8 @@
               p:attributeName="rateClassCode" />
         <bean parent="FieldDefinition"
               p:attributeName="rateTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -152,6 +166,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="rateTypeCode"
               p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

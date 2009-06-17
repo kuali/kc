@@ -37,7 +37,7 @@
     <property name="shortLabel" value="Rate Class Code" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="AlphaNumericValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

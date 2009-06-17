@@ -3,7 +3,7 @@
   <bean id="S2sSubmissionTypeMaintenanceDocument" parent="S2sSubmissionTypeMaintenanceDocument-parentBean"/>
 
   <bean id="S2sSubmissionTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.S2sSubmissionType"/>
+    <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sSubmissionType"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>

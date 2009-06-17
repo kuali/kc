@@ -11,7 +11,7 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
             p:parameterNamespace="KRA-PD"
-            p:parameterName="proposalDevelopmentPermissionsHelp"
+            p:parameterName="proposalUserHelpUrl"
             p:parameterDetailType="D" />
     </property>
     <property name="attributes" >

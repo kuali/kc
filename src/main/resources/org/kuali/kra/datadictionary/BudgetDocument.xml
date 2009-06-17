@@ -27,10 +27,10 @@
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-B" p:parameterName="budgetSummaryHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KRA-B" p:parameterName="budgetParametersHelp" p:parameterDetailType="D"/>
           </property>
-          <property name="headerTabDisplayName" value="Summary"/>
-          <property name="headerTabNavigateTo" value="summary"/>
+          <property name="headerTabDisplayName" value="Parameters"/>
+          <property name="headerTabNavigateTo" value="parameters"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
@@ -41,24 +41,24 @@
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KRA-B" p:parameterName="budgetSummaryHelp" p:parameterDetailType="D"/>
+          </property>
+          <property name="headerTabDisplayName" value="Summary"/>
+          <property name="headerTabNavigateTo" value="summaryTotals"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
             <bean parent="HelpDefinition" p:parameterNamespace="KRA-B" p:parameterName="budgetPersonnelHelp" p:parameterDetailType="D"/>
           </property>
-          <property name="headerTabDisplayName" value="Project Personnel"/>
+          <property name="headerTabDisplayName" value="Personnel"/>
           <property name="headerTabNavigateTo" value="personnel"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-B" p:parameterName="budgetExpensesHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KRA-B" p:parameterName="budgetNonPersonnelHelp" p:parameterDetailType="D"/>
           </property>
-          <property name="headerTabDisplayName" value="Expenses"/>
+          <property name="headerTabDisplayName" value="Non-Personnel"/>
           <property name="headerTabNavigateTo" value="expenses"/>
-        </bean>
-        <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-B" p:parameterName="budgetTotalsHelp" p:parameterDetailType="D"/>
-          </property>
-          <property name="headerTabDisplayName" value="Totals"/>
-          <property name="headerTabNavigateTo" value="totals"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
@@ -380,5 +380,4 @@
     </property>
      -->
   </bean>
-  
 </beans>

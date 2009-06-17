@@ -60,8 +60,8 @@
   <bean id="BudgetProposalRate-onOffCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="onOffCampusFlag" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="On Off Campus Flag" />
-    <property name="shortLabel" value="On Off Campus Flag" />
+    <property name="label" value="On Campus" />
+    <property name="shortLabel" value="On Campus" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
