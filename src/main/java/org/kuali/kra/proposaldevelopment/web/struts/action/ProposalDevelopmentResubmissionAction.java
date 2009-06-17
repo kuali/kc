@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -66,7 +68,7 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
         ActionForward nextWebPage = null;
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
         int i=0;
         for(S2sSubmissionHistory s2sSubmissionHistory:doc.getS2sSubmissionHistory()){
             s2sSubmissionHistory = (S2sSubmissionHistory)boService.retrieve(s2sSubmissionHistory);
@@ -104,16 +106,17 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
             
             proposalDevelopmentForm.setDocId(newDocId);
             this.loadDocument(proposalDevelopmentForm);
-            ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+            ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getDocument();
             copiedDocument.setS2sAppSubmission(new ArrayList<S2sAppSubmission>());
             copiedDocument.setContinuedFrom(originalProposalId);
             copiedDocument.setProposalTypeCode("4");
             copiedDocument.getS2sOpportunity().setS2sSubmissionType(null);
                         
             KualiWorkflowDocument workflowDocument = copiedDocument.getDocumentHeader().getWorkflowDocument();
-            if(!originalWFDoc.stateIsFinal()){
-                originalWFDoc.cancel("");
-            }
+ // Removed cancel of original document until KEW will allow this to happen
+ //           if(!originalWFDoc.stateIsFinal()){
+ //               originalWFDoc.cancel("");
+ //           }
             //Copying the submission history from the previous proposal to new proposal
             //setting id field to null so that OJB can treat this as a new insert
             //just copying the existing history and not adding any new history

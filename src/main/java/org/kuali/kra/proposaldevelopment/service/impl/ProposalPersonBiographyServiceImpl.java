@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +33,10 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.rice.shim.UniversalUserService;
 import org.kuali.rice.kew.user.AuthenticationUserId;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiographyService {
     private BusinessObjectService businessObjectService;
@@ -59,24 +61,26 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
         proposalPersonBiography.getPropPerDocType().setDocumentTypeCode(proposalPersonBiography.getDocumentTypeCode());
         proposalPersonBiography.refreshReferenceObject("propPerDocType");
         FormFile personnelAttachmentFile = proposalPersonBiography.getPersonnelAttachmentFile();
-        proposalPersonBiography.setFileName(personnelAttachmentFile.getFileName());
-        try {
-            byte[] fileData = personnelAttachmentFile.getFileData();
-            if (fileData.length > 0) {
-                ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
-                personnelAttachment.setFileName(personnelAttachmentFile.getFileName());
-                personnelAttachment.setProposalNumber(proposalPersonBiography.getProposalNumber());
-                personnelAttachment.setProposalPersonNumber(proposalPersonBiography.getProposalPersonNumber());
-                personnelAttachment.setBiographyData(personnelAttachmentFile.getFileData());
-                personnelAttachment.setContentType(personnelAttachmentFile.getContentType());
-                if (proposalPersonBiography.getPersonnelAttachmentList().isEmpty())
-                    proposalPersonBiography.getPersonnelAttachmentList().add(personnelAttachment);
-                else
-                    proposalPersonBiography.getPersonnelAttachmentList().set(0, personnelAttachment);
+        if (personnelAttachmentFile != null) {
+            try {
+                byte[] fileData = personnelAttachmentFile.getFileData();
+                if (fileData.length > 0) {
+                    ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
+                    personnelAttachment.setFileName(personnelAttachmentFile.getFileName());
+                    personnelAttachment.setProposalNumber(proposalPersonBiography.getProposalNumber());
+                    personnelAttachment.setProposalPersonNumber(proposalPersonBiography.getProposalPersonNumber());
+                    personnelAttachment.setBiographyData(personnelAttachmentFile.getFileData());
+                    personnelAttachment.setContentType(personnelAttachmentFile.getContentType());
+                    proposalPersonBiography.setFileName(personnelAttachmentFile.getFileName());
+                    if (proposalPersonBiography.getPersonnelAttachmentList().isEmpty())
+                        proposalPersonBiography.getPersonnelAttachmentList().add(personnelAttachment);
+                    else
+                        proposalPersonBiography.getPersonnelAttachmentList().set(0, personnelAttachment);
+                }
             }
-        }
-        catch (Exception e) {
-            proposalPersonBiography.getPersonnelAttachmentList().clear();
+            catch (Exception e) {
+                proposalPersonBiography.getPersonnelAttachmentList().clear();
+            }
         }
         DocumentNextvalue documentNextvalue = proposaldevelopmentDocument.getDocumentNextvalueBo(Constants.PROP_PERSON_BIO_NUMBER);
         documentNextvalue.setDocumentKey(proposaldevelopmentDocument.getProposalNumber());

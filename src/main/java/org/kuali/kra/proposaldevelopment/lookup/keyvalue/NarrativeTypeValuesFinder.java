@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ public class NarrativeTypeValuesFinder extends KeyValuesBase {
      * 
      * @return the list of &lt;key, value&gt; pairs of Narrative types.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinderService#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinderService#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
         return keyValueFinderService.getKeyValues(NarrativeType.class, "narrativeTypeCode", "description");

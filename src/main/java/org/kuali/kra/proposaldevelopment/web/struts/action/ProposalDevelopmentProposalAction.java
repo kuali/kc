@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             throws Exception {
 
         setKeywordsPanelFlag(request);
-        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
 
         KraServiceLocator.getService(ProposalDevelopmentService.class).initializeUnitOrganzationLocation(
                 proposalDevelopmentDocument);
@@ -75,17 +75,10 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        String command = request.getParameter("command");
-        if (KEWConstants.DOCSEARCH_COMMAND.equals(command)) {
-            String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
-            proposalDevelopmentForm.setDocument(retrievedDocument);
-        }
         ActionForward actionForward = super.execute(mapping, form, request, response);
         KeyPersonnelService kpservice=KraServiceLocator.getService(KeyPersonnelService.class);
         setKeywordsPanelFlag(request);
-        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
         if (proposalDevelopmentDocument.getOrganizationId() != null
                 && proposalDevelopmentDocument.getProposalLocations().size() == 0
                 && StringUtils.isNotBlank(request.getParameter("methodToCall"))
@@ -158,11 +151,11 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalLocation newProposalLocation = proposalDevelopmentForm.getNewPropLocation();
         if (getKualiRuleService().applyRules(
-                new AddProposalLocationEvent(Constants.EMPTY_STRING, proposalDevelopmentForm.getProposalDevelopmentDocument(),
+                new AddProposalLocationEvent(Constants.EMPTY_STRING, proposalDevelopmentForm.getDocument(),
                     newProposalLocation))) {
-            newProposalLocation.setLocationSequenceNumber(proposalDevelopmentForm.getProposalDevelopmentDocument()
+            newProposalLocation.setLocationSequenceNumber(proposalDevelopmentForm.getDocument()
                     .getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
-            proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalLocations().add(newProposalLocation);
+            proposalDevelopmentForm.getDocument().getProposalLocations().add(newProposalLocation);
             proposalDevelopmentForm.setNewPropLocation(new ProposalLocation());
         }
 
@@ -183,7 +176,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward deleteLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalLocations().remove(getLineToDelete(request));
+        proposalDevelopmentForm.getDocument().getProposalLocations().remove(getLineToDelete(request));
         return mapping.findForward("basic");
     }
 
@@ -203,8 +196,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         int index = getSelectedLine(request);
 
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalLocations().get(index).setRolodexId(new Integer(0));
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalLocations().get(index).setRolodex(new Rolodex());
+        proposalDevelopmentForm.getDocument().getProposalLocations().get(index).setRolodexId(new Integer(0));
+        proposalDevelopmentForm.getDocument().getProposalLocations().get(index).setRolodex(new Rolodex());
 
         return mapping.findForward("basic");
     }
@@ -225,7 +218,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             HttpServletResponse response) throws Exception {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
         for (Iterator iter = keywords.iterator(); iter.hasNext();) {
             PropScienceKeyword propScienceKeyword = (PropScienceKeyword) iter.next();
@@ -239,7 +232,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             HttpServletResponse response) throws Exception {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
         List<PropScienceKeyword> newKeywords = new ArrayList<PropScienceKeyword>();
         for (Iterator iter = keywords.iterator(); iter.hasNext();) {
@@ -258,7 +251,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             throws Exception {
         super.refresh(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         
         if(proposalDevelopmentDocument!=null && proposalDevelopmentDocument.getPerformingOrganizationId()!=null 
                 && proposalDevelopmentDocument.getOwnedByUnit()!=null && proposalDevelopmentDocument.getOwnedByUnit().getOrganizationId()!=null 
@@ -336,14 +329,14 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward clearMailingNameAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        if(proposalDevelopmentForm.getProposalDevelopmentDocument().getRolodex()!=null){
+        if(proposalDevelopmentForm.getDocument().getRolodex()!=null){
         
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getRolodex().setAddressLine1("");
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getRolodex().setAddressLine2("");
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getRolodex().setAddressLine3("");
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getRolodex().setCity("");
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getRolodex().setOrganization("");
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getRolodex().setState("");
+        proposalDevelopmentForm.getDocument().getRolodex().setAddressLine1("");
+        proposalDevelopmentForm.getDocument().getRolodex().setAddressLine2("");
+        proposalDevelopmentForm.getDocument().getRolodex().setAddressLine3("");
+        proposalDevelopmentForm.getDocument().getRolodex().setCity("");
+        proposalDevelopmentForm.getDocument().getRolodex().setOrganization("");
+        proposalDevelopmentForm.getDocument().getRolodex().setState("");
         
         }
       return mapping.findForward("basic");

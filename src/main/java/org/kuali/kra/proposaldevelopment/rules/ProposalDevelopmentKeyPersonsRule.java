@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
  * Implementation of business rules required for the Key Persons Page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>.
  *
- * @see org.kuali.core.rules.BusinessRule
+ * @see org.kuali.rice.kns.rules.BusinessRule
  * @author $Author: cdenne $
  * @version $Revision: 1.46 $
  */
