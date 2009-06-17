@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -59,7 +59,7 @@
              
   <c:forEach items="${investigator.units}" var="personUnit" varStatus="unitStatus">
              <tr>
-    <c:set var="unitProperty" value="${investigatorProperty}.units[${unitStatus.index}]" />
+    <c:set var="unitProperty" value="${investigatorProperty}.unit[${unitStatus.index}]" />
                 <td nowrap>${personUnit.unitNumber} - ${personUnit.unit.unitName}</td>
 
      <c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType">

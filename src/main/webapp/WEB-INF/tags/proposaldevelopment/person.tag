@@ -1,5 +1,5 @@
  <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -41,8 +41,10 @@
 	<table cellpadding=0 cellspacing=0 summary="">
           	<tr>
 				<td>
+
+	<c:set var="personDetailsTabErrorKey" value="${proposalPerson}.projectRole*,${proposalPerson}.percentageEffort,${proposalPerson}.pagerNumber*,${proposalPerson}.userName,${proposalPerson}.emailAddress,${proposalPerson}.officePhone,${proposalPerson}.officePhone,${proposalPerson}.eraCommonsUserName,${proposalPerson}.primaryTitle,${proposalPerson}.directoryTitle,${proposalPerson}.faxNumber,${proposalPerson}.mobilePhoneNumber,${proposalPerson}.officeLocation,${proposalPerson}.addressLine1,${proposalPerson}.addressLine2,${proposalPerson}.addressLine3,${proposalPerson}.city,${proposalPerson}.county,${proposalPerson}.state,${proposalPerson}.postalCode,${proposalPerson}.countryCode,${proposalPerson}.facultyFlag" />				
               
-	<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].projectRole*,document.proposalPersons[${personIndex}].percentageEffort*,document.proposalPersons[${personIndex}].pagerNumber*,document.proposalPersons[${personIndex}].officePhone*,document.proposalPersons[${personIndex}].faxNumber*,document.proposalPersons[${personIndex}].mobilePhoneNumber*">
+	<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="${personDetailsTabErrorKey}">
 			<div class="innerTab-container" align="left">
               <table class=tab cellpadding=0 cellspacing="0" summary=""> 
                 <tbody id="G1">
@@ -256,11 +258,12 @@
 </td></tr>
 <bean:define id="unitDetailsRequired" name="KualiForm" property="${proposalPerson}.role.unitDetailsRequired" />
 
+<c:set var="unitsErrorKey" value="document.proposalPersons[${personIndex}].unit*,newProposalPersonUnit[${personIndex}]*" />
 <c:choose>
  <c:when test="${unitDetailsRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
    	<tr>
 		<td colspan=4>
-  <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].newProposalPersonUnit*, newProposalPersonUnit[${status.index}]*">
+  <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="${unitsErrorKey}">
               <table class=tab cellpadding=0 cellspacing="0" summary="" >
               <kra-pd:personUnitSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
   </table>
@@ -273,13 +276,13 @@
      <c:choose>
       <c:when test="${KualiForm.document.proposalPersons[personIndex].optInUnitStatus == 'Y'}"> 
    	  <tr><td colspan=4>
-      <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].newProposalPersonUnit*,newProposalPersonUnit[${status.index}]*">
+      <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="${unitsErrorKey}">
         <div class="innerTab-container" align="left">
          <table class=tab cellpadding=0 cellspacing="0" summary=""> 
          <tr>
             <td colspan=3><div class="floaters">
                <p> You have the option to remove unit details for a key person.</p>
-               <p><html:image property="methodToCall.removeUnitDetails.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-remunitdet.gif" title="Add Unit Details" alt="Add Unit Details" styleClass="tinybutton"/></p>
+               <p><html:image property="methodToCall.removeUnitDetails.${proposalPerson}.line${personIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-remunitdet.gif" title="Add Unit Details" alt="Add Unit Details" styleClass="tinybutton"/></p>
              </div>
            </td>
         </tr>
@@ -324,7 +327,7 @@
  <c:when test="${certificationRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
    	<tr>
 	<td colspan=4>
-  <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false"  auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.proposalPerson*">
+  <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false"  auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.proposalPersons[${personIndex}]*">
      <table class=tab cellpadding=0 cellspacing="0" summary="" >
      <kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
     </table>
@@ -336,7 +339,7 @@
      <c:choose>
       <c:when test="${KualiForm.document.proposalPersons[personIndex].optInCertificationStatus == 'Y'}"> 
    	  <tr><td colspan=4>
-      <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.proposalPerson*" >
+      <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.proposalPersons[${personIndex}]*" >
       <div class="innerTab-container" align="left">
        <table class=tab cellpadding=0 cellspacing="0" summary=""> 
       <tr>
@@ -367,7 +370,7 @@
       <tr>
        <td colspan=3><div class="floaters">
          <p> You have the option to add Certification Questions for a key person</p>
-          <p><html:image property="methodToCall.addCertificationQuestion.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-inclcertquest.gif" title="Add Certification Question" alt="Add Certification Question" styleClass="tinybutton"/></p>
+          <p><html:image property="methodToCall.addCertificationQuestion.${proposalPerson}.line${personIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-inclcertquest.gif" title="Add Certification Question" alt="Add Certification Question" styleClass="tinybutton"/></p>
           </div>
        </td>
    </tr>

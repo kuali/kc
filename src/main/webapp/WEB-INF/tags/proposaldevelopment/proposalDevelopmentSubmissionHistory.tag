@@ -1,3 +1,19 @@
+<%--
+ Copyright 2006-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.osedu.org/licenses/ECL-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
+
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
@@ -26,8 +42,8 @@
 	             	<th class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>	                	
-	                <td align="left" valign="middle">
-	                	<kul:htmlControlAttribute property="document.s2sSubmissionHistory[${status.index}].submissionTime" attributeEntry="${s2sSubmissionHistoryAttributes.submissionTime}" readOnly="true" />
+	                <td align="left" valign="middle">	                		                	
+	                	 <fmt:formatDate value="${KualiForm.document.s2sSubmissionHistory[status.index].submissionTime}" type="both" dateStyle="short" timeStyle="short"/>
 					</td>	                
 	                <td>
 	                	<div align="center">
