@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.budget.service;
 
+import java.util.List;
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.budget.bo.BudgetLineItem;
+import org.kuali.kra.budget.bo.BudgetLineItemBase;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
@@ -91,6 +93,13 @@ public interface BudgetCalculationService {
      * @param budgetDocument
      */
     public void calculateBudgetTotals(BudgetDocument budgetDocument);
+
+    /**
+     * 
+     * This method is to calculate the budget totals for budget total page
+     * @param budgetDocument
+     */
+    public void calculateBudgetSummaryTotals(BudgetDocument budgetDocument);
 
     /**
      * This method is to apply budgetlineitem details to all later periods

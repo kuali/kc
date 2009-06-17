@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,14 @@
  */
 package org.kuali.kra.budget.rules;
 
+import static org.kuali.rice.kns.util.GlobalVariables.getAuditErrorMap;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetRatesService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
@@ -41,7 +43,7 @@ public class BudgetRateAuditRule  extends ResearchDocumentRuleBase implements Do
     public boolean processRunAuditBusinessRules(Document document) {
         BudgetDocument budgetDocument = (BudgetDocument) document;
         boolean retval = true;
-        budgetDocument.getRateClassTypes(); // to load instituterates & institutelarate lists
+        //budgetDocument.getRateClassTypes(); // to load instituterates & institutelarate lists
         if (KraServiceLocator.getService(BudgetRatesService.class).isOutOfSyncForRateAudit(budgetDocument)) {
             retval = false;
         //    getAuditErrors().add(new AuditError("document.budgetProposalRate", KeyConstants.AUDIT_WARNING_RATE_OUT_OF_SYNC, Constants.BUDGET_RATE_PAGE + "." + Constants.BUDGET_RATE_PANEL_ANCHOR));            
@@ -60,11 +62,11 @@ public class BudgetRateAuditRule  extends ResearchDocumentRuleBase implements Do
     private List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
-        if (!GlobalVariables.getAuditErrorMap().containsKey(BUDGET_RATE_AUDIT_WARNING_KEY)) {
-           GlobalVariables.getAuditErrorMap().put(BUDGET_RATE_AUDIT_WARNING_KEY, new AuditCluster(Constants.BUDGET_RATE_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));
+        if (!getAuditErrorMap().containsKey(BUDGET_RATE_AUDIT_WARNING_KEY)) {
+            getAuditErrorMap().put(BUDGET_RATE_AUDIT_WARNING_KEY, new AuditCluster(Constants.BUDGET_RATE_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));
         }
         else {
-            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(BUDGET_RATE_AUDIT_WARNING_KEY)).getAuditErrorList();
+            auditErrors = ((AuditCluster) getAuditErrorMap().get(BUDGET_RATE_AUDIT_WARNING_KEY)).getAuditErrorList();
         }
         
         return auditErrors;

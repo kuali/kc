@@ -3,7 +3,7 @@
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * http://www.osedu.org/licenses/ECL-2.0
  * 
@@ -986,9 +986,20 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
                                     Equals equalsLiNum = new Equals("lineItemNumber",new Integer(detBean.getLineItemNumber()));
                                     Equals equalsOhType = new Equals("rateClassType",RateClassType.OVERHEAD.getRateClassType());
                                     Equals equalsEbType = new Equals("rateClassType",RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
+                                    
+                                    Equals equalsVacType = new Equals("rateClassType",RateClassType.VACATION.getRateClassType());
+                                    Equals equalsInflType = new Equals("rateClassType",RateClassType.INFLATION.getRateClassType());
+                                    Equals equalsOthType = new Equals("rateClassType",RateClassType.VACATION_ON_LA.getRateClassType());
+                                    
                                     Or ohOrEb = new Or(equalsOhType,equalsEbType);
-                                    And liItemNumAndEbOrOh = new And(ohOrEb, equalsLiNum);
-                                    CoeusVector cvLICalAmounts = cvPeriodCalAmts.filter(liItemNumAndEbOrOh);
+                                    Or ohOrEbOrVac = new Or(ohOrEb,equalsVacType);
+                                    Or ohOrEbOrVacOrInfl = new Or(ohOrEbOrVac,equalsInflType);
+                                    Or ohOrEbOrVacOrInflOrOth = new Or(ohOrEbOrVacOrInfl,equalsOthType);
+                                    
+                                    And liItemNumAndOhOrEbOrVacOrInflOrOth = new And(ohOrEbOrVacOrInflOrOth, equalsLiNum);
+                                    //CoeusVector cvLICalAmounts = cvPeriodCalAmts.filter(liItemNumAndOhOrEbOrVacOrInflOrOth); 
+                                    CoeusVector cvLICalAmounts = cvPeriodCalAmts.filter(equalsLiNum);
+
                                     double ohCost = cvLICalAmounts.sum("calculatedCost");
                                     ohCost = ((double)Math.round(ohCost*Math.pow(10.0, 2) )) / 100;
     //                                System.out.println("ohcost for costElement =>"+ohCost);
@@ -1058,6 +1069,7 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
                     boolean ohORebFlag = false;
                     if( cvPeriodCalAmts != null && cvPeriodCalAmts.size() > 0){
                         while (true) {
+                            ohORebFlag = false;
                             budgetDetailCalAmountsBean = (BudgetDetailCalAmountsBean)cvPeriodCalAmts.get(0);
                             rateClassCode = budgetDetailCalAmountsBean.getRateClassCode();
                             rateTypeCode = budgetDetailCalAmountsBean.getRateTypeCode();
@@ -1087,6 +1099,12 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
                                  * corresponding to the given rate class code 
                                  * and rate type code. Store it into cvCalAmtsExists */
                                 cvCalAmtsExists = cvCalAmts.filter(andRateClassType);
+                                
+                                if( (budgetDetailCalAmountsBean.getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType()) ||
+                                        budgetDetailCalAmountsBean.getRateClassType().equals(RateClassType.EMPLOYEE_BENEFITS.getRateClassType())) ){
+                                        ohORebFlag = true;
+                                }
+                                
                                 if (cvCalAmtsExists.size() > 0) {
                                     budgetTotalBean = (BudgetTotalBean) cvCalAmtsExists.get(0);
                                     /** Remove the budgetTotalBean from indsrlCumData
@@ -1184,9 +1202,9 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
                     /** Sort the vector based on <CODE>rateClassCode</CODE> */
                     cvCalAmts.sort(RATE_CLASS_CODE, true);
                 }
-                for( int index = 0; index < cvCalAmts.size(); index++){
-                    indsrlCumData.addElement(cvCalAmts.get(index));
-                }
+//                for( int index = 0; index < cvCalAmts.size(); index++){
+//                    indsrlCumData.addElement(cvCalAmts.get(index));
+//                }
                 
                 if( cvBudgetDetails != null &&  cvBudgetDetails.size() > 0 ){
                     boolean hasCostElement = false;

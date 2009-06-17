@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,10 +27,19 @@ public class JobCodeServiceImpl implements JobCodeService {
     
     private BusinessObjectService businessObjectService;    
 
+    /**
+     * 
+     * This method provides the appropriate JobCode object
+     * for a particular jobCode string.
+     * 
+     * @param JobCode
+     * @return
+     */
     public JobCode findJobCodeRef(String jobCode) {
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(Constants.JOB_CODE, jobCode);
-        return (JobCode)businessObjectService.findByPrimaryKey(JobCode.class, queryMap);
+        JobCode ret = (JobCode)businessObjectService.findByPrimaryKey(JobCode.class, queryMap);
+        return ret;
     }
 
     public String findJobCodeTitle(String jobCode) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package org.kuali.kra.budget.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
@@ -25,7 +26,6 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.service.JobCodeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.springframework.util.StringUtils;
 
 /**
  * BudgetPerson business object
@@ -36,6 +36,7 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
     
     private Date effectiveDate;
 	private String jobCode;
+	private JobCode jobCodeRef;
 	private String jobTitle;
 	private Boolean nonEmployeeFlag;
 	private String personId;
@@ -308,10 +309,25 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
      * @return boolean
      */
     public boolean isDuplicatePerson(BudgetPerson budgetPerson) {
-        if (this.getJobCode() != budgetPerson.getJobCode()
-                || this.getEffectiveDate() != budgetPerson.getEffectiveDate()) {
+        if (!StringUtils.equals(this.getJobCode(), budgetPerson.getJobCode())
+                || !this.getEffectiveDate().equals(budgetPerson.getEffectiveDate())) {
             return false;
         }
+        if (this.getNonEmployeeFlag() != null && this.getNonEmployeeFlag() && budgetPerson.getNonEmployeeFlag() != null && budgetPerson.getNonEmployeeFlag()) {
+            if (this.getRolodexId() != null && budgetPerson.getRolodexId() != null) {
+                return this.getRolodexId().equals(budgetPerson.getRolodexId());
+            } else if (this.getTbnId() != null && budgetPerson.getTbnId() != null) {
+                return this.getTbnId().equals(budgetPerson.getTbnId());
+            }
+            return false;
+        } else if (this.getNonEmployeeFlag() != null && !this.getNonEmployeeFlag() && budgetPerson.getNonEmployeeFlag() != null && !budgetPerson.getNonEmployeeFlag()) {
+            return this.getPersonId().equals(budgetPerson.getPersonId());
+        }
+        // else non-employee vs. employee
+        return false;
+    }
+
+    public boolean isSamePerson(BudgetPerson budgetPerson) {
         if (this.getNonEmployeeFlag() && budgetPerson.getNonEmployeeFlag()) {
             if (this.getRolodexId() != null && budgetPerson.getRolodexId() != null) {
                 return this.getRolodexId().equals(budgetPerson.getRolodexId());
@@ -336,23 +352,36 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
         // Note, since we aren't persisting the jobTitle in the BudgetPersons table, we need to grab the title 
         // for each BudgetPerson.jobCode via svc call below.
         getJobTitleFromJobCode();
-        return jobTitle;
+        String ret = null;
+        if (jobCodeRef != null) {
+            ret = jobCodeRef.getJobTitle();
+        } 
+        return ret;
     }
     
     public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
+        refreshJobTitle();
     }
     
     private void refreshJobTitle() {
-        jobTitle=null;
+        jobCodeRef = null;
         getJobTitleFromJobCode();
     }
     
     private void getJobTitleFromJobCode() {
-        if (StringUtils.hasText(getJobCode()) && !StringUtils.hasText(this.jobTitle) ) { 
-            JobCodeService jcService = KraServiceLocator.getService(JobCodeService.class);
-            this.jobTitle = jcService.findJobCodeTitle(getJobCode());
-        }
+        if (StringUtils.isNotBlank(getJobCode()) && 
+                (this.jobCodeRef == null || !StringUtils.isNotBlank(this.jobCodeRef.getJobTitle())) ) { 
+                JobCodeService jcService = KraServiceLocator.getService(JobCodeService.class);
+                this.jobCodeRef = jcService.findJobCodeRef(getJobCode());
+            }
+    }
+
+    public JobCode getJobCodeRef() {
+        return jobCodeRef;
+    }
+
+    public void setJobCodeRef(JobCode jobCodeRef) {
+        this.jobCodeRef = jobCodeRef;
     }
     
 }

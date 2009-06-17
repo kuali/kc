@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,9 @@ import org.kuali.kra.proposaldevelopment.bo.ActivityType;
  * This class represents INSTITUTE_RATE record
  */
 public class InstituteRate extends AbstractInstituteRate {
+
+    private static final long serialVersionUID = -7899229198533624158L;
+
 	private String activityTypeCode;
     
     private ActivityType activityType;
@@ -37,8 +40,8 @@ public class InstituteRate extends AbstractInstituteRate {
     
     @Override 
     @SuppressWarnings("unchecked")
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
+	protected LinkedHashMap<String, Object> toStringMapper() {
+		LinkedHashMap<String, Object> hashMap = super.toStringMapper();
 		hashMap.put("activityTypeCode", getActivityTypeCode());
 		return hashMap;
 	}

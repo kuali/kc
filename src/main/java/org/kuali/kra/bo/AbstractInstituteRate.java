@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,14 +19,23 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import javax.naming.OperationNotSupportedException;
-
+import org.kuali.rice.kns.web.format.Formatter;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateType;
+import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.infrastructure.Constants;
 
 public abstract class AbstractInstituteRate extends KraPersistableBusinessObjectBase implements Comparable<AbstractInstituteRate>, AbstractInstituteRateKey {
+    
+    //FIXME: this should get registered somewhere else (most likely in a centralized location like a context init listener).
+    static {
+        Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
+    }
+    
+ 	private static final long serialVersionUID = -2136003574701633349L;
+    
 	private String fiscalYear;
 	private Boolean onOffCampusFlag;
 	private String rateClassCode;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,12 +33,15 @@ import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.struts.action.ActionForward;
 import org.apache.xpath.XPathAPI;
 import org.kuali.kra.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.budget.bo.BudgetSubAwards;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetSubAwardService;
+import org.kuali.kra.budget.web.struts.action.BudgetActionsAction;
+import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.w3c.dom.Document;
@@ -98,22 +101,20 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             LOG.error("Not able to extract xml from pdf",e);
             subawardBudgetExtracted = false;
         }
-//        if(subawardBudgetExtracted && budgetSubAwardBean.getSubAwardXML()!=null){
-            budgetSubAwardFiles.setSubAwardXfdFileData(budgetSubAwardBean.getSubAwardXFD());
-            if(subawardBudgetExtracted && budgetSubAwardBean.getSubAwardXML()!=null){
-                budgetSubAwardFiles.setSubAwardXmlFileData(new String(budgetSubAwardBean.getSubAwardXML()));
-            }
-            budgetSubAwardFiles.setSubAwardXfdFileName(budgetSubAwardBean.getXfdFileName());
-            budgetSubAwardFiles.setProposalNumber(budgetSubAwards.getProposalNumber());
-            budgetSubAwardFiles.setBudgetVersionNumber(budgetSubAwards.getBudgetVersionNumber());
-            budgetSubAwardFiles.setSubAwardNumber(budgetSubAwards.getSubAwardNumber());
-            budgetSubAwards.setSubAwardXfdFileName(budgetSubAwardBean.getXfdFileName());
-            budgetSubAwards.setXfdUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
-            budgetSubAwards.setXfdUpdateTimestamp(KNSServiceLocator.getDateTimeService().getCurrentTimestamp());
-            budgetSubAwards.setXmlUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
-            budgetSubAwards.setXmlUpdateTimestamp(KNSServiceLocator.getDateTimeService().getCurrentTimestamp());
-            budgetSubAwards.setBudgetSubAwardAttachments(getSubAwardAttachments(budgetSubAwardBean));
-//        }
+        budgetSubAwardFiles.setSubAwardXfdFileData(budgetSubAwardBean.getSubAwardXFD());
+        if(subawardBudgetExtracted && budgetSubAwardBean.getSubAwardXML()!=null){
+            budgetSubAwardFiles.setSubAwardXmlFileData(new String(budgetSubAwardBean.getSubAwardXML()));
+        }
+        budgetSubAwardFiles.setSubAwardXfdFileName(budgetSubAwardBean.getXfdFileName());
+        budgetSubAwardFiles.setProposalNumber(budgetSubAwards.getProposalNumber());
+        budgetSubAwardFiles.setBudgetVersionNumber(budgetSubAwards.getBudgetVersionNumber());
+        budgetSubAwardFiles.setSubAwardNumber(budgetSubAwards.getSubAwardNumber());
+        budgetSubAwards.setSubAwardXfdFileName(budgetSubAwardBean.getXfdFileName());
+        budgetSubAwards.setXfdUpdateUser(GlobalVariables.getUserSession().getPrincipalId());
+        budgetSubAwards.setXfdUpdateTimestamp(KNSServiceLocator.getDateTimeService().getCurrentTimestamp());
+        budgetSubAwards.setXmlUpdateUser(GlobalVariables.getUserSession().getPrincipalId());
+        budgetSubAwards.setXmlUpdateTimestamp(KNSServiceLocator.getDateTimeService().getCurrentTimestamp());
+        budgetSubAwards.setBudgetSubAwardAttachments(getSubAwardAttachments(budgetSubAwardBean));
     }
     
     
@@ -131,10 +132,10 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
                 budgetSubAwardAttachment.setSubAwardNumber(budgetSubAwardBean.getSubAwardNumber());
             }
             catch (IllegalAccessException e) {
-                e.printStackTrace();
+                LOG.warn(e);
             }
             catch (InvocationTargetException e) {
-                e.printStackTrace();
+                LOG.warn(e);
             }
             budgetSubAwardAttachment.setBudgetVersionNumber(budgetSubAwardAttachmentBean.getVersionNumber());
             budgetSubAwardAttachments.add(budgetSubAwardAttachment);            
@@ -148,6 +149,8 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     private byte[] getXMLFromPDF(PdfReader reader)throws Exception {
         XfaForm xfaForm = reader.getAcroFields().getXfa();
         Node domDocument = xfaForm.getDomDocument();
+        if(domDocument==null)
+            throw new Exception("Not a valid pdf form");
         Element documentElement = ((Document) domDocument).getDocumentElement();
 
         Element datasetsElement = (Element) documentElement.getElementsByTagNameNS(XFA_NS, "datasets").item(0);

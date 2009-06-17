@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
+import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
@@ -108,7 +109,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         if(!errorFound){
             BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
             //KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
-            budgetPersonnelBudgetService.addBudgetPersonnelDetails(budgetForm.getBudgetDocument(), selectedBudgetPeriodIndex,selectedBudgetLineItemIndex, newBudgetPersonnelDetails);
+//            budgetPersonnelBudgetService.addBudgetPersonnelDetails(budgetForm.getBudgetDocument(), selectedBudgetPeriodIndex,selectedBudgetLineItemIndex, newBudgetPersonnelDetails);
             for (BudgetPersonnelDetails budgetPersonnelDetails : budgetForm.getBudgetDocument().getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex).getBudgetPersonnelDetailsList()) {
                 if(!uniqueBudgetPersonnelCount.containsValue(budgetPersonnelDetails.getPersonId())){
                     uniqueBudgetPersonnelCount.put(qty, budgetPersonnelDetails.getPersonId());
@@ -122,7 +123,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
             //budgetForm.setNewBudgetPersonnelDetails(new BudgetPersonnelDetails());
             //budgetForm.getNewBudgetPersonnelDetails().setPeriodTypeCode(kualiConfigurationService.getParameterValue(
                     //Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_PERIOD_TYPE));
-            setBudgetPersonDefaultPeriodTypeCode(budgetForm);
+            //setBudgetPersonDefaultPeriodTypeCode(budgetForm);
         }        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
@@ -130,7 +131,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        setBudgetPersonDefaultPeriodTypeCode(budgetForm);
+        //setBudgetPersonDefaultPeriodTypeCode(budgetForm);  
         ActionForward actionForward = super.reload(mapping, form, request, response);
         BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();

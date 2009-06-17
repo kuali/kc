@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
  * This class...
  */
 public interface BudgetPersonnelBudgetService {
-    public void addBudgetPersonnelDetails(BudgetDocument budgetDocument,int selectedBudgetLineItem, int selectedBudgetLineItemIndex, BudgetPersonnelDetails newBudegtPersonnelDetails);
+    public void addBudgetPersonnelDetails(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudegtPersonnelDetails);
     public void calculateBudgetPersonnelBudget(BudgetDocument budgetDocument, BudgetLineItem selectedBudgetLineItem,
             BudgetPersonnelDetails budgetPersonnelDetails,  int lineNumber);
     public void deleteBudgetPersonnelDetails(BudgetDocument budgetDocument, int selectedBudgetPeriodIndex,

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,31 +28,44 @@ import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ErrorMap;
 
 public class ValidCalcTypeMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
+    
+    private final BusinessObjectService boService;
     
     /**
      * Constructs a ValidCalcTypeMaintenanceDocumentRule.java.
      */
     public ValidCalcTypeMaintenanceDocumentRule() {
-        super();
+        this(KraServiceLocator.getService(BusinessObjectService.class));
+    }
+    
+
+    /**
+     * Sets the BusinessObjectService.  Useful for unit testing.
+     * @param boService the BusinessObjectService
+     */
+    ValidCalcTypeMaintenanceDocumentRule(final BusinessObjectService boService) {
+        this.boService = boService;
     }
     
     /**
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */ 
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        return checkExistence(document);
+        return this.checkExistence(document);
     }
     
     /**
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        return checkExistence(document);
+        return this.checkExistence(document);
     }
 
     /**
@@ -62,37 +75,71 @@ public class ValidCalcTypeMaintenanceDocumentRule extends KraMaintenanceDocument
      * @param maintenanceDocument
      * @return
      */
-    private boolean checkExistence(MaintenanceDocument maintenanceDocument) {
+    private boolean checkExistence(final MaintenanceDocument maintenanceDocument) {
 
-        boolean valid = true;
+        //boolean valid = true;
         if (LOG.isDebugEnabled()) {
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
-        ValidCalcType validCalcType = (ValidCalcType) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        
+        final ValidCalcType validCalcType = (ValidCalcType) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
 
-        if (StringUtils.isNotBlank(validCalcType.getRateClassCode()) && StringUtils.isNotBlank(validCalcType.getRateTypeCode())) {
-            Map pkMap = new HashMap();
-            pkMap.put("rateClassCode", validCalcType.getRateClassCode());
-            pkMap.put("rateTypeCode", validCalcType.getRateTypeCode());
-            RateType rateType = (RateType)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(RateType.class, pkMap);
+        boolean valid = validateRateTypeCode(validCalcType.getRateClassCode(), validCalcType.getRateTypeCode());
+        valid &= validateRateClassType(validCalcType.getRateClassType());
+        valid &= validateDependantRateClassType(validCalcType.getDependentRateClassType());
+
+        return valid;
+    }
+    
+    /**
+     * Validates the Rate Class Type.
+     * @param rateClassType the Rate Class Type
+     * @return true if valid false if not
+     */
+    private boolean validateRateClassType(final String rateClassType) {
+        
+        final Map<String, String> pkMap = new HashMap<String, String>();
+        pkMap.put("rateClassType", rateClassType);
+        return checkExistenceFromTable(RateClassType.class, pkMap, "rateClassType", "Rate Class Type");
+    }
+    
+    /**
+     * Validates the Dependent Rate Class Type.
+     * @param dependantRateClassType the Dependent Rate Class Type
+     * @return true if valid false if not
+     */
+    private boolean validateDependantRateClassType(final String dependantRateClassType) {
+
+        if (StringUtils.isNotBlank(dependantRateClassType)) {
+            final Map<String, String> pkMap = new HashMap<String, String>();
+            pkMap.put("rateClassType", dependantRateClassType);
+            return checkExistenceFromTable(RateClassType.class,pkMap, "dependentRateClassType", "Dependent Rate Class Type");
+        }
+        return true;
+    }
+    
+    /**
+     * Validates the Rate Type Code.
+     * @param rateClassCode the Rate Class Code
+     * @param rateTypeCode the Rate Type Code
+     * @return true if valid false if not
+     */
+    private boolean validateRateTypeCode(final String rateClassCode, final String rateTypeCode) {
+        
+        boolean valid = true;
+        if (StringUtils.isNotBlank(rateClassCode) && StringUtils.isNotBlank(rateTypeCode)) {
+            final Map<String, String> pkMap = new HashMap<String, String>();
+            pkMap.put("rateClassCode", rateClassCode);
+            pkMap.put("rateTypeCode", rateTypeCode);
+            final RateType rateType = (RateType) this.boService.findByPrimaryKey(RateType.class, pkMap);
+            
             if (rateType == null ) {
-                GlobalVariables.getErrorMap().putError("document.newMaintainableObject.rateTypeCode", KeyConstants.ERROR_RATE_TYPE_NOT_EXIST,
-                        new String[] { validCalcType.getRateClassCode(), validCalcType.getRateTypeCode() });
+                final ErrorMap errorMap = GlobalVariables.getErrorMap();
+                errorMap.putError("document.newMaintainableObject.rateTypeCode", KeyConstants.ERROR_RATE_TYPE_NOT_EXIST,
+                        new String[] {rateClassCode, rateTypeCode });
                 valid = false;
             }
         }
-
-
-        Map pkMap = new HashMap();
-        pkMap.put("rateClassType", validCalcType.getRateClassType());
-        valid&=checkExistenceFromTable(RateClassType.class,pkMap,"rateClassType", "Rate Class Type");
-
-        pkMap.put("rateClassType", validCalcType.getDependentRateClassType());
-        valid&=checkExistenceFromTable(RateClassType.class,pkMap,"dependentRateClassType", "Dependent Rate Class Type");
-
         return valid;
-
     }
-
-
 }

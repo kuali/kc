@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,8 @@ public class RateAndCost{
     private BudgetDecimal calculatedCostSharing; 
     private BudgetDecimal underRecovery; 
     private BudgetDecimal baseAmount;
+    private BudgetDecimal baseCostSharingAmount;
+    
 
     /** Getter for property rateClassCode.
      * @return Value of property rateClassCode.
@@ -172,6 +174,22 @@ public class RateAndCost{
      */
     public void setBaseAmount(BudgetDecimal baseAmount) {
         this.baseAmount = baseAmount;
+    }
+
+    /**
+     * Gets the baseCostSharingAmount attribute. 
+     * @return Returns the baseCostSharingAmount.
+     */
+    public BudgetDecimal getBaseCostSharingAmount() {
+        return baseCostSharingAmount;
+    }
+
+    /**
+     * Sets the baseCostSharingAmount attribute value.
+     * @param baseCostSharingAmount The baseCostSharingAmount to set.
+     */
+    public void setBaseCostSharingAmount(BudgetDecimal baseCostSharingAmount) {
+        this.baseCostSharingAmount = baseCostSharingAmount;
     }
     
  }
