@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
+import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -39,7 +40,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
     private BusinessObjectService businessObjectService;
     private SystemAuthorizationService systemAuthorizationService;
-    private KraAuthorizationService kraAuthorizationService;
+    private ProposalAuthorizationService proposalAuthorizationService;
 
     /**
      * @see org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService#authorize(org.kuali.kra.proposaldevelopment.bo.Narrative)
@@ -85,10 +86,10 @@ public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
      */
     public NarrativeRight getDefaultNarrativeRight(String username, ProposalDevelopmentDocument doc) {
         NarrativeRight right;
-        if (kraAuthorizationService.hasPermission(username, doc, PermissionConstants.MODIFY_NARRATIVE)) {
+        if (proposalAuthorizationService.hasPermission(username, doc, PermissionConstants.MODIFY_NARRATIVE)) {
             right = NarrativeRight.MODIFY_NARRATIVE_RIGHT;
         }
-        else if (kraAuthorizationService.hasPermission(username, doc, PermissionConstants.VIEW_NARRATIVE)) {
+        else if (proposalAuthorizationService.hasPermission(username, doc, PermissionConstants.VIEW_NARRATIVE)) {
             right = NarrativeRight.VIEW_NARRATIVE_RIGHT;
         }
         else {
@@ -102,7 +103,17 @@ public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
      */
     public NarrativeRight getDefaultNarrativeRight(String roleName) {
         List<Permission> permissions = systemAuthorizationService.getPermissionsForRole(roleName);
-        return getNarrativeRight(permissions);
+        NarrativeRight right;
+        if (isPermissionInList(PermissionConstants.MODIFY_NARRATIVE, permissions)) {
+            right = NarrativeRight.MODIFY_NARRATIVE_RIGHT;
+        }
+        else if (isPermissionInList(PermissionConstants.VIEW_NARRATIVE, permissions)) {
+            right = NarrativeRight.VIEW_NARRATIVE_RIGHT;
+        }
+        else {
+            right = NarrativeRight.NO_NARRATIVE_RIGHT;
+        }
+        return right;
     }
     
     public NarrativeRight getDefaultNarrativeRight(List<String> roleNames) {
@@ -110,14 +121,6 @@ public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
         for (String roleName : roleNames) {
             permissions.addAll(systemAuthorizationService.getPermissionsForRole(roleName));            
         }
-        return getNarrativeRight(permissions);
-    }
-    /**
-     * This is a helper method - retrieves the particular Narrative right(permission) if its present in the list of give permissions...
-     * @param permissions
-     * @return
-     */
-    private NarrativeRight getNarrativeRight(List<Permission> permissions) {
         NarrativeRight right;
         if (isPermissionInList(PermissionConstants.MODIFY_NARRATIVE, permissions)) {
             right = NarrativeRight.MODIFY_NARRATIVE_RIGHT;
@@ -155,10 +158,10 @@ public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
     }
     
     /**
-     * Set the Kra Authorization Service.  Injected by the Spring Framework.
-     * @param kraAuthorizationService the Kra Authorization Service
+     * Set the Proposal Authorization Service.  Injected by the Spring Framework.
+     * @param proposalAuthorizationService the Proposal Authorization Service
      */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
-        this.kraAuthorizationService = kraAuthorizationService;
+    public void setProposalAuthorizationService(ProposalAuthorizationService proposalAuthorizationService) {
+        this.proposalAuthorizationService = proposalAuthorizationService;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,9 +43,9 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalSpecialReview newProposalSpecialReview = proposalDevelopmentForm.getNewPropSpecialReview();
-        if(getKualiRuleService().applyRules(new AddProposalSpecialReviewEvent(Constants.EMPTY_STRING, proposalDevelopmentForm.getProposalDevelopmentDocument(), newProposalSpecialReview))){
-            newProposalSpecialReview.setSpecialReviewNumber(proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
-            proposalDevelopmentForm.getProposalDevelopmentDocument().getPropSpecialReviews().add(newProposalSpecialReview);
+        if(getKualiRuleService().applyRules(new AddProposalSpecialReviewEvent(Constants.EMPTY_STRING, proposalDevelopmentForm.getDocument(), newProposalSpecialReview))){
+            newProposalSpecialReview.setSpecialReviewNumber(proposalDevelopmentForm.getDocument().getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
+            proposalDevelopmentForm.getDocument().getPropSpecialReviews().add(newProposalSpecialReview);
             if (proposalDevelopmentForm.getDocumentExemptNumbers() == null) {
                 proposalDevelopmentForm.setDocumentExemptNumbers(new ArrayList<String[]>());
             }
@@ -57,7 +57,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
     }
     public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropSpecialReviews().remove(getLineToDelete(request));
+        proposalDevelopmentForm.getDocument().getPropSpecialReviews().remove(getLineToDelete(request));
         proposalDevelopmentForm.getDocumentExemptNumbers().remove(getLineToDelete(request));
         GlobalVariables.getErrorMap().clear();
 

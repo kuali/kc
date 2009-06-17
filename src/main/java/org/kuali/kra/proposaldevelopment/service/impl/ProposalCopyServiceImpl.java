@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,9 +30,11 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetModular;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -51,7 +53,10 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
+import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonService;
@@ -134,6 +139,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                                                    "ProposalStateTypeCode",
                                                    "ProposalState" };
     
+    private static String forceCopyProperty = "documentNextvalues";
+    
     /**
      * Each property in the document that can be copied is represented
      * by its getter and setter method.
@@ -178,6 +185,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             // Can't initialize authorization until a proposal is saved
             // and we have a new proposal number.
             initializeAuthorization(newDoc);
+            
+            if (criteria.getIncludeAttachments()) {
+                copyAttachments(doc, newDoc);
+            }
             
 //          Copy over the budget(s) if required by the user.  newDoc must be saved so we know proposal number.
             if (criteria.getIncludeBudget()) {
@@ -234,6 +245,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         destDoc.setSponsorCode(srcDoc.getSponsorCode());
         destDoc.setRequestedStartDateInitial(srcDoc.getRequestedStartDateInitial());
         destDoc.setRequestedEndDateInitial(srcDoc.getRequestedEndDateInitial());
+        if (isProposalTypeRenewalRevisionContinuation(srcDoc.getProposalTypeCode())) {
+            destDoc.setSponsorProposalNumber(srcDoc.getSponsorProposalNumber());
+        }
     }
     
     /**
@@ -253,9 +267,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         
         // Copy over the attachments if required by the user.
         
-        if (criteria.getIncludeAttachments()) {
-            copyAttachments(src, dest);
-        }
+        //if (criteria.getIncludeAttachments()) {
+        //    copyAttachments(src, dest);
+        //}
     }
 
     /**
@@ -270,6 +284,14 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private void copyProposalProperties(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest)  throws Exception {
         // List<DocProperty> properties = getCopyableProperties(new CopyFilter(...));
         List<DocProperty> properties = getCopyableProperties();
+        
+        //We need to copy DocumentNextValues to properly handle copied collections
+        String capitalizedPropertyName = StringUtils.capitalize(forceCopyProperty);
+        Method getDocumentNextValues = getGetter(capitalizedPropertyName, ProposalDevelopmentDocument.class.getSuperclass().getDeclaredMethods());
+        Method setDocumentNextValues = getSetter(capitalizedPropertyName, ProposalDevelopmentDocument.class.getSuperclass().getDeclaredMethods());
+        DocProperty documentNextValues = new DocProperty(getDocumentNextValues, setDocumentNextValues);
+        properties.add(documentNextValues);
+        
         copyProperties(src, dest, properties);
     }
     
@@ -406,6 +428,23 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     }
     
     /**
+     * Gets the setter method for a property.
+     * 
+     * @param name the name of the property.
+     * @param methods the list of methods to look in for the getter method.
+     * @return the getter method or null if not found.
+     */
+    private Method getSetter(String name, Method[] methods) {
+        String setter = "set" + name;
+        for (Method method : methods) {
+            if (setter.equals(method.getName())) {
+                return method;
+            }
+        }
+        return null;
+    }
+        
+    /**
      * Set the lead unit for the new proposal.
      * @param doc the new proposal development document
      * @param newLeadUnitNumber the new lead unit number
@@ -452,8 +491,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         doc.refreshReferenceObject("performingOrganization");
         
         // Remove the first Location because it's probably the old one.
+        Integer firstProposalLocationSeqeunceNumber = null;
         if (doc.getProposalLocations().size() > 0) {
-            doc.getProposalLocations().remove(doc.getProposalLocations().get(0));
+            ProposalLocation proposalLocation = doc.getProposalLocations().get(0);
+            firstProposalLocationSeqeunceNumber = proposalLocation.getLocationSequenceNumber();
+            doc.getProposalLocations().remove(proposalLocation);
         }
   
         // re-initialize Proposal Locations with Organization details
@@ -461,7 +503,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         newProposalLocation.setLocation(doc.getOrganization().getOrganizationName());
         newProposalLocation.setRolodexId(doc.getOrganization().getContactAddressId());
         newProposalLocation.refreshReferenceObject("rolodex");
-        newProposalLocation.setLocationSequenceNumber(doc.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
+        if(firstProposalLocationSeqeunceNumber == null || firstProposalLocationSeqeunceNumber.intValue() <= 0) {
+            firstProposalLocationSeqeunceNumber = doc.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER);
+        }
+        newProposalLocation.setLocationSequenceNumber(firstProposalLocationSeqeunceNumber);
         doc.getProposalLocations().add(0, newProposalLocation);
     }
     
@@ -620,9 +665,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
        
         List<ProposalPerson> persons = doc.getProposalPersons();
         for (ProposalPerson person : persons) {
-            Integer personNumber = doc.getDocumentNextValue(Constants.PROPOSAL_PERSON_NUMBER);
+            //Integer personNumber = doc.getDocumentNextValue(Constants.PROPOSAL_PERSON_NUMBER);
             person.setProposalNumber(null);
-            person.setProposalPersonNumber(personNumber);
+            //person.setProposalPersonNumber(personNumber);
            
             ProposalPersonRole role = person.getRole();
             String roleId = role.getProposalPersonRoleId();
@@ -657,8 +702,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 person.setUnits(newProposalPersonUnits);  
             }
             
-            List<Object> list = new ArrayList<Object>();
-            fixProposalPersonNumbers(person, personNumber, list);
+            //List<Object> list = new ArrayList<Object>();
+            //fixProposalPersonNumbers(person, personNumber, list);
             
             for (ProposalPersonYnq ynq : person.getProposalPersonYnqs()) {
                 ynq.setAnswer(null);
@@ -740,40 +785,46 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private void initializeAuthorization(ProposalDevelopmentDocument doc) {
         UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
-        KraAuthorizationService kraAuthService = getKraAuthorizationService();
-        kraAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
+        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        proposalAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
     }
     
     /**
-     * Copy the Attachments (proposal, personal, and institutional) to the new document.
+     * Copy the Attachments (proposal, personal, and institutional) to the new document.  Does this
+     * by loading the actual attachments (since they are left out of the object graph under normal
+     * conditions, then copies the attachments (ProposalPersonBiographies, Narratives, and 
+     * InstituteAttachments).
      * 
      * @param src the source proposal development document, i.e. the original.
      * @param dest the destination proposal development document, i.e. the new document.
      */
     private void copyAttachments(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest) throws Exception {
         
-        // By default, attachment contents are not read when an attachment is read
-        // from the database.  This is for performance reasons due to the size of
-        // contents, i.e. they can be PDF files.  In order to perform the copy, we
-        // will load the contents into the source document.  The attachments will then
-        // be copied when the properties are copied below.
-        
+        NarrativeService narrativeService = dest.getNarrativeService();
+        ProposalPersonBiographyService propPersonBioService = dest.getProposalPersonBiographyService();
+ 
         loadAttachmentContents(src);
         
-        // Just copy over all of the data and we will make adjustments to it.
-        
-        List<DocProperty> properties = new ArrayList<DocProperty>();
-        properties.add(getDocProperty("PropPersonBios"));
-        copyProperties(src, dest, properties);
-        
+        List<ProposalPersonBiography> propPersonBios = src.getPropPersonBios();
+        ProposalPersonBiography destPropPersonBio;
+        for (ProposalPersonBiography srcPropPersonBio : propPersonBios) {
+            destPropPersonBio = (ProposalPersonBiography)ObjectUtils.deepCopy(srcPropPersonBio);
+            propPersonBioService.addProposalPersonBiography(dest, destPropPersonBio);
+        }
+
         List<Narrative> narratives = src.getNarratives();
-        List<Narrative> newNarratives = copyNarratives(narratives, 1);
-        dest.setNarratives(newNarratives);
+        Narrative destNarrative;
+        for (Narrative srcNarrative : narratives) {
+            destNarrative = (Narrative)ObjectUtils.deepCopy(srcNarrative);
+            narrativeService.addNarrative(dest, destNarrative);
+        }
         
-        narratives = src.getInstituteAttachments();
-        dest.setInstituteAttachments(copyNarratives(narratives, newNarratives.size() + 1));
-        
-        // For the first adjustment, the Proposal Attachments must be set to "Incomplete".
+        List<Narrative> instituteAttachments = src.getInstituteAttachments();
+        Narrative destInstituteAttachment;
+        for (Narrative srcInstituteAttachment : instituteAttachments) {
+            destInstituteAttachment = (Narrative)ObjectUtils.deepCopy(srcInstituteAttachment);
+            narrativeService.addInstituteAttachment(dest, destInstituteAttachment);
+        }
         
         setProposalAttachmentsToIncomplete(dest);
     }
@@ -996,6 +1047,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             budgetPeriod.setBudgetModular(null);
         }
         
+        List<BudgetProjectIncome> srcProjectIncomeList = budget.getBudgetProjectIncomes();
+        budget.setBudgetProjectIncomes(new ArrayList<BudgetProjectIncome>());
+        
         documentService.saveDocument(budget);
         
         for(BudgetPeriod tmpBudgetPeriod: budget.getBudgetPeriods()) {
@@ -1004,8 +1058,17 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 tmpBudgetModular.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
                 tmpBudgetPeriod.setBudgetModular(tmpBudgetModular);
             }
+            
+            for(BudgetProjectIncome budgetProjectIncome : srcProjectIncomeList) {
+                if(budgetProjectIncome.getBudgetPeriodNumber().intValue() == tmpBudgetPeriod.getBudgetPeriod().intValue()) {
+                    budgetProjectIncome.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
+                    budgetProjectIncome.setProposalNumber(tmpBudgetPeriod.getProposalNumber());
+                    budgetProjectIncome.setVersionNumber(new Long(0));
+                }
+            }
         }
         
+        budget.setBudgetProjectIncomes(srcProjectIncomeList);
         documentService.saveDocument(budget);
         documentService.routeDocument(budget, "Route to Final", new ArrayList());
     }
@@ -1100,12 +1163,18 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     }
     
     /**
-     * 
-     * This is a helper method for retrieving KraAuthorizationService
-     * @return
+     * Is the Proposal Type set to Renewal, Revision, or a Continuation?
+     * @param proposalTypeCode proposal type code
+     * @return true or false
      */
-    protected KraAuthorizationService getKraAuthorizationService(){
-        return KraServiceLocator.getService(KraAuthorizationService.class);
+    private boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
+        String proposalTypeCodeRenewal = kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL).getParameterValue();
+        String proposalTypeCodeRevision = kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION).getParameterValue();
+        String proposalTypeCodeContinuation = kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION).getParameterValue();
+         
+        return !StringUtils.isEmpty(proposalTypeCode) &&
+               (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
+                proposalTypeCode.equals(proposalTypeCodeRevision) ||
+                proposalTypeCode.equals(proposalTypeCodeContinuation));
     }
-    
 }

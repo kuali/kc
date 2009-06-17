@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,13 +82,13 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
     /**
      * Upon returning from Grants.gov lookup, this method gets called. It uses the schemaUrl returned from 
      * lookup to retrieve the forms associated with the opportunity
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         Boolean mandatoryFormNotAvailable = false;
         List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
         if(proposalDevelopmentDocument.getS2sOpportunity().getSchemaUrl()!=null){
@@ -246,5 +246,24 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
             proposalDevelopmentForm.setVersionNumberForS2sOpportunity(proposalDevelopmentDocument.getS2sOpportunity().getVersionNumber());            
         }
         return super.performLookup(mapping, form, request, response);
+    }
+    
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        final ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        final ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        
+        String proposalTypeCodeRevision = getConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT, 
+                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION).getParameterValue();
+
+        if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!= null && 
+                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getProposalTypeCode(), proposalTypeCodeRevision) && 
+                StringUtils.isBlank(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode())) { 
+            GlobalVariables.getErrorMap().putError("document.s2sOpportunity.revisionCode", KeyConstants.ERROR_REQUIRED_REVISIONTYPE);
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        } 
+
+        return super.save(mapping, form, request, response);
     }
 }

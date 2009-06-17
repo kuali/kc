@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,6 +58,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -198,7 +199,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             }
         }
         if(budgetVersionsExists && !finalAndCompleteBudgetVersionFound){
-            auditErrors.add(new AuditError("document.budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
+            auditErrors.add(new AuditError("document.budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
             valid &= false;
         }
         if (auditErrors.size() > 0) {
@@ -244,10 +245,10 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     private boolean applyAuditRuleForBudgetDocument(BudgetVersionOverview budgetVersion) throws Exception {
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
-        return new AuditActionHelper().auditUnconditionally(budgetDocument);
+        return KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(budgetDocument));
 
     }
-
+    
     /**
      * 
      * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#getExemptionTypeKeyValues()
@@ -267,7 +268,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     public void populateExemptNumbersToForm(ProposalDevelopmentForm proposalDevelopmentForm) {
         // initial load
-        List<ProposalSpecialReview> proposalSpecialReviews = proposalDevelopmentForm.getProposalDevelopmentDocument()
+        List<ProposalSpecialReview> proposalSpecialReviews = proposalDevelopmentForm.getDocument()
                 .getPropSpecialReviews();
         int i = 0;
         List<String[]> documentExemptNumbers = proposalDevelopmentForm.getDocumentExemptNumbers();
@@ -303,7 +304,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     public void populateProposalExempNumbers(ProposalDevelopmentForm proposalDevelopmentForm) {
         // initial load
-        List<ProposalSpecialReview> proposalSpecialReviews = proposalDevelopmentForm.getProposalDevelopmentDocument()
+        List<ProposalSpecialReview> proposalSpecialReviews = proposalDevelopmentForm.getDocument()
                 .getPropSpecialReviews();
         int i = 0;
         List<String[]> documentExemptNumbers = proposalDevelopmentForm.getDocumentExemptNumbers();
@@ -437,7 +438,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * @param versionName of the {@link BudgetVersionOverview}
      */
     public void addBudgetVersion(ProposalDevelopmentDocument document, String versionName) throws WorkflowException {
-        if (!isNewBudgetVersionNameValid(document, versionName)) {
+        if (!isBudgetVersionNameValid(document, versionName)) {
             debug("Buffered Version not Valid");
             return;
         }
@@ -474,7 +475,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * @param name of the pseudo-{@link BudgetVersionOverview} instance to validate
      * @returns true if the rules passed, false otherwise
      */
-    private boolean isNewBudgetVersionNameValid(ProposalDevelopmentDocument document,  String name) {
+    public boolean isBudgetVersionNameValid(ProposalDevelopmentDocument document,  String name) {
         debug("Invoking budgetrule " + getBudgetVersionRule());
         return new AddBudgetVersionEvent(document, name).invokeRuleMethod(getBudgetVersionRule());
     }

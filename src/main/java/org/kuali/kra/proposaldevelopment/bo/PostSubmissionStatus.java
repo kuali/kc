@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,33 +19,72 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * Business Object for Post Submission Status.
+ */
 public class PostSubmissionStatus extends KraPersistableBusinessObjectBase {
+    
+    private static final long serialVersionUID = 4195140481939165537L;
     
     private Integer postSubmissionStatusCode;
     private String description;
+    private String definition;
     
+    /**
+     * Gets the short description.
+     * @return the short description.
+     */
     public String getDescription() {
-        return description;
+        return this.description;
     }
-
-    public void setDescription(String description) {
+    
+    /**
+     * Sets the short description.
+     * @param description the short description.
+     */
+    public void setDescription(final String description) {
         this.description = description;
     }
 
+    /**
+     * Gets the post submission status code.
+     * @return the post submission status code.
+     */
     public Integer getPostSubmissionStatusCode() {
-        return postSubmissionStatusCode;
+        return this.postSubmissionStatusCode;
     }
 
-    public void setPostSubmissionStatusCode(Integer postSubmissionStatusCode) {
+    /**
+     * Sets the post submission status code.
+     * @param postSubmissionStatusCode the post submission status code.
+     */
+    public void setPostSubmissionStatusCode(final Integer postSubmissionStatusCode) {
         this.postSubmissionStatusCode = postSubmissionStatusCode;
     }
 
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("postSubmissionStatusCode", getPostSubmissionStatusCode());
-        hashMap.put("description", getDescription());
-        return hashMap;
+    /**
+     * Gets the long definition.
+     * @return the long definition.
+     */
+    public String getDefinition() {
+        return this.definition;
     }
 
+    /**
+     * Sets the long definition.
+     * @param definition the long definition.
+     */
+    public void setDefinition(final String definition) {
+        this.definition = definition;
+    }
+
+    /** {@inheritDoc} */
+    @Override 
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("postSubmissionStatusCode", this.getPostSubmissionStatusCode());
+        hashMap.put("description", this.getDescription());
+        hashMap.put("definition", this.getDefinition());
+        return hashMap;
+    }
 }

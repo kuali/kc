@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,9 @@ package org.kuali.kra.proposaldevelopment.web.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * A ProposalUserRoles corresponds to one user with access to a
@@ -148,4 +151,47 @@ public class ProposalUserRoles implements Serializable {
     public List<String> getRoleLabels() {
         return roleNames;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if ((obj == null) || (obj.getClass() != this.getClass()))
+            return false;
+
+        ProposalUserRoles theOther = (ProposalUserRoles) obj;
+
+        boolean isEqual = true;
+
+        isEqual &= StringUtils.equals(this.fullname, theOther.fullname);
+        isEqual &= StringUtils.equals(this.unitName, theOther.unitName);
+        isEqual &= StringUtils.equals(this.unitNumber, theOther.unitNumber);
+        isEqual &= StringUtils.equals(this.username, theOther.username);
+        isEqual &= this.roleNames.size() == theOther.roleNames.size();
+
+        if (isEqual) {
+            int i = 0;
+            for (String roleName : this.roleNames) {
+                isEqual &= StringUtils.equals(roleName, theOther.roleNames.get(i));
+                i++;
+            }
+        }
+
+        return isEqual;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + ObjectUtils.hashCode(fullname);
+        hash = 31 * hash + ObjectUtils.hashCode(unitName);
+        hash = 31 * hash + ObjectUtils.hashCode(unitNumber);
+        hash = 31 * hash + ObjectUtils.hashCode(username);
+        for (String roleName : roleNames) {
+            hash = 31 * hash + ObjectUtils.hashCode(roleName);
+        }
+        return hash;
+    }
+
+
 }

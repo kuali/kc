@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,13 +37,13 @@ public class LookupableDevelopmentProposalServiceImpl implements LookupableDevel
         Map<String, String> primaryKeys = new HashMap<String, String>();
         if (StringUtils.isNotEmpty(proposalNumber)) {
             primaryKeys.put("proposalNumber", proposalNumber);
-            devProposal = (LookupableDevelopmentProposal) getBusinessObjectService().findByPrimaryKey(LookupableDevelopmentProposal.class, primaryKeys);
+            devProposal = (LookupableDevelopmentProposal)businessObjectService.findByPrimaryKey(LookupableDevelopmentProposal.class, primaryKeys);
         }
 
         return devProposal;
     }
 
-    private BusinessObjectService getBusinessObjectService() {
+    public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 

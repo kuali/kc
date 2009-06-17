@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@ public class AbstractTypeValuesFinder extends KeyValuesBase {
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
         ProposalDevelopmentDocument doc = getDocument();
@@ -80,7 +80,7 @@ public class AbstractTypeValuesFinder extends KeyValuesBase {
         ProposalDevelopmentDocument doc = null;
         ProposalDevelopmentForm form = (ProposalDevelopmentForm) GlobalVariables.getKualiForm();
         if (form != null) {
-            doc = form.getProposalDevelopmentDocument();
+            doc = form.getDocument();
         }
         return doc;
     }

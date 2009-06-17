@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * Class representation of the Proposal Person <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
  *
  * @see org.kuali.rice.kns.bo.BusinessObject
- * @see org.kuali.core.bo.PersistableBusinessObject
+ * @see org.kuali.rice.kns.bo.PersistableBusinessObject
  * @author $Author: gmcgrego $
  * @version $Revision: 1.42 $
  */
