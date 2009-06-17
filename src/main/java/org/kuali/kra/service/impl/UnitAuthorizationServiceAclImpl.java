@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAclEntry;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.kim.bo.KimRole;
+import org.kuali.kra.kim.pojo.QualifiedRole;
 import org.kuali.kra.kim.service.PersonService;
 import org.kuali.kra.kim.service.RoleService;
 import org.kuali.kra.service.SystemAuthorizationService;
