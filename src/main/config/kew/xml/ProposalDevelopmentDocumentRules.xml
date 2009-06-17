@@ -90,7 +90,7 @@ resource:WorkflowData">
       </ruleExtensions>
       <responsibilities>
         <responsibility>
-          <user>bhutchin</user>
+          <user>eagle</user>
           <actionRequested>A</actionRequested>
           <priority>1</priority>
         </responsibility>
