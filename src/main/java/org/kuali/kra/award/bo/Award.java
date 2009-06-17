@@ -130,7 +130,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     private Unit leadUnit;
     @AwardSyncableList(syncClass = AwardComment.class,syncMethodName="syncAwardComments")
-    private List<AwardComment> awardComments;
+    public List<AwardComment> awardComments;
     @AwardSyncableList(syncClass = AwardReportTerm.class)
     private List<AwardReportTerm> awardReportTermItems;
     @AwardSyncableList(syncClass = AwardSponsorTerm.class)
