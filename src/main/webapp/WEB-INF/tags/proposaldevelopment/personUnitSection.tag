@@ -1,5 +1,5 @@
   <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,7 +17,8 @@
 
 <c:set var="personUnitAttributes" value="${DataDictionary.ProposalPersonUnit.attributes}" />
 <c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
-<bean:define id="proposalPersonUnits" name="KualiForm" property="${proposalPerson}.units" />
+<c:set var="piRole" value="<%= org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE %>" />
+<bean:define id="currentPerson" name="KualiForm" property="${proposalPerson}" />
 
                 <tbody id="G3">
                   <tr>
@@ -54,18 +55,25 @@
                   </tr>
                   </kra:section>
                   
-  				<c:forEach items="${proposalPersonUnits}" varStatus="status">
+  				<c:forEach var="aUnit" items="${currentPerson.units}" varStatus="status">
 	                  <tr>
 	                    <th scope="row"  align="center"><c:out value="${status.index + 1}" /></th>
 	
-	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitName}" property="${proposalPerson}.units[${status.index}].unit.unitName" readOnly="true" /></td>
+	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitName}" property="${proposalPerson}.unit[${status.index}].unit.unitName" readOnly="true" /></td>
 	                    
-	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="${proposalPerson}.units[${status.index}].unitNumber" /></td>
+	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="${proposalPerson}.unit[${status.index}].unitNumber" readOnly="true"/></td>
 	                    <td>
-	                    	<div align=center>&nbsp;
-	                    	<kra:section permission="modifyProposal">
-	                    	<html:image property="methodToCall.deleteUnit.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Remove Unit" alt="Remove Unit" styleClass="tinybutton"/>
-	                    	</kra:section>
+	                    	<div align=center>
+		                    	<kra:section permission="modifyProposal">
+			                    	<c:choose>
+			                    		<c:when test="${(currentPerson.proposalPersonRoleId == piRole && aUnit.unitNumber != KualiForm.document.ownedByUnitNumber) || (currentPerson.proposalPersonRoleId != piRole)}">
+			                    			<html:image property="methodToCall.deleteUnit.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Remove Unit" alt="Remove Unit" styleClass="tinybutton" />
+			                    		</c:when>
+			                    		<c:otherwise>
+			                    			&nbsp;
+			                    		</c:otherwise>
+			                    	</c:choose>
+		                    	</kra:section>
 	                    	</div>
 	                    </td>
 	                  </tr>

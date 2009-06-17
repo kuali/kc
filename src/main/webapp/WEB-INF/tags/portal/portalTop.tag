@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,7 +20,13 @@
 <html>
 <head>
 <title>Kuali Portal Index</title>
-<link href="css/portal.css" rel="stylesheet" type="text/css" />
+
+<c:forEach items="${fn:split(ConfigProperties.portal.css.files, ',')}" var="cssFile">
+	<c:if test="${fn:length(fn:trim(cssFile)) > 0}">
+        <link href="${pageContext.request.contextPath}/${fn:trim(cssFile)}" rel="stylesheet" type="text/css" />
+	</c:if>
+</c:forEach>
+
 <script language="JavaScript" type="text/javascript" src="kr/scripts/my_common.js"></script>
 <script language="javascript" >
 if (top.location != self.location) {

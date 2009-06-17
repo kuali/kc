@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@
 	          	<tr>
 	          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleStatusCode}"/></div></th>
 	                <td align="left" valign="middle">
-	                    Incomplete
+	                    <kul:htmlControlAttribute property="newNarrative.moduleStatusCode" attributeEntry="${narrativeAttributes.moduleStatusCode}" />
 					</td>
 	          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.contactName}" /></div></th>
 	                <td align="left" valign="middle">
@@ -118,7 +118,7 @@
 			<c:set var="replaceAttachment" value="${KualiForm.editingMode[replaceKey]}" />
 			<c:set var="deleteKey" value="proposalAttachment.${narrative.moduleNumber}.delete" />
             <c:set var="deleteAttachment" value="${KualiForm.editingMode[deleteKey]}" />
-			<kul:innerTab parentTab="Proposal Attachments" defaultOpen="false" tabDescription="${narrType} - ${narrStatus}" tabTitle="${status.index+1}. ${narrType} - ${narrStatus}">
+			<kul:innerTab parentTab="Proposal Attachments" defaultOpen="false" tabDescription="${narrType} - ${narrStatus}" tabTitle="${status.index+1}. ${narrType} - ${narrStatus}" auditCluster="proposalAttachmentsAuditWarnings" tabAuditKey="document.narrative[${status.index}]*">
 				<div class="innerTab-container" align="left">
 					<table class=tab cellpadding=0 cellspacing=0 summary="">
 			          	<tr>
@@ -130,20 +130,8 @@
 			                <td align="left" valign="middle">
 			                <%-- %><c:if test="${(!empty narrative.fileName)}">--%>
 				                <div id="replaceDiv${status.index}" style="display:block;">
-					                <kul:htmlControlAttribute property="document.narrative[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
-					                <c:if test="${(downloadAttachment || replaceAttachment) }">
-						                (
-						                <c:if test="${downloadAttachment && (!empty narrative.fileName)}">
-						                <html:link linkName="downloadProposalAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
-							                <c:if test="${downloadAttachment && replaceAttachment}">
-							                &nbsp;|&nbsp;
-							                </c:if>
-						                </c:if>
-						                <c:if test="${replaceAttachment}">
-						                <html:link linkName="replaceProposalAttachment.line${status.index}" onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}')" href="" anchor="${currentTabIndex}" property="methodToCall.replaceProposalAttachment.line${status.index}">replace</html:link>
-						                </c:if>
-						                )
-					                </c:if>
+					                <kul:htmlControlAttribute property="document.narrative[${status.index}].fileName" 
+					                	 readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
 				                </div>
 				                <div id="fileDiv${status.index}" valign="middle" style="display:none;">
 				                	<html:file property="document.narrative[${status.index}].narrativeFile" />
@@ -200,6 +188,18 @@
 			          	<tr>
 							<td colspan=4>
 								<div align="center">
+									<c:if test="${(downloadAttachment) }">							
+										<html:image styleId="downloadProposalAttachment.line${status.index}"  property="methodToCall.downloadProposalAttachment.line${status.index}.anchor${currentTabIndex}"
+														src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+														onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return false" />
+									</c:if>
+									<c:if test="${(replaceAttachment) }">							
+										<html:image styleId="replaceProposalAttachment.line${status.index}" 
+														onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}') ; return false"  
+														src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif' styleClass="tinybutton"
+														property="methodToCall.replaceNarrativeAttachment.line${status.index}.anchor${currentTabIndex};return false" />
+			
+								    </c:if>	
 								    <c:if test="${deleteAttachment}">
 										<html:image styleId="deleteProposalAttachment.line${status.index}" property="methodToCall.deleteProposalAttachment.line${status.index}.anchor${currentTabIndex}"
 										            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
