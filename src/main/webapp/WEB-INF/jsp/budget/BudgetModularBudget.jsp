@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -26,7 +27,7 @@
   	
   	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Modular Budget" /></div>
 	
-	<kul:uncollapsable tabTitle="Select Modular Budget Period">
+	<kra:uncollapsable tabTitle="Select Modular Budget Period">
   		<div align="center">
   			<label for="budget period">Budget Period:</label>
   			<html:select property="modularSelectedPeriod">
@@ -38,7 +39,7 @@
           	<br/><br/>
           	<span><html:image property="methodToCall.updateView" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif' styleClass="tinybutton"/></span>
         </div>
-	</kul:uncollapsable>
+	</kra:uncollapsable>
 	<br/>
 	
 	<kra-b:budgetModular periodNum="${KualiForm.modularSelectedPeriod}"/>
