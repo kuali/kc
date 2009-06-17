@@ -29,7 +29,12 @@
     <bean id="QuestionMaintenanceDocument" parent="QuestionMaintenanceDocument-parentBean" />
     <bean id="QuestionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
         <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.Question" />
-        <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
+        <property name="maintainableClass" value="org.kuali.kra.maintenance.QuestionMaintainableImpl" />
+        <property name="maintainableSections">
+            <list>
+                <ref bean="QuestionMaintenanceDocument-EditQuestion"/>
+            </list>
+        </property> 
         <property name="lockingKeys" >
             <list>
                 <value>questionId</value>
@@ -39,4 +44,60 @@
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
         <property name="additionalSectionsFile" value="/WEB-INF/jsp/questionnaire/questionManager.jsp" />
     </bean>
+
+    <!-- Maintenance Section Definitions -->
+    
+    <bean id="QuestionMaintenanceDocument-EditQuestion" parent="QuestionMaintenanceDocument-EditQuestion-parentBean"/>
+    <bean id="QuestionMaintenanceDocument-EditQuestion-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Question"/>
+        <property name="title" value="Edit Question"/>
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="questionId"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="question"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="status"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="categoryTypeCode"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="maxAnswers"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="displayedAnswers"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="validAnswer"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="lookupName" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="questionTypeId"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="answerMaxLength" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="lookupGui" />
+                <bean parent="MaintainableCollectionDefinition">
+                    <property name="name" value="questionExplanations"/>
+                    <property name="sourceClassName" value="org.kuali.kra.questionnaire.question.QuestionExplanation"/>
+                    <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.QuestionExplanation"/>
+                    <property name="maintainableFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" 
+                                p:name="questionId" />
+                            <bean parent="MaintainableFieldDefinition" 
+                                p:name="explanation" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
 </beans>
