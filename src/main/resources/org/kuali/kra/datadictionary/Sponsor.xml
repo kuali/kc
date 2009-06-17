@@ -166,8 +166,8 @@
   <bean id="Sponsor-cageNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cageNumber" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Cage Number" />
-    <property name="shortLabel" value="Cage Number" />
+    <property name="label" value="CAGE Number" />
+    <property name="shortLabel" value="CAGE Number" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -177,16 +177,16 @@
       <bean parent="TextControlDefinition"
             p:size="20" />
     </property>
-    <property name="summary" value="Cage Number" />
-    <property name="description" value="Cage Number" />
+    <property name="summary" value="CAGE Number" />
+    <property name="description" value="CAGE Number" />
   </bean>
   <bean id="Sponsor-dodacNumber" parent="Sponsor-dodacNumber-parentBean" />
 
   <bean id="Sponsor-dodacNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dodacNumber" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Dodac Number" />
-    <property name="shortLabel" value="Dodac Number" />
+    <property name="label" value="DODAC Number" />
+    <property name="shortLabel" value="DODAC Number" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -196,16 +196,16 @@
       <bean parent="TextControlDefinition"
             p:size="20" />
     </property>
-    <property name="summary" value="Dodac Number" />
-    <property name="description" value="Dodac Number" />
+    <property name="summary" value="DODAC Number" />
+    <property name="description" value="DODAC Number" />
   </bean>
   <bean id="Sponsor-dunAndBradstreetNumber" parent="Sponsor-dunAndBradstreetNumber-parentBean" />
 
   <bean id="Sponsor-dunAndBradstreetNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dunAndBradstreetNumber" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Dun And Bradstreet Number" />
-    <property name="shortLabel" value="Dun And Bradstreet Number" />
+    <property name="label" value="DUN And Bradstreet Number" />
+    <property name="shortLabel" value="DUN And Bradstreet Number" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -215,16 +215,16 @@
       <bean parent="TextControlDefinition"
             p:size="20" />
     </property>
-    <property name="summary" value="Dun And Bradstreet Number" />
-    <property name="description" value="Dun And Bradstreet Number" />
+    <property name="summary" value="DUN And Bradstreet Number" />
+    <property name="description" value="DUN And Bradstreet Number" />
   </bean>
   <bean id="Sponsor-dunsPlusFourNumber" parent="Sponsor-dunsPlusFourNumber-parentBean" />
 
   <bean id="Sponsor-dunsPlusFourNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dunsPlusFourNumber" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Duns Plus Four Number" />
-    <property name="shortLabel" value="Duns Plus Four Number" />
+    <property name="label" value="DUNS Plus Four Number" />
+    <property name="shortLabel" value="DUNS Plus Four Number" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -234,8 +234,8 @@
       <bean parent="TextControlDefinition"
             p:size="20" />
     </property>
-    <property name="summary" value="Duns Plus Four Number" />
-    <property name="description" value="Duns Plus Four Number" />
+    <property name="summary" value="DUNS Plus Four Number" />
+    <property name="description" value="DUNS Plus Four Number" />
   </bean>
   <bean id="Sponsor-ownedByUnit" parent="Sponsor-ownedByUnit-parentBean" />
 

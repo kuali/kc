@@ -19,6 +19,7 @@
       <list>
         <ref bean="ValidCeJobCode-costElement" />
         <ref bean="ValidCeJobCode-jobCode" />
+        <ref bean="ValidCeJobCode-versionNumber" />
       </list>
     </property>
   </bean>
@@ -61,6 +62,10 @@
     </property>
     <property name="summary" value="Job Code" />
     <property name="description" value="Job Code" />
+  </bean>
+  <bean id="ValidCeJobCode-versionNumber" parent="ValidCeJobCode-versionNumber-parentBean" />
+
+  <bean id="ValidCeJobCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->
@@ -106,9 +111,11 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="costElement" />
+              p:attributeName="costElement"
+              p:forceLookup="true" />
         <bean parent="FieldDefinition"
-              p:attributeName="jobCode" />
+              p:attributeName="jobCode"
+              p:forceLookup="true" />
       </list>
     </property>
     <property name="resultFields" >

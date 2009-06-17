@@ -19,6 +19,7 @@
       <list>
         <ref bean="PostSubmissionStatus-postSubmissionStatusCode" />
         <ref bean="PostSubmissionStatus-description" />
+        <ref bean="PostSubmissionStatus-definition" />
         <ref bean="PostSubmissionStatus-versionNumber" />
       </list>
     </property>
@@ -49,6 +50,15 @@
 
   <bean id="PostSubmissionStatus-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
   </bean>
+  <bean id="PostSubmissionStatus-definition" parent="PostSubmissionStatus-definition-parentBean" />
+
+  <bean id="PostSubmissionStatus-definition-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+    <property name="name" value="definition" />
+    <property name="label" value="Definition" />
+    <property name="shortLabel" value="Definition" />
+    <property name="summary" value="Definition" />
+    <property name="description" value="Definition" />
+  </bean>
   <bean id="PostSubmissionStatus-versionNumber" parent="PostSubmissionStatus-versionNumber-parentBean" />
 
   <bean id="PostSubmissionStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -73,6 +83,8 @@
                     p:forceInquiry="true" />
               <bean parent="FieldDefinition"
                     p:attributeName="description" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="definition" />
             </list>
           </property>
         </bean>
@@ -99,6 +111,8 @@
               p:attributeName="postSubmissionStatusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="description" />
+        <bean parent="FieldDefinition"
+              p:attributeName="definition" />
       </list>
     </property>
     <property name="resultFields" >
@@ -108,6 +122,8 @@
               p:forceInquiry="true" />
         <bean parent="FieldDefinition"
               p:attributeName="description" />
+        <bean parent="FieldDefinition"
+              p:attributeName="definition" />
       </list>
     </property>
   </bean>

@@ -82,6 +82,7 @@
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="8" />
@@ -104,7 +105,7 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Parent Unit Numberr" />
+    <property name="summary" value="Parent Unit Number" />
     <property name="description" value="Parent Unit Number" />
   </bean>
   <bean id="Unit-parentUnit.unitName" parent="Unit-parentUnit.unitName-parentBean" />

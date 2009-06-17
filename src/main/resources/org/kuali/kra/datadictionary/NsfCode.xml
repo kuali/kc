@@ -54,7 +54,7 @@
     <property name="shortLabel" value="NSF Science Code" />
     <property name="maxLength" value="15" />
     <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ValidCeJobCodeMaintenanceDocument" parent="ValidCeJobCodeMaintenanceDocument-parentBean"/>
+
+  <bean id="ValidCeJobCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.ValidCeJobCode"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="ValidCeJobCodeMaintenanceDocument-EditValidCeJobCodes"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>costElement</value>
+        <value>jobCode</value>
+      </list>
+    </property>
+    
+    
+    
+    
+    <property name="documentTypeName" value="ValidCeJobCodeMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="ValidCeJobCodeMaintenanceDocument-EditValidCeJobCodes" parent="ValidCeJobCodeMaintenanceDocument-EditValidCeJobCodes-parentBean"/>
+
+  <bean id="ValidCeJobCodeMaintenanceDocument-EditValidCeJobCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit ValidCeJobCodes"/>
+    <property name="title" value="Edit ValidCeJobCodes"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="costElement" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="jobCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+      </list>
+    </property>
+  </bean>
+</beans>

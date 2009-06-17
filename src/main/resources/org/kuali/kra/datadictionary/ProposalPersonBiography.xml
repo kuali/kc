@@ -74,21 +74,7 @@
   </bean>
   <bean id="ProposalPersonBiography-personId" parent="ProposalPersonBiography-personId-parentBean" />
 
-  <bean id="ProposalPersonBiography-personId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personId" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Person Id" />
-    <property name="shortLabel" value="Person Id" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="Person Id" />
-    <property name="description" value="Person Id" />
+  <bean id="ProposalPersonBiography-personId-parentBean" abstract="true" parent="Person-personId">
   </bean>
   <bean id="ProposalPersonBiography-rolodexId" parent="ProposalPersonBiography-rolodexId-parentBean" />
 

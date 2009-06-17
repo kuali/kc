@@ -19,7 +19,7 @@
       <bean parent="HelpDefinition"
             p:parameterNamespace="KRA-B"
             p:parameterName="budgetPersonnelDetailsHelpUrl"
-            p:parameterDetailType="N/A" />
+            p:parameterDetailType="D" />
     </property>
     <property name="attributes" >
       <list>
@@ -202,6 +202,7 @@
     <property name="name" value="endDate" />
     <property name="label" value="End Date" />
     <property name="shortLabel" value="End Date" />
+    <property name="required" value="true" />
     <property name="summary" value="End Date" />
     <property name="description" value="End Date." />
   </bean>
@@ -228,19 +229,20 @@
   <bean id="BudgetPersonnelDetails-lineItemDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="lineItemDescription" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Line Item Description" />
-    <property name="shortLabel" value="Line Item Description" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
     <property name="maxLength" value="80" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
             p:allowWhitespace="true" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="80" />
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="30" />
     </property>
-    <property name="summary" value="Line Item Description" />
-    <property name="description" value="Line Item Description" />
+    <property name="summary" value="Description" />
+    <property name="description" value="Description" />
   </bean>
   <bean id="BudgetPersonnelDetails-onOffCampusFlag" parent="BudgetPersonnelDetails-onOffCampusFlag-parentBean" />
 
@@ -265,8 +267,8 @@
   <bean id="BudgetPersonnelDetails-percentCharged-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="percentCharged" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Percent Charged" />
-    <property name="shortLabel" value="Percent Charged" />
+    <property name="label" value="% Charged" />
+    <property name="shortLabel" value="% Charged" />
     <property name="maxLength" value="6" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
@@ -275,16 +277,16 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="Percent Charged" />
-    <property name="description" value="Percent Charged" />
+    <property name="summary" value="% Charged" />
+    <property name="description" value="% Charged" />
   </bean>
   <bean id="BudgetPersonnelDetails-percentEffort" parent="BudgetPersonnelDetails-percentEffort-parentBean" />
 
   <bean id="BudgetPersonnelDetails-percentEffort-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="percentEffort" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Percent Effort" />
-    <property name="shortLabel" value="Percent Effort" />
+    <property name="label" value="% Effort" />
+    <property name="shortLabel" value="% Effort" />
     <property name="maxLength" value="6" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
@@ -293,8 +295,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="Percent Effort" />
-    <property name="description" value="Percent Effort" />
+    <property name="summary" value="% Effort" />
+    <property name="description" value="% Effort" />
   </bean>
   <bean id="BudgetPersonnelDetails-periodTypeCode" parent="BudgetPersonnelDetails-periodTypeCode-parentBean" />
 
@@ -307,7 +309,7 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.budget.bo.BudgetPeriodType"
@@ -341,30 +343,16 @@
   </bean>
   <bean id="BudgetPersonnelDetails-personId" parent="BudgetPersonnelDetails-personId-parentBean" />
 
-  <bean id="BudgetPersonnelDetails-personId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personId" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Person Id" />
-    <property name="shortLabel" value="Person Id" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
-    <property name="summary" value="Person Id" />
-    <property name="description" value="Person Id" />
+  <bean id="BudgetPersonnelDetails-personId-parentBean" abstract="true" parent="Person-personId">
   </bean>
   <bean id="BudgetPersonnelDetails-salaryRequested" parent="BudgetPersonnelDetails-salaryRequested-parentBean" />
 
   <bean id="BudgetPersonnelDetails-salaryRequested-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="salaryRequested" />
-    <property name="label" value="Calculated Salary" />
-    <property name="shortLabel" value="Calculated Salary" />
-    <property name="summary" value="Calculated Salary" />
-    <property name="description" value="Calculated Salary" />
+    <property name="label" value="Requested Salary" />
+    <property name="shortLabel" value="Requested Salary" />
+    <property name="summary" value="Requested Salary" />
+    <property name="description" value="Requested Salary" />
   </bean>
   <bean id="BudgetPersonnelDetails-sequenceNumber" parent="BudgetPersonnelDetails-sequenceNumber-parentBean" />
 
@@ -390,6 +378,7 @@
     <property name="name" value="startDate" />
     <property name="label" value="Start Date" />
     <property name="shortLabel" value="Start Date" />
+    <property name="required" value="true" />
     <property name="summary" value="Start Date" />
     <property name="description" value="Start Date." />
   </bean>
@@ -397,10 +386,10 @@
 
   <bean id="BudgetPersonnelDetails-underrecoveryAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="underrecoveryAmount" />
-    <property name="label" value="Underrecovery Amount" />
-    <property name="shortLabel" value="Underrecovery Amount" />
-    <property name="summary" value="Underrecovery Amount" />
-    <property name="description" value="Underrecovery Amount" />
+    <property name="label" value="Unrecovered F&amp;A" />
+    <property name="shortLabel" value="Unrecovered F&amp;A" />
+    <property name="summary" value="Unrecovered F&amp;A" />
+    <property name="description" value="Unrecovered F&amp;A" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
@@ -409,66 +398,30 @@
   <bean id="BudgetPersonnelDetails-inquiryDefinition" parent="BudgetPersonnelDetails-inquiryDefinition-parentBean" />
 
   <bean id="BudgetPersonnelDetails-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Budget Personnel Details" />
+    <property name="title" value="Personnel Budget Details" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Budget Personnel Details" />
+          <property name="title" value="Personnel Budget Details" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="budgetPeriod"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="lineItemNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="personNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="versionNumber"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="applyInRateFlag" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="budgetJustification" />
+                    p:attributeName="underrecoveryAmount" />
               <bean parent="FieldDefinition"
                     p:attributeName="costSharingAmount" />
               <bean parent="FieldDefinition"
                     p:attributeName="costSharingPercent" />
               <bean parent="FieldDefinition"
-                    p:attributeName="endDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="jobCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="lineItemDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="onOffCampusFlag" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="percentCharged" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="percentEffort" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="periodTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="personId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="salaryRequested" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-              <bean parent="FieldDefinition"
                     p:attributeName="startDate" />
               <bean parent="FieldDefinition"
-                    p:attributeName="underrecoveryAmount" />
+                    p:attributeName="endDate" />
             </list>
           </property>
         </bean>
       </list>
     </property>
+    <property name="inquirableClass" value="org.kuali.kra.budget.inquiry.BudgetPersonnelDetailsInquirable" />
   </bean>
 
 <!-- Business Object Lookup Definition -->

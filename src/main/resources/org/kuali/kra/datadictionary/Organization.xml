@@ -33,6 +33,7 @@
         <ref bean="Organization-comGovEntityCode" />
         <ref bean="Organization-congressionalDistrict" />
         <ref bean="Organization-contactAddressId" />
+        <ref bean="Organization-rolodex.fullName" />
         <ref bean="Organization-rolodex.addressLine1" />
         <ref bean="Organization-county" />
         <ref bean="Organization-dodacNumber" />
@@ -196,8 +197,8 @@
   <bean id="Organization-cageNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cageNumber" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Cage Number" />
-    <property name="shortLabel" value="Cage Number" />
+    <property name="label" value="CAGE Number" />
+    <property name="shortLabel" value="CAGE Number" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
@@ -206,8 +207,8 @@
       <bean parent="TextControlDefinition"
             p:size="20" />
     </property>
-    <property name="summary" value="Cage Number" />
-    <property name="description" value="Cage Number" />
+    <property name="summary" value="CAGE Number" />
+    <property name="description" value="CAGE Number" />
   </bean>
   <bean id="Organization-cognizantAuditor" parent="Organization-cognizantAuditor-parentBean" />
 
@@ -281,6 +282,13 @@
     <property name="summary" value="Contact Address Id" />
     <property name="description" value="Contact Address Id" />
   </bean>
+  <bean id="Organization-rolodex.fullName" parent="Organization-rolodex.fullName-parentBean" />
+
+  <bean id="Organization-rolodex.fullName-parentBean" abstract="true" parent="Rolodex-fullName">
+    <property name="name" value="rolodex.fullName" />
+    <property name="label" value="Contact Name" />
+    <property name="shortLabel" value="Contact Name" />
+  </bean>
   <bean id="Organization-rolodex.addressLine1" parent="Organization-rolodex.addressLine1-parentBean" />
 
   <bean id="Organization-rolodex.addressLine1-parentBean" abstract="true" parent="Rolodex-addressLine1">
@@ -311,8 +319,8 @@
   <bean id="Organization-dodacNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dodacNumber" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Dodac Number" />
-    <property name="shortLabel" value="Dodac Number" />
+    <property name="label" value="DODAC Number" />
+    <property name="shortLabel" value="DODAC Number" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
@@ -321,16 +329,16 @@
       <bean parent="TextControlDefinition"
             p:size="20" />
     </property>
-    <property name="summary" value="Dodac Number" />
-    <property name="description" value="Dodac Number" />
+    <property name="summary" value="DODAC Number" />
+    <property name="description" value="DODAC Number" />
   </bean>
   <bean id="Organization-dunsNumber" parent="Organization-dunsNumber-parentBean" />
 
   <bean id="Organization-dunsNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dunsNumber" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Duns Number" />
-    <property name="shortLabel" value="Duns Number" />
+    <property name="label" value="DUNS Number" />
+    <property name="shortLabel" value="DUNS Number" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
@@ -339,16 +347,16 @@
       <bean parent="TextControlDefinition"
             p:size="20" />
     </property>
-    <property name="summary" value="Duns Number" />
-    <property name="description" value="Duns Number" />
+    <property name="summary" value="DUNS Number" />
+    <property name="description" value="DUNS Number" />
   </bean>
   <bean id="Organization-dunsPlusFourNumber" parent="Organization-dunsPlusFourNumber-parentBean" />
 
   <bean id="Organization-dunsPlusFourNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dunsPlusFourNumber" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Duns Plus Four Number" />
-    <property name="shortLabel" value="Duns Plus Four Number" />
+    <property name="label" value="DUNS Plus Four Number" />
+    <property name="shortLabel" value="DUNS Plus Four Number" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
@@ -357,8 +365,8 @@
       <bean parent="TextControlDefinition"
             p:size="20" />
     </property>
-    <property name="summary" value="Duns Plus Four Number" />
-    <property name="description" value="Duns Plus Four Number" />
+    <property name="summary" value="DUNS Plus Four Number" />
+    <property name="description" value="DUNS Plus Four Number" />
   </bean>
   <bean id="Organization-federalEmployerId" parent="Organization-federalEmployerId-parentBean" />
 
@@ -383,8 +391,8 @@
   <bean id="Organization-humanSubAssurance-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="humanSubAssurance" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="FWA Number" />
-    <property name="shortLabel" value="FWA Number" />
+    <property name="label" value="Human Sub Assurance" />
+    <property name="shortLabel" value="Human Sub Assurance" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
@@ -393,8 +401,8 @@
       <bean parent="TextControlDefinition"
             p:size="30" />
     </property>
-    <property name="summary" value="FWA Number - Human Sub Assurance" />
-    <property name="description" value="FWA Number - Human Sub Assurance" />
+    <property name="summary" value="Human Sub Assurance" />
+    <property name="description" value="Human Sub Assurance" />
   </bean>
   <bean id="Organization-incorporatedDate" parent="Organization-incorporatedDate-parentBean" />
 
@@ -687,7 +695,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="congressionalDistrict" />
               <bean parent="FieldDefinition"
-                    p:attributeName="rolodex.addressLine1" />
+                    p:attributeName="rolodex.fullName" />
               <bean parent="FieldDefinition"
                     p:attributeName="county" />
               <bean parent="FieldDefinition"

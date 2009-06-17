@@ -42,6 +42,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="costElement" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="rateClassCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="rateTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
