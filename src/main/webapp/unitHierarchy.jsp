@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -105,7 +105,7 @@ body {
     function setupMaintenanceButtons(unit) {
     // if included in a js file, the reference to image can't be resolved.
        var unitNumber=getUnitNumber(unit);
-		return  "<a href=\"kr/maintenance.do?businessObjectClassName=org.kuali.kra.bo.Unit&unitNumber="+unitNumber+"&methodToCall=edit\"> <img  src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif\" styleClass=\"tinybutton\" title=\"edit\" alt=\"edit\" /> </a>"+
+		return  "<a href=\"kr/maintenance.do?businessObjectClassName=org.kuali.kra.bo.Unit&unitNumber="+unitNumber+"&methodToCall=edit\" id=\"edit"+unitNumber+"\"> <img  src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif\" styleClass=\"tinybutton\" title=\"edit\" alt=\"edit\" /> </a>"+
 		        "<a href=\"kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.bo.Person&homeUnit="+unitNumber+"&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888\"> <img  src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-usermaint.gif\" styleClass=\"tinybutton\" title=\"User Maintenance\" alt=\"User Maintenance\" /> </a>"+
 		        "<a href=\"kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.bo.InstituteLaRate&unitNumber="+unitNumber+"&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888\"> <img  src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-larates.gif\" styleClass=\"tinybutton\" title=\"La rate\" alt=\"La Rate\" /> </a>"+
 		        "<a href=\"kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.bo.InstituteRate&unitNumber="+unitNumber+"&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888\"> <img  src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-rates.gif\" styleClass=\"tinybutton\" title=\"rate\" alt=\"Rate\" /> </a>"+

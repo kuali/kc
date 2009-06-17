@@ -1,3 +1,28 @@
+/*
+ * Copyright 2006-2009 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+ul.warnings, li.warnings
+{
+	list-style-type: none;
+	text-align: left;
+	width: 98%;
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
 select.fixed-size-select {
 width:160px;
 }
@@ -8,6 +33,11 @@ width:200px;
 select.fixed-size-300-select {
 width:300px;
 }
+
+select.fixed-size-400-select {
+width:400px;
+}
+
 div.innerTab-head{
 	background-color:#939393;
 	border-bottom:1px solid #B2B2B2;
