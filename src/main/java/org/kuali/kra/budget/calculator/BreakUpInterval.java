@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,7 +83,10 @@ public class BreakUpInterval{
            
            // get the EB on LA RateClassCode & RateTypeCode if any
            Equals eqRCType = new Equals("rateClassType", RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
-           QueryList<ValidCalcType> tempCalcTypes = validCalcTypes.filter(eqRCType);
+           Equals eqDepRCType = new Equals("dependentRateClassType", RateClassType.LA_WITH_EB_VA.getRateClassType());
+           And eqRCTypeAndeqDepRCType = new And(eqRCType,eqDepRCType);
+           QueryList<ValidCalcType> tempCalcTypes = validCalcTypes.filter(eqRCTypeAndeqDepRCType);
+//           QueryList<ValidCalcType> tempCalcTypes = validCalcTypes.filter(eqRCType);
            if (tempCalcTypes.size() > 0) {
                tempValidCalcType = tempCalcTypes.get(0);
                eBonLARateClassCode = tempValidCalcType.getRateClassCode();
@@ -92,7 +95,9 @@ public class BreakUpInterval{
            
            // get the VA on LA RateClassCode & RateTypeCode if any
            eqRCType = new Equals("rateClassType", RateClassType.VACATION.getRateClassType());
-           tempCalcTypes = validCalcTypes.filter(eqRCType);
+           eqRCTypeAndeqDepRCType = new And(eqRCType,eqDepRCType);
+           tempCalcTypes = validCalcTypes.filter(eqRCTypeAndeqDepRCType);
+//           tempCalcTypes = validCalcTypes.filter(eqRCType);
            if (tempCalcTypes.size() > 0) {
                tempValidCalcType = tempCalcTypes.get(0);
                vAonLARateClassCode = tempValidCalcType.getRateClassCode();
@@ -157,12 +162,7 @@ public class BreakUpInterval{
                    And notEqRCandnotEqRT = new And(notEqualsRC, notEqualsRT);
                    Or neRCandneRTOrneRT = new Or(notEqRCandnotEqRT, notEqualsRT);
                    rateAndCostList = rateAndCostList.filter(neRCandneRTOrneRT);
-               }
-               
-               //if no amount details then skip
-               if (rateAndCostList.size() == 0) {
-                   continue;
-               }
+               }           
                
                //Calculate LA rate classes which get EB and vacation (rateClassType = 'Y')
                if (rateClassType.equals(RateClassType.LA_WITH_EB_VA.getRateClassType())) {
@@ -177,6 +177,12 @@ public class BreakUpInterval{
                            eBonLARateTypeCode, vAonLARateClassCode,vAonLARateTypeCode);
                    continue;
                }
+               
+               //if no amount details then skip
+               if (rateAndCostList.size() == 0) {
+                   continue;
+               }
+               
                for (RateAndCost rateAndCost : rateAndCostList) {
                    rateClassCode = rateAndCost.getRateClassCode();
                    rateTypeCode = rateAndCost.getRateTypeCode();
@@ -199,6 +205,7 @@ public class BreakUpInterval{
                        calculatedCost = applicableAmt.percentage(rate);
                        calculatedCostSharing = applicableAmtCostSharing.percentage(rate);
                        rateAndCost.setBaseAmount(applicableAmt);
+                       rateAndCost.setBaseCostSharingAmount(applicableAmtCostSharing);
                        rateAndCost.setAppliedRate(rate);
                        rateAndCost.setCalculatedCost(calculatedCost);
                        rateAndCost.setCalculatedCostSharing(calculatedCostSharing);
@@ -206,6 +213,7 @@ public class BreakUpInterval{
                        rateAndCost.setCalculatedCost(BudgetDecimal.ZERO);
                        rateAndCost.setCalculatedCostSharing(BudgetDecimal.ZERO);
                        rateAndCost.setBaseAmount(BudgetDecimal.ZERO);
+                       rateAndCost.setBaseCostSharingAmount(BudgetDecimal.ZERO);
                    }
                    //getRateBase(rateAndCost);
                    
@@ -255,7 +263,7 @@ public class BreakUpInterval{
                budgetRateBaseBean.setAppliedRate(amountBean.getAppliedRate());
                budgetRateBaseBean.setBaseCost(amountBean.getBaseAmount());
                budgetRateBaseBean.setCalculatedCost(amountBean.getCalculatedCost());
-               budgetRateBaseBean.setBaseCostSharing(getApplicableAmtCostSharing());
+               budgetRateBaseBean.setBaseCostSharing(amountBean.getBaseCostSharingAmount());
                budgetRateBaseBean.setCalculatedCostSharing(amountBean.getCalculatedCostSharing());
                cvRateBase.add(budgetRateBaseBean);
            }
@@ -312,6 +320,7 @@ public class BreakUpInterval{
                 LAcalculatedCost = applicableAmt.percentage(rate);
                 LAcalculatedCostSharing = applicableAmtCostSharing.percentage(rate);
                 amountBean.setBaseAmount(applicableAmt);
+                amountBean.setBaseCostSharingAmount(applicableAmtCostSharing);
                 amountBean.setAppliedRate(rate);
                 amountBean.setCalculatedCost(LAcalculatedCost);
                 amountBean.setCalculatedCostSharing(LAcalculatedCostSharing);
@@ -319,6 +328,7 @@ public class BreakUpInterval{
                 amountBean.setCalculatedCost(BudgetDecimal.ZERO);
                 amountBean.setCalculatedCostSharing(BudgetDecimal.ZERO);
                 amountBean.setBaseAmount(BudgetDecimal.ZERO);
+                amountBean.setBaseCostSharingAmount(BudgetDecimal.ZERO);
             }
             /****** Calculate EB on this LA ******/
             //get the EB on LA RateAndCost
@@ -343,13 +353,18 @@ public class BreakUpInterval{
                     EBonLAcalculatedCost = LAcalculatedCost.percentage(rate);
                     EBonLAcalculatedCostSharing = LAcalculatedCostSharing.percentage(rate);
                     amountBean.setBaseAmount(LAcalculatedCost );
+                    amountBean.setBaseCostSharingAmount(LAcalculatedCostSharing );
                     amountBean.setAppliedRate(rate);
-                    amountBean.setCalculatedCost(amountBean.getCalculatedCost().add(EBonLAcalculatedCost));
-                    amountBean.setCalculatedCostSharing(amountBean.getCalculatedCostSharing().add(EBonLAcalculatedCostSharing));
+                    amountBean.setCalculatedCost(EBonLAcalculatedCost);
+                    amountBean.setCalculatedCostSharing(EBonLAcalculatedCostSharing);
+//                    amountBean.setCalculatedCost(amountBean.getCalculatedCost().add(EBonLAcalculatedCost));
+//                    amountBean.setCalculatedCostSharing(amountBean.getCalculatedCostSharing().add(EBonLAcalculatedCostSharing));
                 } else {
                     amountBean.setCalculatedCost(BudgetDecimal.ZERO);
                     amountBean.setCalculatedCostSharing(BudgetDecimal.ZERO);
                     amountBean.setBaseAmount(BudgetDecimal.ZERO);
+                    amountBean.setBaseCostSharingAmount(BudgetDecimal.ZERO);
+                    
                 }
             }
             /*** Calculation of EB on LA ends here ***/
@@ -379,13 +394,17 @@ public class BreakUpInterval{
                     VAonLAcalculatedCost = LAcalculatedCost.percentage(rate);
                     VAonLAcalculatedCostSharing = LAcalculatedCostSharing.percentage(rate);
                     amountBean.setBaseAmount(LAcalculatedCost );
+                    amountBean.setBaseCostSharingAmount(LAcalculatedCostSharing );
                     amountBean.setAppliedRate(rate);
-                    amountBean.setCalculatedCost(amountBean.getCalculatedCost().add(VAonLAcalculatedCost));
-                    amountBean.setCalculatedCostSharing(amountBean.getCalculatedCostSharing().add(VAonLAcalculatedCostSharing));
+                    amountBean.setCalculatedCost(VAonLAcalculatedCost);
+                    amountBean.setCalculatedCostSharing(VAonLAcalculatedCostSharing);
+//                    amountBean.setCalculatedCost(amountBean.getCalculatedCost().add(VAonLAcalculatedCost));
+//                    amountBean.setCalculatedCostSharing(amountBean.getCalculatedCostSharing().add(VAonLAcalculatedCostSharing));
                 } else {//rates not available, so set to zero
                     amountBean.setCalculatedCost(BudgetDecimal.ZERO);
                     amountBean.setCalculatedCostSharing(BudgetDecimal.ZERO);
                     amountBean.setBaseAmount(BudgetDecimal.ZERO);
+                    amountBean.setBaseCostSharingAmount(BudgetDecimal.ZERO);
                 }
             }
             /*** Calculation of VA on LA ends here ***/
@@ -484,6 +503,7 @@ public class BreakUpInterval{
                                                                 percentage(applicableRate));
                     amountBean.setAppliedRate(applicableRate);
                     amountBean.setBaseAmount(EBCalculatedCost.add(VACalculatedCost).add(applicableAmt));
+                    amountBean.setBaseCostSharingAmount(EBCalculatedCostSharing.add(VACalculatedCostSharing).add(applicableAmtCostSharing));
                     amountBean.setCalculatedCost(OHcalculatedCost);
                     amountBean.setCalculatedCostSharing(OHcalculatedCostSharing);
                     underRecoveryRate = instituteRate.subtract(applicableRate);
@@ -499,6 +519,7 @@ public class BreakUpInterval{
                 amountBean.setCalculatedCost(BudgetDecimal.ZERO);
                 amountBean.setCalculatedCostSharing(BudgetDecimal.ZERO);
                 amountBean.setBaseAmount(BudgetDecimal.ZERO);
+                amountBean.setBaseCostSharingAmount(BudgetDecimal.ZERO);
             }
         }
     }

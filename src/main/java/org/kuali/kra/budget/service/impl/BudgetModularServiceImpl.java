@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,8 @@ import org.kuali.kra.budget.bo.BudgetModularIdc;
 import org.kuali.kra.budget.bo.BudgetModularSummary;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetRateAndBase;
-import org.kuali.kra.budget.calculator.LineItemCalculator;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.service.BudgetModularService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -36,7 +36,9 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     
     private static final String RATE_CLASS_PROPERTY_NAME = "rateClass";
     private static final String RATE_NUMBER_PROPERTY_NAME = "rateNumber";
+    private static final BudgetDecimal TDC_NEXT_INCREMENT = new BudgetDecimal(25000);
     
+    private BudgetCalculationService budgetCalculationService;
     private KualiConfigurationService kualiConfigurationService;
     
     public void generateModularPeriod(BudgetPeriod budgetPeriod) {
@@ -86,6 +88,10 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     
     public void synchModularBudget(BudgetDocument budgetDocument) {
         
+        if (budgetDocument == null) {
+            throw new NullPointerException("the budgetDocument is null");
+        }
+        
         //each budget period has BudgetModular object associated with it.
         
         for (BudgetPeriod budgetPeriod: budgetDocument.getBudgetPeriods()) {
@@ -103,8 +109,9 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             BudgetDecimal consortiumFna = new BudgetDecimal(0);
             
             for (BudgetLineItem budgetLineItem: budgetPeriod.getBudgetLineItems()) {
-                new LineItemCalculator(budgetDocument, budgetLineItem).calculate();
-                List consortiumFnaCostElements = kualiConfigurationService.getParameterValues(
+                
+                budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItem);
+                List<String> consortiumFnaCostElements = kualiConfigurationService.getParameterValues(
                         Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_FNA_COST_ELEMENTS);
                 
                 //is cost direct or indirect? Add cost to correct variable.
@@ -124,16 +131,17 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                         budgetModularIdc.setRateNumber(budgetDocument.getHackedDocumentNextValue(RATE_NUMBER_PROPERTY_NAME));
                         budgetModularIdc.setDescription(budgetRateAndBase.getRateClassCode());
                         budgetModularIdc.setIdcRate(budgetRateAndBase.getAppliedRate());
+                        budgetModularIdc.setFundsRequested(budgetRateAndBase.getCalculatedCost());  
                         budgetModularIdc.setIdcBase(budgetRateAndBase.getBaseCost());
-                        budgetModularIdc.setFundsRequested(budgetRateAndBase.getCalculatedCost());
+                        //budgetModularIdc.setFundsRequested(budgetRateAndBase.getCalculatedCost());
                         budgetModular.addNewBudgetModularIdc(budgetModularIdc);
                     }
                 }
             }
             //for direct costs increase to the next $25000 dollar increment.
-            BudgetDecimal modularTdc = new BudgetDecimal(0);
+            BudgetDecimal modularTdc = BudgetDecimal.ZERO;
             while (directCostLessConsortiumFna.isGreaterThan(modularTdc)) {
-                modularTdc = modularTdc.add(new BudgetDecimal(25000));
+                modularTdc = modularTdc.add(TDC_NEXT_INCREMENT);
             }
             budgetModular.setDirectCostLessConsortiumFna(modularTdc);
             budgetModular.setConsortiumFna(consortiumFna);
@@ -150,5 +158,14 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
+
+    public BudgetCalculationService getBudgetCalculationService() {
+        return budgetCalculationService;
+    }
+
+    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
+        this.budgetCalculationService = budgetCalculationService;
+    }
+    
     
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,16 +52,10 @@ public class BudgetRatesAction extends BudgetAction {
             GlobalVariables.setKualiForm((KualiForm)form);
         }
         budgetDocument.setRateSynced(false);
-        for (BudgetProposalRate budgetProposalRate : budgetDocument.getBudgetProposalRates()) {
-            //if (budgetProposalRate.getActivityTypeCode().equals(budgetDocument.getProposal().getActivityTypeCode()) ) {
-//                if (budgetProposalRate.getRateClassCode().equals("4") && budgetProposalRate.getRateTypeCode().equals("2")) {
-//                    budgetProposalRate.setVersionNumber(null);
-//                }
-            //}
-        } 
 
-        super.save(mapping, form, request, response);
-        return mapping.findForward("rates_save");
+        ActionForward forward = super.save(mapping, form, request, response);
+        if (!(budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated())) forward = mapping.findForward("rates_save");
+        return forward;
     }
     
     /**
@@ -182,8 +176,11 @@ public class BudgetRatesAction extends BudgetAction {
         if (CONFIRM_SYNC_ALL_RATES.equals(question)) {
             BudgetForm budgetForm = (BudgetForm) form;
             BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+
+            //Rates-Refresh Scenario-4
+            budgetDocument.setRateClassTypesReloaded(true);
             budgetDocument.getBudgetRatesService().syncAllBudgetRates(budgetDocument);
-            budgetDocument.setRateClassTypesReloaded(false);
+            
             budgetDocument.setRateSynced(true);
             if (!budgetDocument.getActivityTypeCode().equals(budgetDocument.getProposal().getActivityTypeCode())) {
                 budgetDocument.setActivityTypeCode(budgetDocument.getProposal().getActivityTypeCode());

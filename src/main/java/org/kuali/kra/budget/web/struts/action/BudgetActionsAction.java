@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except inputStream compliance with the License.
@@ -31,6 +31,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.budget.bo.BudgetSubAwardFiles;
@@ -46,6 +50,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
@@ -76,7 +81,7 @@ public class BudgetActionsAction extends BudgetAction {
      */
     public ActionForward consolidateExpenseJustifications(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {
-            budgetJustificationService.consolidateExpenseJustifications(getBudgetDocument(form), getBudgetJusticationWrapper(form));
+            budgetJustificationService.consolidateExpenseJustifications(getDocument(form), getBudgetJusticationWrapper(form));
         } catch (BudgetException exc) {
             GlobalVariables.getErrorMap().putError("budgetJustificationWrapper.justificationText", "error.custom", "There are no line item budget justifications");            
         }
@@ -90,18 +95,47 @@ public class BudgetActionsAction extends BudgetAction {
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        budgetJustificationService.preSave(getBudgetDocument(form), getBudgetJusticationWrapper(form));
+        budgetJustificationService.preSave(getDocument(form), getBudgetJusticationWrapper(form));
         BudgetForm budgetForm = (BudgetForm)form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         return super.save(mapping, form, request, response);
     }
     
     /**
-     * The document is closed and a save is requested.
+     * Close the document and take the user back to the index; only after asking the user if they want to save the document first.
+     * Only users who have the "canSave()" permission are given this option.
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
      */
     @Override
-    protected void saveOnClose(KualiDocumentFormBase form) throws Exception {
-        budgetJustificationService.preSave(getBudgetDocument(form), getBudgetJusticationWrapper(form));
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiDocumentFormBase docForm = (KualiDocumentFormBase) form;
+        // only want to prompt them to save if they already can save
+        if (docForm.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE)) {
+            Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
+
+            // logic for close question
+            if (question == null) {
+                // ask question if not already asked
+                return this.performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, kualiConfiguration.getPropertyString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KNSConstants.CONFIRMATION_QUESTION, KNSConstants.MAPPING_CLOSE, "");
+            }
+            else {
+                Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+                if ((KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                    // if yes button clicked - save the doc
+                    budgetJustificationService.preSave(getDocument(form), getBudgetJusticationWrapper(form));
+                }
+                // else go to close logic below
+            }
+        }
+
+        return super.close(mapping, form, request, response);
     }
     
     @Override
@@ -118,9 +152,10 @@ public class BudgetActionsAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm)form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetSubAwards newBudgetSubAward = budgetForm.getNewSubAward();
+        boolean success = true;
         if(newBudgetSubAward.getOrganizationName()==null || newBudgetSubAward.getOrganizationName().equals("")){
             GlobalVariables.getErrorMap().putError(Constants.SUBAWARD_ORG_NAME, Constants.SUBAWARD_ORG_NAME_REQUIERED);
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            success = false;
         }
         
         FormFile subAwardFile = budgetForm.getSubAwardFile();
@@ -128,7 +163,7 @@ public class BudgetActionsAction extends BudgetAction {
         byte[] subAwardData = subAwardFile.getFileData();
         if(subAwardData==null || subAwardData.length==0 || !contentType.equals(Constants.PDF_REPORT_CONTENT_TYPE)){
             GlobalVariables.getErrorMap().putError(Constants.SUBAWARD_FILE, Constants.SUBAWARD_FILE_REQUIERED);
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            success = false;
         }
         String subAwardFileName = subAwardFile.getFileName();
         
@@ -141,25 +176,27 @@ public class BudgetActionsAction extends BudgetAction {
         newBudgetSubAward.getBudgetSubAwardFiles().add(newBudgetsubAwardFiles);
         KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardFiles(newBudgetSubAward);
         if(newBudgetSubAward.getBudgetSubAwardFiles().isEmpty() || newBudgetSubAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData()==null){
-            GlobalVariables.getErrorMap().putError(Constants.SUBAWARD_FILE, Constants.SUBAWARD_FILE_NOT_POPULATED);
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            GlobalVariables.getErrorMap().putError(Constants.SUBAWARD_FILE, Constants.SUBAWARD_FILE_NOT_EXTRACTED);
+            success = false;
         }
-        newBudgetsubAwardFiles.setSubAwardXfdFileName(subAwardFileName);
-        newBudgetSubAward.setSubAwardXfdFileName(subAwardFileName);
-//        new BudgetSubAwardReader().populateSubAward(budgetSubAwardBean)
-        budgetForm.setNewSubAward(new BudgetSubAwards());   
-        List listToBeSaved = new ArrayList();
-        listToBeSaved.add(newBudgetSubAward);
-        listToBeSaved.addAll(newBudgetSubAward.getBudgetSubAwardFiles());
-        listToBeSaved.addAll(newBudgetSubAward.getBudgetSubAwardAttachments());
-        
-        KraServiceLocator.getService(BusinessObjectService.class).save(listToBeSaved);
+        if(success){
+            newBudgetsubAwardFiles.setSubAwardXfdFileName(subAwardFileName);
+            newBudgetSubAward.setSubAwardXfdFileName(subAwardFileName);
+    //        new BudgetSubAwardReader().populateSubAward(budgetSubAwardBean)
+            budgetForm.setNewSubAward(new BudgetSubAwards());   
+            List listToBeSaved = new ArrayList();
+            listToBeSaved.add(newBudgetSubAward);
+            listToBeSaved.addAll(newBudgetSubAward.getBudgetSubAwardFiles());
+            listToBeSaved.addAll(newBudgetSubAward.getBudgetSubAwardAttachments());
+            
+            KraServiceLocator.getService(BusinessObjectService.class).save(listToBeSaved);
+            budgetDocument.getBudgetSubAwards().add(newBudgetSubAward);
+        }
         newBudgetSubAward.getBudgetSubAwardFiles().clear();
         List<BudgetSubAwardAttachment> attList = newBudgetSubAward.getBudgetSubAwardAttachments();
         for (BudgetSubAwardAttachment budgetSubAwardAttachment : attList) {
             budgetSubAwardAttachment.setAttachment(null);
         }
-        budgetDocument.getBudgetSubAwards().add(newBudgetSubAward);
         return mapping.findForward(Constants.MAPPING_BASIC);        
     }
     
@@ -226,8 +263,8 @@ public class BudgetActionsAction extends BudgetAction {
         return budgetDocument.getHackedDocumentNextValue("subAwardNumber") != null ? budgetDocument.getHackedDocumentNextValue("subAwardNumber") : 1;
     }
     
-    private BudgetDocument getBudgetDocument(ActionForm form) {
-        return ((BudgetForm) form).getBudgetDocument();
+    private BudgetDocument getDocument(ActionForm form) {
+        return ((BudgetForm)form).getBudgetDocument();
     }
 
     private BudgetJustificationWrapper getBudgetJusticationWrapper(ActionForm form) {

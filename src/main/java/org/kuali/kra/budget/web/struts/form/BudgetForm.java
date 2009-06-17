@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -601,7 +601,7 @@ public class BudgetForm extends ProposalFormBase {
         HeaderField docStatus = new HeaderField("DataDictionary.DocumentHeader.attributes.financialDocumentStatusCode", parentWorkflowDocument != null? parentWorkflowDocument.getStatusDisplayValue() : null);
         HeaderField docInitiator = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.initiatorNetworkId", 
                 parentWorkflowDocument != null? parentWorkflowDocument.getInitiatorNetworkId() : null, 
-                        parentWorkflowDocument != null? "<kul:inquiry boClassName='org.kuali.core.bo.user.UniversalUser' keyValues='${PropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER}=" + parentWorkflowDocument.getRouteHeader().getInitiatorPrincipalId() + "' render='true'>" + parentWorkflowDocument.getInitiatorNetworkId() + "</kul:inquiry>" : null);
+                        parentWorkflowDocument != null? "<kul:inquiry boClassName='org.kuali.rice.kns.bo.user.UniversalUser' keyValues='${PropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER}=" + parentWorkflowDocument.getRouteHeader().getInitiatorPrincipalId() + "' render='true'>" + parentWorkflowDocument.getInitiatorNetworkId() + "</kul:inquiry>" : null);
         
         String createDateStr = null;
         if(parentWorkflowDocument != null && parentWorkflowDocument.getCreateDate() != null) {

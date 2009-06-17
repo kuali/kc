@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +35,7 @@ import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.RateClass;
@@ -58,6 +59,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     private static final String SPACE = " ";
     public static final String UNIT_NUMBER_KEY = "unitNumber";
     public static final String ACTIVITY_TYPE_CODE_KEY = "activityTypeCode";
+    public static final String BUDGET_VERSION_NUMBER_KEY = "budgetVersionNumber";
     
     private BusinessObjectService _businessObjectService;
     private static final String PERIOD_SEARCH_SEPARATOR = "|";
@@ -138,6 +140,8 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
      * */
     public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument) {
         if(isOutOfSync(budgetDocument)) {
+            populateInstituteRates(budgetDocument);
+            
             Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalRates = mapRatesToKeys(budgetDocument.getBudgetProposalRates()); 
             Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalLaRates = mapRatesToKeys(budgetDocument.getBudgetProposalLaRates());
             replaceRateClassesForRateClassType(rateClassType, budgetDocument, budgetDocument.getInstituteRates());
@@ -194,7 +198,13 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     
     private String getActivityTypeDescription(BudgetDocument budgetDocument) {
         if (budgetDocument.isRateSynced() || !KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(budgetDocument.getProposal(), budgetDocument.getBudgetVersionNumber().toString())) {
-            return budgetDocument.getProposal().getActivityType().getDescription().concat(SPACE);
+            if(budgetDocument.getProposal().getActivityType()!= null){
+                return budgetDocument.getProposal().getActivityType().getDescription().concat(SPACE);
+            }
+            else
+            {
+                return "";
+            }
         } else {
             ProposalDevelopmentDocument pdDoc = budgetDocument.getProposal();
             String activityTypeCode=null;
@@ -380,16 +390,59 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
         return parentUnit;
     }
 
+
+    /* Rate effective date is between project start and end dates.
+     * But if budget persons are defined and the earliest salary effective
+     * date is prior to project start date, Inflation rates are retrieved from
+     * that date on (salary effective date).  
+     * This date is used to fetch inflation rates  
+     * 
+     * */
+    private Date getRateEffectiveStartDate(BudgetDocument budgetDocument, AbstractInstituteRate rate, Date personEffectiveDate) {
+        Date effectiveDate = budgetDocument.getStartDate();
+        if(rate.getRateClass().getRateClassType().equalsIgnoreCase(Constants.RATE_CLASS_TYPE_FOR_INFLATION) 
+                && personEffectiveDate != null 
+                && personEffectiveDate.compareTo(effectiveDate) < 0) {
+            effectiveDate = personEffectiveDate;
+        }
+        return effectiveDate;
+    }
+
+
+
+    /* Look for budget persons salary effective date and return the 
+     * earliest effective date 
+     * This date is used to fetch/calculate inflation rates  
+     * 
+     * */
+    @SuppressWarnings("unchecked")
+    private Date getBudgetPersonSalaryEffectiveDate(BudgetDocument budgetDocument) {
+        Map queryMap = new HashMap();
+        queryMap.put("proposalNumber", budgetDocument.getProposalNumber());
+        queryMap.put("budgetVersionNumber", budgetDocument.getBudgetVersionNumber());
+        Collection<BudgetPerson> budgetPersons =  getBusinessObjectService().findMatching(BudgetPerson.class, queryMap);
+        Date effectiveDate = null;
+        for(BudgetPerson budgetPerson : budgetPersons) {
+            if(effectiveDate == null || budgetPerson.getEffectiveDate().compareTo(effectiveDate) < 0) {
+                effectiveDate = budgetPerson.getEffectiveDate();
+            }
+        }
+        return effectiveDate;
+    }
+    
+    
     /* get all rates within project start and end date range 
      *  
      * */
     @SuppressWarnings("unchecked")
-    private void getRatesForProjectDates(BudgetDocument budgetDocument, Collection allRates, Collection filteredRates) {
+    private void getRatesForProjectDates(BudgetDocument budgetDocument, Collection allRates, Collection filteredRates, Date personSalaryEffectiveDate) {
         List<AbstractInstituteRate> dateFilteredRates = (List<AbstractInstituteRate>) filteredRates;
         List<AbstractInstituteRate> allAbstractInstituteRates = (List<AbstractInstituteRate>) allRates;
         for(AbstractInstituteRate rate : allAbstractInstituteRates) {
             Date rateStartDate = rate.getStartDate();
-            if(rateStartDate.compareTo(budgetDocument.getStartDate()) >= 0 && rateStartDate.compareTo(budgetDocument.getEndDate()) <=0 ) {
+            Date rateEffectiveDate = getRateEffectiveStartDate(budgetDocument, rate, personSalaryEffectiveDate);
+            
+            if(rateStartDate.compareTo(rateEffectiveDate) >= 0 && rateStartDate.compareTo(budgetDocument.getEndDate()) <=0 ) {
                 dateFilteredRates.add(rate);
             }
         }
@@ -399,12 +452,13 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
      * get the latest 
      * */
     @SuppressWarnings("unchecked")
-    private void getApplicableRates(BudgetDocument budgetDocument, Collection allRates, Collection filteredRates) {
+    private void getApplicableRates(BudgetDocument budgetDocument, Collection allRates, Collection filteredRates, Date personSalaryEffectiveDate) {
         List<AbstractInstituteRate> allAbstractInstituteRates = (List<AbstractInstituteRate>) allRates;
         Map<String, AbstractInstituteRate> instRates = new HashMap<String, AbstractInstituteRate>();
         for(AbstractInstituteRate instituteRate : allAbstractInstituteRates) {
             Date rateStartDate = instituteRate.getStartDate();
-            if(rateStartDate.before(budgetDocument.getStartDate())) {
+            Date rateEffectiveDate = getRateEffectiveStartDate(budgetDocument, instituteRate, personSalaryEffectiveDate);
+            if(rateStartDate.before(rateEffectiveDate)) {
                 String hKey = generateThreePartKey(instituteRate);
                 AbstractInstituteRate instRate = instRates.get(hKey);
                 if((instRate != null) && (instRate.getStartDate().compareTo(rateStartDate) <=0 )) {
@@ -435,8 +489,9 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     @SuppressWarnings("unchecked")
     private void filterRates(BudgetDocument budgetDocument, Collection allAbstractInstituteRates, Collection filteredAbstractInstituteRates) {
         filteredAbstractInstituteRates.clear();
-        getRatesForProjectDates(budgetDocument, allAbstractInstituteRates, filteredAbstractInstituteRates);
-        getApplicableRates(budgetDocument, allAbstractInstituteRates, filteredAbstractInstituteRates);
+        Date personSalaryEffectiveDate = getBudgetPersonSalaryEffectiveDate(budgetDocument);
+        getRatesForProjectDates(budgetDocument, allAbstractInstituteRates, filteredAbstractInstituteRates, personSalaryEffectiveDate);
+        getApplicableRates(budgetDocument, allAbstractInstituteRates, filteredAbstractInstituteRates, personSalaryEffectiveDate);
     }
     
     private boolean isOutOfSync(BudgetDocument budgetDocument) {
@@ -631,6 +686,17 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
             syncAllBudgetRatesForInstituteRateType(budgetDocument, abstractBudgetRates, instituteRates);
         }
     }
+    
+  @SuppressWarnings("unchecked")
+  public void syncBudgetRateCollectionsToExistingRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument) {
+      syncAllRateClasses(budgetDocument, (List) budgetDocument.getBudgetProposalRates());
+      syncAllRateClassTypes(budgetDocument, rateClassTypes, (List) budgetDocument.getBudgetProposalRates());
+      
+      syncAllRateClasses(budgetDocument, (List) budgetDocument.getBudgetProposalLaRates());
+      syncAllRateClassTypes(budgetDocument, rateClassTypes, (List) budgetDocument.getBudgetProposalLaRates());
+
+      checkActivityPrefixForRateClassTypes(rateClassTypes, budgetDocument);
+  }
 
     @SuppressWarnings("unchecked")
     private void syncAllBudgetRatesForInstituteRateType(BudgetDocument budgetDocument, List<AbstractBudgetRate> budgetRates, List<AbstractInstituteRate> instituteRates) {
@@ -812,7 +878,16 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
         return retval;
     }
     
+    private void populateInstituteRates(BudgetDocument budgetDocument) {
+        List instituteRates = (List) getInstituteRates(budgetDocument);
+        filterRates(budgetDocument, instituteRates, budgetDocument.getInstituteRates()); 
+        List instituteLaRates = (List) getInstituteLaRates(budgetDocument);
+        filterRates(budgetDocument, instituteLaRates, budgetDocument.getInstituteLaRates()); 
+    }
+    
     public boolean isOutOfSyncForRateAudit(BudgetDocument budgetDocument) {
+        populateInstituteRates(budgetDocument);
+
         return isOutOfSyncForRateAudit(budgetDocument.getInstituteRates(), budgetDocument.getBudgetProposalRates()) || 
                 isOutOfSyncForRateAudit(budgetDocument.getInstituteLaRates(), budgetDocument.getBudgetProposalLaRates());
     }

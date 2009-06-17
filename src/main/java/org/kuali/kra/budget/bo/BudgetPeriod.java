@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.bo;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -265,12 +266,8 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
     
     public String getDateRange() {
         StringBuffer dateRange = new StringBuffer();
-        if (this.getStartDate() != null) {
-            dateRange.append(this.getStartDate().toString());
-        }
-        dateRange.append(" - ");
-        if (this.getEndDate() != null) {
-            dateRange.append(this.getEndDate().toString());
+        if (this.getStartDate()!=null && this.getEndDate()!=null) {
+            dateRange.append(getDateRangeLabel());
         }
         return dateRange.toString();
     }
@@ -278,7 +275,9 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
     /**
      * This class compares two BudgetPeriods to determine which should be considered earlier.
      */
-    private static class BudgetPeriodDateComparator implements Comparator<BudgetPeriod> {
+    private static class BudgetPeriodDateComparator implements Comparator<BudgetPeriod>, Serializable {
+
+        private static final long serialVersionUID = 201595688750841114L;
         private final static int FIRST_EQUALS_SECOND = 0;
         private final static int FIRST_LESS_THAN_SECOND = -1;
         
@@ -321,5 +320,87 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 
     public void setBudgetPeriodId(Long budgetPeriodId) {
         this.budgetPeriodId = budgetPeriodId;
+    }
+    
+        
+    /**
+     * Gets the sum of the Total Underreovery Amount for all line items.
+     * @param lineItems the budget line items
+     * @return the amount.
+     */
+    public final BudgetDecimal getSumUnderreoveryAmountFromLineItems() {
+        
+        BudgetDecimal amount = BudgetDecimal.ZERO;
+        for (final BudgetLineItem lineItem : this.getBudgetLineItems()) {
+            amount = amount.add(lineItem.getUnderrecoveryAmount());
+        }
+        
+        return amount;
+    }
+    
+    /**
+     * Gets the sum of the CostSharing Amount for all line items.
+     * @return the amount
+     */
+    public final BudgetDecimal getSumCostSharingAmountFromLineItems() {
+        
+        BudgetDecimal amount = BudgetDecimal.ZERO;
+        for (final BudgetLineItem lineItem : this.getBudgetLineItems()) {
+            amount = amount.add(lineItem.getCostSharingAmount());
+        }
+        
+        return amount;
+    }
+    
+    /**
+     * Gets the sum of the Total CostSharing Amount for all line items.
+     * @return the amount
+     */
+    public final BudgetDecimal getSumTotalCostSharingAmountFromLineItems() {
+        
+        BudgetDecimal amount = BudgetDecimal.ZERO;
+        for (final BudgetLineItem lineItem : this.getBudgetLineItems()) {
+            amount = amount.add(lineItem.getTotalCostSharingAmount());
+        }
+        
+        return amount;
+    }
+    
+    /**
+     * Gets the sum of the Direct Cost Amount for all line items.
+     * @return the amount
+     */
+    public final BudgetDecimal getSumDirectCostAmountFromLineItems() {
+        
+        BudgetDecimal amount = BudgetDecimal.ZERO;
+        for (final BudgetLineItem lineItem : this.getBudgetLineItems()) {
+            amount = amount.add(lineItem.getDirectCost());
+        }
+        
+        return amount;
+    }
+    
+    /**
+     * Gets the sum of the Indirect Cost Amount for all line items.
+     * @return the amount
+     */
+    public final BudgetDecimal getSumIndirectCostAmountFromLineItems() {
+        
+        BudgetDecimal amount = BudgetDecimal.ZERO;
+        for (final BudgetLineItem lineItem : this.getBudgetLineItems()) {
+            amount = amount.add(lineItem.getIndirectCost());
+        }
+        
+        return amount;
+    }
+
+    /**
+     * Gets the sum of the Total Cost Amount for all line items.
+     * @return the amount
+     */
+    public final BudgetDecimal getSumTotalCostAmountFromLineItems() {
+
+        return this.getSumDirectCostAmountFromLineItems().add(
+            this.getSumIndirectCostAmountFromLineItems());
     }
 }

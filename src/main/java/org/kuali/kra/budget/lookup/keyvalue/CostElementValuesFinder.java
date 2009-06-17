@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,14 @@ package org.kuali.kra.budget.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.bo.BudgetCategory;
+import org.kuali.kra.budget.bo.BudgetCategoryType;
 import org.kuali.kra.budget.bo.CostElement;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -47,7 +50,7 @@ public class CostElementValuesFinder extends KeyValuesBase{
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
@@ -69,7 +72,10 @@ public class CostElementValuesFinder extends KeyValuesBase{
                     }
                 }
             } 
-        }        
+        }
+        // added comparator below to alphabetize lists on label
+        Collections.sort(keyValues, new KeyLabelPairComparator());
+        keyValues.add(0, new KeyLabelPair("", "select"));
         return keyValues;
     }
     
@@ -78,5 +84,11 @@ public class CostElementValuesFinder extends KeyValuesBase{
     }
     public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode) {
         this.budgetCategoryTypeCode = budgetCategoryTypeCode;
+    }
+    
+    class KeyLabelPairComparator implements Comparator<KeyLabelPair> {
+        public int compare(KeyLabelPair o1, KeyLabelPair o2) {
+            return o1.getLabel().compareToIgnoreCase(o2.getLabel());
+        }        
     }
 }

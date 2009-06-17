@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.rule.AddBudgetCostShareRule;
 import org.kuali.kra.budget.rule.AddBudgetPeriodRule;
@@ -44,9 +45,13 @@ import org.kuali.kra.budget.rule.event.GenerateBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.SaveBudgetPeriodEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -261,25 +266,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
      * @return
      */
     protected boolean processBudgetPersonnelBusinessRules(BudgetDocument budgetDocument) {
-        boolean valid = true;
-        
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        
-        List<BudgetPerson> budgetPersons = budgetDocument.getBudgetPersons();
-        for (int i = 0; i < budgetPersons.size(); i++) {
-            BudgetPerson budgetPerson = (BudgetPerson) budgetPersons.get(i);
-            for (int j = i + 1; j < budgetPersons.size(); j++) {
-                BudgetPerson budgetPersonCompare = (BudgetPerson) budgetPersons.get(j);
-                if (budgetPerson.isDuplicatePerson(budgetPersonCompare)) {
-                    errorMap.putError("budgetPersons[" + j + "].personName", KeyConstants.ERROR_DUPLICATE_BUDGET_PERSON, budgetPerson.getPersonName());
-                    valid = false;
-                }
-
-            }
-            
-        }
-        
-        return valid;
+        return new BudgetPersonnelRule().processBudgetPersonnelBusinessRules(budgetDocument);
     }
     
     /**
@@ -294,12 +281,11 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
-        List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
         int i=0;
         int j=0;
         for(BudgetPeriod budgetPeriod: budgetPeriods){
             j=0;
-            budgetLineItems = budgetPeriod.getBudgetLineItems();
+            List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
             for(BudgetLineItem budgetLineItem: budgetLineItems){
                 if(budgetLineItem!=null && budgetLineItem.getStartDate()!=null && budgetLineItem.getStartDate().before(budgetPeriod.getStartDate())){
                     errorMap.putError("budgetCategoryTypes[" + budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode() + "].budgetPeriods[" + i +"].budgetLineItems[" + j + "].startDate",KeyConstants.ERROR_LINEITEM_STARTDATE_BEFORE_PERIOD_STARTDATE);
@@ -307,6 +293,18 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
                 }
                 if(budgetLineItem!=null && budgetLineItem.getEndDate()!=null && budgetLineItem.getEndDate().after(budgetPeriod.getEndDate())){
                     errorMap.putError("budgetCategoryTypes[" + budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode() + "].budgetPeriods[" + i +"].budgetLineItems[" + j + "].endDate",KeyConstants.ERROR_LINEITEM_ENDDATE_AFTER_PERIOD_ENDDATE);
+                    valid = false;
+                }
+                if (budgetLineItem!=null && budgetLineItem.getCostSharingAmount() != null && budgetLineItem.getCostSharingAmount().isNegative()) {
+                    errorMap.putError("budgetPeriod[" + i +"].budgetLineItem[" + j + "].costSharingAmount", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Cost Sharing");
+                    valid = false;
+                }
+                if (budgetLineItem!=null && budgetLineItem.getQuantity() != null && budgetLineItem.getQuantity().intValue()<0) {
+                    errorMap.putError("budgetPeriod[" + i +"].budgetLineItem[" + j + "].quantity", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Quantity");
+                    valid = false;
+                }
+                if (budgetLineItem!=null && budgetLineItem.getLineItemCost() != null && budgetLineItem.getLineItemCost().isNegative()) {
+                    errorMap.putError("budgetPeriod[" + i +"].budgetLineItem[" + j + "].lineItemCost", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Total Base Cost");
                     valid = false;
                 }
 //                if(budgetLineItem.getEndDate().compareTo(budgetLineItem.getStartDate()) <=0 ) {                        
@@ -333,13 +331,12 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
-        List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
         int i=0;
         int j=0;
         int k=0;
         for(BudgetPeriod budgetPeriod: budgetPeriods){
             j=0;
-            budgetLineItems = budgetPeriod.getBudgetLineItems();
+            List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
             k=0;
             for(BudgetLineItem budgetLineItem: budgetLineItems){
                 for(BudgetPersonnelDetails budgetPersonnelDetails: budgetLineItem.getBudgetPersonnelDetailsList()){
@@ -372,18 +369,13 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
     }
     
     /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
         
         retval &= super.processRunAuditBusinessRules(document);
-        // TODO : add this one for testing jira 780 - remove this when audit rules are complete
-        // comment out these lines before committed to rel-1-0
-//        if (((BudgetDocument)document).getBudgetPersons() == null || ((BudgetDocument)document).getBudgetPersons().size() < 1) {
-//            getAuditErrors().add(new AuditError("document.budgetPerson*", KeyConstants.ERROR_NO_BUDGET_PERSON , "budgetPersonnel.BudgetPersonnel" ));
-//            retval = false;
-//        }
+
         retval &= new BudgetPeriodAuditRule().processRunAuditBusinessRules(document);
         
         retval &= new BudgetExpensesAuditRule().processRunAuditBusinessRules(document);
@@ -391,8 +383,49 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         retval &= new BudgetPersonnelAuditRule().processRunPersonnelAuditBusinessRules(document);
 
         retval &= new BudgetRateAuditRule().processRunAuditBusinessRules(document);
+        
+        retval &= new BudgetUnrecoveredFandAAuditRule().processRunAuditBusinessRules(document);
+        
+        retval &= new BudgetCostShareAuditRule().processRunAuditBusinessRules(document);
+        
+        if(retval) {
+            processRunAuditBudgetVersionRule(((BudgetDocument) document).getProposal());
+        }
+        
+        return retval;
+    }
+    
+    private boolean processRunAuditBudgetVersionRule(ProposalDevelopmentDocument proposal) {
+        // audit check for budgetversion with final status
+        boolean finalAndCompleteBudgetVersionFound = false;
+        boolean budgetVersionsExists = false;
+        boolean retval = true;
+        
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+        for (BudgetVersionOverview budgetVersion : proposal.getBudgetVersionOverviews()) {
+            budgetVersionsExists = true;
+            if (budgetVersion.isFinalVersionFlag()) {
+                if (proposal.getBudgetStatus()!= null 
+                        && proposal.getBudgetStatus().equals(budgetStatusCompleteCode)) {
+                    finalAndCompleteBudgetVersionFound = true;
+                }
+            }
+        }
+        if(budgetVersionsExists && !finalAndCompleteBudgetVersionFound){
+            auditErrors.add(new AuditError("document.budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
+            retval = false;
+        }
+        if (auditErrors.size() > 0) {
+            GlobalVariables.getAuditErrorMap().put("budgetVersionErrors", new AuditCluster(Constants.BUDGET_VERSION_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
+        }
 
         return retval;
+    }
+    
+    private ProposalDevelopmentService getProposalDevelopmentService() {
+        return KraServiceLocator.getService(ProposalDevelopmentService.class);
     }
     
     public boolean processSyncModularBusinessRules(Document document) {

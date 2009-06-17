@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     private static final Logger LOG = Logger.getLogger(BudgetPeriodRule.class);
 
     private static final String NEW_BUDGET_PERIOD = "newBudgetPeriod";
-    private static final String BUDGET_SUMMARY = "budgetSummary";
+    private static final String BUDGET_SUMMARY = "budgetParameters";
     private Date projectStartDate;
     private Date projectEndDate;
     private Date previousPeriodEndDate;
@@ -97,13 +97,12 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         boolean rulePassed = true;
         int budgetPeriodNumber = 0;
-        /* check budget periods are valid.
-         * check for valid periods in line item.
-         * look for line item in period 1 - line items should exist for period 1 to generate 
-         * budget periods.
-         * if line item exists for period 1 look for line item in period 2 - line items in period 2 indicate 
-         * that budget periods already generated 
-         * */
+        
+        //1. Check budget periods are valid
+        //2. Check for valid periods in line item
+        //3. Look for line item in period 1 (needed to generate budget periods)
+        //4. Check for other periods to populate
+        //5. Make sure other periods have no pre-existing line items
         if (!isValidBudgetPeriod(document, newBudgetPeriod)) {
             rulePassed = false;
         }else if(!isValidBudgetPeriodBoundaries(document)){
@@ -116,10 +115,20 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
             errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
             rulePassed = false;
             saveErrors("ERROR_NO_FUTURE_PERIOD_TO_GENERATE", errorMap);
-        } else if(getBudgetSummaryService().budgetLineItemExists(document, budgetPeriodNumber+1)) {
-            errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
-            rulePassed = false;
-            saveErrors("ERROR_GENERATE_PERIOD", errorMap);
+        } else {
+            String errorParam = "";
+            for (int i=budgetPeriodNumber+1; i<document.getBudgetPeriods().size(); i++) {
+                if (getBudgetSummaryService().budgetLineItemExists(document, i)) {
+                    errorParam += ("" + (i+1) + ", ");
+                }
+            }
+            if (errorParam.length() > 0) {
+                errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
+                rulePassed = false;
+                errorParam = errorParam.substring(0, errorParam.length()-2);
+                setErrorParameter(new String[] { errorParam });
+                saveErrors("ERROR_GENERATE_PERIOD", errorMap);
+            }
         }
         errorMap.removeFromErrorPath(NEW_BUDGET_PERIOD);
         return rulePassed;

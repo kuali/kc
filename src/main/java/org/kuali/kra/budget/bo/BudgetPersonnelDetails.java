@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,11 @@
  */
 package org.kuali.kra.budget.bo;
 
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.MONTH;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -214,10 +218,8 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
     }
     
     public String getEffdtAfterStartdtMsg() {
-        if (budgetPerson == null) {
-            this.refreshReferenceObject("budgetPerson");
-        }
-        if (budgetPerson.getEffectiveDate().after(getStartDate())) {
+        this.refreshReferenceObject("budgetPerson");
+        if (getStartDate() != null && budgetPerson.getEffectiveDate().after(getStartDate())) {
             return "Earning Period Start Date is before "+budgetPerson.getPersonName() +"'s Salary Effective Date. Salary is calculated based on Effective Date."; 
         }
         return "";
@@ -230,5 +232,39 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
     }
     public void setBudgetPeriodType(BudgetPeriodType budgetPeriodType) {
         this.budgetPeriodType = budgetPeriodType;
+    }
+    
+    public BudgetDecimal getPersonMonths() {
+        BudgetDecimal result = null;
+        
+        if(getStartDate() != null &&  getEndDate() != null) {
+            Calendar startDateCalendar = Calendar.getInstance();
+            startDateCalendar.setTime(getStartDate());
+            int startMonth = startDateCalendar.get(MONTH);
+            
+            Calendar endDateCalendar = Calendar.getInstance();
+            endDateCalendar.setTime(getEndDate());
+            double personMonths = 0d;
+            
+            while(startDateCalendar.compareTo(endDateCalendar) <= 0){
+                double noOfDaysInMonth = startDateCalendar.getActualMaximum(DAY_OF_MONTH);
+                double noOfActualDays = 0;
+                if (startDateCalendar.get(MONTH) == endDateCalendar.get(MONTH) && startDateCalendar.get(Calendar.YEAR) == endDateCalendar.get(Calendar.YEAR)) {
+                    noOfActualDays = endDateCalendar.get(DAY_OF_MONTH)-startDateCalendar.get(DAY_OF_MONTH)+1;
+                } else if(startDateCalendar.get(MONTH)==startMonth){
+                    noOfActualDays = noOfDaysInMonth-startDateCalendar.get(DAY_OF_MONTH)+1;
+                }else{
+                    noOfActualDays = noOfDaysInMonth;
+                }
+                startDateCalendar.add(MONTH, 1);
+                startDateCalendar.set(DAY_OF_MONTH, 1);
+                personMonths+=(noOfActualDays/noOfDaysInMonth);
+            }
+            
+            personMonths = personMonths * (getPercentEffort().divide(new BudgetDecimal(100))).doubleValue();
+            result = new BudgetDecimal(personMonths);
+        } 
+        
+        return result;
     }
 }
