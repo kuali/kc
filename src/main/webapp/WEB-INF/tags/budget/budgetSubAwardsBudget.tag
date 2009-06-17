@@ -1,20 +1,36 @@
+<%--
+ Copyright 2006-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.osedu.org/licenses/ECL-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
+
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
 <c:set var="budgetSubAwardsAttributes" value="${DataDictionary.BudgetSubAwards.attributes}" />
 
 <kul:tab tabTitle="Sub Award Budget" defaultOpen="false" tabErrorKey="budgetSubAwards.*,newSubAward.*">
  <div class="tab-container" align="center">
-     <h3>
-         <span class="subhead-left">Sub Award Budget</span>
+     <div class="h2-container">
+         <span class="subhead-left"><h2>Sub Award Budget</h2></span>
          <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetSubAwards" altText="help"/></span>
-     </h3>
+     </div>
      <div align="center">
      	<table border="0" cellpadding=0 cellspacing=0 summary="">
           	<tr>
           		<th width="5%"><div align="center">&nbsp</div></th> 
           		<th width="20%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.organizationName}" noColon="true" /></div></th>
-          		<th width="30%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.comments}" noColon="true" /></div></th>
-          		<th width="30%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.subAwardXfdFileName}" noColon="true" /></div></th>          		
+          		<th width="23%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.comments}" noColon="true" /></div></th>
+          		<th width="23%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.subAwardXfdFileName}" noColon="true" /></div></th>          		
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	</tr>
 			<c:if test="${!readOnly}" >
@@ -42,7 +58,7 @@
 					<td class="infoline">
 						<div align=center>
 							<html:image property="methodToCall.translateXFD.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-exportxml.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-extractxml.gif' styleClass="tinybutton"/>
 						</div>
 	                </td>
             </tr>
@@ -72,10 +88,10 @@
 	                	<%--<html:file property="document.budgetSubAwards[${status.index}].subAwardXfdFile" />--%>						
 	                	</div>
 					</td>
-					<td class="infoline">
+					<td valign="middle" class="infoline">
 						<div align=center>
 							<html:image property="methodToCall.viewXFD.line${status.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}Viewpdf.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewpdf.gif' styleClass="tinybutton"/>
 							<html:image property="methodToCall.viewXML.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewxml.gif' styleClass="tinybutton"/>
 							<html:image property="methodToCall.delete.line${status.index}.anchor${currentTabIndex}"

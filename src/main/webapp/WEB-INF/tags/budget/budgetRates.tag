@@ -1,5 +1,5 @@
  <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -18,35 +18,6 @@
 <c:set var="budgetProposalRatesAttributes" value="${DataDictionary.BudgetProposalRate.attributes}" />
 <c:set var="action" value="budgetRates" />
 
-<kul:uncollapsable tabTitle="Select View">
-	<div align="center">
-    	<table  cellpadding="0" cellspacing="0" summary="">
-        	<tr>
-                <td>
-                	<div align="right">Location:
-                  		<kul:htmlControlAttribute readOnly="false" property="viewLocation" attributeEntry="${budgetProposalRatesAttributes.viewLocation}" styleClass="fixed-size-200-select"/>
-                	</div>
-                </td>
-                <td width="4%">
-                	&nbsp;
-                </td>
-                <!-- 
-                <td width="48%">
-                	<div align="right">Budget Period:
-                  		<kul:htmlControlAttribute readOnly="false" property="viewBudgetPeriod" attributeEntry="${budgetProposalRatesAttributes.budgetPeriod}" styleClass="fixed-size-200-select"/>
-					</div>                  
-                </td>
-                 -->
-            </tr>
-        </table>
-        <br>
-        <html:image property="methodToCall.updateRatesView" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif" title="Update View" alt="Update View" styleClass="tinybutton"/>
-    </div>
-</kul:uncollapsable>
-
-<br/>
-
-
 <div id="workarea">
 <c:forEach items="${KualiForm.document.rateClassTypes}" var="rates" varStatus="gps">
 <bean:define id="rateClass" name="KualiForm" property="document.rateClassTypes[${gps.index}].description"/>
@@ -54,12 +25,34 @@
     <c:if test="${gps.first}">
       <c:set var="transparent" value="true" />
     </c:if> 
-<kul:tab tabTitle="${rateClass}" defaultOpen="false" auditCluster="budgetRateAuditWarnings"  tabAuditKey="document.budgetProposalRate[${rateClass}]*" tabErrorKey="document.budgetProposalRate[${rateClass}]*" transparentBackground="${transparent}"  useRiceAuditMode="true">
+    
+<%-- 
+	The tabKey var created below creates the tabAuditKey and tabErrorKey for the kul:tab tag 
+	since the contents between the tabs are only differentiated by consecutive numbering.
+--%>
+<c:set var="tabKey" value="document.budgetProposalRate[${rateClass}]*" />
+<c:forEach items="${KualiForm.document.budgetProposalRates}" var="proposalRates" varStatus="status">
+	<bean:define id="irateClassType" name="KualiForm" property="document.budgetProposalRates[${status.index}].rateClass.rateClassType"/>
+	<bean:define id="displayRow" name="KualiForm" property="document.budgetProposalRates[${status.index}].displayLocation"/>
+	<c:if test="${irateClassType == rateClassType && displayRow == 'Yes'}">
+		<c:set var="tabKey" value="${tabKey},document.budgetProposalRates[${status.index}]*" />
+	</c:if>
+</c:forEach>
+<c:forEach items="${KualiForm.document.budgetProposalLaRates}" var="proposalLaRates" varStatus="laStatus">
+	<bean:define id="irateClassType" name="KualiForm" property="document.budgetProposalLaRates[${laStatus.index}].rateClass.rateClassType"/>
+	<bean:define id="displayRow" name="KualiForm" property="document.budgetProposalLaRates[${laStatus.index}].displayLocation"/>
+	<c:if test="${irateClassType == rateClassType && displayRow == 'Yes'}">
+		<c:set var="tabKey" value="${tabKey},document.budgetProposalLaRates[${laStatus.index}]*" />
+	</c:if>
+</c:forEach>   
+    
+    
+<kul:tab tabTitle="${rateClass}" defaultOpen="false" auditCluster="budgetRateAuditWarnings"  tabAuditKey="${tabKey}" tabErrorKey="${tabKey}" transparentBackground="${transparent}"  useRiceAuditMode="true">
     <c:set var="transparent" value="false" />
 	<div class="tab-container" align="center">
-    	<h3>
-    		<span class="subhead-left">${rateClass}</span>
-        </h3>
+    	<div class="h2-container">
+    		<h2><span class="subhead-left">${rateClass}</span></h2>
+        </div>
         <table id="${rateClass}" cellpadding=0 cellspacing="0"  class="result-table" summary="">
             <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.RateType.attributes.description" />
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.onOffCampusFlag" />
