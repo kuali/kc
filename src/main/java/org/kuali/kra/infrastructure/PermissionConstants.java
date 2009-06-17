@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ public interface PermissionConstants {
     public static final String ALTER_PROPOSAL_DATA = "ALTER_PROPOSAL_DATA";
     public static final String SUBMIT_TO_SPONSOR = "SUBMIT_TO_SPONSOR";
     public static final String SUBMIT_PROPOSAL = "SUBMIT_PROPOSAL";
+    public static final String ADD_PROPOSAL_VIEWER = "ADD_PROPOSAL_VIEWER";
     
     /* IRB Permissions */
     

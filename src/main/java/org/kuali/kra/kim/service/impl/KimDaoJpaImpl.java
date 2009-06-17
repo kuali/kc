@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,21 @@
  */
 package org.kuali.kra.kim.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -61,6 +68,13 @@ public class KimDaoJpaImpl implements KimDao {
         criteria.add(Restrictions.eq("personId", personId));
         
         return criteria.list();
+    }
+    
+    public Set<Long> getQualifiedRolePersonIds(Long roleId, Map<String, String> qualifiedRoleAttributes) {
+        Set<Long> personIds = new HashSet<Long>();
+        
+        // TODO fill me in
+        return personIds;
     }
     
     /**

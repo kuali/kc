@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,6 @@ import org.kuali.kra.kim.bo.KimRoleAttribute;
 import org.kuali.kra.kim.bo.KimRoleGroup;
 import org.kuali.kra.kim.bo.KimRolePermission;
 import org.kuali.kra.kim.bo.KimRolePerson;
-import org.kuali.kra.kim.exception.DuplicateRoleNameException;
 import org.kuali.kra.kim.exception.UnknownGroupNameException;
 import org.kuali.kra.kim.exception.UnknownNamespaceNameException;
 import org.kuali.kra.kim.exception.UnknownPermissionNameException;
@@ -351,15 +350,10 @@ public class ServiceBase {
      */
     public final KimRole getRoleByName(String roleName) {
         Collection<KimRole> roles = findMatching(KimRole.class, "name", roleName);
-        if (roles.size() != 1) {
-            if(roles.size() > 1){
-                throw new DuplicateRoleNameException(roleName);    
-            }else{
-                throw new UnknownRoleNameException(roleName);
-            }
-            
-        }
-        
+		if (roles.size() != 1) {
+		    throw new UnknownRoleNameException(roleName);
+		}
+		
         return roles.iterator().next();
     }
     
@@ -1106,4 +1100,11 @@ public class ServiceBase {
         qualifiedRoles.addAll(findMatching(KimQualifiedRoleGroup.class, "groupId", groupId));
         return qualifiedRoles;
     }
+    
+    public Set<Long> getQualifiedRolePersonIds(Long roleId, Map<String, String> qualifiedRoleAttributes) {
+        Set<Long> personIds = new HashSet<Long>();
+        KimDao personRoleDao = KraServiceLocator.getService(KimDao.class);
+        personIds = personRoleDao.getQualifiedRolePersonIds(roleId, qualifiedRoleAttributes);
+        return personIds;
+    } 
 }
