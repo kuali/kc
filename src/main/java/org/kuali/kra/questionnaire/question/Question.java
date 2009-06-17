@@ -44,14 +44,14 @@ public class Question extends KraPersistableBusinessObjectBase {
     
     
     public Question() { 
-        setQuestionExplanations(new ArrayList<QuestionExplanation>());
+        this.setQuestionExplanations(new ArrayList<QuestionExplanation>());
+
         
         //initialize fields since they can not be null and they are not being displayed
         //in the gui yet.
         maxAnswers = 0;
         displayedAnswers = 0;
         validAnswer = "x";
-        questionTypeId = 0;
     } 
 
     public Integer getQuestionId() {
@@ -156,6 +156,12 @@ public class Question extends KraPersistableBusinessObjectBase {
     }
 
     public QuestionType getQuestionType() {
+        // Refresh of the reference object is needed so that the question type name is available
+        // after a save or refresh.  Otherwise the proper question type can not be determined and
+        // the response values are not being displayed.
+        if (this.questionType == null) {
+            refreshReferenceObject("questionType");
+        }
         return questionType;
     }
 

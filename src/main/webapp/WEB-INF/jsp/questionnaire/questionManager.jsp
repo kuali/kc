@@ -15,7 +15,10 @@
 --%>
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<kul:tab tabTitle="Question Manager" defaultOpen="true" useCurrentTabIndexAsKey="true"> 
+<kul:tab tabTitle="Question Manager" 
+         defaultOpen="true" 
+         useCurrentTabIndexAsKey="true"
+         tabErrorKey="document.newMaintainableObject.*">
     <kra-questionnaire:questionManagerQuestion />
     <kra-questionnaire:questionManagerResponse />
 </kul:tab>
