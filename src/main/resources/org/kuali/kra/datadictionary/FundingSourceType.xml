@@ -1,5 +1,5 @@
 <!--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -47,20 +47,20 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Funding Source Type Code" />
 		<property name="shortLabel" value="Funding Source Type Code" />
-		<property name="maxLength" value="3" />
+		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="3" />
+				p:size="10" />
 		</property>
 		<property name="summary" value="Funding Source Type Code" />
 		<property name="description" value="Funding Source Type Code" />
 	</bean>
 
 	<bean id="FundingSourceType-description" parent="FundingSourceType-description-parentBean" />
-	<bean id="FundingSourceType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" >
+	<bean id="FundingSourceType-description-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="description" />
 		<property name="required" value="true" />
 		

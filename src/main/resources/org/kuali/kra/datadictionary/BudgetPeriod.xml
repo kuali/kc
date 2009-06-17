@@ -155,10 +155,10 @@
 
   <bean id="BudgetPeriod-totalCostLimit-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="totalCostLimit" />
-    <property name="label" value="Period Cost Limit" />
-    <property name="shortLabel" value="Period Cost Limit" />
-    <property name="summary" value="Period Cost Limit" />
-    <property name="description" value="Period Cost Limit" />
+    <property name="label" value="Cost Limit" />
+    <property name="shortLabel" value="Cost Limit" />
+    <property name="summary" value="Cost Limit" />
+    <property name="description" value="Cost Limit" />
   </bean>
   <bean id="BudgetPeriod-totalDirectCost" parent="BudgetPeriod-totalDirectCost-parentBean" />
 
@@ -173,10 +173,10 @@
 
   <bean id="BudgetPeriod-totalIndirectCost-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="totalIndirectCost" />
-    <property name="label" value="Indirect Cost" />
-    <property name="shortLabel" value="Indirect Cost" />
-    <property name="summary" value="Indirect Cost" />
-    <property name="description" value="Indirect Cost" />
+    <property name="label" value="F&amp;A Cost" />
+    <property name="shortLabel" value="F&amp;A Cost" />
+    <property name="summary" value="F&amp;A Cost" />
+    <property name="description" value="F&amp;A Cost" />
   </bean>
   <bean id="BudgetPeriod-underrecoveryAmount" parent="BudgetPeriod-underrecoveryAmount-parentBean" />
 

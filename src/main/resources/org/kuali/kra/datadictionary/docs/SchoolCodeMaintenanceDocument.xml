@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SchoolCodeMaintenanceDocument" parent="SchoolCodeMaintenanceDocument-parentBean"/>
+
+  <bean id="SchoolCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.SchoolCode"/>
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="SchoolCodeMaintenanceDocument-EditSchoolCodes"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>schoolCode</value>
+      </list>
+    </property>
+    
+    
+    
+    
+    <property name="documentTypeName" value="SchoolCodeMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="SchoolCodeMaintenanceDocument-EditSchoolCodes" parent="SchoolCodeMaintenanceDocument-EditSchoolCodes-parentBean"/>
+
+  <bean id="SchoolCodeMaintenanceDocument-EditSchoolCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit School Codes"/>
+    <property name="title" value="Edit School Codes"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="schoolCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -165,8 +165,8 @@
   <bean id="BudgetPersonnelCalculatedAmount-applyRateFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="applyRateFlag" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Apply Rate Flag" />
-    <property name="shortLabel" value="Apply Rate Flag" />
+    <property name="label" value="Apply Rate?" />
+    <property name="shortLabel" value="Apply Rate?" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
@@ -175,8 +175,8 @@
       <bean parent="TextControlDefinition"
             p:size="1" />
     </property>
-    <property name="summary" value="Apply Rate Flag" />
-    <property name="description" value="Apply Rate Flag" />
+    <property name="summary" value="Apply Rate?" />
+    <property name="description" value="Apply Rate?" />
   </bean>
   <bean id="BudgetPersonnelCalculatedAmount-calculatedCost" parent="BudgetPersonnelCalculatedAmount-calculatedCost-parentBean" />
 

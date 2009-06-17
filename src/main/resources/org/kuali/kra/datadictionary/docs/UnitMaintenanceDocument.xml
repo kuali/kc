@@ -20,6 +20,7 @@
     
     
     <property name="documentTypeName" value="UnitMaintenanceDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.rules.UnitMaintenanceDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     

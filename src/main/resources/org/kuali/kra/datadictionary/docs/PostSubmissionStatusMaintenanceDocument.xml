@@ -38,6 +38,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="postSubmissionStatusCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="definition" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
