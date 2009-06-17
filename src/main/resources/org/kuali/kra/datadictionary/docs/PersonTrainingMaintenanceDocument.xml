@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@
 		<property name="title" value="Edit Person Training"/>
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="personTrainingId" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="personTrainingId" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="personId" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="trainingNumber"/>
 				<bean parent="MaintainableFieldDefinition" p:name="trainingCode" p:required="true"/>

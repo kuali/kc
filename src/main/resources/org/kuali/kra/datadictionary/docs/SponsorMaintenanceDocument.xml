@@ -21,6 +21,7 @@
     
     
     <property name="documentTypeName" value="SponsorMaintenanceDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.rules.SponsorMaintenanceDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     
@@ -50,6 +51,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="sponsorName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="sponsorTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="state"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>

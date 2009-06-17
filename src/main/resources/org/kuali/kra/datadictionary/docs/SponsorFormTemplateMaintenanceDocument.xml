@@ -10,6 +10,11 @@
         <ref bean="SponsorFormTemplateMaintenanceDocument-EditSponsorFormTemplates"/>
       </list>
     </property>
+    <property name="defaultExistenceChecks">
+      <list>
+        <bean parent="ReferenceDefinition" p:attributeName="sponsorForms" p:attributeToHighlightOnFail="sponsorCode" p:displayFieldName="Sponsor Code and Package Number"/>
+      </list>
+    </property>
     <property name="lockingKeys">
       <list>
         <value>packageNumber</value>

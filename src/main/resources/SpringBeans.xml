@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	Copyright 2006-2007 The Kuali Foundation.
+	Copyright 2006-2009 The Kuali Foundation.
 
 	Licensed under the Educational Community License, Version 1.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -474,8 +474,8 @@
 		<property name="systemAuthorizationService">
 			<ref bean="systemAuthorizationService" />
 		</property>
-		<property name="kraAuthorizationService">
-			<ref bean="kraAuthorizationService" />
+		<property name="proposalAuthorizationService">
+			<ref bean="proposalAuthorizationService" />
 		</property>
 	</bean>
 
@@ -665,6 +665,21 @@
 			<ref bean="kimQualifiedRoleService" />
 		</property>
 	</bean>	
+	
+	<bean id="proposalAuthorizationService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalAuthorizationServiceImpl">
+        <property name="unitAuthorizationService">
+            <ref bean="unitAuthorizationService" />
+        </property>
+        <property name="personService">
+            <ref bean="personService" />
+        </property>
+        <property name="kimPersonService">
+            <ref bean="kimPersonService" />
+        </property>
+        <property name="kimQualifiedRoleService">
+            <ref bean="kimQualifiedRoleService" />
+        </property>
+    </bean>
 
 	<bean id="researchDocumentService" class="org.kuali.kra.service.impl.ResearchDocumentServiceImpl">
 		<property name="routeHeaderService">
@@ -693,6 +708,9 @@
 		<property name="documentService">
 			<ref bean="documentService"/>
 		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
+		</property>
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService"/>
 		</property>
@@ -719,6 +737,13 @@
 		<property name="businessObjectService" >
   			<ref bean="businessObjectService"/>
   		</property>
+  		<property name="budgetDistributionAndIncomeService" >
+  			<ref bean="budgetDistributionAndIncomeService"/>
+  		</property>
+  		
+	</bean>
+
+	<bean id="budgetDistributionAndIncomeService" class="org.kuali.kra.budget.service.impl.BudgetDistributionAndIncomeServiceImpl">
 	</bean>
 
     <bean id="kraWorkflowService" class="org.kuali.kra.service.impl.KraWorkflowServiceImpl" />
@@ -817,7 +842,11 @@
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BudgetOpenAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="openBudgets" />
                 </bean>
-            </list>
+                
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyBudgetPermission" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="modifyBudget" />
+                </bean>
+           </list>
         </property>
     </bean>
 
@@ -838,6 +867,9 @@
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReplaceAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="replaceNarrative" />
                 </bean>
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyNarrativesAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="modifyNarratives" />
+                </bean>                
             </list>
         </property>
     </bean>
@@ -954,6 +986,12 @@
                 <entry key="replaceInstituteAttachment">
                     <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.InstituteAttachmentTaskFactory" parent="parentTaskFactory">
                         <property name="taskName" value="replaceNarrative" />
+                    </bean>
+                </entry>
+
+                <entry key="save">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.NarrtivesCommonTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="modifyNarratives" />
                     </bean>
                 </entry>
             </map>
@@ -1188,8 +1226,6 @@
 	<!--  Lookupable Helper for Rolodexes -->
 
     <bean id="rolodexDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.RolodexDaoOjb" >
-        <property name="dateTimeService" ref="dateTimeService" />
-        <property name="persistenceStructureService" ref="persistenceStructureService" />
     </bean>
     
     <bean id="kimDao" parent="platformAwareDao" class="org.kuali.kra.kim.service.impl.KimDaoImpl" />
@@ -1197,7 +1233,7 @@
     <bean id="personDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.PersonDaoOjb" />
     	
     <bean id="nonOrganizationalRolodexHelperService" class="org.kuali.kra.lookup.NonOrganizationalRolodexLookupableHelperServiceImpl" 
-       scope="prototype"  parent="lookupableHelperService">
+        scope="prototype" parent="lookupableHelperService">
         <property name="rolodexDao" ref="rolodexDao" /> 
         <property name="lookupService" ref="lookupService" />
     </bean> 
@@ -1209,6 +1245,9 @@
 	<bean id="budgetModularService" class="org.kuali.kra.budget.service.impl.BudgetModularServiceImpl">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="budgetCalculationService">
+			<ref bean="budgetCalculationService" />
 		</property>
 	</bean>
 	
@@ -1254,7 +1293,7 @@
  		scope="prototype" parent="lookupableHelperService">
   	</bean>
   	
-  	<bean id="copyPeriodsQuestion" class="org.kuali.kra.question.CopyPeriodsQuestion" scope="prototype"/>
+  	<bean id="copyPeriodsQuestion" class="org.kuali.kra.question.CopyPeriodsQuestion" scope="prototype" />
 
 	<bean id="coeusBean2KraBoConverterService" class="org.kuali.kra.budget.service.impl.CoeusBean2KraBoConverterServiceImpl">
 	</bean>
@@ -1271,8 +1310,8 @@
     </bean>
 	
 	<bean id="proposalRoleTemplateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalRoleTemplateServiceImpl">
-        <property name="kraAuthorizationService">
-            <ref bean="kraAuthorizationService" />
+        <property name="proposalAuthorizationService">
+            <ref bean="proposalAuthorizationService" />
         </property>
         <property name="personService">
             <ref bean="personService" />
@@ -1372,4 +1411,44 @@
 	
 	<bean id="versioningService" class="org.kuali.kra.service.impl.VersioningServiceImpl" />
 	
+	<!-- 
+	<bean id="kraPessimisticLockLookupableHelperService" class="org.kuali.kra.lookup.KraPessimisticLockLookupableHelperServiceImpl">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="encryptionService">
+			<ref bean="encryptionService" />
+		</property>
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="sequenceAccessorService">
+			<ref bean="sequenceAccessorService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="lookupResultsService">
+			<ref bean="lookupResultsService" />
+		</property>
+	</bean>
+	
+	<bean id="pessimisticLockLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="kraPessimisticLockLookupableHelperService" />
+		</property>
+	</bean>
+	-->
 </beans>

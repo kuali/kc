@@ -1,0 +1,114 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SchoolCode" parent="SchoolCode-parentBean" />
+
+  <bean id="SchoolCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.SchoolCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="SchoolCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="SchoolCode-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="schoolCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="SchoolCode-schoolCode" />
+        <ref bean="SchoolCode-description" />
+        <ref bean="SchoolCode-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="SchoolCode-schoolCode" parent="SchoolCode-schoolCode-parentBean" />
+
+  <bean id="SchoolCode-schoolCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="schoolCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="School Code" />
+    <property name="shortLabel" value="School Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="School Code" />
+    <property name="description" value="School Code" />
+  </bean>
+  <bean id="SchoolCode-description" parent="SchoolCode-description-parentBean" />
+
+  <bean id="SchoolCode-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  </bean>
+  <bean id="SchoolCode-versionNumber" parent="SchoolCode-versionNumber-parentBean" />
+
+  <bean id="SchoolCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="SchoolCode-inquiryDefinition" parent="SchoolCode-inquiryDefinition-parentBean" />
+
+  <bean id="SchoolCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="School Code" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="School Code" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="schoolCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="SchoolCode-lookupDefinition" parent="SchoolCode-lookupDefinition-parentBean" />
+
+  <bean id="SchoolCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="School Code Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a School Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="schoolCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="schoolCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

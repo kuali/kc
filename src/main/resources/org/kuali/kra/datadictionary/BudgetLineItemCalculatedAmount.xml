@@ -144,8 +144,8 @@
   <bean id="BudgetLineItemCalculatedAmount-applyRateFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="applyRateFlag" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Apply Rate Flag" />
-    <property name="shortLabel" value="Apply Rate Flag" />
+    <property name="label" value="Apply Rate?" />
+    <property name="shortLabel" value="Apply Rate?" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
@@ -153,26 +153,26 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="Apply Rate Flag" />
-    <property name="description" value="Apply Rate Flag" />
+    <property name="summary" value="Apply Rate?" />
+    <property name="description" value="Apply Rate?" />
   </bean>
   <bean id="BudgetLineItemCalculatedAmount-calculatedCost" parent="BudgetLineItemCalculatedAmount-calculatedCost-parentBean" />
 
   <bean id="BudgetLineItemCalculatedAmount-calculatedCost-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="calculatedCost" />
-    <property name="label" value="Calculated Cost" />
-    <property name="shortLabel" value="Calculated Cost" />
-    <property name="summary" value="Calculated Cost" />
-    <property name="description" value="Calculated Cost" />
+    <property name="label" value="Rate Cost" />
+    <property name="shortLabel" value="Rate Cost" />
+    <property name="summary" value="Rate Cost" />
+    <property name="description" value="Rate Cost" />
   </bean>
   <bean id="BudgetLineItemCalculatedAmount-calculatedCostSharing" parent="BudgetLineItemCalculatedAmount-calculatedCostSharing-parentBean" />
 
   <bean id="BudgetLineItemCalculatedAmount-calculatedCostSharing-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="calculatedCostSharing" />
-    <property name="label" value="Calculated Cost Sharing" />
-    <property name="shortLabel" value="Calculated Cost Sharing" />
-    <property name="summary" value="Calculated Cost Sharing" />
-    <property name="description" value="Calculated Cost Sharing" />
+    <property name="label" value="Rate Cost Sharing" />
+    <property name="shortLabel" value="Rate Cost Sharing" />
+    <property name="summary" value="Rate Cost Sharing" />
+    <property name="description" value="Rate Cost Sharing" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
