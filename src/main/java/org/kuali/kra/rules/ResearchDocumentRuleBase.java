@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.ExceptionUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 import edu.emory.mathcs.backport.java.util.AbstractMap.SimpleEntry;
@@ -93,6 +94,22 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      */
     public Map<String, Collection<SoftError>> getSoftErrors() {
         return this.errorReporter.getSoftErrors();
+    }
+    
+    /**
+     * Wrapper around global errorMap.put call, to allow better logging
+     * 
+     * @param propertyName
+     * @param errorKey
+     * @param errorParams
+     */
+    protected void reportErrorWithoutFullErrorPath(String propertyName, String errorKey, String... errorParams) {
+        LOG.debug("reportErrorWithoutFullErrorPath(String, String, String) - start");
+
+        GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(propertyName, errorKey, errorParams);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
+        }
     }
 
     public boolean processRunAuditBusinessRules(Document document) {

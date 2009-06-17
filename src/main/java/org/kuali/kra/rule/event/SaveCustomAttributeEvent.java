@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@ package org.kuali.kra.rule.event;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.rice.kns.rule.BusinessRule;
+//import org.kuali.rice.kns.event.KualiDocumentEvent;
+
 
 public class SaveCustomAttributeEvent extends KraDocumentEventBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
