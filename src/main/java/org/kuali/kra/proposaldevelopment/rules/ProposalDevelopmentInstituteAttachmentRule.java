@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,16 +24,22 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DES
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DUPLICATE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
+import org.kuali.kra.proposaldevelopment.rule.SaveInstituteAttachmentsRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.SaveInstituteAttachmentsEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -60,7 +66,12 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
         String errorPath = NEW_INSTITUTE_ATTACHMENT;
         if(narrative.getNarrativeType()==null)
             rulePassed = false;
-
+        
+        GlobalVariables.getErrorMap().addToErrorPath(NEW_INSTITUTE_ATTACHMENT);
+        getDictionaryValidationService().validateAttributeFormat(narrative.getClass().getName(), "moduleTitle", narrative.getModuleTitle(), "moduleTitle");
+        if (GlobalVariables.getErrorMap().getPropertiesWithErrors().size() > 0) rulePassed = false;
+        GlobalVariables.getErrorMap().removeFromErrorPath(NEW_INSTITUTE_ATTACHMENT);
+        
         if(StringUtils.isBlank(narrative.getNarrativeTypeCode())){
             rulePassed = false;
             reportError(errorPath+".institutionalAttachmentTypeCode", ERROR_ATTACHMENT_TYPE_NOT_SELECTED);

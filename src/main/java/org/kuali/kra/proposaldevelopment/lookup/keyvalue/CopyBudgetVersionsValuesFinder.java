@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,10 @@ import java.util.List;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * See the method <code>getKeyValues()</code> for a full description.
@@ -30,17 +34,51 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
 public class CopyBudgetVersionsValuesFinder extends KeyValuesBase {
     
     /**
-     * TODO: Come back and fix this.  The Final Version option can only
-     * be displayed if there is a budget marked as final.
-     * 
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * Gets the key/value pairs for copying budget versions.
      */
     public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        
+        final List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        
         keyValues.add(new KeyLabelPair(ProposalCopyCriteria.BUDGET_ALL_VERSIONS, 
-                                       ProposalCopyCriteria.BUDGET_ALL_VERSIONS));
-        keyValues.add(new KeyLabelPair(ProposalCopyCriteria.BUDGET_FINAL_VERSION, 
-                                       ProposalCopyCriteria.BUDGET_FINAL_VERSION));
+            ProposalCopyCriteria.BUDGET_ALL_VERSIONS));
+        
+        if (this.finalVersionPresent()) {
+            keyValues.add(new KeyLabelPair(ProposalCopyCriteria.BUDGET_FINAL_VERSION, 
+                ProposalCopyCriteria.BUDGET_FINAL_VERSION));            
+        }
+        
         return keyValues;
+    }
+    
+    /**
+     * Checks if a final budget version is present.
+     *
+     * <p>
+     * Default visibility to allow for easier unit testing.
+     * </p>
+     * @return true if present false if not.
+     */
+    boolean finalVersionPresent() {
+        
+        final ProposalDevelopmentDocument document = this.getDocument();
+        for (final BudgetVersionOverview overview : document.getBudgetVersionOverviews()) {
+            if (overview.isFinalVersionFlag()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Gets the ProposalDevelopmentDocument.
+     * <p>
+     * Default visibility to allow for easier unit testing.
+     * </p>
+     * @return the ProposalDevelopmentDocument
+     */
+    ProposalDevelopmentDocument getDocument() {
+        final ProposalDevelopmentForm form = (ProposalDevelopmentForm) GlobalVariables.getKualiForm();
+        return form.getDocument();
     }
 }

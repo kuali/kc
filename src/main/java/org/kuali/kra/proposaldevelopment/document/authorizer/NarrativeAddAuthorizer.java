@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,11 +28,11 @@ import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 public class NarrativeAddAuthorizer extends ProposalAuthorizer {
  
     /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.core.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
+     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
     public boolean isAuthorized(String username, ProposalTask task) {
         
-        ProposalDevelopmentDocument doc = task.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = task.getDocument();
         
         boolean hasPermission = false;
         if (!kraWorkflowService.isInWorkflow(doc) && !doc.getSubmitFlag()) {

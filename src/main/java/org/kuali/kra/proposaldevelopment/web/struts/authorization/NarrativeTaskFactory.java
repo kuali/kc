@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,11 +39,7 @@ public abstract class NarrativeTaskFactory extends WebTaskFactoryImpl {
     /**
      * @see org.kuali.kra.web.struts.authorization.WebTaskFactory#createTask(org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
      */
-    public final Task createTask(ActionForm form, HttpServletRequest request) {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        Narrative narrative = getNarrative(form, request);
-        return new NarrativeTask(getTaskName(), proposalDevelopmentForm.getProposalDevelopmentDocument(), narrative);
-    }
+    public abstract Task createTask(ActionForm form, HttpServletRequest request);
     
     /**
      * @see org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl#getTaskGroupName()

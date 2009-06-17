@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ public abstract class PersonnelAttachmentEventBase extends KraDocumentEventBase 
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#validate()
+     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#validate()
      */
     public void validate() {
         super.validate();
