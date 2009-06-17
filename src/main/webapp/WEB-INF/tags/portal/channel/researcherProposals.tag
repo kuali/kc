@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 <div class="body">
   <ul class="chan">
     <li><portal:portalLink displayTitle="false" title="Create Proposal" url="proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument">Create Proposal</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title="Proposals in Progress" url="${ConfigProperties.workflow.url}/DocumentSearch.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO&docTypeFullName=ProposalDevelopmentDocument&criteria.docRouteStatus=R">Proposals in Progress</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="Proposals Enroute" url="${ConfigProperties.workflow.url}/DocumentSearch.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO&docTypeFullName=ProposalDevelopmentDocument&criteria.docRouteStatus=R">Proposals Enroute</portal:portalLink></li>
     <li><portal:portalLink displayTitle="false" title='All My Proposals' url='${ConfigProperties.workflow.url}/DocumentSearch.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO&docTypeFullName=ProposalDevelopmentDocument&initiator=${UserSession.principalName}&searchCriteriaEnabled=false'>All My Proposals</portal:portalLink></li>
 </ul>
 </div>

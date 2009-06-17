@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -107,37 +107,36 @@
                 </td>
 	                <td>
 	                    <div id="replaceInstDiv${status.index}" style="display:block;">
-					                <kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
-					                <c:if test="${(downloadAttachment || replaceAttachment) }"> 
-						                (
-						                <c:if test="${downloadAttachment && (!empty instituteAttachment.fileName)}">
-						                <html:link linkName="downloadInstituteAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadInstituteAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadInstituteAttachment.line${status.index}">download</html:link>
-							                <c:if test="${downloadAttachment && replaceAttachment}">
-							                &nbsp;|&nbsp;
-							                </c:if> 
-						                </c:if>
-						                <c:if test="${replaceAttachment}">
-						                <html:link linkName="replaceInstituteAttachment.line${status.index}" onclick="javascript: showHide('instFileDiv${status.index}','replaceInstDiv${status.index}')" href="" anchor="${currentTabIndex}" property="methodToCall.replaceInstituteAttachment.line${status.index}">replace</html:link>
-						                </c:if>
-						                )
-					                </c:if>
-				                </div>
-				                <div id="instFileDiv${status.index}" valign="middle" style="display:none;">
-				                	<html:file property="document.instituteAttachments[${status.index}].narrativeFile" />
-									<html:image property="methodToCall.replaceInstituteAttachment.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
-								</div>
+					       <kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].fileName" 
+					       		readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />     
+				        </div>
+				        <div id="instFileDiv${status.index}" valign="middle" style="display:none;">
+				           	<html:file property="document.instituteAttachments[${status.index}].narrativeFile" />
+							<html:image property="methodToCall.replaceInstituteAttachment.line${status.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+						</div>
 	                </td>
 	                <td>
 					<div align=center>
-					    <c:if test="${deleteAttachment}">
-							<html:image property="methodToCall.deleteInstitutionalAttachment.line${status.index}.anchor${currentTabIndex}"
-								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-					    </c:if>
-						<c:if test="${!empty instituteAttachment.fileName}" >
-						<html:image styleId="getInstituteAttachmentRights.line${status.index}" property="methodToCall.getInstituteAttachmentRights.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' styleClass="tinybutton"
-										onclick="javascript: proposalInstituteAttachmentRightsPop('${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false"/>
+					<c:if test="${!empty instituteAttachment.fileName}" >
+							<c:if test="${(downloadAttachment) }">							
+								<html:image styleId="viewInstituteAttachment.line${status.index}"  property="methodToCall.downloadInstituteAttachment.line${status.index}.anchor${currentTabIndex}"
+												src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+												onclick="javascript: openNewWindow('${action}','downloadInstituteAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return false" />
+							</c:if>
+							<c:if test="${(replaceAttachment) }">							
+								<html:image styleId="replaceInstituteAttachment.line${status.index}" 
+												onclick="javascript: showHide('instFileDiv${status.index}','replaceInstDiv${status.index}') ; return false"  
+												src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif' styleClass="tinybutton"
+												property="methodToCall.replaceInstituteAttachment.line${status.index}.anchor${currentTabIndex};return false" />
+	
+						    </c:if>	
+						    <c:if test="${deleteAttachment}">
+								<html:image property="methodToCall.deleteInstitutionalAttachment.line${status.index}.anchor${currentTabIndex}"
+									        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+						    </c:if>
+						
+
 						</c:if>	 
 					</div>
 	                </td>

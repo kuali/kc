@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -31,15 +31,15 @@
         
         
 		 <table cellpadding="0" cellspacing="0" summary="">
-			<input type="hidden" name="document.proposalNumber" value="${KualiForm.document.proposalNumber}" />
-			<input type="hidden" name="newProposalChangedData.editableColumn.lookupReturn" value="${KualiForm.newProposalChangedData.editableColumn.lookupReturn}" />
-			<input type="hidden" name="newProposalChangedData.editableColumn.dataType" value="${KualiForm.newProposalChangedData.editableColumn.dataType}" />
-			<input type="hidden" name="newProposalChangedData.editableColumn.hasLookup" value="${KualiForm.newProposalChangedData.editableColumn.hasLookup}" />
-			<input type="hidden" name="newProposalChangedData.editableColumn.lookupClass" value="${KualiForm.newProposalChangedData.editableColumn.lookupClass}" />
-			<input type="hidden" name="newProposalChangedData.editableColumn.lookupPkReturn" value="${KualiForm.newProposalChangedData.editableColumn.lookupPkReturn}" />
-			<input type="hidden" name="newProposalChangedData.editableColumn.columnName" value="${KualiForm.newProposalChangedData.editableColumn.columnName}" />
-			<input type="hidden" name="imageUrl" value="${ConfigProperties.kr.externalizable.images.url}" /> 
-			<input type="hidden" name="tabIndex" value="${KualiForm.nextArbitrarilyHighIndex}" />
+			<input type="hidden" name="document.proposalNumber" id="document.proposalNumber" value="${KualiForm.document.proposalNumber}" />
+			<input type="hidden" name="newProposalChangedData.editableColumn.lookupReturn" id="newProposalChangedData.editableColumn.lookupReturn"  value="${KualiForm.newProposalChangedData.editableColumn.lookupReturn}" />
+			<input type="hidden" name="newProposalChangedData.editableColumn.dataType" id="newProposalChangedData.editableColumn.dataType" value="${KualiForm.newProposalChangedData.editableColumn.dataType}" />
+			<input type="hidden" name="newProposalChangedData.editableColumn.hasLookup" id="newProposalChangedData.editableColumn.hasLookup" value="${KualiForm.newProposalChangedData.editableColumn.hasLookup}" />
+			<input type="hidden" name="newProposalChangedData.editableColumn.lookupClass" id="newProposalChangedData.editableColumn.lookupClass" value="${KualiForm.newProposalChangedData.editableColumn.lookupClass}" />
+			<input type="hidden" name="newProposalChangedData.editableColumn.lookupPkReturn" id="newProposalChangedData.editableColumn.lookupPkReturn"  value="${KualiForm.newProposalChangedData.editableColumn.lookupPkReturn}" />
+			<input type="hidden" name="newProposalChangedData.editableColumn.columnName" id="newProposalChangedData.editableColumn.columnName" value="${KualiForm.newProposalChangedData.editableColumn.columnName}" />
+			<input type="hidden" name="imageUrl" id="imageUrl"  value="${ConfigProperties.kr.externalizable.images.url}" /> 
+			<input type="hidden" name="tabIndex" id="tabIndex" value="${KualiForm.nextArbitrarilyHighIndex}" />
 		    <c:set var="textAreaFieldName" value="newProposalChangedData.comments" />
 			
 			<tr>
