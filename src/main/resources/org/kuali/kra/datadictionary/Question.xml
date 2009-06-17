@@ -143,7 +143,7 @@
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="22" />
+                p:size="2" />
         </property>
         <property name="summary" value="Max Answers" />
         <property name="description" value="Max Answers" />
@@ -161,7 +161,7 @@
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="22" />
+                p:size="2" />
         </property>
         <property name="summary" value="Displayed Answers" />
         <property name="description" value="Displayed Answers" />
@@ -179,7 +179,7 @@
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="20" />
+                p:size="2" />
         </property>
         <property name="summary" value="Valid Answer" />
         <property name="description" value="Valid Answer" />
@@ -238,7 +238,7 @@
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="22" />
+                p:size="4" />
         </property>
         <property name="summary" value="Answer Max Length" />
         <property name="description" value="Answer Max Length" />
