@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,9 +32,12 @@ import org.kuali.rice.kns.web.format.Formatter;
  */
 public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase implements Auditable {
     
+    private static final long serialVersionUID = -7013211193142134599L;
     private String newBudgetVersionName;
     private Integer finalBudgetVersion;
     private boolean auditActivated;
+    private String activePanelName;
+    
     /**
      * The type of result returned by the multi-value lookup
      *
@@ -96,7 +99,7 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
             date = budgetForm.getBudgetDocument().getProposal().getRequestedStartDateInitial();
         } else if (this instanceof ProposalDevelopmentForm) {
             ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) this;
-            date = pdForm.getProposalDevelopmentDocument().getRequestedStartDateInitial();
+            date = pdForm.getDocument().getRequestedStartDateInitial();
         }
         if (date != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat();
@@ -113,7 +116,7 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
             date = budgetForm.getBudgetDocument().getProposal().getRequestedEndDateInitial();
         } else if (this instanceof ProposalDevelopmentForm) {
             ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) this;
-            date = pdForm.getProposalDevelopmentDocument().getRequestedEndDateInitial();
+            date = pdForm.getDocument().getRequestedEndDateInitial();
         }
         if (date != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat();
@@ -132,4 +135,13 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
     }
+
+    public String getActivePanelName() {
+        return activePanelName;
+    }
+
+    public void setActivePanelName(String activePanelName) {
+        this.activePanelName = activePanelName;
+    }
+    
 }
