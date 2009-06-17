@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ public class ValidCeRateType extends KraPersistableBusinessObjectBase {
 	private RateClass rateClass;
     private RateType rateType;
     private CostElement costElementBo;
+    private Boolean active;
 
 	/**
      * Gets the rateClass attribute. 
@@ -73,6 +74,18 @@ public class ValidCeRateType extends KraPersistableBusinessObjectBase {
 
     public void setRateType(RateType rateType) {
         this.rateType = rateType;
+    }
+
+    public Boolean getActive() {
+        return isActive();
+    }
+    
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     @Override 

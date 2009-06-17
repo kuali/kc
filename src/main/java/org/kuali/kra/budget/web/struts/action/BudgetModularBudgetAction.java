@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,7 +81,7 @@ public class BudgetModularBudgetAction extends BudgetAction {
     }
     
     public ActionForward sync(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        boolean passed = getKualiRuleService().applyRules(createSyncModularBudgetEvent(((BudgetForm) form).getBudgetDocument()));
+        boolean passed = getKualiRuleService().applyRules(createSyncModularBudgetEvent(((BudgetForm)form).getBudgetDocument()));
         if (passed) {
             return confirm(buildSyncBudgetModularConfirmationQuestion(mapping, form, request, response), CONFIRM_SYNC_BUDGET_MODULAR, "");
         }

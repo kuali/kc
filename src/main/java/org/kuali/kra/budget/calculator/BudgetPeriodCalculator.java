@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
@@ -40,6 +41,7 @@ import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.service.BudgetSummaryService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -47,26 +49,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class BudgetPeriodCalculator {
-    /**
-     * Cost limit for this period is set to 0. Cannot sync a line item cost to zero limit.
-     */
-    private static final String CANNOT_SYNC_TO_ZERO_LIMIT = "Cost limit for this period is set to 0. Cannot sync a line item cost to zero limit.";
-    /**
-     * Cost limit and total cost for this period is already in sync.
-     */
-    private static final String TOTAL_COST_ALREADY_IN_SYNC = "Cost limit and total cost for this period is already in sync.";
-
-    /**
-     * Insufficient amount on the line item to sync with cost limit.
-     */
-    private static final String INSUFFICIENT_AMOUNT_TO_SYNC = "Insufficient amount on the line item to sync with cost limit.";
-
-    
-    private static final String PERSONNEL_CATEGORY = "P";
-    /**
-     * Cannot perform this operation on a line item with personel budget details.
-     */
-    private static final String CANNOT_PERFORM_THIS_OPERATION_ON_PERSONNEL_LINE_ITEM = "Cannot perform this operation on a line item with personel budget details.";
     private BudgetCalculationService budgetCalculationService;
     private DateTimeService dateTimeService;
     private List<String> errorMessages;
@@ -130,10 +112,10 @@ public class BudgetPeriodCalculator {
                     if (prevBudgetLineItem.getApplyInRateFlag()){
                     // calculate no matter what because applyinrateflag maybe changed ??
                     
-                        if (budgetLineItemToBeApplied.getBudgetCategory().getBudgetCategoryTypeCode() == PERSONNEL_CATEGORY
+                        if (budgetLineItemToBeApplied.getBudgetCategory().getBudgetCategoryTypeCode() == KeyConstants.PERSONNEL_CATEGORY
                                 && (!budgetLineItemToBeApplied.getBudgetPersonnelDetailsList().isEmpty())) {
                             errorMessages.add("This line item contains personnel budget details"
-                                    + " and there is already a line item on period " + budgetPeriod + " based on this line item. \n"
+                                    + " and there is already a line item on period " + budgetPeriod + " based on this line item."
                                     + "Cannot apply the changes to later periods.");
                             return;
                         }
@@ -175,6 +157,16 @@ public class BudgetPeriodCalculator {
 
                     budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItemToBeApplied);
                     prevBudgetLineItem = budgetLineItemToBeApplied;
+               } else if(StringUtils.equals(currentBudgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(), KeyConstants.PERSONNEL_CATEGORY)){
+                    //Additional Check for Personnel Source Line Item
+                    if(StringUtils.equals(currentBudgetLineItem.getCostElement(), budgetLineItemToBeApplied.getCostElement()) && 
+                            StringUtils.equals(currentBudgetLineItem.getGroupName(), budgetLineItemToBeApplied.getGroupName())) {
+                        errorMessages.add("This line item contains personnel budget details"
+                                + " and there is already a line item on period " + budgetPeriod + " for this Object Code \\ Group combination. \n"
+                                + "Cannot apply the changes to later periods.");
+                        return;
+                    }
+                   
                 }
             }
             // new line item check
@@ -317,14 +309,16 @@ public class BudgetPeriodCalculator {
         Equals eqLINumber = new Equals("lineItemNumber", new Integer(budgetDetailBean.getLineItemNumber()));
         And eqBudgetPeriodAndEqLINumber = new And(eqBudgetPeriod, eqLINumber);
 
-        if (budgetDetailBean.getBudgetCategory().getBudgetCategoryTypeCode().equals(PERSONNEL_CATEGORY)) {
-            errorMessages.add(CANNOT_PERFORM_THIS_OPERATION_ON_PERSONNEL_LINE_ITEM);
+//        if (budgetDetailBean.getBudgetCategory().getBudgetCategoryTypeCode().equals(KeyConstants.PERSONNEL_CATEGORY)) {
+      if (budgetDetailBean.getBudgetCategory().getBudgetCategoryTypeCode().equals(KeyConstants.PERSONNEL_CATEGORY) && 
+              !budgetDetailBean.getBudgetPersonnelDetailsList().isEmpty()) {
+            errorMessages.add(KeyConstants.PERSONNEL_LINE_ITEM_EXISTS);
             return;
         }
 
         // if cost_limit is 0 disp msg "Cost limit for this period is set to 0. Cannot sync a line item cost to zero limit."
         if (budgetPeriodBean.getTotalCostLimit().equals(BudgetDecimal.ZERO)) {
-            errorMessages.add(CANNOT_SYNC_TO_ZERO_LIMIT);
+            errorMessages.add(KeyConstants.CANNOT_SYNC_TO_ZERO_LIMIT);
             return;
         }
         calculate(budgetDocument, budgetPeriodBean);
@@ -334,7 +328,7 @@ public class BudgetPeriodCalculator {
         BudgetDecimal costLimit = budgetPeriodBean.getTotalCostLimit();
 
         if (periodTotal == costLimit) {
-            errorMessages.add(TOTAL_COST_ALREADY_IN_SYNC);
+            errorMessages.add(KeyConstants.TOTAL_COST_ALREADY_IN_SYNC);
             return;
         }
 
@@ -378,7 +372,7 @@ public class BudgetPeriodCalculator {
         }
 
         if ((totalCost.add(difference)).isLessEqual(BudgetDecimal.ZERO)) {
-            errorMessages.add(INSUFFICIENT_AMOUNT_TO_SYNC);
+            errorMessages.add(KeyConstants.INSUFFICIENT_AMOUNT_TO_SYNC);
             return;
         }
 

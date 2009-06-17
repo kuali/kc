@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,6 +45,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     private Date startDate;
     private boolean finalVersionFlag;
     private String ohRateTypeCode;
+    private String ohRateClassCode;
     private BudgetDecimal residualFunds;
     private BudgetDecimal totalCost;
     private BudgetDecimal totalDirectCost;
@@ -53,6 +54,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     private BudgetDecimal underrecoveryAmount;
     private String comments;
     private boolean descriptionUpdatable;
+    private RateClass rateClass;
     
     private String name;
     private String budgetStatus;
@@ -87,6 +89,22 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
 
     public void setOhRateTypeCode(String ohRateTypeCode) {
         this.ohRateTypeCode = ohRateTypeCode;
+    }
+
+    public String getOhRateClassCode() {
+        return ohRateClassCode;
+    }
+
+    public void setOhRateClassCode(String ohRateClassCode) {
+        this.ohRateClassCode = ohRateClassCode;
+    }
+
+    public RateClass getRateClass() {
+        return this.rateClass;
+    }
+
+    public void setRateClass(RateClass rateClass) {
+        this.rateClass = rateClass;
     }
 
     public String getProposalNumber() {
@@ -210,7 +228,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup()
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#afterLookup()
      */
     @Override
     public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {

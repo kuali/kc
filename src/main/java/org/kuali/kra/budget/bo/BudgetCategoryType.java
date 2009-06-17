@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,5 +80,16 @@ public class BudgetCategoryType extends KraPersistableBusinessObjectBase {
     public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode) {
         this.budgetCategoryTypeCode = budgetCategoryTypeCode;
     }
-
+    
+    /**
+     * This is for totals page 
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    public int compareTo(Object o) {
+        return compareTo((BudgetCategoryType) o);
+    }
+    
+    public int compareTo(BudgetCategoryType budgetCategoryType) {
+        return this.sortId.compareTo(budgetCategoryType.sortId);
+    }
 }

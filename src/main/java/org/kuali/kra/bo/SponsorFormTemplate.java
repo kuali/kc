@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.rice.kns.bo.PersistableAttachment;
 
 public class SponsorFormTemplate extends AbstractSponsorFormTemplate implements PersistableAttachment{
+    private static final long serialVersionUID = 7353836184312622270L;    
     private String fileName;
     private String contentType;
     private byte[] attachmentContent;

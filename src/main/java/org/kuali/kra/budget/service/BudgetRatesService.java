@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,6 +47,8 @@ public interface BudgetRatesService {
 
     public void resetBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument);
     public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument);
+    
+    public void syncBudgetRateCollectionsToExistingRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument);
     public void syncAllBudgetRates(BudgetDocument budgetDocument);
     public void resetAllBudgetRates(BudgetDocument budgetDocument);
     public void viewLocation(String viewLocation, Integer budgetPeriod, BudgetDocument budgetDocument);

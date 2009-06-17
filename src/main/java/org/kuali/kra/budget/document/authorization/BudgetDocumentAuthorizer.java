@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,8 +52,8 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
     }
     
     /**
-     * @see org.kuali.core.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
+     *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     public Map getEditMode(Document d, UniversalUser u) {
         Map editModeMap = new HashMap();
@@ -160,7 +160,7 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
     }
     
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document, org.kuali.rice.kns.bo.user.UniversalUser)
      */
     // TODO Take Person instead of UniversalUser
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
@@ -174,7 +174,7 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
     /**
      * Adds settings for transactional-document-specific flags.
      * 
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
      */
     @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
