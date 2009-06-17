@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,12 @@ public class FundingSourceTypeServiceImpl implements FundingSourceTypeService {
 
     private BusinessObjectService businessObjectService;
 
+    
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -45,7 +51,7 @@ public class FundingSourceTypeServiceImpl implements FundingSourceTypeService {
         FundingSourceType sourceType = null;
 
         Map<String, String> primaryKeys = new HashMap<String, String>();
-        if (StringUtils.isNotBlank(sourceTypeId)) {
+        if (StringUtils.isNotEmpty(sourceTypeId)) {
             primaryKeys.put("fundingSourceTypeCode", sourceTypeId);
             sourceType = (FundingSourceType)businessObjectService.findByPrimaryKey(FundingSourceType.class, primaryKeys);
         }
