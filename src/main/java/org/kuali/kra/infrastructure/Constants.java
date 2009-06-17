@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,7 +105,7 @@ public interface Constants {
     public static final String REQUIRED_FIELDS_PANEL_ANCHOR = "RequiredFieldsforSavingDocument";
     public static final String REQUIRED_FIELDS_PANEL_NAME = "Required Fields for Saving Document ";
     
-    public static final String BUDGET_EXPENSES_PAGE = "budgetExpenses";
+    public static final String BUDGET_EXPENSES_PAGE_KEY = "budgetExpenses";
     public static final String BUDGET_EXPENSES_OVERVIEW_PANEL_ANCHOR = "BudgetOvervieV";
     public static final String BUDGET_EXPENSES_OVERVIEW_PANEL_NAME = "Budget Overview (Period ";
     // Proposal Document Property Constants
@@ -136,11 +136,15 @@ public interface Constants {
     public static final String QUESTION_TYPE_INDIVIDUAL = "I"; // Investigator - Certification questions
     public static final String YNQ_EXPLANATION_REQUIRED = "Explanation required: if answer = ";
     public static final String YNQ_REVIEW_DATE_REQUIRED = "Date required: if answer = ";
-    public static final String STATUS_ACTIVE = "A";
+	public static final String STATUS_ACTIVE = "A";
+    public static final String QUESTION_STATUS_ACTIVE = "A";
+    public static final String DOCUMENT_SAVED = "S";
+    public static final String DOCUMENT_INITIATED = "?";
     public static final String ANSWER_NA = "X";
 
     public static final String DEFAULT_DATE_FORMAT_PATTERN = "MM/dd/yyyy";
     public static final String PARAMETER_MODULE_BUDGET = "KRA-B";
+    public static final String BUDGET_ALL_DETAIL_TYPE_CODE = "A";
     
     // Budget Versions Constants
     public static final String BUDGET_STATUS_COMPLETE_CODE = "budgetStatusCompleteCode";
@@ -150,11 +154,13 @@ public interface Constants {
     public static final String BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE = "defaultOverheadRateTypeCode";
     public static final String BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE = "defaultUnderrecoveryRateClassCode";
     public static final String BUDGET_DEFAULT_MODULAR_FLAG = "defaultModularFlag";
-    
+    public static final String BUDGET_JOBCODE_VALIDATION_ENABLED = "JOBCODE_VALIDATION_ENABLED";    
     // Budget Distribution And Income
     public static final String BUDGET_CURRENT_FISCAL_YEAR = "budgetCurrentFiscalYear";
     public static final String BUDGET_COST_SHARING_APPLICABILITY_FLAG = "budgetCostSharingApplicabilityFlag";
     public static final String BUDGET_UNRECOVERED_F_AND_A_APPLICABILITY_FLAG = "budgetUnrecoveredFandAApplicabilityFlag";
+    public static final String BUDGET_COST_SHARING_ENFORCEMENT_FLAG = "budgetCostSharingEnforcementFlag";
+    public static final String BUDGET_UNRECOVERED_F_AND_A_ENFORCEMENT_FLAG = "budgetUnrecoveredFandAEnforcementFlag";
     
     // Budget Personnel
     public static final String BUDGET_PERSON_DEFAULT_JOB_CODE = "budgetPersonDefaultJobCode";
@@ -165,7 +171,8 @@ public interface Constants {
     public static final String PERSON_SEQUENCE_NUMBER = "personSequenceNumber";
     public static final String BUDGET_PERSONNEL_PAGE = "personnel";
     public static final String JOB_CODE = "jobCode";
-    
+    public static final String BUDGET_CATEGORY_PERSONNEL = "P";
+        
     // KIM Authorization Namespace for KRA
     public static final String KRA_NAMESPACE = "KRA";
     
@@ -188,6 +195,7 @@ public interface Constants {
     public static final String ON_CAMUS_FLAG = "N";
     public static final String OFF_CAMUS_FLAG = "F";
     public static final String DEFALUT_CAMUS_FLAG = "D";
+    public static final String RATE_CLASS_TYPE_FOR_INFLATION = "I";
     
     //Budget Expenses
     public static final String BUDGET_LINEITEM_NUMBER = "budget.budgetLineItem.lineItemNumber";
@@ -195,11 +203,16 @@ public interface Constants {
     public static final String BUDGET_EXPENSE_LOOKUP_MESSAGE2 = "budget.expense.lookup.message2";
     public static final String PERCENT_EFFORT_FIELD = "Percent Effort";
     public static final String PERCENT_CHARGED_FIELD = "Percent Charged";
+    public static final String BUDGET_PERSON_DETAILS_DEFAULT_PERIODTYPE = "budgetPersonDetailsDefaultPeriodType";
+    
+    //Budget Totals
+    public static final int BUDGET_SUMMARY_PERIOD_GROUP_SIZE = 5;
     
     //Grants.gov
     public static final String S2S_SUBMISSIONTYPE_CODE_KEY="document.s2sOpportunity.s2sSubmissionTypeCode";
     public static final String GRANTS_GOV_PANEL_ANCHOR  = "Opportunity";
     public static final String GRANTS_GOV_OPPORTUNITY_PANEL = "GrantsGov";
+    public static final String ABSTRACTS_AND_ATTACHMENTS_PANEL ="AbstractsAndAttachments";
     public static final String OPPORTUNITY_ID_KEY="document.programAnnouncementNumber";
     public static final String OPPORTUNITY_TITLE_KEY="document.programAnnouncementTitle";
     public static final String CFDA_NUMBER_KEY="document.cfdaNumber";
@@ -241,14 +254,27 @@ public interface Constants {
     public static final String SPECIAL_REVIEW_PANEL_NAME = "Special Review Information";
     public static final String BUDGET_PERIOD_PANEL_NAME = "Budget Period And Totals Information";
     public static final String BUDGET_RATE_PANEL_NAME = "Budget Rate";
-    public static final String BUDGET_PERIOD_PAGE = "summary";
     public static final String BUDGET_RATE_PAGE = "budgetRate";
-    public static final String BUDGET_VERSIONS_PAGE = "budgetVersions";
-    public static final String PD_BUDGET_VERSIONS_PAGE = "budgetVersions";
+    public static final String BUDGET_PERIOD_PAGE = "parameters";
+    public static final String BUDGET_VERSIONS_PAGE = "versions"; 
+    public static final String PD_BUDGET_VERSIONS_PAGE = "budgetVersions"; 
+    public static final String BUDGET_EXPENSES_PAGE = "expenses";
+    public static final String BUDGET_ACTIONS_PAGE = "budgetActions";
+    public static final String BUDGET_RATES_PAGE = "rates";
+    public static final String BUDGET_DIST_AND_INCOME_PAGE = "distributionAndIncome";
+    public static final String BUDGET_MODULAR_PAGE = "modularBudget";    
+    public static final String BUDGET_SUMMARY_TOTALS_PAGE = "summaryTotals";
+    public static final String PROPOSAL_HIERARCHY_PAGE = "proposalHierarchy";
+    
     public static final String BUDGET_PERIOD_PANEL_ANCHOR = "BudgetPeriodsAmpTotals";
     public static final String BUDGET_RATE_PANEL_ANCHOR = "BudgetProposalRate";
     public static final String BUDGET_VERSIONS_PANEL_ANCHOR = "BudgetVersions";
     public static final String BUDGET_PERIOD_KEY = "document.budgetPeriod*";
+    public static final String BUDGET_DISTRIBUTION_AND_INCOME_PAGE = "budgetDistributionAndIncome";
+    public static final String BUDGET_UNRECOVERED_F_AND_A_PANEL_ANCHOR = "budgetUnrecoveredFandA";
+    public static final String BUDGET_UNRECOVERED_F_AND_A_PANEL_NAME = "Budget Unrecovered F and A";
+    public static final String BUDGET_COST_SHARE_PANEL_ANCHOR = "budgetCostSharing";
+    public static final String BUDGET_COST_SHARE_PANEL_NAME = "Budget Cost Sharing";
     
     // Copy proposal
     public static final String COPY_PROPOSAL_PROPERTY_KEY = "copyProposal";
@@ -299,6 +325,13 @@ public interface Constants {
     public static final String SPONSOR_HIERARCHY_SEPARATOR_C1C = ";1;";
     public static final String SPONSOR_HIERARCHY_SEPARATOR_P1P = "#1#";
     
+    public static final String SUBAWARD_FILE_NOT_EXTRACTED = "newSubAward.subAwardFile.notExtracted";
+    
+    public static final boolean GRANTS_GOV_LINK_TARGET_POPUP = true;
+    public static final String BUDGET_CATEGORY_TYPE_PERSONNEL = "budgetCategoryType.personnel";
+    
+    public static final String KIM_QUAL_ATTR_PROPOSAL_KEY = "kra.proposal";
+
     //Award
     public static final String MAPPING_AWARD_BASIC = "basic";
     public static final String MAPPING_AWARD_HOME_PAGE = "home";
