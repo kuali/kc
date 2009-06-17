@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -14,6 +14,11 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
+
+<c:if test="${KualiForm.editingMode['modifyCompletedBudgets']}">
+	<c:set target="${KualiForm.documentActionFlags}" property="canSave" value="true"/>
+</c:if>
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -38,7 +43,7 @@
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"
-		viewOnly="${KualiForm.editingMode['viewOnly']}"
+		viewOnly="${viewOnly}"
 		/>
 		
 </kul:documentPage>
