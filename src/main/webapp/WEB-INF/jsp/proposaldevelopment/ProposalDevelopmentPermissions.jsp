@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -31,7 +31,16 @@
 	<kra-pd:proposalDevelopmentPermissionUsers />
 	<kul:panelFooter />	
 	
-	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+	<c:if test="${KualiForm.editingMode['modifyPermissions']}">
+		<c:if test="${ KualiForm.inWorkflow }" >
+			<c:set var="saveViewersSrc" value="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save_viewers.gif" />
+			<c:set var="saveViewersProperty" value="methodToCall.saveViewers" />
+			<c:set var="saveViewersAlt" value="Save Viewers" />
+		</c:if>
+	</c:if>
+	
+	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" 
+		extraButtonSource="${saveViewersSrc}" extraButtonProperty="${saveViewersProperty}" extraButtonAlt="${saveViewersAlt}" />
 	<script language="javascript" src="scripts/kuali_application.js"></script>
 	<script language="javascript" src="dwr/interface/PersonService.js"></script>
 	<script>loadPersonName('newProposalUser.username', 'fullname');</script>

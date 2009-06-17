@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@
   	headerTabActive="expenses"
   	extraTopButtons="${KualiForm.extraTopButtons}">
   	
-  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Expenses" /></div>
+  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Non-Personnel" /></div>
 		
 	<kra-b:budgetExpenses /> 
 	<kul:panelFooter />
