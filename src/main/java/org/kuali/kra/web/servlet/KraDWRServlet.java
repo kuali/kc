@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.util.ClassLoaderUtils;
 import org.kuali.rice.kns.util.spring.NamedOrderedListBean;
 import org.kuali.rice.kns.web.servlet.KualiDWRServlet;
+import org.kuali.kra.infrastructure.Constants;
 import org.springframework.core.io.DefaultResourceLoader;
 
 import uk.ltd.getahead.dwr.Configuration;

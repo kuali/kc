@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -229,7 +229,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
      * @return the Header Dispatch action
      */
     public String getHeaderDispatch() {
-        return StringUtils.isNotBlank((String)this.getDocumentActions().get(KNSConstants.KUALI_ACTION_CAN_SAVE)) ? "save" : "reload";
+        return this.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE) ? "save" : "reload";
     }
     
     protected abstract String getLockRegion();
