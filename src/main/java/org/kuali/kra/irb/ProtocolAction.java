@@ -94,6 +94,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      */
     public ActionForward noteAndAttachment(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {        
+        ((ProtocolForm) form).getNotesAndAttachmentsHelper().prepareView();
         return mapping.findForward("noteAndAttachment");
     }
     
