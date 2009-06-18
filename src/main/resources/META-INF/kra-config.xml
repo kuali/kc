@@ -6,4 +6,5 @@
 	<param name="config.location">${alt.build.location}</param>
 	<param name="config.location">${alt.config.location}</param>
 	<param name="build.version">${build.version}</param>
+	<param name="portal.css.files">css/portal.css</param>
 </config>
