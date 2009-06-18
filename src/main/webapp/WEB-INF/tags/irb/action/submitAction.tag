@@ -261,3 +261,5 @@
         updateCheckList('actionHelper.protocolSubmitAction.protocolReviewTypeCode');
     </script>
 </kul:innerTab>
+
+</kra:permission>
