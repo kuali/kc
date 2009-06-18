@@ -13,10 +13,12 @@
 package org.kuali.kra.web.struts.action;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
@@ -24,42 +26,97 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.web.struts.action.KualiRequestProcessor;
 
 /**
+ * <p>
  * This class handles setup of user session and restoring of action form.
+ * </p>
  * 
- * 
+ * <p>
+ * This class also sorts the Audit Map In the HttpServletRequest
+ * </p>
  */
 public class KraRequestProcessor extends KualiRequestProcessor {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected ActionForward processActionPerform(final HttpServletRequest request, final HttpServletResponse response,
-	    final Action action, final ActionForm form, final ActionMapping mapping) throws IOException, ServletException {
+    protected ActionForward processActionPerform(final HttpServletRequest request,
+        final HttpServletResponse response, final Action action, final ActionForm form,
+        final ActionMapping mapping) throws IOException, ServletException {
         
-        ActionForward actionForward = null;
-        Boolean sessionExpired = (Boolean) request.getSession().getAttribute(KeyConstants.SESSION_EXPIRED_IND);  
+        final ActionForward actionForward;
         
-        if (sessionExpired != null && sessionExpired.booleanValue() == true) {
-            request.getSession().removeAttribute(KeyConstants.SESSION_EXPIRED_IND);
+        if (this.isSessionExpired(request)) {
+            final HttpSession session = request.getSession();
+            session.removeAttribute(KeyConstants.SESSION_EXPIRED_IND);
             actionForward = mapping.findForward(KNSConstants.MAPPING_PORTAL); 
         } else {
             actionForward = super.processActionPerform(request, response, action, form, mapping);
+            //must come after call to super because the super class sets audit map in request
+            this.sortAuditMapInRequest(request);
         }
         
         return actionForward;
     }  
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void processPopulate(HttpServletRequest request, HttpServletResponse response, ActionForm form,
         ActionMapping mapping) throws ServletException {
-            
-        Boolean sessionExpired = (Boolean) request.getSession().getAttribute(KeyConstants.SESSION_EXPIRED_IND);  
-        if (sessionExpired != null && sessionExpired.booleanValue() == true) {
-            return;
+
+        if (!this.isSessionExpired(request)) {
+            super.processPopulate(request, response, form, mapping);
         }
-        
-        super.processPopulate(request, response, form, mapping);
     }
 
+    /**
+     * This method checks if session is expired
+     * (according to the {@link KeyConstants.SESSION_EXPIRED_IND KeyConstants.SESSION_EXPIRED_IND}).
+     * @param request the HttpServletRequest
+     * @return true if expired
+     */
+    private boolean isSessionExpired(final HttpServletRequest request) {
+        assert request != null : "the request is null";
+        
+        final HttpSession session = request.getSession();
+        final Boolean sessionExpired = (Boolean) session.getAttribute(KeyConstants.SESSION_EXPIRED_IND);
+        //null means it is not expired...
+        return Boolean.TRUE.equals(sessionExpired);
+    }
+    
+    /**
+     * This method retrieves the audit map from the http request.
+     * 
+     * @param request the HttpServletRequest
+     * @return the audit map.  If not present this method will return null.
+     */
+    private Map<String, AuditCluster> getAuditMap(final HttpServletRequest request) {
+        assert request != null : "the request is null";
+        
+        @SuppressWarnings("unchecked")
+        final Map<String, AuditCluster> auditErrorsMap
+            = (Map<String, AuditCluster>) request.getAttribute(KNSConstants.AUDIT_ERRORS);
+        
+        return auditErrorsMap;
+    }
+    
+    /**
+     * Sorts the audit map in the request.
+     * @param request the HttpServletRequest
+     */
+    private void sortAuditMapInRequest(final HttpServletRequest request) {
+        assert request != null : "the request is null";
+        
+        final Map<String, AuditCluster> auditMap = getAuditMap(request);
+        if (auditMap != null) {
+            AuditMapSorter sorter = new AuditMapSorter(auditMap);
+            sorter.sort(AuditMapSorter.DEFAULT_PATTERN_COMPARATOR_MAP);
+        }
+    }
 }
