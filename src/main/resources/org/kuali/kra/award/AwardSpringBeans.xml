@@ -117,6 +117,9 @@
 		<property name="businessObjectService">
 		    <ref bean="businessObjectService" />
 		</property>
+		<property name="kualiRuleService">
+		    <ref bean="kualiRuleService" />
+		</property>
 	</bean>
 
 	<bean id="awardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

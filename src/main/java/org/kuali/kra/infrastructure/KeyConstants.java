@@ -396,6 +396,9 @@ public final class KeyConstants {
     public static final String INVALID_FREQUENCY_BASE_FOR_FREQUENCY = "invalid.frequencyBase.for.frequency";
     public static final String ERROR_REQUIRED_ORGANIZATION = "error.required.organization";
     
+    //Award sync validation errors
+    public static final String ERROR_NO_TEMPLATE_CODE = "error.award.templateCode.notFound";
+
     // IRB Protocol Participant Types Validation Messages
     public static final String ERROR_PROTOCOL_PARTICIPANT_TYPE_NOT_SELECTED = "error.protocol.participantType.notselected";
     public static final String ERROR_PROTOCOL_PARTICIPANT_TYPE_INVALID = "error.protocol.participantType.invalid";

@@ -29,14 +29,15 @@ import org.kuali.kra.award.bo.AwardSyncable;
 import org.kuali.kra.award.bo.AwardSyncableList;
 import org.kuali.kra.award.bo.AwardTemplate;
 import org.kuali.kra.award.bo.AwardTemplateComment;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.rule.event.AwardTemplateSyncEvent;
+import org.kuali.kra.award.service.AwardTemplateSyncService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kra.award.bo.AwardTemplateTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
-import org.kuali.kra.award.service.AwardTemplateSyncService;
-import org.kuali.kra.award.web.struts.form.AwardForm;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class is the implementation of AwardTemplateSyncService.
@@ -44,6 +45,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
 
     private BusinessObjectService businessObjectService;
+    private KualiRuleService kualiRuleService;
     
     private static final Log LOG = LogFactory.getLog(AwardTemplateSyncServiceImpl.class);
 
@@ -169,9 +171,6 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
             sync(awardTemplateObject, newObjectToSync);
             ObjectUtils.setObjectProperty(newObjectToSync, parentPropertyName, awardObject);
             newObjectList.add(newObjectToSync);
-            if(syncClass.equals(AwardReportTerm.class)){                
-                ((AwardForm)GlobalVariables.getKualiForm()).getAwardReportsBean().getNewAwardReportTermRecipients().add(new AwardReportTermRecipient());
-            }
         }
         ObjectUtils.setObjectProperty(awardObject, field.getName(), newObjectList);
     }
@@ -215,8 +214,14 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
     /**
      * @see org.kuali.kra.award.service.AwardTemplateSyncService#syncToAward(java.lang.Object, java.lang.Object)
      */
-    public boolean syncToAward(Award award) {
+    public boolean syncToAward(AwardDocument awardDocument) {
         boolean success;
+        Award award = awardDocument.getAward();
+        AwardTemplateSyncEvent awardTemplateSyncEvent = 
+            new AwardTemplateSyncEvent("Award Sync","document.award.awardTemplate",awardDocument);
+        if(!getKualiRuleService().applyRules(awardTemplateSyncEvent)){
+            return false;
+        }
         try {
             AwardTemplate awardTemplate = fetchAwardTemplate(award);
             if (isSyncAll(award)){
@@ -233,12 +238,16 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
     }
 
     /**
-     * 
      * @see org.kuali.kra.award.service.AwardTemplateSyncService#syncToAward(org.kuali.kra.award.bo.Award, java.lang.String)
      */
-    public boolean syncToAward(Award award, String syncPropertyName) {
+    public boolean syncToAward(AwardDocument awardDocument, String syncPropertyName) {
         boolean success;
+        Award award = awardDocument.getAward();
+        AwardTemplateSyncEvent awardTemplateSyncEvent = 
+            new AwardTemplateSyncEvent("Award Sync","document.award.awardTemplate",awardDocument);
+        
         try {
+            awardDocument.validateBusinessRules(awardTemplateSyncEvent);
             sync(fetchAwardTemplate(award), award, syncPropertyName);
             success=true;
         }catch (Exception e) {
@@ -247,7 +256,6 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
         }
         return success;
     }
-    
     /**
      * 
      * This is an overloaded method for syncing only AwardComments.
@@ -257,7 +265,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @param propertyName
      */
     public void syncAwardComments(Award awardObject, List<AwardTemplateComment> awardTemplateComments){
-        LOG.info("In award comments sync**********^^^^^^^^^^^^^^^^^");
+        LOG.info("In award comments sync");
         awardObject.addTemplateComments(awardTemplateComments);
     }
     
@@ -287,5 +295,19 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
                             && awardObject.getAwardSponsorTerms().isEmpty();
 
         return syncAll;
+    }
+    /**
+     * Gets the kualiRuleService attribute. 
+     * @return Returns the kualiRuleService.
+     */
+    public KualiRuleService getKualiRuleService() {
+        return kualiRuleService;
+    }
+    /**
+     * Sets the kualiRuleService attribute value.
+     * @param kualiRuleService The kualiRuleService to set.
+     */
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
     }
 }
