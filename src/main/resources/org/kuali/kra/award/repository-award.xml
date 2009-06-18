@@ -901,7 +901,7 @@
 		<reference-descriptor name="commentType" class-ref="org.kuali.kra.bo.CommentType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="commentTypeCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="template" class-ref="org.kuali.kra.award.bo.AwardTemplate" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="template" class-ref="org.kuali.kra.award.bo.AwardTemplate" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="templateCode"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -948,13 +948,13 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT"   locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="templateCode" column="AWARD_TEMPLATE_CODE" jdbc-type="INTEGER" access="anonymous"/>
-		<field-descriptor name="sponsorTermId" column="SPONSOR_TERM_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="sponsorTermId" column="SPONSOR_TERM_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<reference-descriptor name="awardTemplate" class-ref="org.kuali.kra.award.bo.AwardTemplate" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="templateCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="sponsorTerm" class-ref="org.kuali.kra.bo.SponsorTerm" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="sponsorTerm" class-ref="org.kuali.kra.bo.SponsorTerm" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="sponsorTermId"/>
 		</reference-descriptor>
 	</class-descriptor>

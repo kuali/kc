@@ -133,7 +133,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public List<AwardComment> awardComments;
     @AwardSyncableList(syncClass = AwardReportTerm.class)
     private List<AwardReportTerm> awardReportTermItems;
-    @AwardSyncableList(syncClass = AwardSponsorTerm.class)
+    @AwardSyncableList(syncClass = AwardSponsorTerm.class,syncMethodName="syncAwardSponsorTerms")
     private List<AwardSponsorTerm> awardSponsorTerms;
     @AwardSyncableList(syncClass = AwardSponsorContact.class)
     private List<AwardSponsorContact> sponsorContacts;
@@ -1698,7 +1698,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     /**
-     * This method...
+     * This method adds template comments to award when sync to template is being applied.
      * @param awardComment
      */
     public void addTemplateComments(List<AwardTemplateComment> awardTemplateComments) {
@@ -1725,6 +1725,18 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void add(AwardSponsorTerm awardSponsorTerm) {
         awardSponsorTerms.add(awardSponsorTerm);
         awardSponsorTerm.setAward(this);
+    }
+    
+    /**
+     * This method adds template sponsor terms to award when sync to template is being applied.
+     * @param awardTemplateTerms
+     */
+    public void addTemplateTerms (List<AwardTemplateTerm> awardTemplateTerms) {
+        List<AwardSponsorTerm> tempAwardSponsorTerms = new ArrayList<AwardSponsorTerm>();
+        for (AwardTemplateTerm awardTemplateTerm : awardTemplateTerms) {
+            tempAwardSponsorTerms.add(new AwardSponsorTerm(awardTemplateTerm.getSponsorTermId(), awardTemplateTerm.getSponsorTerm()));
+        }
+        setAwardSponsorTerms(tempAwardSponsorTerms);
     }
     
     /**
