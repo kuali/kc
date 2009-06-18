@@ -29,6 +29,7 @@ import org.kuali.kra.award.bo.AwardSyncable;
 import org.kuali.kra.award.bo.AwardSyncableList;
 import org.kuali.kra.award.bo.AwardTemplate;
 import org.kuali.kra.award.bo.AwardTemplateComment;
+import org.kuali.kra.award.bo.AwardTemplateTerm;
 import org.kuali.kra.award.service.AwardTemplateSyncService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -250,6 +251,19 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
     public void syncAwardComments(Award awardObject, List<AwardTemplateComment> awardTemplateComments){
         LOG.info("In award comments sync**********^^^^^^^^^^^^^^^^^");
         awardObject.addTemplateComments(awardTemplateComments);
+    }
+    
+    /**
+     * 
+     * This is an overloaded method for syncing only AwardSponsorTerms.
+     * @param awardObject
+     * @param templateTerms
+     * @param objectInList
+     * @param propertyName
+     */
+    public void syncAwardSponsorTerms(Award awardObject, List<AwardTemplateTerm> awardTemplateTerms){
+        LOG.info("In award sponsor terms sync**********^^^^^^^^^^^^^^^^^");
+        awardObject.addTemplateTerms(awardTemplateTerms);
     }
     /**
      * 
