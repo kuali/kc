@@ -9,8 +9,12 @@
         document.getElementById("question_response_type_date").style.display = "none";
         document.getElementById("question_response_type_text").style.display = "none";
         document.getElementById("question_response_type_lookup").style.display = "none";
+        document.getElementById("question_response_type_unknown").style.display = "none";
 
         switch(document.getElementById("document.newMaintainableObject.businessObject.questionTypeId").value) {
+        case "" :
+            document.getElementById("question_response_type_select").style.display = "block";
+            break;
         case "1" :
             document.getElementById("question_response_type_yes_no").style.display = "block";
             break;
@@ -30,7 +34,7 @@
             document.getElementById("question_response_type_lookup").style.display = "block";
             break;
         default :
-            document.getElementById("question_response_type_select").style.display = "block";
+            document.getElementById("question_response_type_unknown").style.display = "block";
         }
     }
 </script>
@@ -55,14 +59,9 @@
                 </div>
             </td>
             <td>
-             <div id="deb1"></div>
+
                 <%-- Start No Selection --%>
-                <c:if test="${(KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName == 'select') || (empty KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName)}">
-                    <div id="question_response_type_select" style="display: block">
-                </c:if>
-                <c:if test="${(KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName != 'select') && (!empty KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName)}">
-                    <div id="question_response_type_select" style="display: none">
-                </c:if>
+                <kra-questionnaire:questionManagerResponseDivStyle questionType='select' />
                     <p> 
                         <i>Please select the Type of response you would like for this question.</i> <br />
                     </p>
@@ -70,12 +69,7 @@
                 <%-- End No Selection --%>
                 
                 <%-- Start Yes/No Answer --%>
-                <c:if test="${KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName == 'Yes/No'}">
-                    <div id="question_response_type_yes_no" style="display: block">
-                </c:if>
-                <c:if test="${KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName != 'Yes/No'}">
-                    <div id="question_response_type_yes_no" style="display: none">
-                </c:if>
+                <kra-questionnaire:questionManagerResponseDivStyle questionType="Yes/No" />
                     <p> 
                         The user will be presented with the following radio buttons: Yes, No. <br />
                         Only one selection is possible. <br />
@@ -85,12 +79,7 @@
                 <%-- End Yes/No Answer --%>
 
                 <%-- Start Yes/No/NA Answer --%>
-                <c:if test="${KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName == 'Yes/No/NA'}">
-                    <div id="question_response_type_yes_no_na" style="display: block">
-                </c:if>
-                <c:if test="${KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName != 'Yes/No/NA'}">
-                    <div id="question_response_type_yes_no_na" style="display: none">
-                </c:if>
+                <kra-questionnaire:questionManagerResponseDivStyle questionType="Yes/No/NA" />
                     <p> 
                         The user will be presented with the following pulldown: Yes, No, Not Applicable. <br />
                         Only one selection is possible. <br />
@@ -100,12 +89,7 @@
                 <%-- End Yes/No/NA Answer --%>
                 
                 <%-- Start Number --%>
-                <c:if test="${KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName == 'Number'}">
-                    <div id="question_response_type_number" style="display: block">
-                </c:if>
-                <c:if test="${KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName != 'Number'}">
-                    <div id="question_response_type_number" style="display: none">
-                </c:if>
+                <kra-questionnaire:questionManagerResponseDivStyle questionType="Number" />
                     <p> 
                         The user will be presented with
                         <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.displayedAnswers" 
@@ -125,12 +109,7 @@
                 <%-- End Number --%>
                 
                 <%-- Start Date --%>
-                <c:if test="${KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName == 'Date'}">
-                    <div id="question_response_type_date" style="display: block">
-                </c:if>
-                <c:if test="${KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName != 'Date'}">
-                    <div id="question_response_type_date" style="display: none">
-                </c:if>
+                <kra-questionnaire:questionManagerResponseDivStyle questionType="Date" />
                     <p> 
                         The user will be presented with
                         <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.displayedAnswers" 
@@ -147,12 +126,7 @@
                 <%-- End Date --%>
                 
                 <%-- Start Text --%>
-                <c:if test="${KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName == 'Text'}">
-                    <div id="question_response_type_text" style="display: block">
-                </c:if>
-                <c:if test="${KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName != 'Text'}">
-                    <div id="question_response_type_text" style="display: none">
-                </c:if>
+                <kra-questionnaire:questionManagerResponseDivStyle questionType="Text" />
                     <p> 
                         The user will be presented with
                         <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.displayedAnswers" 
@@ -171,12 +145,7 @@
                 <%-- End Text --%>
 
                 <%-- Start Lookup --%>
-                <c:if test="${KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName == 'Lookup'}">
-                    <div id="question_response_type_lookup" style="display: block">
-                </c:if>
-                <c:if test="${KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName != 'Lookup'}">
-                    <div id="question_response_type_lookup" style="display: none">
-                </c:if>
+                <kra-questionnaire:questionManagerResponseDivStyle questionType="Lookup" />
                     <p>
                         The user will be presented with the ability to search for ____. <br />
                         The field to return is ______. <br />
@@ -187,6 +156,14 @@
                     </p>
                 </div>
                 <%-- End Lookup --%>
+
+                <%-- Start Unknown --%>
+                <kra-questionnaire:questionManagerResponseDivStyle questionType="Unknown" />
+                    <p>
+                        <i>The question type is not yet supported.  Contact the system administrator to have this fixed.  Meanwhile please select a different Type of response for for this question.</i> <br />
+                    </p>
+                </div>
+                <%-- End Unknown --%>
 
             </td>
         </tr>
