@@ -72,8 +72,10 @@ import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.Equi
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRule;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleEvent;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleImpl;
+import org.kuali.kra.award.rule.AwardTemplateSyncRule;
 import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
 import org.kuali.kra.award.rule.event.AwardSaveCustomDataRuleEvent;
+import org.kuali.kra.award.rule.event.AwardTemplateSyncEvent;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRule;
@@ -118,7 +120,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                             AwardReportTermRule,
                                                                             AwardReportTermRecipientRule,
                                                                             AwardDirectFandADistributionRule,
-                                                                            AwardCloseoutRule {
+                                                                            AwardCloseoutRule,
+                                                                            AwardTemplateSyncRule{
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
@@ -855,5 +858,9 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     
     private boolean processAwardPersonUnitCreditSplitBusinessRules(AwardDocument document) {
         return new AwardCreditSplitBean(document).recalculateCreditSplit();
+    }
+
+    public boolean processAwardTemplateSyncRules(AwardTemplateSyncEvent awardTemplateSyncEvent) {
+        return new AwardTemplateSyncRuleImpl().processAwardTemplateSyncRules(awardTemplateSyncEvent);
     }
 }

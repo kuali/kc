@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.award.service;
 
-import java.util.List;
-
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.document.AwardDocument;
 
 /**
  * This class is used for sync AwardSponsorTemplate details to different Award Details Objects.
@@ -29,7 +27,7 @@ public interface AwardTemplateSyncService {
      * @param award
      * @return true if successful
      */
-    public boolean syncToAward(Award award);
+    public boolean syncToAward(AwardDocument awardDocument);
     /**
      * 
      * This method is to sync a particular syncable list from award template
@@ -37,5 +35,5 @@ public interface AwardTemplateSyncService {
      * @param syncPropertyName is the name of member variable to represent syncable list
      * @return true if successful
      */
-    public boolean syncToAward(Award award,String syncPropertyName);
+    public boolean syncToAward(AwardDocument awardDocument,String syncPropertyName);
 }
