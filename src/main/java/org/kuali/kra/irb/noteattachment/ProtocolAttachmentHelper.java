@@ -16,16 +16,20 @@
 package org.kuali.kra.irb.noteattachment;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This is the "Helper" class for ProtocolNoteAndAttachment.
@@ -33,6 +37,7 @@ import org.kuali.kra.irb.ProtocolForm;
 public class ProtocolAttachmentHelper implements Serializable {
     
     private transient final ProtocolAttachmentService notesService;
+    private transient final TaskAuthorizationService authService;
     
     /**
      * Each Helper must contain a reference to its document form
@@ -52,16 +57,17 @@ public class ProtocolAttachmentHelper implements Serializable {
      * @throws IllegalArgumentException if the form is null
      */
     public ProtocolAttachmentHelper(final ProtocolForm form) {
-        this(form, KraServiceLocator.getService(ProtocolAttachmentService.class));
+        this(form, KraServiceLocator.getService(ProtocolAttachmentService.class), KraServiceLocator.getService(TaskAuthorizationService.class));
     }
     
     /**
      * Constructs a helper.
      * @param form the form
      * @param notesService the notesService
-     * @throws IllegalArgumentException if the form or notesService is null
+     * @param authService the authService
+     * @throws IllegalArgumentException if the form, notesService, or authService is null
      */
-    ProtocolAttachmentHelper(final ProtocolForm form, final ProtocolAttachmentService notesService) {
+    ProtocolAttachmentHelper(final ProtocolForm form, final ProtocolAttachmentService notesService, final TaskAuthorizationService authService) {
         if (form == null) {
             throw new IllegalArgumentException("the form was null");
         }
@@ -70,8 +76,45 @@ public class ProtocolAttachmentHelper implements Serializable {
             throw new IllegalArgumentException("the notesService was null");
         }
         
+        if (authService == null) {
+            throw new IllegalArgumentException("the authService was null");
+        }
+        
         this.form = form;
         this.notesService = notesService;
+        this.authService = authService;
+    }
+    
+    /**
+     * Prepare the tab for viewing.
+     */
+    public void prepareView() {
+        this.initializePermissions();
+    }
+    
+    /**
+     * Initialize the permissions for viewing/editing the Custom Data web page.
+     */
+    private void initializePermissions() {
+        this.modifyProtocol = this.canModifyProtocolAttachments();
+    }
+    
+    /**
+     * Checks if Protocol Attachments can be modified.
+     * @return true if can be modified false if cannot
+     */
+    private boolean canModifyProtocolAttachments() {
+        final ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, this.getProtocol());
+        return this.authService.isAuthorized(this.getUserName(), task);
+    }
+    
+    /**
+     * Get the userName of the user for the current session.
+     * @return the current session's userName
+     */
+    private String getUserName() {
+        final UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
+        return user.getPersonUserIdentifier();
     }
     
     /**
@@ -162,8 +205,7 @@ public class ProtocolAttachmentHelper implements Serializable {
      * @return true if modification is allowed false if not.
      */
     public boolean isModifyProtocol() {
-        return true;
-        //return modifyProtocol;
+        return this.modifyProtocol;
     }
 
     /**

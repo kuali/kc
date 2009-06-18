@@ -53,6 +53,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        ((ProtocolForm) form).getNotesAndAttachmentsHelper().prepareView();
         ((ProtocolForm) form).getNotesAndAttachmentsHelper().refreshAttachmentReferences();
         ((ProtocolForm) form).getNotesAndAttachmentsHelper().syncNewFiles();
         final ActionForward forward = super.execute(mapping, form, request, response);
