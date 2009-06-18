@@ -31,6 +31,9 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
+import org.kuali.kra.award.rule.AwardTemplateSyncRule;
+import org.kuali.kra.award.rule.event.AwardTemplateSyncEvent;
+import org.kuali.kra.award.rules.AwardTemplateSyncRuleImpl;
 import org.kuali.kra.award.service.AwardTemplateSyncService;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.bo.CommentType;
@@ -49,6 +52,7 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -469,11 +473,20 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
             HttpServletRequest request, HttpServletResponse response) throws Exception{
         AwardTemplateSyncService awardTemplateSyncService = KraServiceLocator.getService(AwardTemplateSyncService.class);
         AwardForm awardForm = (AwardForm)form;
-        Award award = awardForm.getAwardDocument().getAward();
+        AwardDocument awardDocument = awardForm.getAwardDocument();
         String syncPropertyName = getSyncPropertyName(request);
-        boolean success = syncPropertyName!=null?
-                awardTemplateSyncService.syncToAward(award, syncPropertyName):
-                    awardTemplateSyncService.syncToAward(award);
+        
+//        AwardTemplateSyncEvent awardTemplateSyncEvent = 
+//            new AwardTemplateSyncEvent("Award Sync","document.award.awardTemplate",awardForm.getDocument());
+//        boolean success = true;
+//        try{
+//            awardForm.getAwardDocument().validateBusinessRules(awardTemplateSyncEvent);
+//        }catch(ValidationException vEx){
+//            success = false;
+//        }
+        boolean success = (syncPropertyName!=null?
+                        awardTemplateSyncService.syncToAward(awardDocument, syncPropertyName):
+                            awardTemplateSyncService.syncToAward(awardDocument));
                     
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
