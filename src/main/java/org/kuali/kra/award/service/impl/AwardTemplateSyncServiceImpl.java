@@ -30,8 +30,12 @@ import org.kuali.kra.award.bo.AwardSyncableList;
 import org.kuali.kra.award.bo.AwardTemplate;
 import org.kuali.kra.award.bo.AwardTemplateComment;
 import org.kuali.kra.award.bo.AwardTemplateTerm;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.service.AwardTemplateSyncService;
+import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -165,6 +169,9 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
             sync(awardTemplateObject, newObjectToSync);
             ObjectUtils.setObjectProperty(newObjectToSync, parentPropertyName, awardObject);
             newObjectList.add(newObjectToSync);
+            if(syncClass.equals(AwardReportTerm.class)){                
+                ((AwardForm)GlobalVariables.getKualiForm()).getAwardReportsBean().getNewAwardReportTermRecipients().add(new AwardReportTermRecipient());
+            }
         }
         ObjectUtils.setObjectProperty(awardObject, field.getName(), newObjectList);
     }
@@ -240,6 +247,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
         }
         return success;
     }
+    
     /**
      * 
      * This is an overloaded method for syncing only AwardComments.
