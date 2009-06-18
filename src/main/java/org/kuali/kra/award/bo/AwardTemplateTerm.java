@@ -32,7 +32,7 @@ public class AwardTemplateTerm extends KraPersistableBusinessObjectBase{
 	private AwardTemplate awardTemplate; 
     private SponsorTermType sponsorTermType; 
     
-    @AwardSyncable private Integer sponsorTermId; 
+    @AwardSyncable private Long sponsorTermId; 
     private SponsorTerm sponsorTerm;
 
 	
@@ -103,7 +103,7 @@ public class AwardTemplateTerm extends KraPersistableBusinessObjectBase{
      * Gets the sponsorTermId attribute. 
      * @return Returns the sponsorTermId.
      */
-    public Integer getSponsorTermId() {
+    public Long getSponsorTermId() {
         return sponsorTermId;
     }
 
@@ -111,7 +111,7 @@ public class AwardTemplateTerm extends KraPersistableBusinessObjectBase{
      * Sets the sponsorTermId attribute value.
      * @param sponsorTermId The sponsorTermId to set.
      */
-    public void setSponsorTermId(Integer sponsorTermId) {
+    public void setSponsorTermId(Long sponsorTermId) {
         this.sponsorTermId = sponsorTermId;
     }
 
