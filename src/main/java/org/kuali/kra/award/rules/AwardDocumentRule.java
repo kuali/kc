@@ -395,10 +395,9 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         boolean valid = true;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         AwardDocument awardDocument = (AwardDocument) document;
-        int i = 0;
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
-        String errorPath = "";
+        String errorPath = "awardCustomData";
         errorMap.addToErrorPath(errorPath);
         AwardSaveCustomDataRuleEvent event = new AwardSaveCustomDataRuleEvent(errorPath, 
                                                                awardDocument);

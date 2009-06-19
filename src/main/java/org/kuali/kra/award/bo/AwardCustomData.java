@@ -96,8 +96,10 @@ public class AwardCustomData extends AwardAssociate {
         LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
         map.put("awardCustomDataId", getAwardCustomDataId());
         map.put("value", getValue());
+        map.put("customAttributeId", getCustomAttributeId());
         return map;
     }
+    
     /**
      * @see java.lang.Object#hashCode()
      */
@@ -106,6 +108,8 @@ public class AwardCustomData extends AwardAssociate {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((awardCustomDataId == null) ? 0 : awardCustomDataId.hashCode());
+        result = prime * result + ((customAttribute == null) ? 0 : customAttribute.hashCode());
+        result = prime * result + ((customAttributeId == null) ? 0 : customAttributeId.hashCode());
         result = prime * result + ((value == null) ? 0 : value.hashCode());
         return result;
     }
@@ -120,12 +124,24 @@ public class AwardCustomData extends AwardAssociate {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final AwardCustomData other = (AwardCustomData) obj;
+        AwardCustomData other = (AwardCustomData) obj;
         if (awardCustomDataId == null) {
             if (other.awardCustomDataId != null)
                 return false;
         }
         else if (!awardCustomDataId.equals(other.awardCustomDataId))
+            return false;
+        if (customAttribute == null) {
+            if (other.customAttribute != null)
+                return false;
+        }
+        else if (!customAttribute.equals(other.customAttribute))
+            return false;
+        if (customAttributeId == null) {
+            if (other.customAttributeId != null)
+                return false;
+        }
+        else if (!customAttributeId.equals(other.customAttributeId))
             return false;
         if (value == null) {
             if (other.value != null)

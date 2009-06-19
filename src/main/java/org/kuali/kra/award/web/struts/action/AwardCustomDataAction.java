@@ -40,6 +40,22 @@ public class AwardCustomDataAction extends AwardAction {
     
     
     /**
+     * 
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#reload(
+     * org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
+     * javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @SuppressWarnings("all")
+    public ActionForward reload(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception { 
+        AwardForm awardForm = (AwardForm) form;
+        super.reload(mapping, form, request, response);
+        return awardForm.getCustomDataHelper().awardCustomData(mapping, awardForm, request, response);        
+    }
+    
+    /**
+     * There is the additional logic in save for custom data.  there is not add functionality in the custom data tab, so the form custom data
+     * is being added to the award on save.
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
