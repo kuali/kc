@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import javax.persistence.Column;
 import javax.persistence.Id;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -152,9 +153,9 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase
             return false;
         }
         CommitteeMembershipRole committeeMembershipRole = (CommitteeMembershipRole) obj;
-        if (this.committeeMembershipIdFk != null && this.committeeMembershipIdFk.equals(committeeMembershipRole.committeeMembershipIdFk) &&
-                this.committeeMembershipRoleId != null && this.committeeMembershipRoleId.equals(committeeMembershipRole.committeeMembershipRoleId) &&
-                this.startDate != null && this.startDate.equals(committeeMembershipRole.startDate)) {
+        if (ObjectUtils.equals(this.committeeMembershipIdFk, committeeMembershipRole.committeeMembershipIdFk) 
+                && ObjectUtils.equals(this.committeeMembershipRoleId, committeeMembershipRole.committeeMembershipRoleId)
+                && ObjectUtils.equals(this.startDate, committeeMembershipRole.startDate)) {
             return true;
         } else {
             return false;
