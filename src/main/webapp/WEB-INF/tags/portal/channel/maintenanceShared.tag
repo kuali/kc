@@ -19,6 +19,7 @@
 <div class="body">
   <ul class="chan">
     <li><portal:portalLink displayTitle="true" title="Activity Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.ActivityType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    <li><portal:portalLink displayTitle="true" title="Argument Value Lookup" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.questionnaire.question.ArgValueLookup&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
   	<li><portal:portalLink displayTitle="true" title="Budget Category" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.budget.bo.BudgetCategory&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
   	<li><portal:portalLink displayTitle="true" title="Budget Category Mapping" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.budget.bo.BudgetCategoryMapping&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
   	<li><portal:portalLink displayTitle="true" title="Budget Category Maps" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.budget.bo.BudgetCategoryMap&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
