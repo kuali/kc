@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.actions.submit;
+package org.kuali.kra.irb.actions.amendrenew;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -39,8 +41,8 @@ public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = 1317253368511551232L;
     
     @Id 
-    @Column(name="ID")
-    private String id; 
+    @Column(name="PROTO_AMEND_RENEWAL_ID")
+    private Long id; 
 
     @Column(name="PROTO_AMEND_REN_NUMBER")
     private String protoAmendRenNumber; 
@@ -54,7 +56,7 @@ public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase {
     private String summary; 
 
     @Column(name="PROTOCOL_ID")
-    private Integer protocolId; 
+    private Long protocolId; 
 
     @Column(name="PROTOCOL_NUMBER")
     private String protocolNumber; 
@@ -62,6 +64,7 @@ public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase {
     @Column(name="SEQUENCE_NUMBER")
     private Integer sequenceNumber; 
 
+    private List<ProtocolAmendRenewModule> modules = new ArrayList<ProtocolAmendRenewModule>();
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="PROTOCOL_ID", insertable=false, updatable=false)
@@ -71,11 +74,11 @@ public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase {
 
     } 
     
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -103,12 +106,12 @@ public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase {
         this.summary = summary;
     }
 
-    public Integer getProtocolId() {
+    public Long getProtocolId() {
         return protocolId;
     }
 
-    public void setProtocolId(Integer protocolId) {
-        this.protocolId = protocolId;
+    public void setProtocolId(Long long1) {
+        this.protocolId = long1;
     }
 
     public String getProtocolNumber() {
@@ -125,6 +128,18 @@ public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase {
 
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
+    }
+    
+    public List<ProtocolAmendRenewModule> getModules() {
+        return modules;
+    }
+    
+    public void setModules(List<ProtocolAmendRenewModule> modules) {
+        this.modules = modules;
+    }
+    
+    public void addModule(ProtocolAmendRenewModule module) {
+        modules.add(module);
     }
 
     public Protocol getProtocol() {

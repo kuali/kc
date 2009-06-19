@@ -84,7 +84,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL);
         if (isAuthorized(task)) {
             ProtocolCopyService protocolCopyService = KraServiceLocator.getService(ProtocolCopyService.class);
-            String newDocId = protocolCopyService.copyProtocol(protocolForm.getDocument());
+            String newDocId = protocolCopyService.copyProtocol(protocolForm.getDocument()).getDocumentNumber();
             
             // Switch over to the new protocol document and
             // go to the Protocol tab web page.
@@ -355,8 +355,53 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         loadDocument(protocolForm);
     
         return mapping.findForward(PROTOCOL_TAB);
+    }
+    
+    /**
+     * Create a Renewal without an Amendment.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward createRenewal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
         
-       // return mapping.findForward(MAPPING_BASIC);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        String newDocId = getProtocolAmendRenewService().createRenewal(protocolForm.getProtocolDocument());
+        // Switch over to the new protocol document and
+        // go to the Protocol tab web page.
+        
+        protocolForm.setDocId(newDocId);
+        loadDocument(protocolForm);
+    
+        return mapping.findForward(PROTOCOL_TAB);
+    }
+    
+    /**
+     * Create a Renewal with an Amendment.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward createRenewalWithAmendment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        String newDocId = getProtocolAmendRenewService().createRenewalWithAmendment(protocolForm.getProtocolDocument(), 
+                                                                                    protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
+        // Switch over to the new protocol document and
+        // go to the Protocol tab web page.
+        
+        protocolForm.setDocId(newDocId);
+        loadDocument(protocolForm);
+    
+        return mapping.findForward(PROTOCOL_TAB);
     }
     
     private ProtocolAmendRenewService getProtocolAmendRenewService() {

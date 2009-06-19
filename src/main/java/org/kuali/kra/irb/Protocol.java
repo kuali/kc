@@ -35,6 +35,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolRiskLevel;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
@@ -134,6 +135,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     private List<ProtocolSubmission> protocolSubmissions;
     
     private ProtocolSubmission protocolSubmission;
+    
+    private List<ProtocolAmendRenewal> amendments = new ArrayList<ProtocolAmendRenewal>();
     
     /**
      * 
@@ -985,5 +988,13 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         for (ProtocolAttachmentNotification attachment : attachmentNotifications) {
             attachment.init(this);
         }
+    }
+
+    public void addAmendment(ProtocolAmendRenewal amendmentEntry) {
+        amendments.add(amendmentEntry);
+    }
+    
+    public List<ProtocolAmendRenewal> getAmendments() {
+        return amendments;
     }
 }

@@ -17,7 +17,35 @@ package org.kuali.kra.irb.actions.amendrenew;
 
 import org.kuali.kra.irb.ProtocolDocument;
 
+/**
+ * Protocol Amendment/Renewal Service.
+ */
 public interface ProtocolAmendRenewService {
 
+    /**
+     * Create an amendment.  An amendment is simply a copy of a protocol with
+     * specific sections (modules) designated for modification.
+     * @param protocolDocument the protocol document to create an amendment from
+     * @param amendmentBean the amendment info (which modules to be amended)
+     * @return the amendment's document number
+     * @throws Exception
+     */
     public String createAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception;
+
+    /**
+     * Create a Renewal without an Amendment.
+     * @param protocolDocument the protocol document to renew
+     * @return the renewal's document number
+     * @throws Exception
+     */
+    public String createRenewal(ProtocolDocument protocolDocument) throws Exception;
+    
+    /**
+     * Create a Renewal with an Amendment.
+     * @param protocolDocument the protocol document to renew/amend
+     * @param amendmentBean the amendment info (which modules to be amended)
+     * @return the renewal's document number
+     * @throws Exception
+     */
+    public String createRenewalWithAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception;
 }

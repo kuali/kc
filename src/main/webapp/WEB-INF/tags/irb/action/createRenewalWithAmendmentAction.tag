@@ -17,11 +17,11 @@
 
 <c:set var="attributes" value="${DataDictionary.ProtocolAmendmentBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="textSummary" value="actionHelper.protocolAmendmentBean.summary" />
+<c:set var="textSummary" value="actionHelper.protocolRenewAmendmentBean.summary" />
 
 <kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
 
-<kul:innerTab tabTitle="Create Amendment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolAmendmentBean*">
+<kul:innerTab tabTitle="Create Renewal with Amendment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolRenewAmendmentBean*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
@@ -35,7 +35,7 @@
                     </th>
                     <td colspan="3">
                         <nobr>
-                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.summary" attributeEntry="${attributes.summary}" />
+                        <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.summary" attributeEntry="${attributes.summary}" />
                         <kra:expandedTextArea textAreaFieldName="${textSummary}" action="${action}" textAreaLabel="${attributes.summary.label}" />
                         </nobr>
                     </td>
@@ -52,51 +52,51 @@
 	            			<tbody>
 	            				<tr>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.generalInfo" attributeEntry="${attributes.generalInfo}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.generalInfo" attributeEntry="${attributes.generalInfo}" />
 	            					    General Info
 	            					</td>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.addModifyAttachments" attributeEntry="${attributes.generalInfo}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.addModifyAttachments" attributeEntry="${attributes.generalInfo}" />
 	            					    Add/Modify Attachments
 	            					</td>
 	            				</tr>
 	            				<tr>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.fundingSource" attributeEntry="${attributes.fundingSource}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.fundingSource" attributeEntry="${attributes.fundingSource}" />
 	            					    Funding Source
 	            					</td>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.areasOfResearch" attributeEntry="${attributes.areasOfResearch}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.areasOfResearch" attributeEntry="${attributes.areasOfResearch}" />
 	            					    Areas of Research
 	            					</td>
 	            				</tr>
 	            				<tr>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.protocolReferences" attributeEntry="${attributes.protocolReferences}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.protocolReferences" attributeEntry="${attributes.protocolReferences}" />
 	            					    Protocol References
 	            					</td>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.specialReview" attributeEntry="${attributes.specialReview}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.specialReview" attributeEntry="${attributes.specialReview}" />
 	            					    Special Review
 	            					</td>
 	            				</tr>
 	            				<tr>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.protocolOrganizations" attributeEntry="${attributes.protocolOrganizations}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.protocolOrganizations" attributeEntry="${attributes.protocolOrganizations}" />
 	            					    Protocol Organizations
 	            					</td>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.protocolPersonnel" attributeEntry="${attributes.protocolPersonnel}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.protocolPersonnel" attributeEntry="${attributes.protocolPersonnel}" />
 	            					    Protocol Personnel
 	            					</td>
 	            				</tr>
 	            				<tr>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.subjects" attributeEntry="${attributes.subjects}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.subjects" attributeEntry="${attributes.subjects}" />
 	            					    Subjects
 	            					</td>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.others" attributeEntry="${attributes.others}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.others" attributeEntry="${attributes.others}" />
 	            					    Others
 	            					</td>
 	            				</tr>
@@ -108,7 +108,7 @@
                 <tr>
 					<td align="center" colspan="2">
 						<div align="center">
-							<html:image property="methodToCall.createAmendment.anchor${tabKey}"
+							<html:image property="methodToCall.createRenewalWithAmendment.anchor${tabKey}"
 							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-create.gif' styleClass="tinybutton"/>
 						</div>
 	                </td>
