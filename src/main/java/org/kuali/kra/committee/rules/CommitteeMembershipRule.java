@@ -40,11 +40,10 @@ public class CommitteeMembershipRule extends ResearchDocumentRuleBase
                                                 AddCommitteeMembershipRoleRule {
 
     private final String PROPERTY_NAME_PERSON_NAME = "membershipHelper.newCommitteeMembership.personName";
-    private final String PROPERTY_NAME_NEW_ROLE_PREFIX = "membershipRolesHelper.newCommitteeMembershipRoles[";
-    private final String PROPERTY_NAME_ROLE_CODE = "].membershipRoleCode";
-    private final String PROPERTY_NAME_ROLE_START_DATE = "].startDate";
-    private final String PROPERTY_NAME_ROLE_END_DATE = "].endDate";
-        
+    private final String PROPERTY_NAME_ROLE_CODE = "membershipRolesHelper.newCommitteeMembershipRoles[%1$s].membershipRoleCode";
+    private final String PROPERTY_NAME_ROLE_START_DATE = "membershipRolesHelper.newCommitteeMembershipRoles[%1$s].membershipRoleCode"; 
+    private final String PROPERTY_NAME_ROLE_END_DATE = "membershipRolesHelper.newCommitteeMembershipRoles[%1$s].membershipRoleCode"; 
+                    
     /**
      * Process the validation rules for an <code>{@link AddCommitteeMembershipEvent}</code>.
      * 
@@ -84,46 +83,38 @@ public class CommitteeMembershipRule extends ResearchDocumentRuleBase
         // Verify role code
         if (StringUtils.isBlank(membershipRole.getMembershipRoleCode())) {
             isValid = false;
-            reportError(PROPERTY_NAME_NEW_ROLE_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_CODE, 
-                    KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_NOT_SPECIFIED);
+            reportError(String.format(PROPERTY_NAME_ROLE_CODE, membershipIndex), KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_NOT_SPECIFIED);
         }
         
         // Verify role start date
         if (membershipRole.getStartDate() == null) {
             isValid = false;
-            reportError(PROPERTY_NAME_NEW_ROLE_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_START_DATE, 
-                    KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_START_DATE_NOT_SPECIFIED);
+            reportError(String.format(PROPERTY_NAME_ROLE_START_DATE, membershipIndex), KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_START_DATE_NOT_SPECIFIED);
         }
         if (hasDateOutsideCommitteeMembershipTerm(committeeMembership, membershipRole.getStartDate())) {
             isValid = false;
-            reportError(PROPERTY_NAME_NEW_ROLE_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_START_DATE, 
-                    KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_START_DATE_OUTSIDE_TERM);
+            reportError(String.format(PROPERTY_NAME_ROLE_START_DATE, membershipIndex), KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_START_DATE_OUTSIDE_TERM);
         }
 
         // Verify role end date
         if (membershipRole.getEndDate() == null) {
             isValid = false;
-            reportError(PROPERTY_NAME_NEW_ROLE_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_END_DATE, 
-                    KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_END_DATE_NOT_SPECIFIED);
+            reportError(String.format(PROPERTY_NAME_ROLE_END_DATE, membershipIndex), KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_END_DATE_NOT_SPECIFIED);
         }
         if (membershipRole.getStartDate() != null && membershipRole.getEndDate() != null 
                 && membershipRole.getEndDate().before(membershipRole.getStartDate())) {
             isValid = false;
-            reportError(PROPERTY_NAME_NEW_ROLE_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_END_DATE, 
-                    KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_END_DATE_BEFORE_ROLE_START_DATE);
+            reportError(String.format(PROPERTY_NAME_ROLE_END_DATE, membershipIndex), KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_END_DATE_BEFORE_ROLE_START_DATE);
         }
         if (hasDateOutsideCommitteeMembershipTerm(committeeMembership, membershipRole.getEndDate())) {
             isValid = false;
-            reportError(PROPERTY_NAME_NEW_ROLE_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_END_DATE, 
-                    KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_END_DATE_OUTSIDE_TERM);
+            reportError(String.format(PROPERTY_NAME_ROLE_END_DATE, membershipIndex), KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_END_DATE_OUTSIDE_TERM);
         }
         
         // To keep the errors more comprehensible the role overlap check is done after other errors are resolved
         if (isValid && hasRoleOverlap(membershipRole, membershipRoles)) {
             isValid = false;
-            reportError(PROPERTY_NAME_NEW_ROLE_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_CODE, 
-                    KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_DUPLICATE);
-            
+            reportError(String.format(PROPERTY_NAME_ROLE_CODE, membershipIndex), KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_DUPLICATE);
         }
         
         return isValid;
