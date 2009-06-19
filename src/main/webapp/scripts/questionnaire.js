@@ -24,11 +24,11 @@
      var tr1 = $('<tr></tr>');
      var td1 = $('<td class="subelementcontent"></td>');
 
-
-     getAddQuestionRow().appendTo(td1);
+     //getAddQuestionRow().appendTo(td1);
+     getQuestionActionSubTable(qnaireid).appendTo(td1);
      getRequirementDisplayTable().appendTo(td1);
                                                                                  
-     var div192 = $('<div></div>').attr("id","HSdiv"+i);
+     var div192 = $('<div></div>').attr("id","HSReqdiv"+i);
      var tbl196 = $('<table cellpadding="0" cellspacing="0" class="elementtable" style="width:100%; border-top:none;"></table>');
      getAddRequirementRow().appendTo(tbl196);
      tbl196.appendTo(div192);
@@ -42,17 +42,18 @@
                                                                                              
      var tbl325 = $('<table width="100%" cellpadding="0" cellspacing="0" style="border-top:#E4E3E4 solid 1px;">');
      trtmp = $('<tr></tr>');
+     var hsdiv = "#HSdiv"+i;
      thtmp = $('<th class="subelementheader" style="text-align:left;" colspan="3">').html("Response");
-     image = $('<img id="HScontrol01" src="/kra-dev/kr/static/images/tinybutton-show.gif" alt="show/hide this panel" title="show/hide this panel"  style="width:45px; height:15px; border:none; cursor:pointer; padding:2px; vertical-align:middle;" />').toggle(
+     image = $('<img src="/kra-dev/kr/static/images/tinybutton-show.gif" alt="show/hide this panel" title="show/hide this panel"  style="width:45px; height:15px; border:none; cursor:pointer; padding:2px; vertical-align:middle;" />').attr("id","HScontrol"+i).toggle(
                 function()
                 {
-                    $("#HSdiv01").slideDown(400);
-                    $("#HScontrol01").attr("src","/kra-dev/kr/static/images/tinybutton-hide.gif");
+                    $(hsdiv).slideDown(400);
+                    $(this).attr("src",jsContextPath+"/kr/static/images/tinybutton-hide.gif");
                 },
                 function()
                 {
-                    $("#HSdiv01").slideUp(200);
-                    $("#HScontrol01").attr("src","/kra-dev/kr/static/images/tinybutton-show.gif");
+                    $(hsdiv).slideUp(200);
+                    $(this).attr("src",jsContextPath+"/kr/static/images/tinybutton-show.gif");
                 }
      );
      image.prependTo(thtmp);
@@ -60,7 +61,7 @@
      trtmp.appendTo(tbl325);
      tbl325.appendTo(td1);
      
-     var div360 = $('<div id="HSdiv01"></div>'); 
+     var div360 = $('<div ></div>').attr("id","HSdiv"+i); 
      var tbl362 = $('<table class="content_table">');
      trtmp = $('<tr></tr>');
      tdtmp = $('<td class="content_grey" style="width:110px; text-align:center;">').html("Type");
@@ -139,7 +140,7 @@
   }
   
 
-  function getQuestionActionSubTable() {
+  function getQuestionActionSubTable(qnaireid) {
      // table for Qn actions : move/remove/cut/past/lookup  
 
      var tbl80 = $('<table cellpadding="0" cellspacing="0" class="elementtable" width="100%">').attr("id","tbl80"+i);
@@ -147,35 +148,43 @@
      var tmp = $('<th style="text-align:right; width:120px;">Node:</th>');
      trtmp.html(tmp);
      var thtmp = $('<th colspan="3"></th>');
-     var image = $('<img style="border:none;" alt="move down" title="Move Down" type="image" >');
-     var atag = $('<a href="#"></a>').attr("id","movedn"+i).click(function() {
-     alert("This would move this node and its children down within its sibling group.");
-                    }); 
-     image.attr("src",jsContextPath+"/static/images/jquery/arrow-down.gif");
-     //alert("images "+image.attr("src"));
-     atag.html(image);
-     atag.appendTo(thtmp);
+     //if ($(this).parents('li:eq(0)').prev().size() > 0) {  // don't have this info yest because node is not complete
+        getMoveUpLink().appendTo(thtmp);
+        getMoveDownLink().appendTo(thtmp); 
+     //}
   
      image = $('<a href="#"><img src="/kra-dev/static/images/tinybutton-removenode.gif" width="79" height="15" border="0" alt="Remove Node" title="Remove this node and its child groups/sponsors"></a>&nbsp').attr("id","remove"+i).click(function() {
                       var liId="li#"+qnaireid;
                       removedNode = $(liId).clone(true);
                       //removedNode = $(liId); // this will not work because event also lost
                       alert("Remove node "+removedNode.attr("id"));
+                      if ($(liId).prev().size() == 0 && $(liId).next().size() > 0) {
+                          $("#moveup"+$(liId).next().attr("id").substring(8)).hide();
+                      }
+                      if ($(liId).next().size() == 0 && $(liId).prev().size() > 0) {
+                          $("#movedn"+$(liId).prev().attr("id").substring(8)).hide();
+                      }
                       $(liId).remove();
+                      cutNode=null;
                     }); 
       image.appendTo(thtmp);
       image = $('<a href="#"><img src="/kra-dev/static/images/tinybutton-cutnode.gif" width="79" height="15" border="0" alt="Cut Node" title="Cut this node and its child roups/sponsors.  (Node will not be removed until you paste it.)"></a>&nbsp').attr("id","cut"+i).click(function() {
                       alert("Cut node");
+                       var liId="li#"+qnaireid;
+                      cutNode = $(liId).clone(true);
+                      removedNode=null; // remove & cutNode should not co-exist
                     }); 
       image.appendTo(thtmp);                  
       image = $('<a href="#"><img src="/kra-dev/static/images/tinybutton-copynode.gif" width="79" height="15" border="0" alt="Copy Node" title="Copy this node and its child.)"></a>&nbsp').attr("id","copy"+i).click(function() {
-                      alert("Cut node");
+                      alert("Copy node");
                     }); 
       image.appendTo(thtmp);                  
       image = $('<a href="#"><img src="/kra-dev/static/images/tinybutton-pastenode.gif" width="79" height="15" border="0" alt="Paste Node" title="Paste your previously cut node structure under this node"></a>').attr("id","paste"+i).click(function() {
 
-                if (removedNode) {
-                      var parentNode = $("#"+id);
+                   
+                if (removedNode || cutNode) {
+                      var idx;
+                      var parentNode = $("#"+qnaireid);
                       var ulTag = parentNode.children('ul');
                       if (ulTag.size() > 0) {                     
                            alert(ulTag.attr("id"));
@@ -184,11 +193,36 @@
                           i++;
                           ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);                         
                       }   
-                      removedNode.appendTo(ulTag);
+                      if (removedNode) {
+                          removedNode.appendTo(ulTag);
+                          idx = removedNode.attr("id").substring(8);
+                         // sqlScripts = sqlScripts +"#;#"+getInsertClause(getResearchAreaCode(removedNode.children('a:eq(0)').text()), getResearchAreaCode(name), getResearchAreaDescription(removedNode.children('a:eq(0)').text()));
+                          removedNode = null;
+                      } else {
+                          var liId = cutNode.attr("id");
+                          var parentRACode;
+                          $("li#"+liId).remove();
+                          cutNode.appendTo(ulTag);
+                          idx = cutNode.attr("id").substring(8);
+                          //sqlScripts = sqlScripts +"#;#"+getInsertClause(getResearchAreaCode(cutNode.children('a:eq(0)').text()), getResearchAreaCode(name), getResearchAreaDescription(cutNode.children('a:eq(0)').text()));
+                          cutNode = null;
+                      }
                       ulTag.appendTo(parentNode);
-                                           
-                      removedNode = null;
+                      if (ulTag.children('li').size() == 1) {
+                          $("#moveup"+idx).hide();
+                          $("#movedn"+idx).hide();
+                      } else {
+                          alert("prev "+$("#qnaireid"+idx).prev().attr("id"));
+                          $("#movedn"+idx).hide();
+                          $("#movedn"+$("#qnaireid"+idx).prev().attr("id").substring(8)).show();
+                      }
+                      //alert("Remove node "+removedNode.children('a:eq(0)').text());
+                      //alert (sqlScripts);
+                      
+                      
                    }// if removednode                         
+                   
+                                         
                 }); 
       image.appendTo(thtmp);                  
 
@@ -198,6 +232,55 @@
       getAddQuestionRow().appendTo(tbl80); // row2
       return tbl80;
   
+  }
+  
+  function getMoveDownLink() {
+      var image = $('<img style="border:none;" alt="move down" title="Move Down" type="image" >');
+      var atag = $('<a href="#"></a>').attr("id","movedn"+i).click(function() {
+          alert("move down"+$(this).parents('li:eq(0)').next().size());
+          var curNode = $(this).parents('li:eq(0)').clone(true);
+          var nextNode = $(this).parents('li:eq(0)').next();
+          $(this).parents('li:eq(0)').remove();
+          curNode.insertAfter(nextNode);
+          $("#moveup"+curNode.attr("id").substring(8)).show();
+          $("#movedn"+nextNode.attr("id").substring(8)).show();
+          if (nextNode.prev().size() == 0) {
+              alert("move up next node");
+              $("#moveup"+nextNode.attr("id").substring(8)).hide();
+          }
+          if (curNode.next().size() == 0) {
+             alert ("move dn no next node ");
+              $("#movedn"+curNode.attr("id").substring(8)).hide();
+          }
+      }); 
+      image.attr("src",jsContextPath+"/static/images/jquery/arrow-down.gif");
+      //alert("images "+image.attr("src"));
+      atag.html(image);
+      return atag;
+  }
+  
+  function getMoveUpLink() {
+      var image = $('<img style="border:none;" alt="move up" title="Move up" type="image" >');
+      var atag = $('<a href="#"></a>').attr("id","moveup"+i).click(function() {
+          alert("move up"+$(this).parents('li:eq(0)').prev().size());
+          var curNode = $(this).parents('li:eq(0)').clone(true);
+          var nextNode = $(this).parents('li:eq(0)').prev();
+          $(this).parents('li:eq(0)').remove();
+          curNode.insertBefore(nextNode);
+          $("#movedn"+curNode.attr("id").substring(8)).show();
+          $("#moveup"+nextNode.attr("id").substring(8)).show();
+          if (curNode.prev().size() == 0) {
+              $("#moveup"+curNode.attr("id").substring(8)).hide();
+          }
+          if (nextNode.next().size() == 0) {
+              $("#movedn"+nextNode.attr("id").substring(8)).hide();
+          }
+          
+      }); 
+      image.attr("src",jsContextPath+"/static/images/jquery/arrow-up.gif");
+      //alert("images "+image.attr("src"));
+      atag.html(image);
+      return atag;
   }
   
   function getAddQuestionRow() {
@@ -211,7 +294,7 @@
      $('<span>as child</span>').appendTo(tdtmp);
      tdtmp.appendTo(trtmp);
   
-     tdtmp = $('<td style="border:none;"></td>').html($('<input type="text" style="width:100%" value="" />'));
+     tdtmp = $('<td style="border:none;"></td>').html($('<input type="text" size="50" value="" />').attr("id","qdesc"+i));
      tdtmp.appendTo(trtmp);
      tdtmp = $('<td style="border:none; width:30px; text-align:center;"></td>');
 
@@ -221,15 +304,75 @@
      qntag.appendTo(tdtmp);
      var image = $('<img src="/kra-dev/static/images/searchicon.gif" border="0" class="tinybutton"  alt="Search Question" title="Search Question">').attr("id","search"+i); 
      //image.attr("name","methodToCall\.performLookup\.(!!org\.kuali\.kra\.questionnaire\.question\.Question!!)\.(((questionId:document\.newMaintainableObject\.questionId,)))\.((#document\.newMaintainableObject\.questionId:questionId,#))\.((<>))\.(([]))\.((**))\.((^^))\.((&&))\.((/rateClassTypeT/))\.((~~))\.anchor1");
-     image.attr("name","methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:document.newMaintainableObject.questionId,))).((#document.newMaintainableObject.questionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/rateClassTypeT/)).((~~)).anchor1");
+     //image.attr("name","methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:document.newMaintainableObject.questionId,))).((#document.newMaintainableObject.questionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/rateClassTypeT/)).((~~)).anchor1");
+     //image.attr("name","methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:document.newMaintainableObject.questionId,))).((#document.newMaintainableObject.questionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/rateClassTypeT/)).((~~)).anchor1");
+     image.click(function() {
+         checkToAddQn($(this).attr("id").substring(6));
+         return false;
+     });
      atag.html(image);
      atag.appendTo(tdtmp);
      //name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:document.newMaintainableObject.businessObject.questionnaireQuestions[0].questionId,))).((#document.newMaintainableObject.businessObject.questionnaireQuestions[0].questionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/questionId/)).((~~)).anchor1"
      image = $('<input type="image" src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search Question" title="Search Question" />').attr("id","search"+i);
-     image.attr("name","methodToCall\.performLookup\.(!!org\.kuali\.kra\.questionnaire\.question\.Question!!)\.(((questionId:document\.newMaintainableObject\.businessObject\.questionnaireQuestions[0]\.questionId,)))\.((#document\.newMaintainableObject\.businessObject\.questionnaireQuestions[0]\.questionId:questionId,#))\.((<>))\.(([]))\.((**))\.((^^))\.((&&))\.((/questionId/))\.((~~))\.anchor1");
+     image.attr("name","methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:newQuestionId,question:newQuestion))).((#newQuestionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/questionId/)).((~~)).anchor1");
      image.appendTo(tdtmp);
      //var testlookup = $('<input type="image" tabindex="1000009" name="methodToCall\.performLookup\.(!!org\.kuali\.kra\.budget\.bo\.RateClassType!!)\.(((rateClassType:document\.newMaintainableObject\.rateClassType,)))\.((#document\.newMaintainableObject\.rateClassType:rateClassType,#))\.((<>))\.(([]))\.((**))\.((^^))\.((&&))\.((/rateClassTypeT/))\.((~~))\.anchor1" src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search Rate Class Type" title="Search Rate Class Type" />');
      //testlookup.appendTo(tdtmp);
+  
+      image = $('<input name="addquestionnaire" src="/kra-dev/kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" />').attr("id","addQn"+i).click(function() {
+        //alert("This would add question "+$(".radioQn"+$(this).attr("id").substring(5)+":checked").val()+"-"+$("#newQuestionId").attr("value")+"-"+$("#newQuestion").attr("value"));  
+        alert("This would add question "+$(this).parents('li:eq(0)').children('ul:eq(0)').size()+"-"+$(".radioQn"+$(this).attr("id").substring(5)+":checked").val());  
+        
+        
+            i++;
+
+            var listitem = getQuestionNew($("#qdesc"+$(this).attr("id").substring(5)).attr("value"), "V1.01");
+			var ultag = $('<ul></ul>');
+            ultag.appendTo(listitem);
+            var idx = listitem.attr("id").substring(8);
+            if ($(".radioQn"+$(this).attr("id").substring(5)+":checked").val() == 'sibling') {
+              alert('sibling');
+              var parentUl = $(this).parents('li:eq(0)').parents('ul:eq(0)');
+              listitem.appendTo(parentUl);
+              //listitem.appendTo('ul#example');
+              // last one no 'move dn'
+                 $("#movedn"+idx).hide();
+                 $("#movedn"+listitem.prev().attr("id").substring(8)).show();
+            } else {
+              var parentUl = $(this).parents('li:eq(0)').children('ul:eq(0)');
+              listitem.appendTo(parentUl);
+              //alert('children'+$(this).parents('li:eq(0)').children('ul:eq(0)').children('li').size());
+              // TODO : if add 2nd item, then add 'movedn' to 1st item.  maybe use hide/show instead of 'remove'
+              // "==1" is the one just added
+              if ($(this).parents('li:eq(0)').children('ul:eq(0)').children('li').size() == 1) {
+                 $("#moveup"+idx).hide();
+                 $("#movedn"+idx).hide();
+              } else {
+                 alert("prev "+listitem.prev().attr("id"));
+                 $("#movedn"+idx).hide();
+                 $("#movedn"+listitem.prev().attr("id").substring(8)).show();
+              }
+            }
+        
+        // also need this to show 'folder' icon
+        $('#example').treeview({
+           add: listitem
+        });
+
+        var intag = $('<input type ="text"></input>').attr("value",$("#newQuestionId").attr("value").trim());
+        var name = "document\.newMaintainableObject\.businessObject\.questionnaireQuestions["+j+"]\.questionId";
+        intag.attr("id",name).attr("name",name);
+        j++;
+        var trtmp1 = $('<tr></tr>');
+        var tdtmp1 = $('<td></td>').html(intag);
+        trtmp1.html(tdtmp1);
+        trtmp1.appendTo($("#question-table"));
+        
+        
+        return false;
+      });
+      image.appendTo(tdtmp);
+  
   
      tdtmp.appendTo(trtmp);
      trtmp.appendTo(tbl95);
@@ -247,16 +390,17 @@
      var trtmp = $('<tr></tr>');
      var thtmp = $('<th class="subelementheader" style="text-align:left;" colspan="3">');
      thtmp.html("Requirements for Display");
-     var image = $('<img id="HScontrol02b" src="/kra-dev/kr/images/tinybutton-show.gif" alt="show/hide this panel" title="show/hide this panel"  style="width:45px; height:15px; border:none; cursor:pointer; padding:2px; vertical-align:middle;" />').attr("id","HScontrol"+i).toggle(
+     var hsdiv = "#HSReqdiv"+i;
+     var image = $('<img src="/kra-dev/kr/images/tinybutton-show.gif" alt="show/hide this panel" title="show/hide this panel"  style="width:45px; height:15px; border:none; cursor:pointer; padding:2px; vertical-align:middle;" />').attr("id","HSReqcontrol"+i).toggle(
                 function()
                 {
-                    $("#HSdiv"+i).slideDown(400);
-                    $("#HScontrol"+i).attr("src","/kra-dev/kr/static/images/tinybutton-hide.gif");
+                    $(hsdiv).slideDown(400);
+                    $(this).attr("src","/kra-dev/kr/static/images/tinybutton-hide.gif");
                 },
                 function()
                 {
-                    $("#HSdiv"+i).slideUp(200);
-                    $("#HScontrol"+i).attr("src","/kra-dev/kr/static/images/tinybutton-show.gif");
+                    $(hsdiv).slideUp(200);
+                    $(this).attr("src","/kra-dev/kr/static/images/tinybutton-show.gif");
                 }
       );
       image.prependTo(thtmp);
@@ -331,4 +475,30 @@
       tdtmp.appendTo(trtmp);
       return trtmp;
   
+  }
+  
+  // test lookup pop
+  
+      function checkToAddQn(nodeIndex) {
+    
+		//alert (childrenNode[0].isLeaf+" ln "+leafNode);
+		//if (childrenNode.length == 0 || childrenNode[0].isLeaf) {
+		//    updateSponsorCodes();
+		alert(nodeIndex);
+			  url=window.location.href
+			  pathname=window.location.pathname
+			  idx1=url.indexOf(pathname);
+			  idx2=url.indexOf("/",idx1+1);
+			  extractUrl=url.substr(0,idx2)
+			  var winPop = window.open(extractUrl+"/questionLookup.do?nodeIndex="+nodeIndex, "_blank", "width=800, height=600, scrollbars=yes");
+         //} else {
+         //	alert ("This node has sub sponsor group; can't add sponsors ");
+         //}
+
+    }
+  
+  function returnQuestion(newQuestionId, newQuestion,nodeIndex) {
+     alert("return QNID "+ newQuestionId);
+     $("#qid"+nodeIndex).attr("value",newQuestionId);
+     $("#qdesc"+nodeIndex).attr("value",newQuestion);
   }

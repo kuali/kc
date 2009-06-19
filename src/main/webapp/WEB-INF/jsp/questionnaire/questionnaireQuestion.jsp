@@ -48,10 +48,42 @@
   var i = 1;
   var j = 0;
   var removedNode;
+  var cutNode;
   var jsContextPath = "${pageContext.request.contextPath}";
   $(document).ready(function(){
     $.ajaxSettings.cache = false; 
     $("#example").treeview();
+    $("#rootSearch").attr("name","methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:newQuestionId,question:newQuestion))).((#newQuestionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/questionId/)).((~~)).anchor1");
+    
+    $("#addRootQn").click(function() {
+        //alert("This would add question "+$(".radioQn"+$(this).attr("id").substring(5)+":checked").val()+"-"+$("#newQuestionId").attr("value")+"-"+$("#newQuestion").attr("value"));  
+        alert("This would add question "+$(this).parents('li:eq(0)').children('ul:eq(0)').size()+"-"+$(".radioQn"+$(this).attr("id").substring(5)+":checked").val());  
+        
+        
+            i++;
+
+            var listitem = getQuestionNew($("#newQuestion").attr("value"), "V1.01");
+			var ultag = $('<ul></ul>');
+            ultag.appendTo(listitem);
+            
+              listitem.appendTo('ul#example');
+        $('#example').treeview({
+           add: listitem
+        });
+
+        alert("# of siblings "+listitem.siblings('li').size());
+        var intag = $('<input type ="text"></input>').attr("value",$("#newQuestionId").attr("value").trim());
+        var name = "document\.newMaintainableObject\.businessObject\.questionnaireQuestions["+j+"]\.questionId";
+        intag.attr("id",name).attr("name",name);
+        j++;
+        var trtmp1 = $('<tr></tr>');
+        var tdtmp1 = $('<td></td>').html(intag);
+        trtmp1.html(tdtmp1);
+        trtmp1.appendTo($("#question-table"));
+        
+        
+        return false;
+      });
   
     });
   
@@ -373,7 +405,7 @@ tbl196.appendTo(div192);
    function addQuestion() {
      //alert($("#document\\.newMaintainableObject\\.businessObject\\.questionnaireQuestions\\[0\\]\\.questionId").attr("value"));
      //var qid = $("#document\\.newMaintainableObject\\.businessObject\\.questionnaireQuestions\\[0\\]\\.questionId");
-     var qid = $("#questionId");
+     var qid = $("#newQuestionId");
      //alert ("qid "+qid.attr("id"));
      if (qid.attr("value").trim() == "") {
         alert("Please enter question description");
@@ -747,7 +779,7 @@ function getResearchAreaCode(nodeName) {
         
        //alert("qncount= "+$("#qncount").attr("value"));
        // kind of set up questions when return from lookup.  still has long way to go.
-       $("#questionId").attr("value","10");
+       $("#newQuestionId").attr("value","10");
        	for(var k= 1; k <= $("#qncount").attr("value"); k++) {
        	//for(var k= 1; k <= 100; k++) {
        	   addQuestion();
