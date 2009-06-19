@@ -31,6 +31,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
+import org.kuali.kra.award.service.AwardNumberService;
 import org.kuali.kra.award.rule.AwardTemplateSyncRule;
 import org.kuali.kra.award.rule.event.AwardTemplateSyncEvent;
 import org.kuali.kra.award.rules.AwardTemplateSyncRuleImpl;
@@ -40,7 +41,6 @@ import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.AwardCommentService;
@@ -67,7 +67,8 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  * This class represents base Action class for all the Award pages.
  */
 public class AwardAction extends KraTransactionalDocumentActionBase {
-    protected static final String AWARD_ID_PARAMETER_NAME = "awardId"; 
+    protected static final String AWARD_ID_PARAMETER_NAME = "awardId";
+    private static final String AWARD_NUMBER_SERVICE = "awardNumberService";
     
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(
@@ -104,6 +105,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         AwardForm awardForm = (AwardForm) form;
         if (isValidSave(awardForm)) {
+            checkAwardNumber(awardForm.getAwardDocument().getAward());
             forward = super.save(mapping, form, request, response);
     
             if (awardForm.getMethodToCall().equals("save") && awardForm.isAuditActivated()) {
@@ -112,6 +114,18 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         }
 
         return forward;
+    }
+    
+    /**
+     * This method sets an award number on an award if the award number hasn't been initialized yet.
+     * @param award
+     */
+    private void checkAwardNumber(Award award) {
+        if (Award.DEFAULT_AWARD_NUMBER.equals(award.getAwardNumber())) {
+            AwardNumberService awardNumberService = (AwardNumberService)KraServiceLocator.getService(AWARD_NUMBER_SERVICE);
+            String awardNumber = awardNumberService.getNextAwardNumber();
+            award.setAwardNumber(awardNumber);
+        }
     }
     
     /**
@@ -392,7 +406,6 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         return mapping.findForward(Constants.MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE);
     }
     
-    @SuppressWarnings("unchecked")
     protected void setAwardCommentScreenDisplayTypesOnForm(AwardForm awardForm) {
         AwardCommentService awardCommentService = getAwardCommentService();
         List<CommentType> commentTypes = awardCommentService.retrieveCommentTypesToAwardFormForPanelHeaderDisplay();
