@@ -115,14 +115,14 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
     /**
      * @see org.kuali.kra.irb.actions.copy.ProtocolCopyService#copyProtocol(org.kuali.kra.irb.ProtocolDocument)
      */
-    public String copyProtocol(ProtocolDocument srcDoc) throws Exception {
+    public ProtocolDocument copyProtocol(ProtocolDocument srcDoc) throws Exception {
         return copyProtocol(srcDoc, protocolNumberService.generateProtocolNumber());
     }
     
     /**
      * @see org.kuali.kra.irb.actions.copy.ProtocolCopyService#copyProtocol(org.kuali.kra.irb.ProtocolDocument, java.lang.String)
      */
-    public String copyProtocol(ProtocolDocument srcDoc, String protocolNumber) throws Exception {
+    public ProtocolDocument copyProtocol(ProtocolDocument srcDoc, String protocolNumber) throws Exception {
         ProtocolDocument newDoc = createNewProtocol(srcDoc, protocolNumber);
         
         documentService.saveDocument(newDoc);
@@ -132,7 +132,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
             
         initializeAuthorization(srcDoc, newDoc);
 
-        return newDoc.getDocumentNumber();
+        return newDoc;
     }
     
     /**
