@@ -73,7 +73,18 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
-    
+
+    <class-descriptor class="org.kuali.kra.questionnaire.question.ArgValueLookup" table="ARG_VALUE_LOOKUP">
+        <field-descriptor name="argValueLookupId" column="ARG_VALUE_LOOKUP_ID" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="argumentName" column="ARGUMENT_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+        
     <class-descriptor class="org.kuali.kra.questionnaire.answer.AnswerHeader" table="QUESTIONNAIRE_ANSWER_HEADER">
 		<field-descriptor name="answerHeaderId" column="QUESTIONNAIRE_ANSWER_HEADER_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTION_ID" autoincrement="true"/>
 		<field-descriptor name="moduleItemCode" column="MODULE_ITEM_CODE" jdbc-type="INTEGER" />
