@@ -59,8 +59,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
                                                                         SpecialReviewHandler<AwardSpecialReview>, 
                                                                         Permissionable, SequenceOwner {
     public static final String AWARD_NAMESPACE_CODE = "KC-AWARD";
+    public static final String DEFAULT_AWARD_NUMBER = "1";
     
-    private static final String ONE = "1";
     private static final String YES_FLAG = "Y";
     private static final int TOTAL_STATIC_REPORTS = 4;
     
@@ -186,7 +186,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * this method.  
      */
     private void initializeAwardWithDefaultValues(){
-        setAwardNumber(ONE);
+        setAwardNumber(DEFAULT_AWARD_NUMBER);
         setSequenceNumber(1);
         setApprovedEquipmentIndicator(YES_FLAG);
         setApprovedForeignTripIndicator(YES_FLAG);
