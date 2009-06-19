@@ -198,6 +198,7 @@
 	
 	<bean id="protocolAmendRenewService" class="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewServiceImpl">
 		<property name="protocolCopyService" ref="protocolCopyService" />
+		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
 	<bean id="protocolNumberService" class="org.kuali.kra.irb.protocol.ProtocolNumberServiceImpl">
