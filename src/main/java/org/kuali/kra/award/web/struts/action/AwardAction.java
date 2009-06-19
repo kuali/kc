@@ -356,8 +356,9 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @return
      */
     public ActionForward customData(ActionMapping mapping, ActionForm form
-            , HttpServletRequest request, HttpServletResponse response) {        
-        return CustomDataAction.awardCustomData(mapping, form, request, response);
+            , HttpServletRequest request, HttpServletResponse response) {    
+        AwardForm awardForm = (AwardForm) form; 
+        return awardForm.getCustomDataHelper().awardCustomData(mapping, form, request, response);
     }
     
     /**
