@@ -22,7 +22,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.irb.Protocol;
 
 @Entity
 @Table(name="PROTOCOL_MODULES")
@@ -32,19 +31,19 @@ public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase {
     @Column(name = "PROTO_AMEND_RENEW_MODULE_ID")
     private Long protocolAmendRenewModuleId;
     
-    @Column(name = "PROTO_AMEND_RENEW_MODULE_NUMBER")
-    private String protocolAmendRenewModuleNumber;
+    @Column(name = "PROTO_AMEND_RENEWAL_NUMBER")
+    private String protocolAmendRenewalNumber;
     
-    @Column(name = "PROTOCOL_ID")
-    private Long protocolId;
+    @Column(name = "PROTO_AMEND_RENEWAL_ID")
+    private Long protocolAmendRenewalId;
     
     @Column(name = "PROTOCOL_NUMBER")
     private String protocolNumber;
     
     @Column(name = "PROTOCOL_MODULE_CODE")
-    private String protocolModuleCode;
+    private String protocolModuleTypeCode;
     
-    private Protocol protocol;
+    private ProtocolAmendRenewal protocolAmendRenewal;
     
     private ProtocolModule protocolModule;
     
@@ -60,20 +59,20 @@ public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase {
         this.protocolAmendRenewModuleId = protocolAmendRenewModuleId;
     }
 
-    public String getProtocolAmendRenewModuleNumber() {
-        return protocolAmendRenewModuleNumber;
+    public String getProtocolAmendRenewalNumber() {
+        return protocolAmendRenewalNumber;
     }
 
-    public void setProtocolAmendRenewModuleNumber(String protocolAmendRenewModuleNumber) {
-        this.protocolAmendRenewModuleNumber = protocolAmendRenewModuleNumber;
+    public void setProtocolAmendRenewalNumber(String protocolAmendRenewalNumber) {
+        this.protocolAmendRenewalNumber = protocolAmendRenewalNumber;
     }
 
-    public Long getProtocolId() {
-        return protocolId;
+    public Long getProtocolAmendRenewalId() {
+        return protocolAmendRenewalId;
     }
 
-    public void setProtocolId(Long protocolId) {
-        this.protocolId = protocolId;
+    public void setProtocolAmendRenewalId(Long protocolAmendRenewalId) {
+        this.protocolAmendRenewalId = protocolAmendRenewalId;
     }
 
     public String getProtocolNumber() {
@@ -84,20 +83,20 @@ public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase {
         this.protocolNumber = protocolNumber;
     }
 
-    public String getProtocolModuleCode() {
-        return protocolModuleCode;
+    public String getProtocolModuleTypeCode() {
+        return protocolModuleTypeCode;
     }
 
-    public void setProtocolModuleCode(String protocolModuleCode) {
-        this.protocolModuleCode = protocolModuleCode;
+    public void setProtocolModuleTypeCode(String protocolModuleTypeCode) {
+        this.protocolModuleTypeCode = protocolModuleTypeCode;
     }
     
-    public Protocol getProtocol() {
-        return protocol;
+    public ProtocolAmendRenewal getProtocolAmendRenewal() {
+        return protocolAmendRenewal;
     }
 
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
+    public void setProtocolAmendRenewal(ProtocolAmendRenewal protocolAmendRenewal) {
+        this.protocolAmendRenewal = protocolAmendRenewal;
     }
     
     public ProtocolModule getProtocolModule() {
@@ -113,10 +112,10 @@ public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("protocolAmendRenewModuleId", this.getProtocolAmendRenewModuleId());
-        map.put("protocolAmendRenewModuleNumber", this.getProtocolAmendRenewModuleNumber());
-        map.put("protocolId", this.getProtocolId());
+        map.put("protocolAmendRenewalNumber", this.getProtocolAmendRenewalNumber());
+        map.put("protocolAmendRenewalId", this.getProtocolAmendRenewalId());
         map.put("protocolNumber", this.getProtocolNumber());
-        map.put("protocolModuleCode", getProtocolModuleCode());
+        map.put("protocolModuleTypeCode", getProtocolModuleTypeCode());
         return map;
     }
 }

@@ -21,7 +21,7 @@
 
     <bean id="ProtocolAmendRenewal" parent="ProtocolAmendRenewal-parentBean" />
     <bean id="ProtocolAmendRenewal-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ProtocolAmendRenewal" />
+        <property name="businessObjectClass" value="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal" />
         <property name="inquiryDefinition" >
             <ref bean="ProtocolAmendRenewal-inquiryDefinition" />
         </property>

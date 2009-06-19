@@ -65,6 +65,7 @@ public class ActionHelper implements Serializable {
     private ProtocolRequestBean protocolDataAnalysisRequestBean;
     private ProtocolNotifyIrbBean protocolNotifyIrbBean;
     private ProtocolAmendmentBean protocolAmendmentBean;
+    private ProtocolAmendmentBean protocolRenewAmendmentBean;
     
     /**
      * Constructs an ActionHelper.
@@ -86,6 +87,7 @@ public class ActionHelper implements Serializable {
                                                                   ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
         protocolNotifyIrbBean = new ProtocolNotifyIrbBean();
         protocolAmendmentBean = new ProtocolAmendmentBean();
+        protocolRenewAmendmentBean = new ProtocolAmendmentBean();
     }
     
     public void prepareView() {
@@ -188,5 +190,9 @@ public class ActionHelper implements Serializable {
     
     public ProtocolAmendmentBean getProtocolAmendmentBean() {
         return protocolAmendmentBean;
+    }
+    
+    public ProtocolAmendmentBean getProtocolRenewAmendmentBean() {
+        return protocolRenewAmendmentBean;
     }
 }
