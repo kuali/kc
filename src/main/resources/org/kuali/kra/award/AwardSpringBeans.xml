@@ -143,4 +143,10 @@
         </property>
 	</bean>
 
+    <bean id="awardNumberService" class="org.kuali.kra.award.service.impl.AwardNumberServiceImpl">
+        <property name="sequenceAccessorService">
+            <ref bean="sequenceAccessorService" />
+        </property>
+    </bean>
+
 </beans>
