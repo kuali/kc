@@ -126,7 +126,7 @@
             p:precision="5"
             p:scale="2" />
     </property>
-    <property name="required" value="false" />
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="10" />
@@ -239,7 +239,7 @@
             p:precision="12"
             p:scale="2" />
     </property>
-    <property name="required" value="false" />
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="CurrencyControlDefinition"
             p:formattedMaxLength="22"
