@@ -27,7 +27,7 @@
                         <%-- New data --%>
                         <c:if test="${!readOnly}">
                             <tr>
-                                <th class="infoline">
+                                <th class="infoline" align="center">
                                     <c:out value="Add:" />
                                 </th>
                                 
@@ -76,7 +76,7 @@
                             </c:forEach>
                             
                             <tr>
-                                <th class="infoline">
+                                <th class="infoline" align="center">
                                     <c:out value="${status.index+1}" />
                                 </th>
                                 <td align="left" valign="middle">
