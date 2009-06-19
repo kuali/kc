@@ -143,21 +143,22 @@ public class CommitteeMembershipAction extends CommitteeAction {
      */
     public ActionForward addCommitteeMembershipRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-    CommitteeForm committeeForm = (CommitteeForm) form;
-    Committee committee = committeeForm.getCommitteeDocument().getCommittee();
-    int selectedMembershipIndex = getSelectedMembershipIndex(request);
-    CommitteeMembershipRole newCommitteeMembershipRole = committeeForm.getMembershipRolesHelper().getNewCommitteeMembershipRoles().get(selectedMembershipIndex);
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        Committee committee = committeeForm.getCommitteeDocument().getCommittee();
+        int selectedMembershipIndex = getSelectedMembershipIndex(request);
+        CommitteeMembershipRole newCommitteeMembershipRole 
+            = committeeForm.getMembershipRolesHelper().getNewCommitteeMembershipRoles().get(selectedMembershipIndex);
     
-    // check any business rules
-    boolean rulePassed = applyRules(new AddCommitteeMembershipRoleEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), 
-                                    newCommitteeMembershipRole, selectedMembershipIndex));
+        // check any business rules
+        boolean rulePassed = applyRules(new AddCommitteeMembershipRoleEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), 
+                                        newCommitteeMembershipRole, selectedMembershipIndex));
 
-    if (rulePassed) {
-        getCommitteeMembershipService().addCommitteeMembershipRole(committee, selectedMembershipIndex, newCommitteeMembershipRole);
-        committeeForm.getMembershipRolesHelper().setNewCommitteeMembershipRoles(new ArrayList<CommitteeMembershipRole>());
-    }
+        if (rulePassed) {
+            getCommitteeMembershipService().addCommitteeMembershipRole(committee, selectedMembershipIndex, newCommitteeMembershipRole);
+            committeeForm.getMembershipRolesHelper().setNewCommitteeMembershipRoles(new ArrayList<CommitteeMembershipRole>());
+        }
     
-    return mapping.findForward(Constants.MAPPING_BASIC );
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
