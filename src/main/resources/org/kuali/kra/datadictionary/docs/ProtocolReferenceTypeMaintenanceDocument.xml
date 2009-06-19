@@ -16,7 +16,7 @@
 
 	<bean id="ProtocolReferenceTypeMaintenanceDocument" parent="ProtocolReferenceTypeMaintenanceDocument-parentBean"/>
 	<bean id="ProtocolReferenceTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.protocol.ProtocolReferenceType"/>
+		<property name="businessObjectClass" value="org.kuali.kra.irb.protocol.reference.ProtocolReferenceType"/>
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
 		<property name="maintainableSections">
 			<list>

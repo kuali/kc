@@ -21,7 +21,7 @@
 
 	<bean id="ProtocolReference" parent="ProtocolReference-parentBean" />
 	<bean id="ProtocolReference-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.protocol.ProtocolReference" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.protocol.reference.ProtocolReference" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolReference-inquiryDefinition" />
 		</property>
@@ -151,7 +151,7 @@
 		</property>
 		<property name="control" >
             <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.kra.irb.protocol.ProtocolReferenceType"
+                p:businessObjectClass="org.kuali.kra.irb.protocol.reference.ProtocolReferenceType"
                 p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
             	p:includeBlankRow="false"
                 p:includeKeyInLabel="false"

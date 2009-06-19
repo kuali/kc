@@ -92,7 +92,7 @@
             <include method="updateProtocolFundingSource" />
             <include method="updateSourceNameEditable" />
         </create>
-        <convert converter="bean" match="org.kuali.kra.irb.protocol.ProtocolFundingSource">
+        <convert converter="bean" match="org.kuali.kra.irb.protocol.funding.ProtocolFundingSource">
             <param name="include" value="fundingSourceTitle,fundingSourceName" />            
         </convert>
 		<create creator="spring" javascript="AwardReportsService">
