@@ -30,7 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.irb.protocol.ProtocolLocationService;
+import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ActionLoggerTest {

@@ -21,7 +21,7 @@
 
 	<bean id="ProtocolFundingSource" parent="ProtocolFundingSource-parentBean" />
 	<bean id="ProtocolFundingSource-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.protocol.ProtocolFundingSource" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.protocol.funding.ProtocolFundingSource" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolFundingSource-inquiryDefinition" />
 		</property>

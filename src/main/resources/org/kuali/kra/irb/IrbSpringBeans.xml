@@ -51,23 +51,23 @@
 		</property>
 	</bean>
 	
-	<bean id="protocolReferenceService" class="org.kuali.kra.irb.protocol.ProtocolReferenceServiceImpl">
+	<bean id="protocolReferenceService" class="org.kuali.kra.irb.protocol.reference.ProtocolReferenceServiceImpl">
 	</bean>	
 
-	<bean id="protocolResearchAreaService" class="org.kuali.kra.irb.protocol.ProtocolResearchAreaServiceImpl">
+	<bean id="protocolResearchAreaService" class="org.kuali.kra.irb.protocol.research.ProtocolResearchAreaServiceImpl">
 	</bean>	
 	
-	<bean id="protocolLocationService" class="org.kuali.kra.irb.protocol.ProtocolLocationServiceImpl">
+	<bean id="protocolLocationService" class="org.kuali.kra.irb.protocol.location.ProtocolLocationServiceImpl">
         <property name="organizationService" ref="organizationService" />
 	</bean>
 		
-    <bean id="protocolParticipantTypeService" class="org.kuali.kra.irb.protocol.ProtocolParticipantServiceImpl">
+    <bean id="protocolParticipantTypeService" class="org.kuali.kra.irb.protocol.participant.ProtocolParticipantServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
     </bean>  
     
-    <bean id="protocolFundingSourceService" class="org.kuali.kra.irb.protocol.ProtocolFundingSourceServiceImpl">
+    <bean id="protocolFundingSourceService" class="org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl">
         <property name="unitService" ref="unitService" />
         <property name="sponsorService" ref="sponsorService" />
         <property name="awardService" ref="awardService" />
