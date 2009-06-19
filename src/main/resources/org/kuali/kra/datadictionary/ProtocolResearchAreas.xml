@@ -21,7 +21,7 @@
 
 	<bean id="ProtocolResearchAreas" parent="ProtocolResearchAreas-parentBean" />
 	<bean id="ProtocolResearchAreas-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.protocol.ProtocolResearchArea" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.protocol.research.ProtocolResearchArea" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolResearchAreas-inquiryDefinition" />
 		</property>

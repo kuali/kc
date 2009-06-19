@@ -42,18 +42,18 @@ import org.kuali.kra.irb.personnel.ProtocolPersonnelRule;
 import org.kuali.kra.irb.personnel.ProtocolUnitRule;
 import org.kuali.kra.irb.personnel.SaveProtocolPersonnelEvent;
 import org.kuali.kra.irb.personnel.SaveProtocolPersonnelRule;
-import org.kuali.kra.irb.protocol.AddProtocolFundingSourceEvent;
-import org.kuali.kra.irb.protocol.AddProtocolLocationEvent;
-import org.kuali.kra.irb.protocol.AddProtocolLocationRule;
-import org.kuali.kra.irb.protocol.AddProtocolParticipantEvent;
-import org.kuali.kra.irb.protocol.AddProtocolParticipantRule;
-import org.kuali.kra.irb.protocol.AddProtocolReferenceEvent;
-import org.kuali.kra.irb.protocol.AddProtocolReferenceRule;
-import org.kuali.kra.irb.protocol.ProtocolFundingSourceRule;
-import org.kuali.kra.irb.protocol.ProtocolLocationRule;
-import org.kuali.kra.irb.protocol.ProtocolParticipant;
-import org.kuali.kra.irb.protocol.ProtocolParticipantRule;
-import org.kuali.kra.irb.protocol.ProtocolReferenceRule;
+import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
+import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceRule;
+import org.kuali.kra.irb.protocol.location.AddProtocolLocationEvent;
+import org.kuali.kra.irb.protocol.location.AddProtocolLocationRule;
+import org.kuali.kra.irb.protocol.location.ProtocolLocationRule;
+import org.kuali.kra.irb.protocol.participant.AddProtocolParticipantEvent;
+import org.kuali.kra.irb.protocol.participant.AddProtocolParticipantRule;
+import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
+import org.kuali.kra.irb.protocol.participant.ProtocolParticipantRule;
+import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceEvent;
+import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceRule;
+import org.kuali.kra.irb.protocol.reference.ProtocolReferenceRule;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.CustomAttributeRule;
@@ -232,7 +232,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     }
 
     /**
-     * @see org.kuali.kra.irb.protocol.AddProtocolParticipantRule#processAddParticipantBusinessRules(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.protocol.ProtocolParticipant)
+     * @see org.kuali.kra.irb.protocol.participant.AddProtocolParticipantRule#processAddParticipantBusinessRules(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.protocol.participant.ProtocolParticipant)
      */
     public boolean processAddProtocolParticipantBusinessRules(AddProtocolParticipantEvent addProtocolParticipantEvent) {
         return new ProtocolParticipantRule().processAddProtocolParticipantBusinessRules(addProtocolParticipantEvent);
@@ -245,7 +245,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     }
 
     /**
-     * @see org.kuali.kra.irb.protocol.AddProtocolLocationRule#processAddProtocolLocationBusinessRules(org.kuali.kra.irb.protocol.AddProtocolLocationEvent)
+     * @see org.kuali.kra.irb.protocol.location.AddProtocolLocationRule#processAddProtocolLocationBusinessRules(org.kuali.kra.irb.protocol.location.AddProtocolLocationEvent)
      */
     public boolean processAddProtocolLocationBusinessRules(AddProtocolLocationEvent addProtocolLocationEvent) {
 
@@ -272,7 +272,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     }
     
     /**
-     * @see org.kuali.kra.irb.protocol.AddProtocolFundingSourceRule#processAddProtocolFundingSourceBusinessRules(org.kuali.kra.irb.protocol.AddProtocolFundingSourceEvent)
+     * @see org.kuali.kra.irb.protocol.AddProtocolFundingSourceRule#processAddProtocolFundingSourceBusinessRules(org.org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent)
      */
     public boolean processAddProtocolFundingSourceBusinessRules(AddProtocolFundingSourceEvent addProtocolFundingSourceEvent) {
 

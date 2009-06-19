@@ -80,7 +80,7 @@
        <%-- Other Identifiers--%>
     	<h3>
     		<span class="subhead-left">Other Identifiers</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.protocol.ProtocolReferenceType" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.protocol.reference.ProtocolReferenceType" altText="help"/></span>
         </h3>
         
         <table cellpadding=0 cellspacing=0 summary="View/edit protocol other identifiers">

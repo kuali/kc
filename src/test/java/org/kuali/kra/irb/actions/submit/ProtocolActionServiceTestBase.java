@@ -21,7 +21,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.protocol.ProtocolLocationService;
+import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 
 public class ProtocolActionServiceTestBase {
    

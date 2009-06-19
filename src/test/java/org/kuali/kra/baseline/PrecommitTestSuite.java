@@ -27,12 +27,13 @@ import org.kuali.kra.test.OjbRepositoryMappingTest;
 /**
  * This class defines a test suite that should be executed before committing any code
  * 
- * Note: Since BudgetSummaryWebTest extends from ProposalDevelopmentWebTestBase and causes the creaion of a ProposalDevelopmentDocument,
+ * Note: Since BudgetSummaryWebTest extends from ProposalDevelopmentWebTestBase and causes the creation of a ProposalDevelopmentDocument,
  * it satisfies both document creation requirements; that is the creation of a Proposal document and Budget document 
  * 
  */
 @RunWith(Suite.class)
 @SuiteClasses(  {
+                BaseLineAppStartTest.class,
                 AwardHomeWebTest.class,
                 BudgetSummaryWebTest.class,
                 CommitteeWebTest.class,
