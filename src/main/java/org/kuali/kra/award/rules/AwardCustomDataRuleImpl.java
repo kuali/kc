@@ -31,6 +31,7 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.AwardCommentService;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -40,6 +41,13 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
  * This contains methods to process business rules on Award Custom data.
  */
 public class AwardCustomDataRuleImpl extends ResearchDocumentRuleBase implements AwardCustomDataRule {
+    
+    private String CUSTOMATTRIBUTE_VALUES_ID = "customAttributeValues(id";
+    private String RIGHT_PAREN = ")";
+    private String STRING = "String";
+    private String NUMBER = "Number";
+    private String DATE = "Date";
+    private String DOT_STAR = ".*";
 
     private static Map<String, String> validationClasses = new HashMap<String, String>();
     static {
@@ -69,7 +77,7 @@ public class AwardCustomDataRuleImpl extends ResearchDocumentRuleBase implements
                   }
                 }
             }
-            String errorKey = "customAttributeValues(id" + customAttribute.getId() + ")";
+            String errorKey = CUSTOMATTRIBUTE_VALUES_ID + customAttribute.getId() + RIGHT_PAREN;
             if (StringUtils.isNotBlank(customAttribute.getValue())) {
                 valid &= validateAttributeFormat(customAttribute, errorKey);
             }
@@ -90,7 +98,7 @@ public class AwardCustomDataRuleImpl extends ResearchDocumentRuleBase implements
         CustomAttributeDataType customAttributeDataType = customAttribute.getCustomAttributeDataType();
         String attributeValue = customAttribute.getValue();
         if (customAttributeDataType == null && customAttribute.getDataTypeCode() != null) {
-            customAttributeDataType = KraServiceLocator.getService(CustomAttributeService.class).getCustomAttributeDataType(
+            customAttributeDataType = getCustomAttributeService().getCustomAttributeDataType(
                     customAttribute.getDataTypeCode());
         }
         if (customAttributeDataType != null) {
@@ -100,24 +108,20 @@ public class AwardCustomDataRuleImpl extends ResearchDocumentRuleBase implements
                 return false;
             }
             ValidationPattern validationPattern = null;
-            try {
-                validationPattern = (ValidationPattern) Class.forName(
-                        validationClasses.get(customAttributeDataType.getDescription())).newInstance();
-                if (customAttributeDataType.getDescription().equalsIgnoreCase("String")) {
-                    ((org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern) validationPattern)
-                            .setAllowWhitespace(true);
+            try {validationPattern = (ValidationPattern) Class.forName(
+                    validationClasses.get(customAttributeDataType.getDescription())).newInstance();
+                if (customAttributeDataType.getDescription().equalsIgnoreCase(STRING)) {
+                    ((org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern) validationPattern).setAllowWhitespace(true);
                 }
+            } catch (Exception e) {
+                //do nothing
             }
-            catch (Exception e) {
-                // what TODO here?
-            }
-            // if there is no data type matched, then set error ?
             Pattern validationExpression = validationPattern.getRegexPattern();
             String validFormat = getValidFormat(customAttributeDataType.getDescription());
-            if (validationExpression != null && !validationExpression.pattern().equals(".*")) {
+            if (validationExpression != null && !validationExpression.pattern().equals(DOT_STAR)) {
                 if (!validationExpression.matcher(attributeValue).matches()) {
-                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT,
-                            new String[] { customAttribute.getLabel(), attributeValue, validFormat });
+                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, 
+                                                                customAttribute.getLabel(), attributeValue, validFormat);
                     return false;
                 }
             }
@@ -125,14 +129,28 @@ public class AwardCustomDataRuleImpl extends ResearchDocumentRuleBase implements
         return true;
     }
     
+    /**
+     * This method returns the valid format for the data type of the custom attribute.
+     * @param dataType
+     * @return
+     */
     private String getValidFormat(String dataType) {
         String validFormat = Constants.DATA_TYPE_STRING;
-        if(dataType.equalsIgnoreCase("Number")) {
+        if(dataType.equalsIgnoreCase(NUMBER)) {
             validFormat = Constants.DATA_TYPE_NUMBER;
-        }else if(dataType.equalsIgnoreCase("Date")) {
+        }else if(dataType.equalsIgnoreCase(DATE)) {
             validFormat = Constants.DATA_TYPE_DATE;
         }
         return validFormat;
+    }
+    
+    /**
+     * 
+     * This method is a helper method to retrieve CustomAttributeService.
+     * @return
+     */
+    protected CustomAttributeService getCustomAttributeService() {
+        return KraServiceLocator.getService(CustomAttributeService.class);
     }
 
 }
