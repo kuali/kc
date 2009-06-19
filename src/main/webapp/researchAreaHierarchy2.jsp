@@ -89,6 +89,24 @@
     });  
 */    
     
+    //$("body").append('<div id="loading"></div>');
+    //$("#loading").css("color","red");
+    $(document).ajaxStart(function(){
+    // this is weird, it will not show if the alert is not included??
+       //return false;
+       //var img = $('<a href="#"><img src="static/images/jquery/ajax-loader.gif" /></a>')
+       $("#loading").show();
+       //alert ("start Ajax");
+       //return false;
+     });
+
+    $(document).ajaxComplete(function(){
+       //alert ("complete Ajax");
+       $("#loading").hide();
+       //return false;
+     });
+    
+    
     $("#generate").click(function(){ 
     
        $.ajax({
@@ -187,6 +205,78 @@
        return false;
       }); 
             
+            
+            
+     $("#add0").click(function(){    
+     // click 'add' for 000001
+          alert ("top add");
+       
+       
+                 var trNode = $(this).parents('tr:eq(0)');
+          //alert(trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+"-"+trNode.children('td:eq(2)').children('input:eq(0)').attr("value"));
+
+         if (trNode.children('td:eq(1)').children('input:eq(0)').attr("value") == "") {
+           alert("must enter research area code");
+         } else if (trNode.children('td:eq(2)').children('input:eq(0)').attr("value") == "") {
+           alert("must enter research area");
+         } else {
+         
+         // check if code exists
+             var raExist
+             $.ajax({
+                 url: 'researchAreas.do',
+                 type: 'GET',
+                 dataType: 'html',
+                 data:'researchAreaCode='+trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+'&addRA=Y',
+                 cache: false,
+                 async: false,
+                 timeout: 1000,
+                 error: function(){
+                    alert('Error loading XML document');
+                 },
+                 success: function(xml){
+                    $(xml).find('h3').each(function(){
+                       raExist = $(this).text();
+                    //alert(raExist);
+        
+                     });
+                  }
+               });   // end ajax  
+         
+         
+           if (raExist == 'false') {
+               var ulTag = $("#example");
+                                                          
+               var item_text = trNode.children('td:eq(1)').children('input:eq(0)').attr("value") +" : "+trNode.children('td:eq(2)').children('input:eq(0)').attr("value");
+               var listitem = setupListItem(item_text);
+               //alert(listitem.html());
+            // need this ultag to force to display folder.
+            var childUlTag = $('<ul></ul>').attr("id","ul"+i);
+            childUlTag.appendTo(listitem);
+               listitem.appendTo(ulTag);
+               //alert("ultagid "+ulTag.attr("id").substring(2));
+               // force to display folder icon
+               $("#example").treeview({
+                   add: listitem
+               // toggle: function() {
+               //   var subul=this.getElementsByTagName("ul")[0]
+               //   if (subul.style.display=="block")
+               //      alert("You've opened this Folder!")
+               //   } 
+               });
+               
+               // apend to sqlScripts
+               sqlScripts = sqlScripts +"#;#"+getInsertClause(trNode.children('td:eq(1)').children('input:eq(0)').attr("value"), '000001', trNode.children('td:eq(2)').children('input:eq(0)').attr("value"));
+               //alert("sqlScripts = "+sqlScripts);
+            }  else {
+                 alert ("Research Area Code already exist");
+            }
+           };                                
+       
+        
+       return false;
+      }); // add0 
+            
          
   // }); // $(document).ready
 
@@ -212,8 +302,14 @@ function tbodyTag(name, id) {
                       removedNode = $(liId).clone(true);
                       //removedNode = $(liId); // this will not work because event also lost
                       //alert("Remove node "+removedNode.attr("id"));
-                      alert ($(liId).parents('li:eq(0)').children('a:eq(0)').text());
-                      sqlScripts = sqlScripts +"#;#"+getDeleteClause(getResearchAreaCode(removedNode.children('a:eq(0)').text()), getResearchAreaCode($(liId).parents('li:eq(0)').children('a:eq(0)').text()));
+                      var parentRACode;
+                      if ($(liId).parents('li:eq(0)').size() == 0) {
+                         parentRACode = '000001';
+                      } else {
+                         parentRACode = getResearchAreaCode($(liId).parents('li:eq(0)').children('a:eq(0)').text());
+                      }
+                      alert (parentRACode);
+                      sqlScripts = sqlScripts +"#;#"+getDeleteClause(getResearchAreaCode(removedNode.children('a:eq(0)').text()), parentRACode);
                       $(liId).remove();
                       alert (sqlScripts);
                       cutNode=null;
@@ -244,7 +340,14 @@ function tbodyTag(name, id) {
                           removedNode = null;
                       } else {
                           var liId = cutNode.attr("id");
-                          sqlScripts = sqlScripts +"#;#"+getDeleteClause(getResearchAreaCode(cutNode.children('a:eq(0)').text()), getResearchAreaCode($("li#"+liId).parents('li:eq(0)').children('a:eq(0)').text()));
+                          var parentRACode;
+                          if ($(liId).parents('li:eq(0)').size() == 0) {
+                              parentRACode = '000001';
+                          } else {
+                             parentRACode = getResearchAreaCode($("li#"+liId).parents('li:eq(0)').children('a:eq(0)').text());
+                          }
+                          
+                          sqlScripts = sqlScripts +"#;#"+getDeleteClause(getResearchAreaCode(cutNode.children('a:eq(0)').text()), parentRACode);
                           $("li#"+liId).remove();
                           cutNode.appendTo(ulTag);
                           sqlScripts = sqlScripts +"#;#"+getInsertClause(getResearchAreaCode(cutNode.children('a:eq(0)').text()), getResearchAreaCode(name), getResearchAreaDescription(cutNode.children('a:eq(0)').text()));
@@ -288,7 +391,9 @@ function tbodyTag(name, id) {
    // alert(id +"-"+$("ul#"+ulTagId).parents('li:eq(0)').size());
    // }
     if ($("ul#"+ulTagId).parents('li:eq(0)').size() == 0) {
-      tdTag1 = $('<td></td>').html(getResearchAreaCode(name));
+      // TODO : this is the second level, the children of '000001'
+      tdTag1 = $('<td></td>').html("000001");
+      //tdTag1 = $('<td></td>').html(getResearchAreaCode(name));
       //alert(getResearchAreaDescription(name));
     } else {
        // alert($("ul#"+ulTagId).parents('li:eq(0)').children('a:eq(0)').size());
@@ -324,7 +429,7 @@ function tbodyTag(name, id) {
     var tdTag2 = $('<td></td>').html(getResearchAreaCode(name));
     trTag2.html(tag2);
     tdTag2.appendTo(trTag2);
-    tdTag2 = $('<td></td>').html($('<input type="text" name="m2" value="" style="width:100%;" />').attr("id","researchCode"+i));
+    tdTag2 = $('<td></td>').html($('<input type="text" name="m2" value="" style="width:100%;" maxlength="8" size="8"/>').attr("id","researchCode"+i));
     tdTag2.appendTo(trTag2);
     tdTag2 = $('<td></td>').html($('<input type="text" name="m3" value="" style="width:100%;" />').attr("id","desc"+i));
     tdTag2.appendTo(trTag2);
@@ -620,6 +725,9 @@ function getResearchAreaDescription(nodeName) {
 
 	<input type="hidden" id="sqlScripts" name="sqlScripts" />
 
+   <div id = "loading">
+      <a href="#"><img src="static/images/jquery/ajax-loader.gif" /></a>
+   </div> 
 
 <%-- 0000001 --%>
                                             <img src="static/images/jquery/hierarchy-root.png" width="14" height="14" border="0"> <a id="listcontrol00" style="margin-left:2px;">000001 : All Research Areas</a>
@@ -684,13 +792,14 @@ function getResearchAreaDescription(nodeName) {
                                                                             000001
                                                                         </td>
                                                                         <td>
-                                                                            <input type="text" name="m2" value="" style="width:100%;" />
+                                                                            <input type="text" name="m2" value="" style="width:100%;" maxlength="8" size="8"/>
                                                                         </td>
                                                                         <td>
                                                                             <input type="text" name="m3" value="" style="width:100%;" />
                                                                         </td>
                                                                         <th class="infoline" style="text-align:center;">
-                                                                            <a href="#"><img src="../images/tinybutton-add1.gif" width="40" height="15" border="0" title="Add this Sub-group"></a>
+ 	          <input type="image" id="add0" src="static/images/tinybutton-add1.gif" />  
+                 <%-- <a href="#"><img src="../images/tinybutton-add1.gif" width="40" height="15" border="0" title="Add this Sub-group"></a>--%>
                                                                         </th>  
                                                                     </tr>
                                                                 </table>
@@ -725,4 +834,7 @@ function getResearchAreaDescription(nodeName) {
         </div>
   </html:form>
 </body>
+<script>
+  $("#loading").hide();
+</script>
  </html>
