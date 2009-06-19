@@ -26,6 +26,8 @@ import org.kuali.kra.award.commitments.CostShareFormHelper;
  */
 public class CostShareActionHelper implements Serializable {
     
+    private static final long serialVersionUID = 8927780321198666093L;
+
     /**
      * This method is called when adding a new AwardCostShare
      * @param formHelper

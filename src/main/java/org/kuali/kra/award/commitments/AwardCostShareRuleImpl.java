@@ -54,14 +54,16 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
         
         boolean isValid = processCommonValidations(awardCostShare);
         
-        // test if percentage is entered and valid
+        // test if percentage is valid
         isValid &= validatePercentage(awardCostShare.getCostSharePercentage());
         
         // test if type is selected and valid
         isValid &= validateCostShareType(awardCostShare.getCostShareTypeCode());
         
-        // test if commitment amount + cost share met are entered and valid
+        // test if commitment amount is entered and valid
         isValid &= validateCommitmentAmount(awardCostShare.getCommitmentAmount());
+        
+        // test if cost share met is valid
         isValid &= validateCostShareMet(awardCostShare.getCostShareMet());
         
         return isValid;
@@ -129,11 +131,7 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
 
     private boolean validatePercentage(KualiDecimal percentage) {
         boolean isValid = true;
-        if (percentage == null) {
-            isValid = false;
-            this.reportError(Constants.COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".costSharePercentage", KeyConstants.ERROR_COST_SHARE_PERCENTAGE_REQUIRED);
-        }
-        else if (percentage.isLessThan(new KualiDecimal(0))) {
+        if (percentage!=null && percentage.isLessThan(new KualiDecimal(0))) {
             isValid = false;
             this.reportError(Constants.COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".costSharePercentage", KeyConstants.ERROR_COST_SHARE_PERCENTAGE_RANGE);
         }
@@ -173,11 +171,7 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
 
     private boolean validateCostShareMet(KualiDecimal costShareMet) {
         boolean isValid = true;
-        if (costShareMet == null) {
-            isValid = false;
-            this.reportError(Constants.COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".costShareMet", KeyConstants.ERROR_COST_SHARE_MET_REQUIRED);
-        }
-        else if (costShareMet.isLessThan(new KualiDecimal(0))) {
+        if (costShareMet!=null && costShareMet.isLessThan(new KualiDecimal(0))) {
             isValid = false;
             this.reportError(Constants.COST_SHARE_ADD_ACTION_PROPERTY_KEY + ".costShareMet", KeyConstants.ERROR_COST_SHARE_MET_INVALID, new String[] { costShareMet.toString() });
         }

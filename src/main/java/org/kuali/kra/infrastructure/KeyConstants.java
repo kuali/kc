@@ -321,13 +321,11 @@ public final class KeyConstants {
     public static final String ERROR_FISCAL_YEAR_RANGE = "error.awardCostShare.fiscalYear.range";
     public static final String ERROR_FISCAL_YEAR_REQUIRED = "error.awardCostShare.fiscalYear.required";
     public static final String ERROR_SOURCE_DESTINATION = "error.awardCostShare.source.destination";
-    public static final String ERROR_COST_SHARE_PERCENTAGE_REQUIRED = "error.awardCostShare.percentage.required";
     public static final String ERROR_COST_SHARE_PERCENTAGE_RANGE = "error.awardCostShare.percentage.range";
     public static final String ERROR_COST_SHARE_TYPE_REQUIRED = "error.awardCostShare.costShareTypeCode.required";
     public static final String ERROR_COST_SHARE_TYPE_INVALID = "error.awardCostShare.costShareTypeCode.invalid";
     public static final String ERROR_COST_SHARE_COMMITMENT_AMOUNT_REQUIRED = "error.awardCostShare.commitmentAmount.required";
     public static final String ERROR_COST_SHARE_COMMITMENT_AMOUNT_INVALID = "error.awardCostShare.commitmentAmount.invalid";
-    public static final String ERROR_COST_SHARE_MET_REQUIRED = "error.awardCostShare.costShareMet.required";
     public static final String ERROR_COST_SHARE_MET_INVALID = "error.awardCostShare.costShareMet.invalid";
     
     //Award Sponsor Term
