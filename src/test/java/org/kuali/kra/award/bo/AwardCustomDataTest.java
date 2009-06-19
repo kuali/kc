@@ -25,7 +25,7 @@ import org.junit.Test;
  * This class tests methods in Award.java class
  */
 public class AwardCustomDataTest { 
-    private static final int AWARD_CUSTOM_DATA_ATTRIBUTES_COUNT = 2;
+    private static final int AWARD_CUSTOM_DATA_ATTRIBUTES_COUNT = 3;
     
     private AwardCustomData awardCustomDataBo;
     private Award award = new Award();
