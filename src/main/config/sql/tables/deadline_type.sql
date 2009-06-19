@@ -1,6 +1,6 @@
 create table deadline_type 
 (
-  deadline_type_code  varchar2(3) constraint deadline_type_n1 not null,
+  deadline_type_code  char(1) constraint deadline_type_n1 not null,
   description varchar2 (200) constraint deadline_type_n2 not null,
   update_timestamp date constraint deadline_type_n3 not null,
   update_user varchar2 (60) constraint deadline_type_n4 not null,
