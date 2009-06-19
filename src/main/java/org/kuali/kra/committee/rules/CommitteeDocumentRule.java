@@ -49,21 +49,18 @@ import org.kuali.rice.kns.util.GlobalVariables;
 @SuppressWarnings("unchecked")
 public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements BusinessRuleInterface, AddCommitteeMembershipRule, AddCommitteeMembershipRoleRule {
     
-    private final String PROPERTY_NAME_PREFIX = "document.committeeList[0].committeeMemberships[";
-    private final String PROPERTY_NAME_TERM_START_DATE = "].termStartDate";
-    private final String PROPERTY_NAME_TERM_END_DATE = "].termEndDate";
-    private final String PROPERTY_NAME_NEW_ROLE_PREFIX = "membershipRolesHelper.newCommitteeMembershipRoles[";
-    private final String PROPERTY_NAME_ROLE_PREFIX = "].membershipRoles[";
-    private final String PROPERTY_NAME_ROLE_CODE = "].membershipRoleCode";
-    private final String PROPERTY_NAME_ROLE_START_DATE = "].startDate";
-    private final String PROPERTY_NAME_ROLE_END_DATE = "].endDate";
-    private final String PROPERTY_NAME_NEW_EXPERTISE_PREFIX ="membershipExpertiseHelper.newCommitteeMembershipExpertise[";
-    private final String PROPERTY_NAME_RESEARCH_AREA_CODE = "].researchAreaCode";
+    private static final String PROPERTY_NAME_TERM_START_DATE = "document.committeeList[0].committeeMemberships[%1$s].termStartDate";
+    private static final String PROPERTY_NAME_TERM_END_DATE = "document.committeeList[0].committeeMemberships[%1$s].termEndDate";
+    private static final String PROPERTY_NAME_ROLE_CODE_ADD = "membershipRolesHelper.newCommitteeMembershipRoles[%1$s].membershipRoleCode";
+    private static final String PROPERTY_NAME_ROLE_CODE = "document.committeeList[0].committeeMemberships[%1$s].membershipRoles[%2$s].membershipRoleCode";
+    private static final String PROPERTY_NAME_ROLE_START_DATE = "document.committeeList[0].committeeMemberships[%1$s].membershipRoles[%2$s";
+    private static final String PROPERTY_NAME_ROLE_END_DATE = "document.committeeList[0].committeeMemberships[%1$s].membershipRoles[%2$s";
+    private static final String PROPERTY_NAME_RESEARCH_AREA_CODE = "membershipExpertiseHelper.newCommitteeMembershipExpertise[%1$s].researchAreaCode";
 
-    static private final boolean VALIDATION_REQUIRED = true;
+    private static final boolean VALIDATION_REQUIRED = true;
     
     // KRACOEUS-641: Changed CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME to false to prevent duplicate error messages
-    static private final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
+    private static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
     
     /**
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
@@ -207,11 +204,11 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
             if (tmpMember.isSamePerson(committeeMembership)) {
                 if (isWithinPeriod(committeeMembership.getTermStartDate(), tmpMember.getTermStartDate(), tmpMember.getTermEndDate())) {
                     isValid = false;
-                    reportError(PROPERTY_NAME_PREFIX + membershipIndex + PROPERTY_NAME_TERM_START_DATE, KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE,
+                    reportError(String.format(PROPERTY_NAME_TERM_START_DATE, membershipIndex), KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE,
                             tmpMember.getFormattedTermStartDate(), tmpMember.getFormattedTermEndDate());
                 } else if (isWithinPeriod(committeeMembership.getTermEndDate(), tmpMember.getTermStartDate(), tmpMember.getTermEndDate())) {
                     isValid = false;
-                    reportError(PROPERTY_NAME_PREFIX + membershipIndex + PROPERTY_NAME_TERM_END_DATE, KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE,
+                    reportError(String.format(PROPERTY_NAME_TERM_END_DATE, membershipIndex), KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE,
                             tmpMember.getFormattedTermStartDate(), tmpMember.getFormattedTermEndDate());
                 } 
             }
@@ -238,8 +235,8 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         if (committeeMembership.getTermStartDate() != null && committeeMembership.getTermEndDate() != null 
                 && committeeMembership.getTermEndDate().before(committeeMembership.getTermStartDate())) {
             isValid = false;
-            reportError(PROPERTY_NAME_PREFIX + membershipIndex + PROPERTY_NAME_TERM_END_DATE, 
-                        KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_TERM_END_DATE_BEFORE_TERM_START_DATE);
+            reportError(String.format(PROPERTY_NAME_TERM_END_DATE, membershipIndex), 
+                    KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_TERM_END_DATE_BEFORE_TERM_START_DATE);
         }
         
        return isValid;
@@ -285,8 +282,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
 
         if (committeeMembership.getMembershipRoles().isEmpty()) {
             hasExpertise = false;
-            reportError(PROPERTY_NAME_NEW_ROLE_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_CODE, 
-                    KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_MISSING);
+            reportError(String.format(PROPERTY_NAME_ROLE_CODE_ADD, membershipIndex), KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_MISSING);
         }
                 
         return hasExpertise;
@@ -311,7 +307,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         if (membershipRole.getStartDate() != null && membershipRole.getEndDate() != null 
                 && membershipRole.getEndDate().before(membershipRole.getStartDate())) {
             isValid = false;
-            reportError(PROPERTY_NAME_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_PREFIX + roleIndex + PROPERTY_NAME_ROLE_END_DATE, 
+            reportError(String.format(PROPERTY_NAME_ROLE_END_DATE, membershipIndex, roleIndex), 
                         KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_END_DATE_BEFORE_ROLE_START_DATE);
         }
         
@@ -337,12 +333,12 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
                 && (membershipRole.getStartDate() != null) && (membershipRole.getEndDate() != null)) {
             if (hasDateOutsideCommitteeMembershipTerm(committeeMembership, membershipRole.getStartDate())) {
                 isValid = false;
-                reportError(PROPERTY_NAME_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_PREFIX + roleIndex + PROPERTY_NAME_ROLE_START_DATE, 
+                reportError(String.format(PROPERTY_NAME_ROLE_START_DATE, membershipIndex, roleIndex), 
                         KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_START_DATE_OUTSIDE_TERM);
             }
             if (hasDateOutsideCommitteeMembershipTerm(committeeMembership, membershipRole.getEndDate())) {
                 isValid = false;
-                reportError(PROPERTY_NAME_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_PREFIX + roleIndex + PROPERTY_NAME_ROLE_END_DATE, 
+                reportError(String.format(PROPERTY_NAME_ROLE_END_DATE, membershipIndex, roleIndex), 
                         KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_END_DATE_OUTSIDE_TERM);
             }
         }
@@ -390,7 +386,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
                 if (isWithinPeriod(membershipRole.getStartDate(), tmpRole.getStartDate(), tmpRole.getEndDate()) 
                         || isWithinPeriod(membershipRole.getEndDate(), tmpRole.getStartDate(), tmpRole.getEndDate())) {
                     isValid = false;
-                    reportError(PROPERTY_NAME_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_PREFIX + roleIndex + PROPERTY_NAME_ROLE_CODE, 
+                    reportError(String.format(PROPERTY_NAME_ROLE_CODE, membershipIndex, roleIndex), 
                             KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_DUPLICATE);
                 } 
             }
@@ -423,7 +419,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
 
         if (committeeMembership.getMembershipExpertise().isEmpty()) {
             hasExpertise = false;
-            reportError(PROPERTY_NAME_NEW_EXPERTISE_PREFIX + membershipIndex + PROPERTY_NAME_RESEARCH_AREA_CODE, 
+            reportError(String.format(PROPERTY_NAME_RESEARCH_AREA_CODE, membershipIndex), 
                     KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_EXPERTISE_MISSING);
         }
                 
