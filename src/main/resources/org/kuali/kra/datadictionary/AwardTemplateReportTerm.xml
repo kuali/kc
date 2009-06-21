@@ -94,7 +94,7 @@
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.bo.ReportClass"
+	            p:businessObjectClass="org.kuali.kra.award.paymentreports.ReportClass"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
 	            p:includeBlankRow="false"
@@ -117,7 +117,7 @@
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.bo.Report"
+	            p:businessObjectClass="org.kuali.kra.award.paymentreports.Report"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
 	            p:includeBlankRow="false"
@@ -140,7 +140,7 @@
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.bo.Frequency"
+	            p:businessObjectClass="org.kuali.kra.award.paymentreports.Frequency"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
 	            p:includeBlankRow="false"
@@ -163,7 +163,7 @@
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.bo.FrequencyBase"
+	            p:businessObjectClass="org.kuali.kra.award.paymentreports.FrequencyBase"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
 	            p:includeBlankRow="false"

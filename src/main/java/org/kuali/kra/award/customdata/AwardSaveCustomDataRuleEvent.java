@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rule.event;
+package org.kuali.kra.award.customdata;
 
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.rule.AwardCustomDataRule;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.rule.BusinessRule;

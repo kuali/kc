@@ -18,7 +18,7 @@
 
 	<bean id="FrequencyBaseMaintenanceDocument" parent="FrequencyBaseMaintenanceDocument-parentBean"/>
 	<bean id="FrequencyBaseMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.FrequencyBase"/>
+		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.FrequencyBase"/>
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
 		<property name="maintainableSections">
 			<list>

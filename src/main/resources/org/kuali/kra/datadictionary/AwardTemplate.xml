@@ -143,7 +143,7 @@
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.bo.Frequency"
+	            p:businessObjectClass="org.kuali.kra.award.paymentreports.Frequency"
 	            p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.AwardProposalDueValueFinder"
 	            p:includeKeyInLabel="false"
 	            p:keyAttribute="frequencyCode"
@@ -165,7 +165,7 @@
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.bo.Frequency"
+	            p:businessObjectClass="org.kuali.kra.award.paymentreports.Frequency"
 	            p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.AwardProposalDueValueFinder"
 	            p:includeKeyInLabel="false"
 	            p:keyAttribute="frequencyCode"
@@ -233,7 +233,7 @@
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.bo.Frequency"
+	            p:businessObjectClass="org.kuali.kra.award.paymentreports.Frequency"
 	            p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.PaymentInvoiceFrequencyValueFinder"
 	            p:includeKeyInLabel="false"
 	            p:keyAttribute="frequencyCode"
