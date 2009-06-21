@@ -27,10 +27,10 @@ import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardSyncable;
 import org.kuali.kra.award.bo.AwardSyncableList;
 import org.kuali.kra.award.bo.Distribution;
-import org.kuali.kra.award.bo.Frequency;
-import org.kuali.kra.award.bo.FrequencyBase;
-import org.kuali.kra.award.bo.Report;
-import org.kuali.kra.award.bo.ReportClass;
+import org.kuali.kra.award.paymentreports.Frequency;
+import org.kuali.kra.award.paymentreports.FrequencyBase;
+import org.kuali.kra.award.paymentreports.Report;
+import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReporting;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 

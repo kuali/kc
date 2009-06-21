@@ -28,7 +28,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardCustomData;
+import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.common.customattributes.CustomDataForm;

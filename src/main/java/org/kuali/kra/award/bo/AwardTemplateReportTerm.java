@@ -19,6 +19,10 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kra.award.paymentreports.Frequency;
+import org.kuali.kra.award.paymentreports.FrequencyBase;
+import org.kuali.kra.award.paymentreports.Report;
+import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 

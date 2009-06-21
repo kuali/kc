@@ -27,8 +27,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.bo.Frequency;
-import org.kuali.kra.award.bo.Report;
+import org.kuali.kra.award.paymentreports.Frequency;
+import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 
 public class AwardCloseoutBeanTest {

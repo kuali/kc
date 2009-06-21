@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.bo;
+package org.kuali.kra.award.paymentreports;
 
 import java.util.LinkedHashMap;
 

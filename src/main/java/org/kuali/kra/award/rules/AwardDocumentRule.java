@@ -40,6 +40,8 @@ import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplitRuleImpl;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRuleImpl;
 import org.kuali.kra.award.contacts.SaveAwardProjectPersonsRuleEvent;
+import org.kuali.kra.award.customdata.AwardCustomDataRuleImpl;
+import org.kuali.kra.award.customdata.AwardSaveCustomDataRuleEvent;
 import org.kuali.kra.award.detailsdates.AddAwardTransferringSponsorEvent;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
@@ -74,7 +76,6 @@ import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApp
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleImpl;
 import org.kuali.kra.award.rule.AwardTemplateSyncRule;
 import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
-import org.kuali.kra.award.rule.event.AwardSaveCustomDataRuleEvent;
 import org.kuali.kra.award.rule.event.AwardTemplateSyncEvent;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;

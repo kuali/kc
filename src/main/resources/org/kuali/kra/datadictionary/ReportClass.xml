@@ -23,7 +23,7 @@
 
 	<bean id="ReportClass" parent="ReportClass-parentBean" />
 	<bean id="ReportClass-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.ReportClass" />
+		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.ReportClass" />
 		<property name="inquiryDefinition" >
 			<ref bean="ReportClass-inquiryDefinition" />
 		</property>

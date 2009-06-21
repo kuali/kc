@@ -23,7 +23,7 @@
 
 	<bean id="FrequencyBase" parent="FrequencyBase-parentBean" />
 	<bean id="FrequencyBase-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.FrequencyBase" />
+		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.FrequencyBase" />
 		<property name="inquiryDefinition" >
 			<ref bean="FrequencyBase-inquiryDefinition" />
 		</property>
