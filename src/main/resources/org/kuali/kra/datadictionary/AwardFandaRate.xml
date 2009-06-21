@@ -127,7 +127,7 @@
 		<property name="required" value="true" />
 		<property name="control" >
 	      	<bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.bo.FandaRateType"
+	            p:businessObjectClass="org.kuali.kra.award.commitments.FandaRateType"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
 	            p:includeBlankRow="false"

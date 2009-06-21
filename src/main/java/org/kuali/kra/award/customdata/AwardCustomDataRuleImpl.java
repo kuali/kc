@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rules;
+package org.kuali.kra.award.customdata;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,10 +21,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.bo.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.rule.AwardCustomDataRule;
-import org.kuali.kra.award.rule.event.AwardSaveCustomDataRuleEvent;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -57,7 +54,7 @@ public class AwardCustomDataRuleImpl extends ResearchDocumentRuleBase implements
     }
     
     /**
-     * @see org.kuali.kra.award.rule.AwardCustomDataRule#processSaveAwardCustomDataBusinessRules(org.kuali.kra.award.rule.event.AwardSaveCustomDataRuleEvent)
+     * @see org.kuali.kra.award.customdata.AwardCustomDataRule#processSaveAwardCustomDataBusinessRules(org.kuali.kra.award.customdata.AwardSaveCustomDataRuleEvent)
      */
     public boolean processSaveAwardCustomDataBusinessRules(AwardSaveCustomDataRuleEvent awardSaveCustomDataRuleEvent) {
         AwardDocument awardDocument = awardSaveCustomDataRuleEvent.getAwardDocument();

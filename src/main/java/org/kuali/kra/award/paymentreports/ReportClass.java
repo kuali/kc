@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.award.bo;
+package org.kuali.kra.award.paymentreports;
 
 import java.util.LinkedHashMap;
 
@@ -22,40 +22,40 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
- * This class represents the FrequencyBase business object and is mapped
- * with FREQUENCY_BASE table.
+ * This class represents the ReportClass business object and is mapped to
+ * REPORT_CLASS table.
  */
-public class FrequencyBase extends KraPersistableBusinessObjectBase { 
+public class ReportClass extends KraPersistableBusinessObjectBase { 
     
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = 5406416029670950959L;
-    private String frequencyBaseCode; 
+    private static final long serialVersionUID = 2641812275218339806L;
+    private String reportClassCode; 
     private String description; 
+    private boolean generateReportRequirements; 
     
     /**
-     * Constructs a FrequencyBase object.
+     * Constructs a ReportClass.java
      */
-    public FrequencyBase() { 
+    public ReportClass() { 
 
     } 
     
     /**
      * 
-     * This method...
      * @return
      */
-    public String getFrequencyBaseCode() {
-        return frequencyBaseCode;
+    public String getReportClassCode() {
+        return reportClassCode;
     }
 
     /**
      * 
-     * @param frequencyBaseCode
+     * @param reportClassCode
      */
-    public void setFrequencyBaseCode(String frequencyBaseCode) {
-        this.frequencyBaseCode = frequencyBaseCode;
+    public void setReportClassCode(String reportClassCode) {
+        this.reportClassCode = reportClassCode;
     }
 
     /**
@@ -76,13 +76,30 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
 
     /**
      * 
+     * @return
+     */
+    public boolean getGenerateReportRequirements() {
+        return generateReportRequirements;
+    }
+
+    /**
+     * 
+     * @param generateReportRequirements
+     */
+    public void setGenerateReportRequirements(boolean generateReportRequirements) {
+        this.generateReportRequirements = generateReportRequirements;
+    }   
+
+    /**
+     * 
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override    
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("frequencyBaseCode", getFrequencyBaseCode());
+    @Override 
+    protected LinkedHashMap<String,Object> toStringMapper() {
+        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
+        hashMap.put("reportClassCode", getReportClassCode());
         hashMap.put("description", getDescription());
+        hashMap.put("generateReportRequirements", getGenerateReportRequirements());
         return hashMap;
     }
 
@@ -93,7 +110,7 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((frequencyBaseCode == null) ? 0 : frequencyBaseCode.hashCode());
+        result = PRIME * result + ((reportClassCode == null) ? 0 : reportClassCode.hashCode());
         return result;
     }
 
@@ -108,24 +125,24 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
         if (obj == null){
             return false;
         }   
-        if (!(obj instanceof FrequencyBase)){
+        if (!(obj instanceof ReportClass)){
             return false;
-        }   
-        return equals((FrequencyBase) obj);
+        }
+        return equals((ReportClass) obj);
     }
     
     /**
      * 
-     * Convenience method for equality of FrequencyBase
-     * @param frequencyBase
+     * Convenience method for equality of ReportClass
+     * @param reportClass
      * @return
      */
-    public boolean equals(FrequencyBase frequencyBase){
-        if (frequencyBaseCode == null) {
-            if (frequencyBase.frequencyBaseCode != null){
+    public boolean equals(ReportClass reportClass){
+        if (reportClassCode == null) {
+            if (reportClass.reportClassCode != null){
                 return false;
             }   
-        }else if (!frequencyBaseCode.equals(frequencyBase.frequencyBaseCode)){
+        }else if (!reportClassCode.equals(reportClass.reportClassCode)){
             return false;
         }   
         return true;

@@ -24,7 +24,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KcraNoDataTestBase;
-import org.kuali.kra.award.bo.ValidFrequencyBase;
+import org.kuali.kra.award.paymentreports.ValidFrequencyBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
     
 public class FrequencyBaseCodeValuesFinderTest extends KcraNoDataTestBase{

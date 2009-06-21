@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.award.bo;
+package org.kuali.kra.award.paymentreports;
 
 import java.util.LinkedHashMap;
 
@@ -22,40 +22,40 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
- * This class represents the Report business object and is mapped
- * with REPORT table.
+ * This class represents the FrequencyBase business object and is mapped
+ * with FREQUENCY_BASE table.
  */
-public class Report extends KraPersistableBusinessObjectBase { 
+public class FrequencyBase extends KraPersistableBusinessObjectBase { 
     
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = 4555054434451627778L;
-    private String reportCode; 
+    private static final long serialVersionUID = 5406416029670950959L;
+    private String frequencyBaseCode; 
     private String description; 
-    private boolean finalReportFlag; 
     
     /**
-     * Constructs a Report.java
+     * Constructs a FrequencyBase object.
      */
-    public Report() { 
+    public FrequencyBase() { 
 
     } 
     
     /**
      * 
+     * This method...
      * @return
      */
-    public String getReportCode() {
-        return reportCode;
+    public String getFrequencyBaseCode() {
+        return frequencyBaseCode;
     }
 
     /**
      * 
-     * @param reportCode
+     * @param frequencyBaseCode
      */
-    public void setReportCode(String reportCode) {
-        this.reportCode = reportCode;
+    public void setFrequencyBaseCode(String frequencyBaseCode) {
+        this.frequencyBaseCode = frequencyBaseCode;
     }
 
     /**
@@ -76,30 +76,13 @@ public class Report extends KraPersistableBusinessObjectBase {
 
     /**
      * 
-     * @return
-     */
-    public boolean getFinalReportFlag() {
-        return finalReportFlag;
-    }
-
-    /**
-     * 
-     * @param finalReportFlag
-     */
-    public void setFinalReportFlag(boolean finalReportFlag) {
-        this.finalReportFlag = finalReportFlag;
-    }
-
-    /**
-     * 
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override 
+    @Override    
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("reportCode", getReportCode());
+        hashMap.put("frequencyBaseCode", getFrequencyBaseCode());
         hashMap.put("description", getDescription());
-        hashMap.put("finalReportFlag", getFinalReportFlag());
         return hashMap;
     }
 
@@ -110,7 +93,7 @@ public class Report extends KraPersistableBusinessObjectBase {
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((reportCode == null) ? 0 : reportCode.hashCode());
+        result = PRIME * result + ((frequencyBaseCode == null) ? 0 : frequencyBaseCode.hashCode());
         return result;
     }
 
@@ -125,30 +108,29 @@ public class Report extends KraPersistableBusinessObjectBase {
         if (obj == null){
             return false;
         }   
-        if (!(obj instanceof Report)){
+        if (!(obj instanceof FrequencyBase)){
             return false;
-        }
-        
-        return equals((Report) obj);        
+        }   
+        return equals((FrequencyBase) obj);
     }
     
     /**
      * 
-     * Convenience method with Report
-     * @param report
+     * Convenience method for equality of FrequencyBase
+     * @param frequencyBase
      * @return
      */
-    public boolean equals(Report report){
-        if (reportCode == null) {
-            if (report.reportCode != null){
+    public boolean equals(FrequencyBase frequencyBase){
+        if (frequencyBaseCode == null) {
+            if (frequencyBase.frequencyBaseCode != null){
                 return false;
             }   
-        }else if (!reportCode.equals(report.reportCode)){
+        }else if (!frequencyBaseCode.equals(frequencyBase.frequencyBaseCode)){
             return false;
         }   
         return true;
     }
     
     
-
+    
 }

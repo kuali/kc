@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.bo.AwardCustomData;
+import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;

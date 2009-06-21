@@ -18,7 +18,7 @@
 
 	<bean id="ReportMaintenanceDocument" parent="ReportMaintenanceDocument-parentBean"/>
 	<bean id="ReportMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.Report"/>
+		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.Report"/>
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
 		<property name="maintainableSections">
 			<list>

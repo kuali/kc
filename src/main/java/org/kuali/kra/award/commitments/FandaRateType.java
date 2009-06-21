@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.award.bo;
+package org.kuali.kra.award.commitments;
 
 import java.util.LinkedHashMap;
 
