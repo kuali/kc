@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.award.bo;
+package org.kuali.kra.award.paymentreports;
 
 import java.util.LinkedHashMap;
 
@@ -22,23 +22,23 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
- * This class represents the ReportClass business object and is mapped to
- * REPORT_CLASS table.
+ * This class represents the Report business object and is mapped
+ * with REPORT table.
  */
-public class ReportClass extends KraPersistableBusinessObjectBase { 
+public class Report extends KraPersistableBusinessObjectBase { 
     
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = 2641812275218339806L;
-    private String reportClassCode; 
+    private static final long serialVersionUID = 4555054434451627778L;
+    private String reportCode; 
     private String description; 
-    private boolean generateReportRequirements; 
+    private boolean finalReportFlag; 
     
     /**
-     * Constructs a ReportClass.java
+     * Constructs a Report.java
      */
-    public ReportClass() { 
+    public Report() { 
 
     } 
     
@@ -46,16 +46,16 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
      * 
      * @return
      */
-    public String getReportClassCode() {
-        return reportClassCode;
+    public String getReportCode() {
+        return reportCode;
     }
 
     /**
      * 
-     * @param reportClassCode
+     * @param reportCode
      */
-    public void setReportClassCode(String reportClassCode) {
-        this.reportClassCode = reportClassCode;
+    public void setReportCode(String reportCode) {
+        this.reportCode = reportCode;
     }
 
     /**
@@ -78,28 +78,28 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
      * 
      * @return
      */
-    public boolean getGenerateReportRequirements() {
-        return generateReportRequirements;
+    public boolean getFinalReportFlag() {
+        return finalReportFlag;
     }
 
     /**
      * 
-     * @param generateReportRequirements
+     * @param finalReportFlag
      */
-    public void setGenerateReportRequirements(boolean generateReportRequirements) {
-        this.generateReportRequirements = generateReportRequirements;
-    }   
+    public void setFinalReportFlag(boolean finalReportFlag) {
+        this.finalReportFlag = finalReportFlag;
+    }
 
     /**
      * 
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override 
-    protected LinkedHashMap<String,Object> toStringMapper() {
-        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put("reportClassCode", getReportClassCode());
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("reportCode", getReportCode());
         hashMap.put("description", getDescription());
-        hashMap.put("generateReportRequirements", getGenerateReportRequirements());
+        hashMap.put("finalReportFlag", getFinalReportFlag());
         return hashMap;
     }
 
@@ -110,7 +110,7 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((reportClassCode == null) ? 0 : reportClassCode.hashCode());
+        result = PRIME * result + ((reportCode == null) ? 0 : reportCode.hashCode());
         return result;
     }
 
@@ -125,29 +125,30 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
         if (obj == null){
             return false;
         }   
-        if (!(obj instanceof ReportClass)){
+        if (!(obj instanceof Report)){
             return false;
         }
-        return equals((ReportClass) obj);
+        
+        return equals((Report) obj);        
     }
     
     /**
      * 
-     * Convenience method for equality of ReportClass
-     * @param reportClass
+     * Convenience method with Report
+     * @param report
      * @return
      */
-    public boolean equals(ReportClass reportClass){
-        if (reportClassCode == null) {
-            if (reportClass.reportClassCode != null){
+    public boolean equals(Report report){
+        if (reportCode == null) {
+            if (report.reportCode != null){
                 return false;
             }   
-        }else if (!reportClassCode.equals(reportClass.reportClassCode)){
+        }else if (!reportCode.equals(report.reportCode)){
             return false;
         }   
         return true;
     }
     
     
-    
+
 }

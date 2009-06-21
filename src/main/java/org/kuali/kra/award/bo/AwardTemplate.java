@@ -18,6 +18,7 @@ package org.kuali.kra.award.bo;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.rice.kns.util.ObjectUtils;

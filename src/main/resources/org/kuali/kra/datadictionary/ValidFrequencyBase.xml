@@ -21,7 +21,7 @@
 
 	<bean id="ValidFrequencyBase" parent="ValidFrequencyBase-parentBean" />
 	<bean id="ValidFrequencyBase-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.ValidFrequencyBase" />
+		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.ValidFrequencyBase" />
 		<property name="inquiryDefinition" >
 			<ref bean="ValidFrequencyBase-inquiryDefinition" />
 		</property>

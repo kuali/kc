@@ -21,7 +21,7 @@
 
 	<bean id="ValidClassReportFrequency" parent="ValidClassReportFrequency-parentBean" />
 	<bean id="ValidClassReportFrequency-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.ValidClassReportFrequency" />
+		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.ValidClassReportFrequency" />
 		<property name="inquiryDefinition" >
 			<ref bean="ValidClassReportFrequency-inquiryDefinition" />
 		</property>

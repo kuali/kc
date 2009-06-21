@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.bo.ValidClassReportFrequency;
+import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;

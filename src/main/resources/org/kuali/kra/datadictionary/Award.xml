@@ -172,7 +172,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.bo.Frequency"
+            p:businessObjectClass="org.kuali.kra.award.paymentreports.Frequency"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
@@ -197,7 +197,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.bo.Frequency"
+            p:businessObjectClass="org.kuali.kra.award.paymentreports.Frequency"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
