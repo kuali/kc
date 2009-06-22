@@ -16,6 +16,8 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<c:set var="readOnly" value="${!KualiForm.membershipHelper.modifyCommittee or KualiForm.lookupHelper.viewOnly}"  scope="request" />
+
 <kul:documentPage 
     showDocumentInfo="true"
 	htmlFormAction="committeeMembership" 
@@ -28,11 +30,11 @@
 
 	<div align="right"><kul:help documentTypeName="CommitteeDocument" pageName="CommitteeMembership" /></div>
  
-    <kra-committee:committeeAddMembershipSection/>
+    <kra-committee:committeeAddMembershipSection readOnly="${readOnly}" />
     
-    <kra-committee:committeeMemberships/>
+    <kra-committee:committeeMemberships readOnly="${readOnly}" />
 
-    <c:if test="${fn:length(KualiForm.document.committee.committeeMemberships) > 0}">
+    <c:if test="${!readOnly && fn:length(KualiForm.document.committee.committeeMemberships) > 0}">
         <c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_deletesel.gif"/>
         <c:set var="extraButtonProperty" value="methodToCall.deleteCommitteeMembership"/>
         <c:set var="extraButtonAlt" value="Delete a Person"/>
