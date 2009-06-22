@@ -78,7 +78,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
         protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
         
         ProtocolAmendRenewal protocolAmendRenewal = createAmendmentRenewal(protocolDocument, renewProtocolDocument, null);
-        renewProtocolDocument.getProtocol().addAmendment(protocolAmendRenewal);
+        renewProtocolDocument.getProtocol().setProtocolAmendRenewal(protocolAmendRenewal);
         
         businessObjectService.save(protocolDocument);
         businessObjectService.save(renewProtocolDocument);
@@ -111,7 +111,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
 
         ProtocolAmendRenewal protocolAmendRenewal = createAmendmentRenewal(protocolDocument, amendProtocolDocument, amendmentBean.getSummary());
         addModules(protocolAmendRenewal, amendmentBean);
-        amendProtocolDocument.getProtocol().addAmendment(protocolAmendRenewal);
+        amendProtocolDocument.getProtocol().setProtocolAmendRenewal(protocolAmendRenewal);
         
         businessObjectService.save(protocolDocument);
         businessObjectService.save(amendProtocolDocument);

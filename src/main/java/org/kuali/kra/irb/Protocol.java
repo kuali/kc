@@ -136,7 +136,11 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     
     private ProtocolSubmission protocolSubmission;
     
-    private List<ProtocolAmendRenewal> amendments = new ArrayList<ProtocolAmendRenewal>();
+    /*
+     * There should only be zero or one entry in the protocolAmendRenewals
+     * list.  It is because of OJB that a list is used instead of a single item.
+     */
+    private List<ProtocolAmendRenewal> protocolAmendRenewals;
     
     /**
      * 
@@ -160,6 +164,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         specialReviews = new ArrayList<ProtocolSpecialReview>();
         setProtocolActions(new ArrayList<ProtocolAction>());
         setProtocolSubmissions(new ArrayList<ProtocolSubmission>());
+        protocolAmendRenewals = new ArrayList<ProtocolAmendRenewal>();
         // set statuscode default
         setProtocolStatusCode(Constants.DEFAULT_PROTOCOL_STATUS_CODE);
         this.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
@@ -989,12 +994,21 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
             attachment.init(this);
         }
     }
-
-    public void addAmendment(ProtocolAmendRenewal amendmentEntry) {
-        amendments.add(amendmentEntry);
+    
+    public void setProtocolAmendRenewal(ProtocolAmendRenewal amendRenewal) {
+        protocolAmendRenewals.add(amendRenewal);
     }
     
-    public List<ProtocolAmendRenewal> getAmendments() {
-        return amendments;
+    public ProtocolAmendRenewal getProtocolAmendRenewal() {
+        if (protocolAmendRenewals.size() == 0) return null;
+        return protocolAmendRenewals.get(0);
+    }
+
+    public List<ProtocolAmendRenewal> getProtocolAmendRenewals() {
+        return protocolAmendRenewals;
+    }
+
+    public void setProtocolAmendRenewals(List<ProtocolAmendRenewal> protocolAmendRenewals) {
+        this.protocolAmendRenewals = protocolAmendRenewals;
     }
 }
