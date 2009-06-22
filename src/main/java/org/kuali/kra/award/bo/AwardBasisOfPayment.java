@@ -16,6 +16,7 @@
 package org.kuali.kra.award.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -28,8 +29,8 @@ public class AwardBasisOfPayment extends KraPersistableBusinessObjectBase {
     private String basisOfPaymentCode; 
 	private String description; 
 	
-//	private ValidAwardBasisPayment validAwardBasisPayment; 
-//	private ValidBasisMethodPmt validBasisMethodPmt; 
+//	private List<ValidAwardBasisPayment> validAwardBasisPayments; 
+	private List<ValidBasisMethodPayment> validBasisMethodPayments; 
 	
 	public AwardBasisOfPayment() { 
 
@@ -51,22 +52,6 @@ public class AwardBasisOfPayment extends KraPersistableBusinessObjectBase {
 		this.description = description;
 	}
 
-//	public ValidAwardBasisPayment getValidAwardBasisPayment() {
-//		return validAwardBasisPayment;
-//	}
-//
-//	public void setValidAwardBasisPayment(ValidAwardBasisPayment validAwardBasisPayment) {
-//		this.validAwardBasisPayment = validAwardBasisPayment;
-//	}
-//
-//	public ValidBasisMethodPmt getValidBasisMethodPmt() {
-//		return validBasisMethodPmt;
-//	}
-//
-//	public void setValidBasisMethodPmt(ValidBasisMethodPmt validBasisMethodPmt) {
-//		this.validBasisMethodPmt = validBasisMethodPmt;
-//	}
-
 	@Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
@@ -74,6 +59,22 @@ public class AwardBasisOfPayment extends KraPersistableBusinessObjectBase {
 		hashMap.put("description", getDescription());
 		return hashMap;
 	}
+
+    /**
+     * Gets the validBasisMethodPayments attribute. 
+     * @return Returns the validBasisMethodPayments.
+     */
+    public List<ValidBasisMethodPayment> getValidBasisMethodPayments() {
+        return validBasisMethodPayments;
+    }
+
+    /**
+     * Sets the validBasisMethodPayments attribute value.
+     * @param validBasisMethodPayments The validBasisMethodPayments to set.
+     */
+    public void setValidBasisMethodPayments(List<ValidBasisMethodPayment> validBasisMethodPayments) {
+        this.validBasisMethodPayments = validBasisMethodPayments;
+    }
 
     /**
      * @see java.lang.Object#hashCode()
@@ -84,6 +85,7 @@ public class AwardBasisOfPayment extends KraPersistableBusinessObjectBase {
         int result = 1;
         result = prime * result + ((basisOfPaymentCode == null) ? 0 : basisOfPaymentCode.hashCode());
         result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((validBasisMethodPayments == null) ? 0 : validBasisMethodPayments.hashCode());
         return result;
     }
 
@@ -110,6 +112,12 @@ public class AwardBasisOfPayment extends KraPersistableBusinessObjectBase {
                 return false;
         }
         else if (!description.equals(other.description))
+            return false;
+        if (validBasisMethodPayments == null) {
+            if (other.validBasisMethodPayments != null)
+                return false;
+        }
+        else if (!validBasisMethodPayments.equals(other.validBasisMethodPayments))
             return false;
         return true;
     }
