@@ -1,6 +1,10 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+<%@ attribute name="readOnly" description="All fields are displayed as read-only elements." required="true" %>
+
 <c:set var="committeeMembershipAttributes" value="${DataDictionary.CommitteeMembership.attributes}" />
 
+<c:if test="${!readOnly}">
     <kra:permission value="${KualiForm.membershipHelper.modifyCommittee}">
         <kul:uncollapsable tabTitle="Add ${KualiForm.document.committee.committeeType.description} Member"
             tabErrorKey="membershipHelper.newCommitteeMembership.*" 
@@ -49,3 +53,4 @@
         </kul:uncollapsable>
     </kra:permission>
     <br/>
+</c:if>

@@ -1,4 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+<%@ attribute name="readOnly" description="All fields are displayed as read-only elements." required="true" %>
+
 <c:set var="committeeMembershipAttributes" value="${DataDictionary.CommitteeMembership.attributes}" />
 
 <div id="workarea">
@@ -33,7 +36,7 @@
              tabDescription="${tabDescriptionValue}"
              leftSideHtmlProperty="${committeeMembershipProperty}.delete" 
              leftSideHtmlAttribute="${committeeMembershipAttributes.delete}" 
-             leftSideHtmlDisabled="false" 
+             leftSideHtmlDisabled="${readOnly}" 
              defaultOpen="false" 
              transparentBackground="${transparent}">
              <div class="tab-container" align="center">
@@ -43,10 +46,10 @@
                              <span class="subhead-left"><bean:write name="KualiForm" property="${committeeMembershipProperty}.personName" /></span>
                              <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Committee" altText="help" /></span>
                          </h3>
-                         <kra-committee:committeeMembershipDetailsSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}" />
-                         <kra-committee:committeeMembershipContactInformationSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}" />
-                         <kra-committee:committeeMembershipRolesSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}" />
-                         <kra-committee:committeeMembershipExpertiseSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}" />
+                         <kra-committee:committeeMembershipDetailsSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}" />
+                         <kra-committee:committeeMembershipContactInformationSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}" />
+                         <kra-committee:committeeMembershipRolesSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}" />
+                         <kra-committee:committeeMembershipExpertiseSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}" readOnly="${readOnly}" />
                      </div>
                  </div>
              </div>
