@@ -30,9 +30,13 @@ public class AwardCommentWebTest extends AwardNotesAndAttachmentsWebTest {
     
     
 
+    /**
+     * This method tests adding and saving comments on comments tab of Award Comments Notes & Attachments page.
+     * @throws Exception
+     */
     @Test
     public void testCommentsOnCommentsNotesAttachmentsPage() throws Exception {
-        HtmlPage commentPage = getAwardTimeAndMoneyPage();
+        HtmlPage commentPage = getAwardNotesAndAttachmentsPage();
         assertContains(commentPage, GENERAL_COMMENTS_DESCRIPTION_NAME);
         setFieldValue(commentPage, GENERAL_COMMENTS_ID, SOME_COMMENTS);
         commentPage = saveDoc(commentPage);

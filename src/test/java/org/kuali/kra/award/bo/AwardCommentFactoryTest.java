@@ -72,7 +72,7 @@ public class AwardCommentFactoryTest extends KraTestBase{
      */
     @Test
     public void testCreateCostShareComment() throws Exception { 
-        AwardComment awardComment = awardCommentFactory.createCostShareComment(awardBo);
+        AwardComment awardComment = awardCommentFactory.createCostShareComment();
         Assert.assertTrue(awardComment instanceof AwardComment);
         Assert.assertEquals(Constants.COST_SHARE_COMMENT_TYPE_CODE, awardComment.getCommentTypeCode());
     }
@@ -85,7 +85,7 @@ public class AwardCommentFactoryTest extends KraTestBase{
      */
     @Test
     public void testCreateFandaRateComment() throws Exception { 
-        AwardComment awardComment = awardCommentFactory.createFandaRateComment(awardBo);
+        AwardComment awardComment = awardCommentFactory.createFandaRateComment();
         Assert.assertTrue(awardComment instanceof AwardComment);
         Assert.assertEquals(Constants.FANDA_RATE_COMMENT_TYPE_CODE, awardComment.getCommentTypeCode());
     }
@@ -98,7 +98,7 @@ public class AwardCommentFactoryTest extends KraTestBase{
      */
     @Test
     public void testCreatePreAwardSponsorAuthorizationComment() throws Exception { 
-        AwardComment awardComment = awardCommentFactory.createPreAwardSponsorAuthorizationComment(awardBo);
+        AwardComment awardComment = awardCommentFactory.createPreAwardSponsorAuthorizationComment();
         Assert.assertTrue(awardComment instanceof AwardComment);
         Assert.assertEquals(Constants.PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE, awardComment.getCommentTypeCode());
     }
@@ -111,7 +111,7 @@ public class AwardCommentFactoryTest extends KraTestBase{
      */
     @Test
     public void testCreatePreAwardInstitutionalAuthorizationComment() throws Exception { 
-        AwardComment awardComment = awardCommentFactory.createPreAwardInstitutionalAuthorizationComment(awardBo);
+        AwardComment awardComment = awardCommentFactory.createPreAwardInstitutionalAuthorizationComment();
         Assert.assertTrue(awardComment instanceof AwardComment);
         Assert.assertEquals(Constants.PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE, awardComment.getCommentTypeCode());
     }

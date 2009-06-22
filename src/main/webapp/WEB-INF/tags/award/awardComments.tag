@@ -13,6 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+<%-- member of AwardNotesAndAttachments.jsp --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <kul:tabTop tabTitle="Comments" defaultOpen="false" tabErrorKey="*">

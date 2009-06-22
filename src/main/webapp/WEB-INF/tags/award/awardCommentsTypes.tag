@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%@ include file="/WEB-INF/jsp/award/awardTldHeader.jsp"%>
 <%@ attribute name="index" description="Index" required="true" %>
 <%@ attribute name="commentTypeDescription" description="Comment Type Description" required="true" %>
 <c:set var="action" value="awardNotesAndAttachments" />
@@ -26,8 +26,8 @@
         	<th width="100" align="right" scope="row"><div align="center">Add:</div></th>
         	<td class="infoline">
             	 <div align="left">
-            	  	 <kul:htmlControlAttribute property="document.awardList[0].award${commentMethodName}.comments" attributeEntry="${commentAttributes.comments}"/>
-            	  	 <kra:expandedTextArea textAreaFieldName="document.awardList[0].award${commentMethodName}.comments" action="${action}" textAreaLabel="${commentAttributes.comments.label}" />
+            	  	 <kul:htmlControlAttribute property="${docAward}.award${commentMethodName}.comments" attributeEntry="${commentAttributes.comments}"/>
+            	  	 <kra:expandedTextArea textAreaFieldName="${docAward}.awardList[0].award${commentMethodName}.comments" action="${action}" textAreaLabel="${commentAttributes.comments.label}" />
             	 </div>
             </td>
         </table

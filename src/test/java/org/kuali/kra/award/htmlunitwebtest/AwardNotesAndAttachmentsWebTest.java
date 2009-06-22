@@ -53,14 +53,14 @@ public class AwardNotesAndAttachmentsWebTest extends AwardWebTestBase {
     
     /**
      * 
-     * Get the Award Time & Money Web Page. To do this, we first
+     * Get the Award Notes & Attachments Web Page. To do this, we first
      * get the Award Home page and fill in the required
      * fields with some default values.  We can then navigate to the
      * Award Time & Money Web Page.
      * @return
      * @throws Exception
      */
-    protected HtmlPage getAwardTimeAndMoneyPage() throws Exception {
+    protected HtmlPage getAwardNotesAndAttachmentsPage() throws Exception {
         HtmlPage awardHomePage = this.getAwardHomePage();
         HtmlPage awardNotesAndAttachmentsPage = clickOnTab(awardHomePage, NOTES_AND_ATTACHMENTS_LINK_NAME);
         return awardNotesAndAttachmentsPage;
