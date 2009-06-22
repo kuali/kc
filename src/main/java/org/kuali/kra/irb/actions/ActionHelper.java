@@ -27,6 +27,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
+import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
@@ -66,6 +67,7 @@ public class ActionHelper implements Serializable {
     private ProtocolNotifyIrbBean protocolNotifyIrbBean;
     private ProtocolAmendmentBean protocolAmendmentBean;
     private ProtocolAmendmentBean protocolRenewAmendmentBean;
+    private ProtocolDeleteBean protocolDeleteBean;
     
     /**
      * Constructs an ActionHelper.
@@ -88,6 +90,7 @@ public class ActionHelper implements Serializable {
         protocolNotifyIrbBean = new ProtocolNotifyIrbBean();
         protocolAmendmentBean = new ProtocolAmendmentBean();
         protocolRenewAmendmentBean = new ProtocolAmendmentBean();
+        protocolDeleteBean = new ProtocolDeleteBean();
     }
     
     public void prepareView() {
@@ -194,5 +197,9 @@ public class ActionHelper implements Serializable {
     
     public ProtocolAmendmentBean getProtocolRenewAmendmentBean() {
         return protocolRenewAmendmentBean;
+    }
+    
+    public ProtocolDeleteBean getProtocolDeleteBean() {
+        return protocolDeleteBean;
     }
 }
