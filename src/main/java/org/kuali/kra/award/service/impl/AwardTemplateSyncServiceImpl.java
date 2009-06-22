@@ -265,7 +265,6 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @param propertyName
      */
     public void syncAwardComments(Award awardObject, List<AwardTemplateComment> awardTemplateComments){
-        LOG.info("In award comments sync");
         awardObject.addTemplateComments(awardTemplateComments);
     }
     
@@ -278,7 +277,6 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @param propertyName
      */
     public void syncAwardSponsorTerms(Award awardObject, List<AwardTemplateTerm> awardTemplateTerms){
-        LOG.info("In award sponsor terms sync**********^^^^^^^^^^^^^^^^^");
         awardObject.addTemplateTerms(awardTemplateTerms);
     }
     /**

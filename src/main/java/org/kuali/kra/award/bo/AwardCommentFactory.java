@@ -35,8 +35,8 @@ public class AwardCommentFactory {
      * @param award
      * @return
      */
-    public AwardComment createCostShareComment(Award award) {
-        return createAwardComment(award, Constants.COST_SHARE_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+    public AwardComment createCostShareComment() {
+        return createAwardComment(Constants.COST_SHARE_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -44,8 +44,8 @@ public class AwardCommentFactory {
      * @param award
      * @return
      */
-    public AwardComment createFandaRateComment(Award award) {
-        return createAwardComment(award, Constants.FANDA_RATE_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+    public AwardComment createFandaRateComment() {
+        return createAwardComment(Constants.FANDA_RATE_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -53,8 +53,8 @@ public class AwardCommentFactory {
      * @param award
      * @return
      */
-    public AwardComment createPaymentAndInvoiceComment(Award award) {
-        return createAwardComment(award, Constants.PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+    public AwardComment createPaymentAndInvoiceComment() {
+        return createAwardComment(Constants.PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -62,8 +62,8 @@ public class AwardCommentFactory {
      * @param award
      * @return
      */
-    public AwardComment createBenefitsRateComment(Award award) {
-        return createAwardComment(award, Constants.BENEFITS_RATES_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+    public AwardComment createBenefitsRateComment() {
+        return createAwardComment(Constants.BENEFITS_RATES_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -71,8 +71,8 @@ public class AwardCommentFactory {
      * @param award
      * @return
      */
-    public AwardComment createPreAwardSponsorAuthorizationComment(Award award) {
-        return createAwardComment(award, Constants.PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+    public AwardComment createPreAwardSponsorAuthorizationComment() {
+        return createAwardComment(Constants.PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
     }
     
     /**
@@ -80,8 +80,8 @@ public class AwardCommentFactory {
      * @param award
      * @return
      */
-    public AwardComment createPreAwardInstitutionalAuthorizationComment(Award award) {
-        return createAwardComment(award, Constants.PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+    public AwardComment createPreAwardInstitutionalAuthorizationComment() {
+        return createAwardComment(Constants.PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
     }
     
     /**
@@ -89,8 +89,8 @@ public class AwardCommentFactory {
      * @param award
      * @return
      */
-    public AwardComment createGeneralComment(Award award) {
-        return createAwardComment(award, Constants.GENERAL_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+    public AwardComment createGeneralComment() {
+        return createAwardComment(Constants.GENERAL_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -98,8 +98,8 @@ public class AwardCommentFactory {
      * @param award
      * @return
      */
-    public AwardComment createFiscalReportComment(Award award) {
-        return createAwardComment(award, Constants.FISCAL_REPORT_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+    public AwardComment createFiscalReportComment() {
+        return createAwardComment(Constants.FISCAL_REPORT_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -107,8 +107,8 @@ public class AwardCommentFactory {
      * @param award
      * @return
      */
-    public AwardComment createIntellecutalPropertyComment(Award award) {
-        return createAwardComment(award, Constants.INTELLECTUAL_PROPERTY_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+    public AwardComment createIntellecutalPropertyComment() {
+        return createAwardComment(Constants.INTELLECTUAL_PROPERTY_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -116,8 +116,8 @@ public class AwardCommentFactory {
      * @param award
      * @return
      */
-    public AwardComment createProcurementComment(Award award) {
-        return createAwardComment(award, Constants.PROCUREMENT_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+    public AwardComment createProcurementComment() {
+        return createAwardComment(Constants.PROCUREMENT_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -125,8 +125,8 @@ public class AwardCommentFactory {
      * @param award
      * @return
      */
-    public AwardComment createPropertyComment(Award award) {
-        return createAwardComment(award, Constants.PROPERTY_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
+    public AwardComment createPropertyComment() {
+        return createAwardComment(Constants.PROPERTY_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -134,8 +134,8 @@ public class AwardCommentFactory {
      * @param award
      * @return
      */
-    public AwardComment createSpecialRateComment(Award award) {
-        return createAwardComment(award, Constants.SPECIAL_RATE_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+    public AwardComment createSpecialRateComment() {
+        return createAwardComment(Constants.SPECIAL_RATE_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
     }
     
     /**
@@ -143,8 +143,8 @@ public class AwardCommentFactory {
      * @param award
      * @return
      */
-    public AwardComment createSpecialReviewComment(Award award) {
-        return createAwardComment(award, Constants.SPECIAL_REVIEW_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+    public AwardComment createSpecialReviewComment() {
+        return createAwardComment(Constants.SPECIAL_REVIEW_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
     }
     
     /**
@@ -152,8 +152,8 @@ public class AwardCommentFactory {
      * @param award
      * @return
      */
-    public AwardComment createProposalSummaryComment(Award award) {
-        return createAwardComment(award, Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+    public AwardComment createProposalSummaryComment() {
+        return createAwardComment(Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
     }
     
     /**
@@ -161,8 +161,8 @@ public class AwardCommentFactory {
      * @param award
      * @return
      */
-    public AwardComment createProposalComment(Award award) {
-        return createAwardComment(award, Constants.PROPOSAL_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+    public AwardComment createProposalComment() {
+        return createAwardComment(Constants.PROPOSAL_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
     }
     
     /**
@@ -170,20 +170,19 @@ public class AwardCommentFactory {
      * @param award
      * @return
      */
-    public AwardComment createProposalIPReviewComment(Award award) {
-        return createAwardComment(award, Constants.PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
+    public AwardComment createProposalIPReviewComment() {
+        return createAwardComment(Constants.PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
     }
     
     
 
     /**
      * This method returns a new AwardComment
-     * @param award
      * @param commentTypeCode
      * @param checklistPrintFlag
      * @return
      */
-    public  AwardComment createAwardComment(Award award, String commentTypeCode, boolean checklistPrintFlag) {
+    public  AwardComment createAwardComment(String commentTypeCode, boolean checklistPrintFlag) {
                 AwardComment comment = new AwardComment();
                 CommentType commentType = findCommentType(commentTypeCode);
                 comment.setCommentType(commentType);
@@ -191,7 +190,7 @@ public class AwardCommentFactory {
                 comment.setChecklistPrintFlag(checklistPrintFlag);
                 comment.setComments("");
                 return comment;
-}
+    }
 
     /**
      * This method returns corresponding Comment Type

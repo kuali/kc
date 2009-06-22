@@ -402,25 +402,10 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     public ActionForward notesAndAttachments(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {  
         AwardForm awardForm = (AwardForm) form;
-        setAwardCommentScreenDisplayTypesOnForm(awardForm);
-        
+        awardForm.getAwardCommentBean().setAwardCommentScreenDisplayTypesOnForm();
         return mapping.findForward(Constants.MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE);
     }
     
-    protected void setAwardCommentScreenDisplayTypesOnForm(AwardForm awardForm) {
-        AwardCommentService awardCommentService = getAwardCommentService();
-        List<CommentType> commentTypes = awardCommentService.retrieveCommentTypesToAwardFormForPanelHeaderDisplay();
-        awardForm.getAwardCommentBean().setAwardCommentScreenDisplayTypes(commentTypes);
-    }
-    
-    /**
-     * 
-     * This method is a helper method to retrieve AwardSponsorTermService.
-     * @return
-     */
-    protected AwardCommentService getAwardCommentService() {
-        return KraServiceLocator.getService(AwardCommentService.class);
-    }
     
     /**
      * 

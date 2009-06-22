@@ -29,5 +29,5 @@ public interface AwardCommentService {
      * they can be displayed on the Comments, Notes & Attachments tab.
      * @return
      */
-    List<CommentType> retrieveCommentTypesToAwardFormForPanelHeaderDisplay();
+    List<CommentType> retrieveCommentTypes();
 }

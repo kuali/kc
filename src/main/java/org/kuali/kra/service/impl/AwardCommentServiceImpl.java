@@ -31,14 +31,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class AwardCommentServiceImpl implements AwardCommentService {
     
     private BusinessObjectService businessObjectService;
+    private String AWARD_COMMENT_SCREEN_FLAG = "awardCommentScreenFlag";
     
     /**
      * @see org.kuali.kra.service.AwardCommentService#retrieveCommentTypesToAwardFormForPanelHeaderDisplay()
      */
     @SuppressWarnings("unchecked")
-    public List<CommentType> retrieveCommentTypesToAwardFormForPanelHeaderDisplay() {
+    public List<CommentType> retrieveCommentTypes() {
         Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put("awardCommentScreenFlag", "Y");
+        queryMap.put(AWARD_COMMENT_SCREEN_FLAG, CommentType.SCREENFLAG_TRUE);
         List<CommentType> commentTypeList = 
             (List<CommentType>) getBusinessObjectService().findMatching(CommentType.class, queryMap);
         return commentTypeList;

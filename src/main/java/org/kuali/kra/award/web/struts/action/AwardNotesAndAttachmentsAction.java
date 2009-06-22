@@ -43,7 +43,7 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
         
         ActionForward actionForward = super.reload(mapping, form, request, response);
         
-        setAwardCommentScreenDisplayTypesOnForm(awardForm);
+        awardForm.getAwardCommentBean().setAwardCommentScreenDisplayTypesOnForm();
         
         return actionForward;        
     }
