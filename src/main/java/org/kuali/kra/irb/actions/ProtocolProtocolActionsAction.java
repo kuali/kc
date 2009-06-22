@@ -33,6 +33,7 @@ import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
+import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
@@ -405,6 +406,29 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     private ProtocolAmendRenewService getProtocolAmendRenewService() {
         return KraServiceLocator.getService(ProtocolAmendRenewService.class);
+    }
+    
+    /**
+     * Delete a Protocol/Amendment/Renewal.  Remember that amendments and renewals
+     * are simply protocol documents that were copied from a protocol.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        getProtocolDeleteService().delete(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolDeleteBean());
+
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    private ProtocolDeleteService getProtocolDeleteService() {
+        return KraServiceLocator.getService(ProtocolDeleteService.class);
     }
 
     
