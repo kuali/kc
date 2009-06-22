@@ -205,10 +205,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     *
     * @return
     */
-    private Map<String, AwardComment> getCommentMap(){
-        if(commentMap == null){
+    private Map<String, AwardComment> getCommentMap() {
+        if (commentMap == null) {
             commentMap = new HashMap<String, AwardComment>();
-            for(AwardComment ac : awardComments){
+            for (AwardComment ac : awardComments) {
                 commentMap.put(ac.getCommentType().getCommentTypeCode(), ac);
             }
         }
@@ -1117,7 +1117,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
         AwardComment awardComment = getCommentMap().get(Constants.COST_SHARE_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createCostShareComment(this);  //if null initialize in factory class
+            awardComment = awardCommentFactory.createCostShareComment();  //if null initialize in factory class
             add(awardComment);  //add the new CostShareComment to the awardComments list.
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
         }
@@ -1132,7 +1132,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
         AwardComment awardComment = getCommentMap().get(Constants.PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createPreAwardSponsorAuthorizationComment(this);  
+            awardComment = awardCommentFactory.createPreAwardSponsorAuthorizationComment();  
             add(awardComment);  
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
         }
@@ -1147,7 +1147,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
         AwardComment awardComment = getCommentMap().get(Constants.PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createPreAwardInstitutionalAuthorizationComment(this);  //if null initialize in factory class
+            awardComment = awardCommentFactory.createPreAwardInstitutionalAuthorizationComment();  //if null initialize in factory class
             add(awardComment);  //add the new CostShareComment to the awardComments list.
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
         }
@@ -1162,7 +1162,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
         AwardComment awardComment = getCommentMap().get(Constants.FANDA_RATE_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createFandaRateComment(this);  //if null initialize in factory class
+            awardComment = awardCommentFactory.createFandaRateComment();  //if null initialize in factory class
             add(awardComment);  //add the new CostShareComment to the awardComments list.
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
         }
@@ -1177,7 +1177,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
         AwardComment awardComment = getCommentMap().get(Constants.PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createPaymentAndInvoiceComment(this);  //if null initialize in factory class
+            awardComment = awardCommentFactory.createPaymentAndInvoiceComment();  //if null initialize in factory class
             add(awardComment);  //add the new Payment And Invoice to the awardComments list.
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
         }
@@ -1192,7 +1192,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
         AwardComment awardComment = getCommentMap().get(Constants.BENEFITS_RATES_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createBenefitsRateComment(this);  //if null initialize in factory class
+            awardComment = awardCommentFactory.createBenefitsRateComment();  //if null initialize in factory class
             add(awardComment);
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
         }
@@ -1207,7 +1207,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
         AwardComment awardComment = getCommentMap().get(Constants.GENERAL_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createGeneralComment(this);
+            awardComment = awardCommentFactory.createGeneralComment();
             add(awardComment);
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
         }
@@ -1222,7 +1222,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
         AwardComment awardComment = getCommentMap().get(Constants.FISCAL_REPORT_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createFiscalReportComment(this);  
+            awardComment = awardCommentFactory.createFiscalReportComment();  
             add(awardComment);  
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
         }
@@ -1237,7 +1237,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
         AwardComment awardComment = getCommentMap().get(Constants.INTELLECTUAL_PROPERTY_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createIntellecutalPropertyComment(this);
+            awardComment = awardCommentFactory.createIntellecutalPropertyComment();
             add(awardComment);
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
         }
@@ -1252,7 +1252,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
         AwardComment awardComment = getCommentMap().get(Constants.PROCUREMENT_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createProcurementComment(this);
+            awardComment = awardCommentFactory.createProcurementComment();
             add(awardComment);
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
         }
@@ -1267,7 +1267,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
         AwardComment awardComment = getCommentMap().get(Constants.PROPERTY_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createPropertyComment(this);
+            awardComment = awardCommentFactory.createPropertyComment();
             add(awardComment);
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
         }
@@ -1282,7 +1282,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
         AwardComment awardComment = getCommentMap().get(Constants.SPECIAL_RATE_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createSpecialRateComment(this);
+            awardComment = awardCommentFactory.createSpecialRateComment();
             add(awardComment);
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
         }
@@ -1297,7 +1297,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
         AwardComment awardComment = getCommentMap().get(Constants.SPECIAL_REVIEW_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createSpecialReviewComment(this);
+            awardComment = awardCommentFactory.createSpecialReviewComment();
             add(awardComment);
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
         }
@@ -1312,7 +1312,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
         AwardComment awardComment = getCommentMap().get(Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createProposalSummaryComment(this);  
+            awardComment = awardCommentFactory.createProposalSummaryComment();  
             add(awardComment);  
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
         }
@@ -1327,7 +1327,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
         AwardComment awardComment = getCommentMap().get(Constants.PROPOSAL_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createProposalComment(this);
+            awardComment = awardCommentFactory.createProposalComment();
             add(awardComment);
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
         }
@@ -1342,7 +1342,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
         AwardComment awardComment = getCommentMap().get(Constants.PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE);
         if(awardComment == null){
-            awardComment = awardCommentFactory.createProposalIPReviewComment(this);
+            awardComment = awardCommentFactory.createProposalIPReviewComment();
             add(awardComment);
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
         }
@@ -1708,8 +1708,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         for(AwardTemplateComment awardTemplateComment : awardTemplateComments) {
             AwardComment testAwardComment = getCommentMap().get(awardTemplateComment.getCommentTypeCode());
             if(testAwardComment == null){
-                AwardComment awardComment = awardCommentFactory.createAwardComment(this, 
-                                                                                    awardTemplateComment.getCommentTypeCode(), 
+                AwardComment awardComment = awardCommentFactory.createAwardComment(awardTemplateComment.getCommentTypeCode(), 
                                                                                          awardTemplateComment.getChecklistPrintFlag());
                 awardComment.setComments(awardTemplateComment.getComments());
                 add(awardComment);
