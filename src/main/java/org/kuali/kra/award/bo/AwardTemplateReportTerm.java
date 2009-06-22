@@ -33,7 +33,8 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase{
      */
     private static final long serialVersionUID = -2410943921568581512L;
     private Integer templateReportTermId; 
-	private Integer templateCode; 
+//	private Integer templateCode; 
+    private AwardTemplate awardTemplate;
 	private List<AwardTemplateReportTermRecipient> awardTemplateReportTermRecipients;
 	
     private String reportClassCode; 
@@ -63,13 +64,13 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase{
 		this.templateReportTermId = templateReportTermId;
 	}
 
-	public Integer getTemplateCode() {
-		return templateCode;
-	}
-
-	public void setTemplateCode(Integer templateCode) {
-		this.templateCode = templateCode;
-	}
+//	public Integer getTemplateCode() {
+//		return templateCode;
+//	}
+//
+//	public void setTemplateCode(Integer templateCode) {
+//		this.templateCode = templateCode;
+//	}
 
 
 	@SuppressWarnings("unchecked")
@@ -77,7 +78,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase{
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("templateReportTermId", getTemplateReportTermId());
-		hashMap.put("templateCode", getTemplateCode());
+//		hashMap.put("templateCode", getTemplateCode());
 		hashMap.put("reportClassCode", getReportClassCode());
 		hashMap.put("reportCode", getReportCode());
 		hashMap.put("frequencyCode", getFrequencyCode());
@@ -104,51 +105,6 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase{
         this.awardReportTermRecipients = awardTemplateReportTermRecipients;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((awardTemplateReportTermRecipients == null) ? 0 : awardTemplateReportTermRecipients.hashCode());
-        result = prime * result + ((templateCode == null) ? 0 : templateCode.hashCode());
-        result = prime * result + ((templateReportTermId == null) ? 0 : templateReportTermId.hashCode());
-        return result;
-    }
-
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        AwardTemplateReportTerm other = (AwardTemplateReportTerm) obj;
-        if (awardTemplateReportTermRecipients == null) {
-            if (other.awardTemplateReportTermRecipients != null)
-                return false;
-        }
-        else if (!awardTemplateReportTermRecipients.equals(other.awardTemplateReportTermRecipients))
-            return false;
-        if (templateCode == null) {
-            if (other.templateCode != null)
-                return false;
-        }
-        else if (!templateCode.equals(other.templateCode))
-            return false;
-        if (templateReportTermId == null) {
-            if (other.templateReportTermId != null)
-                return false;
-        }
-        else if (!templateReportTermId.equals(other.templateReportTermId))
-            return false;
-        return true;
-    }
 
     /**
      * Gets the reportClassCode attribute. 
@@ -333,5 +289,151 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase{
     public List getAwardReportTermRecipients() {
         return getAwardTemplateReportTermRecipients();
     }
-	
+
+    /**
+     * Gets the awardTemplate attribute. 
+     * @return Returns the awardTemplate.
+     */
+    public AwardTemplate getAwardTemplate() {
+        return awardTemplate;
+    }
+
+    /**
+     * Sets the awardTemplate attribute value.
+     * @param awardTemplate The awardTemplate to set.
+     */
+    public void setAwardTemplate(AwardTemplate awardTemplate) {
+        this.awardTemplate = awardTemplate;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((awardReportTermRecipients == null) ? 0 : awardReportTermRecipients.hashCode());
+        result = prime * result + ((awardTemplate == null) ? 0 : awardTemplate.hashCode());
+        result = prime * result + ((awardTemplateReportTermRecipients == null) ? 0 : awardTemplateReportTermRecipients.hashCode());
+        result = prime * result + ((distribution == null) ? 0 : distribution.hashCode());
+        result = prime * result + ((dueDate == null) ? 0 : dueDate.hashCode());
+        result = prime * result + ((frequency == null) ? 0 : frequency.hashCode());
+        result = prime * result + ((frequencyBase == null) ? 0 : frequencyBase.hashCode());
+        result = prime * result + ((frequencyBaseCode == null) ? 0 : frequencyBaseCode.hashCode());
+        result = prime * result + ((frequencyCode == null) ? 0 : frequencyCode.hashCode());
+        result = prime * result + ((ospDistributionCode == null) ? 0 : ospDistributionCode.hashCode());
+        result = prime * result + ((report == null) ? 0 : report.hashCode());
+        result = prime * result + ((reportClass == null) ? 0 : reportClass.hashCode());
+        result = prime * result + ((reportClassCode == null) ? 0 : reportClassCode.hashCode());
+        result = prime * result + ((reportCode == null) ? 0 : reportCode.hashCode());
+        result = prime * result + ((templateReportTermId == null) ? 0 : templateReportTermId.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AwardTemplateReportTerm other = (AwardTemplateReportTerm) obj;
+        if (awardReportTermRecipients == null) {
+            if (other.awardReportTermRecipients != null)
+                return false;
+        }
+        else if (!awardReportTermRecipients.equals(other.awardReportTermRecipients))
+            return false;
+        if (awardTemplate == null) {
+            if (other.awardTemplate != null)
+                return false;
+        }
+        else if (!awardTemplate.equals(other.awardTemplate))
+            return false;
+        if (awardTemplateReportTermRecipients == null) {
+            if (other.awardTemplateReportTermRecipients != null)
+                return false;
+        }
+        else if (!awardTemplateReportTermRecipients.equals(other.awardTemplateReportTermRecipients))
+            return false;
+        if (distribution == null) {
+            if (other.distribution != null)
+                return false;
+        }
+        else if (!distribution.equals(other.distribution))
+            return false;
+        if (dueDate == null) {
+            if (other.dueDate != null)
+                return false;
+        }
+        else if (!dueDate.equals(other.dueDate))
+            return false;
+        if (frequency == null) {
+            if (other.frequency != null)
+                return false;
+        }
+        else if (!frequency.equals(other.frequency))
+            return false;
+        if (frequencyBase == null) {
+            if (other.frequencyBase != null)
+                return false;
+        }
+        else if (!frequencyBase.equals(other.frequencyBase))
+            return false;
+        if (frequencyBaseCode == null) {
+            if (other.frequencyBaseCode != null)
+                return false;
+        }
+        else if (!frequencyBaseCode.equals(other.frequencyBaseCode))
+            return false;
+        if (frequencyCode == null) {
+            if (other.frequencyCode != null)
+                return false;
+        }
+        else if (!frequencyCode.equals(other.frequencyCode))
+            return false;
+        if (ospDistributionCode == null) {
+            if (other.ospDistributionCode != null)
+                return false;
+        }
+        else if (!ospDistributionCode.equals(other.ospDistributionCode))
+            return false;
+        if (report == null) {
+            if (other.report != null)
+                return false;
+        }
+        else if (!report.equals(other.report))
+            return false;
+        if (reportClass == null) {
+            if (other.reportClass != null)
+                return false;
+        }
+        else if (!reportClass.equals(other.reportClass))
+            return false;
+        if (reportClassCode == null) {
+            if (other.reportClassCode != null)
+                return false;
+        }
+        else if (!reportClassCode.equals(other.reportClassCode))
+            return false;
+        if (reportCode == null) {
+            if (other.reportCode != null)
+                return false;
+        }
+        else if (!reportCode.equals(other.reportCode))
+            return false;
+        if (templateReportTermId == null) {
+            if (other.templateReportTermId != null)
+                return false;
+        }
+        else if (!templateReportTermId.equals(other.templateReportTermId))
+            return false;
+        return true;
+    }
+
 }
