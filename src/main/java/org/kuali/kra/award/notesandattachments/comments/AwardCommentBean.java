@@ -20,9 +20,11 @@ import java.util.List;
 
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.bo.CommentType;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.AwardCommentService;
 
 /**
- * This class...
+ * This class contains comment helper fields and methods for form and action classes
  */
 public class AwardCommentBean implements Serializable {
 
@@ -80,6 +82,23 @@ public class AwardCommentBean implements Serializable {
      */
     public void setForm(AwardForm form) {
         this.form = form;
+    }
+    
+    //
+    public void setAwardCommentScreenDisplayTypesOnForm() {
+        AwardCommentService awardCommentService = getAwardCommentService();
+        //List<CommentType> commentTypes = awardCommentService.retrieveCommentTypes();
+        //setAwardCommentScreenDisplayTypes(commentTypes);
+        setAwardCommentScreenDisplayTypes(awardCommentService.retrieveCommentTypes());
+    }
+    
+    /**
+     * 
+     * This method is a helper method to retrieve AwardSponsorTermService.
+     * @return
+     */
+    protected AwardCommentService getAwardCommentService() {
+        return KraServiceLocator.getService(AwardCommentService.class);
     }
 
 }
