@@ -60,7 +60,14 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         if(getProtocolAuthorizationService().hasPermission(getUserName(), (Protocol) businessObject, PermissionConstants.MODIFY_PROTOCOL)) {
-            htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
+            //htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
+            // Chnage "edit" to edit same document, NOT initializing a new Doc
+            AnchorHtmlData editHtmlData = getViewLink(((Protocol) businessObject).getProtocolDocument());
+            String href = editHtmlData.getHref();
+            href = href.replace("viewDocument=true", "viewDocument=false");
+            editHtmlData.setHref(href);
+            editHtmlData.setDisplayText("edit");
+            htmlDataList.add(editHtmlData);
             AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
             ProtocolDocument document = ((Protocol) businessObject).getProtocolDocument();
             htmlData.setHref("../DocCopyHandler.do?docId=" + document.getDocumentNumber()

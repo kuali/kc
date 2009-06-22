@@ -88,8 +88,10 @@ public class ProtocolProtocolAction extends ProtocolAction {
                 request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER));
         }
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("displayDocSearchView") && StringUtils.isNotBlank(request.getParameter("viewDocument"))) {
-            protocolForm.getLookupHelper().setViewOnly(true);
-            protocolForm.getLookupHelper().resetDocumentActionsForView();
+            if (request.getParameter("viewDocument").equals("true")) {
+                protocolForm.getLookupHelper().setViewOnly(true);
+                protocolForm.getLookupHelper().resetDocumentActionsForView();
+            }
         }
         if (!protocolForm.getLookupHelper().isViewOnly()) {
             protocolForm.getProtocolHelper().prepareView();
