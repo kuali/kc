@@ -60,7 +60,6 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
         committeeMembership.setMembershipId("0");
         committeeMembership.setSequenceNumber(0);
 
-        //Refresh Person or Rolodex
         if(!StringUtils.isBlank(committeeMembership.getPersonId())) {
             committeeMembership.refreshReferenceObject(REFERENCE_PERSON);
         }else {

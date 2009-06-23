@@ -71,7 +71,7 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
     }
     
     /**
-     * Test adding a committee membership with a person id.
+     * Test adding a committee membership with a rolodex id.
      */
     @Test
     public void testAddCommitteeMembershipWithRolodexId() throws Exception {

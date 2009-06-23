@@ -47,7 +47,7 @@ public class CommitteeMembershipRule extends ResearchDocumentRuleBase
     /**
      * Process the validation rules for an <code>{@link AddCommitteeMembershipEvent}</code>.
      * 
-     * @param addProtocolParticipantEvent
+     * @param addCommitteeMembershipEvent
      * @return <code>true</code> if all validation rules are passed, <code>false</code> otherwise
      */
     public boolean processAddCommitteeMembershipBusinessRules(AddCommitteeMembershipEvent addCommitteeMembershipEvent) {
@@ -55,7 +55,7 @@ public class CommitteeMembershipRule extends ResearchDocumentRuleBase
         
         CommitteeMembership committeeMembership = addCommitteeMembershipEvent.getCommitteeMembership();
         
-        if ((StringUtils.isEmpty(committeeMembership.getPersonId())) && (committeeMembership.getRolodexId() == null)) { 
+        if (StringUtils.isBlank(committeeMembership.getPersonId()) && (committeeMembership.getRolodexId() == null)) { 
             isValid = false;
             reportError(PROPERTY_NAME_PERSON_NAME, KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_NOT_SPECIFIED);
         } 

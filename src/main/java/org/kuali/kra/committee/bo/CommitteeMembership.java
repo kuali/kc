@@ -39,6 +39,8 @@ import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 @SuppressWarnings("serial")
 public class CommitteeMembership extends KraPersistableBusinessObjectBase implements SequenceAssociate {
 
+    private final String DATE_FORMAT = "MM/dd/yyyy";
+
     @Id
     @Column(name = "COMM_MEMBERSHIP_ID")
     private Long committeeMembershipId;
@@ -179,7 +181,7 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
     }
 
     public String getFormattedTermStartDate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         return dateFormat.format(termStartDate);
     }
 
@@ -192,7 +194,7 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
     }
 
     public String getFormattedTermEndDate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         return dateFormat.format(termEndDate);
     }
 
@@ -321,10 +323,10 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result +(this.committeeIdFk == null ? 0 : this.committeeIdFk.hashCode());
-        result = PRIME * result +(this.personId == null ? 0 : this.personId.hashCode());
-        result = PRIME * result +(this.rolodexId == null ? 0 : this.rolodexId.hashCode());
-        result = PRIME * result +(this.termStartDate == null ? 0 : this.termStartDate.hashCode());
+        result = PRIME * result + (this.committeeIdFk == null ? 0 : this.committeeIdFk.hashCode());
+        result = PRIME * result + (this.personId == null ? 0 : this.personId.hashCode());
+        result = PRIME * result + (this.rolodexId == null ? 0 : this.rolodexId.hashCode());
+        result = PRIME * result + (this.termStartDate == null ? 0 : this.termStartDate.hashCode());
         return result;
     }
 
@@ -346,9 +348,6 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
         hashMap.put("comments", getComments());
         hashMap.put("contactNotes", getContactNotes());
         hashMap.put("trainingNotes", getTrainingNotes());
-        hashMap.put("Role Count", getMembershipRoles().size());
-        hashMap.put("Role isEmpty", getMembershipRoles().isEmpty());
-        hashMap.put("Role is null", (getMembershipRoles() == null) ? true : false);
         return hashMap;
     }
 
