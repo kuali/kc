@@ -7,12 +7,13 @@
         <td>
             <kul:innerTab tabTitle="Person Details" 
                           parentTab="${parentTabValue}" 
-                          defaultOpen="false" 
+                          defaultOpen="false"
+                          useCurrentTabIndexAsKey="true" 
                           tabErrorKey="document.committeeList[0].committeeMemberships[${memberIndex}].membershipTypeCode,document.committeeList[0].committeeMemberships[${memberIndex}].termStartDate,document.committeeList[0].committeeMemberships[${memberIndex}].termEndDate">
                 <div class="innerTab-container" align="left">
                     <table class=tab cellpadding=0 cellspacing="0" summary=""> 
                         <tr>
-                            <th align="left">
+                            <th>
                                 <div align="right">
                                     <kul:htmlAttributeLabel attributeEntry="${committeeMembershipAttributes.personName}" />
                                 </div>
@@ -35,7 +36,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th align="left">
+                            <th>
                                 <div align="right">
                                     <kul:htmlAttributeLabel attributeEntry="${committeeMembershipAttributes.membershipTypeCode}" />
                                 </div>
@@ -51,7 +52,7 @@
                                                           readOnly="${readOnly}" />
                                 (paid member)
                             </td>
-                            <th align="left">
+                            <th>
                                 <div align="right">
                                     <kul:htmlAttributeLabel attributeEntry="${committeeMembershipAttributes.termEndDate}" />
                                 </div>
@@ -63,7 +64,7 @@
                                                           readOnly="${readOnly}" />
                             </td>
                         <tr>
-                            <th align="left">
+                            <th>
                                 <div align="right">
                                     <kul:htmlAttributeLabel attributeEntry="${committeeMembershipAttributes.contactNotes}" />
                                 </div>
@@ -78,7 +79,7 @@
                                                           textAreaLabel="${committeeMembershipAttributes.contactNotes.label}" />
                                 </c:if>
                             </td>
-                            <th align="left">
+                            <th>
                                 <div align="right">
                                     <kul:htmlAttributeLabel attributeEntry="${committeeMembershipAttributes.trainingNotes}" />
                                 </div>
