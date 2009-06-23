@@ -171,29 +171,6 @@ public class CommitteeMembershipServiceTest {
     }
     
     /**
-     * This method creates and returns a new committee membership from the person.
-     * @return CommitteeMembership
-     */
-    public CommitteeMembership getCommitteeMembershipPerson() {
-        CommitteeMembership committeeMembership = new CommitteeMembership();
-        committeeMembership.setPersonId(PERSON_ID);
-        committeeMembership.setTermStartDate(TERM_START_DATE);
-        committeeMembership.setTermEndDate(TERM_END_DATE);
-        committeeMembership.setMembershipTypeCode(MEMBERSHIP_TYPE_CD);
-        return committeeMembership;
-    }
-    
-    /**
-     * This method creates and returns a new committee membership from the rolodex.
-     * @return CommitteeMembeship
-     */
-    public CommitteeMembership getCommitteeMembershipRolodex() {
-        CommitteeMembership committeeMembership = new CommitteeMembership();
-        committeeMembership.setRolodexId(ROLODEX_ID);
-        return committeeMembership;
-    }
-
-    /**
      * This method creates and returns a <code>CommitteeMembership</code>.
      * 
      * @param personID

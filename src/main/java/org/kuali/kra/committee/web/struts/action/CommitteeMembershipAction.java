@@ -69,8 +69,8 @@ public class CommitteeMembershipAction extends CommitteeAction {
     }
     
     /**
-     * This method is linked to ProtocolPersonnelService to perform the action - Add Committee Membership. 
-     * Method is called in protocolAddCommitteeMembership.tag 
+     * This method perform the action - Add Committee Membership. 
+     * Method is called in committeeAddCommitteeMembership.tag; rules are validated and if passed the committee member is added. 
      * @param mapping
      * @param form
      * @param request
@@ -94,7 +94,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
     }
 
     /**
-     * This method is linked to CommitteeMembershipService to perform the action - Delete Committee Membership.
+     * This method is perform the action - Delete Committee Membership.
      * Method is called in CommitteeMembership.jsp
      * @param mapping
      * @param form
@@ -113,7 +113,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
 
     /**
      * This method is clears the CommitteeMembership selection.
-     * Method is called in protocolAddCommitteeMembership.tag
+     * Method is called in committeeAddCommitteeMembership.tag
        *
      * @param mapping
      * @param form
