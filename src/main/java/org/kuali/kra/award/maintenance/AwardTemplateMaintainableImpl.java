@@ -55,7 +55,8 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
                 }
                 
             }
-            
+        } else {
+            super.addNewLineToCollection(collectionName);
         }
     }
     @Override
