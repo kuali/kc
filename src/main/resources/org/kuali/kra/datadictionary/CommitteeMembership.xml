@@ -60,13 +60,13 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Committee Membership Id" />
 		<property name="shortLabel" value="Committee Membership Id" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="12" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="12" />
 		</property>
 		<property name="summary" value="Committee Membership Id" />
 		<property name="description" value="Committee Membership Id" />
@@ -78,13 +78,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Committee Id Fk" />
         <property name="shortLabel" value="Committee Id Fk" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="12" />
         </property>
         <property name="summary" value="Committee Id Fk" />
         <property name="description" value="Committee Id Fk" />
@@ -102,7 +102,7 @@
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="15" />
 		</property>
 		<property name="summary" value="Committee Id" />
 		<property name="description" value="Committee Id" />
@@ -120,7 +120,7 @@
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="9" />
 		</property>
 		<property name="summary" value="Person Id" />
 		<property name="description" value="Person Id" />
@@ -132,13 +132,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Rolodex Id" />
         <property name="shortLabel" value="Rolodex Id" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="12" />
         </property>
         <property name="summary" value="Rolodex Id" />
         <property name="description" value="Rolodex Id" />
@@ -153,7 +153,7 @@
         <property name="maxLength" value="90" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="30" />
         </property>
         <property name="summary" value="Person Name" />
         <property name="description" value="Person Name" />
@@ -183,13 +183,13 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Sequence Number" />
 		<property name="shortLabel" value="Sequence Number" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="4" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="4" />
 		</property>
 		<property name="summary" value="Sequence Number" />
 		<property name="description" value="Sequence Number" />
