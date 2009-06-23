@@ -53,8 +53,7 @@ public class AwardCloseoutWebTest extends AwardPaymentsAndTermsWebTest {
     }
     
     @Test
-    public void testAwardCloseoutStaticReportsArePersistedUponAwardCreation(){        
-        System.out.println(paymentReportsAndTermsPage.asText());
+    public void testAwardCloseoutStaticReportsArePersistedUponAwardCreation(){
         assertContains(paymentReportsAndTermsPage, "1 Financial Report");
         assertContains(paymentReportsAndTermsPage, "2 Technical");
         assertContains(paymentReportsAndTermsPage, "3 Patent");
@@ -106,8 +105,7 @@ public class AwardCloseoutWebTest extends AwardPaymentsAndTermsWebTest {
         setFieldValue(paymentReportsAndTermsPage, "awardCloseoutBean.newAwardCloseout.finalSubmissionDate", "5/15/2009");
         paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.addAwardCloseout.anchorAwardCloseout");
         
-        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.save");
-        System.out.println(paymentReportsAndTermsPage.asText());
+        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.save");        
         assertDoesNotContain(paymentReportsAndTermsPage, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
         assertDoesNotContain(paymentReportsAndTermsPage, ERRORS_FOUND_ON_PAGE);        
         assertContains(paymentReportsAndTermsPage,SAVE_SUCCESS_MESSAGE);
