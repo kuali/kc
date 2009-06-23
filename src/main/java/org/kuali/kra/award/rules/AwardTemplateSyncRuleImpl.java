@@ -37,6 +37,7 @@ public class AwardTemplateSyncRuleImpl implements AwardTemplateSyncRule {
             errorReporter.reportError(awardTemplateSyncEvent.getErrorPathPrefix(), KeyConstants.ERROR_NO_TEMPLATE_CODE);
             return false;
         }
+                
         return true;
     }
 

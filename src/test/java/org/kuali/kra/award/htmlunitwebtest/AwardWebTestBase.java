@@ -65,6 +65,7 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     protected static final String PROJECT_END_DATE_ID = AWARD_ID_PREFIX + "awardAmountInfos[0].finalExpirationDate";
     
     protected static final String SAVE_PAGE = "methodToCall.save";
+    protected static final String RELOAD_PAGE = "methodToCall.reload";
     protected static final String CHECKED = "on";
     protected static final String UNCHECKED = "off";
     

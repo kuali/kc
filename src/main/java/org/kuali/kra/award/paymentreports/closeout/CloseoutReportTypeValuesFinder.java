@@ -20,9 +20,12 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -45,7 +48,9 @@ public class CloseoutReportTypeValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
         for(CloseoutReportType closeoutReportType: closeoutReportTypes){
-            if(!StringUtils.equalsIgnoreCase(closeoutReportType.getCloseoutReportCode(), "UD")){
+            if (!StringUtils.equalsIgnoreCase(closeoutReportType.getCloseoutReportCode(), getKualiConfigurationService().getParameter(
+                    Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, 
+                    KeyConstants.CLOSE_OUT_REPORT_TYPE_USER_DEFINED).getParameterValue())){
                 keyValues.add(new KeyLabelPair(closeoutReportType.getCloseoutReportCode(), closeoutReportType.getDescription()));    
             }
         }
@@ -54,7 +59,11 @@ public class CloseoutReportTypeValuesFinder extends KeyValuesBase {
     }
     
     protected KeyValuesService getKeyValuesService(){
-        return (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        return (KeyValuesService) KraServiceLocator.getService(KeyValuesService.class);
+    }
+    
+    protected KualiConfigurationService getKualiConfigurationService(){
+        return (KualiConfigurationService) KraServiceLocator.getService(KualiConfigurationService.class);
     }
    
 }

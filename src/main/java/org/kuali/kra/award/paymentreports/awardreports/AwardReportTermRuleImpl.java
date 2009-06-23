@@ -41,8 +41,8 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
 
     /**
      * 
-     * @see org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRule#processAwardPaymentScheduleBusinessRules(
-     * org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRuleEvent)
+     * @see org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRule#processAwardReportTermBusinessRules(
+     *          org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleEvent)
      */
     public boolean processAwardReportTermBusinessRules(AwardReportTermRuleEvent event) {
         return processCommonValidations(event);        
@@ -64,17 +64,17 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         return isUnique(items, awardReportTermItem);
     }
     
-    /**
-     * An payment schedule item is unique if no other matching items are in the collection
+    /*
+     * An award report term item is unique if no other matching items are in the collection
      * To know if this is a new add or an edit of an existing equipment item, we check 
      * the identifier for nullity. If null, this is an add; otherwise, it's an update
      * If an update, then we expect to find one match in the collection (itself). If an add, 
      * we expect to find no matches in the collection 
-     * @param paymentScheduleItems
-     * @param paymentScheduleItem
+     * @param awardReportTermItems
+     * @param awardReportTermItem
      * @return
      */
-    boolean isUnique(List<AwardReportTerm> awardReportTermItems, AwardReportTerm awardReportTermItem) {
+    protected boolean isUnique(List<AwardReportTerm> awardReportTermItems, AwardReportTerm awardReportTermItem) {
         boolean duplicateFound = false;
         for(AwardReportTerm listItem: awardReportTermItems) {
             duplicateFound = awardReportTermItem != listItem && listItem.equals(awardReportTermItem);
@@ -91,12 +91,12 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         return !duplicateFound;
     }
 
-    /**
+    /*
      * Validate required fields present
      * @param equipmentItem
      * @return
      */
-    boolean areRequiredFieldsComplete(AwardReportTerm awardReportTermItem) {
+    protected boolean areRequiredFieldsComplete(AwardReportTerm awardReportTermItem) {
         
         boolean itemValid = isReportCodeFieldComplete(awardReportTermItem);
         
@@ -112,13 +112,13 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         return GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_NOT_UNIQUE);
     }
     
-    /**
+    /*
      * 
      * This is a convenience method for evaluating the rule for reportCode field.
      * @param awardReportTerm
      * @return
      */
-    boolean isReportCodeFieldComplete(AwardReportTerm awardReportTermItem){
+    protected boolean isReportCodeFieldComplete(AwardReportTerm awardReportTermItem){
         boolean itemValid = awardReportTermItem.getReportCode() != null;
         
         if(!itemValid) {            
@@ -128,7 +128,7 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         return itemValid;
     }
     
-    boolean isFrequencyCodeFieldComplete(AwardReportTerm awardReportTermItem){
+    protected boolean isFrequencyCodeFieldComplete(AwardReportTerm awardReportTermItem){
         boolean itemValid = awardReportTermItem.getFrequencyCode() != null;
         
         if(!itemValid) {            
@@ -138,7 +138,7 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         return itemValid;
     }
     
-    boolean isFrequencyBaseCodeFieldComplete(AwardReportTerm awardReportTermItem){
+    protected boolean isFrequencyBaseCodeFieldComplete(AwardReportTerm awardReportTermItem){
         boolean itemValid = awardReportTermItem.getFrequencyBaseCode() != null;
         
         if(!itemValid) {            
@@ -148,7 +148,7 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         return itemValid;
     }
     
-    boolean isDistributionFieldComplete(AwardReportTerm awardReportTermItem){
+    protected boolean isDistributionFieldComplete(AwardReportTerm awardReportTermItem){
         boolean itemValid = awardReportTermItem.getOspDistributionCode() != null;
         
         if(!itemValid) {            
@@ -158,7 +158,7 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         return itemValid;
     }
     
-    boolean isDueDateFieldComplete(AwardReportTerm awardReportTermItem){
+    protected boolean isDueDateFieldComplete(AwardReportTerm awardReportTermItem){
         boolean itemValid = awardReportTermItem.getDueDate() != null;
         
         if(!itemValid) {            
