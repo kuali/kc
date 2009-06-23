@@ -163,16 +163,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         awardReportingBean = new AwardReportingBean(this);
         awardCommentBean = new AwardCommentBean(this);
         awardCloseoutBean = new AwardCloseoutBean(this);
-        awardCloseoutBean.setCloseoutReportTypeUserDefined(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD 
-                ,Constants.PARAMETER_COMPONENT_DOCUMENT ,KeyConstants.CLOSE_OUT_REPORT_TYPE_USER_DEFINED).getParameterValue());
-        awardCloseoutBean.setCloseoutReportTypeFinancialReport(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD
-                ,Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT).getParameterValue());
-        awardCloseoutBean.setCloseoutReportTypeTechnical(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD
-                ,Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.CLOSE_OUT_REPORT_TYPE_TECHNICAL).getParameterValue());
-        awardCloseoutBean.setCloseoutReportTypePatent(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD,
-                Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.CLOSE_OUT_REPORT_TYPE_PATENT).getParameterValue());
-        awardCloseoutBean.setCloseoutReportTypeProperty(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD
-                ,Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.CLOSE_OUT_REPORT_TYPE_PROPERTY).getParameterValue());        
     }
     
     /**

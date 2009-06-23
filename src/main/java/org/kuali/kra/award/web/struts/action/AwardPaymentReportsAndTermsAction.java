@@ -15,12 +15,8 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,16 +30,13 @@ import org.kuali.kra.award.bo.AwardSponsorTerm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
-import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
-import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
+import org.kuali.kra.award.service.AwardCloseoutService;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * 
@@ -265,6 +258,17 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
+    /**
+     * 
+     * This method adds an AwardCloseout Item.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward addAwardCloseout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         ((AwardForm) form).getAwardCloseoutBean().addAwardCloseoutItem();
@@ -272,6 +276,17 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
+    /**
+     * 
+     * This method deletes an AwardCloseout Item.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteAwardCloseout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                 throws Exception {
         
@@ -518,9 +533,9 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      *               org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        ((AwardForm) form).getAwardCloseoutBean().updateCloseoutDueDatesBeforeSave();   
+        getAwardCloseoutService().updateCloseoutDueDatesBeforeSave(((AwardForm) form).getAwardDocument().getAward());
         
         return super.save(mapping, form, request, response);
     }
@@ -548,6 +563,10 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */
     protected KualiConfigurationService getKualiConfigurationService(){
         return KraServiceLocator.getService(KualiConfigurationService.class);
+    }
+    
+    protected AwardCloseoutService getAwardCloseoutService(){
+        return KraServiceLocator.getService(AwardCloseoutService.class);
     }
     
     /**

@@ -20,40 +20,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
 /**
  * 
  * This is the integration test for Award Closeout panel. 
  */
 public class AwardCloseoutWebTest extends AwardPaymentsAndTermsWebTest {
+        
+    public static final String ADD_AWARD_CLOSEOUT = "methodToCall.addAwardCloseout.anchorAwardCloseout";
+    public static final String CLOSEOUT_REPORT_NAME_FIELD = "awardCloseoutBean.newAwardCloseout.closeoutReportName";
+    public static final String DUE_DATE_FIELD = "awardCloseoutBean.newAwardCloseout.dueDate";
+    public static final String FINAL_SUBMISSION_DATE_FIELD = "awardCloseoutBean.newAwardCloseout.finalSubmissionDate";
+    public static final String CLOSEOUT_DATE_FIELD = "document.awardList[0].closeoutDate";
+    public static final String ARCHIVE_LOCATION_FIELD = "document.awardList[0].archiveLocation";
     
-    private static final String METHOD_TO_CALL_REFRESH_PULL_DOWN_MENUS = "methodToCall.refreshPulldownOptions";
-    private static final String METHOD_TO_CALL_ADD_AWARD_REPORT_TERM_WHERE_CLASS_IS_FISCAL = "methodToCall.addAwardReportTerm.reportClass1.reportClassIndex0";
-    private static final String METHOD_TO_CALL_ADD_AWARD_REPORT_TERM_WHERE_CLASS_IS_PROPERTY= "methodToCall.addAwardReportTerm.reportClass2.reportClassIndex3";    
-    
-    private static final String NEW_AWARD_REPORT_TERM_0 = "awardReportsBean.newAwardReportTerms[0]";
-    private static final String REPORT_CODE_0 = NEW_AWARD_REPORT_TERM_0 + ".reportCode";
-    private static final String FREQUENCY_CODE_0 = NEW_AWARD_REPORT_TERM_0 + ".frequencyCode";
-    private static final String FREQUENCY_BASE_CODE_0 = NEW_AWARD_REPORT_TERM_0 + ".frequencyBaseCode";
-    private static final String OSP_DISTRIBUTION_CODE_0 = NEW_AWARD_REPORT_TERM_0 + ".ospDistributionCode";
-    private static final String DUE_DATE_0 = NEW_AWARD_REPORT_TERM_0 + ".dueDate";
-    private static final String NEW_AWARD_REPORT_TERM_3 = "awardReportsBean.newAwardReportTerms[3]";
-    private static final String REPORT_CODE_3 = NEW_AWARD_REPORT_TERM_3 + ".reportCode";
-    private static final String FREQUENCY_CODE_3 = NEW_AWARD_REPORT_TERM_3 + ".frequencyCode";
-    private static final String FREQUENCY_BASE_CODE_3 = NEW_AWARD_REPORT_TERM_3 + ".frequencyBaseCode";
-    private static final String OSP_DISTRIBUTION_CODE_3 = NEW_AWARD_REPORT_TERM_3 + ".ospDistributionCode";
-    private static final String DUE_DATE_3 = NEW_AWARD_REPORT_TERM_3 + ".dueDate";
-    private static final String IS_REQUIRED_TEXT = " is a required field";
-    private static final String REPORT_CODE_MANDATORY_ERROR_MESSAGE = "Type (Type)" + IS_REQUIRED_TEXT;
-    private static final String FREQUENCY_CODE_MANDATORY_ERROR_MESSAGE = "Frequency (Frequency)" + IS_REQUIRED_TEXT;
-    private static final String FREQUENCY_BASE_CODE_MANDATORY_ERROR_MESSAGE = "Frequency Base (Frequency Base)" + IS_REQUIRED_TEXT;
-    private static final String OSP_DISTRIBUTION_CODE_MANDATORY_ERROR_MESSAGE = "OSP File Copy (OSP File Copy )" + IS_REQUIRED_TEXT;
-    private static final String DUE_DATE_MANDATORY_ERROR_MESSAGE = "Due Date (Due Date)" + IS_REQUIRED_TEXT;    
-    private static final String SMALL_BUSINESS_SUBCONTRACTING_PLAN = "document.awardList[0].subPlanFlag";
-    private static final String PROCUREMENT_PRIORITY_CODE = "document.awardList[0].procurementPriorityCode";
     /**
      * The set up method calls the parent super method and gets the 
      * award Payment, Reports and Terms page after that.
@@ -75,6 +54,7 @@ public class AwardCloseoutWebTest extends AwardPaymentsAndTermsWebTest {
     
     @Test
     public void testAwardCloseoutStaticReportsArePersistedUponAwardCreation(){        
+        System.out.println(paymentReportsAndTermsPage.asText());
         assertContains(paymentReportsAndTermsPage, "1 Financial Report");
         assertContains(paymentReportsAndTermsPage, "2 Technical");
         assertContains(paymentReportsAndTermsPage, "3 Patent");
@@ -83,23 +63,23 @@ public class AwardCloseoutWebTest extends AwardPaymentsAndTermsWebTest {
     
     @Test
     public void testAwardCloseoutValidations() throws Exception{
-        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.addAwardCloseout.anchorAwardCloseout");
+        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, ADD_AWARD_CLOSEOUT);
         assertContains(paymentReportsAndTermsPage,ERRORS_FOUND_ON_PAGE);
         assertContains(paymentReportsAndTermsPage,"Final Report (Final Report) is a required field.");
         
-        setFieldValue(paymentReportsAndTermsPage, "awardCloseoutBean.newAwardCloseout.closeoutReportName", "Test Report 1");
-        setFieldValue(paymentReportsAndTermsPage, "awardCloseoutBean.newAwardCloseout.dueDate", "5");
-        setFieldValue(paymentReportsAndTermsPage, "awardCloseoutBean.newAwardCloseout.finalSubmissionDate", "5");
+        setFieldValue(paymentReportsAndTermsPage, CLOSEOUT_REPORT_NAME_FIELD, "Test Report 1");
+        setFieldValue(paymentReportsAndTermsPage, DUE_DATE_FIELD, "5");
+        setFieldValue(paymentReportsAndTermsPage, FINAL_SUBMISSION_DATE_FIELD, "5");
         
-        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.addAwardCloseout.anchorAwardCloseout");
+        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, ADD_AWARD_CLOSEOUT);
         assertContains(paymentReportsAndTermsPage,ERRORS_FOUND_ON_PAGE);
         assertContains(paymentReportsAndTermsPage,"5 is not a valid date. Valid date format is xx/xx/xxxx.");        
     }
     
     @Test
     public void testNonCloseoutNonReportFieldsValidations() throws Exception{
-        setFieldValue(paymentReportsAndTermsPage,"document.awardList[0].closeoutDate","32423as");        
-        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.save");                
+        setFieldValue(paymentReportsAndTermsPage,CLOSEOUT_DATE_FIELD,"32423as");        
+        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, SAVE_PAGE);                
         assertContains(paymentReportsAndTermsPage, ERRORS_FOUND_ON_PAGE);        
         assertContains(paymentReportsAndTermsPage,"32423as is not a valid date. Valid date format is xx/xx/xxxx.");                
     }
@@ -107,14 +87,14 @@ public class AwardCloseoutWebTest extends AwardPaymentsAndTermsWebTest {
     
     @Test
     public void testNonCloseoutNonReportFieldsPersistence() throws Exception{
-        setFieldValue(paymentReportsAndTermsPage,"document.awardList[0].archiveLocation","Test Archive Location");
-        setFieldValue(paymentReportsAndTermsPage,"document.awardList[0].closeoutDate","06/15/2009");
+        setFieldValue(paymentReportsAndTermsPage,ARCHIVE_LOCATION_FIELD,"Test Archive Location");
+        setFieldValue(paymentReportsAndTermsPage,CLOSEOUT_DATE_FIELD,"06/15/2009");
         
-        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.save");
+        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, SAVE_PAGE);
         assertDoesNotContain(paymentReportsAndTermsPage, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
         assertDoesNotContain(paymentReportsAndTermsPage, ERRORS_FOUND_ON_PAGE);        
         assertContains(paymentReportsAndTermsPage,SAVE_SUCCESS_MESSAGE);
-        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.reload");
+        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, RELOAD_PAGE);
         assertContains(paymentReportsAndTermsPage,"Test Archive Location");
         assertContains(paymentReportsAndTermsPage,"06/15/2009");        
     }
@@ -132,7 +112,7 @@ public class AwardCloseoutWebTest extends AwardPaymentsAndTermsWebTest {
         assertDoesNotContain(paymentReportsAndTermsPage, ERRORS_FOUND_ON_PAGE);        
         assertContains(paymentReportsAndTermsPage,SAVE_SUCCESS_MESSAGE);
                 
-        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.deleteAwardCloseout.line4.anchor22");
+        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.deleteAwardCloseout.line4.anchor23");
         paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.save");
         assertDoesNotContain(paymentReportsAndTermsPage, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
         assertDoesNotContain(paymentReportsAndTermsPage, ERRORS_FOUND_ON_PAGE);        

@@ -48,8 +48,7 @@ public class AwardCloseoutRuleImpl extends ResearchDocumentRuleBase implements A
         return areRequiredFieldsComplete(event.getCloseoutItemForValidation()) && processCommonValidations(event);        
     }
     
-    /**
-     * 
+    /*
      * This method processes the common validations.
      * 
      * @param event
@@ -61,7 +60,7 @@ public class AwardCloseoutRuleImpl extends ResearchDocumentRuleBase implements A
         return isUnique(items, closeoutItem);
     }
     
-    /**
+    /*
      * An closeout item is unique if no other matching items are in the collection
      * To know if this is a new add or an edit of an existing equipment item, we check 
      * the identifier for nullity. If null, this is an add; otherwise, it's an update
@@ -71,29 +70,27 @@ public class AwardCloseoutRuleImpl extends ResearchDocumentRuleBase implements A
      * @param closeoutItem
      * @return
      */
-    boolean isUnique(List<AwardCloseout> closeoutItems, AwardCloseout closeoutItem) {
+    protected boolean isUnique(List<AwardCloseout> closeoutItems, AwardCloseout closeoutItem) {
         boolean duplicateFound = false;
         for(AwardCloseout listItem: closeoutItems) {
             duplicateFound = closeoutItem != listItem && listItem.equals(closeoutItem);
             if(duplicateFound) {
+                if(!hasDuplicateErrorBeenReported()) {
+                    reportError(CLOSEOUT_ITEMS_LIST_ERROR_KEY, KeyConstants.ERROR_AWARD_CLOSEOUT_ITEM_NOT_UNIQUE, REPORT_NAME_ERROR_PARM);
+                }
                 break;
             }
         }
         
-        if(duplicateFound) {
-            if(!hasDuplicateErrorBeenReported()) {
-                reportError(CLOSEOUT_ITEMS_LIST_ERROR_KEY, KeyConstants.ERROR_AWARD_CLOSEOUT_ITEM_NOT_UNIQUE, REPORT_NAME_ERROR_PARM);
-            }
-        }
         return !duplicateFound;
     }
 
-    /**
+    /*
      * Validate required fields present
      * @param closeoutItem
      * @return
      */
-    boolean areRequiredFieldsComplete(AwardCloseout closeoutItem) {        
+    protected boolean areRequiredFieldsComplete(AwardCloseout closeoutItem) {        
         boolean itemValid = closeoutItem.getCloseoutReportName() != null;
         
         if(!itemValid) {
