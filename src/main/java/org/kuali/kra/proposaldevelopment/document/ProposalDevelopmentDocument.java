@@ -21,7 +21,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -47,9 +46,11 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
+import org.kuali.kra.proposaldevelopment.bo.ProposalExemptNumber;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
@@ -57,6 +58,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
@@ -68,6 +70,8 @@ import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.YnqService;
+import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
+import org.kuali.rice.kew.user.AuthenticationUserId;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.document.Copyable;
@@ -77,12 +81,16 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.workflow.DocumentInitiator;
+import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements BudgetVersionCollection, Copyable, SessionDocument, Permissionable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
     
     private static final String DOCUMENT_TYPE_CODE = "PRDV";
     
+    private static final long serialVersionUID = 2958631745964610527L;
     private String proposalNumber;
     private String proposalTypeCode;
     private String continuedFrom;
@@ -112,7 +120,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private Integer mailingAddressId;
     private String numberOfCopies;
     private String proposalStateTypeCode;
-    private ProposalState proposalState = null;
+    private ProposalState proposalState;
     private String organizationId;
     private String performingOrganizationId;
     private List<ProposalLocation> proposalLocations;
@@ -152,13 +160,13 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<BudgetVersionOverview> budgetVersionOverviews;
     private String creationStatusCode;
     private List<S2sSubmissionHistory> s2sSubmissionHistory;
-    private boolean nih=false;
-    HashMap<String, String> nihDescription ;
+    private boolean nih;
+    private Map<String, String> nihDescription;
     
     private List<ProposalChangedData> proposalChangedDataList;
     private Map<String, List<ProposalChangedData>> proposalChangeHistory;
 
-    private Boolean submitFlag = false;
+    private Boolean submitFlag = Boolean.FALSE;
 
     
     @SuppressWarnings("unchecked")
@@ -170,7 +178,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         proposalLocations = new ArrayList<ProposalLocation>();
         propSpecialReviews = new TypedArrayList(ProposalSpecialReview.class);
         proposalPersons = new ArrayList<ProposalPerson>();
-        nextProposalPersonNumber = new Integer(1);
+        nextProposalPersonNumber = Integer.valueOf(1);
         narratives = new ArrayList<Narrative>();
         proposalAbstracts = new ArrayList<ProposalAbstract>();
         instituteAttachments = new ArrayList<Narrative>();
@@ -187,6 +195,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     }
 
+    @Override
     public void initialize() {
         super.initialize();
         ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
@@ -730,13 +739,24 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
             } 
         } 
         List<ProposalPersonUnit> units = new ArrayList<ProposalPersonUnit>();
+        List<ProposalPersonDegree> degrees = new ArrayList<ProposalPersonDegree>();
         for (ProposalPerson person : getProposalPersons()) {
-        units.addAll(person.getUnits());
+            units.addAll(person.getUnits());
+            degrees.addAll(person.getProposalPersonDegrees());
         }
 
         managedLists.add(units);
+        managedLists.add(degrees);
         managedLists.add(getProposalLocations());
         managedLists.add(getPropSpecialReviews());
+        
+        List<ProposalExemptNumber> proposalExemptNumbers = new ArrayList<ProposalExemptNumber>();
+        
+        for (ProposalSpecialReview review : getPropSpecialReviews()) {
+            proposalExemptNumbers.addAll(review.getProposalExemptNumbers());
+        }
+        managedLists.add(proposalExemptNumbers);
+        
         managedLists.add(getProposalPersons());
         managedLists.add(getPropScienceKeywords());
         managedLists.add(getProposalAbstracts());
@@ -1039,6 +1059,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     
     
     public List<ProposalYnq> getProposalYnqs() {
+        Collections.sort(proposalYnqs);
         return proposalYnqs;
     }
 
@@ -1381,6 +1402,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         budgetVersion.setStartDate(budgetDocument.getStartDate());
         budgetVersion.setEndDate(budgetDocument.getEndDate());
         budgetVersion.setOhRateTypeCode(budgetDocument.getOhRateTypeCode());
+        budgetVersion.setOhRateClassCode(budgetDocument.getOhRateClassCode());
         budgetVersion.setVersionNumber(budgetDocument.getVersionNumber());
         budgetVersion.setDescriptionUpdatable(isDescriptionUpdatable);
         
@@ -1427,6 +1449,36 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public int getNumberOfVersions() {
         return this.getBudgetVersionOverviews().size();
     }
+    
+    /**
+     * Wraps a document in an instance of KualiDocumentXmlMaterializer, that provides additional metadata for serialization
+     * 
+     * @see org.kuali.core.document.Document#wrapDocumentWithMetadataForXmlSerialization()
+     */
+    @Override
+    // This method should go away in favor of using DD workflowProperties bean to serialize properties
+    public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
+        ProposalAuthorizationService proposalauthservice=KraServiceLocator.getService(ProposalAuthorizationService.class); 
+        KualiTransactionalDocumentInformation transInfo = new KualiTransactionalDocumentInformation();
+        DocumentInitiator initiatior = new DocumentInitiator();
+//        String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+//        try {
+//            UniversalUser initiatorUser = KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
+//            initiatorUser.getModuleUsers(); // init the module users map for serialization
+//            initiatior.setUniversalUser(initiatorUser);
+//        }
+//        catch (UserNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+        transInfo.setDocumentInitiator(initiatior);
+        KraDocumentXMLMaterializer xmlWrapper=new KraDocumentXMLMaterializer(); 
+        //KualiDocumentXmlMaterializer xmlWrapper = new KualiDocumentXmlMaterializer(); 
+        //xmlWrapper.setDocument(getDocumentRepresentationForSerialization()); 
+        xmlWrapper.setKualiTransactionalDocumentInformation(transInfo); 
+        xmlWrapper.setRolepersons(proposalauthservice.getAllRolePersons(this)); 
+        return xmlWrapper; 
+
+    } 
 
     protected List<RolePersons> getAllRolePersons() {
         KraAuthorizationService kraAuthService = (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class); 
@@ -1441,11 +1493,11 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.nih = nih;
     }
 
-    public HashMap getNihDescription() {
+    public Map<String, String> getNihDescription() {
         return nihDescription;
     }
 
-    public void setNihDescription(HashMap nihDescription) {
+    public void setNihDescription(Map<String, String> nihDescription) {
         this.nihDescription = nihDescription;
        
     }
