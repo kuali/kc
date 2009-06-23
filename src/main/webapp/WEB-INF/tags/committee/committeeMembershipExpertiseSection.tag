@@ -7,7 +7,8 @@
         <td>
             <kul:innerTab tabTitle="Expertise" 
                           parentTab="${parentTabValue}" 
-                          defaultOpen="false" 
+                          defaultOpen="false"
+                          useCurrentTabIndexAsKey="true" 
                           tabErrorKey="membershipExpertiseHelper.newCommitteeMembershipExpertise[${memberIndex}].*,document.committeeList[0].committeeMemberships[${memberIndex}].membershipExpertise*">
                 <div class="innerTab-container" align="left">
                     <table id="membership-expertise-table-${memberIndex}" cellpadding=0 cellspacing=0 class="datatable" summary="View/edit committee membership expertise">
