@@ -37,7 +37,8 @@
              leftSideHtmlProperty="${committeeMembershipProperty}.delete" 
              leftSideHtmlAttribute="${committeeMembershipAttributes.delete}" 
              leftSideHtmlDisabled="${readOnly}" 
-             defaultOpen="false" 
+             defaultOpen="false"
+             useCurrentTabIndexAsKey="true" 
              transparentBackground="${transparent}">
              <div class="tab-container" align="center">
                  <div id="workarea">
