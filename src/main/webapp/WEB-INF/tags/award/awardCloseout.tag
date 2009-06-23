@@ -13,6 +13,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+<%-- member of AwardPaymentReportsAndTerms.jsp --%>
+
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="awardCloseoutAttributes" value="${DataDictionary.AwardCloseout.attributes}" />
@@ -96,7 +98,7 @@
 					<div align="center">																		
 						<c:choose>
 							<c:when test="${KualiForm.awardCloseoutBean.closeoutReportTypeUserDefined == KualiForm.document.awardList[0].awardCloseoutItems[status.index].closeoutReportCode }" >
-								<kul:htmlControlAttribute property="document.awardList[0].awardCloseoutItems[${status.index}].dueDate" attributeEntry="${awardCloseoutAttributes.dueDate}"  datePicker="true" />
+								<kul:htmlControlAttribute property="document.awardList[0].awardCloseoutItems[${status.index}].dueDate" attributeEntry="${awardCloseoutAttributes.dueDate}" datePicker="true" />
 							</c:when>
 							<c:otherwise>
 								<c:choose>
@@ -104,7 +106,7 @@
 	                					<c:out value="MULTIPLE" />
 	                				</c:when>
 	                				<c:otherwise>
-	                					<kul:htmlControlAttribute property="document.awardList[0].awardCloseoutItems[${status.index}].dueDate" attributeEntry="${awardCloseoutAttributes.dueDate}"  datePicker="true" readOnly="true" />
+	                					<kul:htmlControlAttribute property="document.awardList[0].awardCloseoutItems[${status.index}].dueDate" attributeEntry="${awardCloseoutAttributes.dueDate}" readOnly="true" />
 	                				</c:otherwise>
                 				</c:choose>
 							</c:otherwise>

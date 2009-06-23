@@ -27,6 +27,10 @@ import org.junit.Test;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
+/**
+ * 
+ * This class tests the AwardCloseoutRuleImpl.java
+ */
 public class AwardCloseoutRuleImplTest {
 
     public static final String CLOSE_OUT_REPORT_CODE_A = "A";
@@ -38,7 +42,12 @@ public class AwardCloseoutRuleImplTest {
     AwardCloseout closeoutItem;
     List<AwardCloseout> closeoutItems;
     
-    
+    /**
+     * 
+     * This method gets executed before every unit test.
+     * 
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
         awardCloseoutRuleImpl = new AwardCloseoutRuleImpl();
@@ -51,6 +60,12 @@ public class AwardCloseoutRuleImplTest {
         GlobalVariables.setErrorMap(new ErrorMap());
     }
 
+    /**
+     * 
+     * This method gets executed after every unit test.
+     * 
+     * @throws Exception
+     */
     @After
     public void tearDown() throws Exception {
         awardCloseoutRuleImpl = null;
@@ -60,6 +75,11 @@ public class AwardCloseoutRuleImplTest {
         GlobalVariables.setErrorMap(null);
     }
 
+    /**
+     * 
+     * This method tests the isUnique method.
+     * 
+     */
     @Test
     public final void testIsUniqueSuccess() {
         newCloseoutItem.setCloseoutReportCode(CLOSE_OUT_REPORT_CODE_B);
@@ -67,18 +87,33 @@ public class AwardCloseoutRuleImplTest {
         Assert.assertTrue(awardCloseoutRuleImpl.isUnique(closeoutItems, newCloseoutItem));
     }
     
+    /**
+     * 
+     * This method tests the isUnique method.
+     * 
+     */
     @Test
     public final void testIsUniqueFailure() {        
         newCloseoutItem.setCloseoutReportCode(CLOSE_OUT_REPORT_CODE_A);
         newCloseoutItem.setCloseoutReportName(CLOSE_OUT_REPORT_NAME);
         Assert.assertFalse(awardCloseoutRuleImpl.isUnique(closeoutItems, newCloseoutItem));
     }
-
+    
+    /**
+     * 
+     * This method tests the areRequiredFieldsComplete method.
+     * 
+     */
     @Test
     public final void testAreRequiredFieldsCompleteFailure() {
         Assert.assertFalse(awardCloseoutRuleImpl.areRequiredFieldsComplete(newCloseoutItem));        
     }
     
+    /**
+     * 
+     * This method tests the areRequiredFieldsComplete method.
+     * 
+     */
     @Test
     public final void testAreRequiredFieldsCompleteSuccess() {
         Assert.assertTrue(awardCloseoutRuleImpl.areRequiredFieldsComplete(closeoutItem));        

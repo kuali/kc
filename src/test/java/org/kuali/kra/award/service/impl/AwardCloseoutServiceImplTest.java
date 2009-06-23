@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.paymentreports.closeout;
+package org.kuali.kra.award.service.impl;
+
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -31,13 +32,13 @@ import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 
-public class AwardCloseoutBeanTest {
+public class AwardCloseoutServiceImplTest {
 
     public static final String REPORT_CLASS_CODE_FINANCIAL_REPORT = "1";
     public static final String REPORT_CLASS_CODE_PATENT= "3";
     public static final String REPORT_CLASS_CODE_USER_DEFINED = "UD";
     
-    AwardCloseoutBean awardCloseoutBean;
+    AwardCloseoutServiceImpl service; 
     List<AwardReportTerm> awardReportTermItems;
     Map<String, Object> closeoutDueDates;
     AwardReportTerm newAwardReportTerm;
@@ -45,9 +46,15 @@ public class AwardCloseoutBeanTest {
     Frequency newFrequency;
     java.util.Date dateCalculatedUsingFinalInvoiceDue;
     
+    /**
+     * 
+     * This method gets executed before every unit test.
+     * 
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
-        awardCloseoutBean = new AwardCloseoutBean();
+        service = new AwardCloseoutServiceImpl();
         awardReportTermItems = new ArrayList<AwardReportTerm>();
         closeoutDueDates = new HashMap<String, Object>();
         newAwardReportTerm = new AwardReportTerm();
@@ -55,10 +62,16 @@ public class AwardCloseoutBeanTest {
         newFrequency = new Frequency();
         dateCalculatedUsingFinalInvoiceDue = new java.util.Date();
     }
-
+    
+    /**
+     * 
+     * This method gets executed after every unit test.
+     * 
+     * @throws Exception
+     */
     @After
     public void tearDown() throws Exception {
-        awardCloseoutBean = null;
+        service = null;
         awardReportTermItems = null;
         closeoutDueDates = null;
         newAwardReportTerm = null;
@@ -75,7 +88,7 @@ public class AwardCloseoutBeanTest {
     @Test
     public final void testUpdateCloseoutDueDateWhenFilteredListSizeIsZero_ReportClassIsFinancialReport(){
         dateCalculatedUsingFinalInvoiceDue.setTime(100000000);
-        awardCloseoutBean.updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, REPORT_CLASS_CODE_FINANCIAL_REPORT);
+        service.updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, REPORT_CLASS_CODE_FINANCIAL_REPORT);
         Assert.assertEquals(dateCalculatedUsingFinalInvoiceDue.getTime(), ((java.util.Date)closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT)).getTime());
     }
     
@@ -88,7 +101,7 @@ public class AwardCloseoutBeanTest {
     @Test
     public final void testUpdateCloseoutDueDateWhenFilteredListSizeIsZero_ReportClassIsNotFinancialReport(){
         dateCalculatedUsingFinalInvoiceDue.setTime(100000000);
-        awardCloseoutBean.updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, REPORT_CLASS_CODE_PATENT);
+        service.updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, REPORT_CLASS_CODE_PATENT);
         Assert.assertEquals(null, closeoutDueDates.get(REPORT_CLASS_CODE_PATENT));
     }
     
@@ -100,7 +113,7 @@ public class AwardCloseoutBeanTest {
      */
     @Test
     public final void testUpdateCloseoutDueDate_allDueDatesAreEqual_And_2DatesAreEqual(){
-        awardCloseoutBean.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10000), new java.util.Date(10000), true, REPORT_CLASS_CODE_FINANCIAL_REPORT);
+        service.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10000), new java.util.Date(10000), true, REPORT_CLASS_CODE_FINANCIAL_REPORT);
         Assert.assertEquals(new java.util.Date(10000), closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT));
     }
     
@@ -112,7 +125,7 @@ public class AwardCloseoutBeanTest {
      */
     @Test
     public final void testUpdateCloseoutDueDate_allDueDatesAreEqual_And_2DatesAreNotEqual(){
-        awardCloseoutBean.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10000), new java.util.Date(10000), false, REPORT_CLASS_CODE_FINANCIAL_REPORT);
+        service.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10000), new java.util.Date(10000), false, REPORT_CLASS_CODE_FINANCIAL_REPORT);
         Assert.assertEquals("MULTIPLE", closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT));
     }
     
@@ -124,7 +137,7 @@ public class AwardCloseoutBeanTest {
      */
     @Test
     public final void testUpdateCloseoutDueDate_allDueDatesAreNotEqual_And_2DatesAreEqual(){
-        awardCloseoutBean.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10001), new java.util.Date(10000), true, REPORT_CLASS_CODE_FINANCIAL_REPORT);
+        service.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10001), new java.util.Date(10000), true, REPORT_CLASS_CODE_FINANCIAL_REPORT);
         Assert.assertEquals("MULTIPLE", closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT));
     }
     
@@ -136,7 +149,7 @@ public class AwardCloseoutBeanTest {
      */
     @Test
     public final void testUpdateCloseoutDueDate_allDueDatesAreNotEqual_And_2DatesAreNotEqual(){
-        awardCloseoutBean.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10001), new java.util.Date(10000), false, REPORT_CLASS_CODE_FINANCIAL_REPORT);
+        service.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10001), new java.util.Date(10000), false, REPORT_CLASS_CODE_FINANCIAL_REPORT);
         Assert.assertEquals("MULTIPLE", closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT));
     }
     
@@ -151,7 +164,7 @@ public class AwardCloseoutBeanTest {
         newReport.setFinalReportFlag(true);
         newAwardReportTerm.setReport(newReport);
         awardReportTermItems.add(newAwardReportTerm);
-        Assert.assertEquals(1,awardCloseoutBean.filterAwardReportTerms(awardReportTermItems, REPORT_CLASS_CODE_FINANCIAL_REPORT).size());
+        Assert.assertEquals(1,service.filterAwardReportTerms(awardReportTermItems, REPORT_CLASS_CODE_FINANCIAL_REPORT).size());
     }
     
     /**
@@ -165,7 +178,7 @@ public class AwardCloseoutBeanTest {
         newReport.setFinalReportFlag(true);
         newAwardReportTerm.setReport(newReport);
         awardReportTermItems.add(newAwardReportTerm);
-        Assert.assertEquals(0,awardCloseoutBean.filterAwardReportTerms(awardReportTermItems, REPORT_CLASS_CODE_FINANCIAL_REPORT).size());
+        Assert.assertEquals(0,service.filterAwardReportTerms(awardReportTermItems, REPORT_CLASS_CODE_FINANCIAL_REPORT).size());
     }
     
     /**
@@ -179,7 +192,7 @@ public class AwardCloseoutBeanTest {
         newReport.setFinalReportFlag(false);
         newAwardReportTerm.setReport(newReport);
         awardReportTermItems.add(newAwardReportTerm);
-        Assert.assertEquals(0,awardCloseoutBean.filterAwardReportTerms(awardReportTermItems, REPORT_CLASS_CODE_FINANCIAL_REPORT).size());
+        Assert.assertEquals(0,service.filterAwardReportTerms(awardReportTermItems, REPORT_CLASS_CODE_FINANCIAL_REPORT).size());
     }
     
     /**
@@ -193,9 +206,13 @@ public class AwardCloseoutBeanTest {
         newReport.setFinalReportFlag(false);
         newAwardReportTerm.setReport(newReport);
         awardReportTermItems.add(newAwardReportTerm);
-        Assert.assertEquals(0,awardCloseoutBean.filterAwardReportTerms(awardReportTermItems, REPORT_CLASS_CODE_FINANCIAL_REPORT).size());
+        Assert.assertEquals(0,service.filterAwardReportTerms(awardReportTermItems, REPORT_CLASS_CODE_FINANCIAL_REPORT).size());
     }
     
+    /**
+     * 
+     * This method tests the getCalculatedDueDate method of AwardCloseoutBean
+     */
     @Test
     public final void testGetCalculatedDueDate_NumberOfDaysAreZero_NumberOfMonthsAreZero(){
         Calendar calendar = new GregorianCalendar();
@@ -203,10 +220,14 @@ public class AwardCloseoutBeanTest {
         newAwardReportTerm.setFrequency(newFrequency);
         newAwardReportTerm.getFrequency().setNumberOfDays(0);
         newAwardReportTerm.getFrequency().setNumberOfMonths(0);
-        java.util.Date calculatedDate= awardCloseoutBean.getCalculatedDueDate(new Date(calendar.getTimeInMillis()), newAwardReportTerm, calendar);
+        java.util.Date calculatedDate= service.getCalculatedDueDate(new Date(calendar.getTimeInMillis()), newAwardReportTerm, calendar);
         Assert.assertEquals(calendar.getTime(), calculatedDate);
     }
     
+    /**
+     * 
+     * This method tests the getCalculatedDueDate method of AwardCloseoutBean
+     */
     @Test
     public final void testGetCalculatedDueDate_NumberOfDaysAreZero_NumberOfMonthsAreNotZero(){
         Calendar calendar = new GregorianCalendar();
@@ -215,10 +236,14 @@ public class AwardCloseoutBeanTest {
         newAwardReportTerm.getFrequency().setNumberOfDays(0);
         newAwardReportTerm.getFrequency().setNumberOfMonths(5);
         calendar.add(Calendar.MONTH, 5);
-        java.util.Date calculatedDate= awardCloseoutBean.getCalculatedDueDate(new Date(calendar.getTimeInMillis()), newAwardReportTerm, calendar);
+        java.util.Date calculatedDate= service.getCalculatedDueDate(new Date(calendar.getTimeInMillis()), newAwardReportTerm, calendar);
         Assert.assertEquals(calendar.getTime(), calculatedDate);
     }
     
+    /**
+     * 
+     * This method tests the getCalculatedDueDate method of AwardCloseoutBean
+     */
     @Test
     public final void testGetCalculatedDueDate_NumberOfDaysAreNotZero_NumberOfMonthsAreZero(){
         Calendar calendar = new GregorianCalendar();
@@ -227,10 +252,14 @@ public class AwardCloseoutBeanTest {
         newAwardReportTerm.getFrequency().setNumberOfDays(15);
         newAwardReportTerm.getFrequency().setNumberOfMonths(0);
         calendar.add(Calendar.DAY_OF_YEAR, 15);
-        java.util.Date calculatedDate= awardCloseoutBean.getCalculatedDueDate(new Date(calendar.getTimeInMillis()), newAwardReportTerm, calendar);
+        java.util.Date calculatedDate= service.getCalculatedDueDate(new Date(calendar.getTimeInMillis()), newAwardReportTerm, calendar);
         Assert.assertEquals(calendar.getTime(), calculatedDate);
     }
     
+    /**
+     * 
+     * This method tests the getCalculatedDueDate method of AwardCloseoutBean
+     */
     @Test
     public final void testGetCalculatedDueDate_NumberOfDaysAreNotZero_NumberOfMonthsAreNotZero(){
         Calendar calendar = new GregorianCalendar();
@@ -240,7 +269,7 @@ public class AwardCloseoutBeanTest {
         newAwardReportTerm.getFrequency().setNumberOfMonths(5);
         calendar.add(Calendar.MONTH, 5);
         calendar.add(Calendar.DAY_OF_YEAR, 15);
-        java.util.Date calculatedDate= awardCloseoutBean.getCalculatedDueDate(new Date(calendar.getTimeInMillis()), newAwardReportTerm, calendar);
+        java.util.Date calculatedDate= service.getCalculatedDueDate(new Date(calendar.getTimeInMillis()), newAwardReportTerm, calendar);
         Assert.assertEquals(calendar.getTime(), calculatedDate);
     }
 

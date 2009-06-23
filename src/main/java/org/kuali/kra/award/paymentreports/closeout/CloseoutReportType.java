@@ -22,7 +22,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
- * This class...
+ * This class represets the CloseoutReportType business object.
  */
 public class CloseoutReportType extends KraPersistableBusinessObjectBase { 
     

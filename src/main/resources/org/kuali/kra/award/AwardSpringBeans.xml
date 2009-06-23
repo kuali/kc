@@ -148,5 +148,17 @@
             <ref bean="sequenceAccessorService" />
         </property>
     </bean>
+    
+    <bean id="awardCloseoutService" class="org.kuali.kra.award.service.impl.AwardCloseoutServiceImpl">
+        <property name="persistenceService">
+            <ref bean="persistenceService" />
+        </property>
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+    </bean>
 
 </beans>
