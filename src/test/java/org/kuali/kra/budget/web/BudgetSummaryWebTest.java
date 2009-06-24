@@ -23,7 +23,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class BudgetSummaryWebTest extends ProposalDevelopmentWebTestBase {
     private static final String PDDOC_BUDGET_VERSIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.budgetVersions.x";
-    private static final String BDOC_BUDGET_SUMMARY_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.summary.x";
+    private static final String BDOC_BUDGET_SUMMARY_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.summaryTotals.x";
     private static final String NEW_BUDGET_VERSION_NAME = "newBudgetVersionName";
     private static final String ADD_BUDGET_PERIOD_BUTTON = "methodToCall.addBudgetPeriod";
     private static final String DEL_BUDGET_PERIOD_BUTTON = "methodToCall.deleteBudgetPeriod.line1.anchor1";
