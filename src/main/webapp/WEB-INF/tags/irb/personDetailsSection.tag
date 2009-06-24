@@ -27,7 +27,7 @@
 </c:choose>
 <c:set var="personAffiliationRequired" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRole.affiliationDetailsRequired}" />
 <c:set var="personTrainingRequired" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRole.trainingDetailsRequired}" />
-<c:set var="readOnly" value="${!KualiForm.personnelHelper.modifyProtocol}" />
+<c:set var="readOnly" value="${!KualiForm.personnelHelper.modifyPersonnel}" />
 
 <table cellpadding=0 cellspacing=0 summary="">
 	<tr>
