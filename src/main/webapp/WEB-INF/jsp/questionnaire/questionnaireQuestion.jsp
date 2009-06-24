@@ -52,7 +52,15 @@
   var jsContextPath = "${pageContext.request.contextPath}";
   $(document).ready(function(){
     $.ajaxSettings.cache = false; 
-    $("#example").treeview();
+    $("#example").treeview({
+               toggle: function() {
+                   alert ("toggle "+$(this).attr("id"));
+                  },
+              animated: "fast",
+              collapsed: true,
+              control: "#treecontrol"
+        });
+        
     $("#rootSearch").attr("name","methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:newQuestionId,question:newQuestion))).((#newQuestionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/questionId/)).((~~)).anchor1");
     
     $("#addRootQn").click(function() {
@@ -62,7 +70,7 @@
         
             i++;
 
-            var listitem = getQuestionNew($("#newQuestion").attr("value"), "V1.01");
+            var listitem = getQuestionNew($("#newQuestion").attr("value"), "V1.01", 'false');
 			var ultag = $('<ul></ul>');
             ultag.appendTo(listitem);
             
@@ -423,7 +431,7 @@ tbl196.appendTo(div192);
      
                  i++;
 
-            var listitem = getQuestionNew("Test Question","V.1.01");
+            var listitem = getQuestionNew("Test Question","V.1.01",'false');
 			var ultag = $('<ul></ul>');
             ultag.appendTo(listitem);
             
@@ -790,6 +798,7 @@ function getResearchAreaCode(nodeName) {
    
       var opArray = ['select', 'and', 'or'];
       var responseArray = ['select', 'Contains text value', 'Matches text', 'Less than number', 'Less than or equals number', 'Equals number', 'Greater than or equals number', 'Greater than number', 'Before date', 'After date'];
+      var questionType = ['Yes/No', 'Yes/No/NA', 'Number', 'Date', 'Text', 'Lookup'];
    
       var responseOptions = $('<select name="CustomData"></select>');
       $('<option value="0" selected="selected">select</option>').appendTo(responseOptions);
