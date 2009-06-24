@@ -17,13 +17,45 @@ ${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)}
      <td>  
        Question : 
            <%-- <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.questionnaireQuestions[0].questionId" --%> 
-           <kul:htmlControlAttribute property="questionId" 
+           <kul:htmlControlAttribute property="newQuestionId" 
                                           attributeEntry="${DataDictionary.QuestionnaireQuestion.attributes.questionId}"  />
+           <input type="hidden" name="newQuestion" id="newQuestion" value="${KualiForm.newQuestion}"/>
       </td>        
       <td>
           <input src="static/images/tinybutton-add1.gif" onclick="javascript: addQuestion(); return false;" style="border:none;" alt="add question" title="Add Question" type="image" />
       </td>
     </tr>
+  
+  <tr>
+  <td colspan="2">     
+                                      <!-- Section Controls -->
+                                	<div style="padding-bottom:5px;">
+										<table width="100%" cellpadding="0" cellspacing="0" class="subelement" style="border-top:solid 1px #939393;">
+                                            <tr>
+                                                <td class="content_grey" style="text-align:right; width:190px;">
+                                                    Hierarchy Display Options:
+                                                </td>
+                                                <td class="content_white" style="text-align:center;">
+                                            <div id="treecontrol" style="display:inline;">
+                                                <a title="Collapse the entire tree below" href="#"><img src="/${fn:trim(ConfigProperties.app.context.name)}/static/images/jquery/minus.gif" /> Collapse All</a>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;<a title="Expand the entire tree below" href="#"><img src="/${fn:trim(ConfigProperties.app.context.name)}/static/images/jquery/plus.gif" /> Expand All</a>
+                                            </div>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;<input src="/${fn:trim(ConfigProperties.app.context.name)}/static/images/tinybutton-refresh.gif" onclick="javascript: alert('This would refresh the hierarchies in this questionnaire for non-script browsers.'); return false;" style="border:none;" alt="refresh" title="Refresh" type="image" />
+                                                </td>
+                                                <td class="content_grey" style="text-align:right;">
+                                                    Add Question(s):
+                                                </td>
+                                                <td class="content_white" style="text-align:center;">
+                                                    <input name = "rootSearch" id = "rootSearch" src="/${fn:trim(ConfigProperties.app.context.name)}/static/images/searchicon.gif" align="top" alt="search " title="Search " style="border:none;" type="image" />
+                                                    <input name="addRootQn" id="addRootQn" src="/kra-dev/kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" />;
+                                                </td>
+                                            </tr>
+                                        </table> 
+                                        
+                                    </div>
+  
+  </td>
+  </tr>
   
   <tr> 
   <td colspan="2">     
