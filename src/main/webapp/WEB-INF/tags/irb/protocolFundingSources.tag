@@ -2,7 +2,7 @@
 
 <c:set var="protocolFundingSourceAttributes" value="${DataDictionary.ProtocolFundingSource.attributes}" />
 <c:set var="fundingSourceTypeAttributes" value="${DataDictionary.FundingSourceType.attributes}" />
-<c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
+<c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyFundingSource}" />
 <c:set var="allowEditName" value="${KualiForm.protocolHelper.editProtocolFundingSourceName}" />
 
 

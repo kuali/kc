@@ -18,7 +18,7 @@
 <c:set var="protocolSpecialReviewAttributes" value="${DataDictionary.ProtocolSpecialReview.attributes}" />
 <c:set var="protocolSpecialReviewExemptionAttributes" value="${DataDictionary.ProtocolSpecialReviewExemption.attributes}" />
 <c:set var="action" value="protocolSpecialReview" />
-<c:set var="readOnly" value="${!KualiForm.specialReviewHelper.modifyProtocol}" />
+<c:set var="readOnly" value="${!KualiForm.specialReviewHelper.modifySpecialReview}" />
 <c:set var="exemptionTypes" value="${KualiForm.specialReviewHelper.newSpecialReview.exemptionTypes}" />
 
 <div id="workarea">

@@ -41,7 +41,7 @@ public class PersonnelHelper implements Serializable {
      */
     private ProtocolForm form;
     
-    private boolean modifyProtocol;
+    private boolean modifyPersonnel;
     private ProtocolPerson newProtocolPerson;
     private List<ProtocolUnit> newProtocolPersonUnits;
     private boolean personTrainingSectionRequired;
@@ -70,8 +70,8 @@ public class PersonnelHelper implements Serializable {
     }
 
     private void initializeModifyProtocolPermission(Protocol protocol) {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocol);
-        modifyProtocol = getTaskAuthorizationService().isAuthorized(getUsername(), task);     
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_PERSONNEL, protocol);
+        modifyPersonnel = getTaskAuthorizationService().isAuthorized(getUsername(), task);     
     }
     
     private TaskAuthorizationService getTaskAuthorizationService() {
@@ -83,8 +83,8 @@ public class PersonnelHelper implements Serializable {
         return user.getPersonUserIdentifier();
     }
     
-    public boolean getModifyProtocol() {
-        return modifyProtocol;
+    public boolean getModifyPersonnel() {
+        return modifyPersonnel;
     }
 
     public void setNewProtocolPerson(ProtocolPerson newProtocolPerson) {

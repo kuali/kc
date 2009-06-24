@@ -18,7 +18,7 @@
 
 <c:set var="protocolParticipantAttributes" value="${DataDictionary.ProtocolParticipant.attributes}" />
 <c:set var="action" value="protocolParticipant" />
-<c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
+<c:set var="readOnly" value="${!KualiForm.protocolHelper.modifySubjects}" />
 
 <kul:tab tabTitle="Participant Types" defaultOpen="false" tabErrorKey="participantsHelper.newProtocolParticipant.*,document.protocolList[0].protocolParticipant*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -41,7 +41,7 @@
 			<%-- Header --%>
 			
             <%-- New data --%>
-        	<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">
+        	<kra:permission value="${KualiForm.protocolHelper.modifySubjects}">
 	            <tr>
 				<th class="infoline">
 					<c:out value="Add:" />

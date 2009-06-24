@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
 
-	<kra:permission value="${KualiForm.personnelHelper.modifyProtocol}">
+	<kra:permission value="${KualiForm.personnelHelper.modifyPersonnel}">
     	<kul:uncollapsable tabTitle="Add Personnel:" tabErrorKey="newProtocolPerson.*" auditCluster="personnelAuditErrors" tabAuditKey="newProtocolPerson*">
           <div align="center">
             <table  cellpadding="0" cellspacing="0" class="grid" summary="">

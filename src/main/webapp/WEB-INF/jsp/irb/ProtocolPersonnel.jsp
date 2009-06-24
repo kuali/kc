@@ -32,7 +32,7 @@
   	
   	<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Personnel" /></div>
 
-	<c:set var="viewOnly" value="${not KualiForm.personnelHelper.modifyProtocol}" />
+	<c:set var="viewOnly" value="${not KualiForm.personnelHelper.modifyPersonnel}" />
 	<kra-irb:protocolAddPersonnelSection/>
 	<kra-irb:protocolPersons/>
   <c:if test="${not empty viewOnly && ! viewOnly and fn:length(KualiForm.document.protocolList[0].protocolPersons) > 0}">
