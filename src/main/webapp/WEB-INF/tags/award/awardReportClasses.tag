@@ -85,6 +85,10 @@
 	                </c:choose>         
 	            </c:forEach>
 	            </html:select>
+                <kul:checkErrors keyMatch="awardReportsBean.newAwardReportTerms[${index}].reportCode" auditMatch="awardReportsBean.newAwardReportTerms[${index}].reportCode"/>
+                <c:if test="${hasErrors}">
+                    <kul:fieldShowErrorIcon />
+                </c:if>
 	            <html:image property="methodToCall.refreshPulldownOptions" styleClass="tinybutton" 
 	            	src='${ConfigProperties.kra.externalizable.images.url}arrow_refresh.png'/>
             </div>
@@ -106,6 +110,10 @@
 	                </c:choose>         
 	            </c:forEach>
 	            </html:select>
+                <kul:checkErrors keyMatch="awardReportsBean.newAwardReportTerms[${index}].frequencyCode" auditMatch="awardReportsBean.newAwardReportTerms[${index}].frequencyCode"/>
+                <c:if test="${hasErrors}">
+                    <kul:fieldShowErrorIcon />
+                </c:if>
 	            <html:image property="methodToCall.refreshPulldownOptions" styleClass="tinybutton" 
 	            	src='${ConfigProperties.kra.externalizable.images.url}arrow_refresh.png'/>
             </div>
@@ -126,6 +134,10 @@
 	                </c:choose>         
 	            </c:forEach>
 	            </html:select>
+                <kul:checkErrors keyMatch="awardReportsBean.newAwardReportTerms[${index}].frequencyBaseCode" auditMatch="awardReportsBean.newAwardReportTerms[${index}].frequencyBaseCode"/>
+                <c:if test="${hasErrors}">
+                    <kul:fieldShowErrorIcon />
+                </c:if>
             </div>
 			</td>
             <td nowrap width="5%" valign="middle" class="infoline">
