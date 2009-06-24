@@ -3,7 +3,7 @@
 <c:set var="committeeAttributes" value="${DataDictionary.Committee.attributes}" />
 <c:set var="action" value="committeeCommittee" />
 <c:set var="className" value="org.kuali.kra.committee.document.CommitteeDocument" />
-<c:set var="readOnly" value="${!KualiForm.committeeHelper.modifyCommittee}" scope="request" />
+<c:set var="readOnly" value="${!KualiForm.committeeHelper.modifyCommittee or KualiForm.lookupHelper.viewOnly}" scope="request" />
 
 <kul:tab tabTitle="Committee" defaultOpen="true" tabErrorKey="document.committee*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -37,9 +37,14 @@
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.homeUnitNumber}" /></div></th>
                 <td>
                     <kul:htmlControlAttribute property="document.committeeList[0].homeUnitNumber" attributeEntry="${committeeAttributes.homeUnitNumber}" onblur="loadUnitNameTo('document.committeeList[0].homeUnitNumber','document.committee.homeUnitName');" />
-                    <c:if test="${!readOnly}">
+                    <c:choose>
+                    <c:when test="${!readOnly}">
                         <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:document.committeeList[0].homeUnitNumber" />
-                    </c:if>
+                    </c:when>
+                    <c:otherwise>
+                        <html:hidden property="document.committeeList[0].homeUnitNumber"/>
+                    </c:otherwise>
+                    </c:choose>
                     <div id="document.committee.homeUnitName.div" align="left" />
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.committeeTypeCode}" /></div></th>

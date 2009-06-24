@@ -22,14 +22,22 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.service.CommitteeAuthorizationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -45,7 +53,9 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     private static final String MEMBERSHIP_NAME = "memberName";
     private static final String PERSON_NAME = "personName";
     private static final String RESEARCH_AREA_CODE = "researchAreaCode";
-
+    private static final Log LOG = LogFactory.getLog(CommitteeLookupableHelperServiceImpl.class);
+    private List<CommitteeDocument> committeeDocuments;
+    
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 
@@ -128,7 +138,9 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         if(getCommitteeAuthorizationService().hasPermission(getUserName(), (Committee) businessObject, PermissionConstants.MODIFY_COMMITTEE)) {
-            htmlDataList =  super.getCustomActionUrls(businessObject, pkNames);
+            if (!isCommitteeBeingEdited((Committee) businessObject)) {
+                htmlDataList =  super.getCustomActionUrls(businessObject, pkNames);
+            }
         }
         if(getCommitteeAuthorizationService().hasPermission(getUserName(), (Committee) businessObject, PermissionConstants.VIEW_COMMITTEE)) {
             htmlDataList.add(getViewLink(((Committee) businessObject).getCommitteeDocument()));
@@ -136,6 +148,53 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
         return htmlDataList;
     }
 
+    private boolean isCommitteeBeingEdited(Committee committee) {
+        // TODO : inject businessobjectservice
+        // this is a tedious way to find whether a committee is beiing edited.
+        boolean isEdited = false;
+        for (CommitteeDocument doc : getCommitteeDocuments()) {
+            try {
+                if (doc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(
+                        KEWConstants.ROUTE_HEADER_SAVED_CD)) {
+                    String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(
+                            doc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId()).getDocumentContent();
+                    if (committee.getCommitteeId().equals(StringUtils.substringBetween(content, "<committeeId>", "</committeeId>"))) {
+                        isEdited = true;
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                LOG.info(e.getMessage());
+            }
+        }
+        return isEdited;
+    }
+    
+    private List<CommitteeDocument> getCommitteeDocuments() {
+        if (committeeDocuments == null) {
+            List<CommitteeDocument> documents = (List<CommitteeDocument>) KraServiceLocator.getService(BusinessObjectService.class)
+                    .findAll(CommitteeDocument.class);
+            List<CommitteeDocument> result = new ArrayList<CommitteeDocument>();
+            for (CommitteeDocument commDoc : documents) {
+                try {
+                    // Need this step to retrieve workflowdocument
+                    CommitteeDocument doc = (CommitteeDocument) KraServiceLocator.getService(DocumentService.class)
+                            .getByDocumentHeaderId(commDoc.getDocumentNumber());
+                    if (doc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(
+                            KEWConstants.ROUTE_HEADER_SAVED_CD)) {
+                        result.add(doc);
+                    }
+                }
+                catch (Exception e) {
+                    LOG.info(e.getMessage());
+                }
+            }
+            committeeDocuments = result;
+        }
+        return committeeDocuments;
+
+    }
+    
     private CommitteeAuthorizationService getCommitteeAuthorizationService() {
         return KraServiceLocator.getService(CommitteeAuthorizationService.class);
     }

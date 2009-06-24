@@ -20,6 +20,7 @@
 <c:set var="committeeScheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 <c:set var="committeeScheduleAttributeReferenceDummy" value="${DataDictionary.CommitteeScheduleAttributeReferenceDummy.attributes}" />
+<c:set var="readOnly" value="${!KualiForm.committeeScheduleHelper.modifyCommittee or KualiForm.lookupHelper.viewOnly}" scope="request" />
 
 <div id="workarea">
 <kul:tab tabTitle="Schedule" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.committee.committeeSchedules*,committeeScheduleHelper.scheduleData*,datesInConflict*,document.committeeList[0].committeeSchedules*" auditCluster="requiredFieldsAuditErrors"  tabAuditKey="" useRiceAuditMode="true">

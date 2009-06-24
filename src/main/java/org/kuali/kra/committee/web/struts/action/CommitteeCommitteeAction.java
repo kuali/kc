@@ -55,7 +55,10 @@ public class CommitteeCommitteeAction extends CommitteeAction {
         CommitteeForm committeeForm = ((CommitteeForm)form);
         String commandParam = request.getParameter(KNSConstants.PARAMETER_COMMAND);
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate") && StringUtils.isNotBlank(request.getParameter(COMMITTEE_ID))) {
-            committeeForm.getCommitteeDocument().setCommittee(getCommitteeService().getCommitteeById(request.getParameter(COMMITTEE_ID)));
+            Committee committee = getCommitteeService().getCommitteeById(request.getParameter(COMMITTEE_ID));
+            /* don't need the original committeeDocument saved in xml content */
+            committee.setCommitteeDocument(null);
+            committeeForm.getCommitteeDocument().setCommittee(committee);
         }
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("displayDocSearchView") && StringUtils.isNotBlank(request.getParameter("viewDocument"))) {
             committeeForm.getLookupHelper().setViewOnly(true);

@@ -103,19 +103,20 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
-        List <CommitteeMembershipRole> roles = new ArrayList<CommitteeMembershipRole>();
-        List<CommitteeMembershipExpertise> expertise = new ArrayList<CommitteeMembershipExpertise>();
-        for (CommitteeMembership committeeMembership : getCommittee().getCommitteeMemberships()) {
-            roles.addAll(committeeMembership.getMembershipRoles());
-            expertise.addAll(committeeMembership.getMembershipExpertise());
-        }
+// TODO : only save to wkflw document, not persist to BO till 'approve'        
+//        List <CommitteeMembershipRole> roles = new ArrayList<CommitteeMembershipRole>();
+//        List<CommitteeMembershipExpertise> expertise = new ArrayList<CommitteeMembershipExpertise>();
+//        for (CommitteeMembership committeeMembership : getCommittee().getCommitteeMemberships()) {
+//            roles.addAll(committeeMembership.getMembershipRoles());
+//            expertise.addAll(committeeMembership.getMembershipExpertise());
+//        }
 
         List managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(committeeList);
-        managedLists.add(roles);
-        managedLists.add(expertise);
-        managedLists.add(getCommittee().getCommitteeMemberships());
-        managedLists.addAll(getCommittee().buildListOfDeletionAwareLists());
+//        managedLists.add(committeeList);
+//        managedLists.add(roles);
+//        managedLists.add(expertise);
+//        managedLists.add(getCommittee().getCommitteeMemberships());
+//        managedLists.addAll(getCommittee().buildListOfDeletionAwareLists());
         return managedLists;
     }
     
