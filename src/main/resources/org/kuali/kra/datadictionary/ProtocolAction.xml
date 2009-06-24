@@ -104,9 +104,6 @@
         <property name="label" value="Comments" />
         <property name="shortLabel" value="Comments" />
         <property name="maxLength" value="2000" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="10" />
