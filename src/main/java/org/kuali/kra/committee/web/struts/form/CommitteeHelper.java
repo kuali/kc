@@ -23,6 +23,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -48,7 +49,11 @@ public class CommitteeHelper implements Serializable {
      * This method is UI view hook.
      */
     public void prepareView() {
-        modifyCommittee = canModifyCommittee();
+        if (committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+            modifyCommittee = false;
+        } else {
+            modifyCommittee = canModifyCommittee();
+        }
     }
     
     public boolean canModifyCommittee() {

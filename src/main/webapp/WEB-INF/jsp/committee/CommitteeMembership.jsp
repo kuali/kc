@@ -42,7 +42,7 @@
 
 	<kul:documentControls 
 	    transactionalDocument="false"
-		suppressRoutingControls="true"
+		suppressRoutingControls="false"
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"

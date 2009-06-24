@@ -20,10 +20,17 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class CommitteeScheduleHelper implements Serializable {
     
@@ -37,7 +44,8 @@ public class CommitteeScheduleHelper implements Serializable {
     private ScheduleData scheduleData;
     
     private CommitteeForm form;
-    
+    private boolean modifyCommittee = false;
+
     public CommitteeScheduleHelper(CommitteeForm form) {
         this.form = form;
         this.setScheduleData(new ScheduleData());
@@ -48,6 +56,11 @@ public class CommitteeScheduleHelper implements Serializable {
      */
     public void prepareView() {
         prepareCommitteeScheduleDeleteView();
+        if (form.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+            modifyCommittee = false;
+        } else {
+            modifyCommittee = canModifyCommittee();
+        }
     }
     
     public ScheduleData getScheduleData() {
@@ -75,6 +88,11 @@ public class CommitteeScheduleHelper implements Serializable {
             else
                 committeeSchedule.setFilter(FALSE);
         }
+    }
+    
+    public boolean canModifyCommittee() {
+        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, getCommittee());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
     }
     
     /**
@@ -110,4 +128,24 @@ public class CommitteeScheduleHelper implements Serializable {
     private CommitteeScheduleService getCommitteeScheduleService() {
         return KraServiceLocator.getService(CommitteeScheduleService.class);
     }
+
+    public boolean isModifyCommittee() {
+        return modifyCommittee;
+    }
+
+    public void setModifyCommittee(boolean modifyCommittee) {
+        this.modifyCommittee = modifyCommittee;
+    }
+    
+    protected TaskAuthorizationService getTaskAuthorizationService() {
+        return KraServiceLocator.getService(TaskAuthorizationService.class);
+    }
+    protected String getUserName() {
+        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
+         return user.getPersonUserIdentifier();
+    }
+    public Committee getCommittee() {
+        return form.getCommitteeDocument().getCommittee();
+    }
+
 }
