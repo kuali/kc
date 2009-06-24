@@ -24,7 +24,7 @@ import org.kuali.rice.kns.service.SequenceAccessorService;
  */
 public class ProtocolNumberServiceImpl implements ProtocolNumberService {
 
-    private static final int THIS_CENTURY = 2000; // year
+    private static final String ZERO = "0";
     private static final String SEQUENCE_NAME = "SEQ_PROTOCOL_ID";
     private static final int MAX_NUMBER = 1000000;
     
@@ -52,10 +52,10 @@ public class ProtocolNumberServiceImpl implements ProtocolNumberService {
      * @return the year as 2 digits as a string
      */
     private String getYear(Calendar calendar) {
-        int year = calendar.get(Calendar.YEAR) - THIS_CENTURY;
-        String s = Integer.toString(year);
+        int year = calendar.get(Calendar.YEAR);
+        String s = Integer.toString(year).substring(2);
         if (s.length() == 1) {
-            s = "0" + s;
+            s = ZERO + s;
         }
         return s;
     }
@@ -69,7 +69,7 @@ public class ProtocolNumberServiceImpl implements ProtocolNumberService {
         int month = calendar.get(Calendar.MONTH) + 1;
         String s = Integer.toString(month);
         if (s.length() == 1) {
-            s = "0" + s;
+            s = ZERO + s;
         }
         return s;
     }
@@ -84,7 +84,7 @@ public class ProtocolNumberServiceImpl implements ProtocolNumberService {
         String s = nextNumber.toString();
         int length = s.length();
         for (int i = 0; i < 6 - length; i++) {
-            s = "0" + s;
+            s = ZERO + s;
         }
         return s;
     }
