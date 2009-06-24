@@ -1,0 +1,135 @@
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="ProposalStatus" parent="ProposalStatus-parentBean" />
+    <bean id="ProposalStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.ProposalStatus" />
+        <property name="inquiryDefinition" >
+            <ref bean="ProposalStatus-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="ProposalStatus-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="proposalStatusCode" />
+        <property name="attributes" >
+            <list>
+                <ref bean="ProposalStatus-proposalStatusCode" />
+                <ref bean="ProposalStatus-description" />
+                <ref bean="ProposalStatus-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="ProposalStatus-proposalStatusCode" parent="ProposalStatus-proposalStatusCode-parentBean" />
+    <bean id="ProposalStatus-proposalStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalStatusCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Proposal Status Code" />
+        <property name="shortLabel" value="Proposal Status Code" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Proposal Status Code" />
+        <property name="description" value="Proposal Status Code" />
+    </bean>
+
+    <bean id="ProposalStatus-description" parent="ProposalStatus-description-parentBean" />
+    <bean id="ProposalStatus-description-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="description" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Description" />
+        <property name="shortLabel" value="Description" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Description" />
+        <property name="description" value="Description" />
+    </bean>
+
+    <bean id="ProposalStatus-versionNumber" parent="ProposalStatus-versionNumber-parentBean" />
+    <bean id="ProposalStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="ProposalStatus-inquiryDefinition" parent="ProposalStatus-inquiryDefinition-parentBean" />
+    <bean id="ProposalStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Proposal Status Code" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Proposal Status Code" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="proposalStatusCode" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="description" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="ProposalStatus-lookupDefinition" parent="ProposalStatus-lookupDefinition-parentBean" />
+    <bean id="ProposalStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Proposal Status Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="instructions" value="Look up a Proposal Status" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalStatusCode" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalStatusCode" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+        </property>
+    </bean>
+</beans>
