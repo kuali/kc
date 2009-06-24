@@ -1,0 +1,9 @@
+@S2S/VIEWS/OSP_Award_Amount_Info.sql
+@S2S/VIEWS/OSP_Award.sql
+@S2S/VIEWS/OSP_Sponsor_Form_Templates.sql
+@S2S/VIEWS/OSP_Sponsor_Forms.sql
+@S2S/VIEWS/OSP_Budget_Salary_Summary.sql
+@S2S/VIEWS/OSP_Budget_Cons_Salary_Summary.sql
+@S2S/VIEWS/OSP_Budget_Per_Cost_Summary.sql
+@S2S/VIEWS/OSP_Budget_Per_Details_For_EDI.sql
+@S2S/VIEWS/OSP_V_Salary_Summary.sql
