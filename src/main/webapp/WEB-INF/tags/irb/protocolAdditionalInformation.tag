@@ -10,7 +10,7 @@
 <c:set var="className" value="${KualiForm.document.class.name}" />
 
 <c:set var="researchAreasAttributes" value="${DataDictionary.ResearchArea.attributes}" />
-<c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
+<c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyGeneralInfo}" />
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.PROTOCOL_REFERENCE_COMMENT_LENGTH%>" />
 
 <kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="document.protocolList[0].fda*,document.protocolList[0].billable*,document.protocolList[0].referenceNumber*,document.protocolList[0].description*,document.protocolList[0].protocolReferences*,newProtocolReference*" auditCluster="" tabAuditKey="" useRiceAuditMode="true">
@@ -99,7 +99,7 @@
 			<%-- Header --%>
 			
             <%-- New data --%>
-         	<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">
+         	<kra:permission value="${KualiForm.protocolHelper.modifyReferences}">
                 <tr>
                     <th class="infoline" rowspan="2">add:</th>
                     <td class="infoline" style="text-align:center;">
@@ -176,7 +176,7 @@
                     <c:if test="${!readOnly}">
 						<td rowspan="2">
 							<div align=center>&nbsp;
-								<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">  
+								<kra:permission value="${KualiForm.protocolHelper.modifyReferences}">  
 									<html:image property="methodToCall.deleteProtocolReference.line${status.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 								</kra:permission>  
@@ -218,7 +218,7 @@
               	</c:if>
              </tr>
              
-             <c:if test="${!readOnly}">
+             <kra:permission value="${KualiForm.protocolHelper.modifyAreasOfResearch}">
 	            <tr>
 	              <th width="10%" class="infoline">add:</th>
 	              <td width="70%" class="infoline">${KualiForm.document.protocolList[0].newDescription}
@@ -231,7 +231,7 @@
 	              &nbsp;
 	              </div></td>
 	            </tr>
-	        </c:if>
+	        </kra:permission>
 
             <logic:iterate name="KualiForm" id="protocolResearchAreas" property="document.protocolList[0].protocolResearchAreas" indexId="ctr" >
               <tr>
@@ -241,12 +241,12 @@
                 <td>
                 	${KualiForm.document.protocolList[0].protocolResearchAreas[ctr].researchAreas.researchAreaCode}:${KualiForm.document.protocolList[0].protocolResearchAreas[ctr].researchAreas.description}
                 </td>
-                <c:if test="${!readOnly}">
+                <kra:permission value="${KualiForm.protocolHelper.modifyAreasOfResearch}">
 	                <td><div align="center">
 						<html:image property="methodToCall.deleteProtocolResearchArea.line${ctr}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>   
 	                </div></td>
-	            </c:if>        
+	            </kra:permission>   
               </tr>
             </logic:iterate>
             

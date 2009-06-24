@@ -21,7 +21,7 @@
 <c:set var="protocolOrganizationTypeAttributes" value="${DataDictionary.ProtocolOrganizationType.attributes}" />
 <c:set var="rolodexAttributes" value="${DataDictionary.Rolodex.attributes}" />
 <c:set var="action" value="protocolLocation" />
-<c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
+<c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyOrganizations}" />
 
 <kul:tab tabTitle="Organizations" defaultOpen="false" tabErrorKey="protocolHelper.newProtocolLocation*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -45,7 +45,7 @@
           	<%-- Header --%>
           	
              <%-- New data --%>
-        	<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">
+        	<kra:permission value="${KualiForm.protocolHelper.modifyOrganizations}">
 	             <tr>
 					<th class="infoline">
 						<c:out value="Add:" />
@@ -132,7 +132,7 @@
 				            ${KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.state} &nbsp
 				            ${KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.postalCode}
 						</c:if>
-						<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">  
+						<kra:permission value="${KualiForm.protocolHelper.modifyOrganizations}">  
 	                    	<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
 	                    		fieldConversions="rolodexId:document.protocolList[0].protocolLocations[${status.index}].rolodexId,firstName:document.protocolList[0].protocolLocations[${status.index}].rolodex.firstName,lastName:document.protocolList[0].protocolLocations[${status.index}].rolodex.lastName,postalCode:document.protocolList[0].protocolLocations[${status.index}].rolodex.postalCode,addressLine1:document.protocolList[0].protocolLocations[${status.index}].rolodex.addressLine1,addressLine2:document.protocolList[0].protocolLocations[${status.index}].rolodex.addressLine2,addressLine3:document.protocolList[0].protocolLocations[${status.index}].rolodex.addressLine3,city:document.protocolList[0].protocolLocations[${status.index}].rolodex.city,state:document.protocolList[0].protocolLocations[${status.index}].rolodex.state"	anchor="${currentTabIndex}"/> 
 						</kra:permission>  
