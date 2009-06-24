@@ -31,7 +31,7 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
     private static final String AWARD_REPORT_TERM_REPORT_CODE_PROPERTY = "reportCode";
     private static final String AWARD_REPORT_TERM_FREQUENCY_CODE_PROPERTY = "frequencyCode";
     private static final String AWARD_REPORT_TERM_FREQUENCY_BASE_CODE_PROPERTY = "frequencyBaseCode";
-    private static final String AWARD_REPORT_TERM_DISTRIBUTION_PROPERTY = "distribution";
+    private static final String AWARD_REPORT_TERM_DISTRIBUTION_PROPERTY = "ospDistributionCode";
     
     private static final String DUE_DATE_ERROR_PARM = "Due Date (Due Date)";
     private static final String REPORT_CODE_ERROR_PARM = "Type (Type)";
