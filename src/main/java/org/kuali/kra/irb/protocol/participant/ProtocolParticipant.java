@@ -111,6 +111,7 @@ public class ProtocolParticipant extends ProtocolAssociate {
     }
 
     public void init(Protocol protocol) {
+        setProtocolParticipantId(null);
         setProtocolId(protocol.getProtocolId());
         setProtocolNumber(protocol.getProtocolNumber());
     }
