@@ -1,0 +1,236 @@
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="InstitutionalProposalComments" parent="InstitutionalProposalComments-parentBean" />
+    <bean id="InstitutionalProposalComments-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalComments" />
+        <property name="inquiryDefinition" >
+            <ref bean="InstitutionalProposalComments-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="InstitutionalProposalComments-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="proposalCommentsId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="InstitutionalProposalComments-proposalCommentsId" />
+                <ref bean="InstitutionalProposalComments-proposalId" />
+                <ref bean="InstitutionalProposalComments-proposalNumber" />
+                <ref bean="InstitutionalProposalComments-sequenceNumber" />
+                <ref bean="InstitutionalProposalComments-commentTypeCode" />
+                <ref bean="InstitutionalProposalComments-comments" />
+                <ref bean="InstitutionalProposalComments-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="InstitutionalProposalComments-proposalCommentsId" parent="InstitutionalProposalComments-proposalCommentsId-parentBean" />
+    <bean id="InstitutionalProposalComments-proposalCommentsId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalCommentsId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Proposal Comments Id" />
+        <property name="shortLabel" value="Proposal Comments Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Proposal Comments Id" />
+        <property name="description" value="Proposal Comments Id" />
+    </bean>
+
+    <bean id="InstitutionalProposalComments-proposalId" parent="InstitutionalProposalComments-proposalId-parentBean" />
+    <bean id="InstitutionalProposalComments-proposalId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Proposal Id" />
+        <property name="shortLabel" value="Proposal Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Proposal Id" />
+        <property name="description" value="Proposal Id" />
+    </bean>
+
+    <bean id="InstitutionalProposalComments-proposalNumber" parent="InstitutionalProposalComments-proposalNumber-parentBean" />
+    <bean id="InstitutionalProposalComments-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Proposal Number" />
+        <property name="shortLabel" value="Proposal Number" />
+        <property name="maxLength" value="8" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Proposal Number" />
+        <property name="description" value="Proposal Number" />
+    </bean>
+
+    <bean id="InstitutionalProposalComments-sequenceNumber" parent="InstitutionalProposalComments-sequenceNumber-parentBean" />
+    <bean id="InstitutionalProposalComments-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sequenceNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sequence Number" />
+        <property name="shortLabel" value="Sequence Number" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Sequence Number" />
+        <property name="description" value="Sequence Number" />
+    </bean>
+
+    <bean id="InstitutionalProposalComments-commentTypeCode" parent="InstitutionalProposalComments-commentTypeCode-parentBean" />
+    <bean id="InstitutionalProposalComments-commentTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="commentTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Comment Type Code" />
+        <property name="shortLabel" value="Comment Type Code" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Comment Type Code" />
+        <property name="description" value="Comment Type Code" />
+    </bean>
+
+    <bean id="InstitutionalProposalComments-comments" parent="InstitutionalProposalComments-comments-parentBean" />
+    <bean id="InstitutionalProposalComments-comments-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="comments" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Comments" />
+        <property name="shortLabel" value="Comments" />
+        <property name="maxLength" value="4000" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="3"
+                p:cols="20" />
+        </property>
+        <property name="summary" value="Comments" />
+        <property name="description" value="Comments" />
+    </bean>
+
+    <bean id="InstitutionalProposalComments-versionNumber" parent="InstitutionalProposalComments-versionNumber-parentBean" />
+    <bean id="InstitutionalProposalComments-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="InstitutionalProposalComments-inquiryDefinition" parent="InstitutionalProposalComments-inquiryDefinition-parentBean" />
+    <bean id="InstitutionalProposalComments-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Proposal Comments Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Proposal Comments Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="proposalCommentsId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="proposalId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="proposalNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="sequenceNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="commentTypeCode" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="comments" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="InstitutionalProposalComments-lookupDefinition" parent="InstitutionalProposalComments-lookupDefinition-parentBean" />
+    <bean id="InstitutionalProposalComments-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Proposal Comments Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="instructions" value="Look up a Proposal Comments" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalCommentsId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="commentTypeCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="comments" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalCommentsId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="commentTypeCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="comments" />
+            </list>
+        </property>
+    </bean>
+</beans>

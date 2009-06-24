@@ -1,0 +1,440 @@
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="InstitutionalProposalPerson" parent="InstitutionalProposalPerson-parentBean" />
+    <bean id="InstitutionalProposalPerson-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.personnel.InstitutionalProposalPerson" />
+        <property name="inquiryDefinition" >
+            <ref bean="InstitutionalProposalPerson-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="InstitutionalProposalPerson-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="proposalPersonId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="InstitutionalProposalPerson-proposalPersonId" />
+                <ref bean="InstitutionalProposalPerson-proposalNumber" />
+                <ref bean="InstitutionalProposalPerson-sequenceNumber" />
+                <ref bean="InstitutionalProposalPerson-personId" />
+                <ref bean="InstitutionalProposalPerson-rolodexId" />
+                <ref bean="InstitutionalProposalPerson-propPersonRoleId" />
+                <ref bean="InstitutionalProposalPerson-personName" />
+                <ref bean="InstitutionalProposalPerson-facultyFlag" />
+                <ref bean="InstitutionalProposalPerson-conflictOfInterestFlag" />
+                <ref bean="InstitutionalProposalPerson-percentageEffort" />
+                <ref bean="InstitutionalProposalPerson-fedrDebrFlag" />
+                <ref bean="InstitutionalProposalPerson-fedrDelqFlag" />
+                <ref bean="InstitutionalProposalPerson-multiPiFlag" />
+                <ref bean="InstitutionalProposalPerson-academicYearEffort" />
+                <ref bean="InstitutionalProposalPerson-summerYearEffort" />
+                <ref bean="InstitutionalProposalPerson-calendarYearEffort" />
+                <ref bean="InstitutionalProposalPerson-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="InstitutionalProposalPerson-proposalPersonId" parent="InstitutionalProposalPerson-proposalPersonId-parentBean" />
+    <bean id="InstitutionalProposalPerson-proposalPersonId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalPersonId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Proposal Person Id" />
+        <property name="shortLabel" value="Proposal Person Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Proposal Person Id" />
+        <property name="description" value="Proposal Person Id" />
+    </bean>
+
+    <bean id="InstitutionalProposalPerson-proposalNumber" parent="InstitutionalProposalPerson-proposalNumber-parentBean" />
+    <bean id="InstitutionalProposalPerson-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Proposal Number" />
+        <property name="shortLabel" value="Proposal Number" />
+        <property name="maxLength" value="8" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Proposal Number" />
+        <property name="description" value="Proposal Number" />
+    </bean>
+
+    <bean id="InstitutionalProposalPerson-sequenceNumber" parent="InstitutionalProposalPerson-sequenceNumber-parentBean" />
+    <bean id="InstitutionalProposalPerson-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sequenceNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sequence Number" />
+        <property name="shortLabel" value="Sequence Number" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Sequence Number" />
+        <property name="description" value="Sequence Number" />
+    </bean>
+
+    <bean id="InstitutionalProposalPerson-personId" parent="InstitutionalProposalPerson-personId-parentBean" />
+    <bean id="InstitutionalProposalPerson-personId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="personId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Person Id" />
+        <property name="shortLabel" value="Person Id" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Person Id" />
+        <property name="description" value="Person Id" />
+    </bean>
+
+    <bean id="InstitutionalProposalPerson-rolodexId" parent="InstitutionalProposalPerson-rolodexId-parentBean" />
+    <bean id="InstitutionalProposalPerson-rolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="rolodexId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Rolodex Id" />
+        <property name="shortLabel" value="Rolodex Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Rolodex Id" />
+        <property name="description" value="Rolodex Id" />
+    </bean>
+
+    <bean id="InstitutionalProposalPerson-propPersonRoleId" parent="InstitutionalProposalPerson-propPersonRoleId-parentBean" />
+    <bean id="InstitutionalProposalPerson-propPersonRoleId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="propPersonRoleId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Prop Person Role Id" />
+        <property name="shortLabel" value="Prop Person Role Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Prop Person Role Id" />
+        <property name="description" value="Prop Person Role Id" />
+    </bean>
+
+    <bean id="InstitutionalProposalPerson-personName" parent="InstitutionalProposalPerson-personName-parentBean" />
+    <bean id="InstitutionalProposalPerson-personName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="personName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Person Name" />
+        <property name="shortLabel" value="Person Name" />
+        <property name="maxLength" value="90" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Person Name" />
+        <property name="description" value="Person Name" />
+    </bean>
+
+    <bean id="InstitutionalProposalPerson-facultyFlag" parent="InstitutionalProposalPerson-facultyFlag-parentBean" />
+    <bean id="InstitutionalProposalPerson-facultyFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="facultyFlag" />
+        <property name="label" value="Faculty Flag" />
+        <property name="shortLabel" value="Faculty Flag" />
+        <property name="summary" value="Faculty Flag" />
+        <property name="description" value="Faculty Flag" />
+    </bean>
+
+    <bean id="InstitutionalProposalPerson-conflictOfInterestFlag" parent="InstitutionalProposalPerson-conflictOfInterestFlag-parentBean" />
+    <bean id="InstitutionalProposalPerson-conflictOfInterestFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="conflictOfInterestFlag" />
+        <property name="label" value="Conflict Of Interest Flag" />
+        <property name="shortLabel" value="Conflict Of Interest Flag" />
+        <property name="summary" value="Conflict Of Interest Flag" />
+        <property name="description" value="Conflict Of Interest Flag" />
+    </bean>
+
+    <bean id="InstitutionalProposalPerson-percentageEffort" parent="InstitutionalProposalPerson-percentageEffort-parentBean" />
+    <bean id="InstitutionalProposalPerson-percentageEffort-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="percentageEffort" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Percentage Effort" />
+        <property name="shortLabel" value="Percentage Effort" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Percentage Effort" />
+        <property name="description" value="Percentage Effort" />
+    </bean>
+
+    <bean id="InstitutionalProposalPerson-fedrDebrFlag" parent="InstitutionalProposalPerson-fedrDebrFlag-parentBean" />
+    <bean id="InstitutionalProposalPerson-fedrDebrFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="fedrDebrFlag" />
+        <property name="label" value="Fedr Debr Flag" />
+        <property name="shortLabel" value="Fedr Debr Flag" />
+        <property name="summary" value="Fedr Debr Flag" />
+        <property name="description" value="Fedr Debr Flag" />
+    </bean>
+
+    <bean id="InstitutionalProposalPerson-fedrDelqFlag" parent="InstitutionalProposalPerson-fedrDelqFlag-parentBean" />
+    <bean id="InstitutionalProposalPerson-fedrDelqFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="fedrDelqFlag" />
+        <property name="label" value="Fedr Delq Flag" />
+        <property name="shortLabel" value="Fedr Delq Flag" />
+        <property name="summary" value="Fedr Delq Flag" />
+        <property name="description" value="Fedr Delq Flag" />
+    </bean>
+
+    <bean id="InstitutionalProposalPerson-multiPiFlag" parent="InstitutionalProposalPerson-multiPiFlag-parentBean" />
+    <bean id="InstitutionalProposalPerson-multiPiFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="multiPiFlag" />
+        <property name="label" value="Multi Pi Flag" />
+        <property name="shortLabel" value="Multi Pi Flag" />
+        <property name="summary" value="Multi Pi Flag" />
+        <property name="description" value="Multi Pi Flag" />
+    </bean>
+
+    <bean id="InstitutionalProposalPerson-academicYearEffort" parent="InstitutionalProposalPerson-academicYearEffort-parentBean" />
+    <bean id="InstitutionalProposalPerson-academicYearEffort-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="academicYearEffort" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Academic Year Effort" />
+        <property name="shortLabel" value="Academic Year Effort" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Academic Year Effort" />
+        <property name="description" value="Academic Year Effort" />
+    </bean>
+
+    <bean id="InstitutionalProposalPerson-summerYearEffort" parent="InstitutionalProposalPerson-summerYearEffort-parentBean" />
+    <bean id="InstitutionalProposalPerson-summerYearEffort-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="summerYearEffort" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Summer Year Effort" />
+        <property name="shortLabel" value="Summer Year Effort" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Summer Year Effort" />
+        <property name="description" value="Summer Year Effort" />
+    </bean>
+
+    <bean id="InstitutionalProposalPerson-calendarYearEffort" parent="InstitutionalProposalPerson-calendarYearEffort-parentBean" />
+    <bean id="InstitutionalProposalPerson-calendarYearEffort-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="calendarYearEffort" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Calendar Year Effort" />
+        <property name="shortLabel" value="Calendar Year Effort" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Calendar Year Effort" />
+        <property name="description" value="Calendar Year Effort" />
+    </bean>
+
+    <bean id="InstitutionalProposalPerson-versionNumber" parent="InstitutionalProposalPerson-versionNumber-parentBean" />
+    <bean id="InstitutionalProposalPerson-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="InstitutionalProposalPerson-inquiryDefinition" parent="InstitutionalProposalPerson-inquiryDefinition-parentBean" />
+    <bean id="InstitutionalProposalPerson-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Proposal Person Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Proposal Person Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="proposalPersonId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="proposalNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="sequenceNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="personId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="rolodexId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="propPersonRoleId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="personName" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="facultyFlag" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="conflictOfInterestFlag" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="percentageEffort" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="fedrDebrFlag" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="fedrDelqFlag" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="multiPiFlag" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="academicYearEffort" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="summerYearEffort" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="calendarYearEffort" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="InstitutionalProposalPerson-lookupDefinition" parent="InstitutionalProposalPerson-lookupDefinition-parentBean" />
+    <bean id="InstitutionalProposalPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Proposal Persons Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="instructions" value="Look up a Proposal Persons" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalPersonId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="personId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="rolodexId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="propPersonRoleId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="personName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="facultyFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="conflictOfInterestFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="percentageEffort" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="fedrDebrFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="fedrDelqFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="multiPiFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="academicYearEffort" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="summerYearEffort" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="calendarYearEffort" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalPersonId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="personId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="rolodexId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="propPersonRoleId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="personName" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="facultyFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="conflictOfInterestFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="percentageEffort" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="fedrDebrFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="fedrDelqFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="multiPiFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="academicYearEffort" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="summerYearEffort" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="calendarYearEffort" />
+            </list>
+        </property>
+    </bean>
+</beans>

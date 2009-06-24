@@ -1,0 +1,306 @@
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="InstitutionalProposalAdminDetails" parent="InstitutionalProposalAdminDetails-parentBean" />
+    <bean id="InstitutionalProposalAdminDetails-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalAdminDetails" />
+        <property name="inquiryDefinition" >
+            <ref bean="InstitutionalProposalAdminDetails-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="InstitutionalProposalAdminDetails-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="devProposalNumber" />
+        <property name="attributes" >
+            <list>
+                <ref bean="InstitutionalProposalAdminDetails-devProposalNumber" />
+                <ref bean="InstitutionalProposalAdminDetails-instProposalNumber" />
+                <ref bean="InstitutionalProposalAdminDetails-instPropSequenceNumber" />
+                <ref bean="InstitutionalProposalAdminDetails-dateSubmittedByDept" />
+                <ref bean="InstitutionalProposalAdminDetails-dateReturnedToDept" />
+                <ref bean="InstitutionalProposalAdminDetails-dateApprovedByOsp" />
+                <ref bean="InstitutionalProposalAdminDetails-dateSubmittedToAgency" />
+                <ref bean="InstitutionalProposalAdminDetails-instPropCreateDate" />
+                <ref bean="InstitutionalProposalAdminDetails-instPropCreateUser" />
+                <ref bean="InstitutionalProposalAdminDetails-signedBy" />
+                <ref bean="InstitutionalProposalAdminDetails-submissionType" />
+                <ref bean="InstitutionalProposalAdminDetails-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="InstitutionalProposalAdminDetails-devProposalNumber" parent="InstitutionalProposalAdminDetails-devProposalNumber-parentBean" />
+    <bean id="InstitutionalProposalAdminDetails-devProposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="devProposalNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Dev Proposal Number" />
+        <property name="shortLabel" value="Dev Proposal Number" />
+        <property name="maxLength" value="8" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Dev Proposal Number" />
+        <property name="description" value="Dev Proposal Number" />
+    </bean>
+
+    <bean id="InstitutionalProposalAdminDetails-instProposalNumber" parent="InstitutionalProposalAdminDetails-instProposalNumber-parentBean" />
+    <bean id="InstitutionalProposalAdminDetails-instProposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="instProposalNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Inst Proposal Number" />
+        <property name="shortLabel" value="Inst Proposal Number" />
+        <property name="maxLength" value="8" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Inst Proposal Number" />
+        <property name="description" value="Inst Proposal Number" />
+    </bean>
+
+    <bean id="InstitutionalProposalAdminDetails-instPropSequenceNumber" parent="InstitutionalProposalAdminDetails-instPropSequenceNumber-parentBean" />
+    <bean id="InstitutionalProposalAdminDetails-instPropSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="instPropSequenceNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Inst Prop Sequence Number" />
+        <property name="shortLabel" value="Inst Prop Sequence Number" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Inst Prop Sequence Number" />
+        <property name="description" value="Inst Prop Sequence Number" />
+    </bean>
+
+    <bean id="InstitutionalProposalAdminDetails-dateSubmittedByDept" parent="InstitutionalProposalAdminDetails-dateSubmittedByDept-parentBean" />
+    <bean id="InstitutionalProposalAdminDetails-dateSubmittedByDept-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="dateSubmittedByDept" />
+        <property name="label" value="Date Submitted By Dept" />
+        <property name="shortLabel" value="Date Submitted By Dept" />
+        <property name="summary" value="Date Submitted By Dept" />
+        <property name="description" value="Date Submitted By Dept" />
+    </bean>
+
+    <bean id="InstitutionalProposalAdminDetails-dateReturnedToDept" parent="InstitutionalProposalAdminDetails-dateReturnedToDept-parentBean" />
+    <bean id="InstitutionalProposalAdminDetails-dateReturnedToDept-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="dateReturnedToDept" />
+        <property name="label" value="Date Returned To Dept" />
+        <property name="shortLabel" value="Date Returned To Dept" />
+        <property name="summary" value="Date Returned To Dept" />
+        <property name="description" value="Date Returned To Dept" />
+    </bean>
+
+    <bean id="InstitutionalProposalAdminDetails-dateApprovedByOsp" parent="InstitutionalProposalAdminDetails-dateApprovedByOsp-parentBean" />
+    <bean id="InstitutionalProposalAdminDetails-dateApprovedByOsp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="dateApprovedByOsp" />
+        <property name="label" value="Date Approved By Osp" />
+        <property name="shortLabel" value="Date Approved By Osp" />
+        <property name="summary" value="Date Approved By Osp" />
+        <property name="description" value="Date Approved By Osp" />
+    </bean>
+
+    <bean id="InstitutionalProposalAdminDetails-dateSubmittedToAgency" parent="InstitutionalProposalAdminDetails-dateSubmittedToAgency-parentBean" />
+    <bean id="InstitutionalProposalAdminDetails-dateSubmittedToAgency-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="dateSubmittedToAgency" />
+        <property name="label" value="Date Submitted To Agency" />
+        <property name="shortLabel" value="Date Submitted To Agency" />
+        <property name="summary" value="Date Submitted To Agency" />
+        <property name="description" value="Date Submitted To Agency" />
+    </bean>
+
+    <bean id="InstitutionalProposalAdminDetails-instPropCreateDate" parent="InstitutionalProposalAdminDetails-instPropCreateDate-parentBean" />
+    <bean id="InstitutionalProposalAdminDetails-instPropCreateDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="instPropCreateDate" />
+        <property name="label" value="Inst Prop Create Date" />
+        <property name="shortLabel" value="Inst Prop Create Date" />
+        <property name="summary" value="Inst Prop Create Date" />
+        <property name="description" value="Inst Prop Create Date" />
+    </bean>
+
+    <bean id="InstitutionalProposalAdminDetails-instPropCreateUser" parent="InstitutionalProposalAdminDetails-instPropCreateUser-parentBean" />
+    <bean id="InstitutionalProposalAdminDetails-instPropCreateUser-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="instPropCreateUser" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Inst Prop Create User" />
+        <property name="shortLabel" value="Inst Prop Create User" />
+        <property name="maxLength" value="8" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Inst Prop Create User" />
+        <property name="description" value="Inst Prop Create User" />
+    </bean>
+
+    <bean id="InstitutionalProposalAdminDetails-signedBy" parent="InstitutionalProposalAdminDetails-signedBy-parentBean" />
+    <bean id="InstitutionalProposalAdminDetails-signedBy-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="signedBy" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Signed By" />
+        <property name="shortLabel" value="Signed By" />
+        <property name="maxLength" value="8" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Signed By" />
+        <property name="description" value="Signed By" />
+    </bean>
+
+    <bean id="InstitutionalProposalAdminDetails-submissionType" parent="InstitutionalProposalAdminDetails-submissionType-parentBean" />
+    <bean id="InstitutionalProposalAdminDetails-submissionType-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="submissionType" />
+        <property name="label" value="Submission Type" />
+        <property name="shortLabel" value="Submission Type" />
+        <property name="summary" value="Submission Type" />
+        <property name="description" value="Submission Type" />
+    </bean>
+
+    <bean id="InstitutionalProposalAdminDetails-versionNumber" parent="InstitutionalProposalAdminDetails-versionNumber-parentBean" />
+    <bean id="InstitutionalProposalAdminDetails-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="InstitutionalProposalAdminDetails-inquiryDefinition" parent="InstitutionalProposalAdminDetails-inquiryDefinition-parentBean" />
+    <bean id="InstitutionalProposalAdminDetails-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Dev Proposal Number" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Dev Proposal Number" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="devProposalNumber" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="instProposalNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="instPropSequenceNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="dateSubmittedByDept" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="dateReturnedToDept" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="dateApprovedByOsp" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="dateSubmittedToAgency" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="instPropCreateDate" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="instPropCreateUser" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="signedBy" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="submissionType" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="InstitutionalProposalAdminDetails-lookupDefinition" parent="InstitutionalProposalAdminDetails-lookupDefinition-parentBean" />
+    <bean id="InstitutionalProposalAdminDetails-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Proposal Admin Details Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="instructions" value="Look up a Proposal Admin Details" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="devProposalNumber" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="instProposalNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="instPropSequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="dateSubmittedByDept" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="dateReturnedToDept" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="dateApprovedByOsp" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="dateSubmittedToAgency" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="instPropCreateDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="instPropCreateUser" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="signedBy" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="submissionType" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="devProposalNumber" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="instProposalNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="instPropSequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="dateSubmittedByDept" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="dateReturnedToDept" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="dateApprovedByOsp" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="dateSubmittedToAgency" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="instPropCreateDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="instPropCreateUser" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="signedBy" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="submissionType" />
+            </list>
+        </property>
+    </bean>
+</beans>
