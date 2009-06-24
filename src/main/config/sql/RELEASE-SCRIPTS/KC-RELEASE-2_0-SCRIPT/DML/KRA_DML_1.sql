@@ -13409,7 +13409,7 @@ insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_
             values(3, 'Fiscal Report Comments', 'Y', 'N', 'Y', sysdate, user);
 
 insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
-            values(1, 'Invoice Instructions', 'N', 'N', 'N', sysdate, user);
+            values(1, 'Invoice Instructions', 'Y', 'N', 'N', sysdate, user);
 
 insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
             values(10, 'Special Review Comments', 'N', 'N', 'N', sysdate, user);
