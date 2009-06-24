@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.committee.web;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -81,7 +82,8 @@ public class CommitteeWebTest extends CommitteeWebTestBase {
         assertEquals(DEFAULT_NAME, getFieldValue(committeePage, COMMITTEE_NAME_ID));
         assertEquals(DEFAULT_MIN_MEMBERS_REQUIRED, getFieldValue(committeePage, COMMITTEE_MIN_MEMBERS_REQUIRED_ID));
         assertEquals(DEFAULT_ADV_SUBMISSION_DAYS_REQUIRED, getFieldValue(committeePage, COMMITTEE_ADV_SUBMISSION_DAYS_REQUIRED_ID));
-        assertEquals(MY_COMMITTEE_ID, getValue(committeePage, "committeeId"));
+        //assertEquals(MY_COMMITTEE_ID, getValue(committeePage, "committeeId"));
+        assertEquals(MY_COMMITTEE_ID,StringUtils.substringBetween(committeePage.asText(),"Committee ID: "," * Committee Name"));
         assertEquals(DEFAULT_DESCRIPTION, getFieldValue(committeePage, COMMITTEE_DESCRIPTION_ID));
         assertEquals(DEFAULT_SCHEDULE_DESCRIPTION, getFieldValue(committeePage, COMMITTEE_SCHEDULE_DESCRIPTION_ID));
     }

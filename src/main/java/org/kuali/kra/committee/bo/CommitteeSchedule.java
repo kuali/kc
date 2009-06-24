@@ -99,9 +99,10 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
     @Column(name="COMMENTS")
     private String comments; 
 	
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="COMMITTEE_ID", insertable=false, updatable=false)
-	private Committee committee; 
+// TODO : recursive reference    
+//    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+//    @JoinColumn(name="COMMITTEE_ID", insertable=false, updatable=false)
+//	private Committee committee; 
 	
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="SCHEDULE_STATUS_CODE", insertable=false, updatable=false)
@@ -241,13 +242,13 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
 		this.comments = comments;
 	}
 
-	public Committee getCommittee() {
-		return committee;
-	}
-
-	public void setCommittee(Committee committee) {
-		this.committee = committee;
-	}
+//	public Committee getCommittee() {
+//		return committee;
+//	}
+//
+//	public void setCommittee(Committee committee) {
+//		this.committee = committee;
+//	}
 
     public ScheduleStatus getScheduleStatus() {
         return scheduleStatus;
