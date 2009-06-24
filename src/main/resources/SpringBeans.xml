@@ -1451,4 +1451,8 @@
 		</property>
 	</bean>
 	-->
+	
+	<bean id="kraDocumentService" class="org.kuali.kra.service.impl.KraDocumentServiceImpl">
+ 	</bean>
+	
 </beans>

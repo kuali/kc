@@ -39,7 +39,7 @@ public class LookupHelper<T extends KraTransactionalDocumentFormBase> implements
     public void resetDocumentActionsForView() {
         form.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_EDIT, "");
         form.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, "");
-        form.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_CLOSE, "");
+//        form.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_CLOSE, "");
         form.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_CANCEL, "");
         form.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_ROUTE, ""); 
     }

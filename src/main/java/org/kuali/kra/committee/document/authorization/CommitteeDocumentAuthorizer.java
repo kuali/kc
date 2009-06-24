@@ -25,6 +25,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
@@ -105,13 +106,28 @@ public class CommitteeDocumentAuthorizer extends TransactionalDocumentAuthorizer
         if (this.hasInitiateAuthorization(document, (new UniversalUser(user)))) {
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
+//            documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
         }
         
         if (canExecuteCommitteeTask((new UniversalUser(user)).getPersonUserIdentifier(), (CommitteeDocument) document, TaskName.SUBMIT_TO_WORKFLOW)) {
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_ROUTE);
 //          NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_ANNOTATE);
+        }
+        // display same buttons like maintenance doc
+        documentActions.remove(KNSConstants.KUALI_ACTION_CAN_ACKNOWLEDGE);
+        documentActions.remove(KNSConstants.KUALI_ACTION_CAN_FYI);
+        documentActions.remove(KNSConstants.KUALI_ACTION_CAN_DISAPPROVE);
+        documentActions.remove(KNSConstants.KUALI_ACTION_CAN_APPROVE);
+        if (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
+            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_ROUTE);
+            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
+            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_CANCEL);
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);            
+            
+        } else {
+            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_RELOAD);            
         }
 
         return documentActions;
