@@ -1,0 +1,301 @@
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="InstitutionalProposalIndirectcostRate" parent="InstitutionalProposalIndirectcostRate-parentBean" />
+    <bean id="InstitutionalProposalIndirectcostRate-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalIndirectcostRate" />
+        <property name="inquiryDefinition" >
+            <ref bean="InstitutionalProposalIndirectcostRate-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="InstitutionalProposalIndirectcostRate-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="proposalIndirectcostRateId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="InstitutionalProposalIndirectcostRate-proposalIndirectcostRateId" />
+                <ref bean="InstitutionalProposalIndirectcostRate-proposalNumber" />
+                <ref bean="InstitutionalProposalIndirectcostRate-sequenceNumber" />
+                <ref bean="InstitutionalProposalIndirectcostRate-applicableIndirectcostRate" />
+                <ref bean="InstitutionalProposalIndirectcostRate-indirectcostRateTypeCode" />
+                <ref bean="InstitutionalProposalIndirectcostRate-fiscalYear" />
+                <ref bean="InstitutionalProposalIndirectcostRate-onCampusFlag" />
+                <ref bean="InstitutionalProposalIndirectcostRate-underrecoveryOfIndirectcost" />
+                <ref bean="InstitutionalProposalIndirectcostRate-sourceAccount" />
+                <ref bean="InstitutionalProposalIndirectcostRate-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="InstitutionalProposalIndirectcostRate-proposalIndirectcostRateId" parent="InstitutionalProposalIndirectcostRate-proposalIndirectcostRateId-parentBean" />
+    <bean id="InstitutionalProposalIndirectcostRate-proposalIndirectcostRateId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalIndirectcostRateId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Proposal Indirectcost Rate Id" />
+        <property name="shortLabel" value="Proposal Indirectcost Rate Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Proposal Indirectcost Rate Id" />
+        <property name="description" value="Proposal Indirectcost Rate Id" />
+    </bean>
+
+    <bean id="InstitutionalProposalIndirectcostRate-proposalNumber" parent="InstitutionalProposalIndirectcostRate-proposalNumber-parentBean" />
+    <bean id="InstitutionalProposalIndirectcostRate-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Proposal Number" />
+        <property name="shortLabel" value="Proposal Number" />
+        <property name="maxLength" value="8" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Proposal Number" />
+        <property name="description" value="Proposal Number" />
+    </bean>
+
+    <bean id="InstitutionalProposalIndirectcostRate-sequenceNumber" parent="InstitutionalProposalIndirectcostRate-sequenceNumber-parentBean" />
+    <bean id="InstitutionalProposalIndirectcostRate-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sequenceNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sequence Number" />
+        <property name="shortLabel" value="Sequence Number" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Sequence Number" />
+        <property name="description" value="Sequence Number" />
+    </bean>
+
+    <bean id="InstitutionalProposalIndirectcostRate-applicableIndirectcostRate" parent="InstitutionalProposalIndirectcostRate-applicableIndirectcostRate-parentBean" />
+    <bean id="InstitutionalProposalIndirectcostRate-applicableIndirectcostRate-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="applicableIndirectcostRate" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Applicable Indirectcost Rate" />
+        <property name="shortLabel" value="Applicable Indirectcost Rate" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Applicable Indirectcost Rate" />
+        <property name="description" value="Applicable Indirectcost Rate" />
+    </bean>
+
+    <bean id="InstitutionalProposalIndirectcostRate-indirectcostRateTypeCode" parent="InstitutionalProposalIndirectcostRate-indirectcostRateTypeCode-parentBean" />
+    <bean id="InstitutionalProposalIndirectcostRate-indirectcostRateTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="indirectcostRateTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Idc Rate Type Code" />
+        <property name="shortLabel" value="Idc Rate Type Code" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Idc Rate Type Code" />
+        <property name="description" value="Idc Rate Type Code" />
+    </bean>
+
+    <bean id="InstitutionalProposalIndirectcostRate-fiscalYear" parent="InstitutionalProposalIndirectcostRate-fiscalYear-parentBean" />
+    <bean id="InstitutionalProposalIndirectcostRate-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="fiscalYear" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Fiscal Year" />
+        <property name="shortLabel" value="Fiscal Year" />
+        <property name="maxLength" value="4" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="5" />
+        </property>
+        <property name="summary" value="Fiscal Year" />
+        <property name="description" value="Fiscal Year" />
+    </bean>
+
+    <bean id="InstitutionalProposalIndirectcostRate-onCampusFlag" parent="InstitutionalProposalIndirectcostRate-onCampusFlag-parentBean" />
+    <bean id="InstitutionalProposalIndirectcostRate-onCampusFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="onCampusFlag" />
+        <property name="label" value="On Campus Flag" />
+        <property name="shortLabel" value="On Campus Flag" />
+        <property name="summary" value="On Campus Flag" />
+        <property name="description" value="On Campus Flag" />
+    </bean>
+
+    <bean id="InstitutionalProposalIndirectcostRate-underrecoveryOfIndirectcost" parent="InstitutionalProposalIndirectcostRate-underrecoveryOfIndirectcost-parentBean" />
+    <bean id="InstitutionalProposalIndirectcostRate-underrecoveryOfIndirectcost-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="underrecoveryOfIndirectcost" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Underrecovery Of Indirectcost" />
+        <property name="shortLabel" value="Underrecovery Of Indirectcost" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Underrecovery Of Indirectcost" />
+        <property name="description" value="Underrecovery Of Indirectcost" />
+    </bean>
+
+    <bean id="InstitutionalProposalIndirectcostRate-sourceAccount" parent="InstitutionalProposalIndirectcostRate-sourceAccount-parentBean" />
+    <bean id="InstitutionalProposalIndirectcostRate-sourceAccount-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sourceAccount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Source Account" />
+        <property name="shortLabel" value="Source Account" />
+        <property name="maxLength" value="7" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Source Account" />
+        <property name="description" value="Source Account" />
+    </bean>
+
+    <bean id="InstitutionalProposalIndirectcostRate-versionNumber" parent="InstitutionalProposalIndirectcostRate-versionNumber-parentBean" />
+    <bean id="InstitutionalProposalIndirectcostRate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="InstitutionalProposalIndirectcostRate-inquiryDefinition" parent="InstitutionalProposalIndirectcostRate-inquiryDefinition-parentBean" />
+    <bean id="InstitutionalProposalIndirectcostRate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Proposal Indirectcost Rate Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Proposal Indirectcost Rate Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="proposalIndirectcostRateId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="proposalNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="sequenceNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="applicableIndirectcostRate" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="indirectcostRateTypeCode" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="fiscalYear" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="onCampusFlag" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="underrecoveryOfIndirectcost" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="sourceAccount" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="InstitutionalProposalIndirectcostRate-lookupDefinition" parent="InstitutionalProposalIndirectcostRate-lookupDefinition-parentBean" />
+    <bean id="InstitutionalProposalIndirectcostRate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Proposal Indirectcost Rate Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="instructions" value="Look up a Proposal Indirectcost Rate" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalIndirectcostRateId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="applicableIndirectcostRate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="indirectcostRateTypeCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="fiscalYear" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="onCampusFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="underrecoveryOfIndirectcost" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sourceAccount" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalIndirectcostRateId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="applicableIndirectcostRate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="indirectcostRateTypeCode" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="fiscalYear" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="onCampusFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="underrecoveryOfIndirectcost" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sourceAccount" />
+            </list>
+        </property>
+    </bean>
+</beans>
