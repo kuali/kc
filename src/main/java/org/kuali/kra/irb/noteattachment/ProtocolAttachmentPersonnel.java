@@ -175,6 +175,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase implemen
     }
 
     public void init(Protocol protocol) {
+        setId(null);
         setProtocolNumber(protocol.getProtocolNumber());
         setProtocol(protocol);
     }
