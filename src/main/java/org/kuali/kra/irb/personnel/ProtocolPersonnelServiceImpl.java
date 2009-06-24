@@ -208,8 +208,8 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * @return true / false
      */
     private boolean isRoleChangedToNewRole(ProtocolPerson protocolPerson, String newRole) {
-        return ((!protocolPerson.getPreviousPersonRoleId().equalsIgnoreCase(protocolPerson.getProtocolPersonRoleId())) 
-                && protocolPerson.getProtocolPersonRoleId().equalsIgnoreCase(newRole));
+        return ((!StringUtils.equalsIgnoreCase(protocolPerson.getPreviousPersonRoleId(), protocolPerson.getProtocolPersonRoleId())) 
+                && StringUtils.equalsIgnoreCase(protocolPerson.getProtocolPersonRoleId(), newRole));
     }
     
     /**
@@ -221,8 +221,8 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      */
     private ProtocolPerson getPreviousInvestigator(List<ProtocolPerson> protocolPersons, String role) {
         for(ProtocolPerson protocolPerson : protocolPersons) {
-            if((protocolPerson.getPreviousPersonRoleId().equalsIgnoreCase(protocolPerson.getProtocolPersonRoleId())) 
-                    && protocolPerson.getProtocolPersonRoleId().equalsIgnoreCase(role)) {
+            if((StringUtils.equalsIgnoreCase(protocolPerson.getPreviousPersonRoleId(), protocolPerson.getProtocolPersonRoleId())) 
+                    && StringUtils.equalsIgnoreCase(protocolPerson.getProtocolPersonRoleId(), role)) {
                 return protocolPerson;
             }
             
