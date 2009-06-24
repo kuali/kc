@@ -62,7 +62,8 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     public String createAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
         ProtocolDocument amendProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolAmendmentNumber(protocolDocument));
         
-        ProtocolAction protocolAction = createCreateAmendmentProtocolAction(protocolDocument.getProtocol());
+        ProtocolAction protocolAction = createCreateAmendmentProtocolAction(protocolDocument.getProtocol(), 
+                                                             amendProtocolDocument.getProtocol().getProtocolNumber());
         protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
         
         return createAmendment(protocolDocument, amendProtocolDocument, amendmentBean);
@@ -74,7 +75,8 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     public String createRenewal(ProtocolDocument protocolDocument) throws Exception {
         ProtocolDocument renewProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolRenewalNumber(protocolDocument));
         
-        ProtocolAction protocolAction = createCreateRenewalProtocolAction(protocolDocument.getProtocol());
+        ProtocolAction protocolAction = createCreateRenewalProtocolAction(protocolDocument.getProtocol(),
+                                                                          renewProtocolDocument.getProtocol().getProtocolNumber());
         protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
         
         ProtocolAmendRenewal protocolAmendRenewal = createAmendmentRenewal(protocolDocument, renewProtocolDocument, null);
@@ -92,7 +94,8 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     public String createRenewalWithAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
         ProtocolDocument renewProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolRenewalNumber(protocolDocument));
         
-        ProtocolAction protocolAction = createCreateRenewalProtocolAction(protocolDocument.getProtocol());
+        ProtocolAction protocolAction = createCreateRenewalProtocolAction(protocolDocument.getProtocol(),
+                                                                          renewProtocolDocument.getProtocol().getProtocolNumber());
         protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
         
         return createAmendment(protocolDocument, renewProtocolDocument, amendmentBean);
@@ -244,18 +247,24 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     /**
      * Create a Protocol Action indicating that an amendment has been created.
      * @param protocol
+     * @param protocolNumber protocol number of the amendment
      * @return a protocol action
      */
-    private ProtocolAction createCreateAmendmentProtocolAction(Protocol protocol) {
-        return new ProtocolAction(protocol, null, ProtocolActionType.AMENDMENT_CREATED);
+    private ProtocolAction createCreateAmendmentProtocolAction(Protocol protocol, String protocolNumber) {
+        ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.AMENDMENT_CREATED);
+        protocolAction.setComments("Amendment " + protocolNumber.substring(11) + " created.");
+        return protocolAction;
     }
     
     /**
      * Create a Protocol Action indicating that a renewal has been created.
      * @param protocol
+     * @param protocolNumber protocol number of the renewal
      * @return a protocol action
      */
-    private ProtocolAction createCreateRenewalProtocolAction(Protocol protocol) {
-        return new ProtocolAction(protocol, null, ProtocolActionType.RENEWAL_CREATED);
+    private ProtocolAction createCreateRenewalProtocolAction(Protocol protocol, String protocolNumber) {
+        ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.RENEWAL_CREATED);
+        protocolAction.setComments("Renewal " + protocolNumber.substring(11) + " created.");
+        return protocolAction;
     }
 }
