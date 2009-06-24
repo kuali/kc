@@ -49,7 +49,7 @@ public class ProtocolAttachmentHelper implements Serializable {
     private ProtocolAttachmentPersonnel newAttachmentPersonnel;
     private ProtocolAttachmentNotification newAttachmentNotification;
     
-    private boolean modifyProtocol;
+    private boolean modifyAttachments;
 
     /**
      * Constructs a helper setting the dependencies to default values.
@@ -96,7 +96,7 @@ public class ProtocolAttachmentHelper implements Serializable {
      * Initialize the permissions for viewing/editing the Custom Data web page.
      */
     private void initializePermissions() {
-        this.modifyProtocol = this.canModifyProtocolAttachments();
+        this.modifyAttachments = this.canModifyProtocolAttachments();
     }
     
     /**
@@ -104,7 +104,7 @@ public class ProtocolAttachmentHelper implements Serializable {
      * @return true if can be modified false if cannot
      */
     private boolean canModifyProtocolAttachments() {
-        final ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, this.getProtocol());
+        final ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ATTACHMENTS, this.getProtocol());
         return this.authService.isAuthorized(this.getUserName(), task);
     }
     
@@ -204,16 +204,16 @@ public class ProtocolAttachmentHelper implements Serializable {
      * returns whether a protocol can be modified.
      * @return true if modification is allowed false if not.
      */
-    public boolean isModifyProtocol() {
-        return this.modifyProtocol;
+    public boolean isModifyAttachments() {
+        return this.modifyAttachments;
     }
 
     /**
      * sets whether a protocol can be modified.
      * @param modifyProtocol true if modification is allowed false if not.
      */
-    public void setModifyProtocol(boolean modifyProtocol) {
-        this.modifyProtocol = modifyProtocol;
+    public void setModifyAttachments(boolean modifyAttachments) {
+        this.modifyAttachments = modifyAttachments;
     }
     
     /**

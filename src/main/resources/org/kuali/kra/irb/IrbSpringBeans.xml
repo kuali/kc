@@ -129,6 +129,46 @@
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolPermissionsAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="modifyProtocolRoles" />
                 </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ModifyProtocolGeneralInfoAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="modifyProtocolGeneralInfo" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ModifyProtocolFundingSourceAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="modifyProtocolFundingSource" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ModifyProtocolReferencesAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="modifyProtocolReferences" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ModifyProtocolOrganizationsAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="modifyProtocolOrganizations" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ModifyProtocolSubjectsAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="modifyProtocolSubjects" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ModifyProtocolAttachmentsAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="modifyProtocolAttachments" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ModifyProtocolAreasOfResearchAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="modifyProtocolAreasOfResearch" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ModifyProtocolSpecialReviewAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="modifyProtocolSpecialReview" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ModifyProtocolPersonnelAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="modifyProtocolPersonnel" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ModifyProtocolOthersAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="modifyProtocolOthers" />
+                </bean>
             </list>
         </property>
     </bean>

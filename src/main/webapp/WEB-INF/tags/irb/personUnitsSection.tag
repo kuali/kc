@@ -23,7 +23,7 @@
 	</c:otherwise>
 </c:choose>
 <bean:define id="protocolPersonUnits" name="KualiForm" property="${protocolPerson}.protocolUnits" />
-<c:set var="readOnly" value="${!KualiForm.personnelHelper.modifyProtocol}" />
+<c:set var="readOnly" value="${!KualiForm.personnelHelper.modifyPersonnel}" />
 <table cellpadding=0 cellspacing=0 summary="">
  	<tr>
 		<td>
@@ -44,7 +44,7 @@
 			          	<%-- Header --%>
 			          	
 			             <%-- New data --%>
-        				<kra:permission value="${KualiForm.personnelHelper.modifyProtocol}">
+        				<kra:permission value="${KualiForm.personnelHelper.modifyPersonnel}">
 				             <tr>
 								<th class="infoline">
 									<c:out value="Add:" />

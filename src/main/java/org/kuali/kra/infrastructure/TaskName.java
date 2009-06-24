@@ -69,6 +69,16 @@ public interface TaskName {
     public static final String CREATE_PROTOCOL_RENEWAL = "createRenewal";
     public static final String MODIFY_PROTOCOL_BILLABLE = "modifyBillable";
     public static final String SUBMIT_PROTOCOL = "submitProtocol";
+    public static final String MODIFY_PROTOCOL_GENERAL_INFO = "modifyProtocolGeneralInfo";
+    public static final String MODIFY_PROTOCOL_FUNDING_SOURCE = "modifyProtocolFundingSource";
+    public static final String MODIFY_PROTOCOL_REFERENCES = "modifyProtocolReferences";
+    public static final String MODIFY_PROTOCOL_ORGANIZATIONS = "modifyProtocolOrganizations";
+    public static final String MODIFY_PROTOCOL_SUBJECTS = "modifyProtocolSubjects";
+    public static final String MODIFY_PROTOCOL_AREAS_OF_RESEARCH = "modifyProtocolAreasOfResearch";
+    public static final String MODIFY_PROTOCOL_ATTACHMENTS = "modifyProtocolAttachments";
+    public static final String MODIFY_PROTOCOL_SPECIAL_REVIEW = "modifyProtocolSpecialReview";
+    public static final String MODIFY_PROTOCOL_PERSONNEL = "modifyProtocolPersonnel";
+    public static final String MODIFY_PROTOCOL_OTHERS = "modifyProtocolOthers";
     
     /*
      * Committee Tasks.
@@ -76,6 +86,4 @@ public interface TaskName {
     public static final String ADD_COMMITTEE = "addCommittee";
     public static final String MODIFY_COMMITTEE = "modifyCommittee";
     public static final String VIEW_COMMITTEE = "viewCommittee";
-       
-    
 }

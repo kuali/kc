@@ -70,6 +70,13 @@ public class ProtocolHelper implements Serializable {
     private ProtocolFundingSource newFundingSource;
     
     private boolean editProtocolFundingSourceName = false;
+    
+    private boolean modifyGeneralInfo = false;
+    private boolean modifyFundingSource = false;
+    private boolean modifyReferences = false;
+    private boolean modifyOrganizations = false;
+    private boolean modifySubjects = false;
+    private boolean modifyAreasOfResearch = false;
 
     
     public boolean isEditProtocolFundingSourceName() {
@@ -123,8 +130,15 @@ public class ProtocolHelper implements Serializable {
      */
     private void initializePermissions(Protocol protocol) {
         initializeModifyProtocolPermission(protocol);
-        if(displayBillable)
+        if(displayBillable) {
             initializeBillablePermission(protocol);   
+        }
+        initializeModifyGeneralInfoPermission(protocol);
+        initializeModifyFundingSourcePermission(protocol);
+        initializeModifyReferencesPermission(protocol);
+        initializeModifyOrganizationsPermission(protocol);
+        initializeModifySubjectsPermission(protocol);
+        initializeModifyAreasOfResearchPermission(protocol);
     }
 
     private void initializeModifyProtocolPermission(Protocol protocol) {
@@ -136,7 +150,37 @@ public class ProtocolHelper implements Serializable {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_BILLABLE, protocol);
         billableReadOnly = !getTaskAuthorizationService().isAuthorized(getUsername(), task);
     }
-
+    
+    private void initializeModifyGeneralInfoPermission(Protocol protocol) {
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_GENERAL_INFO, protocol);
+        modifyGeneralInfo = getTaskAuthorizationService().isAuthorized(getUsername(), task);
+    }
+    
+    private void initializeModifyFundingSourcePermission(Protocol protocol) {
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_FUNDING_SOURCE, protocol);
+        modifyFundingSource = getTaskAuthorizationService().isAuthorized(getUsername(), task);
+    }
+    
+    private void initializeModifyReferencesPermission(Protocol protocol) {
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_REFERENCES, protocol);
+        modifyReferences = getTaskAuthorizationService().isAuthorized(getUsername(), task);
+    }
+    
+    private void initializeModifyOrganizationsPermission(Protocol protocol) {
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ORGANIZATIONS, protocol);
+        modifyOrganizations = getTaskAuthorizationService().isAuthorized(getUsername(), task);
+    }
+    
+    private void initializeModifySubjectsPermission(Protocol protocol) {
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SUBJECTS, protocol);
+        modifySubjects = getTaskAuthorizationService().isAuthorized(getUsername(), task);
+    }
+    
+    private void initializeModifyAreasOfResearchPermission(Protocol protocol) {
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AREAS_OF_RESEARCH, protocol);
+        modifyAreasOfResearch = getTaskAuthorizationService().isAuthorized(getUsername(), task);
+    }
+    
     /**
      * This method is to get parameter value
      * @return parameter value
@@ -456,5 +500,29 @@ public class ProtocolHelper implements Serializable {
 
     public void setNewFundingSource(ProtocolFundingSource newFundingSource) {
         this.newFundingSource = newFundingSource;
+    }
+    
+    public boolean getModifyFundingSource() {
+        return modifyFundingSource;
+    }
+
+    public boolean getModifyGeneralInfo() {
+        return modifyGeneralInfo;
+    }
+
+    public boolean getModifyReferences() {
+        return modifyReferences;
+    }
+
+    public boolean getModifyOrganizations() {
+        return modifyOrganizations;
+    }
+
+    public boolean getModifySubjects() {
+        return modifySubjects;
+    }
+
+    public boolean getModifyAreasOfResearch() {
+        return modifyAreasOfResearch;
     }
 }

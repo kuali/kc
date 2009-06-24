@@ -17,7 +17,7 @@
 
 <c:set var="protocolAttachmentPersonnelAttributes" value="${DataDictionary.ProtocolAttachmentPersonnel.attributes}" />
 <c:set var="notesAndAttachmentsHelper" value="${KualiForm.notesAndAttachmentsHelper}" />
-<c:set var="modify" value="${KualiForm.notesAndAttachmentsHelper.modifyProtocol}" />
+<c:set var="modify" value="${KualiForm.notesAndAttachmentsHelper.modifyAttachments}" />
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentPersonnels" value="${KualiForm.document.protocolList[0].attachmentPersonnels}"/>
 

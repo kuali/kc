@@ -58,7 +58,7 @@ public class CustomDataHelper extends CustomDataHelperBase {
      */
     @Override
     public boolean canModifyCustomData() {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, getProtocol());
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_OTHERS, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserName(), task);
     }
 }

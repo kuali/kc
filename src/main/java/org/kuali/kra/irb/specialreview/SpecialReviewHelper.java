@@ -36,7 +36,7 @@ public class SpecialReviewHelper implements Serializable {
      */
     private ProtocolForm form;
     
-    private boolean modifyProtocol = false;
+    private boolean modifySpecialReview = false;
     
     private ProtocolSpecialReview newSpecialReview;
     private List<ProtocolSpecialReviewExemption> newSpecialReviewExemptions;
@@ -58,8 +58,8 @@ public class SpecialReviewHelper implements Serializable {
     }
     
     private void initializePermissions(Protocol protocol) {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocol);
-        modifyProtocol = getTaskAuthorizationService().isAuthorized(getUsername(), task);   
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SPECIAL_REVIEW, protocol);
+        modifySpecialReview = getTaskAuthorizationService().isAuthorized(getUsername(), task);   
     }
     
     private Protocol getProtocol() {
@@ -70,8 +70,8 @@ public class SpecialReviewHelper implements Serializable {
         return document.getProtocol();
     }
     
-    public boolean getModifyProtocol() {
-        return modifyProtocol;
+    public boolean getModifySpecialReview() {
+        return modifySpecialReview;
     }
 
     public ProtocolSpecialReview getNewSpecialReview() {
