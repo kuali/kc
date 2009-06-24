@@ -1,4 +1,4 @@
-  function getQuestionNew(description, vers) {
+  function getQuestionNew(description, vers, childNode) {
   
      var qnaireid =  "qnaireid"+i
      var question = $('<li class="closed"></li>').attr("id", qnaireid);
@@ -29,15 +29,19 @@
      getRequirementDisplayTable().appendTo(td1);
                                                                                  
      var div192 = $('<div></div>').attr("id","HSReqdiv"+i);
-     var tbl196 = $('<table cellpadding="0" cellspacing="0" class="elementtable" style="width:100%; border-top:none;"></table>');
-     getAddRequirementRow().appendTo(tbl196);
-     tbl196.appendTo(div192);
-                         
-                         
-     var tbl266 = $('<table cellpadding="0" cellspacing="0" class="elementtable" style="width:100%; border-top:none;"></table>').attr("id","tbl266-"+i);
-     getRequirementDeleteRow("1", "Current Requirements:", "Matches text", "Yes").appendTo(tbl266);
-     getRequirementDeleteRow("2", "(or)", "Matches text", "Sometimes").appendTo(tbl266);
-     tbl266.appendTo(div192);
+     if (childNode == 'true') {
+         //alert("childnode = "+childNode);
+         var tbl196 = $('<table cellpadding="0" cellspacing="0" class="elementtable" style="width:100%; border-top:none;"></table>');
+         getAddRequirementRow().appendTo(tbl196);
+         tbl196.appendTo(div192);
+                                                  
+         var tbl266 = $('<table cellpadding="0" cellspacing="0" class="elementtable" style="width:100%; border-top:none;"></table>').attr("id","tbl266-"+i).html('<tbody/>');
+         //getRequirementDeleteRow("1", "Current Requirements:", "Matches text", "Yes").appendTo(tbl266);
+         //getRequirementDeleteRow("2", "(or)", "Matches text", "Sometimes").appendTo(tbl266);
+         tbl266.appendTo(div192);
+     } else {
+         div192.html("There can be no Requirements for Display on root-level questions. ");
+     }
      div192.appendTo(td1);
                                                                                              
      var tbl325 = $('<table width="100%" cellpadding="0" cellspacing="0" style="border-top:#E4E3E4 solid 1px;">');
@@ -212,7 +216,7 @@
                           $("#moveup"+idx).hide();
                           $("#movedn"+idx).hide();
                       } else {
-                          alert("prev "+$("#qnaireid"+idx).prev().attr("id"));
+                          //alert("prev "+$("#qnaireid"+idx).prev().attr("id"));
                           $("#movedn"+idx).hide();
                           $("#movedn"+$("#qnaireid"+idx).prev().attr("id").substring(8)).show();
                       }
@@ -237,7 +241,7 @@
   function getMoveDownLink() {
       var image = $('<img style="border:none;" alt="move down" title="Move Down" type="image" >');
       var atag = $('<a href="#"></a>').attr("id","movedn"+i).click(function() {
-          alert("move down"+$(this).parents('li:eq(0)').next().size());
+          //alert("move down"+$(this).parents('li:eq(0)').next().size());
           var curNode = $(this).parents('li:eq(0)').clone(true);
           var nextNode = $(this).parents('li:eq(0)').next();
           $(this).parents('li:eq(0)').remove();
@@ -245,11 +249,11 @@
           $("#moveup"+curNode.attr("id").substring(8)).show();
           $("#movedn"+nextNode.attr("id").substring(8)).show();
           if (nextNode.prev().size() == 0) {
-              alert("move up next node");
+              //alert("move up next node");
               $("#moveup"+nextNode.attr("id").substring(8)).hide();
           }
           if (curNode.next().size() == 0) {
-             alert ("move dn no next node ");
+             //alert ("move dn no next node ");
               $("#movedn"+curNode.attr("id").substring(8)).hide();
           }
       }); 
@@ -262,8 +266,15 @@
   function getMoveUpLink() {
       var image = $('<img style="border:none;" alt="move up" title="Move up" type="image" >');
       var atag = $('<a href="#"></a>').attr("id","moveup"+i).click(function() {
-          alert("move up"+$(this).parents('li:eq(0)').prev().size());
+          //alert("move up"+$(this).parents('li:eq(0)').prev().size());
           var curNode = $(this).parents('li:eq(0)').clone(true);
+          //var curNode = $(this).parents('li:eq(0)').clone(true);
+          // TODO : trying to resolve IE issue
+          //if( !!document.all ) {
+          //curNode.html($(this).parents('li:eq(0)').html());
+          //alert(curNode.html());
+          //}
+          
           var nextNode = $(this).parents('li:eq(0)').prev();
           $(this).parents('li:eq(0)').remove();
           curNode.insertBefore(nextNode);
@@ -294,20 +305,30 @@
      $('<span>as child</span>').appendTo(tdtmp);
      tdtmp.appendTo(trtmp);
   
-     tdtmp = $('<td style="border:none;"></td>').html($('<input type="text" size="50" value="" />').attr("id","qdesc"+i));
+     tdtmp = $('<td style="border:none;"></td>').html($('<input type="text" id = "qdesc" name = "qdesc" size="50" value="" />').attr("id","qdesc"+i));
      tdtmp.appendTo(trtmp);
      tdtmp = $('<td style="border:none; width:30px; text-align:center;"></td>');
 
      var atag = $('<a href="#"></a>');
 
-     var qntag = $('<input type="hidden"/>').attr("id","qid"+i).attr("name","qid"+i);
+     var qntag = $('<input type="hidden" id = "qid" name = "qid" />').attr("id","qid"+i).attr("name","qid"+i);
      qntag.appendTo(tdtmp);
-     var image = $('<img src="/kra-dev/static/images/searchicon.gif" border="0" class="tinybutton"  alt="Search Question" title="Search Question">').attr("id","search"+i); 
+     var image = $('<img src="/kra-dev/static/images/searchicon.gif" id="searchQ" name="searchQ" border="0" class="tinybutton"  alt="Search Question" title="Search Question">').attr("id","search"+i).attr("name","search"+i); 
      //image.attr("name","methodToCall\.performLookup\.(!!org\.kuali\.kra\.questionnaire\.question\.Question!!)\.(((questionId:document\.newMaintainableObject\.questionId,)))\.((#document\.newMaintainableObject\.questionId:questionId,#))\.((<>))\.(([]))\.((**))\.((^^))\.((&&))\.((/rateClassTypeT/))\.((~~))\.anchor1");
      //image.attr("name","methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:document.newMaintainableObject.questionId,))).((#document.newMaintainableObject.questionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/rateClassTypeT/)).((~~)).anchor1");
      //image.attr("name","methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:document.newMaintainableObject.questionId,))).((#document.newMaintainableObject.questionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/rateClassTypeT/)).((~~)).anchor1");
      image.click(function() {
-         checkToAddQn($(this).attr("id").substring(6));
+         //alert($(this).parents('li:eq(0)').attr("id"));
+         // TODO : IE problem.  after the node is moved up or down, then the "id" of the image got lost.
+         // so, before figuring a solution, use this alternative to fin parents id.
+         var idx;
+         if ($(this).attr("id") != '') {
+             idx = $(this).attr("id").substring(6);
+         } else {
+             idx = $(this).parents('li:eq(0)').attr("id").substring(8);
+         }
+         //alert (idx)
+         checkToAddQn(idx);
          return false;
      });
      atag.html(image);
@@ -321,17 +342,23 @@
   
       image = $('<input name="addquestionnaire" src="/kra-dev/kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" />').attr("id","addQn"+i).click(function() {
         //alert("This would add question "+$(".radioQn"+$(this).attr("id").substring(5)+":checked").val()+"-"+$("#newQuestionId").attr("value")+"-"+$("#newQuestion").attr("value"));  
-        alert("This would add question "+$(this).parents('li:eq(0)').children('ul:eq(0)').size()+"-"+$(".radioQn"+$(this).attr("id").substring(5)+":checked").val());  
+//        alert("This would add question "+$(this).parents('li:eq(0)').children('ul:eq(0)').size()+"-"+$(".radioQn"+$(this).attr("id").substring(5)+":checked").val());  
+        //alert("This would add question "+$(this).attr("id"));  
         
         
             i++;
 
-            var listitem = getQuestionNew($("#qdesc"+$(this).attr("id").substring(5)).attr("value"), "V1.01");
+            var radioVal = $(".radioQn"+$(this).attr("id").substring(5)+":checked").val();
+            var childNode = 'true';
+            if (radioVal == 'sibling' && $(this).parents('li:eq(0)').parents('ul:eq(0)').attr("id") == 'example') {
+                childNode = 'false';
+            }
+            var listitem = getQuestionNew($("#qdesc"+$(this).attr("id").substring(5)).attr("value"), "V1.01", childNode);
 			var ultag = $('<ul></ul>');
             ultag.appendTo(listitem);
             var idx = listitem.attr("id").substring(8);
-            if ($(".radioQn"+$(this).attr("id").substring(5)+":checked").val() == 'sibling') {
-              alert('sibling');
+            if (radioVal == 'sibling') {
+              //alert('sibling');
               var parentUl = $(this).parents('li:eq(0)').parents('ul:eq(0)');
               listitem.appendTo(parentUl);
               //listitem.appendTo('ul#example');
@@ -348,7 +375,7 @@
                  $("#moveup"+idx).hide();
                  $("#movedn"+idx).hide();
               } else {
-                 alert("prev "+listitem.prev().attr("id"));
+                 //alert("prev "+listitem.prev().attr("id"));
                  $("#movedn"+idx).hide();
                  $("#movedn"+listitem.prev().attr("id").substring(8)).show();
               }
@@ -367,7 +394,13 @@
         var tdtmp1 = $('<td></td>').html(intag);
         trtmp1.html(tdtmp1);
         trtmp1.appendTo($("#question-table"));
-        
+        if (childNode == 'true') {
+           alert("parent li "+$(this).parents('li:eq(0)').attr("id"));
+          // $(this).parents('li:eq(0)').click();
+           //$(this).parents('li:eq(0)').toggle('fast');
+        }
+       // $("#listcontrol"+i).click(); // to see if this item can become focus
+        //$("#listcontrol"+i).click(); // to see if this item can become focus
         
         return false;
       });
@@ -430,16 +463,28 @@
       tdtmp.appendTo(trtmp);
       tdtmp = $('<td class="content_info" class="content_white" style="width:65px; text-align:center;"></td>');
       image = $('<input name="addquestionnairetemplate" src="/kra-dev/kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" />').click(function() {
-        alert("This would add the specified requirement."+$(this).parents('tr:eq(0)').children('td:eq(0)').children('select:eq(0)').attr("value"));  
+        //alert("This would add the specified requirement."+$(this).parents('tr:eq(0)').children('td:eq(0)').children('select:eq(0)').attr("value"));  
         var operator = $(this).parents('tr:eq(0)').children('td:eq(0)').children('select:eq(0)').attr("value");
         var response = $(this).parents('tr:eq(0)').children('td:eq(1)').children('select:eq(0)').attr("value");
         var value = $(this).parents('tr:eq(0)').children('td:eq(2)').children('input:eq(0)').attr("value");
         //var newResponse = getRequirementDeleteRow(sequenceNum, opArray[operator], responseArray[response], value)
         // it seems that 'tbody' is implicitly created.
         var sequence = $(this).parents('div:eq(0)').children('table:eq(1)').children('tbody').children('tr').size() +1;
-        alert (sequence +"- "+operator+"-"+response+"-"+responseArray[0]);
-        var newResponse = getRequirementDeleteRow(sequence, opArray[operator], responseArray[response], value);
-        newResponse.appendTo($(this).parents('div:eq(0)').children('table:eq(1)').children('tbody'));
+        alert (sequence +"- "+operator+"-"+response+"-"+$(this).parents('div:eq(0)').children('table:eq(1)').children('tbody').size());
+        if (sequence == 1 && operator != 0) {
+           alert("This is the first requirement, and operator is not needed");
+        } else {
+            if (okToAddRequirement(sequence,operator,response,value)) {      
+                var opDesc;  
+                if (sequence == 1) {
+                     opDesc = "Current Requirements:";
+                } else {
+                     opDesc = opArray[operator];
+                }
+                var newResponse = getRequirementDeleteRow(sequence, opDesc, responseArray[response], value);
+                newResponse.appendTo($(this).parents('div:eq(0)').children('table:eq(1)').children('tbody'));
+            }
+        }
         return false;
       });
 
@@ -447,6 +492,23 @@
       tdtmp.appendTo(trtmp);
       return trtmp;  
   }
+  
+  function okToAddRequirement(sequence,operator,response,value) {
+      var valid = false;
+      if (value == '') {
+           alert("Please enter a value");
+      } else if (response == 0) {
+           alert("Please select a response");
+      } else if (sequence == 1 && operator != 0) {
+           alert("This is the first requirement, and operator is not needed");
+      } else if (sequence > 1 && operator == 0) {
+           alert("Please select an operator");
+      } else {
+         valid = true;
+      }
+      return valid;   
+  }
+  
   
   function getRequirementDeleteRow(sequenceNum, operator, response, value) {
       var trtmp = $('<tr></tr>');
@@ -465,6 +527,9 @@
             // loop to update sequence #
             nextNode.children('td:eq(0)').children('div:eq(0)').remove();
             nextNode.children('td:eq(0)').html($('<div></div>').html(nextSeq));
+            if (nextSeq == 1) {
+                nextNode.children('th:eq(0)').html("Current Requirements:");
+            }
             nextSeq++;
             nextNode = nextNode.next();
          }
@@ -484,7 +549,7 @@
 		//alert (childrenNode[0].isLeaf+" ln "+leafNode);
 		//if (childrenNode.length == 0 || childrenNode[0].isLeaf) {
 		//    updateSponsorCodes();
-		alert(nodeIndex);
+		//alert(nodeIndex);
 			  url=window.location.href
 			  pathname=window.location.pathname
 			  idx1=url.indexOf(pathname);
