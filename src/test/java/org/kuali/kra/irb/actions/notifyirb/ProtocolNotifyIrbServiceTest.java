@@ -146,7 +146,7 @@ public class ProtocolNotifyIrbServiceTest extends KraTestBase {
         CommitteeDocument committeeDocument = CommitteeFactory.createCommitteeDocument(committeeId);
         Committee committee = committeeDocument.getCommittee();
         CommitteeSchedule schedule = new CommitteeSchedule();
-        schedule.setCommittee(committee);
+        //schedule.setCommittee(committee);
         schedule.setCommitteeId(committee.getId());
         schedule.setScheduleId("1");
         schedule.setPlace("my office");
