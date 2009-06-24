@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.copy;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
