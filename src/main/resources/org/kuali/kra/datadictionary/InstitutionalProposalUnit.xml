@@ -1,0 +1,226 @@
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="InstitutionalProposalUnit" parent="InstitutionalProposalUnit-parentBean" />
+    <bean id="InstitutionalProposalUnit-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnit" />
+        <property name="inquiryDefinition" >
+            <ref bean="InstitutionalProposalUnit-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="InstitutionalProposalUnit-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="proposalUnitsId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="InstitutionalProposalUnit-proposalUnitsId" />
+                <ref bean="InstitutionalProposalUnit-proposalNumber" />
+                <ref bean="InstitutionalProposalUnit-sequenceNumber" />
+                <ref bean="InstitutionalProposalUnit-personId" />
+                <ref bean="InstitutionalProposalUnit-unitNumber" />
+                <ref bean="InstitutionalProposalUnit-leadUnitFlag" />
+                <ref bean="InstitutionalProposalUnit-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="InstitutionalProposalUnit-proposalUnitsId" parent="InstitutionalProposalUnit-proposalUnitsId-parentBean" />
+    <bean id="InstitutionalProposalUnit-proposalUnitsId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalUnitsId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Proposal Units Id" />
+        <property name="shortLabel" value="Proposal Units Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Proposal Units Id" />
+        <property name="description" value="Proposal Units Id" />
+    </bean>
+
+    <bean id="InstitutionalProposalUnit-proposalNumber" parent="InstitutionalProposalUnit-proposalNumber-parentBean" />
+    <bean id="InstitutionalProposalUnit-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Proposal Number" />
+        <property name="shortLabel" value="Proposal Number" />
+        <property name="maxLength" value="8" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Proposal Number" />
+        <property name="description" value="Proposal Number" />
+    </bean>
+
+    <bean id="InstitutionalProposalUnit-sequenceNumber" parent="InstitutionalProposalUnit-sequenceNumber-parentBean" />
+    <bean id="InstitutionalProposalUnit-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sequenceNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sequence Number" />
+        <property name="shortLabel" value="Sequence Number" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Sequence Number" />
+        <property name="description" value="Sequence Number" />
+    </bean>
+
+    <bean id="InstitutionalProposalUnit-personId" parent="InstitutionalProposalUnit-personId-parentBean" />
+    <bean id="InstitutionalProposalUnit-personId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="personId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Person Id" />
+        <property name="shortLabel" value="Person Id" />
+        <property name="maxLength" value="9" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Person Id" />
+        <property name="description" value="Person Id" />
+    </bean>
+
+    <bean id="InstitutionalProposalUnit-unitNumber" parent="InstitutionalProposalUnit-unitNumber-parentBean" />
+    <bean id="InstitutionalProposalUnit-unitNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="unitNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Unit Number" />
+        <property name="shortLabel" value="Unit Number" />
+        <property name="maxLength" value="8" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Unit Number" />
+        <property name="description" value="Unit Number" />
+    </bean>
+
+    <bean id="InstitutionalProposalUnit-leadUnitFlag" parent="InstitutionalProposalUnit-leadUnitFlag-parentBean" />
+    <bean id="InstitutionalProposalUnit-leadUnitFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="leadUnitFlag" />
+        <property name="label" value="Lead Unit Flag" />
+        <property name="shortLabel" value="Lead Unit Flag" />
+        <property name="summary" value="Lead Unit Flag" />
+        <property name="description" value="Lead Unit Flag" />
+    </bean>
+
+    <bean id="InstitutionalProposalUnit-versionNumber" parent="InstitutionalProposalUnit-versionNumber-parentBean" />
+    <bean id="InstitutionalProposalUnit-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="InstitutionalProposalUnit-inquiryDefinition" parent="InstitutionalProposalUnit-inquiryDefinition-parentBean" />
+    <bean id="InstitutionalProposalUnit-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Proposal Units Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Proposal Units Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="proposalUnitsId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="proposalNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="sequenceNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="personId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="unitNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="leadUnitFlag" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="InstitutionalProposalUnit-lookupDefinition" parent="InstitutionalProposalUnit-lookupDefinition-parentBean" />
+    <bean id="InstitutionalProposalUnit-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Proposal Units Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="instructions" value="Look up a Proposal Units" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalUnitsId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="personId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="unitNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="leadUnitFlag" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalUnitsId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="personId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="unitNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="leadUnitFlag" />
+            </list>
+        </property>
+    </bean>
+</beans>
