@@ -712,4 +712,15 @@ public class BudgetForm extends ProposalFormBase {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
     }
     
+    /**
+     * Retrieves the {@link BudgetDocument BudgetDocument}.
+     * @return {@link BudgetDocument BudgetDocument}
+     */
+    @Override
+    public BudgetDocument getDocument() {
+        //overriding and using covariant return to avoid casting
+        //Document to BudgetDocument everywhere
+        return (BudgetDocument) super.getDocument();
+    }
+    
 }

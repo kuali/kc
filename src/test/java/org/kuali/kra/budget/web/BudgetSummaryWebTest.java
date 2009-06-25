@@ -23,7 +23,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class BudgetSummaryWebTest extends ProposalDevelopmentWebTestBase {
     private static final String PDDOC_BUDGET_VERSIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.budgetVersions.x";
-    private static final String BDOC_BUDGET_SUMMARY_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.summaryTotals.x";
+    private static final String BDOC_BUDGET_SUMMARY_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.parameters.x";
     private static final String NEW_BUDGET_VERSION_NAME = "newBudgetVersionName";
     private static final String ADD_BUDGET_PERIOD_BUTTON = "methodToCall.addBudgetPeriod";
     private static final String DEL_BUDGET_PERIOD_BUTTON = "methodToCall.deleteBudgetPeriod.line1.anchor1";
@@ -50,9 +50,9 @@ public class BudgetSummaryWebTest extends ProposalDevelopmentWebTestBase {
         /* get budget version page in proposal development module */
         HtmlPage proposalBudgetVersionsPage = getBudgetVersionsPage();
         /* add new version and open budget version page in budget module */
-        HtmlPage budgetVersionsPage = addBudgetVersion(proposalBudgetVersionsPage);
+        HtmlPage budgetSummaryPage = addBudgetVersion(proposalBudgetVersionsPage);
         /* get budget summary page */
-        HtmlPage budgetSummaryPage = clickOn(budgetVersionsPage, BDOC_BUDGET_SUMMARY_LINK_NAME);
+        //HtmlPage budgetSummaryPage = clickOn(budgetVersionsPage, BDOC_BUDGET_SUMMARY_LINK_NAME);
 
         /* check proposal start and end dates set in summary page */
         assertContains(budgetSummaryPage, DEFAULT_PROPOSAL_REQUESTED_START_DATE);
@@ -62,7 +62,8 @@ public class BudgetSummaryWebTest extends ProposalDevelopmentWebTestBase {
         assertContains(budgetSummaryPage, PERIOD2_START_DATE);
         assertContains(budgetSummaryPage, PERIOD2_END_DATE);
         
-        HtmlPage saveBudgetSummaryPage = saveDoc(budgetSummaryPage);
+        //HtmlPage saveBudgetSummaryPage = saveDoc(budgetSummaryPage);
+        HtmlPage saveBudgetSummaryPage = clickOn(budgetSummaryPage, "methodToCall.save");
         assertDoesNotContain(saveBudgetSummaryPage, ERRORS_FOUND_ON_PAGE);
         assertContains(saveBudgetSummaryPage, SAVE_SUCCESS_MESSAGE);
         
@@ -134,9 +135,9 @@ public class BudgetSummaryWebTest extends ProposalDevelopmentWebTestBase {
         /* get budget version page in proposal development module */
         HtmlPage proposalBudgetVersionsPage = getBudgetVersionsPage();
         /* add new version and open budget version page in budget module */
-        HtmlPage budgetVersionsPage = addBudgetVersion(proposalBudgetVersionsPage);
+        HtmlPage budgetSummaryPage = addBudgetVersion(proposalBudgetVersionsPage);
         /* get budget summary page */
-        HtmlPage budgetSummaryPage = clickOn(budgetVersionsPage, BDOC_BUDGET_SUMMARY_LINK_NAME);
+        //HtmlPage budgetSummaryPage = clickOn(budgetVersionsPage, BDOC_BUDGET_SUMMARY_LINK_NAME);
         return budgetSummaryPage;
     }
 
