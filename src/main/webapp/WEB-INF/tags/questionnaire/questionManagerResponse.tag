@@ -147,8 +147,15 @@
                 <%-- Start Lookup --%>
                 <kra-questionnaire:questionManagerResponseDivStyle questionType="Lookup" />
                     <p>
-                        The user will be presented with the ability to search for ____. <br />
-                        The field to return is ______. <br />
+                        The user will be presented with the ability to search for 
+                        <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.lookupGui" 
+                                                  attributeEntry="${DataDictionary.Question.attributes.lookupGui}"
+                                                  onchange="updateLookupReturn(this, updateLookupReturn_Callback)"
+                                                  readOnly="${readOnly}" />. <br />
+                        The field to return is 
+                        <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.lookupName" 
+                                                  attributeEntry="${DataDictionary.Question.attributes.lookupName}"
+                                                  readOnly="${readOnly}" />. <br />
                         The number of possible returns is
                         <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.maxAnswers" 
                                                   attributeEntry="${DataDictionary.Question.attributes.maxAnswers}" 
