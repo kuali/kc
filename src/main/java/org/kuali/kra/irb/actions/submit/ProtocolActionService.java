@@ -26,5 +26,7 @@ public interface ProtocolActionService {
     public abstract List<String> getActionsAllowed(Protocol protocol);
 
     public abstract void updateProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol);
+    
+    public boolean isActionAllowed(String actionTypeCode, Protocol protocol);
 
 }
