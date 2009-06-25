@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.contacts;
 
-import org.kuali.kra.award.bo.ContactRole;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 
 /**

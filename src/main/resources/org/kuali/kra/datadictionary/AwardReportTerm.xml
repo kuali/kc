@@ -207,7 +207,7 @@
 		</property>
 		<property name="control" >
 			<bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.bo.Distribution"
+	            p:businessObjectClass="org.kuali.kra.award.home.Distribution"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
 	            p:includeBlankRow="false"

@@ -17,7 +17,7 @@ package org.kuali.kra.award.rules;
 
 import java.util.List;
 
-import org.kuali.kra.award.bo.AwardSponsorTerm;
+import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.award.rule.AwardSponsorTermRule;
 import org.kuali.kra.award.rule.event.AwardSponsorTermRuleEvent;
 import org.kuali.kra.bo.SponsorTerm;

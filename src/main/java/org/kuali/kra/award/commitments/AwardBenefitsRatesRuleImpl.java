@@ -19,8 +19,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.ValidRates;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;

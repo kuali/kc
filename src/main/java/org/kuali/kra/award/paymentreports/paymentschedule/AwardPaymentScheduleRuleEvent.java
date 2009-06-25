@@ -16,8 +16,8 @@
 package org.kuali.kra.award.paymentreports.paymentschedule;
 
 import org.apache.log4j.Logger;
-import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.rule.BusinessRule;
 

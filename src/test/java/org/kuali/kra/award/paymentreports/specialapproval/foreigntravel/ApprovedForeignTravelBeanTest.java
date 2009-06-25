@@ -22,7 +22,7 @@ import java.util.GregorianCalendar;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.SpecialApprovalBean;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.KualiRuleService;

@@ -16,9 +16,9 @@
 package org.kuali.kra.award.rule.event;
 
 import org.apache.log4j.Logger;
-import org.kuali.kra.award.bo.AwardSponsorTerm;
 import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.award.rule.AwardSponsorTermRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.rule.BusinessRule;

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kra.award.bo.ContactRole;
+import org.kuali.kra.award.home.ContactRole;
 
 /**
  * This class models the UnitAdministratorType

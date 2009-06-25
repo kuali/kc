@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.rules;
 
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.rule.AwardTemplateSyncRule;
 import org.kuali.kra.award.rule.event.AwardTemplateSyncEvent;
 import org.kuali.kra.infrastructure.KeyConstants;

@@ -17,7 +17,7 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.award.bo.ContactRole;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -118,14 +118,14 @@ public class ProposalPersonRole extends KraPersistableBusinessObjectBase impleme
     }
 
     /**
-     * @see org.kuali.kra.award.bo.ContactRole#getRoleCode()
+     * @see org.kuali.kra.award.home.ContactRole#getRoleCode()
      */
     public String getRoleCode() {
         return getProposalPersonRoleId();
     }
 
     /**
-     * @see org.kuali.kra.award.bo.ContactRole#getRoleDescription()
+     * @see org.kuali.kra.award.home.ContactRole#getRoleDescription()
      */
     public String getRoleDescription() {
         return getDescription();

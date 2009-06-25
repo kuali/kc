@@ -18,8 +18,8 @@ package org.kuali.kra.award.paymentreports.awardreports;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.award.bo.AwardSyncable;
-import org.kuali.kra.award.bo.ContactType;
+import org.kuali.kra.award.home.AwardSyncable;
+import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 
