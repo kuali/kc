@@ -21,6 +21,10 @@ INSERT INTO KRIM_ENTITY_EMAIL_T (ACTV_IND,DFLT_IND,EMAIL_ADDR,EMAIL_TYP_CD,ENTIT
 INSERT INTO KRIM_ENTITY_NM_T (ACTV_IND,DFLT_IND,ENTITY_ID,ENTITY_NM_ID,FIRST_NM,LAST_NM,LAST_UPDT_DT,NM_TYP_CD,OBJ_ID,VER_NBR)
   VALUES ('Y','Y','1141','1253','Andy ','Slusar',sysdate,'PFRD',sys_guid(),1)
 ;
+ insert into krim_grp_t (GRP_ID, OBJ_ID,VER_NBR,GRP_NM,NMSPC_CD,GRP_DESC,KIM_TYP_ID, ACTV_IND,LAST_UPDT_DT ) values ( 
+  '2416',   '6881E3E6D98542DAE0404F8189D85E85',1,'OSP Superuser', 'KC','OSP SuperUser to allow Blanket Approval for Proposal documents','','Y', sysdate);
+ insert into krim_grp_t (GRP_ID, OBJ_ID,VER_NBR,GRP_NM,NMSPC_CD,GRP_DESC,KIM_TYP_ID, ACTV_IND,LAST_UPDT_DT ) values ( 
+  '2425',   '6881E3E6D98542DAE0404F8189D85E86',1,'OSP', 'KC','OSP Office for Proposal Review and Approval','','Y', sysdate);
 
 insert into KRIM_GRP_MBR_T(GRP_MBR_ID,GRP_ID,MBR_ID,MBR_TYP_CD,LAST_UPDT_DT,OBJ_ID,VER_NBR) 
   VALUES ('1186','2416','aslusar','P', sysdate,sys_guid(),1)
