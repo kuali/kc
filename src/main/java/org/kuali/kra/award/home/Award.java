@@ -33,6 +33,8 @@ import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
+import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;

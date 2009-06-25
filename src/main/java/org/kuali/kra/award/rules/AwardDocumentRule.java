@@ -45,7 +45,7 @@ import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.AwardApprovedSubaward;
+import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
