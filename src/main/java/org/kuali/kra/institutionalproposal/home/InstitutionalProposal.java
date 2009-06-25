@@ -23,6 +23,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.personnel.InstitutionalProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
@@ -88,7 +89,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     private AwardType awardType; 
     private InstitutionalProposalScienceKeyword proposalScienceKeyword; 
     private InstitutionalProposalCostSharing proposalCostSharing; 
-    //private ProposalCustomData proposalCustomData; 
+    private InstitutionalProposalCustomData institutionalProposalCustomData; 
     //private AwardFundingProposals awardFundingProposals; 
     private InstitutionalProposalSpecialReview institutionalProposalSpecialReview; 
     private InstitutionalProposalPersonCreditSplit proposalPerCreditSplit; 
@@ -540,15 +541,15 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
         this.proposalCostSharing = proposalCostSharing;
     }
 
+    public InstitutionalProposalCustomData getInstitutionalProposalCustomData() {
+        return institutionalProposalCustomData;
+    }
+
+    public void setInstitutionalProposalCustomData(InstitutionalProposalCustomData institutionalProposalCustomData) {
+        this.institutionalProposalCustomData = institutionalProposalCustomData;
+    }
+
     /*
-    public ProposalCustomData getProposalCustomData() {
-        return proposalCustomData;
-    }
-
-    public void setProposalCustomData(ProposalCustomData proposalCustomData) {
-        this.proposalCustomData = proposalCustomData;
-    }
-
     public AwardFundingProposals getAwardFundingProposals() {
         return awardFundingProposals;
     }
