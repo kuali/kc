@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.home;
+package org.kuali.kra.award.home.approvedsubawards;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.AwardAssociate;
+import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**

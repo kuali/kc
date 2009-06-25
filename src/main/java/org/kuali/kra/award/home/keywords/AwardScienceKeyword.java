@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.home;
+package org.kuali.kra.award.home.keywords;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.AbstractScienceKeyword;
 import org.kuali.kra.bo.ScienceKeyword;
 /**
