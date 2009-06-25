@@ -17,11 +17,6 @@
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.question" 
                                           attributeEntry="${DataDictionary.Question.attributes.question}" 
                                           readOnly="${readOnly}" />
-                <c:if test="${!readOnly}">
-                    <kra:expandedTextArea textAreaFieldName="document.newMaintainableObject.businessObject.question" 
-                                          action="businessObject.question" 
-                                          textAreaLabel="${DataDictionary.Question.attributes.question.label}" />
-                </c:if>
             </td>
         </tr>
         <tr>
