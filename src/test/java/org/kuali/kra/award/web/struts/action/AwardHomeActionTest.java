@@ -20,7 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.AwardApprovedSubaward;
+import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 

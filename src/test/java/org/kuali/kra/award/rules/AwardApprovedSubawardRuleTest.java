@@ -23,7 +23,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.AwardApprovedSubaward;
+import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -95,7 +95,7 @@ public class AwardApprovedSubawardRuleTest {
     
     /**
      * Test method for {@link org.kuali.kra.award.rules.AwardApprovedSubawardRule#processCommonValidations
-     * (org.kuali.kra.award.home.AwardApprovedSubaward)}.
+     * (org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward)}.
      */
     @Test
     public final void testProcessCommonValidations() {
@@ -105,7 +105,7 @@ public class AwardApprovedSubawardRuleTest {
     /**
      *Test method for {@link org.kuali.kra.award.rules.AwardApprovedSubawardRule#
      *ValidateApprovedSubawardDuplicateOrganization 
-     * (org.kuali.kra.award.home.AwardApprovedSubaward)}.
+     * (org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward)}.
      */
     @Test
     public final void testValidateApprovedSubawardDuplicateOrganization () {
@@ -118,7 +118,7 @@ public class AwardApprovedSubawardRuleTest {
     /**
      *Test method for {@link org.kuali.kra.award.rules.AwardApprovedSubawardRule#
      *ValidateApprovedSubawardDuplicateOrganization 
-     * (org.kuali.kra.award.home.AwardApprovedSubaward)}.
+     * (org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward)}.
      */
     @Test
     public final void testValidateApprovedSubawardAmount () {
