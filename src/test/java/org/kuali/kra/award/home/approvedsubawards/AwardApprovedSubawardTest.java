@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.home;
+package org.kuali.kra.award.home.approvedsubawards;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.home.AwardApprovedSubaward;
+import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 
 /**
  * 

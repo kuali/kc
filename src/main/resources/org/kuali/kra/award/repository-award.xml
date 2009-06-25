@@ -102,7 +102,7 @@
     	<collection-descriptor name="awardReportTermItems" proxy="true" element-class-ref="org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="awardId" />
     	</collection-descriptor>
-    	<collection-descriptor name="awardApprovedSubawards" proxy="true" element-class-ref="org.kuali.kra.award.home.AwardApprovedSubaward" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    	<collection-descriptor name="awardApprovedSubawards" proxy="true" element-class-ref="org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="awardId" />
     	</collection-descriptor>
     	<collection-descriptor name="approvedEquipmentItems" proxy="true" element-class-ref="org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment" 
@@ -118,7 +118,7 @@
         	<inverse-foreignkey field-ref="awardId" />
     	</collection-descriptor>
     	
-   		<collection-descriptor name="keywords" element-class-ref="org.kuali.kra.award.home.AwardScienceKeyword" auto-retrieve="true" auto-update="object" auto-delete="object">
+   		<collection-descriptor name="keywords" element-class-ref="org.kuali.kra.award.home.keywords.AwardScienceKeyword" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="awardId" />
 		</collection-descriptor>
    		<collection-descriptor name="specialReviews" proxy="true" element-class-ref="org.kuali.kra.award.specialreview.AwardSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -384,7 +384,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.award.home.AwardApprovedSubaward" table="AWARD_APPROVED_SUBAWARDS">
+	<class-descriptor class="org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward" table="AWARD_APPROVED_SUBAWARDS">
 		<field-descriptor name="awardApprovedSubawardId" column="AWARD_APPROVED_SUBAWARD_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_APPROVED_SUBAWARD_ID" />
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous"/>
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR"/>
@@ -438,7 +438,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" />		
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.award.home.AwardScienceKeyword" table="AWARD_SCIENCE_KEYWORD">
+	<class-descriptor class="org.kuali.kra.award.home.keywords.AwardScienceKeyword" table="AWARD_SCIENCE_KEYWORD">
 		<field-descriptor name="awardScienceKeywordId" column="AWARD_SCIENCE_KEYWORD_ID" jdbc-type="BIGINT" primarykey="true" 
 		 					autoincrement="true" sequence-name="SEQ_AWARD_SCIENCE_KEYWORD_ID"/>
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous"/> 
