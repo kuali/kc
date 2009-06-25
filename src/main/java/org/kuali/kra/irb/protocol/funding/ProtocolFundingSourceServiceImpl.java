@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.service.AwardService;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;

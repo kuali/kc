@@ -23,7 +23,7 @@
 
 	<bean id="ValidRates" parent="ValidRates-parentBean" />
 	<bean id="ValidRates-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.ValidRates" />
+		<property name="businessObjectClass" value="org.kuali.kra.award.home.ValidRates" />
 		<property name="inquiryDefinition" >
 			<ref bean="ValidRates-inquiryDefinition" />
 		</property>

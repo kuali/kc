@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.home.Award;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**

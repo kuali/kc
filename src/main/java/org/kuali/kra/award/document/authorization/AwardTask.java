@@ -16,7 +16,7 @@
 package org.kuali.kra.award.document.authorization;
 
 import org.kuali.kra.authorization.Task;
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.TaskGroupName;
 
 /**

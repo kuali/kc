@@ -17,7 +17,7 @@ package org.kuali.kra.award.web.struts.action;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.home.Award;
 
 /**
  * 

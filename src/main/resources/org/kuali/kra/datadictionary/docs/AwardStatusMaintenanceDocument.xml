@@ -16,7 +16,7 @@
 
 	<bean id="AwardStatusMaintenanceDocument" parent="AwardStatusMaintenanceDocument-parentBean"/>
 	<bean id="AwardStatusMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardStatus"/>
+		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardStatus"/>
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
 		<property name="maintainableSections">
 			<list>

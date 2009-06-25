@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.paymentschedule.FrequencyBaseConstants;
@@ -91,7 +91,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
 
     /**
      * 
-     * @see org.kuali.kra.service.AwardScheduleGenerationService#generateSchedules(org.kuali.kra.award.bo.Award, java.util.List)
+     * @see org.kuali.kra.service.AwardScheduleGenerationService#generateSchedules(org.kuali.kra.award.home.Award, java.util.List)
      */
     public List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms, boolean isThisNotPaymentPanel) throws ParseException{
         List<Date> dates = new ArrayList<Date>();

@@ -22,7 +22,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.award.bo.AwardComment;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.commitments.CostShareFormHelper;
 import org.kuali.kra.award.contacts.AwardCentralAdminContactsBean;
@@ -32,6 +31,7 @@ import org.kuali.kra.award.contacts.AwardSponsorContactsBean;
 import org.kuali.kra.award.contacts.AwardUnitContactsBean;
 import org.kuali.kra.award.detailsdates.DetailsAndDatesFormHelper;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.notesandattachments.comments.AwardCommentBean;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportsBean;

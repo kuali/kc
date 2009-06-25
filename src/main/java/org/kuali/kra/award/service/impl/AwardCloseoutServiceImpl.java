@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
 import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;

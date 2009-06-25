@@ -24,18 +24,18 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardSyncable;
-import org.kuali.kra.award.bo.AwardSyncableList;
-import org.kuali.kra.award.bo.AwardTemplate;
-import org.kuali.kra.award.bo.AwardTemplateComment;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardSyncable;
+import org.kuali.kra.award.home.AwardSyncableList;
+import org.kuali.kra.award.home.AwardTemplate;
+import org.kuali.kra.award.home.AwardTemplateComment;
+import org.kuali.kra.award.home.AwardTemplateTerm;
 import org.kuali.kra.award.rule.event.AwardTemplateSyncEvent;
 import org.kuali.kra.award.service.AwardTemplateSyncService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.kra.award.bo.AwardTemplateTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 
@@ -238,7 +238,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
     }
 
     /**
-     * @see org.kuali.kra.award.service.AwardTemplateSyncService#syncToAward(org.kuali.kra.award.bo.Award, java.lang.String)
+     * @see org.kuali.kra.award.service.AwardTemplateSyncService#syncToAward(org.kuali.kra.award.home.Award, java.lang.String)
      */
     public boolean syncToAward(AwardDocument awardDocument, String syncPropertyName) {
         boolean success;

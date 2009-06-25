@@ -19,8 +19,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.commitments.AwardCostShare;
+import org.kuali.kra.award.home.Award;
 
 /**
  * 

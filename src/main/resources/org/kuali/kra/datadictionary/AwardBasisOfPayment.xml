@@ -21,7 +21,7 @@
 
 	<bean id="AwardBasisOfPayment" parent="AwardBasisOfPayment-parentBean" />
 	<bean id="AwardBasisOfPayment-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardBasisOfPayment" />
+		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardBasisOfPayment" />
 		<property name="inquiryDefinition" >
 			<ref bean="AwardBasisOfPayment-inquiryDefinition" />
 		</property>

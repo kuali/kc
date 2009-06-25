@@ -21,7 +21,7 @@
 
 	<bean id="AwardStatus" parent="AwardStatus-parentBean" />
 	<bean id="AwardStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardStatus" />
+		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardStatus" />
 		<property name="inquiryDefinition" >
 			<ref bean="AwardStatus-inquiryDefinition" />
 		</property>

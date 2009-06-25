@@ -21,7 +21,7 @@
 
 	<bean id="AwardTemplateReportTermRecipient" parent="AwardTemplateReportTermRecipient-parentBean" />
 	<bean id="AwardTemplateReportTermRecipient-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardTemplateReportTermRecipient" />
+		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplateReportTermRecipient" />
 		<property name="inquiryDefinition" >
 			<ref bean="AwardTemplateReportTermRecipient-inquiryDefinition" />
 		</property>
@@ -91,7 +91,7 @@
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.bo.ContactType"
+	            p:businessObjectClass="org.kuali.kra.award.home.ContactType"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
 	            p:includeBlankRow="false"
