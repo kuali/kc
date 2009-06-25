@@ -18,8 +18,8 @@ package org.kuali.kra.award.rule.event;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.AwardApprovedSubaward;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.rule.BusinessRule;
 

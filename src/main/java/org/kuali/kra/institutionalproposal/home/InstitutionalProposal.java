@@ -18,7 +18,7 @@ package org.kuali.kra.institutionalproposal.home;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.award.bo.AwardType;
+import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.Rolodex;

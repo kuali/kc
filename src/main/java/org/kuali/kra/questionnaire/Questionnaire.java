@@ -29,7 +29,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
-import org.kuali.kra.award.bo.AwardTemplateContact;
+import org.kuali.kra.award.home.AwardTemplateContact;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;

@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.AwardAssociate;
-import org.kuali.kra.award.bo.ValuableItem;
+import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.bo.Person;
 import org.kuali.rice.kns.util.KualiDecimal;
 

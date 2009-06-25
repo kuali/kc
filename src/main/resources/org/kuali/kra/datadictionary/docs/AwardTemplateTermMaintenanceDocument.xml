@@ -16,7 +16,7 @@
 
 	<bean id="AwardTemplateTermMaintenanceDocument" parent="AwardTemplateTermMaintenanceDocument-parentBean"/>
 	<bean id="AwardTemplateTermMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardTemplateTerm"/>
+		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplateTerm"/>
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
 		<property name="maintainableSections">
 			<list>
@@ -61,14 +61,14 @@
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
-					<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardTemplateTerm"/>
+					<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplateTerm"/>
 					<property name="name" value="templateTerms"/>
-					<property name="sourceClassName" value="org.kuali.kra.award.bo.AwardTemplateTerm"/>
+					<property name="sourceClassName" value="org.kuali.kra.award.home.AwardTemplateTerm"/>
 					<property name="alwaysAllowCollectionDeletion" value="true"/>
 					<!--
 						<property name="sourceClassName" value="LookupDefinition" />
 						<property name="sourceAttributeName"
-						value="org.kuali.kra.award.bo.AwardTemplateTerm" />
+						value="org.kuali.kra.award.home.AwardTemplateTerm" />
 					-->
 					<property name="includeAddLine" value="true"/>
 					<property name="includeMultipleLookupLine" value="false"/>

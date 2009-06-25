@@ -19,8 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.commitments.AddAwardFandaRateEvent;
 import org.kuali.kra.award.commitments.AddFandaRateRule;
 import org.kuali.kra.award.commitments.AwardBenefitsRatesRuleEvent;
@@ -46,6 +44,8 @@ import org.kuali.kra.award.detailsdates.AddAwardTransferringSponsorEvent;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardApprovedSubaward;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;

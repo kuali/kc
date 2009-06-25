@@ -17,7 +17,7 @@
 
 	<bean id="AwardTemplateReportTermRecipientMaintenanceDocument" parent="AwardTemplateReportTermRecipientMaintenanceDocument-parentBean"/>
 	<bean id="AwardTemplateReportTermRecipientMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardTemplateReportTermRecipient"/>
+		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplateReportTermRecipient"/>
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
 		<property name="maintainableSections">
 			<list>
@@ -52,9 +52,9 @@
 	</bean>
 	<bean id="AwardTemplateReportTermRecipientMaintenanceDocument-EditListAwardTemplateReportTermRecipient" parent="AwardTemplateReportTermRecipientMaintenanceDocument-EditListAwardTemplateReportTermRecipient-parentBean"/>
 	<bean id="AwardTemplateReportTermRecipientMaintenanceDocument-EditListAwardTemplateReportTermRecipient-parentBean" abstract="true" parent="MaintainableCollectionDefinition">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardTemplateReportTermRecipient"/>
+		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplateReportTermRecipient"/>
 		<property name="name" value="awardTemplateReportTermRecipients"/>
-		<property name="sourceClassName" value="org.kuali.kra.award.bo.AwardTemplateReportTermRecipient"/>
+		<property name="sourceClassName" value="org.kuali.kra.award.home.AwardTemplateReportTermRecipient"/>
 		<property name="alwaysAllowCollectionDeletion" value="true"/>
 		<property name="includeAddLine" value="true"/>
 		<property name="includeMultipleLookupLine" value="false"/>

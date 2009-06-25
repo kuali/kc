@@ -17,7 +17,7 @@ package org.kuali.kra.award.detailsdates;
 
 import java.util.List;
 
-import org.kuali.kra.award.bo.AwardTransferringSponsor;
+import org.kuali.kra.award.home.AwardTransferringSponsor;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;

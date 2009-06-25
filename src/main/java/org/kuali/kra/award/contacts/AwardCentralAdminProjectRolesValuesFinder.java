@@ -17,7 +17,7 @@ package org.kuali.kra.award.contacts;
 
 import java.util.List;
 
-import org.kuali.kra.award.bo.ContactRole;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 

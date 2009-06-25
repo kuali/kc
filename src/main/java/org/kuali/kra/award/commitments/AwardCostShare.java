@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.award.AwardAssociate;
-import org.kuali.kra.award.bo.ValuableItem;
+import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -233,7 +233,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     }
 
     /**
-     * @see org.kuali.kra.award.bo.ValuableItem#getAmount()
+     * @see org.kuali.kra.award.home.ValuableItem#getAmount()
      */
     public KualiDecimal getAmount() {
         return getCommitmentAmount();
