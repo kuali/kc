@@ -148,10 +148,10 @@ public class BudgetAction extends ProposalActionBase {
         return mapping.findForward("versions");
     }
 
-    public ActionForward summary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward parameters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         reconcileBudgetStatus((BudgetForm) form);
-        ((BudgetForm) form).getBudgetDocument().getBudgetSummaryService().setupOldStartEndDate(((BudgetForm) form).getBudgetDocument(),false);
-        return mapping.findForward("summary");
+        ((BudgetForm) form).getDocument().getBudgetSummaryService().setupOldStartEndDate(((BudgetForm) form).getDocument(),false);
+        return mapping.findForward(Constants.BUDGET_PERIOD_PAGE);
     }
 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
