@@ -196,8 +196,9 @@
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="50" />
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder"
+                  p:includeKeyInLabel="false" />
         </property>
         <property name="summary" value="Lookup Name" />
         <property name="description" value="Lookup Name" />
@@ -252,11 +253,13 @@
         <property name="shortLabel" value="Lookup Gui" />
         <property name="maxLength" value="50" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean parent="AnyCharacterValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="50" />
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupableBoValuesFinder"
+                  p:includeKeyInLabel="false"
+                  p:script="updateLookupReturn(this, updateLookupReturn_Callback)" />
         </property>
         <property name="summary" value="Lookup Gui" />
         <property name="description" value="Lookup Gui" />

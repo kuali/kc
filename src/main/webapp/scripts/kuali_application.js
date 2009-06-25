@@ -1025,12 +1025,17 @@ function loadPersonName(usernameFieldName, fullnameElementId) {
   var lookupReturnName ;
  function updateLookupReturn( lookupClassField, callbackFunction ) {
     //alert ("enter update"+lookupClassField.name);
-	
-	if (lookupClassField.name == "lookupClass" ) {
-	    lookupReturnName = "lookupReturn" ;
-	} else {
+
+    if (lookupClassField.name.lastIndexOf("lookupClass") == 0) {
+    	lookupReturnName = "lookupReturn" ;
+    } else if (lookupClassField.name.lastIndexOf("lookupClass") > 0) {
 	    lookupReturnName =  findElPrefix( lookupClassField.name ) + ".lookupReturn" ;
-	}
+    } else if (lookupClassField.name.lastIndexOf("lookupGui") == 0) {
+        lookupReturnName = "lookupName" ;
+    } else if (lookupClassField.name.lastIndexOf("lookupGui") > 0) {
+	    lookupReturnName =  findElPrefix( lookupClassField.name ) + ".lookupName" ;
+    }
+
     //alert ("in update" +lookupClassField+"-"+lookupClassField.name+"-"+lookupReturn+lookupClassField.value);
 	//var lookupClass = getElementValue( lookupClassField.name ); // ie7 get nothing out of this
     var lookupClass = lookupClassField.value;
