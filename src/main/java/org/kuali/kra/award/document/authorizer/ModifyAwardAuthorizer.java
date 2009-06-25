@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.document.authorizer;
 
-import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.authorization.AwardTask;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
 
 /**

@@ -25,7 +25,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.rules.SoftError;
 import org.kuali.rice.kns.UserSession;

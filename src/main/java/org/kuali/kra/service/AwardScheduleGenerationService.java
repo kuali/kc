@@ -19,7 +19,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 
 /**

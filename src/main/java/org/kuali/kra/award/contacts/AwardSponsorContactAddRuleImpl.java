@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.contacts;
 
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.home.Award;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**

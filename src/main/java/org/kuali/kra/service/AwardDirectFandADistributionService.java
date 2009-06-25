@@ -17,7 +17,7 @@ package org.kuali.kra.service;
 
 import java.util.List;
 
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 
 /**

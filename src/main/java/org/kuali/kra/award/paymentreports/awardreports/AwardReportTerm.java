@@ -23,10 +23,10 @@ import java.util.List;
 
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardSyncable;
-import org.kuali.kra.award.bo.AwardSyncableList;
-import org.kuali.kra.award.bo.Distribution;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardSyncable;
+import org.kuali.kra.award.home.AwardSyncableList;
+import org.kuali.kra.award.home.Distribution;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.FrequencyBase;
 import org.kuali.kra.award.paymentreports.Report;

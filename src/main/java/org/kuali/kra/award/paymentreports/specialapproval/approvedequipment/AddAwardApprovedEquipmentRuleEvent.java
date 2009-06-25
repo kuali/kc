@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
-import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.rice.kns.rule.BusinessRule;
 
 /**

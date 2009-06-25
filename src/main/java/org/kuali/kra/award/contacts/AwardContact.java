@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kra.award.AwardAssociate;
-import org.kuali.kra.award.bo.ContactRole;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Person;

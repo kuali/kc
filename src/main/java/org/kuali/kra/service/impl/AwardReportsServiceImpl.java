@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
@@ -53,7 +53,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     /**
      * 
      * @see org.kuali.kra.service.AwardReportsService#initializeObjectsForReportsAndPayments(
-     * org.kuali.kra.award.bo.Award)
+     * org.kuali.kra.award.home.Award)
      */
     public Map<String, Object> initializeObjectsForReportsAndPayments(Award award){
         

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.service;
 
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.home.Award;
 
 /**
  * 

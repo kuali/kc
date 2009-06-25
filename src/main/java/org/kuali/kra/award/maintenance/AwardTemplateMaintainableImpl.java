@@ -19,9 +19,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kra.award.bo.AwardTemplate;
-import org.kuali.kra.award.bo.AwardTemplateReportTerm;
-import org.kuali.kra.award.bo.ValidBasisMethodPayment;
+import org.kuali.kra.award.home.AwardTemplate;
+import org.kuali.kra.award.home.AwardTemplateReportTerm;
+import org.kuali.kra.award.home.ValidBasisMethodPayment;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.kra.award.paymentreports.ValidFrequencyBase;
 import org.kuali.kra.infrastructure.KeyConstants;

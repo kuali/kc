@@ -316,7 +316,7 @@
         <reference-descriptor name="fundingProposal" class-ref="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="fundingSource"/>
         </reference-descriptor> 
-        <reference-descriptor name="fundingAward" class-ref="org.kuali.kra.award.bo.Award" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="fundingAward" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="fundingSource"/>
         </reference-descriptor> 
          

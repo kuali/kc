@@ -21,7 +21,7 @@
 
     <bean id="ValidBasisMethodPayment" parent="ValidBasisMethodPayment-parentBean" />
     <bean id="ValidBasisMethodPayment-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.award.bo.ValidBasisMethodPayment" />
+        <property name="businessObjectClass" value="org.kuali.kra.award.home.ValidBasisMethodPayment" />
         <property name="inquiryDefinition" >
             <ref bean="ValidBasisMethodPayment-inquiryDefinition" />
         </property>

@@ -21,7 +21,7 @@
 
 	<bean id="AwardTemplateTerm" parent="AwardTemplateTerm-parentBean" />
 	<bean id="AwardTemplateTerm-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardTemplateTerm" />
+		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplateTerm" />
 		<property name="inquiryDefinition" >
 			<ref bean="AwardTemplateTerm-inquiryDefinition" />
 		</property>

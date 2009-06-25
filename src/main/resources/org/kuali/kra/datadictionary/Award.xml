@@ -7,7 +7,7 @@
   <bean id="Award" parent="Award-parentBean" />
 
   <bean id="Award-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.award.bo.Award" />
+    <property name="businessObjectClass" value="org.kuali.kra.award.home.Award" />
     
     <property name="lookupDefinition" >
       <ref bean="Award-lookupDefinition" />
@@ -296,7 +296,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.bo.AwardBasisOfPayment"
+            p:businessObjectClass="org.kuali.kra.award.home.AwardBasisOfPayment"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
@@ -321,7 +321,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.bo.AwardMethodOfPayment"
+            p:businessObjectClass="org.kuali.kra.award.home.AwardMethodOfPayment"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
@@ -426,7 +426,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.bo.AwardMethodOfPayment"
+            p:businessObjectClass="org.kuali.kra.award.home.AwardMethodOfPayment"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
@@ -475,7 +475,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.bo.AwardStatus"
+            p:businessObjectClass="org.kuali.kra.award.home.AwardStatus"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
@@ -716,7 +716,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.bo.AwardType"
+            p:businessObjectClass="org.kuali.kra.award.home.AwardType"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"

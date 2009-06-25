@@ -18,7 +18,7 @@ package org.kuali.kra.award.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.home.Award;
 
 
 /**
