@@ -118,9 +118,9 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
      *
      */
     protected void updateCloseoutDueDateWhenFilteredListSizeIsZero(Map<String, Object> closeoutDueDates, java.util.Date dateCalculatedUsingFinalInvoiceDue
-                            , String closeoutReportTypeCode) {
+                            , String closeoutReportTypeCode) {        
         if (StringUtils.equalsIgnoreCase(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT
-                , KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT).getParameterName(),closeoutReportTypeCode)) {
+                , KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT).getParameterValue(),closeoutReportTypeCode)) {
             closeoutDueDates.put(closeoutReportTypeCode, new Date(dateCalculatedUsingFinalInvoiceDue.getTime()));   
         } else {
             closeoutDueDates.put(closeoutReportTypeCode, null);    
