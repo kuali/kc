@@ -24,5 +24,12 @@ public interface AwardNumberService {
      * This method returns an unused award number.
      * @return
      */
-    public String getNextAwardNumber();
+    String getNextAwardNumber();
+    
+    /**
+     * This method...
+     * @param awardNumber
+     * @return
+     */
+    String getNextAwardNumberInHierarchy(String awardNumber);
 }
