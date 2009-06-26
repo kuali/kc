@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rules;
+package org.kuali.kra.award.permissions;
 
 import org.kuali.kra.common.permissions.rules.PermissionsRuleBase;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
