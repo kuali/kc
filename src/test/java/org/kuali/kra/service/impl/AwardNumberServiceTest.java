@@ -15,29 +15,58 @@
  */
 package org.kuali.kra.service.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.AwardNumberServiceImpl;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 
 public class AwardNumberServiceTest {
+    
+    private Mockery context = new JUnit4Mockery();
+    AwardNumberServiceImpl awardNumberServiceImpl;
+    List<Award> awardList;
+    Award rootAward;
+    final Map<String, Object> queryMap = new HashMap<String, Object>();
     private long SEQUENCE_NUMBER = 1234;
 
     @Before
     public void setUp() throws Exception {
+        awardNumberServiceImpl = new AwardNumberServiceImpl();
+        queryMap.put("awardNumber", "000001%");
+        rootAward = new Award();
+        rootAward.setAwardNumber("000001-00001");
+        Award node1 = new Award();
+        node1.setAwardNumber("000001-00002");
+        Award node2 = new Award();
+        node2.setAwardNumber("000001-00003");
+        awardList = new ArrayList<Award>();
+        awardList.add(node1);
+        awardList.add(node2);
+        
     }
 
     @After
     public void tearDown() throws Exception {
+        
     }
 
     @Test
@@ -50,16 +79,24 @@ public class AwardNumberServiceTest {
     public final void testGetNextAwardNumber() {
         AwardNumberService awardNumberService = createAwardNumberService();
         String awardNumber = awardNumberService.getNextAwardNumber();
-
         assertNotNull(awardNumber);
-        
-        assertEquals(10, awardNumber.length());
-        
+        assertEquals(12, awardNumber.length());
         String first6Chars = awardNumber.substring(0, 6);
         assertTrue(StringUtils.isNumeric(first6Chars));
-        
-        String last4chars = awardNumber.substring(6, 10);
-        assertEquals("-001", last4chars);
+        String last6chars = awardNumber.substring(6, 12);
+        assertEquals("-00001", last6chars);
+    }
+    
+    @Test
+    public final void testGenerateNextNodeNumber() {
+        final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE;
+        MOCKED_BUSINESS_OBJECT_SERVICE = context.mock(BusinessObjectService.class);
+        context.checking(new Expectations() {{
+            one(MOCKED_BUSINESS_OBJECT_SERVICE).findMatching(Award.class, queryMap); 
+            will(returnValue(awardList));
+        }});
+        awardNumberServiceImpl.setBusinessObjectService(MOCKED_BUSINESS_OBJECT_SERVICE);
+        Assert.assertTrue(awardNumberServiceImpl.getNextAwardNumberInHierarchy(rootAward.getAwardNumber()).equals("000001-00004"));
     }
 
     /**
@@ -67,9 +104,7 @@ public class AwardNumberServiceTest {
      * always returns SEQUENCE_NUMBER.
      * @return
      */
-    private AwardNumberService createAwardNumberService() {
-        Mockery context = new JUnit4Mockery();
-        
+    private AwardNumberService createAwardNumberService() {   
         final SequenceAccessorService sequenceAccessorService = context.mock(SequenceAccessorService.class);
         context.checking(new Expectations() {
             {
@@ -77,7 +112,6 @@ public class AwardNumberServiceTest {
                 will(returnValue(SEQUENCE_NUMBER));
             }
         });
-        
         AwardNumberServiceImpl awardNumberService = new AwardNumberServiceImpl();
         awardNumberService.setSequenceAccessorService(sequenceAccessorService);
         return awardNumberService;
