@@ -122,10 +122,19 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      */
     private void checkAwardNumber(Award award) {
         if (Award.DEFAULT_AWARD_NUMBER.equals(award.getAwardNumber())) {
-            AwardNumberService awardNumberService = (AwardNumberService)KraServiceLocator.getService(AWARD_NUMBER_SERVICE);
+            AwardNumberService awardNumberService = getAwardNumberService();
             String awardNumber = awardNumberService.getNextAwardNumber();
             award.setAwardNumber(awardNumber);
         }
+    }
+    
+    /**
+     * 
+     * This method is a helper method to retrieve AwardNumberService.
+     * @return
+     */
+    protected AwardNumberService getAwardNumberService() {
+        return KraServiceLocator.getService(AwardNumberService.class);
     }
     
     /**

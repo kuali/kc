@@ -378,10 +378,10 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Award Number" />
     <property name="shortLabel" value="Award Number" />
-    <property name="maxLength" value="10" />
+    <property name="maxLength" value="12" />
     <property name="validationPattern" >
       <bean parent="RegexValidationPattern"
-            p:pattern="\d\d\d\d\d\d-\d\d\d" />
+            p:pattern="\d\d\d\d\d\d-\d\d\d\d\d" />
     </property>
     <property name="required" value="false" />
     <property name="control" >
