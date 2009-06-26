@@ -30,9 +30,9 @@
             		<div align="left">
             		<kul:htmlControlAttribute property="document.award.templateCode" attributeEntry="${awardAttributes.templateCode}" />
                     <c:out value="${KualiForm.document.award.awardTemplate.description}"/>
-                    <kul:lookup boClassName="org.kuali.kra.award.bo.AwardTemplate" 
+                    <kul:lookup boClassName="org.kuali.kra.award.home.AwardTemplate" 
                     fieldConversions="templateCode:document.award.templateCode,description:document.award.awardTemplate.description" anchor="${currentTabIndex}"/> 
-                    <kul:directInquiry boClassName="org.kuali.kra.award.bo.AwardTemplate" inquiryParameters="document.award.templateCode:templateCode" anchor="${currentTabIndex}"/>
+                    <kul:directInquiry boClassName="org.kuali.kra.award.home.AwardTemplate" inquiryParameters="document.award.templateCode:templateCode" anchor="${currentTabIndex}"/>
 					<span class="fineprint">Note: Award data may have changed since Sponsor Template was applied </span>
 					</div>
             	</td>
