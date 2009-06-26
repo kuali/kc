@@ -24,15 +24,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
-import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutServiceImpl;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
+/**
+ * 
+ * This class tests the AwardCloseoutServiceImpl
+ */
+@RunWith(JMock.class)
 public class AwardCloseoutServiceImplTest {
 
     public static final String REPORT_CLASS_CODE_FINANCIAL_REPORT = "1";
@@ -46,6 +59,8 @@ public class AwardCloseoutServiceImplTest {
     Report newReport;
     Frequency newFrequency;
     java.util.Date dateCalculatedUsingFinalInvoiceDue;
+    
+    private Mockery context = new JUnit4Mockery();
     
     /**
      * 
@@ -88,6 +103,16 @@ public class AwardCloseoutServiceImplTest {
      */
     @Test
     public final void testUpdateCloseoutDueDateWhenFilteredListSizeIsZero_ReportClassIsFinancialReport(){
+        
+        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);        
+        final Parameter parameter = new Parameter();        
+        parameter.setParameterName(KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);
+        parameter.setParameterValue(REPORT_CLASS_CODE_FINANCIAL_REPORT);        
+        context.checking(new Expectations() {{
+            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);will(returnValue(parameter));
+        }});        
+        service.setKualiConfigurationService(kualiConfigurationService);
+                
         dateCalculatedUsingFinalInvoiceDue.setTime(100000000);
         service.updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, REPORT_CLASS_CODE_FINANCIAL_REPORT);
         Assert.assertEquals(dateCalculatedUsingFinalInvoiceDue.getTime(), ((java.util.Date)closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT)).getTime());
@@ -101,6 +126,15 @@ public class AwardCloseoutServiceImplTest {
      */
     @Test
     public final void testUpdateCloseoutDueDateWhenFilteredListSizeIsZero_ReportClassIsNotFinancialReport(){
+        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);        
+        final Parameter parameter = new Parameter();        
+        parameter.setParameterName(KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);
+        parameter.setParameterValue(REPORT_CLASS_CODE_FINANCIAL_REPORT);        
+        context.checking(new Expectations() {{
+            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);will(returnValue(parameter));
+        }});        
+        service.setKualiConfigurationService(kualiConfigurationService);
+        
         dateCalculatedUsingFinalInvoiceDue.setTime(100000000);
         service.updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, REPORT_CLASS_CODE_PATENT);
         Assert.assertEquals(null, closeoutDueDates.get(REPORT_CLASS_CODE_PATENT));
@@ -127,7 +161,7 @@ public class AwardCloseoutServiceImplTest {
     @Test
     public final void testUpdateCloseoutDueDate_allDueDatesAreEqual_And_2DatesAreNotEqual(){
         service.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10000), new java.util.Date(10000), false, REPORT_CLASS_CODE_FINANCIAL_REPORT);
-        Assert.assertEquals("MULTIPLE", closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT));
+        Assert.assertEquals("M", closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT));
     }
     
     /**
@@ -139,7 +173,7 @@ public class AwardCloseoutServiceImplTest {
     @Test
     public final void testUpdateCloseoutDueDate_allDueDatesAreNotEqual_And_2DatesAreEqual(){
         service.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10001), new java.util.Date(10000), true, REPORT_CLASS_CODE_FINANCIAL_REPORT);
-        Assert.assertEquals("MULTIPLE", closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT));
+        Assert.assertEquals("M", closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT));
     }
     
     /**
@@ -151,7 +185,7 @@ public class AwardCloseoutServiceImplTest {
     @Test
     public final void testUpdateCloseoutDueDate_allDueDatesAreNotEqual_And_2DatesAreNotEqual(){
         service.updateCloseoutDueDate(closeoutDueDates, new java.util.Date(10001), new java.util.Date(10000), false, REPORT_CLASS_CODE_FINANCIAL_REPORT);
-        Assert.assertEquals("MULTIPLE", closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT));
+        Assert.assertEquals("M", closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT));
     }
     
     /**
