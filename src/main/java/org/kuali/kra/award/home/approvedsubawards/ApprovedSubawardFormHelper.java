@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.commitments;
+package org.kuali.kra.award.home.approvedsubawards;
 
 import java.io.Serializable;
 
@@ -21,42 +21,44 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 
 /**
- * This class supports the AwardForm class
+ * This class...
  */
-public class CostShareFormHelper implements Serializable { 
+public class ApprovedSubawardFormHelper implements Serializable {
+    
     private AwardForm parent;
     
-    private AwardCostShare newAwardCostShare;
+    private AwardApprovedSubaward newAwardApprovedSubaward;
     
     /**
-     * Constructs a CostShareFormHelper
+     * Constructs a ApprovedSubawardFormHelper
      * @param parent
      */
-    public CostShareFormHelper(AwardForm parent) {
+    public ApprovedSubawardFormHelper(AwardForm parent) {
         this.parent = parent;
+        this.newAwardApprovedSubaward = new AwardApprovedSubaward();
     }
     
     /**
      * Initialize subform
      */
     public void init() {
-        newAwardCostShare = new AwardCostShare(); 
+        newAwardApprovedSubaward = new AwardApprovedSubaward(); 
     }
 
     /**
-     * Gets the newAwardCostShare attribute. 
-     * @return Returns the newAwardCostShare.
+     * Gets the newAwardApprovedSubaward attribute. 
+     * @return Returns the newAwardApprovedSubaward.
      */
-    public AwardCostShare getNewAwardCostShare() {
-        return newAwardCostShare;
+    public AwardApprovedSubaward getNewAwardApprovedSubaward() {
+        return newAwardApprovedSubaward;
     }
 
     /**
-     * Sets the newAwardAwardCostShare attribute value.
-     * @param newAwardAwardCostShare The newAwardAwardCostShare to set.
+     * Sets the newAwardApprovedSubaward attribute value.
+     * @param newAwardApprovedSubaward The newAwardApprovedSubaward to set.
      */
-    public void setNewAwardCostShare(AwardCostShare newAwardCostShare) {
-        this.newAwardCostShare = newAwardCostShare;
+    public void setNewAwardApprovedSubaward(AwardApprovedSubaward newAwardApprovedSubaward) {
+        this.newAwardApprovedSubaward = newAwardApprovedSubaward;
     }
 
     /**
@@ -72,6 +74,7 @@ public class CostShareFormHelper implements Serializable {
      * @return
      */
     public Object getData() {
-        return getNewAwardCostShare();
+        return getNewAwardApprovedSubaward();
     }
 }
+

@@ -17,7 +17,7 @@ package org.kuali.kra.award.contacts;
 
 import java.util.List;
 
-import org.kuali.kra.award.web.struts.form.AwardForm;
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.bo.UnitContactType;
 
 /**

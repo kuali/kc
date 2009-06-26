@@ -17,9 +17,9 @@ package org.kuali.kra.award.contacts;
 
 import java.util.List;
 
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
-import org.kuali.kra.award.web.struts.form.AwardForm;
 
 /**
  * This class provides support for the Award Contacts Project Personnel panel
