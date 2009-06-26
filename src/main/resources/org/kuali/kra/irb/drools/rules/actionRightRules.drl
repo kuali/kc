@@ -18,7 +18,7 @@ end
 rule "Rule 1 -Part B 105/106/108/114/115/116"
 salience 100
 when
-	actionRight : ActionRightMapping(actionTypeCode in ('105','106','108','114','115','116'))
+	actionRight : ActionRightMapping(actionTypeCode in ('105','106','108','114','115','116')))
 then	
     actionRight.setRightId("SUBMIT_PROTOCOL");
 end
@@ -32,6 +32,15 @@ when
 then	
     actionRight.setRightId("MODIFY_ANY_PROTOCOL");
 end
+
+rule "Rule 1 -Part B 303"
+salience 100
+when
+	actionRight : ActionRightMapping(actionTypeCode in ('303'))
+then	
+    actionRight.setRightId("SUBMIT_PROTOCOL");
+end
+
 
 rule "Rule 2 -Part B Cond1 303"
 salience 100

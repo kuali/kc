@@ -1,0 +1,15 @@
+#created on: Apr 5, 2009
+package actionRightMapping
+
+#list any import classes here.
+
+import org.kuali.kra.irb.actions.submit.ActionRightMapping;
+
+
+rule "Rule 1 -  105/106/108/114/115/116 And 303 And 101"
+salience 100
+when
+	actionRight : ActionRightMapping(actionTypeCode in ('105','106','108','114','115','116','303','101'))
+then	
+    actionRight.setRightId("SUBMIT_PROTOCOL");
+end
