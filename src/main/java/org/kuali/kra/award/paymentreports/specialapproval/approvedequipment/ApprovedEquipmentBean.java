@@ -18,7 +18,7 @@ package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
 import java.io.Serializable;
 
-import org.kuali.kra.award.web.struts.form.AwardForm;
+import org.kuali.kra.award.AwardForm;
 
 /**
  * This class supports the AwardForm class

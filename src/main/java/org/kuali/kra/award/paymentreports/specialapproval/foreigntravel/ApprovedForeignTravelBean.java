@@ -18,8 +18,8 @@ package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.SpecialApprovalBean;
-import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.bo.Person;
 
 /**
