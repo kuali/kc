@@ -17,8 +17,8 @@ package org.kuali.kra.award.detailsdates;
 
 import java.io.Serializable;
 
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
