@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rules;
+package org.kuali.kra.award.permissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,9 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.award.AwardRuleTestBase;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.permissions.AwardPermissionsRule;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.common.permissions.bo.PermissionsRoleState;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;

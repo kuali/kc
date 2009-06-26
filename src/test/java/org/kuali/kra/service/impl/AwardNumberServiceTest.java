@@ -24,8 +24,8 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.award.service.AwardNumberService;
-import org.kuali.kra.award.service.impl.AwardNumberServiceImpl;
+import org.kuali.kra.award.AwardNumberService;
+import org.kuali.kra.award.AwardNumberServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rules;
+package org.kuali.kra.award.home.approvedsubawards;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
+import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRuleImpl;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -94,7 +95,7 @@ public class AwardApprovedSubawardRuleTest {
     }
     
     /**
-     * Test method for {@link org.kuali.kra.award.rules.AwardApprovedSubawardRule#processCommonValidations
+     * Test method for {@link org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRule#processCommonValidations
      * (org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward)}.
      */
     @Test
@@ -103,7 +104,7 @@ public class AwardApprovedSubawardRuleTest {
     }
     
     /**
-     *Test method for {@link org.kuali.kra.award.rules.AwardApprovedSubawardRule#
+     *Test method for {@link org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRule#
      *ValidateApprovedSubawardDuplicateOrganization 
      * (org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward)}.
      */
@@ -116,7 +117,7 @@ public class AwardApprovedSubawardRuleTest {
     }
     
     /**
-     *Test method for {@link org.kuali.kra.award.rules.AwardApprovedSubawardRule#
+     *Test method for {@link org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRule#
      *ValidateApprovedSubawardDuplicateOrganization 
      * (org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward)}.
      */
