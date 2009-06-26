@@ -81,7 +81,8 @@
     <property name="validationPattern" >
       <bean parent="FixedPointValidationPattern"
             p:precision="12"
-            p:scale="2" />
+            p:scale="2"
+            p:allowNegative="true" />
     </property>
     <property name="required" value="false" />
     <property name="control" >
@@ -115,7 +116,8 @@
     <property name="validationPattern" >
       <bean parent="FixedPointValidationPattern"
             p:precision="12"
-            p:scale="2" />
+            p:scale="2"
+            p:allowNegative="true" />
     </property>
     <property name="required" value="false" />
     <property name="control" >
