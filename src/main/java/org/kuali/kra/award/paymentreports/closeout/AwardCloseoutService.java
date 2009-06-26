@@ -13,22 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rule;
+package org.kuali.kra.award.paymentreports.closeout;
 
-import org.kuali.kra.award.rule.event.AwardSponsorTermRuleEvent;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.kra.award.home.Award;
 
 /**
- * This interface declares the rule method associated with <code>AwardSponsorTerm</code> 
- * Business Object.
+ * 
+ * This class represents the AwardCloseoutService - which are related to Award Closeout panel on Payment Reports and Terms panel.
+ * 
  */
-public interface AwardSponsorTermRule extends BusinessRule {
+public interface AwardCloseoutService {
     
     /**
-     * This method is called to process all rules for Sponsor term on save.
-     * @param awardSponsorTermRuleEvent
-     * @return
+     * 
+     * Whenever a save occurs on Payment, Reports and Terms tab; This method gets called from the action upon save 
+     * and updates the due dates for award closeout static reports.
+     *
+     * @param award
      */
-    public boolean processAddSponsorTermBusinessRules(AwardSponsorTermRuleEvent 
-            awardSponsorTermRuleEvent);
+    void updateCloseoutDueDatesBeforeSave(Award award);
 }

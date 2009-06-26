@@ -23,9 +23,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.AwardSponsorTermRuleEvent;
+import org.kuali.kra.award.AwardSponsorTermRuleImpl;
 import org.kuali.kra.award.home.AwardSponsorTerm;
-import org.kuali.kra.award.rule.event.AwardSponsorTermRuleEvent;
-import org.kuali.kra.award.rules.AwardSponsorTermRuleImpl;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;

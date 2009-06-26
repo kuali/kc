@@ -17,11 +17,11 @@ package org.kuali.kra.award.web.struts.action;
 
 import java.io.Serializable;
 
+import org.kuali.kra.award.AwardDocumentRule;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
-import org.kuali.kra.award.rules.AwardApprovedSubawardRuleImpl;
-import org.kuali.kra.award.rules.AwardDocumentRule;
-import org.kuali.kra.award.web.struts.form.ApprovedSubawardFormHelper;
+import org.kuali.kra.award.home.approvedsubawards.ApprovedSubawardFormHelper;
+import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRuleEvent;
+import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRuleImpl;
 
 /**
  * This class...
