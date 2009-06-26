@@ -19,9 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 

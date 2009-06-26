@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
-import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;

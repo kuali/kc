@@ -18,7 +18,7 @@ package org.kuali.kra.award.notesandattachments.comments;
 import java.io.Serializable;
 import java.util.List;
 
-import org.kuali.kra.award.web.struts.form.AwardForm;
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardCommentService;
