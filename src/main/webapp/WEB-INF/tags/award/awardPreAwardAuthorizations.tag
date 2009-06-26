@@ -52,7 +52,12 @@
              </tr>
          </table>
     </div>
+    
     <div class="tab-container" align="center">
+        <div class="left-errmsg-tab">
+            <kul:errors keyMatch="document.awardList[0].preAwardInstitutionalAuthorizedAmount,document.awardList[0].preAwardInstitutionalEffectiveDate"/>
+            <br/>
+        </div>
     	<h3>
     		<span class="subhead-left">Institutional Authorization</span>
         </h3>
