@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.service.impl;
+package org.kuali.kra.award.paymentreports.closeout;
 
 
 import java.sql.Date;
@@ -31,6 +31,7 @@ import org.junit.Test;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
+import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutServiceImpl;
 
 public class AwardCloseoutServiceImplTest {
 
