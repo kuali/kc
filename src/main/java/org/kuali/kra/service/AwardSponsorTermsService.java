@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.kra.award.web.struts.form.AwardForm;
+import org.kuali.kra.award.AwardForm;
 
 /**
  * This is the Award Sponsor Term Interface.

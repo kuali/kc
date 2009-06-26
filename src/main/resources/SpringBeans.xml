@@ -1381,7 +1381,7 @@
 	<bean id="scheduleService" class="org.kuali.kra.scheduling.service.impl.ScheduleServiceImpl">
 	</bean>
 	
-	<bean id="awardService" class="org.kuali.kra.award.service.impl.AwardServiceImpl">
+	<bean id="awardService" class="org.kuali.kra.award.home.AwardServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
