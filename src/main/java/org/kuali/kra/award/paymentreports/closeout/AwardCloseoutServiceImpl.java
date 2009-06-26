@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.service.impl;
+package org.kuali.kra.award.paymentreports.closeout;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -25,9 +25,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
-import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
-import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
-import org.kuali.kra.award.service.AwardCloseoutService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -62,7 +59,7 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
     /**
      *
      *
-     * @see org.kuali.kra.award.service.AwardCloseoutService#updateCloseoutDueDatesBeforeSave(Award)
+     * @see org.kuali.kra.award.paymentreports.closeout.AwardCloseoutService#updateCloseoutDueDatesBeforeSave(Award)
      */
     public void updateCloseoutDueDatesBeforeSave(Award award) {
         Map<String, Object> closeoutDueDates = new HashMap<String, Object>();                

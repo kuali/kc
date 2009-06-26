@@ -17,8 +17,8 @@ package org.kuali.kra.award.timeandmoney;
 
 import java.io.Serializable;
 
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.web.struts.form.AwardForm;
 
 /**
  * This class supports the AwardForm class
