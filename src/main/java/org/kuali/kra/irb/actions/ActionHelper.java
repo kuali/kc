@@ -57,6 +57,9 @@ public class ActionHelper implements Serializable {
     private boolean canSelectSchedule = false;
     private boolean canSelectReviewers = false;
     
+    private boolean canCreateAmendment = false;
+    private boolean canCreateRenewal = false;
+    
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
     private ProtocolRequestBean protocolCloseRequestBean;
@@ -88,17 +91,27 @@ public class ActionHelper implements Serializable {
         protocolDataAnalysisRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, 
                                                                   ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
         protocolNotifyIrbBean = new ProtocolNotifyIrbBean();
-        protocolAmendmentBean = new ProtocolAmendmentBean();
-        protocolRenewAmendmentBean = new ProtocolAmendmentBean();
+        protocolAmendmentBean = createAmendmentBean();
+        protocolRenewAmendmentBean = createAmendmentBean();
         protocolDeleteBean = new ProtocolDeleteBean();
     }
     
+    private ProtocolAmendmentBean createAmendmentBean() {
+        ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
+     
+        
+        return amendmentBean;
+    }
+
     public void prepareView() {
         protocolSubmitAction.prepareView();
         canSubmitProtocol = hasSubmitProtocolPermission();
         canSelectCommittee = getParameterValue(Constants.PARAMETER_PROTOCOL_SELECT_COMMITTEE);
         canSelectSchedule = getParameterValue(Constants.PARAMETER_PROTOCOL_SELECT_SCHEDULE);
         canSelectReviewers = getParameterValue(Constants.PARAMETER_PROTOCOL_SELECT_REVIEWERS);
+        
+        canCreateAmendment = hasCreateAmendmentPermission();
+        canCreateRenewal = hasCreateRenewalPermission();
     }
     
     private boolean getParameterValue(String parameterName) {
@@ -123,6 +136,16 @@ public class ActionHelper implements Serializable {
     
     private boolean hasSubmitProtocolPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+    }
+    
+    private boolean hasCreateAmendmentPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+    }
+    
+    private boolean hasCreateRenewalPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserName(), task);
     }
     
@@ -201,5 +224,13 @@ public class ActionHelper implements Serializable {
     
     public ProtocolDeleteBean getProtocolDeleteBean() {
         return protocolDeleteBean;
+    }
+
+    public boolean getCanCreateAmendment() {
+        return canCreateAmendment;
+    }
+
+    public boolean getCanCreateRenewal() {
+        return canCreateRenewal;
     }
 }

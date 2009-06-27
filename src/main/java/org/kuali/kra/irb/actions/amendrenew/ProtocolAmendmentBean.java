@@ -33,6 +33,17 @@ public class ProtocolAmendmentBean implements Serializable {
     private boolean protocolPersonnel = false;
     private boolean others = false;
     
+    private boolean generalInfoEnabled = true;
+    private boolean fundingSourceEnabled = true;
+    private boolean protocolReferencesEnabled = true;
+    private boolean protocolOrganizationsEnabled = true;
+    private boolean subjectsEnabled = true;
+    private boolean addModifyAttachmentsEnabled = true;
+    private boolean areasOfResearchEnabled = true;
+    private boolean specialReviewEnabled = true;
+    private boolean protocolPersonnelEnabled = true;
+    private boolean othersEnabled = true;
+    
     public ProtocolAmendmentBean() {
         
     }
@@ -123,5 +134,98 @@ public class ProtocolAmendmentBean implements Serializable {
 
     public void setOthers(boolean others) {
         this.others = others;
+    }
+    
+    public boolean getGeneralInfoEnabled() {
+        return generalInfoEnabled;
+    }
+
+    public void setGeneralInfoEnabled(boolean generalInfoEnabled) {
+        this.generalInfoEnabled = generalInfoEnabled;
+    }
+
+    public boolean getFundingSourceEnabled() {
+        return fundingSourceEnabled;
+    }
+
+    public void setFundingSourceEnabled(boolean fundingSourceEnabled) {
+        this.fundingSourceEnabled = fundingSourceEnabled;
+    }
+
+    public boolean getProtocolReferencesEnabled() {
+        return protocolReferencesEnabled;
+    }
+
+    public void setProtocolReferencesEnabled(boolean protocolReferencesEnabled) {
+        this.protocolReferencesEnabled = protocolReferencesEnabled;
+    }
+
+    public boolean getProtocolOrganizationsEnabled() {
+        return protocolOrganizationsEnabled;
+    }
+
+    public void setProtocolOrganizationsEnabled(boolean protocolOrganizationsEnabled) {
+        this.protocolOrganizationsEnabled = protocolOrganizationsEnabled;
+    }
+
+    public boolean getSubjectsEnabled() {
+        return subjectsEnabled;
+    }
+
+    public void setSubjectsEnabled(boolean subjectsEnabled) {
+        this.subjectsEnabled = subjectsEnabled;
+    }
+
+    public boolean getAddModifyAttachmentsEnabled() {
+        return addModifyAttachmentsEnabled;
+    }
+
+    public void setAddModifyAttachmentsEnabled(boolean addModifyAttachmentsEnabled) {
+        this.addModifyAttachmentsEnabled = addModifyAttachmentsEnabled;
+    }
+
+    public boolean getAreasOfResearchEnabled() {
+        return areasOfResearchEnabled;
+    }
+
+    public void setAreasOfResearchEnabled(boolean areasOfResearchEnabled) {
+        this.areasOfResearchEnabled = areasOfResearchEnabled;
+    }
+
+    public boolean getSpecialReviewEnabled() {
+        return specialReviewEnabled;
+    }
+
+    public void setSpecialReviewEnabled(boolean specialReviewEnabled) {
+        this.specialReviewEnabled = specialReviewEnabled;
+    }
+
+    public boolean getProtocolPersonnelEnabled() {
+        return protocolPersonnelEnabled;
+    }
+
+    public void setProtocolPersonnelEnabled(boolean protocolPersonnelEnabled) {
+        this.protocolPersonnelEnabled = protocolPersonnelEnabled;
+    }
+
+    public boolean getOthersEnabled() {
+        return othersEnabled;
+    }
+
+    public void setOthersEnabled(boolean othersEnabled) {
+        this.othersEnabled = othersEnabled;
+    }
+    
+    public boolean isSomeSelected() {
+        return getAddModifyAttachments() ||
+               getAreasOfResearch() ||
+               getFundingSource() ||
+               getGeneralInfo() ||
+               getOthers() ||
+               getProtocolOrganizations() ||
+               getProtocolPersonnel() ||
+               getProtocolReferences() ||
+               getSpecialReview() ||
+               getSubjects();
     }
 }

@@ -17,7 +17,7 @@
 
 <c:set var="action" value="protocolProtocolActions" />
 
-<kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
+<kra:permission value="${KualiForm.actionHelper.canCreateRenewal}">
 
 <kul:innerTab tabTitle="Create Renewal without Amendment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolRenewal*">
     <div class="innerTab-container" align="left">
