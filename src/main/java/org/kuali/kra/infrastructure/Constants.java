@@ -425,7 +425,10 @@ public interface Constants {
     
     public static final Integer AFFILIATION_FACULTY_SUPERVISOR_TYPE = 5;
     public static final Integer AFFILIATION_STUDENT_INVESTIGATOR_TYPE = 4;
-
+    
+    public static final String PROTOCOL_CREATE_AMENDMENT_KEY = "actionHelper.protocolCreateAmendment";
+    public static final String PROTOCOL_CREATE_RENEWAL_WITH_AMENDMENT_KEY = "actionHelper.protocolCreateRenewalWithAmendment";
+    
     //Protocol Personnel Audit Rules
     public static final String PROTOCOL_PERSONNEL_PAGE = "personnel";
     public static final String PROTOCOL_PERSONNEL_PANEL_ANCHOR = "Add Personnel:";
