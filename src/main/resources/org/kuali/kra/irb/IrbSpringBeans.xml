@@ -125,6 +125,14 @@
                     <property name="taskName" value="submitProtocol" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.CreateAmendmentAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="createAmendment" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.CreateRenewalAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="createRenewal" />
+                </bean>
+                
                 <!--  Task Authorizer for modifying persons and their roles on a proposal -->
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolPermissionsAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="modifyProtocolRoles" />

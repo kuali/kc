@@ -19,9 +19,9 @@
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="textSummary" value="actionHelper.protocolAmendmentBean.summary" />
 
-<kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
+<kra:permission value="${KualiForm.actionHelper.canCreateAmendment}">
 
-<kul:innerTab tabTitle="Create Amendment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolAmendmentBean*">
+<kul:innerTab tabTitle="Create Amendment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolCreateAmendment*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
@@ -52,51 +52,71 @@
 	            			<tbody>
 	            				<tr>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.generalInfo" attributeEntry="${attributes.generalInfo}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.generalInfo" 
+	            					                              attributeEntry="${attributes.generalInfo}"
+	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.generalInfoEnabled}" />
 	            					    General Info
 	            					</td>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.addModifyAttachments" attributeEntry="${attributes.generalInfo}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.addModifyAttachments" 
+	            					                              attributeEntry="${attributes.generalInfo}" 
+	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.addModifyAttachmentsEnabled}" />
 	            					    Add/Modify Attachments
 	            					</td>
 	            				</tr>
 	            				<tr>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.fundingSource" attributeEntry="${attributes.fundingSource}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.fundingSource" 
+	            					                              attributeEntry="${attributes.fundingSource}" 
+	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.fundingSourceEnabled}" />
 	            					    Funding Source
 	            					</td>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.areasOfResearch" attributeEntry="${attributes.areasOfResearch}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.areasOfResearch" 
+	            					                              attributeEntry="${attributes.areasOfResearch}" 
+	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.areasOfResearchEnabled}" />
 	            					    Areas of Research
 	            					</td>
 	            				</tr>
 	            				<tr>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.protocolReferences" attributeEntry="${attributes.protocolReferences}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.protocolReferences" 
+	            					                              attributeEntry="${attributes.protocolReferences}" 
+	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.protocolReferencesEnabled}" />
 	            					    Protocol References
 	            					</td>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.specialReview" attributeEntry="${attributes.specialReview}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.specialReview" 
+	            					                              attributeEntry="${attributes.specialReview}" 
+	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.specialReviewEnabled}" />
 	            					    Special Review
 	            					</td>
 	            				</tr>
 	            				<tr>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.protocolOrganizations" attributeEntry="${attributes.protocolOrganizations}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.protocolOrganizations" 
+	            					                              attributeEntry="${attributes.protocolOrganizations}" 
+	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.protocolOrganizationsEnabled}" />
 	            					    Protocol Organizations
 	            					</td>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.protocolPersonnel" attributeEntry="${attributes.protocolPersonnel}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.protocolPersonnel" 
+	            					                              attributeEntry="${attributes.protocolPersonnel}" 
+	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.protocolPersonnelEnabled}" />
 	            					    Protocol Personnel
 	            					</td>
 	            				</tr>
 	            				<tr>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.subjects" attributeEntry="${attributes.subjects}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.subjects" 
+	            					                              attributeEntry="${attributes.subjects}" 
+	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.subjectsEnabled}" />
 	            					    Subjects
 	            					</td>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.others" attributeEntry="${attributes.others}" />
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.others" 
+	            					                              attributeEntry="${attributes.others}" 
+	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.othersEnabled}" />
 	            					    Others
 	            					</td>
 	            				</tr>
