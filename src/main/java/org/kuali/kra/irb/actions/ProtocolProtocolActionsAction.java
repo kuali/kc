@@ -31,6 +31,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.amendrenew.CreateAmendmentEvent;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
@@ -342,20 +343,28 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
+    @SuppressWarnings("unchecked")
     public ActionForward createAmendment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
+        
+        if (!applyRules(new CreateAmendmentEvent(protocolForm.getProtocolDocument(),
+                                                 Constants.PROTOCOL_CREATE_AMENDMENT_KEY,
+                                                 protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
+            return mapping.findForward(MAPPING_BASIC);
+        }
+            
         String newDocId = getProtocolAmendRenewService().createAmendment(protocolForm.getProtocolDocument(), 
                                                                          protocolForm.getActionHelper().getProtocolAmendmentBean());
         // Switch over to the new protocol document and
         // go to the Protocol tab web page.
-        
+            
         protocolForm.setDocId(newDocId);
         loadDocument(protocolForm);
-    
+        
         protocolForm.getProtocolHelper().prepareView();
-        return mapping.findForward(PROTOCOL_TAB);
+        return mapping.findForward(PROTOCOL_TAB);     
     }
     
     /**
@@ -395,6 +404,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
+        
+        if (!applyRules(new CreateAmendmentEvent(protocolForm.getProtocolDocument(),
+                                                 Constants.PROTOCOL_CREATE_RENEWAL_WITH_AMENDMENT_KEY,
+                                                 protocolForm.getActionHelper().getProtocolRenewAmendmentBean()))) {
+            return mapping.findForward(MAPPING_BASIC);
+        }
+        
         String newDocId = getProtocolAmendRenewService().createRenewalWithAmendment(protocolForm.getProtocolDocument(), 
                                                                                     protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
         // Switch over to the new protocol document and

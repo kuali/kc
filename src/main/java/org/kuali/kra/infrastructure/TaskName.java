@@ -65,7 +65,7 @@ public interface TaskName {
     public static final String VIEW_PROTOCOL = "viewProtocol";
     public static final String MODIFY_PROTOCOL_ROLES = "modifyProtocolRoles";
     public static final String ADD_PROTOCOL_NOTES = "addProtocolNotes";
-    public static final String CREATE_PROTOCOL_AMMENDMENT = "createAmmendment";
+    public static final String CREATE_PROTOCOL_AMMENDMENT = "createAmendment";
     public static final String CREATE_PROTOCOL_RENEWAL = "createRenewal";
     public static final String MODIFY_PROTOCOL_BILLABLE = "modifyBillable";
     public static final String SUBMIT_PROTOCOL = "submitProtocol";
