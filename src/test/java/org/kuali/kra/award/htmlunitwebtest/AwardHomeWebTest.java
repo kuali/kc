@@ -28,7 +28,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
  * 
  * This is the integration test for Award Home Page. 
  */
-@SuppressWarnings("unchecked")
 public class AwardHomeWebTest extends AwardWebTestBase {
     
     protected static final String ACCOUNT_TYPE_ID = AWARD_ID_PREFIX + "accountTypeCode";
