@@ -43,6 +43,12 @@
         <property name="documentTypeName" value="QuestionMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
         <property name="additionalSectionsFile" value="/WEB-INF/jsp/questionnaire/questionManager.jsp" />
+        <property name="webScriptFiles">
+            <list>
+                <value>../dwr/interface/CustomAttributeService.js</value>
+                <value>../dwr/interface/ArgValueLookupService.js</value>
+            </list>
+        </property>
     </bean>
 
     <!-- Maintenance Section Definitions -->
