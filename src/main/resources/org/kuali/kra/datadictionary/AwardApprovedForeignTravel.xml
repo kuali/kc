@@ -58,13 +58,13 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Award Number" />
     <property name="shortLabel" value="Award Number" />
-    <property name="maxLength" value="10" />
+    <property name="maxLength" value="12" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10" />
+      <bean parent="TextControlDefinition" p:size="12" />
     </property>
     <property name="summary" value="Award Number" />
     <property name="description" value="Award Number" />
