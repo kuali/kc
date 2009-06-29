@@ -18,6 +18,7 @@ package org.kuali.kra.award;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +35,6 @@ import org.kuali.kra.award.home.AwardTemplateTerm;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
-import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 
 /**
  * This class is the implementation of AwardTemplateSyncService.
@@ -114,6 +113,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
         Field field = awardObject.getClass().getDeclaredField(propertyName);
         extractListFromParentAndSync(awardTemplateObject,awardObject,field);
     }
+    
     /**
      * This method is used to sync member properties of an award template object to an award object
      * 
@@ -121,15 +121,30 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @param awardObject
      */
     private void sync(Object awardTemplateObject, Object awardObject) throws Exception{
-        Field[] fields = awardObject.getClass().getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
-            Field field = fields[i];
+        List<Field> allFields = new ArrayList<Field>();
+        findAllFields(awardObject.getClass(), allFields);
+        for (Field field: allFields) {
             if (field.isAnnotationPresent(AwardSyncable.class)){
                 copyField(awardTemplateObject, awardObject, field);
             }
             if(field.isAnnotationPresent(AwardSyncableList.class)){
                 extractListFromParentAndSync(awardTemplateObject, awardObject, field);
             }
+        }
+    }
+    
+    /**
+     * This method uses recursion to find all declared fields for a class hierierachy
+     * @param klass
+     * @param allFields
+     */
+    @SuppressWarnings("unchecked")
+    private void findAllFields(Class klass, List<Field> allFields) {
+        Field[] fields = klass.getDeclaredFields();
+        allFields.addAll(Arrays.asList(fields));
+        klass = klass.getSuperclass();
+        if(klass != null) {
+            findAllFields(klass, allFields);
         }
     }
 

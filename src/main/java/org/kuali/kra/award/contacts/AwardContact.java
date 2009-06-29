@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kra.award.AwardAssociate;
+import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
@@ -42,8 +43,9 @@ public abstract class AwardContact extends AwardAssociate {
      * we need to provide real fields to be persisted
      */
     protected String personId;
-    protected Integer rolodexId;
-    protected String roleCode;
+    
+    @AwardSyncable  protected Integer rolodexId;
+    @AwardSyncable protected String roleCode;
     
     private Long awardContactId;    
     private ContactRole contactRole;
