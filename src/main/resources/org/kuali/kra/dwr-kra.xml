@@ -106,5 +106,9 @@
 			<include method="getReviewers" />
 			<include method="getReviewerTypes" />
 		</create>
+		<create creator="spring" javascript="ArgValueLookupService">
+            <param name="beanName" value="argValueLookupService" />
+            <include method="getArgumentNames" />
+        </create>
 	</allow>
 </dwr>
