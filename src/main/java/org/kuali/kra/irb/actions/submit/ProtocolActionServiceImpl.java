@@ -89,7 +89,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
             flag = hasPermissionAsCommitteeMember(actionTypeCode, protocol, rightMapper);
         
         if(!flag)
-            flag = hasPermissionSpecialCase(DEFAULT_ORGANIZATION_UNIT ,PERFORM_IRB_ACTIONS_ON_PROTO);
+            flag = hasPermissionSpecialCase(actionTypeCode, DEFAULT_ORGANIZATION_UNIT , rightMapper);
         
         return flag;
     }
@@ -111,17 +111,17 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     private boolean hasPermissionLeadUnit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl");
-        updateHandle.executeRules(rightMapper);
-        return unitAuthorizationService.hasPermission(new UniversalUser(GlobalVariables.getUserSession().getPerson())
-                    .getPersonUserIdentifier(), protocol.getLeadUnitNumber(), MODIFY_ANY_PROTOCOL);
+        updateHandle.executeRules(rightMapper);            
+        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(new UniversalUser(GlobalVariables.getUserSession().getPerson())
+                    .getPersonUserIdentifier(), protocol.getLeadUnitNumber(), MODIFY_ANY_PROTOCOL) : false;
     }
     
     private boolean hasPermissionToSubmit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl");
         updateHandle.executeRules(rightMapper);
-        return protocolAuthorizationService.hasPermission(new UniversalUser(GlobalVariables.getUserSession().getPerson())
-                                .getPersonUserIdentifier(), protocol, SUBMIT_PROTOCOL); 
+        return rightMapper.isAllowed() ? protocolAuthorizationService.hasPermission(new UniversalUser(GlobalVariables.getUserSession().getPerson())
+                                .getPersonUserIdentifier(), protocol, SUBMIT_PROTOCOL) : false; 
     }
     
     private boolean hasPermissionAsCommitteeMember(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
@@ -130,13 +130,16 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         rightMapper.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
         DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl");
         updateHandle.executeRules(rightMapper);
-        return unitAuthorizationService.hasPermission(new UniversalUser(GlobalVariables.getUserSession().getPerson())
-                                            .getPersonUserIdentifier(), protocol.getLeadUnitNumber(), PERFORM_IRB_ACTIONS_ON_PROTO);
+        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(new UniversalUser(GlobalVariables.getUserSession().getPerson())
+                                            .getPersonUserIdentifier(), protocol.getLeadUnitNumber(), PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
     
-    private boolean hasPermissionSpecialCase(String unit, String right) {
-        return unitAuthorizationService.hasPermission(new UniversalUser(GlobalVariables.getUserSession().getPerson())
-        .getPersonUserIdentifier(), unit, right);
+    private boolean hasPermissionSpecialCase(String actionTypeCode, String unit, ActionRightMapping rightMapper) {
+        rightMapper.setActionTypeCode(actionTypeCode);
+        DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl");
+        updateHandle.executeRules(rightMapper);
+        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(new UniversalUser(GlobalVariables.getUserSession().getPerson())
+        .getPersonUserIdentifier(), unit, PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
 
     public boolean canPerformAction(String actionTypeCode, Protocol protocol) {
