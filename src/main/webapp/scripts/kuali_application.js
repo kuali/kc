@@ -1047,7 +1047,11 @@ function loadPersonName(usernameFieldName, fullnameElementId) {
 				window.status = errorMessage;
 			}
 		};
-		CustomAttributeService.getLookupReturnsForAjaxCall( lookupClass, dwrReply );
+		if (lookupClass == "org.kuali.kra.questionnaire.question.ArgValueLookup") {
+			ArgValueLookupService.getArgumentNames( dwrReply );
+		} else {
+		    CustomAttributeService.getLookupReturnsForAjaxCall( lookupClass, dwrReply );
+		}
 	} else {
 	    kualiElements[lookupReturnName].options.length=1;
 	}
