@@ -29,7 +29,7 @@ public class AwardTemplateContact extends KraPersistableBusinessObjectBase {
     private Integer templateContactId; 
 	private AwardTemplate awardTemplate; 
 	
-    private String contactTypeCode; 
+    private String roleCode; 
     private Integer rolodexId; 
     
     private ContactType contactType; 
@@ -59,7 +59,7 @@ public class AwardTemplateContact extends KraPersistableBusinessObjectBase {
     @Override 
 	protected LinkedHashMap toStringMapper() {
         LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("contactTypeCode", getContactTypeCode());
+        hashMap.put("roleCode", getRoleCode());
         hashMap.put("rolodexId", getRolodexId());
 		hashMap.put("templateContactId", getTemplateContactId());
 		return hashMap;
@@ -69,16 +69,16 @@ public class AwardTemplateContact extends KraPersistableBusinessObjectBase {
      * Gets the contactTypeCode attribute. 
      * @return Returns the contactTypeCode.
      */
-    public String getContactTypeCode() {
-        return contactTypeCode;
+    public String getRoleCode() {
+        return roleCode;
     }
 
     /**
      * Sets the contactTypeCode attribute value.
      * @param contactTypeCode The contactTypeCode to set.
      */
-    public void setContactTypeCode(String contactTypeCode) {
-        this.contactTypeCode = contactTypeCode;
+    public void setRoleCode(String contactTypeCode) {
+        this.roleCode = contactTypeCode;
     }
 
     /**

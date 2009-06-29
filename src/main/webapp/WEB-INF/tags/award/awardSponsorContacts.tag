@@ -26,7 +26,7 @@
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Sponsor Contacts</span>
-			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardSponsorContact" altText="help"/></span>
+			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.contacts.AwardSponsorContact" altText="help"/></span>
 		</h3>
 	    <table id="sponsor-contacts-table" cellpadding="0" cellspacing="0" summary="Sponsor Contacts">
 			<tr>
@@ -117,5 +117,11 @@
 	            </tr>
     		</c:forEach>	    	
     	</table>
+    	<br/>
+    	<div align="center">
+    		<c:set var="syncPropertyName" value="sponsorContacts" />
+			<html:image	property="methodToCall.syncAwardTemplate.syncPropertyName${syncPropertyName}.anchor${tabKey}"
+		    	        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctotemplate.gif' styleClass="tinybutton"/>
+		</div>
 	</div>
 </kul:tab>
