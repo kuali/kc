@@ -24,6 +24,8 @@
 		name="nodeIndex" value="${QuestionLookupForm.nodeIndex}"/>
 	<input type="hidden" id="newQuestion"
 		name="newQuestion" value="${QuestionLookupForm.newQuestion}"/>
+	<input type="hidden" id="newQuestionTypeId"
+		name="newQuestionTypeId" value="${QuestionLookupForm.newQuestionTypeId}"/>
 
 	Question : <input type="text" id="newQuestionId"
 		name="newQuestionId" value="${QuestionLookupForm.newQuestionId}"/>
@@ -34,7 +36,7 @@
    			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:newQuestionId,question:newQuestion))).((%true%)).anchor" id = "lookupBtn" 
 	   src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on " title="Multiple Value Search on " />
 	    --%>
-    			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:newQuestionId,question:newQuestion))).((%false%)).anchor" id = "lookupBtn" 
+    			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:newQuestionId,questionTypeId:newQuestionTypeId,question:newQuestion))).((%false%)).anchor" id = "lookupBtn" 
 	   src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on " title="Multiple Value Search on " />
    		
          	</label><br>
@@ -51,10 +53,11 @@
           	  
           	     function returnQuestion() {
           	            var newQuestionId = document.getElementById("newQuestionId").value
+          	            var newQuestionTypeId = document.getElementById("newQuestionTypeId").value
           	            var newQuestion = document.getElementById("newQuestion").value
           	            var nodeIndex = document.getElementById("nodeIndex").value
           	            //var mapKey = document.getElementById("mapKey").value
-          	         	window.opener.returnQuestion(newQuestionId, newQuestion,nodeIndex);
+          	         	window.opener.returnQuestion(newQuestionId, newQuestion,newQuestionTypeId,nodeIndex);
           	     
           	     }
                  var lookupBtn=document.getElementById("lookupBtn");
