@@ -24,6 +24,7 @@ public class ActionRightMapping implements FactBean {
     private String unitIndicator;
     private String committeeId;
     private String scheduleId;  
+    private boolean allowed;
     
     public String getActionTypeCode() {
         return actionTypeCode;
@@ -54,5 +55,11 @@ public class ActionRightMapping implements FactBean {
     }
     public void setScheduleId(String scheduleId) {
         this.scheduleId = scheduleId;
+    }
+    public boolean isAllowed() {
+        return allowed;
+    }
+    public void setAllowed(boolean allowed) {
+        this.allowed = allowed;
     }    
 }
