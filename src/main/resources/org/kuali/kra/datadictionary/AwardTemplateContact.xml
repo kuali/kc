@@ -33,7 +33,7 @@
 			<list>
 				<ref bean="AwardTemplateContact-templateContactId" />
 				<!--<ref bean="AwardTemplateContact-templateCode" />-->
-				<ref bean="AwardTemplateContact-contactTypeCode" />
+				<ref bean="AwardTemplateContact-roleCode" />
 				<ref bean="AwardTemplateContact-rolodexId" />
 				<ref bean="AwardTemplateContact-versionNumber" />
 			</list>
@@ -83,9 +83,9 @@
 		<property name="description" value="Template Code" />
 	</bean>-->
 
-	<bean id="AwardTemplateContact-contactTypeCode" parent="AwardTemplateContact-contactTypeCode-parentBean" />
-	<bean id="AwardTemplateContact-contactTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="contactTypeCode" />
+	<bean id="AwardTemplateContact-roleCode" parent="AwardTemplateContact-roleCode-parentBean" />
+	<bean id="AwardTemplateContact-roleCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="roleCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Contact Type Code" />
 		<property name="shortLabel" value="Contact Type Code" />
