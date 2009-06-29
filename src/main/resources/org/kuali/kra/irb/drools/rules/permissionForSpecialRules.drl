@@ -6,10 +6,10 @@ package actionRightMapping
 import org.kuali.kra.irb.actions.submit.ActionRightMapping;
 
 
-rule "Rule 1 -  105/106/108/114/115/116 And 303 And 101"
+rule "Rule 1 -  202/203/204/304"
 salience 100
 when
-	actionRight : ActionRightMapping(actionTypeCode in ('105','106','108','114','115','116','303','101'))
+	actionRight : ActionRightMapping(actionTypeCode in ('202','203','204','304'))
 then	
     actionRight.setAllowed(true);
 end
