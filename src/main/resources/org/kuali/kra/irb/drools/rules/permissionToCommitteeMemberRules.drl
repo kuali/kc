@@ -11,7 +11,7 @@ salience 100
 when
 	actionRight : ActionRightMapping(actionTypeCode in ('303','207','301','300','302','305','306','205','206','109','201','200','210','208','209','202','203','304','204','211','212') , scheduleId != null)
 then	
-    actionRight.setRightId("PERFORM_IRB_ACTIONS_ON_PROTO");
+    actionRight.setAllowed(true);
 end
 
 rule "Rule 2 -  303 And 207/301/300/302/305/306 And 205/206/109/201/200/210/208/209 And 202/203/304/204/211/212"
@@ -19,5 +19,5 @@ salience 100
 when
 	actionRight : ActionRightMapping(actionTypeCode in ('303','207','301','300','302','305','306','205','206','109','201','200','210','208','209','202','203','304','204','211','212') , committeeId != null)
 then	
-    actionRight.setRightId("PERFORM_IRB_ACTIONS_ON_PROTO");
+    actionRight.setAllowed(true);;
 end

@@ -242,6 +242,9 @@
 	
 	<bean id="protocolActionService" class="org.kuali.kra.irb.actions.submit.ProtocolActionServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="protocolAuthorizationService" ref="protocolAuthorizationService" />
+		<property name="unitAuthorizationService" ref="unitAuthorizationService" />
+		<property name="protocolDao" ref="protocolDao" />
 	</bean>
 	
 	<bean id="protocolAmendRenewService" class="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewServiceImpl">
