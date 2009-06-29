@@ -1,5 +1,6 @@
-  function getQuestionNew(description, vers, childNode) {
+  function getQuestionNew(description, qtypeid, vers, childNode) {
   
+     //alert("getquestionnew");
      var qnaireid =  "qnaireid"+i
      var question = $('<li class="closed"></li>').attr("id", qnaireid);
      var divId = "listcontent"+i;
@@ -75,38 +76,13 @@
      trtmp.appendTo(tbl362);
      trtmp = $('<tr></tr>');
      tdtmp = $('<td class="content_white" style="text-align:center; vertical-align:top;">');
-     selecttmp = $('<select id="responsetypecontrol1b"></select>');
-     $('<option value="0" selected="selected">select</option>').appendTo(selecttmp);
-     $('<option value="1">Yes/No</option>').appendTo(selecttmp);
-     $('<option value="2">Yes/No/NA</option>').appendTo(selecttmp);
-     $('<option value="3">Number</option>').appendTo(selecttmp);
-     $('<option value="4">Date</option>').appendTo(selecttmp);
-     $('<option value="5">Text</option>').appendTo(selecttmp);
-     $('<option value="6">Dropdown</option>').appendTo(selecttmp);
-     $('<option value="7">Checkbox</option>').appendTo(selecttmp);
-     $('<option value="8">Lookup</option>').appendTo(selecttmp);
-     selecttmp.appendTo(tdtmp);
+     //alert("qtypeid "+i+$('#qtypeid'+i).attr("value"));
+     selecttmp = questionType[qtypeid];
+     tdtmp.html(selecttmp);
      tdtmp.appendTo(trtmp);
                                                                                
- 
       tdtmp = $('<td class="content_white" style="text-align:left;">');
-    divtmp = $('<div id="responsetypeSelect1b" class="responsetypediv1b">').html($("<i>[NB: The Type pulldown to the left would be READ ONLY.  It is presented here as a dynamic trigger for the purposes of mocking each type's value.]</i>"));
-    divtmp.appendTo(tdtmp);
-    divtmp = $('<div id="responsetypeYesNo1b" class="responsetypediv1b">').html($('<p>The user will be presented with the following radio buttons: Yes, No.<br />Only one selection is possible.<br />A selection is required.</p>'));
-    divtmp.appendTo(tdtmp);
-    divtmp = $('<div id="responsetypeYesNoNA1b" class="responsetypediv1b">').html($('<p>The user will be presented with the following pulldown: Yes, No, Not Applicable.<br />Only one selection is possible.<br />A selection is required.</p>'));
-    divtmp.appendTo(tdtmp);
-    divtmp = $('<div id="responsetypeNumber1b" class="responsetypediv1b">').html($('<p>The user will be presented with 1 text box.<br />The entered value will be validated requiring a number only.<br />The maximum length of the number in characters is 5.<br />The number of possible answers is 1. </p>'));
-    divtmp.appendTo(tdtmp);
-    divtmp = $('<div id="responsetypeDate1b" class="responsetypediv1b">').html($('<p>The user will be presented with 2 text boxes.<br />The entered value will be validated for a date in MM/DD/YYYY format.<br />A response is required for each text box.</p>'));
-    divtmp.appendTo(tdtmp);
-    divtmp = $('<div id="responsetypeText1b" class="responsetypediv1b">').html($('<p>The user will be presented with 2 text areas.<br />The number of possible answers is 2.<br />Maximum length of each response in characters: 256.</p>'));
-    divtmp.appendTo(tdtmp);
-    divtmp = $('<div id="responsetypeDropdown1b" class="responsetypediv1b">').html($('<p>The user will be presented with a dropdown of options.<br />Only one selection is possible.<br />A selection is required.</p> Possible answers are:<br />1. One Fish<br />2. Two Fish<br />3. Red Fish<br />4. Blue Fish'));
-    divtmp.appendTo(tdtmp);
-    divtmp = $('<div id="responsetypeCheckbox1b" class="responsetypediv1b">').html($('<p>The user will be presented with 4 checkboxes.<br />At least one selection is required.<br />Up to 4 selections are allowed.</p>Possible answers are:<br />1. One Byte<br />2. Two Bites<br />3. Red Light<br />4. Green lights'));
-    divtmp = $('<div id="responsetypeSearch1b" class="responsetypediv1b">').html($('<p>The user will be presented with the ability to search for: Person.<br />The field to return is: Name.<br />The number of possible returns is 2.</p>'));
-    divtmp.appendTo(tdtmp);  
+    getQnTypeDesc(qtypeid).appendTo(tdtmp);  
     tdtmp.appendTo(trtmp);  
     trtmp.appendTo(tbl362);
     tbl362.appendTo(div360);
@@ -312,6 +288,7 @@
      var atag = $('<a href="#"></a>');
 
      var qntag = $('<input type="hidden" id = "qid" name = "qid" />').attr("id","qid"+i).attr("name","qid"+i);
+     var qntag = $('<input type="hidden" id = "qtypeid" name = "qtypeid" />').attr("id","qtypeid"+i).attr("name","qtypeid"+i);
      qntag.appendTo(tdtmp);
      var image = $('<img src="/kra-dev/static/images/searchicon.gif" id="searchQ" name="searchQ" border="0" class="tinybutton"  alt="Search Question" title="Search Question">').attr("id","search"+i).attr("name","search"+i); 
      //image.attr("name","methodToCall\.performLookup\.(!!org\.kuali\.kra\.questionnaire\.question\.Question!!)\.(((questionId:document\.newMaintainableObject\.questionId,)))\.((#document\.newMaintainableObject\.questionId:questionId,#))\.((<>))\.(([]))\.((**))\.((^^))\.((&&))\.((/rateClassTypeT/))\.((~~))\.anchor1");
@@ -353,7 +330,7 @@
             if (radioVal == 'sibling' && $(this).parents('li:eq(0)').parents('ul:eq(0)').attr("id") == 'example') {
                 childNode = 'false';
             }
-            var listitem = getQuestionNew($("#qdesc"+$(this).attr("id").substring(5)).attr("value"), "V1.01", childNode);
+            var listitem = getQuestionNew($("#qdesc"+$(this).attr("id").substring(5)).attr("value"),$("#qtypeid"+$(this).attr("id").substring(5)).attr("value"), "V1.01", childNode);
 			var ultag = $('<ul></ul>');
             ultag.appendTo(listitem);
             var idx = listitem.attr("id").substring(8);
@@ -555,15 +532,37 @@
 			  idx1=url.indexOf(pathname);
 			  idx2=url.indexOf("/",idx1+1);
 			  extractUrl=url.substr(0,idx2)
-			  var winPop = window.open(extractUrl+"/questionLookup.do?nodeIndex="+nodeIndex, "_blank", "width=800, height=600, scrollbars=yes");
+			  var winPop = window.open(extractUrl+"/questionLookup.do?nodeIndex="+nodeIndex, "_blank", "width=1000, height=800, scrollbars=yes");
          //} else {
          //	alert ("This node has sub sponsor group; can't add sponsors ");
          //}
 
     }
   
-  function returnQuestion(newQuestionId, newQuestion,nodeIndex) {
-     alert("return QNID "+ newQuestionId);
+  function returnQuestion(newQuestionId, newQuestion,newQuestionTypeId,nodeIndex) {
+     //alert("return QNID "+ newQuestionId+newQuestionTypeId);
      $("#qid"+nodeIndex).attr("value",newQuestionId);
      $("#qdesc"+nodeIndex).attr("value",newQuestion);
+     $("#qtypeid"+nodeIndex).attr("value",newQuestionTypeId);
+     alert("qtypeid "+ nodeIndex+$("#qtypeid"+nodeIndex).attr("value"));
   }
+  
+  function getQnTypeDesc(qtypeid) {
+     alert("gettypedesc "+qtypeid);
+     var divtmp = null;
+     switch (Number(qtypeid)) { 
+         // has to use Number(qtypeid)
+         case 1: divtmp = $('<div id="responsetypeYesNo1b" class="responsetypediv1b">').html($('<p>The user will be presented with the following radio buttons: Yes, No.<br />Only one selection is possible.<br />A selection is required.</p>')); break;
+         case 2: divtmp = $('<div id="responsetypeYesNoNA1b" class="responsetypediv1b">').html($('<p>The user will be presented with the following pulldown: Yes, No, Not Applicable.<br />Only one selection is possible.<br />A selection is required.</p>')); break;
+         case 3: divtmp = $('<div id="responsetypeNumber1b" class="responsetypediv1b">').html($('<p>The user will be presented with 1 text box.<br />The entered value will be validated requiring a number only.<br />The maximum length of the number in characters is 5.<br />The number of possible answers is 1. </p>')); break;
+         case 4: divtmp = $('<div id="responsetypeDate1b" class="responsetypediv1b">').html($('<p>The user will be presented with 2 text boxes.<br />The entered value will be validated for a date in MM/DD/YYYY format.<br />A response is required for each text box.</p>')); break;
+         case 5: divtmp = $('<div id="responsetypeText1b" class="responsetypediv1b">').html($('<p>The user will be presented with 2 text areas.<br />The number of possible answers is 2.<br />Maximum length of each response in characters: 256.</p>')); break;
+         case 6: divtmp = $('<div id="responsetypeDropdown1b" class="responsetypediv1b">').html($('<p>The user will be presented with a dropdown of options.<br />Only one selection is possible.<br />A selection is required.</p> Possible answers are:<br />1. One Fish<br />2. Two Fish<br />3. Red Fish<br />4. Blue Fish')); break;
+         case 7: divtmp = $('<div id="responsetypeCheckbox1b" class="responsetypediv1b">').html($('<p>The user will be presented with 4 checkboxes.<br />At least one selection is required.<br />Up to 4 selections are allowed.</p>Possible answers are:<br />1. One Byte<br />2. Two Bites<br />3. Red Light<br />4. Green lights')); break;
+         case 8: divtmp = $('<div id="responsetypeSearch1b" class="responsetypediv1b">').html($('<p>The user will be presented with the ability to search for: Person.<br />The field to return is: Name.<br />The number of possible returns is 2.</p>')); break;
+        default: divtmp = $('<div id="responsetypeSearch1b" class="responsetypediv1b">').html($('<p>Unknown</p>'));
+     }
+     return divtmp;
+  }
+  
+  
