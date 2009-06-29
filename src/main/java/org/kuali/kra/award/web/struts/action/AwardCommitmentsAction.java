@@ -251,30 +251,4 @@ public class AwardCommitmentsAction extends AwardAction {
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-
-    /**
-     * Overridden to silently change the two "Authorized Amount" values to positive numbers if they are negative.
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#preDocumentSave(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
-     * @Override
-     */
-    protected void preDocumentSave(KualiDocumentFormBase form) throws Exception {
-        super.preDocumentSave(form);
-        
-        AwardForm awardForm = (AwardForm)form;
-        Award award = awardForm.getAwardDocument().getAward();
-        
-        // if authorizedAmount is negative, make it positive
-        KualiDecimal authorizedAmount = award.getPreAwardAuthorizedAmount();
-        if (authorizedAmount!=null && authorizedAmount.isNegative()) {
-            authorizedAmount = KualiDecimal.ZERO.subtract(authorizedAmount);
-            award.setPreAwardAuthorizedAmount(authorizedAmount);
-        }
-        
-        // if institutionalAuthorizedAmount is negative, make it positive
-        KualiDecimal institutionalAuthorizedAmount = award.getPreAwardInstitutionalAuthorizedAmount();
-        if (institutionalAuthorizedAmount!=null && institutionalAuthorizedAmount.isNegative()) {
-            institutionalAuthorizedAmount = KualiDecimal.ZERO.subtract(institutionalAuthorizedAmount);
-            award.setPreAwardInstitutionalAuthorizedAmount(institutionalAuthorizedAmount);
-        }
-    }
 }

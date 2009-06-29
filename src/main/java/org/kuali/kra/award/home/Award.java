@@ -846,11 +846,17 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     /**
-     *
+     * For negative values, this method makes the number positive by dropping the negative sign.
      * @param preAwardAuthorizedAmount
      */
     public void setPreAwardAuthorizedAmount(KualiDecimal preAwardAuthorizedAmount) {
-        this.preAwardAuthorizedAmount = preAwardAuthorizedAmount;
+        // if preAwardAuthorizedAmount is negative, make it positive
+        if (preAwardAuthorizedAmount!=null && preAwardAuthorizedAmount.isNegative()) {
+            this.preAwardAuthorizedAmount = KualiDecimal.ZERO.subtract(preAwardAuthorizedAmount);
+        }
+        else {
+            this.preAwardAuthorizedAmount = preAwardAuthorizedAmount;
+        }
     }
 
 
@@ -1652,11 +1658,17 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     /**
-     * This method...
+     * For negative values, this method makes the number positive by dropping the negative sign.
      * @param preAwardInstitutionalAuthorizedAmount
      */
     public void setPreAwardInstitutionalAuthorizedAmount(KualiDecimal preAwardInstitutionalAuthorizedAmount) {
-        this.preAwardInstitutionalAuthorizedAmount = preAwardInstitutionalAuthorizedAmount;
+        // if preAwardInstitutionalAuthorizedAmount is negative, make it positive
+        if (preAwardInstitutionalAuthorizedAmount!=null && preAwardInstitutionalAuthorizedAmount.isNegative()) {
+            this.preAwardInstitutionalAuthorizedAmount = KualiDecimal.ZERO.subtract(preAwardInstitutionalAuthorizedAmount);
+        }
+        else {
+            this.preAwardInstitutionalAuthorizedAmount = preAwardInstitutionalAuthorizedAmount;
+        }
     }
 
     /**
