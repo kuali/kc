@@ -312,7 +312,11 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param text the string to look for in the web page.
      */
     protected final void assertContains(HtmlPage page, String text) {
-        assertTrue(page.asText().contains(text));
+        if(LOG.isDebugEnabled()) {
+            assertTrue(page.asText(), page.asText().contains(text));
+        } else {
+            assertTrue(page.asText().contains(text));
+        }
     }
 
     /**
