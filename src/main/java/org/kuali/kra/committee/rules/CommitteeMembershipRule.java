@@ -33,7 +33,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * 
  * This class contains the rules to validate a <code>{@link CommitteeMembership}</code>
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public class CommitteeMembershipRule extends ResearchDocumentRuleBase 
                                      implements AddCommitteeMembershipRule,

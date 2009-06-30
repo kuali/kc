@@ -28,7 +28,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * 
  * This abstract class is used for specific <code>{@link Committee}</code> events.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public abstract class CommitteeMembershipEventBase extends KraDocumentEventBase 
                                                    implements CommitteeMembershipEvent {
