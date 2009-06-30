@@ -28,7 +28,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * This class implements the membership role object.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 @Entity
 @Table(name = "MEMBERSHIP_ROLE")

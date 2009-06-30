@@ -27,7 +27,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  * This class represents the event when a <code>{@link CommitteeMembership}</code> is added to a 
  * <code>{@link Committee}</code>.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public class AddCommitteeMembershipEvent extends CommitteeMembershipEventBase {
 
