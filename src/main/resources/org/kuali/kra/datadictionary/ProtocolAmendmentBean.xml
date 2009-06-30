@@ -46,8 +46,8 @@
 	<bean id="ProtocolAmendmentBean-summary-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="summary" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Summary" />
-		<property name="shortLabel" value="Summary" />
+		<property name="label" value="Amendment Summary" />
+		<property name="shortLabel" value="Amendment Summary" />
 		<property name="required" value="true" />
 		<property name="maxLength" value="4000" />
 		<property name="control" >
@@ -55,8 +55,8 @@
 		          p:rows="2"
 		          p:cols="100" />
 		</property>
-		<property name="summary" value="Summary" />
-		<property name="description" value="Summary" />
+		<property name="summary" value="Amendment Summary" />
+		<property name="description" value="Amendment Summary" />
 	</bean>	
 	
 	<bean id="ProtocolAmendmentBean-generalInfo" parent="ProtocolAmendmentBean-generalInfo-parentBean" />
