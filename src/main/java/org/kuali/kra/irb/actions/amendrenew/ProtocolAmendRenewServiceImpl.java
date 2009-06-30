@@ -36,6 +36,9 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     private static final int DIGIT_COUNT = 3;
     private static final String AMEND_NEXT_VALUE = "nextAmendValue";
     private static final String RENEW_NEXT_VALUE = "nextRenewValue";
+    private static final String AMENDMENT = "Amendment";
+    private static final String RENEWAL = "Renewal";
+    private static final String CREATED = "created";
     
     private BusinessObjectService businessObjectService;
     private ProtocolCopyService protocolCopyService;
@@ -135,10 +138,9 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     }
     
     /**
-     * Generate the protocol number for an amendment.  The protocol number for
-     * an renewal is the original protocol's number appended with "Axxx" where
-     * "xxx" is the next sequence number.  A protocol can have more than one
-     * amendment.
+     * Generate the protocol number for an renewal.  The protocol number for
+     * an renewal is the original protocol's number appended with "Rxxx" where
+     * "xxx" is the next sequence number.
      * @param protocolDocument
      * @return
      */
@@ -252,7 +254,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      */
     private ProtocolAction createCreateAmendmentProtocolAction(Protocol protocol, String protocolNumber) {
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.AMENDMENT_CREATED);
-        protocolAction.setComments("Amendment " + protocolNumber.substring(11) + " created.");
+        protocolAction.setComments(AMENDMENT + " " + protocolNumber.substring(11) + " " + CREATED + ".");
         return protocolAction;
     }
     
@@ -264,7 +266,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      */
     private ProtocolAction createCreateRenewalProtocolAction(Protocol protocol, String protocolNumber) {
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.RENEWAL_CREATED);
-        protocolAction.setComments("Renewal " + protocolNumber.substring(11) + " created.");
+        protocolAction.setComments(RENEWAL + " " + protocolNumber.substring(11) + " " + CREATED + ".");
         return protocolAction;
     }
 }

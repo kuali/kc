@@ -24,7 +24,7 @@ import javax.persistence.Table;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 @Entity
-@Table(name="PROTOCOL_MODULES")
+@Table(name="PROTOCOL_AMEND_RENEW_MODULES")
 @SuppressWarnings("serial")
 public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase {
 
