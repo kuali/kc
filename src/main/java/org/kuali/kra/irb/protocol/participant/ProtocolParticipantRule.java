@@ -31,7 +31,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * 
  * This class contains the rules to validate a <code>{@link ProtocolParticipant}</code>
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public class ProtocolParticipantRule extends ResearchDocumentRuleBase implements AddProtocolParticipantRule {
 
