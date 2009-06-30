@@ -35,7 +35,7 @@ import org.kuali.kra.committee.service.impl.CommitteeMembershipServiceImpl;
  * 
  * The JUnit test class for <code>{@link CommitteeMembershipService}</code>
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public class CommitteeMembershipServiceTest {
 
