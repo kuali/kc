@@ -1,5 +1,5 @@
 #created on: Apr 5, 2009
-package actionRightMapping
+package org.kuali.kra.irb.drools.rules
 
 #list any import classes here.
 
@@ -10,7 +10,7 @@ import org.kuali.kra.irb.actions.submit.ActionRightMapping;
 rule "Rule 1 -  105/106/108/114/115/116 And 303"
 salience 100
 when
-	actionRight : ActionRightMapping(actionTypeCode in ('105','106','108','114','115','116', '303')))
+	actionRight : ActionRightMapping(actionTypeCode in ('105','106','108','114','115','116', '303'))
 then	
     actionRight.setAllowed(true);
 end

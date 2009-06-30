@@ -1,5 +1,5 @@
 #created on: Apr 5, 2009
-package actionRightMapping
+package org.kuali.kra.irb.drools.rules
 
 #list any import classes here.
 

@@ -112,16 +112,14 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         rightMapper.setActionTypeCode(actionTypeCode);
         DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl");
         updateHandle.executeRules(rightMapper);            
-        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(new UniversalUser(GlobalVariables.getUserSession().getPerson())
-                    .getPersonUserIdentifier(), protocol.getLeadUnitNumber(), MODIFY_ANY_PROTOCOL) : false;
+        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(), MODIFY_ANY_PROTOCOL) : false;
     }
     
     private boolean hasPermissionToSubmit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl");
         updateHandle.executeRules(rightMapper);
-        return rightMapper.isAllowed() ? protocolAuthorizationService.hasPermission(new UniversalUser(GlobalVariables.getUserSession().getPerson())
-                                .getPersonUserIdentifier(), protocol, SUBMIT_PROTOCOL) : false; 
+        return rightMapper.isAllowed() ? protocolAuthorizationService.hasPermission(getUserIdentifier(), protocol, SUBMIT_PROTOCOL) : false; 
     }
     
     private boolean hasPermissionAsCommitteeMember(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
@@ -130,18 +128,20 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         rightMapper.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
         DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl");
         updateHandle.executeRules(rightMapper);
-        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(new UniversalUser(GlobalVariables.getUserSession().getPerson())
-                                            .getPersonUserIdentifier(), protocol.getLeadUnitNumber(), PERFORM_IRB_ACTIONS_ON_PROTO) : false;
+        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(), PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
     
     private boolean hasPermissionSpecialCase(String actionTypeCode, String unit, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl");
         updateHandle.executeRules(rightMapper);
-        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(new UniversalUser(GlobalVariables.getUserSession().getPerson())
-        .getPersonUserIdentifier(), unit, PERFORM_IRB_ACTIONS_ON_PROTO) : false;
+        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), unit, PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
-
+    
+    private String getUserIdentifier() {
+        return new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUserIdentifier();
+    }
+    
     public boolean canPerformAction(String actionTypeCode, Protocol protocol) {
         String submissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatusCode();
         String submissionTypeCode = protocol.getProtocolSubmission().getSubmissionTypeCode();
