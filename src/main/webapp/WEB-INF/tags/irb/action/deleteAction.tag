@@ -21,7 +21,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
 
-<kul:innerTab tabTitle="Delete Protocol, Amendment, Renewal" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolWithdrawBean*">
+<kul:innerTab tabTitle="Delete Protocol, Amendment, or Renewal" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolWithdrawBean*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
