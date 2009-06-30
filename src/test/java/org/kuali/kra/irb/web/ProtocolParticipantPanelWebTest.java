@@ -31,7 +31,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 /**
  * Tests the Participant Types Panel in the Protocol Document.
  *
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public class ProtocolParticipantPanelWebTest extends ProtocolWebTestBase {
 
