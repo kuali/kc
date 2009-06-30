@@ -16,6 +16,7 @@
 package org.kuali.kra.lookup.keyvalue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,6 @@ public class LookupableBoValuesFinder extends KeyValuesBase {
      */
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
 
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
         // this only has entries that have been loaded - force load?
@@ -42,12 +42,16 @@ public class LookupableBoValuesFinder extends KeyValuesBase {
     	Map<String, BusinessObjectEntry> businessObjectEntries = dataDictionaryService.getDataDictionary().getBusinessObjectEntries();
     	for (String businessObject: businessObjectEntries.keySet()) {
     	    if ((businessObjectEntries.get(businessObject).hasLookupDefinition()) && (businessObject.startsWith("org.kuali.kra"))) {
-        		KeyLabelPair keyLabelPair = new KeyLabelPair(businessObject, StringUtils.removeEnd(businessObjectEntries.get(businessObject).getLookupDefinition().getTitle()," Lookup"));
+        		KeyLabelPair keyLabelPair = new KeyLabelPair(businessObject, StringUtils.removeEnd(businessObjectEntries.get(businessObject).getLookupDefinition().getTitle().trim()," Lookup"));
         		if (!keyValues.contains(keyLabelPair)) {
         		    keyValues.add(keyLabelPair);
         		}
     	    }
     	}
+
+    	// added comparator below to alphabetize lists on label
+        Collections.sort(keyValues, new KeyLabelPairComparator());
+        keyValues.add(0, new KeyLabelPair("", "select"));
 
     	return keyValues;
     }
