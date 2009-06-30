@@ -32,6 +32,18 @@ import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProtocolActionServiceImpl implements ProtocolActionService {
     
+    private static final String  PERMISSIONS_LEADUNIT_FILE = "org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl";
+    
+    private static final String  PERMISSIONS_SUBMIT_FILE = "org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl";
+    
+    private static final String  PERMISSIONS_COMMITTEEMEMBERS_FILE = "org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl";
+    
+    private static final String  PERMISSIONS_SPECIAL_FILE = "org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl";
+    
+    private static final String  PERFORMACTION_FILE = "org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl";
+    
+    private static final String  UPDATE_FILE = "org/kuali/kra/irb/drools/rules/updateProtocolRules.drl";
+    
     private static final String MODIFY_ANY_PROTOCOL = "MODIFY_ANY_PROTOCOL";
     
     private static final String SUBMIT_PROTOCOL = "SUBMIT_PROTOCOL";
@@ -39,6 +51,12 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     private static final String PERFORM_IRB_ACTIONS_ON_PROTO = "PERFORM_IRB_ACTIONS_ON_PROTO";
     
     private static final String DEFAULT_ORGANIZATION_UNIT = "000001";
+    
+    private static final String AMEND = "A";
+    
+    private static final String RENEW = "R";
+    
+    private static final String NONE = "NONE";
 
     private BusinessObjectService businessObjectService;
 
@@ -110,14 +128,14 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     
     private boolean hasPermissionLeadUnit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
-        DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl");
+        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_LEADUNIT_FILE);
         updateHandle.executeRules(rightMapper);            
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(), MODIFY_ANY_PROTOCOL) : false;
     }
     
     private boolean hasPermissionToSubmit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
-        DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl");
+        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_SUBMIT_FILE);
         updateHandle.executeRules(rightMapper);
         return rightMapper.isAllowed() ? protocolAuthorizationService.hasPermission(getUserIdentifier(), protocol, SUBMIT_PROTOCOL) : false; 
     }
@@ -126,14 +144,14 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         rightMapper.setActionTypeCode(actionTypeCode);
         rightMapper.setCommitteeId(protocol.getProtocolSubmission().getCommitteeId());
         rightMapper.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
-        DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl");
+        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_COMMITTEEMEMBERS_FILE);
         updateHandle.executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(), PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
     
     private boolean hasPermissionSpecialCase(String actionTypeCode, String unit, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
-        DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl");
+        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_SPECIAL_FILE);
         updateHandle.executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), unit, PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
@@ -154,7 +172,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         protocolAction.setBusinessObjectService(businessObjectService);
         protocolAction.setDao(protocolDao);
         protocolAction.setProtocol(protocol);
-        DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl");
+        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERFORMACTION_FILE);
         updateHandle.executeRules(protocolAction);
         return protocolAction.isAllowed();
     }
@@ -171,7 +189,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     public void runUpdateProtocolRules(ProtocolAction protocolActionBo, Protocol protocol) {
 
         String protocolNumberUpper = protocol.getProtocolNumber().toUpperCase();
-        String specialCondition = (protocolNumberUpper.contains("A") ? "A" : (protocolNumberUpper.contains("R") ? "R" : "NONE"));
+        String specialCondition = (protocolNumberUpper.contains(AMEND) ? AMEND : (protocolNumberUpper.contains(RENEW) ? RENEW : NONE));
 
         ProtocolActionUpdateMapping protocolAction = new ProtocolActionUpdateMapping(protocolActionBo.getProtocolActionTypeCode(),
             protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode(), protocol.getProtocolStatusCode(),
@@ -179,7 +197,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         protocolAction.setProtocol(protocol);
         protocolAction.setProtocolSubmissionStatus(protocol.getProtocolSubmission().getSubmissionStatus());
 
-        DroolsRuleHandler updateHandle = new DroolsRuleHandler("org/kuali/kra/irb/drools/rules/updateProtocolRules.drl");
+        DroolsRuleHandler updateHandle = new DroolsRuleHandler(UPDATE_FILE);
         updateHandle.executeRules(protocolAction);
         businessObjectService.save(protocol);
     }
