@@ -8,7 +8,7 @@
 	</appender>
 
 	<appender name="StdOut" class="org.apache.log4j.ConsoleAppender">
-           <param name="Threshold"   value="DEBUG" />
+           <param name="Threshold"   value="INFO" />
            <layout class="org.apache.log4j.PatternLayout">
              <param name="ConversionPattern"
 		            value="%d [%t] D:%X{docID} U:%X{user} [%X{clientIp}]  %-5p %c :: %m%n"/>
@@ -23,23 +23,19 @@
 	</appender>
 	
 	<category name="org.kuali.rice.kew">
-	  <priority value="WARN" />
+	  <priority value="INFO" />
 	</category>
     
-	<category name="org.kuali.rice.test">
-	  <priority value="DEBUG" />
-	</category>
-
 	<category name="org.kuali.rice">
-	  <priority value="WARN" />
+	  <priority value="INFO" />
 	</category>
 
 	<category name="org.kuali.rice.kns.util">
-	  <priority value="WARN" />
+	  <priority value="INFO" />
 	</category>
 
 	<category name="org.kuali.rice.kns.lookup">
-	  <priority value="WARN" />
+	  <priority value="INFO" />
 	</category>
         
 	<category name="org.displaytag">
@@ -51,7 +47,7 @@
 	</category>
         
 	<category name="org.apache">
-	  <priority value="DEBUG" />
+	  <priority value="WARN" />
 	</category>
         
 	<category name="httpclient">
@@ -59,7 +55,7 @@
 	</category>
         
 	<category name="org.objectweb">
-	  <priority value="WARN" />
+	  <priority value="info" />
 	</category>
         
 	<category name="org.enhydra">
@@ -71,39 +67,27 @@
 	</category>
         
 	<category name="org.kuali.kra.proposaldevelopment">
-	  <priority value="WARN" />
+	  <priority value="DEBUG" />
 	</category>
 
 	<category name="org.kuali.kra">
-	  <priority value="WARN" />
-	</category>
-	
-	<category name="org.kuali.kra.KraWebTestBase">
 	  <priority value="DEBUG" />
 	</category>
 
 	<category name="org.kuali.kra.web.filter.PerformanceLoggingFilter">
-	  <priority value="WARN" />
+	  <priority value="DEBUG" />
 	</category>
 
 	<category name="org.kuali.kra.web.listener.SessionLoggingListener">
-	  <priority value="WARN" />
+	  <priority value="DEBUG" />
 	</category>
 
 	<category name="org.kuali.kra.web.filter.RequestLoggingFilter">
-	  <priority value="WARN" />
+	  <priority value="DEBUG" />
 	</category>
 
 	<category name="org.kuali.kra.util.spring.MethodLoggingInterceptor">
-	  <priority value="WARN" />
-	</category>
-
-	<category name="org.kuali.kra.web.filter">
-		<priority value="WARN" />
-	</category>
-	
-	<category name="org.quartz">
-		<priority value="WARN" />
+	  <priority value="INFO" />
 	</category>
 	
 	<root>
@@ -112,4 +96,3 @@
 	</root>
 	
 </log4j:configuration>
-        
