@@ -34,7 +34,7 @@ import org.kuali.kra.irb.ProtocolAssociate;
  * 
  * This class implements the protocol participant object.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 @Entity
 @Table(name = "PROTOCOL_VULNERABLE_SUB")

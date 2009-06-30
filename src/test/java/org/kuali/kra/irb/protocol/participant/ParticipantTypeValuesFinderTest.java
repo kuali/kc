@@ -23,7 +23,7 @@ import org.kuali.kra.keyvalue.ValuesFinderTestBase;
  * 
  * Test the Participant Type Values Finder.
  *
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public class ParticipantTypeValuesFinderTest extends ValuesFinderTestBase {
 

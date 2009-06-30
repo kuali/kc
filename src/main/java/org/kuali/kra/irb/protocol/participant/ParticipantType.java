@@ -29,7 +29,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * This class implements the participant type object.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 @Entity
 @Table(name = "VULNERABLE_SUBJECT_TYPE")

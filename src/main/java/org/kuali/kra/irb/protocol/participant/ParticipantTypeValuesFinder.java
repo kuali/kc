@@ -32,7 +32,7 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  * Finds the available set of supported Participant Types.  See
  * the method <code>getKeyValues()</code> for a full description.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public class ParticipantTypeValuesFinder extends KeyValuesBase {
     
