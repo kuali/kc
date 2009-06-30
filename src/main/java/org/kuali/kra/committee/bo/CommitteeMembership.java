@@ -34,7 +34,7 @@ import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
  * 
  * This class implements the committee membership object.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 @SuppressWarnings("serial")
 public class CommitteeMembership extends KraPersistableBusinessObjectBase implements SequenceAssociate {

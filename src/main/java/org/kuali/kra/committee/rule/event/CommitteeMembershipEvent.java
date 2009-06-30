@@ -22,7 +22,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 *
 * This interface addresses the lookup of the <code>{@link CommitteeMembership}</code> of an event.
 *
-* @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+* @author Kuali Research Administration Team (kc.dev@kuali.org)
 */
 public interface CommitteeMembershipEvent extends KualiDocumentEvent {
     /**

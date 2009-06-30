@@ -22,7 +22,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  * 
  * This interface addresses the adds rule for adding a new <code>CommitteeMembership</code>
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public interface AddCommitteeMembershipRule extends BusinessRule {
     
