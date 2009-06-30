@@ -37,7 +37,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * Test the business rules for Protocol Participant.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public class ProtocolParticipantRuleTest extends ProtocolRuleTestBase {
 

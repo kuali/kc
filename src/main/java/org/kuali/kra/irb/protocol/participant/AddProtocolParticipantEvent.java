@@ -25,7 +25,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  * This class represents the event when a <code>{@link ProtocolParticipant}</code> is added to a 
  * <code>{@link Protocol}</code>.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public class AddProtocolParticipantEvent extends ProtocolParticipantEventBase {
     /**

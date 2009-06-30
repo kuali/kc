@@ -26,7 +26,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * This class implements the services to maintain the <code>{@link ProtocolParticipant}</code>s of a 
  * <code>{@link Protocol}</code>.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public class ProtocolParticipantServiceImpl implements ProtocolParticipantService {
 
