@@ -1,0 +1,421 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	xmlns:glob="http://apply.grants.gov/system/Global-V1.0"
+	xmlns:apis="http://apply.grants.gov/WebServices/ApplicantIntegrationServices-V1.0"
+	targetNamespace="http://apply.grants.gov/WebServices/ApplicantIntegrationServices-V1.0"
+	name="ApplicantIntegrationServices">
+	
+	<wsdl:types>
+		<xsd:schema
+			targetNamespace="http://apply.grants.gov/WebServices/ApplicantIntegrationServices-V1.0"
+			xmlns:apis="http://apply.grants.gov/WebServices/ApplicantIntegrationServices-V1.0"
+			elementFormDefault="qualified" attributeFormDefault="qualified"
+			version=".1">
+			<!--System Data Types-->
+			<xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"
+				schemaLocation="http://schemas.xmlsoap.org/wsdl/" />
+			<xsd:import
+				namespace="http://schemas.xmlsoap.org/wsdl/soap/"
+				schemaLocation="http://schemas.xmlsoap.org/wsdl/soap/" />
+			<xsd:import
+				namespace="http://apply.grants.gov/system/Global-V1.0"
+				schemaLocation="http://apply.grants.gov/system/schemas/Global-V1.0.xsd" />
+			<xsd:element name="ActivityTitle" type="glob:StringMin1Max120Type" />
+			<xsd:element name="AgencyName" type="glob:StringMin1Max60Type" />
+			<xsd:element name="CFDANumber" type="glob:StringMin1Max15Type" />
+			<xsd:element name="ClosingDate" type="xsd:date" />
+			<xsd:element name="CompetitionID" type="glob:StringMin1Max100Type" />
+			<xsd:element name="OpeningDate" type="xsd:date" />
+			<xsd:element name="OpportunityID" type="glob:StringMin1Max100Type" />
+			<xsd:element name="OpportunityTitle" type="glob:StringMin1Max255Type" />
+			<xsd:element name="SubmissionTitle" type="glob:StringMin1Max240Type" />
+			<xsd:element name="ReceivedDateTime" type="xsd:dateTime" />
+			<xsd:element name="StatusDateTime" type="xsd:dateTime" />
+			<xsd:element name="SubmitterName" type="glob:StringMin1Max240Type" />
+			<xsd:element name="Grants_govTrackingNumber" type="glob:StringMin1Max240Type" />
+			<xsd:element name="AgencyTrackingNumber" type="glob:StringMin1Max240Type" />
+			
+<!-- new service(s) :: BEGIN -->
+
+			<xsd:element name="CFDADescription" type="glob:StringMin1Max255Type" />
+			<xsd:element name="OfferingAgency" type="glob:StringMin1Max255Type" />
+			
+<!-- new service(s) :: END -->
+
+			<xsd:element name="GetOpportunityListRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<!-- One of the elements are required -->
+						<xsd:element ref="apis:OpportunityID" minOccurs="0" />
+						<xsd:element ref="apis:CFDANumber" minOccurs="0" />
+						<xsd:element ref="apis:CompetitionID" minOccurs="0" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GetOpportunityListResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="OpportunityInformation"
+							type="apis:OpportunityInformationType" minOccurs="0"
+							maxOccurs="unbounded" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="SubmitApplicationRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<!-- A Valid Grants.gov XML application -->
+						<xsd:element name="GrantApplicationXML"
+							type="xsd:anyType" minOccurs="1" maxOccurs="1" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="SubmitApplicationResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element
+							ref="apis:Grants_govTrackingNumber" />
+						<xsd:element ref="apis:ReceivedDateTime" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GetApplicationListRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="ApplicationFilter"
+							minOccurs="0" maxOccurs="unbounded">
+							<!-- If there is no ApplicationFilter specified in the GetApplicationRequest, the web services will response with the list of ALL applications on Grants.gov.  -->
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="Filter">
+										<xsd:simpleType>
+											<xsd:restriction
+												base="xsd:string">
+												<xsd:enumeration value="Status" />
+												<!--see GrantsGovApplicationStatusType for a list of valid status values-->
+												<xsd:enumeration value="OpportunityID" />
+												<xsd:enumeration value="CFDANumber" />
+												<xsd:enumeration value="SubmissionTitle" />
+												<xsd:enumeration value="GrantsGovTrackingNumber" />
+											</xsd:restriction>
+										</xsd:simpleType>
+									</xsd:element>
+									<xsd:element name="FilterValue"
+										type="xsd:string" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:unique name="filter">
+					<xsd:selector xpath="GetApplicationListRequest/ApplicationFilter" />
+					<xsd:field xpath="Filter" />
+				</xsd:unique>
+			</xsd:element>
+			<xsd:element name="GetApplicationListResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="AvailableApplicationNumber"
+							type="xsd:int" />
+						<xsd:element name="ApplicationInformation"
+							type="apis:ApplicationInformationType" minOccurs="0"
+							maxOccurs="unbounded" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GetApplicationStatusDetailRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element
+							ref="apis:Grants_govTrackingNumber" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="GetApplicationStatusDetailResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element
+							ref="apis:Grants_govTrackingNumber" />
+						<!-- IMPORTANT:  The DetailedStatus may include XML in the case of a rejected application -->
+						<xsd:element name="DetailedStatus"
+							type="xsd:anyType" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			
+<!-- new service(s) :: BEGIN -->
+
+			<xsd:element name="GetOpportunitiesWithInfoRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<!-- One of the elements are required -->
+						<xsd:element ref="apis:OpportunityID" minOccurs="0" />
+						<xsd:element ref="apis:CFDANumber" minOccurs="0" />
+						<xsd:element ref="apis:CompetitionID" minOccurs="0" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GetOpportunitiesWithInfoResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="OpportunityInfo"
+							type="apis:OpportunityWithInfoType" minOccurs="0"
+							maxOccurs="unbounded" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			
+			<xsd:complexType name="OpportunityWithInfoType">
+				<xsd:sequence>
+					<xsd:element ref="apis:OpportunityID" />
+					<xsd:element ref="apis:OpportunityTitle" />
+					<xsd:element ref="apis:OpeningDate" minOccurs="0" />
+					<xsd:element ref="apis:ClosingDate" minOccurs="0" />
+					<xsd:element ref="apis:CFDANumber" minOccurs="0" />
+					<xsd:element ref="apis:CompetitionID" minOccurs="0" />
+					<xsd:element name="SchemaURL" type="xsd:string" />
+					<xsd:element name="InstructionURL" type="xsd:string" />
+					
+					<xsd:element ref="apis:CFDADescription" minOccurs="0" />
+					<xsd:element ref="apis:OfferingAgency" minOccurs="0" />
+					<xsd:element name="AgencyContact" type="xsd:string" minOccurs="0"/>	
+				</xsd:sequence>
+			</xsd:complexType>
+
+<!-- new service(s) :: END -->
+
+			<xsd:complexType name="OpportunityInformationType">
+				<xsd:sequence>
+					<xsd:element ref="apis:OpportunityID" />
+					<xsd:element ref="apis:OpportunityTitle" />
+					<xsd:element ref="apis:OpeningDate" minOccurs="0" />
+					<xsd:element ref="apis:ClosingDate" minOccurs="0" />
+					<xsd:element ref="apis:CFDANumber" minOccurs="0" />
+					<xsd:element ref="apis:CompetitionID" minOccurs="0" />
+					<xsd:element name="SchemaURL" type="xsd:string" />
+					<xsd:element name="InstructionURL" type="xsd:string" />	
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="ApplicationInformationType">
+				<xsd:sequence>
+					<xsd:element ref="apis:CFDANumber" minOccurs="0" />
+					<xsd:element ref="apis:OpportunityID" minOccurs="0" />
+					<xsd:element ref="apis:CompetitionID" minOccurs="0" />
+					<xsd:element ref="apis:Grants_govTrackingNumber" />
+					<xsd:element ref="apis:ReceivedDateTime"
+						minOccurs="0" />
+					<xsd:element name="GrantsGovApplicationStatus"
+						type="apis:GrantsGovApplicationStatusType" />
+					<xsd:element ref="apis:StatusDateTime"
+						minOccurs="0" />
+					<xsd:element ref="apis:AgencyTrackingNumber"
+						minOccurs="0" />
+					<xsd:element ref="apis:SubmissionTitle"
+						minOccurs="0" />
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:simpleType name="GrantsGovApplicationStatusType">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="Receiving" />
+					<xsd:enumeration value="Received" />
+					<xsd:enumeration value="Processing" />
+					<xsd:enumeration value="Validated" />
+					<xsd:enumeration value="Rejected with Errors" />
+					<xsd:enumeration value="Download Preparation" />
+					<xsd:enumeration value="Received by Agency" />
+					<xsd:enumeration
+						value="Agency Tracking Number Assigned" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="GetOpportunityListRequestMessage">
+		<wsdl:part name="GetOpportunityListRequest"
+			element="apis:GetOpportunityListRequest" />
+	</wsdl:message>
+	<wsdl:message name="GetOpportunityListResponseMessage">
+		<wsdl:part name="GetOpportunityListResponse"
+			element="apis:GetOpportunityListResponse" />
+	</wsdl:message>
+	<wsdl:message name="SubmitApplicationRequestMessage">
+		<wsdl:part name="SubmitApplicationRequest"
+			element="apis:SubmitApplicationRequest" />
+	</wsdl:message>
+	<wsdl:message name="SubmitApplicationResponseMessage">
+		<wsdl:part name="SubmitApplicationResponse"
+			element="apis:SubmitApplicationResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetApplicationListRequestMessage">
+		<wsdl:part name="GetApplicationListRequest"
+			element="apis:GetApplicationListRequest" />
+	</wsdl:message>
+	<wsdl:message name="GetApplicationListResponseMessage">
+		<wsdl:part name="GetApplicationListResponse"
+			element="apis:GetApplicationListResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetApplicationStatusDetailRequestMessage">
+		<wsdl:part name="GetApplicationStatusDetailRequest"
+			element="apis:GetApplicationStatusDetailRequest" />
+	</wsdl:message>
+	<wsdl:message name="GetApplicationStatusDetailResponseMessage">
+		<wsdl:part name="GetApplicationStatusDetailResponse"
+			element="apis:GetApplicationStatusDetailResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="ErrorMessage">
+		<wsdl:part name="ErrorMessage" element="soap:fault" />
+	</wsdl:message>
+
+<!-- new service(s) :: BEGIN -->
+
+	<wsdl:message name="GetOpportunitiesWithInfoRequestMessage">
+		<wsdl:part name="GetOpportunitiesWithInfoRequest"
+			element="apis:GetOpportunitiesWithInfoRequest" />
+	</wsdl:message>
+	<wsdl:message name="GetOpportunitiesWithInfoResponseMessage">
+		<wsdl:part name="GetOpportunitiesWithInfoResponse"
+			element="apis:GetOpportunitiesWithInfoResponse" />
+	</wsdl:message>
+	
+<!-- new service(s) :: END -->
+
+	<wsdl:portType name="ApplicantIntegrationPortType">
+		<wsdl:operation name="GetOpportunityList">
+			<wsdl:input message="apis:GetOpportunityListRequestMessage" />
+			<wsdl:output message="apis:GetOpportunityListResponseMessage" />
+			<wsdl:fault name="GetOpportunityListErrorMessage" message="apis:ErrorMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="SubmitApplication">
+			<wsdl:input message="apis:SubmitApplicationRequestMessage" />
+			<wsdl:output message="apis:SubmitApplicationResponseMessage" />
+			<wsdl:fault name="SubmitApplicationErrorMessage" message="apis:ErrorMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetApplicationList">
+			<wsdl:input message="apis:GetApplicationListRequestMessage" />
+			<wsdl:output message="apis:GetApplicationListResponseMessage" />
+			<wsdl:fault name="GetApplicationListErrorMessage" message="apis:ErrorMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetApplicationStatusDetail">
+			<wsdl:input message="apis:GetApplicationStatusDetailRequestMessage" />
+			<wsdl:output message="apis:GetApplicationStatusDetailResponseMessage" />
+			<wsdl:fault name="GetApplicationStatusDetailErrorMessage" message="apis:ErrorMessage" />
+		</wsdl:operation>
+		
+<!-- new service(s) :: BEGIN -->
+
+		<wsdl:operation name="GetOpportunitiesWithInfo">
+			<wsdl:input message="apis:GetOpportunitiesWithInfoRequestMessage" />
+			<wsdl:output message="apis:GetOpportunitiesWithInfoResponseMessage" />
+			<wsdl:fault name="GetOpportunitiesWithInfoErrorMessage" message="apis:ErrorMessage" />
+		</wsdl:operation>
+		
+<!-- new service(s) :: END -->
+
+	</wsdl:portType>
+
+	<wsdl:binding name="ApplicantIntegrationSoapBinding"
+		type="apis:ApplicantIntegrationPortType">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetOpportunityList">
+			<soap:operation
+				soapAction="http://localhost:8080/app-s2s-server/services/ApplicantIntegrationSoapPort/GetOpportunityList"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="GetOpportunityListErrorMessage">
+				<soap:fault name="GetOpportunityListErrorMessage"
+					use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="SubmitApplication">
+			<soap:operation
+				soapAction="http://localhost:8080/app-s2s-server/services/ApplicantIntegrationSoapPort/SubmitApplication"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<mime:content part="Attachment" type="*/*" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="SubmitApplicationErrorMessage">
+				<soap:fault name="SubmitApplicationErrorMessage"
+					use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="GetApplicationList">
+			<soap:operation
+				soapAction="http://localhost:8080/app-s2s-server/services/ApplicantIntegrationSoapPort/GetApplicationList"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="GetApplicationListErrorMessage">
+				<soap:fault name="GetApplicationListErrorMessage"
+					use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="GetApplicationStatusDetail">
+			<soap:operation
+				soapAction="http://localhost:8080/app-s2s-server/services/ApplicantIntegrationSoapPort/GetApplicationStatusDetail"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="GetApplicationStatusDetailErrorMessage">
+				<soap:fault
+					name="GetApplicationStatusDetailErrorMessage" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		
+<!-- new service(s) :: BEGIN -->
+
+		<wsdl:operation name="GetOpportunitiesWithInfo">
+			<soap:operation
+				soapAction="http://localhost:8080/app-s2s-server/services/ApplicantIntegrationSoapPort/GetOpportunitiesWithInfo"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="GetOpportunitiesWithInfoErrorMessage">
+				<soap:fault name="GetOpportunitiesWithInfoErrorMessage"
+					use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		
+<!-- new service(s) :: END -->
+
+	</wsdl:binding>
+
+	<wsdl:service name="ApplicantIntegrationServices">
+		<wsdl:port name="ApplicantIntegrationSoapPort"
+			binding="apis:ApplicantIntegrationSoapBinding">
+			<soap:address
+				location="http://localhost:8080/app-s2s-server/services/ApplicantIntegrationSoapPort/" />
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>
