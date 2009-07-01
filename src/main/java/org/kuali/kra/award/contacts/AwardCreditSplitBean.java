@@ -45,13 +45,23 @@ public class AwardCreditSplitBean implements Serializable {
     private static final String AWARD_CREDIT_SPLIT_PARM_NAME = "award.creditsplit.enabled";
     private static final KualiDecimal ZERO_VALUE = new KualiDecimal(0);
     
+    private AwardForm awardForm;
     private AwardDocument awardDocument;
+    
     private transient Collection<InvestigatorCreditType> investigatorCreditTypes;
-    
+
     public AwardCreditSplitBean(AwardForm awardForm) {
-        this.awardDocument = awardForm.getAwardDocument();
+        this.awardForm = awardForm;
     }
-    
+
+    /** 
+     * This constructor should only be called when no AwardForm is not available
+     * The AwardForm reference is stable during a session, but AwardDocument is not
+     * However, in rule processing, a Form may not be available, especially if from a unit test.
+     * 
+     * In that case, this constructor should be used. The recalculateCreditSplit(AwardDocument) method should 
+     * be called, passing in an AwardDocument
+     */
     public AwardCreditSplitBean(AwardDocument awardDocument) {
         this.awardDocument = awardDocument;
     }
@@ -169,10 +179,21 @@ public class AwardCreditSplitBean implements Serializable {
     }
     
     /**
+     * Find the Award, first by looking to a form bean, if any. If no form bean exists, check if the document exists.
+     * If neither exists, returned Award is null 
      * @return
      */
     Award getAward() {
-        return awardDocument.getAward();
+        Award award;
+        if(awardForm != null) {
+            award = awardForm.getAwardDocument().getAward();
+        } else if(awardDocument != null) {
+            award = awardDocument.getAward();
+        } else {
+            award = null;
+        }
+        
+        return award;
     }
 
     @SuppressWarnings("unchecked")
