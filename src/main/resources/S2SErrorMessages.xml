@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2008 The Kuali Foundation.
+# 
+# Licensed under the Educational Community License, Version 1.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+# http://www.opensource.org/licenses/ecl1.php
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+--> 
+
+<S2SErrors>
+	<!-- #RRPerformanceSite -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_PerformanceSite/OtherSite</MessageKey>
+		<Message>The maximum number of other organizations allowed is 7</Message>
+		<FixLink>proposal.Organization/Location</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_PerformanceSite/OtherSite/Address/State</MessageKey>
+		<Message>The state code for one of the performance sites is not valid</Message>
+		<FixLink>proposal.Organization/Location</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_PerformanceSite/OtherSite/Address/Country</MessageKey>
+		<Message>Country code is missing for one of the performance sites</Message>
+		<FixLink>proposal.Organization/Location</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_PerformanceSite/OtherSite/Address/Country</MessageKey>
+		<Message>Country code is missing for one of the performance sites</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<!-- #SF424V1_0 -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/GrantApplication/ApplicationTypeCode</MessageKey>
+		<Message>You have a non-standard application type for the SF424.</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/GrantApplication/Revision/RevisionCode1</MessageKey>
+		<Message>You have entered an invalid revision type for the SF424</Message>
+		<FixLink>grantsGov</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>GrantApplication/Forms/GrantApplication/ActivityTitle</MessageKey>
+		<Message>Please enter the program title</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<!-- #SF424V2_0 -->	
+	<Error>
+		<MessageKey>/GrantApplication/Forms/SF424/ApplicationTypeCode</MessageKey>
+		<Message>You have a non-standard application type for the SF424</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/SF424/Revision/RevisionCode1</MessageKey>
+		<Message>You have entered an invalid revision type for the SF424</Message>
+		<FixLink>grantsGov</FixLink>
+	</Error>
+	<!-- #SF424BV1_1 -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/Assurances/ApplicationTypeCode</MessageKey>
+		<Message>You have a non-standard application type for the SF424</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/Assurances/Revision/RevisionCode1</MessageKey>
+		<Message>You have entered an invalid revision type for the SF424</Message>
+		<FixLink>grantsGov</FixLink>
+	</Error>
+	<!-- #PHS398Checklist -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_Checklist/FormerPDName/LastName</MessageKey>
+		<Message>Last name is required for the former PD/PI</Message>
+		<FixLink>questions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_Checklist/FormerPDName/FirstName</MessageKey>
+		<Message>First name is required for the former PD/PI</Message>
+		<FixLink>questions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_Checklist/IncomeBudgetPeriod/BudgetPeriod</MessageKey>
+		<Message>You may have only 5 budget periods</Message>
+		<FixLink>budgetVersions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_Checklist/CertificationExplanation/Certifications</MessageKey>
+		<Message>Please attach a Certification Explanation for the checklist</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	<!-- #NSFCoverPage -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/NSF_CoverPage/NSFUnitConsideration/DivisionCode</MessageKey>
+		<Message>Agency division code must be specified</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/NSF_CoverPage/NSFUnitConsideration/ProgramCode</MessageKey>
+		<Message>Agency program code must be specified</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/NSF_CoverPage/PIInfo</MessageKey>
+		<Message>You must have a Principal Investigator</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/NSF_CoverPage/PIInfo/DegreeType</MessageKey>
+		<Message>Enter degree information for the Principal Investigator</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/NSF_CoverPage/PIInfo/DegreeYear</MessageKey>
+		<Message>Enter the graduation date for the Principal Investigator's highest degree</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/NSF_CoverPage/FundingOpportunityNumber</MessageKey>
+		<Message>Please enter the program announcement number</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<!-- #ED_Abstract -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/AbstractAttachments/Attachments</MessageKey>
+		<Message>The abstract attachment is required.</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	<!-- #PHS398CoverLetter -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CoverLetter/CoverLetterFile/CoverLetterFilename</MessageKey>
+		<Message>Please attach a Cover Letter.</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	<!-- #RR_SF424 -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/OrganizationInfo/DUNSID</MessageKey>
+		<Message>The selected organization does not have DUNS number</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/PDPIContactInfo</MessageKey>
+		<Message>You must have a Principal Investigator</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/PDPIContactInfo/Address/Street1</MessageKey>
+		<Message>The PI address is invalid.  Use the proposal person window to add a street address</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/PDPIContactInfo/Address/Country</MessageKey>
+		<Message>The PI country code is invalid. Use the proposal person window to fix this</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/PDPIContactInfo/Address/City</MessageKey>
+		<Message>The PI address is missing a city. Please use the Proposal Person window to fix this.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/EstimatedProjectFunding/TotalEstimatedAmount</MessageKey>
+		<Message>Total estimated amount is missing -Please provide a budget</Message>
+		<FixLink>budgetVersions</FixLink>
+	</Error>
+	
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/EstimatedProjectFunding/TotalfedNonfedrequested</MessageKey>
+		<Message>Total requested funding is missing - Please provide a budget</Message>
+		<FixLink>budgetVersions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/EstimatedProjectFunding/EstimatedProgramIncome</MessageKey>
+		<Message>Program Income is missing - Please provide a budget</Message>
+		<FixLink>budgetVersions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/ActivityTitle</MessageKey>
+		<Message>Please enter the program title</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/AORInfo/Address/Country</MessageKey>
+		<Message>The country code for the AOR is not valid for Grants.gov</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/AORInfo/Title</MessageKey>
+		<Message>The AOR must have a title</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/ProjectTitle</MessageKey>
+		<Message>You are missing a project title</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/EstimatedProjectFunding/TotalEstimatedAmount</MessageKey>
+		<Message>You are missing total budget amounts</Message>
+		<FixLink>budgetVersions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/EstimatedProjectFunding/TotalfedNonfedrequested</MessageKey>
+		<Message>You are missing total budget amounts</Message>
+		<FixLink>budgetVersions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/EstimatedProjectFunding/EstimatedProgramIncome</MessageKey>
+		<Message>You are missing total budget amounts</Message>
+		<FixLink>budgetVersions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/ContactPersonInfo</MessageKey>
+		<Message>You are missing a contact person for the proposal</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/StateID</MessageKey>
+		<Message>Selected organization missing state</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/OrganizationInfo/Address/City</MessageKey>
+		<Message>Selected organization missing city</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/OrganizationInfo/Address/County</MessageKey>
+		<Message>Selected organization missing county</Message>
+		<FixLink>proposal.Organization/Location</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/OrganizationInfo/Address/ZipPostalCode</MessageKey>
+		<Message>Selected organization missing postal code</Message>
+		<FixLink>proposal.Organization/Location</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/OrganizationInfo/Address</MessageKey>
+		<Message>Selected organization missing address</Message>
+		<FixLink>proposal.Organization/Location</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/ContactPersonInfo/Name/FirstName</MessageKey>
+		<Message>First name missing for contact person</Message>
+		<FixLink>proposal.Organization/Location</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/ContactPersonInfo/Name/MiddleName</MessageKey>
+		<Message>Middle name missing for contact person</Message>
+		<FixLink>proposal.Organization/Location</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/ContactPersonInfo/Name/LastName</MessageKey>
+		<Message>Last name missing for contact person</Message>
+		<FixLink>proposal.Organization/Location</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/ContactPersonInfo/Fax</MessageKey>
+		<Message>Fax missing for contact person</Message>
+		<FixLink>proposal.Organization/Location</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/ContactPersonInfo/Email</MessageKey>
+		<Message>Email address missing for contact person</Message>
+		<FixLink>proposal.Organization/Location</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantType/ApplicantTypeCode</MessageKey>
+		<Message>Applicant type missing</Message>
+		<FixLink>proposal.SponsorProgramInformation</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/Location</MessageKey>
+		<Message>Missing Location</Message>
+		<FixLink>proposal.Organization/Location</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/PDPIContactInfo</MessageKey>
+		<Message>PDPI contact info missing</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/EstimatedProjectFunding</MessageKey>
+		<Message>Estimated Project funding missing</Message>
+		<FixLink>budgetVersions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/AORInfo/Address</MessageKey>
+		<Message>Missing AOR address</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/AORInfo/Phone</MessageKey>
+		<Message>Missing AOR phone number</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/AORInfo/Fax</MessageKey>
+		<Message>Missing AOR Fax</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/AORInfo/Email</MessageKey>
+		<Message>Missing AOR email address</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/AORInfo/OrganizationName</MessageKey>
+		<Message>Missing AOR organization name</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/AORInfo/DepartmentName</MessageKey>
+		<Message>Missing AOR department name</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/AORInfo/DivisionName</MessageKey>
+		<Message>Missing AOR division name</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_SF424/AORInfo</MessageKey>
+		<Message>Missing AOR information</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<!-- #RR_KeyPersonV1_0 -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_KeyPerson/PDPI</MessageKey>
+		<Message>You must have a Principal Investigator.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_KeyPerson/Profile/BioSketchAttached</MessageKey>
+		<Message>The PI must have a BioSketch.  Upload the PDF on the Proposal Personnel screen, with "BIOSKETCH" as the description.</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_KeyPerson/PDPI/Profile/Address/Country</MessageKey>
+		<Message>You have entered an invalid country code for your investigator. Use the proposal person window to fix this.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_KeyPerson/KeyPerson/Profile/BioSketchsAttached</MessageKey>
+		<Message>Each investigator and key person must have a BioSketch.  Upload the PDF on the Proposal Personnel screen, with "BIOSKETCH" as the description.</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	<!-- #RR_KeyPersonV1_1 -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_KeyPerson/KeyPerson/Profile/BioSketchsAttached</MessageKey>
+		<Message>All key persons must have a BioSketch.  Upload the PDF on the Proposal Personnel screen, with "BIOSKETCH" as the description.</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_KeyPerson/PDPI/Profile/Address/Street1</MessageKey>
+		<Message>The PI address is missing Address Line 1. Please use the Proposal Person window to fix this.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_KeyPerson/PDPI/Profile/Address/City</MessageKey>
+		<Message>The PI address is missing a city. Please use the Proposal Person window to fix this.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_KeyPerson/KeyPerson/Profile/Address/City</MessageKey>
+		<Message>The address for each key person must have a city. Please use the Proposal Person window to fix this.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_KeyPerson/KeyPerson/Profile/Address/Street1</MessageKey>
+		<Message>The address for each key person must include Address Line 1. Please use the Proposal Person window to fix this.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<!-- # RR_OtherProjectInfo- -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/OtherAttachments/OtherAttachment</MessageKey>
+		<Message>You must have an atleast one Narrative with the proposal</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/HumanSubjectsSupplement/ExemptionNumbers/ExemptionNumber</MessageKey>
+		<Message>Valid Human Subjects exemption numbers are E1,E2,E3,E4,E5,E6</Message>
+		<FixLink>specialReview</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/ProprietaryInformationIndicator</MessageKey>
+		<Message>Please answer the Proprietary Information question.</Message>
+		<FixLink>questions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/EnvironmentalImpact</MessageKey>
+		<Message>Please answer the Environmental Impact question.</Message>
+		<FixLink>questions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/InternationalActivities</MessageKey>
+		<Message>Please answer the International Activities question.</Message>
+		<FixLink>questions</FixLink>
+	</Error>
+	<!-- # RRKeyPersonExpanded- -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded/KeyPerson/Profile/BioSketchsAttached</MessageKey>
+		<Message>All key persons must have a BioSketch.Upload the PDF on the Proposal Personnel screen, with "BIOSKETCH" as the description.</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded/PDPI/Profile/Address/City</MessageKey>
+		<Message>The PI address is missing a city. Please use the Proposal Person window to fix this.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded/PDPI/Profile/Address/Street1</MessageKey>
+		<Message>The PI address is missing Address Line 1. Please use the Proposal Person window to fix this.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded/KeyPerson/Profile/Address/City</MessageKey>
+		<Message>The address for each key person must have a city. Please use the Proposal Person window to fix this.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded/KeyPerson/Profile/Address/Street1</MessageKey>
+		<Message>The address for each key person must include Address Line 1. Please use the Proposal Person window to fix this.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded/KeyPerson/Profile/Email</MessageKey>
+		<Message>The email address for each key person is required. Please use the Proposal Person window to fix this.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded/KeyPerson/Profile/Phone</MessageKey>
+		<Message>The phone for each key person is required. Please use the Proposal Person window to fix this.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<!-- # Project- -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/ProjectNarrativeAttachments/Attachments</MessageKey>
+		<Message>You must have at least one Project Narrative attachment with the proposal.</Message>
+		<FixLink>abstractsAttachments</FixLink>
+	</Error>
+	<!-- # PHS398CoverPageSupplement- -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement/PDPI/PDPIName</MessageKey>
+		<Message>You must have a Principal Investigator.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement/PDPI/PDPIName/LastName</MessageKey>
+		<Message>Last name is required for the PD/PI.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement/PDPI/PDPIName/FirstName</MessageKey>
+		<Message>First name is required for the PD/PI.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement/PDPI/IsNewInvestigator</MessageKey>
+		<Message>Please answer the NIH beginning Investigator question.</Message>
+		<FixLink>questions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement/ContactPersonInfo/ContactName</MessageKey>
+		<Message>The administrative officer for the lead unit is missing.</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement/ContactPersonInfo/ContactName/LastName</MessageKey>
+		<Message>Last name is required for the administrative contact person.</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement/ContactPersonInfo/ContactName/FirstName</MessageKey>
+		<Message>First name is required for the administrative contact person.</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement/ContactPersonInfo/ContactPhone</MessageKey>
+		<Message>Phone number is required for the administrative contact person.</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement/ContactPersonInfo/ContactTitle</MessageKey>
+		<Message>Title is required for the administrative contact person.</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement/ContactPersonInfo/ContactAddress</MessageKey>
+		<Message>Address is required for the administrative contact person.</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement/ContactPersonInfo/ContactAddress/Street1</MessageKey>
+		<Message>A valid address is required for the administrative contact person.</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement/ContactPersonInfo/ContactAddress/City</MessageKey>
+		<Message>City name is required for the contact administrative person address.</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement/ContactPersonInfo/ContactAddress/Country</MessageKey>
+		<Message>Country name is required for the administrative contact person address.</Message>
+		<FixLink>proposal</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement/StemCells/IsHumanStemCellsInvolved</MessageKey>
+		<Message>Please answer the human embryonic stem cells question.</Message>
+		<FixLink>questions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement/StemCells/CellLines</MessageKey>
+		<Message>The registration number of the specific cell line is too long. Please see the human embryonic stem cells question for explanation.</Message>
+		<FixLink>questions</FixLink>
+	</Error>
+	<!-- # NasaPIandAORDataSheet- -->
+	<Error>
+		<MessageKey>/GrantApplication/Forms/Nasa_PIandAORSupplementalDataSheet/PrincipalInvestigatorName/PDPIName</MessageKey>
+		<Message>You must have a Principal Investigator.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/Nasa_PIandAORSupplementalDataSheet/PrincipalInvestigatorName/PDPIName/LastName</MessageKey>
+		<Message>Last name is required for the Principal Investigator.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/Nasa_PIandAORSupplementalDataSheet/PrincipalInvestigatorName/PDPIName/FirstName</MessageKey>
+		<Message>First name is required for the Principal Investigator.</Message>
+		<FixLink>keyPersonnel</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/Nasa_PIandAORSupplementalDataSheet/PrincipalInvestigatorName/USGovernmentParticipation</MessageKey>
+		<Message>Please answer the US government participation question.</Message>
+		<FixLink>questions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/Nasa_PIandAORSupplementalDataSheet/PrincipalInvestigatorName/InternationalParticipation</MessageKey>
+		<Message>Please answer the international participation question.</Message>
+		<FixLink>questions</FixLink>
+	</Error>
+	
+</S2SErrors>
+

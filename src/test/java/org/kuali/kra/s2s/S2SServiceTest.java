@@ -36,7 +36,7 @@ import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 import org.kuali.rice.test.data.UnitTestSql;
 
-import edu.mit.coeus.utils.S2SConstants;
+//import edu.mit.coeus.utils.S2SConstants;
 
 @PerTestUnitTestData(
         @UnitTestData(order = {
@@ -52,10 +52,11 @@ import edu.mit.coeus.utils.S2SConstants;
                 })
         )
 
-public class S2SServiceTest extends KraTestBase implements S2SConstants{
+public class S2SServiceTest extends KraTestBase{// implements S2SConstants{
     private static final Logger LOG = Logger.getLogger(S2SServiceTest.class);
     private String proposalNumber;
     private DocumentService documentService;
+    ProposalDevelopmentDocument pd1;
     @Before
 	public void setUp() throws Exception {
 		super.setUp();
@@ -63,18 +64,16 @@ public class S2SServiceTest extends KraTestBase implements S2SConstants{
         GlobalVariables.setErrorMap(new ErrorMap());
         GlobalVariables.setAuditErrorMap(new HashMap());
         documentService = KNSServiceLocator.getDocumentService();
-//        configureSSL();
-        configureSoap();
         ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
         savePropDoc(pd);
-        ProposalDevelopmentDocument pd1 = (ProposalDevelopmentDocument)documentService.getByDocumentHeaderId(pd.getDocumentHeader().getDocumentNumber());
+        pd1 = (ProposalDevelopmentDocument)documentService.getByDocumentHeaderId(pd.getDocumentHeader().getDocumentNumber());
         pd1.getProposalPersons().add(getInvestigator(pd1.getProposalNumber()));
         setS2sOpportunity(pd1);
         getService(BusinessObjectService.class).save(pd1);
         proposalNumber = pd1.getProposalNumber().toString();
         assertNotNull(proposalNumber);
 	}
-    private void setS2sOpportunity(ProposalDevelopmentDocument pd) {
+    private void setS2sOpportunity(ProposalDevelopmentDocument pd) throws Exception{
         
 //        List<S2sOpportunity> l = getS2SService().searchOpportunity("00.000", "APP-S2S-TEST-SF424-V2", null);
         List<S2sOpportunity> l = getS2SService().searchOpportunity("00.000", null, null);
@@ -221,12 +220,12 @@ public class S2SServiceTest extends KraTestBase implements S2SConstants{
         return getService(S2SService.class);
     }
     @Test
-    public void searchOpportunityTest(){
+    public void searchOpportunityTest() throws S2SException{
         List l = getS2SService().searchOpportunity("00.000", null, null);
         assertTrue(l.size()>0);
     }
     @Test
-    public void parseOpportunityFormsTest(){
+    public void parseOpportunityFormsTest() throws S2SException{
         List<S2sOpportunity> l = getS2SService().searchOpportunity("00.000", null, null);
         assertNotNull(l);
         assertTrue(l.size()>0);
@@ -236,13 +235,13 @@ public class S2SServiceTest extends KraTestBase implements S2SConstants{
         assertTrue(oppForms.size()>0);
     }
     @Test
-    public void validateApplicationTest(){
-        assertTrue(getS2SService().validateApplication(proposalNumber));
+    public void validateApplicationTest() throws S2SException{
+        assertTrue(getS2SService().validateApplication(pd1));
     }
     @Test
-    public void submitApplicationTest(){
-        assertTrue(getS2SService().submitApplication(proposalNumber));
-        assertTrue(getS2SService().refreshGrantsGov(proposalNumber));
+    public void submitApplicationTest() throws S2SException{
+        assertTrue(getS2SService().submitApplication(pd1));
+        assertTrue(getS2SService().refreshGrantsGov(pd1));
         Map pkMap = new HashMap();
         pkMap.put("proposalNumber", proposalNumber);
         pkMap.put("submissionNumber", 1);
@@ -275,12 +274,4 @@ public class S2SServiceTest extends KraTestBase implements S2SConstants{
 //        //not required
 //    }
 
-    private void configureSoap() {
-        java.lang.System.setProperty("javax.xml.soap.MessageFactory",
-        "org.apache.axis.soap.MessageFactoryImpl");
-        
-        java.lang.System.setProperty("javax.xml.soap.SOAPConnectionFactory",
-        "org.apache.axis.soap.SOAPConnectionFactoryImpl");
-        
-    }
 }

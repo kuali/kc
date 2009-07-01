@@ -27,7 +27,7 @@
   	
   	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Modular Budget" /></div>
 	
-	<kra:uncollapsable tabTitle="Select Modular Budget Period">
+	<kul:uncollapsable tabTitle="Select Modular Budget Period">
   		<div align="center">
   			<label for="budget period">Budget Period:</label>
   			<html:select property="modularSelectedPeriod">
@@ -39,7 +39,7 @@
           	<br/><br/>
           	<span><html:image property="methodToCall.updateView" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif' styleClass="tinybutton"/></span>
         </div>
-	</kra:uncollapsable>
+	</kul:uncollapsable>
 	<br/>
 	
 	<kra-b:budgetModular periodNum="${KualiForm.modularSelectedPeriod}"/>

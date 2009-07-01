@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<kra:uncollapsable tabTitle="Select View:" tabErrorKey="personnelBudget*">
+<kul:uncollapsable tabTitle="Select View:" tabErrorKey="personnelBudget*">
        <div align="center">
            <table cellpadding="0" cellspacing="0" class="grid" summary="">
              <tr>
@@ -30,4 +30,4 @@
            <br>
            <html:image property="methodToCall.updatePersonnelBudgetView" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif" title="Update View" alt="Update View" styleClass="tinybutton"/>
 	</div>
-</kra:uncollapsable>
+</kul:uncollapsable>
