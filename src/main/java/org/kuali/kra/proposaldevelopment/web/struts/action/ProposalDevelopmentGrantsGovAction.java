@@ -53,7 +53,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
     private static final String EMPTY_STRING = "";
     
     /**
-     * 
+     *  
      * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -231,7 +231,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
     public ActionForward refreshSubmissionDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
-        if(KraServiceLocator.getService(S2SService.class).refreshGrantsGov(proposalDevelopmentDocument.getProposalNumber())){
+        if(KraServiceLocator.getService(S2SService.class).refreshGrantsGov(proposalDevelopmentDocument)){
             proposalDevelopmentDocument.refreshReferenceObject("s2sAppSubmission");
             return mapping.findForward(Constants.MAPPING_BASIC);
         }else{

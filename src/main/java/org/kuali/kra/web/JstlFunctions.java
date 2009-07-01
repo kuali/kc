@@ -16,12 +16,11 @@
 package org.kuali.kra.web;
 
 import static java.lang.Class.forName;
-import static org.apache.commons.beanutils.PropertyUtils.setProperty;
 
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
 
 /**
@@ -111,7 +110,8 @@ public final class JstlFunctions {
         if (finder != null && params != null) {
             for (Map.Entry<String, Object> entry : params.entrySet()) {
                 try {
-                    setProperty(finder, entry.getKey(), entry.getValue());
+                    BeanUtils.setProperty(finder, entry.getKey(), entry.getValue());
+//                    setProperty(finder, entry.getKey(), entry.getValue());
                 } catch (Exception e) {
                     warn(PROPERTY_SETTING_EXC_PROLOG + entry.getKey(), e);
                     e.printStackTrace();

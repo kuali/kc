@@ -52,12 +52,14 @@ public class Organization extends KraPersistableBusinessObjectBase {
 	private Date scienceMisconductComplDate;
 	private String telexNumber;
 	private String vendorCode;
+	private String fedralEmployerId;
+	
 	private Rolodex rolodex;
     private List<OrganizationYnq> organizationYnqs;
     private List<OrganizationType> organizationTypes;
     private List<OrganizationIndirectcost> organizationIdcs;
     private List<OrganizationAudit> organizationAudits;
-
+    
     public Organization() {
         super();
         organizationYnqs = new TypedArrayList(OrganizationYnq.class);        
@@ -414,6 +416,16 @@ public class Organization extends KraPersistableBusinessObjectBase {
         }
         
         return (OrganizationAudit)getOrganizationAudits().get(index);
+    }
+
+
+    public String getFedralEmployerId() {
+        return federalEmployerId;
+    }
+
+
+    public void setFedralEmployerId(String federalEmployerId) {
+        this.federalEmployerId = federalEmployerId;        
     }
 
 

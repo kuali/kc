@@ -31,9 +31,9 @@ public class S2sRevisionTypeValuesFinder extends KeyValuesBase {
     
     public List getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        Collection activityTypes = keyValuesService.findAll(ActivityType.class);
+        Collection s2sRevisionTypes = keyValuesService.findAll(S2sRevisionType.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();        
-        for (Iterator iter = activityTypes.iterator(); iter.hasNext();) {
+        for (Iterator iter = s2sRevisionTypes.iterator(); iter.hasNext();) {
             S2sRevisionType s2sRevisionType = (S2sRevisionType) iter.next();
             keyValues.add(new KeyLabelPair(s2sRevisionType.getS2sRevisionTypeCode(), s2sRevisionType.getDescription()));
         }

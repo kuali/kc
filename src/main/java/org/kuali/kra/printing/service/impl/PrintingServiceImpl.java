@@ -74,12 +74,12 @@ public class PrintingServiceImpl implements PrintingService {
             Source src = new StreamSource(xmlFo);
 
             // Resulting SAX events (the generated FO) must be piped through to FOP
-            Result res = new SAXResult(fop.getDefaultHandler());
+            Result res = null;//new SAXResult(fop.getDefaultHandler());
 
             // Start XSLT transformation and FOP processing
             transformer.transform(src, res);
             // Result processing
-            FormattingResults foResults = fop.getResults();
+            FormattingResults foResults = null;//fop.getResults();
             java.util.List pageSequences = foResults.getPageSequences();
             for (java.util.Iterator it = pageSequences.iterator(); it.hasNext();) {
                 PageSequenceResults pageSequenceResults = (PageSequenceResults)it.next();

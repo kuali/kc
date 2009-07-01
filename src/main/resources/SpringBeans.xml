@@ -568,7 +568,7 @@
       </property>
 	</bean>
 		<bean id="documentValidationService" class="org.kuali.kra.service.impl.DocumentValidationServiceImpl">
-	</bean>
+	</bean><!--
 
 	  <bean id="s2SService" class="org.kuali.kra.s2s.service.impl.S2SServiceImpl">
 		<property name="businessObjectService">
@@ -576,7 +576,7 @@
 		</property>
 	</bean>
 	
- 	<bean id="personService" class="org.kuali.kra.service.impl.PersonServiceImpl">
+ 	--><bean id="personService" class="org.kuali.kra.service.impl.PersonServiceImpl">
  		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -1297,10 +1297,14 @@
  		scope="prototype" parent="lookupableHelperService">
   	</bean>
   	
-  	<bean id="copyPeriodsQuestion" class="org.kuali.kra.question.CopyPeriodsQuestion" scope="prototype" />
+  	<bean id="copyPeriodsQuestion" class="org.kuali.kra.question.CopyPeriodsQuestion" scope="prototype" /><!--
 
 	<bean id="coeusBean2KraBoConverterService" class="org.kuali.kra.budget.service.impl.CoeusBean2KraBoConverterServiceImpl">
 	</bean>
+	-->
+	<bean id="budgetPrintService" class="org.kuali.kra.budget.service.impl.BudgetPrintServiceDummyImpl">
+	</bean>
+	<!--
 	<bean id="budgetPrintService" class="org.kuali.kra.budget.service.impl.BudgetPrintServiceImpl">
   		<property name="coeusBean2KraBoConverterService">
     		<ref bean="coeusBean2KraBoConverterService" />
@@ -1313,7 +1317,7 @@
         </property>
     </bean>
 	
-	<bean id="proposalRoleTemplateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalRoleTemplateServiceImpl">
+	--><bean id="proposalRoleTemplateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalRoleTemplateServiceImpl">
         <property name="proposalAuthorizationService">
             <ref bean="proposalAuthorizationService" />
         </property>
@@ -1455,8 +1459,277 @@
 		</property>
 	</bean>
 	-->
-	
 	<bean id="kraDocumentService" class="org.kuali.kra.service.impl.KraDocumentServiceImpl">
  	</bean>
+	
+	<bean id="s2SFormGeneratorService"
+		class="org.kuali.kra.s2s.service.impl.S2SFormGeneratorServiceImpl">
+	</bean>
+
+	<bean id="s2SValidatorService"
+		class="org.kuali.kra.s2s.service.impl.S2SValidatorServiceImpl">
+	</bean>
+
+	<bean id="s2SProposalValidatorService"
+		class="org.kuali.kra.s2s.service.impl.S2SProposalValidatorServiceImpl">
+	</bean>
+	
+	
+	<bean id="s2SService"
+		class="org.kuali.kra.s2s.service.impl.KRAS2SServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="s2SFormGeneratorService">
+			<ref bean="s2SFormGeneratorService" />
+		</property>
+		<property name="s2SProposalValidatorService">
+			<ref bean="s2SProposalValidatorService" />
+		</property>
+		<property name="s2SUtilService">
+			<ref bean="s2SUtilService" />
+		</property>
+		<property name="printService">
+			<ref bean="printService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="grantsGovConnectorService">
+			<ref bean="grantsGovConnectorService" />
+		</property>
+	</bean>
+
+	<bean id="printService"
+		class="org.kuali.kra.s2s.service.impl.PrintServiceImpl">
+		<property name="s2SFormGeneratorService">
+			<ref bean="s2SFormGeneratorService" />
+		</property>
+		<property name="s2SValidatorService">
+			<ref bean="s2SValidatorService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+
+	</bean>
+	<bean id="s2SUtilService"
+		class="org.kuali.kra.s2s.service.impl.S2SUtilServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
+
+	<bean id="s2SBudgetCalculatorService"
+		class="org.kuali.kra.s2s.service.impl.S2SBudgetCalculatorServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="s2SUtilService">
+			<ref bean="s2SUtilService" />
+		</property>
+	</bean>
+
+	<bean id="grantsGovConnectorService"
+		class="org.kuali.kra.s2s.service.impl.GrantsGovConnectorServiceImpl">
+		<property name="s2SUtilService">
+			<ref bean="s2SUtilService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<!--  S2S Scheduler configuration start -->
+	<bean id="preValidationTask"
+		class="org.kuali.kra.s2s.polling.S2SPollingTask">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="grantsGovConnectorService">
+			<ref bean="grantsGovConnectorService" />
+		</property>
+		<property name="stopPollInterval" value="4320" />
+		<property name="mailInterval" value="20" />
+		<property name="statusMap">
+			<map>
+				<entry key="1" value="Submitted to Grants.Gov" />
+				<entry key="2" value="Receiving" />
+				<entry key="3" value="Received" />
+				<entry key="4" value="Processing" />
+			</map>
+		</property>
+		<property name="mailInfoList">
+			<list>
+				<ref bean="mailInfo" />
+			</list>
+		</property>
+	</bean>
+	<bean id="validationTask"
+		class="org.kuali.kra.s2s.polling.S2SPollingTask">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="grantsGovConnectorService">
+			<ref bean="grantsGovConnectorService" />
+		</property>
+		<property name="stopPollInterval" value="1440" />
+		<property name="mailInterval" value="120" />
+		<property name="statusMap">
+			<map>
+				<entry key="5" value="Validated" />
+			</map>
+		</property>
+		<property name="mailInfoList">
+			<list>
+				<ref bean="mailInfo" />
+			</list>
+		</property>
+	</bean>
+	<bean id="postValidationTask"
+		class="org.kuali.kra.s2s.polling.S2SPollingTask">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="grantsGovConnectorService">
+			<ref bean="grantsGovConnectorService" />
+		</property>
+		<property name="stopPollInterval" value="1440" />
+		<property name="mailInterval" value="240" />
+		<property name="statusMap">
+			<map>
+				<entry key="6" value="Received by Agency" />
+			</map>
+		</property>
+		<property name="mailInfoList">
+			<list>
+				<ref bean="mailInfo" />
+			</list>
+		</property>
+	</bean>
+	<bean id="errorOutTask"
+		class="org.kuali.kra.s2s.polling.S2SPollingTask">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="grantsGovConnectorService">
+			<ref bean="grantsGovConnectorService" />
+		</property>
+		<property name="stopPollInterval" value="24" />
+		<property name="mailInterval" value="40" />
+		<property name="statusMap">
+			<map>
+				<entry key="10" value="Grants.Gov Submission Error" />
+			</map>
+		</property>
+		<property name="mailInfoList">
+			<list>
+				<ref bean="mailInfo" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="mailInfo" class="org.kuali.kra.s2s.polling.MailInfo">
+		<property name="dunsNumber" value="" />
+		<property name="to" value="" />
+		<property name="cc" value="" />
+		<property name="bcc" value="" />
+		<property name="footer" value="" />
+		<property name="message" value="Grants.Gov Submissions" />
+		<property name="subject" value="Grants.Gov Submissions" />
+	</bean>
+
+	<bean id="preValidation"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="preValidationTask" />
+		<property name="targetMethod" value="execute" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="validation"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="validationTask" />
+		<property name="targetMethod" value="execute" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="postValidation"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="postValidationTask" />
+		<property name="targetMethod" value="execute" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="errorOut"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="errorOutTask" />
+		<property name="targetMethod" value="execute" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="preValidationTrigger"
+		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
+		<property name="jobDetail" ref="preValidation" />
+		<property name="configurationService"
+			ref="kualiConfigurationService" />
+		<property name="cronExpressionParameterName"
+			value="s2sScheduler.preValidation.cronExpression">
+		</property>
+	</bean>
+	<bean id="validationTrigger"
+		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
+		<property name="jobDetail" ref="validation" />
+		<property name="configurationService"
+			ref="kualiConfigurationService" />
+		<property name="cronExpressionParameterName"
+			value="s2sScheduler.validation.cronExpression">
+		</property>
+	</bean>
+	<bean id="postValidationTrigger"
+		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
+		<property name="jobDetail" ref="postValidation" />
+		<property name="configurationService"
+			ref="kualiConfigurationService" />
+		<property name="cronExpressionParameterName"
+			value="s2sScheduler.postValidation.cronExpression">
+		</property>
+	</bean>
+	<bean id="errorOutTrigger"
+		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
+		<property name="jobDetail" ref="errorOut" />
+		<property name="configurationService"
+			ref="kualiConfigurationService" />
+		<property name="cronExpressionParameterName"
+			value="s2sScheduler.errorOut.cronExpression">
+		</property>
+	</bean>
+	
+	<bean id="s2SSchedulerStarter"
+		class="org.kuali.kra.s2s.polling.S2SSchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="preValidationTrigger" />
+				<ref bean="validationTrigger" />
+				<ref bean="postValidationTrigger" />
+				<ref bean="errorOutTrigger" />
+			</list>
+		</property>
+	</bean>
+	<!--  S2S Scheduler configuration end -->
 	
 </beans>
