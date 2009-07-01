@@ -56,6 +56,9 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
     @Transient
     private Boolean delete = false;
     
+    @Transient
+    private transient Boolean selected = false;
+    
     @javax.persistence.Id 
     @Column(name="ID")
     private Long id; 
@@ -336,6 +339,14 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
 
     public void setCommitteeScheduleAttendances(List<CommitteeScheduleAttendance> committeeScheduleAttendances) {
         this.committeeScheduleAttendances = committeeScheduleAttendances;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     @SuppressWarnings("unchecked")

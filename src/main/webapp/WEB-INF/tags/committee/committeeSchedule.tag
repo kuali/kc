@@ -122,7 +122,7 @@
         </h3>
             <table cellpadding=0 cellspacing="0"  summary="">
               <tr>
-                <td colspan="8"><br>
+                <td colspan="9"><br>
                   <div align="center">
                     <table border="0" class="nobord" align="center" cellpadding="3" cellspacing="3" style="width:auto">
                       <tr>
@@ -160,7 +160,7 @@
                 <th>Status</th>
                 <th><label for="role">Place </label></th>
                 <th>Time</th>
-                <th>Actions</th>
+                <th colspan="2">Actions</th>
               </tr>
 
 
@@ -209,19 +209,35 @@
  							
  						</div>           									                									
 	                </td>
-
-
 					<td>
 						<div align=center>&nbsp;
 						<c:if test="${committeeSchedule.delete}">
+								<kul:htmlControlAttribute property="document.committeeList[0].committeeSchedules[${status.index}].selected" 
+	                								attributeEntry="${committeeScheduleAttributes.selected}" />
+	                			<!-- 					
 								<html:image property="methodToCall.deleteCommitteeSchedule.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+								 -->	
 						</c:if>  
 						</div>
 	                </td>
-	            </tr>            
+					<td>
+						<div align=center>&nbsp;
+							 <input src="${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain.gif"  class="tinybutton" 
+                					alt="maintain selected" title="Maintain Selected" type="image" />
+  
+						</div>
+	                </td>	                
+	            </tr>        
 	        </c:if>     
         	</c:forEach>
+        		<tr>
+        		    <td colspan="7" class="infoline">&nbsp;</td>
+                	<th colspan="2" style="padding:3px;">		
+                		<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-deleteselected.gif" 
+                			property="methodToCall.deleteCommitteeSchedule.anchor${currentTabIndex}" styleClass="tinybutton"/>
+                	</th>  
+              	</tr>
            </table>
     </div> 
 </kul:tab>
