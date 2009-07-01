@@ -474,6 +474,11 @@
 					<version>1.4</version>
 				</dependency>
 				<dependency>
+					<groupId>fop</groupId>
+					<artifactId>fop</artifactId>
+					<version>0.20.5</version>
+				</dependency>
+				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>gg_forms_jaxb</artifactId>
 					<version>1.0.1</version>
