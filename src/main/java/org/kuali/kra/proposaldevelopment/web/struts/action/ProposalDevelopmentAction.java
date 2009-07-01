@@ -125,7 +125,8 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             if (proposalDevelopmentForm.isAuditActivated()) {
                 if (document != null && 
                     document.getS2sOpportunity() != null ) {
-                    getService(S2SService.class).validateApplication(document.getS2sOpportunity().getProposalNumber());            
+                    getService(S2SService.class).validateApplication(document);            
+//                    getService(S2SService.class).validateApplication(document.getS2sOpportunity().getProposalNumber());            
                 }
             }
 

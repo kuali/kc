@@ -16,7 +16,6 @@
 package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class BudgetSubAwardFiles extends KraPersistableBusinessObjectBase {

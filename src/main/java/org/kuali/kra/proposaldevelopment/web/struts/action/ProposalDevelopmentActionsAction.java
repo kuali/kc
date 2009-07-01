@@ -55,6 +55,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.s2s.service.PrintService;
@@ -567,7 +568,14 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             boolean s2sPassed = true;
             if (proposalDevelopmentDocument.getS2sOpportunity() != null) {
                 S2SService s2sService = (S2SService) KraServiceLocator.getService(S2SService.class);
-                s2sPassed = s2sService.validateApplication(proposalDevelopmentDocument.getProposalNumber());
+//                s2sPassed = s2sService.validateApplication(proposalDevelopmentDocument.getProposalNumber());
+                try {
+                    s2sPassed = s2sService.validateApplication(proposalDevelopmentDocument);
+                }
+                catch (S2SException e) {
+                    log.error(e.getMessage(),e);
+                    s2sPassed=false;
+                }
             }
             
             /*
@@ -666,7 +674,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     private void submitS2sApplication(ProposalDevelopmentDocument proposalDevelopmentDocument) throws Exception{
         S2SService s2sService = ((S2SService) KraServiceLocator.getService(S2SService.class));
-        s2sService.submitApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber());
+//        s2sService.submitApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber());
+      s2sService.submitApplication(proposalDevelopmentDocument);
     }
         
     /**
