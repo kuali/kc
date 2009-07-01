@@ -73,21 +73,4 @@ public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
                (protocol.getProtocolNumber().contains("A") ||
                 protocol.getProtocolNumber().contains("R"));
     }
-    
-    /**
-     * For amendment (or a renewal with an amendment), the user can only
-     * modify certain modules (parts) of the protocol.  Determine if a certain
-     * module can be modified or not.
-     * @param protocol the amendment protocol
-     * @param moduleTypeCode the module type code
-     * @return true if the module can be modified; otherwise false
-     */
-    protected final boolean canModifyModule(Protocol protocol, String moduleTypeCode) {
-        for (ProtocolAmendRenewModule module : protocol.getProtocolAmendRenewal().getModules()) {
-            if (StringUtils.equals(moduleTypeCode, module.getProtocolModuleTypeCode())) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

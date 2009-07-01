@@ -31,7 +31,7 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 
 /**
- * Test the Modify Protocol General Info Authorizer.
+ * Test the Modification of a Protocol Module Authorizer.
  */
 @RunWith(JMock.class)
 public abstract class ModifyProtocolModuleAuthorizerTest {
@@ -68,9 +68,8 @@ public abstract class ModifyProtocolModuleAuthorizerTest {
      */
     protected abstract ModifyAmendmentAuthorizer createAuthorizer();
     
-    
     /**
-     * Test the case where the user has permission to modify the General Info
+     * Test the case where the user has permission to modify the specified
      * module in an amendment.
      */
     @Test
@@ -89,7 +88,7 @@ public abstract class ModifyProtocolModuleAuthorizerTest {
     /**
      * Test the case where the user does have permission to modify
      * the amendment, but doesn't have permission to the modify the
-     * General Info module.
+     * module being tested.
      */
     @Test
     public void testHasNoModulePermission() {
@@ -103,12 +102,10 @@ public abstract class ModifyProtocolModuleAuthorizerTest {
         assertEquals(false, authorizer.isAuthorized(USERNAME, task));
     }
     
-    
-
     /**
      * Test the case where the protocol is a normal protocol, not an amendment.
-     * Since it isn't an amendment, verify that the user can modify the protocol's
-     * General Info if they have the Modify Protocol permission.
+     * Since it isn't an amendment, verify that the user can modify the protocol
+     * if they have the Modify Protocol permission.
      */
     @Test
     public void testHasProtocolPermission() {
@@ -124,8 +121,8 @@ public abstract class ModifyProtocolModuleAuthorizerTest {
     
     /**
      * Test the case where the protocol is a normal protocol, not an amendment.
-     * Since it isn't an amendment,  verify that the user cannot modify the protocol's
-     * General Info if they don't have the Modify Protocol permission.
+     * Since it isn't an amendment, verify that the user cannot modify the protocol
+     * if they don't have the Modify Protocol permission.
      */
     @Test
     public void testHasNoProtocolPermission() {
