@@ -47,6 +47,7 @@
 				<ref bean="CommSchedule-maxProtocols" />
 				<ref bean="CommSchedule-comments" />
 				<ref bean="CommSchedule-versionNumber" />
+				<ref bean="CommSchedule-selected" />
 			</list>
 		</property>
 	</bean>
@@ -272,6 +273,25 @@
 	<bean id="CommSchedule-versionNumber" parent="CommSchedule-versionNumber-parentBean" />
 	<bean id="CommSchedule-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
+
+	<bean id="CommSchedule-selected" parent="CommSchedule-selected-parentBean" />
+
+	  <bean id="CommSchedule-selected-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="selected" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Select" />
+	    <property name="shortLabel" value="Select" />
+	    <property name="maxLength" value="3" />
+	    <property name="validationPattern" >
+	      <bean parent="AnyCharacterValidationPattern" />
+	    </property>
+	    <property name="control" >
+	      <bean parent="CheckboxControlDefinition" />
+	    </property>
+	    <property name="summary" value="Select" />
+	    <property name="description" value="Select" />
+	  </bean>
+
 
 	<!-- Business Object Inquiry Definition -->
 	<bean id="CommSchedule-inquiryDefinition" parent="CommSchedule-inquiryDefinition-parentBean" />
