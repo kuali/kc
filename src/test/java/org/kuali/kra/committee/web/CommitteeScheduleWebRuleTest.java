@@ -28,17 +28,17 @@ public class CommitteeScheduleWebRuleTest extends CommitteeScheduleWebTestBase {
     
     public static final String DAILY = "DAILY";
     
-    public static final String SCHEDULEDATA_RECURRENCECTYPE = "scheduleData.recurrenceType";
+    public static final String SCHEDULEDATA_RECURRENCECTYPE = "committeeScheduleHelper.scheduleData.recurrenceType";
     
-    public static final String SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE = "scheduleData.dailySchedule.scheduleEndDate";
+    public static final String SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE = "committeeScheduleHelper.scheduleData.dailySchedule.scheduleEndDate";
     
     public static final String METHODTOCALL_ADDEVENT_ANCHOR = "methodToCall.addEvent.anchor";
     
-    public static final String DOCUMENT_COMMITTEE_COMMITTEESCHEDULE_0_SCHEDULEDDATE = "document.committee.committeeSchedules[0].scheduledDate";
+    public static final String DOCUMENT_COMMITTEE_COMMITTEESCHEDULE_0_SCHEDULEDDATE = "document.committeeList[0].committeeSchedules[0].scheduledDate";
     
     public static final String IS_IN_CONFLICT_WITH_OTHER_MEETING_SCHEDULE = " is in conflict with other meeting schedule";
     
-    public static final String DATE_MUST_BE_BEFORE_ENDING_ON_DATE = "Date must be before Ending On date";
+    public static final String DATE_MUST_BE_BEFORE_ENDING_ON_DATE = "End date cannot be before Start Date."; //"Date must be before Ending On date";
     
     public static final String IS_SKIPPED_IN_RECURRENCE = " is skipped in recurrence, meeting already scheduled for the date.";
     
@@ -86,26 +86,6 @@ public class CommitteeScheduleWebRuleTest extends CommitteeScheduleWebTestBase {
         assertContains(pageAfterSave, sb.toString());
     }     
 
-    /**
-     * This method test's start and end date rule.
-     * @throws Exception
-     */
-    @Test
-    public void testStartDateEndDateRule() throws Exception {
-        
-        HtmlPage schedulePage =  prerequisite();        
-        Date dt = new Date();        
-        String scheduleDate = formatDate(dt);        
-        setFields(schedulePage, scheduleDate);        
-        String endDate = scheduleDate;        
-        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, DAILY);       
-        setFieldValue(schedulePage, SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE, endDate);
-        
-        HtmlPage pageAfterAdd = clickOnByName(schedulePage,METHODTOCALL_ADDEVENT_ANCHOR, true);
-        
-        assertContains(pageAfterAdd, DATE_MUST_BE_BEFORE_ENDING_ON_DATE);
-    }
- 
     /**
      * This method test's soft error message during date conflict in Add to Schedule panel.
      * @throws Exception

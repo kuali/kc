@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.committee.web.struts.action;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +44,8 @@ import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 public class CommitteeScheduleAction extends CommitteeAction {
     
@@ -167,9 +170,16 @@ public class CommitteeScheduleAction extends CommitteeAction {
         }
         else {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-            if ((DELETE_QUESTION_ID.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {              
-                int lineToDelete = getLineToDelete(request);
-                committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules().remove(lineToDelete);                   
+            if ((DELETE_QUESTION_ID.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                
+                List<CommitteeSchedule> list = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
+                List<CommitteeSchedule> updatedlist = new ArrayList<CommitteeSchedule>(list);
+                Collections.copy(updatedlist, list);
+                for(CommitteeSchedule schedule : list) {
+                    if(schedule.isSelected()) 
+                        updatedlist.remove(schedule);
+                }
+                committeeForm.getCommitteeDocument().getCommittee().setCommitteeSchedules(updatedlist);
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC );

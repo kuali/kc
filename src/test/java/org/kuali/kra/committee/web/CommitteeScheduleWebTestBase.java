@@ -38,11 +38,11 @@ public class CommitteeScheduleWebTestBase extends CommitteeWebTestBase {
     
     private static int MY_COMMITTEE_ID = 32767;
     
-    private static final String SCHEDULEDATA_SCHEDULESTARTDATE = "scheduleData.scheduleStartDate";
+    private static final String SCHEDULEDATA_SCHEDULESTARTDATE = "committeeScheduleHelper.scheduleData.scheduleStartDate";
     
-    private static final String SCHEDULEDATA_TIME_TIME = "scheduleData.time.time";
+    private static final String SCHEDULEDATA_TIME_TIME = "committeeScheduleHelper.scheduleData.time.time";
     
-    private static final String SCHEDULEDATA_PLACE = "scheduleData.place";
+    private static final String SCHEDULEDATA_PLACE = "committeeScheduleHelper.scheduleData.place";
     
     private static final String METHODTOCALL_SAVE = "methodToCall.headerTab.headerDispatch.save.navigateTo.committeeSchedule.x";
     
