@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
  * Is the user allowed to create an amendment for the protocol?
@@ -27,6 +28,7 @@ public class CreateAmendmentAuthorizer extends ProtocolAuthorizer {
      */
     public boolean isAuthorized(String username, ProtocolTask task) {
         return !isAmendmentOrRenewal(task.getProtocol()) &&
+            //   canExecuteAction(task.getProtocol(), ProtocolActionType.AMENDMENT_CREATED) &&
                hasPermission(username, task.getProtocol(), PermissionConstants.CREATE_AMMENDMENT);
     }
 }

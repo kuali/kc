@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -57,6 +58,9 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         
         ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.SUBMIT_TO_IRB);
         protocol.getProtocolActions().add(protocolAction);
+        
+       // ProtocolActionService protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
+        //protocolActionService.updateProtocolStatus(protocolAction, protocol);
         
         businessObjectService.save(protocol.getProtocolDocument());
     }
