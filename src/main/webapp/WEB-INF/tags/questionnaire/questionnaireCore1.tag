@@ -39,4 +39,5 @@
             </td>
         </tr>
     </table>
+	<input type="hidden" id="questionNumber" name="questionNumber" value = "${QuestionnaireForm.questionNumber}"/>
 </div>

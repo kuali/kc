@@ -254,6 +254,9 @@
           var nextNode = $(this).parents('li:eq(0)').prev();
           $(this).parents('li:eq(0)').remove();
           curNode.insertBefore(nextNode);
+          var idx = $(curNode).attr("id").substring(8);
+          sqlScripts = sqlScripts + "#;#" + "update QMove;"+(Number($("#qseq"+idx).attr("value"))-1)+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
+          
           $("#movedn"+curNode.attr("id").substring(8)).show();
           $("#moveup"+nextNode.attr("id").substring(8)).show();
           if (curNode.prev().size() == 0) {
@@ -262,7 +265,9 @@
           if (nextNode.next().size() == 0) {
               $("#movedn"+nextNode.attr("id").substring(8)).hide();
           }
-          
+          idx = $(nextNode).attr("id").substring(8);
+          sqlScripts = sqlScripts + "#;#" + "update QMove;"+(Number($("#qseq"+idx).attr("value"))+1)+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
+          alert(sqlScripts);
       }); 
       image.attr("src",jsContextPath+"/static/images/jquery/arrow-up.gif");
       //alert("images "+image.attr("src"));
@@ -281,14 +286,23 @@
      $('<span>as child</span>').appendTo(tdtmp);
      tdtmp.appendTo(trtmp);
   
-     tdtmp = $('<td style="border:none;"></td>').html($('<input type="text" id = "qdesc" name = "qdesc" size="50" value="" />').attr("id","qdesc"+i));
+     tdtmp = $('<td style="border:none;"></td>').html($('<input type="text" id = "newqdesc" name = "newqdesc" size="50" value="" />').attr("id","newqdesc"+i));
      tdtmp.appendTo(trtmp);
      tdtmp = $('<td style="border:none; width:30px; text-align:center;"></td>');
 
      var atag = $('<a href="#"></a>');
 
-     var qntag = $('<input type="hidden" id = "qid" name = "qid" />').attr("id","qid"+i).attr("name","qid"+i);
-     var qntag = $('<input type="hidden" id = "qtypeid" name = "qtypeid" />').attr("id","qtypeid"+i).attr("name","qtypeid"+i);
+     // question id from lookup - to be added as sibling or child of this node
+     var qntag = $('<input type="hidden" id = "newqid" name = "newqid" />').attr("id","newqid"+i).attr("name","newqid"+i);
+     qntag.appendTo(tdtmp);
+     // question id for this node
+     qntag = $('<input type="hidden" id = "qid" name = "qid" />').attr("id","qid"+i).attr("name","qid"+i);
+     qntag.appendTo(tdtmp);
+     qntag = $('<input type="hidden" id = "qseq" name = "qseq" />').attr("id","qseq"+i).attr("name","qseq"+i);
+     qntag.appendTo(tdtmp);
+     qntag = $('<input type="hidden" id = "newqtypeid" name = "newqtypeid" />').attr("id","newqtypeid"+i).attr("name","newqtypeid"+i);
+     qntag.appendTo(tdtmp);
+     qntag = $('<input type="hidden" id = "qnum" name = "qnum" />').attr("id","qnum"+i).attr("name","qnum"+i);
      qntag.appendTo(tdtmp);
      var image = $('<img src="/kra-dev/static/images/searchicon.gif" id="searchQ" name="searchQ" border="0" class="tinybutton"  alt="Search Question" title="Search Question">').attr("id","search"+i).attr("name","search"+i); 
      //image.attr("name","methodToCall\.performLookup\.(!!org\.kuali\.kra\.questionnaire\.question\.Question!!)\.(((questionId:document\.newMaintainableObject\.questionId,)))\.((#document\.newMaintainableObject\.questionId:questionId,#))\.((<>))\.(([]))\.((**))\.((^^))\.((&&))\.((/rateClassTypeT/))\.((~~))\.anchor1");
@@ -330,7 +344,7 @@
             if (radioVal == 'sibling' && $(this).parents('li:eq(0)').parents('ul:eq(0)').attr("id") == 'example') {
                 childNode = 'false';
             }
-            var listitem = getQuestionNew($("#qdesc"+$(this).attr("id").substring(5)).attr("value"),$("#qtypeid"+$(this).attr("id").substring(5)).attr("value"), "V1.01", childNode);
+            var listitem = getQuestionNew($("#newqdesc"+$(this).attr("id").substring(5)).attr("value"),$("#newqtypeid"+$(this).attr("id").substring(5)).attr("value"), "V1.01", childNode);
 			var ultag = $('<ul></ul>');
             ultag.appendTo(listitem);
             var idx = listitem.attr("id").substring(8);
@@ -372,13 +386,35 @@
         trtmp1.html(tdtmp1);
         trtmp1.appendTo($("#question-table"));
         if (childNode == 'true') {
-           alert("parent li "+$(this).parents('li:eq(0)').attr("id"));
+           //alert("parent li "+$(this).parents('li:eq(0)').attr("id"));
           // $(this).parents('li:eq(0)').click();
            //$(this).parents('li:eq(0)').toggle('fast');
         }
        // $("#listcontrol"+i).click(); // to see if this item can become focus
         //$("#listcontrol"+i).click(); // to see if this item can become focus
-        
+        // TODO : set up for insert 
+        /* questionnairenumber from #questionnairenumber
+         * questionId from #qid
+         * sequenceNumber from $(this).parents('li:eq(0)').siblings().size() ?
+         */
+       // $(listitem).parents('ul:eq(0)').parents('li:eq(0)').size() == 0 : check whetehr it is at the top level
+         if ($(listitem).parents('ul:eq(0)').parents('li:eq(0)').size() == 0) {
+             parentNum = 0;
+         } else {
+         //alert("parents li "+$(listitem).parents('ul:eq(0)').parents('li:eq(0)').attr("id"));
+             parentNum = $("#qnum"+$(listitem).parents('ul:eq(0)').parents('li:eq(0)').attr("id").substring(8)).attr("value");
+         }
+       // alert("questionnairenumber "+$("#questionNumber").attr("value")+" qid "+$("#qid"+$(this).attr("id").substring(5)).attr("value"));
+        $("#qnum"+$(listitem).attr("id").substring(8)).attr("value",$("#questionNumber").attr("value"));
+       // alert("parents li "+$(this).attr("id").substring(5)+" "+$("#qnum"+$(this).attr("id").substring(5)).attr("value"));
+        var qid = $("#newqid"+$(this).attr("id").substring(5)).attr("value");
+        $("#qid"+$(listitem).attr("id").substring(8)).attr("value",qid);
+        var seqnum = Number($(listitem).siblings().size())+1;
+        $("#qseq"+$(listitem).attr("id").substring(8)).attr("value",seqnum);
+        var qnum = $("#questionNumber").attr("value");
+        var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
+        sqlScripts = sqlScripts+"#;#"+insertValues;
+        $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
         return false;
       });
       image.appendTo(tdtmp);
@@ -425,6 +461,7 @@
       var trtmp = $('<tr></tr>');
       var thtmp = $('<th style="text-align:center; width:150px;"></th>').html("Add");
       thtmp.appendTo(trtmp);
+      /*
       var tdtmp = $('<td class="content_info" style="text-align:center;"></td>');
       var selecttmp = $('<select name="CustomData"></select>');
       $('<option value="0" selected="selected">select</option>').appendTo(selecttmp);
@@ -432,6 +469,7 @@
       $('<option value="2">or</option>').appendTo(selecttmp);
       selecttmp.appendTo(tdtmp);
       tdtmp.appendTo(trtmp);
+      */
       tdtmp = $('<td class="content_info" style="text-align:center;"></td>').html("Parent Response");
       responseOptions.attr("id","parentResponse"+i).appendTo(tdtmp);
       tdtmp.appendTo(trtmp);
@@ -441,27 +479,33 @@
       tdtmp = $('<td class="content_info" class="content_white" style="width:65px; text-align:center;"></td>');
       image = $('<input name="addquestionnairetemplate" src="/kra-dev/kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" />').click(function() {
         //alert("This would add the specified requirement."+$(this).parents('tr:eq(0)').children('td:eq(0)').children('select:eq(0)').attr("value"));  
-        var operator = $(this).parents('tr:eq(0)').children('td:eq(0)').children('select:eq(0)').attr("value");
-        var response = $(this).parents('tr:eq(0)').children('td:eq(1)').children('select:eq(0)').attr("value");
-        var value = $(this).parents('tr:eq(0)').children('td:eq(2)').children('input:eq(0)').attr("value");
+        //var operator = $(this).parents('tr:eq(0)').children('td:eq(0)').children('select:eq(0)').attr("value");
+        var response = $(this).parents('tr:eq(0)').children('td:eq(0)').children('select:eq(0)').attr("value");
+        var value = $(this).parents('tr:eq(0)').children('td:eq(1)').children('input:eq(0)').attr("value");
         //var newResponse = getRequirementDeleteRow(sequenceNum, opArray[operator], responseArray[response], value)
         // it seems that 'tbody' is implicitly created.
-        var sequence = $(this).parents('div:eq(0)').children('table:eq(1)').children('tbody').children('tr').size() +1;
-        alert (sequence +"- "+operator+"-"+response+"-"+$(this).parents('div:eq(0)').children('table:eq(1)').children('tbody').size());
-        if (sequence == 1 && operator != 0) {
-           alert("This is the first requirement, and operator is not needed");
-        } else {
-            if (okToAddRequirement(sequence,operator,response,value)) {      
+       // var sequence = $(this).parents('div:eq(0)').children('table:eq(1)').children('tbody').children('tr').size() +1;
+        //alert (sequence +"- "+operator+"-"+response+"-"+$(this).parents('div:eq(0)').children('table:eq(1)').children('tbody').size());
+        //if (sequence == 1 && operator != 0) {
+        //   alert("This is the first requirement, and operator is not needed");
+       // } else {
+            if (okToAddRequirement(response,value)) {   
+            /*   
                 var opDesc;  
                 if (sequence == 1) {
                      opDesc = "Current Requirements:";
                 } else {
                      opDesc = opArray[operator];
                 }
-                var newResponse = getRequirementDeleteRow(sequence, opDesc, responseArray[response], value);
-                newResponse.appendTo($(this).parents('div:eq(0)').children('table:eq(1)').children('tbody'));
+                */
+                var newResponse = getRequirementDeleteRow(responseArray[response], value);
+                newResponse.appendTo($(this).parents('div:eq(0)').children('table:eq(0)').children('tbody'));
+                var idx = $(this).parents('li:eq(0)').attr("id").substring(8);
+                sqlScripts = sqlScripts + "#;#" + "update QCond;'Y';'"+response+"';'"+value+"';"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
+                alert(sqlScripts);
+               $(this).parents('tr:eq(0)').remove();
             }
-        }
+        //}
         return false;
       });
 
@@ -470,16 +514,16 @@
       return trtmp;  
   }
   
-  function okToAddRequirement(sequence,operator,response,value) {
+  function okToAddRequirement(response,value) {
       var valid = false;
       if (value == '') {
            alert("Please enter a value");
       } else if (response == 0) {
            alert("Please select a response");
-      } else if (sequence == 1 && operator != 0) {
-           alert("This is the first requirement, and operator is not needed");
-      } else if (sequence > 1 && operator == 0) {
-           alert("Please select an operator");
+     // } else if (sequence == 1 && operator != 0) {
+     //      alert("This is the first requirement, and operator is not needed");
+     // } else if (sequence > 1 && operator == 0) {
+     //      alert("Please select an operator");
       } else {
          valid = true;
       }
@@ -487,29 +531,32 @@
   }
   
   
-  function getRequirementDeleteRow(sequenceNum, operator, response, value) {
+  function getRequirementDeleteRow(response, value) {
       var trtmp = $('<tr></tr>');
-      var thtmp = $('<th style="text-align:left; border-top:none; width:150px;">').html(operator);
+      var thtmp = $('<th style="text-align:left; border-top:none; width:150px;">').html("Current Requirements:");
       thtmp.appendTo(trtmp);
-      var tdtmp=$('<td style="text-align:center; width:20px; border-top:none;">').html($('<div></div>').html(sequenceNum));
-      tdtmp.appendTo(trtmp);
+      //var tdtmp=$('<td style="text-align:center; width:20px; border-top:none;">').html($('<div></div>').html(sequenceNum));
+      //tdtmp.appendTo(trtmp);
       tdtmp=$('<td style="text-align:left; border-top:none;">').html(response+" : "+value);
       tdtmp.appendTo(trtmp);
       tdtmp=$('<td class="content_white" style="text-align:center; border-top:none; width:65px;">');
       image = $('<input src="/kra-dev/kr/static/images/tinybutton-delete1.gif"  style="border:none;" alt="delete" type="image" />').click(function() {
          alert("This would delete this requirement."+$(this).parents('tr:eq(0)').next().size()); 
-         var nextNode = $(this).parents('tr:eq(0)').next();
-         var nextSeq = sequenceNum;
-         while (nextNode.size() > 0) {
+         //var nextNode = $(this).parents('tr:eq(0)').next();
+         //var nextSeq = sequenceNum;
+        // while (nextNode.size() > 0) {
             // loop to update sequence #
-            nextNode.children('td:eq(0)').children('div:eq(0)').remove();
-            nextNode.children('td:eq(0)').html($('<div></div>').html(nextSeq));
-            if (nextSeq == 1) {
-                nextNode.children('th:eq(0)').html("Current Requirements:");
-            }
-            nextSeq++;
-            nextNode = nextNode.next();
-         }
+         //   nextNode.children('td:eq(0)').children('div:eq(0)').remove();
+         //   nextNode.children('td:eq(0)').html($('<div></div>').html(nextSeq));
+         //   if (nextSeq == 1) {
+         //       nextNode.children('th:eq(0)').html("Current Requirements:");
+        //    }
+        //    nextSeq++;
+         //   nextNode = nextNode.next();
+         //}
+         var idx = $(this).parents('li:eq(0)').attr("id").substring(8);
+         sqlScripts = sqlScripts + "#;#" + "update QCond;'N';'';'';"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
+         getAddRequirementRow().appendTo($(this).parents('tr:eq(0)').parents('tbody:eq(0)'));
          $(this).parents('tr:eq(0)').remove(); 
          return false;
       });
@@ -541,14 +588,16 @@
   
   function returnQuestion(newQuestionId, newQuestion,newQuestionTypeId,nodeIndex) {
      //alert("return QNID "+ newQuestionId+newQuestionTypeId);
-     $("#qid"+nodeIndex).attr("value",newQuestionId);
-     $("#qdesc"+nodeIndex).attr("value",newQuestion);
-     $("#qtypeid"+nodeIndex).attr("value",newQuestionTypeId);
-     alert("qtypeid "+ nodeIndex+$("#qtypeid"+nodeIndex).attr("value"));
+     // TODO : these need to be defined in 'input' tag, otherwise, the value set will not stuck.
+     // questionid, description, and typeid returned from question lookup.
+     $("#newqid"+nodeIndex).attr("value",newQuestionId);
+     $("#newqdesc"+nodeIndex).attr("value",newQuestion);
+     $("#newqtypeid"+nodeIndex).attr("value",newQuestionTypeId);
+     //alert("qid "+ nodeIndex+$("#qid"+nodeIndex).attr("value"));
   }
   
   function getQnTypeDesc(qtypeid) {
-     alert("gettypedesc "+qtypeid);
+     //alert("gettypedesc "+qtypeid);
      var divtmp = null;
      switch (Number(qtypeid)) { 
          // has to use Number(qtypeid)
@@ -565,4 +614,10 @@
      return divtmp;
   }
   
+      function getInsertClause(code, parentCode, description) {
+     
+        // need to rework on real update_user
+        var values="'"+code+"','"+parentCode+"', 'N', '"+description+"', sysdate, user";
+         return "insert into Q values("+values+")";
+     }
   
