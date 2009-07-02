@@ -60,28 +60,6 @@ ${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)}
   <tr> 
   <td colspan="2">     
   <ul id="example" class="filetree">
-		<li><span class="folder">Folder 1</span>
-			<ul>
-				<li><span class="file">Item 1.1</span></li>
-			</ul>
-		</li>
-		<li><span class="folder">Folder 2</span>
-			<ul>
-				<li><span class="folder">Subfolder 2.1</span>
-					<ul>
-						<li><span class="file">File 2.1.1</span></li>
-						<li><span class="file">File 2.1.2</span></li>
-					</ul>
-				</li>
-				<li><span class="file">File 2.2</span></li>
-			</ul>
-		</li>
-		<li class="closed"><span class="folder">Folder 3 (closed at start)</span>
-			<ul id="file31" class="filetree">
-				<!-- <li><span class="file">File 3.1</span></li> -->
-			</ul>
-		</li>
-		<li><span class="file">File 4</span></li>
 	</ul>
     </td>
    </tr>
@@ -93,8 +71,7 @@ ${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)}
        
        <kul:multipleValueLookup boClassName="org.kuali.kra.questionnaire.question.Question" 
                                                                  lookedUpCollectionName="questionnaireQuestions"
-                                                                 anchor="${currentTabIndex}.qnIndex${memberIndex}"/>
-yes.        
+                                                                 anchor="${currentTabIndex}.qnIndex${memberIndex}"/>      
    </tr>
    <%-- Test: add new question, when it return question lookup, the dynamically qn are still ok--%>
    <c:set var="index" value="0"/>

@@ -197,21 +197,28 @@
      $("#save").click(function(){    
        var qname = $('#newQuestionnaire\\.name').attr("value");
        var qdescription =$('#newQuestionnaire\\.description').attr("value");
-       var qisfinal = $('#newQuestionnaire\\.isFinal').attr("value");
-       alert ("save"+qname+qdescription+qisfinal); 
+       var qisfinal = $('#newQuestionnaire\\.isFinal').attr("checked");
+       //if (qisfinal == 'on') {
+       //    qisfinal = true;
+       //} else {
+       //    qisfinal = false;
+       //}
+       alert ("save"+qname+qdescription+$('#newQuestionnaire\\.isFinal').attr("checked")); 
        $.ajax({
          url: 'questionnaireAjax.do',
          type: 'GET',
          dataType: 'html',
          cache: false,
-         data:'sqlScripts='+sqlScripts+'&newQuestionnaire\\.name='+qname+'&newQuestionnaire\\.description='+qdescription,
+         data:'sqlScripts='+sqlScripts+'&newQuestionnaire.name='+qname+'&newQuestionnaire.description='+qdescription+'&newQuestionnaire.isFinal='+qisfinal,
          async:false,
          timeout: 1000,
          error: function(){
             alert('Error loading XML document');
          },
          success: function(xml){
-            //alert("success"+xml);
+            $(xml).find('h3').each(function(){
+                var item_text = $(this).text();
+            });
          }
        });
        

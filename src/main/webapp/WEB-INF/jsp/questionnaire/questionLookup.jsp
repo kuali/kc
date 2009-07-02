@@ -26,9 +26,9 @@
 		name="newQuestion" value="${QuestionLookupForm.newQuestion}"/>
 	<input type="hidden" id="newQuestionTypeId"
 		name="newQuestionTypeId" value="${QuestionLookupForm.newQuestionTypeId}"/>
-
-	Question : <input type="text" id="newQuestionId"
+	<input type="hidden" id="newQuestionId"
 		name="newQuestionId" value="${QuestionLookupForm.newQuestionId}"/>
+
 
  		<!--  <label>Sponsor Code Search</label> -->
    		<label>
@@ -57,6 +57,7 @@
           	            var newQuestion = document.getElementById("newQuestion").value
           	            var nodeIndex = document.getElementById("nodeIndex").value
           	            //var mapKey = document.getElementById("mapKey").value
+          	            alert(newQuestionId+"-"+newQuestionTypeId+"-"+newQuestion+"-")
           	         	window.opener.returnQuestion(newQuestionId, newQuestion,newQuestionTypeId,nodeIndex);
           	     
           	     }
