@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
  * Is the user allowed to submit a protocol to the IRB for review?
@@ -26,6 +27,8 @@ public class SubmitProtocolAuthorizer extends ProtocolAuthorizer {
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String username, ProtocolTask task) {
-        return hasPermission(username, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL);
+        
+       // return canExecuteAction(task.getProtocol(), ProtocolActionType.SUBMIT_TO_IRB) &&
+           return    hasPermission(username, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL);
     }
 }
