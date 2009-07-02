@@ -178,5 +178,6 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase implemen
         setId(null);
         setProtocolNumber(protocol.getProtocolNumber());
         setProtocol(protocol);
+        setSequenceNumber(protocol.getSequenceNumber());
     }
 }

@@ -114,6 +114,7 @@ public class ProtocolParticipant extends ProtocolAssociate {
         setProtocolParticipantId(null);
         setProtocolId(protocol.getProtocolId());
         setProtocolNumber(protocol.getProtocolNumber());
+        setSequenceNumber(protocol.getSequenceNumber());
     }
 
 }
