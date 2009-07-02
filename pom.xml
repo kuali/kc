@@ -265,6 +265,13 @@
 				</dependency>
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
+					<artifactId>MetaGrantApplication</artifactId>
+					<version>0.9.0</version>
+					<scope>system</scope>
+					<systemPath>${basedir}/lib/MetaGrantApplication.jar</systemPath>
+				</dependency>
+				<dependency>
+					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>propdev-schema-v2</artifactId>
 					<version>1.2</version>
  				</dependency>  
@@ -488,6 +495,13 @@
 					<artifactId>kra_s2s</artifactId>
 					<version>1.0.14</version>
 				</dependency>
+				<dependency>
+					<groupId>org.kuali.kra.s2s</groupId>
+					<artifactId>MetaGrantApplication</artifactId>
+					<version>0.9.0</version>
+					<scope>system</scope>
+					<systemPath>${basedir}/lib/MetaGrantApplication.jar</systemPath>
+				</dependency>				
 				<dependency>
 					<groupId>jaxb</groupId>
 					<artifactId>hyperjaxb</artifactId>
