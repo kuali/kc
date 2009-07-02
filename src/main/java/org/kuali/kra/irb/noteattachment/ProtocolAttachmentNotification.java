@@ -208,5 +208,6 @@ public class ProtocolAttachmentNotification extends ProtocolAttachmentBase {
         setId(null);
         setProtocolNumber(protocol.getProtocolNumber());
         setProtocol(protocol);
+        setSequenceNumber(protocol.getSequenceNumber());
     }
 }

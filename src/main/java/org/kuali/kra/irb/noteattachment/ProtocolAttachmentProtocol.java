@@ -251,5 +251,6 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
         setId(null);
         setProtocolNumber(protocol.getProtocolNumber());
         setProtocol(protocol);
+        setSequenceNumber(protocol.getSequenceNumber());
     }
 }

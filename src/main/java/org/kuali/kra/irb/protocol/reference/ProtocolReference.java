@@ -159,6 +159,7 @@ public class ProtocolReference extends ProtocolAssociate {
         setProtocolId(protocol.getProtocolId());
         setProtocolNumber(protocol.getProtocolNumber());
         setProtocolReferenceNumber(null);
+        setSequenceNumber(protocol.getSequenceNumber());
     }
 	
 }
