@@ -130,6 +130,7 @@ public class ProtocolUnit extends ProtocolAssociate {
         setProtocolPerson(protocolPerson);
         setProtocolPersonId(protocolPerson.getProtocolPersonId());
         setProtocolNumber(protocolPerson.getProtocolNumber());
+        setSequenceNumber(protocolPerson.getSequenceNumber());
         setProtocolUnitsId(null);
     }
 	

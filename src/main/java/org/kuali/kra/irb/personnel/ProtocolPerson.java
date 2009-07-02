@@ -268,6 +268,7 @@ public class ProtocolPerson extends ProtocolAssociate {
     public void init(Protocol protocol) {
         setProtocolPersonId(null);
         setProtocolNumber(protocol.getProtocolNumber());
+        setSequenceNumber(protocol.getSequenceNumber());
         for (ProtocolUnit unit : protocolUnits) {
             unit.init(this);
         }

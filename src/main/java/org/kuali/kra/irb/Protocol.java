@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -35,7 +36,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolRiskLevel;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
@@ -56,6 +59,7 @@ import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -1010,5 +1014,95 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
 
     public void setProtocolAmendRenewals(List<ProtocolAmendRenewal> protocolAmendRenewals) {
         this.protocolAmendRenewals = protocolAmendRenewals;
+    }
+    
+    public void merge(Protocol amendment) {
+        List<ProtocolAmendRenewModule> modules = amendment.getProtocolAmendRenewal().getModules();
+        for (ProtocolAmendRenewModule module : modules) {
+            if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.GENERAL_INFO)) {
+                mergeGeneralInfo(amendment);
+            }
+            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.AREAS_OF_RESEARCH)) {
+                mergeResearchAreas(amendment);
+            }
+            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.FUNDING_SOURCE)) {
+                mergeFundingSources(amendment);
+            }
+            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.PROTOCOL_ORGANIZATIONS)) {
+                mergeOrganizations(amendment);
+            }
+            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.ADD_MODIFY_ATTACHMENTS)) {
+                mergeAttachments(amendment);
+            }
+            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.PROTOCOL_PERSONNEL)) {
+                mergePersonnel(amendment);
+            }
+            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.PROTOCOL_REFERENCES)) {
+                mergeReferences(amendment);
+            }
+            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.SPECIAL_REVIEW)) {
+                mergeSpecialReview(amendment);
+            }
+            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.SUBJECTS)) {
+                mergeSubjects(amendment);
+            }
+        }
+    }
+
+    private void mergeGeneralInfo(Protocol amendment) {
+        this.protocolTypeCode = amendment.getProtocolTypeCode();
+        this.title = amendment.getTitle();
+        this.description = amendment.getDescription();
+        this.applicationDate = amendment.getApplicationDate();
+        this.fdaApplicationNumber = amendment.getFdaApplicationNumber();
+        this.billable = amendment.isBillable();
+        this.referenceNumber1 = amendment.getReferenceNumber1();
+        this.referenceNumber2 = amendment.getReferenceNumber2();
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void mergeResearchAreas(Protocol amendment) {
+        setProtocolResearchAreas((List<ProtocolResearchArea>) deepCopy(amendment.getProtocolResearchAreas()));
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void mergeFundingSources(Protocol amendment) {
+        setProtocolFundingSources((List<ProtocolFundingSource>) deepCopy(amendment.getProtocolFundingSources()));
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void mergeReferences(Protocol amendment) {
+        setProtocolReferences((List<ProtocolReference>) deepCopy(amendment.getProtocolReferences()));
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void mergeOrganizations(Protocol amendment) {
+        setProtocolLocations((List<ProtocolLocation>) deepCopy(amendment.getProtocolLocations()));
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void mergeSubjects(Protocol amendment) {
+        setProtocolParticipants((List<ProtocolParticipant>) deepCopy(amendment.getProtocolParticipants()));
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void mergeAttachments(Protocol amendment) {
+        setProtocolAttachmentProtocols((List<ProtocolAttachmentProtocol>) deepCopy(amendment.getAttachmentProtocols()));
+        setProtocolAttachmentPersonnel((List<ProtocolAttachmentPersonnel>) deepCopy(amendment.getAttachmentPersonnels()));
+        setProtocolAttachmentNotifications((List<ProtocolAttachmentNotification>) deepCopy(amendment.getAttachmentNotifications()));
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void mergeSpecialReview(Protocol amendment) {
+        setSpecialReviews((List<ProtocolSpecialReview>) deepCopy(amendment.getSpecialReviews()));
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void mergePersonnel(Protocol amendment) {
+        setProtocolPersons((List<ProtocolPerson>) deepCopy(amendment.getProtocolPersons()));
+    }
+    
+    private Object deepCopy(Object obj) {
+        return ObjectUtils.deepCopy((Serializable) obj);
     }
 }

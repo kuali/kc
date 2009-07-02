@@ -118,6 +118,7 @@ public class ProtocolLocation extends ProtocolAssociate {
     public void init(Protocol protocol) {
         setProtocolLocationId(null);
         setProtocolNumber(protocol.getProtocolNumber());
+        setSequenceNumber(protocol.getSequenceNumber());
     }
 
 }
