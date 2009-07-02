@@ -15,16 +15,14 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
-import java.util.List;
-
-import org.kuali.kra.committee.rules.CommitteeScheduleFilterDatesRule;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
+/**
+ * When an amendment is created, this event is generated.
+ */
+@SuppressWarnings("unchecked")
 public class CreateAmendmentEvent<T extends BusinessRuleInterface> extends KraDocumentEventBaseExtension {
 
     private ProtocolAmendmentBean amendmentBean;
@@ -48,7 +46,6 @@ public class CreateAmendmentEvent<T extends BusinessRuleInterface> extends KraDo
         return amendmentBean;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public BusinessRuleInterface getRule() {
         return new CreateAmendmentRule();
