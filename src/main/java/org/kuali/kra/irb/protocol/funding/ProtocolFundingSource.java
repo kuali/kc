@@ -205,6 +205,7 @@ public class ProtocolFundingSource extends ProtocolAssociate {
         setProtocolId(protocol.getProtocolId());
         setProtocol(protocol);
         setProtocolNumber(protocol.getProtocolNumber());
+        setSequenceNumber(protocol.getSequenceNumber());
     }
     
     @Override

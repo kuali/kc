@@ -98,6 +98,7 @@ public class ProtocolResearchArea extends ProtocolAssociate {
         setId(null);
         setProtocolNumber(protocol.getProtocolNumber());
         setProtocol(protocol);
+        setSequenceNumber(protocol.getSequenceNumber());
     }
 	
 }
