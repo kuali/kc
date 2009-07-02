@@ -20,6 +20,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
+/**
+ * Business rule for creating an amendment.  The user is required to enter a summary
+ * and they must select at least one module which will be modified in the amendment.
+ */
 @SuppressWarnings("unchecked")
 public class CreateAmendmentRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<CreateAmendmentEvent> {
 
