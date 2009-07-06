@@ -18,10 +18,12 @@ package org.kuali.kra.award;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.commitments.CostShareFormHelper;
 import org.kuali.kra.award.contacts.AwardCentralAdminContactsBean;
@@ -84,6 +86,9 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private String lookupResultsBOClassName;
     private String lookupResultsSequenceNumber;
     
+    private String prevAwardNumber;
+    private String prevRootAwardNumber;
+    
     private AwardSpecialReview newAwardSpecialReview;
     private List<AwardSpecialReviewExemption> newSpecialReviewExemptions;
     private String[] newExemptionTypeCodes;
@@ -115,7 +120,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
     private PermissionsHelper permissionsHelper;
     private AwardCreditSplitBean awardCreditSplitBean;
-    private LookupHelper<AwardForm> lookupHelper; 
+    private LookupHelper<AwardForm> lookupHelper;
+    private Map<String, AwardHierarchy> awardHierarchyNodes;
     
     /**
      * 
@@ -164,6 +170,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         awardReportingBean = new AwardReportingBean(this);
         awardCommentBean = new AwardCommentBean(this);
         awardCloseoutBean = new AwardCloseoutBean(this);
+        awardHierarchyNodes = new TreeMap<String, AwardHierarchy>();
     }
     
     /**
@@ -625,5 +632,53 @@ public class AwardForm extends KraTransactionalDocumentFormBase
      */
     protected KualiConfigurationService getKualiConfigurationService(){
         return KraServiceLocator.getService(KualiConfigurationService.class);
+    }
+
+    /**
+     * Gets the awardHierarchyNodes attribute. 
+     * @return Returns the awardHierarchyNodes.
+     */
+    public Map<String, AwardHierarchy> getAwardHierarchyNodes() {
+        return awardHierarchyNodes;
+    }
+
+    /**
+     * Sets the awardHierarchyNodes attribute value.
+     * @param awardHierarchyNodes The awardHierarchyNodes to set.
+     */
+    public void setAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyNodes) {
+        this.awardHierarchyNodes = awardHierarchyNodes;
+    }
+
+    /**
+     * Gets the prevAwardNumber attribute. 
+     * @return Returns the prevAwardNumber.
+     */
+    public String getPrevAwardNumber() {
+        return prevAwardNumber;
+    }
+
+    /**
+     * Sets the prevAwardNumber attribute value.
+     * @param prevAwardNumber The prevAwardNumber to set.
+     */
+    public void setPrevAwardNumber(String prevAwardNumber) {
+        this.prevAwardNumber = prevAwardNumber;
+    }
+
+    /**
+     * Gets the prevRootAwardNumber attribute. 
+     * @return Returns the prevRootAwardNumber.
+     */
+    public String getPrevRootAwardNumber() {
+        return prevRootAwardNumber;
+    }
+
+    /**
+     * Sets the prevRootAwardNumber attribute value.
+     * @param prevRootAwardNumber The prevRootAwardNumber to set.
+     */
+    public void setPrevRootAwardNumber(String prevRootAwardNumber) {
+        this.prevRootAwardNumber = prevRootAwardNumber;
     }
 }
