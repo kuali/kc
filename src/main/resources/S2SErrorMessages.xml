@@ -63,6 +63,11 @@
 		<Message>You have entered an invalid revision type for the SF424</Message>
 		<FixLink>grantsGov</FixLink>
 	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/SF424/Applicant/City</MessageKey>
+		<Message>Organization's city is not valid</Message>
+		<FixLink>proposal.Organization/Location</FixLink>
+	</Error>
 	<!-- #SF424BV1_1 -->
 	<Error>
 		<MessageKey>/GrantApplication/Forms/Assurances/ApplicationTypeCode</MessageKey>
