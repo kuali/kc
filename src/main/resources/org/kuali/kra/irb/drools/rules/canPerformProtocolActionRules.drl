@@ -9,6 +9,14 @@ function void setAction(ProtocolActionMapping protocolAction, boolean flag) {
     protocolAction.setAllowed(flag);    
 } 
 
+rule "Submit for Review"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode == "100")
+then	
+	setAction(protocolAction, true);
+end
+
 rule "Assign to Agenda"
 salience 100
 when
