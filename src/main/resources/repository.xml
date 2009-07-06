@@ -3070,13 +3070,13 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<!--  TODO : Implemented later
 		<collection-descriptor name="questionnaireUsage" proxy="true" element-class-ref="org.kuali.kra.questionnaire.QuestionnaireUsage" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="moduleItemCode"/>
 		</collection-descriptor>
 		<collection-descriptor name="coeusSubModule" proxy="true" element-class-ref="org.kuali.kra.bo.CoeusSubModule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="moduleCode"/>
 		</collection-descriptor>
-		<!--  TODO : Implemented later
 		<collection-descriptor name="protocolRelatedProjects" proxy="true" element-class-ref="org.kuali.kra.bo.ProtocolRelatedProjects" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="moduleCode"/>
 		</collection-descriptor>

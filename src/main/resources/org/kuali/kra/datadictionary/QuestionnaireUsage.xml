@@ -72,9 +72,10 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
+        <property name="control">
+          <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.CoeusModule" 
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
+            p:includeKeyInLabel="false" p:keyAttribute="moduleCode" p:labelAttribute="description"/>
         </property>
         <property name="summary" value="Module Item Code" />
         <property name="description" value="Module Item Code" />

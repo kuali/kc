@@ -46,8 +46,9 @@
 
     <div align="center" style="margin:10px">
         <kul:tabTop defaultOpen="true" tabTitle="Questionnaire" tabErrorKey="questionnaire*">
-    <kra-questionnaire:questionnaireCore1 />
-    <kra-questionnaire:questionnaireQuestion1 /> 
+    <kra-questionnaire:questionnaireCore />
+    <kra-questionnaire:questionnaireQuestion /> 
+    <kra-questionnaire:questionnaireUsage /> 
         </kul:tabTop>
         <kul:panelFooter />
                 
@@ -64,6 +65,7 @@
   var node;
   var i = 1;
   var j = 0;
+  var ucount = 1;
   var removedNode;
   var cutNode;
   var sqlScripts = "create new";
@@ -78,38 +80,7 @@
               collapsed: true,
               control: "#treecontrol"
         });
-        
-    $("#rootSearch").attr("name","methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:newQuestionId,question:newQuestion))).((#newQuestionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/questionId/)).((~~)).anchor1");
-    
-    $("#addRootQn").click(function() {
-        //alert("This would add question "+$(".radioQn"+$(this).attr("id").substring(5)+":checked").val()+"-"+$("#newQuestionId").attr("value")+"-"+$("#newQuestion").attr("value"));  
-        alert("This would add question "+$(this).parents('li:eq(0)').children('ul:eq(0)').size()+"-"+$(".radioQn"+$(this).attr("id").substring(5)+":checked").val());  
-        
-        
-            i++;
-
-            var listitem = getQuestionNew($("#newQuestion").attr("value"),1, "V1.01", 'false');
-			var ultag = $('<ul></ul>');
-            ultag.appendTo(listitem);
             
-              listitem.appendTo('ul#example');
-        $('#example').treeview({
-           add: listitem
-        });
-
-        alert("# of siblings "+listitem.siblings('li').size());
-        var intag = $('<input type ="text"></input>').attr("value",$("#newQuestionId").attr("value").trim());
-        var name = "document\.newMaintainableObject\.businessObject\.questionnaireQuestions["+j+"]\.questionId";
-        intag.attr("id",name).attr("name",name);
-        j++;
-        var trtmp1 = $('<tr></tr>');
-        var tdtmp1 = $('<td></td>').html(intag);
-        trtmp1.html(tdtmp1);
-        trtmp1.appendTo($("#question-table"));
-        
-        
-        return false;
-      });
   
     });
   
@@ -226,6 +197,97 @@
       }); 
    //}      
    
+   
+   
+     $("#addUsage").click(function(){  
+        trtmp = $('<tr/>').attr("id","usage"+ucount);
+        thtmp = $('<th class="infoline"/>').html(ucount);
+        thtmp.appendTo(trtmp); 
+        tdtmp = $('<td align="left" valign="middle">').html($("#newQuestionnaireUsage\\.moduleItemCode").attr("value"));
+        tdtmp.appendTo(trtmp);
+        tdtmp = $('<td align="left" valign="middle">').html($("#newQuestionnaireUsage\\.questionnaireLabel").attr("value"));
+        tdtmp.appendTo(trtmp);
+        tdtmp = $('<td align="left" valign="middle">').html("1.00");
+        tdtmp.appendTo(trtmp);
+		inputtmp = $('<input type="image" id="deleteUsage" name="deleteUsage" src="static/images/tinybutton-delete1.gif" class="tinybutton">').attr("id","deleteUsage"+ucount).click(function() {
+		     //alert("delete "+$(this).parents('tr:eq(0)').attr("id"))
+		     sqlScripts = sqlScripts +"#;#" +"delete U;"+$(this).parents('tr:eq(0)').children('td:eq(0)').html();
+        alert(sqlScripts); 
+		     
+		     $(this).parents('tr:eq(0)').remove();	     
+		     return false;
+		});
+        tdtmp = $('<td align="left" valign="middle">');
+        inputtmp.appendTo(tdtmp);
+        tdtmp.appendTo(trtmp);
+        ucount++;
+        trtmp.appendTo($("#usage-table"));
+        sqlScripts = sqlScripts +"#;#" +"insert U;"+$("#newQuestionnaireUsage\\.moduleItemCode").attr("value")+";"+$("#newQuestionnaireUsage\\.questionnaireLabel").attr("value")
+        alert(sqlScripts); 
+        return false;
+     }); 
+     $("#deleteUsage").click(function(){  
+        alert("delete usage");  
+        return false;
+     }); 
+   
+     $("#rootSearch").click(function() {
+         //alert($(this).parents('li:eq(0)').attr("id"));
+         // TODO : IE problem.  after the node is moved up or down, then the "id" of the image got lost.
+         // so, before figuring a solution, use this alternative to fin parents id.
+         checkToAddQn(0);
+         return false;
+     });
+
+      $("#addRootQn").click(function() {
+            i++;
+            var listitem = getQuestionNew($("#newqdesc0").attr("value"),$("#newqtypeid0").attr("value"), "V1.01", "false");
+			var ultag = $('<ul></ul>');
+            ultag.appendTo(listitem);
+            var idx = listitem.attr("id").substring(8);
+
+              listitem.appendTo('#example');
+              //listitem.appendTo('ul#example');
+              // last one no 'move dn'
+                 $("#movedn"+idx).hide();
+                 if (listitem.prev().size() > 0) {
+                    $("#movedn"+listitem.prev().attr("id").substring(8)).show();
+                 }
+        
+        // also need this to show 'folder' icon
+        $('#example').treeview({
+           add: listitem
+        });
+
+        //var intag = $('<input type ="text"></input>').attr("value",$("#newQuestionId").attr("value").trim());
+       // var name = "document\.newMaintainableObject\.businessObject\.questionnaireQuestions["+j+"]\.questionId";
+        //intag.attr("id",name).attr("name",name);
+       // j++;
+        //var trtmp1 = $('<tr></tr>');
+       // var tdtmp1 = $('<td></td>').html(intag);
+        //trtmp1.html(tdtmp1);
+        //trtmp1.appendTo($("#question-table"));
+        // TODO : set up for insert 
+        /* questionnairenumber from #questionnairenumber
+         * questionId from #qid
+         * sequenceNumber from $(this).parents('li:eq(0)').siblings().size() ?
+         */
+       // $(listitem).parents('ul:eq(0)').parents('li:eq(0)').size() == 0 : check whetehr it is at the top level
+            parentNum = 0;
+       // alert("questionnairenumber "+$("#questionNumber").attr("value")+" qid "+$("#qid"+$(this).attr("id").substring(5)).attr("value"));
+        $("#qnum"+$(listitem).attr("id").substring(8)).attr("value",$("#questionNumber").attr("value"));
+       // alert("parents li "+$(this).attr("id").substring(5)+" "+$("#qnum"+$(this).attr("id").substring(5)).attr("value"));
+        var qid = $("#newqid0").attr("value");
+        $("#qid"+$(listitem).attr("id").substring(8)).attr("value",qid);
+        var seqnum = Number($(listitem).siblings().size())+1;
+        $("#qseq"+$(listitem).attr("id").substring(8)).attr("value",seqnum);
+        var qnum = $("#questionNumber").attr("value");
+        var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
+        sqlScripts = sqlScripts+"#;#"+insertValues;
+        $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
+        return false;
+      });
+
    
     </script>
     
