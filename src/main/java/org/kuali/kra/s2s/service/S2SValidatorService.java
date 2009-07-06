@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.rice.kns.util.AuditError;
 
 /**
  * 
@@ -40,6 +41,6 @@ public interface S2SValidatorService
      * @param errors List list of XPaths of the error nodes.
      * @return validation result true if valid false otherwise.
      */
-    public boolean validate(XmlObject formObject, List<String> errors);
+    public boolean validate(XmlObject formObject, List<AuditError> errors);
 
 }

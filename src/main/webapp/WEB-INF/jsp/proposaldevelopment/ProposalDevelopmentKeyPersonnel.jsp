@@ -41,9 +41,9 @@
             <table  cellpadding="0" cellspacing="0" class="grid" summary="">
               <tr>
                 <th class="grid"><div align="right">*Person:</div></th>
-                <td nowrap class="grid">
 <c:choose>                  
   <c:when test="${empty KualiForm.newPersonId && empty KualiForm.newRolodexId}">
+                <td nowrap class="grid">
                 <label> Employee Search</label>
                   <label><kul:lookup boClassName="org.kuali.kra.bo.Person" 
                                 fieldConversions="personId:newPersonId" /></label><br>

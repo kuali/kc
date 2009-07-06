@@ -30,6 +30,7 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -64,12 +65,11 @@ public abstract class S2STestBase<T> extends KraTestBase {
     public void testValidateForm() throws Exception {
         prepareData(document);
         getService(BusinessObjectService.class).save(document);
-        ArrayList<String> errors = new ArrayList<String>();
+        ArrayList<AuditError> errors = new ArrayList<AuditError>();
         XmlObject object=generatorObject.getFormObject(document);
 //        object.save(new File("C:\\GrantsGovfiles\\"+object.getClass().getName()+ ".xml"));
         getService(S2SValidatorService.class).validate(generatorObject.getFormObject(document), errors);
         assertTrue(errors.isEmpty());
-        //FIXME For testing
     }
 
     private void savePropDoc(ProposalDevelopmentDocument pd) {

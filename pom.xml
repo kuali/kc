@@ -22,7 +22,7 @@
 	      <!--<url>http://eric.propellors.net</url> -->
 	      <organization>Kuali Coeus</organization>
 	      <organizationUrl>http://kuali.org</organizationUrl>
-	      <roles>
+	      <roles> 
 	        <role>DM</role>
 	        <role>developer</role>
 	      </roles>
@@ -77,6 +77,41 @@
 	      </notifier>
 	    </notifiers>
 	  </ciManagement>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-codegen-plugin</artifactId>
+				<version>2.1.3</version>
+				<executions>
+					<execution>
+						<id>generate-sources</id>
+						<phase>generate-sources</phase>
+						<inherited>false</inherited>
+						<configuration>
+							<sourceRoot>${basedir}/src/main/java</sourceRoot>                                
+							<wsdlOptions>
+								<wsdlOption>
+									<wsdl>${basedir}/src/main/config/wsdl/ApplicantIntegrationServices-V1_1.wsdl</wsdl>
+									<noAddressBinding>true</noAddressBinding>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+						<goals>
+							<goal>wsdl2java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+	               <dependency>
+	                  <groupId>xerces</groupId>
+	                  <artifactId>xercesImpl</artifactId>
+	                  <version>2.8.1</version>
+	               </dependency>
+            	</dependencies>
+			</plugin>
+		</plugins>
+	</build>
 
 	<profiles>
 		<profile>
@@ -243,21 +278,18 @@
     				<artifactId>xmlbeans-maven-plugin</artifactId>
     				<version>2.3.2</version>
 				</dependency> 
-				<dependency>
+				<!-- <dependency>
 					<groupId>axis</groupId>
 					<artifactId>axis</artifactId>
 					<version>1.4</version>
 				</dependency>
+				-->
 				<dependency>
 					<groupId>fop</groupId>
 					<artifactId>fop</artifactId>
 					<version>0.20.5</version>
 				</dependency>
-				<dependency>
-					<groupId>org.apache.xmlgraphics</groupId>
-					<artifactId>fop</artifactId>
-					<version>0.95</version>
-				</dependency>
+				<!--
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>gg_forms_jaxb</artifactId>
@@ -270,11 +302,6 @@
 				</dependency>
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
-					<artifactId>MetaGrantApplication</artifactId>
-					<version>0.9.0</version>
-				</dependency>
-				<dependency>
-					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>propdev-schema-v2</artifactId>
 					<version>1.2</version>
  				</dependency>  
@@ -283,13 +310,11 @@
 					<artifactId>hyperjaxb</artifactId>
 					<version>1.0</version>
 				</dependency>
-				<!-- 
 				<dependency>
 					<groupId>jaxb</groupId>
 					<artifactId>jaxb-impl</artifactId>
 					<version>1.0.4</version>
 				</dependency>
-				-->
 				<dependency>
 					<groupId>jaxb</groupId>
 					<artifactId>jaxb-libs</artifactId>
@@ -300,13 +325,11 @@
 					<artifactId>jaxb-verification</artifactId>
 					<version>1.0.4</version>
 				</dependency>
-				<!--
 				<dependency>
 					<groupId>jaxb</groupId>
 					<artifactId>jaxb-xjc</artifactId>
 					<version>1.0.4</version>
 				</dependency>
-				-->
 				<dependency>
 					<groupId>jaxrpc</groupId>
 					<artifactId>jaxrpc</artifactId>
@@ -342,6 +365,7 @@
 					<artifactId>xsdlib</artifactId>
 					<version>1.0</version>
 				</dependency>
+				-->
 				<dependency>
 					<groupId>avalon-framework</groupId>
 					<artifactId>avalon-framework</artifactId>
@@ -382,8 +406,20 @@
 					<groupId>org.drools</groupId>
 					<artifactId>drools-decisiontables</artifactId>
 					<version>4.0.7</version>
-				</dependency> 
-			</dependencies>
+				</dependency>
+				<!-- 
+				<dependency>
+					<groupId>org.apache.xmlgraphics</groupId>
+					<artifactId>fop</artifactId>
+					<version>0.95</version>
+				</dependency>
+				-->
+				<dependency>
+					<groupId>org.kuali.kra.s2s</groupId>
+					<artifactId>MetaGrantApplication</artifactId>
+					<version>0.9.0</version>
+				</dependency>
+				</dependencies>
 		</profile>
 		<profile>
 			<id>default</id>
@@ -477,17 +513,17 @@
 							<groupId>javax.servlet</groupId>
 						</exclusion>
 					</exclusions>
-				</dependency>
+				</dependency><!--
 				<dependency>
 					<groupId>axis</groupId>
 					<artifactId>axis</artifactId>
 					<version>1.4</version>
 				</dependency>
-				<dependency>
+				--><dependency>
 					<groupId>fop</groupId>
 					<artifactId>fop</artifactId>
 					<version>0.20.5</version>
-				</dependency>
+				</dependency><!--
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>gg_forms_jaxb</artifactId>
@@ -498,11 +534,6 @@
 					<artifactId>kra_s2s</artifactId>
 					<version>1.0.14</version>
 				</dependency>
-				<dependency>
-					<groupId>org.kuali.kra.s2s</groupId>
-					<artifactId>MetaGrantApplication</artifactId>
-					<version>0.9.0</version>
-				</dependency>				
 				<dependency>
 					<groupId>jaxb</groupId>
 					<artifactId>hyperjaxb</artifactId>
@@ -523,13 +554,11 @@
 					<artifactId>jaxb-verification</artifactId>
 					<version>1.0.4</version>
 				</dependency>
-				<!-- 
 				<dependency>
 					<groupId>jaxb</groupId>
 					<artifactId>jaxb-xjc</artifactId>
 					<version>1.0.4</version>
 				</dependency>
-				 -->
 				<dependency>
 					<groupId>jaxrpc</groupId>
 					<artifactId>jaxrpc</artifactId>
@@ -570,6 +599,7 @@
 					<artifactId>xsdlib</artifactId>
 					<version>1.0</version>
 				</dependency>
+				-->
 				<dependency>
 					<groupId>avalon-framework</groupId>
 					<artifactId>avalon-framework</artifactId>
@@ -634,19 +664,26 @@
                          <artifactId>core</artifactId>
 		      		   </exclusion>
                     </exclusions>
-				</dependency>	
+				</dependency>
+				<!--	
 				<dependency>
                     <groupId>org.apache.xmlgraphics</groupId>
                     <artifactId>fop</artifactId>
                     <version>0.95</version>                     
                 </dependency>
+                -->
                 <dependency>
     				<groupId>org.codehaus.mojo</groupId>
     				<artifactId>xmlbeans-maven-plugin</artifactId>
     				<version>2.3.2</version>
 				</dependency>
-                   			             
-			</dependencies>
+				<dependency>
+					<groupId>org.kuali.kra.s2s</groupId>
+					<artifactId>MetaGrantApplication</artifactId>
+					<version>0.9.0</version>
+				</dependency>
+				
+				</dependencies>
 		</profile>
 		
                 <profile>
@@ -711,6 +748,13 @@
 		</repository> 
 
 	</repositories>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http-jetty</artifactId>
+			<version>2.1.3</version>
+		</dependency>
+	</dependencies>
 	<reporting>
 		<plugins>
 			<plugin>
@@ -759,7 +803,7 @@
   	
   	<properties>
   		<servlet-api.version>2.4</servlet-api.version>
-
+		<cxf.version>2.1.3</cxf.version>
 		<!-- Checkstyle config -->
 		<checkstyle.config.location>${basedir}/src/main/config/KC_Checkstyle.xml</checkstyle.config.location>
 		<checkstyle.enable.rss>false</checkstyle.enable.rss>
