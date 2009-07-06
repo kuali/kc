@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
+import java.util.List;
+
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 
 /**
@@ -48,4 +51,11 @@ public interface ProtocolAmendRenewService {
      * @throws Exception
      */
     public String createRenewalWithAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception;
+
+    /**
+     * Get all of the Amendments and Renewals for a given protocol.
+     * @param protocolNumber the protocol number
+     * @return
+     */
+    public List<Protocol> getAmendmentAndRenewals(String protocolNumber);
 }
