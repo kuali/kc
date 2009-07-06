@@ -27,7 +27,7 @@
 	<div id="workarea">
 </c:if>
 	
-<kul:tab tabTitle="${title}" defaultOpen="${auditActivated}" transparentBackground="${topTab}">
+<kul:tab tabTitle="${title}" defaultOpen="${auditActivated}" >
 	<div class="tab-container" align="center">
 		<h3> 
 			<span class="subhead-left">${title}</span>

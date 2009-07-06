@@ -1182,4 +1182,14 @@
 			<foreignkey field-ref="basisOfPaymentCode"/>
 		</reference-descriptor>
 	</class-descriptor>	
+	
+	<class-descriptor class="org.kuali.kra.award.awardhierarchy.AwardHierarchy" table="AWARD_HIERARCHY">
+		<field-descriptor name="rootAwardNumber" column="ROOT_AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="parentAwardNumber" column="PARENT_AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
 </descriptor-repository>
