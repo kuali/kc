@@ -369,3 +369,27 @@ when
 then	
 	setProtocolStatusCode(protocolAction, "200");
 end
+
+rule "fn_table: Submission Status = 212 ; Protocol Status = 101 (Tabled)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "101")
+then	
+	setProtocolSubmissionStatusCode(protocolAction, "212");
+	setProtocolStatusCode(protocolAction, "101");
+end
+rule "fn_table:  Protocol Status = 105 (Tabled)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "103")
+then	
+	setProtocolStatusCode(protocolAction, "105");
+end
+rule "fn_table:  Protocol Status = 106 (Tabled)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "102")
+then	
+	setProtocolStatusCode(protocolAction, "106");
+end
+
