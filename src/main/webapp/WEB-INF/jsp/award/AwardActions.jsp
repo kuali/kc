@@ -27,7 +27,9 @@
   	
 This is the Award Actions - Under Construction
 
-<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"/>
+<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>
+<kra-a:awardHierarchy />
+<kul:panelFooter />
 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 

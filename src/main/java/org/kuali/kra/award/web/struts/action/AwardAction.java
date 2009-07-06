@@ -17,6 +17,7 @@ package org.kuali.kra.award.web.struts.action;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,23 +28,19 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.AwardNumberService;
-import org.kuali.kra.award.AwardTemplateSyncEvent;
-import org.kuali.kra.award.AwardTemplateSyncRule;
-import org.kuali.kra.award.AwardTemplateSyncRuleImpl;
 import org.kuali.kra.award.AwardTemplateSyncService;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
-import org.kuali.kra.bo.CommentType;
-import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.service.AwardCommentService;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.service.AwardSponsorTermService;
@@ -52,7 +49,6 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -79,7 +75,11 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     public ActionForward docHandler(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;        
-        ActionForward forward = handleDocument(mapping, form, request, response, awardForm);        
+        ActionForward forward = handleDocument(mapping, form, request, response, awardForm);
+        if(request.getAttribute("awardNumber")!=null){
+            
+        }
+        
         awardForm.initializeFormOrDocumentBasedOnCommand();
         
         return forward;
@@ -145,7 +145,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         AwardForm awardForm = (AwardForm) form;
         
         createInitialAwardUsers(awardForm.getAwardDocument().getAward());
-        populateStaticCloseoutReports(awardForm);
+        populateStaticCloseoutReports(awardForm);        
+        createDefaultAwardHierarchy(awardForm.getAwardDocument().getAward(),awardForm.getPrevAwardNumber(), awardForm.getPrevRootAwardNumber());
         
     }
 
@@ -172,6 +173,29 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         CloseoutReportTypeValuesFinder closeoutReportTypeValuesFinder = new CloseoutReportTypeValuesFinder();
         
         form.getAwardCloseoutBean().addAwardCloseoutStaticItems(closeoutReportTypeValuesFinder.getKeyValues());
+    }
+    
+    protected void createDefaultAwardHierarchy(Award award, String prevAwardNumber, String prevRootAwardNumber){
+        AwardHierarchy awardHierarchy = new AwardHierarchy();
+        awardHierarchy.setAwardNumber(award.getAwardNumber());
+        awardHierarchy.setRootAwardNumber(award.getAwardNumber());
+        if(prevAwardNumber!=null){
+            awardHierarchy.setParentAwardNumber(prevAwardNumber);
+        }else{
+            awardHierarchy.setParentAwardNumber("000000-00000");    
+        }
+        
+        if(prevRootAwardNumber!=null){
+            awardHierarchy.setRootAwardNumber(prevRootAwardNumber);
+        }else{
+            awardHierarchy.setRootAwardNumber(award.getAwardNumber()); 
+        }
+        
+        getAwardHierarchyService().persistAwardHierarchy(awardHierarchy);
+    }
+    
+    protected AwardHierarchyService getAwardHierarchyService(){
+        return KraServiceLocator.getService(AwardHierarchyService.class);
     }
     
     /**
@@ -426,7 +450,14 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @return
      */
     public ActionForward awardActions(ActionMapping mapping, ActionForm form
-            , HttpServletRequest request, HttpServletResponse response) {        
+            , HttpServletRequest request, HttpServletResponse response) {
+        
+        AwardForm awardForm = (AwardForm)form;
+        Award award = awardForm.getAwardDocument().getAward();
+        Map<String, AwardHierarchy> awardHierarchyNodes = getAwardHierarchyService().getAwardHierarchy(award.getAwardNumber());
+        
+        awardForm.setAwardHierarchyNodes(awardHierarchyNodes);
+        
         return mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
     }
     

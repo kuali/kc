@@ -160,5 +160,11 @@
             <ref bean="dateTimeService" />
         </property>
     </bean>
+    
+    <bean id="awardHierarchyService" class="org.kuali.kra.award.awardhierarchy.AwardHierarchyServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>        
+    </bean>
 
 </beans>
