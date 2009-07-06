@@ -29,13 +29,18 @@ import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicati
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,7 +109,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      */
     public GetOpportunityListResponse getOpportunityList(String cfdaNumber, String opportunityId, String competitionId)
             throws S2SException {
-        ApplicantIntegrationPortType port = configureApplicantIntegrationSoapPort(null);
+        ApplicantIntegrationPortType port = configureApplicantIntegrationSoapPort(null,false);
         GetOpportunityListRequest getOpportunityListRequest = new GetOpportunityListRequest();
         getOpportunityListRequest.setCFDANumber(cfdaNumber);
         getOpportunityListRequest.setCompetitionID(competitionId);
@@ -187,19 +192,17 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      * @throws S2SException
      * @see org.kuali.kra.s2s.service.GrantsGovConnectorService#submitApplication(java.lang.String, java.util.Map, java.lang.String)
      */
-    public SubmitApplicationResponse submitApplication(String xmlText, Map<String, DataHandler> attachments, String proposalNumber)
+    public SubmitApplicationResponse submitApplication(String xmlText, 
+                    Map<String, DataHandler> attachments, String proposalNumber)
             throws S2SException {
         ApplicantIntegrationPortType port = getApplicantIntegrationSoapPort(proposalNumber);
         Client client = ClientProxy.getClient(port);
         client.getRequestContext().put(MessageContext.OUTBOUND_MESSAGE_ATTACHMENTS, attachments);
-//        Client client = new ClientFactoryBean().getClient();
-//        client.setProperty(MessageContext.OUTBOUND_MESSAGE_ATTACHMENTS, attachments);
         SubmitApplicationRequest request = new SubmitApplicationRequest();
         request.setGrantApplicationXML(xmlText);
         try {
             return port.submitApplication(request);
-        }
-        catch (ErrorMessage e) {
+        }catch (ErrorMessage e) {
             LOG.error("Error occured while submitting proposal to Grants Gov", e);
             throw new S2SException(e);
         }
@@ -220,9 +223,10 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
                 ProposalDevelopmentDocument.class, proposalMap);
         String multiCampusEnabledStr = s2SUtilService.getParameterValue(MULTI_CAMPUS_ENABLED);
         boolean mulitCampusEnabled = multiCampusEnabledStr.equals(MULTI_CAMPUS_ENABLED_VALUE) ? true : false;
-        S2SSSLProtocolSocketFactory socketFactory = new S2SSSLProtocolSocketFactory(pdDoc.getOrganization().getDunsNumber(),
-            mulitCampusEnabled);
-        return configureApplicantIntegrationSoapPort(socketFactory);
+//        S2SSSLProtocolSocketFactory socketFactory = new S2SSSLProtocolSocketFactory(pdDoc.getOrganization().getDunsNumber(),
+//            mulitCampusEnabled);
+        return configureApplicantIntegrationSoapPort(pdDoc.getOrganization().getDunsNumber(),
+                mulitCampusEnabled);
     }
     
     private static final String KEYSTORE_LOCATION = "keyStoreLocation";
@@ -238,13 +242,9 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      * @return ApplicantIntegrationPortType Soap port used for applicant integration.
      * @throws S2SException
      */
-    private ApplicantIntegrationPortType configureApplicantIntegrationSoapPort(S2SSSLProtocolSocketFactory socketFactory) 
-                                                                                            throws S2SException {
-        
-//      if(socketFactory==null) socketFactory = new S2SSSLProtocolSocketFactory();
-//      Protocol protocol = new Protocol(S2SConstants.PROTOCOL_TYPE, socketFactory, S2SConstants.DEFAULT_SSL_PORT);
-//      Protocol.registerProtocol(S2SConstants.PROTOCOL_TYPE, protocol);
-//        System.clearProperty("java.protocol.handler.pkgs");
+    private ApplicantIntegrationPortType configureApplicantIntegrationSoapPort(String alias,boolean mulitCampusEnabled)
+                                                                                throws S2SException {
+        System.clearProperty("java.protocol.handler.pkgs");
         JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
         
         factory.setAddress(getS2SSoapHost());
@@ -258,94 +258,10 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
         HTTPConduit conduit = (HTTPConduit) client.getConduit();
         conduit.setClient(httpClientPolicy);
         TLSClientParameters tlsConfig = new TLSClientParameters();
-//        TLSClientParametersType tlsConfig = new TLSClientParametersType(); 
-        // You would normally omit the line below.  It is set for ignoring 
-        // the remote hostname and the hostname defined in the server certificate. 
-        // If they are NOT the same, then the connection would not establish.  As 
-        // this is what you would want in a real production environment. 
         try{
-            
-            FiltersType filters = new FiltersType();
-            filters.getInclude().add("SSL_RSA_WITH_RC4_128_MD5");
-            filters.getInclude().add("SSL_RSA_WITH_RC4_128_SHA");
-            filters.getInclude().add("SSL_RSA_WITH_3DES_EDE_CBC_SHA");
-            filters.getInclude().add(".*_EXPORT_.*");
-            filters.getInclude().add(".*_EXPORT1024_.*");
-            filters.getInclude().add(".*_WITH_DES_.*");
-            filters.getInclude().add(".*_WITH_3DES_.*");
-            filters.getInclude().add(".*_WITH_RC4_.*");
-            filters.getInclude().add(".*_WITH_NULL_.*");
-            filters.getInclude().add(".*_DH_anon_.*");
-
-            tlsConfig.setDisableCNCheck(true); 
-//            tlsConfig.setSecureSocketProtocol("SSLv3"); 
-            tlsConfig.setCipherSuitesFilter(filters);
-            
-//            TLSClientParametersConfig tlsClientConfig = new TLSClientParametersConfig(tlsConfig); 
-
-//            // KEYSTORE 
-//            KeyManagersType keyManagersType = new KeyManagersType(); 
-//            KeyStoreType keyStoreType = new KeyStoreType(); 
-//            keyStoreType.setFile(PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_LOCATION)); 
-//            keyStoreType.setType("JKS"); 
-//            keyStoreType.setPassword(PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD)); 
-//            keyManagersType.setKeyStore(keyStoreType); 
-//            keyManagersType.setKeyPassword(PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD)); 
-//            tlsConfig.setKeyManagers(keyManagersType); 
-//            
-//            // TRUSTSTORE 
-//            TrustManagersType trustManagersType = new TrustManagersType(); 
-//            KeyStoreType trustStoreType = new KeyStoreType(); 
-//            trustStoreType.setFile(PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, TRUSTSTORE_LOCATION)); 
-//            trustStoreType.setType("JKS"); 
-//            trustStoreType.setPassword(PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, TRUSTSTORE_PASSWORD)); 
-//            trustManagersType.setKeyStore(trustStoreType); 
-//            tlsConfig.setTrustManagers(trustManagersType);
-            
-            String alias = null;
-            boolean mulitCampusEnabled = false;
-                KeyStore keyStore = KeyStore.getInstance("JKS");
-                keyStore.load(new FileInputStream(PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_LOCATION)),
-                        PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD).toCharArray());
-                KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-                if (alias != null && mulitCampusEnabled) {
-                    KeyStore keyStoreAlias = KeyStore.getInstance("JKS");
-                    Certificate certificate = keyStore.getCertificate(alias);
-                    Key key = keyStore.getKey(alias, PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD)
-                            .toCharArray());
-                    Certificate[] certificates = { certificate };
-                    keyStoreAlias.load(null, null);
-                    keyStoreAlias.setKeyEntry(alias, key, PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD)
-                            .toCharArray(), certificates);
-                    keyManagerFactory.init(keyStoreAlias, PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD)
-                            .toCharArray());
-                }
-                else {
-                    keyManagerFactory.init(keyStore, PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD)
-                            .toCharArray());
-                }
-                KeyManager[] km = keyManagerFactory.getKeyManagers();
-                tlsConfig.setKeyManagers(km);
-                
-                KeyStore trustStore = KeyStore.getInstance("JKS");
-                trustStore.load(new FileInputStream(PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, TRUSTSTORE_LOCATION)),
-                        PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, TRUSTSTORE_PASSWORD).toCharArray());
-                TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-                trustManagerFactory.init(trustStore);
-                TrustManager[] tm = trustManagerFactory.getTrustManagers();
-                tlsConfig.setTrustManagers(tm);
-        
-//                FiltersType filter = new FiltersType();
-////                filter.getInclude().add(".*_EXPORT_.*");
-////                filter.getInclude().add(".*_EXPORT1024_.*");
-////                filter.getInclude().add(".*_WITH_DES_.*");
-////                filter.getInclude().add(".*_WITH_NULL_.*");
-////                filter.getExclude().add(".*_DH_anon_.*");
-//                filter.getInclude().add(".*_WITH_3DES_.*");
-//                filter.getInclude().add(".*_WITH_RC4_.*");
-////              tlsConfig.setCipherSuitesFilter(filter);
-                conduit.setTlsClientParameters(tlsConfig);
-                
+            setPossibleCypherSuites(tlsConfig);
+            configureKeyStoreAndTrustStore(tlsConfig, alias, mulitCampusEnabled);
+            conduit.setTlsClientParameters(tlsConfig);
         }catch(IOException ioEx){
             LOG.error(ioEx);
             throw new S2SException(ioEx.getMessage());
@@ -354,24 +270,74 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
             throw new S2SException(e.getMessage());
         }
         return applicantWebService;
+    }
+
+    /**
+     * This method...
+     * @param tlsConfig
+     */
+    private void setPossibleCypherSuites(TLSClientParameters tlsConfig) {
+        FiltersType filters = new FiltersType();
+        filters.getInclude().add("SSL_RSA_WITH_RC4_128_MD5");
+        filters.getInclude().add("SSL_RSA_WITH_RC4_128_SHA");
+        filters.getInclude().add("SSL_RSA_WITH_3DES_EDE_CBC_SHA");
+        filters.getInclude().add(".*_EXPORT_.*");
+        filters.getInclude().add(".*_EXPORT1024_.*");
+        filters.getInclude().add(".*_WITH_DES_.*");
+        filters.getInclude().add(".*_WITH_3DES_.*");
+        filters.getInclude().add(".*_WITH_RC4_.*");
+        filters.getInclude().add(".*_WITH_NULL_.*");
+        filters.getInclude().add(".*_DH_anon_.*");
+
+        tlsConfig.setDisableCNCheck(true); 
+        tlsConfig.setCipherSuitesFilter(filters);
+    }
+
+    /**
+     * This method...
+     * @param tlsConfig
+     * @param alias
+     * @param mulitCampusEnabled
+     * @throws KeyStoreException
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     * @throws CertificateException
+     * @throws FileNotFoundException
+     * @throws UnrecoverableKeyException
+     */
+    private void configureKeyStoreAndTrustStore(TLSClientParameters tlsConfig, String alias, boolean mulitCampusEnabled)
+            throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, FileNotFoundException,
+            UnrecoverableKeyException {
+        KeyStore keyStore = KeyStore.getInstance("JKS");
+        keyStore.load(new FileInputStream(PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_LOCATION)),
+                PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD).toCharArray());
+        KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+        if (alias != null && mulitCampusEnabled) {
+            KeyStore keyStoreAlias = KeyStore.getInstance("JKS");
+            Certificate certificate = keyStore.getCertificate(alias);
+            Key key = keyStore.getKey(alias, PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD)
+                    .toCharArray());
+            Certificate[] certificates = { certificate };
+            keyStoreAlias.load(null, null);
+            keyStoreAlias.setKeyEntry(alias, key, PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD)
+                    .toCharArray(), certificates);
+            keyManagerFactory.init(keyStoreAlias, PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD)
+                    .toCharArray());
+        }
+        else {
+            keyManagerFactory.init(keyStore, PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD)
+                    .toCharArray());
+        }
+        KeyManager[] km = keyManagerFactory.getKeyManagers();
+        tlsConfig.setKeyManagers(km);
         
-//        if(socketFactory==null) socketFactory = new S2SSSLProtocolSocketFactory();
-//        Protocol protocol = new Protocol(S2SConstants.PROTOCOL_TYPE, socketFactory, S2SConstants.DEFAULT_SSL_PORT);
-//        Protocol.registerProtocol(S2SConstants.PROTOCOL_TYPE, protocol);
-//        
-//        
-//        
-//        
-//        final String soapHostUrl = getS2SSoapHost();
-//        ApplicantIntegrationServices servicesClient;
-//        try {
-//            servicesClient = new ApplicantIntegrationServices(new URL(soapHostUrl));
-//        }
-//        catch (MalformedURLException e) {
-//            LOG.error(e);
-//            throw new S2SException("Cannot construct web service server url"+e.getMessage());
-//        }
-//        return servicesClient.getApplicantIntegrationSoapPort();
+        KeyStore trustStore = KeyStore.getInstance("JKS");
+        trustStore.load(new FileInputStream(PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, TRUSTSTORE_LOCATION)),
+                PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, TRUSTSTORE_PASSWORD).toCharArray());
+        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        trustManagerFactory.init(trustStore);
+        TrustManager[] tm = trustManagerFactory.getTrustManagers();
+        tlsConfig.setTrustManagers(tm);
     }
 
     /**

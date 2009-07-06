@@ -136,7 +136,7 @@
                          <kul:htmlControlAttribute property="document.s2sOpportunity.cfdaNumber" 
                                                    attributeEntry="${s2sOpportunity.cfdaNumber}"  readOnly="true"/>
                      </td>
-                     <!-- <td align="left" valign="middle"><kul:htmlControlAttribute property="document.currentAwardNumber" attributeEntry="${proposalDevelopmentAttributes.currentAwardNumber}" /></td>  --> 
+                     <%--  <td align="left" valign="middle"><kul:htmlControlAttribute property="document.currentAwardNumber" attributeEntry="${proposalDevelopmentAttributes.currentAwardNumber}" /></td>  --%> 
                    </tr>
     
                    <tr>

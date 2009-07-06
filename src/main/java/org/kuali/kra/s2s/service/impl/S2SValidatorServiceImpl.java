@@ -24,7 +24,9 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlValidationError;
 import org.kuali.kra.s2s.service.S2SValidatorService;
+import org.kuali.kra.s2s.validator.S2SErrorHandler;
 import org.kuali.kra.s2s.validator.S2SErrorMessages;
+import org.kuali.rice.kns.util.AuditError;
 import org.w3c.dom.Node;
 
 /**
@@ -46,14 +48,15 @@ public class S2SValidatorServiceImpl implements S2SValidatorService {
      * @return validation result true if valid false otherwise.
      * @see org.kuali.kra.s2s.service.S2SValidatorService#validate(org.apache.xmlbeans.XmlObject, java.util.List)
      */
-    public boolean validate(XmlObject formObject, List<String> errors) {
+    public boolean validate(XmlObject formObject, List<AuditError> errors) {
 
         List<String> formErrors = new ArrayList<String>();
         boolean result = false;
         result = validateXml(formObject, formErrors);
 
-        for (String val : formErrors) {
-            errors.add(S2SErrorMessages.getProperty(GRANTS_GOV_PREFIX + val, val + " is not found"));
+        for (String validationError : formErrors) {
+//            errors.add(S2SErrorMessages.getProperty(GRANTS_GOV_PREFIX + val, val + " is not found"));
+            errors.add(S2SErrorHandler.getError(GRANTS_GOV_PREFIX + validationError));
         }
 
         return result;
