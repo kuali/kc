@@ -388,7 +388,7 @@ public class PrintServiceImpl implements PrintService {
         }
         FormMappingInfo info = null;
         S2SFormGenerator s2sFormGenerator = null;
-        List<String> errors = new ArrayList<String>();
+        List<AuditError> errors = new ArrayList<AuditError>();
         List<String> sortedNameSpaces = getSortedNameSpaces(pdDoc.getS2sOppForms());
         for (String namespace : sortedNameSpaces) {
             XmlObject formFragment = null;
@@ -438,20 +438,43 @@ public class PrintServiceImpl implements PrintService {
             }
         }
         pdfArray = new ByteArrayOutputStream[pdfBaosList.size()];
-        // KRAS2SServiceImpl.setValidationErrorMessage(errors);
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
-        for (String error : errors) {
-            auditErrors.add(new AuditError(Constants.NO_FIELD, Constants.GRANTS_GOV_GENERIC_ERROR_KEY, Constants.GRANTS_GOV_PAGE
-                    + "." + Constants.GRANTS_GOV_PANEL_ANCHOR, new String[] { error }));
+        if(!errors.isEmpty()){
+            setValidationErrorMessage(errors);
         }
-        GlobalVariables.getAuditErrorMap().put("grantsGovAuditErrors",
-                new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.GRANTSGOV_ERRORS));
-        for (int frmIndex = 0; frmIndex < pdfArray.length; frmIndex++) {
-            pdfArray[frmIndex] = (ByteArrayOutputStream) pdfBaosList.get(frmIndex);
-        }
+//        List<AuditError> auditErrors = new ArrayList<AuditError>();
+//        for (String error : errors) {
+//            auditErrors.add(new AuditError(Constants.NO_FIELD, Constants.GRANTS_GOV_GENERIC_ERROR_KEY, Constants.GRANTS_GOV_PAGE
+//                    + "." + Constants.GRANTS_GOV_PANEL_ANCHOR, new String[] { error }));
+//        }
+//        GlobalVariables.getAuditErrorMap().put("grantsGovAuditErrors",
+//                new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.GRANTSGOV_ERRORS));
+//        for (int frmIndex = 0; frmIndex < pdfArray.length; frmIndex++) {
+//            pdfArray[frmIndex] = (ByteArrayOutputStream) pdfBaosList.get(frmIndex);
+//        }
         return pdfArray;
     }
 
+    /**
+     * 
+     * This method is to put validation errors on UI
+     * 
+     * @param errors List of validation errors which has to be displayed on UI.
+     */
+
+    private void setValidationErrorMessage(List<AuditError> errors) {
+        LOG.info("Error list size:" + errors.size() + errors.toString());
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        for (AuditError error : errors) {
+            auditErrors.add(new AuditError(error.getErrorKey(), Constants.GRANTS_GOV_GENERIC_ERROR_KEY, error.getLink(),
+                new String[] { error.getMessageKey() }));
+        }
+        if (!auditErrors.isEmpty()) {
+            GlobalVariables.getAuditErrorMap().put("grantsGovAuditErrors",
+                    new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.GRANTSGOV_ERRORS));
+        }
+    }
+    
+    
     /**
      * This method is used to generate byte stream of forms
      * 
@@ -466,7 +489,7 @@ public class PrintServiceImpl implements PrintService {
         FormMappingInfo info = null;
         S2SFormGenerator s2sFormGenerator = null;
         ByteArrayOutputStream[] pdfArray = null;
-        List<String> errors = new ArrayList<String>();
+        List<AuditError> errors = new ArrayList<AuditError>();
         List<String> sortedNameSpaces = getSortedNameSpaces(pdDoc.getS2sOppForms());
 
         for (String namespace : sortedNameSpaces) {
@@ -515,17 +538,20 @@ public class PrintServiceImpl implements PrintService {
             }
         }
         pdfArray = new ByteArrayOutputStream[pdfBaosList.size()];
-        // KRAS2SServiceImpl.setValidationErrorMessage(errors);
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
-        for (String error : errors) {
-            auditErrors.add(new AuditError(Constants.NO_FIELD, Constants.GRANTS_GOV_GENERIC_ERROR_KEY, Constants.GRANTS_GOV_PAGE
-                    + "." + Constants.GRANTS_GOV_PANEL_ANCHOR, new String[] { error }));
-        }
-        if (!auditErrors.isEmpty()) {
-            GlobalVariables.getAuditErrorMap().put("grantsGovAuditErrors",
-                    new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.GRANTSGOV_ERRORS));
+        if(!errors.isEmpty()){
+            setValidationErrorMessage(errors);
             return null;
         }
+//        List<AuditError> auditErrors = new ArrayList<AuditError>();
+//        for (String error : errors) {
+//            auditErrors.add(new AuditError(Constants.NO_FIELD, Constants.GRANTS_GOV_GENERIC_ERROR_KEY, Constants.GRANTS_GOV_PAGE
+//                    + "." + Constants.GRANTS_GOV_PANEL_ANCHOR, new String[] { error }));
+//        }
+//        if (!auditErrors.isEmpty()) {
+//            GlobalVariables.getAuditErrorMap().put("grantsGovAuditErrors",
+//                    new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.GRANTSGOV_ERRORS));
+//            return null;
+//        }
         for (int frmIndex = 0; frmIndex < pdfArray.length; frmIndex++) {
             pdfArray[frmIndex] = (ByteArrayOutputStream) pdfBaosList.get(frmIndex);
         }

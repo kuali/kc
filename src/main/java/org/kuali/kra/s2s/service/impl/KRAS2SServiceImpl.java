@@ -81,9 +81,8 @@ import org.w3c.dom.Node;
  * 
  * This class is implementation of S2SService
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team
  */
-// TODO: remove email tag from javadoc. new kra javadoc template does not have email
 public class KRAS2SServiceImpl implements S2SService {
     private static final Logger LOG = Logger.getLogger(KRAS2SServiceImpl.class);
     private BusinessObjectService businessObjectService;
@@ -122,7 +121,7 @@ public class KRAS2SServiceImpl implements S2SService {
      * This method returns the list of forms for a given opportunity
      * 
      * @param opportunity
-     * @return {@link List}of {@link S2sOppForms} which are included in the given {@link S2sOpportunity}
+     * @return {@link List} of {@link S2sOppForms} which are included in the given {@link S2sOpportunity}
      * @see org.kuali.kra.s2s.service.S2SService#parseOpportunityForms(org.kuali.kra.s2s.bo.S2sOpportunity)
      */
     public List<S2sOppForms> parseOpportunityForms(S2sOpportunity opportunity) {
