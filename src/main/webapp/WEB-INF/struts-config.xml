@@ -21,6 +21,9 @@
 		<form-bean name="ResearchAreasForm" type="org.kuali.kra.web.struts.form.ResearchAreasForm" />
 		<form-bean name="CommitteeForm" type="org.kuali.kra.committee.web.struts.form.CommitteeForm" />
 		<form-bean name="InstitutionalProposalForm" type="org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm" />
+	    <form-bean name="KraMaintenanceForm" type="org.kuali.kra.maintenance.KraMaintenanceForm" />
+	    <form-bean name="QuestionLookupForm" type="org.kuali.kra.questionnaire.QuestionLookupForm" />
+	    <form-bean name="QuestionnaireForm" type="org.kuali.kra.questionnaire.QuestionnaireForm" />
     </form-beans>
 
     <global-exceptions>
@@ -139,6 +142,18 @@
             <forward name="lookup" path="/sponsorLookup.jsp" />
         </action>
 
+        <!-- TODO : test QN lookup thru popup -->
+        <action path="/questionLookup" name="QuestionLookupForm" type="org.kuali.kra.questionnaire.QuestionLookupAction">
+            <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionLookup.jsp" />
+            <forward name="lookup" path="/WEB-INF/jsp/questionnaire/questionLookup.jsp" />
+        </action>
+ 		<action path="/questionnaireNew" name="QuestionnaireForm" input="/questionnaireNew.jsp" type="org.kuali.kra.questionnaire.QuestionnaireAction">
+            <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionnaireNew.jsp" />
+        </action>
+ 		<action path="/questionnaireAjax" name="QuestionnaireForm" input="/questionnaireNew.jsp" type="org.kuali.kra.questionnaire.QuestionnaireAction">
+            <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionnaireAjax.jsp" />
+        </action>
+
       <!--  Budget -->
       <action path="/budget*" name="BudgetForm" input="/WEB-INF/jsp/budget/Budget{1}.jsp" type="org.kuali.kra.budget.web.struts.action.Budget{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/budget/Budget{1}.jsp" />
@@ -239,6 +254,10 @@
           <forward name="committeeMembership" path="/WEB-INF/jsp/committee/CommitteeMembership.jsp" />
           <forward name="committeeSchedule" path="/WEB-INF/jsp/committee/CommitteeSchedule.jsp" />
       </action>
+      
+	    <action path="/maintenance" name="KraMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction">
+	        <forward name="basic" path="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" />
+	    </action>    
 
     </action-mappings>
 

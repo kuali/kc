@@ -13,18 +13,6 @@ ${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)}
         
         
   <table id="question-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
-   <tr>
-     <td>  
-       Question : 
-           <%-- <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.questionnaireQuestions[0].questionId" --%> 
-           <kul:htmlControlAttribute property="newQuestionId" 
-                                          attributeEntry="${DataDictionary.QuestionnaireQuestion.attributes.questionId}"  />
-           <input type="hidden" name="newQuestion" id="newQuestion" value="${KualiForm.newQuestion}"/>
-      </td>        
-      <td>
-          <input src="static/images/tinybutton-add1.gif" onclick="javascript: addQuestion(); return false;" style="border:none;" alt="add question" title="Add Question" type="image" />
-      </td>
-    </tr>
   
   <tr>
   <td colspan="2">     
@@ -46,8 +34,11 @@ ${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)}
                                                     Add Question(s):
                                                 </td>
                                                 <td class="content_white" style="text-align:center;">
-                                                    <input name = "rootSearch" id = "rootSearch" src="/${fn:trim(ConfigProperties.app.context.name)}/static/images/searchicon.gif" align="top" alt="search " title="Search " style="border:none;" type="image" />
-                                                    <input name="addRootQn" id="addRootQn" src="/kra-dev/kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" />;
+                                                    <input type="text" id = "newqdesc0" name = "newqdesc0" size="50" value="" />
+                                                    <input type="hidden" id = "newqid0" name = "newqid0"  value="" />
+                                                    <input type="hidden" id = "newqtypeid0" name = "newqtypeid0" value="" />
+                                                    <input name = "rootSearch" id = "rootSearch" src="static/images/searchicon.gif" align="top" alt="search " title="Search " style="border:none;" type="image" />
+                                                    <input name="addRootQn" id="addRootQn" src="kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" />
                                                 </td>
                                             </tr>
                                         </table> 
@@ -66,7 +57,7 @@ ${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)}
    <tr>
        <input name="aq01sc" type="radio" checked="checked" />as sibling&nbsp;&nbsp;&nbsp;
        <input name="aq01sc" type="radio" />as child
-       <input type="image" tabindex="1000009" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:document.newMaintainableObject.businessObject.questionnaireQuestions[0].questionId,))).((#document.newMaintainableObject.businessObject.questionnaireQuestions[0].questionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/questionId/)).((~~)).anchor1"
+       <input type="image" tabindex="1000009" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:questionnaireQuestions[0].questionId,))).((#questionnaireQuestions[0].questionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/questionId/)).((~~)).anchor1"
    src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search Question" title="Search Question" />
        
        <kul:multipleValueLookup boClassName="org.kuali.kra.questionnaire.question.Question" 
@@ -75,17 +66,19 @@ ${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)}
    </tr>
    <%-- Test: add new question, when it return question lookup, the dynamically qn are still ok--%>
    <c:set var="index" value="0"/>
-   <c:forEach var="question" items="${KualiForm.document.newMaintainableObject.businessObject.questionnaireQuestions}" varStatus="status">
+   <c:if test="${fn:length(QuestionnaireForm.questionnaireQuestions) > 0}" >
+   <c:forEach var="question" items="${KualiForm.questionnaireQuestions}" varStatus="status">
      <tr> <td>
      
-        <input type="text" id = "document.newMaintainableObject.businessObject.questionnaireQuestions[${status.index}].questionId" 
-           name = "document.newMaintainableObject.businessObject.questionnaireQuestions[${status.index}].questionId" 
+        <input type="text" id = "questionnaireQuestions[${status.index}].questionId" 
+           name = "questionnaireQuestions[${status.index}].questionId" 
            value = "${question.questionId}"/>
 		   <c:set var="index" value="${index+1}"/>
      
      </td></tr>
    
    </c:forEach>
+   </c:if>
       <input type = "hidden" id = "qncount" value = "${index}" /> 
   </table>
 

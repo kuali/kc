@@ -127,6 +127,7 @@
     <bean id="Questionnaire-lookupDefinition" parent="Questionnaire-lookupDefinition-parentBean" />
     <bean id="Questionnaire-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Questionnaire Lookup" />
+        <property name="lookupableID" value="questionnaireLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="instructions" value="Look up a Questionnaire" />
         <property name="defaultSort" >
