@@ -32,6 +32,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProtocolActionServiceImpl implements ProtocolActionService {
     
+    static private final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolActionServiceImpl.class); 
     private static final String  PERMISSIONS_LEADUNIT_FILE = "org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl";
     
     private static final String  PERMISSIONS_SUBMIT_FILE = "org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl";
@@ -65,8 +66,10 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     private UnitAuthorizationService unitAuthorizationService;
 
     private ProtocolDao protocolDao;
+    
+    private DroolsRuleHandler canPerformRuleHandler;
 
-    String[] actn = { "104", "105", "106", "108", "114", "115", "116", "200", "201", "202", "203", "204", "205", "206", "207",
+    String[] actn = { "101","102","103","104", "105", "106", "108", "114", "115", "116", "200", "201", "202", "203", "204", "205", "206", "207",
             "208", "209", "210", "211", "212", "300", "301", "302", "303", "304", "305", "306" };
 
     private List<String> actions = new ArrayList<String>();
@@ -94,7 +97,14 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     /**
      * @see org.kuali.kra.irb.actions.submit.ProtocolActionService#isActionAllowed(java.lang.String, org.kuali.kra.irb.Protocol)
      */
-    public boolean isActionAllowed(String actionTypeCode, Protocol protocol) {
+    public boolean isActionAllowed(String actionTypeCode, Protocol protocol) {        
+        return canPerformAction(actionTypeCode, protocol) && isAuthorizedtoPerform(actionTypeCode, protocol);
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.actions.submit.ProtocolActionService#isActionAllowed(java.lang.String, org.kuali.kra.irb.Protocol)
+     */
+    private boolean isAuthorizedtoPerform(String actionTypeCode, Protocol protocol) {
         boolean flag = false;
         ActionRightMapping rightMapper = new ActionRightMapping();
         
@@ -119,7 +129,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
 
         List<String> actionList = new ArrayList<String>();
         for (String actionTypeCode : actions) {
-            if (canPerformAction(actionTypeCode, protocol) && isActionAllowed(actionTypeCode, protocol)) {
+            if (canPerformAction(actionTypeCode, protocol) && isAuthorizedtoPerform(actionTypeCode, protocol)) {
                 actionList.add(actionTypeCode);
             }
         }
@@ -137,7 +147,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         rightMapper.setActionTypeCode(actionTypeCode);
         DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_SUBMIT_FILE);
         updateHandle.executeRules(rightMapper);
-        return rightMapper.isAllowed() ? protocolAuthorizationService.hasPermission(getUserIdentifier(), protocol, SUBMIT_PROTOCOL) : false; 
+        return rightMapper.isAllowed() ? protocolAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper.getRightId()) : false; 
     }
     
     private boolean hasPermissionAsCommitteeMember(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
@@ -161,6 +171,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     }
     
     public boolean canPerformAction(String actionTypeCode, Protocol protocol) {
+        LOG.info(actionTypeCode);
         String submissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatusCode();
         String submissionTypeCode = protocol.getProtocolSubmission().getSubmissionTypeCode();
         String protocolReviewTypeCode = protocol.getProtocolSubmission().getProtocolReviewTypeCode();
@@ -172,8 +183,11 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         protocolAction.setBusinessObjectService(businessObjectService);
         protocolAction.setDao(protocolDao);
         protocolAction.setProtocol(protocol);
-        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERFORMACTION_FILE);
-        updateHandle.executeRules(protocolAction);
+        //LOG.info(actionTypeCode+" before check rule ");
+        //DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERFORMACTION_FILE);
+        //LOG.info(actionTypeCode+" rule compiled ");
+        getCanPerformRuleHandler().executeRules(protocolAction);
+        //LOG.info(actionTypeCode+" after check rule ");
         return protocolAction.isAllowed();
     }
 
@@ -200,6 +214,16 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         DroolsRuleHandler updateHandle = new DroolsRuleHandler(UPDATE_FILE);
         updateHandle.executeRules(protocolAction);
         businessObjectService.save(protocol);
+    }
+
+    public DroolsRuleHandler getCanPerformRuleHandler() {
+        // compiling is slow for this rule, so try to just compile once 
+        if (canPerformRuleHandler == null) {
+            //LOG.info(" before check rule ");
+            canPerformRuleHandler = new DroolsRuleHandler(PERFORMACTION_FILE);
+            //LOG.info(" rule compiled ");
+        }
+        return canPerformRuleHandler;
     }
 
 }
