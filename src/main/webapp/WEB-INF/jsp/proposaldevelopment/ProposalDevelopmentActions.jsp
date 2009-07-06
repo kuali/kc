@@ -39,7 +39,6 @@ showDocumentInfo="true"
    </ul>
 </kra:dataValidation>
 
-<kra-pd:proposalDevelopmentDataValidation /> 
 <kra-pd:proposalDevelopmentHierarchy /> 
 <kra:section permission="printProposal">
    <kra-pd:proposalDevelopmentPrintForms /> 
