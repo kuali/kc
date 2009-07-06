@@ -178,6 +178,7 @@
 				<value>kimIdentityManagementService</value>
 				<value>awardLookupable</value>
 				<value>docSearchCriteriaDTOLookupable</value>
+				<value>questionnaireLookupable</value>	
 			</set>
 		</property>
 	</bean>	
@@ -1461,7 +1462,6 @@
 	-->
 	<bean id="kraDocumentService" class="org.kuali.kra.service.impl.KraDocumentServiceImpl">
  	</bean>
-	
 	<bean id="s2SFormGeneratorService"
 		class="org.kuali.kra.s2s.service.impl.S2SFormGeneratorServiceImpl">
 	</bean>
@@ -1731,5 +1731,23 @@
 		</property>
 	</bean>
 	<!--  S2S Scheduler configuration end -->
+		
+	    <bean id="questionnaireLookupable" class="org.kuali.kra.questionnaire.QuestionnaireLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="lookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="questionnaireService" class="org.kuali.kra.questionnaire.QuestionnaireServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+        <property name="questionnaireDao">
+            <ref bean="questionnaireDao" />
+        </property>
+	</bean>
+
+    <bean id="questionnaireDao" parent="platformAwareDao" class="org.kuali.kra.questionnaire.QuestionnaireDaoOjb">
+	</bean>	
 	
 </beans>
