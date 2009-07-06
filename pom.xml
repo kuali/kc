@@ -272,8 +272,6 @@
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>MetaGrantApplication</artifactId>
 					<version>0.9.0</version>
-					<scope>system</scope>
-					<systemPath>${basedir}/lib/MetaGrantApplication.jar</systemPath>
 				</dependency>
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
@@ -504,8 +502,6 @@
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>MetaGrantApplication</artifactId>
 					<version>0.9.0</version>
-					<scope>system</scope>
-					<systemPath>${basedir}/lib/MetaGrantApplication.jar</systemPath>
 				</dependency>				
 				<dependency>
 					<groupId>jaxb</groupId>
