@@ -18,6 +18,7 @@ package org.kuali.kra.irb.actions;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
@@ -26,6 +27,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
@@ -99,8 +101,23 @@ public class ActionHelper implements Serializable {
     private ProtocolAmendmentBean createAmendmentBean() {
         ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
      
+       /// ProtocolAmendRenewService protocolAmendRenewService = getProtocolAmendRenewService();
+       // List<Protocol> protocols = protocolAmendRenewService.getAmendmentAndRenewals(getProtocol().getProtocolNumber());
+        // TODO: set modules based upon previous unapproved amendments
         
         return amendmentBean;
+    }
+    
+    private String getProtocolNumber() {
+        String protocolNumber = getProtocol().getProtocolNumber();
+        if (protocolNumber.length() > 10) {
+            protocolNumber = protocolNumber.substring(0, 10);
+        }
+        return protocolNumber;
+    }
+
+    private ProtocolAmendRenewService getProtocolAmendRenewService() {
+        return KraServiceLocator.getService(ProtocolAmendRenewService.class);
     }
 
     public void prepareView() {
@@ -112,8 +129,17 @@ public class ActionHelper implements Serializable {
         
         canCreateAmendment = hasCreateAmendmentPermission();
         canCreateRenewal = hasCreateRenewalPermission();
+        
+        prepareAmendmentBean(protocolAmendmentBean);
     }
     
+    private void prepareAmendmentBean(ProtocolAmendmentBean protocolAmendmentBean2) {
+         ProtocolAmendRenewService protocolAmendRenewService = getProtocolAmendRenewService();
+         List<Protocol> protocols = protocolAmendRenewService.getAmendmentAndRenewals(getProtocol().getProtocolNumber());
+       
+         System.out.println("Size: " + protocols.size());
+    }
+
     private boolean getParameterValue(String parameterName) {
         KualiConfigurationService configService = getService(KualiConfigurationService.class);
         Parameter param = configService.getParameterWithoutExceptions(Constants.PARAMETER_MODULE_PROTOCOL, 

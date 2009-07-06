@@ -16,6 +16,11 @@
 package org.kuali.kra.irb.actions.amendrenew;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -268,5 +273,31 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.RENEWAL_CREATED);
         protocolAction.setComments(RENEWAL + " " + protocolNumber.substring(11) + " " + CREATED + ".");
         return protocolAction;
+    }
+
+    /**
+     * @see org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService#getAmendmentAndRenewals(java.lang.String)
+     */
+    public List<Protocol> getAmendmentAndRenewals(String protocolNumber) {
+        List<Protocol> protocols = new ArrayList<Protocol>();
+       // protocols.addAll(getAmendments(protocolNumber));
+       // protocols.addAll(getRenewals(protocolNumber));
+        return protocols;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private Collection<Protocol> getAmendments(String protocolNumber) {
+        //Map<String, Object> fieldValues = new HashMap<String, Object>();
+        //fieldValues.put("protocolNumber", protocolNumber + "A%");
+       // return businessObjectService.findMatching(Protocol.class, fieldValues);
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Collection<Protocol> getRenewals(String protocolNumber) {
+        //Map<String, Object> fieldValues = new HashMap<String, Object>();
+        //fieldValues.put("protocolNumber", protocolNumber + "R*");
+        //return businessObjectService.findMatching(Protocol.class, fieldValues);
+        return null;
     }
 }
