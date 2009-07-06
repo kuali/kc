@@ -58,7 +58,7 @@ class ActionLogger {
         newActionBo.setComments(comments.toString());
         newActionBo.setSubmissionNumber(protocolActionBo.getSubmissionNumber());
         newActionBo.setActionDate(date);
-        
+        newActionBo.setProtocolId(protocol.getProtocolId());
         businessObjectService.save(newActionBo);
     }
     
@@ -136,11 +136,15 @@ class ActionLogger {
                 comments.append("Renewal- ").append(maxString != null ? maxString : max).append(" created");
             } 
             else {
-                String nbr = protocol.getProtocolNumber().substring(11, 14);
-                if(protocol.getProtocolNumber().substring(10, 11).equalsIgnoreCase("A"))
+                if (protocol.getProtocolNumber().length() > 10 ) {
+                    // TODO : need to understand more why need to check A or R here
+                    // if length is not checked, then normal protocol will cause exception with substring(11,14)
+                    String nbr = protocol.getProtocolNumber().substring(11, 14);
+                    if(protocol.getProtocolNumber().substring(10, 11).equalsIgnoreCase("A"))
                         comments.append("Amendment- ").append(nbr).append(actionComments);
-                else if(protocol.getProtocolNumber().substring(10, 11).equalsIgnoreCase("R"))
-                        comments.append("Renewal- ").append(nbr).append(actionComments);                        
+                    else if(protocol.getProtocolNumber().substring(10, 11).equalsIgnoreCase("R"))
+                        comments.append("Renewal- ").append(nbr).append(actionComments);
+                }
             }
         }
         return comments.toString();
