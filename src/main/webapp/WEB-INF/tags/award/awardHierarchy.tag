@@ -29,6 +29,11 @@
     
 	<table cellpadding="0" cellspacing="0" summary="">
     	<%-- Header --%>
+    	<tr>
+    	<th align="right" colspan="4" >Enter the Award Number That Should Be Used For Copy</th>
+    	<td><input type="text" name="awardNumberInputTemp" value="${KualiForm.awardNumberInputTemp}"></td>
+    	</tr>
+    	</br>
     		<tr>
           		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
           		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyAttributes.rootAwardNumber}" scope="col" /></div></th>
@@ -58,10 +63,40 @@
 		  </td>
 		  <td class="infoline">
 			<div align="center">
-				<html:image property="methodToCall.maintainAwardHierarchy.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton"/>
-				<html:image property="methodToCall.copyAwardInHierarchy.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copy1.gif' styleClass="tinybutton"/>	
+				<html:image property="methodToCall.createANewChildAward.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Create New Child Award" />
+			</div>
+			<div align="center">					
+				<html:image property="methodToCall.createANewChildAwardBasedOnParent.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Create New Child Award Based on Parent Award" />					
+			</div>
+			<div align="center">
+				<html:image property="methodToCall.createANewChildAwardBasedOnAnotherAwardInHierarchy.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Create New Child Award Based on Another Award in Hierarchy" />
+			</div>
+			<div align="center">	
+				<html:image property="methodToCall.copyAwardAsANewHierarchy.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Copy an Award as a New Hierarchy" />
+			</div>
+			<div align="center">
+				<html:image property="methodToCall.copyAwardAsANewHierarchyWithDescendants.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Copy an Award as a New Hierarchy with all its descendants" />
+			</div>
+			<div align="center">
+				<html:image property="methodToCall.copyAwardAsAChildInCurrentHierarchy.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Copy an Award as a child in the current Hierarchy" />
+			</div>
+			<div align="center">
+				<html:image property="methodToCall.copyAwardAsAChildInCurrentHierarchyWithDescendants.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copy1.gif' styleClass="tinybutton" alt="Copy an Award as a child in the current Hierarchy with all its descendants" />
+			</div>
+			<div align="center">
+				<html:image property="methodToCall.copyAwardAsAChildOfAwardInAnotherHierarchy.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copy1.gif' styleClass="tinybutton" alt="Copy Award as Child of an Award in another Hierarchy" />
+			</div>
+			<div align="center">
+				<html:image property="methodToCall.copyAwardAsAChildOfAwardInAnotherHierarchyWithDescendants.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copy1.gif' styleClass="tinybutton" alt="Copy Award as Child of an Award in another Hierarchy with all its descendants" />	
 			</div>
           </td>
            </tr>

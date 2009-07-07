@@ -55,13 +55,24 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return new AuditActionHelper().setAuditMode(mapping, (AwardForm) form, false);
     }
     
-    public ActionForward maintainAwardHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        
+        ActionForward forward = super.reload(mapping, form, request, response);
+        AwardForm awardForm = (AwardForm)form;
+        Award award = awardForm.getAwardDocument().getAward();
+        Map<String, AwardHierarchy> awardHierarchyNodes = getAwardHierarchyService().getAwardHierarchy(award.getAwardNumber());
+        
+        awardForm.setAwardHierarchyNodes(awardHierarchyNodes);
+        
+        return forward;
+    }    
+    
+    public ActionForward createANewChildAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String awardNumber = getAwardNumber(request);
         AwardForm awardForm = (AwardForm)form;
-        String[] splitAwardNumber = awardNumber.split("-");
         
         String nxtAwardNumber = getAwardNumberService().getNextAwardNumberInHierarchy(getAwardNumber(request));
-        //String nxtAwardNumber = splitAwardNumber[0] + "-000" + (Integer.parseInt(splitAwardNumber[1]) + 1);
         
         awardForm.setCommand(KEWConstants.INITIATE_COMMAND);
         createDocument(awardForm);
@@ -75,11 +86,47 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         awardForm.setPrevRootAwardNumber(awardHierarchy.getRootAwardNumber());
         return mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
     }
-    
-    public ActionForward copyAwardInHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+    public ActionForward createANewChildAwardBasedOnParent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
+    
+    public ActionForward createANewChildAwardBasedOnAnotherAwardInHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward copyAwardAsANewHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward copyAwardAsANewHierarchyWithDescendants(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward copyAwardAsAChildInCurrentHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward copyAwardAsAChildInCurrentHierarchyWithDescendants(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward copyAwardAsAChildOfAwardInAnotherHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward copyAwardAsAChildOfAwardInAnotherHierarchyWithDescendants(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+
     
     public AwardNumberService getAwardNumberService(){
         return KraServiceLocator.getService(AwardNumberService.class);

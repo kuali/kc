@@ -24,7 +24,10 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase {
 
     private String rootAwardNumber; 
     private String awardNumber; 
-    private String parentAwardNumber; 
+    private String parentAwardNumber;
+    /*
+     * TODO: We should consider adding refereces to root, parent and current awards based on above three award Numbers to this class. 
+     */
     
     
     public AwardHierarchy() { 
