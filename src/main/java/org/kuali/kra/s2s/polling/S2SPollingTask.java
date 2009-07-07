@@ -301,7 +301,7 @@ public class S2SPollingTask {
                 long mailDelta = today.getTime() - lastNotifiedTime;
                 long delta = today.getTime() - lastModifiedTime;
 
-                long stopPollDiff = ((Integer.parseInt(getStopPollInterval()) == 0 ? 4320l : Integer
+                long stopPollDiff = ((Integer.parseInt(getStopPollInterval()) == 0 ? 4320L : Integer
                         .parseInt(getStopPollInterval())) - (delta / (60 * 60 * 1000)));
                 if ((mailDelta / (1000 * 60)) >= (Integer.parseInt(getMailInterval()))) {
                     if (localSubInfo.getSortId() == null) {
@@ -391,7 +391,7 @@ public class S2SPollingTask {
         List<MailInfo> mailList = getMailInfoList();
         for (MailInfo mailInfo : mailList) {
             String dunsNum = mailInfo.getDunsNumber();
-            Vector<SubmissionData> propList = (Vector<SubmissionData>) htMails.get(dunsNum);
+            Vector<SubmissionData> propList = htMails.get(dunsNum);
             if (propList == null) {
                 continue;
             }
@@ -405,7 +405,7 @@ public class S2SPollingTask {
         if (mailList.size() > 0 && !htMails.isEmpty()) {
             Iterator<String> it = htMails.keySet().iterator();
             while (it.hasNext()) {
-                Vector<SubmissionData> nonDunsPropList = (Vector<SubmissionData>) htMails.get(it.next());
+                Vector<SubmissionData> nonDunsPropList = htMails.get(it.next());
                 MailInfo mailInfo = mailList.get(0);
                 MailMessage mailMessage = parseNGetMailAttr(nonDunsPropList, mailInfo);
                 if (mailMessage != null) {
