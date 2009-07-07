@@ -19,7 +19,7 @@
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="textWithdrawReason" value="actionHelper.protocolWithdrawBean.reason" />
 
-<kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
+<kra:permission value="${KualiForm.actionHelper.canWithdraw}">
 
 <kul:innerTab tabTitle="Withdraw Protocol" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolWithdrawBean*">
     <div class="innerTab-container" align="left">
