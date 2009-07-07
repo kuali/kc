@@ -28,7 +28,7 @@ public class CreateAmendmentAuthorizer extends ProtocolAuthorizer {
      */
     public boolean isAuthorized(String username, ProtocolTask task) {
         return !isAmendmentOrRenewal(task.getProtocol()) &&
-            //   canExecuteAction(task.getProtocol(), ProtocolActionType.AMENDMENT_CREATED) &&
+               canExecuteAction(task.getProtocol(), ProtocolActionType.AMENDMENT_CREATED) &&
                hasPermission(username, task.getProtocol(), PermissionConstants.CREATE_AMMENDMENT);
     }
 }
