@@ -20,6 +20,7 @@ import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 
 /**
  * A Protocol Authorizer determines if a user can perform
@@ -28,7 +29,16 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
 public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
     
     private ProtocolAuthorizationService protocolAuthorizationService;
+    private ProtocolActionService protocolActionService;
     
+    /**
+     * Set the Protocol Action Service.
+     * @param protocolActionService
+     */
+    public final void setProtocolActionService(ProtocolActionService protocolActionService) {
+        this.protocolActionService = protocolActionService;
+    }
+
     /**
      * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
      */
@@ -72,5 +82,15 @@ public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
         return protocol.getProtocolNumber() != null &&
                (protocol.getProtocolNumber().contains("A") ||
                 protocol.getProtocolNumber().contains("R"));
+    }
+    
+    /**
+     * Can the user on the current thread execute the given action for the given protocol?
+     * @param protocol
+     * @param protocolActionTypeCode
+     * @return true if the action can be executed; otherwise false
+     */
+    protected final boolean canExecuteAction(Protocol protocol, String protocolActionTypeCode) {
+        return protocolActionService.isActionAllowed(protocolActionTypeCode, protocol);
     }
 }

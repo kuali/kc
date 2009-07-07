@@ -29,13 +29,22 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionService {
 
     private BusinessObjectService businessObjectService;
-
+    private ProtocolActionService protocolActionService;
+    
     /**
      * Set the business object service.
      * @param businessObjectService the business office service
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * Set the Protocol Action Service.
+     * @param protocolActionService
+     */
+    public void setProtocolActionService(ProtocolActionService protocolActionService) {
+        this.protocolActionService = protocolActionService;
     }
 
     /**
@@ -59,8 +68,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.SUBMIT_TO_IRB);
         protocol.getProtocolActions().add(protocolAction);
         
-       // ProtocolActionService protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
-        //protocolActionService.updateProtocolStatus(protocolAction, protocol);
+        protocolActionService.updateProtocolStatus(protocolAction, protocol);
         
         businessObjectService.save(protocol.getProtocolDocument());
     }
