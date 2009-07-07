@@ -28,7 +28,7 @@ public class SubmitProtocolAuthorizer extends ProtocolAuthorizer {
      */
     public boolean isAuthorized(String username, ProtocolTask task) {
         
-       // return canExecuteAction(task.getProtocol(), ProtocolActionType.SUBMIT_TO_IRB) &&
-           return    hasPermission(username, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL);
+        return canExecuteAction(task.getProtocol(), ProtocolActionType.SUBMIT_TO_IRB) &&
+               hasPermission(username, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL);
     }
 }

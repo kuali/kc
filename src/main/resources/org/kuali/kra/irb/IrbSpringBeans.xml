@@ -103,6 +103,7 @@
         <property name="kraWorkflowService" ref="kraWorkflowService" />
         <property name="personService" ref="personService" />
         <property name="protocolAuthorizationService" ref="protocolAuthorizationService" />
+        <property name="protocolActionService" ref="protocolActionService" />
     </bean>
 
     <bean id="protocolTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
@@ -226,6 +227,7 @@
 
 	<bean id="protocolSubmitActionService" class="org.kuali.kra.irb.actions.submit.ProtocolSubmitActionServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="protocolActionService" ref="protocolActionService" />
 	</bean>
 	
 	<bean id="protocolWithdrawService" class="org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawServiceImpl">
