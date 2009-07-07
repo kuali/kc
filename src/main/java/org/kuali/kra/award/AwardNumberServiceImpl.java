@@ -19,8 +19,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.CommentType;
+import org.kuali.kra.dao.KraLookupDao;
+import org.kuali.kra.dao.ojb.KraLookupDaoOjb;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
@@ -28,12 +30,14 @@ import org.kuali.rice.kns.service.SequenceAccessorService;
 public class AwardNumberServiceImpl implements AwardNumberService {
 
     private SequenceAccessorService sequenceAccessorService;
-    private BusinessObjectService businessObjectService;
-    
+    private KraLookupDao kraLookupDao;
+
     private String DASH = "-";
     private String PERCENT = "%";
     private String AWARD_NUMBER = "awardNumber";
     
+    public AwardNumberServiceImpl() {
+    }
     /**
      * Set the Sequence Accessor Service.
      * @param sequenceAccessorService the Sequence Accessor Service
@@ -43,12 +47,13 @@ public class AwardNumberServiceImpl implements AwardNumberService {
     }
     
     /**
-     * Set the Business Object Service.
-     * @param businessObjectService the Business Object Service
+     * Sets the kraLookupDao attribute value.
+     * @param kraLookupDao The kraLookupDao to set.
      */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setKraLookupDao(KraLookupDao kraLookupDao) {
+        this.kraLookupDao = kraLookupDao;
     }
+
     
     /** {@inheritDoc} */
     public String getNextAwardNumber() {
@@ -82,17 +87,8 @@ public class AwardNumberServiceImpl implements AwardNumberService {
     @SuppressWarnings("unchecked")
     private String lookupLikeAwardNumbers(String lookupLike) {
         DecimalFormat formatter = new DecimalFormat("00000");
-        //can't test passing wildcards into businessObjectService.findMatching.  Probably won't work.  There is method in LookupDaoOjb 
-        //executSearch() that looks like it will do what we need.  We can create Criteria and addLike to Criteria and pass into executeSearch.
-        //?????????????????????????????????????????????
-        //Criteria criteria = new Criteria();
-        //criteria.addLike("awardNumber", lookupLike);
-        //LookupDaoOjb.executeSearch(Award.class, criteria, true);
-        //??????????????????????????????????????????????
-        Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put(AWARD_NUMBER, lookupLike);
         List<Award> awardList = 
-            (List<Award>) businessObjectService.findMatching(Award.class, queryMap);
+            (List<Award>) kraLookupDao.findCollectionUsingWildCard(Award.class, "awardNumber", lookupLike, Boolean.TRUE);
         return formatter.format(getHighestSequenceNode(awardList)); 
     }
     

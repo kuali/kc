@@ -147,6 +147,9 @@
         <property name="sequenceAccessorService">
             <ref bean="sequenceAccessorService" />
         </property>
+        <property name="kraLookupDao">
+            <ref bean="kraLookupDao" />
+        </property>
     </bean>
     
     <bean id="awardCloseoutService" class="org.kuali.kra.award.paymentreports.closeout.AwardCloseoutServiceImpl">
