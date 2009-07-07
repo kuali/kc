@@ -19,7 +19,7 @@
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="textDeleteReason" value="actionHelper.protocolDeleteBean.reason" />
 
-<kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
+<kra:permission value="${KualiForm.actionHelper.canDeleteProtocolAmendRenew}">
 
 <kul:innerTab tabTitle="Delete Protocol, Amendment, or Renewal" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolWithdrawBean*">
     <div class="innerTab-container" align="left">

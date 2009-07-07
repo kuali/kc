@@ -134,6 +134,38 @@
                     <property name="taskName" value="createRenewal" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.NotifyIrbAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="protocolNotifyIrb" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="protocolWithdrawA" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ProtocolRequestCloseAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="protocolRequestClose" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ProtocolRequestCloseEnrollmentAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="protocolRequestCloseEnrollment" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ProtocolRequestReOpenEnrollmentAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="protocolRequestReOpenEnrollment" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ProtocolRequestSuspensionAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="protocolRequestSuspension" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ProtocolRequestDataAnalysisAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="protocolRequestDataAnalysis" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ProtocolAmendRenewDeleteAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="protocolAmendRenewDelete" />
+                </bean>
+                
                 <!--  Task Authorizer for modifying persons and their roles on a proposal -->
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolPermissionsAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="modifyProtocolRoles" />

@@ -19,7 +19,7 @@
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="textReason" value="actionHelper.protocolDataAnalysisRequestBean.reason" />
 
-<kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
+<kra:permission value="${KualiForm.actionHelper.canRequestDataAnalysis}">
 
 <kul:innerTab tabTitle="Request for Data Analysis Only" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolDataAnalysisRequestBean*">
     <div class="innerTab-container" align="left">

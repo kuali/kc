@@ -19,7 +19,7 @@
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="textComment" value="actionHelper.protocolNotifyIrbBean.comment" />
 
-<kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
+<kra:permission value="${KualiForm.actionHelper.canNotifyIrb}">
 
 <kul:innerTab tabTitle="Notify IRB" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolNotifyIrbBean*">
     <div class="innerTab-container" align="left">
