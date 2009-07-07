@@ -122,6 +122,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private AwardCreditSplitBean awardCreditSplitBean;
     private LookupHelper<AwardForm> lookupHelper;
     private Map<String, AwardHierarchy> awardHierarchyNodes;
+    private String awardNumberInputTemp;//This is temporary till the GUI mock is ready for award hierarchy
     
     /**
      * 
@@ -680,5 +681,21 @@ public class AwardForm extends KraTransactionalDocumentFormBase
      */
     public void setPrevRootAwardNumber(String prevRootAwardNumber) {
         this.prevRootAwardNumber = prevRootAwardNumber;
+    }
+
+    /**
+     * Gets the awardNumberInputTemp attribute. 
+     * @return Returns the awardNumberInputTemp.
+     */
+    public String getAwardNumberInputTemp() {
+        return awardNumberInputTemp;
+    }
+
+    /**
+     * Sets the awardNumberInputTemp attribute value.
+     * @param awardNumberInputTemp The awardNumberInputTemp to set.
+     */
+    public void setAwardNumberInputTemp(String awardNumberInputTemp) {
+        this.awardNumberInputTemp = awardNumberInputTemp;
     }
 }
