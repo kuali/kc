@@ -223,6 +223,7 @@ values ('KRA-PD','D','pessimisticLocking.expriationAge','CONFG','1440','The expi
 INSERT
 INTO KRNS_PARM_T(NMSPC_CD,    PARM_DTL_TYP_CD,    PARM_NM,     PARM_TYP_CD,    TXT,    PARM_DESC_TXT,    CONS_CD,    GRP_NM,    ACTV_IND)
 VALUES('KRA-PD',    'A',    'numberPerSponsorHierarchyGroup',     'CONFG',    '300',    'Number of nodes per sponsor group',    'A',    'WorkflowAdmin',    'Y');
+<<<<<<< .working
 
 --INSERT INTO KRNS_PARM_T(NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM) 
 --VALUES('KR-NS', 'Document', 'SESSION_TIMEOUT_WARNING_MESSAGE_TIME', sys_guid(), 1, 'CONFG', '5', 'The number of minutes before a session expires that user should be warned when a document uses pessimistic locking.', 'A', 'KUALI_FMSOPS');
@@ -232,7 +233,7 @@ VALUES('KRA-PD',    'A',    'numberPerSponsorHierarchyGroup',     'CONFG',    '3
 
 INSERT
 INTO KRNS_PARM_T(NMSPC_CD,    PARM_DTL_TYP_CD,    PARM_NM,    obj_id,    ver_nbr,    PARM_TYP_CD,    TXT,    PARM_DESC_TXT,    CONS_CD,    GRP_NM,    ACTV_IND)
-VALUES('KR-NS',    'All',    'MAX_FILE_SIZE_DEFAULT_UPLOAD',    '4CBAA7A57E0581C1E0404F8189D82E3D',    1,    'CONFG',    '5M',    'Maximum file upload size for the application. Used by PojoFormBase. Must be an integer, optionally followed by "K", "M", or "G". Only used if no other upload limits are in effect.',    'A',    'WorkflowAdmin',    'Y');
+VALUES('KR-NS',    'All',    'MAX_FILE_SIZE_DEFAULT_UPLOAD',    '4CBAA7A57E0581C1E0404F8189D82E3D',    1,    'CONFG',    '5M',    'Maximum file upload size for the application. Used by PojoFormBase. Must be an integer, optionally followed by K, M, or G. Only used if no other upload limits are in effect.',    'A',    'WorkflowAdmin',    'Y');
 
 INSERT INTO krns_nmspc_t
 (NMSPC_CD,NM,ACTV_IND, OBJ_ID, VER_NBR)
@@ -365,4 +366,23 @@ Insert into KRNS_PARM_T
  Values
    ('KC-PROTOCOL', 'D', 'protocolSelectSubmissionReviewers', sys_guid(), 1, 'CONFG', 'True', 'Implementing institution can decide on whether to allow reviewers to be selected upon an IRB submittal', 'A', 'WorkflowAdmin', 'Y');
 
-  
+Insert into KRNS_PARM_T
+   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd, grp_nm, ACTV_IND)
+ Values
+   ('KRA-PD', 'D', 'PROPOSAL_CONTACT_TYPE', sys_guid(), 1, 'CONFG', '2', 'Value for Proposal Contact Type', 'A', 'WorkflowAdmin', 'Y');
+   
+Insert into KRNS_PARM_T
+   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd, grp_nm, ACTV_IND)
+ Values
+   ('KRA-PD', 'D', 'MULTI_CAMPUS_ENABLED', sys_guid(), 1, 'CONFG', '0', 'Flag for enabling/disabling Multicampus', 'A', 'WorkflowAdmin', 'Y');
+
+Insert into KRNS_PARM_T
+   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd, grp_nm, ACTV_IND)
+ Values
+   ('KRA-PD', 'D', 'DHHS_AGREEMENT', sys_guid(), 1, 'CONFG', '0', 'Value for DHHS Agreement', 'A', 'WorkflowAdmin', 'Y');
+
+Insert into KRNS_PARM_T
+   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd, grp_nm, ACTV_IND)
+ Values
+   ('KRA-PD', 'D', 'SCHEDULER_SERVICE_ENABLED', sys_guid(), 1, 'CONFG', '0', 'Value for DHHS Agreement', 'A', 'WorkflowAdmin', 'Y');
+
