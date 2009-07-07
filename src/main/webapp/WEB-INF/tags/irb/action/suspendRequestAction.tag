@@ -19,7 +19,7 @@
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="textSuspendReason" value="actionHelper.protocolSuspendRequestBean.reason" />
 
-<kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
+<kra:permission value="${KualiForm.actionHelper.canRequestSuspension}">
 
 <kul:innerTab tabTitle="Request for Suspension" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolSuspendRequestBean*">
     <div class="innerTab-container" align="left">

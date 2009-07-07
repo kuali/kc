@@ -61,6 +61,14 @@ public class ActionHelper implements Serializable {
     
     private boolean canCreateAmendment = false;
     private boolean canCreateRenewal = false;
+    private boolean canNotifyIrb = false;
+    private boolean canWithdraw = false;
+    private boolean canRequestClose = false;
+    private boolean canRequestSuspension = false;
+    private boolean canRequestCloseEnrollment = false;
+    private boolean canRequestReOpenEnrollment = false;
+    private boolean canRequestDataAnalysis = false;
+    private boolean canDeleteProtocolAmendRenew = false;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -129,6 +137,14 @@ public class ActionHelper implements Serializable {
         
         canCreateAmendment = hasCreateAmendmentPermission();
         canCreateRenewal = hasCreateRenewalPermission();
+        canNotifyIrb = hasNotifyIrbPermission();
+        canWithdraw = hasWithdrawPermission();
+        canRequestClose = hasRequestClosePermission();
+        canRequestSuspension = hasRequestSuspensionPermission();
+        canRequestCloseEnrollment = hasRequestCloseEnrollmentPermission();
+        canRequestReOpenEnrollment = hasRequestReOpenEnrollmentPermission();
+        canRequestDataAnalysis = hasRequestDataAnalysisPermission();
+        canDeleteProtocolAmendRenew = hasDeleteProtocolAmendRenewPermission();
         
         prepareAmendmentBean(protocolAmendmentBean);
     }
@@ -137,7 +153,7 @@ public class ActionHelper implements Serializable {
          ProtocolAmendRenewService protocolAmendRenewService = getProtocolAmendRenewService();
          List<Protocol> protocols = protocolAmendRenewService.getAmendmentAndRenewals(getProtocol().getProtocolNumber());
        
-         System.out.println("Size: " + protocols.size());
+        // System.out.println("Size: " + protocols.size());
     }
 
     private boolean getParameterValue(String parameterName) {
@@ -172,6 +188,46 @@ public class ActionHelper implements Serializable {
     
     private boolean hasCreateRenewalPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+    }
+    
+    private boolean hasNotifyIrbPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_IRB, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+    }
+    
+    private boolean hasWithdrawPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+    }
+    
+    private boolean hasRequestClosePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+    }
+    
+    private boolean hasRequestSuspensionPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_SUSPENSION, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+    }
+    
+    private boolean hasRequestCloseEnrollmentPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+    }
+    
+    private boolean hasRequestReOpenEnrollmentPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+    }
+    
+    private boolean hasRequestDataAnalysisPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserName(), task);
+    }
+    
+    private boolean hasDeleteProtocolAmendRenewPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserName(), task);
     }
     
@@ -258,5 +314,37 @@ public class ActionHelper implements Serializable {
 
     public boolean getCanCreateRenewal() {
         return canCreateRenewal;
+    }
+    
+    public boolean getCanNotifyIrb() {
+        return canNotifyIrb;
+    }
+    
+    public boolean getCanWithdraw() {
+        return canWithdraw;
+    }
+    
+    public boolean getCanRequestClose() {
+        return canRequestClose;
+    }
+    
+    public boolean getCanRequestSuspension() {
+        return canRequestSuspension;
+    }
+    
+    public boolean getCanRequestCloseEnrollment() {
+        return canRequestCloseEnrollment;
+    }
+    
+    public boolean getCanRequestReOpenEnrollment() {
+        return canRequestReOpenEnrollment;
+    }
+    
+    public boolean getCanRequestDataAnalysis() {
+        return canRequestDataAnalysis;
+    }
+    
+    public boolean getCanDeleteProtocolAmendRenew() {
+        return canDeleteProtocolAmendRenew;
     }
 }

@@ -79,11 +79,19 @@ public interface TaskName {
     public static final String MODIFY_PROTOCOL_SPECIAL_REVIEW = "modifyProtocolSpecialReview";
     public static final String MODIFY_PROTOCOL_PERSONNEL = "modifyProtocolPersonnel";
     public static final String MODIFY_PROTOCOL_OTHERS = "modifyProtocolOthers";
-    
+    public static final String NOTIFY_IRB = "protocolNotifyIrb";
+    public static final String PROTOCOL_WITHDRAW = "protocolWithdraw";
+    public static final String PROTOCOL_REQUEST_CLOSE = "protocolRequestClose";
+    public static final String PROTOCOL_REQUEST_SUSPENSION = "protocolRequestSuspension";
+    public static final String PROTOCOL_REQUEST_CLOSE_ENROLLMENT = "protocolRequestCloseEnrollment";
+    public static final String PROTOCOL_REQUEST_REOPEN_ENROLLMENT = "protocolRequestReOpenEnrollment";
+    public static final String PROTOCOL_REQUEST_DATA_ANALYSIS = "protocolRequestDataAnalysis";
+    public static final String PROTOCOL_AMEND_RENEW_DELETE = "protocolAmendRenewDelete";
     /*
      * Committee Tasks.
      */
     public static final String ADD_COMMITTEE = "addCommittee";
     public static final String MODIFY_COMMITTEE = "modifyCommittee";
     public static final String VIEW_COMMITTEE = "viewCommittee";
+  
 }

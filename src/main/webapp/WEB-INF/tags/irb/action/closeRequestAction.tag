@@ -19,7 +19,7 @@
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="textCloseReason" value="actionHelper.protocolCloseRequestBean.reason" />
 
-<kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
+<kra:permission value="${KualiForm.actionHelper.canRequestClose}">
 
 <kul:innerTab tabTitle="Request to Close" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolCloseRequestBean*">
     <div class="innerTab-container" align="left">
