@@ -28,7 +28,7 @@ public class CreateRenewalAuthorizer extends ProtocolAuthorizer {
      */
     public boolean isAuthorized(String username, ProtocolTask task) {
         return !isAmendmentOrRenewal(task.getProtocol()) &&
-            //   canExecuteAction(task.getProtocol(), ProtocolActionType.RENEWAL_CREATED) &&
+               canExecuteAction(task.getProtocol(), ProtocolActionType.RENEWAL_CREATED) &&
                hasPermission(username, task.getProtocol(), PermissionConstants.CREATE_RENEWAL);
     }
 }
