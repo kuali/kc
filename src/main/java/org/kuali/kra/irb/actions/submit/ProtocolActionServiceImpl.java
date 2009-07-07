@@ -197,7 +197,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
      */
     public void updateProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol) {
         runUpdateProtocolRules(protocolActionBo, protocol);
-        new ActionLogger().log(protocolActionBo, protocol, businessObjectService);
+        //new ActionLogger().log(protocolActionBo, protocol, businessObjectService);
     }
 
     public void runUpdateProtocolRules(ProtocolAction protocolActionBo, Protocol protocol) {
