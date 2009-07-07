@@ -20,11 +20,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.query.Criteria;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -35,8 +34,8 @@ import org.junit.Test;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.AwardNumberServiceImpl;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.dao.KraLookupDao;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 
 public class AwardNumberServiceTest {
@@ -45,13 +44,11 @@ public class AwardNumberServiceTest {
     AwardNumberServiceImpl awardNumberServiceImpl;
     List<Award> awardList;
     Award rootAward;
-    final Map<String, Object> queryMap = new HashMap<String, Object>();
     private long SEQUENCE_NUMBER = 1234;
 
     @Before
     public void setUp() throws Exception {
         awardNumberServiceImpl = new AwardNumberServiceImpl();
-        queryMap.put("awardNumber", "000001%");
         rootAward = new Award();
         rootAward.setAwardNumber("000001-00001");
         Award node1 = new Award();
@@ -89,13 +86,13 @@ public class AwardNumberServiceTest {
     
     @Test
     public final void testGenerateNextNodeNumber() {
-        final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE;
-        MOCKED_BUSINESS_OBJECT_SERVICE = context.mock(BusinessObjectService.class);
+        final KraLookupDao MOCKED_KRA_LOOKUP_DAO;
+        MOCKED_KRA_LOOKUP_DAO = context.mock(KraLookupDao.class);
         context.checking(new Expectations() {{
-            one(MOCKED_BUSINESS_OBJECT_SERVICE).findMatching(Award.class, queryMap); 
+            one(MOCKED_KRA_LOOKUP_DAO).findCollectionUsingWildCard(Award.class, "awardNumber", "000001%", true); 
             will(returnValue(awardList));
         }});
-        awardNumberServiceImpl.setBusinessObjectService(MOCKED_BUSINESS_OBJECT_SERVICE);
+        awardNumberServiceImpl.setKraLookupDao(MOCKED_KRA_LOOKUP_DAO);
         Assert.assertTrue(awardNumberServiceImpl.getNextAwardNumberInHierarchy(rootAward.getAwardNumber()).equals("000001-00004"));
     }
 

@@ -60,8 +60,8 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardForm awardForm = (AwardForm)form;
         String[] splitAwardNumber = awardNumber.split("-");
         
-        //String nxtAwardNumber = getAwardNumberService().getNextAwardNumberInHierarchy(getAwardNumber(request));
-        String nxtAwardNumber = splitAwardNumber[0] + "-000" + (Integer.parseInt(splitAwardNumber[1]) + 1);
+        String nxtAwardNumber = getAwardNumberService().getNextAwardNumberInHierarchy(getAwardNumber(request));
+        //String nxtAwardNumber = splitAwardNumber[0] + "-000" + (Integer.parseInt(splitAwardNumber[1]) + 1);
         
         awardForm.setCommand(KEWConstants.INITIATE_COMMAND);
         createDocument(awardForm);
