@@ -49,7 +49,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         Collection<AwardHierarchy> awardHierarchyChildren;
         AwardHierarchy awardHierarchy = (AwardHierarchy)businessObjectService.findByPrimaryKey(AwardHierarchy.class, primaryKeys);
         
-        AwardHierarchy awardHierarchyRootNode = getRootNode(awardHierarchy);
+        AwardHierarchy awardHierarchyRootNode = getRootNode(awardHierarchy.getRootAwardNumber());
         awardHierarchies.put(awardHierarchyRootNode.getAwardNumber(), awardHierarchyRootNode);
         fieldValues.put("parentAwardNumber", awardHierarchyRootNode.getAwardNumber());
         awardHierarchyChildren = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, awardNumber, true);
@@ -72,15 +72,11 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return awardHierarchies;
     }
     
-    protected AwardHierarchy getRootNode(AwardHierarchy awardHierarchy){
+    protected AwardHierarchy getRootNode(String rootAwardNumber){
         Map<String, String> primaryKey = new HashMap<String, String>();
         
-        while(!StringUtils.equalsIgnoreCase("000000-00000",awardHierarchy.getParentAwardNumber())){
-            primaryKey.put("awardNumber", awardHierarchy.getParentAwardNumber());
-            awardHierarchy = (AwardHierarchy) businessObjectService.findByPrimaryKey(AwardHierarchy.class, primaryKey);
-        }
-        
-        return awardHierarchy;
+        primaryKey.put("awardNumber", rootAwardNumber);
+        return (AwardHierarchy) businessObjectService.findByPrimaryKey(AwardHierarchy.class, primaryKey);
     }
     
     public void createNewChildAward(String newAwardNumber, String parentAwardNumber, String rootAwardNumber){

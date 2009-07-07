@@ -76,10 +76,6 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
             , HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;        
         ActionForward forward = handleDocument(mapping, form, request, response, awardForm);
-        if(request.getAttribute("awardNumber")!=null){
-            
-        }
-        
         awardForm.initializeFormOrDocumentBasedOnCommand();
         
         return forward;
