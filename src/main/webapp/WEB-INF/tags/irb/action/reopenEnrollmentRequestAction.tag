@@ -19,7 +19,7 @@
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="textReason" value="actionHelper.protocolReOpenEnrollmentRequestBean.reason" />
 
-<kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
+<kra:permission value="${KualiForm.actionHelper.canRequestReOpenEnrollment}">
 
 <kul:innerTab tabTitle="Request to Re-open Enrollment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolReOpenEnrollmentRequestBean*">
     <div class="innerTab-container" align="left">

@@ -19,7 +19,7 @@
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="textCloseReason" value="actionHelper.protocolCloseEnrollmentRequestBean.reason" />
 
-<kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
+<kra:permission value="${KualiForm.actionHelper.canRequestCloseEnrollment}">
 
 <kul:innerTab tabTitle="Request to Close Enrollment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolCloseEnrollmentRequestBean*">
     <div class="innerTab-container" align="left">
