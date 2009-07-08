@@ -24,6 +24,7 @@ import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
+import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.personnel.InstitutionalProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
@@ -31,9 +32,12 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 
 public class InstitutionalProposal extends KraPersistableBusinessObjectBase { 
     
+    public static final String DEFAULT_PROPOSAL_NUMBER = "1";
+    
     private static final long serialVersionUID = 1L;
 
-    private Integer proposalId; 
+    private InstitutionalProposalDocument institutionalProposalDocument;
+    private Long proposalId; 
     private String proposalNumber; 
     private String sponsorProposalNumber; 
     private Integer sequenceNumber; 
@@ -91,21 +95,68 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     private InstitutionalProposalCostSharing proposalCostSharing; 
     private InstitutionalProposalCustomData institutionalProposalCustomData; 
     //private AwardFundingProposals awardFundingProposals; 
-    private InstitutionalProposalSpecialReview institutionalProposalSpecialReview; 
+    private InstitutionalProposalSpecialReview proposalSpecialReview; 
     private InstitutionalProposalPersonCreditSplit proposalPerCreditSplit; 
     private ProposalUnitCreditSplit proposalUnitCreditSplit; 
     private InstitutionalProposalUnitAdministrator institutionalProposalUnitAdministrator; 
     private InstitutionalProposalComments proposalComments; 
     
     public InstitutionalProposal() { 
-
+        super();
+        initializeInstitutionalProposalWithDefaultValues();
+        initializeCollections();
     } 
     
-    public Integer getProposalId() {
+    /**
+     * 
+     * This method sets the default values for initial persistence as part of skeleton.
+     * As various panels are developed; corresponding field initializations should be removed from
+     * this method.  
+     */
+    private void initializeInstitutionalProposalWithDefaultValues(){
+        setProposalNumber(DEFAULT_PROPOSAL_NUMBER);
+        setSequenceNumber(1);
+        setProposalTypeCode(1);
+        setTitle("test");
+        setSponsorCode("004732");
+        setActivityTypeCode("1");
+        setCostSharingIndicator("1");
+        setIdcRateIndicator("1");
+        setSpecialReviewIndicator("1");
+        setScienceCodeIndicator("1");
+        setIpReviewActivityIndicator("1");
+        setStatusCode(1);
+    }
+    
+    /**
+     * Gets the institutionalProposalDocument attribute. 
+     * @return Returns the institutionalProposalDocument.
+     */
+    public InstitutionalProposalDocument getInstitutionalProposalDocument() {
+        if(institutionalProposalDocument == null) {
+            this.refreshReferenceObject("institutionalProposalDocument");
+        }
+        return institutionalProposalDocument;
+    }
+
+    /**
+     * Sets the institutionalProposalDocument attribute value.
+     * @param institutionalProposalDocument The institutionalProposalDocument to set.
+     */
+    public void setInstitutionalProposalDocument(InstitutionalProposalDocument institutionalProposalDocument) {
+        this.institutionalProposalDocument = institutionalProposalDocument;
+    }
+    
+    protected void initializeCollections() {
+        
+    }
+    
+    
+    public Long getProposalId() {
         return proposalId;
     }
 
-    public void setProposalId(Integer proposalId) {
+    public void setProposalId(Long proposalId) {
         this.proposalId = proposalId;
     }
 
@@ -559,12 +610,12 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     }
     */
 
-    public InstitutionalProposalSpecialReview getInstitutionalProposalSpecialReview() {
-        return institutionalProposalSpecialReview;
+    public InstitutionalProposalSpecialReview getProposalSpecialReview() {
+        return proposalSpecialReview;
     }
 
-    public void setInstitutionalProposalSpecialReview(InstitutionalProposalSpecialReview proposalSpecialReview) {
-        this.institutionalProposalSpecialReview = institutionalProposalSpecialReview;
+    public void setproposalSpecialReview(InstitutionalProposalSpecialReview proposalSpecialReview) {
+        this.proposalSpecialReview = proposalSpecialReview;
     }
 
     public InstitutionalProposalPersonCreditSplit getProposalPerCreditSplit() {
