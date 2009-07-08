@@ -16,7 +16,7 @@
                 <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.name}" />
             </th>
             <td align="left" valign="middle" colspan="3">
-                <kul:htmlControlAttribute property="newQuestionnaire.name" 
+                <kul:htmlControlAttribute property="fromQuestionnaire.name" 
                                           attributeEntry="${questionnaireAttributes.name}" />
             </td>
         </tr>
@@ -25,7 +25,7 @@
                 <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.description}" />
             </th>
             <td align="left" valign="middle" colspan="3">
-                <kul:htmlControlAttribute property="newQuestionnaire.description" 
+                <kul:htmlControlAttribute property="fromQuestionnaire.description" 
                                           attributeEntry="${questionnaireAttributes.description}" />
             </td>
         </tr>
@@ -34,13 +34,12 @@
                 <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.isFinal}" />
             </th>
             <td align="left" valign="middle" colspan="3">
-                <kul:htmlControlAttribute property="newQuestionnaire.isFinal" 
+                <kul:htmlControlAttribute property="fromQuestionnaire.isFinal" 
                                           attributeEntry="${questionnaireAttributes.isFinal}" />
             </td>
         </tr>
     </table>
-	<input type="hidden" id="questionNumber" name="questionNumber" value = "${QuestionnaireForm.questionNumber}"/>
-	<input type="hidden" id="newQuestionnaire.questionnaireId" name="newQuestionnaire.questionnaireId" value = "${QuestionnaireForm.newQuestionnaire.questionnaireId}"/>
+	<input type="hidden" id="fromQuestionnaire.questionnaireId" name="fromQuestionnaire.questionnaireId" value = "${QuestionnaireForm.fromQuestionnaire.questionnaireId}"/>
 	<input type="hidden" id="retData" name="retData" value = "${QuestionnaireForm.retData}"/>
-	<input type="hidden" id="editData" name="retData" value = "${QuestionnaireForm.editData}"/>
+
 </div>
