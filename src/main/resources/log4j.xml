@@ -67,23 +67,23 @@
 	</category>
         
 	<category name="org.kuali.kra.proposaldevelopment">
-	  <priority value="DEBUG" />
+	  <priority value="${logDefault}" />
 	</category>
 
 	<category name="org.kuali.kra">
-	  <priority value="DEBUG" />
+	  <priority value="${logDefault}" />
 	</category>
 
 	<category name="org.kuali.kra.web.filter.PerformanceLoggingFilter">
-	  <priority value="DEBUG" />
+	  <priority value="${logDefault}" />
 	</category>
 
 	<category name="org.kuali.kra.web.listener.SessionLoggingListener">
-	  <priority value="DEBUG" />
+	  <priority value="${logDefault}" />
 	</category>
 
 	<category name="org.kuali.kra.web.filter.RequestLoggingFilter">
-	  <priority value="DEBUG" />
+	  <priority value="${logDefault}" />
 	</category>
 
 	<category name="org.kuali.kra.util.spring.MethodLoggingInterceptor">
