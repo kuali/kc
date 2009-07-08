@@ -39,6 +39,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
@@ -92,6 +93,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
     
     private ProtocolSubmitActionServiceImpl protocolSubmitActionService;
     private BusinessObjectService businessObjectService;   
+    private ProtocolActionService protocolActionService;
     
     @SuppressWarnings("unchecked")
     @Before
@@ -102,7 +104,9 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         GlobalVariables.setAuditErrorMap(new HashMap());
         protocolSubmitActionService = new ProtocolSubmitActionServiceImpl();
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
         protocolSubmitActionService.setBusinessObjectService(businessObjectService);
+        protocolSubmitActionService.setProtocolActionService(protocolActionService);
     }
 
     @After
@@ -200,6 +204,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
         assertNotNull(protocolAction);
         
+        assertEquals(protocolDocument.getProtocol().getProtocolStatusCode(), ProtocolStatus.SUBMITTED_TO_IRB);
         verifyAction(protocolAction, protocolSubmission);
         verifySubmission(protocolSubmission, protocolDocument.getProtocol(), submitAction);
     }
@@ -323,7 +328,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         submitAction.setScheduleId(scheduleId);
         return submitAction;
     }
-   
+
     /*
      * Verify that the created submission and protocol action is what is expected
      * based upon the "submitAction".
