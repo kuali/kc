@@ -842,29 +842,6 @@ VALUES(5, 'Faculty Supervisor', sysdate, user);
 
 commit;
 
-insert into CUSTOM_ATTRIBUTE_DOCUMENT (DOCUMENT_TYPE_CODE, CUSTOM_ATTRIBUTE_ID, IS_REQUIRED, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, ACTIVE_FLAG)
-values ('AWRD', 1, 'Y', sysdate, 'quickstart', 1, 'Y');
-
-insert into CUSTOM_ATTRIBUTE_DOCUMENT (DOCUMENT_TYPE_CODE, CUSTOM_ATTRIBUTE_ID, IS_REQUIRED, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, ACTIVE_FLAG)
-values ('AWRD', 2, 'N', sysdate, 'quickstart', 1, 'Y');
-
-insert into CUSTOM_ATTRIBUTE_DOCUMENT (DOCUMENT_TYPE_CODE, CUSTOM_ATTRIBUTE_ID, IS_REQUIRED, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, ACTIVE_FLAG)
-values ('AWRD', 3, 'N', sysdate, 'quickstart', 1, 'Y');
-
-insert into CUSTOM_ATTRIBUTE_DOCUMENT (DOCUMENT_TYPE_CODE, CUSTOM_ATTRIBUTE_ID, IS_REQUIRED, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, ACTIVE_FLAG)
-values ('AWRD', 4, 'Y', sysdate, 'quickstart', 1, 'Y');
-
-insert into CUSTOM_ATTRIBUTE_DOCUMENT (DOCUMENT_TYPE_CODE, CUSTOM_ATTRIBUTE_ID, IS_REQUIRED, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, ACTIVE_FLAG)
-values ('AWRD', 5, 'N', sysdate, 'quickstart', 1, 'Y');
-
-insert into CUSTOM_ATTRIBUTE_DOCUMENT (DOCUMENT_TYPE_CODE, CUSTOM_ATTRIBUTE_ID, IS_REQUIRED, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, ACTIVE_FLAG)
-values ('AWRD', 6, 'N', sysdate, 'quickstart', 1, 'Y');
-
-insert into CUSTOM_ATTRIBUTE_DOCUMENT (DOCUMENT_TYPE_CODE, CUSTOM_ATTRIBUTE_ID, IS_REQUIRED, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, ACTIVE_FLAG)
-values ('AWRD', 7, 'N', sysdate, 'quickstart', 1, 'Y');
-
-commit;
-
 INSERT INTO SUBMISSION_TYPE (SUBMISSION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('100', 'Initial Protocol Application for Approval', sysdate,'KRADEV');
 INSERT INTO SUBMISSION_TYPE (SUBMISSION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('101', 'Continuing Review/Continuation without Amendment', sysdate,'KRADEV');
 INSERT INTO SUBMISSION_TYPE (SUBMISSION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('102', 'Amendment', sysdate,'KRADEV');
@@ -1104,63 +1081,6 @@ INSERT INTO GROUP_TYPES ( GROUP_TYPE_CODE, GROUP_NAME, UPDATE_TIMESTAMP, UPDATE_
 VALUES ( 3, 'Others', sysdate, user );
 
 COMMIT;
-
-INSERT INTO KRNS_PARM_T 
-(NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND) 
-VALUES('KC-AWARD', 'D', 'award.creditsplit.enabled', sys_guid(), 1, 'CONFG', 'Y', 'Determines whether the Credit Split is turned on for Award', 'A', 'WorkflowAdmin', 'Y'); 
-  
-Insert into KRNS_PARM_T 
-( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
-Values
-('KC-PROTOCOL','D','irb.protocol.award.linking.enabled', sys_guid(), 1,'CONFG','Y','Linking from Award to Protocol Funding source is configurable at impl time','A','WorkflowAdmin','Y');
-
-Insert into KRNS_PARM_T 
-( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
-Values
-('KC-PROTOCOL','D','irb.protocol.development.proposal.linking.enabled', sys_guid(), 1,'CONFG','Y','Linking from Award to Protocol Funding source is configurable at impl time','A','WorkflowAdmin','Y');
-
-Insert into KRNS_PARM_T 
-( NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
-Values
-('KC-PROTOCOL','D','irb.protocol.institute.proposal.linking.enabled', sys_guid(), 1,'CONFG','N','Linking from Award to Protocol Funding source is configurable at impl time','A','WorkflowAdmin','Y');
-
-Insert into KRNS_PARM_T
-   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd, grp_nm, ACTV_IND)
- Values
-   ('KC-PROTOCOL', 'D', 'protocolSelectSubmissionCommittee', sys_guid(), 1, 'CONFG', 'True', 'Implementing institution can decide on whether to allow a committee to be selected upon an IRB submittal', 'A', 'WorkflowAdmin', 'Y');
-
-Insert into KRNS_PARM_T
-   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd, grp_nm, ACTV_IND)
- Values
-   ('KC-PROTOCOL', 'D', 'protocolSelectSubmissionSchedule', sys_guid(), 1, 'CONFG', 'True', 'Implementing institution can decide on whether to allow a committee schedule to be selected upon an IRB submittal', 'A', 'WorkflowAdmin', 'Y');
-
-Insert into KRNS_PARM_T
-   (nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd, grp_nm, ACTV_IND)
- Values
-   ('KC-PROTOCOL', 'D', 'protocolSelectSubmissionReviewers', sys_guid(), 1, 'CONFG', 'True', 'Implementing institution can decide on whether to allow reviewers to be selected upon an IRB submittal', 'A', 'WorkflowAdmin', 'Y');
-INSERT INTO KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD,GRP_NM,ACTV_IND) 
-	VALUES 
-	('KC-AWARD','D','closeoutReportTypeUserDefined',sys_guid(),1,'CONFG','UD','User Defined Close out Report Type','A','WorkflowAdmin','Y');
-INSERT INTO KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD,GRP_NM,ACTV_IND) 
-	VALUES 
-	('KC-AWARD','D','closeoutReportTypeFinancialReport',sys_guid(),1,'CONFG','1','This system parameter maps the CloseoutReportType Financial Report(closeoutReoprtTypeCode=1) with ReportClass Fiscal(reportClassCode=1). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A','WorkflowAdmin','Y');
-INSERT INTO KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD,GRP_NM,ACTV_IND) 
-	VALUES 
-	('KC-AWARD','D','closeoutReportTypeTechnical',sys_guid(),1,'CONFG','4','This system parameter maps the CloseoutReportType Technical(closeoutReoprtTypeCode=4) with ReportClass Technical Management(reportClassCode=4). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A','WorkflowAdmin','Y');
-INSERT INTO KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD,GRP_NM,ACTV_IND) 
-	VALUES 
-	('KC-AWARD','D','closeoutReportTypePatent',sys_guid(),1,'CONFG','3','This system parameter maps the CloseoutReportType Patent(closeoutReoprtTypeCode=3) with ReportClass Intellectual Property(reportClassCode=3). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A','WorkflowAdmin','Y');
-INSERT INTO KRNS_PARM_T 
-	(NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,TXT, PARM_DESC_TXT,CONS_CD,GRP_NM,ACTV_IND) 
-	VALUES 
-	('KC-AWARD','D','closeoutReportTypeProperty',sys_guid(),1,'CONFG','2','This system parameter maps the CloseoutReportType Property(closeoutReoprtTypeCode=2) with ReportClass Property(reportClassCode=2). If this system parameter is changed - the corresponding values in CloseoutReportType and ReportClass tables should be updated as well.','A','WorkflowAdmin','Y');
-	
-
-commit;
 
 INSERT INTO QUESTION_TYPES (QUESTION_TYPE_ID, QUESTION_TYPE_NAME, UPDATE_TIMESTAMP, UPDATE_USER) VALUES (1, 'Yes/No', sysdate, user ); 
 INSERT INTO QUESTION_TYPES (QUESTION_TYPE_ID, QUESTION_TYPE_NAME, UPDATE_TIMESTAMP, UPDATE_USER) VALUES (2, 'Yes/No/NA', sysdate, user ); 
