@@ -34,11 +34,11 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+   // @Override
+    //public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        return mapping.findForward(RiceConstants.MAPPING_BASIC);
-    }
+        //return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    //}
     
     /**
      * 

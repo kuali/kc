@@ -24,6 +24,7 @@ public class KraServiceLocator {
 
     public static final String COMMON_SPRING_BEANS = "SpringBeans.xml";
     public static final String AWARD_SPRING_BEANS = "org/kuali/kra/award/AwardSpringBeans.xml";
+    public static final String INSTITUTIONAL_PROPOSAL_SPRING_BEANS = "org/kuali/kra/institutionalproposal/InstitutionalProposalSpringBeans.xml";
     public static final String IRB_SPRING_BEANS = "org/kuali/kra/irb/IrbSpringBeans.xml";
     public static final String COMMITTEE_SPRING_BEANS = "org/kuali/kra/committee/CommitteeSpringBeans.xml";
     public static final String QUESTIONNAIRE_SPRING_BEANS = "org/kuali/kra/questionnaire/QuestionnaireSpringBeans.xml";
@@ -32,7 +33,8 @@ public class KraServiceLocator {
 
     private static void initialize() {
         if (appContext == null) {
-            String[] springFiles = new String[] {COMMON_SPRING_BEANS, AWARD_SPRING_BEANS, IRB_SPRING_BEANS, COMMITTEE_SPRING_BEANS, QUESTIONNAIRE_SPRING_BEANS};
+            String[] springFiles = new String[] {COMMON_SPRING_BEANS, AWARD_SPRING_BEANS, IRB_SPRING_BEANS, COMMITTEE_SPRING_BEANS,
+                                                                        INSTITUTIONAL_PROPOSAL_SPRING_BEANS, QUESTIONNAIRE_SPRING_BEANS};
             appContext = new ClassPathXmlApplicationContext(springFiles);
         }
     }
