@@ -45,18 +45,18 @@
 					</div>
                 </td>
             </tr>
-            
+            <%-- use js to display for editing 
         	<c:forEach var="questionnaireUsage" items="${QuestionnaireForm.newQuestionnaire.questionnaireUsages}" varStatus="status">
 	             <tr>
 					<th class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
-	                	<div align="center"> <kul:htmlControlAttribute property="newQuestionnaire.questionnaireUsages[${status.index}].moduleItemCode" readOnlyAlternateDisplay="${specialReview.specialReview.description}" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}"  styleClass="fixed-size-select"/>
+	                	<div align="center"> <kul:htmlControlAttribute property="newQuestionnaire.questionnaireUsages[${status.index}].moduleItemCode" attributeEntry="${questionnaireUsageAttributes.moduleItemCode}"/>
 					</div>
 					</td>
 	                <td>
-	                <div align="center"> <kul:htmlControlAttribute property="newQuestionnaire.questionnaireUsages[${status.index}].questionnaireLabel" readOnlyAlternateDisplay="${specialReview.specialReviewApprovalType.description}" attributeEntry="${proSpecialAttriburesAttributes.approvalTypeCode}" />
+	                <div align="center"> <kul:htmlControlAttribute property="newQuestionnaire.questionnaireUsages[${status.index}].questionnaireLabel"  attributeEntry="${questionnaireUsageAttributes.questionnaireLabel}" />
 	                </div>
 	                </td>
 	                <td>     
@@ -71,7 +71,7 @@
 	                </td>
 	            </tr>
         	</c:forEach>        
-
+           --%>
             
         </table>
 
