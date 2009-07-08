@@ -23,6 +23,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class ProtocolStatus extends KraPersistableBusinessObjectBase { 
 	
     public static final String IN_PROGRESS = "100";
+    public static final String SUBMITTED_TO_IRB = "101";
     
 	private String protocolStatusCode; 
 	private String description; 
