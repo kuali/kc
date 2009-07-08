@@ -215,8 +215,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        getProtocolWithdrawService().withdraw(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolWithdrawBean());
-
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW, protocolForm.getProtocolDocument().getProtocol());
+        if (isAuthorized(task)) {
+            getProtocolWithdrawService().withdraw(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolWithdrawBean());
+        }
+        
         return mapping.findForward(MAPPING_BASIC);
     }
     
