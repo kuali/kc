@@ -15,12 +15,18 @@
  */
 package org.kuali.kra.questionnaire;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class QuestionnaireAction extends KualiAction {
@@ -29,7 +35,54 @@ public class QuestionnaireAction extends KualiAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         // TODO Auto-generated method stub
-        return super.execute(mapping, form, request, response);
+        ActionForward forward = super.execute(mapping, form, request, response);
+        String command = request.getParameter("command");
+        if (StringUtils.isNotBlank(command)) {
+            Integer questionnaireId = Integer.parseInt(request.getParameter("questionnaireId"));
+            Map<String, Integer> qMap = new HashMap<String, Integer>();
+            qMap.put("questionnaireId", questionnaireId);
+            Questionnaire questionnaire = (Questionnaire)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(Questionnaire.class, qMap);
+            if (command.equals("edit")) {
+                forward = edit(mapping, form, request, response);
+            } else if (command.equals("copy")) {
+                forward = copy(mapping, form, request, response);
+            }
+        }
+        QuestionnaireForm questionnaireForm = (QuestionnaireForm)form;
+        if (StringUtils.isNotBlank(questionnaireForm.getSqlScripts())) {
+            if (questionnaireForm.getSqlScripts().equals("copyQuestionnaire")) {
+                // copy questionnaire
+                //ObjectUtils.deepCopy(src);
+                Questionnaire fromQuestionnaire = getQuestionnaire(questionnaireForm.getFromQuestionnaire().getQuestionnaireId());
+                Questionnaire toQuestionnaire = questionnaireForm.getNewQuestionnaire();
+                KraServiceLocator.getService(QuestionnaireService.class).copyQuestionnaire(fromQuestionnaire, toQuestionnaire);
+                
+                questionnaireForm.setSqlScripts("");
+            }
+        }
+        return forward;
     }
 
+    private ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+       throws Exception {
+        
+        QuestionnaireForm questionnaireForm = (QuestionnaireForm)form;
+        
+        return mapping.findForward("edit");
+    }
+
+    private ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        QuestionnaireForm questionnaireForm = (QuestionnaireForm) form;
+        questionnaireForm.setFromQuestionnaire(getQuestionnaire(Integer.parseInt(request.getParameter("questionnaireId"))));
+        return mapping.findForward("copy");
+    }
+    
+    
+    private Questionnaire getQuestionnaire(Integer questionnaireId) {
+        Map<String, Integer> qMap = new HashMap<String, Integer>();
+        qMap.put("questionnaireId", questionnaireId);
+        return (Questionnaire)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(Questionnaire.class, qMap);
+        
+    }
 }

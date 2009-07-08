@@ -150,6 +150,11 @@
  		<action path="/questionnaireNew" name="QuestionnaireForm" input="/questionnaireNew.jsp" type="org.kuali.kra.questionnaire.QuestionnaireAction">
             <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionnaireNew.jsp" />
         </action>
+ 		<action path="/questionnaireMaint" name="QuestionnaireForm" input="/questionnaireMaint.jsp" type="org.kuali.kra.questionnaire.QuestionnaireAction">
+            <forward name="copy" path="/WEB-INF/jsp/questionnaire/questionnaireCopy.jsp" />
+            <forward name="edit" path="/WEB-INF/jsp/questionnaire/questionnaireEdit.jsp" />
+            <forward name="new" path="/WEB-INF/jsp/questionnaire/questionnaireNew.jsp" />
+        </action>
  		<action path="/questionnaireAjax" name="QuestionnaireForm" input="/questionnaireNew.jsp" type="org.kuali.kra.questionnaire.QuestionnaireAction">
             <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionnaireAjax.jsp" />
         </action>
