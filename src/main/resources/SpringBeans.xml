@@ -1735,9 +1735,9 @@
 	</bean>
 	<!--  S2S Scheduler configuration end -->
 		
-	    <bean id="questionnaireLookupable" class="org.kuali.kra.questionnaire.QuestionnaireLookupableImpl" scope="prototype">
+    <bean id="questionnaireLookupable" class="org.kuali.kra.questionnaire.QuestionnaireLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
-			<ref bean="lookupableHelperService" />
+			<ref bean="questionnaireLookupableHelperService" />
 		</property>
 	</bean>
 
@@ -1752,5 +1752,9 @@
 
     <bean id="questionnaireDao" parent="platformAwareDao" class="org.kuali.kra.questionnaire.QuestionnaireDaoOjb">
 	</bean>	
+
+	<bean id="questionnaireLookupableHelperService" class="org.kuali.kra.questionnaire.QuestionnaireLookupableHelperServiceImpl" 
+ 		scope="prototype" parent="lookupableHelperService">
+  	</bean>
 	
 </beans>

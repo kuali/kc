@@ -23,11 +23,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class QuestionnaireForm extends KualiForm {
     private Questionnaire newQuestionnaire;
+    private Questionnaire fromQuestionnaire;
     private QuestionnaireUsage newQuestionnaireUsage;
     private List<QuestionnaireQuestion> questionnaireQuestions;
     private Integer newQuestionId;
@@ -122,6 +122,14 @@ public class QuestionnaireForm extends KualiForm {
 
     public void setQuestionnaireQuestionsId(Long questionnaireQuestionsId) {
         this.questionnaireQuestionsId = questionnaireQuestionsId;
+    }
+
+    public Questionnaire getFromQuestionnaire() {
+        return fromQuestionnaire;
+    }
+
+    public void setFromQuestionnaire(Questionnaire fromQuestionnaire) {
+        this.fromQuestionnaire = fromQuestionnaire;
     }
 
 }

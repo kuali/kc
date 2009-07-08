@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.questionnaire;
 
+import java.io.Serializable;
+
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class QuestionnaireServiceImpl implements QuestionnaireService{
     
@@ -28,12 +31,42 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
             
     }
 
+    public void copyQuestionnaire(Questionnaire src, Questionnaire dest) {
+        copyQuestionnaireLists(src, dest);
+        businessObjectService.save(dest);
+            
+    }
+
     public void setQuestionnaireDao(QuestionnaireDao questionnaireDao) {
         this.questionnaireDao = questionnaireDao;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void copyQuestionnaireLists(Questionnaire src, Questionnaire dest) {
+        dest.setQuestionnaireQuestions(src.getQuestionnaireQuestions());
+        dest.setQuestionnaireUsage(src.getQuestionnaireUsages());
+        for (QuestionnaireQuestion question : dest.getQuestionnaireQuestions()) {
+            question.setQuestionnaireId(null);
+            question.setQuestionnaireQuestionsId(null);
+            question.setVersionNumber(new Long(1));
+        }
+        for (QuestionnaireUsage usage : dest.getQuestionnaireUsages()) {
+            usage.setQuestionnaireId(null);
+            usage.setQuestionnaireUsageId(null);
+            usage.setVersionNumber(new Long(1));
+        }
+
+    }
+   
+    private Object deepCopy(Object obj) {
+        if (obj instanceof Serializable) {
+            return ObjectUtils.deepCopy((Serializable) obj);
+        }
+        return obj;
     }
 
 }
