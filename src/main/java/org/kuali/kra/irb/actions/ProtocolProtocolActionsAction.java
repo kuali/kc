@@ -402,15 +402,19 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        String newDocId = getProtocolAmendRenewService().createRenewal(protocolForm.getProtocolDocument());
-        // Switch over to the new protocol document and
-        // go to the Protocol tab web page.
+        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, protocolForm.getProtocolDocument().getProtocol());
+        if (isAuthorized(task)) {
+            String newDocId = getProtocolAmendRenewService().createRenewal(protocolForm.getProtocolDocument());
+            // Switch over to the new protocol document and
+            // go to the Protocol tab web page.
+            
+            protocolForm.setDocId(newDocId);
+            loadDocument(protocolForm);
         
-        protocolForm.setDocId(newDocId);
-        loadDocument(protocolForm);
-    
-        protocolForm.getProtocolHelper().prepareView();
-        return mapping.findForward(PROTOCOL_TAB);
+            protocolForm.getProtocolHelper().prepareView();
+            return mapping.findForward(PROTOCOL_TAB);
+        }
+        return mapping.findForward(MAPPING_BASIC);
     }
     
     /**
@@ -422,27 +426,31 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
+    @SuppressWarnings("unchecked")
     public ActionForward createRenewalWithAmendment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, protocolForm.getProtocolDocument().getProtocol());
+        if (isAuthorized(task)) {
+            if (!applyRules(new CreateAmendmentEvent(protocolForm.getProtocolDocument(),
+                                                     Constants.PROTOCOL_CREATE_RENEWAL_WITH_AMENDMENT_KEY,
+                                                     protocolForm.getActionHelper().getProtocolRenewAmendmentBean()))) {
+                return mapping.findForward(MAPPING_BASIC);
+            }
+            
+            String newDocId = getProtocolAmendRenewService().createRenewalWithAmendment(protocolForm.getProtocolDocument(), 
+                                                                                        protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
+            // Switch over to the new protocol document and
+            // go to the Protocol tab web page.
+            
+            protocolForm.setDocId(newDocId);
+            loadDocument(protocolForm);
         
-        if (!applyRules(new CreateAmendmentEvent(protocolForm.getProtocolDocument(),
-                                                 Constants.PROTOCOL_CREATE_RENEWAL_WITH_AMENDMENT_KEY,
-                                                 protocolForm.getActionHelper().getProtocolRenewAmendmentBean()))) {
-            return mapping.findForward(MAPPING_BASIC);
+            protocolForm.getProtocolHelper().prepareView();
+            return mapping.findForward(PROTOCOL_TAB);
         }
-        
-        String newDocId = getProtocolAmendRenewService().createRenewalWithAmendment(protocolForm.getProtocolDocument(), 
-                                                                                    protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
-        // Switch over to the new protocol document and
-        // go to the Protocol tab web page.
-        
-        protocolForm.setDocId(newDocId);
-        loadDocument(protocolForm);
-    
-        protocolForm.getProtocolHelper().prepareView();
-        return mapping.findForward(PROTOCOL_TAB);
+        return mapping.findForward(MAPPING_BASIC);
     }
     
     private ProtocolAmendRenewService getProtocolAmendRenewService() {
