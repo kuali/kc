@@ -10,7 +10,6 @@
      linktmp.click(
 					function()
 					{
-						$(".hierarchydetail:not(#"+divId+")").slideUp(300);
 						$("#"+divId).slideToggle(300);
 					}
 	 );
@@ -505,7 +504,7 @@
       $('<input type="text" size="25" />').appendTo(tdtmp);
       tdtmp.appendTo(trtmp);
       tdtmp = $('<td class="content_info" class="content_white" style="width:65px; text-align:center;"></td>');
-      image = $('<input name="addquestionnairetemplate" src="/kra-dev/kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" />').click(function() {
+      image = $('<input name="addrequirement" src="/kra-dev/kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" />').attr("id","addrequirement"+i).click(function() {
         //alert("This would add the specified requirement."+$(this).parents('tr:eq(0)').children('td:eq(0)').children('select:eq(0)').attr("value"));  
         //var operator = $(this).parents('tr:eq(0)').children('td:eq(0)').children('select:eq(0)').attr("value");
         var response = $(this).parents('tr:eq(0)').children('td:eq(0)').children('select:eq(0)').attr("value");
@@ -648,4 +647,6 @@
         var values="'"+code+"','"+parentCode+"', 'N', '"+description+"', sysdate, user";
          return "insert into Q values("+values+")";
      }
+  
+  
   
