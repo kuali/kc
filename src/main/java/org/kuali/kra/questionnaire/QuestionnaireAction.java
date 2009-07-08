@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.questionnaire;
 
+import static java.util.Collections.sort;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +28,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
@@ -38,10 +41,6 @@ public class QuestionnaireAction extends KualiAction {
         ActionForward forward = super.execute(mapping, form, request, response);
         String command = request.getParameter("command");
         if (StringUtils.isNotBlank(command)) {
-            Integer questionnaireId = Integer.parseInt(request.getParameter("questionnaireId"));
-            Map<String, Integer> qMap = new HashMap<String, Integer>();
-            qMap.put("questionnaireId", questionnaireId);
-            Questionnaire questionnaire = (Questionnaire)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(Questionnaire.class, qMap);
             if (command.equals("edit")) {
                 forward = edit(mapping, form, request, response);
             } else if (command.equals("copy")) {
@@ -67,10 +66,60 @@ public class QuestionnaireAction extends KualiAction {
        throws Exception {
         
         QuestionnaireForm questionnaireForm = (QuestionnaireForm)form;
-        
+        questionnaireForm.setFromQuestionnaire(getQuestionnaire(Integer.parseInt(request.getParameter("questionnaireId"))));
+        questionnaireForm.setNewQuestionnaire(getQuestionnaire(Integer.parseInt(request.getParameter("questionnaireId"))));
+        String questions = assembleQuestions(questionnaireForm);
+        String usages = assembleUsages(questionnaireForm.getFromQuestionnaire());
+        questionnaireForm.setEditData(questions+"#;#"+usages);
         return mapping.findForward("edit");
     }
 
+    private String assembleQuestions(QuestionnaireForm questionnaireForm) {
+         
+        Questionnaire questionnaire = questionnaireForm.getFromQuestionnaire();
+        questionnaireForm.setQuestionNumber(0);
+        sort(questionnaire.getQuestionnaireQuestions(), new QuestionnaireQuestionComparator()); 
+        String result="parent-0";
+        Integer parentNumber = 0;
+        for (QuestionnaireQuestion question : questionnaire.getQuestionnaireQuestions()) {
+            if (question.getQuestionNumber() > questionnaireForm.getQuestionNumber()) {
+                questionnaireForm.setQuestionNumber(question.getQuestionNumber());                
+            }
+            // TODO : for now just load the 1st level question for editing
+            //if (question.getParentQuestionNumber().equals(0)) {
+                if (question.getParentQuestionNumber().compareTo(parentNumber) > 0) {
+                    parentNumber = question.getParentQuestionNumber();
+                    result = result +"#q#parent-"+parentNumber;
+                }
+                // qqid/qid/seq/desc/qtypeid/qnum
+                result = result+"#q#" + question.getQuestionnaireQuestionsId()+"#f#"+question.getQuestionId()+"#f#"+question.getQuestionSeqNumber()
+                    +"#f#"+question.getQuestion().getQuestion()+"#f#"+question.getQuestion().getQuestionTypeId()+"#f#"
+                    +question.getQuestionNumber()+"#f#"+question.getCondition()+"#f#"+question.getConditionValue();
+            //}
+        }
+       // if (StringUtils.isNotBlank(result)) {
+       //     result = result.substring(0,result.length()-3);
+        //}
+        return result;
+            
+        
+    }
+    
+    private String assembleUsages(Questionnaire questionnaire) {
+        String result="";
+        for (QuestionnaireUsage questionnaireUsage : questionnaire.getQuestionnaireUsages()) {
+                // quid/modulecode/label
+                result = result + questionnaireUsage.getQuestionnaireUsageId()+"#f#"+questionnaireUsage.getModuleItemCode()
+                    +"#f#"+questionnaireUsage.getQuestionnaireLabel()+"#u#";
+        }
+        if (StringUtils.isNotBlank(result)) {
+            result = result.substring(0,result.length()-3);
+        }
+        return result;
+        
+    }
+
+    
     private ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         QuestionnaireForm questionnaireForm = (QuestionnaireForm) form;

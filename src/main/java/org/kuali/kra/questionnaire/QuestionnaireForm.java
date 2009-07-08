@@ -33,6 +33,7 @@ public class QuestionnaireForm extends KualiForm {
     private Integer newQuestionId;
     private String sqlScripts;
     private String retData;
+    private String editData;
     private Integer questionNumber;
     private Long questionnaireQuestionsId; 
 
@@ -130,6 +131,14 @@ public class QuestionnaireForm extends KualiForm {
 
     public void setFromQuestionnaire(Questionnaire fromQuestionnaire) {
         this.fromQuestionnaire = fromQuestionnaire;
+    }
+
+    public String getEditData() {
+        return editData;
+    }
+
+    public void setEditData(String editData) {
+        this.editData = editData;
     }
 
 }
