@@ -274,7 +274,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolCloseEnrollmentRequestBean());
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT, protocolForm.getProtocolDocument().getProtocol());
+        if (isAuthorized(task)) {
+            getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolCloseEnrollmentRequestBean());
+        }
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -291,7 +294,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolReOpenEnrollmentRequestBean());
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, protocolForm.getProtocolDocument().getProtocol());
+        if (isAuthorized(task)) {
+            getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolReOpenEnrollmentRequestBean());
+        }
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -308,7 +314,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolDataAnalysisRequestBean());
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS, protocolForm.getProtocolDocument().getProtocol());
+        if (isAuthorized(task)) {
+            getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolDataAnalysisRequestBean());
+        }
         return mapping.findForward(MAPPING_BASIC);
     }
     
