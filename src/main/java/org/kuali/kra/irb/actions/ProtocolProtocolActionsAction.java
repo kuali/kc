@@ -367,22 +367,26 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         
-        if (!applyRules(new CreateAmendmentEvent(protocolForm.getProtocolDocument(),
-                                                 Constants.PROTOCOL_CREATE_AMENDMENT_KEY,
-                                                 protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
-            return mapping.findForward(MAPPING_BASIC);
+        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT, protocolForm.getProtocolDocument().getProtocol());
+        if (isAuthorized(task)) {
+            if (!applyRules(new CreateAmendmentEvent(protocolForm.getProtocolDocument(),
+                                                     Constants.PROTOCOL_CREATE_AMENDMENT_KEY,
+                                                     protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
+                return mapping.findForward(MAPPING_BASIC);
+            }
+                
+            String newDocId = getProtocolAmendRenewService().createAmendment(protocolForm.getProtocolDocument(), 
+                                                                             protocolForm.getActionHelper().getProtocolAmendmentBean());
+            // Switch over to the new protocol document and
+            // go to the Protocol tab web page.
+                
+            protocolForm.setDocId(newDocId);
+            loadDocument(protocolForm);
+            
+            protocolForm.getProtocolHelper().prepareView();
+            return mapping.findForward(PROTOCOL_TAB);  
         }
-            
-        String newDocId = getProtocolAmendRenewService().createAmendment(protocolForm.getProtocolDocument(), 
-                                                                         protocolForm.getActionHelper().getProtocolAmendmentBean());
-        // Switch over to the new protocol document and
-        // go to the Protocol tab web page.
-            
-        protocolForm.setDocId(newDocId);
-        loadDocument(protocolForm);
-        
-        protocolForm.getProtocolHelper().prepareView();
-        return mapping.findForward(PROTOCOL_TAB);     
+        return mapping.findForward(MAPPING_BASIC);
     }
     
     /**
