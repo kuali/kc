@@ -240,7 +240,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolCloseRequestBean());
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE, protocolForm.getProtocolDocument().getProtocol());
+        if (isAuthorized(task)) {
+            getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolCloseRequestBean());
+        }
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -257,7 +260,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolSuspendRequestBean());
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_SUSPENSION, protocolForm.getProtocolDocument().getProtocol());
+        if (isAuthorized(task)) {
+            getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolSuspendRequestBean());
+        }
         return mapping.findForward(MAPPING_BASIC);
     }
     
