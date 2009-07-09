@@ -27,13 +27,18 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
+/**
+ * The Protocol Submission Builder is a helper class used to construct
+ * a submission.  A client uses the builder to add items to the submission BO.
+ * Once the submission is complete, the create() method is invoked by the
+ * client to add the submission to the protocol and save it to the database.
+ */
 public class ProtocolSubmissionBuilder {
 
     private static final String NEXT_SUBMISSION_NUMBER_KEY = "submissionNumber";
@@ -42,6 +47,11 @@ public class ProtocolSubmissionBuilder {
     private ProtocolSubmission protocolSubmission;
     private List<FormFile> attachments = new ArrayList<FormFile>();
     
+    /**
+     * Constructs a ProtocolSubmissionBuilder.
+     * @param protocol
+     * @param submissionTypeCode
+     */
     public ProtocolSubmissionBuilder(Protocol protocol, String submissionTypeCode) {
         protocolSubmission = new ProtocolSubmission();
         protocolSubmission.setProtocol(protocol);
@@ -54,6 +64,10 @@ public class ProtocolSubmissionBuilder {
         protocolSubmission.setSubmissionStatusCode("100");  // this will need to be changed in future development
     }
     
+    /**
+     * Saves the submission to the database and adds it to the protocol.
+     * @return the submission
+     */
     public ProtocolSubmission create() {
         getBusinessObjectService().save(protocolSubmission);
         protocolSubmission.getProtocol().getProtocolSubmissions().add(protocolSubmission);
@@ -61,18 +75,35 @@ public class ProtocolSubmissionBuilder {
         return protocolSubmission;
     }
     
+    /**
+     * Set the submission type qualifier code.
+     * @param submissionTypeQualifierCode
+     */
     public void setSubmissionTypeQualifierCode(String submissionTypeQualifierCode) {
         protocolSubmission.setSubmissionTypeQualifierCode(submissionTypeQualifierCode);
     }
     
+    /**
+     * Set the protocol review type code.
+     * @param protocolReviewTypeCode
+     */
     public void setProtocolReviewTypeCode(String protocolReviewTypeCode) {
         protocolSubmission.setProtocolReviewTypeCode(protocolReviewTypeCode);
     }
     
+    /**
+     * Set the comments for the submission.
+     * @param comments
+     */
     public void setComments(String comments) {
         protocolSubmission.setComments(comments);
     }
     
+    /**
+     * Set the committee that the submission will use.
+     * @param committeeId
+     * @return
+     */
     public boolean setCommittee(String committeeId) {
         Committee committee = getCommitteeService().getCommitteeById(committeeId);
         if (committee != null) {
@@ -84,6 +115,12 @@ public class ProtocolSubmissionBuilder {
         return false;
     }
     
+    /**
+     * Set the schedule that the committee will use.
+     * @param committeeId
+     * @param scheduleId
+     * @return
+     */
     public boolean setSchedule(String committeeId, String scheduleId) {
         if (setCommittee(committeeId)) {
             CommitteeSchedule schedule = getCommitteeService().getCommitteeSchedule(protocolSubmission.getCommittee(), scheduleId);
@@ -97,10 +134,23 @@ public class ProtocolSubmissionBuilder {
         return false;
     }
     
+    /**
+     * Add a reviewer to the submission.
+     * @param personId
+     * @param reviewerTypeCode
+     * @param nonEmployeeFlag
+     */
     public void addReviewer(String personId, String reviewerTypeCode, boolean nonEmployeeFlag) {
         protocolSubmission.getProtocolReviewers().add(createProtocolReviewer(personId, reviewerTypeCode, nonEmployeeFlag));
     }
     
+    /**
+     * Create a protocol reviewer.
+     * @param personId
+     * @param reviewerTypeCode
+     * @param nonEmployeeFlag
+     * @return
+     */
     private ProtocolReviewer createProtocolReviewer(String personId, String reviewerTypeCode, boolean nonEmployeeFlag) {
         ProtocolReviewer protocolReviewer = new ProtocolReviewer();
         protocolReviewer.setProtocolId(protocolSubmission.getProtocolId());
@@ -114,10 +164,19 @@ public class ProtocolSubmissionBuilder {
         return protocolReviewer;
     }
     
+    /**
+     * Add an exempt studies check list item to the submission.
+     * @param exemptStudiesCheckListCode
+     */
     public void addExemptStudiesCheckListItem(String exemptStudiesCheckListCode) {
         protocolSubmission.getExemptStudiesCheckList().add(createProtocolExemptStudiesCheckListItem(exemptStudiesCheckListCode));
     }
     
+    /**
+     * Create an exempt studies check list item.
+     * @param exemptStudiesCheckListCode
+     * @return
+     */
     private ProtocolExemptStudiesCheckListItem createProtocolExemptStudiesCheckListItem(String exemptStudiesCheckListCode) {
         ProtocolExemptStudiesCheckListItem chkLstItem = new ProtocolExemptStudiesCheckListItem();
         chkLstItem.setProtocolId(protocolSubmission.getProtocolId());
@@ -129,10 +188,19 @@ public class ProtocolSubmissionBuilder {
         return chkLstItem;
     }
     
+    /**
+     * Add an expedited review check list item to the submission.
+     * @param expeditedReviewCheckListCode
+     */
     public void addExpeditedReviewCheckListItem(String expeditedReviewCheckListCode) {
         protocolSubmission.getExpeditedReviewCheckList().add(createProtocolExpeditedReviewCheckListItem(expeditedReviewCheckListCode));
     }
     
+    /**
+     * Create an expedited review check list item.
+     * @param expeditedReviewCheckListCode
+     * @return
+     */
     private ProtocolExpeditedReviewCheckListItem createProtocolExpeditedReviewCheckListItem(String expeditedReviewCheckListCode) {
         ProtocolExpeditedReviewCheckListItem chkLstItem = new ProtocolExpeditedReviewCheckListItem();
         chkLstItem.setProtocolId(protocolSubmission.getProtocolId());
@@ -144,18 +212,29 @@ public class ProtocolSubmissionBuilder {
         return chkLstItem;
     }
     
+    /**
+     * Add an attachment to the submission.
+     * @param file
+     */
     public void addAttachment(FormFile file) {
         if (file != null) {
             attachments.add(file);
         }
     }
     
+    /**
+     * Save the attachments to the database.
+     */
     private void saveAttachments() {
         for (FormFile file : attachments) {
             saveAttachment(file);
         }
     }
     
+    /**
+     * Save an attachment file to the database.
+     * @param file
+     */
     private void saveAttachment(FormFile file) {
         try {
             byte[] data = file.getFileData();
@@ -172,6 +251,13 @@ public class ProtocolSubmissionBuilder {
         }
     }
     
+    /**
+     * Create a protocol submission document (attachment).
+     * @param submission
+     * @param fileName
+     * @param document
+     * @return
+     */
     private ProtocolSubmissionDoc createProtocolSubmissionDoc(ProtocolSubmission submission, String fileName, byte[] document) {
         ProtocolSubmissionDoc submissionDoc = new ProtocolSubmissionDoc();
         submissionDoc.setProtocolNumber(submission.getProtocolNumber());
