@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 
- <!-- <!DOCTYPE descriptor-repository PUBLIC "-//Apache Software Foundation//DTD OJB Repository//EN" "../../../../repository.dtd">-->
+<!-- <!DOCTYPE descriptor-repository PUBLIC "-//Apache Software Foundation//DTD OJB Repository//EN" "../../../../repository.dtd">-->
 
 <descriptor-repository version="1.0">
 
@@ -111,7 +111,12 @@
         </collection-descriptor>      
         <collection-descriptor name="protocolAmendRenewals" element-class-ref="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
-        </collection-descriptor> 
+        </collection-descriptor>
+       	
+       	<collection-descriptor name="attachmentProtocolsVersions" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" indirection-table="PROTOCOL_ATTACHMENT_PA_TO_PROT">
+     		<fk-pointing-to-this-class column="PROTOCOL_ID_FK"/>
+     		<fk-pointing-to-element-class column="PA_PROTOCOL_FK"/>
+  		</collection-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.irb.actions.ProtocolStatus" table="PROTOCOL_STATUS">
@@ -580,6 +585,11 @@
 		<reference-descriptor name="status" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus" auto-retrieve="true" auto-update="link" auto-delete="link"> 
 			<foreignkey field-ref="statusCode"/>
 		</reference-descriptor>
+		
+		<collection-descriptor name="sequenceOwners" element-class-ref="org.kuali.kra.irb.Protocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" indirection-table="PROTOCOL_ATTACHMENT_PA_TO_PROT">
+     		<fk-pointing-to-this-class column="PA_PROTOCOL_FK"/>
+     		<fk-pointing-to-element-class column="PROTOCOL_ID_FK"/>
+  		</collection-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" table="PROTOCOL_ATTACHMENT_PERSONNEL">
@@ -613,6 +623,11 @@
 		<reference-descriptor name="person" class-ref="org.kuali.kra.irb.personnel.ProtocolPerson" auto-retrieve="true" auto-update="link" auto-delete="link"> 
 			<foreignkey field-ref="personId"/>
 		</reference-descriptor>
+		
+		<!-- not versioning these yet <collection-descriptor name="sequenceOwners" element-class-ref="org.kuali.kra.irb.Protocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" indirection-table="PROTOCOL_ATTACHMENT_PERS_TO_PROT">
+     		<fk-pointing-to-this-class column="PA_PERSONNEL_FK"/>
+     		<fk-pointing-to-element-class column="PROTOCOL_ID"/>
+  		</collection-descriptor>-->
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentNotification" table="PROTOCOL_ATTACHMENT_NOTIF">
@@ -642,6 +657,11 @@
 		<reference-descriptor name="submission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="true" auto-update="object" auto-delete="true"> 
 			<foreignkey field-ref="submissionId"/>
 		</reference-descriptor>
+		
+		<!-- not versioning these yet <collection-descriptor name="sequenceOwners" element-class-ref="org.kuali.kra.irb.Protocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" indirection-table="PROTOCOL_ATTACHMENT_NT_TO_PROT">
+     		<fk-pointing-to-this-class column="PA_NOTIFICATON_FK"/>
+     		<fk-pointing-to-element-class column="PROTOCOL_ID"/>
+  		</collection-descriptor>-->
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.irb.actions.ProtocolCorrespondenceType" table="PROTO_CORRESP_TYPE">

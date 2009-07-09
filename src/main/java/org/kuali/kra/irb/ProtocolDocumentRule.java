@@ -98,9 +98,9 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
 
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
-        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
-                document, getMaxDictionaryValidationDepth(),
-                VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
+        //getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
+        //       document, getMaxDictionaryValidationDepth(),
+        //       VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
 
         boolean valid = true;

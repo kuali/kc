@@ -31,7 +31,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
@@ -363,5 +363,29 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
             count = map.get(map.lastKey());
 
         return count;
+    }
+    
+    /** {@inheritDoc} */
+    public <T extends ProtocolAttachmentBase> Collection<T> getAttachmentsNotMatchingIds(Class<T> type, Long protocolId, Long... attachmentIds) {
+        if (type == null) {
+            throw new IllegalArgumentException("the type token is null");
+        }
+        
+        if (protocolId == null) {
+            throw new IllegalArgumentException("the protocol id is null");
+        }
+        
+        if (attachmentIds == null) {
+            throw new IllegalArgumentException("the attachment ids is null");
+        }
+        
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("protocolId", protocolId);
+        for (Long id : attachmentIds) {
+            criteria.addNotEqualTo("id", id);
+        }
+        @SuppressWarnings("unchecked")
+        Collection<T> attachments = this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(type, criteria, true));
+        return attachments;
     }
 }

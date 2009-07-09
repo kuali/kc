@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.committee.bo.Committee;
@@ -66,7 +67,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * 
  * This class is Protocol Business Object.
  */
-public class Protocol extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<ProtocolSpecialReview> {
+public class Protocol extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<ProtocolSpecialReview>, SequenceOwner {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -132,6 +133,27 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     
     private List<ProtocolSpecialReview> specialReviews;
     private List<ProtocolAttachmentProtocol> attachmentProtocols;
+    private List<ProtocolAttachmentProtocol> attachmentProtocolsVersions;
+    
+    /**
+     * Gets the attachmentProtocolsVersions attribute. 
+     * @return Returns the attachmentProtocolsVersions.
+     */
+    public List<ProtocolAttachmentProtocol> getAttachmentProtocolsVersions() {
+        if (attachmentProtocolsVersions == null) { 
+            attachmentProtocolsVersions = new ArrayList<ProtocolAttachmentProtocol>();
+        }
+        return attachmentProtocolsVersions;
+    }
+
+    /**
+     * Sets the attachmentProtocolsVersions attribute value.
+     * @param attachmentProtocolsVersions The attachmentProtocolsVersions to set.
+     */
+    public void setAttachmentProtocolsVersions(List<ProtocolAttachmentProtocol> attachmentProtocolsVersions) {
+        this.attachmentProtocolsVersions = attachmentProtocolsVersions;
+    }
+
     private List<ProtocolAttachmentPersonnel> attachmentPersonnels;
     private List<ProtocolAttachmentNotification> attachmentNotifications;
     
@@ -462,7 +484,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         while (getProtocolResearchAreas().size() <= index) {
             getProtocolResearchAreas().add(new ProtocolResearchArea());
         }
-        return (ProtocolResearchArea) getProtocolResearchAreas().get(index);
+        return getProtocolResearchAreas().get(index);
     }
 
     public void setProtocolReferences(List<ProtocolReference> protocolReferences) {
@@ -763,22 +785,26 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     public ProtocolAttachmentProtocol getAttachmentProtocol(int index) {
         return this.attachmentProtocols.get(index);
     }
-
-    /**
-     * Sets the attachment protocols.
-     * @param attachmentProtocols the attachment protocols
-     */
-    public void setAttachmentProtocols(List<ProtocolAttachmentProtocol> attachmentProtocols) {
-        this.attachmentProtocols = attachmentProtocols;
-    }
     
     /**
      * adds an attachment protocol.
      * @param attachmentProtocol the attachment protocol
-     * @throws NullPointerException if attachmentProtocol is null
+     * @throws IllegalArgumentException if attachmentProtocol is null
      */
     public void addAttachmentProtocol(ProtocolAttachmentProtocol attachmentProtocol) {
         ProtocolAttachmentBase.addAttachmentToCollection(attachmentProtocol, this.getAttachmentProtocols());
+        attachmentProtocol.addSequenceOwner(this);
+    }
+    
+    /**
+     * removes an attachment protocol.
+     * @param attachmentProtocol the attachment protocol
+     * @throws IllegalArgumentException if attachmentProtocol is null
+     */
+    public void removeAttachmentProtocol(ProtocolAttachmentProtocol attachmentProtocol) {
+        ProtocolAttachmentBase.removeAttachmentFromCollection(attachmentProtocol, this.getAttachmentProtocols());
+        
+        attachmentProtocol.removeSequenceOwner(this);
     }
 
     /**
@@ -801,24 +827,25 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     public ProtocolAttachmentPersonnel getAttachmentPersonnel(int index) {
         return this.attachmentPersonnels.get(index);
     }
-
-    /**
-     * Sets the attachment personnels.
-     * @param attachmentPersonnels the attachment personnels
-     */
-    public void setAttachmentPersonnels(List<ProtocolAttachmentPersonnel> attachmentPersonnels) {
-        this.attachmentPersonnels = attachmentPersonnels;
-    }
     
     /**
      * add an attachment personnel.
      * @param attachmentPersonnel the attachment personnel
-     * @throws NullPointerException if attachmentPersonnel is null
+     * @throws IllegalArgumentException if attachmentPersonnel is null
      */
     public void addAttachmentPersonnel(ProtocolAttachmentPersonnel attachmentPersonnel) {
         ProtocolAttachmentBase.addAttachmentToCollection(attachmentPersonnel, this.getAttachmentPersonnels());
     }
 
+    /**
+     * remove an attachment personnel.
+     * @param attachmentPersonnel the attachment personnel
+     * @throws IllegalArgumentException if attachmentPersonnel is null
+     */
+    public void removeAttachmentPersonnel(ProtocolAttachmentPersonnel attachmentPersonnel) {
+        ProtocolAttachmentBase.removeAttachmentFromCollection(attachmentPersonnel, this.getAttachmentPersonnels());
+    }
+    
     /**
      * Gets the attachment notifications. Cannot return {@code null}.
      * @return the attachment notifications
@@ -839,22 +866,67 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     public ProtocolAttachmentNotification getAttachmentNotification(int index) {
         return this.attachmentNotifications.get(index);
     }
-
-    /**
-     * Sets the attachment notifications.
-     * @param attachmentNotifications the attachment notifications
-     */
-    public void setAttachmentNotifications(List<ProtocolAttachmentNotification> attachmentNotifications) {
-        this.attachmentNotifications = attachmentNotifications;
-    }
     
     /**
      * add an attachment notification.
      * @param attachmentNotification the attachment notification
-     * @throws NullPointerException if attachmentNotification is null
+     * @throws IllegalArgumentException if attachmentNotification is null
      */
     public void addAttachmentNotification(ProtocolAttachmentNotification attachmentNotification) {
         ProtocolAttachmentBase.addAttachmentToCollection(attachmentNotification, this.getAttachmentNotifications());
+    }
+    
+    /**
+     * removes an attachment notification.
+     * @param attachmentNotification the attachment notification
+     * @throws IllegalArgumentException if attachmentNotification is null
+     */
+    public void removeAttachmentNotification(ProtocolAttachmentNotification attachmentNotification) {
+        ProtocolAttachmentBase.removeAttachmentFromCollection(attachmentNotification, this.getAttachmentNotifications());
+    }
+    
+    /**
+     * Adds a attachment to a Protocol where the type of attachment is used to determine
+     * where to add the attachment.
+     * @param attachment the attachment
+     * @throws IllegalArgumentException if attachment is null or if an unsupported attachment is found
+     */
+    public <T extends ProtocolAttachmentBase> void addAttachmentsByType(T attachment) {
+        if (attachment == null) {
+            throw new IllegalArgumentException("the attachment is null");
+        }
+        
+        if (attachment instanceof ProtocolAttachmentProtocol) {
+            this.addAttachmentProtocol((ProtocolAttachmentProtocol) attachment);
+        } else if (attachment instanceof ProtocolAttachmentPersonnel) {
+            this.addAttachmentPersonnel((ProtocolAttachmentPersonnel) attachment);
+        } else if (attachment instanceof ProtocolAttachmentNotification) {
+            this.addAttachmentNotification((ProtocolAttachmentNotification) attachment);
+        } else {
+            throw new IllegalArgumentException("unsupported type: " + attachment.getClass().getName());
+        }
+    }
+    
+    /**
+     * removes an attachment to a Protocol where the type of attachment is used to determine
+     * where to add the attachment.
+     * @param attachment the attachment
+     * @throws IllegalArgumentException if attachment is null or if an unsupported attachment is found
+     */
+    public <T extends ProtocolAttachmentBase> void removeAttachmentsByType(T attachment) {
+        if (attachment == null) {
+            throw new IllegalArgumentException("the attachment is null");
+        }
+        
+        if (attachment instanceof ProtocolAttachmentProtocol) {
+            this.removeAttachmentProtocol((ProtocolAttachmentProtocol) attachment);
+        } else if (attachment instanceof ProtocolAttachmentPersonnel) {
+            this.removeAttachmentPersonnel((ProtocolAttachmentPersonnel) attachment);
+        } else if (attachment instanceof ProtocolAttachmentNotification) {
+            this.removeAttachmentNotification((ProtocolAttachmentNotification) attachment);
+        } else {
+            throw new IllegalArgumentException("unsupported type: " + attachment.getClass().getName());
+        }
     }
 
     public String getKeyPerson() {
@@ -978,21 +1050,21 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
        return protocolDocument.getDocumentNextValue(key);
    }
 
-    public void setProtocolAttachmentProtocols(List<ProtocolAttachmentProtocol> attachmentProtocols) {
+    public void setAttachmentProtocols(List<ProtocolAttachmentProtocol> attachmentProtocols) {
         this.attachmentProtocols = attachmentProtocols;
         for (ProtocolAttachmentProtocol attachment : attachmentProtocols) {
             attachment.init(this);
         }
     }
 
-    public void setProtocolAttachmentPersonnel(List<ProtocolAttachmentPersonnel> attachmentPersonnels) {
+    public void setAttachmentPersonnels(List<ProtocolAttachmentPersonnel> attachmentPersonnels) {
         this.attachmentPersonnels = attachmentPersonnels;
         for (ProtocolAttachmentPersonnel attachment : attachmentPersonnels) {
             attachment.init(this);
         }
     }
 
-    public void setProtocolAttachmentNotifications(List<ProtocolAttachmentNotification> attachmentNotifications) {
+    public void setAttachmentNotifications(List<ProtocolAttachmentNotification> attachmentNotifications) {
         this.attachmentNotifications = attachmentNotifications;
         for (ProtocolAttachmentNotification attachment : attachmentNotifications) {
             attachment.init(this);
@@ -1014,6 +1086,31 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
 
     public void setProtocolAmendRenewals(List<ProtocolAmendRenewal> protocolAmendRenewals) {
         this.protocolAmendRenewals = protocolAmendRenewals;
+    }
+    
+    /** {@inheritDoc} */
+    public Integer getOwnerSequenceNumber() {
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public void incrementSequenceNumber() {
+        this.sequenceNumber++; 
+    }
+
+    /** {@inheritDoc} */
+    public SequenceOwner getSequenceOwner() {
+        return this;
+    }
+
+    /** {@inheritDoc} */
+    public void setSequenceOwner(SequenceOwner newOwner) {
+       //no-op
+    }
+    
+    /** {@inheritDoc} */
+    public void resetPersistenceState() {
+        this.protocolId = null;
     }
     
     public void merge(Protocol amendment) {
@@ -1087,9 +1184,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     
     @SuppressWarnings("unchecked")
     private void mergeAttachments(Protocol amendment) {
-        setProtocolAttachmentProtocols((List<ProtocolAttachmentProtocol>) deepCopy(amendment.getAttachmentProtocols()));
-        setProtocolAttachmentPersonnel((List<ProtocolAttachmentPersonnel>) deepCopy(amendment.getAttachmentPersonnels()));
-        setProtocolAttachmentNotifications((List<ProtocolAttachmentNotification>) deepCopy(amendment.getAttachmentNotifications()));
+        setAttachmentProtocols((List<ProtocolAttachmentProtocol>) deepCopy(amendment.getAttachmentProtocols()));
+        setAttachmentPersonnels((List<ProtocolAttachmentPersonnel>) deepCopy(amendment.getAttachmentPersonnels()));
+        setAttachmentNotifications((List<ProtocolAttachmentNotification>) deepCopy(amendment.getAttachmentNotifications()));
     }
     
     @SuppressWarnings("unchecked")

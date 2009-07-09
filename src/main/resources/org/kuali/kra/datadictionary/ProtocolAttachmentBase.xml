@@ -118,7 +118,7 @@
 		<property name="shortLabel" value="File Name" />
 		<property name="summary" value="File Name" />
 		<property name="description" value="File Name" />
-		<property name="required" value="true" />
+		<!-- <property name="required" value="true" />-->
 	</bean>
 	
 

@@ -16,7 +16,6 @@
 package org.kuali.kra.irb.actions.copy;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -259,9 +258,9 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         destProtocol.setProtocolFundingSources((List<ProtocolFundingSource>) deepCopy(srcProtocol.getProtocolFundingSources()));
         destProtocol.setProtocolPersons((List<ProtocolPerson>) deepCopy(srcProtocol.getProtocolPersons()));
         destProtocol.setSpecialReviews((List<ProtocolSpecialReview>) deepCopy(srcProtocol.getSpecialReviews()));
-        destProtocol.setProtocolAttachmentProtocols((List<ProtocolAttachmentProtocol>) deepCopy(srcProtocol.getAttachmentProtocols()));
-        destProtocol.setProtocolAttachmentPersonnel((List<ProtocolAttachmentPersonnel>) deepCopy(srcProtocol.getAttachmentPersonnels()));
-        destProtocol.setProtocolAttachmentNotifications((List<ProtocolAttachmentNotification>) deepCopy(srcProtocol.getAttachmentNotifications()));
+        destProtocol.setAttachmentProtocols((List<ProtocolAttachmentProtocol>) deepCopy(srcProtocol.getAttachmentProtocols()));
+        destProtocol.setAttachmentPersonnels((List<ProtocolAttachmentPersonnel>) deepCopy(srcProtocol.getAttachmentPersonnels()));
+        destProtocol.setAttachmentNotifications((List<ProtocolAttachmentNotification>) deepCopy(srcProtocol.getAttachmentNotifications()));
     }
    
     private Object deepCopy(Object obj) {
