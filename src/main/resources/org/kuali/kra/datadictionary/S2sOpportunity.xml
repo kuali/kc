@@ -94,7 +94,7 @@
     <property name="shortLabel" value="Competition Id" />
     <property name="maxLength" value="50" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
