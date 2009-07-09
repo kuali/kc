@@ -68,11 +68,13 @@
 		<field-descriptor name="nsfCode" column="NSF_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="primeSponsorCode" column="PRIME_SPONSOR_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="initialContractAdmin" column="INITIAL_CONTRACT_ADMIN" jdbc-type="VARCHAR" />
-		<field-descriptor name="ipReviewReqTypeCode" column="IP_REVIEW_REQ_TYPE_CODE" jdbc-type="INTEGER" />
+		<!--
+		<field-descriptor name="ipReviewRequirementTypeCode" column="IP_REVIEW_REQ_TYPE_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="reviewSubmissionDate" column="REVIEW_SUBMISSION_DATE" jdbc-type="DATE" />
 		<field-descriptor name="reviewReceiveDate" column="REVIEW_RECEIVE_DATE" jdbc-type="DATE" />
 		<field-descriptor name="reviewResultCode" column="REVIEW_RESULT_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="ipReviewer" column="IP_REVIEWER" jdbc-type="VARCHAR" />
+		-->
 		<field-descriptor name="ipReviewActivityIndicator" column="IP_REVIEW_ACTIVITY_INDICATOR" jdbc-type="VARCHAR" />
 		<field-descriptor name="currentAwardNumber" column="CURRENT_AWARD_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="cfdaNumber" column="CFDA_NUMBER" jdbc-type="VARCHAR" />
@@ -82,40 +84,34 @@
 		<field-descriptor name="awardTypeCode" column="AWARD_TYPE_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<!--
+		<reference-descriptor name="intellectualPropertyReview" class-ref="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="proposalId"/>
+        </reference-descriptor>
+        <!--
 		<collection-descriptor name="proposalScienceCode" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceCode" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		-->
 		<collection-descriptor name="proposalCostSharing" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostSharing" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		<!--
 		<collection-descriptor name="proposalCustomData" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		-->
-		<!--
 		<collection-descriptor name="awardFundingProposals" proxy="true" element-class-ref="org.kuali.kra.bo.AwardFundingProposals" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		-->
 		<collection-descriptor name="proposalSpecialReview" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		<!--
 		<collection-descriptor name="proposalPerCreditSplit" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalPerCreditSplit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		-->
 		<collection-descriptor name="proposalUnitCreditSplit" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnitCreditSplit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		<!--
 		<collection-descriptor name="propUnitAdministrators" proxy="true" element-class-ref="org.kuali.kra.bo.PropUnitAdministrators" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		-->
 		<collection-descriptor name="proposalComments" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalComments" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
@@ -125,28 +121,36 @@
 		<reference-descriptor name="noticeOfOpportunity" class-ref="org.kuali.kra.bo.NoticeOfOpportunity" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="noticeOfOpportunityCode"/>
 		</reference-descriptor>
-		<!--
 		<reference-descriptor name="proposalType" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="proposalTypeCode"/>
 		</reference-descriptor>
-		-->
 		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rolodexId"/>
 		</reference-descriptor>
 		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="sponsorCode"/>
 		</reference-descriptor>
-		<!--
 		<reference-descriptor name="activityType" class-ref="org.kuali.kra.bo.ActivityType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="activityTypeCode"/>
 		</reference-descriptor>
-		-->
-		<!--
 		<reference-descriptor name="awardType" class-ref="org.kuali.kra.bo.AwardType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="awardTypeCode"/>
 		</reference-descriptor>
 		-->
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview" table="PROPOSAL">
+        <field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT" primarykey="true" />
+        <field-descriptor name="ipReviewRequirementTypeCode" column="IP_REVIEW_REQ_TYPE_CODE" jdbc-type="INTEGER" />
+        <field-descriptor name="reviewSubmissionDate" column="REVIEW_SUBMISSION_DATE" jdbc-type="DATE" />
+        <field-descriptor name="reviewReceiveDate" column="REVIEW_RECEIVE_DATE" jdbc-type="DATE" />
+        <field-descriptor name="reviewResultCode" column="REVIEW_RESULT_CODE" jdbc-type="INTEGER" />
+        <field-descriptor name="ipReviewer" column="IP_REVIEWER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
 	
 	<!--
 	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalAdminDetails" table="PROPOSAL_ADMIN_DETAILS">

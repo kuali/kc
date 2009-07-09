@@ -25,6 +25,7 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 import org.kuali.kra.institutionalproposal.personnel.InstitutionalProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
@@ -74,17 +75,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     private String nsfCode; 
     private String primeSponsorCode; 
     private String initialContractAdmin; 
-    private Integer ipReviewReqTypeCode; 
-    private Date reviewSubmissionDate; 
-    private Date reviewReceiveDate; 
-    private Integer reviewResultCode; 
-    private String ipReviewer; 
     private String ipReviewActivityIndicator; 
     private String currentAwardNumber; 
     private String cfdaNumber; 
     private String opportunity; 
     private Integer awardTypeCode; 
-    
     private NoticeOfOpportunity noticeOfOpportunity; 
     private ProposalType proposalType; 
     private Rolodex rolodex; 
@@ -100,6 +95,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     private ProposalUnitCreditSplit proposalUnitCreditSplit; 
     private InstitutionalProposalUnitAdministrator institutionalProposalUnitAdministrator; 
     private InstitutionalProposalComments proposalComments; 
+    private IntellectualPropertyReview intellectualPropertyReview;
     
     public InstitutionalProposal() { 
         super();
@@ -124,8 +120,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
         setIdcRateIndicator("1");
         setSpecialReviewIndicator("1");
         setScienceCodeIndicator("1");
-        setIpReviewActivityIndicator("1");
-        setStatusCode(1);
+        statusCode = 1;
+        ipReviewActivityIndicator = "A";
     }
     
     /**
@@ -150,7 +146,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     protected void initializeCollections() {
         
     }
-    
     
     public Long getProposalId() {
         return proposalId;
@@ -448,46 +443,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
         this.initialContractAdmin = initialContractAdmin;
     }
 
-    public Integer getIpReviewReqTypeCode() {
-        return ipReviewReqTypeCode;
-    }
-
-    public void setIpReviewReqTypeCode(Integer ipReviewReqTypeCode) {
-        this.ipReviewReqTypeCode = ipReviewReqTypeCode;
-    }
-
-    public Date getReviewSubmissionDate() {
-        return reviewSubmissionDate;
-    }
-
-    public void setReviewSubmissionDate(Date reviewSubmissionDate) {
-        this.reviewSubmissionDate = reviewSubmissionDate;
-    }
-
-    public Date getReviewReceiveDate() {
-        return reviewReceiveDate;
-    }
-
-    public void setReviewReceiveDate(Date reviewReceiveDate) {
-        this.reviewReceiveDate = reviewReceiveDate;
-    }
-
-    public Integer getReviewResultCode() {
-        return reviewResultCode;
-    }
-
-    public void setReviewResultCode(Integer reviewResultCode) {
-        this.reviewResultCode = reviewResultCode;
-    }
-
-    public String getIpReviewer() {
-        return ipReviewer;
-    }
-
-    public void setIpReviewer(String ipReviewer) {
-        this.ipReviewer = ipReviewer;
-    }
-
     public String getIpReviewActivityIndicator() {
         return ipReviewActivityIndicator;
     }
@@ -649,6 +604,14 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     public void setProposalComments(InstitutionalProposalComments proposalComments) {
         this.proposalComments = proposalComments;
     }
+    
+    public IntellectualPropertyReview getIntellectualPropertyReview() {
+        return intellectualPropertyReview;
+    }
+
+    public void setIntellectualPropertyReview(IntellectualPropertyReview intellectualPropertyReview) {
+        this.intellectualPropertyReview = intellectualPropertyReview;
+    }
 
     /** {@inheritDoc} */
     @Override 
@@ -691,11 +654,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
         hashMap.put("nsfCode", this.getNsfCode());
         hashMap.put("primeSponsorCode", this.getPrimeSponsorCode());
         hashMap.put("initialContractAdmin", this.getInitialContractAdmin());
-        hashMap.put("ipReviewReqTypeCode", this.getIpReviewReqTypeCode());
-        hashMap.put("reviewSubmissionDate", this.getReviewSubmissionDate());
-        hashMap.put("reviewReceiveDate", this.getReviewReceiveDate());
-        hashMap.put("reviewResultCode", this.getReviewResultCode());
-        hashMap.put("ipReviewer", this.getIpReviewer());
         hashMap.put("ipReviewActivityIndicator", this.getIpReviewActivityIndicator());
         hashMap.put("currentAwardNumber", this.getCurrentAwardNumber());
         hashMap.put("cfdaNumber", this.getCfdaNumber());
