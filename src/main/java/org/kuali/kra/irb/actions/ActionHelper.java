@@ -20,7 +20,6 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -55,9 +54,7 @@ public class ActionHelper implements Serializable {
     private ProtocolForm form;
     
     private boolean canSubmitProtocol = false;
-    private boolean canSelectCommittee = false;
-    private boolean canSelectSchedule = false;
-    private boolean canSelectReviewers = false;
+    private String submissionConstraint;
     
     private boolean canCreateAmendment = false;
     private boolean canCreateRenewal = false;
@@ -131,9 +128,7 @@ public class ActionHelper implements Serializable {
     public void prepareView() {
         protocolSubmitAction.prepareView();
         canSubmitProtocol = hasSubmitProtocolPermission();
-        canSelectCommittee = getParameterValue(Constants.PARAMETER_PROTOCOL_SELECT_COMMITTEE);
-        canSelectSchedule = getParameterValue(Constants.PARAMETER_PROTOCOL_SELECT_SCHEDULE);
-        canSelectReviewers = getParameterValue(Constants.PARAMETER_PROTOCOL_SELECT_REVIEWERS);
+        submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
         
         canCreateAmendment = hasCreateAmendmentPermission();
         canCreateRenewal = hasCreateRenewalPermission();
@@ -156,16 +151,13 @@ public class ActionHelper implements Serializable {
         // System.out.println("Size: " + protocols.size());
     }
 
-    private boolean getParameterValue(String parameterName) {
+    private String getParameterValue(String parameterName) {
         KualiConfigurationService configService = getService(KualiConfigurationService.class);
         Parameter param = configService.getParameterWithoutExceptions(Constants.PARAMETER_MODULE_PROTOCOL, 
                                                                       Constants.PARAMETER_COMPONENT_DOCUMENT, 
                                                                       parameterName);
-        if (param == null) {
-            return false;
-        }
-        String value = param.getParameterValue();        
-        return StringUtils.equalsIgnoreCase(value, "true");
+        
+        return param.getParameterValue();        
     }
 
     private Protocol getProtocol() {
@@ -256,16 +248,8 @@ public class ActionHelper implements Serializable {
          return user.getPersonUserIdentifier();
     }
 
-    public boolean getCanSelectCommittee() {
-        return canSelectCommittee;
-    }
-
-    public boolean getCanSelectSchedule() {
-        return canSelectSchedule;
-    }
-
-    public boolean getCanSelectReviewers() {
-        return canSelectReviewers;
+    public String getSubmissionConstraint() {
+        return submissionConstraint;
     }
 
     public ProtocolWithdrawBean getProtocolWithdrawBean() {
