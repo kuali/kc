@@ -59,7 +59,7 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase
     
     private MembershipRole membershipRole;
     
-    private CommitteeMembership committeeMembership;
+    private SequenceOwner sequenceOwner;
 
     public CommitteeMembershipRole() {
     }
@@ -128,19 +128,6 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase
         this.membershipRole = membershipRole;
     }
     
-    public CommitteeMembership getCommitteeMembership() {
-        return committeeMembership;
-    }
-
-    public void setCommitteeMembership(CommitteeMembership committeeMembership) {
-        this.committeeMembership = committeeMembership;
-        if (committeeMembership != null) {
-            this.sequenceNumber = committeeMembership.getSequenceNumber();
-        } else {
-            this.sequenceNumber = null;
-        }
-    }
-    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -190,11 +177,11 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase
     }
 
     public SequenceOwner getSequenceOwner() {
-        return this.committeeMembership.getSequenceOwner();
+        return this.sequenceOwner;
     }
 
     public void setSequenceOwner(SequenceOwner newOwner) {
-        setCommitteeMembership((CommitteeMembership)newOwner);
+        this.sequenceOwner = newOwner;
     }
 
     public void resetPersistenceState() {

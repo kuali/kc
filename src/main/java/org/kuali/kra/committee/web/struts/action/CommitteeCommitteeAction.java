@@ -33,6 +33,8 @@ import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.service.VersioningService;
+import org.kuali.kra.service.impl.VersioningServiceImpl;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -59,6 +61,8 @@ public class CommitteeCommitteeAction extends CommitteeAction {
             /* don't need the original committeeDocument saved in xml content */
             committee.setCommitteeDocument(null);
             committeeForm.getCommitteeDocument().setCommittee(committee);
+            VersioningService versionService = new VersioningServiceImpl();
+            committeeForm.getCommitteeDocument().setCommittee((Committee) versionService.createNewVersion(committee));
         }
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("displayDocSearchView") && StringUtils.isNotBlank(request.getParameter("viewDocument"))) {
             committeeForm.getLookupHelper().setViewOnly(true);
