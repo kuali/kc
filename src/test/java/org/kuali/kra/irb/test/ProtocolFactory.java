@@ -34,7 +34,6 @@ public class ProtocolFactory {
 
     private static final String DEFAULT_DOCUMENT_DESCRIPTION = "Protocol Document";
     private static final String PROTOCOL_NUMBER = "1";
-    private static final String PROTOCOL_STATUS_STR = "100"; //test of option "Pending/In Progress";
     private static final String PROTOCOL_TYPE_CODE_STR = "1";//test of option "Standard";
     private static final String PROTOCOL_TITLE_STR = "New protocol test";
     private static final String PRINCIPAL_INVESTIGATOR_ID = "000000001";
@@ -96,7 +95,7 @@ public class ProtocolFactory {
      * @param personRole
      * @return
      */
-    public static ProtocolPerson getProtocolPerson(String personId, String personName, String personRole) {
+    private static ProtocolPerson getProtocolPerson(String personId, String personName, String personRole) {
         ProtocolPerson protocolPerson = new ProtocolPerson();
         protocolPerson.setPersonId(personId);
         protocolPerson.setPersonName(personName);
@@ -106,13 +105,5 @@ public class ProtocolFactory {
         protocolPerson.setSequenceNumber(0);
         protocolPerson.refreshReferenceObject(REFERENCE_PERSON_ROLE);
         return protocolPerson;
-    }
-    
-    /**
-     * This method is to get protocol person with role PI
-     * @return
-     */
-    public static ProtocolPerson getPrincipalInvestigator() {
-        return getProtocolPerson(PRINCIPAL_INVESTIGATOR_ID, PRINCIPAL_INVESTIGATOR_NAME, PRINCIPAL_INVESTIGATOR_ROLE);
     }
 }

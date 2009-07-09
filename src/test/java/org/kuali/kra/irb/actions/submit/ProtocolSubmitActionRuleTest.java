@@ -50,7 +50,7 @@ import org.kuali.rice.test.data.UnitTestFile;
             }
         )
     )
-public class ProtocolSubmitActionTest extends ProtocolRuleTestBase {
+public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
 
     private ProtocolSubmitActionRule rule = null;
     private static final String VALID_SUBMISSION_TYPE = "100";
