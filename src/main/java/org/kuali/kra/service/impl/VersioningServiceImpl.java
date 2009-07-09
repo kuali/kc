@@ -26,7 +26,7 @@ import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 
 /**
- * This service implements generic versioning
+ * This service implements generic versioning.
  */
 public class VersioningServiceImpl implements VersioningService {
     private static final String TO = " to ";
@@ -35,36 +35,35 @@ public class VersioningServiceImpl implements VersioningService {
     private static final Log LOGGER = LogFactory.getLog(VersioningServiceImpl.class);
     
     /**
-     * @see org.kuali.kra.service.VersioningService#version(org.kuali.kra.Sequenceable)
+     * {@inheritDoc}
+     * @see org.kuali.kra.service.VersioningService#createNewVersion(SequenceOwner)
      */
-    public SequenceOwner createNewVersion(SequenceOwner oldVersion) throws VersionException {
-        SequenceOwner newVersion = new SequenceUtils().sequence(oldVersion);
+    public <T extends SequenceOwner> T createNewVersion(T oldVersion) throws VersionException {
+        T newVersion = new SequenceUtils().sequence(oldVersion);
         logVersionOperation(oldVersion, newVersion);
 
         return newVersion;
     }
 
     /**
-     * @see org.kuali.kra.service.VersioningService#versionAssociate(org.kuali.kra.SequenceOwner, org.kuali.kra.SeparatelySequenceableAssociate)
+     * {@inheritDoc}
+     * @see org.kuali.kra.service.VersioningService#versionAssociate(SequenceOwner, SeparatelySequenceableAssociate)
      */
-    public SeparatelySequenceableAssociate versionAssociate(SequenceOwner newVersion, 
-                                            SeparatelySequenceableAssociate oldAssociate) 
-                                            throws VersionException {
+    public <T extends SeparatelySequenceableAssociate> T versionAssociate(SequenceOwner newVersion, T oldAssociate) throws VersionException {
         SequenceUtils sequenceUtils = new SequenceUtils();
-        SeparatelySequenceableAssociate newAssociate = sequenceUtils.sequence(oldAssociate);
+        T newAssociate = sequenceUtils.sequence(oldAssociate);
         
         logVersionOperation(newVersion, newVersion, oldAssociate);
         return newAssociate;
     }
 
     /**
+     * {@inheritDoc}
      * @see org.kuali.kra.service.VersioningService#versionAssociates(org.kuali.kra.SequenceOwner, java.util.List)
      */
-    public List<? extends SeparatelySequenceableAssociate> versionAssociates(SequenceOwner newVersion, 
-                                            List<? extends SeparatelySequenceableAssociate> oldAssociates)
-                                            throws VersionException {
+    public <T extends SeparatelySequenceableAssociate> List<T> versionAssociates(SequenceOwner newVersion, List<T> oldAssociates) throws VersionException {
         SequenceUtils sequenceUtils = new SequenceUtils();
-        List<? extends SeparatelySequenceableAssociate> newAssociates = sequenceUtils.sequence(newVersion, oldAssociates);
+        List<T> newAssociates = sequenceUtils.sequence(newVersion, oldAssociates);
         logVersionOperation(newVersion, newVersion, oldAssociates);
         return newAssociates;
     }
@@ -127,7 +126,7 @@ public class VersioningServiceImpl implements VersioningService {
                                                     .append(TO)
                                                     .append(newVersion.getSequenceNumber())
                                                     .append(" for old attachments: ");
-            for(SeparatelySequenceableAssociate associate: associates) {
+            for (SeparatelySequenceableAssociate associate : associates) {
                 sb.append(associate);
                 sb.append("; ");
             }
