@@ -23,6 +23,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,10 +38,8 @@ import org.kuali.kra.Sequenceable;
 import org.kuali.kra.service.VersionException;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-
 /**
- * This class provides Sequence support to the VersioningService
+ * This class provides Sequence support to the VersioningService.
  * 
  * Fan-out complexity exceeds 20 because <b>reflection</b> is used and that 
  * introduces so many exception and meta-data types
@@ -54,73 +53,69 @@ public class SequenceUtils {
      * 
      * This means SequenceAssociates must override equals and hashCode!  
      */
-    private Set<SequenceAssociate> alreadySequencedAssociates;
-
-    @SuppressWarnings("unchecked")
-    public SequenceUtils() {
-        alreadySequencedAssociates = (Set<SequenceAssociate>) Collections.synchronizedSet(new HashSet<SequenceAssociate>());
-    }
+    private final Set<SequenceAssociate> alreadySequencedAssociates = Collections.synchronizedSet(new HashSet<SequenceAssociate>());
 
     /**
-     * This method sequences a SequenceOwner to a new version
-     * 
+     * This method sequences a SequenceOwner to a new version.
+     * @param <T> the type of SequenceOwner to sequence.
      * @param oldVersion
-     * @return
+     * @return The newly versioned owner 
      * @throws VersionException
      */
-    public SequenceOwner sequence(SequenceOwner oldVersion) throws VersionException {
-        SequenceOwner newVersion = null;
+    public <T extends SequenceOwner> T sequence(T oldVersion) throws VersionException {
+        
         try {
-            newVersion = (SequenceOwner) ObjectUtils.deepCopy(oldVersion);
+            @SuppressWarnings("unchecked")
+            T newVersion = (T) ObjectUtils.deepCopy(oldVersion);
             newVersion.incrementSequenceNumber();
             newVersion.resetPersistenceState();
             sequenceAssociations(newVersion);
+            return newVersion;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("An error occured sequencing", e);
             throw new VersionException(e);
         }
-        return newVersion;
     }
 
     /**
-     * This method sequences a SeparatelySequenceableAssociate a new version
-     * 
+     * This method sequences a SeparatelySequenceableAssociate a new version.
+     * @param <T> the type of SeparatelySequenceableAssociate to sequence.
      * @param oldAssociate
-     * @retrun The newly versioned associate 
+     * @return The newly versioned associate 
      * @throws VersionException
      */
-    public SeparatelySequenceableAssociate sequence(SeparatelySequenceableAssociate oldAssociate) throws VersionException {
+    public <T extends SeparatelySequenceableAssociate> T sequence(T oldAssociate) throws VersionException {
         try {
-            SeparatelySequenceableAssociate newAssociate = (SeparatelySequenceableAssociate) ObjectUtils.deepCopy(oldAssociate);
+            @SuppressWarnings("unchecked")
+            T newAssociate = (T) ObjectUtils.deepCopy(oldAssociate);
             newAssociate.resetPersistenceState();
             return newAssociate;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("An error occured sequencing", e);
             throw new VersionException(e);
         }
     }
     
     /**
-     * This method sequences a SequenceOwner and a of SeparatelySequenceableAssociates to a new version
-     * 
-     * @param oldVersion
+     * This method sequences a SequenceOwner and a of SeparatelySequenceableAssociates to a new version.
+     * @param <T> the type of SeparatelySequenceableAssociate to sequence.
+     * @param newOwner
      * @param oldAssociates
-     * @param callback
-     * @retrun a List of new Associates
+     * @return a List of new Associates
      * @throws VersionException
      */
-    public List<? extends SeparatelySequenceableAssociate> sequence(SequenceOwner newOwner, List<? extends SeparatelySequenceableAssociate> oldAssociates) 
-                                                                                        throws VersionException {
+    public <T extends SeparatelySequenceableAssociate> List<T> sequence(SequenceOwner newOwner, List<T> oldAssociates) throws VersionException {
         try {
-            List<SeparatelySequenceableAssociate> newAssociates = new ArrayList<SeparatelySequenceableAssociate>();
+            List<T> newAssociates = new ArrayList<T>();
             for (SeparatelySequenceableAssociate oldAssociate : oldAssociates) {
-                SeparatelySequenceableAssociate newAssociate = (SeparatelySequenceableAssociate) ObjectUtils.deepCopy(oldAssociate);
+                @SuppressWarnings("unchecked")
+                T newAssociate = (T) ObjectUtils.deepCopy(oldAssociate);
                 newAssociate.resetPersistenceState();
                 newAssociates.add(newAssociate);
             }
             return newAssociates;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("An error occured sequencing", e);
             throw new VersionException(e);
         }
     }
@@ -164,7 +159,7 @@ public class SequenceUtils {
                         SequenceOwner owner = (parent instanceof SequenceOwner ? (SequenceOwner) parent : parent.getSequenceOwner());
                         associate.setSequenceOwner(owner);
                         associate.resetPersistenceState();
-                        if(!isAssociateAlsoASequenceOwner(associate)) {
+                        if (!isAssociateAlsoASequenceOwner(associate)) {
                             sequenceAssociations(associate);
                         }
                     }
@@ -186,7 +181,7 @@ public class SequenceUtils {
     }
 
     /**
-     * Recursively sequences collection(s) of SequenceAssociates represented in the Fields array
+     * Recursively sequences collection(s) of SequenceAssociates represented in the Fields array.
      * 
      * @param newVersion
      * @param parent
@@ -205,7 +200,7 @@ public class SequenceUtils {
                         for (SequenceAssociate associate : getSequenceAssociateCollection(parent, getter)) {
                             associate.setSequenceOwner(owner);
                             associate.resetPersistenceState();
-                            if(!isAssociateAlsoASequenceOwner(associate)) {
+                            if (!isAssociateAlsoASequenceOwner(associate)) {
                                 sequenceAssociations(associate);
                             }
                         }

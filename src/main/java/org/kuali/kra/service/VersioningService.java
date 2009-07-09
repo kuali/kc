@@ -54,33 +54,32 @@ public interface VersioningService {
     /**
      * Cause old version of SequenceOwner object to be versioned to new version
      * Attachment BOs are also copied, but their identifiers are left as is
-     * while their sequence owners are updated
-     * 
+     * while their sequence owners are updated.
+     * @param <T> the type of SequenceOwner to version.
      * @param oldVersion
      * @return The newly sequenced version of the SequenceOwner
+     * @throws VersionException
      */
-    SequenceOwner createNewVersion(SequenceOwner oldVersion) throws VersionException;
+    <T extends SequenceOwner> T createNewVersion(T oldVersion) throws VersionException;
 
     /**
-     * Cause new version of specified separately sequenced associate is copied
-     * 
+     * Cause new version of specified separately sequenced associate is copied.
+     * @param <T> the type of SeparatelySequenceableAssociate to version.
      * @param newVersion
      * @param oldAssociate
      * @return The newly versioned associate
      * @throws VersionException
      */
-    SeparatelySequenceableAssociate versionAssociate(SequenceOwner newVersion, SeparatelySequenceableAssociate oldAssociate) throws VersionException;
+    <T extends SeparatelySequenceableAssociate> T versionAssociate(SequenceOwner newVersion, T oldAssociate) throws VersionException;
     
     /**
      * Cause new version of SequenceOwner object to be associated to new versions of
-     * the specified SeparatelySequenceableAssociates
-     * 
+     * the specified SeparatelySequenceableAssociates.
+     * @param <T> the type of SeparatelySequenceableAssociate to version.
      * @param newVersion
      * @param oldAssociates
      * @return The list of newly versioned associates
      * @throws VersionException
      */
-    List<? extends SeparatelySequenceableAssociate> versionAssociates(SequenceOwner newVersion, 
-                                    List<? extends SeparatelySequenceableAssociate> oldAssociates) 
-                                    throws VersionException;
+    <T extends SeparatelySequenceableAssociate> List<T> versionAssociates(SequenceOwner newVersion, List<T> oldAssociates) throws VersionException;
 }
