@@ -34,7 +34,8 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
  * Represents a single committee within an institution.
  */
 @SuppressWarnings("serial")
-public class Committee extends KraPersistableBusinessObjectBase implements SequenceOwner {
+public class Committee extends KraPersistableBusinessObjectBase implements Comparable<Committee>,
+                                                                           SequenceOwner {
 
     @Id
     @Column(name = "ID")
@@ -365,4 +366,11 @@ public class Committee extends KraPersistableBusinessObjectBase implements Seque
         setId(null);
     }
 
+    public int compareTo(Committee committee) {
+        if (StringUtils.equals(this.getCommitteeId(), committee.getCommitteeId())) {
+            return this.getSequenceNumber().compareTo(committee.getSequenceNumber());
+        } else {
+            return this.getCommitteeId().compareTo(committee.getCommitteeId());
+        }
+    }
 }

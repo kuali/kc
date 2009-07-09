@@ -95,7 +95,7 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
     private Person person;
     private ProtocolPersonRolodex rolodex;
 
-    private Committee committee;
+    private SequenceOwner sequenceOwner;
 
     private boolean delete;
 
@@ -280,14 +280,6 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
         this.rolodex = rolodex;
     }
 
-    public Committee getCommittee() {
-        return committee;
-    }
-
-    public void setCommittee(Committee committee) {
-        this.committee = committee;
-    }
-
     public boolean isDelete() {
         return delete;
     }
@@ -385,11 +377,11 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
     }
 
     public SequenceOwner getSequenceOwner() {
-        return this.committee.getSequenceOwner();
+        return this.sequenceOwner;
     }
 
     public void setSequenceOwner(SequenceOwner newOwner) {
-        setCommittee((Committee) newOwner);
+        this.sequenceOwner = newOwner;
     }
 
     public void resetPersistenceState() {

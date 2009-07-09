@@ -16,9 +16,12 @@
 package org.kuali.kra.committee.rules;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
@@ -28,7 +31,6 @@ import org.kuali.kra.committee.rule.AddCommitteeMembershipRoleRule;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipRoleEvent;
-import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -36,7 +38,13 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -56,6 +64,8 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
     private static final String PROPERTY_NAME_ROLE_START_DATE = "document.committeeList[0].committeeMemberships[%1$s].membershipRoles[%2$s";
     private static final String PROPERTY_NAME_ROLE_END_DATE = "document.committeeList[0].committeeMemberships[%1$s].membershipRoles[%2$s";
     private static final String PROPERTY_NAME_RESEARCH_AREA_CODE = "membershipExpertiseHelper.newCommitteeMembershipExpertise[%1$s].researchAreaCode";
+    private static final Log LOG = LogFactory.getLog(CommitteeDocumentRule.class);
+
 
     private static final boolean VALIDATION_REQUIRED = true;
     
@@ -111,35 +121,83 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
      * @param document Committee Document
      * @return true if valid; otherwise false
      */
-    private boolean validateUniqueCommitteeId(CommitteeDocument document) {
-        
+  private boolean validateUniqueCommitteeId(CommitteeDocument document) {
+  
+        Committee committee = document.getCommittee();
         boolean valid = true;
         
-        CommitteeService committeeService = KraServiceLocator.getService(CommitteeService.class);
-        Committee committee = committeeService.getCommitteeById(document.getCommittee().getCommitteeId());
-        
-        // The committee is null if we are creating a committee with a new committee ID or
-        // we are changing the committee ID.
-        
-        if (committee != null) {
-            
-            // There is no conflict if we are only modifying the same committee.
-            
-            if (!committee.getId().equals(document.getCommittee().getId())) {
-                
-                // We can have a conflict if we find a different committee in the database
-                // and it has the same ID as the committee we are trying to save.
-                
-                if (StringUtils.equals(committee.getCommitteeId(), document.getCommittee().getCommitteeId())) {
-                    valid = false;
-                    reportError(Constants.COMMITTEE_PROPERTY_KEY + "List[0].committeeId", 
-                                KeyConstants.ERROR_COMMITTEE_DUPLICATE_ID);
+        try {
+            for (CommitteeDocument workflowCommitteeDocument : getCommitteesDocumentsFromWorkflow()) {
+
+                Committee workflowCommittee = workflowCommitteeDocument.getCommittee();
+
+                // There is no conflict if we are only modifying the same committee.
+
+                if (!StringUtils.equals(workflowCommitteeDocument.getDocumentNumber(), document.getDocumentNumber())) {
+
+                    // We have a conflict if we find a different committee in the database
+                    // and it has the same ID as the committee we are trying to save
+                    // while it's not a older version (lower sequence number) of this committee.
+
+                    if (StringUtils.equals(workflowCommittee.getCommitteeId(), committee.getCommitteeId()) 
+                          && (workflowCommittee.getSequenceNumber() >= committee.getSequenceNumber())) {
+                        valid = false;
+                        reportError(Constants.COMMITTEE_PROPERTY_KEY + "List[0].committeeId", 
+                                    KeyConstants.ERROR_COMMITTEE_DUPLICATE_ID);
+                    }
                 }
             }
         }
+        catch (WorkflowException e) {
+            LOG.info(e.getMessage());
+        }
+        
         return valid;
     }
     
+    private List<CommitteeDocument> getCommitteesDocumentsFromWorkflow() throws WorkflowException {
+        List<CommitteeDocument> documents = (List<CommitteeDocument>) KraServiceLocator.getService(BusinessObjectService.class)
+                .findAll(CommitteeDocument.class);
+        List<CommitteeDocument> result = new ArrayList<CommitteeDocument>();
+        for (CommitteeDocument commDoc : documents) {
+
+            // Need this step to retrieve workflow document
+            CommitteeDocument workflowCommitteeDoc = (CommitteeDocument) KraServiceLocator.getService(DocumentService.class)
+                    .getByDocumentHeaderId(commDoc.getDocumentNumber());
+            
+            // Get XML of workflow document
+            String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(
+                    workflowCommitteeDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId()).getDocumentContent();
+
+            // Create committee from XML and add to the document
+            workflowCommitteeDoc.getCommitteeList().add(populateCommitteeFromXmlDocumentContents(content));
+            result.add(workflowCommitteeDoc);
+        }
+        return result;
+    }
+    
+    /*
+     * Create a Committee object and populate it from the xml.
+     */
+    private Committee populateCommitteeFromXmlDocumentContents(String xmlDocumentContents) {
+        Committee committee = null;
+        if (!StringUtils.isEmpty(xmlDocumentContents)) {
+                committee = (Committee) getBusinessObjectFromXML(xmlDocumentContents, Committee.class.getName());
+        }
+        return committee;
+    }
+
+    /**
+     * Retrieves substring of document contents from maintainable tag name. Then use xml service to translate xml into a business
+     * object.
+     */
+    private PersistableBusinessObject getBusinessObjectFromXML(String xmlDocumentContents, String objectTagName) {
+        String objXml = StringUtils.substringBetween(xmlDocumentContents, "<" + objectTagName + ">", "</" + objectTagName + ">");
+        objXml = "<" + objectTagName + ">" + objXml + "</" + objectTagName + ">";
+        PersistableBusinessObject businessObject = (PersistableBusinessObject) KNSServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
+        return businessObject;
+    }
+
     /**
      * Verify that the unit number if is valid.  We can ignore a blank
      * home unit number since it is a required field and that business logic
