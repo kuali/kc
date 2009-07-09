@@ -166,6 +166,7 @@ public class ProtocolSubmissionDoc extends KraPersistableBusinessObjectBase {
         hashMap.put("submissionDocId", getSubmissionDocId());
         hashMap.put("protocolNumber", getProtocolNumber());
         hashMap.put("sequenceNumber", getSequenceNumber());
+        hashMap.put("submissionNumber", getSubmissionNumber());
         hashMap.put("protocolId", getProtocolId());
         hashMap.put("submissionIdFk", getSubmissionIdFk());
         hashMap.put("documentId", getDocumentId());
