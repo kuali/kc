@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -69,10 +70,10 @@ public class CommitteeServiceImpl implements CommitteeService {
             Collection<Committee> committees = businessObjectService.findMatching(Committee.class, fieldValues);
             if (committees.size() > 0) {
                 /*
-                 * There is a database unique constraint that prevents more than committee from having the same committee ID.
-                 * Therefore, the returned collection will always have zero or one entry.
+                 * Return the most recent approved committee (i.e. the committee version with the highest 
+                 * sequence number that is approved/in the database).
                  */
-                committee = committees.iterator().next();
+                committee = (Committee) Collections.max(committees);
             }
         }
         return committee;

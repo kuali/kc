@@ -21,11 +21,7 @@ import java.util.List;
 
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
-import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 
@@ -129,16 +125,5 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
     
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
-    }
-
-    /*
-     * Save a new document version whenever the document becomes final.
-     */
-    @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) throws Exception {
-        super.doRouteStatusChange(statusChangeEvent);
-        if (statusChangeEvent.getNewRouteStatus().equals("F") && !statusChangeEvent.getOldRouteStatus().equals("F")) {
-            // TODO: cniesen - create new version
-        }
     }
 }
