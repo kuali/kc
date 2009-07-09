@@ -67,7 +67,13 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
                                         + questionnaireId + " and QUESTION_ID = " + params[4] + " and  QUESTION_NUMBER = "
                                         + params[5];
 
-                            } else if (sql.startsWith("update QMove")) {
+                            } else if (sql.startsWith("update QPaste")) {
+                                String[] params = sql.split(";");
+                                sql = "update questionnaire_questions set PARENT_QUESTION_NUMBER = "+params[1] +",QUESTION_SEQ_NUMBER = " + params[2]
+                                        + " where QUESTIONNAIRE_ID = " + questionnaireId + " and QUESTION_ID = " + params[3]
+                                        + " and  QUESTION_NUMBER = " + params[4];
+
+                            }else if (sql.startsWith("update QMove")) {
                                 String[] params = sql.split(";");
                                 sql = "update questionnaire_questions set QUESTION_SEQ_NUMBER = " + params[1]
                                         + " where QUESTIONNAIRE_ID = " + questionnaireId + " and QUESTION_ID = " + params[2]
