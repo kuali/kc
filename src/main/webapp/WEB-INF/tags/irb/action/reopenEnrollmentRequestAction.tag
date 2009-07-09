@@ -23,7 +23,7 @@
                                     
 <kra:permission value="${KualiForm.actionHelper.canRequestReOpenEnrollment}">
 
-<kul:innerTab tabTitle="Request to Re-open Enrollment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolReOpenEnrollmentRequestBean*">
+<kul:innerTab tabTitle="Request to Re-open Enrollment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolReOpenEnrollmentRequest*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
