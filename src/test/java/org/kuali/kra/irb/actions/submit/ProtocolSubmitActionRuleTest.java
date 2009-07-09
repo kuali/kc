@@ -23,12 +23,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
@@ -57,6 +61,10 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
     private static final String VALID_REVIEW_TYPE = "1";
     private static final String INVALID_SUBMISSION_TYPE = "ahfgdfsgr#%$#$%#$%";
     private static final String INVALID_REVIEW_TYPE = INVALID_SUBMISSION_TYPE;
+    private static final String COMMITTEE_ID = "1";
+    private static final String SCHEDULE_ID = "1";
+    private static final String MANDATORY = "M";
+    private static final String OPTIONAL = "O";
 
     @Before
     public void setUp() throws Exception {
@@ -298,5 +306,86 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         assertFalse(rule.processSubmitAction(document, submitAction));
         assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[0].reviewerTypeCode", 
                     KeyConstants.ERROR_PROTOCOL_REVIEWER_TYPE_INVALID);
+    }
+    
+    /**
+     * If the mandatory flag has been set, we should get no
+     * error if all required fields have been set.
+     * @throws WorkflowException
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testMandatoryOK() throws WorkflowException {
+        setParameter(MANDATORY);
+        
+        ProtocolDocument document = getNewProtocolDocument();
+        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
+        submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
+        submitAction.setCommitteeId(COMMITTEE_ID);
+        submitAction.setScheduleId(SCHEDULE_ID);
+        
+        assertTrue(rule.processSubmitAction(document, submitAction));
+        assertEquals(0, GlobalVariables.getErrorMap().size());
+        
+        setParameter(OPTIONAL);
+    }
+    
+    /**
+     * If the mandatory flag has been set, we should get an error message
+     * if the committee id has not been set.
+     * @throws WorkflowException
+     */
+    @Test
+    public void testMandatoryCommittee() throws WorkflowException {
+        setParameter(MANDATORY);
+        
+        ProtocolDocument document = getNewProtocolDocument();
+        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
+        submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
+        submitAction.setScheduleId(SCHEDULE_ID);
+        
+        assertFalse(rule.processSubmitAction(document, submitAction));
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".committeeId", 
+                    KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
+        
+        setParameter(OPTIONAL);
+    }
+    
+    /**
+     * If the mandatory flag has been set, we should get an error message
+     * if the schedule id has not been set.
+     * @throws WorkflowException
+     */
+    @Test
+    public void testMandatorySchedule() throws WorkflowException {
+        setParameter(MANDATORY);
+        
+        ProtocolDocument document = getNewProtocolDocument();
+        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
+        submitAction.setProtocolReviewTypeCode(VALID_REVIEW_TYPE);
+        submitAction.setCommitteeId(COMMITTEE_ID);
+        
+        assertFalse(rule.processSubmitAction(document, submitAction));
+        assertError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".scheduleId", 
+                    KeyConstants.ERROR_PROTOCOL_SCHEDULE_NOT_SELECTED);
+        
+        setParameter(OPTIONAL);
+    }
+    
+    /*
+     * Set the IRB parameter for submission in order to make the committee/schedule
+     * either mandatory or optional.
+     */
+    private void setParameter(String value) {
+        KualiConfigurationService configService = getService(KualiConfigurationService.class);
+        Parameter param = configService.getParameterWithoutExceptions(Constants.PARAMETER_MODULE_PROTOCOL, 
+                                                                      Constants.PARAMETER_COMPONENT_DOCUMENT, 
+                                                                      Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
+        param.setParameterValue(value);
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        businessObjectService.save(param);
     }
 }

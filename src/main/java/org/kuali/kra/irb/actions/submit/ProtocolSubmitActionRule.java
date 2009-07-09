@@ -62,7 +62,7 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
      */
     private boolean validateCommittee(ProtocolSubmitAction submitAction) {
         boolean valid = true;
-        if (StringUtils.isBlank(submitAction.getCommitteeId())) {
+        if (StringUtils.isBlank(submitAction.getNewCommitteeId())) {
             valid = false;
             GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".committeeId", 
                     KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
@@ -75,7 +75,7 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
      */
     private boolean validateSchedule(ProtocolSubmitAction submitAction) {
         boolean valid = true;
-        if (StringUtils.isBlank(submitAction.getScheduleId())) {
+        if (StringUtils.isBlank(submitAction.getNewScheduleId())) {
             valid = false;
             GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".scheduleId", 
                     KeyConstants.ERROR_PROTOCOL_SCHEDULE_NOT_SELECTED);
