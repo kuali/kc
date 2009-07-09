@@ -13,6 +13,7 @@
 		<form-bean name="ProposalDevelopmentForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm" />
 		<form-bean name="BudgetForm" type="org.kuali.kra.budget.web.struts.form.BudgetForm" />
 		<form-bean name="AwardForm" type="org.kuali.kra.award.AwardForm" />
+		<form-bean name="TimeAndMoneyForm" type="org.kuali.kra.timeandmoney.TimeAndMoneyForm" />
 		<form-bean name="DocHandlerForm" type="org.kuali.rice.kew.routing.web.DocHandlerForm" />
 		<form-bean name="ChangePasswordForm" type="org.kuali.kra.web.struts.form.ChangePasswordForm" />
 		<form-bean name="UnitHierarchyForm" type="org.kuali.kra.web.struts.form.UnitHierarchyForm" />
@@ -189,7 +190,7 @@
           <forward name="home" path="/WEB-INF/jsp/award/AwardHome.jsp" />
           <forward name="contacts" path="/WEB-INF/jsp/award/AwardContacts.jsp" />
           <forward name="commitments" path="/WEB-INF/jsp/award/AwardCommitments.jsp" />
-          <forward name="timeAndMoney" path="/WEB-INF/jsp/award/AwardTimeAndMoney.jsp" />
+          <forward name="timeAndMoney" path="/WEB-INF/jsp/timeandmoney/TimeAndMoney.jsp" />
           <forward name="paymentReportsAndTerms" path="/WEB-INF/jsp/award/AwardPaymentReportsAndTerms.jsp" />
           <forward name="specialReview" path="/WEB-INF/jsp/award/AwardSpecialReview.jsp" />
           <forward name="customData" path="/WEB-INF/jsp/award/AwardCustomData.jsp" />
@@ -201,6 +202,12 @@
           <forward name="notesAndAttachments" path="/WEB-INF/jsp/award/AwardNotesAndAttachments.jsp" />
           <forward name="awardActions" path="/WEB-INF/jsp/award/AwardActions.jsp" />                    
       </action>
+      
+      <action path="/timeAndMoney*" name="TimeAndMoneyForm" input="/WEB-INF/jsp/timeandmoney/TimeAndMoney{1}.jsp" type="org.kuali.kra.timeandmoney.web.struts.action.TimeAndMoney{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/timeandmoney/TimeAndMoney{1}.jsp" />
+      </action>
+      
+      <!-- Time And Money -->
       
        <!--  Institutional Proposal -->      
       <action path="/institutionalProposal*" name="InstitutionalProposalForm" input="/WEB-INF/jsp/institutionalproposal/InstitutionalProposal{1}.jsp" type="org.kuali.kra.institutionalproposal.web.struts.action.InstitutionalProposal{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
