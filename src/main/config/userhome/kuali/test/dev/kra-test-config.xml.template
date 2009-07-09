@@ -160,5 +160,26 @@
 	<param name="kim.cache.person.max.size" override="false">3000</param>
 	<param name="kim.cache.person.max.age.seconds" override="false">3600</param>
 
+	<!-- Java mail properties -->
+    <param name="mail.from">mail.from@kuali.org</param>
+    <param name="mail.transport.protocol">smtp</param>
+    <param name="mail.smtp.host">host.server.address</param>
+    <param name="mail.smtp.port">host.server.port</param>
+    <param name="mail.smtp.user">userId</param>
+    <param name="mail.user.credentials">password</param>
+    <param name="mail.smtp.auth">false</param>
+    <!--set it to '0' to disable s2s mail service-->
+    <param name="edu.coeus.mail.enabled">1</param>
+    <!-- possible options are, T for Test and P for Production-->
+    <param name="edu.coeus.mail.mode">T</param>
+    <param name="edu.coeus.mail.testReceiverId">kc.grants.gov@kuali.org</param>
+    
+    <param name="s2s.keystore.location">path to keystore</param>
+    <param name="s2s.keystore.password">keystore password</param>
+    <param name="s2s.truststore.location">path to truststore</param>
+    <param name="s2s.truststore.password">truststore password</param>
+    <param name="grants.gov.s2s.host">grants.gov host</param>
+    <param name="grants.gov.s2s.port">grants.gov port</param>
+	
 </config>
 

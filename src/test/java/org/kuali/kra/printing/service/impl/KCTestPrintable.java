@@ -25,6 +25,7 @@ import java.util.LinkedHashMap;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.Printable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -58,6 +59,11 @@ public class KCTestPrintable extends PersistableBusinessObjectBase implements Pr
         
         return ret;
         
+    }
+
+    public ResearchDocumentBase getDocument() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 

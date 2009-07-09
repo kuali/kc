@@ -48,10 +48,9 @@ public class TestSearchOpportunity extends Assert {
     
     @Test
     public void testSearchOpportunityForOpportunityId(){
-        LOG.info("Searching for opportunity id APP-S2S-TEST-RR");
         List<S2sOpportunity> opportunityList=null;
         try {
-            opportunityList = s2SService.searchOpportunity("00.000", null, null);
+            opportunityList = s2SService.searchOpportunity("00.000", "APPLE-INDV-1", null);
         }
         catch (S2SException e) {
             LOG.error(e.getMessage(), e);
@@ -62,10 +61,9 @@ public class TestSearchOpportunity extends Assert {
     
     @Test
     public void testSearchOpportunityForCfdaNumberAndOpportunityId(){
-        LOG.info("Searching for cfda number 00.000 and opportunity id APP-S2S-TEST-RR");
         List<S2sOpportunity> opportunityList=null;
         try {
-            opportunityList = s2SService.searchOpportunity("00.000", S2STestUtils.TEST_OPPORTUNITY_ID, null);
+            opportunityList = s2SService.searchOpportunity("00.000", "APPLE-INDV-1", null);
         }
         catch (S2SException e) {
             LOG.error(e.getMessage(), e);

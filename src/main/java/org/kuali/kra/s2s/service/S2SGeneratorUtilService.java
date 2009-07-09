@@ -18,34 +18,72 @@ package org.kuali.kra.s2s.service;
 import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 import gov.grants.apply.system.universalCodesV20.StateCodeDataType;
 
-import java.io.IOException;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.Map;
 
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
-/*
- * TODO: More javaDoc comments needed
- * TODO: I'm not sure I undertstand the XXX.Enum return types (I don't have this source to see what's going on in there.)
- * TODO: public String getS2SSoapHost() throws IOException; : Should exception should be more generic?
+
+/**
+ * 
+ * This class is for defining reusable methods for the stream generators
  */
 public interface S2SGeneratorUtilService {
-
+    /**
+     * Returns submission type for a proposal document.
+     * @param pdDoc
+     * @return
+     */
     public Map<String, String> getSubmissionType(ProposalDevelopmentDocument pdDoc);
-    
+    /**
+     * 
+     * Fetch Rolodex record for the organization attached to the Proposal.
+     * @param pdDoc
+     * @return
+     */
     public DepartmentalPerson getDepartmentalPerson(ProposalDevelopmentDocument pdDoc);
-    
+    /**
+     * 
+     * Returns questions for End of state review
+     * @param pdDoc
+     * @return
+     */
     public Map<String, String> getEOStateReview(ProposalDevelopmentDocument pdDoc);
-    
+    /**
+     * 
+     * Returns federal id associated with the proposal
+     * @param proposalDevelopmentDocument
+     * @return
+     */
     public String getFederalId(ProposalDevelopmentDocument proposalDevelopmentDocument);
-    
+    /**
+     * 
+     * This method fetches system constant parameters
+     * @param parameter
+     * @return
+     */
     public String getParameterValue(String parameter);
-    
+    /**
+     * 
+     * Create country code data type
+     * @param countryCode
+     * @return
+     */
     public CountryCodeDataType.Enum getCountryCodeDataType(String countryCode);
-    
+    /**
+     * 
+     * Create State code data type
+     * @param stateName
+     * @return
+     */
     public StateCodeDataType.Enum getStateCodeDataType(String stateName);
-    
+    /**
+     * 
+     * Convert the date string with YYYY-MM-DD format to calendar object
+     * @param date String
+     * @return
+     */
     public Calendar convertDateStringToCalendar(String dateStr);
     
     /**
@@ -65,5 +103,4 @@ public interface S2SGeneratorUtilService {
      */
     public Calendar convertDateToCalendar(Date date);
     
-    public String getS2SSoapHost() throws IOException;
 }
