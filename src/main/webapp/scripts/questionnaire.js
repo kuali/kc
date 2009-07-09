@@ -95,7 +95,13 @@
                                                         
   div62.appendTo(question);
                          
-                                                                             
+      // set up qdesc & qtypeid                                                   
+      $("#qdesc"+i).attr("value",description);
+      $("#qtypeid"+i).attr("value",qtypeid);
+ 
+      //alert("qtypeid "+$("#qtypeid"+i).attr("value")+"-"+$("#qdesc"+i).attr("value"));
+                          
+                          
  //alert (question.text())
                                                                                 
   return question;
@@ -165,6 +171,7 @@
       image.appendTo(thtmp);                  
       image = $('<a href="#"><img src="/kra-dev/static/images/tinybutton-copynode.gif" width="79" height="15" border="0" alt="Copy Node" title="Copy this node and its child.)"></a>&nbsp').attr("id","copy"+i).click(function() {
                       alert("Copy node");
+                      copyNode = qnaireid;
                     }); 
       image.appendTo(thtmp);                  
       image = $('<a href="#"><img src="/kra-dev/static/images/tinybutton-pastenode.gif" width="79" height="15" border="0" alt="Paste Node" title="Paste your previously cut node structure under this node"></a>').attr("id","paste"+i).click(function() {
@@ -186,21 +193,36 @@
                          // sqlScripts = sqlScripts +"#;#"+getInsertClause(getResearchAreaCode(removedNode.children('a:eq(0)').text()), getResearchAreaCode(name), getResearchAreaDescription(removedNode.children('a:eq(0)').text()));
 
                       //var idx = $(qnaireid).attr("id").substring(8);
-                      var idx = $(removedNode).attr("id").substring(8);
-                      var liId="li#"+qnaireid;
-                      var seqnum = Number($(liId).siblings().size())+1;
-                      var qid = $("#qid"+idx).attr("value");
-                      var qnum = $("#qnum"+idx).attr("value");
-                      var parentNum = $("#qnum"+$(liId).attr("id").substring(8)).attr("value");
+                         var idx = $(removedNode).attr("id").substring(8);
+                         var liId="li#"+qnaireid;
+                         var seqnum = Number($(liId).siblings().size())+1;
+                         var qid = $("#qid"+idx).attr("value");
+                         var qnum = $("#qnum"+idx).attr("value");
+                         var parentNum = $("#qnum"+$(liId).attr("id").substring(8)).attr("value");
                       //alert(idx+"-"+seqnum);
                       // parent_qnum/seq/qid/qnum 
                       //sqlScripts = sqlScripts + "#;#" + "update QPaste;"+$("#qnum"+$(liId).attr("id").substring(8)).attr("value")+";"+seqnum+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
-                      var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
-                      sqlScripts = sqlScripts+"#;#"+insertValues;
-                      alert (sqlScripts);
+                         var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
+                         sqlScripts = sqlScripts+"#;#"+insertValues;
+                         alert (sqlScripts);
                           removedNode.appendTo(ulTag);
                           removedNode = null;
-                      } else {
+                      } else if (cutNode) {
+                         var idx = $(cutNode).attr("id").substring(8);
+                         var liId="li#"+qnaireid;
+                         var seqnum = Number($(liId).children('li').size())+1;
+                         var qid = $("#qid"+idx).attr("value");
+                         var qnum = $("#qnum"+idx).attr("value");
+                         var parentNum = $("#qnum"+$(liId).attr("id").substring(8)).attr("value");
+                      //alert(idx+"-"+seqnum);
+                      // parent_qnum/seq/qid/qnum 
+                      //sqlScripts = sqlScripts + "#;#" + "update QPaste;"+$("#qnum"+$(liId).attr("id").substring(8)).attr("value")+";"+seqnum+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
+                        // var insertValues = "update Qpaste"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
+                         sqlScripts = sqlScripts + "#;#" + "update QPaste;"+parentNum+";"+seqnum+";"+qid+";"+qnum;
+                         //sqlScripts = sqlScripts+"#;#"+insertValues;
+                         alert (sqlScripts);
+                      
+                      
                           var liId = cutNode.attr("id");
                           var parentRACode;
                           $("li#"+liId).remove();
@@ -208,7 +230,8 @@
                           idx = cutNode.attr("id").substring(8);
                           //sqlScripts = sqlScripts +"#;#"+getInsertClause(getResearchAreaCode(cutNode.children('a:eq(0)').text()), getResearchAreaCode(name), getResearchAreaDescription(cutNode.children('a:eq(0)').text()));
                           cutNode = null;
-                      }
+                      } 
+                      
                       ulTag.appendTo(parentNode);
                       if (ulTag.children('li').size() == 1) {
                           $("#moveup"+idx).hide();
@@ -224,6 +247,10 @@
                       
                    }// if removednode                         
                    
+                   if (copyNode) {
+                      // paste copy node
+                      pasteCopyNode(qnaireid);
+                   }
                                          
                 }); 
       image.appendTo(thtmp);                  
@@ -235,6 +262,121 @@
       return tbl80;
   
   }
+  
+  function pasteCopyNode(nodeid) {
+         var parentNode = $("#"+nodeid);
+         var ulTag = parentNode.children('ul');
+         
+         startnode = $("#"+copyNode);
+         alert("copy node "+$(startnode).attr("id").substring(8));
+         qdesc = $('#qdesc'+$(startnode).attr("id").substring(8)).attr("value");
+         qtypeid = $('#qtypeid'+$(startnode).attr("id").substring(8)).attr("value");
+         i++;
+         var listitem = getQuestionNew(qdesc,qtypeid, "V1.01", "true");
+			var ultag = $('<ul></ul>');
+            ultag.appendTo(listitem);
+            var idx = listitem.attr("id").substring(8);
+              //listitem.appendTo('ul#example');
+              // last one no 'move dn'
+                 $("#movedn"+idx).hide();
+                 if (listitem.prev().size() > 0) {
+                    $("#movedn"+listitem.prev().attr("id").substring(8)).show();
+                 }
+                       
+                 
+           alert("node "+nodeid+"-"+ parentNode.children('ul').size());     
+           listitem.appendTo(ulTag);
+        // also need this to show 'folder' icon
+             $('#example').treeview({
+                add: listitem
+             });
+  
+        $("#qnum"+idx).attr("value",$("#questionNumber").attr("value"));
+        var qid = $("#qid"+$(startnode).attr("id").substring(8)).attr("value");
+        $("#qid"+idx).attr("value",qid);
+        var seqnum = Number($(listitem).siblings().size())+1;
+        $("#qseq"+idx).attr("value",seqnum);
+  
+  
+         var liId="li#"+nodeid;
+         //var seqnum = Number($(liId).children('li').size())+1;
+         var qid = $("#qid"+idx).attr("value");
+        var qnum = $("#questionNumber").attr("value");
+         var parentNum = $("#qnum"+$(liId).attr("id").substring(8)).attr("value");
+        var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
+        sqlScripts = sqlScripts+"#;#"+insertValues;
+        alert("paste copy node "+sqlScripts);
+        $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
+  
+        alert ("copy li c size "+$("#"+copyNode).attr("id")+"-"+$("#"+copyNode).children('ul.eq(0)').children('li').size());
+        if ($("#"+copyNode).children('ul.eq(0)').children('li').size() > 0) {
+             
+             $("#"+copyNode).children('ul.eq(0)').children('li').each(function(){
+                alert("child copy node"+$(this).attr("id"));
+                pasteChild($(listitem).attr("id"), $(this).attr("id"));
+            });
+        }
+  
+  }
+  
+  function pasteChild(parentid, childid) {
+         var parentNode = $("#"+parentid);
+         var ulTag = parentNode.children('ul');
+         
+         startnode = $("#"+childid);
+         alert("copy node "+$(startnode).attr("id").substring(8));
+         qdesc = $('#qdesc'+$(startnode).attr("id").substring(8)).attr("value");
+         qtypeid = $('#qtypeid'+$(startnode).attr("id").substring(8)).attr("value");
+         i++;
+         var listitem = getQuestionNew(qdesc,qtypeid, "V1.01", "true");
+			var ultag = $('<ul></ul>');
+            ultag.appendTo(listitem);
+            var idx = listitem.attr("id").substring(8);
+              //listitem.appendTo('ul#example');
+              // last one no 'move dn'
+                 $("#movedn"+idx).hide();
+                 if (listitem.prev().size() > 0) {
+                    $("#movedn"+listitem.prev().attr("id").substring(8)).show();
+                 }
+                       
+                 
+           alert("node "+parentid+"-"+ parentNode.children('ul').size());     
+           listitem.appendTo(ulTag);
+        // also need this to show 'folder' icon
+             $('#example').treeview({
+                add: listitem
+             });
+
+        $("#qnum"+idx).attr("value",$("#questionNumber").attr("value"));
+        var qid = $("#qid"+$(startnode).attr("id").substring(8)).attr("value");
+        $("#qid"+idx).attr("value",qid);
+        var seqnum = Number($(listitem).siblings().size())+1;
+        $("#qseq"+idx).attr("value",seqnum);
+  
+
+  
+         var liId="li#"+parentid;
+       //  var seqnum = Number($(liId).children('li').size())+1;
+         var qid = $("#qid"+idx).attr("value");
+        var qnum = $("#questionNumber").attr("value");
+         var parentNum = $("#qnum"+$(liId).attr("id").substring(8)).attr("value");
+        var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
+        sqlScripts = sqlScripts+"#;#"+insertValues;
+        alert("paste copy node "+sqlScripts);
+        $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
+  
+        alert ("copy li c size "+$("#"+childid).attr("id")+"-"+$("#"+childid).children('ul.eq(0)').children('li').size());
+        if ($("#"+childid).children('ul.eq(0)').children('li').size() > 0) {
+             
+             $("#"+childid).children('ul.eq(0)').children('li').each(function(){
+                alert("child copy node"+$(this).attr("id"));
+                pasteChild($(listitem).attr("id"), $(this).attr("id"));
+            });
+        }
+  
+  
+  }
+  
   
   function getMoveDownLink() {
       var image = $('<img style="border:none;" alt="move down" title="Move Down" type="image" >');
@@ -327,6 +469,10 @@
      qntag = $('<input type="hidden" id = "newqtypeid" name = "newqtypeid" />').attr("id","newqtypeid"+i).attr("name","newqtypeid"+i);
      qntag.appendTo(tdtmp);
      qntag = $('<input type="hidden" id = "qnum" name = "qnum" />').attr("id","qnum"+i).attr("name","qnum"+i);
+     qntag.appendTo(hidtd);
+     qntag = $('<input type="hidden" id = "qdesc" name = "qdesc" />').attr("id","qdesc"+i).attr("name","qdesc"+i);
+     qntag.appendTo(hidtd);
+     qntag = $('<input type="hidden" id = "qtypeid" name = "qtypeid" />').attr("id","qtypeid"+i).attr("name","qtypeid"+i);
      qntag.appendTo(hidtd);
      hidtd.appendTo(hidtr);
      hidtr.appendTo($("#question-table"));
@@ -436,6 +582,10 @@
        // alert("parents li "+$(this).attr("id").substring(5)+" "+$("#qnum"+$(this).attr("id").substring(5)).attr("value"));
         var qid = $("#newqid"+$(this).attr("id").substring(5)).attr("value");
         $("#qid"+$(listitem).attr("id").substring(8)).attr("value",qid);
+
+
+
+
         var seqnum = Number($(listitem).siblings().size())+1;
         $("#qseq"+$(listitem).attr("id").substring(8)).attr("value",seqnum);
         var qnum = $("#questionNumber").attr("value");
