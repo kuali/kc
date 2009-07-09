@@ -431,6 +431,10 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_REVIEWER_NOT_CHECKED_BUT_TYPE_SELECTED = "error.protocol.reviewerTypeCode.selectedButReviewerUnchecked";
     public static final String ERROR_PROTOCOL_REVIEWER_TYPE_INVALID = "error.protocol.reviewerTypeCode.invalid";
     public static final String ERROR_PROTOCOL_AT_LEAST_ONE_CHECKLIST_ITEM = "error.protocol.checkList.one";
+    public static final String ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED = "error.protocol.submission.committee.required";
+    public static final String ERROR_PROTOCOL_SCHEDULE_NOT_SELECTED = "error.protocol.submission.schedule.required";
+    
+    
     //  Committee Messages
     public static final String ERROR_COMMITTEE_DUPLICATE_ID = "error.committee.duplicateId";
     
@@ -512,7 +516,7 @@ public final class KeyConstants {
     
     // IRB Questions
     public static final String QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW = "question.protocol.confirmExceedMaxProtocols";
-    
+   
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.

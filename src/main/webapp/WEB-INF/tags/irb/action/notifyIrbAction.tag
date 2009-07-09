@@ -18,7 +18,9 @@
 <c:set var="attributes" value="${DataDictionary.ProtocolNotifyIrbBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="textComment" value="actionHelper.protocolNotifyIrbBean.comment" />
-
+<c:set var="showCommittee" value="${KualiForm.actionHelper.submissionConstraint == 'O' ||
+                                    KualiForm.actionHelper.submissionConstraint == 'M'}" />
+                                    
 <kra:permission value="${KualiForm.actionHelper.canNotifyIrb}">
 
 <kul:innerTab tabTitle="Notify IRB" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolNotifyIrbBean*">
@@ -47,16 +49,20 @@
                 </tr>
                 <tr>
                     <th width="15%"> 
-                        <div align="right">
-                            <nobr>
-                            <kul:htmlAttributeLabel attributeEntry="${attributes.committeeId}" />
-                            </nobr>
-                        </div>
+                        <c:if test="${showCommittee}">
+	                        <div align="right">
+	                            <nobr>
+	                            <kul:htmlAttributeLabel attributeEntry="${attributes.committeeId}" />
+	                            </nobr>
+	                        </div>
+                        </c:if>
                     </th>
                     <td>
-                        <nobr>
-                        <kul:htmlControlAttribute property="actionHelper.protocolNotifyIrbBean.committeeId" attributeEntry="${attributes.committeeId}" />
-                        </nobr>
+                        <c:if test="${showCommittee}">
+	                        <nobr>
+	                        <kul:htmlControlAttribute property="actionHelper.protocolNotifyIrbBean.committeeId" attributeEntry="${attributes.committeeId}" />
+	                        </nobr>
+                        </c:if>
                     </td>
                     <th width="15%"> 
                         <div align="right">

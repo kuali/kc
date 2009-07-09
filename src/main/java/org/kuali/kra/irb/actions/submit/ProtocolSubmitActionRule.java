@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,13 +28,17 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Validate a protocol submission to the IRB for review.
  */
 public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implements ExecuteProtocolSubmitActionRule {
+
+    private static final String MANDATORY = "M";
 
     /**
      * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.submit.ProtocolSubmitAction)
@@ -41,10 +47,40 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
        
         boolean isValid = validateSubmissionType(submitAction);
         isValid &= validateProtocolReviewType(submitAction);
+        if (isMandatory()) {
+            isValid &= validateCommittee(submitAction);
+            isValid &= validateSchedule(submitAction);
+        }
         isValid &= validateCheckLists(submitAction);
         isValid &= validateReviewers(submitAction);
         
         return isValid;
+    }
+
+    /**
+     * If the committee is mandatory, verify that a committee has been selected.
+     */
+    private boolean validateCommittee(ProtocolSubmitAction submitAction) {
+        boolean valid = true;
+        if (StringUtils.isBlank(submitAction.getCommitteeId())) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".committeeId", 
+                    KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
+        }
+        return valid;
+    }
+
+    /**
+     * If the schedule is mandatory, verify that a schedule has been selected.
+     */
+    private boolean validateSchedule(ProtocolSubmitAction submitAction) {
+        boolean valid = true;
+        if (StringUtils.isBlank(submitAction.getScheduleId())) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".scheduleId", 
+                    KeyConstants.ERROR_PROTOCOL_SCHEDULE_NOT_SELECTED);
+        }
+        return valid;
     }
 
     /**
@@ -197,5 +233,18 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
             }
         }
         return false;
+    }
+    
+    /**
+     * Is it mandatory for the submission to contain the committee and schedule?
+     * @return true if mandatory; otherwise false
+     */
+    private boolean isMandatory() {
+        KualiConfigurationService configService = getService(KualiConfigurationService.class);
+        Parameter param = configService.getParameterWithoutExceptions(Constants.PARAMETER_MODULE_PROTOCOL, 
+                                                                      Constants.PARAMETER_COMPONENT_DOCUMENT, 
+                                                                      Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
+        
+        return StringUtils.equalsIgnoreCase(MANDATORY, param.getParameterValue());  
     }
 }

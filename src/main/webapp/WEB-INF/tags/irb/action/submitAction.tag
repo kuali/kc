@@ -20,6 +20,8 @@
 <c:set var="exemptAttributes" value="${DataDictionary.ExemptStudiesCheckListItem.attributes}" />
 <c:set var="reviewerAttributes" value="${DataDictionary.ProtocolReviewerBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
+<c:set var="showCommittee" value="${KualiForm.actionHelper.submissionConstraint == 'O' ||
+                                    KualiForm.actionHelper.submissionConstraint == 'M'}" />
 
 <kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
 
@@ -65,7 +67,7 @@
                     </td>
                 </tr>
                 
-                <c:if test="${KualiForm.actionHelper.canSelectCommittee}">
+                <c:if test="${showCommittee}">
 	                <tr>
 	                	<th width="15%"> 
 	                        <div align="right">
@@ -73,7 +75,7 @@
 	                        </div>
 	                    </th>
 	                    <c:choose>
-	                        <c:when test="${KualiForm.actionHelper.canSelectSchedule}">
+	                        <c:when test="${showCommittee}">
 	                            <td>
 			                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.committeeId" 
 			                                                  attributeEntry="${attributes.committeeId}" 
@@ -88,7 +90,7 @@
 	                    	</c:otherwise>
 	                    </c:choose>
 	                   
-	                    <c:if test="${KualiForm.actionHelper.canSelectSchedule}">
+	                    
 		                    <th width="20%"> 
 		                        <div align="right">
 		                              <kul:htmlAttributeLabel attributeEntry="${attributes.scheduleId}" />
@@ -97,7 +99,7 @@
 		                    <td>
 		                        <nobr>
 		                        <c:choose>
-		                            <c:when test="${KualiForm.actionHelper.canSelectReviewers}">
+		                            <c:when test="${showCommittee}">
 				                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.scheduleId" 
 				                                                  attributeEntry="${attributes.scheduleId}"
 				                                                  onchange="displayReviewers()" />
@@ -109,10 +111,10 @@
 				                </c:choose>
 		                        </nobr>
 		                    </td>
-	                    </c:if>
+	                  
 	                </tr>
                 
-                    <c:if test="${KualiForm.actionHelper.canSelectReviewers}">
+                    
 		                <c:choose>
 		                    <c:when test="${empty KualiForm.actionHelper.protocolSubmitAction.scheduleId}">
 		                        <tr id="reviewers" style="display: none">
@@ -171,7 +173,7 @@
 			                    </div>
 		                    </td>
 	                	</tr>
-	                </c:if>
+	              
                 </c:if>
                    
                 <c:choose>
