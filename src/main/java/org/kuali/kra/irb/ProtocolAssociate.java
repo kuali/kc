@@ -95,45 +95,46 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
     /**
      * {@inheritDoc}
      */
-// TODO : uncomment hashcode & equal methods when all bo implement their own hashcode & equal
-//    @Override
-//    public int hashCode() {
-//        final int PRIME = 31;
-//        int result = 1;
-//        result = PRIME * result + ((this.protocolNumber == null) ? 0 : this.protocolNumber.hashCode());
-//        result = PRIME * result + ((this.sequenceNumber == null) ? 0 : this.sequenceNumber.hashCode());
-//        return result;
-//    }
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.protocolNumber == null) ? 0 : this.protocolNumber.hashCode());
+        result = prime * result + ((this.sequenceNumber == null) ? 0 : this.sequenceNumber.hashCode());
+        return result;
+    }
 
     /**
      * {@inheritDoc}
      */
-//    @Override
-//    public boolean equals(Object obj) {
-//        if (this == obj) {
-//            return true;
-//        }
-//        if (obj == null) {
-//            return false;
-//        }
-//        if (!(obj instanceof ProtocolAssociate)) {
-//            return false;
-//        }
-//        ProtocolAssociate other = (ProtocolAssociate) obj;
-//        if (this.protocolNumber == null) {
-//            if (other.protocolNumber != null) {
-//                return false;
-//            }
-//        } else if (!this.protocolNumber.equals(other.protocolNumber)) {
-//            return false;
-//        }
-//        if (this.sequenceNumber == null) {
-//            if (other.sequenceNumber != null) {
-//                return false;
-//            }
-//        } else if (!this.sequenceNumber.equals(other.sequenceNumber)) {
-//            return false;
-//        }
-//        return true;
-//    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ProtocolAssociate other = (ProtocolAssociate) obj;
+        if (this.protocolNumber == null) {
+            if (other.protocolNumber != null) {
+                return false;
+            }
+        } else if (!this.protocolNumber.equals(other.protocolNumber)) {
+            return false;
+        }
+        if (this.sequenceNumber == null) {
+            if (other.sequenceNumber != null) {
+                return false;
+            }
+        } else if (!this.sequenceNumber.equals(other.sequenceNumber)) {
+            return false;
+        }
+        return true;
+    }
+
+
 }

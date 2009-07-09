@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -28,19 +29,25 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
 
     private final BusinessObjectService boService;
+    private final ProtocolDao protocolDao;
     
     /**
      * Constructor than sets the dependencies.
      * 
      * @param boService the {@link BusinessObjectService BusinessObjectService}
-     * @throws IllegalArgumentException if the boService is null
+     * @throws IllegalArgumentException if the boService or protocolDao is null
      */
-    public ProtocolAttachmentServiceImpl(final BusinessObjectService boService) {
+    public ProtocolAttachmentServiceImpl(final BusinessObjectService boService, final ProtocolDao protocolDao) {
         if (boService == null) {
             throw new IllegalArgumentException("the boService was null");
         }
         
+        if (protocolDao == null) {
+            throw new IllegalArgumentException("the protocolDao was null");
+        }
+        
         this.boService = boService;
+        this.protocolDao = protocolDao;
     }
     
     /** {@inheritDoc} */
@@ -81,13 +88,6 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
             throw new IllegalArgumentException("the attachment is null");
         }
         
-        //bogus numbers
-        attachment.setAttachmentVersionNumber(Integer.valueOf(1));
-        attachment.setDocumentId(Integer.valueOf(1));
-        
-        /* {@link BusinessObjectService#linkAndSave(PersistableBusinessObject)}
-         * because rice cannot handle anon keys in OBJ.
-         */
         this.boService.save(attachment);
     }
     
@@ -108,7 +108,28 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
         
         return (ProtocolPerson) this.boService.findByPrimaryKey(ProtocolPerson.class, Collections.singletonMap("protocolPersonId", personId));
     }
+    
+    /** {@inheritDoc} */
+    public <T extends ProtocolAttachmentBase> T getAttachment(Class<T> type, Long id) {
+        if (type == null) {
+            throw new IllegalArgumentException("type is null");
+        }
+
+        if (id == null) {
+            throw new IllegalArgumentException("id is null");
+        }
+        
+        @SuppressWarnings("unchecked")
+        final T attachment = (T) this.boService.findByPrimaryKey(type, Collections.singletonMap("id", id));
+        return attachment;
+    }
    
+    /** {@inheritDoc} */
+    public <T extends ProtocolAttachmentBase> Collection<T> getAttachmentsForProtocolNotMatchingIds(Class<T> type, Long protocolId, Long... attachmentIds) {
+        final Collection<T> attachments = this.protocolDao.getAttachmentsNotMatchingIds(type, protocolId, attachmentIds);
+        return attachments == null ? new ArrayList<T>() : attachments;
+    }
+    
     /**
      * Gets a "code" BO from a code.  This method will only work for a BO that has a property of "code" that is the
      * primary key.

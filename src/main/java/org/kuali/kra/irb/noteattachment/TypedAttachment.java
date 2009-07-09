@@ -45,14 +45,28 @@ public interface TypedAttachment {
     void setTypeCode(String typeCode);
     
     /**
-     * Gets the Protocol Attachment Base Description.
-     * @return the Protocol Attachment Base Description
+     * Gets the Document Id.  The document id is used to allow multiple typed attachments to exist.
+     * So two attachments of the same type will have different document numbers.
+     * @return the  Document Id
+     */
+    Integer getDocumentId();
+    
+    /**
+     * Sets the Document Id.
+     * @param documentId the  Document Id
+     * @see #getDocumentId()
+     */
+    void setDocumentId(Integer documentId);
+    
+    /**
+     * Gets the  Description.
+     * @return the  Description
      */
     String getDescription();
     
     /**
-     * Sets the Protocol Attachment Base Description.
-     * @param description the Protocol Attachment Base Description
+     * Sets the  Description.
+     * @param description the  Description
      */
     void setDescription(String description);
     
@@ -69,7 +83,7 @@ public interface TypedAttachment {
      * This is required in order to meet the JavaBeans spec.
      */
     public static enum PropertyName {
-        TYPE_CODE("typeCode"), GROUP_CODE("groupCode"), DESCRIPTION("description");
+        TYPE_CODE("typeCode"), GROUP_CODE("groupCode"), DESCRIPTION("description"), DOCUMENT_ID("documentId");
         
         private final String name;
         
