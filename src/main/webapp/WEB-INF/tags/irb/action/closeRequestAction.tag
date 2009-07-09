@@ -23,7 +23,7 @@
                                     
 <kra:permission value="${KualiForm.actionHelper.canRequestClose}">
 
-<kul:innerTab tabTitle="Request to Close" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolCloseRequestBean*">
+<kul:innerTab tabTitle="Request to Close" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolCloseRequest*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
