@@ -437,7 +437,9 @@ public interface Constants {
     
     // Protocol Action Rules
     public static final String PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY = "actionHelper.protocolSubmitAction";
-
+    public static final String PROTOCOL_CLOSE_REQUEST_PROPERTY_KEY = "actionHelper.protocolCloseReqeust";
+    public static final String PROTOCOL_SUSPEND_REQUEST_PROPERTY_KEY = "actionHelper.protocolSuspendRequest";
+    
     //Protocol Summary Print View
     public static final Integer PROTOCOL_SUMMARY_VOTINGCOMMENTS = 250;
     
