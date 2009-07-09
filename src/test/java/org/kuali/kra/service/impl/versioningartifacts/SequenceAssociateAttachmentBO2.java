@@ -20,14 +20,13 @@ import java.util.List;
 import java.util.Random;
 
 import org.kuali.kra.SeparatelySequenceableAssociate;
-import org.kuali.kra.SequenceOwner;
 
 /**
  * This class represents an attachment type that needs to be managed in a 
  * many-to-many way to prevent unnecessary copying of attachments that can 
  * be very large
  */
-public class SequenceAssociateAttachmentBO2 implements SeparatelySequenceableAssociate {
+public class SequenceAssociateAttachmentBO2 implements SeparatelySequenceableAssociate<OwnerAssociate> {
     private static final long serialVersionUID = -1764304273143080320L;
     
     private Long attachmentId;
@@ -56,7 +55,7 @@ public class SequenceAssociateAttachmentBO2 implements SeparatelySequenceableAss
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
-    public List<? extends SequenceOwner> getSequenceOwners() {
+    public List<OwnerAssociate> getSequenceOwners() {
         return owners;
     }
     
@@ -71,14 +70,14 @@ public class SequenceAssociateAttachmentBO2 implements SeparatelySequenceableAss
      * @see org.kuali.kra.SeparatelySequenceableAssociate#setSequenceOwners(java.util.List)
      */
     @SuppressWarnings("unchecked")
-    public void setSequenceOwners(List<? extends SequenceOwner> owners) {
-        setOwners((List<OwnerAssociate>) owners);
+    public void setSequenceOwners(List<OwnerAssociate> owners) {
+        setOwners(owners);
     }
     
     /**
      * @see org.kuali.kra.SeparatelySequenceableAssociate#getLatestOwner()
      */
-    public SequenceOwner getLatestOwner() {
+    public OwnerAssociate getLatestOwner() {
         return owners.size() > 0 ? owners.get(owners.size() - 1) : null;
     }
     
