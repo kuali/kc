@@ -286,13 +286,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
+    @SuppressWarnings("unchecked")
     public ActionForward closeEnrollmentRequestProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT, protocolForm.getProtocolDocument().getProtocol());
         if (isAuthorized(task)) {
-            getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolCloseEnrollmentRequestBean());
+            ProtocolRequestBean closeEnrollmentRequestBean = protocolForm.getActionHelper().getProtocolCloseEnrollmentRequestBean();
+            if (applyRules(new ProtocolRequestEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_CLOSE_ENROLLMENT_REQUEST_PROPERTY_KEY, closeEnrollmentRequestBean))) {
+                getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), closeEnrollmentRequestBean);
+            }
         }
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -306,13 +310,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
+    @SuppressWarnings("unchecked")
     public ActionForward reopenEnrollmentRequestProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, protocolForm.getProtocolDocument().getProtocol());
         if (isAuthorized(task)) {
-            getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolReOpenEnrollmentRequestBean());
+            ProtocolRequestBean reopenEnrollmentRequestBean = protocolForm.getActionHelper().getProtocolReOpenEnrollmentRequestBean();
+            if (applyRules(new ProtocolRequestEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_REOPEN_ENROLLMENT_REQUEST_PROPERTY_KEY, reopenEnrollmentRequestBean))) {
+                getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), reopenEnrollmentRequestBean);
+            }
         }
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -326,13 +334,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
+    @SuppressWarnings("unchecked")
     public ActionForward dataAnalysisOnlyRequestProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS, protocolForm.getProtocolDocument().getProtocol());
         if (isAuthorized(task)) {
-            getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolDataAnalysisRequestBean());
+            ProtocolRequestBean dataAnalysisRequestBean = protocolForm.getActionHelper().getProtocolDataAnalysisRequestBean();
+            if (applyRules(new ProtocolRequestEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_DATA_ANALYSIS_REQUEST_PROPERTY_KEY, dataAnalysisRequestBean))) {
+                getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), dataAnalysisRequestBean);
+            }
         }
         return mapping.findForward(MAPPING_BASIC);
     }
