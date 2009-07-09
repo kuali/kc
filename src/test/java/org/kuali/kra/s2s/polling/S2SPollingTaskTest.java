@@ -39,7 +39,6 @@ import org.kuali.rice.kns.service.MailService;
 public class S2SPollingTaskTest extends KraTestBase {
     private DateTimeService dateTimeService = null;
     private BusinessObjectService businessObjectService = null;
-    private MailService mailService = null;
     private GrantsGovConnectorService grantsGovConnectorService = null;
 
     @Before
@@ -48,7 +47,6 @@ public class S2SPollingTaskTest extends KraTestBase {
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         dateTimeService = KraServiceLocator.getService(DateTimeService.class);
         grantsGovConnectorService = KraServiceLocator.getService(GrantsGovConnectorService.class);
-        mailService = KNSServiceLocator.getMailService();
     }
 
     @After
@@ -56,7 +54,6 @@ public class S2SPollingTaskTest extends KraTestBase {
         businessObjectService = null;
         dateTimeService = null;
         grantsGovConnectorService = null;
-        mailService = null;
         super.tearDown();
     }
 
@@ -67,7 +64,6 @@ public class S2SPollingTaskTest extends KraTestBase {
         s2sPollingTask.setBusinessObjectService(businessObjectService);
         s2sPollingTask.setDateTimeService(dateTimeService);
         s2sPollingTask.setGrantsGovConnectorService(grantsGovConnectorService);
-        s2sPollingTask.setMailService(mailService);
         s2sPollingTask.setStopPollInterval("4320");
         s2sPollingTask.setMailInterval("20");
 
