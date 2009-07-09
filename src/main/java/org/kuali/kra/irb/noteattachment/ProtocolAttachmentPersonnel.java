@@ -18,7 +18,6 @@ package org.kuali.kra.irb.noteattachment;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase.PropertyName;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 
 /**
@@ -34,6 +33,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase implemen
     
     private String typeCode;
     private ProtocolAttachmentType type;
+    private Integer documentId;
     private String description;
     
     /**
@@ -109,6 +109,16 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase implemen
     }
     
     /** {@inheritDoc} */
+    public Integer getDocumentId() {
+        return this.documentId;
+    }
+    
+    /** {@inheritDoc} */
+    public void setDocumentId(Integer documentId) {
+        this.documentId = documentId;
+    }
+    
+    /** {@inheritDoc} */
     public String getGroupCode() {
         return GROUP_CODE;
     }
@@ -132,14 +142,71 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase implemen
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
+        final LinkedHashMap<String, Object> hashMap = super.toStringMapper();
         hashMap.put(PropertyName.PERSON_ID.getPropertyName(), this.getPerson());
         hashMap.put(TypedAttachment.PropertyName.TYPE_CODE.getPropertyName(), this.getTypeCode());
+        hashMap.put(TypedAttachment.PropertyName.DOCUMENT_ID.getPropertyName(), this.getDocumentId());
         hashMap.put(TypedAttachment.PropertyName.GROUP_CODE.getPropertyName(), this.getGroupCode());
         hashMap.put(TypedAttachment.PropertyName.DESCRIPTION.getPropertyName(), this.getDescription());
         return hashMap;
     }
-    
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((documentId == null) ? 0 : documentId.hashCode());
+        result = prime * result + ((personId == null) ? 0 : personId.hashCode());
+        result = prime * result + ((typeCode == null) ? 0 : typeCode.hashCode());
+        return result;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ProtocolAttachmentPersonnel other = (ProtocolAttachmentPersonnel) obj;
+        if (description == null) {
+            if (other.description != null) {
+                return false;
+            }
+        } else if (!description.equals(other.description)) {
+            return false;
+        }
+        if (documentId == null) {
+            if (other.documentId != null) {
+                return false;
+            }
+        } else if (!documentId.equals(other.documentId)) {
+            return false;
+        }
+        if (personId == null) {
+            if (other.personId != null) {
+                return false;
+            }
+        } else if (!personId.equals(other.personId)) {
+            return false;
+        }
+        if (typeCode == null) {
+            if (other.typeCode != null) {
+                return false;
+            }
+        } else if (!typeCode.equals(other.typeCode)) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Contains all the property names in this class.
      */
@@ -172,12 +239,5 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase implemen
         public String toString() {
             return this.name;
         }
-    }
-
-    public void init(Protocol protocol) {
-        setId(null);
-        setProtocolNumber(protocol.getProtocolNumber());
-        setProtocol(protocol);
-        setSequenceNumber(protocol.getSequenceNumber());
     }
 }

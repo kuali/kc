@@ -27,6 +27,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -41,7 +42,7 @@ public class ProtocolAttachmentServiceImplTest {
     @Test(expected=IllegalArgumentException.class)
     public void getStatusFromCodeNullCode() {
         final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
-        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService);
+        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService, this.context.mock(ProtocolDao.class));
         paService.getStatusFromCode(null);
         
         this.context.assertIsSatisfied();
@@ -51,7 +52,7 @@ public class ProtocolAttachmentServiceImplTest {
     @Test(expected=IllegalArgumentException.class)
     public void getTypeFromCodeNullCode() {
         final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
-        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService);
+        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService, this.context.mock(ProtocolDao.class));
         paService.getTypeFromCode(null);
         
         this.context.assertIsSatisfied();
@@ -61,7 +62,7 @@ public class ProtocolAttachmentServiceImplTest {
     @Test
     public void getStatusFromCodeGoodCode() {
         final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
-        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService);
+        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService, this.context.mock(ProtocolDao.class));
         final ProtocolAttachmentStatus status = new ProtocolAttachmentStatus();
         status.setCode("1");
         status.setDescription("a desc");
@@ -84,7 +85,7 @@ public class ProtocolAttachmentServiceImplTest {
     @Test
     public void getTypeFromCodeGoodCode() {
         final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
-        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService);
+        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService, this.context.mock(ProtocolDao.class));
         final ProtocolAttachmentType type = new ProtocolAttachmentType();
         type.setCode("1");
         type.setDescription("a desc");
@@ -107,7 +108,7 @@ public class ProtocolAttachmentServiceImplTest {
     @Test(expected=IllegalArgumentException.class)
     public void getTypesForGroupNullCode() {
         final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
-        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService);
+        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService, this.context.mock(ProtocolDao.class));
         paService.getTypesForGroup(null);
         
         this.context.assertIsSatisfied();
@@ -117,7 +118,7 @@ public class ProtocolAttachmentServiceImplTest {
     @Test
     public void getTypesForGroupFound() {
         final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
-        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService);
+        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService, this.context.mock(ProtocolDao.class));
         final ProtocolAttachmentType type = new ProtocolAttachmentType();
         type.setCode("1");
         type.setDescription("a desc");
@@ -144,7 +145,7 @@ public class ProtocolAttachmentServiceImplTest {
     @Test
     public void getTypesForGroupNotFound() {
         final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
-        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService);
+        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService, this.context.mock(ProtocolDao.class));
 
         final Collection<ProtocolAttachmentType> types = new ArrayList<ProtocolAttachmentType>();
         
@@ -166,7 +167,7 @@ public class ProtocolAttachmentServiceImplTest {
     @Test(expected=IllegalArgumentException.class)
     public void getPersonNullId() {
         final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
-        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService);
+        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService, this.context.mock(ProtocolDao.class));
         paService.getPerson(null);
         
         this.context.assertIsSatisfied();
@@ -176,7 +177,7 @@ public class ProtocolAttachmentServiceImplTest {
     @Test
     public void getPersonGoodId() {
         final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
-        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService);
+        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService, this.context.mock(ProtocolDao.class));
         final ProtocolPerson person = new ProtocolPerson();
         person.setProtocolPersonId(1);
         person.setPersonName("Foo bar");

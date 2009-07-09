@@ -62,7 +62,7 @@ public class ProtocolFactory {
      * This method is to set required fields for Protocol document
      * @param document
      */
-    private static void setProtocolRequiredFields(ProtocolDocument document) {
+    public static void setProtocolRequiredFields(ProtocolDocument document) {
         Protocol protocol = document.getProtocol();
         document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESCRIPTION);
         document.setDocumentNextvalues(new ArrayList<DocumentNextvalue>());

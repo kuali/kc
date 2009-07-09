@@ -94,6 +94,7 @@
 	
 	<bean id="protocolAttachmentService" class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentServiceImpl">
         <constructor-arg index="0" ref="businessObjectService"/>
+        <constructor-arg index="1" ref="protocolDao"/>
 	</bean>
 
     <!-- Protocol Task Authorizers -->

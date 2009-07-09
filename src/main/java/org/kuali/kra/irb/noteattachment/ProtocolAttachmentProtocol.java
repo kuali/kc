@@ -37,6 +37,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
     
     private String typeCode;
     private ProtocolAttachmentType type;
+    private Integer documentId;
     private String description;
     
     /**
@@ -176,6 +177,16 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
     }
     
     /** {@inheritDoc} */
+    public Integer getDocumentId() {
+        return this.documentId;
+    }
+    
+    /** {@inheritDoc} */
+    public void setDocumentId(Integer documentId) {
+        this.documentId = documentId;
+    }
+    
+    /** {@inheritDoc} */
     public String getGroupCode() {
         return GROUP_CODE;
     }
@@ -199,7 +210,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
+        final LinkedHashMap<String, Object> hashMap = super.toStringMapper();
 
         hashMap.put(PropertyName.COMMENTS.getPropertyName(), this.getComments());
         hashMap.put(PropertyName.EMAIL.getPropertyName(), this.getContactEmailAddress());
@@ -207,11 +218,100 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
         hashMap.put(PropertyName.PHONE.getPropertyName(), this.getContactPhoneNumber());
         hashMap.put(PropertyName.STATUS_CODE.getPropertyName(), this.getStatus());
         hashMap.put(TypedAttachment.PropertyName.TYPE_CODE.getPropertyName(), this.getTypeCode());
+        hashMap.put(TypedAttachment.PropertyName.DOCUMENT_ID.getPropertyName(), this.getDocumentId());
         hashMap.put(TypedAttachment.PropertyName.GROUP_CODE.getPropertyName(), this.getGroupCode());
         hashMap.put(TypedAttachment.PropertyName.DESCRIPTION.getPropertyName(), this.getDescription());
         return hashMap;
     }
-    
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((comments == null) ? 0 : comments.hashCode());
+        result = prime * result + ((contactEmailAddress == null) ? 0 : contactEmailAddress.hashCode());
+        result = prime * result + ((contactName == null) ? 0 : contactName.hashCode());
+        result = prime * result + ((contactPhoneNumber == null) ? 0 : contactPhoneNumber.hashCode());
+        result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((documentId == null) ? 0 : documentId.hashCode());
+        result = prime * result + ((statusCode == null) ? 0 : statusCode.hashCode());
+        result = prime * result + ((typeCode == null) ? 0 : typeCode.hashCode());
+        return result;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ProtocolAttachmentProtocol other = (ProtocolAttachmentProtocol) obj;
+        if (comments == null) {
+            if (other.comments != null) {
+                return false;
+            }
+        } else if (!comments.equals(other.comments)) {
+            return false;
+        }
+        if (contactEmailAddress == null) {
+            if (other.contactEmailAddress != null) {
+                return false;
+            }
+        } else if (!contactEmailAddress.equals(other.contactEmailAddress)) {
+            return false;
+        }
+        if (contactName == null) {
+            if (other.contactName != null) {
+                return false;
+            }
+        } else if (!contactName.equals(other.contactName)) {
+            return false;
+        }
+        if (contactPhoneNumber == null) {
+            if (other.contactPhoneNumber != null) {
+                return false;
+            }
+        } else if (!contactPhoneNumber.equals(other.contactPhoneNumber)) {
+            return false;
+        }
+        if (description == null) {
+            if (other.description != null) {
+                return false;
+            }
+        } else if (!description.equals(other.description)) {
+            return false;
+        }
+        if (documentId == null) {
+            if (other.documentId != null) {
+                return false;
+            }
+        } else if (!documentId.equals(other.documentId)) {
+            return false;
+        }
+        if (statusCode == null) {
+            if (other.statusCode != null) {
+                return false;
+            }
+        } else if (!statusCode.equals(other.statusCode)) {
+            return false;
+        }
+        if (typeCode == null) {
+            if (other.typeCode != null) {
+                return false;
+            }
+        } else if (!typeCode.equals(other.typeCode)) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Contains all the property names in this class.
      */
@@ -245,12 +345,5 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
         public String toString() {
             return this.name;
         }
-    }
-
-    public void init(Protocol protocol) {
-        setId(null);
-        setProtocolNumber(protocol.getProtocolNumber());
-        setProtocol(protocol);
-        setSequenceNumber(protocol.getSequenceNumber());
     }
 }
