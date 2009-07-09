@@ -258,6 +258,13 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     }
 
     /**
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getProperty(java.lang.String)
+     */
+    public String getProperty(String key){
+        String value = kualiConfigurationService.getPropertyString(key);
+        return value==null?"":value;
+    }
+    /**
      * This method returns a {@link Calendar} whose date matches the date passed as {@link String}
      * 
      * @param dateStr string in "MM/dd/yyyy" format for which the Calendar value has to be returned.

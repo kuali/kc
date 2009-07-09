@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.s2s.polling;
 
-//import gov.grants.apply.webservices.applicantintegrationservices_v1.ApplicationInformationType;
-//import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationListResponse;
-//import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationStatusDetailResponse;
-
 import gov.grants.apply.webservices.applicantintegrationservices_v1.ApplicationInformationType;
 import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationListResponse;
 import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationStatusDetailResponse;
@@ -65,7 +61,6 @@ public class S2SPollingTask {
     private final Map<String, String> sortMsgKeyMap = new Hashtable<String, String>();
     private DateTimeService dateTimeService = null;
     private BusinessObjectService businessObjectService = null;
-    private MailService mailService = null;
     private GrantsGovConnectorService grantsGovConnectorService = null;
 
     private String stopPollInterval;
@@ -186,7 +181,6 @@ public class S2SPollingTask {
      */
     public void execute() {
         LOG.info("Executing polling schedule for status -" + statusMap.values() + ":" + stopPollInterval);
-        mailService = KNSServiceLocator.getMailService();// KraServiceLocator.getService(MailService.class);
         Map<String, SubmissionData> pollingList = populatePollingList();
         int appListSize = pollingList.size();
         Iterator<SubmissionData> submissions = pollingList.values().iterator();
@@ -385,6 +379,7 @@ public class S2SPollingTask {
      * @throws Exception
      */
     private void sendMail(HashMap<String, Vector<SubmissionData>> htMails) throws InvalidAddressException {
+        MailService mailService = KNSServiceLocator.getMailService();
         if (htMails.isEmpty()) {
             return;
         }
@@ -604,12 +599,12 @@ public class S2SPollingTask {
         this.grantsGovConnectorService = grantsGovConnectorService;
     }
 
-    /**
-     * Sets the mailService attribute value.
-     * 
-     * @param mailService The mailService to set.
-     */
-    public void setMailService(MailService mailService) {
-        this.mailService = mailService;
-    }
+//    /**
+//     * Sets the mailService attribute value.
+//     * 
+//     * @param mailService The mailService to set.
+//     */
+//    public void setMailService(MailService mailService) {
+//        this.mailService = mailService;
+//    }
 }

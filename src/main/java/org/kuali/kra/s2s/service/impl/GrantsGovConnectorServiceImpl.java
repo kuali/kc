@@ -27,12 +27,9 @@ import gov.grants.apply.webservices.applicantintegrationservices_v1.SubmitApplic
 import gov.grants.apply.webservices.applicantintegrationservices_v1.SubmitApplicationResponse;
 import gov.grants.apply.webservices.applicantintegrationservices_v1.GetApplicationListRequest.ApplicationFilter;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.security.KeyStore;
@@ -50,34 +47,23 @@ import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
-import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.handler.MessageContext;
 
-import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.cxf.configuration.jsse.TLSClientParameters;
-import org.apache.cxf.configuration.jsse.spring.TLSClientParametersConfig;
 import org.apache.cxf.configuration.security.FiltersType;
-import org.apache.cxf.configuration.security.KeyManagersType;
-import org.apache.cxf.configuration.security.KeyStoreType;
-import org.apache.cxf.configuration.security.TLSClientParametersType;
-import org.apache.cxf.configuration.security.TrustManagersType;
 import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.endpoint.ConduitSelector;
-import org.apache.cxf.frontend.ClientFactoryBean;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.transport.http.HTTPConduit;
+import org.apache.cxf.transports.http.configuration.ConnectionType;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.apache.log4j.Logger;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.S2SSSLProtocolSocketFactory;
 import org.kuali.kra.s2s.service.GrantsGovConnectorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.kra.s2s.util.PropertyFileReader;
-import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
-//import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * 
@@ -93,6 +79,15 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
     private static final String KEY_OPPORTUNITY_ID = "OpportunityID";
     private static final String KEY_CFDA_NUMBER = "CFDANumber";
     private static final String KEY_SUBMISSION_TITLE = "SubmissionTitle";
+    
+    private static final String KEYSTORE_LOCATION = "s2s.keystore.location";
+    private static final String KEYSTORE_PASSWORD = "s2s.keystore.password";
+    private static final String TRUSTSTORE_LOCATION = "s2s.truststore.location";
+    private static final String TRUSTSTORE_PASSWORD = "s2s.truststore.password";
+    public static final String GRANTS_GOV_HOST = "grants.gov.s2s.host";
+    public static final String GRANTS_GOV_PORT = "grants.gov.s2s.port";
+
+    private KualiConfigurationService kualiConfigurationService;
 
     /**
      * This method is to get Opportunity List for the given cfda number,opportunity Id and competition Id from the grants guv. It
@@ -229,11 +224,6 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
                 mulitCampusEnabled);
     }
     
-    private static final String KEYSTORE_LOCATION = "keyStoreLocation";
-    private static final String KEYSTORE_PASSWORD = "keyStorePassword";
-    private static final String TRUSTSTORE_LOCATION = "trustStoreLocation";
-    private static final String TRUSTSTORE_PASSWORD = "trustStorePassword";
-    
 
     /**
      * 
@@ -253,7 +243,8 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
       
         Client client = ClientProxy.getClient(applicantWebService); 
         HTTPClientPolicy httpClientPolicy = new HTTPClientPolicy();
-        httpClientPolicy.setConnectionTimeout(36000);
+        httpClientPolicy.setConnectionTimeout(3*60*1000);
+//        httpClientPolicy.setConnection(ConnectionType.KEEP_ALIVE);
         httpClientPolicy.setAllowChunking(false);
         HTTPConduit conduit = (HTTPConduit) client.getConduit();
         conduit.setClient(httpClientPolicy);
@@ -309,31 +300,31 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
             throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, FileNotFoundException,
             UnrecoverableKeyException {
         KeyStore keyStore = KeyStore.getInstance("JKS");
-        keyStore.load(new FileInputStream(PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_LOCATION)),
-                PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD).toCharArray());
+
+        keyStore.load(new FileInputStream(s2SUtilService.getProperty(KEYSTORE_LOCATION)),
+                s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray());
         KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         if (alias != null && mulitCampusEnabled) {
             KeyStore keyStoreAlias = KeyStore.getInstance("JKS");
             Certificate certificate = keyStore.getCertificate(alias);
-            Key key = keyStore.getKey(alias, PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD)
+            Key key = keyStore.getKey(alias, s2SUtilService.getProperty(KEYSTORE_PASSWORD)
                     .toCharArray());
             Certificate[] certificates = { certificate };
             keyStoreAlias.load(null, null);
-            keyStoreAlias.setKeyEntry(alias, key, PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD)
-                    .toCharArray(), certificates);
-            keyManagerFactory.init(keyStoreAlias, PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD)
-                    .toCharArray());
+            keyStoreAlias.setKeyEntry(alias, key, 
+                    s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray(), certificates);
+            keyManagerFactory.init(keyStoreAlias, 
+                    s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray());
         }
         else {
-            keyManagerFactory.init(keyStore, PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, KEYSTORE_PASSWORD)
-                    .toCharArray());
+            keyManagerFactory.init(keyStore, s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray());
         }
         KeyManager[] km = keyManagerFactory.getKeyManagers();
         tlsConfig.setKeyManagers(km);
         
         KeyStore trustStore = KeyStore.getInstance("JKS");
-        trustStore.load(new FileInputStream(PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, TRUSTSTORE_LOCATION)),
-                PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, TRUSTSTORE_PASSWORD).toCharArray());
+        trustStore.load(new FileInputStream(s2SUtilService.getProperty(TRUSTSTORE_LOCATION)),
+                s2SUtilService.getProperty(TRUSTSTORE_PASSWORD).toCharArray());
         TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
         trustManagerFactory.init(trustStore);
         TrustManager[] tm = trustManagerFactory.getTrustManagers();
@@ -349,20 +340,14 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      */
 
     private String getS2SSoapHost() throws S2SException {
-        try {
-            StringBuilder host = new StringBuilder();
-            host.append(PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, S2SConstants.HOST));
-            String port = PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, S2SConstants.PORT);
-            if ((!host.toString().endsWith("/")) && (!port.startsWith("/"))) {
-                host.append("/");
-            }
-            host.append(port);
-            return host.toString();
+        StringBuilder host = new StringBuilder();
+        host.append(s2SUtilService.getProperty(GRANTS_GOV_HOST));
+        String port = s2SUtilService.getProperty(GRANTS_GOV_PORT);
+        if ((!host.toString().endsWith("/")) && (!port.startsWith("/"))) {
+            host.append("/");
         }
-        catch (IOException e) {
-            LOG.error("Error while getting Grants Gov URL", e);
-            throw new S2SException(e);
-        }
+        host.append(port);
+        return host.toString();
     }
 
     /**
@@ -381,5 +366,29 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Gets the kualiConfigurationService attribute. 
+     * @return Returns the kualiConfigurationService.
+     */
+    public KualiConfigurationService getKualiConfigurationService() {
+        return kualiConfigurationService;
+    }
+
+    /**
+     * Sets the kualiConfigurationService attribute value.
+     * @param kualiConfigurationService The kualiConfigurationService to set.
+     */
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    /**
+     * Gets the s2SUtilService attribute. 
+     * @return Returns the s2SUtilService.
+     */
+    public S2SUtilService getS2SUtilService() {
+        return s2SUtilService;
     }
 }

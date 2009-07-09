@@ -297,18 +297,6 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
         this.dateTimeService = dateTimeService;
     }
     
-    /**
-     * Create s2s server host url by looking at the properties defined in the property file
-     * @see org.kuali.kra.s2s.service.S2SGeneratorUtilService#getS2SSoapHost()
-     */
-    public String getS2SSoapHost() throws IOException {
-        String host = PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, S2SConstants.HOST);
-        String port = PropertyFileReader.getProperty(S2SConstants.S2S_PROPERTY, S2SConstants.PORT);
-        if ((!host.endsWith("/")) && (!port.startsWith("/"))) {
-            host += "/";
-        }
-        return host + port;
-    }
 
     /**
      * Gets the kualiConfigurationService attribute. 

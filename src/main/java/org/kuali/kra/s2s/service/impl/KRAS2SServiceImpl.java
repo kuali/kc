@@ -39,7 +39,6 @@ import javax.activation.DataHandler;
 import javax.mail.util.ByteArrayDataSource;
 
 import org.apache.log4j.Logger;
-//import org.apache.soap.util.mime.ByteArrayDataSource;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlObject;
@@ -65,7 +64,6 @@ import org.kuali.kra.s2s.service.S2SFormGeneratorService;
 import org.kuali.kra.s2s.service.S2SProposalValidatorService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.s2s.service.S2SUtilService;
-//import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.OpportunitySchemaParser;

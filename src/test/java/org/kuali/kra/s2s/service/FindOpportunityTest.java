@@ -18,44 +18,30 @@ package org.kuali.kra.s2s.service;
 
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 
 public class FindOpportunityTest{
     private static final Logger LOG = Logger.getLogger(FindOpportunityTest.class);
-    @Before
-	public void setUp() throws Exception {
-//		super.setUp();
-	}
-    @After
-	public void tearDown() throws Exception {
-//		super.tearDown();
-	}
     private S2SService getS2SService(){
         return KraServiceLocator.getService(S2SService.class);
     }
     @Test
     public void testSearchOpportunity() throws Exception{
-        List<S2sOpportunity> l = getS2SService().searchOpportunity("00.000", null, null);
-//        assertNotNull(l);
-//        assertTrue(l.size()>0);
+        List<S2sOpportunity> l = getS2SService().searchOpportunity("00.000", "APPLE-INDV-1", null);
+        Assert.assertFalse(l.isEmpty());
         LOG.info(l.get(0));
     }
     @Test
     public void parseOpportunityTest() throws Exception{
         List<S2sOpportunity> l = getS2SService().searchOpportunity("00.000", null, null);
-//        assertNotNull(l);
-//        assertTrue(l.size()>0);
         S2sOpportunity opp = l.get(0);
         List<S2sOppForms> oppForms = getS2SService().parseOpportunityForms(opp);
-//        assertNotNull(oppForms);
-//        assertTrue(oppForms.size()>0);
-//        LOG.info(oppForms);
+        Assert.assertFalse(oppForms.isEmpty());
     }
 }
