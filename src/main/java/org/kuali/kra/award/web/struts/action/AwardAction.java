@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,11 +45,13 @@ import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.service.AwardSponsorTermService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiRuleService;
@@ -282,16 +284,41 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @param response
      * @return
      */
-    public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form
-            , HttpServletRequest request, HttpServletResponse response) { 
+    public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{ 
         AwardForm awardForm = (AwardForm) form;
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        String awardNumber = awardForm.getAwardDocument().getAward().getAwardNumber();
         if(isNewAward(awardForm)){
             AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
             awardForm.getAwardDocument().getAward().setAwardDirectFandADistributions
                                 (awardDirectFandADistributionService.
                                         generateDefaultAwardDirectFandADistributionPeriods(awardForm.getAwardDocument().getAward()));
         }
-        return mapping.findForward(Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE);
+        
+        Map<String, String> unique = new HashMap<String, String>();
+        unique.put("awardNumber", awardNumber);
+        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+        
+        List<TimeAndMoneyDocument> timeAndMoneyDocuments = (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, unique);
+        TimeAndMoneyDocument timeAndMoneyDocument = null;
+        TimeAndMoneyDocument timeAndMoneyDocument2 = null;
+        if(timeAndMoneyDocuments.size()!=0){
+            timeAndMoneyDocument = timeAndMoneyDocuments.get(0);   
+            timeAndMoneyDocument2 = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(timeAndMoneyDocument.getDocumentNumber());
+        }
+        
+        if(timeAndMoneyDocument == null){            
+            timeAndMoneyDocument2 = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
+            timeAndMoneyDocument2.getDocumentHeader().setDocumentDescription("timeandmoney document");
+            timeAndMoneyDocument2.setAwardNumber(awardNumber);
+            documentService.saveDocument(timeAndMoneyDocument);    
+        }
+        
+        Long routeHeaderId = timeAndMoneyDocument2.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        
+        String forward = buildForwardUrl(routeHeaderId);
+        return new ActionForward(forward, true);
+        
     }
     
     /**

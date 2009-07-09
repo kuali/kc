@@ -781,6 +781,9 @@
                 <bean class="org.kuali.kra.authorizer.CreateAwardAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createAward" />
                 </bean>
+                <bean class="org.kuali.kra.authorizer.CreateTimeAndMoneyAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="createTimeAndMoney" />
+                </bean>
             </list>
         </property>
     </bean>
@@ -903,6 +906,7 @@
                 <ref bean="protocolTaskAuthorizers" />
                 <ref bean="committeeTaskAuthorizers" />
                 <ref bean="awardTaskAuthorizers" />
+                <ref bean="timeAndMoneyTaskAuthorizers" />
             </list>
         </property>
     </bean>

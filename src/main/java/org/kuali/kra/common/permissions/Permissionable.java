@@ -24,6 +24,7 @@ public interface Permissionable {
     
     String PROPOSAL_KEY = "kra.proposal";
     String AWARD_KEY = "kra.award";
+    String TIME_AND_MONEY_KEY = "kra.timeandmoney";
     
     /**
      * 
