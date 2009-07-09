@@ -176,4 +176,13 @@ public interface S2SUtilService {
      * @return true if persons match, false otherwise
      */
     public boolean keyPersonEqualsBudgetPerson(KeyPersonInfo keyPersonInfo, BudgetPersonnelDetails budgetPersonnelDetails);
+    
+    /**
+     * 
+     * This method is used to get the property from configuration file. If there is no value defined, it returns defaultValue
+     * @param key
+     * @return value
+     */
+    public String getProperty(String key);
+
 }

@@ -53,11 +53,11 @@ public interface S2SConstants {
     public static final String PROPOSAL_YNQ_ANSWER_N = "N";
     public static final String YNQ_REVIEW_DATE = "reviewDate";
 
-    public static final String S2S_PROPERTY = "/S2SAuthentication.properties";
+//    public static final String S2S_PROPERTY = "/S2SAuthentication.properties";
     public static final int DEFAULT_SSL_PORT = 446;
     public static final String PROTOCOL_TYPE = "https";
-    public static final String HOST = "host";
-    public static final String PORT = "port";
+//    public static final String HOST = "host";
+//    public static final String PORT = "port";
 
     public static final String STATUS_GRANTS_GOV_SUBMISSION_ERROR = "Grants.Gov Submission Error";
     public static final String STATUS_AGENCY_TRACKING_NUMBER_ASSIGNED = "Agency Tracking Number Assigned";

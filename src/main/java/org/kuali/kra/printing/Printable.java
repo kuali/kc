@@ -21,6 +21,9 @@ import java.util.ArrayList;
 
 import javax.xml.transform.Source;
 
+import org.kuali.kra.document.ResearchDocumentBase;
+
+
 /**
  * 
  * This interface marks reports, notifications, BOs and Documents as printable in Kuali-Coeus. 
@@ -42,4 +45,10 @@ public interface Printable extends Serializable {
      * Transform into XML-FO.
      */
     public InputStream renderXML();
+    /**
+     * 
+     * This method will provide the document object associated with the printable
+     * @return ResearchDocument
+     */
+    public ResearchDocumentBase getDocument();
 }
