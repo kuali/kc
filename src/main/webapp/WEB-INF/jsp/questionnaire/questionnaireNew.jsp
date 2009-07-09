@@ -68,6 +68,7 @@
   var ucount = 1;
   var removedNode;
   var cutNode;
+  var copyNode;
   var sqlScripts = "create new";
   var jsContextPath = "${pageContext.request.contextPath}";
   $(document).ready(function(){
@@ -279,6 +280,11 @@
        // alert("parents li "+$(this).attr("id").substring(5)+" "+$("#qnum"+$(this).attr("id").substring(5)).attr("value"));
         var qid = $("#newqid0").attr("value");
         $("#qid"+$(listitem).attr("id").substring(8)).attr("value",qid);
+
+      // set up qdesc & qtypeid                                                   
+    //  $("#qdesc"+$(listitem).attr("id").substring(8)).attr("value",$("#newqdesc0").attr("value"));
+    //  $("#qtypeid"+$(listitem).attr("id").substring(8)).attr("value",$("#newqtypeid0").attr("value"));
+
         var seqnum = Number($(listitem).siblings().size())+1;
         $("#qseq"+$(listitem).attr("id").substring(8)).attr("value",seqnum);
         var qnum = $("#questionNumber").attr("value");

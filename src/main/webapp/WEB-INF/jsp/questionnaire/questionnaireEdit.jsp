@@ -216,6 +216,11 @@
        // alert("parents li "+$(this).attr("id").substring(5)+" "+$("#qnum"+$(this).attr("id").substring(5)).attr("value"));
         var qid = $("#newqid0").attr("value");
         $("#qid"+$(listitem).attr("id").substring(8)).attr("value",qid);
+
+      // set up qdesc & qtypeid                                                   
+      //$("#qdesc"+$(listitem).attr("id").substring(8)).attr("value",$("#newqdesc0").attr("value"));
+     // $("#qtypeid"+$(listitem).attr("id").substring(8)).attr("value",$("#newqtypeid0").attr("value"));
+
         var seqnum = Number($(listitem).siblings().size())+1;
         $("#qseq"+$(listitem).attr("id").substring(8)).attr("value",seqnum);
         var qnum = $("#questionNumber").attr("value");
@@ -295,6 +300,9 @@
         $("#qnum"+$(listitem).attr("id").substring(8)).attr("value",field[5]);
         $("#qid"+$(listitem).attr("id").substring(8)).attr("value",field[1]);
         $("#qseq"+$(listitem).attr("id").substring(8)).attr("value",field[2]);
+	          // set up qdesc & qtypeid                                                   
+      $("#qdesc"+$(listitem).attr("id").substring(8)).attr("value",field[3]);
+      $("#qtypeid"+$(listitem).attr("id").substring(8)).attr("value",field[4]);
 	    
 	     } // end if-then-else
 	    } // end for to set up questions
