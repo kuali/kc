@@ -26,7 +26,7 @@ public class KraServiceLocatorListener implements ServletContextListener {
 	}
 
 	public void contextInitialized(ServletContextEvent sce) {
-        LOG.error("Starting KraServiceLocatorListener");
+        LOG.debug("Starting KraServiceLocatorListener");
 
 		KraServiceLocator.getAppContext();
 	}
