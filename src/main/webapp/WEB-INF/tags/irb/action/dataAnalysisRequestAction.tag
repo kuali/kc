@@ -18,7 +18,9 @@
 <c:set var="attributes" value="${DataDictionary.ProtocolRequestBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="textReason" value="actionHelper.protocolDataAnalysisRequestBean.reason" />
-
+<c:set var="showCommittee" value="${KualiForm.actionHelper.submissionConstraint == 'O' ||
+                                    KualiForm.actionHelper.submissionConstraint == 'M'}" />
+                                    
 <kra:permission value="${KualiForm.actionHelper.canRequestDataAnalysis}">
 
 <kul:innerTab tabTitle="Request for Data Analysis Only" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolDataAnalysisRequestBean*">
@@ -27,16 +29,20 @@
             <tbody>
                 <tr>
                     <th width="15%"> 
-                        <div align="right">
-                            <nobr>
-                            <kul:htmlAttributeLabel attributeEntry="${attributes.committeeId}" />
-                            </nobr>
-                        </div>
+                        <c:if test="${showCommittee}">
+	                        <div align="right">
+	                            <nobr>
+	                            <kul:htmlAttributeLabel attributeEntry="${attributes.committeeId}" />
+	                            </nobr>
+	                        </div>
+                        </c:if>
                     </th>
                     <td>
-                        <nobr>
-                        <kul:htmlControlAttribute property="actionHelper.protocolDataAnalysisRequestBean.committeeId" attributeEntry="${attributes.committeeId}" />
-                        </nobr>
+                        <c:if test="${showCommittee}">
+	                        <nobr>
+	                        <kul:htmlControlAttribute property="actionHelper.protocolDataAnalysisRequestBean.committeeId" attributeEntry="${attributes.committeeId}" />
+	                        </nobr>
+                        </c:if>
                     </td>
                     <th>
 	          		    <div align="right">
