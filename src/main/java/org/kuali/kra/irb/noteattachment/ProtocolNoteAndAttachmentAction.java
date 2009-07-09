@@ -47,18 +47,28 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     
     /** 
-     * Refreshes the attachments.
+     * prepares the view.
      * {@inheritDoc}
      */
     @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        ((ProtocolForm) form).getNotesAndAttachmentsHelper().refreshAttachmentReferences();
-        ((ProtocolForm) form).getNotesAndAttachmentsHelper().syncNewFiles();
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.error("pre execute");
         final ActionForward forward = super.execute(mapping, form, request, response);
-        
         ((ProtocolForm) form).getNotesAndAttachmentsHelper().prepareView();
+        LOG.error("post execute");
         return forward;
+    }
+    
+    /**
+     * This method will execute logic related to capturing new attachments, versioning, etc.
+     * {@inheritDoc}
+     */
+    @Override
+    public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.error("pre save");
+        
+        ((ProtocolForm) form).getNotesAndAttachmentsHelper().processSave();
+        LOG.error("post save");
     }
     
     /**

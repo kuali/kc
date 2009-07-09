@@ -33,7 +33,6 @@ import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
-import org.kuali.kra.irb.protocol.ProtocolNumberService;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -132,12 +131,13 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument doc = protocolForm.getDocument();
         
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, doc.getProtocol());
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocolForm.getDocument().getProtocol());
         if (isAuthorized(task)) {
             if (isValidSave(protocolForm)) {
+                this.preSave(mapping, form, request, response);
                 actionForward = super.save(mapping, form, request, response);
+                this.postSave(mapping, form, request, response);
             }
         }
         
@@ -146,6 +146,32 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         }
 
         return actionForward;
+    }
+    
+    /**
+     * This method allows logic to be executed before a save, after authorization is confirmed.
+     * 
+     * @param mapping the Action Mapping
+     * @param form the Action Form
+     * @param request the Http Request
+     * @param response Http Response
+     * @throws Exception if bad happens
+     */
+    public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //do nothing
+    }
+    
+    /**
+     * This method allows logic to be executed after a save, after authorization is confirmed.
+     * 
+     * @param mapping the Action Mapping
+     * @param form the Action Form
+     * @param request the Http Request
+     * @param response Http Response
+     * @throws Exception if bad happens
+     */
+    public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //do nothing
     }
     
     /**

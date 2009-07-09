@@ -15,31 +15,37 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 
 /**
  * This is the base class for all Protocol Attachments.
  */
-public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
+public abstract class ProtocolAttachmentBase extends ProtocolAssociate implements SeparatelySequenceableAssociate<Protocol> {
 
     private static final long serialVersionUID = -2519574730475246022L;
-
+    private static final Integer INITIAL_VERSION = Integer.valueOf(1);
+    
     private Long id;
     
     private Long protocolId;
     private Protocol protocol;
        
-    private Integer attachmentVersionNumber;
-    private Integer documentId;
+    private Integer attachmentVersionNumber = INITIAL_VERSION;
     
     private Long fileId;
+
     private ProtocolAttachmentFile file;
     private transient FormFile newFile;
+    
+    private List<Protocol> sequenceOwners;
     
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -58,8 +64,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
      * @param protocol the protocol.
      */
     public ProtocolAttachmentBase(final Protocol protocol) {
-        this.protocol = protocol;
-        this.initProtocolInfo(protocol);
+        this.setProtocol(protocol);
     }
     
     /**
@@ -128,22 +133,6 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
     }
     
     /**
-     * Gets the Protocol Attachment Base Document Id.
-     * @return the Protocol Attachment Base Document Id
-     */
-    public Integer getDocumentId() {
-        return this.documentId;
-    }
-    
-    /**
-     * Sets the Protocol Attachment Base Document Id.
-     * @param documentId the Protocol Attachment Base Document Id
-     */
-    public void setDocumentId(Integer documentId) {
-        this.documentId = documentId;
-    }
-    
-    /**
      * Gets the Protocol Attachment Base File.
      * @return the Protocol Attachment Base File
      */
@@ -198,11 +187,41 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
     public abstract String getAttachmentDescription();
     
     /** {@inheritDoc} */
+    public Protocol getLatestOwner() {
+        return this.protocol;
+    }
+    
+    /** 
+     * Cannot return null.
+     * {@inheritDoc}
+     */
+    public List<Protocol> getSequenceOwners() {
+        if (this.sequenceOwners == null) { 
+            this.sequenceOwners = new ArrayList<Protocol>();
+        }
+        return this.sequenceOwners;
+    }
+    
+    /** {@inheritDoc} */
+    public void setSequenceOwners(List<Protocol> owners) {
+        this.sequenceOwners = owners;
+    }
+    
+    /** {@inheritDoc} */
+    public void resetPersistenceState() {
+        this.setId(null);
+
+        this.setFileId(null);
+        if (this.getFile() != null) {
+            this.file.setId(null);
+        }
+    }
+    
+    /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
+        final LinkedHashMap<String, Object> hashMap = super.toStringMapper();
         hashMap.put(PropertyName.ATTACHMENT_VERSION.getPropertyName(), this.getAttachmentVersionNumber());
-        hashMap.put(PropertyName.DOCUMENT_ID.getPropertyName(), this.getDocumentId());
         hashMap.put(PropertyName.FILE_ID.getPropertyName(), this.getFileId());
         hashMap.put(PropertyName.ID.getPropertyName(), this.getId());
         return hashMap;
@@ -212,9 +231,43 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
      * Sets the protocol id and protocolNumber from the passed in protocol.
      * @param aProtocol the Protocol
      */
-    private void initProtocolInfo(Protocol aProtocol) {
-        this.setProtocolId(aProtocol.getProtocolId());
-        this.setProtocolNumber(aProtocol.getProtocolNumber());
+    private void initProtocolInfo(Protocol aProtocol) {       
+        this.setProtocolId(aProtocol != null ? aProtocol.getProtocolId() : null);
+        this.setProtocolNumber(aProtocol != null ? aProtocol.getProtocolNumber() : null);
+        this.setSequenceNumber(aProtocol != null ? aProtocol.getSequenceNumber() : null);
+        
+        if (aProtocol != null) {
+            addSequenceOwner(aProtocol);
+        }
+    }
+    
+    public void addSequenceOwner(Protocol aProtocol) {
+        if (!this.getSequenceOwners().contains(aProtocol)) {
+            final List<Protocol> owners = this.getSequenceOwners();
+            owners.add(aProtocol);
+            this.setSequenceOwners(owners);
+        }
+    }
+    
+    public void removeSequenceOwner(Protocol aProtocol) {
+        final List<Protocol> owners = this.getSequenceOwners();
+        
+        //removing any duplicates just in case
+        boolean removed = owners.remove(this);
+        while (removed) {
+            removed = owners.remove(this);
+        }
+        
+        this.setSequenceOwners(owners);
+    }
+    
+    /** 
+     * inits the object for a different Protocol.
+     * @param aProtocol the protocol
+     */
+    public void init(Protocol aProtocol) {
+        this.setId(null);
+        this.setProtocol(aProtocol);
     }
     
     /**
@@ -237,10 +290,97 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
     }
     
     /**
+     * Adds an attachment to a Collection.
+     * @param <T> the type of attachment
+     * @param attachment the attachment.
+     * @param fromCollection the Collection.
+     * @throws IllegalArgumentException if the attachment or the list is null.
+     */
+    public static <T extends ProtocolAttachmentBase> void removeAttachmentFromCollection(T attachment, Collection<T> fromCollection) {
+        if (attachment == null) {
+            throw new IllegalArgumentException("the attachment is null");
+        }
+        
+        if (fromCollection == null) {
+            throw new IllegalArgumentException("the toList is null");
+        }
+        
+        fromCollection.remove(attachment);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((this.attachmentVersionNumber == null) ? 0 : this.attachmentVersionNumber.hashCode());
+        result = prime * result + ((this.file == null) ? 0 : this.file.hashCode());
+        result = prime * result + ((this.fileId == null) ? 0 : this.fileId.hashCode());
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.protocolId == null) ? 0 : this.protocolId.hashCode());
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        final ProtocolAttachmentBase other = (ProtocolAttachmentBase) obj;
+        if (this.attachmentVersionNumber == null) {
+            if (other.attachmentVersionNumber != null) {
+                return false;
+            }
+        } else if (!this.attachmentVersionNumber.equals(other.attachmentVersionNumber)) {
+            return false;
+        }
+        if (this.file == null) {
+            if (other.file != null) {
+                return false;
+            }
+        } else if (!this.file.equals(other.file)) {
+            return false;
+        }
+        if (this.fileId == null) {
+            if (other.fileId != null) {
+                return false;
+            }
+        } else if (!this.fileId.equals(other.fileId)) {
+            return false;
+        }
+        if (this.id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        } else if (!this.id.equals(other.id)) {
+            return false;
+        }
+        if (this.protocolId == null) {
+            if (other.protocolId != null) {
+                return false;
+            }
+        } else if (!this.protocolId.equals(other.protocolId)) {
+            return false;
+        }
+        return true;
+    }
+    
+    /**
      * Contains all the property names in this class.
      */
     public static enum PropertyName {
-        ATTACHMENT_VERSION("attachmentVersionNumber"), DOCUMENT_ID("documentId"),
+        ATTACHMENT_VERSION("attachmentVersionNumber"),
         FILE_ID("fileId"), ID("id"), PROTOCOL_ID("protocolId");
         
         private final String name;

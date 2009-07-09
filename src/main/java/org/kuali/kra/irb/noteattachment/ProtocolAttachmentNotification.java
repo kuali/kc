@@ -162,7 +162,7 @@ public class ProtocolAttachmentNotification extends ProtocolAttachmentBase {
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
+        final LinkedHashMap<String, Object> hashMap = super.toStringMapper();
 
         hashMap.put(PropertyName.COMMENTS.getPropertyName(), this.getComments());
         hashMap.put(PropertyName.ACTION_DATE.getPropertyName(), this.getActionDate());
@@ -170,6 +170,56 @@ public class ProtocolAttachmentNotification extends ProtocolAttachmentBase {
         return hashMap;
     }
     
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((this.actionDate == null) ? 0 : this.actionDate.hashCode());
+        result = prime * result + ((this.comments == null) ? 0 : this.comments.hashCode());
+        result = prime * result + ((this.submissionId == null) ? 0 : this.submissionId.hashCode());
+        return result;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        final ProtocolAttachmentNotification other = (ProtocolAttachmentNotification) obj;
+        if (this.actionDate == null) {
+            if (other.actionDate != null) {
+                return false;
+            }
+        } else if (!this.actionDate.equals(other.actionDate)) {
+            return false;
+        }
+        if (this.comments == null) {
+            if (other.comments != null) {
+                return false;
+            }
+        } else if (!this.comments.equals(other.comments)) {
+            return false;
+        }
+        if (this.submissionId == null) {
+            if (other.submissionId != null) {
+                return false;
+            }
+        } else if (!this.submissionId.equals(other.submissionId)) {
+            return false;
+        }
+        return true;
+    }
+
+
+
     /**
      * Contains all the property names in this class.
      */
@@ -202,12 +252,5 @@ public class ProtocolAttachmentNotification extends ProtocolAttachmentBase {
         public String toString() {
             return this.name;
         }
-    }
-
-    public void init(Protocol protocol) {
-        setId(null);
-        setProtocolNumber(protocol.getProtocolNumber());
-        setProtocol(protocol);
-        setSequenceNumber(protocol.getSequenceNumber());
     }
 }
