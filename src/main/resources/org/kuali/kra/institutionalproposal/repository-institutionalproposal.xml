@@ -42,7 +42,7 @@
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="noticeOfOpportunityCode" column="NOTICE_OF_OPPORTUNITY_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="gradStudHeadcount" column="GRAD_STUD_HEADCOUNT" jdbc-type="INTEGER" />
-		<field-descriptor name="gradStudPersonMonths" column="GRAD_STUD_PERSON_MONTHS" jdbc-type="DECIMAL" />
+		<field-descriptor name="gradStudPersonMonths" column="GRAD_STUD_PERSON_MONTHS" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="typeOfAccount" column="TYPE_OF_ACCOUNT" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="requestedStartDateInitial" column="REQUESTED_START_DATE_INITIAL" jdbc-type="DATE" />
