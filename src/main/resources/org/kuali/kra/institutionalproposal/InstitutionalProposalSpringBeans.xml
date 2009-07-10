@@ -34,4 +34,10 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="institutionalProposalCustomAttributeService" class="org.kuali.kra.service.impl.InstitutionalProposalCustomAttributeServiceImpl">
+		<property name="businessObjectService">
+		    <ref bean="businessObjectService" />
+		</property>
+	</bean>
 </beans>

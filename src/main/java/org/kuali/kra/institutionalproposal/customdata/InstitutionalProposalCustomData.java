@@ -18,102 +18,156 @@ package org.kuali.kra.institutionalproposal.customdata;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 
-public class InstitutionalProposalCustomData extends KraPersistableBusinessObjectBase { 
+/**
+ * This is Business Object class for IP custom data BO.
+ */
+public class InstitutionalProposalCustomData extends InstitutionalProposalAssociate { 
     
     private static final long serialVersionUID = 1L;
 
-    private Integer proposalCustomDataId; 
-    private Integer proposalId; 
-    private String proposalNumber; 
-    private Integer sequenceNumber; 
-    private Integer customAttributeId; 
+    private Long proposalCustomDataId; 
+    private Long customAttributeId; 
     private String value; 
     
     private CustomAttribute customAttribute; 
-    private InstitutionalProposal institutionalProposal; 
     
+    /**
+     * Constructs a InstitutionalProposalCustomData.java.
+     */
     public InstitutionalProposalCustomData() { 
 
     } 
     
-    public Integer getProposalCustomDataId() {
+    /**
+     * This method...
+     * @return
+     */
+    public Long getProposalCustomDataId() {
         return proposalCustomDataId;
     }
 
-    public void setProposalCustomDataId(Integer proposalCustomDataId) {
+    /**
+     * This method...
+     * @param proposalCustomDataId
+     */
+    public void setProposalCustomDataId(Long proposalCustomDataId) {
         this.proposalCustomDataId = proposalCustomDataId;
     }
 
-    public Integer getProposalId() {
-        return proposalId;
-    }
-
-    public void setProposalId(Integer proposalId) {
-        this.proposalId = proposalId;
-    }
-
-    public String getProposalNumber() {
-        return proposalNumber;
-    }
-
-    public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-
-    public Integer getCustomAttributeId() {
+    /**
+     * This method...
+     * @return
+     */
+    public Long getCustomAttributeId() {
         return customAttributeId;
     }
 
-    public void setCustomAttributeId(Integer customAttributeId) {
+    /**
+     * This method...
+     * @param customAttributeId
+     */
+    public void setCustomAttributeId(Long customAttributeId) {
         this.customAttributeId = customAttributeId;
     }
 
+    /**
+     * This method...
+     * @return
+     */
     public String getValue() {
         return value;
     }
 
+    /**
+     * This method...
+     * @param value
+     */
     public void setValue(String value) {
         this.value = value;
     }
 
+    /**
+     * This method...
+     * @return
+     */
     public CustomAttribute getCustomAttribute() {
         return customAttribute;
     }
 
+    /**
+     * This method...
+     * @param customAttribute
+     */
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
     }
 
-    public InstitutionalProposal getInstitutionalProposal() {
-        return institutionalProposal;
-    }
-
-    public void setInstitutionalProposal(InstitutionalProposal institutionalProposal) {
-        this.institutionalProposal = institutionalProposal;
-    }
 
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("proposalCustomDataId", this.getProposalCustomDataId());
-        hashMap.put("proposalId", this.getProposalId());
-        hashMap.put("proposalNumber", this.getProposalNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
         hashMap.put("customAttributeId", this.getCustomAttributeId());
         hashMap.put("value", this.getValue());
         return hashMap;
     }
+    
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((customAttribute == null) ? 0 : customAttribute.hashCode());
+        result = prime * result + ((customAttributeId == null) ? 0 : customAttributeId.hashCode());
+        result = prime * result + ((proposalCustomDataId == null) ? 0 : proposalCustomDataId.hashCode());
+        result = prime * result + ((value == null) ? 0 : value.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        InstitutionalProposalCustomData other = (InstitutionalProposalCustomData) obj;
+        if (customAttribute == null) {
+            if (other.customAttribute != null)
+                return false;
+        }
+        else if (!customAttribute.equals(other.customAttribute))
+            return false;
+        if (customAttributeId == null) {
+            if (other.customAttributeId != null)
+                return false;
+        }
+        else if (!customAttributeId.equals(other.customAttributeId))
+            return false;
+        if (proposalCustomDataId == null) {
+            if (other.proposalCustomDataId != null)
+                return false;
+        }
+        else if (!proposalCustomDataId.equals(other.proposalCustomDataId))
+            return false;
+        if (value == null) {
+            if (other.value != null)
+                return false;
+        }
+        else if (!value.equals(other.value))
+            return false;
+        return true;
+    }
+
     
 }
