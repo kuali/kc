@@ -33,16 +33,16 @@ public class ProtocolAmendmentBean implements Serializable {
     private boolean protocolPersonnel = false;
     private boolean others = false;
     
-    private boolean generalInfoEnabled = true;
-    private boolean fundingSourceEnabled = true;
-    private boolean protocolReferencesEnabled = true;
-    private boolean protocolOrganizationsEnabled = true;
-    private boolean subjectsEnabled = true;
-    private boolean addModifyAttachmentsEnabled = true;
-    private boolean areasOfResearchEnabled = true;
-    private boolean specialReviewEnabled = true;
-    private boolean protocolPersonnelEnabled = true;
-    private boolean othersEnabled = true;
+    private boolean generalInfoEnabled = false;
+    private boolean fundingSourceEnabled = false;
+    private boolean protocolReferencesEnabled = false;
+    private boolean protocolOrganizationsEnabled = false;
+    private boolean subjectsEnabled = false;
+    private boolean addModifyAttachmentsEnabled = false;
+    private boolean areasOfResearchEnabled = false;
+    private boolean specialReviewEnabled = false;
+    private boolean protocolPersonnelEnabled = false;
+    private boolean othersEnabled = false;
     
     public ProtocolAmendmentBean() {
         

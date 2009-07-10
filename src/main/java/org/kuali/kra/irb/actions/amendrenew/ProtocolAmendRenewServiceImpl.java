@@ -22,11 +22,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.dao.KraLookupDao;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,9 +49,11 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     private static final String AMENDMENT = "Amendment";
     private static final String RENEWAL = "Renewal";
     private static final String CREATED = "created";
+    private static final String PROTOCOL_NUMBER = "protocolNumber";
     
     private BusinessObjectService businessObjectService;
     private ProtocolCopyService protocolCopyService;
+    private KraLookupDao kraLookupDao;
     
     /**
      * Set the Business Object Service.
@@ -62,6 +69,14 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      */
     public void setProtocolCopyService(ProtocolCopyService protocolCopyService) {
         this.protocolCopyService = protocolCopyService;
+    }
+    
+    /**
+     * Set the KRA Lookup DAO.
+     * @param kraLookupDao
+     */
+    public void setKraLookupDao(KraLookupDao kraLookupDao) {
+        this.kraLookupDao = kraLookupDao;
     }
     
     /**
@@ -280,24 +295,98 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      */
     public List<Protocol> getAmendmentAndRenewals(String protocolNumber) {
         List<Protocol> protocols = new ArrayList<Protocol>();
-       // protocols.addAll(getAmendments(protocolNumber));
-       // protocols.addAll(getRenewals(protocolNumber));
+        protocols.addAll(getAmendments(protocolNumber));
+        protocols.addAll(getRenewals(protocolNumber));
         return protocols;
     }
     
     @SuppressWarnings("unchecked")
     private Collection<Protocol> getAmendments(String protocolNumber) {
-        //Map<String, Object> fieldValues = new HashMap<String, Object>();
-        //fieldValues.put("protocolNumber", protocolNumber + "A%");
-       // return businessObjectService.findMatching(Protocol.class, fieldValues);
-        return null;
+        return (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + AMEND_ID + "%", true);
     }
 
     @SuppressWarnings("unchecked")
     private Collection<Protocol> getRenewals(String protocolNumber) {
-        //Map<String, Object> fieldValues = new HashMap<String, Object>();
-        //fieldValues.put("protocolNumber", protocolNumber + "R*");
-        //return businessObjectService.findMatching(Protocol.class, fieldValues);
-        return null;
+        return (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + RENEW_ID + "%", true);
+    }
+  
+    /**
+     * @see org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService#getAvailableModules(java.lang.String)
+     */
+    public List<String> getAvailableModules(String protocolNumber) {
+        List<String> moduleTypeCodes = getAllModuleTypeCodes();
+        
+        /*
+         * Filter out the modules that are currently being modified by
+         * outstanding amendments.
+         */
+        List<Protocol> protocols = getAmendmentAndRenewals(protocolNumber);
+        for (Protocol protocol : protocols) {
+            if (!isAmendmentCompleted(protocol)) {
+                List<ProtocolAmendRenewModule> modules = protocol.getProtocolAmendRenewal().getModules();
+                for (ProtocolAmendRenewModule module : modules) {
+                    moduleTypeCodes.remove(module.getProtocolModuleTypeCode());
+                }
+            }
+        }
+        
+        return moduleTypeCodes;
+    }
+
+    /**
+     * Get the list of all of the module type codes.
+     * @return
+     */
+    private List<String> getAllModuleTypeCodes() {
+        List<String> moduleTypeCodes = new ArrayList<String>();
+        moduleTypeCodes.add(ProtocolModule.GENERAL_INFO);
+        moduleTypeCodes.add(ProtocolModule.ADD_MODIFY_ATTACHMENTS);
+        moduleTypeCodes.add(ProtocolModule.AREAS_OF_RESEARCH);
+        moduleTypeCodes.add(ProtocolModule.FUNDING_SOURCE);
+        moduleTypeCodes.add(ProtocolModule.OTHERS);
+        moduleTypeCodes.add(ProtocolModule.PROTOCOL_ORGANIZATIONS);
+        moduleTypeCodes.add(ProtocolModule.PROTOCOL_PERSONNEL);
+        moduleTypeCodes.add(ProtocolModule.PROTOCOL_REFERENCES);
+        moduleTypeCodes.add(ProtocolModule.SPECIAL_REVIEW);
+        moduleTypeCodes.add(ProtocolModule.SUBJECTS);
+        return moduleTypeCodes;
+    }
+
+    /**
+     * Has the amendment completed, e.g. been approved, disapproved, etc?
+     * @param protocol
+     * @return
+     */
+    private boolean isAmendmentCompleted(Protocol protocol) {
+        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+            if (isAmendmentSubmission(submission) && isSubmissionCompleted(submission)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Has a submission for an amendment completed?
+     * @param submission
+     * @return
+     */
+    private boolean isSubmissionCompleted(ProtocolSubmission submission) {
+        return StringUtils.equals(ProtocolSubmissionStatus.COMPLETE, submission.getSubmissionStatusCode()) ||
+               StringUtils.equals(ProtocolSubmissionStatus.APPROVED, submission.getSubmissionStatusCode()) ||
+               StringUtils.equals(ProtocolSubmissionStatus.EXEMPT, submission.getSubmissionStatusCode()) ||
+               StringUtils.equals(ProtocolSubmissionStatus.DISAPPROVED, submission.getSubmissionStatusCode()) ||
+               StringUtils.equals(ProtocolSubmissionStatus.CLOSED, submission.getSubmissionStatusCode()) ||
+               StringUtils.equals(ProtocolSubmissionStatus.TERMINATED, submission.getSubmissionStatusCode());
+    }
+
+    /**
+     * Is this an amendment submission?
+     * @param submission
+     * @return
+     */
+    private boolean isAmendmentSubmission(ProtocolSubmission submission) {
+        return StringUtils.equals(ProtocolSubmissionType.AMENDMENT, submission.getSubmissionTypeCode()) ||
+               StringUtils.equals(ProtocolSubmissionType.CONTINUATION_WITH_AMENDMENT, submission.getSubmissionTypeCode());
     }
 }

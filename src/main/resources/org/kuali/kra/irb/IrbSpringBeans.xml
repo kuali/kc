@@ -285,6 +285,7 @@
 	<bean id="protocolAmendRenewService" class="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewServiceImpl">
 		<property name="protocolCopyService" ref="protocolCopyService" />
 		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="kraLookupDao" ref="kraLookupDao" />
 	</bean>
 	
 	<bean id="protocolNumberService" class="org.kuali.kra.irb.protocol.ProtocolNumberServiceImpl">

@@ -55,7 +55,16 @@ public interface ProtocolAmendRenewService {
     /**
      * Get all of the Amendments and Renewals for a given protocol.
      * @param protocolNumber the protocol number
-     * @return
+     * @return the list of amendments and renewals
      */
     public List<Protocol> getAmendmentAndRenewals(String protocolNumber);
+    
+    /**
+     * Get the list of protocol modules that can be amended.  Modules that
+     * are currently being modified by outstanding amendments are not returned
+     * in this list.
+     * @param protocolNumber the protocol number
+     * @return the list of protocol module type codes the user can amend
+     */
+    public List<String> getAvailableModules(String protocolNumber);
 }
