@@ -22,7 +22,7 @@
 	      <!--<url>http://eric.propellors.net</url> -->
 	      <organization>Kuali Coeus</organization>
 	      <organizationUrl>http://kuali.org</organizationUrl>
-	      <roles> 
+	      <roles>
 	        <role>DM</role>
 	        <role>developer</role>
 	      </roles>
@@ -77,43 +77,52 @@
 	      </notifier>
 	    </notifiers>
 	  </ciManagement>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-codegen-plugin</artifactId>
-				<version>2.1.3</version>
-				<executions>
-					<execution>
-						<id>generate-sources</id>
-						<phase>generate-sources</phase>
-						<inherited>false</inherited>
-						<configuration>
-							<sourceRoot>${basedir}/src/main/java</sourceRoot>                                
-							<wsdlOptions>
-								<wsdlOption>
-									<wsdl>${basedir}/src/main/config/wsdl/ApplicantIntegrationServices-V1_1.wsdl</wsdl>
-									<noAddressBinding>true</noAddressBinding>
-								</wsdlOption>
-							</wsdlOptions>
-						</configuration>
-						<goals>
-							<goal>wsdl2java</goal>
-						</goals>
-					</execution>
-				</executions>
-				<dependencies>
-	               <dependency>
-	                  <groupId>xerces</groupId>
-	                  <artifactId>xercesImpl</artifactId>
-	                  <version>2.8.1</version>
-	               </dependency>
-            	</dependencies>
-			</plugin>
-		</plugins>
-	</build>
 
 	<profiles>
+		<profile>
+			<id>s2s-wsdl</id>
+			<activation>
+				<property>
+					<name>s2s-wsdl</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-codegen-plugin</artifactId>
+						<version>2.1.3</version>
+						<executions>
+							<execution>
+								<id>generate-sources</id>
+								<phase>generate-sources</phase>
+								<inherited>false</inherited>
+								<configuration>
+									<sourceRoot>${basedir}/src/main/java</sourceRoot>                                
+									<wsdlOptions>
+										<wsdlOption>
+											<wsdl>${basedir}/src/main/config/wsdl/ApplicantIntegrationServices-V1_1.wsdl</wsdl>
+											<noAddressBinding>true</noAddressBinding>
+										</wsdlOption>
+									</wsdlOptions>
+								</configuration>
+								<goals>
+									<goal>wsdl2java</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+			               <dependency>
+			                  <groupId>xerces</groupId>
+			                  <artifactId>xercesImpl</artifactId>
+			                  <version>2.8.1</version>
+			               </dependency>
+		            	</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 		<profile>
 			<id>war</id>
 			<activation>
@@ -699,7 +708,6 @@
 				</dependency>
 			</dependencies>
 		</profile>
-		
                 <profile>
                         <id>siteDeploy</id>
                         <activation>
@@ -762,15 +770,6 @@
 		</repository> 
 
 	</repositories>
-	<!--
-	<dependencies>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http-jetty</artifactId>
-			<version>2.1.3</version>
-		</dependency>
-	</dependencies>
-	-->
 	<reporting>
 		<plugins>
 			<plugin>
