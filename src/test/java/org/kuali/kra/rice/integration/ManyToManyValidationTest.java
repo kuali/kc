@@ -53,7 +53,7 @@ public class ManyToManyValidationTest extends KraWebTestBase {
         
         final Protocol protocol = ProtocolTestUtil.getProtocol(this.mockery);
         this.doc.setProtocol(protocol);
-        ProtocolFactory.setProtocolRequiredFields(this.doc);
+        ProtocolFactory.setProtocolRequiredFields(this.doc, null);
         protocol.setProtocolId(1L);
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol(protocol);
