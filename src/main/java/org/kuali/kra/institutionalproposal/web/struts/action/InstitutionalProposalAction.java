@@ -21,10 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.core.util.RiceConstants;
 
 /**
  * This class...
@@ -34,11 +33,6 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-   // @Override
-    //public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        //return mapping.findForward(RiceConstants.MAPPING_BASIC);
-    //}
     
     /**
      * 
@@ -134,8 +128,25 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
      * @return
      */
     public ActionForward customData(ActionMapping mapping, ActionForm form
-            , HttpServletRequest request, HttpServletResponse response) {        
-        return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_CUSTOM_DATA_PAGE);
+            , HttpServletRequest request, HttpServletResponse response) {     
+        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+        return institutionalProposalForm.getCustomDataHelper().institutionalProposalCustomData(mapping, form, request, response);
+    }
+    
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @param institutionalProposalForm
+     * @return
+     * @throws Exception
+     */
+    ActionForward handleDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                  HttpServletResponse response, InstitutionalProposalForm institutionalProposalForm) throws Exception {       
+        ActionForward forward = super.docHandler(mapping, form, request, response);
+        institutionalProposalForm.getInstitutionalProposalDocument().populateCustomAttributes();
+        return forward;
     }
     
 }

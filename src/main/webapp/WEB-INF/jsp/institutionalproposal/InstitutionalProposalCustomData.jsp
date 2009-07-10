@@ -24,7 +24,9 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="customData">
   	
-This is the  Institutional Proposal Custom Data - Under Construction
+<div align="right"><kul:help documentTypeName="${KualiForm.documentTypeName}" pageName="Custom Data" /></div>
+
+<kra-ip:institutionalProposalCustomDataTab name="${KualiForm.actionName}" />
  
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 <script language="javascript" src="scripts/kuali_application.js"></script>

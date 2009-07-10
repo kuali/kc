@@ -16,8 +16,11 @@
 package org.kuali.kra.institutionalproposal.home;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
@@ -88,7 +91,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     private AwardType awardType; 
     private InstitutionalProposalScienceKeyword proposalScienceKeyword; 
     private InstitutionalProposalCostSharing proposalCostSharing; 
-    private InstitutionalProposalCustomData institutionalProposalCustomData; 
     //private AwardFundingProposals awardFundingProposals; 
     private InstitutionalProposalSpecialReview proposalSpecialReview; 
     private InstitutionalProposalPersonCreditSplit proposalPerCreditSplit; 
@@ -97,6 +99,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     private InstitutionalProposalComments proposalComments; 
     private IntellectualPropertyReview intellectualPropertyReview;
     
+    private List<InstitutionalProposalCustomData> institutionalProposalCustomDataList;
+
     public InstitutionalProposal() { 
         super();
         initializeInstitutionalProposalWithDefaultValues();
@@ -112,10 +116,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     private void initializeInstitutionalProposalWithDefaultValues(){
         setProposalNumber(DEFAULT_PROPOSAL_NUMBER);
         setSequenceNumber(1);
-        setProposalTypeCode(1);
         setTitle("test");
-        setSponsorCode("004732");
+        setSponsorCode("005852");
         setActivityTypeCode("1");
+        setProposalTypeCode(1);
         setCostSharingIndicator("1");
         setIdcRateIndicator("1");
         setSpecialReviewIndicator("1");
@@ -143,8 +147,24 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
         this.institutionalProposalDocument = institutionalProposalDocument;
     }
     
+    /**
+     * Gets the institutionalProposalCustomDataList attribute. 
+     * @return Returns the institutionalProposalCustomDataList.
+     */
+    public List<InstitutionalProposalCustomData> getInstitutionalProposalCustomDataList() {
+        return institutionalProposalCustomDataList;
+    }
+
+    /**
+     * Sets the institutionalProposalCustomDataList attribute value.
+     * @param institutionalProposalCustomDataList The institutionalProposalCustomDataList to set.
+     */
+    public void setInstitutionalProposalCustomDataList(List<InstitutionalProposalCustomData> institutionalProposalCustomDataList) {
+        this.institutionalProposalCustomDataList = institutionalProposalCustomDataList;
+    }
+    
     protected void initializeCollections() {
-        
+        institutionalProposalCustomDataList = new ArrayList<InstitutionalProposalCustomData>();
     }
     
     public Long getProposalId() {
@@ -545,14 +565,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
 
     public void setProposalCostSharing(InstitutionalProposalCostSharing proposalCostSharing) {
         this.proposalCostSharing = proposalCostSharing;
-    }
-
-    public InstitutionalProposalCustomData getInstitutionalProposalCustomData() {
-        return institutionalProposalCustomData;
-    }
-
-    public void setInstitutionalProposalCustomData(InstitutionalProposalCustomData institutionalProposalCustomData) {
-        this.institutionalProposalCustomData = institutionalProposalCustomData;
     }
 
     /*

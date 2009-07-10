@@ -17,9 +17,13 @@ package org.kuali.kra.institutionalproposal.document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.service.InstitutionalProposalCustomAttributeService;
 
 /**
  * 
@@ -100,7 +104,7 @@ public class InstitutionalProposalDocument extends ResearchDocumentBase {
     protected void init() {
         institutionalProposalList = new ArrayList<InstitutionalProposal>();
         institutionalProposalList.add(new InstitutionalProposal());
-        //populateCustomAttributes();
+        populateCustomAttributes();
     }
     
     /**
@@ -120,11 +124,11 @@ public class InstitutionalProposalDocument extends ResearchDocumentBase {
     /**
      * This method populates the customAttributes for this document.
      */
-    //@Override
-    //public void populateCustomAttributes() {
-        //AwardCustomAttributeService awardCustomAttributeService = KraServiceLocator.getService(AwardCustomAttributeService.class);
-        //Map<String, CustomAttributeDocument> customAttributeDocuments = awardCustomAttributeService.getDefaultAwardCustomAttributeDocuments();
-        //setCustomAttributeDocuments(customAttributeDocuments);
-   // }
+    @Override
+    public void populateCustomAttributes() {
+        InstitutionalProposalCustomAttributeService institutionalProposalCustomAttributeService = KraServiceLocator.getService(InstitutionalProposalCustomAttributeService.class);
+        Map<String, CustomAttributeDocument> customAttributeDocuments = institutionalProposalCustomAttributeService.getDefaultInstitutionalProposalCustomAttributeDocuments();
+        setCustomAttributeDocuments(customAttributeDocuments);
+    }
 
 }
