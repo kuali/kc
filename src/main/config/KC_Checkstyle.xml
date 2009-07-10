@@ -188,6 +188,8 @@
 		    <property name="scope" value="package"/>
             <property name="logLoadErrors" value="true"/>
             <property name="suppressLoadErrors" value="true"/>
+            <property name="allowMissingPropertyJavadoc" value="true"/>
+            <property name="allowUndeclaredRTE" value="true"/>
 		</module>
 
 		<module name="JavadocStyle">
