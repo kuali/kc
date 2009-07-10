@@ -33,7 +33,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 public class ProtocolFactory {
 
     private static final String DEFAULT_DOCUMENT_DESCRIPTION = "Protocol Document";
-    private static final String PROTOCOL_NUMBER = "1";
+    private static final String PROTOCOL_NUMBER = "0906000001";
     private static final String PROTOCOL_TYPE_CODE_STR = "1";//test of option "Standard";
     private static final String PROTOCOL_TITLE_STR = "New protocol test";
     private static final String PRINCIPAL_INVESTIGATOR_ID = "000000001";
@@ -52,31 +52,46 @@ public class ProtocolFactory {
     public static ProtocolDocument createProtocolDocument() throws WorkflowException {
         DocumentService documentService = KNSServiceLocator.getDocumentService();
         ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getNewDocument("ProtocolDocument");
-        setProtocolRequiredFields(protocolDocument);
+        setProtocolRequiredFields(protocolDocument, null);
         documentService.saveDocument(protocolDocument);
         return protocolDocument;
     }
+    
+    /**
+     * Get a new Protocol Document.
+     * 
+     * @return a new Protocol Document.
+     * @throws WorkflowException
+     */
+    public static ProtocolDocument createProtocolDocument(String protocolNumber) throws WorkflowException {
+        DocumentService documentService = KNSServiceLocator.getDocumentService();
+        ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getNewDocument("ProtocolDocument");
+        setProtocolRequiredFields(protocolDocument, protocolNumber);
+        documentService.saveDocument(protocolDocument);
+        return protocolDocument;
+    }
+
 
     /**
      * This method is to set required fields for Protocol document
      * @param document
      */
-    public static void setProtocolRequiredFields(ProtocolDocument document) {
+    public static void setProtocolRequiredFields(ProtocolDocument document, String protocolNumber) {
         Protocol protocol = document.getProtocol();
         document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESCRIPTION);
         document.setDocumentNextvalues(new ArrayList<DocumentNextvalue>());
         protocol.setProtocolDocument(document);
         protocol.setProtocolTypeCode(PROTOCOL_TYPE_CODE_STR);
         protocol.setTitle(PROTOCOL_TITLE_STR);
-        protocol.setProtocolNumber(PROTOCOL_NUMBER);
+        protocol.setProtocolNumber(protocolNumber == null ? PROTOCOL_NUMBER : protocolNumber);
         protocol.setSequenceNumber(0);
         
-        ProtocolPerson protocolPerson = getProtocolPerson(PRINCIPAL_INVESTIGATOR_ID, PRINCIPAL_INVESTIGATOR_NAME, PRINCIPAL_INVESTIGATOR_ROLE);
+        ProtocolPerson protocolPerson = getProtocolPerson(PRINCIPAL_INVESTIGATOR_ID, PRINCIPAL_INVESTIGATOR_NAME, PRINCIPAL_INVESTIGATOR_ROLE, protocolNumber);
         
         ProtocolUnit protocolUnit = new ProtocolUnit();
         protocolUnit.setUnitNumber(PRINCIPAL_INVESTIGATOR_UNIT);
         protocolUnit.setLeadUnitFlag(true);
-        protocolUnit.setProtocolNumber(PROTOCOL_NUMBER);
+        protocolUnit.setProtocolNumber(protocolNumber == null ? PROTOCOL_NUMBER : protocolNumber);
         protocolUnit.setSequenceNumber(0);
         protocolUnit.refreshReferenceObject(REFERENCE_UNIT);
 
@@ -95,13 +110,13 @@ public class ProtocolFactory {
      * @param personRole
      * @return
      */
-    private static ProtocolPerson getProtocolPerson(String personId, String personName, String personRole) {
+    private static ProtocolPerson getProtocolPerson(String personId, String personName, String personRole, String protocolNumber) {
         ProtocolPerson protocolPerson = new ProtocolPerson();
         protocolPerson.setPersonId(personId);
         protocolPerson.setPersonName(personName);
         protocolPerson.setProtocolPersonRoleId(personRole);
         protocolPerson.setPreviousPersonRoleId(personRole);
-        protocolPerson.setProtocolNumber(PROTOCOL_NUMBER);
+        protocolPerson.setProtocolNumber(protocolNumber == null ? PROTOCOL_NUMBER : protocolNumber);
         protocolPerson.setSequenceNumber(0);
         protocolPerson.refreshReferenceObject(REFERENCE_PERSON_ROLE);
         return protocolPerson;
