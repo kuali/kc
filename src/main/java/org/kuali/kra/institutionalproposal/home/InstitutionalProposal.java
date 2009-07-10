@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
@@ -33,6 +32,7 @@ import org.kuali.kra.institutionalproposal.personnel.InstitutionalProposalPerson
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class InstitutionalProposal extends KraPersistableBusinessObjectBase { 
     
@@ -52,7 +52,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     private Integer rolodexId; 
     private String noticeOfOpportunityCode; 
     private Integer gradStudHeadcount; 
-    private Long gradStudPersonMonths; 
+    private KualiDecimal gradStudPersonMonths; 
     private boolean typeOfAccount; 
     private String activityTypeCode; 
     private Date requestedStartDateInitial; 
@@ -126,6 +126,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
         setScienceCodeIndicator("1");
         statusCode = 1;
         ipReviewActivityIndicator = "A";
+        //gradStudHeadcount = 12;
     }
     
     /**
@@ -255,11 +256,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
         this.gradStudHeadcount = gradStudHeadcount;
     }
 
-    public Long getGradStudPersonMonths() {
+    public KualiDecimal getGradStudPersonMonths() {
         return gradStudPersonMonths;
     }
 
-    public void setGradStudPersonMonths(Long gradStudPersonMonths) {
+    public void setGradStudPersonMonths(KualiDecimal gradStudPersonMonths) {
         this.gradStudPersonMonths = gradStudPersonMonths;
     }
 
