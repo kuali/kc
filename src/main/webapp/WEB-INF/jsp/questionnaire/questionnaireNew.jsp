@@ -69,7 +69,7 @@
   var removedNode;
   var cutNode;
   var copyNode;
-  var sqlScripts = "create new";
+  var sqlScripts = "createnew";
   var jsContextPath = "${pageContext.request.contextPath}";
   $(document).ready(function(){
     $.ajaxSettings.cache = false; 
