@@ -21,8 +21,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataFormHelper;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
@@ -33,12 +35,14 @@ import org.kuali.rice.kns.util.KNSConstants;
 /**
  * This class...
  */
-public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase {
+public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase implements CustomDataForm{
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 4564236415580911082L;
+    
+    private InstitutionalProposalCustomDataFormHelper institutionalProposalCustomDataFormHelper;
     
     /**
      * 
@@ -48,12 +52,38 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         super();        
         initializeHeaderNavigationTabs();
         this.setDocument(new InstitutionalProposalDocument());
+        initialize();
+    }
+    
+    /**
+     * 
+     * This method initialize all form variables
+     */
+    public void initialize() {
+        institutionalProposalCustomDataFormHelper = new InstitutionalProposalCustomDataFormHelper(this);
     }
     
     // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
     public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
         
         return true;
+    }
+    
+    /**
+     * 
+     * This method returns the AwardDocument object.
+     * @return
+     */
+    public InstitutionalProposalDocument getInstitutionalProposalDocument() {
+        return (InstitutionalProposalDocument) super.getDocument();
+    }
+    
+    /**
+     * This method returns a string representation of the document type
+     * @return
+     */
+    public String getDocumentTypeName() {
+        return "InstitutionalProposalDocument";
     }
     
     /**
@@ -68,6 +98,35 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         HeaderNavigation[] list = new HeaderNavigation[navList.size()];
         navList.toArray(list);
         super.setHeaderNavigationTabs(list); 
+    }
+    
+    /**
+     * Gets the institutionalProposalCustomDataFormHelper attribute. 
+     * @return Returns the institutionalProposalCustomDataFormHelper.
+     */
+    public InstitutionalProposalCustomDataFormHelper getCustomDataHelper() {
+        return institutionalProposalCustomDataFormHelper;
+    }
+    
+    /**
+     * Gets the institutionalProposalCustomDataFormHelper attribute. 
+     * @return Returns the institutionalProposalCustomDataFormHelper.
+     */
+    public InstitutionalProposalCustomDataFormHelper getInstitutionalProposalCustomDataFormHelper() {
+        return institutionalProposalCustomDataFormHelper;
+    }
+
+    /**
+     * Sets the institutionalProposalCustomDataFormHelper attribute value.
+     * @param institutionalProposalCustomDataFormHelper The institutionalProposalCustomDataFormHelper to set.
+     */
+    public void setInstitutionalProposalCustomDataFormHelper(
+            InstitutionalProposalCustomDataFormHelper institutionalProposalCustomDataFormHelper) {
+        this.institutionalProposalCustomDataFormHelper = institutionalProposalCustomDataFormHelper;
+    }
+
+    public String getActionName() {
+        return "institutionalProposal";
     }
 
     /**
