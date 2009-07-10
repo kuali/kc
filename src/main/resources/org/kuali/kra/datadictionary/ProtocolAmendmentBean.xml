@@ -60,141 +60,91 @@
 	</bean>	
 	
 	<bean id="ProtocolAmendmentBean-generalInfo" parent="ProtocolAmendmentBean-generalInfo-parentBean" />
-	<bean id="ProtocolAmendmentBean-generalInfo-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ProtocolAmendmentBean-generalInfo-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 	    <property name="name" value="generalInfo" />
-	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="General Info" />
 	    <property name="shortLabel" value="General Info" />
-	    <property name="maxLength" value="1" />
-	    <property name="control" >
-	        <bean parent="CheckboxControlDefinition" />
-	    </property>
 	    <property name="summary" value="General Info" />
 	    <property name="description" value="General Info" />
 	</bean>
 	
 	<bean id="ProtocolAmendmentBean-fundingSource" parent="ProtocolAmendmentBean-fundingSource-parentBean" />
-	<bean id="ProtocolAmendmentBean-fundingSource-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ProtocolAmendmentBean-fundingSource-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 	    <property name="name" value="fundingSource" />
-	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Funding Source" />
 	    <property name="shortLabel" value="Funding Source" />
-	    <property name="maxLength" value="1" />
-	    <property name="control" >
-	        <bean parent="CheckboxControlDefinition" />
-	    </property>
 	    <property name="summary" value="Funding Source" />
 	    <property name="description" value="Funding Source" />
 	</bean>
 	
 	<bean id="ProtocolAmendmentBean-protocolReferences" parent="ProtocolAmendmentBean-protocolReferences-parentBean" />
-	<bean id="ProtocolAmendmentBean-protocolReferences-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ProtocolAmendmentBean-protocolReferences-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 	    <property name="name" value="protocolReferences" />
-	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Protocol References" />
 	    <property name="shortLabel" value="Protocol References" />
-	    <property name="maxLength" value="1" />
-	    <property name="control" >
-	        <bean parent="CheckboxControlDefinition" />
-	    </property>
 	    <property name="summary" value="Protocol References" />
 	    <property name="description" value="Protocol References" />
 	</bean>
 	
 	<bean id="ProtocolAmendmentBean-protocolOrganizations" parent="ProtocolAmendmentBean-protocolOrganizations-parentBean" />
-	<bean id="ProtocolAmendmentBean-protocolOrganizations-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ProtocolAmendmentBean-protocolOrganizations-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 	    <property name="name" value="protocolOrganizations" />
-	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Protocol Organizations" />
 	    <property name="shortLabel" value="Protocol Organizations" />
-	    <property name="maxLength" value="1" />
-	    <property name="control" >
-	        <bean parent="CheckboxControlDefinition" />
-	    </property>
 	    <property name="summary" value="Protocol Organizations" />
 	    <property name="description" value="Protocol Organizations" />
 	</bean>
 	
 	<bean id="ProtocolAmendmentBean-subjects" parent="ProtocolAmendmentBean-subjects-parentBean" />
-	<bean id="ProtocolAmendmentBean-subjects-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ProtocolAmendmentBean-subjects-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 	    <property name="name" value="subjects" />
-	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Subjects" />
 	    <property name="shortLabel" value="Subjects" />
-	    <property name="maxLength" value="1" />
-	    <property name="control" >
-	        <bean parent="CheckboxControlDefinition" />
-	    </property>
 	    <property name="summary" value="Subjects" />
 	    <property name="description" value="Subjects" />
 	</bean>
 	
 	<bean id="ProtocolAmendmentBean-addModifyAttachments" parent="ProtocolAmendmentBean-addModifyAttachments-parentBean" />
-	<bean id="ProtocolAmendmentBean-addModifyAttachments-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ProtocolAmendmentBean-addModifyAttachments-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 	    <property name="name" value="addModifyAttachments" />
-	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Add/Modify Attachments" />
 	    <property name="shortLabel" value="Add/Modify Attachments" />
-	    <property name="maxLength" value="1" />
-	    <property name="control" >
-	        <bean parent="CheckboxControlDefinition" />
-	    </property>
 	    <property name="summary" value="Add/Modify Attachments" />
 	    <property name="description" value="Add/Modify Attachments" />
 	</bean>
 	
 	<bean id="ProtocolAmendmentBean-areasOfResearch" parent="ProtocolAmendmentBean-areasOfResearch-parentBean" />
-	<bean id="ProtocolAmendmentBean-areasOfResearch-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ProtocolAmendmentBean-areasOfResearch-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 	    <property name="name" value="areasOfResearch" />
-	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Areas of Research" />
 	    <property name="shortLabel" value="Areas of Research" />
-	    <property name="maxLength" value="1" />
-	    <property name="control" >
-	        <bean parent="CheckboxControlDefinition" />
-	    </property>
 	    <property name="summary" value="Areas of Research" />
 	    <property name="description" value="Areas of Research" />
 	</bean>
 	
 	<bean id="ProtocolAmendmentBean-specialReview" parent="ProtocolAmendmentBean-specialReview-parentBean" />
-	<bean id="ProtocolAmendmentBean-specialReview-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ProtocolAmendmentBean-specialReview-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 	    <property name="name" value="specialReview" />
-	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Special Review" />
 	    <property name="shortLabel" value="Special Review" />
-	    <property name="maxLength" value="1" />
-	    <property name="control" >
-	        <bean parent="CheckboxControlDefinition" />
-	    </property>
 	    <property name="summary" value="Special Review" />
 	    <property name="description" value="Special Review" />
 	</bean>
 	
 	<bean id="ProtocolAmendmentBean-protocolPersonnel" parent="ProtocolAmendmentBean-protocolPersonnel-parentBean" />
-	<bean id="ProtocolAmendmentBean-protocolPersonnel-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ProtocolAmendmentBean-protocolPersonnel-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 	    <property name="name" value="protocolPersonnel" />
-	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Protocol Personnel" />
 	    <property name="shortLabel" value="Protocol Personnel" />
-	    <property name="maxLength" value="1" />
-	    <property name="control" >
-	        <bean parent="CheckboxControlDefinition" />
-	    </property>
 	    <property name="summary" value="Protocol Personnel" />
 	    <property name="description" value="Protocol Personnel" />
 	</bean>
 	
 	<bean id="ProtocolAmendmentBean-others" parent="ProtocolAmendmentBean-others-parentBean" />
-	<bean id="ProtocolAmendmentBean-others-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ProtocolAmendmentBean-others-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 	    <property name="name" value="others" />
-	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Others" />
 	    <property name="shortLabel" value="Others" />
-	    <property name="maxLength" value="1" />
-	    <property name="control" >
-	        <bean parent="CheckboxControlDefinition" />
-	    </property>
 	    <property name="summary" value="Others" />
 	    <property name="description" value="Others" />
 	</bean>
