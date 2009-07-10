@@ -19,8 +19,8 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="InstitutionalProposal" parent="InstitutionalProposal-parentBean" />
-    <bean id="InstitutionalProposal-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <bean id="IntellectualPropertyReview" parent="IntellectualPropertyReview-parentBean" />
+    <bean id="IntellectualPropertyReview-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview" />
         <property name="titleAttribute" value="proposalId" />
         <property name="attributes" >
