@@ -20,6 +20,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -28,6 +29,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
@@ -103,22 +105,64 @@ public class ActionHelper implements Serializable {
         protocolDeleteBean = new ProtocolDeleteBean();
     }
     
+    /**
+     * Create an Amendment Bean.  The modules that can be selected depends upon the
+     * current outstanding amendments.  If a module is currently being modified by a
+     * previous amendment, it cannot be modified by another amendment.  Once the 
+     * previous amendment has completed (approved, disapproved, etc), then a new
+     * amendment can modify the same module.
+     * @return
+     */
     private ProtocolAmendmentBean createAmendmentBean() {
         ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
      
-       /// ProtocolAmendRenewService protocolAmendRenewService = getProtocolAmendRenewService();
-       // List<Protocol> protocols = protocolAmendRenewService.getAmendmentAndRenewals(getProtocol().getProtocolNumber());
-        // TODO: set modules based upon previous unapproved amendments
+        ProtocolAmendRenewService protocolAmendRenewService = getProtocolAmendRenewService();
+        List<String> moduleTypeCodes = protocolAmendRenewService.getAvailableModules(getProtocol().getProtocolNumber());
+        
+        for (String moduleTypeCode : moduleTypeCodes) {
+            enableModuleOption(moduleTypeCode, amendmentBean);
+        }
         
         return amendmentBean;
     }
     
-    private String getProtocolNumber() {
-        String protocolNumber = getProtocol().getProtocolNumber();
-        if (protocolNumber.length() > 10) {
-            protocolNumber = protocolNumber.substring(0, 10);
+    /**
+     * Enable a module for selection by a user by setting its corresponding enabled
+     * flag to true in the amendment bean.
+     * @param moduleTypeCode
+     * @param amendmentBean
+     */
+    private void enableModuleOption(String moduleTypeCode, ProtocolAmendmentBean amendmentBean) {
+        if (StringUtils.equals(ProtocolModule.GENERAL_INFO, moduleTypeCode)) {
+            amendmentBean.setGeneralInfoEnabled(true);
+        } 
+        else if (StringUtils.equals(ProtocolModule.ADD_MODIFY_ATTACHMENTS, moduleTypeCode)) {
+            amendmentBean.setAddModifyAttachmentsEnabled(true);
         }
-        return protocolNumber;
+        else if (StringUtils.equals(ProtocolModule.AREAS_OF_RESEARCH, moduleTypeCode)) {
+            amendmentBean.setAreasOfResearchEnabled(true);
+        }
+        else if (StringUtils.equals(ProtocolModule.FUNDING_SOURCE, moduleTypeCode)) {
+            amendmentBean.setFundingSourceEnabled(true);
+        }
+        else if (StringUtils.equals(ProtocolModule.OTHERS, moduleTypeCode)) {
+            amendmentBean.setOthersEnabled(true);
+        }
+        else if (StringUtils.equals(ProtocolModule.PROTOCOL_ORGANIZATIONS, moduleTypeCode)) {
+            amendmentBean.setProtocolOrganizationsEnabled(true);
+        }
+        else if (StringUtils.equals(ProtocolModule.PROTOCOL_PERSONNEL, moduleTypeCode)) {
+            amendmentBean.setProtocolPersonnelEnabled(true);
+        }
+        else if (StringUtils.equals(ProtocolModule.PROTOCOL_REFERENCES, moduleTypeCode)) {
+            amendmentBean.setProtocolReferencesEnabled(true);
+        }
+        else if (StringUtils.equals(ProtocolModule.SPECIAL_REVIEW, moduleTypeCode)) {
+            amendmentBean.setSpecialReviewEnabled(true);
+        }
+        else if (StringUtils.equals(ProtocolModule.SUBJECTS,moduleTypeCode)) {
+            amendmentBean.setSubjectsEnabled(true);
+        }
     }
 
     private ProtocolAmendRenewService getProtocolAmendRenewService() {
@@ -140,15 +184,6 @@ public class ActionHelper implements Serializable {
         canRequestReOpenEnrollment = hasRequestReOpenEnrollmentPermission();
         canRequestDataAnalysis = hasRequestDataAnalysisPermission();
         canDeleteProtocolAmendRenew = hasDeleteProtocolAmendRenewPermission();
-        
-        prepareAmendmentBean(protocolAmendmentBean);
-    }
-    
-    private void prepareAmendmentBean(ProtocolAmendmentBean protocolAmendmentBean2) {
-         ProtocolAmendRenewService protocolAmendRenewService = getProtocolAmendRenewService();
-         List<Protocol> protocols = protocolAmendRenewService.getAmendmentAndRenewals(getProtocol().getProtocolNumber());
-       
-        // System.out.println("Size: " + protocols.size());
     }
 
     private String getParameterValue(String parameterName) {
