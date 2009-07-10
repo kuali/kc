@@ -10,6 +10,8 @@
      linktmp.click(
 					function()
 					{
+                        $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+					
 						$("#"+divId).slideToggle(300);
 					}
 	 );
@@ -138,7 +140,7 @@
         getMoveDownLink().appendTo(thtmp); 
      //}
   
-     image = $('<a href="#"><img src="/kra-dev/static/images/tinybutton-removenode.gif" width="79" height="15" border="0" alt="Remove Node" title="Remove this node and its child groups/sponsors"></a>&nbsp').attr("id","remove"+i).click(function() {
+     image = $('<a href="#"><img src="static/images/tinybutton-removenode.gif" width="79" height="15" border="0" alt="Remove Node" title="Remove this node and its child groups/sponsors"></a>&nbsp').attr("id","remove"+i).click(function() {
                       var liId="li#"+qnaireid;
                       removedNode = $(liId).clone(true);
                       //removedNode = $(liId); // this will not work because event also lost
@@ -249,7 +251,7 @@
                    
                    if (copyNode) {
                       // paste copy node
-                      pasteCopyNode(qnaireid);
+                      pasteChild(qnaireid, copyNode);
                    }
                                          
                 }); 
@@ -319,6 +321,7 @@
   
   }
   
+  // traverse thru the node to copy this node tree
   function pasteChild(parentid, childid) {
          var parentNode = $("#"+parentid);
          var ulTag = parentNode.children('ul');
@@ -340,7 +343,7 @@
                  }
                        
                  
-           alert("node "+parentid+"-"+ parentNode.children('ul').size());     
+          // alert("node "+parentid+"-"+ parentNode.children('ul').size());     
            listitem.appendTo(ulTag);
         // also need this to show 'folder' icon
              $('#example').treeview({
@@ -365,11 +368,11 @@
         alert("paste copy node "+sqlScripts);
         $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
   
-        alert ("copy li c size "+$("#"+childid).attr("id")+"-"+$("#"+childid).children('ul.eq(0)').children('li').size());
+        //alert ("copy li c size "+$("#"+childid).attr("id")+"-"+$("#"+childid).children('ul.eq(0)').children('li').size());
         if ($("#"+childid).children('ul.eq(0)').children('li').size() > 0) {
              
              $("#"+childid).children('ul.eq(0)').children('li').each(function(){
-                alert("child copy node"+$(this).attr("id"));
+               // alert("child copy node"+$(this).attr("id"));
                 pasteChild($(listitem).attr("id"), $(this).attr("id"));
             });
         }
@@ -381,11 +384,16 @@
   function getMoveDownLink() {
       var image = $('<img style="border:none;" alt="move down" title="Move Down" type="image" >');
       var atag = $('<a href="#"></a>').attr("id","movedn"+i).click(function() {
-          //alert("move down"+$(this).parents('li:eq(0)').next().size());
+          //alert("move down"+$(this).parents('li:eq(0)').size());
           var curNode = $(this).parents('li:eq(0)').clone(true);
           var nextNode = $(this).parents('li:eq(0)').next();
           $(this).parents('li:eq(0)').remove();
           curNode.insertAfter(nextNode);
+          var idx = $(curNode).attr("id").substring(8);
+          //alert("move dn "+idx+"-"+$("#qseq"+idx)+"-"+$("#qid"+idx)+"-"+$("#qnum"+idx))
+          sqlScripts = sqlScripts + "#;#" + "update QMove;"+(Number($("#qseq"+idx).attr("value"))+1)+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
+
+
           $("#moveup"+curNode.attr("id").substring(8)).show();
           $("#movedn"+nextNode.attr("id").substring(8)).show();
           if (nextNode.prev().size() == 0) {
@@ -396,6 +404,11 @@
              //alert ("move dn no next node ");
               $("#movedn"+curNode.attr("id").substring(8)).hide();
           }
+          idx = $(nextNode).attr("id").substring(8);
+          //alert("move dn "+idx+"-"+$("#qseq"+idx)+"-"+$("#qid"+idx)+"-"+$("#qnum"+idx))
+          sqlScripts = sqlScripts + "#;#" + "update QMove;"+(Number($("#qseq"+idx).attr("value"))-1)+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
+
+
       }); 
       image.attr("src",jsContextPath+"/static/images/jquery/arrow-down.gif");
       //alert("images "+image.attr("src"));
