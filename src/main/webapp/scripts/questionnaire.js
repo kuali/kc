@@ -142,7 +142,9 @@
   
      image = $('<a href="#"><img src="static/images/tinybutton-removenode.gif" width="79" height="15" border="0" alt="Remove Node" title="Remove this node and its child groups/sponsors"></a>&nbsp').attr("id","remove"+i).click(function() {
                       var liId="li#"+qnaireid;
-                      removedNode = $(liId).clone(true);
+                      // TODO : IE problem , clone does not clone child node
+                      //removedNode = $(liId).clone(true);
+                      removedNode = $(liId);
                       //removedNode = $(liId); // this will not work because event also lost
                       alert("Remove node "+removedNode.attr("id"));
                       if ($(liId).prev().size() == 0 && $(liId).next().size() > 0) {
@@ -158,25 +160,29 @@
                          parentNum = $("#qnum"+$(liId).parents('ul:eq(0)').parents('li:eq(0)').attr("id").substring(8)).attr("value");
                       }
                       
-                      sqlScripts = sqlScripts + "#;#" + "delete Q;"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value")+";"+parentNum+";"+$("#qseq"+idx).attr("value");
+                      deleteChild(parentNum, $(liId).attr("id"));
+                      alert(sqlScripts);
+                      //sqlScripts = sqlScripts + "#;#" + "delete Q;"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value")+";"+parentNum+";"+$("#qseq"+idx).attr("value");
                       // TODO : update seqnum of the sibling nodes following it
                       $(liId).remove();
                       cutNode=null;
                     }); 
       image.appendTo(thtmp);
-      image = $('<a href="#"><img src="/kra-dev/static/images/tinybutton-cutnode.gif" width="79" height="15" border="0" alt="Cut Node" title="Cut this node and its child roups/sponsors.  (Node will not be removed until you paste it.)"></a>&nbsp').attr("id","cut"+i).click(function() {
+      image = $('<a href="#"><img src="static/images/tinybutton-cutnode.gif" width="79" height="15" border="0" alt="Cut Node" title="Cut this node and its child roups/sponsors.  (Node will not be removed until you paste it.)"></a>&nbsp').attr("id","cut"+i).click(function() {
                       alert("Cut node");
                        var liId="li#"+qnaireid;
-                      cutNode = $(liId).clone(true);
+                      //cutNode = $(liId).clone(true);
+                      cutNode = $(liId);
                       removedNode=null; // remove & cutNode should not co-exist
                     }); 
       image.appendTo(thtmp);                  
-      image = $('<a href="#"><img src="/kra-dev/static/images/tinybutton-copynode.gif" width="79" height="15" border="0" alt="Copy Node" title="Copy this node and its child.)"></a>&nbsp').attr("id","copy"+i).click(function() {
+      image = $('<a href="#"><img src="static/images/jquery/tinybutton-copynode.gif" width="79" height="15" border="0" alt="Copy Node" title="Copy this node and its child.)"></a>&nbsp').attr("id","copy"+i).click(function() {
                       alert("Copy node");
-                      copyNode = qnaireid;
+                       var liId="li#"+qnaireid;
+                      copyNode = $(liId).clone(true);
                     }); 
       image.appendTo(thtmp);                  
-      image = $('<a href="#"><img src="/kra-dev/static/images/tinybutton-pastenode.gif" width="79" height="15" border="0" alt="Paste Node" title="Paste your previously cut node structure under this node"></a>').attr("id","paste"+i).click(function() {
+      image = $('<a href="#"><img src="static/images/tinybutton-pastenode.gif" width="79" height="15" border="0" alt="Paste Node" title="Paste your previously cut node structure under this node"></a>').attr("id","paste"+i).click(function() {
 
       // TODO : what if paste 'not top level node' to top level, then how about the exist 'condition'
                    
@@ -192,44 +198,48 @@
                           ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);                         
                       }   
                       if (removedNode) {
+                           pasteChild(qnaireid, removedNode);
+                      
+                      
                          // sqlScripts = sqlScripts +"#;#"+getInsertClause(getResearchAreaCode(removedNode.children('a:eq(0)').text()), getResearchAreaCode(name), getResearchAreaDescription(removedNode.children('a:eq(0)').text()));
 
                       //var idx = $(qnaireid).attr("id").substring(8);
-                         var idx = $(removedNode).attr("id").substring(8);
-                         var liId="li#"+qnaireid;
-                         var seqnum = Number($(liId).siblings().size())+1;
-                         var qid = $("#qid"+idx).attr("value");
-                         var qnum = $("#qnum"+idx).attr("value");
-                         var parentNum = $("#qnum"+$(liId).attr("id").substring(8)).attr("value");
+//                         var idx = $(removedNode).attr("id").substring(8);
+//                         var liId="li#"+qnaireid;
+//                         var seqnum = Number($(liId).siblings().size())+1;
+//                         var qid = $("#qid"+idx).attr("value");
+//                         var qnum = $("#qnum"+idx).attr("value");
+//                         var parentNum = $("#qnum"+$(liId).attr("id").substring(8)).attr("value");
                       //alert(idx+"-"+seqnum);
                       // parent_qnum/seq/qid/qnum 
                       //sqlScripts = sqlScripts + "#;#" + "update QPaste;"+$("#qnum"+$(liId).attr("id").substring(8)).attr("value")+";"+seqnum+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
-                         var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
-                         sqlScripts = sqlScripts+"#;#"+insertValues;
-                         alert (sqlScripts);
-                          removedNode.appendTo(ulTag);
+//                         var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
+//                         sqlScripts = sqlScripts+"#;#"+insertValues;
+//                         alert (sqlScripts);
+//                          removedNode.appendTo(ulTag);
                           removedNode = null;
                       } else if (cutNode) {
-                         var idx = $(cutNode).attr("id").substring(8);
-                         var liId="li#"+qnaireid;
-                         var seqnum = Number($(liId).children('li').size())+1;
-                         var qid = $("#qid"+idx).attr("value");
-                         var qnum = $("#qnum"+idx).attr("value");
-                         var parentNum = $("#qnum"+$(liId).attr("id").substring(8)).attr("value");
+                           pasteChild(qnaireid, cutNode);
+//                         var idx = $(cutNode).attr("id").substring(8);
+//                         var liId="li#"+qnaireid;
+//                         var seqnum = Number($(liId).children('li').size())+1;
+//                         var qid = $("#qid"+idx).attr("value");
+//                         var qnum = $("#qnum"+idx).attr("value");
+//                         var parentNum = $("#qnum"+$(liId).attr("id").substring(8)).attr("value");
                       //alert(idx+"-"+seqnum);
                       // parent_qnum/seq/qid/qnum 
                       //sqlScripts = sqlScripts + "#;#" + "update QPaste;"+$("#qnum"+$(liId).attr("id").substring(8)).attr("value")+";"+seqnum+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
                         // var insertValues = "update Qpaste"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
-                         sqlScripts = sqlScripts + "#;#" + "update QPaste;"+parentNum+";"+seqnum+";"+qid+";"+qnum;
+//                         sqlScripts = sqlScripts + "#;#" + "update QPaste;"+parentNum+";"+seqnum+";"+qid+";"+qnum;
                          //sqlScripts = sqlScripts+"#;#"+insertValues;
-                         alert (sqlScripts);
+//                         alert (sqlScripts);
                       
                       
                           var liId = cutNode.attr("id");
                           var parentRACode;
                           $("li#"+liId).remove();
-                          cutNode.appendTo(ulTag);
-                          idx = cutNode.attr("id").substring(8);
+//                          cutNode.appendTo(ulTag);
+//                          idx = cutNode.attr("id").substring(8);
                           //sqlScripts = sqlScripts +"#;#"+getInsertClause(getResearchAreaCode(cutNode.children('a:eq(0)').text()), getResearchAreaCode(name), getResearchAreaDescription(cutNode.children('a:eq(0)').text()));
                           cutNode = null;
                       } 
@@ -322,11 +332,12 @@
   }
   
   // traverse thru the node to copy this node tree
-  function pasteChild(parentid, childid) {
+  // need to clone copy node, otherwise if paste to its own children, then this will become infinite loop,
+  function pasteChild(parentid, startnode) {
          var parentNode = $("#"+parentid);
          var ulTag = parentNode.children('ul');
          
-         startnode = $("#"+childid);
+         //startnode = $("#"+childid);
          alert("copy node "+$(startnode).attr("id").substring(8));
          qdesc = $('#qdesc'+$(startnode).attr("id").substring(8)).attr("value");
          qtypeid = $('#qtypeid'+$(startnode).attr("id").substring(8)).attr("value");
@@ -365,21 +376,43 @@
          var parentNum = $("#qnum"+$(liId).attr("id").substring(8)).attr("value");
         var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
         sqlScripts = sqlScripts+"#;#"+insertValues;
-        alert("paste copy node "+sqlScripts);
+        alert("paste copy node "+sqlScripts+$(startnode).children('ul.eq(0)').children('li').size());
         $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
   
         //alert ("copy li c size "+$("#"+childid).attr("id")+"-"+$("#"+childid).children('ul.eq(0)').children('li').size());
-        if ($("#"+childid).children('ul.eq(0)').children('li').size() > 0) {
+         $(startnode).children().each(function(){
+            alert('child '+$(this).html()+"-"+$(this).html());
+         });
+        if ($(startnode).children('ul.eq(0)').children('li').size() > 0) {
              
-             $("#"+childid).children('ul.eq(0)').children('li').each(function(){
+             $(startnode).children('ul.eq(0)').children('li').each(function(){
                // alert("child copy node"+$(this).attr("id"));
-                pasteChild($(listitem).attr("id"), $(this).attr("id"));
+                pasteChild($(listitem).attr("id"), $(this));
             });
         }
   
   
   }
   
+  // traverse thru the node to delete this node tree
+  function deleteChild(parentNum, childid) {
+
+        idx = $("#"+childid).attr("id").substring(8);
+        sqlScripts = sqlScripts + "#;#" + "delete Q;"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value")+";"+parentNum+";"+$("#qseq"+idx).attr("value");
+   //      $("#"+childid).children().each(function(){
+   //         alert('child '+$(this).html()+"-"+$(this).html());
+   //      });
+        
+        if ($("#"+childid).children('ul.eq(0)').children('li').size() > 0) {
+             
+             $("#"+childid).children('ul.eq(0)').children('li').each(function(){
+                deleteChild($("#qnum"+idx).attr("value"), $(this).attr("id"));
+            });
+        }
+  
+  
+  }
+
   
   function getMoveDownLink() {
       var image = $('<img style="border:none;" alt="move down" title="Move Down" type="image" >');
@@ -410,7 +443,7 @@
 
 
       }); 
-      image.attr("src",jsContextPath+"/static/images/jquery/arrow-down.gif");
+      image.attr("src","static/images/jquery/arrow-down.gif");
       //alert("images "+image.attr("src"));
       atag.html(image);
       return atag;
@@ -446,7 +479,7 @@
           sqlScripts = sqlScripts + "#;#" + "update QMove;"+(Number($("#qseq"+idx).attr("value"))+1)+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
           //alert(sqlScripts);
       }); 
-      image.attr("src",jsContextPath+"/static/images/jquery/arrow-up.gif");
+      image.attr("src","static/images/jquery/arrow-up.gif");
       //alert("images "+image.attr("src"));
       atag.html(image);
       return atag;
@@ -510,14 +543,15 @@
      });
      atag.html(image);
      atag.appendTo(tdtmp);
+     tdtmp.appendTo(trtmp);
      //name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:document.newMaintainableObject.businessObject.questionnaireQuestions[0].questionId,))).((#document.newMaintainableObject.businessObject.questionnaireQuestions[0].questionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/questionId/)).((~~)).anchor1"
-     image = $('<input type="image" src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search Question" title="Search Question" />').attr("id","search"+i);
-     image.attr("name","methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:newQuestionId,question:newQuestion))).((#newQuestionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/questionId/)).((~~)).anchor1");
-     image.appendTo(tdtmp);
+    // image = $('<input type="image" src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search Question" title="Search Question" />').attr("id","search"+i);
+    // image.attr("name","methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:newQuestionId,question:newQuestion))).((#newQuestionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/questionId/)).((~~)).anchor1");
+    // image.appendTo(tdtmp);
      //var testlookup = $('<input type="image" tabindex="1000009" name="methodToCall\.performLookup\.(!!org\.kuali\.kra\.budget\.bo\.RateClassType!!)\.(((rateClassType:document\.newMaintainableObject\.rateClassType,)))\.((#document\.newMaintainableObject\.rateClassType:rateClassType,#))\.((<>))\.(([]))\.((**))\.((^^))\.((&&))\.((/rateClassTypeT/))\.((~~))\.anchor1" src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search Rate Class Type" title="Search Rate Class Type" />');
      //testlookup.appendTo(tdtmp);
   
-      image = $('<input name="addquestionnaire" src="/kra-dev/kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" />').attr("id","addQn"+i).click(function() {
+      image = $('<input name="addquestionnaire" src="kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" />').attr("id","addQn"+i).click(function() {
         //alert("This would add question "+$(".radioQn"+$(this).attr("id").substring(5)+":checked").val()+"-"+$("#newQuestionId").attr("value")+"-"+$("#newQuestion").attr("value"));  
 //        alert("This would add question "+$(this).parents('li:eq(0)').children('ul:eq(0)').size()+"-"+$(".radioQn"+$(this).attr("id").substring(5)+":checked").val());  
         //alert("This would add question "+$(this).attr("id"));  
@@ -607,6 +641,8 @@
         $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
         return false;
       });
+      
+     tdtmp = $('<td style="border:none; width:30px; text-align:center;"></td>');
       image.appendTo(tdtmp);
   
   
