@@ -66,8 +66,8 @@
     <bean id="QuestionnaireUsage-moduleItemCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="moduleItemCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Module Item Code" />
-        <property name="shortLabel" value="Module Item Code" />
+        <property name="label" value="Module" />
+        <property name="shortLabel" value="Module" />
         <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -139,8 +139,8 @@
     <bean id="QuestionnaireUsage-questionnaireLabel-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="questionnaireLabel" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Questionnaire Label" />
-        <property name="shortLabel" value="Questionnaire Label" />
+        <property name="label" value="Label" />
+        <property name="shortLabel" value="Label" />
         <property name="maxLength" value="50" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
