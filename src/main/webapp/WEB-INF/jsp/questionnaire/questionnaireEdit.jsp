@@ -69,7 +69,7 @@
   var ucount = 1;
   var removedNode;
   var cutNode;
-  var sqlScripts = "create new";
+  var sqlScripts = "";
   var jsContextPath = "${pageContext.request.contextPath}";
   $(document).ready(function(){
     $.ajaxSettings.cache = false; 
@@ -95,19 +95,23 @@
        //} else {
        //    qisfinal = false;
        //}
-       alert ("save"+qname+qdescription+$('#newQuestionnaire\\.isFinal').attr("checked")); 
+       //alert ("save"+sqlScripts); 
+       //TODO : FF seems to have trouble with "#;#"
+       sqlScripts = sqlScripts.replace(/#;#/g,"1;1");
+       alert ("save"+sqlScripts); 
        $.ajax({
          url: 'questionnaireAjax.do',
          type: 'GET',
          dataType: 'html',
          cache: false,
-         data:'sqlScripts='+sqlScripts+'&newQuestionnaire.name='+qname+'&newQuestionnaire.description='+qdescription+'&newQuestionnaire.isFinal='+qisfinal,
+         data:'newQuestionnaire.name='+qname+'&sqlScripts='+sqlScripts+'&newQuestionnaire.description='+qdescription+'&newQuestionnaire.isFinal='+qisfinal,
          async:false,
          timeout: 1000,
          error: function(){
             alert('Error loading XML document');
          },
          success: function(xml){
+            sqlScripts = "createnew";
             $(xml).find('h3').each(function(){
                 var item_text = $(this).text();
             });

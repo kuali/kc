@@ -97,6 +97,7 @@ public class QuestionnaireAction extends KualiAction {
                     +question.getQuestionNumber()+"#f#"+question.getCondition()+"#f#"+question.getConditionValue();
             //}
         }
+        questionnaireForm.setQuestionNumber(questionnaireForm.getQuestionNumber()+1);                
        // if (StringUtils.isNotBlank(result)) {
        //     result = result.substring(0,result.length()-3);
         //}
