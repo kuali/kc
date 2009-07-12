@@ -45,7 +45,7 @@
 
 
     <div align="center" style="margin:10px">
-        <kul:tabTop defaultOpen="true" tabTitle="Questionnaire" tabErrorKey="questionnaire*">
+        <kul:tabTop defaultOpen="true" tabTitle="Questionnaire Details, Content & Use " tabErrorKey="questionnaire*">
     <kra-questionnaire:questionnaireCore />
     <kra-questionnaire:questionnaireQuestion /> 
     <kra-questionnaire:questionnaireUsage /> 
@@ -168,34 +168,36 @@
   //$(document).ready(function(){
      $("#save").click(function(){    
        var qname = $('#newQuestionnaire\\.name').attr("value");
+       var qnaireid = $('#newQuestionnaire\\.questionnaireId').attr("value");
        var qdescription =$('#newQuestionnaire\\.description').attr("value");
        var qisfinal = $('#newQuestionnaire\\.isFinal').attr("checked");
-       //if (qisfinal == 'on') {
-       //    qisfinal = true;
-       //} else {
-       //    qisfinal = false;
-       //}
-       alert ("save"+qname+qdescription+$('#newQuestionnaire\\.isFinal').attr("checked")); 
+       //alert ("save"+qname+qdescription+$('#newQuestionnaire\\.isFinal').attr("checked")); 
+       if (qname == '') {
+           alert("Questionnaire Name is required");
+       } else {
        $.ajax({
          url: 'questionnaireAjax.do',
          type: 'GET',
          dataType: 'html',
          cache: false,
-         data:'sqlScripts='+sqlScripts+'&newQuestionnaire.name='+qname+'&newQuestionnaire.description='+qdescription+'&newQuestionnaire.isFinal='+qisfinal,
+         data:'sqlScripts='+sqlScripts+'&newQuestionnaire.name='+qname+'&newQuestionnaire.questionnaireId='+qnaireid+'&newQuestionnaire.description='+qdescription+'&newQuestionnaire.isFinal='+qisfinal,
          async:false,
          timeout: 1000,
          error: function(){
             alert('Error loading XML document');
          },
          success: function(xml){
+            sqlScripts="createnew";
             $(xml).find('h3').each(function(){
-                var item_text = $(this).text();
+                //var item_text = $(this).text();
+                $('#newQuestionnaire\\.questionnaireId').attr("value",$(this).text().substring(9));
             });
          }
-       });
-       
+       });// .ajax
+       } // if-then-else
        return false;
-      }); 
+       }); 
+      
    //}      
    
    
@@ -251,6 +253,12 @@
               //listitem.appendTo('ul#example');
               // last one no 'move dn'
                  $("#movedn"+idx).hide();
+                  alert($("#example").children('li').size());
+                 if ($("#example").children('li').size() == 1) {
+                     // TODO : the first one
+                      $("#moveup"+idx).hide();
+                 }
+                 
                  if (listitem.prev().size() > 0) {
                     $("#movedn"+listitem.prev().attr("id").substring(8)).show();
                  }

@@ -86,8 +86,8 @@
     <bean id="Questionnaire-isFinal" parent="Questionnaire-isFinal-parentBean" />
     <bean id="Questionnaire-isFinal-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
         <property name="name" value="isFinal" />
-        <property name="label" value="Is Final" />
-        <property name="shortLabel" value="Is Final" />
+        <property name="label" value="Final" />
+        <property name="shortLabel" value="Final" />
         <property name="summary" value="Is Final" />
         <property name="description" value="Is Final" />
     </bean>

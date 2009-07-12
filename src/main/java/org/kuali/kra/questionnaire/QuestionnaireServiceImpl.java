@@ -27,7 +27,8 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
 
     public void saveQuestionnaire(String sqlScripts, Questionnaire questionnaire) {
         businessObjectService.save(questionnaire);
-        questionnaireDao.runScripts(sqlScripts.split("#;#"),questionnaire.getQuestionnaireId());
+        //questionnaireDao.runScripts(sqlScripts.split("#;#"),questionnaire.getQuestionnaireId());
+        questionnaireDao.runScripts(sqlScripts.split("1;1"),questionnaire.getQuestionnaireId());
             
     }
 

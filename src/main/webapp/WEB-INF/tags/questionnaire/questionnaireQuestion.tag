@@ -1,12 +1,17 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="readOnly" value="false"  scope="request"/>
-<%-- example to register for security reason 
-<c:set var="epMethodToCallAttribute" value="methodToCall.performLookup.(!!org.kuali.kra.budget.bo.RateClassType!!).(((rateClassType:document.newMaintainableObject.rateClassType,))).((#document.newMaintainableObject.rateClassType:rateClassType,#)).((<>)).(([])).((**)).((^^)).((&&)).((/rateClassTypeT/)).((~~)).anchor1"/>
-${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)} 
---%>
 
 <div class="tab-container" align="center">
-    <h3>
+<!--
+  <table id="question-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
+   <tr><th class="elementhead_left">
+     <a class="panelcontrol03" href="#">
+     <img id="panelcontrolimage03" height="15" width="45" border="0" alt="show/hide this panel" src="../images/tinybutton-show.gif"/>
+    </a>
+       Content
+   </th></tr>     
+ -->       
+   <h3>
         <span class="subhead-left"> Content </span>
         <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.questionnaire.Questionnaire" altText="help"/> </span>
     </h3>
@@ -54,6 +59,8 @@ ${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)}
 	</ul>
     </td>
    </tr>
+   
+   <!--
    <tr>
        <input name="aq01sc" type="radio" checked="checked" />as sibling&nbsp;&nbsp;&nbsp;
        <input name="aq01sc" type="radio" />as child
@@ -64,6 +71,8 @@ ${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)}
                                                                  lookedUpCollectionName="questionnaireQuestions"
                                                                  anchor="${currentTabIndex}.qnIndex${memberIndex}"/>      
    </tr>
+   
+   -->
    <%-- Test: add new question, when it return question lookup, the dynamically qn are still ok--%>
    <c:set var="index" value="0"/>
    <c:if test="${fn:length(QuestionnaireForm.questionnaireQuestions) > 0}" >
