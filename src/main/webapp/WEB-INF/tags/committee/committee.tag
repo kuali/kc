@@ -18,7 +18,7 @@
                 <td>
                     <c:choose>
 	                    <c:when test="${empty KualiForm.document.committeeList[0].id}">
-	                    	<kra:kraControlAttribute property="document.committeeList[0].committeeId" readOnly="${readOnly}" attributeEntry="${committeeAttributes.committeeId}" />
+	                    	<kra:kraControlAttribute property="document.committeeList[0].committeeId" readOnly="${readOnly or KualiForm.document.committeeList[0].sequenceNumber > 1}" attributeEntry="${committeeAttributes.committeeId}" />
 	                    </c:when>
 	                    <c:otherwise>
 	                      <span id="committeeId">
