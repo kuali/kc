@@ -28,6 +28,12 @@
         <property name="lookupDefinition" >
             <ref bean="InstitutionalProposal-lookupDefinition" />
         </property>
+        <property name="helpDefinition" >
+      		<bean parent="HelpDefinition"
+            	p:parameterNamespace="KRA-IP"
+            	p:parameterName="InstitutionalProposalHelpUrl"
+            	p:parameterDetailType="D" />
+    	</property>
         <property name="titleAttribute" value="proposalId" />
         <property name="attributes" >
             <list>
@@ -64,11 +70,6 @@
                 <ref bean="InstitutionalProposal-nsfCode" />
                 <ref bean="InstitutionalProposal-primeSponsorCode" />
                 <ref bean="InstitutionalProposal-initialContractAdmin" />
-                <ref bean="InstitutionalProposal-ipReviewReqTypeCode" />
-                <ref bean="InstitutionalProposal-reviewSubmissionDate" />
-                <ref bean="InstitutionalProposal-reviewReceiveDate" />
-                <ref bean="InstitutionalProposal-reviewResultCode" />
-                <ref bean="InstitutionalProposal-ipReviewer" />
                 <ref bean="InstitutionalProposal-ipReviewActivityIndicator" />
                 <ref bean="InstitutionalProposal-currentAwardNumber" />
                 <ref bean="InstitutionalProposal-cfdaNumber" />
@@ -273,7 +274,7 @@
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="16" />
         </property>
         <property name="summary" value="Grad Stud Headcount" />
         <property name="description" value="Grad Stud Headcount" />
@@ -287,12 +288,16 @@
         <property name="shortLabel" value="Grad Stud Person Months" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
+      		<bean parent="FixedPointValidationPattern"
+            	p:precision="12"
+           		p:scale="2"
+            	p:allowNegative="true" />
+    	</property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+      		<bean parent="CurrencyControlDefinition"
+            	p:formattedMaxLength="22"
+           		p:size="16" />
+   		</property>
         <property name="summary" value="Grad Stud Person Months" />
         <property name="description" value="Grad Stud Person Months" />
     </bean>
@@ -585,77 +590,7 @@
         <property name="description" value="Initial Contract Admin" />
     </bean>
 
-    <bean id="InstitutionalProposal-ipReviewReqTypeCode" parent="InstitutionalProposal-ipReviewReqTypeCode-parentBean" />
-    <bean id="InstitutionalProposal-ipReviewReqTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="ipReviewReqTypeCode" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Ip Review Req Type Code" />
-        <property name="shortLabel" value="Ip Review Req Type Code" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Ip Review Req Type Code" />
-        <property name="description" value="Ip Review Req Type Code" />
-    </bean>
-
-    <bean id="InstitutionalProposal-reviewSubmissionDate" parent="InstitutionalProposal-reviewSubmissionDate-parentBean" />
-    <bean id="InstitutionalProposal-reviewSubmissionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-        <property name="name" value="reviewSubmissionDate" />
-        <property name="label" value="Review Submission Date" />
-        <property name="shortLabel" value="Review Submission Date" />
-        <property name="summary" value="Review Submission Date" />
-        <property name="description" value="Review Submission Date" />
-    </bean>
-
-    <bean id="InstitutionalProposal-reviewReceiveDate" parent="InstitutionalProposal-reviewReceiveDate-parentBean" />
-    <bean id="InstitutionalProposal-reviewReceiveDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-        <property name="name" value="reviewReceiveDate" />
-        <property name="label" value="Review Receive Date" />
-        <property name="shortLabel" value="Review Receive Date" />
-        <property name="summary" value="Review Receive Date" />
-        <property name="description" value="Review Receive Date" />
-    </bean>
-
-    <bean id="InstitutionalProposal-reviewResultCode" parent="InstitutionalProposal-reviewResultCode-parentBean" />
-    <bean id="InstitutionalProposal-reviewResultCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="reviewResultCode" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Review Result Code" />
-        <property name="shortLabel" value="Review Result Code" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Review Result Code" />
-        <property name="description" value="Review Result Code" />
-    </bean>
-
-    <bean id="InstitutionalProposal-ipReviewer" parent="InstitutionalProposal-ipReviewer-parentBean" />
-    <bean id="InstitutionalProposal-ipReviewer-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="ipReviewer" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Ip Reviewer" />
-        <property name="shortLabel" value="Ip Reviewer" />
-        <property name="maxLength" value="9" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Ip Reviewer" />
-        <property name="description" value="Ip Reviewer" />
-    </bean>
+    
 
     <bean id="InstitutionalProposal-ipReviewActivityIndicator" parent="InstitutionalProposal-ipReviewActivityIndicator-parentBean" />
     <bean id="InstitutionalProposal-ipReviewActivityIndicator-parentBean" abstract="true" parent="AttributeDefinition" >

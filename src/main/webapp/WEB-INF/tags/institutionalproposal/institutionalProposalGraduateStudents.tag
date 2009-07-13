@@ -24,13 +24,10 @@
     		<span class="subhead-left">Graduate Students</span>
         </h3>
         <table id="Graduate-Students" cellpadding="0" cellspacing="0" summary="Graduate Students">
-        ${KualiForm.document.institutionalProposalList[0].gradStudHeadcount}
         	<tr>
-            	<th width="200" align="right" scope="row"><div align="right">Head Count:</div></th>
+            	<th width="200" align="right"><div align="right">Head Count:</div></th>
             	<td>
             	  	<div align="left">
-            	  		<c:out value="${institutionalProposalAttributes == null}" />
-            	  		${institutionalProposalAttributes.gradStudHeadcount.label}
             	  	 	<kul:htmlControlAttribute property="document.institutionalProposal.gradStudHeadcount" attributeEntry="${institutionalProposalAttributes.gradStudHeadcount}"/>
             	 	</div>
             	</td>
