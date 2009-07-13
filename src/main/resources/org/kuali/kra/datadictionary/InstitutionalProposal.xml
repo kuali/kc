@@ -600,7 +600,7 @@
         <property name="shortLabel" value="Ip Review Activity Indicator" />
         <property name="maxLength" value="2" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean p:allowWhitespace="true" parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
