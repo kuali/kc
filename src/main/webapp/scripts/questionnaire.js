@@ -179,7 +179,8 @@
       image = $('<a href="#"><img src="static/images/jquery/tinybutton-copynode.gif" width="79" height="15" border="0" alt="Copy Node" title="Copy this node and its child.)"></a>&nbsp').attr("id","copy"+i).click(function() {
                       alert("Copy node");
                        var liId="li#"+qnaireid;
-                      copyNode = $(liId).clone(true);
+                      //copyNode = $(liId).clone(true);
+                      copyNode = $(liId);
                     }); 
       image.appendTo(thtmp);                  
       image = $('<a href="#"><img src="static/images/tinybutton-pastenode.gif" width="79" height="15" border="0" alt="Paste Node" title="Paste your previously cut node structure under this node"></a>').attr("id","paste"+i).click(function() {
@@ -219,6 +220,14 @@
 //                          removedNode.appendTo(ulTag);
                           removedNode = null;
                       } else if (cutNode) {
+                          //var idx =$(cutNode).attr("id").substring(8);
+                          if ($(cutNode).parents('ul:eq(0)').parents('li:eq(0)').size() == 0) {
+                             parentNum = 0;
+                          } else {
+                             parentNum = $("#qnum"+$(cutNode).parents('ul:eq(0)').parents('li:eq(0)').attr("id").substring(8)).attr("value");
+                          }
+                      
+                           deleteChild(parentNum, $(cutNode).attr("id"));                      
                            pasteChild(qnaireid, cutNode);
 //                         var idx = $(cutNode).attr("id").substring(8);
 //                         var liId="li#"+qnaireid;
@@ -244,15 +253,15 @@
                           cutNode = null;
                       } 
                       
-                      ulTag.appendTo(parentNode);
-                      if (ulTag.children('li').size() == 1) {
-                          $("#moveup"+idx).hide();
-                          $("#movedn"+idx).hide();
-                      } else {
+//                      ulTag.appendTo(parentNode);
+                      //if (ulTag.children('li').size() == 1) {
+                      //    $("#moveup"+idx).hide();
+                      //    $("#movedn"+idx).hide();
+                      //} else {
                           //alert("prev "+$("#qnaireid"+idx).prev().attr("id"));
-                          $("#movedn"+idx).hide();
-                          $("#movedn"+$("#qnaireid"+idx).prev().attr("id").substring(8)).show();
-                      }
+                      //    $("#movedn"+idx).hide();
+                      //    $("#movedn"+$("#qnaireid"+idx).prev().attr("id").substring(8)).show();
+                     //}
                       //alert("Remove node "+removedNode.children('a:eq(0)').text());
                       //alert (sqlScripts);
                       
@@ -261,7 +270,12 @@
                    
                    if (copyNode) {
                       // paste copy node
+                      isCopy="true";
+                      getMaxCopyNodeIdx(copyNode);
                       pasteChild(qnaireid, copyNode);
+                      maxCopyNodeIdx = 0;
+                      isCopy="false";
+                      
                    }
                                          
                 }); 
@@ -376,18 +390,21 @@
          var parentNum = $("#qnum"+$(liId).attr("id").substring(8)).attr("value");
         var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
         sqlScripts = sqlScripts+"#;#"+insertValues;
-        alert("paste copy node "+sqlScripts+$(startnode).children('ul.eq(0)').children('li').size());
+       // alert("paste copy node "+sqlScripts+$(startnode).children('ul.eq(0)').children('li').size());
         $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
   
         //alert ("copy li c size "+$("#"+childid).attr("id")+"-"+$("#"+childid).children('ul.eq(0)').children('li').size());
-         $(startnode).children().each(function(){
-            alert('child '+$(this).html()+"-"+$(this).html());
-         });
+        // $(startnode).children().each(function(){
+        //    alert('child '+$(this).html()+"-"+$(this).html());
+        // });
         if ($(startnode).children('ul.eq(0)').children('li').size() > 0) {
              
              $(startnode).children('ul.eq(0)').children('li').each(function(){
-               // alert("child copy node"+$(this).attr("id"));
-                pasteChild($(listitem).attr("id"), $(this));
+                alert("child copy node"+$(this).attr("id")+"-"+isCopy+"-"+maxCopyNodeIdx);
+               
+               if (isCopy == 'false' || (isCopy == 'true' && $(this).attr("id").substring(8) <= maxCopyNodeIdx)) {
+                  pasteChild($(listitem).attr("id"), $(this));
+                }
             });
         }
   
@@ -413,14 +430,35 @@
   
   }
 
+  // traverse thru the node to collect copy nodes
+  // IE issue with clone, so set this max up, in case the copied node is pasted to its children
+  // if don't set this up, it will cause infinite loop
+  function getMaxCopyNodeIdx(startnode) {
+
+        idx = $(startnode).attr("id").substring(8);
+        if (idx > maxCopyNodeIdx) {
+            maxCopyNodeIdx=idx;
+        }
+        
+        if ($(startnode).children('ul.eq(0)').children('li').size() > 0) {
+             
+             $(startnode).children('ul.eq(0)').children('li').each(function(){
+                getMaxCopyNodeIdx($(this));
+            });
+        }
+  
+  
+  }
+
   
   function getMoveDownLink() {
       var image = $('<img style="border:none;" alt="move down" title="Move Down" type="image" >');
       var atag = $('<a href="#"></a>').attr("id","movedn"+i).click(function() {
           //alert("move down"+$(this).parents('li:eq(0)').size());
-          var curNode = $(this).parents('li:eq(0)').clone(true);
+          //var curNode = $(this).parents('li:eq(0)').clone(true);
+          var curNode = $(this).parents('li:eq(0)');
           var nextNode = $(this).parents('li:eq(0)').next();
-          $(this).parents('li:eq(0)').remove();
+         // $(this).parents('li:eq(0)').remove();
           curNode.insertAfter(nextNode);
           var idx = $(curNode).attr("id").substring(8);
           //alert("move dn "+idx+"-"+$("#qseq"+idx)+"-"+$("#qid"+idx)+"-"+$("#qnum"+idx))
@@ -453,7 +491,7 @@
       var image = $('<img style="border:none;" alt="move up" title="Move up" type="image" >');
       var atag = $('<a href="#"></a>').attr("id","moveup"+i).click(function() {
           //alert("move up"+$(this).parents('li:eq(0)').prev().size());
-          var curNode = $(this).parents('li:eq(0)').clone(true);
+          var curNode = $(this).parents('li:eq(0)');
           //var curNode = $(this).parents('li:eq(0)').clone(true);
           // TODO : trying to resolve IE issue
           //if( !!document.all ) {
@@ -462,7 +500,7 @@
           //}
           
           var nextNode = $(this).parents('li:eq(0)').prev();
-          $(this).parents('li:eq(0)').remove();
+         // $(this).parents('li:eq(0)').remove();
           curNode.insertBefore(nextNode);
           var idx = $(curNode).attr("id").substring(8);
           sqlScripts = sqlScripts + "#;#" + "update QMove;"+(Number($("#qseq"+idx).attr("value"))-1)+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");

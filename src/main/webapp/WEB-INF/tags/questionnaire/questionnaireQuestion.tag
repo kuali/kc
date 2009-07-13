@@ -2,20 +2,13 @@
 <c:set var="readOnly" value="false"  scope="request"/>
 
 <div class="tab-container" align="center">
-<!--
-  <table id="question-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
-   <tr><th class="elementhead_left">
-     <a class="panelcontrol03" href="#">
-     <img id="panelcontrolimage03" height="15" width="45" border="0" alt="show/hide this panel" src="../images/tinybutton-show.gif"/>
-    </a>
-       Content
-   </th></tr>     
- -->       
    <h3>
-        <span class="subhead-left"> Content </span>
+        <span class="subhead-left"><a href="#" class="questionpanelcontrol"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
+          Content </span>
         <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.questionnaire.Questionnaire" altText="help"/> </span>
     </h3>
         
+ <div id="questionpanelcontent">
         
   <table id="question-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
   
@@ -90,7 +83,7 @@
    </c:if>
       <input type = "hidden" id = "qncount" value = "${index}" /> 
   </table>
-
+ </div>
 <%-- 
 <ul>
 <c:forEach var="i" begin="1" end="100" step="1" varStatus ="status">
@@ -99,3 +92,19 @@
 --%>
 
 </div>
+
+
+  <script>
+
+				$("#questionpanelcontent").hide();
+				$("a.questionpanelcontrol").toggle(
+					function()
+					{
+						$("#questionpanelcontent").slideDown(500);
+						$("a.questionpanelcontrol").html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+					},function(){
+						$("#questionpanelcontent").slideUp(500);
+						$("a.questionpanelcontrol").html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+					}
+				);
+   </script>
