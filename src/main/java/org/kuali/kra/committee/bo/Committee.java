@@ -366,6 +366,14 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
         setId(null);
     }
 
+    /**
+     * The default comparator goes by the order of committeeId, sequenceNumber.
+     * @param committee the Committee to be compared.
+     * @return the value 0 if this Committee is equal to the argument Committee; 
+     *         a value less than 0 if this Committee has a committeeId & sequenceNumber pair that is less
+     *         than the argument Committee; and a value greater than 0 if this Committee has a committeeId
+     *         & sequenceNumber pair that is greater than the argument Committee.
+     */
     public int compareTo(Committee committee) {
         if (StringUtils.equals(this.getCommitteeId(), committee.getCommitteeId())) {
             return this.getSequenceNumber().compareTo(committee.getSequenceNumber());
@@ -373,4 +381,5 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
             return this.getCommitteeId().compareTo(committee.getCommitteeId());
         }
     }
+
 }
