@@ -4,11 +4,12 @@
 
 <div class="tab-container" align="center">
     <h3>
-        <span class="subhead-left"> Usage </span>
+        <span class="subhead-left"><a href="#" class="usagepanelcontrol"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
+          Usage </span>
         <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.questionnaire.Questionnaire" altText="help"/> </span>
     </h3>
         
-        
+      <div id="usagepanelcontent">
         <table id = "usage-table" cellpadding="0" cellspacing="0" summary="">
           	<tr>
           		<th><div align="left">&nbsp</div></th> 
@@ -74,5 +75,20 @@
            --%>
             
         </table>
-
+    </div>
 </div>
+
+  <script>
+
+				$("#usagepanelcontent").hide();
+				$("a.usagepanelcontrol").toggle(
+					function()
+					{
+						$("#usagepanelcontent").slideDown(500);
+						$("a.usagepanelcontrol").html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+					},function(){
+						$("#usagepanelcontent").slideUp(500);
+						$("a.usagepanelcontrol").html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+					}
+				);
+   </script>
