@@ -15,11 +15,9 @@
  */
 package org.kuali.kra.irb.auth;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 
 /**
