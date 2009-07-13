@@ -89,6 +89,9 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
         }
         
         this.boService.save(attachment);
+        
+        //FIXME: hack because attachment cannot have m:m object relationship for join table
+        this.boService.save(attachment.getProtocol());
     }
     
     /** {@inheritDoc} */
@@ -122,12 +125,6 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
         @SuppressWarnings("unchecked")
         final T attachment = (T) this.boService.findByPrimaryKey(type, Collections.singletonMap("id", id));
         return attachment;
-    }
-   
-    /** {@inheritDoc} */
-    public <T extends ProtocolAttachmentBase> Collection<T> getAttachmentsForProtocolNotMatchingIds(Class<T> type, Long protocolId, Long... attachmentIds) {
-        final Collection<T> attachments = this.protocolDao.getAttachmentsNotMatchingIds(type, protocolId, attachmentIds);
-        return attachments == null ? new ArrayList<T>() : attachments;
     }
     
     /**

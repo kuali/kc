@@ -208,6 +208,12 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
     }
     
     /** {@inheritDoc} */
+    @Override
+    public boolean supportsVersioning() {
+        return true;
+    }
+    
+    /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         final LinkedHashMap<String, Object> hashMap = super.toStringMapper();

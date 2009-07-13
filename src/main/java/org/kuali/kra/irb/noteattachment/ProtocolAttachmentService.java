@@ -85,17 +85,6 @@ public interface ProtocolAttachmentService {
     <T extends ProtocolAttachmentBase> T getAttachment(Class<T> type, Long id);
     
     /**
-     * Retrieves the attachments from the database of a given type for a specific protocol where the attachment ids do not match.
-     * @param <T> the type
-     * @param type the class token for the type
-     * @param protocolId the protocol id
-     * @param attachmentIds the attachment ids
-     * @return the attachment or empty Collection if not found.
-     * @throws IllegalArgumentException if the type, protocolId, or attachmentIds are null
-     */
-    <T extends ProtocolAttachmentBase> Collection<T> getAttachmentsForProtocolNotMatchingIds(Class<T> type, Long protocolId, Long... attachmentIds);
-    
-    /**
      * Gets a Person BO from personId.
      * 
      * @param personId the person id

@@ -15,7 +15,6 @@
  */
 package org.kuali.kra;
 
-import java.util.List;
 
 /**
  * This interface specifies behavior for sequence associates that should not be 
@@ -23,20 +22,23 @@ import java.util.List;
  * @param <T> the type of sequence owner of the associate
  */
 public interface SeparatelySequenceableAssociate<T extends SequenceOwner> extends Sequenceable {
-    /**
-     * This sets the sequence owners on the associate; should no-op this associate is the sequence owner.
-     * @param owners
-     */
-    void setSequenceOwners(List<T> owners);
-    
-    /**
-     * @return The SequenceOwner is returned; "this" should be returned if this associate is the sequence owner
-     */
-    List<T> getSequenceOwners();
-    
-    /**
-     * This method convenience method returning last owner in list of owners; null if none.
-     * @return
-     */
-    T getLatestOwner();
+//FIXME: These methods are commented out because the DictionaryValidationService has problems dealing with bi-directional
+//object relationships with m:m database relationships.
+
+//    /**
+//     * This sets the sequence owners on the associate; should no-op this associate is the sequence owner.
+//     * @param owners
+//     */
+//    void setSequenceOwners(List<T> owners);
+//    
+//    /**
+//     * @return The SequenceOwner is returned; "this" should be returned if this associate is the sequence owner
+//     */
+//    List<T> getSequenceOwners();
+//    
+//    /**
+//     * This method convenience method returning last owner in list of owners; null if none.
+//     * @return
+//     */
+//    T getLatestOwner();
 }
