@@ -33,13 +33,9 @@ import org.kuali.kra.web.struts.action.StrutsConfirmation;
  * This class represents the Struts Action for Notes & Attachments page(ProtocolNoteAndAttachment.jsp).
  */
 public class ProtocolNoteAndAttachmentAction extends ProtocolAction {    
-    
-    private static final String CONFIRM_YES_DELETE_ATTACHMENT_NOTIFICATION = "confirmDeleteAttachmentNotification";
-    private static final String CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL = "confirmDeleteAttachmentPersonnel";
-    private static final String CONFIRM_YES_DELETE_ATTACHMENT_PROTOCOL = "confirmDeleteAttachmentProtocol";
+
     private static final String CONFIRM_NO_DELETE = "";
     private static final String NOT_FOUND_SELECTION = "the attachment was not found for selection ";
-    private static final String UNSUPPORTED_ATTACHMENT_TYPE = "unsupported attachment type ";
     
     private static final Log LOG = LogFactory.getLog(ProtocolNoteAndAttachmentAction.class);
     
@@ -52,10 +48,8 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LOG.error("pre execute");
         final ActionForward forward = super.execute(mapping, form, request, response);
         ((ProtocolForm) form).getNotesAndAttachmentsHelper().prepareView();
-        LOG.error("post execute");
         return forward;
     }
     
@@ -65,10 +59,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     @Override
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LOG.error("pre save");
-        
         ((ProtocolForm) form).getNotesAndAttachmentsHelper().processSave();
-        LOG.error("post save");
     }
     
     /**
@@ -272,35 +263,21 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
         
         final int selection = this.getSelectedLine(request);
-        final ProtocolAttachmentBase attachment;
-        final String confirmMethod;
-        
-        if (ProtocolAttachmentProtocol.class.equals(attachmentType)) {
-            attachment = form.getNotesAndAttachmentsHelper().retrieveExistingAttachmentProtocol(selection); 
-            confirmMethod = CONFIRM_YES_DELETE_ATTACHMENT_PROTOCOL;
-        } else if (ProtocolAttachmentPersonnel.class.equals(attachmentType)) {
-            attachment = form.getNotesAndAttachmentsHelper().retrieveExistingAttachmentPersonnel(selection);
-            confirmMethod = CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL;
-        } else if (ProtocolAttachmentNotification.class.equals(attachmentType)) {
-            attachment = form.getNotesAndAttachmentsHelper().retrieveExistingAttachmentNotification(selection);
-            confirmMethod = CONFIRM_YES_DELETE_ATTACHMENT_NOTIFICATION;
-        } else {
-            throw new IllegalArgumentException(UNSUPPORTED_ATTACHMENT_TYPE + attachmentType);
-        }
-        
+        final ProtocolAttachmentBase attachment = form.getNotesAndAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
+       
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
             //may want to tell the user the selection was invalid.
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
+        final String confirmMethod = form.getNotesAndAttachmentsHelper().retrieveConfirmMethodByType(attachmentType);
         final StrutsConfirmation confirm 
         = buildParameterizedConfirmationQuestion(mapping, form, request, response, confirmMethod, 
                 KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION, attachment.getAttachmentDescription(), attachment.getFile().getName());
         
         return confirm(confirm, confirmMethod, CONFIRM_NO_DELETE);
     }
-    
     
     /**
      * Finds the attachment selected the by client which is really just an index.
@@ -319,19 +296,8 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
         
         final int selection = this.getSelectedLine(request);
-        final boolean deleted;
         
-        if (ProtocolAttachmentProtocol.class.equals(attachmentType)) {
-            deleted = form.getNotesAndAttachmentsHelper().deleteExistingAttachmentProtocol(selection);
-        } else if (ProtocolAttachmentPersonnel.class.equals(attachmentType)) {
-            deleted = form.getNotesAndAttachmentsHelper().deleteExistingAttachmentPersonnel(selection);
-        } else if (ProtocolAttachmentNotification.class.equals(attachmentType)) {
-            deleted = form.getNotesAndAttachmentsHelper().deleteExistingAttachmentNotification(selection);
-        } else {
-            throw new IllegalArgumentException(UNSUPPORTED_ATTACHMENT_TYPE + attachmentType);
-        }
-        
-        if (!deleted) {
+        if (!form.getNotesAndAttachmentsHelper().deleteExistingAttachmentByType(selection, attachmentType)) {
             LOG.info(NOT_FOUND_SELECTION + selection);
             //may want to tell the user the selection was invalid.
         }
@@ -358,24 +324,14 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
         
         final int selection = this.getSelectedLine(request);
-        
-        final ProtocolAttachmentBase attachment;
-        
-        if (ProtocolAttachmentProtocol.class.equals(attachmentType)) {
-            attachment = form.getNotesAndAttachmentsHelper().retrieveExistingAttachmentProtocol(selection); 
-        } else if (ProtocolAttachmentPersonnel.class.equals(attachmentType)) {
-            attachment = form.getNotesAndAttachmentsHelper().retrieveExistingAttachmentPersonnel(selection); 
-        } else if (ProtocolAttachmentNotification.class.equals(attachmentType)) {
-            attachment = form.getNotesAndAttachmentsHelper().retrieveExistingAttachmentNotification(selection);
-        } else {
-            throw new IllegalArgumentException(UNSUPPORTED_ATTACHMENT_TYPE + attachmentType);
-        }
+        final ProtocolAttachmentBase attachment = form.getNotesAndAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
         
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
             //may want to tell the user the selection was invalid.
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
+        
         final ProtocolAttachmentFile file = attachment.getFile();
         this.streamToResponse(file.getData(), file.getName(), file.getType(), response);
         
