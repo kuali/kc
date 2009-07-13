@@ -69,7 +69,10 @@
   var ucount = 1;
   var removedNode;
   var cutNode;
+  var copyNode;
   var sqlScripts = "";
+  var maxCopyNodeIdx=0;
+  var isCopy='false';
   var jsContextPath = "${pageContext.request.contextPath}";
   $(document).ready(function(){
     $.ajaxSettings.cache = false; 
@@ -111,7 +114,7 @@
             alert('Error loading XML document');
          },
          success: function(xml){
-            sqlScripts = "createnew";
+            sqlScripts = "edit";
             $(xml).find('h3').each(function(){
                 var item_text = $(this).text();
             });
@@ -124,6 +127,7 @@
    
    
    // -- should be shared
+      var moduleCodes = ['select','Award', 'Institute Proposal', 'Development Proposal', 'Subcontracts', 'Negotiations','Person','IRB','Annual Coi Disclosure'];
       var opArray = ['select', 'and', 'or'];
       var responseArray = ['select', 'Contains text value', 'Matches text', 'Less than number', 'Less than or equals number', 'Equals number', 'Greater than or equals number', 'Greater than number', 'Before date', 'After date'];
       var questionType = ['select','Yes/No', 'Yes/No/NA', 'Number', 'Date', 'Text', 'Lookup'];
@@ -141,10 +145,14 @@
       $('<option value="9">After date</option>').appendTo(responseOptions);
  
         $("#addUsage").click(function(){  
+        // TODO : 1 header and one 'add' row, so has 2 more
+        ucount = $("#usage-table").children('tbody:eq(0)').children('tr').size()-1;
         trtmp = $('<tr/>').attr("id","usage"+ucount);
         thtmp = $('<th class="infoline"/>').html(ucount);
         thtmp.appendTo(trtmp); 
-        tdtmp = $('<td align="left" valign="middle">').html($("#newQuestionnaireUsage\\.moduleItemCode").attr("value"));
+        tdtmp = $('<td align="left" valign="middle">').html(moduleCodes[$("#newQuestionnaireUsage\\.moduleItemCode").attr("value")]);
+        modulecode = $('<input type="hidden"/>').attr("value",$("#newQuestionnaireUsage\\.moduleItemCode").attr("value"));
+        modulecode.prependTo(tdtmp);
         tdtmp.appendTo(trtmp);
         tdtmp = $('<td align="left" valign="middle">').html($("#newQuestionnaireUsage\\.questionnaireLabel").attr("value"));
         tdtmp.appendTo(trtmp);
@@ -152,14 +160,23 @@
         tdtmp.appendTo(trtmp);
 		inputtmp = $('<input type="image" id="deleteUsage" name="deleteUsage" src="static/images/tinybutton-delete1.gif" class="tinybutton">').attr("id","deleteUsage"+ucount).click(function() {
 		     //alert("delete "+$(this).parents('tr:eq(0)').attr("id"))
-		     sqlScripts = sqlScripts +"#;#" +"delete U;"+$(this).parents('tr:eq(0)').children('td:eq(0)').html();
-        alert(sqlScripts); 
 		     
+		     sqlScripts = sqlScripts +"#;#" +"delete U;"+$(this).parents('tr:eq(0)').children('td:eq(0)').children('input:eq(0)').attr("value");
+        alert(sqlScripts); 
+ // TODO : delete usage also need to update 'item number' in the first column
+            curnode = $(this).parents('tr:eq(0)');
+            alert("size "+curnode.next().size());
+            while (curnode.next().size() > 0) {
+               curnode = curnode.next();
+               alert(Number(curnode.children('th:eq(0)').html())-1);
+               curnode.children('th:eq(0)').html(Number(curnode.children('th:eq(0)').html())-1)
+               //curnode=curnode.next();
+		    } 
 		     $(this).parents('tr:eq(0)').remove();	     
 		     return false;
 		});
         tdtmp = $('<td align="left" valign="middle">');
-        inputtmp.appendTo(tdtmp);
+        $('<div align="center">').html(inputtmp).appendTo(tdtmp);
         tdtmp.appendTo(trtmp);
         ucount++;
         trtmp.appendTo($("#usage-table"));
@@ -191,6 +208,11 @@
               //listitem.appendTo('ul#example');
               // last one no 'move dn'
                  $("#movedn"+idx).hide();
+                 if ($("#example").children('li').size() == 1) {
+                     // TODO : the first one
+                      $("#moveup"+idx).hide();
+                 }
+                 
                  if (listitem.prev().size() > 0) {
                     $("#movedn"+listitem.prev().attr("id").substring(8)).show();
                  }
@@ -276,17 +298,28 @@
             var idx = listitem.attr("id").substring(8);
               //listitem.appendTo('ul#example');
               // last one no 'move dn'
-                 $("#movedn"+idx).hide();
-                 if (listitem.prev().size() > 0) {
-                    $("#movedn"+listitem.prev().attr("id").substring(8)).show();
-                 }
-                       
+              
                  
            listitem.appendTo($(parenturl));
         // also need this to show 'folder' icon
              $('#example').treeview({
                 add: listitem
              });
+
+
+              //alert($(listitem).parents('ul:eq(0)').size());
+              if ($(listitem).parents('ul:eq(0)').children('li').size() == 1) {
+                 $("#moveup"+idx).hide();
+                 $("#movedn"+idx).hide();
+              } else {
+                 //alert("prev "+listitem.prev().attr("id"));
+                 $("#movedn"+idx).hide();
+                 if (listitem.prev().size() > 0) {
+                     $("#movedn"+listitem.prev().attr("id").substring(8)).show();
+                 }
+              }
+                       
+
 
            if (parentnum > 0 && field[6] != 'null') {                 
                 alert ("add req for parent "+$("#addrequirement"+i).parents('tr:eq(0)').size());
@@ -319,15 +352,27 @@
             trtmp = $('<tr/>').attr("id","usage"+ucount);
             thtmp = $('<th class="infoline"/>').html(ucount);
             thtmp.appendTo(trtmp); 
-            tdtmp = $('<td align="left" valign="middle">').html($('<div align="center">').html(field[1]));
+            //tdtmp = $('<td align="left" valign="middle">').html(field[1]);
+        tdtmp = $('<td align="left" valign="middle">').html(moduleCodes[field[1]]);
+        modulecode = $('<input type="hidden"/>').attr("value",field[1]);
+        modulecode.prependTo(tdtmp);
             tdtmp.appendTo(trtmp);
-            tdtmp = $('<td align="left" valign="middle">').html($('<div align="center">').html(field[2]));
+            tdtmp = $('<td align="left" valign="middle">').html(field[2]);
             tdtmp.appendTo(trtmp);
-            tdtmp = $('<td align="left" valign="middle">').html($('<div align="center">').html("1.00"));
+            tdtmp = $('<td align="left" valign="middle">').html("1.00");
             tdtmp.appendTo(trtmp);
 		    inputtmp = $('<input type="image" id="deleteUsage" name="deleteUsage" src="static/images/tinybutton-delete1.gif" class="tinybutton">').attr("id","deleteUsage"+ucount).click(function() {
-		       sqlScripts = sqlScripts +"#;#" +"delete U;"+$(this).parents('tr:eq(0)').children('td:eq(0)').html();
-               alert(sqlScripts); 		     
+		       sqlScripts = sqlScripts +"#;#" +"delete U;"+$(this).parents('tr:eq(0)').children('td:eq(0)').children('input:eq(0)').attr("value");
+               alert(sqlScripts); 
+               curnode=	$(this).parents('tr:eq(0)');
+               alert("size "+curnode.next().size());
+            while (curnode.next().size() > 0) {
+               curnode = curnode.next();
+               alert(Number(curnode.children('th:eq(0)').html())-1);
+               curnode.children('th:eq(0)').html(Number(curnode.children('th:eq(0)').html())-1)
+              // curnode=curnode.next();
+		    } 
+               	     
 		       $(this).parents('tr:eq(0)').remove();	     
 		       return false;
 		    });

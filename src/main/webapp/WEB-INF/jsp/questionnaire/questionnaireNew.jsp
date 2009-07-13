@@ -202,11 +202,15 @@
    
    
    
-     $("#addUsage").click(function(){  
+        $("#addUsage").click(function(){  
+        // TODO : 1 header and one 'add' row, so has 2 more
+        ucount = $("#usage-table").children('tbody:eq(0)').children('tr').size()-1;
         trtmp = $('<tr/>').attr("id","usage"+ucount);
         thtmp = $('<th class="infoline"/>').html(ucount);
         thtmp.appendTo(trtmp); 
-        tdtmp = $('<td align="left" valign="middle">').html($("#newQuestionnaireUsage\\.moduleItemCode").attr("value"));
+        tdtmp = $('<td align="left" valign="middle">').html(moduleCodes[$("#newQuestionnaireUsage\\.moduleItemCode").attr("value")]);
+        modulecode = $('<input type="hidden"/>').attr("value",$("#newQuestionnaireUsage\\.moduleItemCode").attr("value"));
+        modulecode.prependTo(tdtmp);
         tdtmp.appendTo(trtmp);
         tdtmp = $('<td align="left" valign="middle">').html($("#newQuestionnaireUsage\\.questionnaireLabel").attr("value"));
         tdtmp.appendTo(trtmp);
@@ -214,14 +218,23 @@
         tdtmp.appendTo(trtmp);
 		inputtmp = $('<input type="image" id="deleteUsage" name="deleteUsage" src="static/images/tinybutton-delete1.gif" class="tinybutton">').attr("id","deleteUsage"+ucount).click(function() {
 		     //alert("delete "+$(this).parents('tr:eq(0)').attr("id"))
-		     sqlScripts = sqlScripts +"#;#" +"delete U;"+$(this).parents('tr:eq(0)').children('td:eq(0)').html();
-        alert(sqlScripts); 
 		     
+		     sqlScripts = sqlScripts +"#;#" +"delete U;"+$(this).parents('tr:eq(0)').children('td:eq(0)').children('input:eq(0)').attr("value");
+        alert(sqlScripts); 
+ // TODO : delete usage also need to update 'item number' in the first column
+            curnode = $(this).parents('tr:eq(0)');
+            alert("size "+curnode.next().size());
+            while (curnode.next().size() > 0) {
+               curnode = curnode.next();
+               alert(Number(curnode.children('th:eq(0)').html())-1);
+               curnode.children('th:eq(0)').html(Number(curnode.children('th:eq(0)').html())-1)
+               //curnode=curnode.next();
+		    } 
 		     $(this).parents('tr:eq(0)').remove();	     
 		     return false;
 		});
         tdtmp = $('<td align="left" valign="middle">');
-        inputtmp.appendTo(tdtmp);
+        $('<div align="center">').html(inputtmp).appendTo(tdtmp);
         tdtmp.appendTo(trtmp);
         ucount++;
         trtmp.appendTo($("#usage-table"));

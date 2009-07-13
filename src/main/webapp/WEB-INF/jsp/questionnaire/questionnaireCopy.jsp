@@ -60,7 +60,7 @@
     
     
         <script>
- 
+     var sqlScripts;
      $("#copy").click(function(){    
        var qname = $('#newQuestionnaire\\.name').attr("value");
        var qdescription =$('#newQuestionnaire\\.description').attr("value");
@@ -72,7 +72,7 @@
          type: 'GET',
          dataType: 'html',
          cache: false,
-         data:'sqlScripts=copyQuestionnaire&newQuestionnaire.name='+qname+'&newQuestionnaire.description='+qdescription+'&newQuestionnaire.isFinal='+qisfinal,
+         data:'sqlScripts=copyQuestionnaire&newQuestionnaire.name='+qname+'&newQuestionnaire.questionnaireId='+'&newQuestionnaire.description='+qdescription+'&newQuestionnaire.isFinal='+qisfinal,
          async:false,
          timeout: 1000,
          error: function(){
