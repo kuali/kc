@@ -53,7 +53,7 @@ public class OwnerAssociate implements SequenceOwner {
      */
     public void add(SequenceAssociateAttachmentBO2 attachmentBO) {
         attachments.add(attachmentBO);
-        attachmentBO.add(this);
+        //attachmentBO.add(this);
     }
 
     /**

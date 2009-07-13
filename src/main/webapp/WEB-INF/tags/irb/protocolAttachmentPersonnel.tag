@@ -92,7 +92,7 @@
 	                		
 	                		<%-- attachment type finder logic start--%>
 								<jsp:useBean id="typeParamsPerson" class="java.util.HashMap" />
-								<c:set target="${typeParamsPerson}" property="protocolId" value="${notesAndAttachmentsHelper.newAttachmentPersonnel.protocol.protocolId}" />
+								<c:set target="${typeParamsPerson}" property="protocolId" value="${notesAndAttachmentsHelper.protocol.protocolId}" />
 								<c:set var="options" value="${krafn:getOptionList('org.kuali.kra.irb.personnel.ProtocolPersonValuesFinder', typeParamsPerson)}" />
 							<%-- attachment type finder logic end --%>
 	               			

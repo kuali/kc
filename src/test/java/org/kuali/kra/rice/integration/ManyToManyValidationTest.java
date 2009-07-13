@@ -57,8 +57,7 @@ public class ManyToManyValidationTest extends KraWebTestBase {
         protocol.setProtocolId(1L);
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol(protocol);
-        protocol.addAttachmentProtocol(attachment);
-        protocol.getAttachmentProtocolsVersions().add(attachment);
+        protocol.addAttachmentsByType(attachment);
     }
     
     /**

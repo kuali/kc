@@ -158,6 +158,12 @@ public class ProtocolAttachmentNotification extends ProtocolAttachmentBase {
     public String getAttachmentDescription() {
         return "Notification Attachment";
     }
+    
+    /** {@inheritDoc} */
+    @Override
+    public boolean supportsVersioning() {
+        return false;
+    }
 
     /** {@inheritDoc} */
     @Override 
