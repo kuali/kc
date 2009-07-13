@@ -42,6 +42,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 /**
  * 
  * This class is for committee lookup.
@@ -102,15 +104,16 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     }
 
     /*
-     * remove duplicates from the search results
+     * remove duplicates and get only the one with the highest sequence number from the search results
      */
+    @SuppressWarnings("unchecked")
     private List<? extends BusinessObject> getUniqueList(List<? extends BusinessObject> searchResults) {
 
-        // Maybe should use comparator to remove duplicates ?
-        List <Committee> uniqueResults = new ArrayList <Committee>();
-        List <String> committeeIds = new ArrayList <String>();
+        List<Committee> uniqueResults = new ArrayList<Committee>();
+        List<String> committeeIds = new ArrayList<String>();
         if (CollectionUtils.isNotEmpty(searchResults)) {
-            for (Committee committee : (List <Committee>)searchResults) {
+            Collections.sort((List<Committee>) searchResults, Collections.reverseOrder());
+            for (Committee committee : (List<Committee>) searchResults) {
                 if (!committeeIds.contains(committee.getCommitteeId())) {
                     committee.getCommitteeChair();
                     uniqueResults.add(committee);
@@ -120,7 +123,6 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
         }
         return uniqueResults;
     }
-
     
     protected String getHtmlAction() {
         return "committeeCommittee.do";
