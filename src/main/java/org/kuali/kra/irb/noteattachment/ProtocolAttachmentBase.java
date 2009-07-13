@@ -186,26 +186,26 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
      */
     public abstract String getAttachmentDescription();
     
-    /** {@inheritDoc} */
-    public Protocol getLatestOwner() {
-        return this.protocol;
-    }
-    
-    /** 
-     * Cannot return null.
-     * {@inheritDoc}
-     */
-    public List<Protocol> getSequenceOwners() {
-        if (this.sequenceOwners == null) { 
-            this.sequenceOwners = new ArrayList<Protocol>();
-        }
-        return this.sequenceOwners;
-    }
-    
-    /** {@inheritDoc} */
-    public void setSequenceOwners(List<Protocol> owners) {
-        this.sequenceOwners = owners;
-    }
+//    /** {@inheritDoc} */
+//    public Protocol getLatestOwner() {
+//        return this.protocol;
+//    }
+//    
+//    /** 
+//     * Cannot return null.
+//     * {@inheritDoc}
+//     */
+//    public List<Protocol> getSequenceOwners() {
+//        if (this.sequenceOwners == null) { 
+//            this.sequenceOwners = new ArrayList<Protocol>();
+//        }
+//        return this.sequenceOwners;
+//    }
+//    
+//    /** {@inheritDoc} */
+//    public void setSequenceOwners(List<Protocol> owners) {
+//        this.sequenceOwners = owners;
+//    }
     
     /** {@inheritDoc} */
     public void resetPersistenceState() {
@@ -236,30 +236,30 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
         this.setProtocolNumber(aProtocol != null ? aProtocol.getProtocolNumber() : null);
         this.setSequenceNumber(aProtocol != null ? aProtocol.getSequenceNumber() : null);
         
-        if (aProtocol != null) {
-            addSequenceOwner(aProtocol);
-        }
+        //if (aProtocol != null) {
+            //addSequenceOwner(aProtocol);
+        //}
     }
-    
-    public void addSequenceOwner(Protocol aProtocol) {
-        if (!this.getSequenceOwners().contains(aProtocol)) {
-            final List<Protocol> owners = this.getSequenceOwners();
-            owners.add(aProtocol);
-            this.setSequenceOwners(owners);
-        }
-    }
-    
-    public void removeSequenceOwner(Protocol aProtocol) {
-        final List<Protocol> owners = this.getSequenceOwners();
-        
-        //removing any duplicates just in case
-        boolean removed = owners.remove(this);
-        while (removed) {
-            removed = owners.remove(this);
-        }
-        
-        this.setSequenceOwners(owners);
-    }
+//    
+//    public void addSequenceOwner(Protocol aProtocol) {
+//        if (!this.getSequenceOwners().contains(aProtocol)) {
+//            final List<Protocol> owners = this.getSequenceOwners();
+//            owners.add(aProtocol);
+//            this.setSequenceOwners(owners);
+//        }
+//    }
+//    
+//    public void removeSequenceOwner(Protocol aProtocol) {
+//        final List<Protocol> owners = this.getSequenceOwners();
+//        
+//        //removing any duplicates just in case
+//        boolean removed = owners.remove(this);
+//        while (removed) {
+//            removed = owners.remove(this);
+//        }
+//        
+//        this.setSequenceOwners(owners);
+//    }
     
     /** 
      * inits the object for a different Protocol.
@@ -307,6 +307,53 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
         
         fromCollection.remove(attachment);
     }
+    
+    /**
+     * Checks if an attachment is new (not persisted yet).
+     * @return true if new false if not
+     */
+    public boolean isNew() {
+        return this.getId() == null;
+    }
+    
+    /**
+     * Returns a new collection containing only new attachments.
+     * @param <T> the type of attachments in the collection.
+     * @param attachments the current collection
+     * @return an collection containing only new attachments
+     */
+    public static <T extends ProtocolAttachmentBase> Collection<T> filterNewAttachments(final Collection<T> attachments) {
+        final Collection<T> newAttachments = new ArrayList<T>();
+        
+        for (final T attachment : attachments) {
+            if (attachment.isNew()) {
+                newAttachments.add(attachment);
+            }
+        }
+        
+        return newAttachments;
+    }
+    
+    /**
+     * Returns a new collection containing only exiting attachments.
+     * @param <T> the type of attachments in the collection.
+     * @param attachments the current collection
+     * @return an collection containing only exiting attachments
+     */
+    public static <T extends ProtocolAttachmentBase> Collection<T> filterExistingAttachments(final Collection<T> attachments) {
+        final Collection<T> existingAttachments = new ArrayList<T>(attachments);
+        existingAttachments.removeAll(filterNewAttachments(attachments));
+        return existingAttachments;
+    }
+    
+    /**
+     * Method to check whether an attachment supports versioning.  Currently, all attachments
+     * have structural capabilities to version however currently we are not versioning all attachment types
+     * to be consistent with other parts of KC.
+     * 
+     * @return true is attachment supports versioning.
+     */
+    public abstract boolean supportsVersioning();
     
     /**
      * {@inheritDoc}

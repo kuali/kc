@@ -138,6 +138,12 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase implemen
     public String getAttachmentDescription() {
         return "Personnel Attachment";
     }
+    
+    /** {@inheritDoc} */
+    @Override
+    public boolean supportsVersioning() {
+        return false;
+    }
 
     /** {@inheritDoc} */
     @Override 

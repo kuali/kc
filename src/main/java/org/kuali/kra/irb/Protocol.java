@@ -132,31 +132,34 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     private List<ProtocolPerson> protocolPersons; 
     
     private List<ProtocolSpecialReview> specialReviews;
-    private List<ProtocolAttachmentProtocol> attachmentProtocols;
-    private List<ProtocolAttachmentProtocol> attachmentProtocolsVersions;
     
-    /**
-     * Gets the attachmentProtocolsVersions attribute. 
-     * @return Returns the attachmentProtocolsVersions.
-     */
-    public List<ProtocolAttachmentProtocol> getAttachmentProtocolsVersions() {
-        if (attachmentProtocolsVersions == null) { 
-            attachmentProtocolsVersions = new ArrayList<ProtocolAttachmentProtocol>();
-        }
-        return attachmentProtocolsVersions;
-    }
-
-    /**
-     * Sets the attachmentProtocolsVersions attribute value.
-     * @param attachmentProtocolsVersions The attachmentProtocolsVersions to set.
-     */
-    public void setAttachmentProtocolsVersions(List<ProtocolAttachmentProtocol> attachmentProtocolsVersions) {
-        this.attachmentProtocolsVersions = attachmentProtocolsVersions;
-    }
-
+    //these are the m:m attachment protocols that that a protocol has
+    private List<ProtocolAttachmentProtocol> attachmentProtocols;
     private List<ProtocolAttachmentPersonnel> attachmentPersonnels;
     private List<ProtocolAttachmentNotification> attachmentNotifications;
     
+    private List<ProtocolAttachmentProtocol> attachmentProtocolsDirectlyCreated;
+    
+    /**
+     * Gets the attachmentProtocolsDirectlyCreated attribute. 
+     * @return Returns the attachmentProtocolsDirectlyCreated.
+     */
+    public List<ProtocolAttachmentProtocol> getAttachmentProtocolsDirectlyCreated() {
+        if (this.attachmentProtocolsDirectlyCreated == null) {
+            this.attachmentProtocolsDirectlyCreated = new ArrayList<ProtocolAttachmentProtocol>();
+        }
+        
+        return this.attachmentProtocolsDirectlyCreated;
+    }
+
+    /**
+     * Sets the attachmentProtocolsDirectlyCreated attribute value.
+     * @param attachmentProtocolsDirectlyCreated The attachmentProtocolsDirectlyCreated to set.
+     */
+    public void setAttachmentProtocolsDirectlyCreated(List<ProtocolAttachmentProtocol> attachmentProtocolsDirectlyCreated) {
+        this.attachmentProtocolsDirectlyCreated = attachmentProtocolsDirectlyCreated;
+    }
+
     private List<ProtocolAction> protocolActions;
     private List<ProtocolSubmission> protocolSubmissions;
     
@@ -791,9 +794,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      * @param attachmentProtocol the attachment protocol
      * @throws IllegalArgumentException if attachmentProtocol is null
      */
-    public void addAttachmentProtocol(ProtocolAttachmentProtocol attachmentProtocol) {
+    private void addAttachmentProtocol(ProtocolAttachmentProtocol attachmentProtocol) {
         ProtocolAttachmentBase.addAttachmentToCollection(attachmentProtocol, this.getAttachmentProtocols());
-        attachmentProtocol.addSequenceOwner(this);
+        ProtocolAttachmentBase.addAttachmentToCollection(attachmentProtocol, this.getAttachmentProtocolsDirectlyCreated());
     }
     
     /**
@@ -801,10 +804,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      * @param attachmentProtocol the attachment protocol
      * @throws IllegalArgumentException if attachmentProtocol is null
      */
-    public void removeAttachmentProtocol(ProtocolAttachmentProtocol attachmentProtocol) {
+    private void removeAttachmentProtocol(ProtocolAttachmentProtocol attachmentProtocol) {
         ProtocolAttachmentBase.removeAttachmentFromCollection(attachmentProtocol, this.getAttachmentProtocols());
-        
-        attachmentProtocol.removeSequenceOwner(this);
+        ProtocolAttachmentBase.removeAttachmentFromCollection(attachmentProtocol, this.getAttachmentProtocolsDirectlyCreated());
     }
 
     /**
@@ -833,7 +835,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      * @param attachmentPersonnel the attachment personnel
      * @throws IllegalArgumentException if attachmentPersonnel is null
      */
-    public void addAttachmentPersonnel(ProtocolAttachmentPersonnel attachmentPersonnel) {
+    private void addAttachmentPersonnel(ProtocolAttachmentPersonnel attachmentPersonnel) {
         ProtocolAttachmentBase.addAttachmentToCollection(attachmentPersonnel, this.getAttachmentPersonnels());
     }
 
@@ -842,7 +844,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      * @param attachmentPersonnel the attachment personnel
      * @throws IllegalArgumentException if attachmentPersonnel is null
      */
-    public void removeAttachmentPersonnel(ProtocolAttachmentPersonnel attachmentPersonnel) {
+    private void removeAttachmentPersonnel(ProtocolAttachmentPersonnel attachmentPersonnel) {
         ProtocolAttachmentBase.removeAttachmentFromCollection(attachmentPersonnel, this.getAttachmentPersonnels());
     }
     
@@ -872,7 +874,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      * @param attachmentNotification the attachment notification
      * @throws IllegalArgumentException if attachmentNotification is null
      */
-    public void addAttachmentNotification(ProtocolAttachmentNotification attachmentNotification) {
+    private void addAttachmentNotification(ProtocolAttachmentNotification attachmentNotification) {
         ProtocolAttachmentBase.addAttachmentToCollection(attachmentNotification, this.getAttachmentNotifications());
     }
     
@@ -881,7 +883,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      * @param attachmentNotification the attachment notification
      * @throws IllegalArgumentException if attachmentNotification is null
      */
-    public void removeAttachmentNotification(ProtocolAttachmentNotification attachmentNotification) {
+    private void removeAttachmentNotification(ProtocolAttachmentNotification attachmentNotification) {
         ProtocolAttachmentBase.removeAttachmentFromCollection(attachmentNotification, this.getAttachmentNotifications());
     }
     

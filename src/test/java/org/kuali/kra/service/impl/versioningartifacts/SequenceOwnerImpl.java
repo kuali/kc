@@ -59,7 +59,7 @@ public class SequenceOwnerImpl implements SequenceOwner {
      */
     public void add(SequenceAssociateAttachmentBO attachmentBO) {
         attachments.add(attachmentBO);
-        attachmentBO.add(this);
+        //attachmentBO.add(this);
     }
     
     /**

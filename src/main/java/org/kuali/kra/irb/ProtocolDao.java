@@ -15,11 +15,8 @@
  */
 package org.kuali.kra.irb;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 
 
 /**
@@ -36,16 +33,5 @@ public interface ProtocolDao {
      */
     List<Protocol> getProtocols(Map<String,String> fieldValues);
     
-    Integer getProtocolSubmissionCountFromProtocol(String protocolNumber);
-    
-    /**
-     * Gets all attachments (of a type) for a protocol not matching the passed attachment ids.
-     * @param <T> the attachment type
-     * @param type the class token
-     * @param protocolId the protocol id
-     * @param attachmentIds the attachment ids
-     * @return the attachments
-     * @throws IllegalArgumentException if any arguments are null
-     */
-    <T extends ProtocolAttachmentBase> Collection<T> getAttachmentsNotMatchingIds(Class<T> type, Long protocolId, Long... attachmentIds);
+    Integer getProtocolSubmissionCountFromProtocol(String protocolNumber);   
 }
