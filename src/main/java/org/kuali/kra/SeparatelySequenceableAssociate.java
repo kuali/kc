@@ -19,9 +19,9 @@ package org.kuali.kra;
 /**
  * This interface specifies behavior for sequence associates that should not be 
  * deep copied when the SequenceOwner is versioned; i.e. attachment BOs
- * @param <T> the type of sequence owner of the associate
+ * @param <T> the type of sequence owner which itself has an owner of unknown type
  */
-public interface SeparatelySequenceableAssociate<T extends SequenceOwner> extends Sequenceable {
+public interface SeparatelySequenceableAssociate<T extends SequenceOwner<?>> extends Sequenceable {
 //FIXME: These methods are commented out because the DictionaryValidationService has problems dealing with bi-directional
 //object relationships with m:m database relationships.
 

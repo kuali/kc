@@ -20,17 +20,18 @@ package org.kuali.kra;
  * with a sequence owner; i.e. child BOs of an Award or Protocol
  * 
  * SequenceAssociates must override equals and hashCode!
+ * @param <T> the type of sequence owner which itself has an owner of unknown type
  */
-public interface SequenceAssociate extends Sequenceable {
+public interface SequenceAssociate<T extends SequenceOwner<?>> extends Sequenceable {
     /**
      * This sets the sequence owner on the associate. 
      * Should no-op if this associate has no sequence owner 
      * @param newlyVersionedOwner
      */
-    void setSequenceOwner(SequenceOwner newlyVersionedOwner);
+    void setSequenceOwner(T newlyVersionedOwner);
     
     /**
      * @return the SequenceOwner is returned; "this" should be returned if this associate is the sequence owner
      */
-    SequenceOwner getSequenceOwner();
+    T getSequenceOwner();
 }

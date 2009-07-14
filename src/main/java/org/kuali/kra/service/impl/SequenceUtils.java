@@ -155,7 +155,7 @@ public class SequenceUtils {
                 Method getter = findReadMethod(parent, field);
                 if (getter != null) {
                     SequenceAssociate associate = getSequenceAssociateReference(parent, getter);
-                    if (!alreadySequencedAssociates.contains(associate)) {
+                    if (associate != null && !alreadySequencedAssociates.contains(associate)) {
                         SequenceOwner owner = (parent instanceof SequenceOwner ? (SequenceOwner) parent : parent.getSequenceOwner());
                         associate.setSequenceOwner(owner);
                         associate.resetPersistenceState();
