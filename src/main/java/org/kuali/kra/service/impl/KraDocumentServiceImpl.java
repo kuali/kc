@@ -16,21 +16,14 @@
 package org.kuali.kra.service.impl;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.impl.DocumentServiceImpl;
 import org.springframework.dao.OptimisticLockingFailureException;
 
@@ -67,23 +60,6 @@ public class KraDocumentServiceImpl extends DocumentServiceImpl {
                 getDocumentDao().save(document);
                 ((CommitteeDocument) document).getCommitteeList().add(committee);
                 if (event instanceof RouteDocumentEvent) {
-                    /*
-                     * since builddeleteawarelist is not working for committeedocument, so old doc must be removed manually.
-                     * if we decide to 'version' committeedocument, then this is not needed.
-                     */
-                    Committee committee1 = KraServiceLocator.getService(CommitteeService.class).getCommitteeById(
-                            committee.getCommitteeId());
-                    if (committee1 != null) {
-                        List<PersistableBusinessObject> bos = new ArrayList<PersistableBusinessObject>();
-                        if (CollectionUtils.isNotEmpty(committee1.getCommitteeMemberships())) {
-                            for (CommitteeMembership membership : committee1.getCommitteeMemberships()) {
-                                bos.addAll(membership.getMembershipRoles());
-                                bos.addAll(membership.getMembershipExpertise());
-                            }
-                        }
-                        bos.add(committee1);
-                        KraServiceLocator.getService(BusinessObjectService.class).delete(bos);
-                    }
                     getDocumentDao().save(document);
                 }
             }
