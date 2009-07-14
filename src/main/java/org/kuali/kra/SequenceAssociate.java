@@ -31,7 +31,8 @@ public interface SequenceAssociate<T extends SequenceOwner<?>> extends Sequencea
     void setSequenceOwner(T newlyVersionedOwner);
     
     /**
-     * @return the SequenceOwner is returned; "this" should be returned if this associate is the sequence owner
+     * The SequenceOwner is returned; "this" should be returned if this associate is the sequence owner.
+     * @return the SequenceOwner
      */
     T getSequenceOwner();
 }
