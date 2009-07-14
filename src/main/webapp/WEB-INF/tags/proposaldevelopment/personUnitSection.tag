@@ -28,12 +28,13 @@
              
                     <th><div align="center">Actions</div></th>
                   </tr>
-                  
                   <kra:section permission="modifyProposal">
                   <tr>
                     <th scope="row" align="center">Add:</th>
                     <td class="infoline">
+                    
                      <html:hidden property="newProposalPersonUnit[${personIndex}].unitName" />
+                     
    					<div id="newProposalPersonUnit[${personIndex}].unitName.div" class="same-line">
                      <c:choose>
                       <c:when test="${empty KualiForm.newProposalPersonUnit[personIndex].unitName}" >
@@ -59,9 +60,9 @@
 	                  <tr>
 	                    <th scope="row"  align="center"><c:out value="${status.index + 1}" /></th>
 	
-	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitName}" property="${proposalPerson}.unit[${status.index}].unit.unitName" readOnly="true" /></td>
+	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitName}" property="${proposalPerson}.units[${status.index}].unit.unitName" readOnly="true" /></td>
 	                    
-	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="${proposalPerson}.unit[${status.index}].unitNumber" readOnly="true"/></td>
+	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="${proposalPerson}.units[${status.index}].unitNumber" readOnly="true"/></td>
 	                    <td>
 	                    	<div align=center>
 		                    	<kra:section permission="modifyProposal">
