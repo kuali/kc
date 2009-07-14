@@ -18,7 +18,7 @@
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 
 
-<kul:tab tabTitle="Graduate Students" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Graduate Students" defaultOpen="false" tabErrorKey="" auditCluster="graduateStudentAuditErrors" tabAuditKey="document.graduateStudentAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Graduate Students</span>

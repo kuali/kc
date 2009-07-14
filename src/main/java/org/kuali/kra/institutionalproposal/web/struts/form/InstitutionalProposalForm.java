@@ -26,6 +26,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataFormHelper;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -35,12 +36,14 @@ import org.kuali.rice.kns.util.KNSConstants;
 /**
  * This class...
  */
-public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase implements CustomDataForm{
+public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase implements CustomDataForm, Auditable{
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 4564236415580911082L;
+    
+    private boolean auditActivated;
     
     private InstitutionalProposalCustomDataFormHelper institutionalProposalCustomDataFormHelper;
     
@@ -153,6 +156,16 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     protected void setSaveDocumentControl(Map editMode) {
         getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
 
+    }
+    
+    /** {@inheritDoc} */
+    public boolean isAuditActivated() {
+        return this.auditActivated;
+    }
+
+    /** {@inheritDoc} */
+    public void setAuditActivated(boolean auditActivated) {
+        this.auditActivated = auditActivated;
     }
 
 }
