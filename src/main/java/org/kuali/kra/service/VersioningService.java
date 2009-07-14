@@ -60,26 +60,28 @@ public interface VersioningService {
      * @return The newly sequenced version of the SequenceOwner
      * @throws VersionException
      */
-    <T extends SequenceOwner> T createNewVersion(T oldVersion) throws VersionException;
+    <T extends SequenceOwner<?>> T createNewVersion(T oldVersion) throws VersionException;
 
     /**
      * Cause new version of specified separately sequenced associate is copied.
      * @param <T> the type of SeparatelySequenceableAssociate to version.
+     * @param <U> the type of SequenceOwner of the SeparatelySequenceableAssociate
      * @param newVersion
      * @param oldAssociate
      * @return The newly versioned associate
      * @throws VersionException
      */
-    <T extends SeparatelySequenceableAssociate> T versionAssociate(SequenceOwner newVersion, T oldAssociate) throws VersionException;
+    <T extends SeparatelySequenceableAssociate<U>, U extends SequenceOwner<?>> T versionAssociate(U newVersion, T oldAssociate) throws VersionException;
     
     /**
      * Cause new version of SequenceOwner object to be associated to new versions of
      * the specified SeparatelySequenceableAssociates.
      * @param <T> the type of SeparatelySequenceableAssociate to version.
+     * @param <U> the type of SequenceOwner of the SeparatelySequenceableAssociate
      * @param newVersion
      * @param oldAssociates
      * @return The list of newly versioned associates
      * @throws VersionException
      */
-    <T extends SeparatelySequenceableAssociate> List<T> versionAssociates(SequenceOwner newVersion, List<T> oldAssociates) throws VersionException;
+    <T extends SeparatelySequenceableAssociate<U>, U extends SequenceOwner<?>> List<T> versionAssociates(U newVersion, List<T> oldAssociates) throws VersionException;
 }

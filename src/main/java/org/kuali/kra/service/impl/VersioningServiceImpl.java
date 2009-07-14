@@ -38,7 +38,7 @@ public class VersioningServiceImpl implements VersioningService {
      * {@inheritDoc}
      * @see org.kuali.kra.service.VersioningService#createNewVersion(SequenceOwner)
      */
-    public <T extends SequenceOwner> T createNewVersion(T oldVersion) throws VersionException {
+    public <T extends SequenceOwner<?>> T createNewVersion(T oldVersion) throws VersionException {
         T newVersion = new SequenceUtils().sequence(oldVersion);
         logVersionOperation(oldVersion, newVersion);
 
@@ -49,7 +49,7 @@ public class VersioningServiceImpl implements VersioningService {
      * {@inheritDoc}
      * @see org.kuali.kra.service.VersioningService#versionAssociate(SequenceOwner, SeparatelySequenceableAssociate)
      */
-    public <T extends SeparatelySequenceableAssociate> T versionAssociate(SequenceOwner newVersion, T oldAssociate) throws VersionException {
+    public <T extends SeparatelySequenceableAssociate<U>, U extends SequenceOwner<?>> T versionAssociate(U newVersion, T oldAssociate) throws VersionException {
         SequenceUtils sequenceUtils = new SequenceUtils();
         T newAssociate = sequenceUtils.sequence(oldAssociate);
         
@@ -61,7 +61,7 @@ public class VersioningServiceImpl implements VersioningService {
      * {@inheritDoc}
      * @see org.kuali.kra.service.VersioningService#versionAssociates(org.kuali.kra.SequenceOwner, java.util.List)
      */
-    public <T extends SeparatelySequenceableAssociate> List<T> versionAssociates(SequenceOwner newVersion, List<T> oldAssociates) throws VersionException {
+    public <T extends SeparatelySequenceableAssociate<U>, U extends SequenceOwner<?>> List<T> versionAssociates(U newVersion, List<T> oldAssociates) throws VersionException {
         SequenceUtils sequenceUtils = new SequenceUtils();
         List<T> newAssociates = sequenceUtils.sequence(newVersion, oldAssociates);
         logVersionOperation(newVersion, newVersion, oldAssociates);
@@ -93,7 +93,7 @@ public class VersioningServiceImpl implements VersioningService {
      * @param newVersion
      * @param oldAssociate
      */
-    private void logVersionOperation(Sequenceable oldVersion, Sequenceable newVersion, SeparatelySequenceableAssociate oldAssociate) {
+    private void logVersionOperation(Sequenceable oldVersion, Sequenceable newVersion, SeparatelySequenceableAssociate<?> oldAssociate) {
         if (LOGGER.isInfoEnabled()) {
             String className = oldVersion.getClass().getName();
             String versionLoggingMessage = new StringBuilder()
@@ -116,7 +116,7 @@ public class VersioningServiceImpl implements VersioningService {
      * @param associates
      */
     private void logVersionOperation(Sequenceable oldVersion, Sequenceable newVersion, 
-                                        List<? extends SeparatelySequenceableAssociate> associates) {
+                                        List<? extends SeparatelySequenceableAssociate<?>> associates) {
         if (LOGGER.isInfoEnabled()) {
             String className = oldVersion.getClass().getName();
             StringBuilder sb = new StringBuilder()
@@ -126,7 +126,7 @@ public class VersioningServiceImpl implements VersioningService {
                                                     .append(TO)
                                                     .append(newVersion.getSequenceNumber())
                                                     .append(" for old attachments: ");
-            for (SeparatelySequenceableAssociate associate : associates) {
+            for (SeparatelySequenceableAssociate<?> associate : associates) {
                 sb.append(associate);
                 sb.append("; ");
             }
