@@ -35,7 +35,7 @@
 				</c:forEach>
               </tr>
 			<c:forEach items="${KualiForm.document.investigators}" var="investigator" varStatus="invStatus">
-  			<c:set var="investigatorProperty" value="document.investigator[${invStatus.index}]" />
+  			<c:set var="investigatorProperty" value="document.investigators[${invStatus.index}]" />
               <tr>
                 <td nowrap class="tab-subhead"><strong>
                   <kul:htmlControlAttribute property="${investigatorProperty}.fullName" 
@@ -45,7 +45,7 @@
   
   <c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType">
       <c:forEach items="${investigator.creditSplits}" var="personcreditsplit" varStatus="splitStatus" >
-          <c:set var="personCreditSplit" value="${investigatorProperty}.creditSplit[${splitStatus.index}]" />
+          <c:set var="personCreditSplit" value="${investigatorProperty}.creditSplits[${splitStatus.index}]" />
                <c:if test="${personcreditsplit.invCreditTypeCode == invType.invCreditTypeCode}">
                    <td class="tab-subhead"><div align="right"><strong>
                           <kul:htmlControlAttribute property="${personCreditSplit}.credit" 
@@ -59,12 +59,12 @@
              
   <c:forEach items="${investigator.units}" var="personUnit" varStatus="unitStatus">
              <tr>
-    <c:set var="unitProperty" value="${investigatorProperty}.unit[${unitStatus.index}]" />
+    <c:set var="unitProperty" value="${investigatorProperty}.units[${unitStatus.index}]" />
                 <td nowrap>${personUnit.unitNumber} - ${personUnit.unit.unitName}</td>
 
      <c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType">
     <c:forEach items="${personUnit.creditSplits}" var="unitcreditsplit" varStatus="splitStatus" >
-      <c:set var="unitCreditSplit" value="${unitProperty}.creditSplit[${splitStatus.index}]" />
+      <c:set var="unitCreditSplit" value="${unitProperty}.creditSplits[${splitStatus.index}]" />
                     <c:if test="${unitcreditsplit.invCreditTypeCode == invType.invCreditTypeCode}">
                 <td><div align="right"><kul:htmlControlAttribute property="${unitCreditSplit}.credit" 
                                       attributeEntry="${unitCreditSplitAttributes.credit}"  styleClass="align-right" /></c:if></div></td>
