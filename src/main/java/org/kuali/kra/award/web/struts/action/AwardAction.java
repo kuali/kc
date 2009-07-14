@@ -301,20 +301,24 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         
         List<TimeAndMoneyDocument> timeAndMoneyDocuments = (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, unique);
         TimeAndMoneyDocument timeAndMoneyDocument = null;
-        TimeAndMoneyDocument timeAndMoneyDocument2 = null;
+        
         if(timeAndMoneyDocuments.size()!=0){
             timeAndMoneyDocument = timeAndMoneyDocuments.get(0);   
-            timeAndMoneyDocument2 = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(timeAndMoneyDocument.getDocumentNumber());
+            timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(timeAndMoneyDocument.getDocumentNumber());
         }
         
         if(timeAndMoneyDocument == null){            
-            timeAndMoneyDocument2 = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
-            timeAndMoneyDocument2.getDocumentHeader().setDocumentDescription("timeandmoney document");
-            timeAndMoneyDocument2.setAwardNumber(awardNumber);
-            documentService.saveDocument(timeAndMoneyDocument);    
+            timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
+            timeAndMoneyDocument.getDocumentHeader().setDocumentDescription("timeandmoney document");
+            timeAndMoneyDocument.setAwardNumber(awardNumber);                
         }
         
-        Long routeHeaderId = timeAndMoneyDocument2.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        documentService.saveDocument(timeAndMoneyDocument);
+        
+       
+        //timeAndMoneyDocument2.setAwardHierarchyNodes(awardForm.getAwardHierarchyNodes());
+        
+        Long routeHeaderId = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         
         String forward = buildForwardUrl(routeHeaderId);
         return new ActionForward(forward, true);
