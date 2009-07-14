@@ -17,8 +17,9 @@ package org.kuali.kra;
 
 /**
  * This interface applies to classes that own a sequence number
+ * @param <T> the type of sequence owner which itself has an owner of unknown type
  */
-public interface SequenceOwner extends SequenceAssociate {
+public interface SequenceOwner<T extends SequenceOwner<?>> extends SequenceAssociate<T> {
     /**
      * This increments sequence number on an owner of a sequence
      */

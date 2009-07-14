@@ -22,7 +22,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-//import org.apache.axis.utils.StringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.commitments.AwardCostShare;
@@ -62,7 +61,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>,
                                                                         SpecialReviewHandler<AwardSpecialReview>, 
-                                                                        Permissionable, SequenceOwner {
+                                                                        Permissionable, SequenceOwner<Award> {
     public static final String AWARD_NAMESPACE_CODE = "KC-AWARD";
     public static final String DEFAULT_AWARD_NUMBER = "1";
     
@@ -2381,14 +2380,14 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
-    public SequenceOwner getSequenceOwner() {
+    public Award getSequenceOwner() {
         return this;
     }
 
     /**
      * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
-    public void setSequenceOwner(SequenceOwner newOwner) {
+    public void setSequenceOwner(Award newOwner) {
        // no-op
     }
 

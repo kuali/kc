@@ -20,12 +20,11 @@ import java.util.List;
 import java.util.Random;
 
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
 
 /**
  * This class is a generic class for testing versioning
  */
-public class SequenceAssociateChild2 implements SequenceAssociate {
+public class SequenceAssociateChild2 implements SequenceAssociate<OwnerAssociate> {
     private static final long serialVersionUID = 3354366183120742932L;
 
     private Long childId;
@@ -84,7 +83,7 @@ public class SequenceAssociateChild2 implements SequenceAssociate {
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
-    public SequenceOwner getSequenceOwner() {
+    public OwnerAssociate getSequenceOwner() {
         return owner;
     }
     
@@ -98,8 +97,8 @@ public class SequenceAssociateChild2 implements SequenceAssociate {
     /**
      * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
-    public void setSequenceOwner(SequenceOwner newOwner) {
-        setOwner((OwnerAssociate)newOwner);
+    public void setSequenceOwner(OwnerAssociate newOwner) {
+        setOwner(newOwner);
     }
 
     public Long getChildId() {
