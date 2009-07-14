@@ -247,7 +247,6 @@
 </table></div>
 </kul:innerTab>
 </td></tr>
-
 <tr>
 <td colspan=4>
 <kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="newProposalPersonDegree.*,newProposalPersonDegree[${personIndex}].graduationYear*,newProposalPersonDegree[${personIndex}].degree*,newProposalPersonDegree[${personIndex}].degreeCode*">
@@ -256,9 +255,9 @@
   </table>
 </kul:innerTab>
 </td></tr>
-<bean:define id="unitDetailsRequired" name="KualiForm" property="${proposalPerson}.role.unitDetailsRequired" />
 
-<c:set var="unitsErrorKey" value="document.proposalPersons[${personIndex}].unit*,newProposalPersonUnit[${personIndex}]*" />
+<bean:define id="unitDetailsRequired" name="KualiForm" property="${proposalPerson}.role.unitDetailsRequired" />
+<c:set var="unitsErrorKey" value="document.proposalPersons[${personIndex}].units*,newProposalPersonUnit[${personIndex}]*" />
 <c:choose>
  <c:when test="${unitDetailsRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
    	<tr>
@@ -320,7 +319,7 @@
   </c:choose>
 </c:otherwise>
 </c:choose>
- 
+
 <bean:define id="certificationRequired" name="KualiForm" property="${proposalPerson}.role.certificationRequired" /> 
 
 <c:choose>
