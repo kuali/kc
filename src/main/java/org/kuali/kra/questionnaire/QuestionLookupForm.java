@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.questionnaire;
 
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -27,6 +28,24 @@ public class QuestionLookupForm extends KualiForm  {
     private Integer newQuestionTypeId; 
     private String newQuestion;
     private Integer nodeIndex; 
+    private String lookupResultsBOClassName;
+    public String getLookupResultsBOClassName() {
+        return lookupResultsBOClassName;
+    }
+
+    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
+
+    public String getLookedUpCollectionName() {
+        return lookedUpCollectionName;
+    }
+
+    public void setLookedUpCollectionName(String lookedUpCollectionName) {
+        this.lookedUpCollectionName = lookedUpCollectionName;
+    }
+
+    private String lookedUpCollectionName;
 
     
     public QuestionLookupForm() {
@@ -60,6 +79,16 @@ public class QuestionLookupForm extends KualiForm  {
 
     public void setNewQuestionTypeId(Integer newQuestionTypeId) {
         this.newQuestionTypeId = newQuestionTypeId;
+    }
+
+    @Override
+    public String getAnchor() {
+    // TODO : not sure why question multiple value lookup has problem to populate anchor
+    // hack for now.    
+        if (super.getAnchor() == null) {
+            setAnchor(KNSConstants.ANCHOR_TOP_OF_FORM);
+        }
+        return super.getAnchor();
     }
 
 }

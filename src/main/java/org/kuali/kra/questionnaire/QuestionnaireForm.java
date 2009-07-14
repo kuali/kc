@@ -36,6 +36,24 @@ public class QuestionnaireForm extends KualiForm {
     private String editData;
     private Integer questionNumber;
     private Long questionnaireQuestionsId; 
+    private String lookupResultsBOClassName;
+    public String getLookupResultsBOClassName() {
+        return lookupResultsBOClassName;
+    }
+
+    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
+
+    public String getLookedUpCollectionName() {
+        return lookedUpCollectionName;
+    }
+
+    public void setLookedUpCollectionName(String lookedUpCollectionName) {
+        this.lookedUpCollectionName = lookedUpCollectionName;
+    }
+
+    private String lookedUpCollectionName;
 
     /**
      * Constructs a ResearchAreasForm.
@@ -53,6 +71,13 @@ public class QuestionnaireForm extends KualiForm {
         // FIXME : just a temporary soln.  it always get the methodtocall='refresh' after it started properly the first time.  
         // need to investigate this.
         this.setMethodToCall("");
+        // TODO : if do lookup again to edit, 'form' is not initialized ? initialized here ?
+        newQuestionnaire = new Questionnaire();
+        questionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
+        questionNumber = 1;
+        sqlScripts = "";
+        retData = "";
+        
     }
 
     public Questionnaire getNewQuestionnaire() {

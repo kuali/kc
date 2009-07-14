@@ -146,7 +146,8 @@
         <!-- TODO : test QN lookup thru popup -->
         <action path="/questionLookup" name="QuestionLookupForm" type="org.kuali.kra.questionnaire.QuestionLookupAction">
             <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionLookup.jsp" />
-            <forward name="lookup" path="/WEB-INF/jsp/questionnaire/questionLookup.jsp" />
+            <forward name="singleLookup" path="/WEB-INF/jsp/questionnaire/questionLookup.jsp" />
+            <forward name="multiLookup" path="/WEB-INF/jsp/questionnaire/questionMultiLookup.jsp" />
         </action>
  		<action path="/questionnaireNew" name="QuestionnaireForm" input="/questionnaireNew.jsp" type="org.kuali.kra.questionnaire.QuestionnaireAction">
             <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionnaireNew.jsp" />
