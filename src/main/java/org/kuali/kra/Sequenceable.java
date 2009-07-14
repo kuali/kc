@@ -18,12 +18,12 @@ package org.kuali.kra;
 import java.io.Serializable;
 
 /**
- * This interface defines a class with sequence information
+ * This interface defines a class with sequence information.
  */
 public interface Sequenceable extends Serializable {
     /**
-     * This gets the current version number
-     * @return
+     * This gets the current version number.
+     * @return the sequence number
      */
     Integer getSequenceNumber();
     
