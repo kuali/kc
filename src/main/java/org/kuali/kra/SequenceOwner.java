@@ -16,18 +16,18 @@
 package org.kuali.kra;
 
 /**
- * This interface applies to classes that own a sequence number
+ * This interface applies to classes that own a sequence number.
  * @param <T> the type of sequence owner which itself has an owner of unknown type
  */
 public interface SequenceOwner<T extends SequenceOwner<?>> extends SequenceAssociate<T> {
     /**
-     * This increments sequence number on an owner of a sequence
+     * This increments sequence number on an owner of a sequence.
      */
     void incrementSequenceNumber();
     
     /**
      * This method returns its owner's sequence number. If this is the top level owner; i.e. Protocol or Award, it should return null
-     * @return
+     * @return the owner's sequence number
      */
     Integer getOwnerSequenceNumber();
 }
