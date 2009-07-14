@@ -53,7 +53,7 @@ public class SequenceUtils {
      * 
      * This means SequenceAssociates must override equals and hashCode!  
      */
-    private final Set<SequenceAssociate> alreadySequencedAssociates = Collections.synchronizedSet(new HashSet<SequenceAssociate>());
+    private final Set<SequenceAssociate<?>> alreadySequencedAssociates = Collections.synchronizedSet(new HashSet<SequenceAssociate<?>>());
 
     /**
      * This method sequences a SequenceOwner to a new version.
@@ -62,7 +62,7 @@ public class SequenceUtils {
      * @return The newly versioned owner 
      * @throws VersionException
      */
-    public <T extends SequenceOwner> T sequence(T oldVersion) throws VersionException {
+    public <T extends SequenceOwner<?>> T sequence(T oldVersion) throws VersionException {
         
         try {
             @SuppressWarnings("unchecked")
@@ -84,7 +84,7 @@ public class SequenceUtils {
      * @return The newly versioned associate 
      * @throws VersionException
      */
-    public <T extends SeparatelySequenceableAssociate> T sequence(T oldAssociate) throws VersionException {
+    public <T extends SeparatelySequenceableAssociate<U>, U extends SequenceOwner<?>> T sequence(T oldAssociate) throws VersionException {
         try {
             @SuppressWarnings("unchecked")
             T newAssociate = (T) ObjectUtils.deepCopy(oldAssociate);
@@ -104,10 +104,10 @@ public class SequenceUtils {
      * @return a List of new Associates
      * @throws VersionException
      */
-    public <T extends SeparatelySequenceableAssociate> List<T> sequence(SequenceOwner newOwner, List<T> oldAssociates) throws VersionException {
+    public <T extends SeparatelySequenceableAssociate<U>, U extends SequenceOwner<?>> List<T> sequence(U newOwner, List<T> oldAssociates) throws VersionException {
         try {
             List<T> newAssociates = new ArrayList<T>();
-            for (SeparatelySequenceableAssociate oldAssociate : oldAssociates) {
+            for (SeparatelySequenceableAssociate<U> oldAssociate : oldAssociates) {
                 @SuppressWarnings("unchecked")
                 T newAssociate = (T) ObjectUtils.deepCopy(oldAssociate);
                 newAssociate.resetPersistenceState();
@@ -143,21 +143,22 @@ public class SequenceUtils {
         return getter;
     }
 
-    private void sequenceAssociations(SequenceAssociate associate) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    private void sequenceAssociations(SequenceAssociate<?> associate) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         alreadySequencedAssociates.add(associate);
         sequenceOneToOneAssociations(associate);
         sequenceCollections(associate);
     }
 
-    private void sequenceOneToOneAssociations(SequenceAssociate parent) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    private void sequenceOneToOneAssociations(SequenceAssociate<?> parent) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        
         for (Field field : parent.getClass().getDeclaredFields()) {
             if (isFieldASequenceAssociate(field)) {
                 Method getter = findReadMethod(parent, field);
                 if (getter != null) {
-                    SequenceAssociate associate = getSequenceAssociateReference(parent, getter);
+                    SequenceAssociate<?> associate = getSequenceAssociateReference(parent, getter);
                     if (associate != null && !alreadySequencedAssociates.contains(associate)) {
-                        SequenceOwner owner = (parent instanceof SequenceOwner ? (SequenceOwner) parent : parent.getSequenceOwner());
-                        associate.setSequenceOwner(owner);
+                        SequenceOwner<?> owner = parent instanceof SequenceOwner<?> ? (SequenceOwner<?>) parent : parent.getSequenceOwner();
+                        this.setSequenceOwner(associate, owner);
                         associate.resetPersistenceState();
                         if (!isAssociateAlsoASequenceOwner(associate)) {
                             sequenceAssociations(associate);
@@ -176,7 +177,7 @@ public class SequenceUtils {
      * @param field
      * @return
      */
-    private RuntimeException createExceptionForNoGetter(SequenceAssociate parent, Field field) {
+    private RuntimeException createExceptionForNoGetter(SequenceAssociate<?> parent, Field field) {
         return new RuntimeException(String.format("No getter defined for field %s on class %s", field.getName(), parent.getClass().getName()));
     }
 
@@ -189,16 +190,16 @@ public class SequenceUtils {
      * @throws InvocationTargetException
      * @throws NoSuchMethodException
      */
-    private void sequenceCollections(SequenceAssociate parent) throws IllegalAccessException, InvocationTargetException,
+    private void sequenceCollections(SequenceAssociate<?> parent) throws IllegalAccessException, InvocationTargetException,
             NoSuchMethodException {
         for (Field field : parent.getClass().getDeclaredFields()) {
             if (isFieldACollection(field)) {
                 Method getter = findReadMethod(parent, field);
                 if (getter != null) {
                     if (isCollectionElementASequenceAssociate(getter.getGenericReturnType())) {
-                        SequenceOwner owner = (parent instanceof SequenceOwner ? (SequenceOwner) parent : parent.getSequenceOwner());
-                        for (SequenceAssociate associate : getSequenceAssociateCollection(parent, getter)) {
-                            associate.setSequenceOwner(owner);
+                        SequenceOwner<?> owner = (parent instanceof SequenceOwner<?> ? (SequenceOwner<?>) parent : parent.getSequenceOwner());
+                        for (SequenceAssociate<?> associate : getSequenceAssociateCollection(parent, getter)) {
+                            this.setSequenceOwner(associate, owner);
                             associate.resetPersistenceState();
                             if (!isAssociateAlsoASequenceOwner(associate)) {
                                 sequenceAssociations(associate);
@@ -212,20 +213,32 @@ public class SequenceUtils {
         }
     }
 
-    private SequenceAssociate getSequenceAssociateReference(SequenceAssociate parent, Method getter) throws IllegalAccessException,
+    private SequenceAssociate<?> getSequenceAssociateReference(SequenceAssociate<?> parent, Method getter) throws IllegalAccessException,
             InvocationTargetException {
-        return (SequenceAssociate) getter.invoke(parent, (Object[]) null);
+        return (SequenceAssociate<?>) getter.invoke(parent, (Object[]) null);
     }
 
     private boolean isFieldASequenceAssociate(Field field) {
         return SequenceAssociate.class.isAssignableFrom(field.getType());
     }
     
-    private boolean isAssociateAlsoASequenceOwner(SequenceAssociate associate) {
+    private boolean isAssociateAlsoASequenceOwner(SequenceAssociate<?> associate) {
         return SequenceOwner.class.isAssignableFrom(associate.getClass());
     }
 
     private boolean isFieldACollection(Field field) {
         return Collection.class.isAssignableFrom(field.getType());
+    }
+    
+    /**
+     * Sets the sequence associate's owner to the potential owner if the associate's owner is not itself.
+     * @param toSet the associate to set the owner on.
+     * @param potentialOwner the potential new owner
+     */
+    private <T extends SequenceOwner<?>> void setSequenceOwner(SequenceAssociate<T> toSet, SequenceOwner<?> potentialOwner) {
+        //this is sort of a suspect workaround for possible incorrect owner setting
+        if (toSet.getSequenceOwner() != toSet) {
+            toSet.setSequenceOwner((T)potentialOwner);
+        }
     }
 }

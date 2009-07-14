@@ -63,7 +63,7 @@ public class VersioningServiceImplTest {
     @Test
     public void testVersioning_1to1_Association_OwnerAssociate_CheckDownTheGraph() throws Exception {
         OwnerAssociate originalOwnerAssociate = originalVersion.getOwnerAssociate();
-        OwnerAssociate newVersion = (OwnerAssociate) service.createNewVersion(originalOwnerAssociate);
+        OwnerAssociate newVersion = service.createNewVersion(originalOwnerAssociate);
         
         Assert.assertEquals(originalOwnerAssociate.getOwnerSequenceNumber(), newVersion.getOwnerSequenceNumber());
         Assert.assertEquals(originalOwnerAssociate.getSequenceNumber().intValue() + 1, newVersion.getSequenceNumber().intValue());
@@ -80,7 +80,7 @@ public class VersioningServiceImplTest {
     
     @Test
     public void testVersioning_1to1_Association_OwnerAssociate_CheckUpTheGraph() throws Exception {
-        OwnerAssociate newVersion = (OwnerAssociate) service.createNewVersion(originalVersion.getOwnerAssociate());
+        OwnerAssociate newVersion = service.createNewVersion(originalVersion.getOwnerAssociate());
         Assert.assertEquals(originalVersion, newVersion.getOwner());
         Assert.assertEquals(originalVersion.getSequenceNumber(), newVersion.getOwnerSequenceNumber());
         
@@ -93,7 +93,7 @@ public class VersioningServiceImplTest {
     
     @Test
     public void testVersioning_1to1_Association_TopLevelOwner() throws Exception {
-        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion);
+        SequenceOwnerImpl newVersion = service.createNewVersion(originalVersion);
         SequenceAssociate associate = newVersion.getAssociate();
         Assert.assertEquals(newVersion, associate.getSequenceOwner());
         Assert.assertEquals(newVersion.getSequenceNumber(), associate.getSequenceNumber());
@@ -102,7 +102,7 @@ public class VersioningServiceImplTest {
     
     @Test
     public void testVersioning_1toM_Association_OwnerAssociate() throws Exception {
-        OwnerAssociate newOwnerAssociateVersion = (OwnerAssociate) service.createNewVersion(originalVersion.getOwnerAssociate());
+        OwnerAssociate newOwnerAssociateVersion = service.createNewVersion(originalVersion.getOwnerAssociate());
         originalVersion.setOwnerAssociate(newOwnerAssociateVersion);
         verifyTopLevelAssociationsNotSequenced(newOwnerAssociateVersion);
         verifyOwnerAssociateSequencing(newOwnerAssociateVersion);
@@ -110,7 +110,7 @@ public class VersioningServiceImplTest {
     
     @Test
     public void testVersioning_1toM_Association_TopLevelOwner() throws Exception {
-        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion);
+        SequenceOwnerImpl newVersion = service.createNewVersion(originalVersion);
         
         verifyTopLevelAssociationSequencing(newVersion);
         verifyEffectOnOwnerAssociationAssociationsWhenSequencingTopLevel(newVersion);
@@ -118,7 +118,7 @@ public class VersioningServiceImplTest {
 
     @Test
     public void testVersioning_IndependentlySequencedOwnerAssociate_versioningOfTopSequenceOwner() throws Exception {
-        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion);
+        SequenceOwnerImpl newVersion = service.createNewVersion(originalVersion);
         OwnerAssociate newVersionOwnerAssociate = newVersion.getOwnerAssociate();
         verifyOwnerAssociateWasSequencedWithOwner(newVersion, newVersionOwnerAssociate);        
         verifyNewVersionOwnerAssociateSequenceNumberNotChanged(newVersionOwnerAssociate);        
@@ -127,7 +127,7 @@ public class VersioningServiceImplTest {
     
     @Test
     public void testVersioning_MtoN_Association_MultipleAssociatesUpdated_TopLevelOwner() throws Exception {
-        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion); 
+        SequenceOwnerImpl newVersion = service.createNewVersion(originalVersion); 
         List<? extends SeparatelySequenceableAssociate> newAssociates = service.versionAssociates(newVersion, originalVersion.getAttachments());
         for(SeparatelySequenceableAssociate newAssociate: newAssociates) {
             newVersion.add((SequenceAssociateAttachmentBO) newAssociate);
@@ -143,7 +143,7 @@ public class VersioningServiceImplTest {
     
     @Test
     public void testVersioning_MtoN_Association_MultipleAssociatesUpdated_OwnerAssociate() throws Exception {
-        OwnerAssociate newOwnerAssociate = (OwnerAssociate) service.createNewVersion(originalOwnerAssociate); 
+        OwnerAssociate newOwnerAssociate = service.createNewVersion(originalOwnerAssociate); 
         List<? extends SeparatelySequenceableAssociate> newAssociates = service.versionAssociates(newOwnerAssociate, originalOwnerAssociate.getAttachments());
         for(SeparatelySequenceableAssociate newAssociate: newAssociates) {
             newOwnerAssociate.add((SequenceAssociateAttachmentBO2) newAssociate);
@@ -160,7 +160,7 @@ public class VersioningServiceImplTest {
     @Test
     public void testVersioning_MtoN_Association_SingleAssociateUpdated() throws Exception {
         SequenceAssociateAttachmentBO attachment = originalVersion.getAttachments().get(0);
-        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion); 
+        SequenceOwnerImpl newVersion = service.createNewVersion(originalVersion); 
         SeparatelySequenceableAssociate newAttachmentVersion = service.versionAssociate(newVersion, attachment);                                            
         newVersion.add((SequenceAssociateAttachmentBO) newAttachmentVersion);
         
@@ -171,7 +171,7 @@ public class VersioningServiceImplTest {
     
     @Test
     public void testVersioning_Owner() throws Exception {
-        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion);
+        SequenceOwnerImpl newVersion = service.createNewVersion(originalVersion);
         Assert.assertEquals(originalVersion.getSequenceNumber() + 1, newVersion.getSequenceNumber().intValue());
         Assert.assertNull(newVersion.getSequenceOwnerId());        
     }
@@ -395,7 +395,7 @@ public class VersioningServiceImplTest {
      * @param owner
      */
     private void verifyTopLevelAssociationsNotSequenced(OwnerAssociate ownerAssociate) {
-        SequenceOwnerImpl owner = (SequenceOwnerImpl) ownerAssociate.getSequenceOwner();
+        SequenceOwnerImpl owner = ownerAssociate.getSequenceOwner();
         for(SequenceAssociateChild child: owner.getChildren()) {
             Assert.assertEquals(owner, child.getOwner());
             Assert.assertEquals(owner.getSequenceNumber(), child.getSequenceNumber());
