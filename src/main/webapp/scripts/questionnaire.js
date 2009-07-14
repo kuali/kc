@@ -338,7 +338,7 @@
         if ($("#"+copyNode).children('ul.eq(0)').children('li').size() > 0) {
              
              $("#"+copyNode).children('ul.eq(0)').children('li').each(function(){
-                alert("child copy node"+$(this).attr("id"));
+                alert("child copy node"+$("deletereq"+$(this).attr("id").substring(8)).size() );
                 pasteChild($(listitem).attr("id"), $(this).attr("id"));
             });
         }
@@ -397,10 +397,25 @@
         // $(startnode).children().each(function(){
         //    alert('child '+$(this).html()+"-"+$(this).html());
         // });
+        alert("child copy node"+$("#cond"+$(startnode).attr("id").substring(8)).attr("value") );
+        cidx = $(startnode).attr("id").substring(8);
+
+        cond = $("#cond"+cidx).attr("value");
+        value = $("#condvalue"+cidx).attr("value");
+                var newResponse = getRequirementDeleteRow(responseArray[cond], value);
+                newResponse.appendTo($("#addrequirement"+i).parents('div:eq(0)').children('table:eq(0)').children('tbody'));
+                $("#cond"+idx).attr("value",cond);
+                $("#condvalue"+idx).attr("value",value);
+               $("#addrequirement"+idx).parents('tr:eq(0)').remove();
+                sqlScripts = sqlScripts + "#;#" + "update QCond;'Y';'"+cond+"';'"+value+"';"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
+        alert(sqlScripts);
+        //$("#cond"+idx).attr("value",response);
+        //$("#condvalue"+idx).attr("value",value);
+        
         if ($(startnode).children('ul.eq(0)').children('li').size() > 0) {
              
              $(startnode).children('ul.eq(0)').children('li').each(function(){
-                alert("child copy node"+$(this).attr("id")+"-"+isCopy+"-"+maxCopyNodeIdx);
+                //alert("child copy node"+$(this).attr("id")+"-"+isCopy+"-"+maxCopyNodeIdx);
                
                if (isCopy == 'false' || (isCopy == 'true' && $(this).attr("id").substring(8) <= maxCopyNodeIdx)) {
                   pasteChild($(listitem).attr("id"), $(this));
@@ -557,6 +572,10 @@
      qntag = $('<input type="hidden" id = "qdesc" name = "qdesc" />').attr("id","qdesc"+i).attr("name","qdesc"+i);
      qntag.appendTo(hidtd);
      qntag = $('<input type="hidden" id = "qtypeid" name = "qtypeid" />').attr("id","qtypeid"+i).attr("name","qtypeid"+i);
+     qntag.appendTo(hidtd);
+     qntag = $('<input type="hidden" id = "cond" name = "cond" />').attr("id","cond"+i).attr("name","cond"+i);
+     qntag.appendTo(hidtd);
+     qntag = $('<input type="hidden" id = "condvalue" name = "condvalue" />').attr("id","condvalue"+i).attr("name","condvalue"+i);
      qntag.appendTo(hidtd);
      hidtd.appendTo(hidtr);
      hidtr.appendTo($("#question-table"));
@@ -734,8 +753,10 @@
       selecttmp.appendTo(tdtmp);
       tdtmp.appendTo(trtmp);
       */
-      tdtmp = $('<td class="content_info" style="text-align:center;"></td>').html("Parent Response");
-      responseOptions.attr("id","parentResponse"+i).appendTo(tdtmp);
+      tdtmp = $('<td class="content_info" style="text-align:center;"></td>').html("Parent Response ");
+      //alert("response options "+responseOptions.html()+"-"+i);
+      respclone = responseOptions.clone(true);
+      respclone.attr("id","parentResponse"+i).appendTo(tdtmp);
       tdtmp.appendTo(trtmp);
       tdtmp = $('<td class="content_info" style="text-align:center;"></td>').html("Value:");
       $('<input type="text" size="25" />').appendTo(tdtmp);
@@ -765,6 +786,8 @@
                 var newResponse = getRequirementDeleteRow(responseArray[response], value);
                 newResponse.appendTo($(this).parents('div:eq(0)').children('table:eq(0)').children('tbody'));
                 var idx = $(this).parents('li:eq(0)').attr("id").substring(8);
+                $("#cond"+idx).attr("value",response);
+                $("#condvalue"+idx).attr("value",value);
                 sqlScripts = sqlScripts + "#;#" + "update QCond;'Y';'"+response+"';'"+value+"';"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
                 //alert(sqlScripts);
                $(this).parents('tr:eq(0)').remove();
@@ -804,7 +827,7 @@
       tdtmp=$('<td style="text-align:left; border-top:none;">').html(response+" : "+value);
       tdtmp.appendTo(trtmp);
       tdtmp=$('<td class="content_white" style="text-align:center; border-top:none; width:65px;">');
-      image = $('<input src="/kra-dev/kr/static/images/tinybutton-delete1.gif"  style="border:none;" alt="delete" type="image" />').click(function() {
+      image = $('<input src="/kra-dev/kr/static/images/tinybutton-delete1.gif"  style="border:none;" alt="delete" type="image" />').attr("id","deletereq"+i).click(function() {
          alert("This would delete this requirement."+$(this).parents('tr:eq(0)').next().size()); 
          //var nextNode = $(this).parents('tr:eq(0)').next();
          //var nextSeq = sequenceNum;
@@ -837,13 +860,18 @@
 		//alert (childrenNode[0].isLeaf+" ln "+leafNode);
 		//if (childrenNode.length == 0 || childrenNode[0].isLeaf) {
 		//    updateSponsorCodes();
-		//alert(nodeIndex);
+		alert(nodeIndex);
 			  url=window.location.href
 			  pathname=window.location.pathname
 			  idx1=url.indexOf(pathname);
 			  idx2=url.indexOf("/",idx1+1);
-			  extractUrl=url.substr(0,idx2)
-			  var winPop = window.open(extractUrl+"/questionLookup.do?nodeIndex="+nodeIndex, "_blank", "width=1000, height=800, scrollbars=yes");
+			  extractUrl=url.substr(0,idx2);
+			  if (nodeIndex == 0) {
+			     lookupType = "multivalue";
+			  } else {
+			     lookupType = "single";
+			  }
+			  var winPop = window.open(extractUrl+"/questionLookup.do?nodeIndex="+nodeIndex+"&lookupType="+lookupType, "_blank", "width=1000, height=800, scrollbars=yes");
          //} else {
          //	alert ("This node has sub sponsor group; can't add sponsors ");
          //}

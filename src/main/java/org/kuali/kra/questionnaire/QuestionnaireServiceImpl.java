@@ -16,6 +16,8 @@
 package org.kuali.kra.questionnaire;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -26,9 +28,15 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
     private BusinessObjectService businessObjectService;
 
     public void saveQuestionnaire(String sqlScripts, Questionnaire questionnaire) {
+        if (questionnaire.getQuestionnaireId() != null) {
+            Map pkMap = new HashMap();
+            pkMap.put("questionnaireId", questionnaire.getQuestionnaireId());
+            Questionnaire oldQuestionnair = (Questionnaire)businessObjectService.findByPrimaryKey(Questionnaire.class, pkMap);
+            questionnaire.setVersionNumber(oldQuestionnair.getVersionNumber());
+        }
         businessObjectService.save(questionnaire);
         //questionnaireDao.runScripts(sqlScripts.split("#;#"),questionnaire.getQuestionnaireId());
-        questionnaireDao.runScripts(sqlScripts.split("1;1"),questionnaire.getQuestionnaireId());
+        questionnaireDao.runScripts(sqlScripts.split(";;;"),questionnaire.getQuestionnaireId());
             
     }
 

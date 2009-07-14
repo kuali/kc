@@ -93,6 +93,7 @@
        var qname = $('#newQuestionnaire\\.name').attr("value");
        var qdescription =$('#newQuestionnaire\\.description').attr("value");
        var qisfinal = $('#newQuestionnaire\\.isFinal').attr("checked");
+       var questionnaireId = $('#newQuestionnaire\\.questionnaireId').attr("value");
        //if (qisfinal == 'on') {
        //    qisfinal = true;
        //} else {
@@ -100,14 +101,14 @@
        //}
        //alert ("save"+sqlScripts); 
        //TODO : FF seems to have trouble with "#;#"
-       sqlScripts = sqlScripts.replace(/#;#/g,"1;1");
+       sqlScripts = sqlScripts.replace(/#;#/g,";;;");
        alert ("save"+sqlScripts); 
        $.ajax({
          url: 'questionnaireAjax.do',
          type: 'GET',
          dataType: 'html',
          cache: false,
-         data:'newQuestionnaire.name='+qname+'&sqlScripts='+sqlScripts+'&newQuestionnaire.description='+qdescription+'&newQuestionnaire.isFinal='+qisfinal,
+         data:'newQuestionnaire.name='+qname+'&sqlScripts='+sqlScripts+'&newQuestionnaire.questionnaireId='+questionnaireId+'&newQuestionnaire.description='+qdescription+'&newQuestionnaire.isFinal='+qisfinal,
          async:false,
          timeout: 1000,
          error: function(){
@@ -325,6 +326,8 @@
                 alert ("add req for parent "+$("#addrequirement"+i).parents('tr:eq(0)').size());
                 var newResponse = getRequirementDeleteRow(responseArray[field[6]], field[7]);
                 newResponse.appendTo($("#addrequirement"+i).parents('div:eq(0)').children('table:eq(0)').children('tbody'));
+                $("#cond"+i).attr("value",field[6]);
+                $("#condvalue"+i).attr("value",field[7]);
                $("#addrequirement"+i).parents('tr:eq(0)').remove();
            }
         // TODO : set up for insert 
