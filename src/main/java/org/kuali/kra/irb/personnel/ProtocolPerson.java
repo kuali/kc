@@ -265,12 +265,19 @@ public class ProtocolPerson extends ProtocolAssociate {
         return leadUnit;
     }
 
-    public void init(Protocol protocol) {
-        setProtocolPersonId(null);
-        setProtocolNumber(protocol.getProtocolNumber());
-        setSequenceNumber(protocol.getSequenceNumber());
+    /** 
+     * {@inheritDoc} 
+     * inits Protocol Units. 
+     */
+    @Override
+    public void postInitHook(Protocol protocol) {
         for (ProtocolUnit unit : protocolUnits) {
             unit.init(this);
         }
+    }
+    
+    /** {@inheritDoc}  */
+    public void resetPersistenceState() {
+        this.setProtocolPersonId(null);
     }
 }

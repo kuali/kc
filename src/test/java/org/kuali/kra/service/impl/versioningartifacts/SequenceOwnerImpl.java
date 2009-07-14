@@ -24,7 +24,7 @@ import org.kuali.kra.SequenceOwner;
 /**
  * This test artifact represents a top level sequenceOwnerImpl; i.e. Award
  */
-public class SequenceOwnerImpl implements SequenceOwner {
+public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
     private static final long serialVersionUID = 3354366183120742932L;
     
     private Long sequenceOwnerId;
@@ -151,14 +151,14 @@ public class SequenceOwnerImpl implements SequenceOwner {
     /**
      * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
-    public void setSequenceOwner(SequenceOwner newOwner) {
+    public void setSequenceOwner(SequenceOwnerImpl newOwner) {
        // do nothing - this is root sequence association
     }
     
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
-    public SequenceOwner getSequenceOwner() {
+    public SequenceOwnerImpl getSequenceOwner() {
        return this;
     }
     

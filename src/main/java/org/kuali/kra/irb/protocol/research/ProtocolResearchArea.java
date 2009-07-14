@@ -25,7 +25,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 
 
@@ -41,10 +40,6 @@ public class ProtocolResearchArea extends ProtocolAssociate {
 
     @Column(name="RESEARCH_AREA_CODE")
 	private String researchAreaCode; 
-	
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="PROTOCOL_ID", insertable=false, updatable=false)    
-	private Protocol protocol;
 	
 	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name="RESEARCH_AREA_CODE", insertable=false, updatable=false)
@@ -70,14 +65,6 @@ public class ProtocolResearchArea extends ProtocolAssociate {
 		this.researchAreaCode = researchAreaCode;
 	}
 
-	public Protocol getProtocol() {
-		return protocol;
-	}
-
-	public void setProtocol(Protocol protocol) {
-		this.protocol = protocol;
-	}
-
 	public ResearchArea getResearchAreas() {
 		return researchAreas;
 	}
@@ -93,12 +80,9 @@ public class ProtocolResearchArea extends ProtocolAssociate {
 		hashMap.put("researchAreaCode", getResearchAreaCode());
 		return hashMap;
 	}
-
-    public void init(Protocol protocol) {
-        setId(null);
-        setProtocolNumber(protocol.getProtocolNumber());
-        setProtocol(protocol);
-        setSequenceNumber(protocol.getSequenceNumber());
-    }
 	
+	/** {@inheritDoc} */
+	public void resetPersistenceState() {
+	    this.setId(null);   
+	}
 }

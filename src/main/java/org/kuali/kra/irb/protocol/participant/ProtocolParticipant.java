@@ -27,7 +27,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 
 /**
@@ -43,9 +42,6 @@ public class ProtocolParticipant extends ProtocolAssociate {
     @Id
     @Column(name = "PROTOCOL_VULNERABLE_SUB_ID")
     private Long protocolParticipantId;
-
-    @Column(name = "PROTOCOL_ID")
-    private Long protocolId;
 
     @Column(name = "VULNERABLE_SUBJECT_TYPE_CODE")
     private String participantTypeCode;
@@ -66,14 +62,6 @@ public class ProtocolParticipant extends ProtocolAssociate {
 
     public void setProtocolParticipantId(Long protocolParticipantId) {
         this.protocolParticipantId = protocolParticipantId;
-    }
-
-    public Long getProtocolId() {
-        return protocolId;
-    }
-
-    public void setProtocolId(Long protocolId) {
-        this.protocolId = protocolId;
     }
 
     public String getParticipantTypeCode() {
@@ -104,17 +92,13 @@ public class ProtocolParticipant extends ProtocolAssociate {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap hashMap = super.toStringMapper();
         hashMap.put("protocolParticipantId", getProtocolParticipantId());
-        hashMap.put("protocolId", getProtocolId());
         hashMap.put("participantTypeCode", getParticipantTypeCode());
         hashMap.put("participantCount", getParticipantCount());
         return hashMap;
     }
-
-    public void init(Protocol protocol) {
-        setProtocolParticipantId(null);
-        setProtocolId(protocol.getProtocolId());
-        setProtocolNumber(protocol.getProtocolNumber());
-        setSequenceNumber(protocol.getSequenceNumber());
+    
+    /** {@inheritDoc} */
+    public void resetPersistenceState() {
+        this.setProtocolParticipantId(null);
     }
-
 }

@@ -19,14 +19,13 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * This class handles the legacy sequenceNumber/awardNumber data from Coeus
  */
-public abstract class AwardAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate, Serializable {
+public abstract class AwardAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<Award>, Serializable {
     private static final long serialVersionUID = -1966175324490120727L;
     
     private String awardNumber;
@@ -141,14 +140,14 @@ public abstract class AwardAssociate extends KraPersistableBusinessObjectBase im
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
-    public SequenceOwner getSequenceOwner() {
+    public Award getSequenceOwner() {
         return getAward();
     }
 
     /**
      * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
-    public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
-        setAward((Award) newlyVersionedOwner);   
+    public void setSequenceOwner(Award newlyVersionedOwner) {
+        setAward(newlyVersionedOwner);   
     }
 }

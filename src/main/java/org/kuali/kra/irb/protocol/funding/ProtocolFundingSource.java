@@ -23,7 +23,6 @@ import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
@@ -38,11 +37,8 @@ public class ProtocolFundingSource extends ProtocolAssociate {
      */
     private static final long serialVersionUID = -6137366673402413087L;
     private Long protocolFundingSourceId;
-    private Long protocolId;
     private Integer fundingSourceTypeCode;
     private String fundingSource;
-
-    private Protocol protocol;
     private FundingSourceType fundingSourceType;
 
     private String fundingSourceTitle;
@@ -132,14 +128,6 @@ public class ProtocolFundingSource extends ProtocolAssociate {
         this.protocolFundingSourceId = protocolFundingSourceId;
     }
 
-    public Long getProtocolId() {
-        return protocolId;
-    }
-
-    public void setProtocolId(Long protocolId) {
-        this.protocolId = protocolId;
-    }
-
     public Integer getFundingSourceTypeCode() {
         return fundingSourceTypeCode;
     }
@@ -168,14 +156,6 @@ public class ProtocolFundingSource extends ProtocolAssociate {
         this.fundingSource = fundingSource;
     }
 
-    public Protocol getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
-    }
-
     public FundingSourceType getFundingSourceType() {
         return fundingSourceType;
     }
@@ -192,20 +172,11 @@ public class ProtocolFundingSource extends ProtocolAssociate {
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = super.toStringMapper();
         hashMap.put("protocolFundingSourceId", getProtocolFundingSourceId());
-        hashMap.put("protocolId", getProtocolId());
         hashMap.put("fundingSourceTypeCode", getFundingSourceTypeCode());
         hashMap.put("fundingSource", getFundingSource());
         hashMap.put("fundingSourceName", getFundingSourceName());
         hashMap.put("fundingSourceTitle", getFundingSourceTitle());
         return hashMap;
-    }
-
-    public void init(Protocol protocol) {
-        setProtocolFundingSourceId(null);
-        setProtocolId(protocol.getProtocolId());
-        setProtocol(protocol);
-        setProtocolNumber(protocol.getProtocolNumber());
-        setSequenceNumber(protocol.getSequenceNumber());
     }
     
     @Override
@@ -235,5 +206,10 @@ public class ProtocolFundingSource extends ProtocolAssociate {
     
     protected ProtocolFundingSourceService getProtocolFundingSourceService() {
         return KraServiceLocator.getService(ProtocolFundingSourceService.class);
+    }
+
+    /** {@inheritDoc} */
+    public void resetPersistenceState() {
+        this.setProtocolFundingSourceId(null);
     }
 }

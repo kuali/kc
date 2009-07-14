@@ -67,7 +67,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * 
  * This class is Protocol Business Object.
  */
-public class Protocol extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<ProtocolSpecialReview>, SequenceOwner {
+public class Protocol extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<ProtocolSpecialReview>, SequenceOwner<Protocol> {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -1101,12 +1101,12 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     }
 
     /** {@inheritDoc} */
-    public SequenceOwner getSequenceOwner() {
+    public Protocol getSequenceOwner() {
         return this;
     }
 
     /** {@inheritDoc} */
-    public void setSequenceOwner(SequenceOwner newOwner) {
+    public void setSequenceOwner(Protocol newOwner) {
        //no-op
     }
     
