@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import javax.mail.internet.HeaderTokenizer;
+import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -333,8 +335,29 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         }
         
         final ProtocolAttachmentFile file = attachment.getFile();
-        this.streamToResponse(file.getData(), file.getName(), file.getType(), response);
+        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
         
         return RESPONSE_ALREADY_HANDLED;
+    }
+    
+    /**
+     * Quotes a string that follows RFC 822 and is valid to include in an http header.
+     * 
+     * <p>
+     * This really should be a part of {@link org.kuali.rice.kns.util.WebUtils WebUtils}.
+     * <p>
+     * 
+     * For example: without this method, file names with spaces will not show up to the client correctly.
+     * 
+     * <p>
+     * This method is not doing a Base64 encode just a quoted printable character otherwise we would have
+     * to set the encoding type on the header.
+     * <p>
+     * 
+     * @param s the original string
+     * @return the modified header string
+     */
+    private static String getValidHeaderString(String s) {
+        return MimeUtility.quote(s, HeaderTokenizer.MIME);
     }
 }
