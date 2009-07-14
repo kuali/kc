@@ -465,4 +465,9 @@ public interface Constants {
     public static final String QUESTION_EXPLANATION = "E";
     public static final String QUESTION_POLICY = "P";
     public static final String QUESTION_REGULATION = "R";
+    
+    //Institutional Proposal Audit Rules 
+    public static final String GRADUATE_STUDENT_PANEL_ANCHOR = "GraduateStudent";
+    public static final String GRADUATE_STUDENT_PANEL_NAME = "GraduateStudent";
+    public static final String GRADUATE_STUDENT_AUDIT_RULES_ERROR_KEY = "document.graduateStudentAuditRules";
 }

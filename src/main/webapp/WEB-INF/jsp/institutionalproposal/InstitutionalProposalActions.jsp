@@ -26,7 +26,7 @@
   	
 This is the  Institutional Proposal Contacts - Under Construction
 
-<kra-ip:institutionalProposalDataValidation />
+<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>
 
 <kul:panelFooter />	
  
