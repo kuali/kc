@@ -92,7 +92,9 @@ public class AwardCustomDataAction extends AwardAction {
             awardCustomData.getCustomAttribute().setId(customAttributeId);
             awardCustomData.setCustomAttributeId((long) customAttributeId);
             awardCustomData.setAward(awardForm.getAwardDocument().getAward());
-            if(customAttributeValue.getValue()[0] != null) {
+            if(customAttributeValue.getValue()[0].length() == 0) {
+                awardCustomData.setValue("");
+            }else {
                 awardCustomData.setValue(customAttributeValue.getValue()[0]);
             }
             awardForm.getAwardDocument().getAward().getAwardCustomDataList().add(awardCustomData);

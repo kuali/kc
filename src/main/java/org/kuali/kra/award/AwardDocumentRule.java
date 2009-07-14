@@ -475,9 +475,9 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
         
-        retval &= super.processRunAuditBusinessRules(document);
         retval &= new AwardReportAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardTermsAuditRule().processRunAuditBusinessRules(document);
+        retval &= new AwardCustomDataAuditRule().processRunAuditBusinessRules(document);
         
         return retval;
         
