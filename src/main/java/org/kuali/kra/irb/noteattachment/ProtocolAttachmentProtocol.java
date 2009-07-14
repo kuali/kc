@@ -15,9 +15,15 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class represents the Protocol Attachment Protocol.
@@ -39,6 +45,8 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
     private ProtocolAttachmentType type;
     private Integer documentId;
     private String description;
+    
+    private List<ProtocolAttachmentProtocol> versions;
     
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -207,6 +215,35 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
         return "Protocol Attachment";
     }
     
+    /**
+     * Gets the versions attribute. 
+     * @return Returns the versions.
+     */
+    public List<ProtocolAttachmentProtocol> getVersions() {
+        if (this.versions == null) {
+            this.versions = new ArrayList<ProtocolAttachmentProtocol>();
+        }
+        //temp hack until I figure out how to do this w/ ojb
+        this.versions.clear();
+        
+        Map<String, Object> whereCond = new HashMap<String, Object>();
+        whereCond.put("protocolNumber", this.getProtocolNumber());
+        whereCond.put("typeCode", this.getTypeCode());
+        whereCond.put("documentId", this.getDocumentId());
+        
+        this.versions.addAll(KraServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(ProtocolAttachmentProtocol.class, whereCond, "versionNumber", false));
+        
+        return this.versions;
+    }
+
+    /**
+     * Sets the versions attribute value.
+     * @param versions The versions to set.
+     */
+    public void setVersions(List<ProtocolAttachmentProtocol> versions) {
+        this.versions = versions;
+    }
+
     /** {@inheritDoc} */
     @Override
     public boolean supportsVersioning() {
