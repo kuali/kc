@@ -44,7 +44,6 @@
    			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(:;questionnaireQuestions;:).((%true%)).anchor" id = "lookupBtn" 
 	   src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on " title="Multiple Value Search on " />
 
-
          	</label><br>
          	
          		<input type="hidden" id="selectedSponsors" name="selectedSponsors" value="${SponsorHierarchyForm.selectedSponsors}" />
@@ -70,7 +69,7 @@
                  var lookupBtn=document.getElementById("lookupBtn");
                  //alert("methodtocall "+document.getElementById("methodToCall").value);
                  if (document.getElementById("methodToCall").value != "refresh") {
-                 	//lookupBtn.click();
+                 	lookupBtn.click();
                  } else {
                  	returnQuestion();
                  	window.close();

@@ -53,7 +53,7 @@
     </td>
    </tr>
    
-   <!--
+   
    <tr>
        <input name="aq01sc" type="radio" checked="checked" />as sibling&nbsp;&nbsp;&nbsp;
        <input name="aq01sc" type="radio" />as child
@@ -65,7 +65,7 @@
                                                                  anchor="${currentTabIndex}.qnIndex${memberIndex}"/>      
    </tr>
    
-   -->
+  
    <%-- Test: add new question, when it return question lookup, the dynamically qn are still ok--%>
    <c:set var="index" value="0"/>
    <c:if test="${fn:length(QuestionnaireForm.questionnaireQuestions) > 0}" >
