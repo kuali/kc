@@ -35,7 +35,7 @@
 	         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['typeCode']}" noColon="false"/>
 	         			</div>
 	         		</th>
-	         		<td align="left" valign="middle">
+	         		<td align="left" valign="middle" colspan="3">
 	                	<div align="left">
 	                		<c:set var="property" value="notesAndAttachmentsHelper.newAttachmentProtocol.typeCode" />
 	                	
@@ -54,24 +54,6 @@
 	               				<html:options collection="options" labelProperty="label" property="key" />
 	               			</html:select>
 		            	</div>
-					</td>
-					<th>
-						<div align="right">
-							<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['fileId']}" noColon="false" />
-						</div>
-					</th>
-	       			<td align="left" valign="middle">
-	              		<div align="left">
-	              			<c:set var="property" value="notesAndAttachmentsHelper.newAttachmentProtocol.newFile" />
-	              		
-	              		    <%-- attachment file error handling logic start--%>
-	               				<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
-	               				<%-- highlighting does not work in firefox but does in ie... --%>
-	               				<c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>
-	               			<%-- attachment file error handling logic start--%>
-	              		
-	              			<html:file property="${property}" style="${textStyle}"/>
-	           			</div>
 					</td>
 	         	</tr>
 	         	<tr>
@@ -165,6 +147,26 @@
 					</td>
 	         	</tr>
 	         	<tr>
+	         		<th>
+						<div align="right">
+							<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['fileId']}" noColon="false" />
+						</div>
+					</th>
+	       			<td align="left" valign="middle" colspan="3">
+	              		<div align="left">
+	              			<c:set var="property" value="notesAndAttachmentsHelper.newAttachmentProtocol.newFile" />
+	              		
+	              		    <%-- attachment file error handling logic start--%>
+	               				<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
+	               				<%-- highlighting does not work in firefox but does in ie... --%>
+	               				<c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>
+	               			<%-- attachment file error handling logic start--%>
+	              		
+	              			<html:file property="${property}" style="${textStyle}" size="50"/>
+	           			</div>
+					</td>
+	         	</tr>
+	         	<tr>
 	         		<td colspan="4" class="infoline">
 						<div align="center">
 							<html:image property="methodToCall.addAttachmentProtocol.anchor${tabKey}"
@@ -185,23 +187,10 @@
 			         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['typeCode']}" noColon="false" />
 			         			</div>
 			         		</th>
-			         		<td align="left" valign="middle">
+			         		<td align="left" valign="middle" colspan="3">
 			                	<div align="left">
 			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].typeCode" attributeEntry="${protocolAttachmentProtocolAttributes['typeCode']}" readOnly="true" readOnlyAlternateDisplay ="${attachmentProtocol.type.description}" />
 				            	</div>
-							</td>
-							<th>
-								<div align="right">
-									<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['fileId']}" noColon="false" />
-								</div>
-							</th>
-			       			<td align="left" valign="middle">
-			              		<div align="left" style="display: none;" id="attachmentProtocolFile${itrStatus.index}">
-			              			<html:file property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].newFile" />
-			           			</div>
-			           			<div align="left" id="attachmentProtocolFileName${itrStatus.index}">
-			              			${attachmentProtocol.file.name}
-			           			</div>
 							</td>
 			         	</tr>
 			         	<tr>
@@ -292,6 +281,59 @@
 			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].description" attributeEntry="${protocolAttachmentProtocolAttributes.description}" readOnly="${!modify}"/>
 			                		<kra:expandedTextArea textAreaFieldName="document.protocolList[0].attachmentProtocols[${itrStatus.index}].description" action="${action}" textAreaLabel="${protocolAttachmentProtocolAttributes.description.label}" viewOnly="${!modify}"/>
 				            	</div>
+							</td>
+			         	</tr>
+			         	<tr>
+			         	<th>
+								<div align="right">
+									<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['fileId']}" noColon="false" />
+								</div>
+							</th>
+			       			<td align="left" valign="middle" colspan="3">
+			              		<div align="left" style="display: none;" id="attachmentProtocolFile${itrStatus.index}">
+			              			<html:file property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].newFile" />
+			           			</div>
+			           			<div align="left" id="attachmentProtocolFileName${itrStatus.index}">
+			              			${attachmentProtocol.file.name}
+			           			</div>
+			           			
+			           			<c:set var="doVersionsExist" value="${fn:length(attachmentProtocol.versions) > 1 || (fn:length(attachmentProtocol.versions) == 1 && attachmentProtocol.attachmentVersionNumber != attachmentProtocol.versions[0].attachmentVersionNumber)}" />
+			           			<c:if test="${doVersionsExist}">
+				           			<kul:innerTab tabTitle="File Versions" parentTab="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description}" defaultOpen="false">
+										<div class="innerTab-container" align="left">
+				         					<table class=tab cellpadding=0 cellspacing="0" summary="" width="100%">
+			         							<tr>
+					         						<th style="width: 20%">
+					         							Last Modifier
+					         						</th>
+					         						<th style="width: 20%">
+					         							Created Date
+					         						</th>
+					         						<th style="width: 60%">
+					         							Comments
+					         						</th>
+					         					</tr>
+				         					
+							         			<c:forEach var="attachmentProtocolVersion" items="${attachmentProtocol.versions}" varStatus="innerItrStatus">
+							         				<!-- only display older versions -->
+							         				<c:if test="${attachmentProtocolVersion.attachmentVersionNumber < attachmentProtocol.attachmentVersionNumber}">
+							         					<tr>
+							         						<td style="width: 20%">
+							         							${attachmentProtocolVersion.updateUser}
+							         						</td>
+							         						<td style="width: 20%">
+							         							${attachmentProtocolVersion.updateTimestamp}
+							         						</td>
+															<td style="width: 60%">
+							         							${attachmentProtocolVersion.comments}
+							         						</td>
+							         					</tr>
+							         				</c:if>
+							         			</c:forEach>
+						         			</table>
+					         			</div>
+				         			</kul:innerTab>
+				         		</c:if>
 							</td>
 			         	</tr>
 						<tr>
