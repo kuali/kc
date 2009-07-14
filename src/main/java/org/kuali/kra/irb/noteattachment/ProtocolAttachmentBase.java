@@ -18,7 +18,6 @@ package org.kuali.kra.irb.noteattachment;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SeparatelySequenceableAssociate;
@@ -34,9 +33,6 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
     private static final Integer INITIAL_VERSION = Integer.valueOf(1);
     
     private Long id;
-    
-    private Long protocolId;
-    private Protocol protocol;
        
     private Integer attachmentVersionNumber = INITIAL_VERSION;
     
@@ -45,7 +41,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
     private ProtocolAttachmentFile file;
     private transient FormFile newFile;
     
-    private List<Protocol> sequenceOwners;
+    //private List<Protocol> sequenceOwners;
     
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -81,39 +77,6 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
      */
     public void setId(Long id) {
         this.id = id;
-    }
-       
-    /**
-     * Gets the Protocol id.
-     * @return the Protocol
-     */
-    public Long getProtocolId() {
-        return this.protocolId;
-    }
-    
-    /**
-     * Sets the Protocol & and the protocolNumber from the passed in protocol.
-     * @param protocolId the Protocol id
-     */
-    public void setProtocolId(Long protocolId) {
-        this.protocolId = protocolId;
-    }
-    
-    /**
-     * Gets the Protocol.
-     * @return the Protocol
-     */
-    public Protocol getProtocol() {
-        return this.protocol;
-    }
-    
-    /**
-     * Sets the Protocol & and the protocolNumber from the passed in protocol.
-     * @param protocol the Protocol
-     */
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
-        this.initProtocolInfo(protocol);
     }
     
     /**
@@ -228,49 +191,6 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
     }
     
     /**
-     * Sets the protocol id and protocolNumber from the passed in protocol.
-     * @param aProtocol the Protocol
-     */
-    private void initProtocolInfo(Protocol aProtocol) {       
-        this.setProtocolId(aProtocol != null ? aProtocol.getProtocolId() : null);
-        this.setProtocolNumber(aProtocol != null ? aProtocol.getProtocolNumber() : null);
-        this.setSequenceNumber(aProtocol != null ? aProtocol.getSequenceNumber() : null);
-        
-        //if (aProtocol != null) {
-            //addSequenceOwner(aProtocol);
-        //}
-    }
-//    
-//    public void addSequenceOwner(Protocol aProtocol) {
-//        if (!this.getSequenceOwners().contains(aProtocol)) {
-//            final List<Protocol> owners = this.getSequenceOwners();
-//            owners.add(aProtocol);
-//            this.setSequenceOwners(owners);
-//        }
-//    }
-//    
-//    public void removeSequenceOwner(Protocol aProtocol) {
-//        final List<Protocol> owners = this.getSequenceOwners();
-//        
-//        //removing any duplicates just in case
-//        boolean removed = owners.remove(this);
-//        while (removed) {
-//            removed = owners.remove(this);
-//        }
-//        
-//        this.setSequenceOwners(owners);
-//    }
-    
-    /** 
-     * inits the object for a different Protocol.
-     * @param aProtocol the protocol
-     */
-    public void init(Protocol aProtocol) {
-        this.setId(null);
-        this.setProtocol(aProtocol);
-    }
-    
-    /**
      * Adds an attachment to a Collection.
      * @param <T> the type of attachment
      * @param attachment the attachment.
@@ -366,7 +286,6 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
         result = prime * result + ((this.file == null) ? 0 : this.file.hashCode());
         result = prime * result + ((this.fileId == null) ? 0 : this.fileId.hashCode());
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
-        result = prime * result + ((this.protocolId == null) ? 0 : this.protocolId.hashCode());
         return result;
     }
 
@@ -413,13 +332,6 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
         } else if (!this.id.equals(other.id)) {
             return false;
         }
-        if (this.protocolId == null) {
-            if (other.protocolId != null) {
-                return false;
-            }
-        } else if (!this.protocolId.equals(other.protocolId)) {
-            return false;
-        }
         return true;
     }
     
@@ -428,7 +340,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
      */
     public static enum PropertyName {
         ATTACHMENT_VERSION("attachmentVersionNumber"),
-        FILE_ID("fileId"), ID("id"), PROTOCOL_ID("protocolId");
+        FILE_ID("fileId"), ID("id");
         
         private final String name;
         
