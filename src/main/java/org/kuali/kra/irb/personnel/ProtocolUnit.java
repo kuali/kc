@@ -129,9 +129,13 @@ public class ProtocolUnit extends ProtocolAssociate {
     public void init(ProtocolPerson protocolPerson) {
         setProtocolPerson(protocolPerson);
         setProtocolPersonId(protocolPerson.getProtocolPersonId());
-        setProtocolNumber(protocolPerson.getProtocolNumber());
-        setSequenceNumber(protocolPerson.getSequenceNumber());
-        setProtocolUnitsId(null);
+        
+        //this is a little weird...
+        this.init(protocolPerson.getProtocol());
     }
-	
+    
+    /** {@inheritDoc} */
+	public void resetPersistenceState() {
+	    this.setProtocolUnitsId(null);
+	}
 }

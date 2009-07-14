@@ -38,9 +38,6 @@ public class ProtocolReference extends ProtocolAssociate {
     @Column(name="PROTOCOL_REFERENCE_ID")
     private Long protocolReferenceId;
     
-    @Column(name="PROTOCOL_ID")
-	private Long protocolId; 
-    
     @Column(name="PROTOCOL_REFERENCE_NUMBER")
 	private Integer protocolReferenceNumber; 
     
@@ -66,10 +63,6 @@ public class ProtocolReference extends ProtocolAssociate {
 	public ProtocolReference() { 
 
 	} 
-	
-	public Long getProtocolId() {
-		return protocolId;
-	}
 
     public void setProtocolReferenceId(Long protocolReferenceId) {
         this.protocolReferenceId = protocolReferenceId;
@@ -78,10 +71,6 @@ public class ProtocolReference extends ProtocolAssociate {
     public Long getProtocolReferenceId() {
         return protocolReferenceId;
     }
-	
-	public void setProtocolId(Long protocolId) {
-		this.protocolId = protocolId;
-	}
 
 	public Integer getProtocolReferenceNumber() {
 		return protocolReferenceNumber;
@@ -144,7 +133,6 @@ public class ProtocolReference extends ProtocolAssociate {
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = super.toStringMapper();
 		hashMap.put("protocolReferenceId", getProtocolReferenceId());
-		hashMap.put("protocolId", getProtocolId());
 		hashMap.put("protocolReferenceNumber", getProtocolReferenceNumber());
 		hashMap.put("protocolReferenceTypeCode", getProtocolReferenceTypeCode());
 		hashMap.put("referenceKey", getReferenceKey());
@@ -154,12 +142,17 @@ public class ProtocolReference extends ProtocolAssociate {
 		return hashMap;
 	}
 
-    public void init(Protocol protocol) {
-        setProtocolReferenceId(null);
-        setProtocolId(protocol.getProtocolId());
-        setProtocolNumber(protocol.getProtocolNumber());
-        setProtocolReferenceNumber(null);
-        setSequenceNumber(protocol.getSequenceNumber());
-    }
+	/**
+	 * {@inheritDoc}
+	 * sets the protocol reference number to null.
+	 */
+	@Override
+	public void postInitHook(Protocol aProtocol) {
+	    this.setProtocolReferenceNumber(null);
+	}
 	
+    /** {@inheritDoc} */
+    public void resetPersistenceState() {
+        this.setProtocolReferenceId(null);
+    }
 }

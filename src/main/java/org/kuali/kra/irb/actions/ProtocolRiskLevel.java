@@ -21,9 +21,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.RiskLevel;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
-import org.kuali.kra.irb.ProtocolDocument;
 
 /**
  * 
@@ -32,14 +30,11 @@ import org.kuali.kra.irb.ProtocolDocument;
 public class ProtocolRiskLevel extends ProtocolAssociate { 
 	
 	private Integer protocolRiskLevelId; 
-	private Long protocolId; 
 	private String riskLevelCode; 
 	private String comments; 
 	private Date dateAssigned; 
 	private Date dateUpdated; 
 	private String status; 
-	
-	private ProtocolDocument protocol;
 	
 	private RiskLevel riskLevel;
 	
@@ -54,14 +49,6 @@ public class ProtocolRiskLevel extends ProtocolAssociate {
 
 	public void setProtocolRiskLevelId(Integer protocolRiskLevelId) {
 		this.protocolRiskLevelId = protocolRiskLevelId;
-	}
-
-	public Long getProtocolId() {
-		return protocolId;
-	}
-
-	public void setProtocolId(Long protocolId) {
-		this.protocolId = protocolId;
 	}
 
 	public String getRiskLevelCode() {
@@ -104,14 +91,6 @@ public class ProtocolRiskLevel extends ProtocolAssociate {
 		this.status = status;
 	}
 
-	public ProtocolDocument getProtocol() {
-		return protocol;
-	}
-
-	public void setProtocol(ProtocolDocument protocol) {
-		this.protocol = protocol;
-	}
-
 	public RiskLevel getRiskLevel() {
 		return riskLevel;
 	}
@@ -124,7 +103,6 @@ public class ProtocolRiskLevel extends ProtocolAssociate {
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = super.toStringMapper();
 		hashMap.put("protocolRiskLevelId", getProtocolRiskLevelId());
-		hashMap.put("protocolId", getProtocolId());
 		hashMap.put("riskLevelCode", getRiskLevelCode());
 		hashMap.put("comments", getComments());
 		hashMap.put("dateAssigned", getDateAssigned());
@@ -140,8 +118,6 @@ public class ProtocolRiskLevel extends ProtocolAssociate {
         result = prime * result + ((comments == null) ? 0 : comments.hashCode());
         result = prime * result + ((dateAssigned == null) ? 0 : dateAssigned.hashCode());
         result = prime * result + ((dateUpdated == null) ? 0 : dateUpdated.hashCode());
-        result = prime * result + ((protocol == null) ? 0 : protocol.hashCode());
-        result = prime * result + ((protocolId == null) ? 0 : protocolId.hashCode());
         result = prime * result + ((getProtocolNumber() == null) ? 0 : getProtocolNumber().hashCode());
         result = prime * result + ((protocolRiskLevelId == null) ? 0 : protocolRiskLevelId.hashCode());
         result = prime * result + ((riskLevel == null) ? 0 : riskLevel.hashCode());
@@ -160,12 +136,6 @@ public class ProtocolRiskLevel extends ProtocolAssociate {
         if (getClass() != obj.getClass())
             return false;
         final ProtocolRiskLevel other = (ProtocolRiskLevel) obj;
-        if (protocolId == null) {
-            if (other.protocolId != null)
-                return false;
-        }
-        else if (!protocolId.equals(other.protocolId))
-            return false;
         if (getProtocolNumber() == null) {
             if (other.getProtocolNumber() != null)
                 return false;
@@ -198,11 +168,9 @@ public class ProtocolRiskLevel extends ProtocolAssociate {
         return status.equals(Constants.STATUS_ACTIVE) ? Constants.ACTIVE_STATUS_LITERAL : 
             Constants.INACTIVE_STATUS_LITERAL ;
     }
-
-    public void init(Protocol protocol) {
-        setProtocolRiskLevelId(null);
-        setProtocol(protocol.getProtocolDocument());
-        setProtocolId(protocol.getProtocolId());
-        setProtocolNumber(protocol.getProtocolNumber());
+    
+    /** {@inheritDoc} */
+    public void resetPersistenceState() {
+        this.setProtocolRiskLevelId(null);
     }
 }

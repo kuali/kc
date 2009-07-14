@@ -24,7 +24,7 @@ import org.kuali.kra.SequenceOwner;
 /**
  * This class represents a sequence owner that is also an associate; i.e. a SubAward on an Award 
  */
-public class OwnerAssociate implements SequenceOwner {
+public class OwnerAssociate implements SequenceOwner<SequenceOwnerImpl> {
     private static final long serialVersionUID = 8605301787439491786L;
     
     private Long ownerAssociateId;
@@ -122,7 +122,7 @@ public class OwnerAssociate implements SequenceOwner {
         return sequenceNumber;
     }
 
-    public SequenceOwner getSequenceOwner() {
+    public SequenceOwnerImpl getSequenceOwner() {
         return owner;
     }
     
@@ -202,8 +202,8 @@ public class OwnerAssociate implements SequenceOwner {
     /**
      * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
-    public void setSequenceOwner(SequenceOwner newOwnerReference) {
-        setOwner((SequenceOwnerImpl) newOwnerReference);
+    public void setSequenceOwner(SequenceOwnerImpl newOwnerReference) {
+        setOwner(newOwnerReference);
     }
 
 }

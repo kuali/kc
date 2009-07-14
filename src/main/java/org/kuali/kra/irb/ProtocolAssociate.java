@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -27,7 +28,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * This class is to maintain repetitive coeus legacy code, protocolNumber & sequenceNumber, for protocol Bos.
  */
 @MappedSuperclass
-public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<Protocol> {
     private static final long serialVersionUID = -8385115657304261423L;
     
     @Column(name = "PROTOCOL_NUMBER")
@@ -36,9 +37,12 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
     @Column(name = "SEQUENCE_NUMBER")
     private Integer sequenceNumber;
 
+    private Long protocolId;
+    private Protocol protocol;
+
     /**
      * 
-     * Constructs a ProtocolAssociate.java.
+     * Constructs a ProtocolAssociate.
      * 
      * Assures that the sequence number is always set. Note that 
      * when protocol implements versioning,  the KC versioning API 
@@ -47,6 +51,49 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
      */
     public ProtocolAssociate() {
          this.setSequenceNumber(Integer.valueOf(0));
+    }
+    
+    /**
+     * Gets the protocolId attribute. 
+     * @return Returns the protocolId.
+     */
+    public Long getProtocolId() {
+        return this.protocolId;
+    }
+
+    /**
+     * Sets the protocolId attribute value.
+     * @param protocolId The protocolId to set.
+     */
+    public void setProtocolId(Long protocolId) {
+        this.protocolId = protocolId;
+    }
+    
+    /**
+     * Gets the protocol attribute. 
+     * @return Returns the protocol.
+     */
+    public Protocol getProtocol() {
+        return this.protocol;
+    }
+
+    /**
+     * Sets the protocol attribute value.
+     * @param protocol The protocol to set.
+     */
+    public void setProtocol(Protocol protocol) {
+        this.protocol = protocol;
+        this.initProtocolInfo(protocol);
+    }
+    
+    /**
+     * Sets the protocol id and protocolNumber from the passed in protocol.
+     * @param aProtocol the Protocol
+     */
+    private void initProtocolInfo(Protocol aProtocol) {       
+        this.setProtocolId(aProtocol != null ? aProtocol.getProtocolId() : null);
+        this.setProtocolNumber(aProtocol != null ? aProtocol.getProtocolNumber() : null);
+        this.setSequenceNumber(aProtocol != null ? aProtocol.getSequenceNumber() : null);
     }
     
     /**
@@ -81,9 +128,7 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
         this.protocolNumber = protocolNumber;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
@@ -92,9 +137,7 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
         return map;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -104,9 +147,7 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -136,5 +177,33 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
         return true;
     }
 
+    /** {@inheritDoc} */
+    public Protocol getSequenceOwner() {
+        return this.getProtocol();
+    }
 
+    /** {@inheritDoc} */
+    public void setSequenceOwner(Protocol newlyVersionedOwner) {
+        this.setProtocol(newlyVersionedOwner);   
+    }
+    
+    /**
+     * This inits the object to an unpersisted state by calling {@link #resetPersistenceState()}
+     * Also, sets the protocol, protocol id, sequence number, and protocol number.
+     * @param aProtocol the protocol to init the object with.
+     */
+    public final void init(Protocol aProtocol) {
+        this.resetPersistenceState();
+        this.setProtocol(aProtocol);
+        this.postInitHook(aProtocol);
+    }
+    
+    /**
+     * This method is designed to allow subclasses to perform additional initialization not performed by the final init method.
+     * This method is called by {@link #init(Protocol)} after all other initialization is performed.
+     * @param aProtocol the protocol initialization is requested with.
+     */
+    public void postInitHook(Protocol aProtocol) {
+        //no-op
+    }
 }

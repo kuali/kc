@@ -19,7 +19,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 
 /**
@@ -114,11 +113,9 @@ public class ProtocolLocation extends ProtocolAssociate {
     public void setRolodex(Rolodex rolodex) {
         this.rolodex = rolodex;
     }
-
-    public void init(Protocol protocol) {
-        setProtocolLocationId(null);
-        setProtocolNumber(protocol.getProtocolNumber());
-        setSequenceNumber(protocol.getSequenceNumber());
+    
+    /** {@inheritDoc} */
+    public void resetPersistenceState() {
+        this.setProtocolLocationId(null);
     }
-
 }

@@ -18,12 +18,11 @@ package org.kuali.kra.service.impl.versioningartifacts;
 import java.util.Random;
 
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
 
 /**
  * This class is a simple SequenceAssociate
  */
-public class SimpleAssociate2 implements SequenceAssociate {
+public class SimpleAssociate2 implements SequenceAssociate<OwnerAssociate> {
     private static final long serialVersionUID = 5671666754979103402L;
     
     private Long simpleAssociateId;
@@ -44,15 +43,15 @@ public class SimpleAssociate2 implements SequenceAssociate {
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
-    public SequenceOwner getSequenceOwner() {
+    public OwnerAssociate getSequenceOwner() {
         return owner;
     }
 
     /**
      * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
-    public void setSequenceOwner(SequenceOwner newOwner) {
-        setOwner((OwnerAssociate) newOwner);        
+    public void setSequenceOwner(OwnerAssociate newOwner) {
+        setOwner(newOwner);        
     }
 
     /**
