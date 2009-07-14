@@ -15,9 +15,30 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.rice.kns.web.struts.action.AuditModeAction;
+
 /**
  * This class...
  */
-public class InstitutionalProposalActionsAction extends InstitutionalProposalAction {
+public class InstitutionalProposalActionsAction extends InstitutionalProposalAction implements AuditModeAction {
 
+    /** {@inheritDoc} */
+    public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        return new AuditActionHelper().setAuditMode(mapping, (InstitutionalProposalForm) form, true);
+    }
+
+    /** {@inheritDoc} */
+    public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        return new AuditActionHelper().setAuditMode(mapping, (InstitutionalProposalForm) form, false);
+    }
 }

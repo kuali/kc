@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
-import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.institutionalproposal.InstitutionalProposalCustomDataAuditRule;
+import org.kuali.kra.institutionalproposal.InstitutionalProposalGraduateStudentAuditRule;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataRuleImpl;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalSaveCustomDataRuleEvent;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
@@ -81,6 +82,22 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         errorMap.removeFromErrorPath(INSTITUTIONAL_PROPOSAL_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return valid;
+    }
+    
+    /**
+     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(
+     * org.kuali.rice.kns.document.Document)
+     */
+    public boolean processRunAuditBusinessRules(Document document){
+        boolean retval = true;
+        
+        //retval &= super.processRunAuditBusinessRules(document);
+        retval &= new InstitutionalProposalCustomDataAuditRule().processRunAuditBusinessRules(document);
+        retval &= new InstitutionalProposalGraduateStudentAuditRule().processRunAuditBusinessRules(document);
+
+        return retval;
+        
+        
     }
     
 

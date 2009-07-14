@@ -15,14 +15,20 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 
 /**
@@ -30,6 +36,33 @@ import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
  */
 public class InstitutionalProposalAction extends KraTransactionalDocumentActionBase {
 
+    /**
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        new AuditActionHelper().auditConditionally((InstitutionalProposalForm)form);
+        return actionForward;
+    }
+    
+    /**
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+        forward = super.save(mapping, form, request, response);
+            if (institutionalProposalForm.getMethodToCall().equals("save") && institutionalProposalForm.isAuditActivated()) {
+                forward = mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE);
+            }
+       
+
+        return forward;
+    }
+    
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -148,5 +181,6 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
         institutionalProposalForm.getInstitutionalProposalDocument().populateCustomAttributes();
         return forward;
     }
+  
     
 }

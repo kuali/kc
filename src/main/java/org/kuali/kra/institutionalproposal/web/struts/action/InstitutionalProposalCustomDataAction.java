@@ -46,7 +46,7 @@ public class InstitutionalProposalCustomDataAction extends InstitutionalProposal
         super.reload(mapping, form, request, response);
         return institutionalProposalForm.getCustomDataHelper().institutionalProposalCustomData(mapping, institutionalProposalForm, request, response);        
     }
-    
+ 
     /**
      * There is the additional logic in save for custom data.  there is not add functionality in the custom data tab, so the form custom data
      * is being added to the award on save.
@@ -57,6 +57,7 @@ public class InstitutionalProposalCustomDataAction extends InstitutionalProposal
 
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         copyCustomDataToInstitutionalProposal(institutionalProposalForm);
+
         ActionForward forward = super.save(mapping, form, request, response);
         
         return forward;
@@ -67,7 +68,8 @@ public class InstitutionalProposalCustomDataAction extends InstitutionalProposal
      * @param form
      */
     public void copyCustomDataToInstitutionalProposal(InstitutionalProposalForm institutionalProposalForm) {
-        if(institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getInstitutionalProposalCustomDataList().size() == 0) {
+        if(institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getInstitutionalProposalCustomDataList().size() == 0 ||
+                institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getInstitutionalProposalCustomDataList().get(0).getCustomAttribute() == null) {
             copyCustomDataToNewInstitutionalProposal(institutionalProposalForm);
         }else {
             copyCustomDataToExistingInstitutionalProposal(institutionalProposalForm);
@@ -85,8 +87,10 @@ public class InstitutionalProposalCustomDataAction extends InstitutionalProposal
             institutionalProposalCustomData.setCustomAttribute(new CustomAttribute());
             institutionalProposalCustomData.getCustomAttribute().setId(customAttributeId);
             institutionalProposalCustomData.setCustomAttributeId((long) customAttributeId);
-            institutionalProposalCustomData.setInstitutionalProposal(institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal());
-            if(customAttributeValue.getValue()[0] != null) {
+           institutionalProposalCustomData.setInstitutionalProposal(institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal());
+            if(customAttributeValue.getValue()[0].length() == 0) {
+                institutionalProposalCustomData.setValue("");
+            }else {
                 institutionalProposalCustomData.setValue(customAttributeValue.getValue()[0]);
             }
             institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getInstitutionalProposalCustomDataList().add(institutionalProposalCustomData);
@@ -109,4 +113,6 @@ public class InstitutionalProposalCustomDataAction extends InstitutionalProposal
             }
         }
     }
+   
+    
 }
