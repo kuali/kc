@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="readOnly" value="${!KualiForm.customDataHelper.modifyCustomData}" scope="request" />
+<c:set var="readOnly" value="${!KualiForm.customDataHelper.modifyCustomData || KualiForm.lookupHelper.viewOnly}" scope="request" />
 
 <kul:documentPage
 	showDocumentInfo="true"
