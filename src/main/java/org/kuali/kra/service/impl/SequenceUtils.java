@@ -156,17 +156,30 @@ public class SequenceUtils {
                 Method getter = findReadMethod(parent, field);
                 if (getter != null) {
                     SequenceAssociate<?> associate = getSequenceAssociateReference(parent, getter);
-                    if (associate != null && !alreadySequencedAssociates.contains(associate)) {
-                        SequenceOwner<?> owner = parent instanceof SequenceOwner<?> ? (SequenceOwner<?>) parent : parent.getSequenceOwner();
-                        this.setSequenceOwner(associate, owner);
-                        associate.resetPersistenceState();
-                        if (!isAssociateAlsoASequenceOwner(associate)) {
-                            sequenceAssociations(associate);
-                        }
-                    }
+                    this.executeSequencing(associate, parent);
                 } else {
                     throw createExceptionForNoGetter(parent, field);
                 }
+            }
+        }
+    }
+    
+    /**
+     * This method will execute the sequencing logic (figure out if the associate has been sequenced, reset persistence state, etc.).
+     * 
+     * @param associate the associate to sequence
+     * @param parent the associates parent
+     * @throws NoSuchMethodException if a reflection problem occurs
+     * @throws InvocationTargetException if a reflection problem occurs
+     * @throws IllegalAccessException if a reflection problem occurs
+     */
+    private void executeSequencing(SequenceAssociate<?> associate, SequenceAssociate<?> parent) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        if (associate != null && parent != null && !this.alreadySequencedAssociates.contains(associate)) {
+            final SequenceOwner<?> owner = parent instanceof SequenceOwner<?> ? (SequenceOwner<?>) parent : parent.getSequenceOwner();
+            this.setSequenceOwner(associate, owner);
+            associate.resetPersistenceState();
+            if (!isAssociateAlsoASequenceOwner(associate)) {
+                sequenceAssociations(associate);
             }
         }
     }
@@ -197,13 +210,8 @@ public class SequenceUtils {
                 Method getter = findReadMethod(parent, field);
                 if (getter != null) {
                     if (isCollectionElementASequenceAssociate(getter.getGenericReturnType())) {
-                        SequenceOwner<?> owner = (parent instanceof SequenceOwner<?> ? (SequenceOwner<?>) parent : parent.getSequenceOwner());
                         for (SequenceAssociate<?> associate : getSequenceAssociateCollection(parent, getter)) {
-                            this.setSequenceOwner(associate, owner);
-                            associate.resetPersistenceState();
-                            if (!isAssociateAlsoASequenceOwner(associate)) {
-                                sequenceAssociations(associate);
-                            }
+                            this.executeSequencing(associate, parent);
                         }
                     }
                 } else {
