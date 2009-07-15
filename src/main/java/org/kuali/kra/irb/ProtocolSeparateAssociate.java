@@ -46,6 +46,8 @@ public abstract class ProtocolSeparateAssociate extends KraPersistableBusinessOb
     @Column(name = "PROTOCOL_ID")
     private Long protocolId;
     private Protocol protocol;
+    
+    //private List<Protocol> sequenceOwners;
 
     /**
      * 
@@ -101,6 +103,7 @@ public abstract class ProtocolSeparateAssociate extends KraPersistableBusinessOb
         this.setProtocolId(aProtocol != null ? aProtocol.getProtocolId() : null);
         this.setProtocolNumber(aProtocol != null ? aProtocol.getProtocolNumber() : null);
         this.setSequenceNumber(aProtocol != null ? aProtocol.getSequenceNumber() : null);
+        //this.getSequenceOwners().add(aProtocol);
     }
     
     /**
@@ -135,26 +138,26 @@ public abstract class ProtocolSeparateAssociate extends KraPersistableBusinessOb
         this.protocolNumber = protocolNumber;
     }
     
-//  /** {@inheritDoc} */
-//  public Protocol getLatestOwner() {
-//      return this.protocol;
-//  }
-//  
-//  /** 
-//   * Cannot return null.
-//   * {@inheritDoc}
-//   */
-//  public List<Protocol> getSequenceOwners() {
-//      if (this.sequenceOwners == null) { 
-//          this.sequenceOwners = new ArrayList<Protocol>();
+//      /** {@inheritDoc} */
+//      public Protocol getLatestOwner() {
+//          return this.protocol;
 //      }
-//      return this.sequenceOwners;
-//  }
-//  
-//  /** {@inheritDoc} */
-//  public void setSequenceOwners(List<Protocol> owners) {
-//      this.sequenceOwners = owners;
-//  }
+//      
+//      /** 
+//       * Cannot return null.
+//       * {@inheritDoc}
+//       */
+//      public List<Protocol> getSequenceOwners() {
+//          if (this.sequenceOwners == null) { 
+//              this.sequenceOwners = new ArrayList<Protocol>();
+//          }
+//          return this.sequenceOwners;
+//      }
+//      
+//      /** {@inheritDoc} */
+//      public void setSequenceOwners(List<Protocol> owners) {
+//          this.sequenceOwners = owners;
+//      }
 
     /** {@inheritDoc} */
     @Override
