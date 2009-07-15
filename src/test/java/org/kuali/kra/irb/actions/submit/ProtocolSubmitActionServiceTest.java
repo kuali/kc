@@ -339,6 +339,15 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         assertEquals(protocol.getSequenceNumber(), submission.getSequenceNumber());
         assertEquals(new Integer(1), submission.getSubmissionNumber());
         
+        if (StringUtils.isBlank(submitAction.getNewCommitteeId())) {
+            assertEquals(ProtocolSubmissionStatus.PENDING, submission.getSubmissionStatusCode());
+        }
+        else {
+            assertEquals(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE, submission.getSubmissionStatusCode());
+        }
+        assertTrue(submission.getSubmissionDate() != null);
+        assertEquals(submission.getSubmissionDate(), protocol.getSubmissionDate());
+        
         assertEquals(submitAction.getSubmissionTypeCode(), submission.getSubmissionTypeCode());
         assertEquals(submitAction.getSubmissionQualifierTypeCode(), submission.getSubmissionTypeQualifierCode());
         assertEquals(submitAction.getProtocolReviewTypeCode(), submission.getProtocolReviewTypeCode());
