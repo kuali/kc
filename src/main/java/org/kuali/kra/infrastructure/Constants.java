@@ -18,6 +18,8 @@ package org.kuali.kra.infrastructure;
 
 public interface Constants {
     
+    // This is a meaningless comment to test the merge.  I should still be here post-merge.
+    
     //Generic constants
     public static final String COLON=":";
     public static final String COMMA=",";
