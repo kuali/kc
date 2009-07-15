@@ -16,16 +16,31 @@
 package org.kuali.kra.irb.actions.delete;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * The ProtocolDeleteService implementation.
  */
 public class ProtocolDeleteServiceImpl implements ProtocolDeleteService {
 
+    private BusinessObjectService businessObjectService;
+
     /**
+     * Set the business object service.
+     * @param businessObjectService the business object service
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * We never delete documents from the database.  Rather, we simply mark
+     * it as deleted.
      * @see org.kuali.kra.irb.actions.delete.ProtocolDeleteService#delete(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.delete.ProtocolDeleteBean)
      */
     public void delete(Protocol protocol, ProtocolDeleteBean deleteBean) {
-        // TODO: to be implemented at a later time with a separate jira.
+        protocol.setProtocolStatusCode(ProtocolStatus.DELETED);
+        businessObjectService.save(protocol.getProtocolDocument());
     }
 }
