@@ -20,14 +20,13 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolAssociate;
+import org.kuali.kra.irb.ProtocolSeparateAssociate;
 
 /**
  * This is the base class for all Protocol Attachments.
  */
-public abstract class ProtocolAttachmentBase extends ProtocolAssociate implements SeparatelySequenceableAssociate<Protocol> {
+public abstract class ProtocolAttachmentBase extends ProtocolSeparateAssociate {
 
     private static final long serialVersionUID = -2519574730475246022L;
     private static final Integer INITIAL_VERSION = Integer.valueOf(1);
@@ -149,27 +148,6 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
      */
     public abstract String getAttachmentDescription();
     
-//    /** {@inheritDoc} */
-//    public Protocol getLatestOwner() {
-//        return this.protocol;
-//    }
-//    
-//    /** 
-//     * Cannot return null.
-//     * {@inheritDoc}
-//     */
-//    public List<Protocol> getSequenceOwners() {
-//        if (this.sequenceOwners == null) { 
-//            this.sequenceOwners = new ArrayList<Protocol>();
-//        }
-//        return this.sequenceOwners;
-//    }
-//    
-//    /** {@inheritDoc} */
-//    public void setSequenceOwners(List<Protocol> owners) {
-//        this.sequenceOwners = owners;
-//    }
-    
     /** {@inheritDoc} */
     public void resetPersistenceState() {
         this.setId(null);
@@ -268,7 +246,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
     
     /**
      * Method to check whether an attachment supports versioning.  Currently, all attachments
-     * have structural capabilities to version however currently we are not versioning all attachment types
+     * have structural capabilities to version; however, currently we are not versioning all attachment types
      * to be consistent with other parts of KC.
      * 
      * @return true is attachment supports versioning.

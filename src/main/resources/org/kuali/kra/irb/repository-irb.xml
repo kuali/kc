@@ -106,7 +106,6 @@
 		<collection-descriptor name="attachmentNotifications" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentNotification" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="protocolId" />
 		</collection-descriptor>
-			
 		<collection-descriptor name="protocolActions" element-class-ref="org.kuali.kra.irb.actions.ProtocolAction" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
@@ -542,7 +541,8 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile" table="PROTOCOL_ATTACHMENT_FILE">
+	<!-- using a dynamic proxy so that attachment files are not retrieved unless needed -->
+	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile" table="PROTOCOL_ATTACHMENT_FILE" proxy="dynamic">
 		<field-descriptor name="id" column="PA_FILE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
 		<field-descriptor name="name" column="FILE_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="type" column="CONTENT_TYPE" jdbc-type="VARCHAR" />
