@@ -38,6 +38,7 @@ public class ProtocolSubmissionStatus extends KraPersistableBusinessObjectBase {
     public static final String DISAPPROVED = "205";
     public static final String CLOSED = "207";
     public static final String TERMINATED = "208";
+    public static final String WITHDRAWN = "210";
    
     @Id 
     @Column(name="SUBMISSION_STATUS_CODE")
