@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
+import java.util.Calendar;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -36,7 +38,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public class InstitutionalProposal extends KraPersistableBusinessObjectBase { 
     
-    public static final String DEFAULT_PROPOSAL_NUMBER = "1";
     
     private static final long serialVersionUID = 1L;
 
@@ -65,6 +66,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     private Long totalIndirectCostTotal; 
     private String numberOfCopies; 
     private Date deadlineDate; 
+    private Date createTimeStamp;
     private boolean deadlineType; 
     private boolean mailBy; 
     private boolean mailType; 
@@ -114,19 +116,16 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
      * this method.  
      */
     private void initializeInstitutionalProposalWithDefaultValues(){
-        setProposalNumber(DEFAULT_PROPOSAL_NUMBER);
         setSequenceNumber(1);
-        setTitle("test");
         setSponsorCode("005852");
-        setActivityTypeCode("1");
-        setProposalTypeCode(1);
         setCostSharingIndicator("1");
         setIdcRateIndicator("1");
         setSpecialReviewIndicator("1");
         setScienceCodeIndicator("1");
-        statusCode = 1;
         ipReviewActivityIndicator = "A";
-        //gradStudHeadcount = 12;
+        Calendar cl = Calendar.getInstance();
+        setCreateTimeStamp(new Date(cl.getTime().getTime()));
+        setInitialContractAdmin("Bruno");
     }
     
     /**
@@ -625,6 +624,35 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     public void setIntellectualPropertyReview(IntellectualPropertyReview intellectualPropertyReview) {
         this.intellectualPropertyReview = intellectualPropertyReview;
     }
+    
+    /**
+     * Gets the createTimeStamp attribute. 
+     * @return Returns the createTimeStamp.
+     */
+    public Date getCreateTimeStamp() {
+        return createTimeStamp;
+    }
+
+    /**
+     * Sets the createTimeStamp attribute value.
+     * @param createTimeStamp The createTimeStamp to set.
+     */
+    public void setCreateTimeStamp(Date createTimeStamp) {
+        this.createTimeStamp = createTimeStamp;
+    }
+    
+    //public Timestamp getUpdateTimestamp() {
+      //  return super.getUpdateTimestamp();
+    //}
+    //public void setUpdateTimestamp(Timestamp updateTimestamp) {
+        //super.setUpdateTimestamp(updateTimestamp);
+    //}//
+    //public String getUpdateUser() {
+        //return super.getUpdateUser();
+    //}
+    //public void setUpdateUser(String updateUser) {
+        //super.setUpdateUser(updateUser);
+    //}
 
     /** {@inheritDoc} */
     @Override 

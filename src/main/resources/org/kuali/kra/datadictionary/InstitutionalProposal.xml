@@ -76,6 +76,9 @@
                 <ref bean="InstitutionalProposal-opportunity" />
                 <ref bean="InstitutionalProposal-awardTypeCode" />
                 <ref bean="InstitutionalProposal-versionNumber" />
+                <ref bean="InstitutionalProposal-createTimeStamp" />
+                <ref bean="InstitutionalProposal-updateUser" />
+				<ref bean="InstitutionalProposal-updateTimestamp" />
             </list>
         </property>
     </bean>
@@ -104,7 +107,7 @@
     <bean id="InstitutionalProposal-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalNumber" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="InstitutionalProposal Number" />
+        <property name="label" value="Institutional Proposal ID" />
         <property name="shortLabel" value="InstitutionalProposal Number" />
         <property name="maxLength" value="8" />
         <property name="validationPattern" >
@@ -158,16 +161,22 @@
     <bean id="InstitutionalProposal-proposalTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Proposal Type Code" />
+        <property name="label" value="Proposal Type" />
         <property name="shortLabel" value="Proposal Type Code" />
-        <property name="maxLength" value="22" />
+         <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+    	<property name="required" value="true" />
+   	 	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+            	p:keyAttribute="proposalTypeCode"
+            	p:labelAttribute="description" />
+    	</property>
         <property name="summary" value="Proposal Type Code" />
         <property name="description" value="Proposal Type Code" />
     </bean>
@@ -194,16 +203,19 @@
     <bean id="InstitutionalProposal-title-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="title" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Title" />
+        <property name="label" value="Project Title" />
         <property name="shortLabel" value="Title" />
         <property name="maxLength" value="200" />
+        <property name="required" value="true" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    	</property>
+   		 <property name="control" >
+      		<bean parent="TextareaControlDefinition"
+            	p:rows="4"
+            	p:cols="160" />
+    	</property>
         <property name="summary" value="Title" />
         <property name="description" value="Title" />
     </bean>
@@ -315,16 +327,22 @@
     <bean id="InstitutionalProposal-activityTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="activityTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Activity Type Code" />
+        <property name="label" value="Activity Type" />
         <property name="shortLabel" value="Activity Type Code" />
-        <property name="maxLength" value="22" />
+         <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+    	<property name="required" value="true" />
+   	 	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ActivityType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+            	p:keyAttribute="activityTypeCode"
+            	p:labelAttribute="description" />
+    	</property>
         <property name="summary" value="Activity Type Code" />
         <property name="description" value="Activity Type Code" />
     </bean>
@@ -454,6 +472,14 @@
         <property name="summary" value="Number Of Copies" />
         <property name="description" value="Number Of Copies" />
     </bean>
+	<bean id="InstitutionalProposal-createTimeStamp" parent="InstitutionalProposal-createTimeStamp-parentBean" />
+    <bean id="InstitutionalProposal-createTimeStamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="createTimeStamp" />
+        <property name="label" value="Proposal Create Date" />
+        <property name="shortLabel" value="Proposal Create Date" />
+        <property name="summary" value="Proposal Create Date" />
+        <property name="description" value="Proposal Create Date" />
+    </bean>
 
     <bean id="InstitutionalProposal-deadlineDate" parent="InstitutionalProposal-deadlineDate-parentBean" />
     <bean id="InstitutionalProposal-deadlineDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
@@ -522,16 +548,22 @@
     <bean id="InstitutionalProposal-statusCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="statusCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Status Code" />
+        <property name="label" value="Status" />
         <property name="shortLabel" value="Status Code" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+    	<property name="required" value="true" />
+   	 	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.institutionalproposal.ProposalStatus"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+            	p:keyAttribute="proposalStatusCode"
+            	p:labelAttribute="description" />
+    	</property>
         <property name="summary" value="Status Code" />
         <property name="description" value="Status Code" />
     </bean>
@@ -578,13 +610,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Initial Contract Admin" />
         <property name="shortLabel" value="Initial Contract Admin" />
-        <property name="maxLength" value="9" />
+        <property name="maxLength" value="30" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+             <bean p:allowWhitespace="true" parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="30" />
         </property>
         <property name="summary" value="Initial Contract Admin" />
         <property name="description" value="Initial Contract Admin" />
@@ -685,6 +717,26 @@
     <bean id="InstitutionalProposal-versionNumber" parent="InstitutionalProposal-versionNumber-parentBean" />
     <bean id="InstitutionalProposal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
+    
+    <bean id="InstitutionalProposal-updateUser" parent="InstitutionalProposal-updateUser-parentBean" />
+	<bean id="InstitutionalProposal-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
+		<property name="name" value="updateUser" />
+		<property name="label" value="Updated By" />
+		<property name="maxLength" value="60" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+	</bean>
+	
+	<bean id="InstitutionalProposal-updateTimestamp" parent="InstitutionalProposal-updateTimestamp-parentBean" />
+	<bean id="InstitutionalProposal-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp" >
+		<property name="name" value="updateTimestamp" />
+		<property name="label" value="Last Update" />
+	</bean>
 
     <!-- Business Object Inquiry Definition -->
     <bean id="InstitutionalProposal-inquiryDefinition" parent="InstitutionalProposal-inquiryDefinition-parentBean" />
