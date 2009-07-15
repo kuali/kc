@@ -193,10 +193,10 @@ public class ProtocolAttachmentFile extends KraPersistableBusinessObjectBase {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Arrays.hashCode(this.data);
-        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
-        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
-        result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
+        result = prime * result + Arrays.hashCode(this.getData());
+        result = prime * result + ((this.getId() == null) ? 0 : this.getId().hashCode());
+        result = prime * result + ((this.getName() == null) ? 0 : this.getName().hashCode());
+        result = prime * result + ((this.getType() == null) ? 0 : this.getType().hashCode());
         return result;
     }
 
@@ -213,28 +213,28 @@ public class ProtocolAttachmentFile extends KraPersistableBusinessObjectBase {
             return false;
         }
         ProtocolAttachmentFile other = (ProtocolAttachmentFile) obj;
-        if (!Arrays.equals(this.data, other.data)) {
+        if (!Arrays.equals(this.getData(), other.getData())) {
             return false;
         }
-        if (this.id == null) {
-            if (other.id != null) {
+        if (this.getId() == null) {
+            if (other.getId() != null) {
                 return false;
             }
-        } else if (!this.id.equals(other.id)) {
+        } else if (!this.getId().equals(other.getId())) {
             return false;
         }
-        if (this.name == null) {
-            if (other.name != null) {
+        if (this.getName() == null) {
+            if (other.getName() != null) {
                 return false;
             }
-        } else if (!this.name.equals(other.name)) {
+        } else if (!this.getName().equals(other.getName())) {
             return false;
         }
-        if (this.type == null) {
-            if (other.type != null) {
+        if (this.getType() == null) {
+            if (other.getType() != null) {
                 return false;
             }
-        } else if (!this.type.equals(other.type)) {
+        } else if (!this.getType().equals(other.getType())) {
             return false;
         }
         return true;
