@@ -18,8 +18,10 @@ package org.kuali.kra.irb.actions.request;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -28,6 +30,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class ProtocolRequestServiceImpl implements ProtocolRequestService {
     
     private BusinessObjectService businessObjectService;
+    private ProtocolActionService protocolActionService;
 
     /**
      * Set the business object service.
@@ -35,6 +38,14 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * Set the Protocol Action Service.
+     * @param protocolActionService
+     */
+    public void setProtocolActionService(ProtocolActionService protocolActionService) {
+        this.protocolActionService = protocolActionService;
     }
 
     /**
@@ -51,6 +62,8 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
         protocolAction.setComments(requestBean.getReason());
         protocol.getProtocolActions().add(protocolAction);
         
+        protocolActionService.updateProtocolStatus(protocolAction, protocol);
+        
         businessObjectService.save(protocol.getProtocolDocument());
     }
     
@@ -63,6 +76,7 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
     private ProtocolSubmission createProtocolSubmission(Protocol protocol, ProtocolRequestBean requestBean) {
         ProtocolSubmissionBuilder submissionBuilder = new ProtocolSubmissionBuilder(protocol, requestBean.getSubmissionTypeCode());
         submissionBuilder.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
+        submissionBuilder.setSubmissionStatus(ProtocolSubmissionStatus.PENDING);
         submissionBuilder.setCommittee(requestBean.getCommitteeId());
         submissionBuilder.addAttachment(requestBean.getFile());
         return submissionBuilder.create();
