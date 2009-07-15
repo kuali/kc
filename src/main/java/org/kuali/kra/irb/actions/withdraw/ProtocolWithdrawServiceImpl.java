@@ -15,9 +15,17 @@
  */
 package org.kuali.kra.irb.actions.withdraw;
 
+import java.sql.Timestamp;
+import java.util.List;
+
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -26,6 +34,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
 
     private BusinessObjectService businessObjectService;
+    private ProtocolActionService protocolActionService;
 
     /**
      * Set the business object service.
@@ -33,6 +42,14 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * Set the Protocol Action Service.
+     * @param protocolActionService
+     */
+    public void setProtocolActionService(ProtocolActionService protocolActionService) {
+        this.protocolActionService = protocolActionService;
     }
 
     /**
@@ -42,6 +59,48 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.WITHDRAWN);
         protocolAction.setComments(withdrawBean.getReason());
         protocol.getProtocolActions().add(protocolAction);
+        
+        protocolActionService.updateProtocolStatus(protocolAction, protocol);
+        
+        ProtocolSubmission submission = getSubmission(protocol);
+        if (submission != null) {
+            submission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
+            submission.setSubmissionStatusCode(ProtocolSubmissionStatus.WITHDRAWN);
+        }
+        
         businessObjectService.save(protocol.getProtocolDocument());
+    }
+
+    /**
+     * Get the submission that is being withdrawn.  Since a protocol can have
+     * multiple submissions, go backwards until we find a submission that can
+     * be withdrawn
+     * @param protocol
+     * @return
+     */
+    private ProtocolSubmission getSubmission(Protocol protocol) {
+        List<ProtocolSubmission> submissions = protocol.getProtocolSubmissions();
+        for (int i = submissions.size() - 1; i >= 0; i--) {
+            ProtocolSubmission submission = submissions.get(i);
+            if (isWithdrawable(submission)) {
+                return submission;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * A submission is only withdrawable if it corresponds to a request to review
+     * the submission.  The submissions that meet this criteria are the initial 
+     * request for review, amendments, and renewals.  Submissions such as Notify IRB
+     * cannot be withdrawn.
+     * @param submission
+     * @return
+     */
+    private boolean isWithdrawable(ProtocolSubmission submission) {
+        return StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.AMENDMENT) ||
+               StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.INITIAL_SUBMISSION) ||
+               StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.CONTINUATION) ||
+               StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.CONTINUATION_WITH_AMENDMENT);
     }
 }
