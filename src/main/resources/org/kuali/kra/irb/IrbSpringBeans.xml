@@ -294,6 +294,8 @@
 		<property name="sequenceAccessorService" ref="sequenceAccessorService" />
 	</bean>
 	
-	<bean id="protocolDeleteService" class="org.kuali.kra.irb.actions.delete.ProtocolDeleteServiceImpl" />
+	<bean id="protocolDeleteService" class="org.kuali.kra.irb.actions.delete.ProtocolDeleteServiceImpl">
+	    <property name="businessObjectService" ref="businessObjectService" />
+	</bean>
 	
 </beans>
