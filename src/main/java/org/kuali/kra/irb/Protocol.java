@@ -139,26 +139,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     private List<ProtocolAttachmentNotification> attachmentNotifications;
     
     private List<ProtocolAttachmentProtocol> attachmentProtocolsDirectlyCreated;
-    
-    /**
-     * Gets the attachmentProtocolsDirectlyCreated attribute. 
-     * @return Returns the attachmentProtocolsDirectlyCreated.
-     */
-    public List<ProtocolAttachmentProtocol> getAttachmentProtocolsDirectlyCreated() {
-        if (this.attachmentProtocolsDirectlyCreated == null) {
-            this.attachmentProtocolsDirectlyCreated = new ArrayList<ProtocolAttachmentProtocol>();
-        }
-        
-        return this.attachmentProtocolsDirectlyCreated;
-    }
-
-    /**
-     * Sets the attachmentProtocolsDirectlyCreated attribute value.
-     * @param attachmentProtocolsDirectlyCreated The attachmentProtocolsDirectlyCreated to set.
-     */
-    public void setAttachmentProtocolsDirectlyCreated(List<ProtocolAttachmentProtocol> attachmentProtocolsDirectlyCreated) {
-        this.attachmentProtocolsDirectlyCreated = attachmentProtocolsDirectlyCreated;
-    }
 
     private List<ProtocolAction> protocolActions;
     private List<ProtocolSubmission> protocolSubmissions;
@@ -200,7 +180,27 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         
         populateTempViewDate();
     }
+    
+    /**
+     * Gets the attachmentProtocolsDirectlyCreated attribute. 
+     * @return Returns the attachmentProtocolsDirectlyCreated.
+     */
+    public List<ProtocolAttachmentProtocol> getAttachmentProtocolsDirectlyCreated() {
+        if (this.attachmentProtocolsDirectlyCreated == null) {
+            this.attachmentProtocolsDirectlyCreated = new ArrayList<ProtocolAttachmentProtocol>();
+        }
+        
+        return this.attachmentProtocolsDirectlyCreated;
+    }
 
+    /**
+     * Sets the attachmentProtocolsDirectlyCreated attribute value.
+     * @param attachmentProtocolsDirectlyCreated The attachmentProtocolsDirectlyCreated to set.
+     */
+    public void setAttachmentProtocolsDirectlyCreated(List<ProtocolAttachmentProtocol> attachmentProtocolsDirectlyCreated) {
+        this.attachmentProtocolsDirectlyCreated = attachmentProtocolsDirectlyCreated;
+    }
+    
     public Long getProtocolId() {
         return protocolId;
     }
