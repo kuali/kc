@@ -578,6 +578,7 @@
      qntag = $('<input type="hidden" id = "condvalue" name = "condvalue" />').attr("id","condvalue"+i).attr("name","condvalue"+i);
      qntag.appendTo(hidtd);
      hidtd.appendTo(hidtr);
+     hidtr.hide(); // FF rendering issue.  If not hided, then 'line' will be drawn at the bottom of the table for each Q hidden row
      hidtr.appendTo($("#question-table"));
      
      var image = $('<img src="/kra-dev/static/images/searchicon.gif" id="searchQ" name="searchQ" border="0" class="tinybutton"  alt="Search Question" title="Search Question">').attr("id","search"+i).attr("name","search"+i); 
@@ -871,7 +872,7 @@
 			  } else {
 			     lookupType = "single";
 			  }
-			  var winPop = window.open(extractUrl+"/questionLookup.do?nodeIndex="+nodeIndex+"&lookupType="+lookupType, "_blank", "width=1000, height=800, scrollbars=yes");
+			  var winPop = window.open(extractUrl+"/questionLookup.do?nodeIndex="+nodeIndex+"&lookupType="+lookupType+"&anchor=topOfForm", "_blank", "width=1000, height=800, scrollbars=yes");
          //} else {
          //	alert ("This node has sub sponsor group; can't add sponsors ");
          //}
@@ -887,6 +888,69 @@
      $("#newqtypeid"+nodeIndex).attr("value",newQuestionTypeId);
      //alert("qid "+ nodeIndex+$("#qid"+nodeIndex).attr("value"));
   }
+  
+  function returnQuestionList(questionList) {
+      alert("multivalue "+questionList);
+     // load questions
+        var questions = questionList.split("#q#");
+        // qid/desc/qtypeid
+        var parentnum = 0;
+        var parentidx = 0;
+	    for (var k=0 ; k < questions.length;  k++) {
+	        field = questions[k].split("#f#");
+            i++;
+            var  parenturl = $('#example');
+            var listitem = getQuestionNew(field[1],field[2], "V1.01", 'false');
+			var ultag = $('<ul></ul>');
+            ultag.appendTo(listitem);
+            var idx = listitem.attr("id").substring(8);
+              //listitem.appendTo('ul#example');
+              // last one no 'move dn'
+              
+                 
+           listitem.appendTo($(parenturl));
+        // also need this to show 'folder' icon
+             $('#example').treeview({
+                add: listitem
+             });
+
+
+              //alert($(listitem).parents('ul:eq(0)').size());
+              if ($(listitem).parents('ul:eq(0)').children('li').size() == 1) {
+                 $("#moveup"+idx).hide();
+                 $("#movedn"+idx).hide();
+              } else {
+                 //alert("prev "+listitem.prev().attr("id"));
+                 $("#movedn"+idx).hide();
+                 if (listitem.prev().size() > 0) {
+                     $("#movedn"+listitem.prev().attr("id").substring(8)).show();
+                 }
+              }
+                       
+
+        // TODO : set up for insert 
+        /* questionnairenumber from #questionnairenumber
+         * questionId from #qid
+         * sequenceNumber from $(this).parents('li:eq(0)').siblings().size() ?
+         */
+            
+       // alert("questionnairenumber "+$("#questionNumber").attr("value")+" qid "+$("#qid"+$(this).attr("id").substring(5)).attr("value"));
+        $("#qid"+$(listitem).attr("id").substring(8)).attr("value",field[0]);
+      $("#qdesc"+$(listitem).attr("id").substring(8)).attr("value",field[2]);
+      $("#qtypeid"+$(listitem).attr("id").substring(8)).attr("value",field[3]);
+        var seqnum = Number($(listitem).siblings().size())+1;
+        $("#qseq"+$(listitem).attr("id").substring(8)).attr("value",seqnum);
+        var qnum = $("#questionNumber").attr("value");
+        $("#qnum"+$(listitem).attr("id").substring(8)).attr("value",qnum);
+        var insertValues = "insert into Q"+field[0] +","+qnum+","+ parentnum+",'N','','',"+seqnum+",user,sysdate)"
+        sqlScripts = sqlScripts+"#;#"+insertValues;
+        $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
+	    
+	    } // end for to set up questions
+      alert(sqlScripts);
+  }// end returnquestionlist
+  
+  
   
   function getQnTypeDesc(qtypeid) {
      //alert("gettypedesc "+qtypeid);

@@ -15,17 +15,9 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<%--
 <html:form styleId="kualiForm" method="post"
 	action="/questionLookup.do" enctype=""
 	onsubmit="return hasFormAlreadyBeenSubmitted();"> 
-	--%>
-	
-	<kul:page lookup="true" 
-          docTitle="Question Lookup" 
-          transactionalDocument="false" 
-          htmlFormAction="questionLookup">
-	
 	<input type="hidden" id="methodToCall"
 		name="methodToCall" value="${QuestionLookupForm.methodToCall}"/>
 	<input type="hidden" id="nodeIndex"
@@ -36,25 +28,28 @@
 		name="newQuestionTypeId" value="${QuestionLookupForm.newQuestionTypeId}"/>
 	<input type="hidden" id="newQuestionId"
 		name="newQuestionId" value="${QuestionLookupForm.newQuestionId}"/>
+	<input type="hidden" id="anchor"
+		name="newQuestionId" value="${QuestionLookupForm.anchor}"/>
 
 
  		<!--  <label>Sponsor Code Search</label> -->
    		<label>
-   		
-   			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(:;questionnaireQuestions;:).((%true%)).anchor" id = "lookupBtn" 
+   		<%--
+   			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:newQuestionId,question:newQuestion))).((%true%)).anchor" id = "lookupBtn" 
 	   src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on " title="Multiple Value Search on " />
-
-
+	    --%>
+    			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:newQuestionId,questionTypeId:newQuestionTypeId,question:newQuestion))).((%false%)).anchor" id = "lookupBtn" 
+	   src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on " title="Multiple Value Search on " />
+   		
          	</label><br>
          	
-         		<input type="hidden" id="selectedSponsors" name="selectedSponsors" value="${SponsorHierarchyForm.selectedSponsors}" />
          	
          	<p><a href="javascript:returnQuestion();window.close();"><b>return data</b></a> <a href="javascript:window.close()">Close</a></p> 
          	
           	<script type="text/javascript">
-       //function hasFormAlreadyBeenSubmitted() {
+       function hasFormAlreadyBeenSubmitted() {
        //    return false;
-       //}
+       }
           	
           	  
           	     function returnQuestion() {
@@ -70,14 +65,10 @@
                  var lookupBtn=document.getElementById("lookupBtn");
                  //alert("methodtocall "+document.getElementById("methodToCall").value);
                  if (document.getElementById("methodToCall").value != "refresh") {
-                 	//lookupBtn.click();
+                 	lookupBtn.click();
                  } else {
                  	returnQuestion();
                  	window.close();
                  }
             </script>
-            
-</kul:page>
-<%--            
 </html:form>
---%>

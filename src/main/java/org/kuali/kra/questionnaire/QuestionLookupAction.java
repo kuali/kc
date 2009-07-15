@@ -15,8 +15,11 @@
  */
 package org.kuali.kra.questionnaire;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,6 +27,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class QuestionLookupAction extends KualiAction {
@@ -32,7 +42,43 @@ public class QuestionLookupAction extends KualiAction {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         // TODO Auto-generated method stub
-        return super.refresh(mapping, form, request, response);
+        ActionForward forward = super.refresh(mapping, form, request, response);
+        QuestionLookupForm questionLookupForm = (QuestionLookupForm) form;
+        String questions = Constants.EMPTY_STRING; 
+        if (questionLookupForm.getLookupResultsBOClassName() != null && questionLookupForm.getLookupResultsSequenceNumber() != null) {
+            String lookupResultsSequenceNumber = questionLookupForm.getLookupResultsSequenceNumber();
+            Class<?> lookupResultsBOClass = Class.forName(questionLookupForm.getLookupResultsBOClassName());
+            
+            Collection<PersistableBusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
+                .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
+                        new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUserIdentifier());
+            int idx = 0;
+            String idxString = StringUtils.substringBetween(questionLookupForm.getLookedUpCollectionName(),"[","]");
+            if (StringUtils.isNotBlank(idxString)) {
+                idx = Integer.parseInt(idxString);
+            }
+            questionLookupForm.setSelectedQuestions(Constants.EMPTY_STRING);
+            for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
+                    Question question = (Question) iter.next();
+                        if (StringUtils.isBlank(questions)) {
+                            questions = question.getQuestionId()+"#f#"+question.getQuestion()+"#f#"+question.getQuestionTypeId();
+                        } else {
+                            questions = questions + "#q#" +question.getQuestionId()+"#f#"+question.getQuestion()+"#f#"+question.getQuestionTypeId();
+                            
+                        }
+                    }
+            questionLookupForm.setLookupResultsSequenceNumber(null);
+        }
+        
+        questionLookupForm.setSelectedQuestions(questions);
+        if (StringUtils.isBlank(questions) && StringUtils.isNotBlank(questionLookupForm.getNewQuestion())) {
+            // when single lookup return, this refresh will be called too
+           forward =  mapping.findForward("singleLookup"); 
+        } else {
+           forward =  mapping.findForward("multiLookup");       
+        }
+        return forward;
+
     }
 
     @Override
@@ -49,23 +95,6 @@ public class QuestionLookupAction extends KualiAction {
             }
         }
         return forward;
-    }
-
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, ServletRequest request, ServletResponse response)
-            throws Exception {
-        // TODO Auto-generated method stub
-        ActionForward forward = super.execute(mapping, form, request, response);
-        String lookupType = request.getParameter("lookupType");
-        if (StringUtils.isNotBlank(lookupType)) {
-            if (lookupType.equals("single")) {
-                forward = mapping.findForward("singleLookup");
-            } else if (lookupType.equals("multivalue")) {
-                forward = mapping.findForward("multiLookup");
-            }
-        }
-        return forward;
-
     }
 
 }

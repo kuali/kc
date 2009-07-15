@@ -100,6 +100,10 @@
        //    qisfinal = false;
        //}
        //alert ("save"+sqlScripts); 
+
+       if (qname == '') {
+           alert("Questionnaire Name is required");
+       } else {       
        //TODO : FF seems to have trouble with "#;#"
        sqlScripts = sqlScripts.replace(/#;#/g,";;;");
        alert ("save"+sqlScripts); 
@@ -121,7 +125,7 @@
             });
          }
        });
-       
+       } // eid if-then-else
        return false;
       }); 
    //}      
