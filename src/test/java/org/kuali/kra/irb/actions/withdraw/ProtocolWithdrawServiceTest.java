@@ -26,6 +26,11 @@ import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
@@ -53,9 +58,13 @@ import org.kuali.rice.test.data.UnitTestFile;
 public class ProtocolWithdrawServiceTest extends KraTestBase {
 
     private static final String REASON = "my test reason";
+    private static final String VALID_SUBMISSION_TYPE = "100";
+    private static final String VALID_REVIEW_TYPE = "1";
     
     private ProtocolWithdrawServiceImpl protocolWithdrawService;
-    private BusinessObjectService businessObjectService;   
+    private ProtocolSubmitActionService protocolSubmitActionService;
+    private BusinessObjectService businessObjectService;  
+    private ProtocolActionService protocolActionService;
     
     @SuppressWarnings("unchecked")
     @Before
@@ -65,8 +74,11 @@ public class ProtocolWithdrawServiceTest extends KraTestBase {
         GlobalVariables.setErrorMap(new ErrorMap());
         GlobalVariables.setAuditErrorMap(new HashMap());
         protocolWithdrawService = new ProtocolWithdrawServiceImpl();
+        protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         protocolWithdrawService.setBusinessObjectService(businessObjectService);
+        protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
+        protocolWithdrawService.setProtocolActionService(protocolActionService);
     }
 
     @After
@@ -83,11 +95,17 @@ public class ProtocolWithdrawServiceTest extends KraTestBase {
         withdrawBean.setReason(REASON);
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
+        ProtocolSubmitAction submitAction = createSubmitAction("668", "1", VALID_REVIEW_TYPE);
+        protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+        
         protocolWithdrawService.withdraw(protocolDocument.getProtocol(), withdrawBean);
     
         ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
         assertNotNull(protocolAction);
         assertEquals(REASON, protocolAction.getComments());
+        
+        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmissions().get(0);
+        assertEquals(ProtocolSubmissionStatus.WITHDRAWN, submission.getSubmissionStatusCode());
     }
 
     @SuppressWarnings("unchecked")
@@ -96,8 +114,20 @@ public class ProtocolWithdrawServiceTest extends KraTestBase {
         fieldValues.put("protocolId", protocolId);
         List<ProtocolAction> actions = (List<ProtocolAction>) businessObjectService.findMatching(ProtocolAction.class, fieldValues);
         
-        assertEquals(1, actions.size());
-        ProtocolAction action = actions.get(0);
+        assertEquals(2, actions.size());
+        ProtocolAction action = actions.get(1);
         return action;
+    }
+    
+    /*
+     * Create protocol submission action.
+     */
+    private ProtocolSubmitAction createSubmitAction(String committeeId, String scheduleId, String protocolReviewTypeCode) {
+        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
+        submitAction.setProtocolReviewTypeCode(protocolReviewTypeCode);
+        submitAction.setCommitteeId(committeeId);
+        submitAction.setScheduleId(scheduleId);
+        return submitAction;
     }
 }
