@@ -15,16 +15,16 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<%--
+
 <html:form styleId="kualiForm" method="post"
 	action="/questionLookup.do" enctype=""
 	onsubmit="return hasFormAlreadyBeenSubmitted();"> 
-	--%>
-	
+<%--	
 	<kul:page lookup="true" 
           docTitle="Question Lookup" 
           transactionalDocument="false" 
           htmlFormAction="questionLookup">
+	--%>
 	
 	<input type="hidden" id="methodToCall"
 		name="methodToCall" value="${QuestionLookupForm.methodToCall}"/>
@@ -36,6 +36,8 @@
 		name="newQuestionTypeId" value="${QuestionLookupForm.newQuestionTypeId}"/>
 	<input type="hidden" id="newQuestionId"
 		name="newQuestionId" value="${QuestionLookupForm.newQuestionId}"/>
+	<input type="hidden" id="anchor"
+		name="newQuestionId" value="${QuestionLookupForm.anchor}"/>
 
 
  		<!--  <label>Sponsor Code Search</label> -->
@@ -46,37 +48,31 @@
 
          	</label><br>
          	
-         		<input type="hidden" id="selectedSponsors" name="selectedSponsors" value="${SponsorHierarchyForm.selectedSponsors}" />
+         		<input type="hidden" id="selectedQuestions" name="selectedQuestions" value="${QuestionLookupForm.selectedQuestions}" />
          	
          	<p><a href="javascript:returnQuestion();window.close();"><b>return data</b></a> <a href="javascript:window.close()">Close</a></p> 
          	
           	<script type="text/javascript">
-       //function hasFormAlreadyBeenSubmitted() {
-       //    return false;
-       //}
+       function hasFormAlreadyBeenSubmitted() {
+           //return false;
+       }
           	
           	  
           	     function returnQuestion() {
-          	            var newQuestionId = document.getElementById("newQuestionId").value
-          	            var newQuestionTypeId = document.getElementById("newQuestionTypeId").value
-          	            var newQuestion = document.getElementById("newQuestion").value
-          	            var nodeIndex = document.getElementById("nodeIndex").value
-          	            //var mapKey = document.getElementById("mapKey").value
-          	            alert(newQuestionId+"-"+newQuestionTypeId+"-"+newQuestion+"-")
-          	         	window.opener.returnQuestion(newQuestionId, newQuestion,newQuestionTypeId,nodeIndex);
+          	            var questions = document.getElementById("selectedQuestions").value
+          	         	window.opener.returnQuestionList(questions);
           	     
           	     }
                  var lookupBtn=document.getElementById("lookupBtn");
                  //alert("methodtocall "+document.getElementById("methodToCall").value);
                  if (document.getElementById("methodToCall").value != "refresh") {
-                 	lookupBtn.click();
+                 	//lookupBtn.click();
                  } else {
                  	returnQuestion();
                  	window.close();
                  }
             </script>
-            
+ <%--           
 </kul:page>
-<%--            
+  --%>          
 </html:form>
---%>

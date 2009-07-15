@@ -147,6 +147,7 @@
   
     });
    
+      var moduleCodes = ['select','Award', 'Institute Proposal', 'Development Proposal', 'Subcontracts', 'Negotiations','Person','IRB','Annual Coi Disclosure'];
       var opArray = ['select', 'and', 'or'];
       var responseArray = ['select', 'Contains text value', 'Matches text', 'Less than number', 'Less than or equals number', 'Equals number', 'Greater than or equals number', 'Greater than number', 'Before date', 'After date'];
       var questionType = ['select','Yes/No', 'Yes/No/NA', 'Number', 'Date', 'Text', 'Lookup'];
@@ -175,6 +176,9 @@
        if (qname == '') {
            alert("Questionnaire Name is required");
        } else {
+       //TODO : FF seems to have trouble with "#;#"
+       sqlScripts = sqlScripts.replace(/#;#/g,";;;");
+       
        $.ajax({
          url: 'questionnaireAjax.do',
          type: 'GET',

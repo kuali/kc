@@ -32,7 +32,7 @@
                                                     Add Question(s):
                                                 </td>
                                                 <td class="content_white" style="text-align:center;">
-                                                    <input type="text" id = "newqdesc0" name = "newqdesc0" size="50" value="" />
+                                                    <input type="hidden" type="text" id = "newqdesc0" name = "newqdesc0" size="50" value="" />
                                                     <input type="hidden" id = "newqid0" name = "newqid0"  value="" />
                                                     <input type="hidden" id = "newqtypeid0" name = "newqtypeid0" value="" />
                                                     <input name = "rootSearch" id = "rootSearch" src="static/images/searchicon.gif" align="top" alt="search " title="Search " style="border:none;" type="image" />
@@ -53,7 +53,7 @@
     </td>
    </tr>
    
-   
+   <%--
    <tr>
        <input name="aq01sc" type="radio" checked="checked" />as sibling&nbsp;&nbsp;&nbsp;
        <input name="aq01sc" type="radio" />as child
@@ -64,7 +64,7 @@
                                                                  lookedUpCollectionName="questionnaireQuestions"
                                                                  anchor="${currentTabIndex}.qnIndex${memberIndex}"/>      
    </tr>
-   
+   --%>
   
    <%-- Test: add new question, when it return question lookup, the dynamically qn are still ok--%>
    <c:set var="index" value="0"/>
