@@ -94,7 +94,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * @param submitAction the submission data
      */
     private void setSubmissionStatus(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
-        if (StringUtils.isBlank(submitAction.getCommitteeId())) {
+        if (StringUtils.isBlank(submitAction.getNewCommitteeId())) {
             submissionBuilder.setSubmissionStatus(ProtocolSubmissionStatus.PENDING);
         }
         else {
