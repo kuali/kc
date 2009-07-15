@@ -18,7 +18,6 @@
 <c:set var="protocolSpecialReviewAttributes" value="${DataDictionary.ProtocolSpecialReview.attributes}" />
 <c:set var="protocolSpecialReviewExemptionAttributes" value="${DataDictionary.ProtocolSpecialReviewExemption.attributes}" />
 <c:set var="action" value="protocolSpecialReview" />
-<c:set var="readOnly" value="${!KualiForm.specialReviewHelper.modifySpecialReview}" />
 <c:set var="exemptionTypes" value="${KualiForm.specialReviewHelper.newSpecialReview.exemptionTypes}" />
 
 <div id="workarea">
@@ -120,26 +119,26 @@
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
-	                	<div align="center"> <kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].specialReviewCode" readOnlyAlternateDisplay="${specialReview.specialReview.description}" attributeEntry="${protocolSpecialReviewAttributes.specialReviewCode}"  styleClass="fixed-size-select" readOnly="${readOnly}" />
+	                	<div align="center"> <kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].specialReviewCode" readOnlyAlternateDisplay="${specialReview.specialReview.description}" attributeEntry="${protocolSpecialReviewAttributes.specialReviewCode}"  styleClass="fixed-size-select" />
 					</div>
 					</td>
 	                <td>
-	                <div align="center"> <kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].approvalTypeCode" readOnlyAlternateDisplay="${specialReview.specialReviewApprovalType.description}" attributeEntry="${protocolSpecialReviewAttributes.approvalTypeCode}" readOnly="${readOnly}" />
+	                <div align="center"> <kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].approvalTypeCode" readOnlyAlternateDisplay="${specialReview.specialReviewApprovalType.description}" attributeEntry="${protocolSpecialReviewAttributes.approvalTypeCode}" />
 	                </div>
 	                </td>
 	                <td>     
 	                <div align="center">           	
-	                  <kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].protocolNumber" attributeEntry="${protocolSpecialReviewAttributes.protocolNumber}" readOnly="${readOnly}" />
+	                  <kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].protocolNumber" attributeEntry="${protocolSpecialReviewAttributes.protocolNumber}" />
 					</div>
 					</td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].applicationDate" attributeEntry="${protocolSpecialReviewAttributes.applicationDate}" datePicker="true" readOnly="${readOnly}" /></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].applicationDate" attributeEntry="${protocolSpecialReviewAttributes.applicationDate}" datePicker="true" /></div>
 	                </td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].approvalDate" attributeEntry="${protocolSpecialReviewAttributes.approvalDate}" datePicker="true" readOnly="${readOnly}" /></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].approvalDate" attributeEntry="${protocolSpecialReviewAttributes.approvalDate}" datePicker="true" /></div>
 	                </td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].expirationDate" attributeEntry="${protocolSpecialReviewAttributes.expirationDate}" datePicker="true" readOnly="${readOnly}" /></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].expirationDate" attributeEntry="${protocolSpecialReviewAttributes.expirationDate}" datePicker="true" /></div>
 	                </td>
 	                <td align="left" valign="middle" class="infoline">
 	               		 <div align="center">
@@ -175,7 +174,7 @@
 	                </td>
 	                <td align="left" valign="middle">
 	                <div align="center">
-	                	<kul:htmlControlAttribute property="document.protocol.specialReview[${status.index}].comments" attributeEntry="${protocolSpecialReviewAttributes.comments}" readOnly="${readOnly}" />
+	                	<kul:htmlControlAttribute property="document.protocol.specialReview[${status.index}].comments" attributeEntry="${protocolSpecialReviewAttributes.comments}" />
                         <c:if test="${!readOnly}">
                             <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolSpecialReviewAttributes.comments.label}" />
 	                    </c:if>
