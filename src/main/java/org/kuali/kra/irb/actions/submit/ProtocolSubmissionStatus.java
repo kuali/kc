@@ -29,14 +29,16 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class ProtocolSubmissionStatus extends KraPersistableBusinessObjectBase { 
 
     private static final long serialVersionUID = -3005754570292744646L;
-
+    
+    public static final String SUBMITTED_TO_COMMITTEE = "100";
+    public static final String PENDING = "102";
     public static final String COMPLETE = "200";
     public static final String APPROVED = "203";
     public static final String EXEMPT = "204";
     public static final String DISAPPROVED = "205";
     public static final String CLOSED = "207";
     public static final String TERMINATED = "208";
-
+   
     @Id 
     @Column(name="SUBMISSION_STATUS_CODE")
     private String protocolSubmissionStatusCode; 

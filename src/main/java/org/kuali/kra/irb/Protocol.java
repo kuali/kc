@@ -257,6 +257,21 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         this.description = description;
     }
 
+    /**
+     * Gets the submission date.  If the submission date is the last
+     * submission for the protocol.  If the protocol has not been submitted,
+     * null is returned.
+     * @return the submission date or null if not yet submitted
+     */
+    public Timestamp getSubmissionDate() {
+        Timestamp submissionDate = null;
+        if (protocolSubmissions.size() > 0) {
+            ProtocolSubmission submission = protocolSubmissions.get(protocolSubmissions.size() - 1);
+            submissionDate = submission.getSubmissionDate();
+        }
+        return submissionDate;
+    }
+    
     public Date getApplicationDate() {
         return applicationDate;
     }
