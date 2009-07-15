@@ -26,8 +26,17 @@
         </td>
  	</tr>
     <tr>
-       	<th width="30%"><div align="right">Submission Date:</div></th>
-        <td width="20%">Generated on Submission</td>
+       	<th width="30%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.submissionDate}"/></div></th>
+        <td width="20%">
+            <c:choose>
+        	    <c:when test="${KualiForm.document.protocolList[0].submissionDate == null}">
+                    Generated on Submission
+                </c:when>
+                <c:otherwise>
+                    <kul:htmlControlAttribute property="document.protocolList[0].submissionDate" attributeEntry="${protocolAttributes.submissionDate}" readOnly="true" />
+                </c:otherwise>    
+            </c:choose> 
+        </td>
         <th width="30%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.expirationDate}"/></div></th>
         <td width="20%"align="left" valign="middle">
           	<kul:htmlControlAttribute property="document.protocolList[0].expirationDate" attributeEntry="${protocolAttributes.expirationDate}" readOnly="true" />
