@@ -25,6 +25,8 @@ import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.versioningartifacts.OwnerAssociate;
+import org.kuali.kra.service.impl.versioningartifacts.SelfReferenceAssociate;
+import org.kuali.kra.service.impl.versioningartifacts.SelfReferenceOwner;
 import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateAttachmentBO;
 import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateAttachmentBO2;
 import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateChild;
@@ -174,6 +176,16 @@ public class VersioningServiceImplTest {
         SequenceOwnerImpl newVersion = service.createNewVersion(originalVersion);
         Assert.assertEquals(originalVersion.getSequenceNumber() + 1, newVersion.getSequenceNumber().intValue());
         Assert.assertNull(newVersion.getSequenceOwnerId());        
+    }
+    
+    @Test
+    public void testVersioning_already_versioned_collection() throws Exception {
+        SelfReferenceOwner owner = new SelfReferenceOwner();
+        SelfReferenceAssociate associate = new SelfReferenceAssociate();
+        associate.selfs.add(associate);
+        owner.associates.add(associate);
+        
+        SelfReferenceOwner newOwner = service.createNewVersion(owner);
     }
 
     /**
