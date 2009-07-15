@@ -38,8 +38,10 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionDoc;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -76,7 +78,8 @@ public class ProtocolRequestServiceTest extends KraTestBase {
     private static final String REASON = "my test reason";
     
     private ProtocolRequestServiceImpl protocolRequestService;
-    private BusinessObjectService businessObjectService;   
+    private BusinessObjectService businessObjectService;
+    private ProtocolActionService protocolActionService;   
     
     @SuppressWarnings("unchecked")
     @Before
@@ -87,7 +90,9 @@ public class ProtocolRequestServiceTest extends KraTestBase {
         GlobalVariables.setAuditErrorMap(new HashMap());
         protocolRequestService = new ProtocolRequestServiceImpl();
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
         protocolRequestService.setBusinessObjectService(businessObjectService);
+        protocolRequestService.setProtocolActionService(protocolActionService);
     }
 
     @After
@@ -191,6 +196,7 @@ public class ProtocolRequestServiceTest extends KraTestBase {
         
         assertEquals(requestBean.getSubmissionTypeCode(), submission.getSubmissionTypeCode());
         assertEquals(ProtocolReviewType.FULL_TYPE_CODE, submission.getProtocolReviewTypeCode());
+        assertEquals(ProtocolSubmissionStatus.PENDING, submission.getSubmissionStatusCode());
        
         assertEquals(convert(requestBean.getCommitteeId()), convert(submission.getCommitteeId()));
         
