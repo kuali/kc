@@ -82,11 +82,26 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         ProtocolSubmissionBuilder submissionBuilder = new ProtocolSubmissionBuilder(protocol, submitAction.getSubmissionTypeCode());
         submissionBuilder.setSubmissionTypeQualifierCode(submitAction.getSubmissionQualifierTypeCode());
         submissionBuilder.setProtocolReviewTypeCode(submitAction.getProtocolReviewTypeCode());
+        setSubmissionStatus(submissionBuilder, submitAction);
         addCommitteeData(submissionBuilder, submitAction);
         addCheckLists(submissionBuilder, submitAction);
         return submissionBuilder.create();
     }
     
+    /**
+     * Set the submission status.
+     * @param submissionBuilder the submission builder
+     * @param submitAction the submission data
+     */
+    private void setSubmissionStatus(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
+        if (StringUtils.isBlank(submitAction.getCommitteeId())) {
+            submissionBuilder.setSubmissionStatus(ProtocolSubmissionStatus.PENDING);
+        }
+        else {
+            submissionBuilder.setSubmissionStatus(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+        }
+    }
+
     /**
      * Add committee data, including schedule and reviewers, to the submission.
      * @param submission the submission

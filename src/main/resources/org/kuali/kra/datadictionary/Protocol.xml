@@ -65,6 +65,7 @@
 				<ref bean="Protocol-researchAreaCode" />
 				<ref bean="Protocol-performingOrganizationId" />
 				<ref bean="Protocol-fundingSource" />
+				<ref bean="Protocol-submissionDate" />
 				
 			</list>
 		</property>
@@ -276,7 +277,16 @@
 		<property name="summary" value="Description" />
 		<property name="description" value="Description" />
 	</bean>
-
+	
+    <bean id="Protocol-submissionDate" parent="Protocol-submissionDate-parentBean" />
+	<bean id="Protocol-submissionDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp" >
+		<property name="name" value="submissionDate" />
+		<property name="label" value="Submission Date" />
+		<property name="shortLabel" value="Submission Date" />
+		<property name="summary" value="Submission Date" />
+		<property name="description" value="Submission Date" />
+	</bean>
+	
 	<bean id="Protocol-applicationDate" parent="Protocol-applicationDate-parentBean" />
 	<bean id="Protocol-applicationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
 		<property name="name" value="applicationDate" />

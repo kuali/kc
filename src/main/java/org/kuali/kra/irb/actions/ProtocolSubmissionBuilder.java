@@ -69,6 +69,7 @@ public class ProtocolSubmissionBuilder {
      * @return the submission
      */
     public ProtocolSubmission create() {
+        protocolSubmission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
         getBusinessObjectService().save(protocolSubmission);
         protocolSubmission.getProtocol().getProtocolSubmissions().add(protocolSubmission);
         saveAttachments();
@@ -89,6 +90,14 @@ public class ProtocolSubmissionBuilder {
      */
     public void setProtocolReviewTypeCode(String protocolReviewTypeCode) {
         protocolSubmission.setProtocolReviewTypeCode(protocolReviewTypeCode);
+    }
+    
+    /**
+     * Set the submission status.
+     * @param submissionStatusCode
+     */
+    public void setSubmissionStatus(String submissionStatusCode) {
+        protocolSubmission.setSubmissionStatusCode(submissionStatusCode);
     }
     
     /**
@@ -280,4 +289,5 @@ public class ProtocolSubmissionBuilder {
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
+
 }
