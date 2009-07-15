@@ -20,18 +20,21 @@ import java.util.LinkedHashMap;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
-import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
  * This class is to maintain repetitive coeus legacy code, protocolNumber & sequenceNumber, for protocol Bos.
  * 
+ * Currently our SeparateAssociates (attachments) have 1:m and m:m relationships with protocol.  This is why
+ * this class has fields for a single protocol.  
+ * 
  * Much of this class is duplicated with ProtocolAssociate but there is no
  * way around that due to the limitations in rice, ojb, etc.
  */
 @MappedSuperclass
-public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<Protocol> {
+public abstract class ProtocolSeparateAssociate extends KraPersistableBusinessObjectBase implements SeparatelySequenceableAssociate<Protocol> {
     private static final long serialVersionUID = -8385115657304261423L;
     
     @Column(name = "PROTOCOL_NUMBER")
@@ -53,7 +56,7 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
      * will need to manage sequenceNumber.
      * 
      */
-    public ProtocolAssociate() {
+    public ProtocolSeparateAssociate() {
          this.setSequenceNumber(Integer.valueOf(0));
     }
     
@@ -131,6 +134,27 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
     public void setProtocolNumber(String protocolNumber) {
         this.protocolNumber = protocolNumber;
     }
+    
+//  /** {@inheritDoc} */
+//  public Protocol getLatestOwner() {
+//      return this.protocol;
+//  }
+//  
+//  /** 
+//   * Cannot return null.
+//   * {@inheritDoc}
+//   */
+//  public List<Protocol> getSequenceOwners() {
+//      if (this.sequenceOwners == null) { 
+//          this.sequenceOwners = new ArrayList<Protocol>();
+//      }
+//      return this.sequenceOwners;
+//  }
+//  
+//  /** {@inheritDoc} */
+//  public void setSequenceOwners(List<Protocol> owners) {
+//      this.sequenceOwners = owners;
+//  }
 
     /** {@inheritDoc} */
     @Override
@@ -164,7 +188,7 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
         if (getClass() != obj.getClass()) {
             return false;
         }
-        ProtocolAssociate other = (ProtocolAssociate) obj;
+        ProtocolSeparateAssociate other = (ProtocolSeparateAssociate) obj;
         if (this.protocolNumber == null) {
             if (other.protocolNumber != null) {
                 return false;
@@ -180,16 +204,6 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
             return false;
         }
         return true;
-    }
-
-    /** {@inheritDoc} */
-    public Protocol getSequenceOwner() {
-        return this.getProtocol();
-    }
-
-    /** {@inheritDoc} */
-    public void setSequenceOwner(Protocol newlyVersionedOwner) {
-        this.setProtocol(newlyVersionedOwner);   
     }
     
     /**
