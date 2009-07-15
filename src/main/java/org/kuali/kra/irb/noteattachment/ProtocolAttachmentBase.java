@@ -40,8 +40,6 @@ public abstract class ProtocolAttachmentBase extends ProtocolSeparateAssociate {
     private ProtocolAttachmentFile file;
     private transient FormFile newFile;
     
-    //private List<Protocol> sequenceOwners;
-    
     /**
      * empty ctor to satisfy JavaBean convention.
      */
