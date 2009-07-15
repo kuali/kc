@@ -178,6 +178,12 @@ public class VersioningServiceImplTest {
         Assert.assertNull(newVersion.getSequenceOwnerId());        
     }
     
+    /**
+     * This test purposefully has no asserts.  It is designed to ensure that the versioning framework
+     * does not create an stackoverflow when versioning associates that have collections with a reference
+     * to themself - truly an edge case.
+     * @throws Exception
+     */
     @Test
     public void testVersioning_already_versioned_collection() throws Exception {
         SelfReferenceOwner owner = new SelfReferenceOwner();
