@@ -29,23 +29,12 @@ public class QuestionLookupForm extends KualiForm  {
     private String newQuestion;
     private Integer nodeIndex; 
     private String lookupResultsBOClassName;
-    public String getLookupResultsBOClassName() {
-        return lookupResultsBOClassName;
-    }
-
-    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
-        this.lookupResultsBOClassName = lookupResultsBOClassName;
-    }
-
-    public String getLookedUpCollectionName() {
-        return lookedUpCollectionName;
-    }
-
-    public void setLookedUpCollectionName(String lookedUpCollectionName) {
-        this.lookedUpCollectionName = lookedUpCollectionName;
-    }
-
     private String lookedUpCollectionName;
+    private String selectedQuestions;
+    /**
+     * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
+     */
+    private String lookupResultsSequenceNumber;
 
     
     public QuestionLookupForm() {
@@ -80,15 +69,47 @@ public class QuestionLookupForm extends KualiForm  {
     public void setNewQuestionTypeId(Integer newQuestionTypeId) {
         this.newQuestionTypeId = newQuestionTypeId;
     }
+    public String getLookupResultsBOClassName() {
+        return lookupResultsBOClassName;
+    }
 
-    @Override
-    public String getAnchor() {
-    // TODO : not sure why question multiple value lookup has problem to populate anchor
-    // hack for now.    
-        if (super.getAnchor() == null) {
-            setAnchor(KNSConstants.ANCHOR_TOP_OF_FORM);
-        }
-        return super.getAnchor();
+    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
+
+    public String getLookedUpCollectionName() {
+        return lookedUpCollectionName;
+    }
+
+    public void setLookedUpCollectionName(String lookedUpCollectionName) {
+        this.lookedUpCollectionName = lookedUpCollectionName;
+    }
+
+
+//    @Override
+//    public String getAnchor() {
+//    // TODO : not sure why question multiple value lookup has problem to populate anchor
+//    // hack for now.    
+//        if (super.getAnchor() == null) {
+//            setAnchor(KNSConstants.ANCHOR_TOP_OF_FORM);
+//        }
+//        return super.getAnchor();
+//    }
+
+    public String getLookupResultsSequenceNumber() {
+        return lookupResultsSequenceNumber;
+    }
+
+    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
+        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
+    }
+
+    public String getSelectedQuestions() {
+        return selectedQuestions;
+    }
+
+    public void setSelectedQuestions(String selectedQuestions) {
+        this.selectedQuestions = selectedQuestions;
     }
 
 }
