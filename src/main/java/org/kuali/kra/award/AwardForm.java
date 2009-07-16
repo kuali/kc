@@ -145,7 +145,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
      * This method initialize all form variables
      */
     public void initialize() {
-        initializeHeaderNavigationTabs();
+        initializeHeaderNavigationTabs();        
         //newAwardCostShare = new AwardCostShare();
         newAwardFandaRate = new AwardFandaRate(); 
         //setNewSponsorTerms(new ArrayList<SponsorTerm>());

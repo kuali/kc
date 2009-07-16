@@ -43,6 +43,6 @@
   <bean id="TimeAndMoneyDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
   </bean>
   
-  <bean id="BudgetDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+  <bean id="TimeAndMoneyDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
   </bean>
 </beans>

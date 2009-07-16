@@ -21,7 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -35,8 +37,13 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             , HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;        
         ActionForward forward = handleDocument(mapping, form, request, response, timeAndMoneyForm);
-        
+        timeAndMoneyForm.initializeFormOrDocumentBasedOnCommand();        
+        timeAndMoneyForm.getTimeAndMoneyDocument().setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(timeAndMoneyForm.getTimeAndMoneyDocument().getAwardNumber()));
         return forward;
+    }
+    
+    public AwardHierarchyService getAwardHierarchyService(){        
+        return (AwardHierarchyService) KraServiceLocator.getService(AwardHierarchyService.class);
     }
     
     /**
@@ -48,14 +55,14 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      * @return
      * @throws Exception
      */
-    ActionForward handleDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-                                  HttpServletResponse response, TimeAndMoneyForm awardForm) throws Exception {
-        String command = awardForm.getCommand();
+    public ActionForward handleDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                  HttpServletResponse response, TimeAndMoneyForm timeAndMoneyForm) throws Exception {
+        String command = timeAndMoneyForm.getCommand();
         ActionForward forward;        
         if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
             Document retrievedDocument = getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
-            awardForm.setDocument(retrievedDocument);
+            timeAndMoneyForm.setDocument(retrievedDocument);
             request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
             ActionForward baseForward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
             forward = new ActionForward(buildForwardStringForActionListCommand(
@@ -65,6 +72,18 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         }
         
         return forward;
+    }
+    
+    public ActionForward addTransaction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        ((TimeAndMoneyForm) form).getTransactionBean().addPendingTransactionItem();
+        return mapping.findForward("basic");        
+    }
+    
+    public ActionForward deleteTransaction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        ((TimeAndMoneyForm) form).getTransactionBean().deletePendingTransactionItem(getLineToDelete(request));
+        return mapping.findForward("basic");        
     }
     
     /**

@@ -45,6 +45,7 @@ import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.service.AwardSponsorTermService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -301,10 +302,11 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         
         List<TimeAndMoneyDocument> timeAndMoneyDocuments = (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, unique);
         TimeAndMoneyDocument timeAndMoneyDocument = null;
-        
+
         if(timeAndMoneyDocuments.size()!=0){
             timeAndMoneyDocument = timeAndMoneyDocuments.get(0);   
             timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(timeAndMoneyDocument.getDocumentNumber());
+            
         }
         
         if(timeAndMoneyDocument == null){            
@@ -314,10 +316,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         }
         
         documentService.saveDocument(timeAndMoneyDocument);
-        
        
-        //timeAndMoneyDocument2.setAwardHierarchyNodes(awardForm.getAwardHierarchyNodes());
-        
         Long routeHeaderId = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         
         String forward = buildForwardUrl(routeHeaderId);

@@ -65,7 +65,7 @@ public class AwardHomeAction extends AwardAction {
     public ActionForward addApprovedSubaward(ActionMapping mapping, ActionForm form, 
                                                 HttpServletRequest request,
                                                     HttpServletResponse response) throws Exception {
-        approvedSubawardActionHelper.addApprovedSubaward(((AwardForm) form).getApprovedSubawardFormHelper());
+        approvedSubawardActionHelper.addApprovedSubaward(((AwardForm) form).getApprovedSubawardFormHelper());        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
