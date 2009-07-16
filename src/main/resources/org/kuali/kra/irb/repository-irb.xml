@@ -614,11 +614,11 @@
 <!--			<inverse-foreignkey field-ref="documentId"/> -->
 <!--  		</collection-descriptor>-->
 		
-		<!-- rice cannot handle bi-direction m:m relationships
-		<collection-descriptor name="sequenceOwners" element-class-ref="org.kuali.kra.irb.Protocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" indirection-table="PROTOCOL_ATTACHMENT_PA_TO_PROT">
+		 <!-- cannot have auto-update or auto-delete turned on or rice/ojb fails :-( -->
+		<collection-descriptor name="sequenceOwners" element-class-ref="org.kuali.kra.irb.Protocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="false" indirection-table="PROTOCOL_ATTACHMENT_PA_TO_PROT">
      		<fk-pointing-to-this-class column="PA_PROTOCOL_FK"/>
      		<fk-pointing-to-element-class column="PROTOCOL_ID_FK"/>
-  		</collection-descriptor>-->
+  		</collection-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" table="PROTOCOL_ATTACHMENT_PERSONNEL">

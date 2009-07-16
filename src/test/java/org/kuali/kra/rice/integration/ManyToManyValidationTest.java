@@ -65,7 +65,8 @@ public class ManyToManyValidationTest extends KraWebTestBase {
      */
     @Before
     public void setupServices() {
-        this.dictionaryValidationService = KraServiceLocator.getService(DictionaryValidationService.class);     
+        this.dictionaryValidationService = KraServiceLocator.getService(DictionaryValidationService.class);
+        System.err.println(this.dictionaryValidationService.getClass().getName());
     }
     
     /**

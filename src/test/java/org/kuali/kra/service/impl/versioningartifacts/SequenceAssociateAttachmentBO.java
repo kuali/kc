@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.kuali.kra.SeparatelySequenceableAssociate;
@@ -29,18 +31,18 @@ public class SequenceAssociateAttachmentBO implements SeparatelySequenceableAsso
     
     private Long attachmentId;
     private String name;
-    //private List<SequenceOwnerImpl> owners;
+    private List<SequenceOwnerImpl> owners;
     private Integer sequenceNumber;
 
     public SequenceAssociateAttachmentBO(String name) {
         this.name = name;
         setAttachmentId(new Random().nextLong());
-        //owners = new ArrayList<SequenceOwnerImpl>();
+        owners = new ArrayList<SequenceOwnerImpl>();
     }
     
-//    public void add(SequenceOwnerImpl newOwner) {
-//        owners.add(newOwner);
-//    }
+    public void add(SequenceOwnerImpl newOwner) {
+        owners.add(newOwner);
+    }
     
     public Long getAttachmentId() {
         return attachmentId;
@@ -50,12 +52,12 @@ public class SequenceAssociateAttachmentBO implements SeparatelySequenceableAsso
         this.attachmentId = attachmentId;
     }
 
-//    /**
-//     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
-//     */
-//    public List<SequenceOwnerImpl> getSequenceOwners() {
-//        return owners;
-//    }
+    /**
+     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     */
+    public List<SequenceOwnerImpl> getSequenceOwners() {
+        return owners;
+    }
     
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
@@ -64,20 +66,20 @@ public class SequenceAssociateAttachmentBO implements SeparatelySequenceableAsso
         setAttachmentId(null);
     }
     
-//    /**
-//     * @see org.kuali.kra.SeparatelySequenceableAssociate#setSequenceOwners(java.util.List)
-//     */
-//    @SuppressWarnings("unchecked")
-//    public void setSequenceOwners(List<SequenceOwnerImpl> owners) {
-//        setOwners(owners);
-//    }
+    /**
+     * @see org.kuali.kra.SeparatelySequenceableAssociate#setSequenceOwners(java.util.List)
+     */
+    @SuppressWarnings("unchecked")
+    public void setSequenceOwners(List<SequenceOwnerImpl> owners) {
+        setOwners(owners);
+    }
     
-//    /**
-//     * @see org.kuali.kra.SeparatelySequenceableAssociate#getLatestOwner()
-//     */
-//    public SequenceOwnerImpl getLatestOwner() {
-//        return owners.size() > 0 ? owners.get(owners.size() - 1) : null;
-//    }
+    /**
+     * @see org.kuali.kra.SeparatelySequenceableAssociate#getLatestOwner()
+     */
+    public SequenceOwnerImpl getLatestOwner() {
+        return owners.size() > 0 ? owners.get(owners.size() - 1) : null;
+    }
     
     /**
      * @see org.kuali.kra.Sequenceable#getSequenceNumber()
@@ -90,15 +92,15 @@ public class SequenceAssociateAttachmentBO implements SeparatelySequenceableAsso
         return name;
     }
 
-//    public List<SequenceOwnerImpl> getOwners() {
-//        return owners;
-//    }
+    public List<SequenceOwnerImpl> getOwners() {
+        return owners;
+    }
 
     public void setName(String name) {
         this.name = name;
     }
 
-//    public void setOwners(List<SequenceOwnerImpl> owners) {
-//        this.owners = owners;
-//    } 
+    public void setOwners(List<SequenceOwnerImpl> owners) {
+        this.owners = owners;
+    } 
 }
