@@ -178,7 +178,8 @@
 				<value>kimIdentityManagementService</value>
 				<value>awardLookupable</value>
 				<value>docSearchCriteriaDTOLookupable</value>
-				<value>questionnaireLookupable</value>	
+				<value>questionnaireLookupable</value>
+				<value>dictionaryValidationService</value>
 			</set>
 		</property>
 	</bean>	
@@ -248,6 +249,38 @@
 			</list>
 		</property>
 		-->
+	</bean>
+	
+	<bean id="dictionaryValidationService" class="org.kuali.kra.rice.KraDictionaryValidationServiceImpl">
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="maintenanceDocumentDictionaryService">
+			<ref bean="maintenanceDocumentDictionaryService" />
+		</property>
+		<property name="transactionalDocumentDictionaryService">
+			<ref bean="transactionalDocumentDictionaryService" />
+		</property>
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
+		<property name="configService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService"/>
+		</property>
+	</bean>
+	
+	<bean id="transactionalDocumentDictionaryService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="transactionalDocumentDictionaryService" />
+	</bean>
+	
+	<bean id="configService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="configService" />
 	</bean>
 	
 	<bean id="kimIdentityManagementService" class="org.kuali.kra.rice.shim.IdentityManagementServiceKcImpl" />
