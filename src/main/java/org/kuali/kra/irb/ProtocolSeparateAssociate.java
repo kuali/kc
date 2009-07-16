@@ -15,10 +15,9 @@
  */
 package org.kuali.kra.irb;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import java.util.List;
 
 import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -33,21 +32,17 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * Much of this class is duplicated with ProtocolAssociate but there is no
  * way around that due to the limitations in rice, ojb, etc.
  */
-@MappedSuperclass
 public abstract class ProtocolSeparateAssociate extends KraPersistableBusinessObjectBase implements SeparatelySequenceableAssociate<Protocol> {
     private static final long serialVersionUID = -8385115657304261423L;
     
-    @Column(name = "PROTOCOL_NUMBER")
     private String protocolNumber;
 
-    @Column(name = "SEQUENCE_NUMBER")
     private Integer sequenceNumber;
 
-    @Column(name = "PROTOCOL_ID")
     private Long protocolId;
     private Protocol protocol;
     
-    //private List<Protocol> sequenceOwners;
+    private List<Protocol> sequenceOwners;
 
     /**
      * 
@@ -103,7 +98,7 @@ public abstract class ProtocolSeparateAssociate extends KraPersistableBusinessOb
         this.setProtocolId(aProtocol != null ? aProtocol.getProtocolId() : null);
         this.setProtocolNumber(aProtocol != null ? aProtocol.getProtocolNumber() : null);
         this.setSequenceNumber(aProtocol != null ? aProtocol.getSequenceNumber() : null);
-        //this.getSequenceOwners().add(aProtocol);
+        this.getSequenceOwners().add(aProtocol);
     }
     
     /**
@@ -138,26 +133,26 @@ public abstract class ProtocolSeparateAssociate extends KraPersistableBusinessOb
         this.protocolNumber = protocolNumber;
     }
     
-//      /** {@inheritDoc} */
-//      public Protocol getLatestOwner() {
-//          return this.protocol;
-//      }
-//      
-//      /** 
-//       * Cannot return null.
-//       * {@inheritDoc}
-//       */
-//      public List<Protocol> getSequenceOwners() {
-//          if (this.sequenceOwners == null) { 
-//              this.sequenceOwners = new ArrayList<Protocol>();
-//          }
-//          return this.sequenceOwners;
-//      }
-//      
-//      /** {@inheritDoc} */
-//      public void setSequenceOwners(List<Protocol> owners) {
-//          this.sequenceOwners = owners;
-//      }
+    /** {@inheritDoc} */
+    public Protocol getLatestOwner() {
+        return this.protocol;
+    }
+      
+    /** 
+     * Cannot return null.
+     * {@inheritDoc}
+    */
+    public List<Protocol> getSequenceOwners() {
+        if (this.sequenceOwners == null) { 
+            this.sequenceOwners = new ArrayList<Protocol>();
+        }
+        return this.sequenceOwners;
+    }
+      
+    /** {@inheritDoc} */
+    public void setSequenceOwners(List<Protocol> owners) {
+        this.sequenceOwners = owners;
+    }
 
     /** {@inheritDoc} */
     @Override
