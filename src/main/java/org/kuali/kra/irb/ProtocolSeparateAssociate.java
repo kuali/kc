@@ -54,7 +54,7 @@ public abstract class ProtocolSeparateAssociate extends KraPersistableBusinessOb
      * 
      */
     public ProtocolSeparateAssociate() {
-         this.setSequenceNumber(Integer.valueOf(0));
+        this.setSequenceNumber(Integer.valueOf(0));
     }
     
     /**
