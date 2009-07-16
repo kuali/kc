@@ -24,8 +24,8 @@
                 <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.name}" />
             </th>
             <td align="left" valign="middle" colspan="3">
-                <kul:htmlControlAttribute property="fromQuestionnaire.name" 
-                                          attributeEntry="${questionnaireAttributes.name}" />
+               <html:text property="fromQuestionnaire.name" 
+                           styleId="fromQuestionnaire.name" readonly="true"/>
             </td>
         </tr>
         <tr>
@@ -33,8 +33,8 @@
                 <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.description}" />
             </th>
             <td align="left" valign="middle" colspan="3">
-                <kul:htmlControlAttribute property="fromQuestionnaire.description" 
-                                          attributeEntry="${questionnaireAttributes.description}" />
+               <html:textarea property="fromQuestionnaire.description" rows="5" cols="40"
+                           styleId="fromQuestionnaire.description" readonly="true"/>
             </td>
         </tr>
         <tr>
@@ -42,8 +42,8 @@
                 <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.isFinal}" />
             </th>
             <td align="left" valign="middle" colspan="3">
-                <kul:htmlControlAttribute property="fromQuestionnaire.isFinal" 
-                                          attributeEntry="${questionnaireAttributes.isFinal}" />
+               <html:checkbox property="fromQuestionnaire.isFinal" 
+                           styleId="fromQuestionnaire.isFinal" disabled="true"/>
             </td>
         </tr>
     </table>

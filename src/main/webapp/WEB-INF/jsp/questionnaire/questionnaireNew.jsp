@@ -71,6 +71,8 @@
   var copyNode;
   var sqlScripts = "createnew";
   var jsContextPath = "${pageContext.request.contextPath}";
+  var sqls = [];
+  var sqlidx = 0;
   $(document).ready(function(){
     $.ajaxSettings.cache = false; 
     $("#example").treeview({
@@ -167,6 +169,7 @@
    
      // need to modify this for questionnaire
   //$(document).ready(function(){
+  
      $("#save").click(function(){    
        var qname = $('#newQuestionnaire\\.name').attr("value");
        var qnaireid = $('#newQuestionnaire\\.questionnaireId').attr("value");
@@ -177,8 +180,22 @@
            alert("Questionnaire Name is required");
        } else {
        //TODO : FF seems to have trouble with "#;#"
+
+     if (sqlScripts.indexOf("#;#") > 1) {
+        // if current sqlScripts is not in array yet
+        // 10 should be fine to use as check
+         sqls[sqlidx++] = sqlScripts;
+     }
+     
+	 for (var k=0 ; k < sqls.length;  k++) {
+       sqlScripts = sqls[k];
        sqlScripts = sqlScripts.replace(/#;#/g,";;;");
-       
+       qnaireid = $('#newQuestionnaire\\.questionnaireId').attr("value");
+       //alert(sqls.length+"-"+k)
+       // TODO : should consider to send newquestionnaire itself to save.
+       // need to resend newquestionnaire because it might be changed.
+       // also need to deal with 'description' which is varchar2(2000)
+       // we can not assume that is is not over 2000, so need to think about it.
        $.ajax({
          url: 'questionnaireAjax.do',
          type: 'GET',
@@ -191,13 +208,15 @@
             alert('Error loading XML document');
          },
          success: function(xml){
-            sqlScripts="createnew";
+            //sqlScripts="createnew";
             $(xml).find('h3').each(function(){
                 //var item_text = $(this).text();
                 $('#newQuestionnaire\\.questionnaireId').attr("value",$(this).text().substring(9));
             });
          }
        });// .ajax
+      } // end for
+      sqlidx=0; 
        } // if-then-else
        return false;
        }); 
@@ -223,7 +242,7 @@
 		inputtmp = $('<input type="image" id="deleteUsage" name="deleteUsage" src="static/images/tinybutton-delete1.gif" class="tinybutton">').attr("id","deleteUsage"+ucount).click(function() {
 		     //alert("delete "+$(this).parents('tr:eq(0)').attr("id"))
 		     
-		     sqlScripts = sqlScripts +"#;#" +"delete U;"+$(this).parents('tr:eq(0)').children('td:eq(0)').children('input:eq(0)').attr("value");
+		addSqlScripts("delete U;"+$(this).parents('tr:eq(0)').children('td:eq(0)').children('input:eq(0)').attr("value") );
         alert(sqlScripts); 
  // TODO : delete usage also need to update 'item number' in the first column
             curnode = $(this).parents('tr:eq(0)');
@@ -242,8 +261,8 @@
         tdtmp.appendTo(trtmp);
         ucount++;
         trtmp.appendTo($("#usage-table"));
-        sqlScripts = sqlScripts +"#;#" +"insert U;"+$("#newQuestionnaireUsage\\.moduleItemCode").attr("value")+";"+$("#newQuestionnaireUsage\\.questionnaireLabel").attr("value")
-        alert(sqlScripts); 
+        addSqlScripts("insert U;"+$("#newQuestionnaireUsage\\.moduleItemCode").attr("value")+";"+$("#newQuestionnaireUsage\\.questionnaireLabel").attr("value") );
+        //alert(sqlScripts); 
         return false;
      }); 
      $("#deleteUsage").click(function(){  
@@ -314,7 +333,7 @@
         $("#qseq"+$(listitem).attr("id").substring(8)).attr("value",seqnum);
         var qnum = $("#questionNumber").attr("value");
         var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
-        sqlScripts = sqlScripts+"#;#"+insertValues;
+        addSqlScripts(insertValues);
         $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
         return false;
       });
