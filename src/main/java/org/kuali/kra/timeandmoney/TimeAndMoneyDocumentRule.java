@@ -17,6 +17,10 @@ package org.kuali.kra.timeandmoney;
 
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.kra.timeandmoney.transactions.AddTransactionRuleEvent;
+import org.kuali.kra.timeandmoney.transactions.TransactionRule;
+import org.kuali.kra.timeandmoney.transactions.TransactionRuleEvent;
+import org.kuali.kra.timeandmoney.transactions.TransactionRuleImpl;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -26,7 +30,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * Responsible for delegating rules to independent rule classes.
  *
  */
-public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase {
+public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implements TransactionRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final boolean VALIDATION_REQUIRED = true;
@@ -67,6 +71,16 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase {
         return retval;
         
         
+    }
+
+
+    public boolean processAddPendingTransactionBusinessRules(AddTransactionRuleEvent event) {
+        return new TransactionRuleImpl().processAddPendingTransactionBusinessRules(event);
+    }
+
+
+    public boolean processPendingTransactionBusinessRules(TransactionRuleEvent event) {
+        return new TransactionRuleImpl().processPendingTransactionBusinessRules(event);
     }
     
 }
