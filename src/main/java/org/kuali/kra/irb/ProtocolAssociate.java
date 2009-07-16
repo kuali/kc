@@ -17,9 +17,6 @@ package org.kuali.kra.irb;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -30,17 +27,13 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * Much of this class is duplicated with ProtocolAssociate but there is no
  * way around that due to the limitations in rice, ojb, etc.
  */
-@MappedSuperclass
 public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<Protocol> {
     private static final long serialVersionUID = -8385115657304261423L;
     
-    @Column(name = "PROTOCOL_NUMBER")
     private String protocolNumber;
 
-    @Column(name = "SEQUENCE_NUMBER")
     private Integer sequenceNumber;
 
-    @Column(name = "PROTOCOL_ID")
     private Long protocolId;
     private Protocol protocol;
 
@@ -54,7 +47,7 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
      * 
      */
     public ProtocolAssociate() {
-         this.setSequenceNumber(Integer.valueOf(0));
+        this.setSequenceNumber(Integer.valueOf(0));
     }
     
     /**
