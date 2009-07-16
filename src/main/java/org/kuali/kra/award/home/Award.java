@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -2397,5 +2398,4 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
     public void resetPersistenceState() {
         this.awardId = null;
     }
-
 }
