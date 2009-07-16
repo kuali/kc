@@ -191,7 +191,7 @@
           <forward name="home" path="/WEB-INF/jsp/award/AwardHome.jsp" />
           <forward name="contacts" path="/WEB-INF/jsp/award/AwardContacts.jsp" />
           <forward name="commitments" path="/WEB-INF/jsp/award/AwardCommitments.jsp" />
-          <forward name="timeAndMoney" path="/WEB-INF/jsp/timeandmoney/TimeAndMoney.jsp" />
+          <forward name="timeAndMoney" path="/WEB-INF/jsp/timeAndMoney/TimeAndMoney.jsp" />
           <forward name="paymentReportsAndTerms" path="/WEB-INF/jsp/award/AwardPaymentReportsAndTerms.jsp" />
           <forward name="specialReview" path="/WEB-INF/jsp/award/AwardSpecialReview.jsp" />
           <forward name="customData" path="/WEB-INF/jsp/award/AwardCustomData.jsp" />

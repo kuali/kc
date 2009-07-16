@@ -47,13 +47,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Root  Award Number" />
         <property name="shortLabel" value="Root  Award Number" />
-        <property name="maxLength" value="10" />
+        <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="12" />
         </property>
         <property name="summary" value="Root  Award Number" />
         <property name="description" value="Root  Award Number" />
@@ -65,13 +65,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value=" Award Number" />
         <property name="shortLabel" value=" Award Number" />
-        <property name="maxLength" value="10" />
+        <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="12" />
         </property>
         <property name="summary" value=" Award Number" />
         <property name="description" value=" Award Number" />
@@ -83,13 +83,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Parent  Award Number" />
         <property name="shortLabel" value="Parent  Award Number" />
-        <property name="maxLength" value="10" />
+        <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="12" />
         </property>
         <property name="summary" value="Parent  Award Number" />
         <property name="description" value="Parent  Award Number" />

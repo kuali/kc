@@ -16,13 +16,19 @@
 package org.kuali.kra.timeandmoney.document;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.timeandmoney.AwardHierarchyNode;
+import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 
@@ -36,6 +42,9 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     public static final String DOCUMENT_TYPE_CODE = "TAMD";
     
     private String awardNumber;
+    private Map<String, AwardHierarchyNode> awardHierarchyNodes;
+    private Map<String, AwardHierarchy> awardHierarchyItems;
+    private List<PendingTransaction> pendingTransactions;
     
     /**
      * Constructs a AwardDocument object
@@ -57,12 +66,14 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();       
-        
+        managedLists.add(pendingTransactions);
         return managedLists;
     }
     
     protected void init() {
-        
+        awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
+        awardHierarchyItems = new HashMap<String, AwardHierarchy>();
+        pendingTransactions = new ArrayList<PendingTransaction>();
     }
     
     /**
@@ -110,5 +121,58 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
      */
     public void setAwardNumber(String awardNumber) {
         this.awardNumber = awardNumber;
+    }
+
+    /**
+     * Gets the awardHierarchyNodes attribute. 
+     * @return Returns the awardHierarchyNodes.
+     */
+    public Map<String, AwardHierarchyNode> getAwardHierarchyNodes() {
+        return awardHierarchyNodes;
+    }
+
+    /**
+     * Sets the awardHierarchyNodes attribute value.
+     * @param awardHierarchyNodes The awardHierarchyNodes to set.
+     */
+    public void setAwardHierarchyNodes(Map<String, AwardHierarchyNode> awardHierarchyNodes) {
+        this.awardHierarchyNodes = awardHierarchyNodes;
+    }    
+
+    /**
+     * Gets the pendingTransactions attribute. 
+     * @return Returns the pendingTransactions.
+     */
+    public List<PendingTransaction> getPendingTransactions() {
+        Collections.sort(pendingTransactions, new PendingTransactionComparator());
+        return pendingTransactions;
+    }
+
+    /**
+     * Sets the pendingTransactions attribute value.
+     * @param pendingTransactions The pendingTransactions to set.
+     */
+    public void setPendingTransactions(List<PendingTransaction> pendingTransactions) {
+        this.pendingTransactions = pendingTransactions;
+    }
+    
+    public void add(PendingTransaction newPendingTransaction){
+        this.getPendingTransactions().add(newPendingTransaction);
+    }
+
+    /**
+     * Gets the awardHierarchyItems attribute. 
+     * @return Returns the awardHierarchyItems.
+     */
+    public Map<String, AwardHierarchy> getAwardHierarchyItems() {
+        return awardHierarchyItems;
+    }
+
+    /**
+     * Sets the awardHierarchyItems attribute value.
+     * @param awardHierarchyItems The awardHierarchyItems to set.
+     */
+    public void setAwardHierarchyItems(Map<String, AwardHierarchy> awardHierarchyItems) {
+        this.awardHierarchyItems = awardHierarchyItems;
     }
 }

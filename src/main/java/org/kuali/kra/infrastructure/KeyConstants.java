@@ -308,6 +308,10 @@ public final class KeyConstants {
     public static final String ERROR_AWARD_PAYMENT_SCHEDULE_DUE_DATE_REQUIRED = "error.required";
     public static final String ERROR_AWARD_PAYMENT_SCHEDULE_ITEM_NOT_UNIQUE = "error.awardPaymentSchedule.notunique";
     
+    //Time & Money - Transactions
+    public static final String ERROR_TNM_PENDING_TRANSACTION_ITEM_NOT_UNIQUE = "error.awardPendingTransaction.notunique";
+    public static final String ERROR_TNM_PENDING_TRANSACTION_SOURCE_AND_DESTINATION_AWARDS_ARE_SAME = "error.awardPendingTransaction.sourceAndDestinationAreSame";
+    
     //Award Closeout
     public static final String ERROR_AWARD_CLOSEOUT_REPORT_NAME_REQUIRED = "error.required";
     public static final String ERROR_AWARD_CLOSEOUT_ITEM_NOT_UNIQUE = "error.awardCloseout.notunique";
