@@ -1,3 +1,8 @@
+
+  /*
+   * This is the main function to create all the html for a question
+   * each question is associated with 'li' tag which is jquery's node
+   */
   function getQuestionNew(description, qtypeid, vers, childNode) {
   
      //alert("getquestionnew");
@@ -111,7 +116,9 @@
 
   } // end addQuestion
 
-  
+  /*
+   * set up questionaire question panel's tab header
+   */
   function getMaintTableHeader(description, vers) {
      var thead = $('<thead/>');
      var trtmp = $('<tr/>');
@@ -127,6 +134,9 @@
   }
   
 
+  /*
+   * set up the action buttons cut/remove/copy/paste
+   */
   function getQuestionActionSubTable(qnaireid) {
      // table for Qn actions : move/remove/cut/past/lookup  
 
@@ -215,7 +225,7 @@
                       // parent_qnum/seq/qid/qnum 
                       //sqlScripts = sqlScripts + "#;#" + "update QPaste;"+$("#qnum"+$(liId).attr("id").substring(8)).attr("value")+";"+seqnum+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
 //                         var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
-//                         sqlScripts = sqlScripts+"#;#"+insertValues;
+//                         addSqlScripts(insertValues);
 //                         alert (sqlScripts);
 //                          removedNode.appendTo(ulTag);
                           removedNode = null;
@@ -330,7 +340,7 @@
         var qnum = $("#questionNumber").attr("value");
          var parentNum = $("#qnum"+$(liId).attr("id").substring(8)).attr("value");
         var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
-        sqlScripts = sqlScripts+"#;#"+insertValues;
+        addSqlScripts(insertValues);
         alert("paste copy node "+sqlScripts);
         $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
   
@@ -345,14 +355,16 @@
   
   }
   
-  // traverse thru the node to copy this node tree
-  // need to clone copy node, otherwise if paste to its own children, then this will become infinite loop,
+  /*
+   * traverse thru the node to copy this node tree
+   * need to clone copy node, otherwise if paste to its own children, then this will become infinite loop,
+   */
   function pasteChild(parentid, startnode) {
          var parentNode = $("#"+parentid);
          var ulTag = parentNode.children('ul');
          
          //startnode = $("#"+childid);
-         alert("copy node "+$(startnode).attr("id").substring(8));
+         //alert("copy node "+$(startnode).attr("id").substring(8));
          qdesc = $('#qdesc'+$(startnode).attr("id").substring(8)).attr("value");
          qtypeid = $('#qtypeid'+$(startnode).attr("id").substring(8)).attr("value");
          i++;
@@ -360,16 +372,23 @@
 			var ultag = $('<ul></ul>');
             ultag.appendTo(listitem);
             var idx = listitem.attr("id").substring(8);
-              //listitem.appendTo('ul#example');
-              // last one no 'move dn'
-                 $("#movedn"+idx).hide();
-                 if (listitem.prev().size() > 0) {
-                    $("#movedn"+listitem.prev().attr("id").substring(8)).show();
-                 }
-                       
-                 
           // alert("node "+parentid+"-"+ parentNode.children('ul').size());     
            listitem.appendTo(ulTag);
+              //listitem.appendTo('ul#example');
+              // last one no 'move dn'
+                 //alert("parent "+listitem.prev().attr("id"));
+              if ($(listitem).parents('ul:eq(0)').children('li').size() == 1) {
+                 $("#moveup"+idx).hide();
+                 $("#movedn"+idx).hide();
+              } else {
+                 //alert("prev "+listitem.prev().attr("id"));
+                 $("#movedn"+idx).hide();
+                 if (listitem.prev().size() > 0) {
+                     $("#movedn"+listitem.prev().attr("id").substring(8)).show();
+                 }
+              }
+                       
+                 
         // also need this to show 'folder' icon
              $('#example').treeview({
                 add: listitem
@@ -389,7 +408,7 @@
         var qnum = $("#questionNumber").attr("value");
          var parentNum = $("#qnum"+$(liId).attr("id").substring(8)).attr("value");
         var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
-        sqlScripts = sqlScripts+"#;#"+insertValues;
+        addSqlScripts(insertValues);
        // alert("paste copy node "+sqlScripts+$(startnode).children('ul.eq(0)').children('li').size());
         $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
   
@@ -402,13 +421,15 @@
 
         cond = $("#cond"+cidx).attr("value");
         value = $("#condvalue"+cidx).attr("value");
+        if (cond != '') {
                 var newResponse = getRequirementDeleteRow(responseArray[cond], value);
                 newResponse.appendTo($("#addrequirement"+i).parents('div:eq(0)').children('table:eq(0)').children('tbody'));
                 $("#cond"+idx).attr("value",cond);
                 $("#condvalue"+idx).attr("value",value);
                $("#addrequirement"+idx).parents('tr:eq(0)').remove();
-                sqlScripts = sqlScripts + "#;#" + "update QCond;'Y';'"+cond+"';'"+value+"';"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
-        alert(sqlScripts);
+                addSqlScripts("update QCond;'Y';'"+cond+"';'"+value+"';"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value") );
+        //alert(sqlScripts);
+        }
         //$("#cond"+idx).attr("value",response);
         //$("#condvalue"+idx).attr("value",value);
         
@@ -426,11 +447,14 @@
   
   }
   
-  // traverse thru the node to delete this node tree
+  /*
+   * traverse thru the node to delete this node tree to create scripts for delete
+   * this is called by remove node action
+   */   
   function deleteChild(parentNum, childid) {
 
         idx = $("#"+childid).attr("id").substring(8);
-        sqlScripts = sqlScripts + "#;#" + "delete Q;"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value")+";"+parentNum+";"+$("#qseq"+idx).attr("value");
+        addSqlScripts("delete Q;"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value")+";"+parentNum+";"+$("#qseq"+idx).attr("value") );
    //      $("#"+childid).children().each(function(){
    //         alert('child '+$(this).html()+"-"+$(this).html());
    //      });
@@ -445,9 +469,11 @@
   
   }
 
-  // traverse thru the node to collect copy nodes
-  // IE issue with clone, so set this max up, in case the copied node is pasted to its children
-  // if don't set this up, it will cause infinite loop
+  /*
+   * traverse thru the node to collect copy nodes
+   * IE issue with clone, so set this max up, in case the copied node is pasted to its children
+   * if don't set this up, it will cause infinite loop
+   */
   function getMaxCopyNodeIdx(startnode) {
 
         idx = $(startnode).attr("id").substring(8);
@@ -465,7 +491,9 @@
   
   }
 
-  
+  /*
+   * set up movedown link
+   */
   function getMoveDownLink() {
       var image = $('<img style="border:none;" alt="move down" title="Move Down" type="image" >');
       var atag = $('<a href="#"></a>').attr("id","movedn"+i).click(function() {
@@ -477,7 +505,7 @@
           curNode.insertAfter(nextNode);
           var idx = $(curNode).attr("id").substring(8);
           //alert("move dn "+idx+"-"+$("#qseq"+idx)+"-"+$("#qid"+idx)+"-"+$("#qnum"+idx))
-          sqlScripts = sqlScripts + "#;#" + "update QMove;"+(Number($("#qseq"+idx).attr("value"))+1)+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
+          addSqlScripts("update QMove;"+(Number($("#qseq"+idx).attr("value"))+1)+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value") );
 
 
           $("#moveup"+curNode.attr("id").substring(8)).show();
@@ -492,7 +520,7 @@
           }
           idx = $(nextNode).attr("id").substring(8);
           //alert("move dn "+idx+"-"+$("#qseq"+idx)+"-"+$("#qid"+idx)+"-"+$("#qnum"+idx))
-          sqlScripts = sqlScripts + "#;#" + "update QMove;"+(Number($("#qseq"+idx).attr("value"))-1)+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
+          addSqlScripts("update QMove;"+(Number($("#qseq"+idx).attr("value"))-1)+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value") );
 
 
       }); 
@@ -502,6 +530,9 @@
       return atag;
   }
   
+  /*
+   * set up move up link
+   */
   function getMoveUpLink() {
       var image = $('<img style="border:none;" alt="move up" title="Move up" type="image" >');
       var atag = $('<a href="#"></a>').attr("id","moveup"+i).click(function() {
@@ -518,7 +549,7 @@
          // $(this).parents('li:eq(0)').remove();
           curNode.insertBefore(nextNode);
           var idx = $(curNode).attr("id").substring(8);
-          sqlScripts = sqlScripts + "#;#" + "update QMove;"+(Number($("#qseq"+idx).attr("value"))-1)+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
+          addSqlScripts("update QMove;"+(Number($("#qseq"+idx).attr("value"))-1)+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value") );
           
           $("#movedn"+curNode.attr("id").substring(8)).show();
           $("#moveup"+nextNode.attr("id").substring(8)).show();
@@ -529,7 +560,7 @@
               $("#movedn"+nextNode.attr("id").substring(8)).hide();
           }
           idx = $(nextNode).attr("id").substring(8);
-          sqlScripts = sqlScripts + "#;#" + "update QMove;"+(Number($("#qseq"+idx).attr("value"))+1)+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
+          addSqlScripts("update QMove;"+(Number($("#qseq"+idx).attr("value"))+1)+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value"));
           //alert(sqlScripts);
       }); 
       image.attr("src","static/images/jquery/arrow-up.gif");
@@ -538,6 +569,9 @@
       return atag;
   }
   
+  /*
+   * set up the 'add' question row
+   */
   function getAddQuestionRow() {
      var tbl95 = $('<table style="border:none; width:100%;" cellpadding="0" cellspacing="0"></table>').attr("id","tbl95"+i);
      var trtmp = $('<tr></tr>');
@@ -695,7 +729,7 @@
         $("#qseq"+$(listitem).attr("id").substring(8)).attr("value",seqnum);
         var qnum = $("#questionNumber").attr("value");
         var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
-        sqlScripts = sqlScripts+"#;#"+insertValues;
+        addSqlScripts(insertValues);
         $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
         return false;
       });
@@ -715,6 +749,9 @@
   
   }
   
+  /*
+   * set up child to parent requirement table
+   */
   function getRequirementDisplayTable() {
      var tbl154 = $('<table width="100%" cellpadding="0" cellspacing="0" style="border-top:#E4E3E4 solid 1px;">');
      var trtmp = $('<tr></tr>');
@@ -740,6 +777,9 @@
   
   }
   
+  /*
+   * set up add requirement row
+   */
   function getAddRequirementRow() {
   
       var trtmp = $('<tr></tr>');
@@ -789,7 +829,7 @@
                 var idx = $(this).parents('li:eq(0)').attr("id").substring(8);
                 $("#cond"+idx).attr("value",response);
                 $("#condvalue"+idx).attr("value",value);
-                sqlScripts = sqlScripts + "#;#" + "update QCond;'Y';'"+response+"';'"+value+"';"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
+                addSqlScripts("update QCond;'Y';'"+response+"';'"+value+"';"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value") );
                 //alert(sqlScripts);
                $(this).parents('tr:eq(0)').remove();
             }
@@ -802,6 +842,9 @@
       return trtmp;  
   }
   
+  /*
+   * check if required fields entered for requirement to add
+   */
   function okToAddRequirement(response,value) {
       var valid = false;
       if (value == '') {
@@ -818,7 +861,9 @@
       return valid;   
   }
   
-  
+  /*
+   * set the newly added requirement row with 'delete' button
+   */
   function getRequirementDeleteRow(response, value) {
       var trtmp = $('<tr></tr>');
       var thtmp = $('<th style="text-align:left; border-top:none; width:150px;">').html("Current Requirements:");
@@ -843,7 +888,7 @@
          //   nextNode = nextNode.next();
          //}
          var idx = $(this).parents('li:eq(0)').attr("id").substring(8);
-         sqlScripts = sqlScripts + "#;#" + "update QCond;'N';'';'';"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value");
+         addSqlScripts("update QCond;'N';'';'';"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value") );
          getAddRequirementRow().appendTo($(this).parents('tr:eq(0)').parents('tbody:eq(0)'));
          $(this).parents('tr:eq(0)').remove(); 
          return false;
@@ -856,12 +901,17 @@
   
   // test lookup pop
   
+   /*
+    * This is to pop up window for question lookup.
+    * If lookup is from root level, then popup window for multivalue look up
+    * If lookup from any node, then it's single value lookup.
+    */
       function checkToAddQn(nodeIndex) {
     
 		//alert (childrenNode[0].isLeaf+" ln "+leafNode);
 		//if (childrenNode.length == 0 || childrenNode[0].isLeaf) {
 		//    updateSponsorCodes();
-		alert(nodeIndex);
+		//alert(nodeIndex);
 			  url=window.location.href
 			  pathname=window.location.pathname
 			  idx1=url.indexOf(pathname);
@@ -879,6 +929,9 @@
 
     }
   
+  /*
+   * This is called by pop window, it returns the selected question.
+   */
   function returnQuestion(newQuestionId, newQuestion,newQuestionTypeId,nodeIndex) {
      //alert("return QNID "+ newQuestionId+newQuestionTypeId);
      // TODO : these need to be defined in 'input' tag, otherwise, the value set will not stuck.
@@ -889,13 +942,21 @@
      //alert("qid "+ nodeIndex+$("#qid"+nodeIndex).attr("value"));
   }
   
+  /*
+   * This is called by multivalue lookup pop up window.
+   * return list of questions selected.
+   * each question is separated by "#q#"
+   * each field is separated by "#f#"
+   */
   function returnQuestionList(questionList) {
-      alert("multivalue "+questionList);
+      alert("multivalue "+questionList.substring(1200));
+      questionList = questionList.replace(/"/g,'\"');
      // load questions
         var questions = questionList.split("#q#");
         // qid/desc/qtypeid
         var parentnum = 0;
         var parentidx = 0;
+        var firstidx = -1;
 	    for (var k=0 ; k < questions.length;  k++) {
 	        field = questions[k].split("#f#");
             i++;
@@ -906,8 +967,11 @@
             var idx = listitem.attr("id").substring(8);
               //listitem.appendTo('ul#example');
               // last one no 'move dn'
+           if (firstidx == -1) {
+               firstidx = idx;
+           }    
               
-                 
+           
            listitem.appendTo($(parenturl));
         // also need this to show 'folder' icon
              $('#example').treeview({
@@ -936,17 +1000,20 @@
             
        // alert("questionnairenumber "+$("#questionNumber").attr("value")+" qid "+$("#qid"+$(this).attr("id").substring(5)).attr("value"));
         $("#qid"+$(listitem).attr("id").substring(8)).attr("value",field[0]);
-      $("#qdesc"+$(listitem).attr("id").substring(8)).attr("value",field[2]);
-      $("#qtypeid"+$(listitem).attr("id").substring(8)).attr("value",field[3]);
+      $("#qdesc"+$(listitem).attr("id").substring(8)).attr("value",field[1]);
+      $("#qtypeid"+$(listitem).attr("id").substring(8)).attr("value",field[2]);
         var seqnum = Number($(listitem).siblings().size())+1;
         $("#qseq"+$(listitem).attr("id").substring(8)).attr("value",seqnum);
         var qnum = $("#questionNumber").attr("value");
         $("#qnum"+$(listitem).attr("id").substring(8)).attr("value",qnum);
         var insertValues = "insert into Q"+field[0] +","+qnum+","+ parentnum+",'N','','',"+seqnum+",user,sysdate)"
-        sqlScripts = sqlScripts+"#;#"+insertValues;
+        addSqlScripts(insertValues);
         $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
 	    
 	    } // end for to set up questions
+	  $("#listcontrol"+firstidx).click();  
+	  $("#listcontrol"+firstidx).click();  
+	    
       alert(sqlScripts);
   }// end returnquestionlist
   
@@ -978,4 +1045,15 @@
      }
   
   
+  function addSqlScripts(sqlcommand) {
+     sqlScripts = sqlScripts +"#;#" + sqlcommand;
+     if (sqlScripts.length > 1700) {
+        // right now the query string also contains newquestionnaire data, so limit to 1700 for test now.
+        sqls[sqlidx++] = sqlScripts;
+        sqlScripts = "sqls";
+        //alert(sqlidx);
+     }
+  }
+  
+/* integrate with edit, new */
   

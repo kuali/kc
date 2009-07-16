@@ -48,7 +48,7 @@
 
          	</label><br>
          	
-         		<input type="hidden" id="selectedQuestions" name="selectedQuestions" value="${QuestionLookupForm.selectedQuestions}" />
+         		<input type="hidden" id="selectedQuestions" name="selectedQuestions" value='${QuestionLookupForm.selectedQuestions}' />
          	
          	<p><a href="javascript:returnQuestion();window.close();"><b>return data</b></a> <a href="javascript:window.close()">Close</a></p> 
          	
@@ -59,14 +59,14 @@
           	
           	  
           	     function returnQuestion() {
-          	            var questions = document.getElementById("selectedQuestions").value
+          	            var questions = document.getElementById("selectedQuestions").value;
           	         	window.opener.returnQuestionList(questions);
           	     
           	     }
                  var lookupBtn=document.getElementById("lookupBtn");
                  //alert("methodtocall "+document.getElementById("methodToCall").value);
                  if (document.getElementById("methodToCall").value != "refresh") {
-                 	//lookupBtn.click();
+                 	lookupBtn.click();
                  } else {
                  	returnQuestion();
                  	window.close();

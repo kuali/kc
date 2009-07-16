@@ -39,7 +39,7 @@
   <link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
   <%-- link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/treeview/jquery.treeview.css" type="text/css" /--%>
   <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
-  <script type="text/javascript" src="scripts/questionnaire.js"></script>
+    <script type="text/javascript" src="scripts/questionnaire.js"></script>
 
 
 
@@ -74,6 +74,8 @@
   var maxCopyNodeIdx=0;
   var isCopy='false';
   var jsContextPath = "${pageContext.request.contextPath}";
+  var sqls = [];
+  var sqlidx = 0;
   $(document).ready(function(){
     $.ajaxSettings.cache = false; 
     $("#example").treeview({
@@ -166,8 +168,8 @@
 		inputtmp = $('<input type="image" id="deleteUsage" name="deleteUsage" src="static/images/tinybutton-delete1.gif" class="tinybutton">').attr("id","deleteUsage"+ucount).click(function() {
 		     //alert("delete "+$(this).parents('tr:eq(0)').attr("id"))
 		     
-		     sqlScripts = sqlScripts +"#;#" +"delete U;"+$(this).parents('tr:eq(0)').children('td:eq(0)').children('input:eq(0)').attr("value");
-        alert(sqlScripts); 
+		addSqlScripts("delete U;"+$(this).parents('tr:eq(0)').children('td:eq(0)').children('input:eq(0)').attr("value") );
+       // alert(sqlScripts); 
  // TODO : delete usage also need to update 'item number' in the first column
             curnode = $(this).parents('tr:eq(0)');
             alert("size "+curnode.next().size());
@@ -185,8 +187,8 @@
         tdtmp.appendTo(trtmp);
         ucount++;
         trtmp.appendTo($("#usage-table"));
-        sqlScripts = sqlScripts +"#;#" +"insert U;"+$("#newQuestionnaireUsage\\.moduleItemCode").attr("value")+";"+$("#newQuestionnaireUsage\\.questionnaireLabel").attr("value")
-        alert(sqlScripts); 
+        addSqlScripts("insert U;"+$("#newQuestionnaireUsage\\.moduleItemCode").attr("value")+";"+$("#newQuestionnaireUsage\\.questionnaireLabel").attr("value") );
+       // alert(sqlScripts); 
         return false;
      }); 
      $("#deleteUsage").click(function(){  
@@ -256,7 +258,7 @@
         $("#qseq"+$(listitem).attr("id").substring(8)).attr("value",seqnum);
         var qnum = $("#questionNumber").attr("value");
         var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
-        sqlScripts = sqlScripts+"#;#"+insertValues;
+        addSqlScripts(insertValues);
         $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
         return false;
       });
@@ -266,12 +268,16 @@
    
    
      // load questions & usages
+     // TODO : if edit data has '"', then it getElementById will only reach the character before '"'
+     // Question 1067 description has '"', and this is also probably why 
+     // it only saved up 1067.  total selected is 54, but only saved to q 43.
 		var editdata = document.getElementById("editData").value;
+		alert(editdata);
    		var dataarray=editdata.split("#;#");
+   		var firstidx = -1;
    		var idxArray = new Array(dataarray.length);
    		//alert (retdata+"-"+dataarray[0]);
         var questions = dataarray[0].split("#q#");
-        var usages = dataarray[1].split("#u#");
         // qqid/qid/seq/desc/qtypeid/qnum/cond/value
         var parentnum = 0;
         var parentidx = 0;
@@ -286,6 +292,7 @@
 	              }
 	           }
 	        } else {
+	        
 	        field = questions[k].split("#f#");
             i++;
             var parenturl;
@@ -303,7 +310,9 @@
             var idx = listitem.attr("id").substring(8);
               //listitem.appendTo('ul#example');
               // last one no 'move dn'
-              
+           if (firstidx == -1) {
+               firstidx = idx;
+           }    
                  
            listitem.appendTo($(parenturl));
         // also need this to show 'folder' icon
@@ -324,7 +333,9 @@
                  }
               }
                        
-
+          if (idx == 44) {
+            alert("question 44 "+questions[k]);
+          }
 
            if (parentnum > 0 && field[6] != 'null') {                 
                 alert ("add req for parent "+$("#addrequirement"+i).parents('tr:eq(0)').size());
@@ -350,10 +361,18 @@
 	    
 	     } // end if-then-else
 	    } // end for to set up questions
+	    
+	  alert ("last node "+ $("#qid44").attr("value")+"-"+ $("#qnum44").attr("value"));
+	  // TODO : only the first question is expanded
+	  $("#listcontrol"+firstidx).click();  
+	  $("#listcontrol"+firstidx).click();  
 
      // load usage
      // quid/modulecode/label
      
+     
+     if (dataarray.length > 1) {
+        var usages = dataarray[1].split("#u#");
    	    for (var k=0 ; k < usages.length;  k++) {
 	        field = usages[k].split("#f#");
             trtmp = $('<tr/>').attr("id","usage"+ucount);
@@ -369,8 +388,8 @@
             tdtmp = $('<td align="left" valign="middle">').html("1.00");
             tdtmp.appendTo(trtmp);
 		    inputtmp = $('<input type="image" id="deleteUsage" name="deleteUsage" src="static/images/tinybutton-delete1.gif" class="tinybutton">').attr("id","deleteUsage"+ucount).click(function() {
-		       sqlScripts = sqlScripts +"#;#" +"delete U;"+$(this).parents('tr:eq(0)').children('td:eq(0)').children('input:eq(0)').attr("value");
-               alert(sqlScripts); 
+		       addSqlScripts("delete U;"+$(this).parents('tr:eq(0)').children('td:eq(0)').children('input:eq(0)').attr("value") );
+               //alert(sqlScripts); 
                curnode=	$(this).parents('tr:eq(0)');
                alert("size "+curnode.next().size());
             while (curnode.next().size() > 0) {
@@ -391,7 +410,7 @@
    	    
    	    }  
    	    // end for load usages
-   
+     } // check dataarray.length
    
     </script>
     
