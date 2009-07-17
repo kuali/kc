@@ -24,32 +24,23 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Id;
 
-import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 
 /**
  * 
- * This class implements the committee membership object.
+ * This class implements the committee membership business object.
  * 
- * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-@SuppressWarnings("serial")
-public class CommitteeMembership extends KraPersistableBusinessObjectBase implements SequenceAssociate {
+public class CommitteeMembership extends CommitteeAssociate {
+
+    private static final long serialVersionUID = 3036751811459612428L;
 
     private final String DATE_FORMAT = "MM/dd/yyyy";
 
     @Id
     @Column(name = "COMM_MEMBERSHIP_ID")
     private Long committeeMembershipId;
-
-    @Column(name = "COMMITTEE_ID_FK")
-    private Long committeeIdFk;
-
-    @Column(name = "COMMITTEE_ID")
-    private String committeeId;
 
     @Column(name = "PERSON_ID")
     private String personId;
@@ -62,9 +53,6 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
 
     @Column(name = "MEMBERSHIP_ID")
     private String membershipId;
-
-    @Column(name = "SEQUENCE_NUMBER")
-    private Integer sequenceNumber;
 
     @Column(name = "PAID_MEMBER_FLAG")
     private boolean paidMember;
@@ -95,8 +83,6 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
     private Person person;
     private ProtocolPersonRolodex rolodex;
 
-    private SequenceOwner sequenceOwner;
-
     private boolean delete;
 
     public CommitteeMembership() {
@@ -110,22 +96,6 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
 
     public void setCommitteeMembershipId(Long committeeMembershipId) {
         this.committeeMembershipId = committeeMembershipId;
-    }
-
-    public Long getCommitteeIdFk() {
-        return committeeIdFk;
-    }
-
-    public void setCommitteeIdFk(Long committeeIdFk) {
-        this.committeeIdFk = committeeIdFk;
-    }
-
-    public String getCommitteeId() {
-        return committeeId;
-    }
-
-    public void setCommitteeId(String committeeId) {
-        this.committeeId = committeeId;
     }
 
     public String getPersonId() {
@@ -158,14 +128,6 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
 
     public void setMembershipId(String membershipId) {
         this.membershipId = membershipId;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
     }
 
     public boolean getPaidMember() {
@@ -236,9 +198,6 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
 
     public void setMembershipRoles(List<CommitteeMembershipRole> membershipRoles) {
         this.membershipRoles = membershipRoles;
-        for (CommitteeMembershipRole role : membershipRoles) {
-            role.init(this);
-        }
     }
 
     public List<CommitteeMembershipRole> getMembershipRoles() {
@@ -247,9 +206,6 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
 
     public void setMembershipExpertise(List<CommitteeMembershipExpertise> committeeMembershipExpertise) {
         this.membershipExpertise = committeeMembershipExpertise;
-        for (CommitteeMembershipExpertise expertise : committeeMembershipExpertise) {
-            expertise.init(this);
-        }
     }
 
     public List<CommitteeMembershipExpertise> getMembershipExpertise() {
@@ -300,10 +256,10 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
             return false;
         }
         CommitteeMembership committeeMembership = (CommitteeMembership) obj;
-        if (this.committeeIdFk != null && this.committeeIdFk.equals(committeeMembership.committeeIdFk)
-                && (this.personId != null && this.personId.equals(committeeMembership.personId) 
-                        || this.rolodexId != null && this.rolodexId.equals(committeeMembership.rolodexId))
-                && (this.termStartDate != null && this.termStartDate.equals(committeeMembership.termStartDate))) {
+        if (this.getCommitteeIdFk() != null && this.getCommitteeIdFk().equals(committeeMembership.getCommitteeIdFk())
+                && (this.getPersonId() != null && this.getPersonId().equals(committeeMembership.getPersonId()) 
+                        || this.getRolodexId() != null && this.getRolodexId().equals(committeeMembership.getRolodexId()))
+                && (this.getTermStartDate() != null && this.getTermStartDate().equals(committeeMembership.getTermStartDate()))) {
             return true;
         }
         else {
@@ -315,24 +271,21 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + (this.committeeIdFk == null ? 0 : this.committeeIdFk.hashCode());
-        result = PRIME * result + (this.personId == null ? 0 : this.personId.hashCode());
-        result = PRIME * result + (this.rolodexId == null ? 0 : this.rolodexId.hashCode());
-        result = PRIME * result + (this.termStartDate == null ? 0 : this.termStartDate.hashCode());
+        result = PRIME * result + (this.getCommitteeIdFk() == null ? 0 : this.getCommitteeIdFk().hashCode());
+        result = PRIME * result + (this.getPersonId() == null ? 0 : this.getPersonId().hashCode());
+        result = PRIME * result + (this.getRolodexId() == null ? 0 : this.getRolodexId().hashCode());
+        result = PRIME * result + (this.getTermStartDate() == null ? 0 : this.getTermStartDate().hashCode());
         return result;
     }
 
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
         hashMap.put("committeeMembershipId", getCommitteeMembershipId());
-        hashMap.put("committeeIdFk", getCommitteeIdFk());
-        hashMap.put("committeeId", getCommitteeId());
         hashMap.put("personId", getPersonId());
         hashMap.put("rolodexId", getRolodexId());
         hashMap.put("personName", getPersonName());
         hashMap.put("membershipId", getMembershipId());
-        hashMap.put("sequenceNumber", getSequenceNumber());
         hashMap.put("paidMember", getPaidMember());
         hashMap.put("termStartDate", getTermStartDate());
         hashMap.put("termEndDate", getTermEndDate());
@@ -368,20 +321,12 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase implem
     public boolean isSamePerson(CommitteeMembership committeeMembership) {
         boolean isEquals = false;
 
-        if (this.personId != null && this.personId.equals(committeeMembership.personId) || this.rolodexId != null
-                && this.rolodexId.equals(committeeMembership.rolodexId)) {
+        if (this.getPersonId() != null && this.getPersonId().equals(committeeMembership.getPersonId()) 
+                || this.getRolodexId() != null && this.getRolodexId().equals(committeeMembership.getRolodexId())) {
             isEquals = true;
         }
 
         return isEquals;
-    }
-
-    public SequenceOwner getSequenceOwner() {
-        return this.sequenceOwner;
-    }
-
-    public void setSequenceOwner(SequenceOwner newOwner) {
-        this.sequenceOwner = newOwner;
     }
 
     public void resetPersistenceState() {
