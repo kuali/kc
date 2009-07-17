@@ -35,8 +35,11 @@
                 <ref bean="InstitutionalProposalNotepad-proposalNumber" />
                 <ref bean="InstitutionalProposalNotepad-entryNumber" />
                 <ref bean="InstitutionalProposalNotepad-comments" />
+                <ref bean="InstitutionalProposalNotepad-noteTopic" />
                 <ref bean="InstitutionalProposalNotepad-restrictedView" />
                 <ref bean="InstitutionalProposalNotepad-versionNumber" />
+                <ref bean="InstitutionalProposalNotepad-updateUser" />
+				<ref bean="InstitutionalProposalNotepad-updateTimestamp" />
             </list>
         </property>
     </bean>
@@ -96,13 +99,33 @@
         <property name="summary" value="Entry Number" />
         <property name="description" value="Entry Number" />
     </bean>
+    
+     <bean id="InstitutionalProposalNotepad-noteTopic" parent="InstitutionalProposalNotepad-noteTopic-parentBean" />
+    <bean id="InstitutionalProposalNotepad-noteTopic-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="noteTopic" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Note Topic" />
+        <property name="shortLabel" value="Note Topic" />
+        <property name="maxLength" value="60" />
+        <property name="required" value="true" />
+        <property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="25" />
+        </property>
+        <property name="summary" value="Comments" />
+        <property name="description" value="Comments" />
+    </bean>
 
     <bean id="InstitutionalProposalNotepad-comments" parent="InstitutionalProposalNotepad-comments-parentBean" />
     <bean id="InstitutionalProposalNotepad-comments-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="comments" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Comments" />
-        <property name="shortLabel" value="Comments" />
+        <property name="shortLabel" value="Note Text" />
         <property name="maxLength" value="4000" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -110,7 +133,7 @@
         <property name="control" >
             <bean parent="TextareaControlDefinition"
                 p:rows="3"
-                p:cols="20" />
+                p:cols="100" />
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
@@ -120,10 +143,32 @@
     <bean id="InstitutionalProposalNotepad-restrictedView-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
         <property name="name" value="restrictedView" />
         <property name="label" value="Restricted View" />
-        <property name="shortLabel" value="Restricted View" />
+        <property name="shortLabel" value="Restricted?" />
         <property name="summary" value="Restricted View" />
         <property name="description" value="Restricted View" />
     </bean>
+    
+    <bean id="InstitutionalProposalNotepad-updateUser" parent="InstitutionalProposalNotepad-updateUser-parentBean" />
+	<bean id="InstitutionalProposalNotepad-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
+		<property name="name" value="updateUser" />
+		<property name="label" value="Updated By" />
+		<property name="shortLabel" value="Author" />
+		<property name="maxLength" value="60" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+	</bean>
+	
+	<bean id="InstitutionalProposalNotepad-updateTimestamp" parent="InstitutionalProposalNotepad-updateTimestamp-parentBean" />
+	<bean id="InstitutionalProposalNotepad-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp" >
+		<property name="name" value="updateTimestamp" />
+		<property name="label" value="Last Update" />
+		<property name="shortLabel" value="Posted Timestamp" />
+	</bean>
 
     <bean id="InstitutionalProposalNotepad-versionNumber" parent="InstitutionalProposalNotepad-versionNumber-parentBean" />
     <bean id="InstitutionalProposalNotepad-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
