@@ -36,6 +36,8 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -57,6 +59,9 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  */
 public class OjbRepositoryMappingTest {
+    
+    private static final Log LOG = LogFactory.getLog(OjbRepositoryMappingTest.class);
+    
     private static final String TEST_CONFIG_FILE_PATH = "%s/kuali/test/dev/kra-test-config.xml";
     
     // For XML parsing and validation
@@ -126,9 +131,9 @@ public class OjbRepositoryMappingTest {
         dsDriver = configFileParms.get(DATASOURCE_DRIVER_NAME);
         dsSchema = StringUtils.upperCase(dsUser);
         
-        System.err.printf("dsUrl = %s\n", dsUrl);
-        System.err.printf("dsUser = %s\n", dsUser);
-        System.err.printf("dsSchema = %s\n", dsSchema);
+        LOG.debug(String.format("dsUrl = %s\n", dsUrl));
+        LOG.debug(String.format("dsUser = %s\n", dsUser));
+        LOG.debug(String.format("dsSchema = %s\n", dsSchema));
     }
 
     /**
@@ -192,10 +197,10 @@ public class OjbRepositoryMappingTest {
         final Connection conn = DriverManager.getConnection(dsUrl, dsUser, dsPass);
         final DefaultHandler handler = new TableValidationHandler(conn);
 
-        System.err.printf("Starting XML validation");
+        LOG.debug(String.format("Starting XML validation"));
         final URL repositoryUrl = getClass().getClassLoader().getResource(repositoryFilePath);
 
-        System.err.printf("Found repository url %s\n", repositoryUrl);
+        LOG.debug(String.format("Found repository url %s\n", repositoryUrl));
 
         final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         saxParserFactory.setValidating(true);
@@ -227,7 +232,7 @@ public class OjbRepositoryMappingTest {
         final DefaultHandler handler = new ClassValidationHandler();
 
         final URL repositoryUrl = getClass().getClassLoader().getResource(repositoryFilePath);
-        System.err.printf("Found repository url %s\n", repositoryUrl);
+        LOG.debug(String.format("Found repository url %s\n", repositoryUrl));
 
         final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         saxParserFactory.setValidating(true);
@@ -286,7 +291,7 @@ public class OjbRepositoryMappingTest {
 
                 try {
                     setCurrentMappedClass(Class.forName(attributes.getValue(CLASS_ATTRIBUTE_NAME)));
-                    System.err.printf("Parsing %s for %s\n", CLASS_DESCRIPTOR_NAME, getCurrentMappedClass().getSimpleName());
+                    LOG.debug(String.format("Parsing %s for %s\n", CLASS_DESCRIPTOR_NAME, getCurrentMappedClass().getSimpleName()));
                 }
                 catch (Exception e) {
                     throw createSaxParseException("There is no class named " + attributes.getValue(CLASS_ATTRIBUTE_NAME), e);
@@ -568,7 +573,7 @@ public class OjbRepositoryMappingTest {
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXParseException {
             if (CLASS_DESCRIPTOR_NAME.equals(qName)) {
                 setCurrentTableName(attributes.getValue(TABLE_ATTRIBUTE_NAME));
-                // System.err.printf("Looking for table " + getCurrentTableName());
+                // LOG.debug(String.format("Looking for table " + getCurrentTableName());
                 ResultSet results = null;
                 try {
                     results = getConnection().getMetaData().getTables(null, dsSchema, getCurrentTableName(),
@@ -583,11 +588,11 @@ public class OjbRepositoryMappingTest {
                     }
 
                     if (!found) {
-                        System.err.printf(TABLE_NOT_FOUND_MESSAGE, attributes.getValue(TABLE_ATTRIBUTE_NAME));
+                        LOG.debug(String.format(TABLE_NOT_FOUND_MESSAGE, attributes.getValue(TABLE_ATTRIBUTE_NAME)));
                         throw createSaxParseException(TABLE_NOT_FOUND_MESSAGE, attributes.getValue(TABLE_ATTRIBUTE_NAME));
                     }
                     else {
-                        System.err.printf("Found table %s\n", getCurrentTableName());
+                        LOG.debug(String.format("Found table %s\n", getCurrentTableName()));
                     }
                 }
                 catch (Exception e) {
@@ -625,7 +630,7 @@ public class OjbRepositoryMappingTest {
                     String columnNameResult = null;
                     while (results.next() && !found) {
                         columnNameResult = results.getString("COLUMN_NAME");
-                        System.err.printf("Comparing %s to %s in table %s\n", columnName, columnNameResult, getCurrentTableName());
+                        LOG.debug(String.format("Comparing %s to %s in table %s\n", columnName, columnNameResult, getCurrentTableName()));
                         if (columnName.equals(columnNameResult)) {
                             found = true;
                         }
@@ -706,7 +711,7 @@ public class OjbRepositoryMappingTest {
      * @throws SAXException
      */
     private void validateXml(String repositoryFilePath) throws ParserConfigurationException, SAXException {
-        System.err.printf("Starting XML validation");        
+        LOG.debug(String.format("Starting XML validation"));        
         SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         saxParserFactory.setValidating(true);
         saxParserFactory.setNamespaceAware(false);
