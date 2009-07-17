@@ -35,7 +35,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
  */
 @SuppressWarnings("serial")
 public class Committee extends KraPersistableBusinessObjectBase implements Comparable<Committee>,
-                                                                           SequenceOwner {
+                                                                           SequenceOwner<Committee> {
 
     @Id
     @Column(name = "ID")
@@ -351,11 +351,11 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
         sequenceNumber++;
     }
 
-    public SequenceOwner getSequenceOwner() {
+    public Committee getSequenceOwner() {
         return this;
     }
 
-    public void setSequenceOwner(SequenceOwner newOwner) {
+    public void setSequenceOwner(Committee newOwner) {
         // do nothing - this is root sequence association
     }
 
@@ -378,5 +378,5 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
             return this.getCommitteeId().compareTo(committee.getCommitteeId());
         }
     }
-
+    
 }
