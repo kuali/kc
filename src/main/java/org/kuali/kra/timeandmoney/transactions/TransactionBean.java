@@ -26,6 +26,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.springframework.util.StringUtils;
 
 /**
  * This class supports the TimeAndMoneyForm class
@@ -56,7 +57,7 @@ public class TransactionBean implements Serializable {
     public boolean addPendingTransactionItem() {
         AddTransactionRuleEvent event = generateAddEvent();
         boolean success = getRuleService().applyRules(event);
-        if(success){
+        if(success){            
             getTimeAndMoneyDocument().add(getNewPendingTransaction());
             init();
         }
