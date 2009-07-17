@@ -62,4 +62,7 @@
         </property>
     </bean>
     
+    <bean id="activePendingTransactionsService" class="org.kuali.kra.timeandmoney.service.impl.ActivePendingTransactionsServiceImpl">        
+    </bean>
+    
 </beans>

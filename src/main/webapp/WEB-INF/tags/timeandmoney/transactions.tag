@@ -17,7 +17,7 @@
 
 <c:set var="pendingTransactionAttributes" value="${DataDictionary.PendingTransaction.attributes}" />
 
-<kul:tab tabTitle="Transactions (${KualiForm.document.awardNumber})" defaultOpen="true" tabErrorKey="transactionBean.newPendingTransaction.*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Transactions (${KualiForm.document.awardNumber})" defaultOpen="false" tabErrorKey="transactionBean.newPendingTransaction.*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> Transaction</span>
@@ -55,8 +55,8 @@
                 	</div>
 				</td>
                 <td align="left" valign="middle" class="infoline">
-                	<div align="center">
-                	<kul:htmlControlAttribute property="transactionBean.newPendingTransaction.sourceAwardNumber" attributeEntry="${pendingTransactionAttributes.sourceAwardNumber}" />                	
+                	<div align="center">                	
+                	<kul:htmlControlAttribute property="transactionBean.newPendingTransaction.sourceAwardNumber" attributeEntry="${pendingTransactionAttributes.sourceAwardNumber}" />     	
                 	</div>
 				</td>                
                 <td align="left" valign="middle" class="infoline">
@@ -100,8 +100,15 @@
 					</div>
 				  </td>
                   <td align="left" valign="middle">
-					<div align="center">
-                		<kul:htmlControlAttribute property="document.pendingTransactions[${status.index}].sourceAwardNumber" attributeEntry="${pendingTransactionAttributes.sourceAwardNumber}"  readOnly="true" />
+					<div align="center">                		
+                	<c:choose>
+                		<c:when test="${KualiForm.document.pendingTransactions[status.index].sourceAwardNumber == '000000-00000'}" >
+                			<c:out value = "External" />
+                		</c:when>
+                		<c:otherwise>
+                			<kul:htmlControlAttribute property="document.pendingTransactions[${status.index}].sourceAwardNumber" attributeEntry="${pendingTransactionAttributes.sourceAwardNumber}"  readOnly="true" />
+                		</c:otherwise>
+                	</c:choose>	                		
 					</div>
 				  </td>
                   <td align="left" valign="middle">
@@ -128,11 +135,15 @@
 						</div>
 					</c:if>
                   </td>
-
 	            </tr>
-        	</c:forEach> 
-            <%-- Existing data --%>
+        	</c:forEach>
+        	<%-- Existing data --%>
         </table>
+        <br></br>
+        <div align='center' >
+	            	<html:image property="methodToCall.approveTransactions.anchor${tabKey}"
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-approve.gif' styleClass="tinybutton" alt="Approve"/>
+		</div> 
 
     </div>
 </kul:tab>

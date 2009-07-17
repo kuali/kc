@@ -15,19 +15,30 @@
  */
 package org.kuali.kra.timeandmoney.web.struts.action;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
@@ -39,11 +50,32 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         ActionForward forward = handleDocument(mapping, form, request, response, timeAndMoneyForm);
         timeAndMoneyForm.initializeFormOrDocumentBasedOnCommand();        
         timeAndMoneyForm.getTimeAndMoneyDocument().setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(timeAndMoneyForm.getTimeAndMoneyDocument().getAwardNumber()));
+        
+        setupHierachyNodes(timeAndMoneyForm.getTimeAndMoneyDocument());
+        
         return forward;
     }
     
     public AwardHierarchyService getAwardHierarchyService(){        
         return (AwardHierarchyService) KraServiceLocator.getService(AwardHierarchyService.class);
+    }
+    
+    protected void setupHierachyNodes(TimeAndMoneyDocument timeAndMoneyDocument){
+        AwardHierarchyNode awardHierarchyNode;
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        
+        for(Entry<String, AwardHierarchy> awardHierarchy:timeAndMoneyDocument.getAwardHierarchyItems().entrySet()){
+            awardHierarchyNode = new AwardHierarchyNode();
+            awardHierarchyNode.setAwardNumber(awardHierarchy.getValue().getAwardNumber());
+            awardHierarchyNode.setParentAwardNumber(awardHierarchy.getValue().getParentAwardNumber());
+            awardHierarchyNode.setRootAwardNumber(awardHierarchy.getValue().getRootAwardNumber());
+            fieldValues.put("awardNumber", awardHierarchy.getValue().getAwardNumber());
+            List<Award> awardList = (List<Award>) businessObjectService.findMatching(Award.class, fieldValues);
+            awardHierarchyNode.setFinalExpirationDate(awardList.get(0).getProjectEndDate());
+            
+            timeAndMoneyDocument.getAwardHierarchyNodes().put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
+        }
     }
     
     /**
@@ -84,6 +116,18 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         
         ((TimeAndMoneyForm) form).getTransactionBean().deletePendingTransactionItem(getLineToDelete(request));
         return mapping.findForward("basic");        
+    }
+    
+    public ActionForward approveTransactions(ActionMapping mapping, ActionForm form , HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        
+        getActivePendingTransactionsService().approveTransactions();
+        
+        return mapping.findForward("basic");
+    }
+    
+    protected ActivePendingTransactionsService getActivePendingTransactionsService(){
+        return (ActivePendingTransactionsService) KraServiceLocator.getService(ActivePendingTransactionsService.class);
     }
     
     /**
