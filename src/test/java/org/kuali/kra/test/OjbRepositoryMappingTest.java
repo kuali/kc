@@ -26,6 +26,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -34,8 +35,6 @@ import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-import oracle.jdbc.pool.OracleDataSource;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.After;
@@ -81,6 +80,7 @@ public class OjbRepositoryMappingTest {
     private static final String DATASOURCE_URL_NAME = "datasource.url";
     private static final String DATASOURCE_USERNAME_NAME = "datasource.username";
     private static final String DATASOURCE_PASSWORD_NAME = "datasource.password";
+    private static final String DATASOURCE_DRIVER_NAME = "datasource.driver.name";
     
     private static final String[] repositoryFiles = { "repository.xml", 
                                                         "org/kuali/kra/award/repository-award.xml",  
@@ -95,6 +95,7 @@ public class OjbRepositoryMappingTest {
     private String dsUser;
     private String dsPass;
     private String dsSchema;
+    private String dsDriver;
 
     @BeforeClass
     public static void loadParms() throws Exception {
@@ -123,6 +124,8 @@ public class OjbRepositoryMappingTest {
         dsUrl = configFileParms.get(DATASOURCE_URL_NAME);
         dsUser = configFileParms.get(DATASOURCE_USERNAME_NAME);
         dsPass =  configFileParms.get(DATASOURCE_PASSWORD_NAME);
+        dsDriver = configFileParms.get(DATASOURCE_DRIVER_NAME);
+        dsSchema = dsUser;
         
         debug("dsUrl = %s", dsUrl);
         debug("dsUser = %s", dsUser);
@@ -137,6 +140,8 @@ public class OjbRepositoryMappingTest {
         dsUrl = null;
         dsUser = null;
         dsPass =  null;
+        dsSchema = null;
+        dsDriver = null;
     }
 
     /**
@@ -179,14 +184,13 @@ public class OjbRepositoryMappingTest {
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws IOException
+     * @throws ClassNotFoundException 
      */
-    private void verifyTableForRepository(String repositoryFilePath) throws SQLException, ParserConfigurationException, SAXException, IOException {
-        final OracleDataSource ods = new OracleDataSource();
-        ods.setURL(dsUrl);
-        ods.setUser(dsUser);
-        ods.setPassword(dsPass);
-
-        final Connection conn = ods.getConnection();
+    private void verifyTableForRepository(String repositoryFilePath) throws SQLException, ParserConfigurationException, SAXException, IOException, ClassNotFoundException {
+        
+        //loading the driver class so that DriverManager can find it
+        Class.forName(dsDriver);
+        final Connection conn = DriverManager.getConnection(dsUrl, dsUser, dsPass);
         final DefaultHandler handler = new TableValidationHandler(conn);
 
         info("Starting XML validation");
@@ -261,6 +265,7 @@ public class OjbRepositoryMappingTest {
          * @see org.xml.sax.helpers.DefaultHandler#setDocumentLocator(org.xml.sax.Locator)
          * @see org.xml.sax.SAXParseException
          */
+        @Override
         public void setDocumentLocator(Locator locator) {
             super.setDocumentLocator(locator);
             this.locator = locator;
@@ -270,6 +275,7 @@ public class OjbRepositoryMappingTest {
          * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String, java.lang.String, java.lang.String,
          *      org.xml.sax.Attributes)
          */
+        @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXParseException {
             if (CLASS_DESCRIPTOR_NAME.equals(qName)) {
                 if (fieldIdMap == null) {
@@ -549,6 +555,7 @@ public class OjbRepositoryMappingTest {
          * @see org.xml.sax.helpers.DefaultHandler#setDocumentLocator(org.xml.sax.Locator)
          * @see org.xml.sax.SAXParseException
          */
+        @Override
         public void setDocumentLocator(Locator locator) {
             super.setDocumentLocator(locator);
             this.locator = locator;
@@ -558,6 +565,7 @@ public class OjbRepositoryMappingTest {
          * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String, java.lang.String, java.lang.String,
          *      org.xml.sax.Attributes)
          */
+        @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXParseException {
             if (CLASS_DESCRIPTOR_NAME.equals(qName)) {
                 setCurrentTableName(attributes.getValue(TABLE_ATTRIBUTE_NAME));
