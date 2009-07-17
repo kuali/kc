@@ -15,7 +15,96 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<c:set var="institutionalProposalNotesAttributes" value="${DataDictionary.InstitutionalProposalNotepad.attributes}" />
 
-<kul:tab tabTitle="Notes" defaultOpen="false" tabErrorKey="">
-	Under construction
+<c:set var="tabItemCount" value="0" />
+<c:forEach var="institutionalProposalNotepad" items="${KualiForm.document.institutionalProposal.institutionalProposalNotepads}" varStatus="status">               
+        <c:set var="tabItemCount" value="${tabItemCount+1}" />
+</c:forEach>
+
+
+<kul:tab tabTitle="Notes" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="">
+	<div class="tab-container" align="center">
+    	<h3>
+    		<span class="subhead-left">Notes</span>
+        </h3>
+        <table id="cost-share-table" cellpadding="0" cellspacing="0" summary="Cost Share">
+			<tr>
+				<th scope="row">&nbsp;</th>
+				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.updateTimestamp}" useShortLabel="true" noColon="true" /></th>
+				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.updateUser}" useShortLabel="true" noColon="true" /></th>
+				<th align="left"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.noteTopic}" useShortLabel="true" noColon="true"/></th>
+				<th align="left"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.comments}" useShortLabel="true" noColon="true"/></th>
+				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.restrictedView}" useShortLabel="true" noColon="true"/></th>
+				<th><div align="center">Actions</div></th>
+			</tr>
+			
+			<tr>
+            	<th width="40" align="center" scope="row"><div align="center">Add:</div></th>
+            	<td width="80" class="infoline">
+            		&nbsp;           	
+            	</td>
+	            <td width="50" class="infoline">
+	              	&nbsp;
+	            </td>
+	            <td width="150" class="infoline">
+	            	<div align="center">
+            	    	<kul:htmlControlAttribute property="institutionalProposalNotepadBean.newInstitutionalProposalNotepad.noteTopic" attributeEntry="${institutionalProposalNotesAttributes.noteTopic}"/>
+            	  	</div>
+	            </td>
+	            <td width="1000" class="infoline">
+	            	<div align="left">
+            	    	<kul:htmlControlAttribute property="institutionalProposalNotepadBean.newInstitutionalProposalNotepad.comments" attributeEntry="${institutionalProposalNotesAttributes.comments}"/>
+            	    	<kra:expandedTextArea textAreaFieldName="institutionalProposalNotepadBean.newInstitutionalProposalNotepad.comments" action="institutionalProposalHome" textAreaLabel="${institutionalProposalNotesAttributes.comments.label}" />
+            	    	
+            	  	</div>
+	            </td>
+	            <td class="infoline">
+	            	<div align="center">
+            	   	 	<kul:htmlControlAttribute property="institutionalProposalNotepadBean.newInstitutionalProposalNotepad.restrictedView" attributeEntry="${institutionalProposalNotesAttributes.restrictedView}"/>
+            	  	</div>
+	            </td>
+	            <td class="infoline">
+	            	<div align=center>
+						<html:image property="methodToCall.addNote.anchor${tabKey}"
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+					</div>
+	            </td>
+          	</tr>
+         <c:forEach var="institutionalProposalNotepad" items="${KualiForm.document.institutionalProposal.institutionalProposalNotepads}" varStatus="status">
+	             <tr>
+					<th class="infoline">
+						<c:out value="${status.index+1}" />
+					</th>
+	                <td valign="middle">
+						${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].updateTimestamp}&nbsp;
+					</td>
+	                <td valign="middle">
+						${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].updateUser}&nbsp;
+	                </td>
+	                <td valign="middle">                	
+					<div align="center">
+                  		<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalNotepads[${status.index}].noteTopic" attributeEntry="${institutionalProposalNotesAttributes.noteTopic}"/> 
+					</div>
+					</td>
+	                <td valign="middle">                	
+					<div align="left">
+                  		<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalNotepads[${status.index}].comments" attributeEntry="${institutionalProposalNotesAttributes.comments}"/> 
+					</div>
+					</td>
+	                <td valign="middle">
+					<div align="center">
+	                	<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalNotepads[${status.index}].restrictedView" attributeEntry="${institutionalProposalNotesAttributes.restrictedView}"/>
+					</div>
+	                </td>
+					<td>
+					<div align="center">&nbsp;
+						<html:image property="methodToCall.deleteCostShare.line${status.index}.anchor${currentTabIndex}"
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+					</div>
+	                </td>
+	            </tr>
+        	</c:forEach> 
+        </table>
+   </div>
 </kul:tab>

@@ -26,6 +26,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataFormHelper;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
@@ -46,6 +47,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     private boolean auditActivated;
     
     private InstitutionalProposalCustomDataFormHelper institutionalProposalCustomDataFormHelper;
+    private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;
     
     /**
      * 
@@ -64,6 +66,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
      */
     public void initialize() {
         institutionalProposalCustomDataFormHelper = new InstitutionalProposalCustomDataFormHelper(this);
+        institutionalProposalNotepadBean = new InstitutionalProposalNotepadBean(this);
     }
     
     // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
@@ -127,6 +130,23 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
             InstitutionalProposalCustomDataFormHelper institutionalProposalCustomDataFormHelper) {
         this.institutionalProposalCustomDataFormHelper = institutionalProposalCustomDataFormHelper;
     }
+    
+    /**
+     * Gets the institutionalProposalNotepadBean attribute. 
+     * @return Returns the institutionalProposalNotepadBean.
+     */
+    public InstitutionalProposalNotepadBean getInstitutionalProposalNotepadBean() {
+        return institutionalProposalNotepadBean;
+    }
+
+    /**
+     * Sets the institutionalProposalNotepadBean attribute value.
+     * @param institutionalProposalNotepadBean The institutionalProposalNotepadBean to set.
+     */
+    public void setInstitutionalProposalNotepadBean(InstitutionalProposalNotepadBean institutionalProposalNotepadBean) {
+        this.institutionalProposalNotepadBean = institutionalProposalNotepadBean;
+    }
+
 
     public String getActionName() {
         return "institutionalProposal";

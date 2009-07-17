@@ -101,6 +101,9 @@
 		<collection-descriptor name="institutionalProposalCustomDataList" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
+		<collection-descriptor name="institutionalProposalNotepads" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="proposalId"/>
+		</collection-descriptor>
 		<!--
 		<collection-descriptor name="awardFundingProposals" proxy="true" element-class-ref="org.kuali.kra.bo.AwardFundingProposals" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
@@ -308,19 +311,22 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>	
 	-->
-	<!--
 	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad" table="PROPOSAL_NOTEPAD">
-		<field-descriptor name="proposalNotepadId" column="PROPOSAL_NOTEPAD_ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="proposalNotepadId" column="PROPOSAL_NOTEPAD_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_NOTEPAD_ID"/>
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT" access="anonymous"/>
 		<field-descriptor name="entryNumber" column="ENTRY_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="noteTopic" column="NOTE_TOPIC" jdbc-type="VARCHAR" />
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
 		<field-descriptor name="restrictedView" column="RESTRICTED_VIEW" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="proposalId"/>
+		</reference-descriptor>
 	</class-descriptor>
-	-->
 	<!--					
 	<class-descriptor class="org.kuali.kra.institutionalproposal.personnel.InstitutionalProposalPersonCreditSplit" table="PROPOSAL_PER_CREDIT_SPLIT">
 		<field-descriptor name="proposalPerCreditSplitId" column="PROPOSAL_PER_CREDIT_SPLIT_ID" jdbc-type="INTEGER" primarykey="true" />
