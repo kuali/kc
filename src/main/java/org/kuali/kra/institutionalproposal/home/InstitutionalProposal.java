@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
@@ -102,6 +103,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     private IntellectualPropertyReview intellectualPropertyReview;
     
     private List<InstitutionalProposalCustomData> institutionalProposalCustomDataList;
+    private List<InstitutionalProposalNotepad> institutionalProposalNotepads;
 
     public InstitutionalProposal() { 
         super();
@@ -148,11 +150,39 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     }
     
     /**
+     * This method...
+     * @param institutionaProposalNotepad
+     */
+    public void add(InstitutionalProposalNotepad institutionalProposalNotepad) {
+        institutionalProposalNotepad.setEntryNumber(institutionalProposalNotepads.size() + 1);
+        institutionalProposalNotepads.add(institutionalProposalNotepad);
+        institutionalProposalNotepad.setInstitutionalProposal(this);
+    }
+    
+    /**
      * Gets the institutionalProposalCustomDataList attribute. 
      * @return Returns the institutionalProposalCustomDataList.
      */
     public List<InstitutionalProposalCustomData> getInstitutionalProposalCustomDataList() {
         return institutionalProposalCustomDataList;
+    }
+    
+    
+
+    /**
+     * Gets the institutionalProposalNotepads attribute. 
+     * @return Returns the institutionalProposalNotepads.
+     */
+    public List<InstitutionalProposalNotepad> getInstitutionalProposalNotepads() {
+        return institutionalProposalNotepads;
+    }
+
+    /**
+     * Sets the institutionalProposalNotepads attribute value.
+     * @param institutionalProposalNotepads The institutionalProposalNotepads to set.
+     */
+    public void setInstitutionalProposalNotepads(List<InstitutionalProposalNotepad> institutionalProposalNotepads) {
+        this.institutionalProposalNotepads = institutionalProposalNotepads;
     }
 
     /**
@@ -165,6 +195,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     
     protected void initializeCollections() {
         institutionalProposalCustomDataList = new ArrayList<InstitutionalProposalCustomData>();
+        institutionalProposalNotepads = new ArrayList<InstitutionalProposalNotepad>();
     }
     
     public Long getProposalId() {
