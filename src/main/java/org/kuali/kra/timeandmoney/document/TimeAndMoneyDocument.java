@@ -156,7 +156,7 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
         this.pendingTransactions = pendingTransactions;
     }
     
-    public void add(PendingTransaction newPendingTransaction){
+    public void add(PendingTransaction newPendingTransaction){        
         this.getPendingTransactions().add(newPendingTransaction);
     }
 

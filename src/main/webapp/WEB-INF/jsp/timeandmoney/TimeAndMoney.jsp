@@ -29,7 +29,7 @@ This is the Time and Money Page - Under Construction
 
 <div align="right"><kul:help documentTypeName="TimeAndMoneyDocument" pageName="Time and Money" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
-<kra-timeandmoney:awardHierarchy />
+<kra-timeandmoney:awardHierarchyTimeAndMoney />
 <kra-timeandmoney:transactions />
 <kra-timeandmoney:summary />
 <kra-timeandmoney:actionSummary />

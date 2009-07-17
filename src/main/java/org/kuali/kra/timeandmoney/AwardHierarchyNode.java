@@ -31,8 +31,11 @@ public class AwardHierarchyNode extends AwardHierarchy {
     private KualiDecimal amountObligatedToDate; 
     private KualiDecimal obliDistributableAmount;
     
-    public AwardHierarchyNode() { 
-
+    public AwardHierarchyNode() {
+        anticipatedTotalAmount = new KualiDecimal("0");
+        antDistributableAmount = new KualiDecimal("0");
+        amountObligatedToDate = new KualiDecimal("0");
+        obliDistributableAmount = new KualiDecimal("0");
     }
 
     /** {@inheritDoc} */
