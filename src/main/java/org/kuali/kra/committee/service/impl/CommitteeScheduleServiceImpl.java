@@ -233,7 +233,6 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
             }
           
             CommitteeSchedule committeeSchedule = new CommitteeSchedule();
-            committeeSchedule.setCommitteeId(committee.getId());            
             committeeSchedule.setScheduledDate(sqldate);
             committeeSchedule.setPlace(location);
             committeeSchedule.setTime(new Timestamp(date.getTime()));

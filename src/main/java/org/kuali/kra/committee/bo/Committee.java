@@ -116,9 +116,6 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
 
     public void setCommitteeId(String committeeId) {
         this.committeeId = committeeId;
-        for (CommitteeResearchArea ra : committeeResearchAreas) {
-            ra.setCommitteeId(committeeId);
-        }
     }
 
     public Integer getSequenceNumber() {

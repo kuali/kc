@@ -117,7 +117,6 @@ public class CommitteeServiceImpl implements CommitteeService {
         CommitteeResearchArea committeeResearchArea = new CommitteeResearchArea();
         committeeResearchArea.setCommittee(committee);
         committeeResearchArea.setCommitteeIdFk(committee.getId());
-        committeeResearchArea.setCommitteeId(committee.getCommitteeId());
         committeeResearchArea.setResearchArea(researchArea);
         committeeResearchArea.setResearchAreaCode(researchArea.getResearchAreaCode());
         committee.getCommitteeResearchAreas().add(committeeResearchArea);

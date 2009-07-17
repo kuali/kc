@@ -39,7 +39,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     private static final String REFERENCE_MEMBERSHIP_ROLE = "membershipRole";
     private static final String REFERENCE_RESEARCH_AREA = "researchArea";
 
-    private BusinessObjectService businessObjectService;
+//    private BusinessObjectService businessObjectService;
     
     /**
      * Set the Business Object Service. Injected by the Spring Framework.
@@ -47,7 +47,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
      * @param businessObjectService the business object service
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+//        this.businessObjectService = businessObjectService;
     }
 
     /**
@@ -56,9 +56,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     public void addCommitteeMembership(Committee committee, CommitteeMembership committeeMembership) {
         
         committeeMembership.setCommitteeIdFk(committee.getId());
-        committeeMembership.setCommitteeId(committee.getCommitteeId());
         committeeMembership.setMembershipId("0");
-        committeeMembership.setSequenceNumber(0);
 
         if(!StringUtils.isBlank(committeeMembership.getPersonId())) {
             committeeMembership.refreshReferenceObject(REFERENCE_PERSON);
@@ -91,8 +89,6 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
         CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
         
         committeeMembershipRole.setCommitteeMembershipIdFk(committeeMembership.getCommitteeMembershipId());
-        committeeMembershipRole.setMembershipId(committeeMembership.getMembershipId());
-        committeeMembershipRole.setSequenceNumber(0);
 
         committeeMembershipRole.refreshReferenceObject(REFERENCE_MEMBERSHIP_ROLE);
         
@@ -116,8 +112,6 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
             CommitteeMembershipExpertise membershipExpertise = new CommitteeMembershipExpertise();
             membershipExpertise.setResearchAreaCode(researchArea.getResearchAreaCode());
             membershipExpertise.setCommitteeMembershipIdFk(committeeMembership.getCommitteeMembershipId());
-            membershipExpertise.setMembershipId(committeeMembership.getMembershipId());
-            membershipExpertise.setSequenceNumber(0);
 
             membershipExpertise.refreshReferenceObject(REFERENCE_RESEARCH_AREA);
             

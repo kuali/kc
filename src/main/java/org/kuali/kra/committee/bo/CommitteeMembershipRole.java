@@ -23,17 +23,17 @@ import javax.persistence.Id;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
- * This class implements the committee membership roles object.
+ * This class implements the committee membership role business object.
  * 
- * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase
-                                     implements SequenceAssociate {
+                                     implements SequenceAssociate<Committee> {
+
+    private static final long serialVersionUID = 6048477313137155626L;
 
     @Id
     @Column(name = "COMM_MEMBER_ROLES_ID")
@@ -41,12 +41,6 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase
 
     @Column(name = "COMM_MEMBERSHIP_ID_FK")
     private Long committeeMembershipIdFk;
-
-    @Column(name = "MEMBERSHIP_ID")
-    private String membershipId;
-
-    @Column(name = "SEQUENCE_NUMBER")
-    private Integer sequenceNumber;
 
     @Column(name = "MEMBERSHIP_ROLE_CODE")
     private String membershipRoleCode;
@@ -59,7 +53,7 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase
     
     private MembershipRole membershipRole;
     
-    private SequenceOwner sequenceOwner;
+    private Committee sequenceOwner;
 
     public CommitteeMembershipRole() {
     }
@@ -78,22 +72,6 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase
 
     public void setCommitteeMembershipIdFk(Long committeeMembershipIdFk) {
         this.committeeMembershipIdFk = committeeMembershipIdFk;
-    }
-
-    public String getMembershipId() {
-        return membershipId;
-    }
-
-    public void setMembershipId(String membershipId) {
-        this.membershipId = membershipId;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
     }
 
     public String getMembershipRoleCode() {
@@ -164,24 +142,22 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("committeeMembershipRoleId", getCommitteeMembershipRoleId());
         hashMap.put("committeeMembershipIdFk", getCommitteeMembershipIdFk());
-        hashMap.put("membershipId", getMembershipId());
-        hashMap.put("sequenceNumber", getSequenceNumber());
         hashMap.put("membershipRoleCode", getMembershipRoleCode());
         hashMap.put("startDate", getStartDate());
         hashMap.put("endDate", getEndDate());
         return hashMap;
     }
     
-    public void init(CommitteeMembership committeeMembership) {
-        setMembershipId(committeeMembership.getMembershipId());
-    }
-
-    public SequenceOwner getSequenceOwner() {
+    public Committee getSequenceOwner() {
         return this.sequenceOwner;
     }
 
-    public void setSequenceOwner(SequenceOwner newOwner) {
+    public void setSequenceOwner(Committee newOwner) {
         this.sequenceOwner = newOwner;
+    }
+
+    public Integer getSequenceNumber() {
+        return this.sequenceOwner.getSequenceNumber();
     }
 
     public void resetPersistenceState() {
