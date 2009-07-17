@@ -58,7 +58,7 @@ public class ProtocolAttachmentFile extends KraPersistableBusinessObjectBase {
      * @param type the type.
      * @param data the data.
      */
-    private ProtocolAttachmentFile(String name, String type, byte[] data) {
+    public ProtocolAttachmentFile(String name, String type, byte[] data) {
         this.setName(name);
         this.setType(type);
         this.setData(data);
