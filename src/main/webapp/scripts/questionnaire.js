@@ -55,7 +55,7 @@
      trtmp = $('<tr></tr>');
      var hsdiv = "#HSdiv"+i;
      thtmp = $('<th class="subelementheader" style="text-align:left;" colspan="3">').html("Response");
-     image = $('<img src="/kra-dev/kr/static/images/tinybutton-show.gif" alt="show/hide this panel" title="show/hide this panel"  style="width:45px; height:15px; border:none; cursor:pointer; padding:2px; vertical-align:middle;" />').attr("id","HScontrol"+i).toggle(
+     image = $('<img src="/kra-dev/kr/static/images/tinybutton-hide.gif" alt="show/hide this panel" title="show/hide this panel"  style="width:45px; height:15px; border:none; cursor:pointer; padding:2px; vertical-align:middle;" />').attr("id","HScontrol"+i).toggle(
                 function()
                 {
                     $(hsdiv).slideDown(400);
@@ -67,6 +67,7 @@
                     $(this).attr("src",jsContextPath+"/kr/static/images/tinybutton-show.gif");
                 }
      );
+     $(image).click();
      image.prependTo(thtmp);
      thtmp.appendTo(trtmp);
      trtmp.appendTo(tbl325);
@@ -758,18 +759,19 @@
      var thtmp = $('<th class="subelementheader" style="text-align:left;" colspan="3">');
      thtmp.html("Requirements for Display");
      var hsdiv = "#HSReqdiv"+i;
-     var image = $('<img src="/kra-dev/kr/images/tinybutton-show.gif" alt="show/hide this panel" title="show/hide this panel"  style="width:45px; height:15px; border:none; cursor:pointer; padding:2px; vertical-align:middle;" />').attr("id","HSReqcontrol"+i).toggle(
+     var image = $('<img src="kr/images/tinybutton-hide.gif" alt="show/hide this panel" title="show/hide this panel"  style="width:45px; height:15px; border:none; cursor:pointer; padding:2px; vertical-align:middle;" />').attr("id","HSReqcontrol"+i).toggle(
                 function()
                 {
                     $(hsdiv).slideDown(400);
-                    $(this).attr("src","/kra-dev/kr/static/images/tinybutton-hide.gif");
+                    $(this).attr("src","kr/static/images/tinybutton-hide.gif");
                 },
                 function()
                 {
                     $(hsdiv).slideUp(200);
-                    $(this).attr("src","/kra-dev/kr/static/images/tinybutton-show.gif");
+                    $(this).attr("src","kr/static/images/tinybutton-show.gif");
                 }
       );
+      $(image).click(); // if don't do this, then it needs to be clicked twice for first time.
       image.prependTo(thtmp);
       thtmp.appendTo(trtmp);
       trtmp.appendTo(tbl154);
