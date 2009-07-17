@@ -27,7 +27,7 @@
 	<class-descriptor class="org.kuali.kra.committee.bo.CommitteeSchedule" table="COMM_SCHEDULE">
 	    <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMM_SCHEDULE_ID" autoincrement="true"/>
 		<field-descriptor name="scheduleId" column="SCHEDULE_ID" jdbc-type="VARCHAR" sequence-name="SEQ_COMM_SCHEDULE_ID" autoincrement="true"/>
-		<field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="committeeIdFk" column="COMMITTEE_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="scheduledDate" column="SCHEDULED_DATE" jdbc-type="DATE" />
 		<field-descriptor name="place" column="PLACE" jdbc-type="VARCHAR" />
 		<field-descriptor name="time" column="TIME" jdbc-type="TIMESTAMP" />
@@ -139,7 +139,7 @@
    		</collection-descriptor>
    		
    		<collection-descriptor name="committeeSchedules" element-class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="committeeId" />
+			<inverse-foreignkey field-ref="committeeIdFk" />
 		</collection-descriptor>  
 		
 		<collection-descriptor name="committeeResearchAreas" element-class-ref="org.kuali.kra.committee.bo.CommitteeResearchArea" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -150,12 +150,10 @@
 	<class-descriptor class="org.kuali.kra.committee.bo.CommitteeMembership" table="COMM_MEMBERSHIPS">
         <field-descriptor name="committeeMembershipId" column="COMM_MEMBERSHIP_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
         <field-descriptor name="committeeIdFk" column="COMMITTEE_ID_FK" jdbc-type="BIGINT" />
-        <field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
         <field-descriptor name="personName" column="PERSON_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="membershipId" column="MEMBERSHIP_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="paidMember" column="PAID_MEMBER_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
         <field-descriptor name="termStartDate" column="TERM_START_DATE" jdbc-type="DATE" />
         <field-descriptor name="termEndDate" column="TERM_END_DATE" jdbc-type="DATE" />
@@ -192,8 +190,6 @@
     <class-descriptor class="org.kuali.kra.committee.bo.CommitteeMembershipRole" table="COMM_MEMBER_ROLES">
         <field-descriptor name="committeeMembershipRoleId" column="COMM_MEMBER_ROLES_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
         <field-descriptor name="committeeMembershipIdFk" column="COMM_MEMBERSHIP_ID_FK" jdbc-type="BIGINT" />
-        <field-descriptor name="membershipId" column="MEMBERSHIP_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="membershipRoleCode" column="MEMBERSHIP_ROLE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" />
         <field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE" />
@@ -210,8 +206,6 @@
     <class-descriptor class="org.kuali.kra.committee.bo.CommitteeMembershipExpertise" table="COMM_MEMBER_EXPERTISE">
         <field-descriptor name="committeeMembershipExpertiseId" column="COMM_MEMBER_EXPERTISE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
         <field-descriptor name="committeeMembershipIdFk" column="COMM_MEMBERSHIP_ID_FK" jdbc-type="BIGINT" />
-        <field-descriptor name="membershipId" column="MEMBERSHIP_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="researchAreaCode" column="RESEARCH_AREA_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -226,7 +220,6 @@
     <class-descriptor class="org.kuali.kra.committee.bo.CommitteeResearchArea" table="COMM_RESEARCH_AREAS">
 		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMM_RESEARCH_AREAS_ID" autoincrement="true"/>
 		<field-descriptor name="committeeIdFk" column="COMMITTEE_ID_FK" jdbc-type="BIGINT"/>
-	    <field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="researchAreaCode" column="RESEARCH_AREA_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />

@@ -33,7 +33,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.web.struts.form.schedule.DayOfWeek;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.irb.Protocol;
@@ -43,7 +42,7 @@ import org.kuali.kra.irb.Protocol;
  */
 @Entity 
 @Table(name="COMM_SCHEDULE")
-public class CommitteeSchedule extends KraPersistableBusinessObjectBase { 
+public class CommitteeSchedule extends CommitteeAssociate { 
     
     private static final long serialVersionUID = -360139608123017188L;
     
@@ -65,9 +64,6 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
 
     @Column(name="SCHEDULE_ID")
     private String scheduleId; 
-    
-    @Column(name="COMMITTEE_ID")
-    private Long committeeId;
     
     @Column(name="SCHEDULED_DATE")
     private Date scheduledDate;
@@ -134,14 +130,6 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
 
 	public void setScheduleId(String scheduleId) {
 		this.scheduleId = scheduleId;
-	}
-
-	public Long getCommitteeId() {
-		return committeeId;
-	}
-
-	public void setCommitteeId(Long committeeId) {
-		this.committeeId = committeeId;
 	}
 
 	public Date getScheduledDate() {
@@ -349,13 +337,39 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
         this.selected = selected;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+        CommitteeSchedule committeeSchedule = (CommitteeSchedule) obj;
+        if (this.getId() != null && this.getId().equals(committeeSchedule.getId())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + (this.getId() == null ? 0 : this.getId().hashCode());
+        return result;     
+    }
+    
     @SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
+		LinkedHashMap hashMap = super.toStringMapper();
 		hashMap.put("id", getId());
 		hashMap.put("scheduleId", getScheduleId());
-		hashMap.put("committeeId", getCommitteeId());
 		hashMap.put("scheduledDate", getScheduledDate());
 		hashMap.put("place", getPlace());
 		hashMap.put("time", getTime());
@@ -370,4 +384,8 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
 		return hashMap;
 	}
 	
+    public void resetPersistenceState() {
+        setId(null);
+    }
+
 }

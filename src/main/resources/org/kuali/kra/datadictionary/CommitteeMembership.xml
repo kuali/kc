@@ -38,7 +38,6 @@
                 <ref bean="CommitteeMembership-rolodexId" />
                 <ref bean="CommitteeMembership-personName" />
                 <ref bean="CommitteeMembership-membershipId" />
-                <ref bean="CommitteeMembership-sequenceNumber" />
                 <ref bean="CommitteeMembership-paidMember" />
                 <ref bean="CommitteeMembership-termStartDate" />
                 <ref bean="CommitteeMembership-termEndDate" />
@@ -177,24 +176,6 @@
 		<property name="description" value="Membership Id" />
 	</bean>
 
-	<bean id="CommitteeMembership-sequenceNumber" parent="CommitteeMembership-sequenceNumber-parentBean" />
-	<bean id="CommitteeMembership-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="sequenceNumber" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Sequence Number" />
-		<property name="shortLabel" value="Sequence Number" />
-		<property name="maxLength" value="4" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="4" />
-		</property>
-		<property name="summary" value="Sequence Number" />
-		<property name="description" value="Sequence Number" />
-	</bean>
-
 	<bean id="CommitteeMembership-paidMember" parent="CommitteeMembership-paidMember-parentBean" />
 	<bean id="CommitteeMembership-paidMember-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
 		<property name="name" value="paidMember" />
@@ -280,11 +261,11 @@
 	<!-- Business Object Inquiry Definition -->
 	<bean id="CommitteeMembership-inquiryDefinition" parent="CommitteeMembership-inquiryDefinition-parentBean" />
 	<bean id="CommitteeMembership-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Committee Memberships Id Fk" />
+		<property name="title" value="Committee Memberships Id" />
 		<property name="inquirySections" >
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Committee Membership Id Fk" />
+					<property name="title" value="Committee Membership Id" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
@@ -303,8 +284,6 @@
                                 p:attributeName="personName" />
 							<bean parent="FieldDefinition"
 								p:attributeName="membershipId" />
-							<bean parent="FieldDefinition"
-								p:attributeName="sequenceNumber" />
 							<bean parent="FieldDefinition"
 								p:attributeName="paidMember" />
 							<bean parent="FieldDefinition"
@@ -354,8 +333,6 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="membershipId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="sequenceNumber" />
-				<bean parent="FieldDefinition"
 					p:attributeName="paidMember" />
 				<bean parent="FieldDefinition"
 					p:attributeName="termStartDate" />
@@ -388,8 +365,6 @@
                     p:attributeName="personName" />
 				<bean parent="FieldDefinition"
 					p:attributeName="membershipId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="sequenceNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="paidMember" />
 				<bean parent="FieldDefinition"
