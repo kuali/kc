@@ -17,28 +17,29 @@ package org.kuali.kra.institutionalproposal.home;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 
-public class InstitutionalProposalNotepad extends KraPersistableBusinessObjectBase { 
+public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate { 
     
     private static final long serialVersionUID = 1L;
 
-    private Integer proposalNotepadId; 
+    private Long proposalNotepadId; 
     private String proposalNumber; 
     private Integer entryNumber; 
     private String comments; 
+    private String noteTopic;
     private boolean restrictedView; 
-    
-    
+
     public InstitutionalProposalNotepad() { 
 
     } 
     
-    public Integer getProposalNotepadId() {
+    
+    public Long getProposalNotepadId() {
         return proposalNotepadId;
     }
 
-    public void setProposalNotepadId(Integer proposalNotepadId) {
+    public void setProposalNotepadId(Long proposalNotepadId) {
         this.proposalNotepadId = proposalNotepadId;
     }
 
@@ -73,6 +74,23 @@ public class InstitutionalProposalNotepad extends KraPersistableBusinessObjectBa
     public void setRestrictedView(boolean restrictedView) {
         this.restrictedView = restrictedView;
     }
+    
+
+    /**
+     * Gets the noteTopic attribute. 
+     * @return Returns the noteTopic.
+     */
+    public String getNoteTopic() {
+        return noteTopic;
+    }
+
+    /**
+     * Sets the noteTopic attribute value.
+     * @param noteTopic The noteTopic to set.
+     */
+    public void setNoteTopic(String noteTopic) {
+        this.noteTopic = noteTopic;
+    }
 
     /** {@inheritDoc} */
     @Override 
@@ -83,6 +101,7 @@ public class InstitutionalProposalNotepad extends KraPersistableBusinessObjectBa
         hashMap.put("entryNumber", this.getEntryNumber());
         hashMap.put("comments", this.getComments());
         hashMap.put("restrictedView", this.getRestrictedView());
+        hashMap.put("noteTopic", this.getNoteTopic());
         return hashMap;
     }
     

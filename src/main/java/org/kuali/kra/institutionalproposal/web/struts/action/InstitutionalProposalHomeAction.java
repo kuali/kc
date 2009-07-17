@@ -15,9 +15,42 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean;
+import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+
 /**
  * This class...
  */
 public class InstitutionalProposalHomeAction extends InstitutionalProposalAction {
 
+    private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;
+    
+    /**
+     * Constructs a InstitutionalProposalHomeAction.java.
+     */
+    public InstitutionalProposalHomeAction() {
+        institutionalProposalNotepadBean = new InstitutionalProposalNotepadBean();
+    }
+    /**
+     * This method is used to add a new Award Cost Share.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        institutionalProposalNotepadBean.addNote(((InstitutionalProposalForm) form).getInstitutionalProposalNotepadBean());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 }
