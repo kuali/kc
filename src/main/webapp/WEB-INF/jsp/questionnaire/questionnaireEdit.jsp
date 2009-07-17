@@ -107,8 +107,16 @@
            alert("Questionnaire Name is required");
        } else {       
        //TODO : FF seems to have trouble with "#;#"
+     if (sqlScripts.indexOf("#;#") > 1) {
+        // if current sqlScripts is not in array yet
+        // 10 should be fine to use as check
+         sqls[sqlidx++] = sqlScripts;
+     }
+     
+	 for (var k=0 ; k < sqls.length;  k++) {
+       sqlScripts = sqls[k];
        sqlScripts = sqlScripts.replace(/#;#/g,";;;");
-       alert ("save"+sqlScripts); 
+       //alert ("save"+sqlScripts); 
        $.ajax({
          url: 'questionnaireAjax.do',
          type: 'GET',
@@ -126,7 +134,9 @@
                 var item_text = $(this).text();
             });
          }
-       });
+       }); // end ajax
+      } // end for
+      sqlidx=0; 
        } // eid if-then-else
        return false;
       }); 
@@ -172,10 +182,10 @@
        // alert(sqlScripts); 
  // TODO : delete usage also need to update 'item number' in the first column
             curnode = $(this).parents('tr:eq(0)');
-            alert("size "+curnode.next().size());
+            //alert("size "+curnode.next().size());
             while (curnode.next().size() > 0) {
                curnode = curnode.next();
-               alert(Number(curnode.children('th:eq(0)').html())-1);
+               //alert(Number(curnode.children('th:eq(0)').html())-1);
                curnode.children('th:eq(0)').html(Number(curnode.children('th:eq(0)').html())-1)
                //curnode=curnode.next();
 		    } 
@@ -191,10 +201,10 @@
        // alert(sqlScripts); 
         return false;
      }); 
-     $("#deleteUsage").click(function(){  
-        alert("delete usage");  
-        return false;
-     }); 
+     //$("#deleteUsage").click(function(){  
+        //alert("delete usage");  
+      //  return false;
+     //}); 
    
      $("#rootSearch").click(function() {
          //alert($(this).parents('li:eq(0)').attr("id"));
@@ -272,7 +282,7 @@
      // Question 1067 description has '"', and this is also probably why 
      // it only saved up 1067.  total selected is 54, but only saved to q 43.
 		var editdata = document.getElementById("editData").value;
-		alert(editdata);
+		//alert(editdata);
    		var dataarray=editdata.split("#;#");
    		var firstidx = -1;
    		var idxArray = new Array(dataarray.length);
@@ -333,10 +343,6 @@
                  }
               }
                        
-          if (idx == 44) {
-            alert("question 44 "+questions[k]);
-          }
-
            if (parentnum > 0 && field[6] != 'null') {                 
                 alert ("add req for parent "+$("#addrequirement"+i).parents('tr:eq(0)').size());
                 var newResponse = getRequirementDeleteRow(responseArray[field[6]], field[7]);
@@ -362,7 +368,6 @@
 	     } // end if-then-else
 	    } // end for to set up questions
 	    
-	  alert ("last node "+ $("#qid44").attr("value")+"-"+ $("#qnum44").attr("value"));
 	  // TODO : only the first question is expanded
 	  $("#listcontrol"+firstidx).click();  
 	  $("#listcontrol"+firstidx).click();  

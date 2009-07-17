@@ -48,7 +48,7 @@
 
          	</label><br>
          	
-         		<input type="hidden" id="selectedQuestions" name="selectedQuestions" value='${QuestionLookupForm.selectedQuestions}' />
+         		<input type="hidden" id="selectedQuestions" name="selectedQuestions" value="${QuestionLookupForm.selectedQuestions}" />
          	
          	<p><a href="javascript:returnQuestion();window.close();"><b>return data</b></a> <a href="javascript:window.close()">Close</a></p> 
          	
@@ -69,7 +69,7 @@
                  	lookupBtn.click();
                  } else {
                  	returnQuestion();
-                 	window.close();
+                 	//window.close();
                  }
             </script>
  <%--           
