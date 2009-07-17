@@ -24,24 +24,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ResearchArea;
 
 
-@SuppressWarnings("serial")
+/**
+ * This class implements the committee research area business object.
+ */
 @javax.persistence.Entity
 @Table(name = "COMM_RESEARCH_AREAS")
-public class CommitteeResearchArea extends KraPersistableBusinessObjectBase {
+public class CommitteeResearchArea extends CommitteeAssociate {
+
+    private static final long serialVersionUID = 6586026093806484327L;
 
     @javax.persistence.Id
     @Column(name = "ID")
     private Long id;
-
-    @Column(name = "COMMITTEE_ID_FK")
-    private Long committeeIdFk;
-    
-    @Column(name = "COMMITTEE_ID")
-    private String committeeId;  
 
     @Column(name = "RESEARCH_AREA_CODE")
     private String researchAreaCode;
@@ -53,9 +50,8 @@ public class CommitteeResearchArea extends KraPersistableBusinessObjectBase {
     @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name = "RESEARCH_AREA_CODE", insertable = false, updatable = false)
     private ResearchArea researchArea;
-
+    
     public CommitteeResearchArea() {
-
     }
 
     public Long getId() {
@@ -64,22 +60,6 @@ public class CommitteeResearchArea extends KraPersistableBusinessObjectBase {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getCommitteeIdFk() {
-        return committeeIdFk;
-    }
-
-    public void setCommitteeIdFk(Long committeeIdFk) {
-        this.committeeIdFk = committeeIdFk;
-    }
-    
-    public String getCommitteeId() {
-        return committeeId;
-    }
-
-    public void setCommitteeId(String committeeId) {
-        this.committeeId = committeeId;
     }
 
     public String getResearchAreaCode() {
@@ -114,14 +94,45 @@ public class CommitteeResearchArea extends KraPersistableBusinessObjectBase {
         this.researchArea = researchArea;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        CommitteeResearchArea committeeResearchArea = (CommitteeResearchArea) obj;
+        if (this.getCommitteeIdFk() != null && this.getCommitteeIdFk().equals(committeeResearchArea.getCommitteeIdFk())
+                && this.getResearchAreaCode() != null && this.getResearchAreaCode().equals(committeeResearchArea.getResearchAreaCode())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + (this.getCommitteeIdFk() == null ? 0 : this.getCommitteeIdFk().hashCode());
+        result = PRIME * result + (this.getResearchAreaCode() == null ? 0 : this.getResearchAreaCode().hashCode());
+        return result;
+    }
+    
+    @Override
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
         hashMap.put("id", getId());
-        hashMap.put("committeeIdFk", getCommitteeIdFk());
-        hashMap.put("committeeId", getCommitteeId());
         hashMap.put("researchAreaCode", getResearchAreaCode());
         return hashMap;
     }
+
+    public void resetPersistenceState() {
+        setId(null);
+    }
+
 }

@@ -275,7 +275,6 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         Committee committee = committeeDocument.getCommittee();
         CommitteeSchedule schedule = new CommitteeSchedule();
         //schedule.setCommittee(committee);
-        schedule.setCommitteeId(committee.getId());
         schedule.setScheduleId("1");
         schedule.setPlace("my office");
         schedule.setEndTime(new Date(System.currentTimeMillis() + 100));
@@ -298,10 +297,8 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
      */
     private void addMembers(Committee committee) {
         CommitteeMembership member = new CommitteeMembership();
-        member.setCommitteeId(committee.getCommitteeId());
         member.setCommitteeIdFk(committee.getId());
         member.setPersonId("quickstart");
-        member.setSequenceNumber(0);
         member.setPaidMember(true);
         member.setPersonName("Don");
         member.setTermStartDate(new Date(System.currentTimeMillis() - 10000));
@@ -311,7 +308,6 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         CommitteeMembershipRole role = new CommitteeMembershipRole();
         role.setStartDate(member.getTermStartDate());
         role.setEndDate(member.getTermEndDate());
-        role.setSequenceNumber(0);
         role.setMembershipRoleCode("1");
         roles.add(role);
         member.setMembershipRoles(roles);

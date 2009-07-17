@@ -21,12 +21,18 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ResearchArea;
 
-public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBase implements SequenceAssociate { 
+/**
+ * 
+ * This class implements the committee membership expertise business object.
+ * 
+ */
+public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBase implements SequenceAssociate<Committee> { 
     
+    private static final long serialVersionUID = 4926007164018659270L;
+
     @Id
     @Column(name = "COMM_MEMBER_ROLES_ID")
     private Long committeeMembershipExpertiseId;
@@ -34,18 +40,12 @@ public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBa
     @Column(name = "COMM_MEMBERSHIP_ID_FK")
     private Long committeeMembershipIdFk;
 
-    @Column(name = "MEMBERSHIP_ID")
-    private String membershipId;
-
-    @Column(name = "SEQUENCE_NUMBER")
-    private Integer sequenceNumber;
-    
     @Column(name = "RESEARCH_AREA_CODE")
     private String researchAreaCode; 
     
     private ResearchArea researchArea;
     
-    private SequenceOwner sequenceOwner;
+    private Committee sequenceOwner;
     
     public CommitteeMembershipExpertise() { 
         setResearchArea(new ResearchArea());
@@ -65,22 +65,6 @@ public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBa
 
     public void setCommitteeMembershipIdFk(Long committeeMembershipIdFk) {
         this.committeeMembershipIdFk = committeeMembershipIdFk;
-    }
-
-    public String getMembershipId() {
-        return membershipId;
-    }
-
-    public void setMembershipId(String membershipId) {
-        this.membershipId = membershipId;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
     }
 
     public String getResearchAreaCode() {
@@ -111,8 +95,8 @@ public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBa
             return false;
         }
         CommitteeMembershipExpertise committeeMembershipExpertise = (CommitteeMembershipExpertise) obj;
-        if (this.committeeMembershipIdFk != null && this.committeeMembershipIdFk.equals(committeeMembershipExpertise.committeeMembershipIdFk) &&
-                this.researchAreaCode != null && this.researchAreaCode.equals(committeeMembershipExpertise.researchAreaCode)) {
+        if (this.committeeMembershipIdFk != null && this.committeeMembershipIdFk.equals(committeeMembershipExpertise.committeeMembershipIdFk) 
+                && this.researchAreaCode != null && this.researchAreaCode.equals(committeeMembershipExpertise.researchAreaCode)) {
             return true;
         } else {
             return false;
@@ -133,22 +117,20 @@ public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBa
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("committeeMembershipExpertiseId", getCommitteeMembershipExpertiseId());
         hashMap.put("committeeMembershipIdFk", getCommitteeMembershipIdFk());
-        hashMap.put("membershipId", getMembershipId());
-        hashMap.put("sequenceNumber", getSequenceNumber());
         hashMap.put("researchAreaCode", getResearchAreaCode());
         return hashMap;
     }
     
-    public void init(CommitteeMembership committeeMembership) {
-        setMembershipId(committeeMembership.getMembershipId());
-    }
-    
-    public SequenceOwner getSequenceOwner() {
+    public Committee getSequenceOwner() {
         return this.sequenceOwner;
     }
 
-    public void setSequenceOwner(SequenceOwner newOwner) {
+    public void setSequenceOwner(Committee newOwner) {
         this.sequenceOwner = newOwner;
+    }
+
+    public Integer getSequenceNumber() {
+        return this.sequenceOwner.getSequenceNumber();
     }
 
     public void resetPersistenceState() {

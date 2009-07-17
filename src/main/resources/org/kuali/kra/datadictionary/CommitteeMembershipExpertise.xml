@@ -33,8 +33,6 @@
             <list>
                 <ref bean="CommitteeMembershipExpertise-committeeMembershipExpertiseId" />
                 <ref bean="CommitteeMembershipExpertise-committeeMembershipIdFk" />
-                <ref bean="CommitteeMembershipExpertise-membershipId" />
-                <ref bean="CommitteeMembershipExpertise-sequenceNumber" />
                 <ref bean="CommitteeMembershipExpertise-researchAreaCode" />
                 <ref bean="CommitteeMembershipExpertise-versionNumber" />
             </list>
@@ -79,42 +77,6 @@
         <property name="description" value="Committee Membership Id Fk" />
     </bean>
 
-    <bean id="CommitteeMembershipExpertise-membershipId" parent="CommitteeMembershipExpertise-membershipId-parentBean" />
-    <bean id="CommitteeMembershipExpertise-membershipId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="membershipId" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Membership Id" />
-        <property name="shortLabel" value="Membership Id" />
-        <property name="maxLength" value="10" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Membership Id" />
-        <property name="description" value="Membership Id" />
-    </bean>
-
-    <bean id="CommitteeMembershipExpertise-sequenceNumber" parent="CommitteeMembershipExpertise-sequenceNumber-parentBean" />
-    <bean id="CommitteeMembershipExpertise-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="sequenceNumber" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Sequence Number" />
-        <property name="shortLabel" value="Sequence Number" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Sequence Number" />
-        <property name="description" value="Sequence Number" />
-    </bean>
-
     <bean id="CommitteeMembershipExpertise-researchAreaCode" parent="CommitteeMembershipExpertise-researchAreaCode-parentBean" />
     <bean id="CommitteeMembershipExpertise-researchAreaCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="researchAreaCode" />
@@ -145,7 +107,7 @@
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Committee Membership Expertise Id Fk" />
+                    <property name="title" value="Committee Membership Expertise Id" />
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
@@ -154,10 +116,6 @@
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="committeeMembershipIdFk" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="membershipId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="sequenceNumber" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="researchAreaCode" />
                         </list>
@@ -185,10 +143,6 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="committeeMembershipIdFk" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="membershipId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
                     p:attributeName="researchAreaCode" />
             </list>
         </property>
@@ -199,10 +153,6 @@
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="committeeMembershipIdFk" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="membershipId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
                 <bean parent="FieldDefinition"
                     p:attributeName="researchAreaCode" />
             </list>
