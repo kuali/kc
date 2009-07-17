@@ -562,11 +562,11 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
-		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" auto-retrieve="true" auto-update="link" auto-delete="link"> 
+		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="typeCode"/>
 		</reference-descriptor>
 		
-		<reference-descriptor name="group" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentGroup" auto-retrieve="true" auto-update="link" auto-delete="link"> 
+		<reference-descriptor name="group" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentGroup" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="groupCode"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -595,7 +595,7 @@
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 		
-		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" auto-retrieve="true" auto-update="link" auto-delete="link"> 
+		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="typeCode"/>
 		</reference-descriptor>
 		
@@ -603,7 +603,7 @@
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
 		
-		<reference-descriptor name="status" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus" auto-retrieve="true" auto-update="link" auto-delete="link"> 
+		<reference-descriptor name="status" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="statusCode"/>
 		</reference-descriptor>
 
@@ -641,7 +641,7 @@
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 
-		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" auto-retrieve="true" auto-update="link" auto-delete="link"> 
+		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="typeCode"/>
 		</reference-descriptor>
 		
@@ -649,7 +649,7 @@
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
 		
-		<reference-descriptor name="person" class-ref="org.kuali.kra.irb.personnel.ProtocolPerson" auto-retrieve="true" auto-update="link" auto-delete="link"> 
+		<reference-descriptor name="person" class-ref="org.kuali.kra.irb.personnel.ProtocolPerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="personId"/>
 		</reference-descriptor>
 	</class-descriptor>
