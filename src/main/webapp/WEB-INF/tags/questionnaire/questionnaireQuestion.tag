@@ -36,7 +36,7 @@
                                                     <input type="hidden" id = "newqid0" name = "newqid0"  value="" />
                                                     <input type="hidden" id = "newqtypeid0" name = "newqtypeid0" value="" />
                                                     <input name = "rootSearch" id = "rootSearch" src="static/images/searchicon.gif" align="top" alt="search " title="Search " style="border:none;" type="image" />
-                                                    <input name="addRootQn" id="addRootQn" src="kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" />
+                                                    <%--<input name="addRootQn" id="addRootQn" src="kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" /> --%>
                                                 </td>
                                             </tr>
                                         </table> 
