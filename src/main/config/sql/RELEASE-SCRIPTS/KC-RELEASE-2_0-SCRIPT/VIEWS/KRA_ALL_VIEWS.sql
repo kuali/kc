@@ -358,83 +358,6 @@ CREATE OR REPLACE VIEW OSP$COEUS_SUB_MODULE AS SELECT
     UPDATE_USER
 FROM COEUS_SUB_MODULE;
 
-CREATE OR REPLACE VIEW OSP$COMM_MEMBERSHIPS AS
-SELECT
-    COMMITTEE_ID,
-    DECODE (PERSON_ID, NULL, TO_CHAR(ROLODEX_ID),
-                             PERSON_ID) AS PERSON_ID,
-    MEMBERSHIP_ID,
-    SEQUENCE_NUMBER,
-    PERSON_NAME,
-    DECODE (PERSON_ID, NULL, 'N',
-                             'Y') AS NON_EMPLOYEE_FLAG,
-    PAID_MEMBER_FLAG,
-    TERM_START_DATE,
-    TERM_END_DATE,
-    MEMBERSHIP_TYPE_CODE,
-    COMMENTS,
-    UPDATE_TIMESTAMP,
-    UPDATE_USER
-FROM COMM_MEMBERSHIPS;
-
-CREATE OR REPLACE VIEW OSP$COMM_MEMBER_EXPERTISE AS SELECT 
-    MEMBERSHIP_ID, 
-    SEQUENCE_NUMBER, 
-    RESEARCH_AREA_CODE, 
-    UPDATE_TIMESTAMP, 
-    UPDATE_USER
-FROM COMM_MEMBER_EXPERTISE;
-
-CREATE OR REPLACE VIEW OSP$COMM_MEMBER_ROLES AS
-SELECT 
-    MEMBERSHIP_ID, 
-    SEQUENCE_NUMBER, 
-    MEMBERSHIP_ROLE_CODE, 
-    START_DATE, 
-    END_DATE, 
-    UPDATE_TIMESTAMP, 
-    UPDATE_USER
-FROM COMM_MEMBER_ROLES; 
-
-CREATE OR REPLACE VIEW OSP$COMM_RESEARCH_AREAS AS SELECT 
-  COMMITTEE_ID,
-  RESEARCH_AREA_CODE,
-  UPDATE_TIMESTAMP, 
-  UPDATE_USER
-FROM COMM_RESEARCH_AREAS;
-
-CREATE OR REPLACE VIEW osp$comm_schedule AS SELECT 
-  a.schedule_id schedule_id,
-  b.committee_id committee_id,
-  a.time scheduled_date,
-  a.place place,
-  a.time time,
-  a.protocol_sub_deadline protocol_sub_deadline,
-  a.schedule_status_code schedule_status_code,
-  a.meeting_date meeting_date,
-  a.start_time start_time,
-  a.end_time end_time,
-  a.agenda_prod_rev_date agenda_prod_rev_date,
-  a.max_protocols max_protocols,
-  a.comments comments,
-  a.update_timestamp update_timestamp,
-  a.update_user update_user
-FROM comm_schedule a
-INNER JOIN committee b
-ON a.committee_id = b.id;
-
-CREATE OR REPLACE VIEW osp$comm_schedule_attendance AS SELECT 
-  schedule_id,
-  person_id,
-  guest_flag,
-  alternate_flag,
-  alternate_for,
-  non_employee_flag,
-  comments,
-  update_timestamp,
-  update_user
-FROM comm_schedule_attendance;  
-
 CREATE OR REPLACE VIEW osp$comm_schedule_frequency AS SELECT 
   frequency_code,
   description,
@@ -477,20 +400,6 @@ CREATE OR REPLACE VIEW OSP$COMM_MEMBERSHIP_TYPE AS SELECT
     UPDATE_TIMESTAMP, 
     UPDATE_USER
 FROM COMM_MEMBERSHIP_TYPE;
-
-CREATE OR REPLACE VIEW OSP$comm_schedule_minutes AS SELECT 
-  schedule_id,
-  entry_number,
-  minute_entry_type_code,
-  protocol_number,
-  sequence_number,
-  submission_number,
-  private_comment_flag,
-  protocol_contingency_code,
-  minute_entry,
-  update_timestamp,
-  update_user
-FROM comm_schedule_minutes;
 
 CREATE VIEW OSP$COMMITTEE_TYPE
 AS SELECT COMMITTEE_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER
@@ -899,26 +808,6 @@ AS SELECT PROTOCOL_NUMBER,
           UPDATE_TIMESTAMP, 
           UPDATE_USER
 FROM PROTOCOL_SPECIAL_REVIEW;
-
-CREATE or REPLACE VIEW OSP$PROTOCOL_SUBMISSION AS SELECT
-    PROTOCOL_NUMBER,
-    SEQUENCE_NUMBER,
-    SUBMISSION_NUMBER,
-    SCHEDULE_ID,
-    COMMITTEE_ID,
-    SUBMISSION_TYPE_CODE,
-    SUBMISSION_TYPE_QUAL_CODE,
-    PROTOCOL_REVIEW_TYPE_CODE
-    SUBMISSION_STATUS_CODE,
-    SUBMISSION_DATE,
-    COMMENTS,
-    YES_VOTE_COUNT,
-    NO_VOTE_COUNT,
-    ABSTAINER_COUNT,
-    VOTING_COMMENTS,
-    UPDATE_TIMESTAMP,
-    UPDATE_USER
-FROM PROTOCOL_SUBMISSION;
 
 CREATE or REPLACE VIEW OSP$PROTOCOL_SUBMISSION_DOC AS SELECT
     PROTOCOL_NUMBER,
