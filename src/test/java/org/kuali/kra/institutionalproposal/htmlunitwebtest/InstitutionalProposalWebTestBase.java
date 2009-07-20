@@ -34,8 +34,15 @@ public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
     protected static final String CUSTOM_DATA_LINK_NAME = "customData.x";
     
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
-    protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Institutional Proposal Web Test";
+    protected static final String DOCUMENT_STATUS_CODE = "document.institutionalProposal.statusCode";
+    protected static final String DEFAULT_ACTIVITY_TYPE_CODE = "document.institutionalProposal.activityTypeCode";
+    protected static final String DOCUMENT_PROPOSAL_TYPE_CODE = "document.institutionalProposal.proposalTypeCode";
+    protected static final String DOCUMENT_PROJECT_TITLE = "document.institutionalProposal.title";
+
     
+    protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Institutional Proposal Web Test";
+    protected static final String DEFAULT_PROJECT_TITLE = "Test Project";
+
     protected static final String METHOD_TO_CALL_PREFIX = "methodToCall.";
     private static final String SAVE_BUTTON_METHOD = METHOD_TO_CALL_PREFIX + "save";
     private static final String RELOAD_BUTTON_METHOD = METHOD_TO_CALL_PREFIX + "reload";
@@ -44,6 +51,7 @@ public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
     private static final String XML_GROUPING = "((&lt;&gt;))";
     private static final String AMPERSAND = "&";
     private static final String XML_AMPERSAND = "&amp;";
+    private static final String ONE = "1";
 
     private HtmlPage proposalHomePage; 
     
@@ -113,6 +121,10 @@ public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
      */
     protected void setDefaultRequiredFields(HtmlPage page) {
         setFieldValue(page, DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION);
+        setFieldValue(page, DOCUMENT_STATUS_CODE, ONE);
+        setFieldValue(page, DEFAULT_ACTIVITY_TYPE_CODE, ONE);
+        setFieldValue(page, DOCUMENT_PROPOSAL_TYPE_CODE, ONE);
+        setFieldValue(page, DOCUMENT_PROJECT_TITLE, DEFAULT_PROJECT_TITLE);
     }
     
     /**
