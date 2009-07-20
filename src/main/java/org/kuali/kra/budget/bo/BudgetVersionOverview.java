@@ -58,7 +58,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     
     private String name;
     private String budgetStatus;
-    
+
     public Integer getBudgetVersionNumber() {
         return budgetVersionNumber;
     }

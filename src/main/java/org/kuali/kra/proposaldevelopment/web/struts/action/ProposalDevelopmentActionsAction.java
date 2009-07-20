@@ -386,7 +386,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 
                 ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getDocument();
                 initializeProposalUsers(copiedDocument);//add in any default permissions
-                copiedDocument.setS2sAppSubmission(new ArrayList<S2sAppSubmission>());            
+                copiedDocument.setS2sAppSubmission(new ArrayList<S2sAppSubmission>());
+                
                 DocumentService docService = KraServiceLocator.getService(DocumentService.class);
                 docService.saveDocument(copiedDocument);
                 
@@ -462,6 +463,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         boolean success;
         
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pdDoc = proposalDevelopmentForm.getDocument();
+        
         proposalDevelopmentForm.setAuditActivated(true);
         //success=KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
         //HashMap map=GlobalVariables.getAuditErrorMap();
@@ -470,7 +473,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         String methodToCall = ((KualiForm) form).getMethodToCall();
         
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        int status = isValidSubmission(proposalDevelopmentForm.getDocument());
+        int status = isValidSubmission(pdDoc);
 
        //if((map.size()==1) &&  map.containsKey("sponsorProgramInformationAuditWarnings"))
         if (status == WARNING) 
@@ -496,6 +499,11 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }else   {
         GlobalVariables.getErrorMap().clear(); // clear error from isValidSubmission()    
         GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+        
+        if ((pdDoc.getContinuedFrom() != null) && isNewProposalType(pdDoc) && isSubmissionApplication(pdDoc)) {
+        	GlobalVariables.getErrorMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
+        }
+        
         return mapping.findForward((Constants.MAPPING_BASIC));
          }
         
@@ -541,16 +549,11 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         /*
          * If this proposal is a continuation from another proposal, it is illegal for
-         * it to be a New Proposal Type or for it to be an S2S Submission Application Type.
+         * it to have a New Proposal Type and Application Submission Type.
          */
-        if ((proposalDevelopmentDocument.getContinuedFrom() != null) && 
-            (isNewProposalType(proposalDevelopmentDocument) || isSubmissionApplication(proposalDevelopmentDocument))) {
+        if ((proposalDevelopmentDocument.getContinuedFrom() != null) && isNewProposalType(proposalDevelopmentDocument) && isSubmissionApplication(proposalDevelopmentDocument)) {
             state = ERROR;
-            if (isNewProposalType(proposalDevelopmentDocument)) {
-                GlobalVariables.getErrorMap().putError("noKey", KeyConstants.ERROR_RESUBMISSION_PROPOSALTYPE_IS_NEW);
-            } else if (isSubmissionApplication(proposalDevelopmentDocument)) {
-                GlobalVariables.getErrorMap().putError("noKey", KeyConstants.ERROR_RESUBMISSION_OPPORTUNITY_IS_APPLICATION);
-            }
+            //GlobalVariables.getErrorMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
         }
         else {
             /* 
@@ -888,7 +891,39 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String forward = getForwardToBudgetUrl(form);
         // TODO : what if forward is null
-        forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetPersonnel.do?auditActivated=true&");
+        forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetPersonnel.do?auditActivated=true&");
+        
+        return new ActionForward(forward, true);
+    }
+    
+    /**
+     * 
+     * This method is for audit rule to forward to the Budget Parameters page when the associated audit error fix is clicked.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward budgetDistributionAndIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        String forward = getForwardToBudgetUrl(form);
+        forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetDistributionAndIncome.do?auditActivated=true&");
+        
+        return new ActionForward(forward, true);
+    }
+
+    /**
+     * 
+     * This method is for audit rule to forward to the Budget Parameters page when the associated audit error fix is clicked.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward parameters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        String forward = getForwardToBudgetUrl(form);
+        forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetParameters.do?auditActivated=true&");
         
         return new ActionForward(forward, true);
     }
@@ -918,6 +953,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward budgetExpenses(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String forward = getForwardToBudgetUrl(form);
         String methodToCallAttribute = (String)request.getAttribute("methodToCallAttribute");
+        String activePanelName = (String)request.getAttribute("activePanelName");
+        
         String viewBudgetPeriodParam = null;
         if (StringUtils.isNotBlank(methodToCallAttribute)) {
             int idx = methodToCallAttribute.indexOf("&viewBudgetPeriod=");
@@ -925,10 +962,16 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 viewBudgetPeriodParam = "viewBudgetPeriod=" + methodToCallAttribute.substring(methodToCallAttribute.indexOf("=", idx)+1,methodToCallAttribute.indexOf(".", idx))+"&";
             }
         }
-        forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetExpenses.do?auditActivated=true&");
+        
+        forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetExpenses.do?auditActivated=true&");
         if (viewBudgetPeriodParam != null) {
             forward = StringUtils.replace(forward, "budgetExpenses.do?", "budgetExpenses.do?"+viewBudgetPeriodParam); 
         }
+        
+        if (StringUtils.isNotBlank(activePanelName)) {
+            forward = StringUtils.replace(forward, "budgetExpenses.do?", "budgetExpenses.do?activePanelName=" + activePanelName + "&"); 
+        }
+
         return new ActionForward(forward, true);
     }
     
@@ -943,14 +986,14 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     public ActionForward summary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String forward = getForwardToBudgetUrl(form);
-        forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?auditActivated=true&");
+        forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetParameters.do?auditActivated=true&");
         
         return new ActionForward(forward, true);
     }
     
     public ActionForward budgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String forward = getForwardToBudgetUrl(form);
-        forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetRates.do?auditActivated=true&anchor="+((KualiForm)form).getAnchor()+"&");
+        forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetRates.do?auditActivated=true&anchor="+((KualiForm)form).getAnchor()+"&");
         return new ActionForward(forward, true);
     }
 

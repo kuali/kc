@@ -1,0 +1,1 @@
+d2hStoreMenuItems("TX__10614", [["WordDocuments/proposalsmenugroup.htm", "right", "Proposals Menu Group"],["WordDocuments/proposalsmenugroup1.htm", "right", "Proposals Menu Group"]]);

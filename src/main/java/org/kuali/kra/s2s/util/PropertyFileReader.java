@@ -56,9 +56,9 @@ public class PropertyFileReader {
     public static String getProperty(String fileName, String key, String defaultValue) throws IOException {
         if (props == null) {
             synchronized (PropertyFileReader.class) {
-                if (props == null) {
+                //if (props == null) {
                     props = loadProperties(fileName);
-                }
+                //}
             }
         }
         if (props == null) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -97,7 +97,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
      * @param messageKey messageKey for the AuditError
      */
     private void validateAuditRule(ProposalDevelopmentDocument document, String messageKey) {
-        assertFalse("Audit Rule should produce a Warning audit error", auditRule.processRunAuditBusinessRules(document));
+        assertTrue("Audit Rule should produce a Warning audit error", auditRule.processRunAuditBusinessRules(document));
         assertEquals(1, GlobalVariables.getAuditErrorMap().size());
         AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get("sponsorProgramInformationAuditWarnings");
 

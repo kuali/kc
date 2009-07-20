@@ -225,6 +225,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
                 return "";
             }
         }
+
     }
     
     /**
@@ -232,7 +233,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
      */
     public List<BudgetPeriod> getBudgetPeriods(){
         BudgetForm budgetForm = (BudgetForm) GlobalVariables.getKualiForm();
-        BudgetDocument budgetDocument  = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument  = budgetForm.getDocument();
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
         return budgetPeriods;
     }
@@ -331,7 +332,8 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     @SuppressWarnings("unchecked")
     private Collection getAbstractInstituteRates(BudgetDocument budgetDocument, Class rateType, Map rateFilterMap) {
         ProposalDevelopmentDocument proposal = budgetDocument.getProposal(); 
-        String unitNumber = proposal.getOwnedByUnitNumber();                               
+        String unitNumber = proposal.getOwnedByUnitNumber();               
+        
         Collection abstractInstituteRates = getFilteredInstituteRates(rateType, unitNumber, proposal.getOwnedByUnit(), rateFilterMap);        
         
         return abstractInstituteRates.size() > 0 ? abstractInstituteRates : new ArrayList();

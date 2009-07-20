@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 
@@ -51,7 +52,7 @@ public class BudgetUnrecoveredFandAIntegrationTest extends BudgetDistributionAnd
         assertNotNull(savedDocument);        
         assertEquals(1, savedDocument.getBudgetUnrecoveredFandAs().size());
         BudgetUnrecoveredFandA savedBudgetUnrecoveredFandA = savedDocument.getBudgetUnrecoveredFandAs().get(0); 
-        assertNull(savedBudgetUnrecoveredFandA.getAmount());
+        assertEquals(BudgetDecimal.ZERO, savedBudgetUnrecoveredFandA.getAmount());
         assertNull(savedBudgetUnrecoveredFandA.getApplicableRate());
         assertNull(savedBudgetUnrecoveredFandA.getOnCampusFlag());
         assertNull(savedBudgetUnrecoveredFandA.getFiscalYear());

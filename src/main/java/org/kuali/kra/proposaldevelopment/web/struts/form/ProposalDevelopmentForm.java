@@ -137,7 +137,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private List<NarrativeUserRights> newNarrativeUserRights;
     private S2sOpportunity newS2sOpportunity;
     private List<S2sAppSubmission> newS2sAppSubmission;
-    private SortedMap<String, List> customAttributeGroups;
+    private SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups;
     private Map<String, String[]> customAttributeValues;
     private List<Narrative> narratives;
     private boolean reject;
@@ -354,10 +354,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         if (editRoles != null) {
             editRoles.clear();
         }
-        
-        // reset exempt numbers.
-        //setDocumentExemptNumbers(new ArrayList<String[]>());
-        resetExemptNumbers();
     }
 
 
@@ -599,7 +595,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * Sets the customAttributeGroups attribute value.
      * @param customAttributeGroups The customAttributeGroups to set.
      */
-    public void setCustomAttributeGroups(SortedMap<String, List> customAttributeGroups) {
+    public void setCustomAttributeGroups(SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups) {
         this.customAttributeGroups = customAttributeGroups;
     }
 
@@ -645,7 +641,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * Gets the customAttributeGroups attribute.
      * @return Returns the customAttributeGroups.
      */
-    public Map<String, List> getCustomAttributeGroups() {
+    public Map<String, List<CustomAttributeDocument>> getCustomAttributeGroups() {
         return customAttributeGroups;
     }
 
@@ -1180,47 +1176,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      */
     public void setCreditSplitEnabled(boolean creditSplitEnabled) {
         this.creditSplitEnabled = creditSplitEnabled;
-    }
-
-    public List<KeyLabelPair> getExemptNumberList() {
-        return exemptNumberList;
-    }
-
-    public void setExemptNumberList(List<KeyLabelPair> exemptNumberList) {
-        this.exemptNumberList = exemptNumberList;
-    }
-
-    public String[] getNewExemptNumbers() {
-        return newExemptNumbers;
-    }
-
-    public void setNewExemptNumbers(String[] newExemptNumbers) {
-        this.newExemptNumbers = newExemptNumbers;
-    }
-    
-    /**
-     * 
-     * This method is to reset the exempt numbers in proposalspecialreview.  
-     * If no exempt number is selected, then it's not in request parameter's list.  So,
-     * The old exempt number will not be reset to null.  This is just a way to reset it.
-     * TODO : any other option?
-     */
-    private void resetExemptNumbers() {
-        List <String[]> documentExemptNumbers = this.getDocumentExemptNumbers();
-        int  i =0;
-        if (documentExemptNumbers != null) {
-            for (String[] exemptNumbers : documentExemptNumbers) {
-                documentExemptNumbers.set(i++, null);
-            }
-        }
-    }
-
-    public List<String[]> getDocumentExemptNumbers() {
-        return documentExemptNumbers;
-    }
-
-    public void setDocumentExemptNumbers(List<String[]> documentExemptNumbers) {
-        this.documentExemptNumbers = documentExemptNumbers;
     }
 
     public String getOptInUnitDetails() {

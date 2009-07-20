@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,14 +69,15 @@ public class BudgetValidationUnrecoveredFandARuleTest extends TestCase {
     public void testValidatingRequiredFields_NoneSet() throws Exception {
         unrecoveredFandA = new BudgetUnrecoveredFandA();        
         Assert.assertFalse(unrecoveredFandARule.processBudgetValidationUnrecoveredFandABusinessRules(getEvent(unrecoveredFandA)));
-        Assert.assertEquals(5, GlobalVariables.getErrorMap().keySet().size());
+        Assert.assertEquals(4, GlobalVariables.getErrorMap().keySet().size());
     }
     
     @Test
     public void testValidatingRequiredFields_AmountMissing() throws Exception {
-        unrecoveredFandA = new BudgetUnrecoveredFandA(BUDGET_FISCAL_YEAR, null, APPLICABLE_RATE, ON_CAMPUS, SOURCE_ACCOUNT);        
-        Assert.assertFalse(unrecoveredFandARule.processBudgetValidationUnrecoveredFandABusinessRules(getEvent(unrecoveredFandA)));
-        Assert.assertEquals(1, GlobalVariables.getErrorMap().keySet().size());
+        unrecoveredFandA = new BudgetUnrecoveredFandA(BUDGET_FISCAL_YEAR, null, APPLICABLE_RATE, ON_CAMPUS, SOURCE_ACCOUNT);
+        //Amount is set to 0.00 if it is null
+        Assert.assertTrue(unrecoveredFandARule.processBudgetValidationUnrecoveredFandABusinessRules(getEvent(unrecoveredFandA)));
+        Assert.assertEquals(0, GlobalVariables.getErrorMap().keySet().size());
     }
     
     @Test

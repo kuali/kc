@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,23 +46,26 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.test.data.PerTestUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
+import org.kuali.rice.test.data.UnitTestSql;
 
 /**
  * This class is for testing Line item calculations
  */
-//@PerTestUnitTestData(
-//        @UnitTestData(order = { 
-//                UnitTestData.Type.SQL_STATEMENTS, UnitTestData.Type.SQL_FILES }, 
-//        sqlStatements = {
-//                @UnitTestSql("delete from EPS_PROPOSAL where proposal_number = 9999999"),
-//                @UnitTestSql("delete from budget where proposal_number = 9999999"),
-//                @UnitTestSql("delete from budget_periods where proposal_number = '9999999'"),
-//                @UnitTestSql("delete from budget_details where proposal_number = '9999999'")
-//                }, 
-//        sqlFiles = {
-//                @UnitTestFile(filename = "classpath:insertBudgetTestData.sql", delimiter = ";")
-//                })
-//        )
+@PerTestUnitTestData(
+        @UnitTestData(order = { 
+                UnitTestData.Type.SQL_STATEMENTS, UnitTestData.Type.SQL_FILES }, 
+        sqlStatements = {
+                      @UnitTestSql("delete from institute_rates"),
+                      @UnitTestSql("delete from institute_la_rates")
+                      }, 
+        sqlFiles = {
+                @UnitTestFile(filename = "classpath:sql/dml/LOAD_INSTITUTE_RATES.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/LOAD_INSTITUTE_LA_RATES.sql", delimiter = ";")
+                })
+        )
 
 public class LineItemCalculatorTest extends KraTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LineItemCalculatorTest.class);
@@ -92,6 +95,12 @@ public class LineItemCalculatorTest extends KraTestBase {
         documentService.saveDocument(document);
         BudgetDocument bd = (BudgetDocument)documentService.getNewDocument("BudgetDocument");
         setBaseDocumentFields(bd,document.getProposalNumber());
+        
+        BudgetPerson bper = getBudgetPerson("8888888",1,2000,"7","TJC","2005-01-01");
+        bd.getBudgetPersons().add(bper);
+        BudgetPerson bper1 = getBudgetPerson("9999999",2,4000,"7","TJC","2005-01-01");
+        bd.getBudgetPersons().add(bper1);
+
         documentService.saveDocument(bd);
         BudgetDocument savedBudgetDocument = (BudgetDocument)documentService.getByDocumentHeaderId(bd.getDocumentNumber());
         populateDummyRates(savedBudgetDocument);
@@ -136,9 +145,6 @@ public class LineItemCalculatorTest extends KraTestBase {
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
         bcs.calculateBudgetLineItem(bd,bli);
         List<BudgetLineItemCalculatedAmount> calcAmounts = bli.getBudgetLineItemCalculatedAmounts();
-//        for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calcAmounts) {
-//            LOG.info(budgetLineItemCalculatedAmount);
-//        }
         BudgetDecimal directCost = bli.getDirectCost();
         try{
             assertEquals("Direct cost for 400250 is not correct",new BudgetDecimal(15932.50),directCost );
@@ -216,10 +222,6 @@ public class LineItemCalculatorTest extends KraTestBase {
         if(!errors.isEmpty()){
             throw new AssertionError(errors.toString());
         }
-        
-//        LOG.info(bli.getDirectCost());
-//        LOG.info(bli.getUnderrecoveryAmount());
-        
     }
     @Test
     public void calculatePersonnelLineItemTest() throws Exception{
@@ -233,11 +235,6 @@ public class LineItemCalculatorTest extends KraTestBase {
         BudgetLineItem bli = getLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
                 dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d);
 
-        BudgetPerson bper = getBudgetPerson("8888888",1,2000,"7","TJC","2005-01-01");
-        bd.getBudgetPersons().add(bper);
-        BudgetPerson bper1 = getBudgetPerson("9999999",2,4000,"7","TJC","2005-01-01");
-        bd.getBudgetPersons().add(bper1);
-        
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
         
         BudgetPersonnelDetails bpli = getPersonnelLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
@@ -265,11 +262,6 @@ public class LineItemCalculatorTest extends KraTestBase {
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
-//        LOG.info("Salary requested=> "+bpli.getSalaryRequested());
-//        LOG.info("Cost sharing percentage=>"+bpli.getCostSharingPercent());
-//        LOG.info("Cost sharing amount =>"+bpli.getCostSharingAmount());
-//        LOG.info("Direct cost =>"+bpli.getDirectCost());
-//        LOG.info("Indirect cost =>"+bpli.getIndirectCost());
         
         BudgetPersonnelDetails bpli1 = getPersonnelLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
                 dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d,1,1,"8888888","TJC",100.00d,100.00d);
@@ -300,13 +292,6 @@ public class LineItemCalculatorTest extends KraTestBase {
         if(!errors.isEmpty()){
             throw new AssertionError(errors.toString());
         }
-//        LOG.info("Salary requested=> "+bpli1.getSalaryRequested());
-//        LOG.info("Cost sharing percentage=>"+bpli1.getCostSharingPercent());
-//        LOG.info("Cost sharing percentage amount =>"+bpli1.getCostSharingAmount());
-//        LOG.info("Direct cost =>"+bpli1.getDirectCost());
-//        LOG.info("Indirect cost =>"+bpli1.getIndirectCost());
-        
-//        LOG.info(bp.toString());
     }
 
     @Test
@@ -315,15 +300,19 @@ public class LineItemCalculatorTest extends KraTestBase {
         BudgetDocument bd = createBudgetDocument();
         assertNotNull("Budget document not saved",bd);
         
-        BudgetPeriod bp = getBudgetPeriod(bd,1,"2005-01-01","2005-12-31");
+        BudgetPeriod bp = getBudgetPeriod(bd, 1, "2005-01-01", "2005-12-31");
         bd.getBudgetPeriods().add(bp);
-        BudgetLineItem bli = getLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
-                dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d);
+        BudgetLineItem bli = getLineItem(bp, 1, "420800", dateTimeService.convertToSqlDate("2005-01-01"),
+                dateTimeService.convertToSqlDate("2005-12-31"), 10000.00d, 100.00d);
         bp.getBudgetLineItems().add(bli);
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
         bcs.calculateBudget(bd);
-        LOG.info(bd);
-//        fail("This test has no assertion, so would always pass");
+        assertEquals(new BudgetDecimal(18581.67d), bd.getTotalCost());
+        assertEquals(new BudgetDecimal(12480.85d), bd.getTotalDirectCost());
+        assertEquals(new BudgetDecimal(6100.82d), bd.getTotalIndirectCost());
+        assertEquals(new BudgetDecimal(185.81d), bd.getCostSharingAmount());
+        assertEquals(BudgetDecimal.ZERO, bd.getUnderrecoveryAmount());
+     
     }
     private BudgetPerson getBudgetPerson(String personId, int personSequenceNumber, 
             int calcBase, String appointTypeCode, String jobCode, String effectiveDate) throws Exception{
@@ -334,6 +323,7 @@ public class LineItemCalculatorTest extends KraTestBase {
         bper.setAppointmentTypeCode(appointTypeCode);
         bper.setJobCode(jobCode);
         bper.setEffectiveDate(dateTimeService.convertToSqlDate(effectiveDate));
+        bper.setNonEmployeeFlag(false);
         return bper;
     }
 
@@ -347,13 +337,6 @@ public class LineItemCalculatorTest extends KraTestBase {
         bd.getBudgetPeriods().add(bp);
         BudgetLineItem bli = getLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
                 dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d);
-        
-        BudgetPerson bper = getBudgetPerson("8888888",1,2000,"7","TJC","2005-01-01");
-        bd.getBudgetPersons().add(bper);
-        BudgetPerson bper1 = getBudgetPerson("9999999",2,4000,"7","TJC","2005-01-01");
-        bd.getBudgetPersons().add(bper1);
-        
-//        bp.getBudgetLineItems().add(bli);
         
         BudgetPersonnelDetails bpli = getPersonnelLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
                 dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d,1,2,"9999999","TJC",100.00d,100.00d);
@@ -378,12 +361,6 @@ public class LineItemCalculatorTest extends KraTestBase {
         if(!errors.isEmpty()){
             throw new AssertionError(errors.toString());
         }
-
-//        LOG.info("Salary requested=>"+bpli.getSalaryRequested());
-//        LOG.info("Salary requested=>"+bpli1.getSalaryRequested());
-//        
-//        LOG.info("Direct cost =>"+bli.getDirectCost());
-//        LOG.info("Indirect cost =>"+bli.getIndirectCost());
     }
 
     @Test
@@ -492,9 +469,6 @@ public class LineItemCalculatorTest extends KraTestBase {
         bp.setUpdateUser(bd.getUpdateUser());
         bp.setUpdateTimestamp(bd.getUpdateTimestamp());
         return bp;
-//        addLineItem(bd,1,1,1,"400250");
-        
-//        bd.getBudgetPeriods().add(bp);
     }
 
     private BudgetLineItem getLineItem(BudgetPeriod bp, int lineItemNumber, 
@@ -521,7 +495,6 @@ public class LineItemCalculatorTest extends KraTestBase {
 
     private void setBaseDocumentFields(BudgetDocument bd,String proposalNumber) throws Exception{
         bd.getDocumentHeader().setDocumentDescription("Test budget calculation");
-//        bd.setDocumentNumber(bd.getDocumentNumber());
         bd.setProposalNumber(proposalNumber);
         bd.setBudgetVersionNumber(1);
         bd.setStartDate(dateTimeService.convertToSqlDate("2002-01-01"));

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,8 +53,8 @@ public class BudgetCostShareIntegrationTest extends BudgetDistributionAndIncomeI
         assertNotNull(savedDocument);        
         assertEquals(1, savedDocument.getBudgetCostShares().size());
         assertNull(savedDocument.getBudgetCostShares().get(0).getFiscalYear());
-        assertNull(savedDocument.getBudgetCostShares().get(0).getShareAmount());
-        assertNull(savedDocument.getBudgetCostShares().get(0).getSharePercentage());
+        assertEquals(BudgetDecimal.ZERO, savedDocument.getBudgetCostShares().get(0).getShareAmount());
+        assertEquals(BudgetDecimal.ZERO, savedDocument.getBudgetCostShares().get(0).getSharePercentage());
         assertNull(savedDocument.getBudgetCostShares().get(0).getSourceAccount());
     }
 

@@ -96,6 +96,8 @@ public interface Constants {
     public static final String AUDIT_WARNINGS = "Warnings";
     public static final String GRANTSGOV_ERRORS= "Grants.Gov Errors";
     
+    //public static final String PROPOSAL_ACTIONS_PAGE = "proposalActions";
+    //public static final String ABSTRACTS_AND_ATTACHMENTS_PAGE = "abstractsAttachments";
     public static final String PROPOSAL_PAGE = "proposal";
     public static final String CUSTOM_ATTRIBUTES_PAGE = "customData";
     public static final String QUESTIONS_PAGE = "questions";
@@ -123,11 +125,10 @@ public interface Constants {
     public static final String PROPOSAL_PERSON_INVESTIGATOR = "investigator";
     public static final String KEY_PERSONNEL_PANEL_ANCHOR = "KeyPersonnel";
     public static final String KEY_PERSONNEL_PANEL_NAME = "Key Personnel Information";
-    public static final String PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY = "fieldName";
+    public static final String PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY = "document.newMaintainableObject.fieldName";
     public static final String INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY = "invCreditTypeCode";
     public static final String EMPTY_STRING = "";
-    public static final String PROPOSAL_PERSON_KEY = "document.proposalPerson*";
-    public static final String PRINCIPAL_INVESTIGATOR_KEY = "newProposalPerson*";
+    public static final String PRINCIPAL_INVESTIGATOR_KEY = "newProposalPerson";
     public static final String CREDIT_SPLIT_KEY = "document.creditSplit";
 
    
@@ -167,7 +168,7 @@ public interface Constants {
     // Budget Personnel
     public static final String BUDGET_PERSON_DEFAULT_JOB_CODE = "budgetPersonDefaultJobCode";
     public static final String BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE = "budgetPersonDefaultAppointmentType";
-    public static final String BUDGET_PERSON_DEFAULT_PERIOD_TYPE = "budgetPersonDefaultPeriodType";
+    //public static final String BUDGET_PERSON_DEFAULT_PERIOD_TYPE = "budgetPersonDefaultPeriodType";
     public static final String BUDGET_PERSON_DEFAULT_CALCULATION_BASE = "budgetPersonDefaultCalculationBase";
     public static final String BUDGET_PERSON_DEFAULT_EFFECTIVE_DATE = "budgetPersonDefaultEffectiveDate";
     public static final String PERSON_SEQUENCE_NUMBER = "personSequenceNumber";

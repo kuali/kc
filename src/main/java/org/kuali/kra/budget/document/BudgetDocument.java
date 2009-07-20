@@ -24,7 +24,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -69,7 +68,6 @@ import org.kuali.kra.budget.service.BudgetSummaryService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RateDecimalFormatter;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
@@ -85,13 +83,11 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
     private static final long serialVersionUID = 9170582507508175565L;
-        private static final String DETAIL_TYPE_CODE = "D";
+    private static final String DETAIL_TYPE_CODE = "D";
     private static final String BUDGET_NAMESPACE_CODE = "KRA-B";
     private static final String FALSE_FLAG = "N";
     private static final String TRUE_FLAG = "Y";
     private static final String DOCUMENT_TYPE_CODE = "BUDG";
-
-    private static final String DEFAULT_FISCAL_YEAR_START = "01/01/2000";
 
     private static final Log LOG = LogFactory.getLog(BudgetDocument.class);
     
@@ -124,7 +120,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     
     private String activityTypeCode="x";
     private boolean budgetLineItemDeleted;
-    private boolean rateClassTypesReloaded = false ;
+    private boolean rateClassTypesReloaded;
 
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
     private List<BudgetPerson> budgetPersons;
@@ -640,7 +636,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
      * @return Returns the BudgetSummary.
      */
     public BudgetSummaryService getBudgetSummaryService() {
-        return getService(BudgetSummaryService.class);
+        return this.getService(BudgetSummaryService.class);
     }
     
     public void setBudgetPeriods(List<BudgetPeriod> budgetPeriods) {

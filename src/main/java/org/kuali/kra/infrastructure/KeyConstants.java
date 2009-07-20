@@ -37,7 +37,7 @@ public final class KeyConstants {
     public static final String ERROR_NIH_SPONSOR_PROJECT_TITLE_LENGTH = "error.nih.sponsor.project.title.length";
     public static final String WARNING_EMPTY_DEADLINE_DATE = "warning.empty.deadline.date";
     public static final String WARNING_PAST_DEADLINE_DATE = "warning.past.deadline.date";
-        public static final String ERROR_SPECIAL_REVIEW_DATE_ORDERING = "error.special.review.date.ordering";
+    public static final String ERROR_SPECIAL_REVIEW_DATE_ORDERING = "error.special.review.date.ordering";
     public static final String ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW = "error.approvalDate.before.applicationDate.for.valid.specialReview";
     public static final String ERROR_START_DATE_AFTER_END_DATE = "error.start.date.after.end.date";
     
@@ -274,11 +274,10 @@ public final class KeyConstants {
     public static final String ERROR_LINE_ITEM_START_DATE = "error.line.item.start.date";
     public static final String QUESTION_DEFAULT_BUDGET_PERIODS = "document.question.defaultBudgetPeriods.text";
     public static final String AUDIT_WARNING_RATE_OUT_OF_SYNC = "warning.rate.outofsync";
-    public static final String ERROR_DUPLICATE_PERSON = "error.duplicate.person";
+    //public static final String ERROR_DUPLICATE_PERSON = "error.duplicate.person";
 
     // Budget Version
     public static final String BUDGET_VERSION_EXISTS = "error.budgetVersion.exists";
-    
     public static final String MOVE_UNIT_OWN_DESCENDANTS = "error_move_unit";
 
     public static final String PERSONNEL_CATEGORY = "P";
@@ -294,7 +293,7 @@ public final class KeyConstants {
     public static final String ERROR_SUMMARY_LINEITEM_EXISTS_ADD_PERSON = "error.summaryLineItemExists.addPerson";
     public static final String ERROR_PERSON_JOBCODE_CHANGE = "error.person.jobcodeChange";
     public static final String ERROR_PERSON_JOBCODE_VALUE = "error.person.jobcodeValue";
-    //public static final String ERROR_DUPLICATE_PERSON = "error.duplicate.personnel";
+    public static final String ERROR_DUPLICATE_PERSON = "error.duplicate.personnel";
     public static final String ERROR_JOBCODE_COST_ELEMENT_COMBO_INVALID = "error.jobCode.costElement.invalid";
     public static final String ERROR_SAVE_JOBCODE_COST_ELEMENT_COMBO_INVALID = "error.save.jobCode.costElement.invalid";
    

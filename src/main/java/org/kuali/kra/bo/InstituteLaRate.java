@@ -15,35 +15,20 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 /**
  * 
  * This class represents INSTITUTE_LA_RATE record
  */
-public class InstituteLaRate extends AbstractInstituteRate{
+public class InstituteLaRate extends AbstractInstituteRate {
 
-    private static final long serialVersionUID = 6467972635670502396L;
-  
-	@Override 
-	@SuppressWarnings("unchecked")
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("fiscalYear", getFiscalYear());
-		hashMap.put("onOffCampusFlag", getOnOffCampusFlag());
-		hashMap.put("rateClassCode", getRateClassCode());
-		hashMap.put("rateTypeCode", getRateTypeCode());
-		hashMap.put("startDate", getStartDate());
-		hashMap.put("unitNumber", getUnitNumber());
-		hashMap.put("instituterate", getInstituteRate());
-		return hashMap;
-	}
-
+private static final long serialVersionUID = 6467972635670502396L;
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected AbstractBudgetRate createBudgetRate() {
+    protected BudgetProposalLaRate createBudgetRate() {
         return new BudgetProposalLaRate();
     }
-	
 }

@@ -78,14 +78,19 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
             editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
         }
         
+        //Extra Code - starts here
+        String modifyBudgetPermission = null;
+        if(editModeMap.get("modifyBudgets") != null) {
+            modifyBudgetPermission = editModeMap.get("modifyBudgets").toString();
+        }
+
         if(isBudgetComplete(proposalDoc, budgetDoc)) {
-            editModeMap.put("modifyCompletedBudgets", TRUE);
             editModeMap.put("modifyBudgets", FALSE);
             editModeMap.put("addBudget", FALSE);
+            if(StringUtils.isNotBlank(modifyBudgetPermission) && StringUtils.equals(modifyBudgetPermission, TRUE)) {
+                editModeMap.put("modifyCompletedBudgets", TRUE);
+            }
             entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
-
-            //Looks like addBudget is needed in EditModeMap at all times
-            //entryEditModeReplacementMap.put("addBudget", "openBudgets");
         }
         
         return editModeMap;
@@ -113,6 +118,7 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
     private void setPermissions(String username, ProposalDevelopmentDocument doc, Map editModeMap) {
         editModeMap.put("addBudget", canExecuteTask(username, doc, TaskName.ADD_BUDGET));
         editModeMap.put("openBudgets", canExecuteTask(username, doc, TaskName.OPEN_BUDGETS));
+        editModeMap.put("modifyProposalBudget", canExecuteTask(username, doc, TaskName.MODIFY_BUDGET));
         editModeMap.put("printProposal", canExecuteTask(username, doc, TaskName.PRINT_PROPOSAL));
         
         entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);

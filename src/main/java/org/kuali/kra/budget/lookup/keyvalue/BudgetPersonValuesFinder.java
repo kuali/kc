@@ -74,6 +74,7 @@ public class BudgetPersonValuesFinder extends KeyValuesBase {
         }
         return keyLabelPairs; 
     }
+    
     private List<KeyLabelPair> buildKeyLabelPairs(List<BudgetPerson> budgetPersons) {
         List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
         keyLabelPairs.add(new KeyLabelPair(null, "Select"));
@@ -96,5 +97,6 @@ public class BudgetPersonValuesFinder extends KeyValuesBase {
         }
         keyLabelPairs.add(new KeyLabelPair("-1", "Summary"));
         return keyLabelPairs;
+
     }
 }

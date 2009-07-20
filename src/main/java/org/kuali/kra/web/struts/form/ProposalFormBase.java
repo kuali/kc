@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kra.infrastructure.ArrayFormatter;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.kns.web.format.Formatter;
@@ -53,14 +54,19 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
     public ProposalFormBase() {
         super();
         Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
+        //only registering formatter for one array type - do not want to break something
+        //by override all array formatting behavior.
+        Formatter.registerFormatter(String[].class, ArrayFormatter.class);
     }
     
+    @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
         this.setLookupResultsSequenceNumber(null);
         this.setLookupResultsBOClassName(null);
     }
     
+    // Getters and setters
     public Integer getFinalBudgetVersion() {
         return finalBudgetVersion;
     }
@@ -96,7 +102,7 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
         Date date = null;
         if (this instanceof BudgetForm) {
             BudgetForm budgetForm = (BudgetForm) this;
-            date = budgetForm.getBudgetDocument().getProposal().getRequestedStartDateInitial();
+            date = budgetForm.getDocument().getProposal().getRequestedStartDateInitial();
         } else if (this instanceof ProposalDevelopmentForm) {
             ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) this;
             date = pdForm.getDocument().getRequestedStartDateInitial();
@@ -113,7 +119,7 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
         Date date = null;
         if (this instanceof BudgetForm) {
             BudgetForm budgetForm = (BudgetForm) this;
-            date = budgetForm.getBudgetDocument().getProposal().getRequestedEndDateInitial();
+            date = budgetForm.getDocument().getProposal().getRequestedEndDateInitial();
         } else if (this instanceof ProposalDevelopmentForm) {
             ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) this;
             date = pdForm.getDocument().getRequestedEndDateInitial();

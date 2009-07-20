@@ -20,7 +20,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddProposalSpecialReviewRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -54,34 +53,14 @@ public class ProposalDevelopmentProposalSpecialReviewRule extends ResearchDocume
      * @see org.kuali.kra.proposaldevelopment.rule.AddProposalSpecialReviewRule#processAddProposalSpecialReviewBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent)
      */
     public boolean processAddProposalSpecialReviewBusinessRules(AddProposalSpecialReviewEvent addProposalSpecialReviewEvent) {
-        /*
-         * Error upon add - 
-         * 1.  Select a special review type
-         * 2.  Select an approval status
-         * 3.  Approval Date should be later than Application Date
-         */
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)addProposalSpecialReviewEvent.getDocument();
         ProposalSpecialReview proposalSpecialReview = addProposalSpecialReviewEvent.getProposalSpecialReview();
-        boolean rulePassed = true;
-        String errorPath = NEW_PROPOSAL_SPECIAL_REVIEW;
-        String[] dateParams = {"Approval Date","Application Date"};
-
-        if(StringUtils.isBlank(proposalSpecialReview.getApprovalTypeCode())){
-            rulePassed = false;
-            reportError(errorPath+".approvalTypeCode", KeyConstants.ERROR_REQUIRED_SELECT_APPROVAL_STATUS);
-        }
-        if(StringUtils.isBlank(proposalSpecialReview.getSpecialReviewCode())){
-            rulePassed = false;
-            reportError(errorPath+".specialReviewCode", KeyConstants.ERROR_REQUIRED_SELECT_SPECIAL_REVIEW_CODE);
-        }
-        if (proposalSpecialReview.getApplicationDate() !=null && proposalSpecialReview.getApprovalDate() != null && proposalSpecialReview.getApprovalDate().before(proposalSpecialReview.getApplicationDate())) {
-            rulePassed = false;
-            reportError(errorPath+".approvalDate", KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW,dateParams);
-        }
-
-        return rulePassed;
+        GlobalVariables.getErrorMap().addToErrorPath(NEW_PROPOSAL_SPECIAL_REVIEW_PATH);
+        boolean retval = processValidSpecialReviewBusinessRules(proposalSpecialReview, NEW_EXEMPT_NUMBERS_FIELD);
+        retval &= processProposalSpecialReviewBusinessRules(proposalSpecialReview);
+        GlobalVariables.getErrorMap().removeFromErrorPath(NEW_PROPOSAL_SPECIAL_REVIEW_PATH);
+        return retval;
     }
-    
+
     /**
      * This method tests the "generic" rules that apply to SpecialReviews including required fields and date ordering.
      * It calls the reportError method to report the errors and assumes that the error path is set.

@@ -119,7 +119,7 @@
             <forward name="basic" path="/ChangePassword.jsp" />
         </action>
 
- 		<action path="/unitHierarchy" name="UnitHierarchyForm" type="org.kuali.kra.web.struts.action.UnitHierarchyAction">
+ 		<action path="/unitHierarchy" name="UnitHierarchyForm" type="org.kuali.kra.web.struts.action.UnitHierarchyAction" scope="request">
             <forward name="basic" path="/unitHierarchy.jsp" />
         </action>
  		<action path="/researchAreas" name="ResearchAreasForm" type="org.kuali.kra.web.struts.action.ResearchAreasAction">
@@ -165,17 +165,18 @@
       <action path="/budget*" name="BudgetForm" input="/WEB-INF/jsp/budget/Budget{1}.jsp" type="org.kuali.kra.budget.web.struts.action.Budget{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/budget/Budget{1}.jsp" />
           <forward name="versions" path="/WEB-INF/jsp/budget/BudgetVersions.jsp" />
-          <forward name="summary" path="/WEB-INF/jsp/budget/BudgetSummary.jsp" />
+          <forward name="parameters" path="/WEB-INF/jsp/budget/BudgetParameters.jsp" />
           <forward name="personnel" path="/WEB-INF/jsp/budget/BudgetPersonnel.jsp" />
           <forward name="expenses" path="/WEB-INF/jsp/budget/BudgetExpenses.jsp" />
-          <forward name="personnelBudget" path="/WEB-INF/jsp/budget/BudgetPersonnelBudget.jsp" />
-          <forward name="rates_save" path="/WEB-INF/jsp/budget/BudgetSummary.jsp" />
+          <forward name="rates_save" path="/WEB-INF/jsp/budget/BudgetParameters.jsp" />
           <forward name="rates" path="/WEB-INF/jsp/budget/BudgetRates.jsp" />
           <forward name="distributionAndIncome" path="/WEB-INF/jsp/budget/BudgetDistributionAndIncome.jsp" />
           <forward name="modularBudget" path="/WEB-INF/jsp/budget/BudgetModularBudget.jsp" />
-          <forward name="totals" path="/WEB-INF/jsp/budget/BudgetTotals.jsp" />
+          <forward name="summaryTotals" path="/WEB-INF/jsp/budget/BudgetSummaryTotals.jsp" />
           <forward name="proposalHierarchy" path="/WEB-INF/jsp/budget/BudgetProposalHierarchy.jsp" />
           <forward name="budgetActions" path="/WEB-INF/jsp/budget/BudgetActions.jsp" redirect="false" />
+          <forward name="personnelRates" path="/WEB-INF/jsp/budget/BudgetPersonnelRates.jsp" />
+          <forward name="personnelDetails" path="/WEB-INF/jsp/budget/BudgetPersonnelDetails.jsp" />
       </action>
       
       <action path="/DocCopyHandler" name="DocHandlerForm" scope="request" parameter="methodToCall"

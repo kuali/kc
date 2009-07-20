@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.junit.After;
@@ -83,6 +84,15 @@ public class ProposalDevelopmentYNQRuleTest extends ProposalDevelopmentRuleTestB
     public void testRoutingProposalYnq() throws Exception {
 
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
+        document.getYnqGroupNames();
+
+        for (ProposalYnq ynq : document.getProposalYnqs()) {
+            ynq.setAnswer("Y");
+            ynq.setExplanation("Because I said so");
+            ynq.setReviewDate(new Date(System.currentTimeMillis()));
+            
+        }
+
         assertTrue(rule.processProposalYNQBusinessRule(document, true));
     }
 
@@ -97,5 +107,4 @@ public class ProposalDevelopmentYNQRuleTest extends ProposalDevelopmentRuleTestB
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         assertTrue(rule.processProposalPersonYNQBusinessRule(document));
     }
-
 }

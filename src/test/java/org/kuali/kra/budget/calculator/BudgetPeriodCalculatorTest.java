@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,10 +42,26 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.test.data.PerTestUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
+import org.kuali.rice.test.data.UnitTestSql;
 
 /**
  * This class is for testing period item calculations
  */
+@PerTestUnitTestData(
+        @UnitTestData(order = { 
+                UnitTestData.Type.SQL_STATEMENTS, UnitTestData.Type.SQL_FILES }, 
+        sqlStatements = {
+                      @UnitTestSql("delete from institute_rates"),
+                      @UnitTestSql("delete from institute_la_rates")
+                      }, 
+        sqlFiles = {
+                @UnitTestFile(filename = "classpath:sql/dml/LOAD_INSTITUTE_RATES.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/LOAD_INSTITUTE_LA_RATES.sql", delimiter = ";")
+                })
+        )
 
 public class BudgetPeriodCalculatorTest extends KraTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LineItemCalculatorTest.class);

@@ -50,14 +50,12 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class BudgetPeriodCalculator {
     private BudgetCalculationService budgetCalculationService;
-    private DateTimeService dateTimeService;
     private List<String> errorMessages;
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AbstractBudgetCalculator.class);
 
     public BudgetPeriodCalculator() {
         budgetCalculationService = getService(BudgetCalculationService.class);
         errorMessages = new ArrayList<String>();
-        dateTimeService = KNSServiceLocator.getDateTimeService();
     }
 
     /**
@@ -79,6 +77,7 @@ public class BudgetPeriodCalculator {
         for (BudgetLineItem budgetLineItem : cvLineItemDetails) {
             budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItem);
             budgetPeriod.setTotalDirectCost(budgetPeriod.getTotalDirectCost().add(budgetLineItem.getDirectCost()));
+            //add line item indirect costs to budget period.
             budgetPeriod.setTotalIndirectCost(budgetPeriod.getTotalIndirectCost().add(budgetLineItem.getIndirectCost()));
             budgetPeriod.setTotalCost(budgetPeriod.getTotalCost().add(budgetLineItem.getDirectCost().add(budgetLineItem.getIndirectCost())));
             budgetPeriod.setUnderrecoveryAmount(budgetPeriod.getUnderrecoveryAmount().add(budgetLineItem.getUnderrecoveryAmount()));
@@ -168,6 +167,7 @@ public class BudgetPeriodCalculator {
                     }
                    
                 }
+
             }
             // new line item check
             int gap;
@@ -331,12 +331,6 @@ public class BudgetPeriodCalculator {
             errorMessages.add(KeyConstants.TOTAL_COST_ALREADY_IN_SYNC);
             return;
         }
-
-        // if(periodTotal.isGreaterThan(costLimit)) {
-        // //TODO: display confirmation
-        // //"Period total is greater than the cost limit for this period.Do you want to reduce this line item cost to make the
-        // total cost same as cost limit"
-        // }//End IF total_cost > cost_limit
 
         // Set the Difference as TotalCostLimit minus TotalCost.
         BudgetDecimal difference = costLimit.subtract(periodTotal);

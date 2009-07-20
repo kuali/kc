@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.lookup;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getTypedService;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 
 /**
@@ -61,7 +60,7 @@ public class NonOrganizationalRolodexLookupableHelperServiceImplTest extends Kra
         fieldValues.put("organization", "Lockheed*"); // Search for organizations that start with National
         fieldValues.put("firstName", "Chris"); // Search for organizations that start with National
         
-        KualiLookupableImpl lookupableService = getTypedService("nonOrganizationalRolodexLookupable");
+        KualiLookupableImpl lookupableService = KraServiceLocator.getService("nonOrganizationalRolodexLookupable");
         lookupableService.setBusinessObjectClass(NonOrganizationalRolodex.class);
         
         Collection results = lookupableService.getSearchResults(fieldValues);
@@ -74,7 +73,7 @@ public class NonOrganizationalRolodexLookupableHelperServiceImplTest extends Kra
         Map fieldValues = new HashMap();
         fieldValues.put("organization", "Lockheed*"); // Search for organizations that start with National
         
-        KualiLookupableImpl lookupableService = getTypedService("nonOrganizationalRolodexLookupable");
+        KualiLookupableImpl lookupableService = KraServiceLocator.getService("nonOrganizationalRolodexLookupable");
         lookupableService.setBusinessObjectClass(NonOrganizationalRolodex.class);
         
         Collection results = lookupableService.getSearchResults(fieldValues);
