@@ -47,14 +47,13 @@ import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 
 /**
- * Test the ProtocolNotifyIrbService implementation.
+ * Test the Protocol NotifyIrb Service Implementation.
  */
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
@@ -75,13 +74,10 @@ public class ProtocolNotifyIrbServiceTest extends KraTestBase {
     private ProtocolNotifyIrbServiceImpl protocolNotifyIrbService;
     private BusinessObjectService businessObjectService;   
     
-    @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("superuser"));
-        GlobalVariables.setErrorMap(new ErrorMap());
-        GlobalVariables.setAuditErrorMap(new HashMap());
         protocolNotifyIrbService = new ProtocolNotifyIrbServiceImpl();
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         protocolNotifyIrbService.setBusinessObjectService(businessObjectService);
@@ -90,8 +86,6 @@ public class ProtocolNotifyIrbServiceTest extends KraTestBase {
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        GlobalVariables.setErrorMap(null);
-        GlobalVariables.setAuditErrorMap(null);
         super.tearDown();
     }
     
