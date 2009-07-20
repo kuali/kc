@@ -1,7 +1,8 @@
-P.Directive {FONT-WEIGHT: bold;  FONT-SIZE: 12pt;  MARGIN: 12pt 0pt 0pt;  LINE-HEIGHT: 14pt;  FONT-FAMILY: Verdana; }
+P.Directive {FONT-WEIGHT: bold;  FONT-SIZE: 12pt;  MARGIN: 12pt 0pt 0pt;  LINE-HEIGHT: 14pt;  FONT-FAMILY: "Verdana","sans-serif"; }
 SPAN.search-highlight {}
-SPAN.Command {FONT-WEIGHT: bold; }
-P.Task1 {FONT-SIZE: 12pt;  MARGIN: 12pt 0pt 0pt 21.6pt;  TEXT-INDENT: -21.6pt;  LINE-HEIGHT: 14pt;  FONT-FAMILY: Verdana;  tab-stops: 21.6pt; }
-P.Task2 {FONT-SIZE: 12pt;  MARGIN: 12pt 0pt 0pt 39.6pt;  TEXT-INDENT: -18pt;  LINE-HEIGHT: 14pt;  FONT-FAMILY: Verdana;  tab-stops: list 39.6pt left 43.2pt; }
-SPAN.ColoredLetter-Black {FONT-WEIGHT: bold; }
-P.Actor {FONT-WEIGHT: bold;  FONT-SIZE: 16pt;  BACKGROUND: #cccccc;  MARGIN: 12pt 0pt 0pt;  FONT-FAMILY: Verdana;  TEXT-ALIGN: center; }
+SPAN.Command {FONT-WEIGHT: bold;  FONT-FAMILY: "Times New Roman","serif"; }
+P.Task1 {FONT-SIZE: 12pt;  MARGIN: 12pt 0pt 0pt 21.6pt;  TEXT-INDENT: -21.6pt;  LINE-HEIGHT: 14pt;  FONT-FAMILY: "Verdana","sans-serif";  tab-stops: 21.6pt; }
+P.Task2 {FONT-SIZE: 12pt;  MARGIN: 12pt 0pt 0pt 39.6pt;  TEXT-INDENT: -18pt;  LINE-HEIGHT: 14pt;  FONT-FAMILY: "Verdana","sans-serif";  tab-stops: list 39.6pt left 43.2pt; }
+P.Subheading {FONT-WEIGHT: bold;  FONT-SIZE: 12pt;  MARGIN: 12pt 0pt 0pt;  LINE-HEIGHT: 14pt;  FONT-FAMILY: "Arial","sans-serif"; }
+SPAN.ColoredLetter-Black {FONT-WEIGHT: bold;  FONT-FAMILY: "Arial Narrow","sans-serif"; }
+P.Actor {FONT-WEIGHT: bold;  FONT-SIZE: 16pt;  BACKGROUND: #cccccc;  MARGIN: 12pt 0pt 0pt;  FONT-FAMILY: "Verdana","sans-serif";  TEXT-ALIGN: center; }

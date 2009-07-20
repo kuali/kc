@@ -101,6 +101,7 @@ public class KimDaoImpl extends PlatformAwareDaoBaseOjb implements KimDao {
             Criteria crit = new Criteria();
             crit.addIn("roleId", roleIds);
             crit.addEqualTo("permissionId", permissionId);
+            crit.addEqualTo("active", true); 
             Query q = QueryFactory.newQuery(KimRolePermission.class, crit);
     
             hasPermission = getPersistenceBrokerTemplate().getCount(q) > 0;

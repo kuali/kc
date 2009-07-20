@@ -106,29 +106,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
         }
          
     }    
-//    public void calculate(){
-//        bli.setDirectCost(bli.getLineItemCost());
-//        bli.setIndirectCost(BudgetDecimal.ZERO);
-//        boolean OHAvailable = true;
-//        bli.setUnderrecoveryAmount(BudgetDecimal.ZERO);
-//        createAndCalculateBreakupIntervals();
-//        updateBudgetLineItemCostsAndCalAmts();
-////        if (!uRMatchesOh) {
-////            // Check whether any OH Rate is present
-////            Equals eqRateClassType = new Equals("rateClassType", RateClassTypeConstants.OVERHEAD);
-////            CoeusVector cvOHRate = cvLineItemCalcAmts.filter(eqRateClassType);
-////            if (cvOHRate == null || cvOHRate.size() == 0) {
-////                OHAvailable = false;
-////            }
-////        }else {
-////            budgetDetailBean.setTotalCostSharing(budgetDetailBean.getCostSharingAmount());
-////        }
-////        if (!uRMatchesOh && (!OHAvailable || cvLineItemCalcAmts == null || cvLineItemCalcAmts.size() == 0)) {
-////            calculateURBase();
-////        }
-//
-//    }
-//
+
     /*
      * unitcost = (totalcost/totalnumofdays)*actualnumofdays
      * 
@@ -182,8 +160,12 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             prevVersionNumber = budgetRateAndBaseList.get(0).getVersionNumber();
             budgetRateAndBaseList.clear();
         }
+        
         Integer rateNumber = 0;
         for (BreakUpInterval breakUpInterval : breakupIntervals) {
+            
+            
+            
             List<RateAndCost> vecAmountBean = breakUpInterval.getRateAndCosts();
             for (RateAndCost rateAndCost : vecAmountBean) {
                 BudgetRateAndBase budgetRateBase = new BudgetRateAndBase();
@@ -214,7 +196,6 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
                 java.util.Date startDate = breakUpInterval.getBoundary().getStartDate();
                 budgetRateBase.setStartDate(new java.sql.Date(startDate.getTime()));
                 budgetRateBase.setBudgetVersionNumber(bli.getBudgetVersionNumber());
-//                if(prevVersionNumber!=null) budgetRateBase.setVersionNumber(prevVersionNumber);
                 budgetRateAndBaseList.add(budgetRateBase);
             }   
         }

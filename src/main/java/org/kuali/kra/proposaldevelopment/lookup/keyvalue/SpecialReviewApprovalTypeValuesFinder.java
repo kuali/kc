@@ -15,29 +15,56 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kra.bo.SpecialReviewApprovalType;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
+import org.kuali.kra.lookup.keyvalue.SortedValuesFinder;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
+import org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
+/**
+ * See {@link #getKeyValues()}.
+ */
 public class SpecialReviewApprovalTypeValuesFinder extends KeyValuesBase {
     
-    public List getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        Collection specialReviewApprovalTypes = keyValuesService.findAll(SpecialReviewApprovalType.class);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", ""));
-        for (Iterator iter = specialReviewApprovalTypes.iterator(); iter.hasNext();) {
-            SpecialReviewApprovalType specialReviewApprovalType = (SpecialReviewApprovalType) iter.next();
-            keyValues.add(new KeyLabelPair(specialReviewApprovalType.getApprovalTypeCode(), specialReviewApprovalType.getDescription()));
-        }
-        return keyValues;
+    private final KeyValuesFinder finder;
+    
+    /**
+     * Creates the ExemptionTypeValuesFinder setting any internal dependencies to defaults
+     */
+    public SpecialReviewApprovalTypeValuesFinder() {
+        PersistableBusinessObjectValuesFinder boFinder = new PersistableBusinessObjectValuesFinder();
+        boFinder.setBusinessObjectClass(SpecialReviewApprovalType.class);
+        boFinder.setKeyAttributeName("approvalTypeCode");
+        boFinder.setLabelAttributeName("description");
+        this.finder = new PrefixValuesFinder(new SortedValuesFinder(boFinder));
     }
-
+    
+    /**
+     * Creates the ExemptionTypeValuesFinder setting the wrapped finder.
+     * @param aFinder the finder
+     * @throws NullPointerException if the finder is null
+     */
+    SpecialReviewApprovalTypeValuesFinder(final KeyValuesFinder aFinder) {
+        if (aFinder == null) {
+            throw new NullPointerException("the finder is null");
+        }
+        
+        this.finder = aFinder;
+    }
+    
+    /**
+     * Gets the keyvalue pair for {@link SpecialReviewApprovalType SpecialReviewApprovalType}.
+     * The key is the exemptionTypeCode and the value is the description.
+     * 
+     * @return a list of {@link KeyLabelPair KeyLabelPair}
+     */
+    public List<KeyLabelPair> getKeyValues() {
+        @SuppressWarnings("unchecked")
+        final List<KeyLabelPair> exemptionTypes = this.finder.getKeyValues();
+        return exemptionTypes;
+    }
 }

@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,11 +31,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.budget.bo.BudgetLineItem;
+import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.authorization.BudgetDocumentAuthorizer;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
 import org.kuali.kra.budget.service.BudgetDistributionAndIncomeService;
 import org.kuali.kra.budget.service.BudgetModularService;
@@ -46,24 +49,30 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 public class BudgetAction extends ProposalActionBase {
     private static final Log LOG = LogFactory.getLog(BudgetAction.class);
-
+    
     /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -72,12 +81,12 @@ public class BudgetAction extends ProposalActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
 
         if (KEWConstants.INITIATE_COMMAND.equals(budgetForm.getCommand())) {
-            budgetForm.getBudgetDocument().initialize();
+            budgetForm.getDocument().initialize();
         }else{
             budgetForm.initialize();
         }
         
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         // populate costelement and other shared field to personnel detail
         // primarily to prevent sync modular budget in case 'reload' on modular budget page
         copyLineItemToPersonnelDetails(budgetDocument);
@@ -96,56 +105,114 @@ public class BudgetAction extends ProposalActionBase {
 
     /**
      * Need to suppress buttons here when 'Totals' tab is clicked.
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward actionForward = super.execute(mapping, form, request, response);
+        final BudgetForm budgetForm = (BudgetForm) form;
         
+        ActionForward actionForward = null;
+        
+        try {
+            actionForward = super.execute(mapping, budgetForm, request, response);    
+        } finally {
+            this.setAdditionalDocumentHeaderInfo(budgetForm);
+        }
         
         if (actionForward != null) {
-            if (("totals").equals(actionForward.getName())) { 
-                ((BudgetForm)form).suppressButtonsForTotalPage();
+            if ("summaryTotals".equals(actionForward.getName())) { 
+                budgetForm.suppressButtonsForTotalPage();
             }               
         }
-        BudgetForm budgetForm = (BudgetForm) form;
-        new AuditActionHelper().auditConditionally(budgetForm);
-        
-        
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        if(budgetDocument != null) {
-            budgetDocument.setRateClassTypesReloaded(false);
+        // check if audit rule check is done from PD
+        if (budgetForm.isAuditActivated()) {
+            KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(budgetForm.getDocument()));
         }
         
         return actionForward; 
     }
 
+    /**
+     * This method sets additional document information in the document header of the budget form.
+     * If the document contained in the budget form is null then empty values will be placed for the
+     * additional information.
+     * @param budgetForm the budget form
+     */
+    private void setAdditionalDocumentHeaderInfo(final BudgetForm budgetForm) {
+        assert budgetForm != null : "the budgetForm is null";
+        
+        final BudgetDocument budgetDocument = budgetForm.getDocument();
+        if (budgetDocument != null && budgetDocument.getProposal() != null && budgetDocument.getProposal().getBudgetVersionOverviews() != null) {
+            for (final BudgetVersionOverview budgetVersion: budgetDocument.getProposal().getBudgetVersionOverviews()) {
+                if (budgetVersion.getBudgetVersionNumber().equals(budgetDocument.getBudgetVersionNumber())) {
+                    budgetForm.getDocInfo().add(new HeaderField(BudgetForm.BUDGET_NAME_KEY, budgetVersion.getDocumentDescription()));
+                    break;
+                } else {
+                    budgetForm.getDocInfo().add(new HeaderField(BudgetForm.BUDGET_NAME_KEY, Constants.EMPTY_STRING));
+                }
+            }
 
+            if (budgetDocument.getBudgetVersionNumber() != null) {
+                budgetForm.getDocInfo().add(new HeaderField(BudgetForm.VERSION_NUMBER_KEY, budgetDocument.getBudgetVersionNumber().toString()));
+            } else {
+                budgetForm.getDocInfo().add(new HeaderField(BudgetForm.VERSION_NUMBER_KEY, Constants.EMPTY_STRING));
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        // jira 1288
-        budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(((BudgetForm) form).getBudgetDocument());
+        final BudgetDocument budgetDoc = budgetForm.getDocument();
+
+        budgetDoc.getBudgetSummaryService().calculateBudget(budgetDoc);
+
         ActionForward forward = super.save(mapping, form, request, response);
 
         if (budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated()) {
-            DocumentService docService = KraServiceLocator.getService(DocumentService.class);
-            ProposalDevelopmentDocument pdDoc = 
-                (ProposalDevelopmentDocument) docService.getByDocumentHeaderId(budgetForm.getBudgetDocument().getProposal().getDocumentNumber());
-            String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-            forwardUrl = StringUtils.replace(forwardUrl, "Proposal.do?", "Actions.do?auditActivated=true&");
-            forward = new ActionForward(forwardUrl, true);
+            forward = this.getReturnToProposalForward(budgetForm);
+        }
+
+        final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
+        if (budgetForm.toBudgetVersionsPage()
+            || "BudgetVersionsAction".equals(budgetForm.getActionName())) {
+            GlobalVariables.getErrorMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME + ".proposal");
+            tdcValidator.validateGeneratingErrorsAndWarnings(budgetDoc.getProposal());
+        } else {
+            tdcValidator.validateGeneratingWarnings(budgetDoc.getProposal());
         }
 
         return forward;
-    } 
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form,
+        HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        final ActionForward forward = super.reload(mapping, form, request, response);
+        final BudgetForm budgetForm = (BudgetForm) form;
+
+        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetForm.getDocument().getProposal().getBudgetVersionOverviews()));
+        setBudgetStatuses(budgetForm.getDocument().getProposal());
+
+        final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
+        tdcValidator.validateGeneratingWarnings(budgetForm.getDocument().getProposal());
+
+        return forward;
+    }
+    
     public ActionForward versions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
-        budgetForm.getBudgetDocument().getProposal().refreshReferenceObject(Constants.BUDGET_VERSION_OVERVIEWS);
-        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverviews()));
-        setBudgetStatuses(budgetForm.getBudgetDocument().getProposal());
-        return mapping.findForward("versions");
+        budgetForm.getDocument().getProposal().refreshReferenceObject(Constants.BUDGET_VERSION_OVERVIEWS);
+        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetForm.getDocument().getProposal().getBudgetVersionOverviews()));
+        setBudgetStatuses(budgetForm.getDocument().getProposal());
+        return mapping.findForward(Constants.BUDGET_VERSIONS_PAGE);
     }
 
     public ActionForward parameters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -156,18 +223,38 @@ public class BudgetAction extends ProposalActionBase {
 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
-        reconcilePersonnelRoles(budgetForm.getBudgetDocument());
+        populatePersonnelCategoryTypeCodes(budgetForm);
+        reconcilePersonnelRoles(budgetForm.getDocument());
         
-        return mapping.findForward("personnel");
+        for(BudgetPeriod period : budgetForm.getDocument().getBudgetPeriods()) {
+            for(BudgetLineItem lineItem : period.getBudgetLineItems()) {
+                for(BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
+                    budgetPersonnelDetails.refreshReferenceObject("budgetPerson");
+                    ObjectUtils.materializeObjects(budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts());
+                    for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount:budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts()){
+                        if(budgetPersonnelCalculatedAmount.getRateClass() == null) {
+                            budgetPersonnelCalculatedAmount.refreshReferenceObject("rateClass");
+                        }
+                    }
+                }
+                
+                for(BudgetLineItemCalculatedAmount lineItemCalculatedAmount:lineItem.getBudgetLineItemCalculatedAmounts()){
+                    if(lineItemCalculatedAmount.getRateClass() == null) {
+                        lineItemCalculatedAmount.refreshReferenceObject("rateClass");
+                    }
+                }
+            }
+        }
+        return mapping.findForward(Constants.BUDGET_PERSONNEL_PAGE);
     }
-    
+
     private String getPersonnelBudgetCategoryTypeCode() {
         KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
         return kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL).getParameterValue();
     }
     
     protected void populatePersonnelCategoryTypeCodes(BudgetForm budgetForm) {
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         
         BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
         List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();   
@@ -183,9 +270,9 @@ public class BudgetAction extends ProposalActionBase {
         }
         budgetDocument.setBudgetCategoryTypeCodes(budgetCategoryTypes); 
     }
-    
+
     protected void populateNonPersonnelCategoryTypeCodes(BudgetForm budgetForm) {
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         
         BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
         List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();      
@@ -201,72 +288,137 @@ public class BudgetAction extends ProposalActionBase {
         }
         budgetDocument.setBudgetCategoryTypeCodes(budgetCategoryTypes); 
     }
-
+    
     public ActionForward expenses(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
-        List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();        
-        budgetCategoryTypes = budgetCategoryTypeValuesFinder.getKeyValues();
-        for(int i=0;i<budgetCategoryTypes.size();i++){
-            budgetForm.getNewBudgetLineItems().add(new BudgetLineItem());
-        }
-        budgetForm.getBudgetDocument().setBudgetCategoryTypeCodes(budgetCategoryTypes);
-        BudgetDocument budgetDocument = (BudgetDocument) budgetForm.getBudgetDocument();
+        
+        populateNonPersonnelCategoryTypeCodes(budgetForm);
+        
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         budgetDocument.refreshReferenceObject("budgetPeriods");       
         
-        return mapping.findForward("expenses");
+        return mapping.findForward(Constants.BUDGET_EXPENSES_PAGE);
     }
 
     public ActionForward rates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("rates");
+        return mapping.findForward(Constants.BUDGET_RATES_PAGE);
     }
 
     public ActionForward distributionAndIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetDistributionAndIncomeService budgetDistributionAndIncomeService = new BudgetDistributionAndIncomeServiceImpl();
-        budgetDistributionAndIncomeService.initializeCollectionDefaults(((BudgetForm) form).getBudgetDocument());
+        budgetDistributionAndIncomeService.initializeCollectionDefaults(((BudgetForm) form).getDocument());
         
-        return mapping.findForward("distributionAndIncome");
+        return mapping.findForward(Constants.BUDGET_DIST_AND_INCOME_PAGE);
     }
 
     public ActionForward modularBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetModularService budgetModularService = KraServiceLocator.getService(BudgetModularService.class);
-        budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budgetForm.getBudgetDocument()));
-        return mapping.findForward("modularBudget");
+        budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budgetForm.getDocument()));
+        return mapping.findForward(Constants.BUDGET_MODULAR_PAGE);
     }
 
-    public ActionForward totals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    protected void populatePersonnelRoles(BudgetDocument budgetDocument) {
+        KeyPersonnelService keyPersonnelServiec = KraServiceLocator.getService(KeyPersonnelService.class);
+        ProposalDevelopmentDocument proposal = budgetDocument.getProposal();
+        boolean nihSponsorProposal = keyPersonnelServiec.isSponsorNIH(proposal);
+        Map<String, String> roleDescriptions = budgetDocument.getProposal().getNihDescription();
+        
+        List<BudgetPerson> budgetPersons = budgetDocument.getBudgetPersons();
+        for (BudgetPerson budgetPerson: budgetPersons) {
+            String roleDesc = "";
+            if (budgetPerson.getRolodexId() != null) {
+                ProposalPerson person = proposal.getProposalNonEmployee(budgetPerson.getRolodexId());
+                ProposalPersonRole role = proposal.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
+                if (role != null) { 
+                    roleDesc = (nihSponsorProposal && roleDescriptions.get(role.getProposalPersonRoleId()) != null) ? roleDescriptions.get(role.getProposalPersonRoleId()) : role.getDescription();
+                    if(person != null && StringUtils.equals(Constants.KEY_PERSON_ROLE, role.getProposalPersonRoleId()) && StringUtils.isNotEmpty(person.getProjectRole())) {
+                        roleDesc = person.getProjectRole();
+                    }
+                }
+            } else if (budgetPerson.getPersonId() != null) {
+                ProposalPerson person = proposal.getProposalEmployee(budgetPerson.getPersonId());  
+                ProposalPersonRole role = proposal.getProposalEmployeeRole(budgetPerson.getPersonId());
+                if (role != null) { 
+                    roleDesc = (nihSponsorProposal && roleDescriptions.get(role.getProposalPersonRoleId()) != null) ? roleDescriptions.get(role.getProposalPersonRoleId()) : role.getDescription();
+                    if(person != null && StringUtils.equals(Constants.KEY_PERSON_ROLE, role.getProposalPersonRoleId()) && StringUtils.isNotEmpty(person.getProjectRole())) {
+                        roleDesc = person.getProjectRole();
+                    }
+                }
+            }
+            
+            budgetPerson.setRole(roleDesc);
+        }
+    }
+    
+    public ActionForward summaryTotals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
-        budgetForm.getBudgetDocument().getBudgetTotals();
-        return mapping.findForward("totals");
+        BudgetDocument budgetDocument = budgetForm.getDocument();
+        populatePersonnelRoles(budgetDocument);
+        
+        for(BudgetPeriod period : budgetForm.getDocument().getBudgetPeriods()) {
+            for(BudgetLineItem lineItem : period.getBudgetLineItems()) {
+                for(BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
+                    budgetPersonnelDetails.refreshReferenceObject("budgetPerson");
+                }
+            }
+        }
+        
+        budgetDocument.getBudgetTotals();
+        return mapping.findForward(Constants.BUDGET_SUMMARY_TOTALS_PAGE);
     }
 
     public ActionForward proposalHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("proposalHierarchy");
+        return mapping.findForward(Constants.PROPOSAL_HIERARCHY_PAGE);
     }
 
     public ActionForward budgetActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         if(budgetDocument.getBudgetPrintForms().isEmpty()){
             BudgetPrintService budgetPrintService = KraServiceLocator.getService(BudgetPrintService.class);
             budgetPrintService.populateBudgetPrintForms(budgetDocument);
         }
         KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardAttachments(budgetDocument);
-        return mapping.findForward("budgetActions");
+        return mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);
     }
     
     public ActionForward returnToProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BudgetForm budgetForm = (BudgetForm) form;
-        DocumentService docService = KraServiceLocator.getService(DocumentService.class);
-        String docNumber = budgetForm.getBudgetDocument().getProposal().getDocumentNumber();
-        ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) docService.getByDocumentHeaderId(docNumber);
         
-        // JIRA KRACOEUS-1441
-        save(mapping, form, request, response);
+        final BudgetForm budgetForm = (BudgetForm) form;
+        ActionForward forward = null;
         
-        String forward = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-        return new ActionForward(forward, true);
+        if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
+            forward = this.save(mapping, form, request, response);
+        }
+        
+        if (forward == null || !forward.getPath().contains(KNSConstants.QUESTION_ACTION)) {
+            return this.getReturnToProposalForward(budgetForm);
+        }
+        
+        return forward;
+    }
+    
+    /**
+     * Gets the correct return-to-proposal action forward.
+     * 
+     * @param form the budget form
+     * @return the action forward
+     * @throws WorkflowException if there is a problem interacting with workflow
+     */
+    private ActionForward getReturnToProposalForward(final BudgetForm form) throws WorkflowException {
+        assert form != null : "the form is null";
+        
+        final DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+        final String docNumber = form.getDocument().getProposal().getDocumentNumber();
+        
+        final ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) docService.getByDocumentHeaderId(docNumber);
+        String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+        if(form.isAuditActivated()) {
+            forwardUrl = StringUtils.replace(forwardUrl, "Proposal.do?", "Actions.do?auditActivated=true&");
+        }
+        
+        return new ActionForward(forwardUrl, true);
     }
     
     public void reconcilePersonnelRoles(BudgetDocument budgetDocument) {
@@ -284,27 +436,14 @@ public class BudgetAction extends ProposalActionBase {
     }
     
     protected void reconcileBudgetStatus(BudgetForm budgetForm) {
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        if (budgetDocument.getFinalVersionFlag() != null && budgetDocument.getFinalVersionFlag()) {
+        BudgetDocument budgetDocument = budgetForm.getDocument();
+        if (budgetDocument.getFinalVersionFlag() != null && Boolean.TRUE.equals(budgetDocument.getFinalVersionFlag())) {
             budgetDocument.setBudgetStatus(budgetDocument.getProposal().getBudgetStatus());
         } else {
             String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
                     Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
             budgetDocument.setBudgetStatus(budgetStatusIncompleteCode);
         }
-    }
-    
-    
-    /**
-     * 
-     * Sets periodTypeCode in BudgetPersonnelDetails to system variable BUDGET_PERSON_DEFAULT_PERIOD_TYPE
-     */
-    public void setBudgetPersonDefaultPeriodTypeCode(BudgetForm budgetForm){
-        KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
-        budgetForm.setNewBudgetPersonnelDetails(new BudgetPersonnelDetails());
-        budgetForm.getNewBudgetPersonnelDetails().setPeriodTypeCode(kualiConfigurationService.getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_PERIOD_TYPE));
-        
     }
 
     /**
@@ -355,12 +494,5 @@ public class BudgetAction extends ProposalActionBase {
         }
     }
 
-    @Override
-    protected void populateAuthorizationFields(KualiDocumentFormBase formBase){
-        super.populateAuthorizationFields(formBase);
-        BudgetDocumentAuthorizer documentAuthorizer = new BudgetDocumentAuthorizer();
-        formBase.setEditingMode(documentAuthorizer.getEditMode(formBase.getDocument(), 
-                new UniversalUser(GlobalVariables.getUserSession().getPerson())));
-    }
 
 }

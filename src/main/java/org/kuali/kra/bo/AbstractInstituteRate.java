@@ -47,7 +47,7 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
 	private RateClass rateClass;
 	private RateType rateType;
 	private Unit unit;
-    private Boolean active = true;
+    private Boolean active = Boolean.TRUE;
 	
     
 	public final Boolean getActive() {
@@ -130,13 +130,10 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
 		this.instituteRate = rate;
 	}
 
-
-	@SuppressWarnings("unchecked")
     @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
+	protected LinkedHashMap<String, Object> toStringMapper() {
+		LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
 		hashMap.put("versionNumber", getVersionNumber());
-		hashMap.put("updateTimestamp", getUpdateTimestamp());
 		hashMap.put("fiscalYear", getFiscalYear());
 		hashMap.put("onOffCampusFlag", getOnOffCampusFlag());
 		hashMap.put("rateClassCode", getRateClassCode());
@@ -165,16 +162,16 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
     public String getRateKeyAsString() {
         return new StringBuilder(getRateClassCode())
                     .append(getRateTypeCode())
-                    .append(getLocationFlagAsString(getOnOffCampusFlag()))
+                    .append(getLocationFlagAsString(getOnOffCampusFlag().booleanValue()))
                     .append(getStartDate())
                     .toString();
     }
     
     protected AbstractBudgetRate createBudgetRate() {
-        throw new RuntimeException(new OperationNotSupportedException("Cannot create BudgetRate."));
+        throw new UnsupportedOperationException("Cannot create BudgetRate.");
     }
     
-    private String getLocationFlagAsString(boolean onOffCampusFlag) {
-        return onOffCampusFlag ? Constants.ON_CAMUS_FLAG : Constants.OFF_CAMUS_FLAG;
+    private String getLocationFlagAsString(boolean campusFlag) {
+        return campusFlag ? Constants.ON_CAMUS_FLAG : Constants.OFF_CAMUS_FLAG;
     }
 }

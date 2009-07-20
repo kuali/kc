@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@ package org.kuali.kra.budget.web;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,19 +40,33 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.KraUnitTestClassRunner;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.test.data.PerTestUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
+import org.kuali.rice.test.data.UnitTestSql;
 
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-@RunWith(KraUnitTestClassRunner.class)
+@RunWith(KraUnitTestClassRunner.class) 
+@PerTestUnitTestData(
+        @UnitTestData(order = { 
+                UnitTestData.Type.SQL_STATEMENTS, UnitTestData.Type.SQL_FILES }, 
+        sqlStatements = {
+                      @UnitTestSql("delete from institute_rates"),
+                      @UnitTestSql("delete from institute_la_rates")
+                      }, 
+        sqlFiles = {
+                @UnitTestFile(filename = "classpath:sql/dml/load_new_rates.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/update_institute_rates.sql", delimiter = ";")
+                })
+        )
+    
 public class BudgetPersonnelExpenseWebTest extends BudgetExpenseWebTest {
     private static final String BDOC_BUDGET_PERSONNEL_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.x";
-    private static final String BDOC_ADD_PERSONNEL_EXPENSE_LINK_NAME = "methodToCall.addBudgetLineItem.budgetCategoryTypeCodeP.catTypeIndex0.anchorPersonnel";
-    private static final String PERSONNEL_BUDGET_IMAGE_NAME = "methodToCall.personnelBudget.line0.anchor2";
-    private static final String ADD_PERSONNEL_BUDGET_IMAGE_NAME = "methodToCall.addBudgetPersonnelDetails.anchorPersonnelBudget";
-    private static final String BUDGET_RETURN_TO_EXPENSES_LINK_NAME = "methodToCall.returnToExpenses";
+    private static final String BDOC_ADD_PERSONNEL_EXPENSE_LINK_NAME = "methodToCall.addPersonnelLineItem.budgetCategoryTypeCodeP.catTypeIndex0.anchorPersonnelDetail";
     
     @Test
     public void testFullFlow() throws Exception {
@@ -63,12 +79,8 @@ public class BudgetPersonnelExpenseWebTest extends BudgetExpenseWebTest {
         HtmlPage budgetPersonnelPage = getBudgetPersonnelPage(bBudgetVersionsPage);
         
         assignBudgetPersonnel(budgetPersonnelPage);
-        HtmlPage budgetExpensePage = getBudgetExpensesPage(budgetPersonnelPage);
-        assignPersonnelExpenses(budgetExpensePage);
-        
-        HtmlPage page3 = clickOn(budgetExpensePage, "methodToCall.save");
-        assertDoesNotContain(page3, ERRORS_FOUND_ON_PAGE);
-        assertContains(page3,SAVE_SUCCESS_MESSAGE);
+        budgetPersonnelPage = clickOn(budgetPersonnelPage, "methodToCall.save");
+        assignPersonnelExpenses(budgetPersonnelPage);
         
         ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
         assertNotNull(proposalDoc);
@@ -102,7 +114,7 @@ public class BudgetPersonnelExpenseWebTest extends BudgetExpenseWebTest {
         assertEquals(firstPeriod.getStartDate(), firstBudgetPerson.getEffectiveDate());
         assertEquals(new BudgetDecimal("120000"), firstBudgetPerson.getCalculationBase());
         assertEquals(firstPeriod.getStartDate(), firstBudgetPerson.getStartDate());
-        assertEquals("400025", firstPeriodFirstLineItem.getCostElement());
+        assertEquals("400040", firstPeriodFirstLineItem.getCostElement());
         
         List<BudgetLineItemCalculatedAmount> lineItemCalculatedAmounts = firstPeriodFirstLineItem.getBudgetLineItemCalculatedAmounts();
         assertNotNull(lineItemCalculatedAmounts);
@@ -126,7 +138,6 @@ public class BudgetPersonnelExpenseWebTest extends BudgetExpenseWebTest {
         assertEquals("3", firstPersonDetails.getPeriodTypeCode());
         
         //Calculated Numbers / Computed Values
-        System.out.println(firstPersonDetails.toString());
         assertEquals(new BudgetDecimal("91350.00"), firstPersonDetails.getSalaryRequested());
         assertEquals(new BudgetDecimal("30450.00"), firstPersonDetails.getCostSharingAmount());
         assertEquals(new BudgetDecimal("25.00"), firstPersonDetails.getCostSharingPercent());
@@ -134,8 +145,61 @@ public class BudgetPersonnelExpenseWebTest extends BudgetExpenseWebTest {
         
         List<BudgetPersonnelCalculatedAmount> personnelCalculatedAmounts = firstPersonDetails.getBudgetCalculatedAmounts();
         assertNotNull(personnelCalculatedAmounts);
+
         assertEquals(lineItemCalculatedAmounts.size(), personnelCalculatedAmounts.size());
-        assertFalse(lineItemCalculatedAmounts.get(0).getApplyRateFlag());
+        assertTrue(lineItemCalculatedAmounts.get(0).getApplyRateFlag());
+
+        Collections.sort(lineItemCalculatedAmounts, new LineItemCalcAmountComparator());
+
+        BudgetLineItemCalculatedAmount firstCalculatedAmount = lineItemCalculatedAmounts.get(0);
+        assertNotNull(firstCalculatedAmount);
+        assertEquals("10", firstCalculatedAmount.getRateClassCode());
+        assertEquals("1", firstCalculatedAmount.getRateTypeCode());
+        assertEquals(new BudgetDecimal("0.00"), firstCalculatedAmount.getCalculatedCost());
+        assertEquals(new BudgetDecimal("0.00"), firstCalculatedAmount.getCalculatedCostSharing());
+
+        BudgetLineItemCalculatedAmount secondCalculatedAmount = lineItemCalculatedAmounts.get(1);
+        assertNotNull(secondCalculatedAmount);
+        assertEquals("1", secondCalculatedAmount.getRateClassCode());
+        assertEquals("1", secondCalculatedAmount.getRateTypeCode());
+        assertEquals(new BudgetDecimal("38090.48"), secondCalculatedAmount.getCalculatedCost());
+        assertEquals(new BudgetDecimal("12696.83"), secondCalculatedAmount.getCalculatedCostSharing());
+
+        BudgetLineItemCalculatedAmount thirdCalculatedAmount = lineItemCalculatedAmounts.get(2);
+        assertNotNull(thirdCalculatedAmount);
+        assertEquals("11", thirdCalculatedAmount.getRateClassCode());
+        assertEquals("1", thirdCalculatedAmount.getRateTypeCode());
+        assertEquals(new BudgetDecimal("0.00"), thirdCalculatedAmount.getCalculatedCost());
+        assertEquals(new BudgetDecimal("0.00"), thirdCalculatedAmount.getCalculatedCostSharing());
+
+        BudgetLineItemCalculatedAmount fourthCalculatedAmount = lineItemCalculatedAmounts.get(3);
+        assertNotNull(fourthCalculatedAmount);
+        assertEquals("12", fourthCalculatedAmount.getRateClassCode());
+        assertEquals("1", fourthCalculatedAmount.getRateTypeCode());
+        assertEquals(new BudgetDecimal("0.00"), fourthCalculatedAmount.getCalculatedCost());
+        assertEquals(new BudgetDecimal("0.00"), fourthCalculatedAmount.getCalculatedCostSharing());
+
+
+        BudgetLineItemCalculatedAmount fifthCalculatedAmount = lineItemCalculatedAmounts.get(4);
+        assertNotNull(fifthCalculatedAmount);
+        assertEquals("5", fifthCalculatedAmount.getRateClassCode());
+        assertEquals("1", fifthCalculatedAmount.getRateTypeCode());
+        assertEquals(new BudgetDecimal("24664.50"), fifthCalculatedAmount.getCalculatedCost());
+        assertEquals(new BudgetDecimal("8221.50"), fifthCalculatedAmount.getCalculatedCostSharing());
+
+        BudgetLineItemCalculatedAmount sixthCalculatedAmount = lineItemCalculatedAmounts.get(5);
+        assertNotNull(sixthCalculatedAmount);
+        assertEquals("5", sixthCalculatedAmount.getRateClassCode());
+        assertEquals("3", sixthCalculatedAmount.getRateTypeCode());
+        assertEquals(new BudgetDecimal("0.00"), sixthCalculatedAmount.getCalculatedCost());
+        assertEquals(new BudgetDecimal("0.00"), sixthCalculatedAmount.getCalculatedCostSharing());
+
+        BudgetLineItemCalculatedAmount seventhCalculatedAmount = lineItemCalculatedAmounts.get(6);
+        assertNotNull(seventhCalculatedAmount);
+        assertEquals("8", seventhCalculatedAmount.getRateClassCode());
+        assertEquals("2", seventhCalculatedAmount.getRateTypeCode());
+        assertEquals(new BudgetDecimal("0.00"), seventhCalculatedAmount.getCalculatedCost());
+        assertEquals(new BudgetDecimal("0.00"), seventhCalculatedAmount.getCalculatedCostSharing());
     }
 
     private Map<String, BudgetPersonnelCalculatedAmount> getExpectedLineItemCalculatedAmounts(BudgetLineItem firstPeriodFirstLineItem) {
@@ -185,16 +249,15 @@ public class BudgetPersonnelExpenseWebTest extends BudgetExpenseWebTest {
 
     private void assignBudgetPersonnel(HtmlPage budgetPersonnelPage) throws Exception {
         budgetPersonnelPage = multiLookup(budgetPersonnelPage, "org.kuali.kra.bo.Person", "personId", "000000003");
-        setFieldValue(budgetPersonnelPage,"document.budgetPerson[0].jobCode", "AA025");
-        setFieldValue(budgetPersonnelPage,"document.budgetPerson[0].appointmentTypeCode", "7");
-        setFieldValue(budgetPersonnelPage,"document.budgetPerson[0].calculationBase", "120000");
-        clickOn(budgetPersonnelPage, "methodToCall.save");
-        
+        setFieldValue(budgetPersonnelPage,"document.budgetPersons[0].jobCode", "AA025");
+        setFieldValue(budgetPersonnelPage,"document.budgetPersons[0].appointmentTypeCode", "7");
+        setFieldValue(budgetPersonnelPage,"document.budgetPersons[0].calculationBase", "120000");
+        budgetPersonnelPage = clickOn(budgetPersonnelPage, "methodToCall.save");
         budgetPersonnelPage = multiLookup(budgetPersonnelPage, "org.kuali.kra.bo.Person", "personId", "000000008");
-        setFieldValue(budgetPersonnelPage,"document.budgetPerson[1].jobCode", "AA025");
-        setFieldValue(budgetPersonnelPage,"document.budgetPerson[1].appointmentTypeCode", "7");
-        setFieldValue(budgetPersonnelPage,"document.budgetPerson[1].calculationBase", "120000");
-        clickOn(budgetPersonnelPage, "methodToCall.save");
+        setFieldValue(budgetPersonnelPage,"document.budgetPersons[1].jobCode", "AA025");
+        setFieldValue(budgetPersonnelPage,"document.budgetPersons[1].appointmentTypeCode", "7");
+        setFieldValue(budgetPersonnelPage,"document.budgetPersons[1].calculationBase", "120000");
+        budgetPersonnelPage = clickOn(budgetPersonnelPage, "methodToCall.save");
     }
 
     protected void setDefaultRequiredFields(HtmlPage page) {
@@ -203,7 +266,7 @@ public class BudgetPersonnelExpenseWebTest extends BudgetExpenseWebTest {
                                 "TestPersonnelExpenses-1",
                                 "01/01/2007",
                                 "12/31/2009",
-                                DEFAULT_PROPOSAL_ACTIVITY_TYPE,
+                                "1",
                                 DEFAULT_PROPOSAL_TYPE_CODE,
                                 DEFAULT_PROPOSAL_OWNED_BY_UNIT);
     }
@@ -212,24 +275,22 @@ public class BudgetPersonnelExpenseWebTest extends BudgetExpenseWebTest {
         return clickOn(htmlPage, BDOC_BUDGET_PERSONNEL_LINK_NAME);
     }
     
-    private void assignPersonnelExpenses(HtmlPage budgetExpensePage) throws Exception {
-        setFieldValue(budgetExpensePage, "newBudgetLineItems[0].costElement", "400025");
-        setFieldValue(budgetExpensePage, "newBudgetLineItems[0].lineItemCost", "240000");
-        budgetExpensePage = clickOn(budgetExpensePage, BDOC_ADD_PERSONNEL_EXPENSE_LINK_NAME);
-        setFieldValue(budgetExpensePage, "document.budgetPeriods[0].budgetLineItems[0].budgetLineItemCalculatedAmounts[0].applyRateFlag", "off");
-        budgetExpensePage = clickOn(budgetExpensePage, "methodToCall.save");
-        budgetExpensePage = clickOn(budgetExpensePage, PERSONNEL_BUDGET_IMAGE_NAME);
-
-        setFieldValue(budgetExpensePage, "newBudgetPersonnelDetails.personSequenceNumber", "1");
-        setFieldValue(budgetExpensePage, "newBudgetPersonnelDetails.periodTypeCode", "3");
-        setFieldValue(budgetExpensePage, "newBudgetPersonnelDetails.percentEffort", "100");
-        setFieldValue(budgetExpensePage, "newBudgetPersonnelDetails.percentCharged", "75");
-        budgetExpensePage = clickOn(budgetExpensePage, ADD_PERSONNEL_BUDGET_IMAGE_NAME);
+    private void assignPersonnelExpenses(HtmlPage budgetPersonnnelExpensePage) throws Exception {
+        setFieldValue(budgetPersonnnelExpensePage, "newBudgetPersonnelDetails.personSequenceNumber", "1");
+        setFieldValue(budgetPersonnnelExpensePage, "newBudgetLineItems[0].costElement", "400040");
+        setFieldValue(budgetPersonnnelExpensePage, "newGroupName", "Faculty");
         
-        clickOn(budgetExpensePage, "methodToCall.save");
-        clickOn(budgetExpensePage, "methodToCall.calculateSalary.line0.anchor2");
-        clickOn(budgetExpensePage, "methodToCall.save");
-        budgetExpensePage = clickOn(budgetExpensePage, BUDGET_RETURN_TO_EXPENSES_LINK_NAME);
+        budgetPersonnnelExpensePage = clickOn(budgetPersonnnelExpensePage, BDOC_ADD_PERSONNEL_EXPENSE_LINK_NAME+"Period1");
+
+        setFieldValue(budgetPersonnnelExpensePage, "document.budgetPeriod[0].budgetLineItem[0].budgetPersonnelDetailsList[0].periodTypeCode", "3");
+        setFieldValue(budgetPersonnnelExpensePage, "document.budgetPeriod[0].budgetLineItem[0].budgetPersonnelDetailsList[0].percentEffort", "100");
+        setFieldValue(budgetPersonnnelExpensePage, "document.budgetPeriod[0].budgetLineItem[0].budgetPersonnelDetailsList[0].percentCharged", "75");
+        
+        budgetPersonnnelExpensePage = clickOn(budgetPersonnnelExpensePage, "methodToCall.calculateSalary.line0.personnel0.anchor4");
+        budgetPersonnnelExpensePage = clickOn(budgetPersonnnelExpensePage, "methodToCall.save");
+        
+        assertDoesNotContain(budgetPersonnnelExpensePage, ERRORS_FOUND_ON_PAGE);
+        assertContains(budgetPersonnnelExpensePage,SAVE_SUCCESS_MESSAGE);
     }
     
     /**
@@ -258,3 +319,12 @@ public class BudgetPersonnelExpenseWebTest extends BudgetExpenseWebTest {
         return returnPage;
     }
 }
+
+class LineItemCalcAmountComparator implements Comparator<BudgetLineItemCalculatedAmount> {
+    public int compare(BudgetLineItemCalculatedAmount lineItemCalculatedAmount1, BudgetLineItemCalculatedAmount lineItemCalculatedAmount2) {
+        BudgetLineItemCalculatedAmount l1 = (BudgetLineItemCalculatedAmount) lineItemCalculatedAmount1;
+        BudgetLineItemCalculatedAmount l2 = (BudgetLineItemCalculatedAmount) lineItemCalculatedAmount2;
+      
+        return (l1.getRateClassCode()+l1.getRateTypeCode()).compareTo((l2.getRateClassCode()+l2.getRateTypeCode()));
+    }
+  }

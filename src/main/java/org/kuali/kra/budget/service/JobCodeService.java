@@ -18,7 +18,7 @@ package org.kuali.kra.budget.service;
 import org.kuali.kra.budget.bo.JobCode;
 
 public interface JobCodeService {
-
+    
     /**
      * 
      * This method provides the appropriate JobCode Title

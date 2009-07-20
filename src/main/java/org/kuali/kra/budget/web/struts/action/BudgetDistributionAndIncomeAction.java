@@ -64,7 +64,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.reload(mapping, form, request, response);
-        bdiService.initializeCollectionDefaults(((BudgetForm)form).getBudgetDocument());
+        bdiService.initializeCollectionDefaults(((BudgetForm)form).getDocument());
         return forward;
     }
     
@@ -79,7 +79,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      */
     public ActionForward addCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form; 
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         BudgetCostShare budgetCostShare = budgetForm.getNewBudgetCostShare();
         boolean passed = getKualiRuleService().applyRules(createAddRuleEvent(budgetForm, budgetCostShare));
         
@@ -110,7 +110,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
         boolean passed = getKualiRuleService().applyRules(createRuleEvent(budgetForm, budgetProjectIncome));
         
         if(passed) {
-            budgetForm.getBudgetDocument().add(budgetProjectIncome);
+            budgetForm.getDocument().add(budgetProjectIncome);
             budgetForm.setNewBudgetProjectIncome(new BudgetProjectIncome());
             LOG.debug("Added new BudgetProjectIncome: " + budgetProjectIncome);
         }  
@@ -129,14 +129,14 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      */
     public ActionForward addUnrecoveredFandA(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form; 
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         BudgetUnrecoveredFandA budgetUnrecoveredFandA = budgetForm.getNewBudgetUnrecoveredFandA();
         boolean passed = getKualiRuleService().applyRules(createRuleEvent(budgetForm, budgetUnrecoveredFandA));
         
         if(passed) {
             setUnrecoveredFandAAddRowDefaults(budgetDocument, budgetUnrecoveredFandA);
                        
-            budgetForm.getBudgetDocument().add(budgetUnrecoveredFandA);
+            budgetForm.getDocument().add(budgetUnrecoveredFandA);
             budgetForm.setNewBudgetUnrecoveredFandA(new BudgetUnrecoveredFandA());
             LOG.debug("Added new BudgetCostShare: " + budgetUnrecoveredFandA);
         }  
@@ -154,7 +154,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward deleteCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((BudgetForm)form).getBudgetDocument().removeBudgetCostShare(getLineToDelete(request));        
+        ((BudgetForm)form).getDocument().removeBudgetCostShare(getLineToDelete(request));        
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -168,7 +168,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward deleteProjectIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((BudgetForm)form).getBudgetDocument().removeBudgetProjectIncome(getLineToDelete(request));        
+        ((BudgetForm)form).getDocument().removeBudgetProjectIncome(getLineToDelete(request));        
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -182,7 +182,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward deleteUnrecoveredFandA(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((BudgetForm)form).getBudgetDocument().removeBudgetUnrecoveredFandA(getLineToDelete(request));        
+        ((BudgetForm)form).getDocument().removeBudgetUnrecoveredFandA(getLineToDelete(request));        
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -257,7 +257,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @return
      */
     private AddBudgetCostShareEvent createAddRuleEvent(BudgetForm budgetForm, BudgetDistributionAndIncomeComponent budgetCostShare) {
-        return new AddBudgetCostShareEvent("Add BudgetCostShare Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), budgetCostShare);
+        return new AddBudgetCostShareEvent("Add BudgetCostShare Event", Constants.EMPTY_STRING, budgetForm.getDocument(), budgetCostShare);
     }
     
     /**
@@ -267,7 +267,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @return
      */
     private AddBudgetProjectIncomeEvent createRuleEvent(BudgetForm budgetForm, BudgetProjectIncome budgetProjectIncome) {
-        return new AddBudgetProjectIncomeEvent("Add BudgetProjectIncome Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), budgetProjectIncome);
+        return new AddBudgetProjectIncomeEvent("Add BudgetProjectIncome Event", Constants.EMPTY_STRING, budgetForm.getDocument(), budgetProjectIncome);
     }
     
     /**
@@ -277,7 +277,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @return
      */
     private AddBudgetUnrecoveredFandAEvent createRuleEvent(BudgetForm budgetForm, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
-        return new AddBudgetUnrecoveredFandAEvent("Add BudgetUnrecoveredFandA Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), budgetUnrecoveredFandA);
+        return new AddBudgetUnrecoveredFandAEvent("Add BudgetUnrecoveredFandA Event", Constants.EMPTY_STRING, budgetForm.getDocument(), budgetUnrecoveredFandA);
     }
     
     /**
@@ -287,7 +287,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      */
     private BudgetDocument getDocument(ActionForm form) {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         return budgetDocument;
     }
     

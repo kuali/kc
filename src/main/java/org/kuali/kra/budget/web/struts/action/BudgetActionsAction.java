@@ -97,7 +97,7 @@ public class BudgetActionsAction extends BudgetAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         budgetJustificationService.preSave(getDocument(form), getBudgetJusticationWrapper(form));
         BudgetForm budgetForm = (BudgetForm)form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         return super.save(mapping, form, request, response);
     }
     
@@ -142,7 +142,7 @@ public class BudgetActionsAction extends BudgetAction {
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.reload(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm)form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardAttachments(budgetDocument);
         return forward;
     }
@@ -150,7 +150,7 @@ public class BudgetActionsAction extends BudgetAction {
     @SuppressWarnings("unchecked")
     public ActionForward translateXFD(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm)form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         BudgetSubAwards newBudgetSubAward = budgetForm.getNewSubAward();
         boolean success = true;
         if(newBudgetSubAward.getOrganizationName()==null || newBudgetSubAward.getOrganizationName().equals("")){
@@ -226,7 +226,7 @@ public class BudgetActionsAction extends BudgetAction {
     
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm)form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         int selectedLineNumber = getSelectedLine(request);
         budgetDocument.getBudgetSubAwards().remove(selectedLineNumber);
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -234,7 +234,7 @@ public class BudgetActionsAction extends BudgetAction {
 
     public ActionForward printBudgetForm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm)form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         BudgetPrintService budgetPrintService = KraServiceLocator.getService(BudgetPrintService.class);
         ActionForward forward = null;
         if (budgetForm.getSelectedBudgetPrintFormId() != null) {
@@ -264,7 +264,7 @@ public class BudgetActionsAction extends BudgetAction {
     }
     
     private BudgetDocument getDocument(ActionForm form) {
-        return ((BudgetForm)form).getBudgetDocument();
+        return ((BudgetForm)form).getDocument();
     }
 
     private BudgetJustificationWrapper getBudgetJusticationWrapper(ActionForm form) {
@@ -273,7 +273,7 @@ public class BudgetActionsAction extends BudgetAction {
     
     private BudgetSubAwards getSelectedBudgetSubAward(ActionForm form, HttpServletRequest request) {
         BudgetForm budgetForm = (BudgetForm)form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         int selectedLineNumber = getSelectedLine(request);
         return budgetDocument.getBudgetSubAwards().get(selectedLineNumber);
     }

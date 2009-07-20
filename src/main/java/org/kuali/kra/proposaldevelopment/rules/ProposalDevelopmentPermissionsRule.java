@@ -49,7 +49,7 @@ import org.kuali.kra.service.PersonService;
 public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase implements PermissionsRule {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentPermissionsRule.class);
-
+    
     /**
      * @see org.kuali.kra.proposaldevelopment.rule.PermissionsRule#processAddProposalUserBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.util.List, org.kuali.kra.proposaldevelopment.bo.ProposalUser)
      */
@@ -142,7 +142,7 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
             
         // The user cannot delete the last Aggregator on a proposal.
             
-        else if (!hasAggregator(editRoles) && isLastAggregator(editRoles.getUsername(), proposalUserRolesList)) {
+        else if (!hasAggregator(editRoles) && isLastAggregator(username, proposalUserRolesList)) {
             isValid = false;
             this.reportError(Constants.EDIT_ROLES_PROPERTY_KEY, 
                              KeyConstants.ERROR_LAST_AGGREGATOR);

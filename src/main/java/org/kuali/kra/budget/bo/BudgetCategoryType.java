@@ -21,15 +21,15 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * Class representation of the BudgetCategory Type Business Object
- *
+ * 
  * BudgetCategoryType.java
  */
-public class BudgetCategoryType extends KraPersistableBusinessObjectBase {
-	
-	private String budgetCategoryTypeCode;
-	private String description;
-	private String sortId;
-	
+public class BudgetCategoryType extends KraPersistableBusinessObjectBase implements Comparable {
+    
+    private String budgetCategoryTypeCode;
+    private String description;
+    private String sortId;
+    
     public String getSortId() {
         return sortId;
     }
@@ -43,27 +43,27 @@ public class BudgetCategoryType extends KraPersistableBusinessObjectBase {
      * 
      * @return String
      */
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
     
     /**
      * Assigns the description attribute
      *
      * @param description
      */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap propMap = new LinkedHashMap();
-		propMap.put("budgetCategoryTypeCode", this.getBudgetCategoryTypeCode());
-		propMap.put("description", this.getDescription());
-		propMap.put("updateTimestamp", this.getUpdateTimestamp());
-		propMap.put("updateUser", this.getUpdateUser());
-		return propMap;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap propMap = new LinkedHashMap();
+        propMap.put("budgetCategoryTypeCode", this.getBudgetCategoryTypeCode());
+        propMap.put("description", this.getDescription());
+        propMap.put("updateTimestamp", this.getUpdateTimestamp());
+        propMap.put("updateUser", this.getUpdateUser());
+        return propMap;
+    }
 
     /**
      * Gets the budgetCategoryTypeCode attribute. 
@@ -92,4 +92,5 @@ public class BudgetCategoryType extends KraPersistableBusinessObjectBase {
     public int compareTo(BudgetCategoryType budgetCategoryType) {
         return this.sortId.compareTo(budgetCategoryType.sortId);
     }
+
 }

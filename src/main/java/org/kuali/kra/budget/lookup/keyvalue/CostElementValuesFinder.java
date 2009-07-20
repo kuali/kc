@@ -59,7 +59,6 @@ public class CostElementValuesFinder extends KeyValuesBase{
         Collection budgetCategoryCodes = keyValuesService.findAll(BudgetCategory.class);
         KualiForm form = GlobalVariables.getKualiForm();        
         
-        keyValues.add(new KeyLabelPair("", "select"));
         
         BudgetForm budgetForm = (BudgetForm)form;
         for (Iterator iter = costElements.iterator(); iter.hasNext();) {

@@ -38,7 +38,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class BudgetExpensesAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetExpensesAuditRule.class);
     
-
     /**
      * 
      * This method is to validate budget expense business rules

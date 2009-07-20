@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
+import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
+import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
@@ -41,6 +46,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
     private KraCustomAttributeRule rule = null;
     private BusinessObjectService bos;
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -48,6 +54,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
         bos = KraServiceLocator.getService(BusinessObjectService.class);
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;
@@ -91,7 +98,15 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
         PessimisticLock lock = KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), "PROPOSAL-"+document.getDocumentNumber(), currentSession.getPerson());
         document.addPessimisticLock(lock);
         
+        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
+        String username = user.getPersonUserIdentifier();
+        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        proposalAuthService.addRole(username, RoleConstants.AGGREGATOR, document);
+        ProposalRoleTemplateService proposalRoleTemplateService = KraServiceLocator.getService(ProposalRoleTemplateService.class);
+        proposalRoleTemplateService.addUsers(document);
+
         try {
+            KraServiceLocator.getService(DocumentService.class).saveDocument(document);
             KraServiceLocator.getService(DocumentService.class).routeDocument(document, "just testing", null);
         }
         catch (org.kuali.rice.kns.exception.ValidationException ex) {
@@ -114,7 +129,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id4)");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_INVALID_FORMAT);
+        assertEquals(KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT, message.getErrorKey());
     }
     
     @Test
@@ -148,7 +163,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id8)");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_INVALID_FORMAT);
+        assertEquals(KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT, message.getErrorKey());
     }
 
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -48,6 +49,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
     private static final String NO = "N";
     private static final String SYSTEM_GENERATED = "systemGenerated";
     private static final String NARRATIVE_TYPE_GROUP = "narrativeTypeGroup";
+    private static final String STRING_151_CHARS_LONG = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis tortor. Morbi sollicitudin, leo a faucibus aliquet, nisl velit vulputate sed.";
     private ProposalDevelopmentInstituteAttachmentRule rule = null;
     private List<NarrativeType> narrativeTypes;
     private List<NarrativeStatus> narrativeStatuses;
@@ -104,7 +106,32 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertTrue(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
     }
-    
+
+    /**
+     * Test a good case. 
+     *  
+     * @throws Exception
+     */
+    @Test
+    public void testDescriptionTooLong() throws Exception {
+        
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
+        
+        Narrative newNarrative = new Narrative();
+        newNarrative.setNarrativeTypeCode(narrativeTypes.get(1).getNarrativeTypeCode());
+        newNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
+        newNarrative.setFileName("test.dat");
+        newNarrative.setModuleTitle(STRING_151_CHARS_LONG);
+        AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
+        assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
+
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".moduleTitle");
+        assertTrue(errors.size() == 1);
+        
+        ErrorMessage message = (ErrorMessage) errors.get(0);
+        assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_MAX_LENGTH);
+}
+
     /**
      * Test adding an institutional attachment with an unspecified attachment type code.
      * This corresponds to a empty string type code, i.e. the user didn't

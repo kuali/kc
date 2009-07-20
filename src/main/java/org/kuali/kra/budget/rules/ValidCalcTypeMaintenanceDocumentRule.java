@@ -77,7 +77,6 @@ public class ValidCalcTypeMaintenanceDocumentRule extends KraMaintenanceDocument
      */
     private boolean checkExistence(final MaintenanceDocument maintenanceDocument) {
 
-        //boolean valid = true;
         if (LOG.isDebugEnabled()) {
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }

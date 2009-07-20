@@ -41,6 +41,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * The Proposal Development Document Authorizer.  Primarily responsible for determining if
@@ -148,10 +149,17 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
                 editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
             }
     
+            String modifyBudgetPermission = null;
+            if(editModeMap.get("addBudget") != null) {
+                modifyBudgetPermission = editModeMap.get("addBudget").toString();
+            }
+            
 	        if(isBudgetComplete(proposalDoc)) {
-    	        editModeMap.put("modifyCompletedBudgets", TRUE);
         	    editModeMap.put("modifyBudgets", FALSE);
             	editModeMap.put("addBudget", FALSE);
+                if(StringUtils.isNotBlank(modifyBudgetPermission) && StringUtils.equals(modifyBudgetPermission, TRUE)) {
+                    editModeMap.put("modifyCompletedBudgets", TRUE);
+                }
         	}
         }
         
@@ -182,6 +190,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         editModeMap.put("modifyProposal", editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) ? TRUE : FALSE);
         editModeMap.put("addBudget", canExecuteTask(username, doc, TaskName.ADD_BUDGET));
         editModeMap.put("openBudgets", canExecuteTask(username, doc, TaskName.OPEN_BUDGETS));
+        editModeMap.put("modifyProposalBudget", canExecuteTask(username, doc, TaskName.MODIFY_BUDGET));
         editModeMap.put("modifyPermissions", canExecuteTask(username, doc, TaskName.MODIFY_PROPOSAL_ROLES));
         editModeMap.put("addNarratives", canExecuteTask(username, doc, TaskName.ADD_NARRATIVE));
         editModeMap.put("certify", canExecuteTask(username, doc, TaskName.CERTIFY));
@@ -297,7 +306,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
 //          NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_ANNOTATE);
         }
-
+        
+        KualiWorkflowDocument workflow = document.getDocumentHeader().getWorkflowDocument();
+        if (workflow.stateIsCanceled()) documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
+        
         return documentActions;
     }
     

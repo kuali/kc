@@ -28,7 +28,8 @@ public class AwardDocumentPresentationController extends ResearchDocumentPresent
     public boolean canInitiate(String documentTypeName) {
         //super.canInitiate(documentTypeName, user);
         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
-        return canCreateAward(user);
+        boolean canCreate = canCreateAward(user);
+        return canCreate;
     }
 
     /**

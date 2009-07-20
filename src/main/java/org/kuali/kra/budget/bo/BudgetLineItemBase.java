@@ -54,6 +54,7 @@ public abstract class BudgetLineItemBase extends KraPersistableBusinessObjectBas
 
     private BudgetDecimal totalCostSharingAmount;
     private boolean validToApplyInRate;
+    
     private String groupName;
     
 	public String getGroupName() {

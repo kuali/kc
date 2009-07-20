@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.RiceKeyConstants;
@@ -55,7 +56,34 @@ public class ValidCalcTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         validCalcType.setDependentRateClassType("Y");
         MaintenanceDocument validCalcTypeDocument = newMaintDoc(validCalcType);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(validCalcTypeDocument));
+        ErrorMap eMap = GlobalVariables.getErrorMap();
+        assertEquals(0, eMap.size());
+        
         assertTrue(rule.processCustomApproveDocumentBusinessRules(validCalcTypeDocument));
+        assertEquals(0, eMap.size());
+    }
+    
+    /**
+     * Since a DependentRateClassType is not required,
+     * this tests that not specifying one does not generate an error.
+     * @throws Exception if failure occurs
+     */
+    @Test
+    public void testOKNoDependentRateClassType() throws Exception {
+
+        ValidCalcType validCalcType = new ValidCalcType();
+        
+        validCalcType.setRateClassCode("10");
+        validCalcType.setRateTypeCode("1");
+        validCalcType.setRateClassType("X");
+        validCalcType.setDependentRateClassType(null);
+        MaintenanceDocument validCalcTypeDocument = newMaintDoc(validCalcType);
+        assertTrue(rule.processCustomRouteDocumentBusinessRules(validCalcTypeDocument));
+        ErrorMap eMap = GlobalVariables.getErrorMap();
+        assertEquals(0, eMap.size());
+        
+        assertTrue(rule.processCustomApproveDocumentBusinessRules(validCalcTypeDocument));
+        assertEquals(0, eMap.size());
     }
 
     /**
@@ -75,14 +103,14 @@ public class ValidCalcTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         MaintenanceDocument validCalcTypeDocument = newMaintDoc(validCalcType);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(validCalcTypeDocument));
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.rateTypeCode");
-        assertTrue(errors.size() == 1);
+        assertEquals(1, errors.size());
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_RATE_TYPE_NOT_EXIST);
 
         // approve will have the same error too.
         assertFalse(rule.processCustomApproveDocumentBusinessRules(validCalcTypeDocument));
         errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.rateTypeCode");
-        assertTrue(errors.size() == 1);
+        assertEquals(1, errors.size());
         message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_RATE_TYPE_NOT_EXIST);
 
@@ -100,14 +128,14 @@ public class ValidCalcTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         MaintenanceDocument validCalcTypeDocument = newMaintDoc(validCalcType);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(validCalcTypeDocument));
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.rateClassType");
-        assertTrue(errors.size() == 1);
+        assertEquals(1, errors.size());
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);
 
         // approve will have the same error too.
         assertFalse(rule.processCustomApproveDocumentBusinessRules(validCalcTypeDocument));
         errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.rateClassType");
-        assertTrue(errors.size() == 1);
+        assertEquals(1, errors.size());
         message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);
 
@@ -125,17 +153,16 @@ public class ValidCalcTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         MaintenanceDocument validCalcTypeDocument = newMaintDoc(validCalcType);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(validCalcTypeDocument));
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.dependentRateClassType");
-        assertTrue(errors.size() == 1);
+        assertEquals(1, errors.size());
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);
 
         // approve will have the same error too.
         assertFalse(rule.processCustomApproveDocumentBusinessRules(validCalcTypeDocument));
         errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.dependentRateClassType");
-        assertTrue(errors.size() == 1);
+        assertEquals(1, errors.size());
         message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);
 
     }
-
 }

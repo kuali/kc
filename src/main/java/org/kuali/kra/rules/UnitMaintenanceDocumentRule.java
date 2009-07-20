@@ -15,24 +15,14 @@
  */
 package org.kuali.kra.rules;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.kra.bo.AbstractInstituteRate;
-import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.budget.bo.RateType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ActivityType;
-import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class UnitMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
     

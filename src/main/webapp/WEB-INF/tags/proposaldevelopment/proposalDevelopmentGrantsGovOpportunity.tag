@@ -99,18 +99,18 @@
                      <td>
                      
                          <jsp:useBean id="revisionTypeParamMap" class="java.util.HashMap"/>
-						 <%--<c:set target="${revisionTypeParamMap}" property="businessObjectClass" value="org.kuali.kra.bo.S2sRevisionType" />
+						 <c:set target="${revisionTypeParamMap}" property="businessObjectClass" value="org.kuali.kra.bo.S2sRevisionType" />
 						 <c:set target="${revisionTypeParamMap}" property="keyAttributeName" value="s2sRevisionTypeCode" />
 						 <c:set target="${revisionTypeParamMap}" property="labelAttributeName" value="description" />
 						 <c:set target="${revisionTypeParamMap}" property="includeKeyInDescription" value="false" />
-                     	--%>
+                     
                      	<kul:checkErrors keyMatch="document.s2sOpportunity.revisionCode" auditMatch="document.s2sOpportunity.revisionCode"/>
 					 	<c:if test="${hasErrors==true}">
 						    <c:set var="textStyle" value="background-color:#FFD5D5"/>
 					 	</c:if>
 					 
 						 <html:select property="document.s2sOpportunity.revisionCode" tabindex="0" style="${textStyle}" styleId="document.s2sOpportunity.revisionCode" >                                                   
-                         <c:forEach items="${krafn:getOptionList('org.kuali.kra.proposaldevelopment.lookup.keyvalue.S2sRevisionTypeValuesFinder', revisionTypeParamMap)}" var="option">
+                         <c:forEach items="${krafn:getOptionList('org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder', revisionTypeParamMap)}" var="option">
 		        		 	 <c:choose>                    	
 	        					<c:when test="${KualiForm.document.s2sOpportunity.revisionCode == option.key}">
 		            				<option value="${option.key}" selected>${option.label}</option>
@@ -121,6 +121,7 @@
 	            			 </c:choose>                    
 	        			 </c:forEach>                         
                          </html:select>                        
+                                                         
                          <kul:htmlControlAttribute property="document.s2sOpportunity.revisionOtherDescription" 
                                                    attributeEntry="${s2sOpportunity.revisionOtherDescription}" />            
                      </td>
