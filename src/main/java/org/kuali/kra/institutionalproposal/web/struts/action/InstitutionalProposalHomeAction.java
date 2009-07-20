@@ -53,4 +53,21 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         institutionalProposalNotepadBean.addNote(((InstitutionalProposalForm) form).getInstitutionalProposalNotepadBean());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    /**
+     * This method is used to recalculate the totals on Financial panel.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward recalculateTotals(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+       
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
 }
