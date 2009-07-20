@@ -257,7 +257,7 @@
 </td></tr>
 
 <bean:define id="unitDetailsRequired" name="KualiForm" property="${proposalPerson}.role.unitDetailsRequired" />
-<c:set var="unitsErrorKey" value="document.proposalPersons[${personIndex}].units*,newProposalPersonUnit[${personIndex}]*" />
+<c:set var="unitsErrorKey" value="document.proposalPersons[${personIndex}].unit*,newProposalPersonUnit[${personIndex}]*" />
 <c:choose>
  <c:when test="${unitDetailsRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
    	<tr>

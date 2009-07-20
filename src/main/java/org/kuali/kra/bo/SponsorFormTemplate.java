@@ -15,20 +15,17 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
-
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.apache.struts.upload.FormFile;
 import org.kuali.rice.kns.bo.PersistableAttachment;
 
 public class SponsorFormTemplate extends AbstractSponsorFormTemplate implements PersistableAttachment{
-    private static final long serialVersionUID = 7353836184312622270L;    
+    
+    private static final long serialVersionUID = 7353836184312622270L;
     private String fileName;
     private String contentType;
     private byte[] attachmentContent;
     private FormFile templateFile;
-    private Boolean selectToPrint = false;
+    private Boolean selectToPrint = Boolean.FALSE;
 
     public byte[] getAttachmentContent() {
         return this.attachmentContent;
@@ -38,18 +35,6 @@ public class SponsorFormTemplate extends AbstractSponsorFormTemplate implements 
         this.attachmentContent = attachmentContent;
     }
 
-
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("packageNumber", getPackageNumber());
-		hashMap.put("pageNumber", getPageNumber());
-		hashMap.put("sponsorCode", getSponsorCode());
-		hashMap.put("pageDescription", getPageDescription());
-		return hashMap;
-	}
-
     public FormFile getTemplateFile() {
         return templateFile;
     }
@@ -57,14 +42,6 @@ public class SponsorFormTemplate extends AbstractSponsorFormTemplate implements 
     public void setTemplateFile(FormFile templateFile) {
         this.templateFile = templateFile;
     }
-
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-	    super.beforeInsert(persistenceBroker);
-	}
-
-	public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-	    super.afterLookup(persistenceBroker);
-	}	
 
     public String getFileName() {
         return fileName;
@@ -89,5 +66,4 @@ public class SponsorFormTemplate extends AbstractSponsorFormTemplate implements 
     public final void setSelectToPrint(Boolean selectToPrint) {
         this.selectToPrint = selectToPrint;
     }
-    
 }

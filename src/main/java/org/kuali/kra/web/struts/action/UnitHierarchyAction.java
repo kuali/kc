@@ -22,6 +22,5 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
  * This class for UnitHierarchy
  */
 public class UnitHierarchyAction extends KualiAction {
-    
-
+    //nothing needed here yet
 }

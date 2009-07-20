@@ -36,7 +36,7 @@
 
 <c:set var="viewOnly" value="${not KualiForm.editingMode['modifyProposal']}" />
 <kra:section permission="modifyProposal">
-    <kul:uncollapsable tabTitle="Add Key Personnel" tabErrorKey="newProposalPerson.*" auditCluster="keyPersonnelAuditErrors" tabAuditKey="newProposalPerson*">
+    <kra:uncollapsable tabTitle="Add Key Personnel" tabErrorKey="newProposalPerson.*" auditCluster="keyPersonnelAuditErrors" tabAuditKey="newProposalPerson*">
           <div align="center">
             <table  cellpadding="0" cellspacing="0" class="grid" summary="">
               <tr>
@@ -84,7 +84,7 @@
             </c:otherwise>
             </c:choose>
           </div>
-    </kul:uncollapsable>
+    </kra:uncollapsable>
 </kra:section>
 
     <br/>

@@ -80,5 +80,3 @@ open cur_generic for li_select_clause;
 --	   DBMS_SQL.EXECUTE_AND_FETCH(cur);
 
 END;
-/
- 

@@ -143,7 +143,7 @@ public class BudgetPersonnelRule {
                     KeyConstants.ERROR_DELETE_PERSON_WITH_PERSONNEL_DETAIL, budgetPerson.getPersonName());
                 valid = false;
         }
-                    
+
         return valid;
     }
 

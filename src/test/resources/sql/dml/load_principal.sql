@@ -32,4 +32,11 @@ insert into KRIM_GRP_MBR_T(GRP_MBR_ID,GRP_ID,MBR_ID,MBR_TYP_CD,LAST_UPDT_DT,OBJ_
 insert into KRIM_GRP_MBR_T(GRP_MBR_ID,GRP_ID,MBR_ID,MBR_TYP_CD,LAST_UPDT_DT,OBJ_ID,VER_NBR) 
   VALUES ('1187','2425','aslusar','P', sysdate,sys_guid(),1)
 ;
+
+insert into KRIM_GRP_MBR_T(GRP_MBR_ID,GRP_ID,MBR_ID,MBR_TYP_CD,LAST_UPDT_DT,OBJ_ID,VER_NBR) 
+  VALUES ('1500','1','quickstart','P', sysdate,sys_guid(),1)
+;
+insert into KRIM_GRP_MBR_T(GRP_MBR_ID,GRP_ID,MBR_ID,MBR_TYP_CD,LAST_UPDT_DT,OBJ_ID,VER_NBR) 
+  VALUES ('1501','2','quickstart','P', sysdate,sys_guid(),1)
+  ;
 commit;

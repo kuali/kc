@@ -63,7 +63,7 @@ public class BufferedLogger {
      */
     private static final Logger getLogger() {
         try {
-            return Logger.getLogger(Class.forName(new Throwable().getStackTrace()[3].getClassName()));
+            return Logger.getLogger(Class.forName(new Throwable().getStackTrace()[2].getClassName()));
         }
         catch (Exception e) {
             // This will never happen unless Java is broken

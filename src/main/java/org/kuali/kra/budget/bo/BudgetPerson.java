@@ -37,7 +37,7 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
     private Date effectiveDate;
 	private String jobCode;
 	private JobCode jobCodeRef;
-	private String jobTitle;
+	
 	private Boolean nonEmployeeFlag;
 	private String personId;
     private Integer rolodexId;

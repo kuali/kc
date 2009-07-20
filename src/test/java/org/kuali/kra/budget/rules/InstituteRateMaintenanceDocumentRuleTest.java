@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ public class InstituteRateMaintenanceDocumentRuleTest extends MaintenanceRuleTes
 
         InstituteRate instituteRate = new InstituteRate();
         
-        instituteRate.setRateClassCode("10");
+        instituteRate.setRateClassCode("1");
         instituteRate.setRateTypeCode("1");
         instituteRate.setUnitNumber("000001");
         instituteRate.setActivityTypeCode("1");

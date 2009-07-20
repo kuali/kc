@@ -149,6 +149,8 @@ public class BreakUpInterval{
                    And notEqRCandnotEqRT = new And(notEqualsRC, notEqualsRT);
                    Or neRCandneRTOrneRT = new Or(notEqRCandnotEqRT, notEqualsRT);
                    rateAndCostList = rateAndCostList.filter(neRCandneRTOrneRT);
+//                   rateAndCostList = rateAndCostList.filter(notEqualsRC);
+//                   rateAndCostList = rateAndCostList.filter(notEqualsRT);
                }
                
                /**

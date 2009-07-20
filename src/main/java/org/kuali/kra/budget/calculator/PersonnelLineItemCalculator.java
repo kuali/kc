@@ -18,8 +18,11 @@ package org.kuali.kra.budget.calculator;
 import static org.kuali.kra.logging.BufferedLogger.debug;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
@@ -56,47 +59,63 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
     }
 
     private boolean isDocumentOhRateSameAsFormOhRate() {
-        if (budgetDocument.getOhRateClassCode() != null || ((BudgetForm)GlobalVariables.getKualiForm()) != null) {
-            return false;
+        if(budgetDocument.getOhRateClassCode()!= null && ((BudgetForm)GlobalVariables.getKualiForm())!= null && StringUtils.equalsIgnoreCase(budgetDocument.getOhRateClassCode(), ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue())){
+            return true;
         }
-
-        return StringUtils.equalsIgnoreCase(budgetDocument.getOhRateClassCode(),((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue());
+        
+        return false;
+    }
+    
+    private Map<String, Boolean> saveApplyRateFlagsForReset() { 
+        Map<String, Boolean> applyRateFlags = new HashMap<String, Boolean>();
+        if(budgetPersonnelLineItem != null && CollectionUtils.isNotEmpty(budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts())) {
+            for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts()) {
+                applyRateFlags.put(budgetPersonnelCalculatedAmount.getRateClassCode() + budgetPersonnelCalculatedAmount.getRateTypeCode(), budgetPersonnelCalculatedAmount.getApplyRateFlag());
+            }
+        }
+        
+        return applyRateFlags;
     }
     
     @Override
     public void populateCalculatedAmountLineItems() {
-        List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalcAmts = new ArrayList<BudgetPersonnelCalculatedAmount>();
-
-       if (budgetPersonnelCalcAmts.size() <= 0) {
+       if (CollectionUtils.isEmpty(budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts())) { 
             budgetPersonnelLineItem.refreshReferenceObject("budgetPersonnelCalculatedAmounts");
        }
-
        Long versionNumber = -1L;
+       Map<String, Boolean> applyRateFlags = null;
        
-       if (isDocumentOhRateSameAsFormOhRate()){
-           budgetPersonnelLineItem.setBudgetPersonnelCalculatedAmounts(budgetPersonnelCalcAmts);
+       if (!isDocumentOhRateSameAsFormOhRate()){
+           if (budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().size() > 0) {
+               versionNumber = budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().get(0).getVersionNumber();
+           }
            
-           if (budgetPersonnelCalcAmts.size() > 0) {
-               budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().get(0).getVersionNumber();
+           //Save applyRateFlag to set it back on the new Calculated Amounts
+           applyRateFlags = saveApplyRateFlagsForReset();
+           
+           budgetPersonnelLineItem.setBudgetPersonnelCalculatedAmounts(new ArrayList<BudgetPersonnelCalculatedAmount>());
+           setCalculatedAmounts(budgetDocument,budgetPersonnelLineItem);
+           
+           for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts()) {
+               if (versionNumber != null && versionNumber.longValue() > -1) {
+                   budgetPersonnelCalculatedAmount.setVersionNumber(versionNumber);
+               }
            }
        }
-       else {
-           budgetPersonnelCalcAmts = budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts();
-       }
 
-       if (budgetPersonnelCalcAmts.size() <= 0) {
+       if (budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().size() <= 0) {
            setCalculatedAmounts(budgetDocument,budgetPersonnelLineItem);
        }
 
-       for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelCalcAmts) {
+       for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts()) {
            budgetPersonnelCalculatedAmount.refreshReferenceObject("rateClass");
            budgetPersonnelCalculatedAmount.refreshReferenceObject("rateType");
+           
+           if(applyRateFlags != null && applyRateFlags.get(budgetPersonnelCalculatedAmount.getRateClassCode()+ budgetPersonnelCalculatedAmount.getRateTypeCode()) != null) {
+               budgetPersonnelCalculatedAmount.setApplyRateFlag(applyRateFlags.get(budgetPersonnelCalculatedAmount.getRateClassCode()+budgetPersonnelCalculatedAmount.getRateTypeCode()));
+           }
            debug(budgetPersonnelCalculatedAmount);
            debug(budgetPersonnelCalculatedAmount.getRateClass());
-           
-           if (versionNumber > -1) {
-               budgetPersonnelCalculatedAmount.setVersionNumber(versionNumber);
-           }
        }        
     }
 

@@ -20,9 +20,10 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class JobCode extends KraPersistableBusinessObjectBase {
-	private String jobCode;
-	private String jobTitle;
 
+	private String jobTitle;
+    private String jobCode;
+    
 	public String getJobCode() {
 		return jobCode;
 	}

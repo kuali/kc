@@ -54,7 +54,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         try {
             ConvertUtils.register(new SqlDateConverter(null), java.sql.Date.class);
             ConvertUtils.register(new SqlTimestampConverter(null), java.sql.Timestamp.class);
-            BeanUtils.copyProperties(newBudgetPersonnelDetails,(BudgetLineItemBase)budgetLineItem);
+            BeanUtils.copyProperties(newBudgetPersonnelDetails,(BudgetLineItemBase) budgetLineItem);
         }catch (Exception e) {
             copyLineItemToPersonnelDetails(budgetLineItem, newBudgetPersonnelDetails);
         }

@@ -52,24 +52,29 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class BudgetForm extends ProposalFormBase {
+    
+    private static final long serialVersionUID = -8853937659597422800L;
+    
     private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to proposal";
 
     private static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
-
+    private static final String KR_EXTERNALIZABLE_IMAGES_URI_KEY = "kr.externalizable.images.url";
     private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
-
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetForm.class);
+    public static final String VERSION_NUMBER_KEY = "DataDictionary.BudgetDocument.attributes.budgetVersionNumber";
+    public static final String BUDGET_NAME_KEY = "DataDictionary.KraAttributeReferenceDummy.attributes.budgetName";
     
     private String newBudgetPersons;
     private String newBudgetRolodexes;
     private String newTbnPersons;
     
     private BudgetPeriod newBudgetPeriod;
-    private List<BudgetLineItem> newBudgetLineItems;    
-    private Integer newBudgetPeriodNumber = 0;    
+    private List<BudgetLineItem> newBudgetLineItems;   
+    private BudgetLineItem newPersonnelLineItem;   
+    private Integer newBudgetPeriodNumber = Integer.valueOf(0);    
     
 	private BudgetCostShare newBudgetCostShare;
 	private BudgetProjectIncome newBudgetProjectIncome;
@@ -90,6 +95,7 @@ public class BudgetForm extends ProposalFormBase {
     private Integer modularSelectedPeriod;
             
     private boolean documentNextValueRefresh;
+    private boolean saveAfterCopy;
     
     private String personnelBudgetViewMode;
     private BudgetLineItem selectedBudgetLineItem;
@@ -106,6 +112,8 @@ public class BudgetForm extends ProposalFormBase {
     private BudgetSubAwards newSubAward;
     private Integer personnelDetailLine;
     private FormFile subAwardFile;
+    
+    private String newGroupName;
     
     public String getOhRateClassCodePrevValue() {
         return ohRateClassCodePrevValue;
@@ -163,10 +171,13 @@ public class BudgetForm extends ProposalFormBase {
         newBudgetProjectIncome = new BudgetProjectIncome();
         newBudgetCostShare = new BudgetCostShare();
         newBudgetUnrecoveredFandA = new BudgetUnrecoveredFandA();            
-        newBudgetLineItems = new ArrayList<BudgetLineItem>();        
+        newBudgetLineItems = new ArrayList<BudgetLineItem>();
+        newPersonnelLineItem = new BudgetLineItem();          
         setDocumentNextValueRefresh(true);
-        budgetJustificationWrapper = new BudgetJustificationWrapper(getBudgetDocument().getBudgetJustification());
+        budgetJustificationWrapper = new BudgetJustificationWrapper(getDocument().getBudgetJustification());
         newSubAward = new BudgetSubAwards();
+        this.getDocInfo().add(new HeaderField(BUDGET_NAME_KEY, Constants.EMPTY_STRING));
+        this.getDocInfo().add(new HeaderField(VERSION_NUMBER_KEY, Constants.EMPTY_STRING));
     }
     
 //  TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
@@ -198,8 +209,8 @@ public class BudgetForm extends ProposalFormBase {
 
     public void setNewBudgetPeriod(BudgetPeriod newBudgetPeriod) {
         Integer budgetPeriod = 1;
-        if(getBudgetDocument().getBudgetPeriods() != null) {
-            budgetPeriod = getBudgetDocument().getBudgetPeriods().size() + 1;
+        if(getDocument().getBudgetPeriods() != null) {
+            budgetPeriod = getDocument().getBudgetPeriods().size() + 1;
         }
         newBudgetPeriod.setBudgetPeriod(budgetPeriod);
         this.newBudgetPeriod = newBudgetPeriod;
@@ -210,10 +221,9 @@ public class BudgetForm extends ProposalFormBase {
         // clear out the extra buttons array
         extraButtons.clear();
         String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-        String generatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_generatePeriods.gif"; 
-        String calculatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculatePeriods.gif"; 
-        String defaultImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_defaultPeriods.gif"; 
-        String appExternalImageURL = "ConfigProperties.kra.externalizable.images.url"; 
+        String generatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_generatePeriods.gif";
+        String calculatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculatePeriods.gif";
+        String defaultImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_defaultPeriods.gif";
         addExtraButton("methodToCall.generateAllPeriods", generatePeriodImage, "Generate All Periods");
         addExtraButton("methodToCall.questionCalculateAllPeriods",calculatePeriodImage, "Calculate All Periods");
         addExtraButton("methodToCall.defaultPeriods",defaultImage, "Default Periods");
@@ -236,9 +246,9 @@ public class BudgetForm extends ProposalFormBase {
         extraButtons.clear();
         String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
-        String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
+        //String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
         addExtraButton("methodToCall.calculateCurrentPeriod", calculateCurrentPeriodImage, "Calculate Current Period");
-        addExtraButton("methodToCall.viewPersonnelSalaries",viewPersonnelSalariesImage, "View Personnel Salaries");
+        //addExtraButton("methodToCall.viewPersonnelSalaries",viewPersonnelSalariesImage, "View Personnel Salaries");
         
         return extraButtons;
     }
@@ -248,13 +258,51 @@ public class BudgetForm extends ProposalFormBase {
         String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         String syncAllImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_syncallrates.gif"; 
         String resetAllImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_resetallrates.gif"; 
-        String appExternalImageURL = "ConfigProperties.kra.externalizable.images.url"; 
         addExtraButton("methodToCall.syncAllRates", syncAllImage, "Sync All Rates");
         addExtraButton("methodToCall.resetAllRates",resetAllImage, "Reset All Rates");
         
         return extraButtons;
     }
 
+    public List<ExtraButton> getExtraPersonnelButtons() {
+        // clear out the extra buttons array
+        extraButtons.clear();
+        String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        
+//        String syncToProposalImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_synctoprop.gif"; 
+//        addExtraButton("methodToCall.synchToProposal", syncToProposalImage, "Synch to Proposal");
+        String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
+        addExtraButton("methodToCall.calculateCurrentPeriod", calculateCurrentPeriodImage, "Calculate Current Period");
+        String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
+        addExtraButton("methodToCall.viewPersonnelSalaries",viewPersonnelSalariesImage, "View Personnel Salaries");
+        
+        return extraButtons;
+    }
+
+
+    public List<ExtraButton> getExtraTotalsTopButtons() {
+        extraTopButtons.clear();
+        extraTopButtons.add(configureReturnToProposalTopButton()); 
+        
+        ExtraButton customExpandAllButton = new ExtraButton();
+        String expandAllImage = lookupKualiConfigurationService().getPropertyString(KR_EXTERNALIZABLE_IMAGES_URI_KEY) + "tinybutton-expandall.gif"; 
+        customExpandAllButton.setExtraButtonProperty("methodToCall.showAllTabs");
+        customExpandAllButton.setExtraButtonSource(expandAllImage);
+        customExpandAllButton.setExtraButtonAltText("show all panel content");
+        customExpandAllButton.setExtraButtonOnclick("javascript: showAllPanels(); return false;");
+        
+        ExtraButton customCollapseAllButton = new ExtraButton();
+        String hideAllImage = lookupKualiConfigurationService().getPropertyString(KR_EXTERNALIZABLE_IMAGES_URI_KEY) + "tinybutton-collapseall.gif"; 
+        customCollapseAllButton.setExtraButtonProperty("methodToCall.hideAllTabs");
+        customCollapseAllButton.setExtraButtonSource(hideAllImage);
+        customCollapseAllButton.setExtraButtonAltText("hide all panel content");
+        customCollapseAllButton.setExtraButtonOnclick("javascript: expandAll('false', false); return false");
+        
+        extraTopButtons.add(customExpandAllButton);
+        extraTopButtons.add(customCollapseAllButton);
+        return extraTopButtons;
+    }
+    
     /**
      * This is a utility method to add a new button to the extra buttons
      * collection.
@@ -283,7 +331,7 @@ public class BudgetForm extends ProposalFormBase {
      * @return
      */
     public boolean isCostSharingEditFormVisible() {
-        BudgetDocument budgetDocument = getBudgetDocument();        
+        BudgetDocument budgetDocument = getDocument();        
         return budgetDocument != null && budgetDocument.isCostSharingApplicable() && budgetDocument.isCostSharingAvailable(); 
     }
     
@@ -292,7 +340,7 @@ public class BudgetForm extends ProposalFormBase {
      * @return
      */
     public boolean isUnrecoveredFandAEditFormVisible() {
-        BudgetDocument budgetDocument = getBudgetDocument(); 
+        BudgetDocument budgetDocument = getDocument(); 
         return budgetDocument != null && budgetDocument.isUnrecoveredFandAApplicable() && budgetDocument.isUnrecoveredFandAAvailable(); 
     }
     
@@ -436,7 +484,8 @@ public class BudgetForm extends ProposalFormBase {
     public void setViewBudgetView(Integer viewBudgetView) {
         this.viewBudgetView = viewBudgetView;
     }
-        
+
+    @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
         
@@ -696,6 +745,34 @@ public class BudgetForm extends ProposalFormBase {
         this.subAwardFile = subAwardFile;
     }
     
+    public boolean isSaveAfterCopy() {
+        return saveAfterCopy;
+    }
+
+    public void setSaveAfterCopy(boolean val) {
+        saveAfterCopy = val;
+    }
+
+    public BudgetLineItem getNewPersonnelLineItem() {
+        return newPersonnelLineItem;
+    }
+
+    public void setNewPersonnelLineItem(BudgetLineItem newPersonnelLineItem) {
+        this.newPersonnelLineItem = newPersonnelLineItem;
+    }
+
+    public String getNewGroupName() {
+        return newGroupName;
+    }
+
+    public void setNewGroupName(String newGroupName) {
+        this.newGroupName = newGroupName;
+    }
+    
+    /**
+     * {@inheritDocs}
+     */
+    @Override
     protected void setSaveDocumentControl(Map editMode) {
         
         if (hasModifyBudgetPermission(editMode) && !getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE)) {
@@ -706,6 +783,21 @@ public class BudgetForm extends ProposalFormBase {
         if (!hasModifyBudgetPermission(editMode) && getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE)) {
             getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
         }
+    }
+    
+    /**
+     * This method checks if destination is the BudgetVersions page.
+     * This method works only if called after form properties are updated
+     * (ex: navigateTo).  Just because this method returns true does not
+     * mean that the request will actually end up at the budget versions
+     * page.  (ex: if on another page and a hard error occurs while trying
+     * to get to the budget versions page).
+     *
+     * @return true if headed to the versions page.
+     */
+    public boolean toBudgetVersionsPage() {
+        return "versions".equals(this.navigateTo)
+        || ("BudgetVersionsAction".equals(this.actionName));
     }
     
     protected String getLockRegion() {

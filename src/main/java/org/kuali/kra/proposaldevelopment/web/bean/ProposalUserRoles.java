@@ -23,10 +23,8 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * A ProposalUserRoles corresponds to one user with access to a
- * proposal.  That user can have one or more assigned roles.  This
- * class is only used by the GUI for displaying the proposal users
- * on a web page. 
+ * A ProposalUserRoles corresponds to one user with access to a proposal. That user can have one or more assigned roles. This class
+ * is only used by the GUI for displaying the proposal users on a web page.
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
@@ -134,9 +132,10 @@ public class ProposalUserRoles implements Serializable {
     public void setRoleNames(List<String> roleNames) {
         this.roleNames = roleNames;
     }
-    
+
     /**
      * Add a role name.
+     * 
      * @param roleName the role name
      */
     public void addRoleName(String roleName) {

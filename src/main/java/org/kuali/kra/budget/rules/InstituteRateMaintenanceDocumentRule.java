@@ -99,10 +99,6 @@ public class InstituteRateMaintenanceDocumentRule extends KraMaintenanceDocument
     private boolean checkExistence(AbstractInstituteRate newInstituteRate) {
 
         boolean valid = true;
-        //if (LOG.isDebugEnabled()) {
-        //    LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
-        //}
-        //AbstractInstituteRate newInstituteRate = (AbstractInstituteRate) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
 
         if (StringUtils.isNotBlank(newInstituteRate.getRateClassCode()) && StringUtils.isNotBlank(newInstituteRate.getRateTypeCode())) {
             Map<String, String> pkMap = new HashMap<String, String>();

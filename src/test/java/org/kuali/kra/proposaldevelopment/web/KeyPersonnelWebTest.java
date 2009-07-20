@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
@@ -264,9 +265,8 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.addUnitDetails.document.proposalPersons[0].line", true));
 
         assertFalse(keyPersonnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
-        HtmlElement unitNumber = getElementById(keyPersonnelPage, "document.proposalPersons[0].unit[0].unitNumber");
-        HtmlElement unitName = getElementById(keyPersonnelPage, "document.proposalPersons[0].unit[0].unit.unitName");
-        assertEquals("000001", unitNumber.asText());
+        HtmlHiddenInput unitNumber = (HtmlHiddenInput) getElementByName(keyPersonnelPage, "document.proposalPersons[0].unit[0].unitNumber");
+        assertEquals("000001", unitNumber.getValueAttribute());
         assertTrue(keyPersonnelPage.asText().contains("Combined Credit Split"));
         saveAndSearchDoc(keyPersonnelPage);
     }
@@ -284,9 +284,10 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.addUnitDetails.document.proposalPersons[0].line", true));
 
         assertFalse(keyPersonnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
-        HtmlElement unitNumber = getElementById(keyPersonnelPage, "document.proposalPersons[0].unit[0].unitNumber");
-        HtmlElement unitName = getElementById(keyPersonnelPage, "document.proposalPersons[0].unit[0].unit.unitName");
-        assertEquals("000001", unitNumber.asText());
+        
+        HtmlHiddenInput unitNumber =(HtmlHiddenInput)  getElementByName(keyPersonnelPage, "document.proposalPersons[0].unit[0].unitNumber");
+        assertEquals("000001", unitNumber.getValueAttribute());
+
         assertTrue(keyPersonnelPage.asText().contains("Combined Credit Split"));
         saveAndSearchDoc(keyPersonnelPage);
         keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.removeUnitDetails.document.proposalPersons[0].line", true));

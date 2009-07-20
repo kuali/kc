@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.rules;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -25,24 +26,42 @@ import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 
 public class KraCustomAttributeRule extends ResearchDocumentRuleBase implements CustomAttributeRule {
 
-
-    private static Map<String, String> validationClasses = new HashMap<String, String>();
+    private static final Map<String, ValidationPattern> VALIDATION_CLASSES;
     static {
-        validationClasses.put("String", "org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern");
-        validationClasses.put("Date", "org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern");
-        validationClasses.put("Number", "org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern");
+        final Map<String, ValidationPattern> tempPatterns = new HashMap<String, ValidationPattern>();
+        
+        final AnyCharacterValidationPattern anyCharVal = new AnyCharacterValidationPattern();
+        anyCharVal.setAllowWhitespace(true);
+        
+        tempPatterns.put("String", anyCharVal);
+        tempPatterns.put("Date", new DateValidationPattern());
+        tempPatterns.put("Number", new NumericValidationPattern());
+        
+        VALIDATION_CLASSES = Collections.unmodifiableMap(tempPatterns);
     }
-
+    
+    /** 
+     * gets the {@link CustomAttributeService CustomAttributeService}
+     * @return {@link CustomAttributeService CustomAttributeService}
+     */
+    protected CustomAttributeService getCustomAttributeService() {
+        return KraServiceLocator.getService(CustomAttributeService.class);
+    }
+    
     /**
      * 
      * @see org.kuali.kra.rule.CustomAttributeRule#processCustomAttributeRules(org.kuali.kra.rule.event.SaveCustomAttributeEvent)
@@ -53,7 +72,7 @@ public class KraCustomAttributeRule extends ResearchDocumentRuleBase implements 
         boolean valid = true;
         for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry : customAttributeDocuments.entrySet()) {
             CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
-            Map<String, Object> primaryKeys = new HashMap<String, Object>();
+
             CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();
             String errorKey = "customAttributeValues(id" + customAttribute.getId() + ")";
             if (StringUtils.isNotBlank(customAttribute.getValue())) {
@@ -77,7 +96,7 @@ public class KraCustomAttributeRule extends ResearchDocumentRuleBase implements 
         CustomAttributeDataType customAttributeDataType = customAttribute.getCustomAttributeDataType();
         String attributeValue = customAttribute.getValue();
         if (customAttributeDataType == null && customAttribute.getDataTypeCode() != null) {
-            customAttributeDataType = KraServiceLocator.getService(CustomAttributeService.class).getCustomAttributeDataType(
+            customAttributeDataType = this.getCustomAttributeService().getCustomAttributeDataType(
                     customAttribute.getDataTypeCode());
         }
 
@@ -85,22 +104,11 @@ public class KraCustomAttributeRule extends ResearchDocumentRuleBase implements 
             Integer maxLength = customAttribute.getDataLength();
             if ((maxLength != null) && (maxLength.intValue() < attributeValue.length())) {
                 GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_MAX_LENGTH,
-                        new String[] { customAttribute.getLabel(), maxLength.toString() });
+                        new String[] {customAttribute.getLabel(), maxLength.toString() });
                 return false;
             }
 
-            ValidationPattern validationPattern = null;
-            try {
-                validationPattern = (ValidationPattern) Class.forName(
-                        validationClasses.get(customAttributeDataType.getDescription())).newInstance();
-                if (customAttributeDataType.getDescription().equalsIgnoreCase("String")) {
-                    ((org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern) validationPattern)
-                            .setAllowWhitespace(true);
-                }
-            }
-            catch (Exception e) {
-                // what TODO here?
-            }
+            final ValidationPattern validationPattern = VALIDATION_CLASSES.get(customAttributeDataType.getDescription());
 
             // if there is no data type matched, then set error ?
             Pattern validationExpression = validationPattern.getRegexPattern();
@@ -110,8 +118,8 @@ public class KraCustomAttributeRule extends ResearchDocumentRuleBase implements 
             if (validationExpression != null && !validationExpression.pattern().equals(".*")) {
 
                 if (!validationExpression.matcher(attributeValue).matches()) {
-                    GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT,
-                            new String[] { customAttribute.getLabel(), attributeValue, validFormat });
+                    GlobalVariables.getErrorMap().putError(errorKey, KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT,
+                            new String[] {customAttribute.getLabel(), attributeValue, validFormat });
                     return false;
                 }
             }

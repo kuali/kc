@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,7 +102,8 @@ public class ResearchDocumentBaseAuditRuleTest extends KraTestBase {
             AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get("CustomData" + StringUtils.deleteWhitespace(customAttribute.getGroupName()) + "Errors");
 
             assertEquals(1, auditCluster.getSize());
-            assertEquals("Custom Data: " + customAttribute.getGroupName(), auditCluster.getLabel());
+            //assertEquals("Custom Data: " + customAttribute.getGroupName(), auditCluster.getLabel());
+            assertEquals(customAttribute.getGroupName(), auditCluster.getLabel());
             assertEquals("Validation Errors", auditCluster.getCategory());
             AuditError auditError = (AuditError) auditCluster.getAuditErrorList().get(0);
             assertEquals("customAttributeValues(id"+customAttribute.getId()+")", auditError.getErrorKey());

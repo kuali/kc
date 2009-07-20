@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,5 +58,7 @@ public class AbstractTypeValuesFinderTest extends ValuesFinderTestBase {
         this.addKeyValue("13", "Publications");
         this.addKeyValue("14", "Reviewers Not to Include");
         this.addKeyValue("15", "Deviation Authorization");
+        this.addKeyValue("16", "Areas Affected");
+        this.addKeyValue("17", "Relevance");
     }
 }

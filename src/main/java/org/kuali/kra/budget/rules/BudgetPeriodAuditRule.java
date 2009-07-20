@@ -25,49 +25,101 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class BudgetPeriodAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetPeriodAuditRule.class);
-    public static final String BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY = "budgetPeriodProjectDateAuditErrors";
+/**
+ * Audit rules for budget periods.
+ */
+public class BudgetPeriodAuditRule extends ResearchDocumentRuleBase {
+
+    private static final String BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY = "budgetPeriodProjectDateAuditErrors";
+    private static final String BUDGET_PERIOD_DATE_AUDIT_WARNING_KEY = "budgetPeriodProjectDateAuditWarnings";
 
     /**
-     * 
-     * This method is to validate budget period start/end date against project start/end date if
-     * project start/end date have been adjusted.
+     * Executes audit rules for budget periods.
+     * @param document the budget document
+     * @return true if valid false if not
+     * @throws NullPointerException if the document is null
      */
-    public boolean processRunAuditBusinessRules(Document document) {
-        BudgetDocument budgetDocument = (BudgetDocument) document;
-        boolean retval = true;
-        Date projectStartDate = budgetDocument.getProposal().getRequestedStartDateInitial();
-        Date projectEndDate = budgetDocument.getProposal().getRequestedEndDateInitial();
-        int i = 0;
-        for (BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
-            if (budgetPeriod.getStartDate().before(projectStartDate)) {
-                retval = false;
-                getAuditErrors().add(new AuditError("document.budgetPeriods[" + i + "].startDate", KeyConstants.AUDIT_ERROR_BUDGETPERIOD_START_BEFORE_PROJECT_START_DATE, Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i+1)}));
-            }
-            if (budgetPeriod.getEndDate().after(projectEndDate)) {
-                retval = false;
-                getAuditErrors().add(new AuditError("document.budgetPeriods[" + i + "].endDate", KeyConstants.AUDIT_ERROR_BUDGETPERIOD_END_AFTER_PROJECT_END_DATE, Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i+1)}));
-                
-            }
-            i++;
+    @Override
+    public boolean processRunAuditBusinessRules(final Document document) {
+        if (document == null) {
+            throw new NullPointerException("the document is null");
         }
         
-        
-        return retval;
-
+        final BudgetDocument budgetDocument = (BudgetDocument) document;
+        return this.validatePeriodDates(budgetDocument);
     }
     
     /**
-     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
-     * to the auditErrorMap.
-     *  TODO : should this method move up to parent class
-     * @return List of AuditError instances
+     * This method is to validate budget period start/end date against project start/end date if
+     * project start/end date have been adjusted.
+     * @param budgetDocument the budget document
+     * @return true if valid false if not
+     */
+    private boolean validatePeriodDates(final BudgetDocument budgetDocument) {
+        assert budgetDocument != null : "the document is null";
+        boolean retval = true;
+        
+        final Date projectStartDate = budgetDocument.getProposal().getRequestedStartDateInitial();
+        final Date projectEndDate = budgetDocument.getProposal().getRequestedEndDateInitial();
+        
+        int i = 0;
+        for (final BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
+            if (budgetPeriod.getStartDate().before(projectStartDate)) {
+                retval = false;
+                this.addBudgetPeriodDateAuditError(new AuditError("document.budgetPeriods[" + i + "].startDate",
+                    KeyConstants.AUDIT_ERROR_BUDGETPERIOD_START_BEFORE_PROJECT_START_DATE,
+                    Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i+1)}));
+            }
+            if (budgetPeriod.getEndDate().after(projectEndDate)) {
+                retval = false;
+                this.addBudgetPeriodDateAuditError(new AuditError("document.budgetPeriods[" + i + "].endDate",
+                    KeyConstants.AUDIT_ERROR_BUDGETPERIOD_END_AFTER_PROJECT_END_DATE,
+                    Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i+1)}));              
+            }
+
+            if (i == 0 && budgetPeriod.getStartDate().after(projectStartDate)) {
+                this.addBudgetPeriodDateAuditWarning(new AuditError("document.budgetPeriods[" + i + "].startDate",
+                    KeyConstants.AUDIT_WARNING_BUDGETPERIOD_START_AFTER_PROJECT_START_DATE,
+                    Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i+1)}));
+            }
+            
+            if (i == budgetDocument.getBudgetPeriods().size() - 1 && budgetPeriod.getEndDate().before(projectEndDate)) {
+                this.addBudgetPeriodDateAuditWarning(new AuditError("document.budgetPeriods[" + i + "].endDate",
+                    KeyConstants.AUDIT_WARNING_BUDGETPERIOD_END_BEFORE_PROJECT_END_DATE,
+                    Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i+1)}));
+            }
+            i++;
+        }
+        return retval;
+    }
+    
+    /**
+     * Adds an budget period date warning.
+     * @param warning the warning
+     */
+    private void addBudgetPeriodDateAuditWarning(final AuditError warning) {
+        assert warning != null : "the warning is null";
+
+        this.addAuditError(warning, BUDGET_PERIOD_DATE_AUDIT_WARNING_KEY, Constants.BUDGET_PERIOD_PANEL_NAME, Constants.AUDIT_WARNINGS);
+    }
+    
+    /**
+     * Adds an budget period date error.
+     * @param warning the error
+     */
+    private void addBudgetPeriodDateAuditError(final AuditError error) {
+        assert error != null : "the error is null";
+
+        this.addAuditError(error, BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY, Constants.BUDGET_PERIOD_PANEL_NAME, Constants.AUDIT_ERRORS);
+    }
+    
+    /**
+     * Adds an budget period date error.
+     * @param warning the error
      */
     private List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
@@ -81,7 +133,4 @@ public class BudgetPeriodAuditRule extends ResearchDocumentRuleBase implements D
         
         return auditErrors;
     }
-
 }
-
-

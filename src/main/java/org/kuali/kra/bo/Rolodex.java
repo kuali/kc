@@ -255,21 +255,6 @@ public class Rolodex extends KraPersistableBusinessObjectBase {
 		this.title = title;
 	}
 	
-	public String getFullName() {
-	    StringBuffer ret = new StringBuffer();
-	    if (firstName != null) {
-	    ret.append(firstName);
-	    }
-	    if (middleName !=null) {
-	        ret.append(" "+middleName);
-	    }
-	    if (lastName != null) {
-	        ret.append(" "+lastName);
-	    }
-	    return ret.toString();
-	}
-	
-
     /**
      * Unit reference referred by {@link #getOwnedByUnit()}
      *
@@ -304,6 +289,36 @@ public class Rolodex extends KraPersistableBusinessObjectBase {
      */
     public Sponsor getSponsor() {
         return sponsor;
+    }
+    
+    /**
+     * Gets the full name is format (Last, First Middle)
+     * 
+     * Will also leave out any name that does not exist.
+     * For example: (Last, First) will be returned when no middle
+     * name exists.
+     * 
+     * Will return <code>null</code> if no full name exists.
+     * @return full name.
+     */
+    public String getFullName() {
+        final StringBuilder name = new StringBuilder();
+        
+        if (this.getLastName() != null) {
+            name.append(this.getLastName());
+            name.append(", ");
+        }
+
+        if (this.getFirstName() != null) {
+            name.append(this.getFirstName());
+            name.append(" ");
+        }
+
+        if (this.getMiddleName() != null) {
+            name.append(this.getMiddleName());
+        }
+
+        return name.length() > 0 ? name.toString() : null;
     }
 
 	@Override 

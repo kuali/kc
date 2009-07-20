@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,9 +58,9 @@ public class QualifiedRoleServiceTest extends KraTestBase {
          */
         Map<String, String> qualifiedAttributes = new HashMap<String, String>();
         qualifiedAttributes.put("age", "46");
-        qualifiedAttributes.put("sex", "M");
+        //qualifiedAttributes.put("sex", "M");
         List<String> usernames = qualifiedRoleService.getPersonUsernames(RoleConstants.AGGREGATOR, qualifiedAttributes);
-        assertEquals(1, usernames.size());
+        assertEquals(2, usernames.size());
         assertTrue(usernames.contains(QUICKSTART));
         
         /*
@@ -68,7 +68,7 @@ public class QualifiedRoleServiceTest extends KraTestBase {
          */
         qualifiedAttributes = new HashMap<String, String>();
         qualifiedAttributes.put("age", "45");
-        qualifiedAttributes.put("sex", "F");
+        //qualifiedAttributes.put("sex", "F");
         usernames = qualifiedRoleService.getPersonUsernames(RoleConstants.AGGREGATOR, qualifiedAttributes);
         assertEquals(2, usernames.size());
         assertTrue(usernames.contains(TDURKIN));
@@ -79,17 +79,17 @@ public class QualifiedRoleServiceTest extends KraTestBase {
          */
         qualifiedAttributes = new HashMap<String, String>();
         qualifiedAttributes.put("age", "10");
-        qualifiedAttributes.put("sex", "M");
+        //qualifiedAttributes.put("sex", "M");
         usernames = qualifiedRoleService.getPersonUsernames(RoleConstants.AGGREGATOR, qualifiedAttributes);
         assertEquals(0, usernames.size());
         
         /*
          * test the partial match case; should return nothing
          */
-        qualifiedAttributes = new HashMap<String, String>();
-        qualifiedAttributes.put("sex", "M");
-        usernames = qualifiedRoleService.getPersonUsernames(RoleConstants.AGGREGATOR, qualifiedAttributes);
-        assertEquals(0, usernames.size());
+        //qualifiedAttributes = new HashMap<String, String>();
+        //qualifiedAttributes.put("sex", "M");
+        //usernames = qualifiedRoleService.getPersonUsernames(RoleConstants.AGGREGATOR, qualifiedAttributes);
+        //assertEquals(0, usernames.size());
         
         /*
          * test an invalid role name; we should get an exception
@@ -111,22 +111,22 @@ public class QualifiedRoleServiceTest extends KraTestBase {
         
         Map<String, String> qualifiedAttributes = new HashMap<String, String>();
         qualifiedAttributes.put("age", "46");
-        qualifiedAttributes.put("sex", "M");
+        //qualifiedAttributes.put("sex", "M");
         personService.addQualifiedRole(QUICKSTART, RoleConstants.AGGREGATOR, qualifiedAttributes);
         
         qualifiedAttributes = new HashMap<String, String>();
         qualifiedAttributes.put("age", "46");
-        qualifiedAttributes.put("sex", "F");
+        //qualifiedAttributes.put("sex", "F");
         personService.addQualifiedRole(JTESTER, RoleConstants.AGGREGATOR, qualifiedAttributes);
         
         qualifiedAttributes = new HashMap<String, String>();
         qualifiedAttributes.put("age", "45");
-        qualifiedAttributes.put("sex", "F");
+        //qualifiedAttributes.put("sex", "F");
         personService.addQualifiedRole(TDURKIN, RoleConstants.AGGREGATOR, qualifiedAttributes);
         
         qualifiedAttributes = new HashMap<String, String>();
         qualifiedAttributes.put("age", "45");
-        qualifiedAttributes.put("sex", "F");
+        //qualifiedAttributes.put("sex", "F");
         personService.addQualifiedRole(ASLUSAR, RoleConstants.AGGREGATOR, qualifiedAttributes);
     }
 }

@@ -112,7 +112,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
             budgetDocument.refreshReferenceObject("proposal");
         }
         
-        valid &= processBudgetVersionsBusinessRule(budgetDocument.getProposal().getBudgetVersionOverviews(), true);
+        valid &= processBudgetVersionsBusinessRule(budgetDocument.getProposal(), true);
         GlobalVariables.getErrorMap().removeFromErrorPath("proposal");
         
         valid &= processBudgetPersonnelBusinessRules(budgetDocument);
@@ -371,6 +371,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
     /**
      * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
      */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
         

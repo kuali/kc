@@ -38,7 +38,7 @@ public class BudgetProposalTaskFactory extends WebTaskFactoryImpl {
      */
     public Task createTask(ActionForm form, HttpServletRequest request) {
         BudgetForm budgetForm = (BudgetForm) form;
-        return new ProposalTask(getTaskName(), budgetForm.getBudgetDocument().getProposal());
+        return new ProposalTask(getTaskName(), budgetForm.getDocument().getProposal());
     }
     
     /**

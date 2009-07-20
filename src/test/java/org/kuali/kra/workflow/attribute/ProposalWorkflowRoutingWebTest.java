@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -114,7 +114,7 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         assertEquals("Andrew Slusar", getFieldValue(KeyPersonnelpage, "newProposalPerson.fullName"));
         setFieldValue(KeyPersonnelpage,"newProposalPerson.proposalPersonRoleId", "KP");
         KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.insertProposalPerson");
-        KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.addCertificationQuestion.document.proposalPersons[1].line");
+        KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.addCertificationQuestion.document.proposalPersons[1].line1");
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[1].proposalPersonYnq[0].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[1].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[1].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);

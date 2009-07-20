@@ -173,6 +173,7 @@
 				<value>onOffCampusLookupable</value>
 				<value>copyPeriodsQuestion</value>
 				<value>sponsorLookupable</value>	
+				<value>pessimisticLockLookupable</value>	
 				<value>protocolLookupable</value>	
 				<value>committeeLookupable</value>	
 				<value>kimIdentityManagementService</value>
@@ -1460,7 +1461,6 @@
 	
 	<bean id="versioningService" class="org.kuali.kra.service.impl.VersioningServiceImpl" />
 	
-	<!-- 
 	<bean id="kraPessimisticLockLookupableHelperService" class="org.kuali.kra.lookup.KraPessimisticLockLookupableHelperServiceImpl">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
@@ -1474,9 +1474,11 @@
 		<property name="encryptionService">
 			<ref bean="encryptionService" />
 		</property>
+		<!--
 		<property name="universalUserService">
 			<ref bean="universalUserService" />
 		</property>
+		-->
 		<property name="lookupService">
 			<ref bean="lookupService" />
 		</property>
@@ -1499,7 +1501,7 @@
 			<ref bean="kraPessimisticLockLookupableHelperService" />
 		</property>
 	</bean>
-	-->
+
 	<bean id="kraDocumentService" class="org.kuali.kra.service.impl.KraDocumentServiceImpl">
  	</bean>
 	<bean id="s2SFormGeneratorService"

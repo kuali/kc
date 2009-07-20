@@ -80,17 +80,6 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                     ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(workOhCode);
                 }
             }
-//            List<BudgetLineItem> cvLineItemDetails = budgetPeriod.getBudgetLineItems();
-//            if(cvLineItemDetails.isEmpty() ){
-//                Map fieldValues = new HashMap();
-//                fieldValues.put("proposalNumber", budgetPeriod.getProposalNumber());
-//                fieldValues.put("budgetVersionNumber", budgetPeriod.getBudgetVersionNumber());
-//                fieldValues.put("budgetPeriod", budgetPeriod.getBudgetPeriod());
-//                Collection<BudgetLineItem> deletedLineItems = businessObjectService.findMatching(BudgetLineItem.class, fieldValues);
-//                if(!deletedLineItems.isEmpty()){
-//                    
-//                }
-//            }
         }
         if (((BudgetForm)GlobalVariables.getKualiForm())!=null && ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue() == null && ohRateClassCodePrevValue != null) {
             // if not all periods are calculated, then this code has potential to be null, and this will force
@@ -803,7 +792,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         newBudgetPersonnelDetails.getBudgetCalculatedAmounts().clear();
         new PersonnelLineItemCalculator(budgetDocument,newBudgetPersonnelDetails).setCalculatedAmounts(budgetDocument, newBudgetPersonnelDetails);
     }
-
+    
     public void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem){
         int j = 0;
         for(BudgetPersonnelDetails budgetPersonnelDetails: budgetLineItem.getBudgetPersonnelDetailsList()){
@@ -822,4 +811,5 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             }
         }
     }
+
 }

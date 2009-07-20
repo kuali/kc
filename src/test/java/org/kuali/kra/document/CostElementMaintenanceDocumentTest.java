@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
 
     private static final String DOCTYPE = "CostElementMaintenanceDocument";
+    private static final String CE_MAINT_TITLE = "Object Code";
+    
     @Override
     public void tearDown() throws Exception {
         SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from cost_element where cost_element = '999'");
@@ -48,7 +50,7 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
 
     @Test
     public void testCopyCostElementMaintenanceDocument() throws Exception {
-        HtmlPage costElementMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Cost Element");
+        HtmlPage costElementMaintenanceLookupPage = getMaintenanceDocumentLookupPage(CE_MAINT_TITLE);
         setFieldValue(costElementMaintenanceLookupPage,"costElement","420310");
         setFieldValue(costElementMaintenanceLookupPage,"budgetCategoryCode","3");
         setFieldValue(costElementMaintenanceLookupPage,"onOffCampusFlag","N");
@@ -89,7 +91,7 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
      */
     @Test
     public void testEditCostElementMaintenanceDocument() throws Exception {
-        HtmlPage costElementMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Cost Element");
+        HtmlPage costElementMaintenanceLookupPage = getMaintenanceDocumentLookupPage(CE_MAINT_TITLE);
         setFieldValue(costElementMaintenanceLookupPage,"costElement","420310");
         setFieldValue(costElementMaintenanceLookupPage,"budgetCategoryCode","3");
         setFieldValue(costElementMaintenanceLookupPage,"onOffCampusFlag","N");
@@ -121,7 +123,7 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
 
     @Test
     public void testCreateNewCostElementMaintenanceDocument() throws Exception {
-        HtmlPage costElementMaintenancePage = getMaintenanceDocumentPage("Cost Element","org.kuali.kra.budget.bo.CostElement","Kuali :: Cost Element Maintenance Document");
+        HtmlPage costElementMaintenancePage = getMaintenanceDocumentPage(CE_MAINT_TITLE, "org.kuali.kra.budget.bo.CostElement", "Kuali :: Cost Element Maintenance Document");
         String documentNumber = getFieldValue(costElementMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(costElementMaintenancePage,"Edit Cost Element New * Object Code Name: Budget Category Code: * Description: * On/Off Campus Flag: unchecked");
         setFieldValue(costElementMaintenancePage, "document.documentHeader.documentDescription", "Cost Element - test");

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,14 +68,14 @@ public class BudgetValidationCostShareRuleTest extends TestCase {
     public void testValidatingRequiredFields_NoneSet() throws Exception {
         budgetCostShare = new BudgetCostShare();
         Assert.assertFalse(budgetCostShareRule.processBudgetValidationCostShareBusinessRules(getEvent(budgetCostShare)));
-        Assert.assertEquals(3, GlobalVariables.getErrorMap().keySet().size());
+        Assert.assertEquals(2, GlobalVariables.getErrorMap().keySet().size());
     }
     
     @Test
     public void testValidatingRequiredFields_ShareAmountMissing() throws Exception {
         budgetCostShare = new BudgetCostShare(BUDGET_FISCAL_YEAR, null, SHARE_PCT, SOURCE_ACCOUNT);
-        Assert.assertFalse(budgetCostShareRule.processBudgetValidationCostShareBusinessRules(getEvent(budgetCostShare)));
-        Assert.assertEquals(1, GlobalVariables.getErrorMap().keySet().size());
+        Assert.assertTrue(budgetCostShareRule.processBudgetValidationCostShareBusinessRules(getEvent(budgetCostShare)));
+        Assert.assertEquals(0, GlobalVariables.getErrorMap().keySet().size());
     }
     
     @Test
