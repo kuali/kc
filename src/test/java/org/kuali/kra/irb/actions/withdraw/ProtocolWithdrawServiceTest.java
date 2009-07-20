@@ -35,7 +35,6 @@ import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
@@ -53,7 +52,8 @@ import org.kuali.rice.test.data.UnitTestFile;
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ACTION_TYPE.sql", delimiter = ";")
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ACTION_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";")
 }))
 public class ProtocolWithdrawServiceTest extends KraTestBase {
 
@@ -66,13 +66,10 @@ public class ProtocolWithdrawServiceTest extends KraTestBase {
     private BusinessObjectService businessObjectService;  
     private ProtocolActionService protocolActionService;
     
-    @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("superuser"));
-        GlobalVariables.setErrorMap(new ErrorMap());
-        GlobalVariables.setAuditErrorMap(new HashMap());
         protocolWithdrawService = new ProtocolWithdrawServiceImpl();
         protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
@@ -84,8 +81,6 @@ public class ProtocolWithdrawServiceTest extends KraTestBase {
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        GlobalVariables.setErrorMap(null);
-        GlobalVariables.setAuditErrorMap(null);
         super.tearDown();
     }
     
