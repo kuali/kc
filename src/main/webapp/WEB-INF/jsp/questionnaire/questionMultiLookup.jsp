@@ -69,7 +69,7 @@
                  	lookupBtn.click();
                  } else {
                  	returnQuestion();
-                 	//window.close();
+                 	window.close();
                  }
             </script>
  <%--           
