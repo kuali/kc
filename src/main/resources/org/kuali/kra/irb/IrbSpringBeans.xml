@@ -140,7 +140,7 @@
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="protocolWithdrawA" />
+                	<property name="taskName" value="protocolWithdraw" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolRequestCloseAuthorizer" parent="parentProtocolAuthorizer">
