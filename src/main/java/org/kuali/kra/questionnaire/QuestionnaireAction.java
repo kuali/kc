@@ -75,35 +75,41 @@ public class QuestionnaireAction extends KualiAction {
     }
 
     private String assembleQuestions(QuestionnaireForm questionnaireForm) {
-         
+
         Questionnaire questionnaire = questionnaireForm.getFromQuestionnaire();
         questionnaireForm.setQuestionNumber(0);
-        sort(questionnaire.getQuestionnaireQuestions(), new QuestionnaireQuestionComparator()); 
-        String result="parent-0";
+        sort(questionnaire.getQuestionnaireQuestions(), new QuestionnaireQuestionComparator());
+        String result = "parent-0";
         Integer parentNumber = 0;
         for (QuestionnaireQuestion question : questionnaire.getQuestionnaireQuestions()) {
             if (question.getQuestionNumber() > questionnaireForm.getQuestionNumber()) {
-                questionnaireForm.setQuestionNumber(question.getQuestionNumber());                
+                questionnaireForm.setQuestionNumber(question.getQuestionNumber());
             }
             // TODO : for now just load the 1st level question for editing
-            //if (question.getParentQuestionNumber().equals(0)) {
-                if (question.getParentQuestionNumber().compareTo(parentNumber) > 0) {
-                    parentNumber = question.getParentQuestionNumber();
-                    result = result +"#q#parent-"+parentNumber;
-                }
-                // qqid/qid/seq/desc/qtypeid/qnum
-                result = result+"#q#" + question.getQuestionnaireQuestionsId()+"#f#"+question.getQuestionId()+"#f#"+question.getQuestionSeqNumber()
-                    +"#f#"+question.getQuestion().getQuestion()+"#f#"+question.getQuestion().getQuestionTypeId()+"#f#"
-                    +question.getQuestionNumber()+"#f#"+question.getCondition()+"#f#"+question.getConditionValue();
-            //}
+            // if (question.getParentQuestionNumber().equals(0)) {
+            if (question.getParentQuestionNumber().compareTo(parentNumber) > 0) {
+                parentNumber = question.getParentQuestionNumber();
+                result = result + "#q#parent-" + parentNumber;
+            }
+            // qqid/qid/seq/desc/qtypeid/qnum
+            String desc = question.getQuestion().getQuestion();
+            // TODO : : need to deal with '"' in questio's description
+            // also see QuestionLookupAction
+            if (desc.indexOf("\"") > 0) {
+                desc = desc.replace("\"", "&#034;");
+            }
+            result = result + "#q#" + question.getQuestionnaireQuestionsId() + "#f#" + question.getQuestionId() + "#f#"
+                    + question.getQuestionSeqNumber() + "#f#" + desc + "#f#" + question.getQuestion().getQuestionTypeId() + "#f#"
+                    + question.getQuestionNumber() + "#f#" + question.getCondition() + "#f#" + question.getConditionValue();
+            // }
         }
-        questionnaireForm.setQuestionNumber(questionnaireForm.getQuestionNumber()+1);                
-       // if (StringUtils.isNotBlank(result)) {
-       //     result = result.substring(0,result.length()-3);
-        //}
+        questionnaireForm.setQuestionNumber(questionnaireForm.getQuestionNumber() + 1);
+        // if (StringUtils.isNotBlank(result)) {
+        // result = result.substring(0,result.length()-3);
+        // }
         return result;
-            
-        
+
+
     }
     
     private String assembleUsages(Questionnaire questionnaire) {

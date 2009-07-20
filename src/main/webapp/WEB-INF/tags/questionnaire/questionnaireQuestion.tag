@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="readOnly" value="false"  scope="request"/>
-
+<a name="questionnaireQuestion"></a>
 <div class="tab-container" align="center">
    <h3>
         <span class="subhead-left"><a href="#" class="questionpanelcontrol"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
@@ -50,6 +50,13 @@
   <td colspan="2">     
   <ul id="example" class="filetree">
 	</ul>
+    </td>
+   </tr>
+   
+  <tr> 
+  <td colspan="2">     
+      <input name="nextGroup" id="nextGroup" src="kr/static/images/tinybutton-more.gif" style="border:none;" alt="Continue" type="image" /> 
+      <input name="backToTop" id="backToTop" src="kr/static/images/tinybutton-more.gif" style="border:none;" alt="Back To Top" type="image" /> 
     </td>
    </tr>
    
