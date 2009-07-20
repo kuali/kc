@@ -167,6 +167,7 @@
                       var idx = $(liId).attr("id").substring(8);
                       if ($(liId).parents('ul:eq(0)').parents('li:eq(0)').size() == 0) {
                          parentNum = 0;
+                         adjustGroup($(liId).attr("class").substring(5,6)); // class is "group0 expandable"
                       } else {
                          parentNum = $("#qnum"+$(liId).parents('ul:eq(0)').parents('li:eq(0)').attr("id").substring(8)).attr("value");
                       }
@@ -234,6 +235,7 @@
                           //var idx =$(cutNode).attr("id").substring(8);
                           if ($(cutNode).parents('ul:eq(0)').parents('li:eq(0)').size() == 0) {
                              parentNum = 0;
+                             adjustGroup($(cutNode).attr("class").substring(5,6)); // class is "group0 expandable"
                           } else {
                              parentNum = $("#qnum"+$(cutNode).parents('ul:eq(0)').parents('li:eq(0)').attr("id").substring(8)).attr("value");
                           }
@@ -522,6 +524,8 @@
           idx = $(nextNode).attr("id").substring(8);
           //alert("move dn "+idx+"-"+$("#qseq"+idx)+"-"+$("#qid"+idx)+"-"+$("#qnum"+idx))
           addSqlScripts("update QMove;"+(Number($("#qseq"+idx).attr("value"))-1)+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value") );
+          // TODO : trying to group
+          swapGroupId(curNode,nextNode);
 
 
       }); 
@@ -563,6 +567,8 @@
           idx = $(nextNode).attr("id").substring(8);
           addSqlScripts("update QMove;"+(Number($("#qseq"+idx).attr("value"))+1)+";"+$("#qid"+idx).attr("value")+";"+$("#qnum"+idx).attr("value"));
           //alert(sqlScripts);
+          // TODO : trying to group
+          swapGroupId(curNode,nextNode);
       }); 
       image.attr("src","static/images/jquery/arrow-up.gif");
       //alert("images "+image.attr("src"));
@@ -669,9 +675,15 @@
               // last one no 'move dn'
                  $("#movedn"+idx).hide();
                  $("#movedn"+listitem.prev().attr("id").substring(8)).show();
+                // TODO trying to group
+              //alert("parent u"+parentUl.attr("id"));
+              if (parentUl.attr("id") == 'example') {
+                  addToGroup(listitem);
+              }
             } else {
               var parentUl = $(this).parents('li:eq(0)').children('ul:eq(0)');
               listitem.appendTo(parentUl);
+              
               //alert('children'+$(this).parents('li:eq(0)').children('ul:eq(0)').children('li').size());
               // TODO : if add 2nd item, then add 'movedn' to 1st item.  maybe use hide/show instead of 'remove'
               // "==1" is the one just added
@@ -853,10 +865,10 @@
            alert("Please enter a value");
       } else if (response == 0) {
            alert("Please select a response");
-     // } else if (sequence == 1 && operator != 0) {
-     //      alert("This is the first requirement, and operator is not needed");
-     // } else if (sequence > 1 && operator == 0) {
-     //      alert("Please select an operator");
+      } else if (response >= 3 && response <=7 && isNaN(value)) {
+           alert("Value must be a number");
+     } else if (response > 7 && !isDate(value)) {
+           alert("Not a Valid Date");
       } else {
          valid = true;
       }
@@ -951,7 +963,7 @@
    * each field is separated by "#f#"
    */
   function returnQuestionList(questionList) {
-      alert("multivalue "+questionList.substring(1200));
+      //alert("multivalue "+questionList.substring(1200));
       questionList = questionList.replace(/"/g,'\"');
      // load questions
         var questions = questionList.split("#q#");
@@ -959,6 +971,10 @@
         var parentnum = 0;
         var parentidx = 0;
         var firstidx = -1;
+        var initgroup = groupid;
+        if ($(".group"+groupid).size() >= 20) {
+            initgroup++;
+        }
 	    for (var k=0 ; k < questions.length;  k++) {
 	        field = questions[k].split("#f#");
             i++;
@@ -1012,7 +1028,22 @@
         addSqlScripts(insertValues);
         $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
 	    
+	    // TODO : try grouping
+        addToGroup(listitem);
+	    //if ($(".group"+groupid).size() >= 20) {
+	    //    groupid++;
+	    //}
+        // $(listitem).attr("class","group"+groupid);	        
+	    
 	    } // end for to set up questions
+	    alert (curgroup+"-"+initgroup+"-"+firstidx+"-"+groupid)
+        $(".group"+curgroup).hide();
+            curgroup = initgroup;
+        $(".group"+curgroup).show();
+	    while (initgroup++ < groupid) {
+	        $(".group"+initgroup).hide();
+	    }
+	    
 	  $("#listcontrol"+firstidx).click();  
 	  $("#listcontrol"+firstidx).click();  
 	    
@@ -1049,13 +1080,102 @@
   
   function addSqlScripts(sqlcommand) {
      sqlScripts = sqlScripts +"#;#" + sqlcommand;
-     if (sqlScripts.length > 1700) {
+     if (sqlScripts.length > 1900) {
         // right now the query string also contains newquestionnaire data, so limit to 1700 for test now.
         sqls[sqlidx++] = sqlScripts;
         sqlScripts = "sqls";
         //alert(sqlidx);
      }
   }
+  
+  function addToGroup(listitem) {
+  	    // TODO : try grouping
+	    if ($(".group"+groupid).size() >= 20) {
+	        groupid++;
+	    }
+         $(listitem).attr("class","group"+groupid);	        
+  
+  }
+  
+  function swapGroupId(curNode,nextNode) {
+     var curclass = $(curNode).attr("class");
+     var nextclass = $(nextNode).attr("class");
+     $(curNode).attr("class", nextclass);
+     $(nextNode).attr("class", curclass);
+     if (curclass != nextclass) {
+        $(curNode).hide();
+        $(nextNode).show();
+     }
+  }
+  
+  function adjustGroup(idx) {
+         //alert(idx+"-"+groupid+"-"+$(".group"+(++idx)).size());
+     while (idx < groupid) {
+         idx1 = Number(idx)+1;
+         //alert(idx1+"-"+$(".group"+idx1+":eq(0)").size());
+         node = $(".group"+idx1+":eq(0)");
+         nodeclass = $(node).attr("class"); // may have multiple classes specified
+         nodeclass = nodeclass.replace("group"+idx1, "group"+idx);
+         alert(idx+"-"+groupid+"-"+curgroup+"-"+$(".group"+idx1).size()+nodeclass);
+         $(node).attr("class",nodeclass);
+         if (curgroup == idx) {
+           //alert("show");
+             $(node).show();
+         }
+         idx++;
+         if (idx == groupid) {
+             if ($(".group"+idx).size() == 0) {
+                 groupid--;
+             }
+         }
+         alert("loop back "+idx+"<"+groupid);
+     }
+  }
+  
+  
+// http://www.redips.net/javascript/date-validation/
+// code found in web.  no license info.  can we use it ?
+function isDate(txtDate){
+  var objDate;  // date object initialized from the txtDate string
+  var mSeconds; // milliseconds from txtDate
+	// date length should be 10 characters - no more, no less
+  if (txtDate.length != 10) return false;
+
+	// extract day, month and year from the txtDate string
+	// expected format is mm/dd/yyyy
+	// subtraction will cast variables to integer implicitly
+  if (isNaN(txtDate.substring(3,5)) || isNaN(txtDate.substring(0,2)) ||isNaN(txtDate.substring(6,10))) {
+    return false;
+  } 
+ 	
+  var day   = txtDate.substring(3,5)  - 0;
+  var month = txtDate.substring(0,2)  - 1; // because months in JS start with 0
+  var year  = txtDate.substring(6,10) - 0;
+
+	// third and sixth character should be /
+	if (txtDate.substring(2,3) != '/') return false;
+	if (txtDate.substring(5,6) != '/') return false;
+
+  // test year range
+  if (year < 999 || year > 3000) return false;
+
+  // convert txtDate to the milliseconds
+  mSeconds = (new Date(year, month, day)).getTime();
+
+  // set the date object from milliseconds
+  objDate = new Date();
+  objDate.setTime(mSeconds);
+
+  // if there exists difference then date isn't valid
+  if (objDate.getFullYear() != year)  return false;
+  if (objDate.getMonth()    != month) return false;
+  if (objDate.getDate()     != day)   return false;
+
+	// otherwise return true
+  return true;
+}
+
+  
   
 /* integrate with edit, new */
   

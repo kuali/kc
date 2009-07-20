@@ -16,13 +16,16 @@
 package org.kuali.kra.questionnaire;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class QuestionnaireForm extends KualiForm {
@@ -37,6 +40,7 @@ public class QuestionnaireForm extends KualiForm {
     private Integer questionNumber;
     private Long questionnaireQuestionsId; 
     private String lookupResultsBOClassName;
+    private String action;
     public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
     }
@@ -77,6 +81,7 @@ public class QuestionnaireForm extends KualiForm {
         questionNumber = 1;
         sqlScripts = "";
         retData = "";
+        action="";
         
     }
 
@@ -113,12 +118,27 @@ public class QuestionnaireForm extends KualiForm {
     }
 
     public String getRetData() {
-        if (StringUtils.isNotBlank(sqlScripts)) {
-            Questionnaire questionnaire = new Questionnaire();
-            questionnaire = getNewQuestionnaire();
-            KraServiceLocator.getService(QuestionnaireService.class).saveQuestionnaire(sqlScripts, questionnaire);   
-            retData = "<h3>qnaireID=" + questionnaire.getQuestionnaireId() + "</h3>";
-        } 
+        if (StringUtils.isNotBlank(action)) {
+            if (action.equals("savebo")) {
+                // only pass questionnaire data
+                Questionnaire questionnaire = getNewQuestionnaire();
+                if (questionnaire.getQuestionnaireId() != null) {
+                    Map pkMap = new HashMap();
+                    pkMap.put("questionnaireId", questionnaire.getQuestionnaireId());
+                    Questionnaire oldQuestionnair = (Questionnaire)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(Questionnaire.class, pkMap);
+                    questionnaire.setVersionNumber(oldQuestionnair.getVersionNumber());
+                }
+                KraServiceLocator.getService(BusinessObjectService.class).save(questionnaire);
+                retData = "<h3>qnaireID=" + questionnaire.getQuestionnaireId() + "</h3>";
+            }
+            else {
+                Questionnaire questionnaire = new Questionnaire();
+                questionnaire = getNewQuestionnaire();
+                KraServiceLocator.getService(QuestionnaireService.class).saveQuestionnaire(sqlScripts, questionnaire);
+                retData = "<h3>qnaireID=" + questionnaire.getQuestionnaireId() + "</h3>";
+            }
+            action="";
+        }
         return retData;
     }
 
@@ -164,6 +184,14 @@ public class QuestionnaireForm extends KualiForm {
 
     public void setEditData(String editData) {
         this.editData = editData;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 
 }
