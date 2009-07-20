@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.delete;
 
-import java.util.HashMap;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +26,6 @@ import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
@@ -55,13 +52,10 @@ public class ProtocolDeleteServiceTest extends KraTestBase {
     private ProtocolDeleteServiceImpl protocolDeleteService;
     private BusinessObjectService businessObjectService;  
     
-    @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("superuser"));
-        GlobalVariables.setErrorMap(new ErrorMap());
-        GlobalVariables.setAuditErrorMap(new HashMap());
         protocolDeleteService = new ProtocolDeleteServiceImpl();
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         protocolDeleteService.setBusinessObjectService(businessObjectService);
@@ -70,8 +64,6 @@ public class ProtocolDeleteServiceTest extends KraTestBase {
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        GlobalVariables.setErrorMap(null);
-        GlobalVariables.setAuditErrorMap(null);
         super.tearDown();
     }
     
