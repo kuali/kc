@@ -61,10 +61,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     private Date requestedStartDateTotal; 
     private Date requestedEndDateInitial; 
     private Date requestedEndDateTotal; 
-    private Long totalDirectCostInitial; 
-    private Long totalDirectCostTotal; 
-    private Long totalIndirectCostInitial; 
-    private Long totalIndirectCostTotal; 
+    private KualiDecimal totalDirectCostInitial; 
+    private KualiDecimal totalDirectCostTotal; 
+    private KualiDecimal totalIndirectCostInitial; 
+    private KualiDecimal totalIndirectCostTotal; 
     private String numberOfCopies; 
     private Date deadlineDate; 
     private Date createTimeStamp;
@@ -128,6 +128,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
         Calendar cl = Calendar.getInstance();
         setCreateTimeStamp(new Date(cl.getTime().getTime()));
         setInitialContractAdmin("Bruno");
+        setProposalNumber("1");
+        setTotalDirectCostInitial(new KualiDecimal(0));
+        setTotalDirectCostTotal(new KualiDecimal(0));
+        setTotalIndirectCostInitial(new KualiDecimal(0));
+        setTotalIndirectCostTotal(new KualiDecimal(0));
     }
     
     /**
@@ -155,9 +160,32 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
      */
     public void add(InstitutionalProposalNotepad institutionalProposalNotepad) {
         institutionalProposalNotepad.setEntryNumber(institutionalProposalNotepads.size() + 1);
+        institutionalProposalNotepad.setProposalNumber(this.getProposalNumber());
         institutionalProposalNotepads.add(institutionalProposalNotepad);
         institutionalProposalNotepad.setInstitutionalProposal(this);
     }
+    
+    /**
+     * This method 
+     * @return
+     */
+     public KualiDecimal getTotalInitialCost() {
+        KualiDecimal returnValue = new KualiDecimal(0);
+        returnValue = returnValue.add(totalDirectCostInitial);
+        returnValue = returnValue.add(totalIndirectCostInitial);
+        return returnValue;
+    }
+     
+     /**
+      * This method 
+      * @return
+      */
+      public KualiDecimal getTotalCost() {
+         KualiDecimal returnValue = new KualiDecimal(0);
+         returnValue = returnValue.add(totalDirectCostTotal);
+         returnValue = returnValue.add(totalIndirectCostTotal);
+         return returnValue;
+     }
     
     /**
      * Gets the institutionalProposalCustomDataList attribute. 
@@ -342,35 +370,35 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
         this.requestedEndDateTotal = requestedEndDateTotal;
     }
 
-    public Long getTotalDirectCostInitial() {
+    public KualiDecimal getTotalDirectCostInitial() {
         return totalDirectCostInitial;
     }
 
-    public void setTotalDirectCostInitial(Long totalDirectCostInitial) {
+    public void setTotalDirectCostInitial(KualiDecimal totalDirectCostInitial) {
         this.totalDirectCostInitial = totalDirectCostInitial;
     }
 
-    public Long getTotalDirectCostTotal() {
+    public KualiDecimal getTotalDirectCostTotal() {
         return totalDirectCostTotal;
     }
 
-    public void setTotalDirectCostTotal(Long totalDirectCostTotal) {
+    public void setTotalDirectCostTotal(KualiDecimal totalDirectCostTotal) {
         this.totalDirectCostTotal = totalDirectCostTotal;
     }
 
-    public Long getTotalIndirectCostInitial() {
+    public KualiDecimal getTotalIndirectCostInitial() {
         return totalIndirectCostInitial;
     }
 
-    public void setTotalIndirectCostInitial(Long totalIndirectCostInitial) {
+    public void setTotalIndirectCostInitial(KualiDecimal totalIndirectCostInitial) {
         this.totalIndirectCostInitial = totalIndirectCostInitial;
     }
 
-    public Long getTotalIndirectCostTotal() {
+    public KualiDecimal getTotalIndirectCostTotal() {
         return totalIndirectCostTotal;
     }
 
-    public void setTotalIndirectCostTotal(Long totalIndirectCostTotal) {
+    public void setTotalIndirectCostTotal(KualiDecimal totalIndirectCostTotal) {
         this.totalIndirectCostTotal = totalIndirectCostTotal;
     }
 

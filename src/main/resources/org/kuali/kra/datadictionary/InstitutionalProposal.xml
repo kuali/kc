@@ -185,8 +185,8 @@
     <bean id="InstitutionalProposal-currentAccountNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="currentAccountNumber" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Current Account Number" />
-        <property name="shortLabel" value="Current Account Number" />
+        <property name="label" value="Account ID" />
+        <property name="shortLabel" value="Account ID" />
         <property name="maxLength" value="7" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -350,8 +350,8 @@
     <bean id="InstitutionalProposal-requestedStartDateInitial" parent="InstitutionalProposal-requestedStartDateInitial-parentBean" />
     <bean id="InstitutionalProposal-requestedStartDateInitial-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="requestedStartDateInitial" />
-        <property name="label" value="Requested Start Date Initial" />
-        <property name="shortLabel" value="Requested Start Date Initial" />
+        <property name="label" value="Requested Start Date" />
+        <property name="shortLabel" value="Requested Start Date" />
         <property name="summary" value="Requested Start Date Initial" />
         <property name="description" value="Requested Start Date Initial" />
     </bean>
@@ -368,8 +368,8 @@
     <bean id="InstitutionalProposal-requestedEndDateInitial" parent="InstitutionalProposal-requestedEndDateInitial-parentBean" />
     <bean id="InstitutionalProposal-requestedEndDateInitial-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="requestedEndDateInitial" />
-        <property name="label" value="Requested End Date Initial" />
-        <property name="shortLabel" value="Requested End Date Initial" />
+        <property name="label" value="Requested End Date" />
+        <property name="shortLabel" value="Requested End Date" />
         <property name="summary" value="Requested End Date Initial" />
         <property name="description" value="Requested End Date Initial" />
     </bean>
@@ -387,16 +387,20 @@
     <bean id="InstitutionalProposal-totalDirectCostInitial-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="totalDirectCostInitial" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Total Direct Cost Initial" />
-        <property name="shortLabel" value="Total Direct Cost Initial" />
+        <property name="label" value="Total Direct Cost" />
+        <property name="shortLabel" value="Total Direct Cost" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
+      		<bean parent="FixedPointValidationPattern"
+            	p:precision="12"
+           		p:scale="2"
+            	p:allowNegative="true" />
+    	</property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+      		<bean parent="CurrencyControlDefinition"
+            	p:formattedMaxLength="22"
+           		p:size="12" />
+   		</property>
         <property name="summary" value="Total Direct Cost Initial" />
         <property name="description" value="Total Direct Cost Initial" />
     </bean>
@@ -409,12 +413,16 @@
         <property name="shortLabel" value="Total Direct Cost Total" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
+      		<bean parent="FixedPointValidationPattern"
+            	p:precision="12"
+           		p:scale="2"
+            	p:allowNegative="true" />
+    	</property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+      		<bean parent="CurrencyControlDefinition"
+            	p:formattedMaxLength="22"
+           		p:size="12" />
+   		</property>
         <property name="summary" value="Total Direct Cost Total" />
         <property name="description" value="Total Direct Cost Total" />
     </bean>
@@ -423,16 +431,20 @@
     <bean id="InstitutionalProposal-totalIndirectCostInitial-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="totalIndirectCostInitial" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Total Indirect Cost Initial" />
-        <property name="shortLabel" value="Total Indirect Cost Initial" />
+        <property name="label" value="Total Indirect Cost" />
+        <property name="shortLabel" value="Total Indirect Cost" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
+      		<bean parent="FixedPointValidationPattern"
+            	p:precision="12"
+           		p:scale="2"
+            	p:allowNegative="true" />
+    	</property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+      		<bean parent="CurrencyControlDefinition"
+            	p:formattedMaxLength="22"
+           		p:size="12" />
+   		</property>
         <property name="summary" value="Total Indirect Cost Initial" />
         <property name="description" value="Total Indirect Cost Initial" />
     </bean>
@@ -445,12 +457,16 @@
         <property name="shortLabel" value="Total Indirect Cost Total" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
+      		<bean parent="FixedPointValidationPattern"
+            	p:precision="12"
+           		p:scale="2"
+            	p:allowNegative="true" />
+    	</property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+      		<bean parent="CurrencyControlDefinition"
+            	p:formattedMaxLength="22"
+           		p:size="12" />
+   		</property>
         <property name="summary" value="Total Indirect Cost Total" />
         <property name="description" value="Total Indirect Cost Total" />
     </bean>
