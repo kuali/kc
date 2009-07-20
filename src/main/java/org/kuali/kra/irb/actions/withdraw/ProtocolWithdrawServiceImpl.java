@@ -79,9 +79,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
      * @return
      */
     private ProtocolSubmission getSubmission(Protocol protocol) {
-        List<ProtocolSubmission> submissions = protocol.getProtocolSubmissions();
-        for (int i = submissions.size() - 1; i >= 0; i--) {
-            ProtocolSubmission submission = submissions.get(i);
+        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
             if (isWithdrawable(submission)) {
                 return submission;
             }
@@ -92,12 +90,32 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     /**
      * A submission is only withdrawable if it corresponds to a request to review
      * the submission.  The submissions that meet this criteria are the initial 
-     * request for review, amendments, and renewals.  Submissions such as Notify IRB
+     * request for review, amendments, and renewals that are still in the pending
+     * or submitted to committee states.   Submissions such as Notify IRB
      * cannot be withdrawn.
      * @param submission
      * @return
      */
     private boolean isWithdrawable(ProtocolSubmission submission) {
+        return isAllowedStatus(submission) && isNormalSubmission(submission);
+    }
+    
+    /**
+     * Does the submission status allow us to withdraw the protocol?
+     * @param submission
+     * @return true if withdrawable; otherwise false
+     */
+    private boolean isAllowedStatus(ProtocolSubmission submission) {
+        return StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) ||
+               StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+    }
+    
+    /**
+     * Does the submission type allow us to withdraw the protocol?
+     * @param submission
+     * @return true if withdrawable; otherwise false
+     */
+    private boolean isNormalSubmission(ProtocolSubmission submission) {
         return StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.AMENDMENT) ||
                StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.INITIAL_SUBMISSION) ||
                StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.CONTINUATION) ||
