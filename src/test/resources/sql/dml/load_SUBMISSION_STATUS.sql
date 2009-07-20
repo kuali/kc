@@ -1,0 +1,17 @@
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('100','Submitted to Committee',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('101','In Agenda',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('102','Pending',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('200','Complete',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('201','Substantive Revisions Required',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('202','Specific Minor Revisions Requested',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('203','Approved',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('204','Exemption Granted',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('205','Disapproved',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('206','Deferred',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('207','Closed',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('208','Terminated',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('209','Suspended',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('210','Withdrawn',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('211','Closed for Enrollment',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('212','IRB Acknowledgement',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('104','IRB review not required',sysdate,'KRADEV');  
