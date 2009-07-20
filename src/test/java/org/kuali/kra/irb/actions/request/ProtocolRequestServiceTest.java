@@ -47,7 +47,6 @@ import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
@@ -80,14 +79,11 @@ public class ProtocolRequestServiceTest extends KraTestBase {
     private ProtocolRequestServiceImpl protocolRequestService;
     private BusinessObjectService businessObjectService;
     private ProtocolActionService protocolActionService;   
-    
-    @SuppressWarnings("unchecked")
+   
     @Before
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("superuser"));
-        GlobalVariables.setErrorMap(new ErrorMap());
-        GlobalVariables.setAuditErrorMap(new HashMap());
         protocolRequestService = new ProtocolRequestServiceImpl();
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
@@ -98,8 +94,6 @@ public class ProtocolRequestServiceTest extends KraTestBase {
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        GlobalVariables.setErrorMap(null);
-        GlobalVariables.setAuditErrorMap(null);
         super.tearDown();
     }
     
