@@ -60,10 +60,21 @@ public class QuestionLookupAction extends KualiAction {
             questionLookupForm.setSelectedQuestions(Constants.EMPTY_STRING);
             for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                     Question question = (Question) iter.next();
+                    String desc = question.getQuestion();
+                    // TODO : need to deal with '"' in questio's description 
+                    // This '"' caused trouble for document.getElementById("selectedQuestions").value;
+                    // It only getvalue up to '"', so not the whole string is returned
+                    // <input type="hidden" id="selectedQuestions" name="selectedQuestions" value="${QuestionLookupForm.selectedQuestions}" />
+                    // if change value = '${....}', then "'" will cause problem
+                    if (desc.indexOf("\"") > 0) {
+                        desc = desc.replace("\"", "&#034;");
+                    } else if (desc.indexOf("'") > 0) {
+                   //     desc = desc.replace("'", "");
+                    }
                         if (StringUtils.isBlank(questions)) {
-                            questions = question.getQuestionId()+"#f#"+question.getQuestion()+"#f#"+question.getQuestionTypeId();
+                            questions = question.getQuestionId()+"#f#"+desc+"#f#"+question.getQuestionTypeId();
                         } else {
-                            questions = questions + "#q#" +question.getQuestionId()+"#f#"+question.getQuestion()+"#f#"+question.getQuestionTypeId();
+                            questions = questions + "#q#" +question.getQuestionId()+"#f#"+desc+"#f#"+question.getQuestionTypeId();
                             
                         }
                     }

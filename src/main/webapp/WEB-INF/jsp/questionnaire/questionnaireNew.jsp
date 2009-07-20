@@ -73,6 +73,11 @@
   var jsContextPath = "${pageContext.request.contextPath}";
   var sqls = [];
   var sqlidx = 0;
+  var groupid = 0;
+  var curgroup = 0;
+  var loadIntervalId;
+  var loadcomplete='true';
+  var loadcount=0;
   $(document).ready(function(){
     $.ajaxSettings.cache = false; 
     $("#example").treeview({
@@ -187,6 +192,28 @@
          sqls[sqlidx++] = sqlScripts;
      }
      
+     // Save new questionnaire bo
+     $.ajax({
+         url: 'questionnaireAjax.do',
+         type: 'GET',
+         dataType: 'html',
+         cache: false,
+         data:'action=savebo&newQuestionnaire.name='+qname+'&newQuestionnaire.questionnaireId='+qnaireid+'&newQuestionnaire.description='+qdescription+'&newQuestionnaire.isFinal='+qisfinal,
+         async:false,
+         timeout: 1000,
+         error: function(){
+            alert('Error loading XML document');
+         },
+         success: function(xml){
+            //sqlScripts="createnew";
+            $(xml).find('h3').each(function(){
+                //var item_text = $(this).text();
+                $('#newQuestionnaire\\.questionnaireId').attr("value",$(this).text().substring(9));
+            });
+         }
+       });// .ajax
+     
+     
 	 for (var k=0 ; k < sqls.length;  k++) {
        sqlScripts = sqls[k];
        sqlScripts = sqlScripts.replace(/#;#/g,";;;");
@@ -201,17 +228,17 @@
          type: 'GET',
          dataType: 'html',
          cache: false,
-         data:'sqlScripts='+sqlScripts+'&newQuestionnaire.name='+qname+'&newQuestionnaire.questionnaireId='+qnaireid+'&newQuestionnaire.description='+qdescription+'&newQuestionnaire.isFinal='+qisfinal,
+         data:'action=new&sqlScripts='+sqlScripts+'&newQuestionnaire.questionnaireId='+qnaireid,
          async:false,
          timeout: 1000,
          error: function(){
-            alert('Error loading XML document');
+            alert('error when saving');
          },
          success: function(xml){
-            //sqlScripts="createnew";
+            sqlScripts="createnew";
             $(xml).find('h3').each(function(){
                 //var item_text = $(this).text();
-                $('#newQuestionnaire\\.questionnaireId').attr("value",$(this).text().substring(9));
+                //$('#newQuestionnaire\\.questionnaireId').attr("value",$(this).text().substring(9));
             });
          }
        });// .ajax

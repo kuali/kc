@@ -31,10 +31,11 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
         if (questionnaire.getQuestionnaireId() != null) {
             Map pkMap = new HashMap();
             pkMap.put("questionnaireId", questionnaire.getQuestionnaireId());
-            Questionnaire oldQuestionnair = (Questionnaire)businessObjectService.findByPrimaryKey(Questionnaire.class, pkMap);
-            questionnaire.setVersionNumber(oldQuestionnair.getVersionNumber());
+            questionnaire = (Questionnaire)businessObjectService.findByPrimaryKey(Questionnaire.class, pkMap);
+            //Questionnaire oldQuestionnair = (Questionnaire)businessObjectService.findByPrimaryKey(Questionnaire.class, pkMap);
+            //questionnaire.setVersionNumber(oldQuestionnair.getVersionNumber());
         }
-        businessObjectService.save(questionnaire);
+        //businessObjectService.save(questionnaire);
         //questionnaireDao.runScripts(sqlScripts.split("#;#"),questionnaire.getQuestionnaireId());
         questionnaireDao.runScripts(sqlScripts.split(";;;"),questionnaire.getQuestionnaireId());
             
