@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,6 +78,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      *
      * @see org.kuali.kra.KraWebTestBase#setUp()
      */
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -94,6 +95,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      *
      * @see org.kuali.kra.KraWebTestBase#tearDown()
      */
+    @Override
     @After
     public void tearDown() throws Exception {
         super.tearDown();
@@ -224,10 +226,10 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     protected final HtmlPage clickOn(HtmlPage page, String id, String nextPageTitle) throws IOException {
         HtmlElement element = getElement(page, id);
-        assertTrue(id +" not found",element != null);
-        assertTrue(element instanceof ClickableElement);
+        assertTrue(id + " not found", element != null);
+        assertTrue((element != null) ? element.getClass().getName() : "element is null", element instanceof ClickableElement);
 
-        return clickOn((ClickableElement) element, nextPageTitle);
+        return clickOn(element, nextPageTitle);
     }
 
     /**
@@ -261,13 +263,12 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @throws IOException
      */
     protected final HtmlPage clickOn(HtmlElement element, String nextPageTitle) throws IOException {
-        assertTrue(element instanceof ClickableElement);
+        assertTrue((element != null) ? element.getClass().getName() : "element is null", element instanceof ClickableElement);
 
         ClickableElement clickable = (ClickableElement) element;
         Page nextPage = clickable.click();
 
-        assertTrue(nextPage != null);
-        assertTrue(nextPage instanceof HtmlPage);
+        assertTrue((nextPage != null) ? nextPage.getClass().getName() : "nextPage is null", nextPage instanceof HtmlPage);
 
         HtmlPage htmlNextPage = (HtmlPage) nextPage;
 
@@ -301,7 +302,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     protected final HtmlPage clickOnLookup(HtmlPage page, String tag) throws IOException {
         HtmlImageInput element = getLookup(page, tag);
-        assertTrue(element != null);
+        assertTrue("element is null", element != null);
 
         return clickOn(element);
     }
@@ -313,7 +314,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     protected final void assertContains(HtmlPage page, String text) {
         if(LOG.isDebugEnabled()) {
-            assertTrue(page.asText(), page.asText().contains(text));
+            assertTrue("page: \n" + page.asText() + "\n does not contain text: \n" + text, page.asText().contains(text));
         } else {
             assertTrue(page.asText().contains(text));
         }
@@ -334,7 +335,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param text the string to look for in the web page.
      */
     protected final void assertDoesNotContain(HtmlPage page, String text) {
-        assertTrue(!page.asText().contains(text));
+        assertTrue("page: \n" + page.asText() + "\n does contain text: \n" + text, !page.asText().contains(text));
     }
 
     /**
@@ -343,7 +344,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param text the string to look for in the HTML element.
      */
     protected final void assertContains(HtmlElement element, String text) {
-        assertTrue(element.asText().contains(text));
+        assertTrue("element: \n" + element.asText() + "\n does not contain text: \n" + text, element.asText().contains(text));
     }
 
     /**
@@ -352,7 +353,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param text the string to look for in the HTML element.
      */
     protected final void assertDoesNotContain(HtmlElement element, String text) {
-        assertTrue(!element.asText().contains(text));
+        assertTrue("element: \n" + element.asText() + "\n does contain text: \n" + text, !element.asText().contains(text));
     }
 
     /**
@@ -363,7 +364,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     protected final void assertSelectOptionsSize(HtmlPage page, String elementId, int size) {
         HtmlElement element = page.getHtmlElementById(elementId);
-        assertTrue(element != null);
+        assertTrue("element is null", element != null);
 
         if (element instanceof HtmlSelect) {
             HtmlSelect selectField = (HtmlSelect) element;
@@ -469,7 +470,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         HtmlPage lookupPage = clickOnLookup(page, tag);
 
         if (searchFieldId != null) {
-            assertTrue(searchValue != null);
+            assertTrue("searchValue is null", searchValue != null);
             setFieldValue(lookupPage, searchFieldId, searchValue);
         }
 
@@ -550,7 +551,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         HtmlPage lookupPage = clickOnLookup(page, tag);
 
         if (searchFieldId != null) {
-            assertTrue(searchValue != null);
+            assertTrue("searchValue is null", searchValue != null);
             setFieldValue(lookupPage, searchFieldId, searchValue);
         }
 
@@ -621,6 +622,8 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     protected final void setFieldValue(HtmlPage page, String fieldId, String fieldValue) {
         HtmlElement element = getElement(page, fieldId);
+        assertTrue("element is null", element != null);
+        
         if(element == null &&  page != null && LOG.isDebugEnabled()) {
             LOG.debug(createExpectedFieldNotFoundMessage(page, fieldId));
             LOG.debug(page.asXml());
@@ -662,7 +665,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         else if (element instanceof HtmlRadioButtonInput) {
             List<HtmlElement> elements = getAllElementsByName(page, fieldId, false);
             for (HtmlElement child : elements) {
-                assertTrue(child instanceof HtmlRadioButtonInput);
+                assertTrue(child.getClass().getName(), child instanceof HtmlRadioButtonInput);
                 HtmlRadioButtonInput radioBtn = (HtmlRadioButtonInput) child;
                 if (radioBtn.getValueAttribute().equals(fieldValue)) {
                     radioBtn.setChecked(true);
@@ -723,7 +726,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         else if (element instanceof HtmlRadioButtonInput) {
             List<HtmlElement> elements = getAllElementsByName(page, fieldId, false);
             for (HtmlElement child : elements) {
-                assertTrue(child instanceof HtmlRadioButtonInput);
+                assertTrue(child.getClass().getName(), child instanceof HtmlRadioButtonInput);
                 HtmlRadioButtonInput radioBtn = (HtmlRadioButtonInput) child;
                 if (radioBtn.isChecked()) {
                     fieldValue = radioBtn.getValueAttribute();
@@ -757,7 +760,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         String fieldValue = null;
 
         HtmlElement element = getElement(page, fieldId);
-        assertTrue(element != null);
+        assertTrue("element is null", element != null);
 
         if (element instanceof HtmlTextInput) {
             HtmlTextInput textField = (HtmlTextInput) element;
@@ -782,7 +785,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         else if (element instanceof HtmlRadioButtonInput) {
             List<HtmlElement> elements = getAllElementsByName(page, fieldId, false);
             for (HtmlElement child : elements) {
-                assertTrue(child instanceof HtmlRadioButtonInput);
+                assertTrue(child.getClass().getName(), child instanceof HtmlRadioButtonInput);
                 HtmlRadioButtonInput radioBtn = (HtmlRadioButtonInput) child;
                 if (radioBtn.isDefaultChecked()) {
                     fieldValue = radioBtn.getValueAttribute();
@@ -812,7 +815,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         List<HtmlAnchor> anchors = findHelpLinks(page);
         for (HtmlAnchor anchor : anchors) {
             HtmlPage helpPage = (HtmlPage) anchor.click();
-            assertTrue(HELP_PAGE_TITLE.equals(helpPage.getTitleText()));
+            assertEquals(HELP_PAGE_TITLE, helpPage.getTitleText());
         }
     }
 
@@ -873,9 +876,10 @@ public abstract class KraWebTestBase extends KraTestBase {
         setFieldValue(page, textAreaId, text1);
 
         HtmlElement field = getElement(page, textAreaId);
-        assertTrue(field != null);
+        assertTrue("field is null", field != null);
         
         ClickableElement btn = (ClickableElement) this.getNextSibling(field, "input");
+        assertTrue("btn is null", btn != null);
         
         //If pencil icon is not located next TextArea following alternate method will be used if iconTextAreaId is not null.
         if(null == btn && null != iconTextAreaId) {
@@ -923,7 +927,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         List<String> errors = new ArrayList<String>();
 
         HtmlElement panelDiv = getElement(page, panelId);
-        assertTrue(panelDiv != null);
+        assertTrue("panelDiv is null", panelDiv != null);
 
         HtmlElement errorDiv = getElementByClass(panelDiv, "error");
         if (errorDiv != null) {
@@ -1390,7 +1394,7 @@ public abstract class KraWebTestBase extends KraTestBase {
     protected final HtmlTable getTable(HtmlPage page, String id) {
         HtmlTable table = null;
         HtmlElement element = getElement(page, id);
-        assertTrue(element != null);
+        assertTrue("element is null", element != null);
 
         if (element instanceof HtmlTable) {
             table = (HtmlTable) element;
@@ -1755,7 +1759,7 @@ public abstract class KraWebTestBase extends KraTestBase {
 
         HtmlElement element = getElement(page, id);
         assertNotNull(element);
-        assertTrue(element instanceof HtmlSelect);
+        assertTrue(element.getClass().getName(), element instanceof HtmlSelect);
 
         HtmlSelect select = (HtmlSelect) element;
         for (int i = 0; i < select.getOptionSize(); i++) {
@@ -1797,7 +1801,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     protected void selectAnyOption(HtmlPage page, String id) {
         HtmlElement element = getElement(page, id);
-        assertTrue(element instanceof HtmlSelect);
+        assertTrue(element.getClass().getName(), element instanceof HtmlSelect);
 
         HtmlSelect selectField = (HtmlSelect) element;
         @SuppressWarnings("unchecked") List<HtmlOption> options = selectField.getOptions();

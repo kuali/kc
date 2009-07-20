@@ -50,14 +50,6 @@ public abstract class NarrativeTaskFactory extends WebTaskFactoryImpl {
     }
     
     /**
-     * Get the narrative to insert into the Narrative Task.
-     * @param form the form
-     * @param request the HTTP request
-     * @return the narrative
-     */
-    protected abstract Narrative getNarrative(ActionForm form, HttpServletRequest request);
-    
-    /**
      * Get the line number from the HTTP request.  
      * @param request the HTTP request
      * @return the line number within the request

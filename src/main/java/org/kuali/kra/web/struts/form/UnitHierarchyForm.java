@@ -17,8 +17,6 @@ package org.kuali.kra.web.struts.form;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -27,24 +25,22 @@ import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
-public class UnitHierarchyForm  extends KualiForm {
+public class UnitHierarchyForm extends KualiForm {
 
     private static final long serialVersionUID = 998128282202385681L;
     private static final String DETAIL_TYPE_CODE_A = "A";
     
     private String units;
     private String selectedUnitNumber;
-    private int initialUnitDepth;
-    private static final Log LOG = LogFactory.getLog(UnitHierarchyForm.class);
+    
     /**
      * Constructs a UnitHierarchyForm.
      */
     public UnitHierarchyForm() {
-        super();
-        units = KraServiceLocator.getService(UnitService.class).getInitialUnitsForUnitHierarchy(getInitialUnitDepth());        
-
+        units = KraServiceLocator.getService(UnitService.class).getInitialUnitsForUnitHierarchy(this.getInitialUnitDepth());        
     }
 
+    @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         // FIXME : just a temporary soln.  it always get the methodtocall='refresh' after it started properly the first time.  
         // need to investigate this.
@@ -67,21 +63,16 @@ public class UnitHierarchyForm  extends KualiForm {
         this.selectedUnitNumber = selectedUnitNumber;
     }
 
+    /**
+     * Gets the Initial Unit Depth from a system parameter.
+     * @return Initial Unit Depth
+     */
     public int getInitialUnitDepth() {
-        int depth = 3;
-        try {
-           Parameter sysParam = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
-                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, "A", Constants.INITIAL_UNIT_HIERARCHY_LOAD_DEPTH);
-            depth=Integer.parseInt(sysParam.getParameterValue());
-        } catch (Exception e) {
-            LOG.debug("System param for initialUnitLoadDepth is not defined");
-        }
- 
-        return depth;
+        
+        Parameter sysParam = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
+                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, DETAIL_TYPE_CODE_A,
+                Constants.INITIAL_UNIT_HIERARCHY_LOAD_DEPTH);
+        
+        return Integer.parseInt(sysParam.getParameterValue());
     }
-
-    public void setInitialUnitDepth(int initialUnitDepth) {
-        this.initialUnitDepth = initialUnitDepth;
-    }
-
 }

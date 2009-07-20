@@ -59,9 +59,9 @@ public class S2SErrorMessages {
     public static String getProperty(String key, String defaultValue){
         if (props == null) {
             synchronized (S2SErrorMessages.class) {
-                if (props == null) {
+                //if (props == null) {
                     props = loadProperties();
-                }
+                //}
             }
         }
         return props.getProperty(key, defaultValue);

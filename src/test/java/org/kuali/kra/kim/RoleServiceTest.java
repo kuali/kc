@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -189,6 +189,7 @@ public class RoleServiceTest extends KraTestBase {
             permissions.add(PermissionConstants.CERTIFY);
             permissions.add(PermissionConstants.PRINT_PROPOSAL);
             permissions.add(PermissionConstants.SUBMIT_PROPOSAL);
+            permissions.add(PermissionConstants.ADD_PROPOSAL_VIEWER);
         } else if (StringUtils.equals(RoleConstants.BUDGET_CREATOR, roleName)) {
             permissions.add(PermissionConstants.VIEW_PROPOSAL);
             permissions.add(PermissionConstants.VIEW_BUDGET);

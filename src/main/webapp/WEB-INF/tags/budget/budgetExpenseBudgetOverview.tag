@@ -19,7 +19,6 @@
 
 <c:set var="budgetPeriodAttributes" value="${DataDictionary.BudgetPeriod.attributes}" />
 <c:set var="budgetDocumentAttributes" value="${DataDictionary.BudgetDocument.attributes}" />
-
 <c:set var="action" value="budgetExpensesAction" />
 
 <c:if test="${empty transparentBackground}">

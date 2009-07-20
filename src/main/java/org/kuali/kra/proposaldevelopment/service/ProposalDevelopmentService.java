@@ -75,27 +75,6 @@ public interface ProposalDevelopmentService {
      */
     public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(ProposalDevelopmentDocument proposalDevelopmentDocument) throws Exception;
 
-    /**
-     * 
-     * This method is to get exemption type key value pairs
-     * @return
-     */
-    public List<KeyLabelPair> getExemptionTypeKeyValues();
-
-    /**
-     * 
-     * This method is to initialize document exemptnumbers in form before navigate to special review 
-     * @param proposalDevelopmentForm
-     */
-    public void populateExemptNumbersToForm(ProposalDevelopmentForm proposalDevelopmentForm);
-
-    /**
-     * 
-     * This method populate the selected exempt numbers to proposalexemptnumbers before save
-     * @param proposalDevelopmentForm
-     */
-    public void populateProposalExempNumbers(ProposalDevelopmentForm proposalDevelopmentForm);
-
     public String populateProposalEditableFieldMetaDataForAjaxCall(String proposalNumber, String editableFieldDBColumn);
     
     public Object getProposalFieldValueFromDBColumnName(String proposalNumber, String dbColumnName) ;

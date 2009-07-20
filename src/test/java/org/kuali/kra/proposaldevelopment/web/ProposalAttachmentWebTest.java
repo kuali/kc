@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2009 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -128,7 +128,7 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         setNarrativeAccess(userRightsPage, 0, "R");
         userRightsPage = clickOn(userRightsPage, "save");
         List<String> errors = this.getErrors(userRightsPage, "tab-Rights-div");
-        assertEquals(1, errors.size());
+        assertTrue("At least one error should be flagged", errors.size() > 0);
         assertTrue(containsError(errors, "At least one user"));
     }
     

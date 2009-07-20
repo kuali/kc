@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kra.kim.bo.KimGroup;
 import org.kuali.kra.kim.bo.KimPerson;
@@ -87,14 +88,25 @@ public class QualifiedRoleServiceImpl implements QualifiedRoleService {
     public List<String> getPersonUsernames(String roleName, Map<String, String> qualifiedRoleAttributes) {
         List<String> personNames = new ArrayList<String>();
         Long roleId = helper.getRoleId(roleName);
-        
+    
+        /*
         Collection<KimQualifiedRolePerson> rolePersons = helper.findMatching(KimQualifiedRolePerson.class, "roleId", roleId);
         for (KimQualifiedRolePerson rolePerson : rolePersons) {
             if (rolePerson.matches(qualifiedRoleAttributes)) {
                 KimPerson kimPerson = helper.getPerson(rolePerson.getPersonId());
                 personNames.add(kimPerson.getUsername());
             }
+        }  
+        */
+       
+        Set<Long> personIds = helper.getQualifiedRolePersonIds(roleId, qualifiedRoleAttributes);
+        for (Long personId : personIds) {
+              KimPerson kimPerson = helper.getPerson(personId);
+              if(kimPerson != null) {
+                  personNames.add(kimPerson.getUsername());
+              }
         }
+        
         return personNames;
     }
 
@@ -105,14 +117,22 @@ public class QualifiedRoleServiceImpl implements QualifiedRoleService {
         List<Person> persons = new ArrayList<Person>();
         Long roleId = helper.getRoleId(roleName);
         
-        Collection<KimQualifiedRolePerson> rolePersons = helper.findMatching(KimQualifiedRolePerson.class, "roleId", roleId);
+        /*Collection<KimQualifiedRolePerson> rolePersons = helper.findMatching(KimQualifiedRolePerson.class, "roleId", roleId);
         for (KimQualifiedRolePerson rolePerson : rolePersons) {
             if (rolePerson.matches(qualifiedRoleAttributes)) {
                 KimPerson kimPerson = helper.getPerson(rolePerson.getPersonId());
                 Person person = helper.buildPerson(kimPerson);
                 persons.add(person);
             }
+        }*/
+        
+        Set<Long> personIds = helper.getQualifiedRolePersonIds(roleId, qualifiedRoleAttributes);
+        for (Long personId : personIds) {
+              KimPerson kimPerson = helper.getPerson(personId);
+              Person person = helper.buildPerson(kimPerson);
+              persons.add(person);
         }
+        
         return persons;
     }
 

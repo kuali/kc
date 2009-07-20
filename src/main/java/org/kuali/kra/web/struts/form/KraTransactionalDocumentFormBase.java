@@ -20,12 +20,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.SoftError;
 import org.kuali.rice.kns.document.Document;
@@ -75,25 +75,12 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     }
     
     /**
-     * Override reset to reset checkboxes if they are present on the requesting page
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
+     * {@inheritDoc}
      */
-    public void reset(ActionMapping mapping, HttpServletRequest request) {
+    @Override
+    public void reset(final ActionMapping mapping, final HttpServletRequest request) {
         super.reset(mapping, request);
-        if (request.getParameter(CHECKBOX_TO_RESET) != null) {
-            String[] checkboxesToReset = request.getParameterValues(CHECKBOX_TO_RESET);
-            if(checkboxesToReset != null && checkboxesToReset.length > 0) {
-                for (int i = 0; i < checkboxesToReset.length; i++) {
-                    String propertyName = (String) checkboxesToReset[i];
-                    try {
-                        PropertyUtils.setNestedProperty(this, propertyName, false);
-                    } catch (Exception e1) {
-                        LOG.error("Error occurred in reset " + e1.getMessage());
-                        throw new RuntimeException(e1.getMessage(), e1);
-                    }
-                }
-            }
-        }
+        ResetElementsHelper.resetElements(this, ResetElementsHelper.getElementsToReset(request));
     }
 
     /**
@@ -209,12 +196,12 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
         }
 
         String tmpMethodtoCall = getMethodToCall();
-        if (StringUtils.isNotEmpty(tmpMethodtoCall) && (tmpMethodtoCall.equalsIgnoreCase("budgetVersions") 
-                || tmpMethodtoCall.equalsIgnoreCase("proposal") || tmpMethodtoCall.equalsIgnoreCase("keyPersonnel") 
-                || tmpMethodtoCall.equalsIgnoreCase("specialReview") || tmpMethodtoCall.equalsIgnoreCase("questions") 
-                || tmpMethodtoCall.equalsIgnoreCase("permissions") || tmpMethodtoCall.equalsIgnoreCase("grantsGov") 
-                || tmpMethodtoCall.equalsIgnoreCase("abstractsAttachments") || tmpMethodtoCall.equalsIgnoreCase("customData")  
-                || tmpMethodtoCall.equalsIgnoreCase("actions") )) {
+        if (StringUtils.isNotEmpty(tmpMethodtoCall) && (tmpMethodtoCall.equalsIgnoreCase(Constants.PD_BUDGET_VERSIONS_PAGE) 
+                || tmpMethodtoCall.equalsIgnoreCase(Constants.PROPOSAL_PAGE) || tmpMethodtoCall.equalsIgnoreCase(Constants.KEY_PERSONNEL_PAGE) 
+                || tmpMethodtoCall.equalsIgnoreCase(Constants.SPECIAL_REVIEW_PAGE) || tmpMethodtoCall.equalsIgnoreCase(Constants.QUESTIONS_PAGE) 
+                || tmpMethodtoCall.equalsIgnoreCase(Constants.PERMISSIONS_PAGE) || tmpMethodtoCall.equalsIgnoreCase(Constants.GRANTS_GOV_PAGE) 
+                || tmpMethodtoCall.equalsIgnoreCase(Constants.ATTACHMENTS_PAGE) || tmpMethodtoCall.equalsIgnoreCase(Constants.CUSTOM_ATTRIBUTES_PAGE)  
+                || tmpMethodtoCall.equalsIgnoreCase(Constants.PROPOSAL_ACTIONS_PAGE) )) {
             return tmpMethodtoCall; 
         }
         

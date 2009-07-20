@@ -28,112 +28,110 @@ import org.kuali.kra.budget.BudgetDecimal;
 public class BudgetPersonnelDetails extends BudgetLineItemBase {
     
     private Integer personNumber;
-	private BudgetDecimal costSharingPercent=BudgetDecimal.ZERO;
-	private String jobCode;
+    private BudgetDecimal costSharingPercent=BudgetDecimal.ZERO;
+    private String jobCode;
     private Boolean nonEmployeeFlag;
-	private BudgetDecimal percentCharged=BudgetDecimal.ZERO;
-	private BudgetDecimal percentEffort=BudgetDecimal.ZERO;
-	private String periodTypeCode;
-	private String personId;
-	private BudgetDecimal salaryRequested=BudgetDecimal.ZERO;
-	private Integer sequenceNumber;
-	private Integer personSequenceNumber;
-	private BudgetPerson budgetPerson;
+    private BudgetDecimal percentCharged=BudgetDecimal.ZERO;
+    private BudgetDecimal percentEffort=BudgetDecimal.ZERO;
+    private String periodTypeCode;
+    private String personId;
+    private BudgetDecimal salaryRequested=BudgetDecimal.ZERO;
+    private Integer sequenceNumber;
+    private Integer personSequenceNumber;
+    private BudgetPerson budgetPerson;
     private List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts;
     private List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList;
     private String effdtAfterStartdtMsg;
-    private BudgetPeriodType budgetPeriodType;
-
     public BudgetPersonnelDetails(){
         budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
         budgetPersonnelRateAndBaseList = new ArrayList<BudgetPersonnelRateAndBase>();
     }
-	public Integer getPersonNumber() {
-		return personNumber;
-	}
+    public Integer getPersonNumber() {
+        return personNumber;
+    }
 
-	public void setPersonNumber(Integer personNumber) {
-		this.personNumber = personNumber;
-	}
+    public void setPersonNumber(Integer personNumber) {
+        this.personNumber = personNumber;
+    }
 
-	public BudgetDecimal getCostSharingPercent() {
-		return costSharingPercent;
-	}
+    public BudgetDecimal getCostSharingPercent() {
+        return costSharingPercent;
+    }
 
-	public void setCostSharingPercent(BudgetDecimal costSharingPercent) {
-		this.costSharingPercent = costSharingPercent;
-	}
+    public void setCostSharingPercent(BudgetDecimal costSharingPercent) {
+        this.costSharingPercent = costSharingPercent;
+    }
 
-	public String getJobCode() {
-		return jobCode;
-	}
+    public String getJobCode() {
+        return jobCode;
+    }
 
-	public void setJobCode(String jobCode) {
-		this.jobCode = jobCode;
-	}
+    public void setJobCode(String jobCode) {
+        this.jobCode = jobCode;
+    }
 
-	public BudgetDecimal getPercentCharged() {
-		return BudgetDecimal.returnZeroIfNull(percentCharged);
-	}
+    public BudgetDecimal getPercentCharged() {
+        return BudgetDecimal.returnZeroIfNull(percentCharged);
+    }
 
-	public void setPercentCharged(BudgetDecimal percentCharged) {
-		this.percentCharged = percentCharged;
-	}
+    public void setPercentCharged(BudgetDecimal percentCharged) {
+        this.percentCharged = percentCharged;
+    }
 
-	public BudgetDecimal getPercentEffort() {
-		return BudgetDecimal.returnZeroIfNull(percentEffort);
-	}
+    public BudgetDecimal getPercentEffort() {
+        return BudgetDecimal.returnZeroIfNull(percentEffort);
+    }
 
-	public void setPercentEffort(BudgetDecimal percentEffort) {
-		this.percentEffort = percentEffort;
-	}
+    public void setPercentEffort(BudgetDecimal percentEffort) {
+        this.percentEffort = percentEffort;
+    }
 
-	public String getPeriodTypeCode() {
-		return periodTypeCode;
-	}
+    public String getPeriodTypeCode() {
+        return periodTypeCode;
+    }
 
-	public void setPeriodTypeCode(String periodTypeCode) {
-		this.periodTypeCode = periodTypeCode;
-	}
+    public void setPeriodTypeCode(String periodTypeCode) {
+        this.periodTypeCode = periodTypeCode;
+    }
 
-	public String getPersonId() {
-		return personId;
-	}
+    public String getPersonId() {
+        return personId;
+    }
 
-	public void setPersonId(String personId) {
-		this.personId = personId;
-	}
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
 
-	public BudgetDecimal getSalaryRequested() {
-		return salaryRequested;
-	}
+    public BudgetDecimal getSalaryRequested() {
+        return salaryRequested;
+    }
 
-	public void setSalaryRequested(BudgetDecimal salaryRequested) {
-		this.salaryRequested = salaryRequested;
-	}
+    public void setSalaryRequested(BudgetDecimal salaryRequested) {
+        this.salaryRequested = salaryRequested;
+    }
 
-	public Integer getSequenceNumber() {
-		return sequenceNumber;
-	}
+    public Integer getSequenceNumber() {
+        return sequenceNumber;
+    }
 
-	public void setSequenceNumber(Integer sequenceNumber) {
-		this.sequenceNumber = sequenceNumber;
-	}
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
-		hashMap.put("personNumber", getPersonNumber());
-		hashMap.put("jobCode", getJobCode());
-		hashMap.put("percentCharged", getPercentCharged());
-		hashMap.put("percentEffort", getPercentEffort());
-		hashMap.put("periodType", getPeriodTypeCode());
-		hashMap.put("personId", getPersonId());
-		hashMap.put("salaryRequested", getSalaryRequested());
-		hashMap.put("sequenceNumber", getSequenceNumber());
-		hashMap.put("startDate", getStartDate());
-		hashMap.put("underrecoveryAmount", getUnderrecoveryAmount());
-		return hashMap;
-	}
+    public void setSequenceNumber(Integer sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+    @Override 
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap hashMap = super.toStringMapper();
+        hashMap.put("personNumber", getPersonNumber());
+        hashMap.put("jobCode", getJobCode());
+        hashMap.put("percentCharged", getPercentCharged());
+        hashMap.put("percentEffort", getPercentEffort());
+        hashMap.put("periodType", getPeriodTypeCode());
+        hashMap.put("personId", getPersonId());
+        hashMap.put("salaryRequested", getSalaryRequested());
+        hashMap.put("sequenceNumber", getSequenceNumber());
+        hashMap.put("startDate", getStartDate());
+        hashMap.put("underrecoveryAmount", getUnderrecoveryAmount());
+        return hashMap;
+    }
 
     /**
      * Gets the nonEmployeeFlag attribute. 
@@ -227,12 +225,6 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
     public void setEffdtAfterStartdtMsg(String effdtAfterStartdtMsg) {
         this.effdtAfterStartdtMsg = effdtAfterStartdtMsg;
     }
-    public BudgetPeriodType getBudgetPeriodType() {
-        return budgetPeriodType;
-    }
-    public void setBudgetPeriodType(BudgetPeriodType budgetPeriodType) {
-        this.budgetPeriodType = budgetPeriodType;
-    }
     
     public BudgetDecimal getPersonMonths() {
         BudgetDecimal result = null;
@@ -267,4 +259,5 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         
         return result;
     }
+    
 }

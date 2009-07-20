@@ -1,1 +1,1 @@
-var d2hServerPlatform = "jsp";
+var d2hServerPlatform = "jsp";

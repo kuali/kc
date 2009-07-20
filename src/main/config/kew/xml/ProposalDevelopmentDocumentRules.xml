@@ -75,7 +75,7 @@ resource:WorkflowData">
       <documentType>ProposalDevelopmentDocument</documentType>
       <ruleTemplate>CustomApproval</ruleTemplate>
       <description>Custom approval routing</description>
-      <ignorePrevious>false</ignorePrevious>
+      <ignorePrevious>true</ignorePrevious>
          <ruleExtensions>
         <ruleExtension>
           <attribute>CustomDataAttribute</attribute>

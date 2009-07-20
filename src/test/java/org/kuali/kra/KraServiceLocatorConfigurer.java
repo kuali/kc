@@ -20,13 +20,17 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+// I'm basically disabling this class because of some changes made to KraServiceLocator
+// during the merge.  And it's not being used by anyone yet.
+// If someone starts to use this, we'll dust it off. -gmcgrego
+
 /**
  * Provides methods to manipulate the application context used by KraServiceLocator.
  * This is intended to be used only in a test scenario.
  * 
  * @author Kuali Coeus Development Team
  */
-public class KraServiceLocatorConfigurer extends KraServiceLocator {
+public class KraServiceLocatorConfigurer {
     
     /**
      * Get a new ConfigurableApplicationContext with no beans registered yet.
@@ -76,12 +80,12 @@ public class KraServiceLocatorConfigurer extends KraServiceLocator {
      */
     public static void pushApplicationContext(ConfigurableApplicationContext context) {
         if (!isApplicationContextInitialized()) {
-            setApplicationContext(context);
+            //setApplicationContext(context);
         } else {
-            ConfigurableApplicationContext existingAppContext = getAppContextWithoutInitializing();
-            context.getBeanFactory().setParentBeanFactory(existingAppContext.getBeanFactory());
-            context.setParent(existingAppContext);
-            setApplicationContext(context);
+            //ConfigurableApplicationContext existingAppContext = getAppContextWithoutInitializing();
+            //context.getBeanFactory().setParentBeanFactory(existingAppContext.getBeanFactory());
+            //context.setParent(existingAppContext);
+            //setApplicationContext(context);
         }
     }
     
@@ -93,10 +97,10 @@ public class KraServiceLocatorConfigurer extends KraServiceLocator {
         if (!isApplicationContextInitialized()) {
             return;
         }
-        ApplicationContext parentApplicationContext = getAppContextWithoutInitializing().getParent();
-        if (parentApplicationContext instanceof ConfigurableApplicationContext || parentApplicationContext == null) {
-            setApplicationContext((ConfigurableApplicationContext) parentApplicationContext);
-        }
+        //ApplicationContext parentApplicationContext = getAppContextWithoutInitializing().getParent();
+        //if (parentApplicationContext instanceof ConfigurableApplicationContext || parentApplicationContext == null) {
+            //setApplicationContext((ConfigurableApplicationContext) parentApplicationContext);
+        //}
     }
     
     /**
@@ -104,14 +108,16 @@ public class KraServiceLocatorConfigurer extends KraServiceLocator {
      * @boolean
      */
     public static boolean isApplicationContextInitialized() {
-        return getAppContextWithoutInitializing() != null;
+        return true;
+        //return getAppContextWithoutInitializing() != null;
     }
     
     /**
      * Returns int corresponding to the number of contexts in the chain
      */
     public static int getContextDepth() {
-        return getContextDepth(getAppContextWithoutInitializing());
+        return 1;
+        //return getContextDepth(getAppContextWithoutInitializing());
     }
     
     private static int getContextDepth(ApplicationContext appContext) {

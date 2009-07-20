@@ -23,9 +23,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 
 /**
- * The Modify Proposal Permissions Authorizer checks to see if the user has 
- * permission to maintain proposal access, i.e. assign Users to Proposal Roles & 
- * the document cannot be in workflow.
+ * The Modify Proposal Permissions Authorizer checks to see if the user has permission to maintain proposal access, i.e. assign
+ * Users to Proposal Roles & the document cannot be in workflow.
  */
 public class ModifyProposalPermissionsAuthorizer extends ProposalAuthorizer {
 

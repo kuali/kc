@@ -118,6 +118,20 @@ public class Person extends KraPersistableBusinessObjectBase implements Contacta
             kimPerson.setUsername(userName);
         }
     }
+    
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
+     */
+    @Override
+    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.beforeUpdate(persistenceBroker);
+        if (kimPersonId != null) {
+            this.refreshReferenceObject("kimPerson");
+            if(kimPerson != null) {
+                kimPerson.setUsername(userName);
+            }
+        }
+    }
 
     /**
      * Sets the value of personId

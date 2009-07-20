@@ -18,7 +18,6 @@ package org.kuali.kra.document;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,6 @@ import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.service.BudgetService;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.rice.shim.UniversalUserService;
@@ -44,6 +42,7 @@ import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
 
 public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
 
+    private static final long serialVersionUID = -1879382692835231633L;
     private String updateUser;
     private Timestamp updateTimestamp;
     private List<DocumentNextvalue> documentNextvalues;
@@ -69,11 +68,10 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
             updateUser = updateUser.substring(0, 60);
         }
 
-        setUpdateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+        setUpdateTimestamp((this.getService(DateTimeService.class)).getCurrentTimestamp());
         setUpdateUser(updateUser);
-        //setProposalNextvalues(documentNextvalues);
 
-        CustomAttributeService customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
+        CustomAttributeService customAttributeService = this.getService(CustomAttributeService.class);
         customAttributeService.saveCustomAttributeValues(this);
     }
 
@@ -84,7 +82,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     }
     
     protected void updateDocumentDescriptions(List<BudgetVersionOverview> budgetVersionOverviews) {
-        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        BudgetService budgetService = this.getService(BudgetService.class);
         for (BudgetVersionOverview budgetVersion: budgetVersionOverviews) {
             if (budgetVersion.isDescriptionUpdatable() && !StringUtils.isBlank(budgetVersion.getDocumentDescription())) {
                 budgetService.updateDocumentDescription(budgetVersion);
@@ -127,8 +125,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     public Integer getDocumentNextValue(String propertyName) {
         Integer propNextValue = 1;
         // search for property and get the latest number - increment for next call
-        for(Iterator iter = documentNextvalues.iterator(); iter.hasNext();) {
-            DocumentNextvalue documentNextvalue = (DocumentNextvalue)iter.next();
+        for (DocumentNextvalue documentNextvalue : documentNextvalues) {
             if(documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
                 propNextValue = documentNextvalue.getNextValue();
                 documentNextvalue.setNextValue(propNextValue + 1);
@@ -148,8 +145,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
 
     // TODO : this is for the attachment that save attachment only when click 'add
     public DocumentNextvalue getDocumentNextvalueBo(String propertyName) {
-        for(Iterator iter = documentNextvalues.iterator(); iter.hasNext();) {
-            DocumentNextvalue documentNextvalue = (DocumentNextvalue)iter.next();
+        for (DocumentNextvalue documentNextvalue : documentNextvalues) {
             if(documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
                 return documentNextvalue;
             }
@@ -230,6 +226,17 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     protected List<RolePersons> getAllRolePersons() {
         return new ArrayList<RolePersons>();
     } 
+    
+    /**
+     * Lookups and returns a service class.  This method can be overriden for easier unit testing.
+     * 
+     * @param <T> the type of service.
+     * @param serviceClass the service class.
+     * @return the service.
+     */
+    protected <T> T getService(Class<T> serviceClass) {
+        return KraServiceLocator.getService(serviceClass);
+    }
     
     public abstract String getDocumentTypeCode();
 }

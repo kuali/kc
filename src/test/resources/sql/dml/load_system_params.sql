@@ -61,8 +61,11 @@ insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, P
 insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, ACTV_IND) values ('KRA-B','D','budgetCostSharingApplicabilityFlag','CONFG','Y',' Flag indicating if Cost Sharing is applicable for the budget','A','Y');
 insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, ACTV_IND) values ('KRA-B','D','budgetUnrecoveredFandAApplicabilityFlag','CONFG','Y',' Flag indicating if Unrecovered &FA is applicable for the budget','A','Y');
 
-insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, ACTV_IND) values ('KRA-B','D','subcontractorFandAGreaterThan25k','CONFG','420630','Cost element code for subcontractor F&A over 25k','A','Y');
-insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, ACTV_IND) values ('KRA-B','D','subcontractorFandALessThan25k','CONFG','420610','Cost element code for subcontractor F&A under 25k','A','Y');
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, ver_nbr, PARM_TYP_CD, TXT, PARM_DESC_TXT, cons_cd, grp_nm, actv_ind) VALUES('KRA-B', 'D', 'budgetCostSharingEnforcementFlag', 1, 'CONFG', 'Y', 'Flag indicating if Cost Sharing allocation should be enforced', 'A', 'WorkflowAdmin', 'Y');
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, ver_nbr, PARM_TYP_CD, TXT, PARM_DESC_TXT, cons_cd, grp_nm, actv_ind) VALUES('KRA-B', 'D', 'budgetUnrecoveredFandAEnforcementFlag',1, 'CONFG', 'Y', 'Flag indicating if Unrecovered F and A allocation should be enforced', 'A', 'WorkflowAdmin', 'Y');
+
+insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, cons_cd, actv_ind) values ('KRA-B','D','subcontractorFandAGreaterThan25k','CONFG','420630','Cost element code for subcontractor F&A over 25k','A','Y');
+insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, cons_cd, actv_ind) values ('KRA-B','D','subcontractorFandALessThan25k','CONFG','420610','Cost element code for subcontractor F&A under 25k','A','Y');
 
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,ACTV_IND) 
 values ('KRA-B','D','budgetVersionsHelp','HELP','default.htm?turl=WordDocuments%2Fbudgetversionspage.htm','Budget Page Help','A','Y');
@@ -210,7 +213,7 @@ insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_D
 values ('KRA-PD','D','proposalDevelopmentDocumentHelp','HELP','default.htm?turl=WordDocuments%2Fproposaldevelopmentdocument.htm','Proposal Development Document Help','A','Y');
 
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,ACTV_IND) 
-values ('KRA-PD','A','initialUnitLoadDepth','CONFG','3','Initial UnitHierarchy Load Depth','A','Y');
+values ('KRA-PD','A','initialUnitLoadDepth','CONFG','4','Initial UnitHierarchy Load Depth','A','Y');
 
 insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,ACTV_IND) 
 values ('KRA-B', 'D','budgetPersonDefaultPeriodType','CONFG', '3','Default Period Type','A','Y');
@@ -223,6 +226,24 @@ values ('KRA-PD','D','pessimisticLocking.expriationAge','CONFG','1440','The expi
 INSERT
 INTO KRNS_PARM_T(NMSPC_CD,    PARM_DTL_TYP_CD,    PARM_NM,     PARM_TYP_CD,    TXT,    PARM_DESC_TXT,    CONS_CD,    GRP_NM,    ACTV_IND)
 VALUES('KRA-PD',    'A',    'numberPerSponsorHierarchyGroup',     'CONFG',    '300',    'Number of nodes per sponsor group',    'A',    'WorkflowAdmin',    'Y');
+
+insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
+values ('KRA-B', 'D', 'JOBCODE_VALIDATION_ENABLED', 'CONFG', 'Y', 'Whether Job code based validation is enabled', 'A', 'WorkflowAdmin', 'Y');
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,ACTV_IND)  
+VALUES ('KRA-B','D','budgetPersonDetailsDefaultPeriodType','CONFG','3','The Period Type of a newly budgeted Person should default to','A','Y');
+
+insert into krns_parm_dtl_typ_t(NMSPC_CD,PARM_DTL_TYP_CD,NM,ACTV_IND) values ('KRA-B','A','All','Y');
+insert into krns_parm_dtl_typ_t(NMSPC_CD,PARM_DTL_TYP_CD,NM,ACTV_IND) values ('KRA-B','D','Document','Y');
+
+insert into KRNS_PARM_T (NMSPC_CD,parm_dtl_typ_cd,parm_nm,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,ACTV_IND)
+values ('KRA-B','A','instituteRateClassTypes','CONFG','E;I;O;V;X','Manages a list of Institute rate class types.','A','Y');
+
+insert into KRNS_PARM_T (NMSPC_CD,parm_dtl_typ_cd,parm_nm,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,ACTV_IND)
+values ('KRA-B','A','instituteLaRateClassTypes','CONFG','Y;L','Manages a list of Institute La rate class types.','A','Y');
+
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND) 
+VALUES ('KRA-B', 'D', 'budgetCategoryType.personnel', 'CONFG', 'P', 'Personnel Budget Category Type', 'A', 'WorkflowAdmin', 'Y');
 
 --INSERT INTO KRNS_PARM_T(NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM) 
 --VALUES('KR-NS', 'Document', 'SESSION_TIMEOUT_WARNING_MESSAGE_TIME', sys_guid(), 1, 'CONFG', '5', 'The number of minutes before a session expires that user should be warned when a document uses pessimistic locking.', 'A', 'KUALI_FMSOPS');

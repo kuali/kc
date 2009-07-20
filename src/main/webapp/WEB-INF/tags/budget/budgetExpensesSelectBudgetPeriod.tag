@@ -19,7 +19,7 @@
 
 <c:set var="action" value="budgetExpensesAction" />
 
-<kul:uncollapsable tabTitle="Select Budget Period:" tabErrorKey="viewBudgetPeriod">
+<kra:uncollapsable tabTitle="Select Budget Period:" tabErrorKey="viewBudgetPeriod">
        <div align="center">
            <table cellpadding="0" cellspacing="0" class="grid" summary="">
              <tr>
@@ -39,4 +39,4 @@
            <br>
            <html:image property="methodToCall.updateBudgetPeriodView" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif" title="Update View" alt="Update View" styleClass="tinybutton"/>
 	</div>
-</kul:uncollapsable>
+</kra:uncollapsable>

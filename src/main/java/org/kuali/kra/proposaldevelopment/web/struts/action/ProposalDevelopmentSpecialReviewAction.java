@@ -15,81 +15,67 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.ExemptionType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
+/**
+ * Handles Special Review Actions.
+ */
 public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentAction {
-    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentSpecialReviewAction.class);
+    
+    /**
+     * Adds a special review item. The add only completes if the special review to be added passes all audit rules.
+     * 
+     * @param mapping the action mapping
+     * @param form the action form
+     * @param request the request
+     * @param response the reponse
+     * @return the action forward
+     * @throws Exception if unable to add the special review
+     */
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalSpecialReview newProposalSpecialReview = proposalDevelopmentForm.getNewPropSpecialReview();
-        if(getKualiRuleService().applyRules(new AddProposalSpecialReviewEvent(Constants.EMPTY_STRING, proposalDevelopmentForm.getDocument(), newProposalSpecialReview))){
-            newProposalSpecialReview.setSpecialReviewNumber(proposalDevelopmentForm.getDocument().getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
-            proposalDevelopmentForm.getDocument().getPropSpecialReviews().add(newProposalSpecialReview);
-            if (proposalDevelopmentForm.getDocumentExemptNumbers() == null) {
-                proposalDevelopmentForm.setDocumentExemptNumbers(new ArrayList<String[]>());
-            }
-            proposalDevelopmentForm.getDocumentExemptNumbers().add(proposalDevelopmentForm.getDocumentExemptNumbers().size(), proposalDevelopmentForm.getNewExemptNumbers());
-            proposalDevelopmentForm.setNewExemptNumbers(null);
-            proposalDevelopmentForm.setNewPropSpecialReview(new ProposalSpecialReview());
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        ProposalSpecialReview newProposalSpecialReview = pdForm.getNewPropSpecialReview();
+
+        KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
+        
+        if (ruleService.applyRules(new AddProposalSpecialReviewEvent(Constants.EMPTY_STRING, pdForm.getDocument(), newProposalSpecialReview))){
+            
+            newProposalSpecialReview.setSpecialReviewNumber(pdForm.getDocument().getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
+            pdForm.getDocument().getPropSpecialReviews().add(newProposalSpecialReview);
+
+            pdForm.setNewPropSpecialReview(new ProposalSpecialReview());
         }
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    /**
+     * Deletes a special review item.
+     * 
+     * @param mapping the action mapping
+     * @param form the action form
+     * @param request the request
+     * @param response the reponse
+     * @return the action forward
+     * @throws Exception if unable to add the special review
+     */
     public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.getDocument().getPropSpecialReviews().remove(getLineToDelete(request));
-        proposalDevelopmentForm.getDocumentExemptNumbers().remove(getLineToDelete(request));
-        GlobalVariables.getErrorMap().clear();
-
-        return mapping.findForward("basic");
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
-    
-    
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        // TODO this is to get the key values pair for exempt numbers - any other options
-        // put  in service ?
-        ExtendedPersistableBusinessObjectValuesFinder finder = new ExtendedPersistableBusinessObjectValuesFinder();
-        finder.setBusinessObjectClass(ExemptionType.class);
-        finder.setKeyAttributeName("exemptionTypeCode");
-        finder.setLabelAttributeName("description");
-        ((ProposalDevelopmentForm) form).setExemptNumberList(KraServiceLocator.getService(ProposalDevelopmentService.class).getExemptionTypeKeyValues());
-        return super.execute(mapping, form, request, response);
-    }
-    
-    @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        KraServiceLocator.getService(ProposalDevelopmentService.class).populateProposalExempNumbers((ProposalDevelopmentForm)form);
-        return super.save(mapping, form, request, response);
-    }
-
-    // TODO : move this method up?
-    @Override
-    protected KualiRuleService getKualiRuleService() {
-        return getService(KualiRuleService.class);
-    }
-
 }

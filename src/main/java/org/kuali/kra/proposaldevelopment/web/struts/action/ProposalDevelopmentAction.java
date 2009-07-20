@@ -15,13 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -43,6 +42,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -52,7 +52,6 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalDevelopmentDocumentAuthorizer;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -63,8 +62,11 @@ import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
+import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -78,7 +80,6 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class ProposalDevelopmentAction extends ProposalActionBase {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAction.class);
-    private String hierarchyname="Sponsor Groups";
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -141,7 +142,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             }*/
     
             // setup any Proposal Development System Parameters that will be needed
-            KualiConfigurationService configService = getService(KualiConfigurationService.class);
+            KualiConfigurationService configService = KraServiceLocator.getService(KualiConfigurationService.class);
             ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("deliveryInfoDisplayIndicator", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "deliveryInfoDisplayIndicator"));
             ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("proposalNarrativeTypeGroup", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "proposalNarrativeTypeGroup"));
             
@@ -178,23 +179,29 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-            
+
         // We will need to determine if the proposal is being saved for the first time.
 
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
+        final ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
        
 		updateProposalDocument(proposalDevelopmentForm);
         ActionForward forward = super.save(mapping, form, request, response);
 
-        if (proposalDevelopmentForm.getMethodToCall().equals("save") && proposalDevelopmentForm.isAuditActivated()) {
-            // TODO : need to check whether the error is really fixed ?
-            forward = mapping.findForward("actions");
+        proposalDevelopmentForm.setFinalBudgetVersion(getFinalBudgetVersion(doc.getBudgetVersionOverviews()));
+        setBudgetStatuses(doc);
+
+        //if not on budget page
+        if ("ProposalDevelopmentBudgetVersionsAction".equals(proposalDevelopmentForm.getActionName())) {
+            GlobalVariables.getErrorMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME + ".proposal");
+
+            final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
+            tdcValidator.validateGeneratingErrorsAndWarnings(doc);
         }
 
         return forward;
     }
-    
+
     protected void updateProposalDocument(ProposalDevelopmentForm pdForm) {
         ProposalDevelopmentDocument pdDocument = pdForm.getDocument();
         ProposalDevelopmentDocument updatedDocCopy = getProposalDoc(pdDocument.getDocumentNumber());
@@ -205,8 +212,21 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
                   //refresh the reference
                 pdDocument.setBudgetVersionOverviews(updatedDocCopy.getBudgetVersionOverviews());
                 pdDocument.setBudgetStatus(updatedDocCopy.getBudgetStatus());
+                try {
+                    fixVersionNumbers(updatedDocCopy, pdDocument, new ArrayList<Object>());
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 pdDocument.setVersionNumber(updatedDocCopy.getVersionNumber());
                 pdDocument.getDocumentHeader().setVersionNumber(updatedDocCopy.getDocumentHeader().getVersionNumber());
+                int noteIndex = 0;
+                for(Object note: pdDocument.getDocumentHeader().getBoNotes()) {
+                    Note updatedNote = updatedDocCopy.getDocumentHeader().getBoNote(noteIndex);
+                    ((Note) note).setVersionNumber(updatedNote.getVersionNumber());
+                    noteIndex++;
+                }
                 for(DocumentNextvalue documentNextValue : pdDocument.getDocumentNextvalues()) {
                     DocumentNextvalue updatedDocumentNextvalue = updatedDocCopy.getDocumentNextvalueBo(documentNextValue.getPropertyName());
                     if(updatedDocumentNextvalue != null) {
@@ -214,10 +234,76 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
                     }
                 }
             }
+            pdForm.setDocument(pdDocument);
         }
+        
     }
     
+    private boolean isPropertyGetterMethod(Method method, Method methods[]) {
+        if (method.getName().startsWith("get") && method.getParameterTypes().length == 0) {
+            String setterName = method.getName().replaceFirst("get", "set");
+            for (Method m : methods) {
+                if (m.getName().equals(setterName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     
+    private void fixVersionNumbers(Object srcObject, Object object, List<Object> list) throws Exception {
+        Class[] setterParamTypes = {Long.class};
+        if (object != null && object instanceof PersistableBusinessObject) {
+            if (list.contains(object)) return;
+            list.add(object);
+            
+            Method getterMethod = object.getClass().getMethod("getVersionNumber");
+            if(getterMethod != null) {
+                Long currentVersionNumber = null;
+                if(srcObject != null) 
+                    currentVersionNumber = (Long) getterMethod.invoke(srcObject, new Object[]{});
+                else
+                    currentVersionNumber = (Long) getterMethod.invoke(object, new Object[]{});
+                
+                Method setterMethod = object.getClass().getMethod("setVersionNumber", setterParamTypes);
+                if(currentVersionNumber != null) {
+                    setterMethod.invoke(object, currentVersionNumber);
+                }
+            }
+            
+            Method[] methods = object.getClass().getDeclaredMethods();
+            for (Method method : methods) {
+                if (isPropertyGetterMethod(method, methods)) {
+                    Object srcValue = null;
+                    if(srcObject != null) {
+                        srcValue = method.invoke(srcObject);
+                    }
+                    Object value = method.invoke(object);
+                    if (value != null && value instanceof Collection) {
+                        Collection c = (Collection) value;
+                        Object[] srcC = c.toArray();
+                        if(srcValue != null) {
+                            srcC = ((Collection) srcValue).toArray();
+                        } 
+                        
+                        Iterator iter = c.iterator();
+                        int count = 0;
+                        while (iter.hasNext()) {
+                            Object srcEntry = null;
+                            if(srcC.length > count) 
+                                srcEntry = srcC[count];
+                            Object entry = iter.next();
+                            fixVersionNumbers(srcEntry, entry, list);
+                            count++;
+                        }
+                    } else {
+                        fixVersionNumbers(srcValue, value, list);
+                    }   
+                }
+            }
+        }
+    }
+
     protected ProposalDevelopmentDocument getProposalDoc(String pdDocumentNumber) {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, Object> keyMap = new HashMap<String, Object>();
@@ -227,7 +313,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     }
     
     public ActionForward proposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("proposal");
+        return mapping.findForward(Constants.PROPOSAL_PAGE);
     }
 
     /**
@@ -246,43 +332,45 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         // Let this be taken care of in KeyPersonnelAction execute() method
         if (this instanceof ProposalDevelopmentKeyPersonnelAction) {
             LOG.info("forwarding to keyPersonnel action");
-            return mapping.findForward("keyPersonnel");
+            return mapping.findForward(Constants.KEY_PERSONNEL_PAGE);
         }
 
         new ProposalDevelopmentKeyPersonnelAction().prepare(form, request);
 
-        return mapping.findForward("keyPersonnel");
+        return mapping.findForward(Constants.KEY_PERSONNEL_PAGE);
     }
 
     public ActionForward specialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((ProposalDevelopmentForm) form).setExemptNumberList(KraServiceLocator.getService(ProposalDevelopmentService.class).getExemptionTypeKeyValues());
-        KraServiceLocator.getService(ProposalDevelopmentService.class).populateExemptNumbersToForm((ProposalDevelopmentForm)form);
-        return mapping.findForward("specialReview");
+        return mapping.findForward(Constants.SPECIAL_REVIEW_PAGE);
     }
 
     public ActionForward questions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("questions");
+        return mapping.findForward(Constants.QUESTIONS_PAGE);
     }
     
     public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("permissions");
+        return mapping.findForward(Constants.PERMISSIONS_PAGE);
     }
     
     public ActionForward grantsGov(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("grantsGov");
+        return mapping.findForward(Constants.GRANTS_GOV_PAGE);
     }
-    
+
     public ActionForward budgetVersions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        String headerTabCall = getHeaderTabDispatch(request);
+        final ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        final String headerTabCall = getHeaderTabDispatch(request);
         if(StringUtils.isEmpty(headerTabCall)) {
             pdForm.getDocument().refreshPessimisticLocks();
         }        
         pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getDocument().getBudgetVersionOverviews()));
         setBudgetStatuses(pdForm.getDocument());
-        return mapping.findForward("budgetVersions");
+        
+        final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
+        tdcValidator.validateGeneratingWarnings(pdForm.getDocument());
+        
+        return mapping.findForward(Constants.PD_BUDGET_VERSIONS_PAGE);
     }
-    
+
     public ActionForward abstractsAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         // TODO temporarily to set up proposal person- remove this once keyperson is completed and htmlunit testing fine
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -304,11 +392,11 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         narrativeList.addAll(doc.getInstituteAttachments());
         KraServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(narrativeList);
 
-        return mapping.findForward("abstractsAttachments");
+        return mapping.findForward(Constants.ATTACHMENTS_PAGE);
     }
 
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
+        SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups = new TreeMap<String, List<CustomAttributeDocument>>();
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
@@ -339,7 +427,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
 
         ((ProposalDevelopmentForm)form).setCustomAttributeGroups(customAttributeGroups);
 
-        return mapping.findForward("customData");
+        return mapping.findForward(Constants.CUSTOM_ATTRIBUTES_PAGE);
     }
 
     public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -347,7 +435,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         PrintService printService = KraServiceLocator.getService(PrintService.class);
         printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getSponsorCode());
-        return mapping.findForward("actions");
+        return mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
     }
 
     /**
@@ -370,7 +458,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
      * @return KeyPersonnelService
      */
     protected KeyPersonnelService getKeyPersonnelService() {
-        return getService(KeyPersonnelService.class);
+        return KraServiceLocator.getService(KeyPersonnelService.class);
     }
     
     /**
@@ -379,7 +467,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
      * @return KualiConfigurationService
      */
     protected KualiConfigurationService getConfigurationService() {
-        return getService(KualiConfigurationService.class);
+        return KraServiceLocator.getService(KualiConfigurationService.class);
     }
     
     /**
@@ -403,7 +491,8 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-        kraAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
+        if (!kraAuthService.hasRole(username, doc, RoleConstants.AGGREGATOR))
+            kraAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
         
         // Add the users defined in the role templates for the proposal's lead unit
         
@@ -440,16 +529,16 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         UniversalUser currentUser =  new UniversalUser(GlobalVariables.getUserSession().getPerson());
         for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getProposalPersons().iterator(); person_it.hasNext();) {
             ProposalPerson person = person_it.next();
-            if((person!= null) && (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE))){
+            if((person!= null) && (person.getProposalPersonRoleId().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE))){
                 if(StringUtils.isNotBlank(person.getUserName()) && StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
                     pdform.setReject(true);
 
                 }
-            }else if((person!= null) && (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE))){
+            }else if((person!= null) && (person.getProposalPersonRoleId().equals(Constants.CO_INVESTIGATOR_ROLE))){
                 if(StringUtils.isNotBlank(person.getUserName())&& StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
                     pdform.setReject(true);
                 }
-                else if((person!= null) && (person.getProposalPersonRoleId().equals(KEY_PERSON_ROLE))){
+                else if((person!= null) && (person.getProposalPersonRoleId().equals(Constants.KEY_PERSON_ROLE))){
                     if(StringUtils.isNotBlank(person.getUserName())&& StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
                         pdform.setReject(true);
                     }
