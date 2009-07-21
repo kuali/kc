@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.DocumentNextvalue;
@@ -94,7 +95,7 @@ public class ProtocolVersioningTest extends KraTestBase {
      * 
      * @throws Exception if bad happens
      */
-    @Test
+    @Test @Ignore("Protocol doesn't have any BO strutures to test this yet")
     public void test_one_associate_versioning() throws Exception {
         //there is currently no ProtocolAssociates that are 1:1 w/ Protocol
         //when there are please fill this in
