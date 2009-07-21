@@ -233,7 +233,7 @@ public class ProtocolAttachmentVersioningUtility implements Serializable {
         assert this.newDocumentVersion != null : "the newDocumentVersion is null";
         assert this.newDocumentVersion.getProtocol() != null : "the new document version's protocol is null";
         
-        attachment.setProtocol(this.newDocumentVersion.getProtocol());
+        attachment.addSequenceOwner(this.newDocumentVersion.getProtocol());
         this.newDocumentVersion.getProtocol().addAttachmentsByType(attachment);
     }
     
@@ -256,7 +256,7 @@ public class ProtocolAttachmentVersioningUtility implements Serializable {
      */
     private static void setInitialVersion(final ProtocolAttachmentBase attachment) {
         assert attachment != null : "the attachment was null";
-        attachment.setAttachmentVersionNumber(NumberUtils.INTEGER_ONE);
+        attachment.setSequenceNumber(NumberUtils.INTEGER_ONE);
     }
     
     /**
@@ -340,8 +340,8 @@ public class ProtocolAttachmentVersioningUtility implements Serializable {
             throw new VersionCreationExeption(e);
         }
         
-        newVersion.setAttachmentVersionNumber(Integer.valueOf(attachment.getAttachmentVersionNumber().intValue() + 1));
-        newVersion.setProtocol(this.newDocumentVersion.getProtocol());
+        newVersion.setSequenceNumber(Integer.valueOf(attachment.getSequenceNumber().intValue() + 1));
+        newVersion.addSequenceOwner(this.newDocumentVersion.getProtocol());
         this.addAttachmentToVersion(newVersion);
         
         return newVersion;

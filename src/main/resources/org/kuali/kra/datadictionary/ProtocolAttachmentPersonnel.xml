@@ -32,9 +32,8 @@
 		<property name="attributes" >
 			<list>
 				<ref bean="ProtocolAttachmentPersonnel-id" />
-				<ref bean="ProtocolAttachmentPersonnel-protocolId" />
 				<ref bean="ProtocolAttachmentPersonnel-typeCode" />
-				<ref bean="ProtocolAttachmentPersonnel-attachmentVersionNumber" />
+				<ref bean="ProtocolAttachmentPersonnel-sequenceNumber" />
 				<ref bean="ProtocolAttachmentPersonnel-documentId" />
 				<ref bean="ProtocolAttachmentPersonnel-fileId" />
 				<ref bean="ProtocolAttachmentPersonnel-description" />
@@ -49,8 +48,8 @@
 	<bean id="ProtocolAttachmentPersonnel-id" parent="ProtocolAttachmentPersonnel-id-parentBean" />
 	<bean id="ProtocolAttachmentPersonnel-id-parentBean" abstract="true" parent="ProtocolAttachmentBase-id" />
 
-	<bean id="ProtocolAttachmentPersonnel-protocolId" parent="ProtocolAttachmentPersonnel-protocolId-parentBean" />
-	<bean id="ProtocolAttachmentPersonnel-protocolId-parentBean" abstract="true" parent="ProtocolAttachmentBase-protocolId"/>
+	<bean id="ProtocolAttachmentPersonnel-sequenceNumber" parent="ProtocolAttachmentPersonnel-sequenceNumber-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-sequenceNumber-parentBean" abstract="true" parent="ProtocolAttachmentBase-sequenceNumber"/>
 
 	<bean id="ProtocolAttachmentPersonnel-typeCode" parent="ProtocolAttachmentPersonnel-typeCode-parentBean" />
 	<bean id="ProtocolAttachmentPersonnel-typeCode-parentBean" abstract="true" parent="ProtocolAttachmentType-code">
@@ -73,9 +72,6 @@
 	            p:valuesFinderClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder" />-->
 	    </property>
 	</bean>
-	
-	<bean id="ProtocolAttachmentPersonnel-attachmentVersionNumber" parent="ProtocolAttachmentPersonnel-attachmentVersionNumber-parentBean" />
-	<bean id="ProtocolAttachmentPersonnel-attachmentVersionNumber-parentBean" abstract="true" parent="ProtocolAttachmentBase-attachmentVersionNumber" />
 	
 	<bean id="ProtocolAttachmentPersonnel-documentId" parent="ProtocolAttachmentPersonnel-documentId-parentBean" />
 	<bean id="ProtocolAttachmentPersonnel-documentId-parentBean" abstract="true" parent="ProtocolAttachmentBase-documentId" />

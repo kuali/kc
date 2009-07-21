@@ -32,10 +32,7 @@
 		<property name="attributes" >
 			<list>
 				<ref bean="ProtocolAttachmentBase-id" />
-				<ref bean="ProtocolAttachmentBase-protocolId" />
-				<ref bean="ProtocolAttachmentBase-protocolNumber" />
 				<ref bean="ProtocolAttachmentBase-sequenceNumber" />
-				<ref bean="ProtocolAttachmentBase-attachmentVersionNumber" />
 				<ref bean="ProtocolAttachmentBase-documentId" />
 				<ref bean="ProtocolAttachmentBase-fileId" />
 				<ref bean="ProtocolAttachmentBase-versionNumber" />
@@ -62,36 +59,9 @@
 		<property name="summary" value="Attachment Id" />
 		<property name="description" value="Attachment Id" />
 	</bean>
-
-	<bean id="ProtocolAttachmentBase-protocolId" parent="ProtocolAttachmentBase-protocolId-parentBean" />
-	<bean id="ProtocolAttachmentBase-protocolId-parentBean" abstract="true" parent="Protocol-protocolId">
-		<property name="name" value="protocolId" />
-		<property name="required" value="true" />
-	</bean>
-	
-	<bean id="ProtocolAttachmentBase-protocolNumber" parent="ProtocolAttachmentBase-protocolNumber-parentBean" />
-	<bean id="ProtocolAttachmentBase-protocolNumber-parentBean" abstract="true" parent="ProtocolAssociate-protocolNumber"/>
 	
 	<bean id="ProtocolAttachmentBase-sequenceNumber" parent="ProtocolAttachmentBase-sequenceNumber-parentBean" />
 	<bean id="ProtocolAttachmentBase-sequenceNumber-parentBean" abstract="true" parent="ProtocolAssociate-sequenceNumber"/>
-	
-	<bean id="ProtocolAttachmentBase-attachmentVersionNumber" parent="ProtocolAttachmentBase-attachmentVersionNumber-parentBean" />
-	<bean id="ProtocolAttachmentBase-attachmentVersionNumber-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="attachmentVersionNumber" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Attachment Version Number" />
-		<property name="shortLabel" value="Attachment Version Number" />
-		<property name="maxLength" value="3" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="5" />
-		</property>
-		<property name="summary" value="Attachment Version Number" />
-		<property name="description" value="Attachment Version Number" />
-	</bean>
 	
 	<bean id="ProtocolAttachmentBase-documentId" parent="ProtocolAttachmentBase-documentId-parentBean" />
 	<bean id="ProtocolAttachmentBase-documentId-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -157,10 +127,6 @@
 								p:attributeName="id" 
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
-								p:attributeName="protocolId" />
-							<bean parent="FieldDefinition"
-								p:attributeName="attachmentVersionNumber" />
-							<bean parent="FieldDefinition"
 								p:attributeName="documentId" />
 							<bean parent="FieldDefinition"
 								p:attributeName="fileId" />
@@ -188,10 +154,6 @@
 					p:attributeName="id" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="attachmentVersionNumber" />
-				<bean parent="FieldDefinition"
 					p:attributeName="documentId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="fileId" />
@@ -202,10 +164,6 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="id" 
 					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolId" />
-				<bean parent="FieldDefinition"
-					p:attributeName="attachmentVersionNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="documentId" />
 				<bean parent="FieldDefinition"

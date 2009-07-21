@@ -44,7 +44,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase implemen
     }
     
     /**
-     * Convenience ctor to set the protocol.
+     * Convenience ctor to add the protocol as an owner.
      * 
      * <p>
      * This ctor does not validate any of the properties.

@@ -91,7 +91,7 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
         this.boService.save(attachment);
         
         //FIXME: hack because attachment cannot have m:m object relationship for join table
-        this.boService.save(attachment.getProtocol());
+        this.boService.save(attachment.getLatestOwner());
     }
     
     /** {@inheritDoc} */

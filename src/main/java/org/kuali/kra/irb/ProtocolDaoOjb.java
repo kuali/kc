@@ -26,11 +26,15 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
@@ -48,6 +52,8 @@ import org.kuali.rice.kns.util.OjbCollectionAware;
  */
 class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, ProtocolDao {
 
+    private static final Log LOG = LogFactory.getLog(ProtocolDaoOjb.class);
+    
     private LookupDao lookupDao;
     private DataDictionaryService dataDictionaryService;
     private Map<String, String> searchMap = new HashMap<String, String>();
@@ -83,10 +89,56 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         }
  
         Query q = QueryFactory.newQuery(Protocol.class, crit, true);
-      
+        logQuery(q);
         return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
+    /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
+    public List<ProtocolAttachmentProtocol> retrieveAttachmentVersions(ProtocolAttachmentProtocol attachment) {
+        
+        final List<ProtocolAttachmentProtocol> attachments;
+        
+        if (this.validAttachmentForVersionLookup(attachment)) {
+            final Criteria crit = new Criteria();
+            
+            //this assumes the all owners have the same protocol number.  If this is not the case then there is
+            //a programming error somewhere.
+            crit.addEqualTo("sequenceOwners.protocolNumber", attachment.getLatestOwner().getProtocolNumber());
+            crit.addEqualTo("typeCode", attachment.getTypeCode());
+            crit.addEqualTo("documentId", attachment.getDocumentId());
+            
+            final QueryByCriteria q = QueryFactory.newQuery(ProtocolAttachmentProtocol.class, "PROTOCOL_ATTACHMENT_PTA_TO_PRO", crit, true);
+            q.addOrderBy("sequenceNumber", false);
+            
+            logQuery(q);
+            attachments = (List<ProtocolAttachmentProtocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
+        } else {
+            attachments = new ArrayList<ProtocolAttachmentProtocol>();
+        }
+        
+        return attachments;
+    }
+    
+    /**
+     * Logs the Query
+     * @param q the query
+     */
+    private static void logQuery(Query q) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(q.toString());
+        }
+    }
+    
+    /**
+     * Checks that an attachment is valid for a version attachment lookup.
+     * @param attachment the attachment.
+     * @return true if valid false if not
+     */
+    private boolean validAttachmentForVersionLookup(ProtocolAttachmentProtocol attachment) {
+        return attachment != null && attachment.getLatestOwner() != null && attachment.getLatestOwner().getProtocolNumber() != null
+            && attachment.getTypeCode() != null && attachment.getDocumentId() != null;
+    }
 
     /*
      * initialize several maps & lists for use
@@ -339,7 +391,7 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         ReportQueryByCriteria query = QueryFactory.newReportQuery(Protocol.class, crit);
         query.setAttributes(new String[] { "sequenceNumber" });
         
-        System.out.println("Query " + query.toString());
+        logQuery(query);
         
         Iterator<Object[]> it = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         
