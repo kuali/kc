@@ -40,7 +40,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class ProtocolAttachmentHelper implements Serializable {
     
     private static final String UNSUPPORTED_ATTACHMENT_TYPE = "unsupported attachment type ";
-    private static final String CONFIRM_YES_DELETE_ATTACHMENT_NOTIFICATION = "confirmDeleteAttachmentNotification";
     private static final String CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL = "confirmDeleteAttachmentPersonnel";
     private static final String CONFIRM_YES_DELETE_ATTACHMENT_PROTOCOL = "confirmDeleteAttachmentProtocol";
     
@@ -56,7 +55,6 @@ public class ProtocolAttachmentHelper implements Serializable {
     
     private ProtocolAttachmentProtocol newAttachmentProtocol;
     private ProtocolAttachmentPersonnel newAttachmentPersonnel;
-    private ProtocolAttachmentNotification newAttachmentNotification;
     
     private boolean modifyAttachments;
     
@@ -199,27 +197,6 @@ public class ProtocolAttachmentHelper implements Serializable {
     }
     
     /**
-     * Gets the new attachment notification. This method will not return null.
-     * Also, The ProtocolAttachmentNotification should have a valid protocol Id at this point.
-     * @return the new attachment notification
-     */
-    public ProtocolAttachmentNotification getNewAttachmentNotification() {
-        if (this.newAttachmentNotification == null) {
-            this.initAttachmentNotification();
-        }
-        
-        return this.newAttachmentNotification;
-    }
-
-    /**
-     * Sets the new attachment notification.
-     * @param newAttachmentNotification the new attachment notification
-     */
-    public void setNewAttachmentNotification(final ProtocolAttachmentNotification newAttachmentNotification) {
-        this.newAttachmentNotification = newAttachmentNotification;
-    }
-    
-    /**
      * returns whether a protocol can be modified.
      * @return true if modification is allowed false if not.
      */
@@ -242,11 +219,9 @@ public class ProtocolAttachmentHelper implements Serializable {
     void processSave() {
         this.refreshAttachmentReferences(this.getProtocol().getAttachmentPersonnels());
         this.refreshAttachmentReferences(this.getProtocol().getAttachmentProtocols());
-        this.refreshAttachmentReferences(this.getProtocol().getAttachmentNotifications());
         
         this.syncNewFiles(this.getProtocol().getAttachmentPersonnels());
         this.syncNewFiles(this.getProtocol().getAttachmentProtocols());
-        this.syncNewFiles(this.getProtocol().getAttachmentNotifications());
         
         if (this.versioningUtil.versioningRequired()) {
             this.versioningUtil.versionExstingAttachments();
@@ -310,32 +285,6 @@ public class ProtocolAttachmentHelper implements Serializable {
     }
     
     /**
-     * Adds the "new" ProtocolAttachmentNotification to the Protocol Document.  Before
-     * adding this method executes validation.  If the validation fails the attachment is not added.
-     */
-    void addNewProtocolAttachmentNotification() {      
-        this.refreshAttachmentReferences(Collections.singletonList(this.getNewAttachmentNotification()));
-        this.syncNewFiles(Collections.singletonList(this.getNewAttachmentNotification()));
-        
-        /*
-         * Since this event isn't created by the framework and this rule isn't executed by the framework,
-         * is it necessary to even create a event?  Does the rule have to implement BusinessRule?  There
-         * doesn't seem to be many advantages to doing these things...
-         */
-//        final AddProtocolAttachmentNotificationRule rule = new AddProtocolAttachmentNotificationRuleImpl();
-//        final AddProtocolAttachmentNotificationEvent event
-//            = new AddProtocolAttachmentNotificationEvent(this.form.getDocument(), this.newAttachmentNotification);
-//        
-//        if (!rule.processAddProtocolAttachmentNotificationRules(event)) {
-//            return;
-//        }
-        
-        this.addNewAttachment(this.newAttachmentNotification);
-        
-        this.initAttachmentNotification();
-    }
-    
-    /**
      * 
      * Deletes an attachment from a protocol based on a type.
      * 
@@ -353,8 +302,6 @@ public class ProtocolAttachmentHelper implements Serializable {
             deleted = this.deleteExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentProtocols());
         } else if (ProtocolAttachmentPersonnel.class.equals(type)) {
             deleted = this.deleteExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentPersonnels());
-        } else if (ProtocolAttachmentNotification.class.equals(type)) {
-            deleted = this.deleteExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentNotifications());
         } else {
             throw new IllegalArgumentException(UNSUPPORTED_ATTACHMENT_TYPE + type);
         }
@@ -379,8 +326,6 @@ public class ProtocolAttachmentHelper implements Serializable {
             attachment = (T) retrieveExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentProtocols());
         } else if (ProtocolAttachmentPersonnel.class.equals(type)) {
             attachment = (T) retrieveExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentPersonnels());
-        } else if (ProtocolAttachmentNotification.class.equals(type)) {
-            attachment = (T) retrieveExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentNotifications());
         } else {
             throw new IllegalArgumentException(UNSUPPORTED_ATTACHMENT_TYPE + type);
         }
@@ -403,8 +348,6 @@ public class ProtocolAttachmentHelper implements Serializable {
             confirmMethod = CONFIRM_YES_DELETE_ATTACHMENT_PROTOCOL;
         } else if (ProtocolAttachmentPersonnel.class.equals(type)) {
             confirmMethod = CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL;
-        } else if (ProtocolAttachmentNotification.class.equals(type)) {
-            confirmMethod = CONFIRM_YES_DELETE_ATTACHMENT_NOTIFICATION;
         } else {
             throw new IllegalArgumentException(UNSUPPORTED_ATTACHMENT_TYPE + type);
         }
@@ -425,7 +368,7 @@ public class ProtocolAttachmentHelper implements Serializable {
             return false;
         }
         
-        if (this.versioningUtil.versioningRequired()) {
+        if (this.versioningUtil.versioningRequired() && attachments.get(index).supportsVersioning()) {
             this.versioningUtil.versionDeletedAttachment(attachments.get(index));
         } else {
             this.notesService.deleteAttatchment(attachments.remove(index));
@@ -488,13 +431,6 @@ public class ProtocolAttachmentHelper implements Serializable {
      */
     private void initAttachmentPersonnel() {
         this.setNewAttachmentPersonnel(new ProtocolAttachmentPersonnel(this.getProtocol()));
-    }
-    
-    /**
-     * initializes a new attachment notification setting the protocol id.
-     */
-    private void initAttachmentNotification() {
-        this.setNewAttachmentNotification(new ProtocolAttachmentNotification(this.getProtocol()));
     }
     
     /** 

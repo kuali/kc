@@ -99,23 +99,6 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     }
     
     /**
-     * Method called when adding an attachment notification. - TODO: FOR DEVELOPEMENT TESTING ONLY
-     * 
-     * @param mapping the action mapping
-     * @param form the form.
-     * @param request the request.
-     * @param response the response.
-     * @return an action forward.
-     * @throws Exception if there is a problem executing the request.
-     */
-    public ActionForward addAttachmentNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-        HttpServletResponse response) throws Exception {
-        ((ProtocolForm) form).getNotesAndAttachmentsHelper().addNewProtocolAttachmentNotification();
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
      * Method called when viewing an attachment protocol.
      * 
      * @param mapping the action mapping
@@ -143,21 +126,6 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     public ActionForward viewAttachmentPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {  
         return this.viewAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentPersonnel.class);
-    }
-    
-    /**
-     * Method called when viewing an attachment notification.
-     * 
-     * @param mapping the action mapping
-     * @param form the form.
-     * @param request the request.
-     * @param response the response.
-     * @return an action forward.
-     * @throws Exception if there is a problem executing the request.
-     */
-    public ActionForward viewAttachmentNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {  
-        return this.viewAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentNotification.class);
     }
     
     /**
@@ -217,35 +185,6 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     public ActionForward confirmDeleteAttachmentPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return this.deleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentPersonnel.class);
-    }
-    
-    /**
-     * Method called when deleting an attachment notification.
-     * 
-     * @param mapping the action mapping
-     * @param form the form.
-     * @param request the request.
-     * @param response the response.
-     * @return an action forward.
-     * @throws Exception if there is a problem executing the request.
-     */
-    public ActionForward deleteAttachmentNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        return this.deleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentNotification.class);
-    }
-    
-    /**
-     * Method called when confirming the deletion an attachment notification.
-     * 
-     * @param mapping the action mapping
-     * @param form the form.
-     * @param request the request.
-     * @param response the response.
-     * @return an action forward.
-     * @throws Exception if there is a problem executing the request.
-     */
-    public ActionForward confirmDeleteAttachmentNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return this.deleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentNotification.class);
     }
     
     /**

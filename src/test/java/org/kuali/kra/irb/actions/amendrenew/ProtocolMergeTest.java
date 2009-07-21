@@ -16,12 +16,10 @@
 package org.kuali.kra.irb.actions.amendrenew;
 
 import java.sql.Date;
-import java.util.List;
 
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentNotification;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -270,11 +268,6 @@ public class ProtocolMergeTest extends KraTestBase {
         pal = createPersonnelAttachment(DESCRIPTION_2);
         amendment.getAttachmentPersonnels().add(pal);
         
-        ProtocolAttachmentNotification pan = createNotificationAttachment(COMMENT_1);
-        amendment.getAttachmentNotifications().add(pan);
-        pan = createNotificationAttachment(COMMENT_2);
-        amendment.getAttachmentNotifications().add(pan);
-        
         protocol.merge(amendment);
         
         assertEquals(2, protocol.getAttachmentProtocols().size());
@@ -284,17 +277,8 @@ public class ProtocolMergeTest extends KraTestBase {
         assertEquals(2, protocol.getAttachmentPersonnels().size());
         assertEquals(DESCRIPTION_1, protocol.getAttachmentPersonnels().get(0).getDescription());
         assertEquals(DESCRIPTION_2, protocol.getAttachmentPersonnels().get(1).getDescription());
-    
-        assertEquals(2, protocol.getAttachmentNotifications().size());
-        assertEquals(COMMENT_1, protocol.getAttachmentNotifications().get(0).getComments());
-        assertEquals(COMMENT_2, protocol.getAttachmentNotifications().get(1).getComments());
     }
     
-    private ProtocolAttachmentNotification createNotificationAttachment(String comments) {
-        ProtocolAttachmentNotification pan = new ProtocolAttachmentNotification();
-        pan.setComments(comments);
-        return pan;
-    }
 
     private ProtocolAttachmentPersonnel createPersonnelAttachment(String description) {
         ProtocolAttachmentPersonnel pal = new ProtocolAttachmentPersonnel();
