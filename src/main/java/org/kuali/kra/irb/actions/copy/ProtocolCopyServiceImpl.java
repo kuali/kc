@@ -26,7 +26,6 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolRiskLevel;
 import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentNotification;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -260,7 +259,6 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         destProtocol.setSpecialReviews((List<ProtocolSpecialReview>) deepCopy(srcProtocol.getSpecialReviews()));
         destProtocol.setAttachmentProtocols((List<ProtocolAttachmentProtocol>) deepCopy(srcProtocol.getAttachmentProtocols()));
         destProtocol.setAttachmentPersonnels((List<ProtocolAttachmentPersonnel>) deepCopy(srcProtocol.getAttachmentPersonnels()));
-        destProtocol.setAttachmentNotifications((List<ProtocolAttachmentNotification>) deepCopy(srcProtocol.getAttachmentNotifications()));
     }
    
     private Object deepCopy(Object obj) {

@@ -297,7 +297,8 @@
 			              			${attachmentProtocol.file.name}
 			           			</div>
 			           			
-			           			<c:set var="doVersionsExist" value="${fn:length(attachmentProtocol.versions) > 1 || (fn:length(attachmentProtocol.versions) == 1 && attachmentProtocol.attachmentVersionNumber != attachmentProtocol.versions[0].attachmentVersionNumber)}" />
+			           			<%-- this assumes that the versions collection is sorted descending by sequence number --%>
+			           			<c:set var="doVersionsExist" value="${fn:length(attachmentProtocol.versions) > 1 || (fn:length(attachmentProtocol.versions) == 1 && attachmentProtocol.sequenceNumber != attachmentProtocol.versions[0].sequenceNumber)}" />
 			           			<c:if test="${doVersionsExist}">
 				           			<kul:innerTab tabTitle="File Versions" parentTab="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description}" defaultOpen="false">
 										<div class="innerTab-container" align="left">
@@ -316,7 +317,7 @@
 				         					
 							         			<c:forEach var="attachmentProtocolVersion" items="${attachmentProtocol.versions}" varStatus="innerItrStatus">
 							         				<!-- only display older versions -->
-							         				<c:if test="${attachmentProtocolVersion.attachmentVersionNumber < attachmentProtocol.attachmentVersionNumber}">
+							         				<c:if test="${attachmentProtocolVersion.sequenceNumber < attachmentProtocol.sequenceNumber}">
 							         					<tr>
 							         						<td style="width: 20%">
 							         							${attachmentProtocolVersion.updateUser}

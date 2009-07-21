@@ -32,9 +32,8 @@
 		<property name="attributes" >
 			<list>
 				<ref bean="ProtocolAttachmentProtocol-id" />
-				<ref bean="ProtocolAttachmentProtocol-protocolId" />
 				<ref bean="ProtocolAttachmentProtocol-typeCode" />
-				<ref bean="ProtocolAttachmentProtocol-attachmentVersionNumber" />
+				<ref bean="ProtocolAttachmentProtocol-sequenceNumber" />
 				<ref bean="ProtocolAttachmentProtocol-documentId" />
 				<ref bean="ProtocolAttachmentProtocol-fileId" />
 				<ref bean="ProtocolAttachmentProtocol-description" />
@@ -53,8 +52,8 @@
 	<bean id="ProtocolAttachmentProtocol-id" parent="ProtocolAttachmentProtocol-id-parentBean" />
 	<bean id="ProtocolAttachmentProtocol-id-parentBean" abstract="true" parent="ProtocolAttachmentBase-id" />
 
-	<bean id="ProtocolAttachmentProtocol-protocolId" parent="ProtocolAttachmentProtocol-protocolId-parentBean" />
-	<bean id="ProtocolAttachmentProtocol-protocolId-parentBean" abstract="true" parent="ProtocolAttachmentBase-protocolId"/>
+	<bean id="ProtocolAttachmentProtocol-sequenceNumber" parent="ProtocolAttachmentProtocol-sequenceNumber-parentBean" />
+	<bean id="ProtocolAttachmentProtocol-sequenceNumber-parentBean" abstract="true" parent="ProtocolAttachmentBase-sequenceNumber"/>
 
 	<bean id="ProtocolAttachmentProtocol-typeCode" parent="ProtocolAttachmentProtocol-typeCode-parentBean" />
 	<bean id="ProtocolAttachmentProtocol-typeCode-parentBean" abstract="true" parent="ProtocolAttachmentType-code">
@@ -77,9 +76,6 @@
 	            p:valuesFinderClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder" />-->
 	    </property>
 	</bean>
-	
-	<bean id="ProtocolAttachmentProtocol-attachmentVersionNumber" parent="ProtocolAttachmentProtocol-attachmentVersionNumber-parentBean" />
-	<bean id="ProtocolAttachmentProtocol-attachmentVersionNumber-parentBean" abstract="true" parent="ProtocolAttachmentBase-attachmentVersionNumber" />
 	
 	<bean id="ProtocolAttachmentProtocol-documentId" parent="ProtocolAttachmentProtocol-documentId-parentBean" />
 	<bean id="ProtocolAttachmentProtocol-documentId-parentBean" abstract="true" parent="ProtocolAttachmentBase-documentId" />

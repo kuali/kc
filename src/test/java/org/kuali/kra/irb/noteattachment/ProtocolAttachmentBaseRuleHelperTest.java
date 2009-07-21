@@ -129,11 +129,11 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
         attachment.setType(new ProtocolAttachmentType("9", "a desc"));
-        attachment.setAttachmentVersionNumber(1);
+        attachment.setSequenceNumber(1);
         attachment.setDocumentId(1);
         Protocol protocol = ProtocolTestUtil.getProtocol(this.context);
         protocol.setProtocolId(1L);
-        attachment.setProtocol(protocol);
+        attachment.addSequenceOwner(protocol);
         
         this.context.checking(new Expectations() {{         
             one(ddService).isBusinessObjectValid(attachment, "fooPrefix");
@@ -286,9 +286,9 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
         attachment.setType(new ProtocolAttachmentType("9", "a desc"));
-        attachment.setAttachmentVersionNumber(1);
+        attachment.setSequenceNumber(1);
         attachment.setDocumentId(1);
-        attachment.setProtocol(ProtocolTestUtil.getProtocol(this.context));
+        attachment.addSequenceOwner(ProtocolTestUtil.getProtocol(this.context));
         
         this.context.checking(new Expectations() {{         
             one(ddService).isBusinessObjectValid(attachment, "fooPrefix");
