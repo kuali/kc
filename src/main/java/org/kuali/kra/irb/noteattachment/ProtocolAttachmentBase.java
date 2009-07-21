@@ -29,11 +29,6 @@ import org.kuali.kra.irb.ProtocolSeparateAssociate;
 public abstract class ProtocolAttachmentBase extends ProtocolSeparateAssociate {
 
     private static final long serialVersionUID = -2519574730475246022L;
-    private static final Integer INITIAL_VERSION = Integer.valueOf(1);
-    
-    private Long id;
-       
-    private Integer attachmentVersionNumber = INITIAL_VERSION;
     
     private Long fileId;
 
@@ -57,39 +52,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolSeparateAssociate {
      * @param protocol the protocol.
      */
     public ProtocolAttachmentBase(final Protocol protocol) {
-        this.setProtocol(protocol);
-    }
-    
-    /**
-     * Gets the Protocol Attachment Base id.
-     * @return the Protocol Attachment Base id
-     */
-    public Long getId() {
-        return this.id;
-    }
-    
-    /**
-     * Sets the Protocol Attachment Base id.
-     * @param id the Protocol Attachment Base id
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    /**
-     * Gets the Protocol Attachment Base Version Number.
-     * @return the Protocol Attachment Base Version Number
-     */
-    public Integer getAttachmentVersionNumber() {
-        return this.attachmentVersionNumber;
-    }
-    
-    /**
-     * Sets the Protocol Attachment Base Attachment Version Number.
-     * @param attachmentVersionNumber the Protocol Attachment Base Attachment Version Number
-     */
-    public void setAttachmentVersionNumber(Integer attachmentVersionNumber) {
-        this.attachmentVersionNumber = attachmentVersionNumber;
+        super(protocol);
     }
     
     /**
@@ -147,8 +110,9 @@ public abstract class ProtocolAttachmentBase extends ProtocolSeparateAssociate {
     public abstract String getAttachmentDescription();
     
     /** {@inheritDoc} */
+    @Override
     public void resetPersistenceState() {
-        this.setId(null);
+        super.resetPersistenceState();
 
         this.setFileId(null);
         if (this.getFile() != null) {
@@ -160,9 +124,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolSeparateAssociate {
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         final LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put(PropertyName.ATTACHMENT_VERSION.getPropertyName(), this.getAttachmentVersionNumber());
         hashMap.put(PropertyName.FILE_ID.getPropertyName(), this.getFileId());
-        hashMap.put(PropertyName.ID.getPropertyName(), this.getId());
         return hashMap;
     }
     
@@ -258,10 +220,8 @@ public abstract class ProtocolAttachmentBase extends ProtocolSeparateAssociate {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((this.attachmentVersionNumber == null) ? 0 : this.attachmentVersionNumber.hashCode());
         result = prime * result + ((this.file == null) ? 0 : this.file.hashCode());
         result = prime * result + ((this.fileId == null) ? 0 : this.fileId.hashCode());
-        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
         return result;
     }
 
@@ -280,13 +240,6 @@ public abstract class ProtocolAttachmentBase extends ProtocolSeparateAssociate {
             return false;
         }
         final ProtocolAttachmentBase other = (ProtocolAttachmentBase) obj;
-        if (this.attachmentVersionNumber == null) {
-            if (other.attachmentVersionNumber != null) {
-                return false;
-            }
-        } else if (!this.attachmentVersionNumber.equals(other.attachmentVersionNumber)) {
-            return false;
-        }
         if (this.file == null) {
             if (other.file != null) {
                 return false;
@@ -301,13 +254,6 @@ public abstract class ProtocolAttachmentBase extends ProtocolSeparateAssociate {
         } else if (!this.fileId.equals(other.fileId)) {
             return false;
         }
-        if (this.id == null) {
-            if (other.id != null) {
-                return false;
-            }
-        } else if (!this.id.equals(other.id)) {
-            return false;
-        }
         return true;
     }
     
@@ -315,8 +261,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolSeparateAssociate {
      * Contains all the property names in this class.
      */
     public static enum PropertyName {
-        ATTACHMENT_VERSION("attachmentVersionNumber"),
-        FILE_ID("fileId"), ID("id");
+        FILE_ID("fileId");
         
         private final String name;
         

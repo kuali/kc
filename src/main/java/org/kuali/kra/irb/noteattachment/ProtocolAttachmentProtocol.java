@@ -16,14 +16,12 @@
 package org.kuali.kra.irb.noteattachment;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.kra.irb.ProtocolDao;
 
 /**
  * This class represents the Protocol Attachment Protocol.
@@ -56,7 +54,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
     }
     
     /**
-     * Convenience ctor to set the protocol.
+     * Convenience ctor to add the protocol as an owner.
      * 
      * <p>
      * This ctor does not validate any of the properties.
@@ -222,16 +220,9 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
     public List<ProtocolAttachmentProtocol> getVersions() {
         if (this.versions == null) {
             this.versions = new ArrayList<ProtocolAttachmentProtocol>();
-        }
-        //temp hack until I figure out how to do this w/ ojb
+        }      
         this.versions.clear();
-        
-        Map<String, Object> whereCond = new HashMap<String, Object>();
-        whereCond.put("protocolNumber", this.getProtocolNumber());
-        whereCond.put("typeCode", this.getTypeCode());
-        whereCond.put("documentId", this.getDocumentId());
-        
-        this.versions.addAll(KraServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(ProtocolAttachmentProtocol.class, whereCond, "versionNumber", false));
+        this.versions.addAll(KraServiceLocator.getService(ProtocolDao.class).retrieveAttachmentVersions(this));
         
         return this.versions;
     }

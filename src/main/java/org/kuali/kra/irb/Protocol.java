@@ -46,7 +46,6 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentNotification;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -136,9 +135,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     //these are the m:m attachment protocols that that a protocol has
     private List<ProtocolAttachmentProtocol> attachmentProtocols;
     private List<ProtocolAttachmentPersonnel> attachmentPersonnels;
-    private List<ProtocolAttachmentNotification> attachmentNotifications;
-    
-    private List<ProtocolAttachmentProtocol> attachmentProtocolsDirectlyCreated;
 
     private List<ProtocolAction> protocolActions;
     private List<ProtocolSubmission> protocolSubmissions;
@@ -179,26 +175,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         this.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
         
         populateTempViewDate();
-    }
-    
-    /**
-     * Gets the attachmentProtocolsDirectlyCreated attribute. 
-     * @return Returns the attachmentProtocolsDirectlyCreated.
-     */
-    public List<ProtocolAttachmentProtocol> getAttachmentProtocolsDirectlyCreated() {
-        if (this.attachmentProtocolsDirectlyCreated == null) {
-            this.attachmentProtocolsDirectlyCreated = new ArrayList<ProtocolAttachmentProtocol>();
-        }
-        
-        return this.attachmentProtocolsDirectlyCreated;
-    }
-
-    /**
-     * Sets the attachmentProtocolsDirectlyCreated attribute value.
-     * @param attachmentProtocolsDirectlyCreated The attachmentProtocolsDirectlyCreated to set.
-     */
-    public void setAttachmentProtocolsDirectlyCreated(List<ProtocolAttachmentProtocol> attachmentProtocolsDirectlyCreated) {
-        this.attachmentProtocolsDirectlyCreated = attachmentProtocolsDirectlyCreated;
     }
     
     public Long getProtocolId() {
@@ -811,7 +787,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      */
     private void addAttachmentProtocol(ProtocolAttachmentProtocol attachmentProtocol) {
         ProtocolAttachmentBase.addAttachmentToCollection(attachmentProtocol, this.getAttachmentProtocols());
-        ProtocolAttachmentBase.addAttachmentToCollection(attachmentProtocol, this.getAttachmentProtocolsDirectlyCreated());
     }
     
     /**
@@ -821,7 +796,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      */
     private void removeAttachmentProtocol(ProtocolAttachmentProtocol attachmentProtocol) {
         ProtocolAttachmentBase.removeAttachmentFromCollection(attachmentProtocol, this.getAttachmentProtocols());
-        ProtocolAttachmentBase.removeAttachmentFromCollection(attachmentProtocol, this.getAttachmentProtocolsDirectlyCreated());
     }
 
     /**
@@ -864,45 +838,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     }
     
     /**
-     * Gets the attachment notifications. Cannot return {@code null}.
-     * @return the attachment notifications
-     */
-    public List<ProtocolAttachmentNotification> getAttachmentNotifications() {
-        if (this.attachmentNotifications == null) {
-            this.attachmentNotifications = new ArrayList<ProtocolAttachmentNotification>();
-        }
-        
-        return this.attachmentNotifications;
-    }
-    
-    /**
-     * Gets an attachment notification.
-     * @param index the index
-     * @return an attachment notification
-     */
-    public ProtocolAttachmentNotification getAttachmentNotification(int index) {
-        return this.attachmentNotifications.get(index);
-    }
-    
-    /**
-     * add an attachment notification.
-     * @param attachmentNotification the attachment notification
-     * @throws IllegalArgumentException if attachmentNotification is null
-     */
-    private void addAttachmentNotification(ProtocolAttachmentNotification attachmentNotification) {
-        ProtocolAttachmentBase.addAttachmentToCollection(attachmentNotification, this.getAttachmentNotifications());
-    }
-    
-    /**
-     * removes an attachment notification.
-     * @param attachmentNotification the attachment notification
-     * @throws IllegalArgumentException if attachmentNotification is null
-     */
-    private void removeAttachmentNotification(ProtocolAttachmentNotification attachmentNotification) {
-        ProtocolAttachmentBase.removeAttachmentFromCollection(attachmentNotification, this.getAttachmentNotifications());
-    }
-    
-    /**
      * Adds a attachment to a Protocol where the type of attachment is used to determine
      * where to add the attachment.
      * @param attachment the attachment
@@ -917,8 +852,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
             this.addAttachmentProtocol((ProtocolAttachmentProtocol) attachment);
         } else if (attachment instanceof ProtocolAttachmentPersonnel) {
             this.addAttachmentPersonnel((ProtocolAttachmentPersonnel) attachment);
-        } else if (attachment instanceof ProtocolAttachmentNotification) {
-            this.addAttachmentNotification((ProtocolAttachmentNotification) attachment);
         } else {
             throw new IllegalArgumentException("unsupported type: " + attachment.getClass().getName());
         }
@@ -939,8 +872,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
             this.removeAttachmentProtocol((ProtocolAttachmentProtocol) attachment);
         } else if (attachment instanceof ProtocolAttachmentPersonnel) {
             this.removeAttachmentPersonnel((ProtocolAttachmentPersonnel) attachment);
-        } else if (attachment instanceof ProtocolAttachmentNotification) {
-            this.removeAttachmentNotification((ProtocolAttachmentNotification) attachment);
         } else {
             throw new IllegalArgumentException("unsupported type: " + attachment.getClass().getName());
         }
@@ -1069,23 +1000,10 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
 
     public void setAttachmentProtocols(List<ProtocolAttachmentProtocol> attachmentProtocols) {
         this.attachmentProtocols = attachmentProtocols;
-        for (ProtocolAttachmentProtocol attachment : attachmentProtocols) {
-            attachment.init(this);
-        }
     }
 
     public void setAttachmentPersonnels(List<ProtocolAttachmentPersonnel> attachmentPersonnels) {
         this.attachmentPersonnels = attachmentPersonnels;
-        for (ProtocolAttachmentPersonnel attachment : attachmentPersonnels) {
-            attachment.init(this);
-        }
-    }
-
-    public void setAttachmentNotifications(List<ProtocolAttachmentNotification> attachmentNotifications) {
-        this.attachmentNotifications = attachmentNotifications;
-        for (ProtocolAttachmentNotification attachment : attachmentNotifications) {
-            attachment.init(this);
-        }
     }
     
     public void setProtocolAmendRenewal(ProtocolAmendRenewal amendRenewal) {
@@ -1203,7 +1121,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     private void mergeAttachments(Protocol amendment) {
         setAttachmentProtocols((List<ProtocolAttachmentProtocol>) deepCopy(amendment.getAttachmentProtocols()));
         setAttachmentPersonnels((List<ProtocolAttachmentPersonnel>) deepCopy(amendment.getAttachmentPersonnels()));
-        setAttachmentNotifications((List<ProtocolAttachmentNotification>) deepCopy(amendment.getAttachmentNotifications()));
     }
     
     @SuppressWarnings("unchecked")

@@ -93,18 +93,13 @@
 		<collection-descriptor name="specialReviews" element-class-ref="org.kuali.kra.irb.specialreview.ProtocolSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="protocolId" />
 		</collection-descriptor>		
-       	<collection-descriptor name="attachmentProtocols" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" indirection-table="PROTOCOL_ATTACHMENT_PA_TO_PROT">
+       	<collection-descriptor name="attachmentProtocols" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" indirection-table="PROTOCOL_ATTACHMENT_PTA_TO_PRO">
      		<fk-pointing-to-this-class column="PROTOCOL_ID_FK"/>
      		<fk-pointing-to-element-class column="PA_PROTOCOL_FK"/>
   		</collection-descriptor>
-  		<collection-descriptor name="attachmentProtocolsDirectlyCreated" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="protocolId" />
-		</collection-descriptor>
-		<collection-descriptor name="attachmentPersonnels" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="protocolId" />
-		</collection-descriptor>
-		<collection-descriptor name="attachmentNotifications" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentNotification" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="protocolId" />
+		<collection-descriptor name="attachmentPersonnels" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" indirection-table="PROTOCOL_ATTACHMENT_PSA_TO_PRO">
+     		<fk-pointing-to-this-class column="PROTOCOL_ID_FK"/>
+     		<fk-pointing-to-element-class column="PA_PERSONNEL_FK"/>
 		</collection-descriptor>
 		<collection-descriptor name="protocolActions" element-class-ref="org.kuali.kra.irb.actions.ProtocolAction" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
@@ -573,11 +568,8 @@
 	
 	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol" table="PROTOCOL_ATTACHMENT_PROTOCOL">
 		<field-descriptor name="id" column="PA_PROTOCOL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
-		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR"/>
-		<field-descriptor name="attachmentVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
@@ -591,10 +583,6 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="protocolId"/>
-		</reference-descriptor>
-		
 		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="typeCode"/>
 		</reference-descriptor>
@@ -606,16 +594,9 @@
 		<reference-descriptor name="status" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="statusCode"/>
 		</reference-descriptor>
-
-<!-- doesn't work :-( -->
-<!--		<collection-descriptor name="versions" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true">-->
-<!--			<inverse-foreignkey field-ref="protocolNumber"/>-->
-<!--			<inverse-foreignkey field-ref="typeCode"/>-->
-<!--			<inverse-foreignkey field-ref="documentId"/> -->
-<!--  		</collection-descriptor>-->
 		
 		 <!-- cannot have auto-update or auto-delete turned on or rice/ojb fails :-( -->
-		<collection-descriptor name="sequenceOwners" element-class-ref="org.kuali.kra.irb.Protocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="false" indirection-table="PROTOCOL_ATTACHMENT_PA_TO_PROT">
+		<collection-descriptor name="sequenceOwners" element-class-ref="org.kuali.kra.irb.Protocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="false" indirection-table="PROTOCOL_ATTACHMENT_PTA_TO_PRO">
      		<fk-pointing-to-this-class column="PA_PROTOCOL_FK"/>
      		<fk-pointing-to-element-class column="PROTOCOL_ID_FK"/>
   		</collection-descriptor>
@@ -623,11 +604,8 @@
 	
 	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" table="PROTOCOL_ATTACHMENT_PERSONNEL">
 		<field-descriptor name="id" column="PA_PERSONNEL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
-		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
-		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR"/>
-		<field-descriptor name="attachmentVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
@@ -636,10 +614,6 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="protocolId"/>
-		</reference-descriptor>
 
 		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="typeCode"/>
@@ -652,35 +626,12 @@
 		<reference-descriptor name="person" class-ref="org.kuali.kra.irb.personnel.ProtocolPerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="personId"/>
 		</reference-descriptor>
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentNotification" table="PROTOCOL_ATTACHMENT_NOTIF">
-		<field-descriptor name="id" column="PA_NOTIFICATION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
-		<field-descriptor name="protocolId" column="PROTOCOL_ID_FK" jdbc-type="BIGINT" />
-		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="attachmentVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
-		<field-descriptor name="fileId" column="FILE_ID_FK" jdbc-type="BIGINT"/>
-		<field-descriptor name="actionDate" column="ACTION_DATE" jdbc-type="TIMESTAMP"/>
-		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
-		<field-descriptor name="submissionId" column="SUBMISSION_ID_FK" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="protocolId"/>
-		</reference-descriptor>
-		
-		<reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true"> 
-			<foreignkey field-ref="fileId"/>
-		</reference-descriptor>
-		
-		<reference-descriptor name="submission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="true" auto-update="object" auto-delete="true"> 
-			<foreignkey field-ref="submissionId"/>
-		</reference-descriptor>
+		<!-- cannot have auto-update or auto-delete turned on or rice/ojb fails :-( -->
+		<collection-descriptor name="sequenceOwners" element-class-ref="org.kuali.kra.irb.Protocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="false" indirection-table="PROTOCOL_ATTACHMENT_PSA_TO_PRO">
+     		<fk-pointing-to-this-class column="PA_PERSONNEL_FK"/>
+     		<fk-pointing-to-element-class column="PROTOCOL_ID_FK"/>
+  		</collection-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.irb.actions.ProtocolCorrespondenceType" table="PROTO_CORRESP_TYPE">
