@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.DocumentNextvalue;
@@ -106,7 +105,6 @@ public class ProtocolVersioningTest extends KraTestBase {
     
     /**
      * Creates a new version of a protocol that has many associates in a Collection.  Makes sure that associates are versioned.
-     * Does not test basic protocol versioning.  That is handled in test {@link #test_basic_versioning()}.
      * 
      * @throws Exception if bad happens
      */
@@ -137,8 +135,7 @@ public class ProtocolVersioningTest extends KraTestBase {
     
     /**
      * Creates a new version of a protocol that has many separately sequenced associates in a Collection.
-     * Makes sure that associates are NOT versioned. Does not test basic protocol versioning.
-     * That is handled in test {@link #test_basic_versioning()}.
+     * Makes sure that associates are NOT versioned.
      * 
      * @throws Exception if bad happens
      */
@@ -152,6 +149,12 @@ public class ProtocolVersioningTest extends KraTestBase {
         assertIsVersioned(ver1, ver2);
         
         Assert.assertThat(ver2.getProtocol().getAttachmentProtocols(), equalTo(ver1.getProtocol().getAttachmentProtocols()));
+        
+        //all attachments should be at version (sequence) 0 which assumes that the original attachments were at version 0
+        for (ProtocolAttachmentProtocol attachment : ver2.getProtocol().getAttachmentProtocols()) {
+            Assert.assertThat(attachment.getSequenceNumber(), is(0));    
+        }
+        
     }
     
     private ProtocolAttachmentProtocol createAttachment1() {
