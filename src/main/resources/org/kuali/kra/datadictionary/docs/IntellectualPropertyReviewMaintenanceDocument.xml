@@ -8,6 +8,7 @@
     <property name="maintainableSections">
       <list>
         <ref bean="IntellectualPropertyReviewMaintenanceDocument-EditReviewData"/>
+        <ref bean="IntellectualPropertyReviewMaintenanceDocument-EditReviewActivities"/>
       </list>
     </property>
     <property name="lockingKeys">
@@ -35,6 +36,48 @@
         <bean parent="MaintainableFieldDefinition" p:name="ipReviewRequirementTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="reviewResultCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="IntellectualPropertyReviewMaintenanceDocument-EditReviewActivities" parent="IntellectualPropertyReviewMaintenanceDocument-EditReviewActivities-parentBean"/>
+  <bean id="IntellectualPropertyReviewMaintenanceDocument-EditReviewActivities-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Review Activities"/>
+    <property name="title" value="Review Activities"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+            <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.ipreview.InstitutionalProposalIpReviewActivity"/>
+            <property name="name" value="ipReviewActivities"/>
+            <property name="sourceClassName" value="org.kuali.kra.institutionalproposal.ipreview.InstitutionalProposalIpReviewActivity"/>
+            <property name="alwaysAllowCollectionDeletion" value="true"/>
+            <property name="includeAddLine" value="true"/>
+            <property name="includeMultipleLookupLine" value="false"/>
+            <property name="summaryTitle" value="Activities"/>
+            <!-- 
+            <property name="summaryFields">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="ipReviewActivityTypeCode"/>
+            </list>
+            </property>
+            <property name="attributeToHighlightOnDuplicateKey" value="templateCommentsId"/>
+            <property name="duplicateIdentificationFields">
+                <list>
+                    <bean parent="MaintainableFieldDefinition" p:name="templateCode" />
+                    <bean parent="MaintainableFieldDefinition" p:name="commentTypeCode"/>
+                </list>
+            </property>
+             -->
+            <property name="maintainableFields">
+                <list>
+                    <bean parent="MaintainableFieldDefinition" p:name="activityNumber" p:required="true"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="ipReviewActivityTypeCode" p:required="true"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="activityDate" p:required="true"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="comments"/>
+                    <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+                </list>
+            </property>
+        </bean>
       </list>
     </property>
   </bean>

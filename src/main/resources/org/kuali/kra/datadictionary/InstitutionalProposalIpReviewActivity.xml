@@ -21,7 +21,7 @@
 
     <bean id="InstitutionalProposalIpReviewActivity" parent="InstitutionalProposalIpReviewActivity-parentBean" />
     <bean id="InstitutionalProposalIpReviewActivity-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalIpReviewActivity" />
+        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.ipreview.InstitutionalProposalIpReviewActivity" />
         <property name="inquiryDefinition" >
             <ref bean="InstitutionalProposalIpReviewActivity-inquiryDefinition" />
         </property>

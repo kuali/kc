@@ -35,7 +35,7 @@ import org.kuali.kra.service.InstitutionalProposalCustomAttributeService;
  * InstitutionalProposal and InstitutionalProposalDocument can have a 1:1 relationship.
  */
 public class InstitutionalProposalDocument extends ResearchDocumentBase {
-
+    
     /**
      * Comment for <code>DOCUMENT_TYPE_CODE</code>
      */
