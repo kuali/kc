@@ -35,14 +35,14 @@ public class AwardAmountInfo extends AwardAssociate {
 
     private Long awardAmountInfoId; 
     private Integer amountSequenceNumber; 
-    private Long anticipatedTotalAmount; 
-    private Long antDistributableAmount; 
+    private KualiDecimal anticipatedTotalAmount; 
+    private KualiDecimal antDistributableAmount; 
     private Date finalExpirationDate; 
     private Date currentFundEffectiveDate; 
-    private Long amountObligatedToDate; 
-    private Long obliDistributableAmount; 
+    private KualiDecimal amountObligatedToDate; 
+    private KualiDecimal obliDistributableAmount; 
     private Date obligationExpirationDate; 
-    private String transactionId; 
+    private Long transactionId; 
     private boolean entryType; 
     private boolean eomProcessFlag; 
     private Long anticipatedChange; 
@@ -84,19 +84,19 @@ public class AwardAmountInfo extends AwardAssociate {
         this.amountSequenceNumber = amountSequenceNumber;
     }
 
-    public Long getAnticipatedTotalAmount() {
+    public KualiDecimal getAnticipatedTotalAmount() {
         return anticipatedTotalAmount;
     }
 
-    public void setAnticipatedTotalAmount(Long anticipatedTotalAmount) {
+    public void setAnticipatedTotalAmount(KualiDecimal anticipatedTotalAmount) {
         this.anticipatedTotalAmount = anticipatedTotalAmount;
     }
 
-    public Long getAntDistributableAmount() {
+    public KualiDecimal getAntDistributableAmount() {
         return antDistributableAmount;
     }
 
-    public void setAntDistributableAmount(Long antDistributableAmount) {
+    public void setAntDistributableAmount(KualiDecimal antDistributableAmount) {
         this.antDistributableAmount = antDistributableAmount;
     }
 
@@ -116,19 +116,19 @@ public class AwardAmountInfo extends AwardAssociate {
         this.currentFundEffectiveDate = currentFundEffectiveDate;
     }
 
-    public Long getAmountObligatedToDate() {
+    public KualiDecimal getAmountObligatedToDate() {
         return amountObligatedToDate;
     }
 
-    public void setAmountObligatedToDate(Long amountObligatedToDate) {
+    public void setAmountObligatedToDate(KualiDecimal amountObligatedToDate) {
         this.amountObligatedToDate = amountObligatedToDate;
     }
 
-    public Long getObliDistributableAmount() {
+    public KualiDecimal getObliDistributableAmount() {
         return obliDistributableAmount;
     }
 
-    public void setObliDistributableAmount(Long obliDistributableAmount) {
+    public void setObliDistributableAmount(KualiDecimal obliDistributableAmount) {
         this.obliDistributableAmount = obliDistributableAmount;
     }
 
@@ -140,11 +140,11 @@ public class AwardAmountInfo extends AwardAssociate {
         this.obligationExpirationDate = obligationExpirationDate;
     }
 
-    public String getTransactionId() {
+    public Long getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(String transactionId) {
+    public void setTransactionId(Long transactionId) {
         this.transactionId = transactionId;
     }
 
