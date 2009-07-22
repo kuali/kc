@@ -148,14 +148,35 @@ public class ProtocolVersioningTest extends KraTestBase {
         
         ProtocolDocument ver2 = createAndSaveVersion(ver1);
         assertIsVersioned(ver1, ver2);
+        assertNotVersioned(ver1.getProtocol().getAttachmentProtocols(), ver2.getProtocol().getAttachmentProtocols());
+    }
+    
+    /**
+     * This test will version a separately sequenced BO.  Since the versioning framework does not
+     * automatically trigger a new version of the Owner(s) of the associate but rather expects a new
+     * version to be created this is not tested.  This test only makes sure that a separately sequenced
+     * BO is properly sequenced.
+     * 
+     * @throws Exception if bad happens
+     */
+    @Test
+    public void test_separate_sequenced_associate_version() throws Exception {
+        ProtocolAttachmentProtocol attachment1 = createAttachment1();
+        ver1.getProtocol().addAttachmentsByType(attachment1);
+        documentService.saveDocument(ver1);
         
-        Assert.assertThat(ver2.getProtocol().getAttachmentProtocols(), equalTo(ver1.getProtocol().getAttachmentProtocols()));
+        ProtocolDocument ver2 = createAndSaveVersion(ver1);
+        assertIsVersioned(ver1, ver2);
         
-        //all attachments should be at version (sequence) 0 which assumes that the original attachments were at version 0
-        for (ProtocolAttachmentProtocol attachment : ver2.getProtocol().getAttachmentProtocols()) {
-            Assert.assertThat(attachment.getSequenceNumber(), is(0));    
-        }
+        ver2.getProtocol().removeAttachmentsByType(attachment1);
+        ProtocolAttachmentProtocol newVersion = versioningService.versionAssociate(ver2.getProtocol(), attachment1);
+        //increments the sequence number since the versioning framework does not do this.
+        newVersion.setSequenceNumber(newVersion.getSequenceNumber() + 1);
         
+        ver2.getProtocol().addAttachmentsByType(newVersion);
+        
+        Assert.assertThat(ver2.getProtocol().getAttachmentProtocols().size(), is(1));
+        assertIsVersioned(attachment1, newVersion);
     }
     
     private ProtocolAttachmentProtocol createAttachment1() {
@@ -224,6 +245,29 @@ public class ProtocolVersioningTest extends KraTestBase {
         Assert.assertThat(ver2.getSequenceNumber(), equalTo(ver2.getProtocol().getSequenceNumber()));
         Assert.assertThat(ver2.getProtocolNumber(), equalTo(ver2.getProtocol().getProtocolNumber()));
         Assert.assertThat(ver2.getProtocolId(), equalTo(ver2.getProtocol().getProtocolId()));
+    }
+    
+    /**
+     * Checks that the ver2 associate is versioned from ver1.
+     * @param ver1 the first version
+     * @param ver2 the second version
+     */
+    private void assertIsVersioned(ProtocolSeparateAssociate ver1, ProtocolSeparateAssociate ver2) {
+        Assert.assertThat(ver2.getSequenceNumber(), is(ver1.getSequenceNumber() + 1));
+        Assert.assertThat(ver2.getId(), not(equalTo(ver1.getId())));
+    }
+    
+    /**
+     * Checks that the ver2 associate is versioned from ver1.
+     * @param ver1 the first version
+     * @param ver2 the second version
+     */
+    private <T extends ProtocolSeparateAssociate> void assertNotVersioned(List<T> ver1, List<T> ver2) {
+        Assert.assertThat(ver2, equalTo(ver1));
+        
+        for (ProtocolSeparateAssociate attachment : ver2) {
+            Assert.assertThat(attachment.getSequenceNumber(), is(0));    
+        }
     }
     
     /**
