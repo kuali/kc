@@ -46,7 +46,7 @@
 			</th>            
           <td align="left" valign="middle">
 			<div align="center">
-              		<c:out value ="${awardHierarchyNode.value.awardNumber}" />
+              		<c:out value ="${awardHierarchyNode.value.awardNumber}" /> : <c:out value ="${awardHierarchyNode.value.leadUnitName}" /> : <c:out value ="${awardHierarchyNode.value.principalInvestigatorName}" />
 			</div>
 		  </td>
           <td align="left" valign="middle">

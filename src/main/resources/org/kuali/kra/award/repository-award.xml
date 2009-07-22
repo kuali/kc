@@ -1082,18 +1082,17 @@
 		<field-descriptor name="awardAmountInfoId" column="AWARD_AMOUNT_INFO_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQUENCE_AWARD_ID" autoincrement="true" />
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="amountSequenceNumber" column="AMOUNT_SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="anticipatedTotalAmount" column="ANTICIPATED_TOTAL_AMOUNT" jdbc-type="DECIMAL" />
-		<field-descriptor name="antDistributableAmount" column="ANT_DISTRIBUTABLE_AMOUNT" jdbc-type="DECIMAL" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />		
+		<field-descriptor name="anticipatedTotalAmount" column="ANTICIPATED_TOTAL_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="antDistributableAmount" column="ANT_DISTRIBUTABLE_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="finalExpirationDate" column="FINAL_EXPIRATION_DATE" jdbc-type="DATE" />
 		<field-descriptor name="currentFundEffectiveDate" column="CURRENT_FUND_EFFECTIVE_DATE" jdbc-type="DATE" />
-		<field-descriptor name="amountObligatedToDate" column="AMOUNT_OBLIGATED_TO_DATE" jdbc-type="DECIMAL" />
-		<field-descriptor name="obliDistributableAmount" column="OBLI_DISTRIBUTABLE_AMOUNT" jdbc-type="DECIMAL" />
+		<field-descriptor name="amountObligatedToDate" column="AMOUNT_OBLIGATED_TO_DATE" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="obliDistributableAmount" column="OBLI_DISTRIBUTABLE_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="obligationExpirationDate" column="OBLIGATION_EXPIRATION_DATE" jdbc-type="DATE" />
-		<field-descriptor name="transactionId" column="TRANSACTION_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="entryType" column="ENTRY_TYPE" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-		<field-descriptor name="eomProcessFlag" column="EOM_PROCESS_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="transactionId" column="TRANSACTION_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="entryType" column="ENTRY_TYPE" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="eomProcessFlag" column="EOM_PROCESS_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="anticipatedChange" column="ANTICIPATED_CHANGE" jdbc-type="DECIMAL" />

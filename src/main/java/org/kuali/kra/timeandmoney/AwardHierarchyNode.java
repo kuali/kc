@@ -30,6 +30,8 @@ public class AwardHierarchyNode extends AwardHierarchy {
     private KualiDecimal antDistributableAmount;
     private KualiDecimal amountObligatedToDate; 
     private KualiDecimal obliDistributableAmount;
+    private String leadUnitName;
+    private String principalInvestigatorName;
     
     public AwardHierarchyNode() {
         anticipatedTotalAmount = new KualiDecimal("0");
@@ -162,6 +164,38 @@ public class AwardHierarchyNode extends AwardHierarchy {
      */
     public void setObliDistributableAmount(KualiDecimal obliDistributableAmount) {
         this.obliDistributableAmount = obliDistributableAmount;
+    }
+
+    /**
+     * Gets the leadUnitName attribute. 
+     * @return Returns the leadUnitName.
+     */
+    public String getLeadUnitName() {
+        return leadUnitName;
+    }
+
+    /**
+     * Sets the leadUnitName attribute value.
+     * @param leadUnitName The leadUnitName to set.
+     */
+    public void setLeadUnitName(String leadUnitName) {
+        this.leadUnitName = leadUnitName;
+    }
+
+    /**
+     * Gets the principalInvestigatorName attribute. 
+     * @return Returns the principalInvestigatorName.
+     */
+    public String getPrincipalInvestigatorName() {
+        return principalInvestigatorName;
+    }
+
+    /**
+     * Sets the principalInvestigatorName attribute value.
+     * @param principalInvestigatorName The principalInvestigatorName to set.
+     */
+    public void setPrincipalInvestigatorName(String principalInvestigatorName) {
+        this.principalInvestigatorName = principalInvestigatorName;
     }
     
 }
