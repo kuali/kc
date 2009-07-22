@@ -20,6 +20,7 @@
 
 <%@ attribute name="readOnly" required="false" %>
 
+<c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 <c:set var="intellectualPropertyReviewAttributes" value="${DataDictionary.IntellectualPropertyReview.attributes}" />
 
 <kul:tabTop tabTitle="Review Data" defaultOpen="false" tabErrorKey="">
