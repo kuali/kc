@@ -511,17 +511,6 @@ VALUES (13, 39) ;
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID, PERMISSION_ID) values (2, 62); 
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID, PERMISSION_ID) values (7, 62);
 
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (1, 'quickstart', 'fK69ATFsAydwQuteang+xMva+Tc=');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (2, 'ljoconno', 'fK69ATFsAydwQuteang+xMva+Tc=');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (3, 'bhutchin', 'fK69ATFsAydwQuteang+xMva+Tc=');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (4, 'aslusar', 'fK69ATFsAydwQuteang+xMva+Tc=');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (5, 'tdurkin', 'fK69ATFsAydwQuteang+xMva+Tc=');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (6, 'pcberg', 'fK69ATFsAydwQuteang+xMva+Tc=');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (7, 'jtester', 'fK69ATFsAydwQuteang+xMva+Tc=');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (8, 'KULUSER', 'fK69ATFsAydwQuteang+xMva+Tc=');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (9, 'superuser', 'fK69ATFsAydwQuteang+xMva+Tc=');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (12, 'woods', 'fK69ATFsAydwQuteang+xMva+Tc=');
-
 INSERT INTO KIM_ROLES_PERMISSIONS_T (ROLE_ID, PERMISSION_ID)
 VALUES (13, 40) ;
 

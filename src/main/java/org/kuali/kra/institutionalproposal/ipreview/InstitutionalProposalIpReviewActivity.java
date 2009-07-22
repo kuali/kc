@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.institutionalproposal.home;
+package org.kuali.kra.institutionalproposal.ipreview;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
@@ -24,7 +24,8 @@ public class InstitutionalProposalIpReviewActivity extends KraPersistableBusines
     
     private static final long serialVersionUID = 1L;
 
-    private Integer proposalIpReviewActivityId; 
+    private Long proposalIpReviewActivityId; 
+    private Long proposalId;
     private String proposalNumber; 
     private Integer sequenceNumber; 
     private Integer activityNumber; 
@@ -37,12 +38,20 @@ public class InstitutionalProposalIpReviewActivity extends KraPersistableBusines
 
     } 
     
-    public Integer getProposalIpReviewActivityId() {
+    public Long getProposalIpReviewActivityId() {
         return proposalIpReviewActivityId;
     }
 
-    public void setProposalIpReviewActivityId(Integer proposalIpReviewActivityId) {
+    public void setProposalIpReviewActivityId(Long proposalIpReviewActivityId) {
         this.proposalIpReviewActivityId = proposalIpReviewActivityId;
+    }
+    
+    public Long getProposalId() {
+        return proposalId;
+    }
+
+    public void setProposalId(Long proposalId) {
+        this.proposalId = proposalId;
     }
 
     public String getProposalNumber() {
