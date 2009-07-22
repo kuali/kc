@@ -31,99 +31,78 @@ import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class ActivePendingTransactionsServiceImpl implements ActivePendingTransactionsService {
     
     BusinessObjectService businessObjectService;
 
     public void approveTransactions() {
-        
         TimeAndMoneyForm form = (TimeAndMoneyForm) GlobalVariables.getKualiForm();
         TimeAndMoneyDocument doc = (TimeAndMoneyDocument) form.getDocument();
         Map<String, String> fieldValues = new HashMap<String, String>();
         List<PendingTransaction> pendingTransactionsToBeDeleted = new ArrayList<PendingTransaction>();
-        
-        for(PendingTransaction pendingTransaction: doc.getPendingTransactions()){
-            
+        boolean addOrDelete = false;
+        for(PendingTransaction pendingTransaction: doc.getPendingTransactions()){            
             for(Entry<String, AwardHierarchyNode> awardHierarchyNode: doc.getAwardHierarchyNodes().entrySet()){
+                
                 if(StringUtils.equalsIgnoreCase(awardHierarchyNode.getKey(), pendingTransaction.getSourceAwardNumber())){
                     fieldValues.put("awardNumber", pendingTransaction.getSourceAwardNumber());
-                    List<Award> awardList = (List<Award>)businessObjectService.findMatching(Award.class, fieldValues);
-                    Award award = fetchAwardWithMaximumSequence(awardList);
-                    AwardAmountInfo awardAmountInfo = award.getAwardAmountInfos().get(0);
-                    AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
-                    newAwardAmountInfo.setAwardNumber(awardAmountInfo.getAwardNumber());
-                    newAwardAmountInfo.setSequenceNumber(awardAmountInfo.getSequenceNumber());
-                    newAwardAmountInfo.setFinalExpirationDate(awardAmountInfo.getFinalExpirationDate());                    
-                    if(awardAmountInfo.getObliDistributableAmount()!=null){
-                        newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount()));    
-                    }else{
-                        newAwardAmountInfo.setObliDistributableAmount(pendingTransaction.getObligatedAmount());
-                    }
-                    if(awardAmountInfo.getAmountObligatedToDate()!=null){
-                        newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate().subtract(pendingTransaction.getObligatedAmount()));
-                    }else{
-                        newAwardAmountInfo.setAmountObligatedToDate(pendingTransaction.getObligatedAmount());
-                    }
-                    if(awardAmountInfo.getAntDistributableAmount()!=null){
-                        newAwardAmountInfo.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount().subtract(pendingTransaction.getAnticipatedAmount()));
-                    }else{
-                        newAwardAmountInfo.setAntDistributableAmount(pendingTransaction.getAnticipatedAmount());                        
-                    }
-                    if(awardAmountInfo.getAnticipatedTotalAmount()!=null){
-                        newAwardAmountInfo.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount().subtract(pendingTransaction.getAnticipatedAmount()));
-                    }else{
-                        newAwardAmountInfo.setAnticipatedTotalAmount(pendingTransaction.getAnticipatedAmount());    
-                    }                    
-                    newAwardAmountInfo.setTransactionId(pendingTransaction.getTransactionId());
-                    award.getAwardAmountInfos().add(newAwardAmountInfo);
-                    businessObjectService.save(award);
-                    pendingTransactionsToBeDeleted.add(pendingTransaction);
-                }
-                if(StringUtils.equalsIgnoreCase(awardHierarchyNode.getKey(), pendingTransaction.getDestinationAwardNumber())){
+                    addOrDelete = false;
+                }else if(StringUtils.equalsIgnoreCase(awardHierarchyNode.getKey(), pendingTransaction.getDestinationAwardNumber())){
                     fieldValues.put("awardNumber", pendingTransaction.getDestinationAwardNumber());
-                    List<Award> awardList = (List<Award>)businessObjectService.findMatching(Award.class, fieldValues);
-                    Award award = fetchAwardWithMaximumSequence(awardList);
-                    AwardAmountInfo awardAmountInfo = award.getAwardAmountInfos().get(0);
-                    AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
-                    newAwardAmountInfo.setAwardNumber(awardAmountInfo.getAwardNumber());
-                    newAwardAmountInfo.setSequenceNumber(awardAmountInfo.getSequenceNumber());
-                    newAwardAmountInfo.setFinalExpirationDate(awardAmountInfo.getFinalExpirationDate());
-                    if(awardAmountInfo.getObliDistributableAmount()!=null){
-                        newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount().add(pendingTransaction.getObligatedAmount()));    
-                    }else{
-                        newAwardAmountInfo.setObliDistributableAmount(pendingTransaction.getObligatedAmount());
-                    }
-                    if(awardAmountInfo.getAmountObligatedToDate()!=null){
-                        newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate().add(pendingTransaction.getObligatedAmount()));
-                    }else{
-                        newAwardAmountInfo.setAmountObligatedToDate(pendingTransaction.getObligatedAmount());
-                    }
-                    if(awardAmountInfo.getAntDistributableAmount()!=null){
-                        newAwardAmountInfo.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount().add(pendingTransaction.getAnticipatedAmount()));
-                    }else{
-                        newAwardAmountInfo.setAntDistributableAmount(pendingTransaction.getAnticipatedAmount());                        
-                    }
-                    if(awardAmountInfo.getAnticipatedTotalAmount()!=null){
-                        newAwardAmountInfo.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount().add(pendingTransaction.getAnticipatedAmount()));
-                    }else{
-                        newAwardAmountInfo.setAnticipatedTotalAmount(pendingTransaction.getAnticipatedAmount());    
-                    }
-                                        
-                    newAwardAmountInfo.setTransactionId(pendingTransaction.getTransactionId());
-                    award.getAwardAmountInfos().add(newAwardAmountInfo);
-                    businessObjectService.save(award);
-                    pendingTransactionsToBeDeleted.add(pendingTransaction);
+                    addOrDelete = true;
                 }
                 
+                List<Award> awardList = (List<Award>)businessObjectService.findMatching(Award.class, fieldValues);
+                Award award = fetchAwardWithMaximumSequence(awardList);
+                AwardAmountInfo awardAmountInfo = award.getAwardAmountInfos().get(0);                
+                award.getAwardAmountInfos().add(getNewAwardAmountInfoEntry(addOrDelete, pendingTransaction, awardAmountInfo));
+                businessObjectService.save(award);
+                pendingTransactionsToBeDeleted.add(pendingTransaction);                
             }
         }
         
         for(PendingTransaction pendingTransaction: pendingTransactionsToBeDeleted){
             doc.getPendingTransactions().remove(pendingTransaction);
         }
-        
+    }
 
+    /**
+     * This method...
+     * @param addOrDelete
+     * @param pendingTransaction
+     * @param awardAmountInfo
+     * @return
+     */
+    private AwardAmountInfo getNewAwardAmountInfoEntry(boolean addOrDelete, PendingTransaction pendingTransaction, AwardAmountInfo awardAmountInfo) {
+        AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
+        newAwardAmountInfo.setAwardNumber(awardAmountInfo.getAwardNumber());
+        newAwardAmountInfo.setSequenceNumber(awardAmountInfo.getSequenceNumber());
+        newAwardAmountInfo.setFinalExpirationDate(awardAmountInfo.getFinalExpirationDate());
+        
+        newAwardAmountInfo.setObliDistributableAmount(processAmounts(awardAmountInfo.getObliDistributableAmount(), pendingTransaction.getObligatedAmount(),addOrDelete));
+        newAwardAmountInfo.setAmountObligatedToDate(processAmounts(awardAmountInfo.getAmountObligatedToDate(), pendingTransaction.getObligatedAmount(),addOrDelete));
+        newAwardAmountInfo.setAntDistributableAmount(processAmounts(awardAmountInfo.getAntDistributableAmount(), pendingTransaction.getAnticipatedAmount(),addOrDelete));
+        newAwardAmountInfo.setAnticipatedTotalAmount(processAmounts(awardAmountInfo.getAnticipatedTotalAmount(), pendingTransaction.getAnticipatedAmount(),addOrDelete));
+         
+        newAwardAmountInfo.setTransactionId(pendingTransaction.getTransactionId());
+        return newAwardAmountInfo;
+    }
+    
+    protected KualiDecimal processAmounts(KualiDecimal value1, KualiDecimal value2, boolean addOrDelete){
+        KualiDecimal returnValue;
+        if(value1!=null){
+            if(addOrDelete){
+                returnValue =  value1.add(value2);    
+            }else{
+                returnValue =  value1.subtract(value2);
+            }
+            
+        }else{
+            returnValue = value2;
+        }
+        return returnValue;
     }
     
     protected Award fetchAwardWithMaximumSequence(List<Award> awardList){
