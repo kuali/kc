@@ -124,6 +124,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
             AwardNumberService awardNumberService = getAwardNumberService();
             String awardNumber = awardNumberService.getNextAwardNumber();
             award.setAwardNumber(awardNumber);
+            award.getAwardAmountInfos().get(0).setAwardNumber(awardNumber);
         }
     }
     

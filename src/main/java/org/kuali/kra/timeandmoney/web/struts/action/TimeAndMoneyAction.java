@@ -70,10 +70,16 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             awardHierarchyNode.setAwardNumber(awardHierarchy.getValue().getAwardNumber());
             awardHierarchyNode.setParentAwardNumber(awardHierarchy.getValue().getParentAwardNumber());
             awardHierarchyNode.setRootAwardNumber(awardHierarchy.getValue().getRootAwardNumber());
+            
             fieldValues.put("awardNumber", awardHierarchy.getValue().getAwardNumber());
             List<Award> awardList = (List<Award>) businessObjectService.findMatching(Award.class, fieldValues);
             awardHierarchyNode.setFinalExpirationDate(awardList.get(0).getProjectEndDate());
-            
+            awardHierarchyNode.setLeadUnitName(awardList.get(0).getUnitName());
+            awardHierarchyNode.setPrincipalInvestigatorName(awardList.get(0).getPrincipalInvestigatorName());
+            awardHierarchyNode.setObliDistributableAmount(awardList.get(0).getAwardAmountInfos().get(0).getObliDistributableAmount());
+            awardHierarchyNode.setAmountObligatedToDate(awardList.get(0).getAwardAmountInfos().get(0).getAmountObligatedToDate());
+            awardHierarchyNode.setAnticipatedTotalAmount(awardList.get(0).getAwardAmountInfos().get(0).getAnticipatedTotalAmount());
+            awardHierarchyNode.setAntDistributableAmount(awardList.get(0).getAwardAmountInfos().get(0).getAntDistributableAmount());
             timeAndMoneyDocument.getAwardHierarchyNodes().put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
         }
     }
