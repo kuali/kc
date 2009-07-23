@@ -1,7 +1,5 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="readOnly" value="false"  scope="request"/>
-
 <div class="tab-container" align="center">
     <h3>
         <span class="subhead-left"> Question </span>
@@ -15,8 +13,11 @@
             </th>
             <td align="left" valign="middle" colspan="3">
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.question" 
-                                          attributeEntry="${DataDictionary.Question.attributes.question}" 
-                                          readOnly="${readOnly}" />
+                                          attributeEntry="${DataDictionary.Question.attributes.question}" />
+                <kra:expandedTextArea textAreaFieldName="document.newMaintainableObject.businessObject.question" 
+                                      action="businessObject.question" 
+                                      textAreaLabel="${DataDictionary.Question.attributes.question.label}"
+                                      viewOnly="${readOnly}" />
             </td>
         </tr>
         <tr>
@@ -31,8 +32,7 @@
             </th>
             <td align="left" valign="middle">
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.status" 
-                                          attributeEntry="${DataDictionary.Question.attributes.status}" 
-                                          readOnly="${readOnly}" />
+                                          attributeEntry="${DataDictionary.Question.attributes.status}" />
             </td>
         </tr>
         <tr>
@@ -41,8 +41,7 @@
             </th>
             <td align="left" valign="middle">
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.questionId" 
-                                          attributeEntry="${DataDictionary.Question.attributes.questionId}" 
-                                          readOnly="${readOnly}" />
+                                          attributeEntry="${DataDictionary.Question.attributes.questionId}" />
             </td>
             <th align="right" valign="middle">
                 <kul:htmlAttributeLabel attributeEntry="${DataDictionary.Question.attributes.categoryTypeCode}" />
@@ -53,9 +52,14 @@
                                           readOnlyAlternateDisplay="${KualiForm.document.newMaintainableObject.businessObject.questionCategory.categoryName}" 
                                           readOnly="true" />
                 <c:if test="${!readOnly}">
-                    <kul:lookup boClassName="org.kuali.kra.questionnaire.question.QuestionCategory" fieldConversions="categoryTypeCode:document.newMaintainableObject.businessObject.categoryTypeCode,categoryName:document.newMaintainableObject.businessObject.questionCategory.categoryName" />
+                    <kul:lookup boClassName="org.kuali.kra.questionnaire.question.QuestionCategory" 
+                                fieldConversions="categoryTypeCode:document.newMaintainableObject.businessObject.categoryTypeCode,categoryName:document.newMaintainableObject.businessObject.questionCategory.categoryName" />
+                    <c:forEach items="${ErrorPropertyList}" var="key">
+                        <c:if test="${key eq 'document.newMaintainableObject.businessObject.categoryTypeCode'}">
+                            <kul:fieldShowErrorIcon />
+                        </c:if>
+                    </c:forEach>            
                 </c:if>
-                
             </td>
         </tr>
         <tr>
@@ -64,8 +68,11 @@
             </th>
             <td align="left" valign="middle" colspan="3">
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.explanation" 
-                                          attributeEntry="${DataDictionary.Question.attributes.explanation}" 
-                                          readOnly="${readOnly}" />
+                                          attributeEntry="${DataDictionary.Question.attributes.explanation}" />
+                <kra:expandedTextArea textAreaFieldName="document.newMaintainableObject.businessObject.explanation" 
+                                      action="businessObject.explanation" 
+                                      textAreaLabel="${DataDictionary.Question.attributes.question.label}"
+                                      viewOnly="${readOnly}" />
             </td>
         </tr>
         <tr>
@@ -74,8 +81,11 @@
             </th>
             <td align="left" valign="middle" colspan="3">
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.policy" 
-                                          attributeEntry="${DataDictionary.Question.attributes.policy}" 
-                                          readOnly="${readOnly}" />
+                                          attributeEntry="${DataDictionary.Question.attributes.policy}" />
+                <kra:expandedTextArea textAreaFieldName="document.newMaintainableObject.businessObject.policy" 
+                                      action="businessObject.policy" 
+                                      textAreaLabel="${DataDictionary.Question.attributes.question.label}"
+                                      viewOnly="${readOnly}" />
             </td>
         </tr>
         <tr>
@@ -84,8 +94,11 @@
             </th>
             <td align="left" valign="middle" colspan="3">
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.regulation" 
-                                          attributeEntry="${DataDictionary.Question.attributes.regulation}" 
-                                          readOnly="${readOnly}" />
+                                          attributeEntry="${DataDictionary.Question.attributes.regulation}" />
+                <kra:expandedTextArea textAreaFieldName="document.newMaintainableObject.businessObject.regulation" 
+                                      action="businessObject.regulation" 
+                                      textAreaLabel="${DataDictionary.Question.attributes.question.label}"
+                                      viewOnly="${readOnly}" />
             </td>
         </tr>
     </table>

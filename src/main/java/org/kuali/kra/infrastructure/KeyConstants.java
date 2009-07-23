@@ -523,6 +523,18 @@ public final class KeyConstants {
     // IRB Questions
     public static final String QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW = "question.protocol.confirmExceedMaxProtocols";
    
+    // Questionnaire
+    public static final String ERROR_QUESTION_RESPONSE_TYPE_NOT_SPECIFIED = "error.question.response.type.not.specified";
+    public static final String ERROR_QUESTION_RESPONSE_TYPE_INVALID = "error.question.response.type.invalid";
+    public static final String ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_BOXES = "error.question.displayed.answers.invalid.boxes";
+    public static final String ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_AREAS = "error.question.displayed.answers.invalid.areas";
+    public static final String ERROR_QUESTION_ANSWER_MAX_LENGTH_INVALID = "error.question.answer.max.length.invalid";
+    public static final String ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_BOXES = "error.question.max.answers.invalid.answers.boxes";
+    public static final String ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_AREAS = "error.question.max.answers.invalid.answers.areas";
+    public static final String ERROR_QUESTION_MAX_ANSWERS_INVALID_RETURNS = "error.question.max.answers.invalid.returns";
+    public static final String ERROR_QUESTION_LOOKUP_GUI_NOT_SPECIFIED = "error.question.lookup.gui.not.specified";
+    public static final String ERROR_QUESTION_LOOKUP_NAME_NOT_SPECIFIED = "error.question.lookup.name.not.specified";
+
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
