@@ -54,8 +54,12 @@
                 <div align="center">
                     <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.questionTypeId" 
                                               attributeEntry="${DataDictionary.Question.attributes.questionTypeId}"
-                                              onchange="javascript:showQuestionType();" 
-                                              readOnly="${readOnly}" />
+                                              readOnlyAlternateDisplay="${KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName}"
+                                              onchange="javascript:showQuestionType();" />
+                    <noscript>
+                        <html:image property="methodToCall.loadRecurrence.anchor${tabKey}"
+                                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif' styleClass="tinybutton" />
+                    </noscript>
                 </div>
             </td>
             <td>
@@ -93,17 +97,17 @@
                     <p> 
                         The user will be presented with
                         <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.displayedAnswers" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.displayedAnswers}" 
-                                                  readOnly="${readOnly}" /> text boxes. <br />
+                                                  attributeEntry="${DataDictionary.Question.attributes.displayedAnswers}" />
+                        text boxes. <br />
                         The entered value will be validated requiring a number only. <br />
                         The maximum length of the number in characters is
                         <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.answerMaxLength" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.answerMaxLength}" 
-                                                  readOnly="${readOnly}" />. <br />
+                                                  attributeEntry="${DataDictionary.Question.attributes.answerMaxLength}" />.
+                        <br />
                         The number of possible answers is
                         <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.maxAnswers" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.maxAnswers}" 
-                                                  readOnly="${readOnly}" />, not exceeding the number of text boxes presented. <br />
+                                                  attributeEntry="${DataDictionary.Question.attributes.maxAnswers}" />,
+                        not exceeding the number of text boxes presented. <br />
                     </p>
                 </div>
                 <%-- End Number --%>
@@ -113,14 +117,14 @@
                     <p> 
                         The user will be presented with
                         <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.displayedAnswers" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.displayedAnswers}" 
-                                                  readOnly="${readOnly}" /> text boxes. <br />
+                                                  attributeEntry="${DataDictionary.Question.attributes.displayedAnswers}" /> 
+                        text boxes. <br />
                         The entered value will be validated for a date in MM/DD/YYYY format. <br />
                         A response is required for each text box. <br />
                         The number of possible answers is
                         <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.maxAnswers" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.maxAnswers}" 
-                                                  readOnly="${readOnly}" />, not exceeding the number of text boxes presented. <br />
+                                                  attributeEntry="${DataDictionary.Question.attributes.maxAnswers}" />, 
+                        not exceeding the number of text boxes presented. <br />
                     </p>
                 </div>
                 <%-- End Date --%>
@@ -130,16 +134,16 @@
                     <p> 
                         The user will be presented with
                         <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.displayedAnswers" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.displayedAnswers}" 
-                                                  readOnly="${readOnly}" /> text areas. <br />
+                                                  attributeEntry="${DataDictionary.Question.attributes.displayedAnswers}" /> 
+                        text areas. <br />
                         The number of possible answers is
                         <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.maxAnswers" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.maxAnswers}" 
-                                                  readOnly="${readOnly}" />, not exceeding the number of text areas presented. <br />
+                                                  attributeEntry="${DataDictionary.Question.attributes.maxAnswers}" />,
+                        not exceeding the number of text areas presented. <br />
                         The maximum length of each response in characters: 
                         <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.answerMaxLength" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.answerMaxLength}" 
-                                                  readOnly="${readOnly}" />. <br />
+                                                  attributeEntry="${DataDictionary.Question.attributes.answerMaxLength}" />.
+                        <br />
                     </p>
                 </div>
                 <%-- End Text --%>
@@ -150,16 +154,23 @@
                         The user will be presented with the ability to search for 
                         <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.lookupGui" 
                                                   attributeEntry="${DataDictionary.Question.attributes.lookupGui}"
-                                                  onchange="updateLookupReturn(this, updateLookupReturn_Callback)"
-                                                  readOnly="${readOnly}" />. <br />
+                                                  readOnlyAlternateDisplay="${KualiForm.document.newMaintainableObject.businessObject.lookupGui}"
+                                                  onchange="updateLookupReturn(this, updateLookupReturn_Callback)" />. <br />
                         The field to return is 
                         <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.lookupName" 
                                                   attributeEntry="${DataDictionary.Question.attributes.lookupName}"
-                                                  readOnly="${readOnly}" />. <br />
+                                                  readOnlyAlternateDisplay="${KualiForm.document.newMaintainableObject.businessObject.lookupName}" />.
+                        <c:if test="${!readOnly}">
+                            <noscript>
+                                <html:image property="methodToCall.refreshPulldownOptions" 
+                                            styleClass="tinybutton" 
+	                	                    src='${ConfigProperties.kra.externalizable.images.url}arrow_refresh.png' />
+	                	    </noscript>
+	                	</c:if> <br />
                         The number of possible returns is
                         <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.maxAnswers" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.maxAnswers}" 
-                                                  readOnly="${readOnly}" />, not exceeding the number of text areas presented. <br />
+                                                  attributeEntry="${DataDictionary.Question.attributes.maxAnswers}" />.
+                        <br />
                     </p>
                 </div>
                 <%-- End Lookup --%>
