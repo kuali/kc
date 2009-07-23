@@ -24,13 +24,14 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="specialReview">
   	
-This is the  Institutional Proposal Special Review - Under Construction
+<div align="right"><kul:help documentTypeName="InstitutionalProposalDocument" pageName="Special Review" /></div>
+
 
 <kra-ip:institutionalProposalSpecialReview />
 
 <kul:panelFooter />	
 
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+<kul:documentControls transactionalDocument="false" suppressRoutingControls="true" />
 <script language="javascript" src="scripts/kuali_application.js"></script>
 
 </kul:documentPage>
