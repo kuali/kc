@@ -15,20 +15,27 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.form;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
+import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.common.customattributes.CustomDataForm;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataFormHelper;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -37,7 +44,9 @@ import org.kuali.rice.kns.util.KNSConstants;
 /**
  * This class...
  */
-public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase implements CustomDataForm, Auditable{
+public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
+                                                            implements CustomDataForm, Auditable,
+                                                                       SpecialReviewFormBase<InstitutionalProposalSpecialReviewExemption>{
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -45,6 +54,10 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     private static final long serialVersionUID = 4564236415580911082L;
     
     private boolean auditActivated;
+    
+    private String[] newExemptionTypeCodes;
+    private List<InstitutionalProposalSpecialReviewExemption> newSpecialReviewExemptions;
+    private InstitutionalProposalSpecialReview newInstitutionalProposalSpecialReview;
     
     private InstitutionalProposalCustomDataFormHelper institutionalProposalCustomDataFormHelper;
     private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;
@@ -67,6 +80,9 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     public void initialize() {
         institutionalProposalCustomDataFormHelper = new InstitutionalProposalCustomDataFormHelper(this);
         institutionalProposalNotepadBean = new InstitutionalProposalNotepadBean(this);
+        
+        newInstitutionalProposalSpecialReview = new InstitutionalProposalSpecialReview();
+        newSpecialReviewExemptions = new ArrayList<InstitutionalProposalSpecialReviewExemption>();
     }
     
     // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
@@ -146,7 +162,41 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     public void setInstitutionalProposalNotepadBean(InstitutionalProposalNotepadBean institutionalProposalNotepadBean) {
         this.institutionalProposalNotepadBean = institutionalProposalNotepadBean;
     }
+    
+    
 
+
+    /**
+     * Gets the newInstitutionalProposalSpecialReview attribute. 
+     * @return Returns the newInstitutionalProposalSpecialReview.
+     */
+    public InstitutionalProposalSpecialReview getNewInstitutionalProposalSpecialReview() {
+        return newInstitutionalProposalSpecialReview;
+    }
+
+    /**
+     * Sets the newInstitutionalProposalSpecialReview attribute value.
+     * @param newInstitutionalProposalSpecialReview The newInstitutionalProposalSpecialReview to set.
+     */
+    public void setNewInstitutionalProposalSpecialReview(InstitutionalProposalSpecialReview newInstitutionalProposalSpecialReview) {
+        this.newInstitutionalProposalSpecialReview = newInstitutionalProposalSpecialReview;
+    }
+
+    /**
+     * Sets the newExemptionTypeCodes attribute value.
+     * @param newExemptionTypeCodes The newExemptionTypeCodes to set.
+     */
+    public void setNewExemptionTypeCodes(String[] newExemptionTypeCodes) {
+        this.newExemptionTypeCodes = newExemptionTypeCodes;
+    }
+
+    /**
+     * Sets the newSpecialReviewExemptions attribute value.
+     * @param newSpecialReviewExemptions The newSpecialReviewExemptions to set.
+     */
+    public void setNewSpecialReviewExemptions(List<InstitutionalProposalSpecialReviewExemption> newSpecialReviewExemptions) {
+        this.newSpecialReviewExemptions = newSpecialReviewExemptions;
+    }
 
     public String getActionName() {
         return "institutionalProposal";
@@ -186,6 +236,34 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     /** {@inheritDoc} */
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
+    }
+
+    /**
+     * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getNewExemptionTypeCodes()
+     */
+    public String[] getNewExemptionTypeCodes() {
+        return newExemptionTypeCodes;
+    }
+
+    /**
+     * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getNewSpecialReview()
+     */
+    public AbstractSpecialReview<InstitutionalProposalSpecialReviewExemption> getNewSpecialReview() {
+        return newInstitutionalProposalSpecialReview;
+    }
+
+    /**
+     * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getNewSpecialReviewExemptions()
+     */
+    public List<InstitutionalProposalSpecialReviewExemption> getNewSpecialReviewExemptions() {
+        return newSpecialReviewExemptions;
+    }
+
+    /**
+     * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getResearchDocument()
+     */
+    public ResearchDocumentBase getResearchDocument() {
+        return getInstitutionalProposalDocument();
     }
 
 }

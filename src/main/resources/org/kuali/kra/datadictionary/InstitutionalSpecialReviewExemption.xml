@@ -1,0 +1,142 @@
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="InstitutionalProposalSpecialReviewExemption" parent="InstitutionalProposalSpecialReviewExemption-parentBean" />
+	<bean id="InstitutionalProposalSpecialReviewExemption-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption" />
+		<property name="inquiryDefinition" >
+			<ref bean="InstitutionalProposalSpecialReviewExemption-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="InstitutionalProposalSpecialReviewExemption-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="institutionalProposalSpecialReviewExemptionId" />
+		<property name="attributes" >
+			<list>
+				<ref bean="InstitutionalProposalSpecialReviewExemption-institutionalProposalSpecialReviewExemptionId" />
+				<ref bean="InstitutionalProposalSpecialReviewExemption-exemptionTypeCode" />
+				<ref bean="InstitutionalProposalSpecialReviewExemption-versionNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="InstitutionalProposalSpecialReviewExemption-institutionalProposalSpecialReviewExemptionId" parent="InstitutionalProposalSpecialReviewExemption-institutionalProposalSpecialReviewExemptionId-parentBean" />
+	<bean id="InstitutionalProposalSpecialReviewExemption-institutionalProposalSpecialReviewExemptionId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="institutionalProposalSpecialReviewExemptionId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Institutional Proposal Exempt Number Id" />
+		<property name="shortLabel" value="Institutional Proposal Exempt Number Id" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Institutional Proposal Exempt Number Id" />
+		<property name="description" value="Institutional Proposal Exempt Number Id" />
+	</bean>
+
+	<bean id="InstitutionalProposalSpecialReviewExemption-exemptionTypeCode" parent="InstitutionalProposalSpecialReviewExemption-exemptionTypeCode-parentBean" />
+	<bean id="InstitutionalProposalSpecialReviewExemption-exemptionTypeCode-parentBean" abstract="true" parent="SpecialReviewExemptionReference-exemptionTypeCode" />
+	<!--<bean id="InstitutionalProposalSpecialReviewExemption-exemptionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="exemptionTypeCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Exemption #" />
+		<property name="shortLabel" value="Exemption #" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+	    <property name="required" value="true" />
+		<property name="control" >
+			<bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.bo.ExemptionType"
+	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
+	            p:keyAttribute="exemptionTypeCode"
+	            p:labelAttribute="description" />
+		</property>
+		<property name="summary" value="Exemption Type Code" />
+		<property name="description" value="Exemption Type Code" />
+	</bean>-->
+
+	<bean id="InstitutionalProposalSpecialReviewExemption-versionNumber" parent="InstitutionalProposalSpecialReviewExemption-versionNumber-parentBean" />
+	<bean id="InstitutionalProposalSpecialReviewExemption-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="InstitutionalProposalSpecialReviewExemption-inquiryDefinition" parent="InstitutionalProposalSpecialReviewExemption-inquiryDefinition-parentBean" />
+	<bean id="InstitutionalProposalSpecialReviewExemption-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Institutional Proposal Exempt Number Id" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Institutional Proposal Exempt Number Id" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="institutionalProposalSpecialReviewExemptionId" 
+								p:forceInquiry="true" />
+							<bean parent="FieldDefinition"
+								p:attributeName="exemptionTypeCode" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="InstitutionalProposalSpecialReviewExemption-lookupDefinition" parent="InstitutionalProposalSpecialReviewExemption-lookupDefinition-parentBean" />
+	<bean id="InstitutionalProposalSpecialReviewExemption-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Institutional Proposal Exempt Number Lookup" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="instructions" value="Look up a Institutional Proposal Exempt Number" />
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="institutionalProposalSpecialReviewExemptionId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="exemptionTypeCode" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="institutionalProposalSpecialReviewExemptionId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="exemptionTypeCode" />
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -15,165 +15,163 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
-import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.SpecialReview;
-import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.kra.bo.AbstractSpecialReview;
 
-public class InstitutionalProposalSpecialReview extends KraPersistableBusinessObjectBase { 
+public class InstitutionalProposalSpecialReview extends AbstractSpecialReview<InstitutionalProposalSpecialReviewExemption> { 
     
     private static final long serialVersionUID = 1L;
 
-    private Integer proposalSpecialReviewId; 
-    private Integer proposalId; 
+    private Long proposalSpecialReviewId; 
     private String proposalNumber; 
     private Integer sequenceNumber; 
-    private Integer specialReviewNumber; 
-    private String specialReviewCode; 
-    private String approvalTypeCode; 
-    private String protocolNumber; 
-    private Date applicationDate; 
-    private Date approvalDate; 
-    private String comments; 
-    
-    private SpecialReviewApprovalType specialReviewApprovalType; 
-    private SpecialReview specialReview; 
+
     private InstitutionalProposal institutionalProposal; 
     
     public InstitutionalProposalSpecialReview() { 
 
     } 
     
-    public Integer getProposalSpecialReviewId() {
+    public Long getProposalSpecialReviewId() {
         return proposalSpecialReviewId;
     }
 
-    public void setProposalSpecialReviewId(Integer proposalSpecialReviewId) {
+    public void setProposalSpecialReviewId(Long proposalSpecialReviewId) {
         this.proposalSpecialReviewId = proposalSpecialReviewId;
     }
 
-    public Integer getProposalId() {
-        return proposalId;
-    }
-
-    public void setProposalId(Integer proposalId) {
-        this.proposalId = proposalId;
-    }
-
-    public String getProposalNumber() {
-        return proposalNumber;
-    }
-
-    public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-
-    public Integer getSpecialReviewNumber() {
-        return specialReviewNumber;
-    }
-
-    public void setSpecialReviewNumber(Integer specialReviewNumber) {
-        this.specialReviewNumber = specialReviewNumber;
-    }
-
-    public String getSpecialReviewCode() {
-        return specialReviewCode;
-    }
-
-    public void setSpecialReviewCode(String specialReviewCode) {
-        this.specialReviewCode = specialReviewCode;
-    }
-
-    public String getApprovalTypeCode() {
-        return approvalTypeCode;
-    }
-
-    public void setApprovalTypeCode(String approvalTypeCode) {
-        this.approvalTypeCode = approvalTypeCode;
-    }
-
-    public String getProtocolNumber() {
-        return protocolNumber;
-    }
-
-    public void setProtocolNumber(String protocolNumber) {
-        this.protocolNumber = protocolNumber;
-    }
-
-    public Date getApplicationDate() {
-        return applicationDate;
-    }
-
-    public void setApplicationDate(Date applicationDate) {
-        this.applicationDate = applicationDate;
-    }
-
-    public Date getApprovalDate() {
-        return approvalDate;
-    }
-
-    public void setApprovalDate(Date approvalDate) {
-        this.approvalDate = approvalDate;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-    public SpecialReviewApprovalType getSpecialReviewApprovalType() {
-        return specialReviewApprovalType;
-    }
-
-    public void setSpecialReviewApprovalType(SpecialReviewApprovalType specialReviewApprovalType) {
-        this.specialReviewApprovalType = specialReviewApprovalType;
-    }
-
-    public SpecialReview getSpecialReview() {
-        return specialReview;
-    }
-
-    public void setSpecialReview(SpecialReview specialReview) {
-        this.specialReview = specialReview;
-    }
 
     public InstitutionalProposal getInstitutionalProposal() {
         return institutionalProposal;
     }
 
+    /**
+     * Sets the institutionalProposal attribute value.
+     * @param institutionalProposal The institutionalProposal to set.
+     */
     public void setInstitutionalProposal(InstitutionalProposal institutionalProposal) {
         this.institutionalProposal = institutionalProposal;
+        if(institutionalProposal != null) {
+            setSequenceNumber(institutionalProposal.getSequenceNumber());
+            setProposalNumber(institutionalProposal.getProposalNumber());
+        } else {
+            setSequenceNumber(0);
+            setProposalNumber("");
+        }
+    }
+    
+    /**
+     * Gets the proposalNumber attribute. 
+     * @return Returns the proposalNumber.
+     */
+    public String getProposalNumber() {
+        return proposalNumber;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Sets the proposalNumber attribute value.
+     * @param proposalNumber The proposalNumber to set.
+     */
+    public void setProposalNumber(String proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
+
+    /**
+     * Gets the sequenceNumber attribute. 
+     * @return Returns the sequenceNumber.
+     */
+    public Integer getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    /**
+     * Sets the sequenceNumber attribute value.
+     * @param sequenceNumber The sequenceNumber to set.
+     */
+    public void setSequenceNumber(Integer sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
+    @SuppressWarnings("unchecked")
     @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalSpecialReviewId", this.getProposalSpecialReviewId());
-        hashMap.put("proposalId", this.getProposalId());
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap hashMap = super.toStringMapper();
         hashMap.put("proposalNumber", this.getProposalNumber());
         hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("specialReviewNumber", this.getSpecialReviewNumber());
-        hashMap.put("specialReviewCode", this.getSpecialReviewCode());
-        hashMap.put("approvalTypeCode", this.getApprovalTypeCode());
-        hashMap.put("protocolNumber", this.getProtocolNumber());
-        hashMap.put("applicationDate", this.getApplicationDate());
-        hashMap.put("approvalDate", this.getApprovalDate());
-        hashMap.put("comments", this.getComments());
+        hashMap.put("institutionalProposal", this.getInstitutionalProposal());
         return hashMap;
     }
+    
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((institutionalProposal == null) ? 0 : institutionalProposal.hashCode());
+        result = prime * result + ((proposalNumber == null) ? 0 : proposalNumber.hashCode());
+        result = prime * result + ((proposalSpecialReviewId == null) ? 0 : proposalSpecialReviewId.hashCode());
+        result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        InstitutionalProposalSpecialReview other = (InstitutionalProposalSpecialReview) obj;
+        if (institutionalProposal == null) {
+            if (other.institutionalProposal != null)
+                return false;
+        }
+        else if (!institutionalProposal.equals(other.institutionalProposal))
+            return false;
+        if (proposalNumber == null) {
+            if (other.proposalNumber != null)
+                return false;
+        }
+        else if (!proposalNumber.equals(other.proposalNumber))
+            return false;
+        if (proposalSpecialReviewId == null) {
+            if (other.proposalSpecialReviewId != null)
+                return false;
+        }
+        else if (!proposalSpecialReviewId.equals(other.proposalSpecialReviewId))
+            return false;
+        if (sequenceNumber == null) {
+            if (other.sequenceNumber != null)
+                return false;
+        }
+        else if (!sequenceNumber.equals(other.sequenceNumber))
+            return false;
+        return true;
+    }
+
+    /**
+     * It creates new AwardSpecialReviewExemption instance
+     * @see org.kuali.kra.bo.AbstractSpecialReview#newSpecialReviewExemption(java.lang.String)
+     */
+    @Override
+    public InstitutionalProposalSpecialReviewExemption newSpecialReviewExemption(String exemptionTypeCode) {
+        InstitutionalProposalSpecialReviewExemption institutionalProposalSpecialReviewExemption = new InstitutionalProposalSpecialReviewExemption();
+        institutionalProposalSpecialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
+        institutionalProposalSpecialReviewExemption.setInstitutionalProposalSpecialReview(this);
+        return institutionalProposalSpecialReviewExemption;
+    }
+
+    @Override
+    public Long getSpecialReviewId() {
+        return proposalSpecialReviewId;
+    }
+
     
 }
