@@ -24,10 +24,12 @@ import java.util.List;
 
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.AwardType;
+import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
@@ -37,7 +39,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class InstitutionalProposal extends KraPersistableBusinessObjectBase { 
+public class InstitutionalProposal extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<InstitutionalProposalSpecialReview>{ 
     
     
     private static final long serialVersionUID = 1L;
@@ -95,7 +97,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     private InstitutionalProposalScienceKeyword proposalScienceKeyword; 
     private InstitutionalProposalCostSharing proposalCostSharing; 
     //private AwardFundingProposals awardFundingProposals; 
-    private InstitutionalProposalSpecialReview proposalSpecialReview; 
     private InstitutionalProposalPersonCreditSplit proposalPerCreditSplit; 
     private ProposalUnitCreditSplit proposalUnitCreditSplit; 
     private InstitutionalProposalUnitAdministrator institutionalProposalUnitAdministrator; 
@@ -104,6 +105,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     
     private List<InstitutionalProposalCustomData> institutionalProposalCustomDataList;
     private List<InstitutionalProposalNotepad> institutionalProposalNotepads;
+    private List<InstitutionalProposalSpecialReview> specialReviews;
 
     public InstitutionalProposal() { 
         super();
@@ -186,6 +188,22 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
          returnValue = returnValue.add(totalIndirectCostTotal);
          return returnValue;
      }
+      
+     /**
+      * Gets the specialReviews attribute. 
+      * @return Returns the specialReviews.
+      */
+     public List<InstitutionalProposalSpecialReview> getSpecialReviews() {
+         return specialReviews;
+     }
+
+     /**
+      * Sets the specialReviews attribute value.
+      * @param specialReviews The specialReviews to set.
+      */
+     public void setSpecialReviews(List<InstitutionalProposalSpecialReview> specialReviews) {
+         this.specialReviews = specialReviews;
+     }
     
     /**
      * Gets the institutionalProposalCustomDataList attribute. 
@@ -224,6 +242,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     protected void initializeCollections() {
         institutionalProposalCustomDataList = new ArrayList<InstitutionalProposalCustomData>();
         institutionalProposalNotepads = new ArrayList<InstitutionalProposalNotepad>();
+        specialReviews = new ArrayList<InstitutionalProposalSpecialReview>();
     }
     
     public Long getProposalId() {
@@ -636,14 +655,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
     }
     */
 
-    public InstitutionalProposalSpecialReview getProposalSpecialReview() {
-        return proposalSpecialReview;
-    }
-
-    public void setproposalSpecialReview(InstitutionalProposalSpecialReview proposalSpecialReview) {
-        this.proposalSpecialReview = proposalSpecialReview;
-    }
-
     public InstitutionalProposalPersonCreditSplit getProposalPerCreditSplit() {
         return proposalPerCreditSplit;
     }
@@ -760,6 +771,16 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase {
         hashMap.put("opportunity", this.getOpportunity());
         hashMap.put("awardTypeCode", this.getAwardTypeCode());
         return hashMap;
+    }
+
+    public void addSpecialReview(InstitutionalProposalSpecialReview specialReview) {
+        specialReview.setInstitutionalProposal(this);
+        getSpecialReviews().add(specialReview);
+        
+    }
+
+    public InstitutionalProposalSpecialReview getSpecialReview(int index) {
+        return getSpecialReviews().get(index);
     }
     
 }
