@@ -365,6 +365,31 @@
         return false;
       });
 
+// shared function
+    $("#nextGroup").click(function() {
+        $(".group"+curgroup).hide();
+        if (curgroup++ == groupid) {
+            curgroup = 0;
+        } 
+        $(".group"+curgroup).show();
+       // alert($(".group"+curgroup+":eq(0)").attr("id"));
+         $("#listcontrol"+$(".group"+curgroup+":eq(0)").attr("id").substring(8)).click();  
+        jumpToAnchor('topOfForm');
+        return false;
+
+    });
+
+    $("#backToTop").click(function() {
+        $(".group"+curgroup).hide();
+            curgroup = 0;
+        $(".group"+curgroup).show();
+       // alert($(".group"+curgroup+":eq(0)").attr("id"));
+         $("#listcontrol"+$(".group"+curgroup+":eq(0)").attr("id").substring(8)).click();  
+        jumpToAnchor('topOfForm');
+        return false;
+
+    });
+
    
     </script>
     
