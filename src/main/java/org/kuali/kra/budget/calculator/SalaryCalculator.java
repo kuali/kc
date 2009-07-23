@@ -75,7 +75,7 @@ public class SalaryCalculator {
         warningList = new ArrayList<String>();
     }
     
-    protected void init() {
+    {
         this.dateTimeService = KraServiceLocator.getService(DateTimeService.class);
     }
 
