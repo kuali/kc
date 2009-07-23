@@ -41,6 +41,7 @@
                 <ref bean="InstitutionalProposalSpecialReview-protocolNumber" />
                 <ref bean="InstitutionalProposalSpecialReview-applicationDate" />
                 <ref bean="InstitutionalProposalSpecialReview-approvalDate" />
+                <ref bean="InstitutionalProposalSpecialReview-expirationDate" />
                 <ref bean="InstitutionalProposalSpecialReview-comments" />
                 <ref bean="InstitutionalProposalSpecialReview-versionNumber" />
             </list>
@@ -122,113 +123,31 @@
     </bean>
 
     <bean id="InstitutionalProposalSpecialReview-specialReviewNumber" parent="InstitutionalProposalSpecialReview-specialReviewNumber-parentBean" />
-    <bean id="InstitutionalProposalSpecialReview-specialReviewNumber-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="specialReviewNumber" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Special Review Number" />
-        <property name="shortLabel" value="Special Review Number" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Special Review Number" />
-        <property name="description" value="Special Review Number" />
-    </bean>
+	<bean id="InstitutionalProposalSpecialReview-specialReviewNumber-parentBean" abstract="true" parent="SpecialReviewReference-specialReviewNumber-parentBean">
+	</bean>
+	<bean id="InstitutionalProposalSpecialReview-specialReviewCode" parent="InstitutionalProposalSpecialReview-specialReviewCode-parentBean" />
+	<bean id="InstitutionalProposalSpecialReview-specialReviewCode-parentBean" abstract="true" parent="SpecialReviewReference-specialReviewCode">
+	</bean>
+	<bean id="InstitutionalProposalSpecialReview-approvalTypeCode" parent="InstitutionalProposalSpecialReview-approvalTypeCode-parentBean" />
+	<bean id="InstitutionalProposalSpecialReview-approvalTypeCode-parentBean" abstract="true" parent="SpecialReviewReference-approvalTypeCode" />
 
-    <bean id="InstitutionalProposalSpecialReview-specialReviewCode" parent="InstitutionalProposalSpecialReview-specialReviewCode-parentBean" />
-    <bean id="InstitutionalProposalSpecialReview-specialReviewCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="specialReviewCode" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Special Review Code" />
-        <property name="shortLabel" value="Special Review Code" />
-        <property name="maxLength" value="3" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="5" />
-        </property>
-        <property name="summary" value="Special Review Code" />
-        <property name="description" value="Special Review Code" />
-    </bean>
+	<bean id="InstitutionalProposalSpecialReview-protocolNumber" parent="InstitutionalProposalSpecialReview-protocolNumber-parentBean" />
+	<bean id="InstitutionalProposalSpecialReview-protocolNumber-parentBean" abstract="true" parent="SpecialReviewReference-protocolNumber" />
 
-    <bean id="InstitutionalProposalSpecialReview-approvalTypeCode" parent="InstitutionalProposalSpecialReview-approvalTypeCode-parentBean" />
-    <bean id="InstitutionalProposalSpecialReview-approvalTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="approvalTypeCode" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Approval Type Code" />
-        <property name="shortLabel" value="Approval Type Code" />
-        <property name="maxLength" value="3" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="5" />
-        </property>
-        <property name="summary" value="Approval Type Code" />
-        <property name="description" value="Approval Type Code" />
-    </bean>
+	<bean id="InstitutionalProposalSpecialReview-applicationDate" parent="InstitutionalProposalSpecialReview-applicationDate-parentBean" />
+	<bean id="InstitutionalProposalSpecialReview-applicationDate-parentBean" abstract="true" parent="SpecialReviewReference-applicationDate" />
 
-    <bean id="InstitutionalProposalSpecialReview-protocolNumber" parent="InstitutionalProposalSpecialReview-protocolNumber-parentBean" />
-    <bean id="InstitutionalProposalSpecialReview-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="protocolNumber" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Protocol Number" />
-        <property name="shortLabel" value="Protocol Number" />
-        <property name="maxLength" value="20" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Protocol Number" />
-        <property name="description" value="Protocol Number" />
-    </bean>
+	<bean id="InstitutionalProposalSpecialReview-approvalDate" parent="InstitutionalProposalSpecialReview-approvalDate-parentBean" />
+	<bean id="InstitutionalProposalSpecialReview-approvalDate-parentBean" abstract="true" parent="SpecialReviewReference-approvalDate" />
 
-    <bean id="InstitutionalProposalSpecialReview-applicationDate" parent="InstitutionalProposalSpecialReview-applicationDate-parentBean" />
-    <bean id="InstitutionalProposalSpecialReview-applicationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-        <property name="name" value="applicationDate" />
-        <property name="label" value="Application Date" />
-        <property name="shortLabel" value="Application Date" />
-        <property name="summary" value="Application Date" />
-        <property name="description" value="Application Date" />
-    </bean>
+	<bean id="InstitutionalProposalSpecialReview-expirationDate" parent="InstitutionalProposalSpecialReview-expirationDate-parentBean" />
+	<bean id="InstitutionalProposalSpecialReview-expirationDate-parentBean" abstract="true" parent="SpecialReviewReference-expirationDate" />
 
-    <bean id="InstitutionalProposalSpecialReview-approvalDate" parent="InstitutionalProposalSpecialReview-approvalDate-parentBean" />
-    <bean id="InstitutionalProposalSpecialReview-approvalDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-        <property name="name" value="approvalDate" />
-        <property name="label" value="Approval Date" />
-        <property name="shortLabel" value="Approval Date" />
-        <property name="summary" value="Approval Date" />
-        <property name="description" value="Approval Date" />
-    </bean>
+	<bean id="InstitutionalProposalSpecialReview-comments" parent="InstitutionalProposalSpecialReview-comments-parentBean" />
+	<bean id="InstitutionalProposalSpecialReview-comments-parentBean" abstract="true" parent="SpecialReviewReference-comments" />
 
-    <bean id="InstitutionalProposalSpecialReview-comments" parent="InstitutionalProposalSpecialReview-comments-parentBean" />
-    <bean id="InstitutionalProposalSpecialReview-comments-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="comments" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Comments" />
-        <property name="shortLabel" value="Comments" />
-        <property name="maxLength" value="4000" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="3"
-                p:cols="20" />
-        </property>
-        <property name="summary" value="Comments" />
-        <property name="description" value="Comments" />
-    </bean>
+	<bean id="InstitutionalProposalSpecialReview-specialReviewExemptions" parent="InstitutionalProposalSpecialReview-specialReviewExemptions-parentBean" />
+	<bean id="InstitutionalProposalSpecialReview-specialReviewExemptions-parentBean" abstract="true" parent="SpecialReviewReference-specialReviewExemptions" />
 
     <bean id="InstitutionalProposalSpecialReview-versionNumber" parent="InstitutionalProposalSpecialReview-versionNumber-parentBean" />
     <bean id="InstitutionalProposalSpecialReview-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
