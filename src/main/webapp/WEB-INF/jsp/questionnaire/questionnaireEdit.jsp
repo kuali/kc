@@ -43,10 +43,11 @@
 
     <a name="topOfForm"></a>
 
+<%--
    <div id = "loading">
       <a href="#"><img src="static/images/jquery/ajax-loader.gif" /></a>
    </div> 
-
+--%>
     <div align="center" style="margin:10px">
     <kul:tabTop defaultOpen="true" tabTitle="Questionnaire" tabErrorKey="questionnaire*">
         <kra-questionnaire:questionnaireCore />
@@ -247,65 +248,6 @@
          return false;
      });
 
-      $("#addRootQn").click(function() {
-            i++;
-            var listitem = getQuestionNew($("#newqdesc0").attr("value"),$("#newqtypeid0").attr("value"), "V1.01", "false");
-			var ultag = $('<ul></ul>');
-            ultag.appendTo(listitem);
-            var idx = listitem.attr("id").substring(8);
-
-              listitem.appendTo('#example');
-              //listitem.appendTo('ul#example');
-              // last one no 'move dn'
-                 $("#movedn"+idx).hide();
-                 if ($("#example").children('li').size() == 1) {
-                     // TODO : the first one
-                      $("#moveup"+idx).hide();
-                 }
-                 
-                 if (listitem.prev().size() > 0) {
-                    $("#movedn"+listitem.prev().attr("id").substring(8)).show();
-                 }
-        
-        // also need this to show 'folder' icon
-        $('#example').treeview({
-           add: listitem
-        });
-
-        //var intag = $('<input type ="text"></input>').attr("value",$("#newQuestionId").attr("value").trim());
-       // var name = "document\.newMaintainableObject\.businessObject\.questionnaireQuestions["+j+"]\.questionId";
-        //intag.attr("id",name).attr("name",name);
-       // j++;
-        //var trtmp1 = $('<tr></tr>');
-       // var tdtmp1 = $('<td></td>').html(intag);
-        //trtmp1.html(tdtmp1);
-        //trtmp1.appendTo($("#question-table"));
-        // TODO : set up for insert 
-        /* questionnairenumber from #questionnairenumber
-         * questionId from #qid
-         * sequenceNumber from $(this).parents('li:eq(0)').siblings().size() ?
-         */
-       // $(listitem).parents('ul:eq(0)').parents('li:eq(0)').size() == 0 : check whetehr it is at the top level
-            parentNum = 0;
-       // alert("questionnairenumber "+$("#questionNumber").attr("value")+" qid "+$("#qid"+$(this).attr("id").substring(5)).attr("value"));
-        $("#qnum"+$(listitem).attr("id").substring(8)).attr("value",$("#questionNumber").attr("value"));
-       // alert("parents li "+$(this).attr("id").substring(5)+" "+$("#qnum"+$(this).attr("id").substring(5)).attr("value"));
-        var qid = $("#newqid0").attr("value");
-        $("#qid"+$(listitem).attr("id").substring(8)).attr("value",qid);
-
-      // set up qdesc & qtypeid                                                   
-      //$("#qdesc"+$(listitem).attr("id").substring(8)).attr("value",$("#newqdesc0").attr("value"));
-     // $("#qtypeid"+$(listitem).attr("id").substring(8)).attr("value",$("#newqtypeid0").attr("value"));
-
-        var seqnum = Number($(listitem).siblings().size())+1;
-        $("#qseq"+$(listitem).attr("id").substring(8)).attr("value",seqnum);
-        var qnum = $("#questionNumber").attr("value");
-        var insertValues = "insert into Q"+qid +","+qnum+","+ parentNum+",'N','','',"+seqnum+",user,sysdate)"
-        addSqlScripts(insertValues);
-        $("#questionNumber").attr("value",Number($("#questionNumber").attr("value"))+1)
-        return false;
-      });
- 
    
    // -- end should be shared
    
@@ -314,8 +256,8 @@
      // TODO : if edit data has '"', then it getElementById will only reach the character before '"'
      // Question 1067 description has '"', and this is also probably why 
      // it only saved up 1067.  total selected is 54, but only saved to q 43.
-          $('<span id="msg"/>').css("color","red").html("loading... please wait").appendTo($("#loading"));
-          $("#loading").show();  // not showing up ?
+          //$('<span id="msg"/>').css("color","red").html("loading... please wait").appendTo($("#loading"));
+          //$("#loading").show();  // not showing up ?
           //$("#loading").show();  // if there is an alert
     jumpToAnchor('topOfForm');
 		var editdata = document.getElementById("editData").value;
@@ -326,13 +268,13 @@
    		//alert (retdata+"-"+dataarray[0]);
         var questions = dataarray[0].split("#q#");
         // qqid/qid/seq/desc/qtypeid/qnum/cond/value
-        var parentnum = 0;
+        //var parentnum = 0;
         var parentidx = 0;
 
   loadQuestion();
-  if (questions.length > loadcount) {
-      loadIntervalId = setInterval ( "loadQuestion()", 5000 );
-  }
+  //if (questions.length > loadcount) {
+  //    loadIntervalId = setInterval ( "loadQuestion()", 5000 );
+  //}
 
         
            
@@ -355,8 +297,13 @@
             var ischild='false';
             if (parentnum == 0) {
               parenturl = $('#example');
+              parentidx=i;
               
             } else {
+               if (field[2] == 1) {
+                  parentidx = i -1;
+                  alert("set parentidx"+parentidx);
+               }
                parenturl = $("#qnaireid"+parentidx).children('ul:eq(0)');
               ischild='true';
             }  
@@ -469,9 +416,9 @@
             thtmp = $('<th class="infoline"/>').html(ucount);
             thtmp.appendTo(trtmp); 
             //tdtmp = $('<td align="left" valign="middle">').html(field[1]);
-        tdtmp = $('<td align="left" valign="middle">').html(moduleCodes[field[1]]);
-        modulecode = $('<input type="hidden"/>').attr("value",field[1]);
-        modulecode.prependTo(tdtmp);
+        var tdtmp = $('<td align="left" valign="middle">').html(moduleCodes[field[1]]);
+        var modulecode = $('<input type="hidden"/>').attr("value",field[1]);
+        modulecode.appendTo(tdtmp);
             tdtmp.appendTo(trtmp);
             tdtmp = $('<td align="left" valign="middle">').html(field[2]);
             tdtmp.appendTo(trtmp);
@@ -504,39 +451,67 @@
    
    
    function loadQuestion() {
-   
+   //alert("loadnodes");
      if (loadcomplete == 'true') {
       loadcomplete='false';
-      if (questions.length > loadcount) {
+      var qlen = questions.length;
+      if (qlen > loadcount) {
         var endidx=loadcount+20;
-        if (endidx > questions.length) {
-            endidx = questions.length;
-        } else if (endidx == 20 && questions.length > 40) {
+        if (endidx > qlen) {
+            endidx = qlen;
+        } else if (endidx == 20 && qlen > 40) {
            endidx = 40; 
         }
-   	    for (var k=loadcount ; k < endidx;  k++) {
-	        if (questions[k].indexOf("parent-") == 0) {
-	           parentnum = questions[k].substring(7);
-	           for (l = 1 ; l <= k+1; l++) {
-	              if ($("#qnum"+l).attr("value")) {
-	                 if ($("#qnum"+l).attr("value") == parentnum) {
-	                    parentidx = l;
-	                 }
-	              }
-	           }
+        var rootidx;
+        var pnum0 = 0;
+        var nodecount = 0;
+   	    //for (var k=loadcount ; k < endidx;  k++) {
+   	    k = loadcount+nodecount;
+   	    while (k < qlen) {
+   	        var curq = questions[k++];
+              //alert("parent 0 "+k+"-"+curq+pnum0+"-"+nodecount+"-"+qlen);
+	        if (curq.indexOf("parent-") == 0) {
+	           //parentnum = curq.substring(7);
+	           //for (var l = 1 ; l <= k+1; l++) {
+	           //   if ($("#qnum"+l).attr("value")) {
+	           //      if ($("#qnum"+l).attr("value") == parentnum) {
+	           //         parentidx = l;
+	            //     }
+	            //  }
+	           //}
 	        } else {
 	        
-	        field = questions[k].split("#f#");
+	        var field = curq.split("#f#");
+	        var parentnum = field[8];
             i++;
             var parenturl;
             var ischild='false';
             if (parentnum == 0) {
+             // if ((pnum0 == 20 && loadcount != 0) || (loadcount == 0 && pnum0 == 40)) {
+             //   //alert("break");
+             //    break;
+             // }   
               parenturl = $('#example');
+              pnum0++;
+              rootidx=i;
+             // alert("parent 0 "+pnum0+"-"+nodecount);
               
             } else {
+               if (field[2] == 1) { // the first children
+                  parentidx=i-1;
+               } else {
+	              for (var l = rootidx ; l <= i-1; l++) {
+	                 if ($("#qnum"+l).attr("value")) {
+	                    if ($("#qnum"+l).attr("value") == parentnum) {
+	                       parentidx = l;
+	                    }
+	                 }
+	              }
+               }
                parenturl = $("#qnaireid"+parentidx).children('ul:eq(0)');
               ischild='true';
             }  
+            nodecount++;
             var listitem = getQuestionNew(field[3],field[4], "V1.01", ischild);
 			var ultag = $('<ul></ul>');
             ultag.appendTo(listitem);
@@ -593,26 +568,29 @@
          */
             
        // alert("questionnairenumber "+$("#questionNumber").attr("value")+" qid "+$("#qid"+$(this).attr("id").substring(5)).attr("value"));
-        $("#qnum"+$(listitem).attr("id").substring(8)).attr("value",field[5]);
-        $("#qid"+$(listitem).attr("id").substring(8)).attr("value",field[1]);
-        $("#qseq"+$(listitem).attr("id").substring(8)).attr("value",field[2]);
+        if (i < 4) {
+           alert("node "+idx+"-"+field[3]);
+        }
+        $("#qnum"+idx).attr("value",field[5]);
+        $("#qid"+idx).attr("value",field[1]);
+        $("#qseq"+idx).attr("value",field[2]);
 	          // set up qdesc & qtypeid                                                   
-      $("#qdesc"+$(listitem).attr("id").substring(8)).attr("value",field[3]);
-      $("#qtypeid"+$(listitem).attr("id").substring(8)).attr("value",field[4]);
+      $("#qdesc"+idx).attr("value",field[3]);
+      $("#qtypeid"+idx).attr("value",field[4]);
 	    
 	     } // end if-then-else
 	    } // end for to set up questions
-	    loadcount=endidx;
+	    loadcount=loadcount+nodecount;
     } else {
        alert("load is done "+loadcount);
        clearInterval(loadIntervalId);
     }// end if
-    if (loadcount == 20) {
+    if (loadcount == 40) {
     	  // TODO : only the first question is expanded
 	  $("#listcontrol"+firstidx).click();  
 	  $("#listcontrol"+firstidx).click();  
     
-    }
+    } // end for
       loadcomplete='true';
     }// if loadcomplete
    
@@ -620,7 +598,7 @@
    
    
      // hide loading image
-          $("#loading").hide();
+          //$("#loading").hide();
    
     </script>
     
