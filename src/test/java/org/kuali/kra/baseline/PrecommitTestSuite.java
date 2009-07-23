@@ -35,7 +35,7 @@ import org.kuali.kra.test.OjbRepositoryMappingTest;
 @SuiteClasses(  {
                 BaseLineAppStartTest.class,
                 AwardHomeWebTest.class,
-                //BudgetSummaryWebTest.class,
+                BudgetSummaryWebTest.class,
                 CommitteeWebTest.class,
                 OjbRepositoryMappingTest.class,
                 ProtocolRequiredFieldsWebTest.class
