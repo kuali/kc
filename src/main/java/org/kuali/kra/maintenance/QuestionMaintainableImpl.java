@@ -22,11 +22,22 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
 
+/**
+ * This class customizes the maintainable class for the question maintenance document.
+ */
 public class QuestionMaintainableImpl extends KraMaintainableImpl {
+    
+    private static final long serialVersionUID = 713068582185818373L;
+
+    /**
+     * Normally the parent method builds the maintenance sections from the data dictionary.  But since
+     * we want full control over the screen layout we disable the automatic build by overriding the
+     * method and returning an empty list of sections.
+     *
+     * @see org.kuali.kra.maintenance.KraMaintainableImpl#getSections(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kns.maintenance.Maintainable)
+     */
     @Override
-    public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
-        // TODO Auto-generated method stub
-        //return super.getSections(document, oldMaintainable);
+    public List<Section> getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         return new ArrayList<Section>();
     }
 

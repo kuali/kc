@@ -16,6 +16,12 @@
 
 package org.kuali.kra.infrastructure;
 
+import java.util.List;
+
+import org.kuali.kra.questionnaire.question.QuestionCategory;
+import org.kuali.kra.questionnaire.question.QuestionExplanation;
+import org.kuali.kra.questionnaire.question.QuestionType;
+
 public interface Constants {
     
     // This is a meaningless comment to test the merge.  I should still be here post-merge.
@@ -468,6 +474,20 @@ public interface Constants {
     public static final String QUESTION_EXPLANATION = "E";
     public static final String QUESTION_POLICY = "P";
     public static final String QUESTION_REGULATION = "R";
+    
+    public static final int QUESTION_RESPONSE_TYPE_YES_NO = 1;
+    public static final int QUESTION_RESPONSE_TYPE_YES_NO_NA = 2;
+    public static final int QUESTION_RESPONSE_TYPE_NUMBER = 3;
+    public static final int QUESTION_RESPONSE_TYPE_DATE = 4;
+    public static final int QUESTION_RESPONSE_TYPE_TEXT = 5;
+    public static final int QUESTION_RESPONSE_TYPE_LOOKUP = 6;
+    
+    public static final String QUESTION_DOCUMENT_FIELD_QUESTION_TYPE_ID = "document.newMaintainableObject.businessObject.questionTypeId";
+    public static final String QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS = "document.newMaintainableObject.businessObject.displayedAnswers";
+    public static final String QUESTION_DOCUMENT_FIELD_ANSWER_MAX_LENGTH = "document.newMaintainableObject.businessObject.answerMaxLength";
+    public static final String QUESTION_DOCUMENT_FIELD_MAX_ANSWERS = "document.newMaintainableObject.businessObject.maxAnswers";
+    public static final String QUESTION_DOCUMENT_FIELD_LOOKUP_GUI = "document.newMaintainableObject.businessObject.lookupGui";
+    public static final String QUESTION_DOCUMENT_FIELD_LOOKUP_NAME = "document.newMaintainableObject.businessObject.lookupName";
     
     //Institutional Proposal Audit Rules 
     public static final String GRADUATE_STUDENT_PANEL_ANCHOR = "GraduateStudent";

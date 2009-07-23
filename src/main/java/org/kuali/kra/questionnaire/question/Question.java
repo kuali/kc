@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 
@@ -45,13 +46,12 @@ public class Question extends KraPersistableBusinessObjectBase {
     
     public Question() { 
         this.setQuestionExplanations(new ArrayList<QuestionExplanation>());
+        this.displayedAnswers = 0;
+        this.answerMaxLength = 0;
+        this.maxAnswers = 0;
 
-        
-        //initialize fields since they can not be null and they are not being displayed
-        //in the gui yet.
-        maxAnswers = 0;
-        displayedAnswers = 0;
-        validAnswer = "x";
+        // TODO: cniesen - this field isn't used ... can we remove it?
+        this.validAnswer = "x";
     } 
 
     public Integer getQuestionId() {
@@ -87,7 +87,11 @@ public class Question extends KraPersistableBusinessObjectBase {
     }
 
     public Integer getMaxAnswers() {
-        return maxAnswers;
+        if (ObjectUtils.equals(maxAnswers, 0)) {
+            return null;
+        }else {
+            return maxAnswers;
+        }
     }
 
     public void setMaxAnswers(Integer maxAnswers) {
@@ -99,7 +103,11 @@ public class Question extends KraPersistableBusinessObjectBase {
     }
 
     public Integer getDisplayedAnswers() {
-        return displayedAnswers;
+        if (ObjectUtils.equals(displayedAnswers, 0)) {
+            return null;
+        }else {
+            return displayedAnswers;
+        }
     }
 
     public String getValidAnswer() {
@@ -127,7 +135,11 @@ public class Question extends KraPersistableBusinessObjectBase {
     }
 
     public Integer getAnswerMaxLength() {
-        return answerMaxLength;
+        if (ObjectUtils.equals(answerMaxLength, 0)) {
+            return null;
+        }else {
+            return answerMaxLength;
+        }
     }
 
     public void setAnswerMaxLength(Integer answerMaxLength) {

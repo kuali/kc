@@ -41,6 +41,7 @@
             </list>
         </property>
         <property name="documentTypeName" value="QuestionMaintenanceDocument" />
+        <property name="businessRulesClass" value="org.kuali.kra.questionnaire.question.QuestionMaintenanceDocumentRule" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
         <property name="additionalSectionsFile" value="/WEB-INF/jsp/questionnaire/questionManager.jsp" />
         <property name="webScriptFiles">
@@ -72,19 +73,15 @@
                     p:name="categoryTypeCode"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="maxAnswers"
-                    p:required="true" />
+                    p:name="maxAnswers" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="displayedAnswers"
-                    p:required="true" />
+                    p:name="displayedAnswers" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="validAnswer"
-                    p:required="true" />
+                    p:name="validAnswer" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="lookupName" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="questionTypeId"
-                    p:required="true" />
+                    p:name="questionTypeId" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="answerMaxLength" />
                 <bean parent="MaintainableFieldDefinition"

@@ -15,6 +15,9 @@
 --%>
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+<c:set var="readOnly" value="false"  scope="request"/>
+
 <kul:tab tabTitle="Question Manager" 
          defaultOpen="true" 
          useCurrentTabIndexAsKey="true"
