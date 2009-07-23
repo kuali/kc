@@ -106,6 +106,12 @@
 			<include method="getReviewers" />
 			<include method="getReviewerTypes" />
 		</create>
+		
+		<create creator="spring" javascript="BudgetService">
+			<param name="beanName" value="budgetService" />
+			<include method="getApplicableCostElementsForAjaxCall" />
+		</create>
+		
 		<create creator="spring" javascript="ArgValueLookupService">
             <param name="beanName" value="argValueLookupService" />
             <include method="getArgumentNames" />
