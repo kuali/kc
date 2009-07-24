@@ -17,62 +17,38 @@ package org.kuali.kra.institutionalproposal.home;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.UnitAdministratorType;
+import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 
-public class InstitutionalProposalUnitAdministrator extends KraPersistableBusinessObjectBase { 
+public class InstitutionalProposalUnitAdministrator extends InstitutionalProposalAssociate { 
     
     private static final long serialVersionUID = 1L;
 
-    private Integer proposalUnitAdministratorsId; 
-    private Integer proposalId; 
-    private String proposalNumber; 
-    private Integer sequenceNumber; 
-    private Integer unitAdministratorTypeCode; 
+    private Long proposalUnitAdministratorsId; 
+    private String unitAdministratorTypeCode; 
     private String administrator; 
     
-    private InstitutionalProposal institutionalProposal; 
+    private UnitAdministratorType unitAdministratorType;
+    private Person person;
     
     public InstitutionalProposalUnitAdministrator() { 
 
     } 
     
-    public Integer getProposalUnitAdministratorsId() {
+    public Long getProposalUnitAdministratorsId() {
         return proposalUnitAdministratorsId;
     }
 
-    public void setProposalUnitAdministratorsId(Integer proposalUnitAdministratorsId) {
+    public void setProposalUnitAdministratorsId(Long proposalUnitAdministratorsId) {
         this.proposalUnitAdministratorsId = proposalUnitAdministratorsId;
     }
 
-    public Integer getProposalId() {
-        return proposalId;
-    }
-
-    public void setProposalId(Integer proposalId) {
-        this.proposalId = proposalId;
-    }
-
-    public String getProposalNumber() {
-        return proposalNumber;
-    }
-
-    public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-
-    public Integer getUnitAdministratorTypeCode() {
+    public String getUnitAdministratorTypeCode() {
         return unitAdministratorTypeCode;
     }
 
-    public void setUnitAdministratorTypeCode(Integer unitAdministratorTypeCode) {
+    public void setUnitAdministratorTypeCode(String unitAdministratorTypeCode) {
         this.unitAdministratorTypeCode = unitAdministratorTypeCode;
     }
 
@@ -82,14 +58,38 @@ public class InstitutionalProposalUnitAdministrator extends KraPersistableBusine
 
     public void setAdministrator(String administrator) {
         this.administrator = administrator;
+    }  
+
+    /**
+     * Gets the unitAdministratorType attribute. 
+     * @return Returns the unitAdministratorType.
+     */
+    public UnitAdministratorType getUnitAdministratorType() {
+        return unitAdministratorType;
     }
 
-    public InstitutionalProposal getInstitutionalProposal() {
-        return institutionalProposal;
+    /**
+     * Sets the unitAdministratorType attribute value.
+     * @param unitAdministratorType The unitAdministratorType to set.
+     */
+    public void setUnitAdministratorType(UnitAdministratorType unitAdministratorType) {
+        this.unitAdministratorType = unitAdministratorType;
     }
 
-    public void setInstitutionalProposal(InstitutionalProposal institutionalProposal) {
-        this.institutionalProposal = institutionalProposal;
+    /**
+     * Gets the person attribute. 
+     * @return Returns the person.
+     */
+    public Person getPerson() {
+        return person;
+    }
+
+    /**
+     * Sets the person attribute value.
+     * @param person The person to set.
+     */
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     /** {@inheritDoc} */
@@ -97,9 +97,6 @@ public class InstitutionalProposalUnitAdministrator extends KraPersistableBusine
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("proposalUnitAdministratorsId", this.getProposalUnitAdministratorsId());
-        hashMap.put("proposalId", this.getProposalId());
-        hashMap.put("proposalNumber", this.getProposalNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
         hashMap.put("unitAdministratorTypeCode", this.getUnitAdministratorTypeCode());
         hashMap.put("administrator", this.getAdministrator());
         return hashMap;
