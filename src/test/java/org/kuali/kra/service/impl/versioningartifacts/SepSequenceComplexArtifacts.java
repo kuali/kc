@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
@@ -30,7 +30,7 @@ import org.kuali.kra.SequenceOwner;
  * 
  * This object structure looks like the following:
  * 
- * AttachmentOwner --1:M--> AttachmentMetaDataOwner --1:M--> AttachmentMetaDataAssoc
+ * AttachmentOwner --1:M--> AttachmentMetaDataOwner --M:1--> AttachmentMetaDataAssoc
  *                                                 \--M:1--> AttachmentLargeData
  *
  */
@@ -58,7 +58,7 @@ public class SepSequenceComplexArtifacts {
         
         @Override
         public String toString() {
-            return ReflectionToStringBuilder.toString(this);
+            return new ToStringBuilder(this).append("id", id).append("sequenceNumber", sequenceNumber).append("attachments", attachments).toString();
         }
     }
     
@@ -94,7 +94,7 @@ public class SepSequenceComplexArtifacts {
         
         @Override
         public String toString() {
-            return ReflectionToStringBuilder.toString(this);
+            return new ToStringBuilder(this).append("id", id).append("sequenceNumber", sequenceNumber).append("assoc", assoc).append("data", data).toString();
         }
     }
     
@@ -116,7 +116,7 @@ public class SepSequenceComplexArtifacts {
         
         @Override
         public String toString() {
-            return ReflectionToStringBuilder.toString(this);
+            return new ToStringBuilder(this).append("id", id).toString();
         }
     }
     
@@ -142,7 +142,7 @@ public class SepSequenceComplexArtifacts {
         
         @Override
         public String toString() {
-            return ReflectionToStringBuilder.toString(this);
+            return new ToStringBuilder(this).append("id", id).toString();
         }
     }
 }
