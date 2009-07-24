@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -32,11 +31,11 @@ import org.kuali.rice.kns.service.DocumentService;
 /**
  * Class used for versioning protocol attachments.
  */
-public class ProtocolAttachmentVersioningUtility implements Serializable {
+public class ProtocolAttachmentVersioningUtility {
 
-    private final transient ProtocolAttachmentService notesService;
-    private final transient VersioningService versionService;
-    private final transient DocumentService docService;
+    private final ProtocolAttachmentService notesService;
+    private final VersioningService versionService;
+    private final DocumentService docService;
     
     private final ProtocolForm form;
     private ProtocolDocument newDocumentVersion;
@@ -150,7 +149,7 @@ public class ProtocolAttachmentVersioningUtility implements Serializable {
         
         final ProtocolAttachmentBase newVersion = this.createAttachmentVersionOnNewDocumentVersion(toDelete);
         //FIXME: temp until I figure out how to display deletes
-        newVersion.getFile().setName("NEW VERSION - " + newVersion.getFile().getName());
+        newVersion.getFile().setName("DELETED VERSION - " + newVersion.getFile().getName());
         this.saveVersionedDocument();
         
         this.finishVersionProcessing();
