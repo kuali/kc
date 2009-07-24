@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.questionnaire.Questionnaire;
 
 /**
  * Holds additional information related to a series of {@link Answer Answers}.
@@ -33,7 +34,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     private Integer moduleSubItemCode; 
     private String moduleSubItemKey;
     private Integer questionnaireId;
-    //private Questionnaire questionnaire 
+    private Questionnaire questionnaire; 
     private boolean completed; 
     
     private List<Answer> answers; 
@@ -118,21 +119,21 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
         this.questionnaireId = questionnaireId;
     }
 
-//    /**
-//     * Gets the questionnaire attribute. 
-//     * @return Returns the questionnaire.
-//     */
-//    public Questionnaire getQuestionnaire() {
-//        return questionnaire;
-//    }
-//
-//    /**
-//     * Sets the questionnaire attribute value.
-//     * @param questionnaire The questionnaire to set.
-//     */
-//    public void setQuestionnaire(Questionnaire questionnaire) {
-//        this.questionnaire = questionnaire;
-//    }
+    /**
+     * Gets the questionnaire attribute. 
+     * @return Returns the questionnaire.
+     */
+    public Questionnaire getQuestionnaire() {
+        return questionnaire;
+    }
+
+    /**
+     * Sets the questionnaire attribute value.
+     * @param questionnaire The questionnaire to set.
+     */
+    public void setQuestionnaire(Questionnaire questionnaire) {
+        this.questionnaire = questionnaire;
+    }
 
     /**
      * Gets the questionnaireCompletionId attribute. 
