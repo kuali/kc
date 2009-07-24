@@ -15,7 +15,7 @@ function getQuestionNew(description, qtypeid, vers, childNode) {
 		if ($(this).parents('div:eq(0)').children('div:eq(0)').size() == 0) {
 		    var idx = $(this).attr("id").substring(11);
             var vers = "1.00";
-		    alert("set up table "+idx);
+		    //alert("set up table "+idx);
 		    var divtmp = getMaintTable(idx, vers, childNode);
 		    divtmp.appendTo($(this).parents('div:eq(0)'));
 		}	
@@ -32,9 +32,9 @@ function getQuestionNew(description, qtypeid, vers, childNode) {
 	$("#qdesc" + i).attr("value", description);
 	$("#qtypeid" + i).attr("value", qtypeid);
 
-	if (i < 4) {
-		alert(i+"-"+$("#qdesc" + i).attr("value")+"-"+$("#qtypeid" + i).attr("value"));
-	}	
+	//if (i < 4) {
+	//	alert(i+"-"+$("#qdesc" + i).attr("value")+"-"+$("#qtypeid" + i).attr("value"));
+	//}	
 	return question;
 
 } // end addQuestion
@@ -79,7 +79,7 @@ function getMaintTable(idx, vers, childNode) {
 	var qtypeid = $("#qtypeid"+idx).attr("value");
 	var qnaireid = "qnaireid"+idx;
 	var divId = "listcontent" + idx;
-	alert(idx+"-"+description+"-"+qtypeid);
+	//alert(idx+"-"+description+"-"+qtypeid);
 	var div64 = $(' <div class="hierarchydetail" style="margin-top:2px;">')
 			.attr("id", divId);
 	var tbl70 = $('<table width="100%" cellpadding="0" cellspacing="0" class="subelement" />');
@@ -521,6 +521,25 @@ function getMoveDownLink(curidx) {
 			function() {
 				var curNode = $(this).parents('li:eq(0)');
 				var nextNode = $(this).parents('li:eq(0)').next();
+/* question html is looks like 
+ * <li>
+ * <div> for class
+ * <div> for listcontrol, it has children div of listcontent
+ * <ul> for children questions
+ * </li> 
+ */				
+				if ($(nextNode).children('div:eq(1)').children('div:eq(0)').size() == 0) {
+				    var nextidx = $(nextNode).attr("id").substring(8);
+		            var vers = "1.00";
+				    //alert("set up table "+nextidx+"-"+$(nextNode).children('div:eq(1)').children('a:eq(0)').attr("id"));
+				    var childNode = 'true';
+				    if ($(nextNode).parents('ul:eq(0)').attr("id") == 'example') {
+				    	childNode = 'false';
+				    }	
+				    var divtmp = getMaintTable(nextidx, vers, childNode);
+				    divtmp.appendTo($(nextNode).children('div:eq(1)'));
+				}	
+				
 				curNode.insertAfter(nextNode);
 				var idx = $(curNode).attr("id").substring(8);
 				addSqlScripts("update QMove;"
@@ -549,6 +568,10 @@ function getMoveDownLink(curidx) {
 			});
 	image.attr("src", "static/images/jquery/arrow-down.gif");
 	atag.html(image);
+	if ($("#qnaireid" + curidx).next().size() == 0) {
+		//alert("movedn "+curidx+"-"+$("#qnaireid" + curidx).attr("id"));
+	    $(atag).hide();
+	}	
 	return atag;
 }
 
@@ -566,6 +589,19 @@ function getMoveUpLink(curidx) {
 			// }
 
 			var nextNode = $(this).parents('li:eq(0)').prev();
+			if ($(nextNode).children('div:eq(1)').children('div:eq(0)').size() == 0) {
+			    var nextidx = $(nextNode).attr("id").substring(8);
+	            var vers = "1.00";
+			    //alert("set up table "+nextidx+"-"+$(nextNode).children('div:eq(1)').children('a:eq(0)').attr("id"));
+			    var childNode = 'true';
+			    if ($(nextNode).parents('ul:eq(0)').attr("id") == 'example') {
+			    	childNode = 'false';
+			    }	
+			    var divtmp = getMaintTable(nextidx, vers, childNode);
+			    divtmp.appendTo($(nextNode).children('div:eq(1)'));
+			}	
+
+			
 			// $(this).parents('li:eq(0)').remove();
 			curNode.insertBefore(nextNode);
 			var idx = $(curNode).attr("id").substring(8);
@@ -592,6 +628,10 @@ function getMoveUpLink(curidx) {
 		});
 	image.attr("src", "static/images/jquery/arrow-up.gif");
 	atag.html(image);
+	if ($("#qnaireid" + curidx).prev().size() == 0) {
+		//alert("moveup "+curidx+"-"+$("#qnaireid" + curidx).prev().size())
+	    $(atag).hide();
+	}	
 	return atag;
 }
 
@@ -914,7 +954,7 @@ function getRequirementDeleteRow(response, value, curidx) {
 	tdtmp.appendTo(trtmp);
 	tdtmp = $('<td class="content_white" style="text-align:center; border-top:none; width:65px;">');
 	var image = $(
-			'<input src="/kra-dev/kr/static/images/tinybutton-delete1.gif"  style="border:none;" alt="delete" type="image" />')
+			'<input src="/kr/static/images/tinybutton-delete1.gif"  style="border:none;" alt="delete" type="image" />')
 			.attr("id", "deletereq" + curidx).click(
 					function() {
 						alert("This would delete this requirement."
@@ -1147,11 +1187,17 @@ function addToGroup(listitem) {
 		groupid++;
 	}
 	$(listitem).attr("class", "group" + groupid);
+	if (curgroup != groupid) {
+		// alert("show");
+		$(listitem).hide();
+	}
+
 }
 
 function swapGroupId(curNode, nextNode) {
-	var curclass = $(curNode).attr("class");
-	var nextclass = $(nextNode).attr("class");
+	// class mya like "group0 expandable ..", the last item has one more item
+	var curclass = $(curNode).attr("class").substring(0,7);
+	var nextclass = $(nextNode).attr("class").substring(0,7);
 	$(curNode).attr("class", nextclass);
 	$(nextNode).attr("class", curclass);
 	if (curclass != nextclass) {
