@@ -66,7 +66,9 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private CustomDataHelper customDataHelper;
     private SpecialReviewHelper specialReviewHelper;
     private ActionHelper actionHelper;
-    private ProtocolAttachmentHelper notesAndAttachmentsHelper;
+    //transient so that the helper and its members don't have to be serializable or transient
+    //reinitialized in the getter
+    private transient ProtocolAttachmentHelper notesAndAttachmentsHelper;
     private LookupHelper<ProtocolForm> lookupHelper;
     private boolean auditActivated;
     
@@ -267,6 +269,10 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
      * @return Notes And Attachments Helper
      */
     public ProtocolAttachmentHelper getNotesAndAttachmentsHelper() {
+        if (notesAndAttachmentsHelper == null) {
+            notesAndAttachmentsHelper = new ProtocolAttachmentHelper(this);
+        }
+        
         return notesAndAttachmentsHelper;
     }
 
