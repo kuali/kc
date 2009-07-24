@@ -38,7 +38,11 @@
       <img class="nobord" src="${ConfigProperties.kra.externalizable.images.url}pencil_add1.png" alt="expand textarea">
     </c:when>
     <c:otherwise>
-       <html:image property="methodToCall.kraUpdateTextArea.((#${textAreaFieldName}:${action}:${textAreaLabel}:${viewOnly}#))" src='${srcImage}' onclick="javascript: kraTextAreaPop('${textAreaFieldName}','${action}','${textAreaLabel}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}','${viewOnly}');return false" styleClass="tinybutton"  title="${altMsg }" alt="${altMsg }"/>
+       <c:set var="formKey" value="${KualiForm.formKey}" />
+       <c:if test="${empty KualiForm.formKey}">
+           <c:set var="formKey" value="0" />
+       </c:if>
+       <html:image property="methodToCall.kraUpdateTextArea.((#${textAreaFieldName}:${action}:${textAreaLabel}:${viewOnly}#))" src='${srcImage}' onclick="javascript: kraTextAreaPop('${textAreaFieldName}','${action}','${textAreaLabel}',${formKey},'${KualiForm.document.sessionDocument}','${viewOnly}');return false" styleClass="tinybutton"  title="${altMsg }" alt="${altMsg }"/>
     </c:otherwise>
   </c:choose>
 </c:if>
