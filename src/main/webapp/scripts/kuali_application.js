@@ -302,17 +302,21 @@ function selectAllKeywords(document) {
 }
 
 function kraTextAreaPop(textAreaName,htmlFormAction,textAreaLabel,docFormKey, sessionDocument, viewOnly){
-  var documentWebScope
-  if (sessionDocument == "true") {
-      documentWebScope="session"
-  }
-  url=window.location.href
-  pathname=window.location.pathname
-  idx1=url.indexOf(pathname);
-  idx2=url.indexOf("/",idx1+1);
-  extractUrl=url.substr(0,idx2)
-  window.open(extractUrl+"/kraUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&viewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
-}
+	  var documentWebScope
+	  if (sessionDocument == "true") {
+	      documentWebScope="session"
+	  }
+	  url=window.location.href
+	  pathname=window.location.pathname
+	  idx1=url.indexOf(pathname);
+	  idx2=url.indexOf("/",idx1+1);
+	  extractUrl=url.substr(0,idx2)
+	  if (htmlFormAction == 'maintenance') {
+	      window.open(extractUrl+"/kraMaintUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&viewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
+	  } else {   
+	      window.open(extractUrl+"/kraUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&viewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
+	  }
+	}
 
 var kraTextAreaFieldName
 function kraSetTextArea() {
