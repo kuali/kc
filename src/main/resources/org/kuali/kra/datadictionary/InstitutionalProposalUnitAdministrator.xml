@@ -126,10 +126,15 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+   	 	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.bo.UnitAdministratorType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+            	p:keyAttribute="unitAdministratorTypeCode"
+            	p:labelAttribute="description" />
+    	</property>
         <property name="summary" value="Unit Administrator Type Code" />
         <property name="description" value="Unit Administrator Type Code" />
     </bean>
