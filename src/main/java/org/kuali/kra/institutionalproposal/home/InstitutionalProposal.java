@@ -15,21 +15,22 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
-import java.util.Calendar;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.AwardType;
-import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
+import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.document.SpecialReviewHandler;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
@@ -37,6 +38,7 @@ import org.kuali.kra.institutionalproposal.personnel.InstitutionalProposalPerson
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class InstitutionalProposal extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<InstitutionalProposalSpecialReview>{ 
@@ -106,11 +108,13 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private List<InstitutionalProposalCustomData> institutionalProposalCustomDataList;
     private List<InstitutionalProposalNotepad> institutionalProposalNotepads;
     private List<InstitutionalProposalSpecialReview> specialReviews;
+    private List<InstitutionalProposalUnitAdministrator> institutionalProposalUnitAdministrators;
 
     public InstitutionalProposal() { 
         super();
         initializeInstitutionalProposalWithDefaultValues();
         initializeCollections();
+        initializeTemporaryUnitAdministrators();// temporary 
     } 
     
     /**
@@ -135,6 +139,45 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         setTotalDirectCostTotal(new KualiDecimal(0));
         setTotalIndirectCostInitial(new KualiDecimal(0));
         setTotalIndirectCostTotal(new KualiDecimal(0));
+    }
+    
+    /**
+     * This method is temporary until we get the rest of the contacts page funtionality set up.
+     */
+    private void initializeTemporaryUnitAdministrators() {
+        InstitutionalProposalUnitAdministrator ipua1 = new InstitutionalProposalUnitAdministrator();
+        InstitutionalProposalUnitAdministrator ipua2 = new InstitutionalProposalUnitAdministrator();
+        InstitutionalProposalUnitAdministrator ipua3 = new InstitutionalProposalUnitAdministrator();
+        Map<String, String> primaryKeys1 = new HashMap<String, String>();
+        Map<String, String> primaryKeys2 = new HashMap<String, String>();
+        Map<String, String> primaryKeys3 = new HashMap<String, String>();
+        ipua1.setAdministrator("000000081");
+        primaryKeys1.put("personId", ipua1.getAdministrator());
+        ipua2.setAdministrator("000000011");
+        primaryKeys1.put("personId", ipua2.getAdministrator());
+        ipua3.setAdministrator("000000052");
+        primaryKeys1.put("personId", ipua3.getAdministrator());
+        ipua1.setPerson((Person) getKraBusinessObjectService().findByPrimaryKey(Person.class, primaryKeys1));
+        ipua2.setPerson((Person) getKraBusinessObjectService().findByPrimaryKey(Person.class, primaryKeys2));
+        ipua3.setPerson((Person) getKraBusinessObjectService().findByPrimaryKey(Person.class, primaryKeys3));
+        ipua1.setInstitutionalProposal(this);
+        ipua2.setInstitutionalProposal(this);
+        ipua3.setInstitutionalProposal(this);
+        ipua1.setUnitAdministratorTypeCode("1");
+        ipua2.setUnitAdministratorTypeCode("1");
+        ipua3.setUnitAdministratorTypeCode("1");
+        institutionalProposalUnitAdministrators.add(ipua1);
+        institutionalProposalUnitAdministrators.add(ipua2);
+        institutionalProposalUnitAdministrators.add(ipua3);
+
+    }
+    
+    /**
+     * This method returns a business object service
+     * @return
+     */
+    protected BusinessObjectService getKraBusinessObjectService() {
+        return (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
     }
     
     /**
@@ -230,6 +273,25 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setInstitutionalProposalNotepads(List<InstitutionalProposalNotepad> institutionalProposalNotepads) {
         this.institutionalProposalNotepads = institutionalProposalNotepads;
     }
+    
+    
+
+    /**
+     * Gets the institutionalProposalUnitAdministrators attribute. 
+     * @return Returns the institutionalProposalUnitAdministrators.
+     */
+    public List<InstitutionalProposalUnitAdministrator> getInstitutionalProposalUnitAdministrators() {
+        return institutionalProposalUnitAdministrators;
+    }
+
+    /**
+     * Sets the institutionalProposalUnitAdministrators attribute value.
+     * @param institutionalProposalUnitAdministrators The institutionalProposalUnitAdministrators to set.
+     */
+    public void setInstitutionalProposalUnitAdministrators(
+            List<InstitutionalProposalUnitAdministrator> institutionalProposalUnitAdministrators) {
+        this.institutionalProposalUnitAdministrators = institutionalProposalUnitAdministrators;
+    }
 
     /**
      * Sets the institutionalProposalCustomDataList attribute value.
@@ -243,6 +305,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         institutionalProposalCustomDataList = new ArrayList<InstitutionalProposalCustomData>();
         institutionalProposalNotepads = new ArrayList<InstitutionalProposalNotepad>();
         specialReviews = new ArrayList<InstitutionalProposalSpecialReview>();
+        institutionalProposalUnitAdministrators = new ArrayList<InstitutionalProposalUnitAdministrator>();
     }
     
     public Long getProposalId() {
