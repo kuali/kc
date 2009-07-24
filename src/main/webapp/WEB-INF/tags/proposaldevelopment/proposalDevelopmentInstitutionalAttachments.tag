@@ -16,13 +16,13 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="readOnly" value="${not KualiForm.editingMode['addNarratives']}" scope="request" />
 
-<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
+<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
 <c:set var="textAreaFieldName" value="newInstituteAttachment.moduleTitle" />
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
 <c:set var="label" value="Internal Attachments" />
 
-<kul:tab tabTitle="${label} (${fn:length(KualiForm.document.instituteAttachments)})" defaultOpen="false" tabErrorKey="document.instituteAttachment*,newInstituteAttachment*">
+<kul:tab tabTitle="${label} (${fn:length(KualiForm.document.developmentProposalList[0].instituteAttachments)})" defaultOpen="false" tabErrorKey="document.developmentProposalList[0].instituteAttachment*,newInstituteAttachment*">
 	<div class="tab-container" align="center">
         <c:set var="sectionLabel" value="Internal Attachments" />
 	   
@@ -36,7 +36,7 @@
 	    </h3>
         
         <table cellpadding=0 cellspacing=0 summary="">
-            <c:if test="${fn:length(KualiForm.document.instituteAttachments) > 0  || KualiForm.editingMode['addNarratives']}" >
+            <c:if test="${fn:length(KualiForm.document.developmentProposalList[0].instituteAttachments) > 0  || KualiForm.editingMode['addNarratives']}" >
 	        <tr>
 	          	<th><div align="left">&nbsp</div></th> 
 	            <th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" noColon="true" /></div></th>
@@ -80,8 +80,8 @@
 	            </tr>
             </kra:section>
 
-			<c:if test="${fn:length(KualiForm.document.instituteAttachments) > 0}" >
-        	<c:forEach var="instituteAttachment" items="${KualiForm.document.instituteAttachments}" varStatus="status">
+			<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].instituteAttachments) > 0}" >
+        	<c:forEach var="instituteAttachment" items="${KualiForm.document.developmentProposalList[0].instituteAttachments}" varStatus="status">
         	    <c:set var="downloadKey" value="instituteAttachment.${instituteAttachment.moduleNumber}.download" />
                 <c:set var="downloadAttachment" value="${KualiForm.editingMode[downloadKey]}" />
                 <c:set var="replaceKey" value="instituteAttachment.${instituteAttachment.moduleNumber}.replace" />
@@ -94,10 +94,10 @@
 						${status.index + 1}:
 					</th>
 	                 <td class=>                
-                	<kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].timestampDisplay" attributeEntry="${narrativeAttributes.updateTimestamp}" readOnly="true" />	            
+                	<kul:htmlControlAttribute property="document.developmentProposalList[0].instituteAttachments[${status.index}].timestampDisplay" attributeEntry="${narrativeAttributes.updateTimestamp}" readOnly="true" />	            
 				</td>
                 <td >
-                	<kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].uploadUserDisplay" attributeEntry="${narrativeAttributes.updateUser}" readOnly="true" />
+                	<kul:htmlControlAttribute property="document.developmentProposalList[0].instituteAttachments[${status.index}].uploadUserDisplay" attributeEntry="${narrativeAttributes.updateUser}" readOnly="true" />
                 </td>
                 <td class=>      
                     ${instituteAttachment.narrativeType.description} 
@@ -107,11 +107,11 @@
                 </td>
 	                <td>
 	                    <div id="replaceInstDiv${status.index}" style="display:block;">
-					       <kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].fileName" 
+					       <kul:htmlControlAttribute property="document.developmentProposalList[0].instituteAttachments[${status.index}].fileName" 
 					       		readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />     
 				        </div>
 				        <div id="instFileDiv${status.index}" valign="middle" style="display:none;">
-				           	<html:file property="document.instituteAttachments[${status.index}].narrativeFile" />
+				           	<html:file property="document.developmentProposalList[0].instituteAttachments[${status.index}].narrativeFile" />
 							<html:image property="methodToCall.replaceInstituteAttachment.line${status.index}.anchor${currentTabIndex}"
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 						</div>

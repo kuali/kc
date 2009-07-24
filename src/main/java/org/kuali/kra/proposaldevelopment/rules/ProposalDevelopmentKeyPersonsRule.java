@@ -93,11 +93,11 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         boolean retval = true;
         int pi_cnt = 0;
         int personIndex = 0;
-        List<ProposalPerson> investigators=document.getInvestigators();
+        List<ProposalPerson> investigators = document.getDevelopmentProposal().getInvestigators();
         String reg="^(100(?:\\.0{1,2})?|0*?\\.\\d{1,2}|\\d{1,2}(?:\\.\\d{1,2})?)$"; 
        
                
-        for (ProposalPerson person : document.getProposalPersons()) {
+        for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
             if (isPrincipalInvestigator(person)) {
                 pi_cnt++;
                  
@@ -105,7 +105,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             
             if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) { 
                 debug("error.missingPersonRole");
-                reportError("document.proposalPersons[" + personIndex + "]", ERROR_MISSING_PERSON_ROLE);
+                reportError("document.developmentProposalList[0].proposalPersons[" + personIndex + "]", ERROR_MISSING_PERSON_ROLE);
             }
             personIndex++;
         }
@@ -115,7 +115,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             reportError("newProposalPerson", ERROR_INVESTIGATOR_UPBOUND, getKeyPersonnelService().getPrincipalInvestigatorRoleDescription(document));            
         }        
         personIndex=0;
-        for (ProposalPerson person : document.getProposalPersons()) {
+        for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
 
             if(isCoInvestigator(person) && (person.getUnits() != null) && (person.getUnits().size()==0)){
                 reportError("newProposalPersonUnit[" + personIndex + "].unitNumber",
@@ -126,18 +126,18 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
                             ERROR_ONE_UNIT, person.getFullName());  
             }
             if(isKeyPerson(person) && StringUtils.isBlank(person.getProjectRole())){
-                reportError("document.proposalPersons[" + personIndex + "].projectRole",
+                reportError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].projectRole",
                             RiceKeyConstants.ERROR_REQUIRED,"Key Person Role");
             }
             
             if(person.getPercentageEffort()!= null && (person.getPercentageEffort().isLessThan(new KualiDecimal(0)) 
                     || person.getPercentageEffort().isGreaterThan(new KualiDecimal(100)))){
-                GlobalVariables.getErrorMap().putError("document.proposalPersons[" + personIndex + "].percentageEffort", ERROR_PERCENTAGE,
+                GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].percentageEffort", ERROR_PERCENTAGE,
                         new String[] {"Percentage Effort" });
             }
             
             if(StringUtils.isNotBlank(person.getEraCommonsUserName()) && person.getEraCommonsUserName().length() < FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH){
-                GlobalVariables.getErrorMap().putError("document.proposalPersons[" + personIndex + "].eraCommonsUserName", KeyConstants.ERROR_MINLENGTH,
+                GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].eraCommonsUserName", KeyConstants.ERROR_MINLENGTH,
                         new String[] {"eRA Commons User Name" , ""+ FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH});
             }
             
@@ -153,7 +153,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
 
                     String credit= String.valueOf( creditSplit.getCredit().intValue());
                     if(!(credit.matches(reg))){
-                        GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_PERCENTAGE,
+                        GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].creditSplit", ERROR_PERCENTAGE,
                                 new String[] {"Credit Split" });
                         retval=false;
                     }
@@ -167,9 +167,9 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
                     if(unitsplit.getCredit()!= null){
                         String credit=String.valueOf(unitsplit.getCredit().intValue());
                         if(!(credit.matches(reg))){
-                            GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_PERCENTAGE,
+                            GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].creditSplit", ERROR_PERCENTAGE,
                                     new String[] {"Credit Split" });
-                            //GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_PERCENTAGE);
+                            //GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].creditSplit", ERROR_PERCENTAGE);
                             retval=false; 
                         }
                         
@@ -182,19 +182,19 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         if(retval){
             boolean leadunit=false;
             ProposalPersonUnit unit=null;
-            for (ProposalPerson person : document.getProposalPersons()) {
+            for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
                 if (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)) {
                       for(ProposalPersonUnit personunit:person.getUnits()){
                         if(personunit.isLeadUnit())
                             leadunit=true;
                          }
                     if(!leadunit){
-                        getKeyPersonnelService().assignLeadUnit(person, document.getOwnedByUnitNumber()); 
+                        getKeyPersonnelService().assignLeadUnit(person, document.getDevelopmentProposal().getOwnedByUnitNumber());
                     }
                     leadunit=false;
                 }else if (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)) {
                     for(ProposalPersonUnit personunit:person.getUnits()){
-                        if(personunit.isLeadUnit() && StringUtils.isNotBlank(person.getHomeUnit())&& !(person.getHomeUnit().equals(document.getOwnedByUnitNumber()))){
+						if (personunit.isLeadUnit() && StringUtils.isNotBlank(person.getHomeUnit()) && !(person.getHomeUnit().equals(document.getDevelopmentProposal().getOwnedByUnitNumber()))) {
                             leadunit=true;
                            personunit.setLeadUnit(false);
                             unit= person.getUnit(personunit.getUnitNumber());
@@ -205,7 +205,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
                      }
                }
            }
-            sort(document.getProposalPersons(), new ProposalPersonComparator());
+            sort(document.getDevelopmentProposal().getProposalPersons(), new ProposalPersonComparator());
         }
      return retval;
     }
@@ -240,9 +240,9 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         }
         
         debug("Does document contain a proposal person with PERSON_ID " + person.getPersonId() + "?");
-        debug(document.getProposalPersons().contains(person)+ "");
+        debug(document.getDevelopmentProposal().getProposalPersons().contains(person) + "");
         
-        if (document.getProposalPersons().contains(person)) {
+        if (document.getDevelopmentProposal().getProposalPersons().contains(person)) {
             reportError("newProposalPerson", ERROR_PROPOSAL_PERSON_EXISTS, person.getFullName());
             retval = false;
         }
@@ -455,7 +455,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     
     public boolean processCalculateCreditSplitBusinessRules(ProposalDevelopmentDocument document) {
 
-        List<ProposalPerson> person=document.getInvestigators();
+        List<ProposalPerson> person = document.getDevelopmentProposal().getInvestigators();
         String reg="^(100(?:\\.0{1,2})?|0*?\\.\\d{1,2}|\\d{1,2}(?:\\.\\d{1,2})?)$"; 
         boolean retval=true;
    
@@ -470,7 +470,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
 
                     String credit= String.valueOf( creditSplit.getCredit().intValue());
                     if(!(credit.matches(reg))){
-                        GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_PERCENTAGE,
+                        GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].creditSplit", ERROR_PERCENTAGE,
                                 new String[] {"Credit Split" });
                         retval=false;
                     }
@@ -484,7 +484,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
                     if(unitsplit.getCredit()!= null){
                         String credit=String.valueOf(unitsplit.getCredit().intValue());
                         if(!(credit.matches(reg))){
-                            GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_PERCENTAGE,
+                            GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].creditSplit", ERROR_PERCENTAGE,
                                     new String[] {"Credit Split" });
                             retval=false; 
                         }

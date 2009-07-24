@@ -90,7 +90,7 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(1).getNarrativeTypeCode());
         narrative.setModuleStatusCode(narrativeStatuses.get(0).getNarrativeStatusCode());
         newNarrative.setModuleStatusCode(narrativeStatuses.get(1).getNarrativeStatusCode());
-        newNarrative.setProposalNumber(document.getProposalNumber());
+        newNarrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         newNarrative.setFileName("test");
 //        document.addNarrative(narrative);
         AddNarrativeEvent addNarrativeEvent = new AddNarrativeEvent(EMPTY_STRING,document,newNarrative);
@@ -133,7 +133,7 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
         Narrative newNarrative = new Narrative();
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         newNarrative.setModuleStatusCode(EMPTY_STRING);
-        newNarrative.setProposalNumber(document.getProposalNumber());
+        newNarrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
 //        document.addNarrative(newNarrative);
         AddNarrativeEvent addNarrativeEvent = new AddNarrativeEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddNarrativeBusinessRules(addNarrativeEvent));
@@ -165,8 +165,8 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         narrative.setModuleStatusCode(narrativeStatuses.get(0).getNarrativeStatusCode());
         newNarrative.setModuleStatusCode(narrativeStatuses.get(0).getNarrativeStatusCode());
-        newNarrative.setProposalNumber(document.getProposalNumber());
-        document.getNarratives().add(narrative);
+        newNarrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        document.getDevelopmentProposal().getNarratives().add(narrative);
 //        document.addNarrative(narrative);
         AddNarrativeEvent addNarrativeEvent = new AddNarrativeEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddNarrativeBusinessRules(addNarrativeEvent));

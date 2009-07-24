@@ -16,8 +16,8 @@
 <%@ include file="/WEB-INF/jsp/proposaldevelopment/proposalPerson.jsp"%>
 
 <c:choose>
-    <c:when test="${KualiForm.document.proposalPersons[personIndex].role.readOnly or readOnly}">
-        ${KualiForm.document.proposalPersons[personIndex].role.description}
+    <c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].role.readOnly or readOnly}">
+        ${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].role.description}
     </c:when>
     <c:otherwise>
         <c:choose>
@@ -40,7 +40,7 @@
                 <html:select property="${proposalPerson}.proposalPersonRoleId" tabindex="0" style="${roleStyle}">
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalPersonRoleValuesFinder', paramMap)}" var="option">
                 <c:choose>
-                    <c:when test="${KualiForm.document.proposalPersons[personIndex].proposalPersonRoleId == option.key}">
+                    <c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonRoleId == option.key}">
                     <option value="${option.key}" selected>${option.label}</option>
                     </c:when>
                     <c:otherwise>

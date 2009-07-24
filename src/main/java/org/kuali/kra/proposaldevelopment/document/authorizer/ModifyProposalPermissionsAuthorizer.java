@@ -47,7 +47,7 @@ public class ModifyProposalPermissionsAuthorizer extends ProposalAuthorizer {
         ProposalDevelopmentDocument doc = task.getDocument();
         boolean hasPermission = hasProposalPermission(username, doc, PermissionConstants.MAINTAIN_PROPOSAL_ACCESS)
                 && !kraWorkflowService.isInWorkflow(doc) 
-                && !doc.getSubmitFlag();
+                && !doc.getDevelopmentProposal().getSubmitFlag();
         return hasPermission;
     }
     

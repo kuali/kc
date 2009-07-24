@@ -67,7 +67,7 @@
 	                    	<div align=center>
 		                    	<kra:section permission="modifyProposal">
 			                    	<c:choose>
-			                    		<c:when test="${(currentPerson.proposalPersonRoleId == piRole && aUnit.unitNumber != KualiForm.document.ownedByUnitNumber) || (currentPerson.proposalPersonRoleId != piRole)}">
+			                    		<c:when test="${(currentPerson.proposalPersonRoleId == piRole && aUnit.unitNumber != KualiForm.document.developmentProposalList[0].ownedByUnitNumber) || (currentPerson.proposalPersonRoleId != piRole)}">
 			                    			<html:image property="methodToCall.deleteUnit.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Remove Unit" alt="Remove Unit" styleClass="tinybutton" />
 			                    		</c:when>
 			                    		<c:otherwise>

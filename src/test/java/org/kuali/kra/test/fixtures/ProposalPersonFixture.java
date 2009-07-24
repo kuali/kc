@@ -177,10 +177,10 @@ public enum ProposalPersonFixture {
     public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) { 
         getService(KeyPersonnelService.class).populateProposalPerson(person, document);
         if (getService(KeyPersonnelService.class).isPrincipalInvestigator(person)) {
-            getService(KeyPersonnelService.class).assignLeadUnit(person, document.getOwnedByUnitNumber());
+            getService(KeyPersonnelService.class).assignLeadUnit(person, document.getDevelopmentProposal().getOwnedByUnitNumber());
         }else {
             // Lead Unit information needs to be removed in case the person used to be a PI
-            ProposalPersonUnit unit = person.getUnit(document.getOwnedByUnitNumber());
+            ProposalPersonUnit unit = person.getUnit(document.getDevelopmentProposal().getOwnedByUnitNumber());
             if (unit != null) {
                 unit.setLeadUnit(false);
             }                

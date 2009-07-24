@@ -151,7 +151,7 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
                 DEFAULT_PROPOSAL_OWNED_BY_UNIT);
         
         if (setSponsorProposalId) {
-            document.setSponsorProposalNumber("234567");
+            document.getDevelopmentProposal().setSponsorProposalNumber("234567");
         }
         if (!expectError) {
             assertTrue("Rule should NOT produce any errors", proposalDevelopmentDocumentRule.processCustomSaveDocumentBusinessRules(document));
@@ -182,13 +182,13 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
      */
     private void setRequiredDocumentFields(ProposalDevelopmentDocument document, String description, String sponsorCode, String title, Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
         document.getDocumentHeader().setDocumentDescription(description);
-        document.setSponsorCode(sponsorCode);
-        document.setTitle(title);
-        document.setRequestedStartDateInitial(requestedStartDateInitial);
-        document.setRequestedEndDateInitial(requestedEndDateInitial);
-        document.setActivityTypeCode(activityTypeCode);
-        document.setProposalTypeCode(proposalTypeCode);
-        document.setOwnedByUnitNumber(ownedByUnit);
+        document.getDevelopmentProposal().setSponsorCode(sponsorCode);
+        document.getDevelopmentProposal().setTitle(title);
+        document.getDevelopmentProposal().setRequestedStartDateInitial(requestedStartDateInitial);
+        document.getDevelopmentProposal().setRequestedEndDateInitial(requestedEndDateInitial);
+        document.getDevelopmentProposal().setActivityTypeCode(activityTypeCode);
+        document.getDevelopmentProposal().setProposalTypeCode(proposalTypeCode);
+        document.getDevelopmentProposal().setOwnedByUnitNumber(ownedByUnit);
     }
     
     /**
@@ -200,11 +200,11 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
     public void testRemoveUnit() {
         ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
         ProposalPerson person = new ProposalPerson();
-        document.setOwnedByUnitNumber("000001");
+        document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
         person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
         
         getKeyPersonnelService().populateProposalPerson(person, document);
-        document.addProposalPerson(person);
+        document.getDevelopmentProposal().addProposalPerson(person);
         
         ProposalPersonUnit unit = getKeyPersonnelService().createProposalPersonUnit(UNIT_NUMBER_TO_ADD, person);
         
@@ -223,10 +223,10 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
     public void testDoubleUnit() {
         ProposalPerson person = new ProposalPerson();
         ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
-        document.setOwnedByUnitNumber("000001");
+        document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
         person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
         getKeyPersonnelService().populateProposalPerson(person, document);
-        document.addProposalPerson(person);
+        document.getDevelopmentProposal().addProposalPerson(person);
 
         
         ProposalPersonUnit unit = getKeyPersonnelService().createProposalPersonUnit(UNIT_NUMBER_TO_ADD, person);
@@ -247,7 +247,7 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
     public void testAddPersonWithoutRole() {
         ProposalPerson person = new ProposalPerson();
         ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
-        document.setOwnedByUnitNumber("000001");
+        document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
         person.setPersonId("000000003");
         getKeyPersonnelService().populateProposalPerson(person, document);
         person.setProposalPersonRoleId("");
@@ -267,9 +267,9 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
         ProposalPerson person = INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED.getPerson();
         ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
         INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED.populatePerson(document, person);
-        document.setOwnedByUnitNumber("000001");
+        document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
         person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
-        document.addProposalPerson(person);
+        document.getDevelopmentProposal().addProposalPerson(person);
         
         assertFalse(new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person));
     }
@@ -283,10 +283,10 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
     public void testPersonInvalid() {
         ProposalPerson person = new ProposalPerson();
         ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
-        document.setOwnedByUnitNumber("000001");
+        document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
         person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
         getKeyPersonnelService().populateProposalPerson(person, document);
-        document.addProposalPerson(person);
+        document.getDevelopmentProposal().addProposalPerson(person);
         person.setRolodexId(-1);
         person.setPersonId("-1");
         
@@ -304,10 +304,10 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
     public void testRemoveDegreeRule() {
         ProposalPerson person = new ProposalPerson();
         ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
-        document.setOwnedByUnitNumber("000001");
+        document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
         person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
         getKeyPersonnelService().populateProposalPerson(person, document);
-        document.addProposalPerson(person);
+        document.getDevelopmentProposal().addProposalPerson(person);
         ProposalPersonDegree degree = new ProposalPersonDegree();
         person.addDegree(degree);
         person.setRolodexId(-1);
@@ -320,7 +320,7 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
     {
         ProposalPerson person = new ProposalPerson();
         ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
-        document.setOwnedByUnitNumber("000001");
+        document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
         person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
         getKeyPersonnelService().populateProposalPerson(person, document);
         KualiDecimal dec=new KualiDecimal(109.00);
@@ -349,7 +349,7 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
         
         person.setCreditSplits(personcreditsplit);
             
-        document.addProposalPerson(person);
+        document.getDevelopmentProposal().addProposalPerson(person);
         
         assertFalse(new ProposalDevelopmentKeyPersonsRule().processSaveKeyPersonBusinessRules(document));
         

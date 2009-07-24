@@ -45,7 +45,7 @@ public class EDGEPA427V1_1Generator extends EDGEPA427BaseGenerator {
         GEPA427AttachmentsDocument gepa427Document = GEPA427AttachmentsDocument.Factory.newInstance();
         GEPA427Attachments gepAttachments = GEPA427Attachments.Factory.newInstance();
         gepAttachments.setFormVersion(S2SConstants.FORMVERSION_1_1);
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_TYPE_ED_GEPA427) {
                 gepAttachments.setAttachments(getAttachedFileType(narrative));
             }

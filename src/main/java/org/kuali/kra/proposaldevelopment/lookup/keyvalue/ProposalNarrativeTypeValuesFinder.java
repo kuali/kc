@@ -70,7 +70,7 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
         ProposalDevelopmentDocument document = getDocumentFromForm();
         Collection<NarrativeType> forRemoval = new ArrayList<NarrativeType>();        
         for (NarrativeType narrativeType : narrativeTypes) {
-            for (Narrative narrative : document.getNarratives()) {
+            for (Narrative narrative : document.getDevelopmentProposal().getNarratives()) {
                 if (filterCondition(narrative.getNarrativeType(), narrativeType)) {
                     forRemoval.add(narrativeType);
                 } else {

@@ -300,10 +300,10 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
     }
     
     protected boolean isBudgetComplete(ProposalDevelopmentDocument proposalDoc, BudgetDocument budgetDocument) {
-        if (!proposalDoc.isProposalComplete()) {
+        if (!proposalDoc.getDevelopmentProposal().isProposalComplete()) {
             return false;
         }
-        for (BudgetVersionOverview budgetVersion: proposalDoc.getBudgetVersionOverviews()) {
+        for (BudgetVersionOverview budgetVersion: proposalDoc.getDevelopmentProposal().getBudgetVersionOverviews()) {
             if (budgetVersion.isFinalVersionFlag() && budgetVersion.getBudgetVersionNumber().equals(budgetDocument.getBudgetVersionNumber())) {
                 return true;
             }

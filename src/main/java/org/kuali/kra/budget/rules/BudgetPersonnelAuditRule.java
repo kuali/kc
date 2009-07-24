@@ -47,10 +47,10 @@ public class BudgetPersonnelAuditRule extends ResearchDocumentRuleBase implement
         BudgetDocument budgetDocument = (BudgetDocument) document;
         for (BudgetPerson budgetPerson: budgetDocument.getBudgetPersons()) {
             if (budgetPerson.getRolodexId() != null) {
-                ProposalPersonRole role = budgetDocument.getProposal().getProposalNonEmployeeRole(budgetPerson.getRolodexId());
+                ProposalPersonRole role = budgetDocument.getProposal().getDevelopmentProposal().getProposalNonEmployeeRole(budgetPerson.getRolodexId());
                 if (role != null) { budgetPerson.setRole(role.getDescription()); }
             } else if (budgetPerson.getPersonId() != null) {
-                ProposalPerson proposalPerson = budgetDocument.getProposal().getProposalEmployee(budgetPerson.getPersonId());
+                ProposalPerson proposalPerson = budgetDocument.getProposal().getDevelopmentProposal().getProposalEmployee(budgetPerson.getPersonId());
                 if (proposalPerson != null && proposalPerson.isOtherSignificantContributorFlag()) {
                     // Audit Error
                     auditErrors.add(new AuditError(
@@ -58,7 +58,7 @@ public class BudgetPersonnelAuditRule extends ResearchDocumentRuleBase implement
                             Constants.BUDGET_PERSONNEL_PAGE, new String[] { budgetPerson.getPersonName() } ));
                 }
             } else if (budgetPerson.getRolodexId() != null) {
-                ProposalPerson proposalPerson = budgetDocument.getProposal().getProposalNonEmployee(budgetPerson.getRolodexId());
+                ProposalPerson proposalPerson = budgetDocument.getProposal().getDevelopmentProposal().getProposalNonEmployee(budgetPerson.getRolodexId());
                 if (proposalPerson != null && proposalPerson.isOtherSignificantContributorFlag()) {
                     // Audit Error
                     auditErrors.add(new AuditError(

@@ -134,24 +134,24 @@ public class SF424V2_0GeneratorTest extends S2STestBase<SF424V2_0Generator> {
         orgList.add(orgYnq);
         organization.setOrganizationYnqs(orgList);
 
-        document.setPerformingOrganization(perforOrganization);
-        document.setRolodex(rolodex);
-        document.setOwnedByUnit(unit);
-        document.getOwnedByUnit().setParentUnit(unit2);
-        document.setOrganization(organization);
-        document.setSponsor(sponsor);
-        document.setProposalTypeCode("1");
-        document.setCfdaNumber("0125");
-        document.setTitle("NewTitle");
-        document.setProgramAnnouncementTitle("programAnnouncementTitle");
-        document.setRequestedStartDateInitial(new Date(Calendar.getInstance().getTimeInMillis()));
-        document.setRequestedEndDateInitial(new Date(Calendar.getInstance().getTimeInMillis()));
+        document.getDevelopmentProposal().setPerformingOrganization(perforOrganization);
+        document.getDevelopmentProposal().setRolodex(rolodex);
+        document.getDevelopmentProposal().setOwnedByUnit(unit);
+        document.getDevelopmentProposal().getOwnedByUnit().setParentUnit(unit2);
+        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setSponsor(sponsor);
+        document.getDevelopmentProposal().setProposalTypeCode("1");
+        document.getDevelopmentProposal().setCfdaNumber("0125");
+        document.getDevelopmentProposal().setTitle("NewTitle");
+        document.getDevelopmentProposal().setProgramAnnouncementTitle("programAnnouncementTitle");
+        document.getDevelopmentProposal().setRequestedStartDateInitial(new Date(Calendar.getInstance().getTimeInMillis()));
+        document.getDevelopmentProposal().setRequestedEndDateInitial(new Date(Calendar.getInstance().getTimeInMillis()));
         document.setUpdateUser("quickstart");
         document.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
         KraServiceLocator.getService(BusinessObjectService.class).save(document);
-        opportunity.setProposalNumber(document.getProposalNumber());
-        document.setS2sOpportunity(opportunity);
-        document.setProposalPersons(argProposalPersons);
-        document.setProposalAbstracts(proList);
+        opportunity.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        document.getDevelopmentProposal().setS2sOpportunity(opportunity);
+        document.getDevelopmentProposal().setProposalPersons(argProposalPersons);
+        document.getDevelopmentProposal().setProposalAbstracts(proList);
     }
 }

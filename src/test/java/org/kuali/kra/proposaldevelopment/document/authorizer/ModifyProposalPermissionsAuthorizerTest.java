@@ -45,7 +45,7 @@ public class ModifyProposalPermissionsAuthorizerTest extends KraTestBase {
     public void testSimpleSuccess() {
         
         doc = new ProposalDevelopmentDocument();
-        doc.setSubmitFlag(false);       
+        doc.getDevelopmentProposal().setSubmitFlag(false);       
 
         task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
         ModifyProposalPermissionsAuthorizer mpa = new ModifyProposalPermissionsAuthorizer();
@@ -73,7 +73,7 @@ public class ModifyProposalPermissionsAuthorizerTest extends KraTestBase {
     public void testNegativeSubmittedToSponsor() {
       
         doc = new ProposalDevelopmentDocument();
-        doc.setSubmitFlag(true);       
+        doc.getDevelopmentProposal().setSubmitFlag(true);       
 
         task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
         ModifyProposalPermissionsAuthorizer mpa = new ModifyProposalPermissionsAuthorizer();
@@ -101,7 +101,7 @@ public class ModifyProposalPermissionsAuthorizerTest extends KraTestBase {
     public void testNegativeSubmittedToWorkflow() {
       
         doc = new ProposalDevelopmentDocument();
-        doc.setSubmitFlag(false);       
+        doc.getDevelopmentProposal().setSubmitFlag(false);       
 
         task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
         ModifyProposalPermissionsAuthorizer mpa = new ModifyProposalPermissionsAuthorizer();
@@ -130,7 +130,7 @@ public class ModifyProposalPermissionsAuthorizerTest extends KraTestBase {
     public void testNegativeNotPermitted() {
      
         doc = new ProposalDevelopmentDocument();
-        doc.setSubmitFlag(false);       
+        doc.getDevelopmentProposal().setSubmitFlag(false);       
 
         task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
         ModifyProposalPermissionsAuthorizer mpa = new ModifyProposalPermissionsAuthorizer();

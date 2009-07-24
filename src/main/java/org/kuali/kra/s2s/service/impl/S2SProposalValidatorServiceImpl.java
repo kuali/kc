@@ -45,12 +45,12 @@ public class S2SProposalValidatorServiceImpl implements S2SProposalValidatorServ
      */
     public boolean validate(ProposalDevelopmentDocument pdDoc, List<String> errors) {
         boolean validationStatus = true;
-        pdDoc.getS2sOpportunity().refreshNonUpdateableReferences();
-        if (pdDoc.getS2sOpportunity().getOpportunityId() == null) {
+        pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
+        if (pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId() == null) {
             errors.add(S2SErrorMessages.getProperty(OPPORTUNITY_ID_REQUIRED, OPPORTUNITY_ID_REQUIRED + " Is not found"));
             validationStatus = false;
         }
-        if (pdDoc.getCfdaNumber() == null) {            
+        if (pdDoc.getDevelopmentProposal().getCfdaNumber() == null) {            
             errors.add(S2SErrorMessages.getProperty(CFDA_NUMBER_REQUIRED, CFDA_NUMBER_REQUIRED + " Is not found"));
             validationStatus = false;
         }

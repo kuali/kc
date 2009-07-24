@@ -20,7 +20,7 @@
 <c:set var="propPerDocTypeAttributes" value="${DataDictionary.PropPerDocType.attributes}" />
 <c:set var="textAreaFieldName" value="newPropPersonBio.description" />
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
-<kul:tab tabTitle="Personnel Attachments (${fn:length(KualiForm.document.propPersonBios)})" defaultOpen="false" tabErrorKey="document.propPersonBio*,newPropPersonBio*">
+<kul:tab tabTitle="Personnel Attachments (${fn:length(KualiForm.document.developmentProposalList[0].propPersonBios)})" defaultOpen="false" tabErrorKey="document.developmentProposalList[0].propPersonBio*,newPropPersonBio*">
 	<div class="tab-container" align="center">
 	<c:set var="sectionLabel" value="Personnel Attachments" />
 	
@@ -33,7 +33,7 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.Narrative" altText="help"/></span>
 	    </h3>
         <table cellpadding=0 cellspacing=0 summary="">
-        	<c:if test="${fn:length(KualiForm.document.propPersonBios) > 0  || KualiForm.editingMode['addNarratives']}" >
+        	<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].propPersonBios) > 0  || KualiForm.editingMode['addNarratives']}" >
           	<tr>
           	    <th><div align="left">&nbsp</div></th> 
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.updateTimestamp}" noColon="true" /></div></th>
@@ -68,7 +68,7 @@
                 </td>
                 <td class="infoline">          	
           		       <html:select property="newPropPersonBio.proposalPersonNumber" style="${personSelectStyle}">
-  		                    <c:set var="proposalPersons" value="${KualiForm.document.proposalPersons}"/>
+  		                    <c:set var="proposalPersons" value="${KualiForm.document.developmentProposalList[0].proposalPersons}"/>
   		                    <option value="">select</option>
 	    		            <html:options collection="proposalPersons" property="proposalPersonNumber" labelProperty="fullName"/>
 	  			        </html:select>
@@ -93,26 +93,26 @@
             </tr>
  			</kra:section>
  
- 			<c:if test="${fn:length(KualiForm.document.propPersonBios) > 0}" >
-        	<c:forEach var="propPersonBio" items="${KualiForm.document.propPersonBios}" varStatus="status">
+ 			<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].propPersonBios) > 0}" >
+        	<c:forEach var="propPersonBio" items="${KualiForm.document.developmentProposalList[0].propPersonBios}" varStatus="status">
 	             <tr>
 					<th class="infoline" align="right">
 						${status.index+1}:
 					</th>
 	                <td>
-                	   <kul:htmlControlAttribute property="document.propPersonBio[${status.index}].timestampDisplay" readOnly="true" attributeEntry="${propPersonBioAttributes.updateTimestamp}" /> 
+                	   <kul:htmlControlAttribute property="document.developmentProposalList[0].propPersonBio[${status.index}].timestampDisplay" readOnly="true" attributeEntry="${propPersonBioAttributes.updateTimestamp}" /> 
 					</td>
 	                <td>
                 	    ${propPersonBio.uploadUserDisplay}
 	                </td>
 	                <td>
-        			    <input type="hidden" name="document.propPersonBio[${status.index}].proposalPersonNumber" value="${propPersonBio.proposalPersonNumber}" /> 
-	                	<!--<kul:htmlControlAttribute property="document.propPersonBio[${status.index}].personId" attributeEntry="${propPersonBioAttributes.personId}" />--> 
-        				<c:forEach var="keyPerson" items="${KualiForm.document.proposalPersons}" varStatus="idx">
+        			    <input type="hidden" name="document.developmentProposalList[0].propPersonBio[${status.index}].proposalPersonNumber" value="${propPersonBio.proposalPersonNumber}" /> 
+	                	<!--<kul:htmlControlAttribute property="document.developmentProposalList[0].propPersonBio[${status.index}].personId" attributeEntry="${propPersonBioAttributes.personId}" />--> 
+        				<c:forEach var="keyPerson" items="${KualiForm.document.developmentProposalList[0].proposalPersons}" varStatus="idx">
         				   <c:if test="${keyPerson.proposalPersonNumber == propPersonBio.proposalPersonNumber}" >
         				       ${keyPerson.fullName}
-		        			    <input type="hidden" name="document.propPersonBio[${status.index}].personId" value="${keyPerson.personId}" /> 
-			    			    <input type="hidden" name="document.propPersonBio[${status.index}].rolodexId" value="${keyPerson.rolodexId}" /> 
+		        			    <input type="hidden" name="document.developmentProposalList[0].propPersonBio[${status.index}].personId" value="${keyPerson.personId}" /> 
+			    			    <input type="hidden" name="document.developmentProposalList[0].propPersonBio[${status.index}].rolodexId" value="${keyPerson.rolodexId}" /> 
         				   </c:if>
 						</c:forEach>
 	                </td>

@@ -74,14 +74,14 @@ public class BudgetServiceImpl implements BudgetService {
     public BudgetDocument getNewBudgetVersion(ProposalDevelopmentDocument pdDoc, String documentDescription) throws WorkflowException {
         
         BudgetDocument budgetDocument;
-        Integer budgetVersionNumber = pdDoc.getNextBudgetVersionNumber();
+        Integer budgetVersionNumber = pdDoc.getDevelopmentProposal().getNextBudgetVersionNumber();
         
         budgetDocument = (BudgetDocument) documentService.getNewDocument(BudgetDocument.class);
-        budgetDocument.setProposalNumber(pdDoc.getProposalNumber());
+        budgetDocument.setProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
         budgetDocument.setBudgetVersionNumber(budgetVersionNumber);
         budgetDocument.getDocumentHeader().setDocumentDescription(documentDescription);
-        budgetDocument.setStartDate(pdDoc.getRequestedStartDateInitial());
-        budgetDocument.setEndDate(pdDoc.getRequestedEndDateInitial());
+        budgetDocument.setStartDate(pdDoc.getDevelopmentProposal().getRequestedStartDateInitial());
+        budgetDocument.setEndDate(pdDoc.getDevelopmentProposal().getRequestedEndDateInitial());
         budgetDocument.setOhRateTypeCode(kualiConfigurationService.getParameterValue(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
         budgetDocument.setOhRateClassCode(kualiConfigurationService.getParameterValue(
@@ -92,11 +92,11 @@ public class BudgetServiceImpl implements BudgetService {
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_MODULAR_FLAG).equalsIgnoreCase(Constants.TRUE_FLAG));
         
         // Copy in key personnel
-        for (ProposalPerson proposalPerson: pdDoc.getProposalPersons()) {
+        for (ProposalPerson proposalPerson: pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (!proposalPerson.isOtherSignificantContributorFlag()) {
                 BudgetPerson budgetPerson = new BudgetPerson(proposalPerson);
                 budgetPersonService.populateBudgetPersonData(budgetDocument, budgetPerson);
-                budgetPerson.setEffectiveDate(pdDoc.getRequestedStartDateInitial());
+                budgetPerson.setEffectiveDate(pdDoc.getDevelopmentProposal().getRequestedStartDateInitial());
                 budgetDocument.addBudgetPerson(budgetPerson);
             }
         }
@@ -263,7 +263,7 @@ public class BudgetServiceImpl implements BudgetService {
     
     public Collection<BudgetProposalRate> getSavedProposalRates(ProposalDevelopmentDocument pdDoc, String budgetVersionNumber) {
         Map qMap = new HashMap();
-        qMap.put("proposalNumber",pdDoc.getProposalNumber());
+        qMap.put("proposalNumber",pdDoc.getDevelopmentProposal().getProposalNumber());
         qMap.put("budgetVersionNumber",budgetVersionNumber);
         return businessObjectService.findMatching(BudgetProposalRate.class, qMap);
     }
@@ -281,7 +281,7 @@ public class BudgetServiceImpl implements BudgetService {
     }
    
     public boolean checkActivityTypeChange(ProposalDevelopmentDocument pdDoc, String budgetVersionNumber) {
-        return checkActivityTypeChange(getSavedProposalRates(pdDoc, budgetVersionNumber), pdDoc.getActivityTypeCode());
+        return checkActivityTypeChange(getSavedProposalRates(pdDoc, budgetVersionNumber), pdDoc.getDevelopmentProposal().getActivityTypeCode());
     }
     
     public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem) {
@@ -310,21 +310,21 @@ public class BudgetServiceImpl implements BudgetService {
     public String getActivityTypeForBudget(BudgetDocument budgetDocument) {
         ProposalDevelopmentDocument pdDoc = budgetDocument.getProposal();
         Map qMap = new HashMap();
-        qMap.put("proposalNumber",pdDoc.getProposalNumber());
+        qMap.put("proposalNumber",pdDoc.getDevelopmentProposal().getProposalNumber());
         qMap.put("budgetVersionNumber",budgetDocument.getBudgetVersionNumber());
         ArrayList<BudgetProposalRate> allPropRates = (ArrayList) businessObjectService.findMatching(
                 BudgetProposalRate.class, qMap);
         if (CollectionUtils.isNotEmpty(allPropRates)) {
-            qMap.put("activityTypeCode",pdDoc.getActivityTypeCode());
-            Collection<BudgetProposalRate> matchActivityTypePropRates = businessObjectService.findMatching(
+            qMap.put("activityTypeCode",pdDoc.getDevelopmentProposal().getActivityTypeCode());
+            Collection<BudgetProposalRate> matchActivityTypePropRates =  businessObjectService.findMatching(
                 BudgetProposalRate.class, qMap);
             if (CollectionUtils.isNotEmpty(matchActivityTypePropRates)) {
                 for (BudgetProposalRate budgetProposalRate : allPropRates) { 
-                    if (!budgetProposalRate.getActivityTypeCode().equals(pdDoc.getActivityTypeCode())) {
+                    if (!budgetProposalRate.getActivityTypeCode().equals(pdDoc.getDevelopmentProposal().getActivityTypeCode())) {
                         return budgetProposalRate.getActivityTypeCode();
                     }
                 }
-                return pdDoc.getActivityTypeCode();                
+                return pdDoc.getDevelopmentProposal().getActivityTypeCode();                
             } else {
                 return allPropRates.get(0).getActivityTypeCode();
             }

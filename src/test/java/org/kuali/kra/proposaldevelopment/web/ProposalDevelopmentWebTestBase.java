@@ -274,14 +274,14 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
      * @throws WorkflowException
      */
     protected void verifySavedRequiredFields(ProposalDevelopmentDocument doc, String activityType, String ownedByUnitNumber, String description, String sponsorCode, String title, String requestedStartDateInitial, String requestedEndDateInitial, String proposalTypeCode) throws WorkflowException {
-        assertEquals(activityType, doc.getActivityTypeCode());
-        assertEquals(ownedByUnitNumber, doc.getOwnedByUnitNumber());
+        assertEquals(activityType, doc.getDevelopmentProposal().getActivityTypeCode());
+        assertEquals(ownedByUnitNumber, doc.getDevelopmentProposal().getOwnedByUnitNumber());
         assertEquals(description, doc.getDocumentHeader().getDocumentDescription());
-        assertEquals(sponsorCode, doc.getSponsorCode());
-        assertEquals(title, doc.getTitle());
-        assertEquals(requestedStartDateInitial, doc.getRequestedStartDateInitial().toString());
-        assertEquals(requestedEndDateInitial, doc.getRequestedEndDateInitial().toString());
-        assertEquals(proposalTypeCode, doc.getProposalTypeCode());
+        assertEquals(sponsorCode, doc.getDevelopmentProposal().getSponsorCode());
+        assertEquals(title, doc.getDevelopmentProposal().getTitle());
+        assertEquals(requestedStartDateInitial, doc.getDevelopmentProposal().getRequestedStartDateInitial().toString());
+        assertEquals(requestedEndDateInitial, doc.getDevelopmentProposal().getRequestedEndDateInitial().toString());
+        assertEquals(proposalTypeCode, doc.getDevelopmentProposal().getProposalTypeCode());
     }
 
 }

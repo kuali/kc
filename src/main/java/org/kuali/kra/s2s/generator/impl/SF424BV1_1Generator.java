@@ -65,7 +65,7 @@ public class SF424BV1_1Generator extends SF424BaseGenerator {
         assuranceType.setProgramType(PROGRAM_TYPE);
         assuranceType.setCoreSchemaVersion(S2SConstants.CORE_SCHEMA_VERSION_1_1);
         assuranceType.setAuthorizedRepresentative(getAuthorizedRepresentative());
-        Organization organization = pdDoc.getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
         assuranceType.setApplicantOrganizationName(organization.getOrganizationName());
 
         return assuranceType;

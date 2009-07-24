@@ -57,14 +57,14 @@ public class NasaPIandAORSupplementalDataSheetV1_0GeneratorTest extends S2STestB
         person.setProposalPersonNumber(1001);
         List<ProposalPerson> personList = new ArrayList<ProposalPerson>();
         personList.add(person);
-        document.setProposalPersons(personList);
+        document.getDevelopmentProposal().setProposalPersons(personList);
 
         List<ProposalYnq> proArrayList = new ArrayList<ProposalYnq>();
         ProposalYnq proposalYnq = new ProposalYnq();
         proposalYnq.setQuestionId("25");
         proposalYnq.setAnswer("N");
         proArrayList.add(proposalYnq);
-        document.setProposalYnqs(proArrayList);
-        document.setOrganization(organization);
+        document.getDevelopmentProposal().setProposalYnqs(proArrayList);
+        document.getDevelopmentProposal().setOrganization(organization);
     }
 }

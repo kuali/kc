@@ -70,9 +70,9 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
         int i=0;
-        for(S2sSubmissionHistory s2sSubmissionHistory:doc.getS2sSubmissionHistory()){
+        for(S2sSubmissionHistory s2sSubmissionHistory:doc.getDevelopmentProposal().getS2sSubmissionHistory()){
             s2sSubmissionHistory = (S2sSubmissionHistory)boService.retrieve(s2sSubmissionHistory);
-            doc.getS2sSubmissionHistory().get(i).setSubmissionTime(s2sSubmissionHistory.getSubmissionTime());
+            doc.getDevelopmentProposal().getS2sSubmissionHistory().get(i).setSubmissionTime(s2sSubmissionHistory.getSubmissionTime());
             i++;
         }
         
@@ -96,7 +96,7 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
             nextWebPage = mapping.findForward(Constants.MAPPING_BASIC);
         }
         else {
-            String originalProposalId = doc.getProposalNumber();
+            String originalProposalId = doc.getDevelopmentProposal().getProposalNumber();
             String newDocId = proposalCopyService.copyProposal(doc, criteria);
             KualiWorkflowDocument originalWFDoc= doc.getDocumentHeader().getWorkflowDocument();
             KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), (UniversalUser) GlobalVariables.getUserSession().getPerson());
@@ -107,10 +107,10 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
             proposalDevelopmentForm.setDocId(newDocId);
             this.loadDocument(proposalDevelopmentForm);
             ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getDocument();
-            copiedDocument.setS2sAppSubmission(new ArrayList<S2sAppSubmission>());
-            copiedDocument.setContinuedFrom(originalProposalId);
-            copiedDocument.setProposalTypeCode("4");
-            copiedDocument.getS2sOpportunity().setS2sSubmissionType(null);
+            copiedDocument.getDevelopmentProposal().setS2sAppSubmission(new ArrayList<S2sAppSubmission>());
+            copiedDocument.getDevelopmentProposal().setContinuedFrom(originalProposalId);
+            copiedDocument.getDevelopmentProposal().setProposalTypeCode("4");
+            copiedDocument.getDevelopmentProposal().getS2sOpportunity().setS2sSubmissionType(null);
                         
             KualiWorkflowDocument workflowDocument = copiedDocument.getDocumentHeader().getWorkflowDocument();
  // Removed cancel of original document until KEW will allow this to happen
@@ -120,11 +120,11 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
             //Copying the submission history from the previous proposal to new proposal
             //setting id field to null so that OJB can treat this as a new insert
             //just copying the existing history and not adding any new history
-            for(S2sSubmissionHistory s2sSubmissionHistory : copiedDocument.getS2sSubmissionHistory()){
+            for(S2sSubmissionHistory s2sSubmissionHistory : copiedDocument.getDevelopmentProposal().getS2sSubmissionHistory()){
                 s2sSubmissionHistory.setId(null);
             }           
             docService.saveDocument(copiedDocument);
-            boService.save(copiedDocument.getS2sSubmissionHistory());
+            boService.save(copiedDocument.getDevelopmentProposal().getS2sSubmissionHistory());
             nextWebPage = mapping.findForward(MAPPING_PROPOSAL);
             }
         }

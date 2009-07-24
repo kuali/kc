@@ -70,7 +70,7 @@ public class NASAOtherProjectInformationV1_0Generator extends S2SBaseFormGenerat
         nasaOtherProjectInformation.setInternationalParticipation(getInternationalParticipation());
         nasaOtherInformationDocument.setNASAOtherProjectInformation(nasaOtherProjectInformation);
 
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == PROGRAM_SPECIFIC_DATA) {
                 AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
@@ -171,7 +171,7 @@ public class NASAOtherProjectInformationV1_0Generator extends S2SBaseFormGenerat
                         inParticipation.setInternationalParticipatioEx(proposalYnq.getExplanation());
                     }
                 }
-                for (ProposalPerson proposalPerson : pdDoc.getProposalPersons()) {
+                for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
                     if (proposalPerson.getProposalPersonRoleId() != null) {
                         if (proposalPerson.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR)) {
                             inParticipation.setInternationalParticipationPI(YesNoDataType.Y_YES);
@@ -202,14 +202,14 @@ public class NASAOtherProjectInformationV1_0Generator extends S2SBaseFormGenerat
      */
     private AttachedFileDataType[] getAppendixFileDataTypes() {
         int size = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDICES) {
                 size++;
             }
         }
         AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
         int attachments = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDICES) {
                 attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
                 attachments++;
@@ -227,7 +227,7 @@ public class NASAOtherProjectInformationV1_0Generator extends S2SBaseFormGenerat
      */
     private AttachedFileDataType[] getEndorsementFileDataTypes() {
         int size = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == NON_US_ORGANIZATION_LETTERS_OF_ENDORSEMENT) {
                 size++;
@@ -235,7 +235,7 @@ public class NASAOtherProjectInformationV1_0Generator extends S2SBaseFormGenerat
         }
         AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
         int attachments = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == NON_US_ORGANIZATION_LETTERS_OF_ENDORSEMENT) {
                 attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
@@ -253,14 +253,14 @@ public class NASAOtherProjectInformationV1_0Generator extends S2SBaseFormGenerat
      */
     private AttachedFileDataType[] getIRBACUCLettersFileDataTypes() {
         int size = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_IRB_ACUC_LETTERS) {
                 size++;
             }
         }
         AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
         int attachments = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_IRB_ACUC_LETTERS) {
                 attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
                 attachments++;
@@ -280,7 +280,7 @@ public class NASAOtherProjectInformationV1_0Generator extends S2SBaseFormGenerat
     private ProposalYnq getAnswer(String questionId, ProposalDevelopmentDocument pdDoc) {
         String question = null;
         ProposalYnq ynQ = null;
-        for (ProposalYnq proposalYnq : pdDoc.getProposalYnqs()) {
+        for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
             question = proposalYnq.getQuestionId();
             if (question != null && question.equals(questionId)) {
                 ynQ = proposalYnq;

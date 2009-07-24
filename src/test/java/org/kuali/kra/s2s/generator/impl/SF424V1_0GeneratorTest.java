@@ -40,7 +40,7 @@ public class SF424V1_0GeneratorTest extends S2STestBase<SF424V1_0Generator> {
 
     @Override
     protected void prepareData(ProposalDevelopmentDocument document) throws Exception {
-        document.setProposalTypeCode("1");
+        document.getDevelopmentProposal().setProposalTypeCode("1");
         S2sSubmissionType submissionType = new S2sSubmissionType();
         submissionType.setS2sSubmissionTypeCode("AC");
         Sponsor sponsor = new Sponsor();
@@ -91,18 +91,18 @@ public class SF424V1_0GeneratorTest extends S2STestBase<SF424V1_0Generator> {
         performingOrganization.setCongressionalDistrict("Alaska");
         performingOrganization.setRolodex(rolodex2);
 
-        document.setCfdaNumber("45454");
-        document.setProposalNumber("46554546");
-        document.setProgramAnnouncementTitle("Marwan Abu-Fadel");
-        document.setTitle("SF424");
-        document.setRequestedStartDateInitial(new Date(0));
-        document.setRequestedEndDateInitial(new Date(0));
-        document.setPerformingOrganization(performingOrganization);
-        document.setOrganization(organization);
-        document.setRolodex(rolodex);
-        document.setSponsor(sponsor);
-        document.setOwnedByUnit(unit);
-        document.getOwnedByUnit().setParentUnit(unit2);
-        document.setOrganization(organization);
+        document.getDevelopmentProposal().setCfdaNumber("45454");
+        document.getDevelopmentProposal().setProposalNumber("46554546");
+        document.getDevelopmentProposal().setProgramAnnouncementTitle("Marwan Abu-Fadel");
+        document.getDevelopmentProposal().setTitle("SF424");
+        document.getDevelopmentProposal().setRequestedStartDateInitial(new Date(0));
+        document.getDevelopmentProposal().setRequestedEndDateInitial(new Date(0));
+        document.getDevelopmentProposal().setPerformingOrganization(performingOrganization);
+        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setRolodex(rolodex);
+        document.getDevelopmentProposal().setSponsor(sponsor);
+        document.getDevelopmentProposal().setOwnedByUnit(unit);
+        document.getDevelopmentProposal().getOwnedByUnit().setParentUnit(unit2);
+        document.getDevelopmentProposal().setOrganization(organization);
     }
 }

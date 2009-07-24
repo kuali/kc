@@ -49,7 +49,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
      */
     public void addProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument,
             ProposalPersonBiography proposalPersonBiography) {
-        proposalPersonBiography.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
+        proposalPersonBiography.setProposalNumber(proposaldevelopmentDocument.getDevelopmentProposal().getProposalNumber());
         proposalPersonBiography.setBiographyNumber(proposaldevelopmentDocument
                 .getDocumentNextValue(Constants.PROP_PERSON_BIO_NUMBER));
         proposalPersonBiography.setPropPerDocType(new PropPerDocType());
@@ -83,13 +83,13 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
             }
         }
         DocumentNextvalue documentNextvalue = proposaldevelopmentDocument.getDocumentNextvalueBo(Constants.PROP_PERSON_BIO_NUMBER);
-        documentNextvalue.setDocumentKey(proposaldevelopmentDocument.getProposalNumber());
+        documentNextvalue.setDocumentKey(proposaldevelopmentDocument.getDevelopmentProposal().getProposalNumber());
         List<BusinessObject> businessObjects = new ArrayList<BusinessObject>();
         businessObjects.add(documentNextvalue);
         businessObjects.add(proposalPersonBiography);
         getBusinessObjectService().save(businessObjects);
         proposalPersonBiography.getPersonnelAttachmentList().clear();
-        proposaldevelopmentDocument.getPropPersonBios().add(proposalPersonBiography);
+        proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios().add(proposalPersonBiography);
 
     }
 
@@ -102,14 +102,14 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
             ProposalPerson person) {
 
         List<ProposalPersonBiography> personAttachments = new ArrayList();
-        for (ProposalPersonBiography proposalPersonBiography : proposaldevelopmentDocument.getPropPersonBios()) {
+        for (ProposalPersonBiography proposalPersonBiography : proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios()) {
             if (proposalPersonBiography.getProposalPersonNumber().equals(person.getProposalPersonNumber())) {
                 personAttachments.add(proposalPersonBiography);
             }
 
         }
         if (!personAttachments.isEmpty()) {
-            proposaldevelopmentDocument.getPropPersonBios().removeAll(personAttachments);
+            proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios().removeAll(personAttachments);
         }
     }
 
@@ -119,8 +119,8 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
      *      int)
      */
     public void deleteProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument, int lineToDelete) {
-        ProposalPersonBiography proposalPersonBiography = proposaldevelopmentDocument.getPropPersonBios().get(lineToDelete);
-        proposaldevelopmentDocument.getPropPersonBios().remove(proposalPersonBiography);
+        ProposalPersonBiography proposalPersonBiography = proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios().get(lineToDelete);
+        proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios().remove(proposalPersonBiography);
         getBusinessObjectService().delete(proposalPersonBiography);
 
     }
@@ -133,7 +133,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
      * @return
      */
     private ProposalPerson getPerson(ProposalDevelopmentDocument proposaldevelopmentDocument, Integer proposalPersonNumber) {
-        for (ProposalPerson person : proposaldevelopmentDocument.getProposalPersons()) {
+        for (ProposalPerson person : proposaldevelopmentDocument.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPersonNumber.equals(person.getProposalPersonNumber())) {
                 return person;
             }

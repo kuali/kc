@@ -15,13 +15,13 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
+<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="proSpecialAttriburesAttributes" value="${DataDictionary.ProposalSpecialReview.attributes}" />
 <c:set var="exemptionTypeAttributes" value="${DataDictionary.ProposalExemptNumber.attributes}" />
 
 <c:set var="action" value="proposalDevelopmentSpecialReview" />
 <div id="workarea">
-<kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.propSpecialReview*,newPropSpecialReview*,documentExemptNumber*,newExemptNumber*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.propSpecialReview*" useRiceAuditMode="true">
+<kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.developmentProposalList[0].propSpecialReview*,newPropSpecialReview*,documentExemptNumber*,newExemptNumber*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.developmentProposalList[0].propSpecialReview*" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Special Review</span>
@@ -100,45 +100,45 @@
             </tr>
             </kra:section>
             
-        	<c:forEach var="specialReview" items="${KualiForm.document.propSpecialReviews}" varStatus="status">
+        	<c:forEach var="specialReview" items="${KualiForm.document.developmentProposalList[0].propSpecialReviews}" varStatus="status">
 	             <tr>
-	                <c:set var="textAreaFieldName" value="document.propSpecialReview[${status.index}].comments" />
+	                <c:set var="textAreaFieldName" value="document.developmentProposalList[0].propSpecialReview[${status.index}].comments" />
 					<th class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
-	                	<div align="center"> <kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].specialReviewCode" readOnlyAlternateDisplay="${specialReview.specialReview.description}" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}"  styleClass="fixed-size-select"/>
+	                	<div align="center"> <kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].specialReviewCode" readOnlyAlternateDisplay="${specialReview.specialReview.description}" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}"  styleClass="fixed-size-select"/>
 					</div>
 					</td>
 	                <td>
-	                <div align="center"> <kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].approvalTypeCode" readOnlyAlternateDisplay="${specialReview.specialReviewApprovalType.description}" attributeEntry="${proSpecialAttriburesAttributes.approvalTypeCode}" />
+	                <div align="center"> <kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].approvalTypeCode" readOnlyAlternateDisplay="${specialReview.specialReviewApprovalType.description}" attributeEntry="${proSpecialAttriburesAttributes.approvalTypeCode}" />
 	                </div>
 	                </td>
 	                <td>     
 	                <div align="center">           	
-	                  <kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].protocolNumber" attributeEntry="${proSpecialAttriburesAttributes.protocolNumber}" />	
+	                  <kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].protocolNumber" attributeEntry="${proSpecialAttriburesAttributes.protocolNumber}" />	
 					</div>
 					</td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].applicationDate" attributeEntry="${proSpecialAttriburesAttributes.applicationDate}" datePicker="true"/></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].applicationDate" attributeEntry="${proSpecialAttriburesAttributes.applicationDate}" datePicker="true"/></div>
 	                </td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].approvalDate" attributeEntry="${proSpecialAttriburesAttributes.approvalDate}" datePicker="true"/></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].approvalDate" attributeEntry="${proSpecialAttriburesAttributes.approvalDate}" datePicker="true"/></div>
 	                </td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].expirationDate" attributeEntry="${proSpecialAttriburesAttributes.expirationDate}" datePicker="true"/></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].expirationDate" attributeEntry="${proSpecialAttriburesAttributes.expirationDate}" datePicker="true"/></div>
 	                </td>
  
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
                 	<%-- always make (readOnly = false) so that the select control will always appear even when (readOnly == true) but make disabled when the values should not be changed --%>
-                    <kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].exemptNumbers" attributeEntry="${exemptionTypeAttributes.exemptionTypeCode}" isMultiSelect="true" multiSelectSize="4" readOnly="false" disabled="${readOnly}"/>
+                    <kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].exemptNumbers" attributeEntry="${exemptionTypeAttributes.exemptionTypeCode}" isMultiSelect="true" multiSelectSize="4" readOnly="false" disabled="${readOnly}"/>
 					</div>	  			
                 </td>
 
 	                <td align="left" valign="middle">
 	                <div align="center">
-	                	<kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].comments" attributeEntry="${proSpecialAttriburesAttributes.comments}" />
+	                	<kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].comments" attributeEntry="${proSpecialAttriburesAttributes.comments}" />
                         <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proSpecialAttriburesAttributes.comments.label}" />
 	                
 	                </div>

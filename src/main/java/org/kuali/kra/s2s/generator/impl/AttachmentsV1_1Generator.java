@@ -80,7 +80,7 @@ public class AttachmentsV1_1Generator extends S2SBaseFormGenerator {
         ATT15 att15 = ATT15.Factory.newInstance();
         int countAttachments = 0;
 
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVECODE_ATTACHMENTS) {
                 countAttachments++;

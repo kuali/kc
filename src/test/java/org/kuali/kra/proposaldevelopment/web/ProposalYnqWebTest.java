@@ -74,7 +74,7 @@ public class ProposalYnqWebTest extends ProposalDevelopmentWebTestBase{
         HtmlPage proposalPage = getProposalYnqPage();
         /* Answer all questions */
         for(int i=0; i<4; i++) {
-            String fieldName = "document.proposalYnq[" + i + "].answer";
+            String fieldName = "document.developmentProposalList[0].proposalYnq[" + i + "].answer";
             setFieldValue(proposalPage,fieldName , RADIO_FIELD_VALUE);
         }
         /* save questions panel */

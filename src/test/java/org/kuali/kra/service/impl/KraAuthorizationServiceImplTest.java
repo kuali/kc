@@ -201,7 +201,7 @@ public class KraAuthorizationServiceImplTest extends KraTestBase {
      */
     private ProposalDevelopmentDocument createProposal(String nbr) {
         ProposalDevelopmentDocument doc = new ProposalDevelopmentDocument();
-        doc.setProposalNumber(nbr);
+        doc.getDevelopmentProposal().setProposalNumber(nbr);
         return doc;
     }
     

@@ -392,12 +392,12 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         assertNotNull(doc);
         verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "2007-08-14", "2007-08-21", "1");
 
-        assertEquals("1", doc.getMailBy());
-        assertEquals("2", doc.getMailType());
-        assertEquals(new Integer(1728), doc.getMailingAddressId());
-        assertEquals("10-0001", doc.getMailAccountNumber());
-        assertEquals("2", doc.getNumberOfCopies());
-        assertEquals("mail description \n line2", doc.getMailDescription());
+        assertEquals("1", doc.getDevelopmentProposal().getMailBy());
+        assertEquals("2", doc.getDevelopmentProposal().getMailType());
+        assertEquals(new Integer(1728), doc.getDevelopmentProposal().getMailingAddressId());
+        assertEquals("10-0001", doc.getDevelopmentProposal().getMailAccountNumber());
+        assertEquals("2", doc.getDevelopmentProposal().getNumberOfCopies());
+        assertEquals("mail description \n line2", doc.getDevelopmentProposal().getMailDescription());
     }
 
     /**
@@ -475,13 +475,13 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         String[] params = paramList.split(SEMI_COLON);
 
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
-        doc.refreshReferenceObject("instituteAttachments");
+        doc.getDevelopmentProposal().refreshReferenceObject("instituteAttachments");
         assertNotNull(doc);
         verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "2007-08-14", "2007-08-21", "1");
-        assertTrue(doc.getInstituteAttachments().size() == lineNumber + 1);
-        Narrative narrative = doc.getInstituteAttachments().get(lineNumber);
+        assertTrue(doc.getDevelopmentProposal().getInstituteAttachments().size() == lineNumber + 1);
+        Narrative narrative = doc.getDevelopmentProposal().getInstituteAttachments().get(lineNumber);
         if (lineNumber == 1 && !params[0].equals(narrative.getNarrativeTypeCode())) {
-            narrative = doc.getInstituteAttachments().get(0);
+            narrative = doc.getDevelopmentProposal().getInstituteAttachments().get(0);
         }    
         assertTrue(params[0].equals(narrative.getNarrativeTypeCode()));
         assertTrue(params[1].equals(narrative.getModuleTitle()));
@@ -601,13 +601,13 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
        String[] params = paramList.split(SEMI_COLON);
     
        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
-       doc.refreshReferenceObject("propPersonBios");
+       doc.getDevelopmentProposal().refreshReferenceObject("propPersonBios");
        assertNotNull(doc);
        verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "2007-08-14", "2007-08-21", "1");
-       assertTrue(doc.getPropPersonBios().size() == lineNumber + 1);
-       ProposalPersonBiography personBio = doc.getPropPersonBios().get(lineNumber);
+       assertTrue(doc.getDevelopmentProposal().getPropPersonBios().size() == lineNumber + 1);
+       ProposalPersonBiography personBio = doc.getDevelopmentProposal().getPropPersonBios().get(lineNumber);
        if (lineNumber == 1 && !personBio.getDocumentTypeCode().equals(params[0])) {
-           personBio=(ProposalPersonBiography)doc.getPropPersonBios().get(0);
+           personBio=(ProposalPersonBiography)doc.getDevelopmentProposal().getPropPersonBios().get(0);
        }
        assertEquals(params[0], personBio.getDocumentTypeCode());
        assertEquals(params[1], personBio.getProposalPersonNumber().toString());

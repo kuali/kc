@@ -73,7 +73,7 @@ public class ProposalCopyCriteria extends BusinessObjectBase {
         this.includeBudget = false;
         this.budgetVersions = BUDGET_ALL_VERSIONS;
         this.leadUnitNumber = "";
-        this.originalLeadUnitNumber = doc.getOwnedByUnitNumber();
+        this.originalLeadUnitNumber = doc.getDevelopmentProposal().getOwnedByUnitNumber();
     }
     
     /**

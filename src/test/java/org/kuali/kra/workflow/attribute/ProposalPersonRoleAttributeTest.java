@@ -134,14 +134,14 @@ public class ProposalPersonRoleAttributeTest extends KraTestBase{
         
         
         
-        document.setProposalPersons(ProposalPersons);
+        document.getDevelopmentProposal().setProposalPersons(ProposalPersons);
         document.getDocumentHeader().setDocumentDescription("ProposalDevelopmentDocumentTest test doc");
-        document.setSponsorCode("005770");
-        document.setTitle( "project title");
-        document.setRequestedStartDateInitial(requestedStartDateInitial);
-        document.setRequestedEndDateInitial(requestedEndDateInitial);
-        document.setActivityTypeCode("1");
-        document.setProposalTypeCode("1");
-        document.setOwnedByUnitNumber("000001");
+        document.getDevelopmentProposal().setSponsorCode("005770");
+        document.getDevelopmentProposal().setTitle( "project title");
+        document.getDevelopmentProposal().setRequestedStartDateInitial(requestedStartDateInitial);
+        document.getDevelopmentProposal().setRequestedEndDateInitial(requestedEndDateInitial);
+        document.getDevelopmentProposal().setActivityTypeCode("1");
+        document.getDevelopmentProposal().setProposalTypeCode("1");
+        document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
     }
 }

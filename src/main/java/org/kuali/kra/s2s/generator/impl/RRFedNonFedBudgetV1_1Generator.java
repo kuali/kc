@@ -90,11 +90,11 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
         RRFedNonFedBudgetDocument rrFedNonFedBudgetDocument = RRFedNonFedBudgetDocument.Factory.newInstance();
         RRFedNonFedBudget rrFedNonFedBudget = RRFedNonFedBudget.Factory.newInstance();
         rrFedNonFedBudget.setFormVersion(S2SConstants.FORMVERSION_1_1);
-        if (pdDoc.getOrganization() != null) {
-            rrFedNonFedBudget.setDUNSID(pdDoc.getOrganization().getDunsNumber());
+        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
+            rrFedNonFedBudget.setDUNSID(pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber());
         }
-        if (pdDoc.getOrganization() != null) {
-            rrFedNonFedBudget.setOrganizationName(pdDoc.getOrganization().getOrganizationName());
+        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
+            rrFedNonFedBudget.setOrganizationName(pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName());
         }
         rrFedNonFedBudget.setBudgetType(BudgetTypeDataType.PROJECT);
         // Set default values for mandatory fields
@@ -746,7 +746,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             }
             budgetYear.setTotalCosts(summaryTotal);
         }
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
                 budgetYear.setBudgetJustificationAttachment(getAttachedFileType(narrative));
@@ -1213,7 +1213,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                 equipment.setTotalFund(summary);
             }
         }
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_EQUIPMENT_ATTACHMENT) {
                 equipment.setAdditionalEquipmentsAttachment(getAttachedFileType(narrative));
@@ -1518,7 +1518,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             }
             keyPersons.setTotalFundForAttachedKeyPersons(summaryAttachedKey);
         }
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_KEYPERSONS_ATTACHMENT) {
                 keyPersons.setAttachedKeyPersons(getAttachedFileType(narrative));

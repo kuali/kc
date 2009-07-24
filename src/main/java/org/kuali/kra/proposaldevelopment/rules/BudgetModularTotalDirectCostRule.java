@@ -136,7 +136,7 @@ public final class BudgetModularTotalDirectCostRule {
         boolean passed = true;
 
         final List<BudgetVersionOverview> budgetOverviews
-        = pdDocument.getBudgetVersionOverviews();
+        = pdDocument.getDevelopmentProposal().getBudgetVersionOverviews();
 
         for (int i = 0; i < budgetOverviews.size(); i++) {
             final BudgetVersionOverview budgetOverview

@@ -14,7 +14,7 @@ http://www.osedu.org/licenses/ECL-2.0
 	limitations under the License.
 	--%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
+<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="proposalCopyCriteriaAttributes" value="${DataDictionary.ProposalCopyCriteria.attributes}" />
 <c:set var="action" value="proposalDevelopmentActions" />
 <kul:documentPage

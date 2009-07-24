@@ -65,6 +65,6 @@ public class RRPersonalDataV1_1GeneratorTest extends S2STestBase<RRPersonalDataV
         List<ProposalPerson> proposalPersonList = new ArrayList<ProposalPerson>();
         proposalPersonList.add(proposalPerson);
         proposalPersonList.add(keyPerson);
-        document.setProposalPersons(proposalPersonList);
+        document.getDevelopmentProposal().setProposalPersons(proposalPersonList);
     }
 }

@@ -16,9 +16,9 @@
 
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
+<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="scienceKeywordAttributes" value="${DataDictionary.ScienceKeyword.attributes}" />
-<c:set var="textAreaFieldName" value="document.mailDescription" />
+<c:set var="textAreaFieldName" value="document.developmentProposalList[0].mailDescription" />
 <c:set var="action" value="proposalDevelopmentProposal" />
 <c:set var="className" value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" />
 
@@ -37,7 +37,7 @@
              </tr>
             <tr>
               <th width="10%" class="infoline">Add:</th>
-              <td width="70%" class="infoline">${KualiForm.document.newDescription}
+              <td width="70%" class="infoline">${KualiForm.document.developmentProposalList[0].newDescription}
               		<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ScienceKeyword" 
               		lookedUpCollectionName="propScienceKeywords" 
               		anchor="${tabKey}"/>
@@ -48,19 +48,19 @@
               </div></td>
             </tr>
 
-            <logic:iterate name="KualiForm" id="proposalKeywords" property="document.propScienceKeywords" indexId="ctr">
+            <logic:iterate name="KualiForm" id="proposalKeywords" property="document.developmentProposalList[0].propScienceKeywords" indexId="ctr">
               <tr>
                 <td class="infoline"><div align="center">
                 	${ctr+1} 
                 </div></td>
                 <td>
-                	 ${KualiForm.document.propScienceKeywords[ctr].scienceKeyword.description}
+                	 ${KualiForm.document.developmentProposalList[0].propScienceKeywords[ctr].scienceKeyword.description}
 					<kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" 
-					fieldConversions="scienceKeywordCode:document.propScienceKeyword[${ctr}].scienceKeywordCode,description:document.propScienceKeyword[${ctr}].scienceKeyword.description"
+					fieldConversions="scienceKeywordCode:document.developmentProposalList[0].propScienceKeyword[${ctr}].scienceKeywordCode,description:document.developmentProposalList[0].propScienceKeyword[${ctr}].scienceKeyword.description"
 					lookupParameters="" hideReturnLink="false" />
                 </td>
                 <td><div align="center">
-                  <kul:htmlControlAttribute property="document.propScienceKeyword[${ctr}].selectKeyword" attributeEntry="${DataDictionary.PropScienceKeyword.attributes.selectKeyword}" readOnly="${readOnly}" />
+                  <kul:htmlControlAttribute property="document.developmentProposalList[0].propScienceKeyword[${ctr}].selectKeyword" attributeEntry="${DataDictionary.PropScienceKeyword.attributes.selectKeyword}" readOnly="${readOnly}" />
                 </div></td>
               </tr>
             </logic:iterate>
@@ -69,7 +69,7 @@
               <tr>
                 <td class="infoline" colspan=2>&nbsp;</td>
                 <td nowrap class="infoline"><div align=center>
-                <c:if test="${fn:length(KualiForm.document.propScienceKeywords) > 0}">
+                <c:if test="${fn:length(KualiForm.document.developmentProposalList[0].propScienceKeywords) > 0}">
 	                <html:image property="methodToCall.selectAllScienceKeyword.anchor${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="javascript: selectAllKeywords(document);return false" />    
 	                <html:image property="methodToCall.deleteSelectedScienceKeyword.anchor${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-deleteselected.gif" title="Delete Selected" alt="Delete Selected" styleClass="tinybutton" />
 	            </c:if>

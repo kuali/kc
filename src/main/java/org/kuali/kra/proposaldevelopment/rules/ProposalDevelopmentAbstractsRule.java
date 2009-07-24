@@ -98,7 +98,7 @@ public class ProposalDevelopmentAbstractsRule extends ResearchDocumentRuleBase i
      * @return true if it is a duplicate; otherwise false
      */
     private boolean isDuplicate(ProposalDevelopmentDocument document, String abstractTypeCode) {
-        List<ProposalAbstract> proposalAbstracts = document.getProposalAbstracts();
+        List<ProposalAbstract> proposalAbstracts = document.getDevelopmentProposal().getProposalAbstracts();
         for (ProposalAbstract proposalAbstract : proposalAbstracts) {
             if (proposalAbstract.getAbstractTypeCode().equals(abstractTypeCode)) {
                 return true;

@@ -36,9 +36,9 @@ public class NSFApplicationChecklistV1_0GeneratorTest extends S2STestBase<NSFApp
     @Override
     protected void prepareData(ProposalDevelopmentDocument document) throws Exception {
 
-        document.setProposalTypeCode("8");
-        document.setProposalTypeCode("2");
-        document.setProposalTypeCode("5");
+        document.getDevelopmentProposal().setProposalTypeCode("8");
+        document.getDevelopmentProposal().setProposalTypeCode("2");
+        document.getDevelopmentProposal().setProposalTypeCode("5");
         ProposalYnq proposalYnq = new ProposalYnq();
         proposalYnq.setAnswer("Y");
         proposalYnq.setQuestionId("21");
@@ -48,7 +48,7 @@ public class NSFApplicationChecklistV1_0GeneratorTest extends S2STestBase<NSFApp
         List<ProposalYnq> ynqList = new ArrayList<ProposalYnq>();
         ynqList.add(proposalYnq);
         ynqList.add(proposalYnq1);
-        document.setProposalYnqs(ynqList);
+        document.getDevelopmentProposal().setProposalYnqs(ynqList);
 
         ProposalAbstract propsAbstract = new ProposalAbstract();
         propsAbstract.setAbstractTypeCode("15");
@@ -57,6 +57,6 @@ public class NSFApplicationChecklistV1_0GeneratorTest extends S2STestBase<NSFApp
         List<ProposalAbstract> proList = new ArrayList<ProposalAbstract>();
         proList.add(propsAbstract);
         proList.add(propsAbstract1);
-        document.setProposalAbstracts(proList);
+        document.getDevelopmentProposal().setProposalAbstracts(proList);
     }
 }

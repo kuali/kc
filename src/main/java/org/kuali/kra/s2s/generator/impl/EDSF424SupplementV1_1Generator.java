@@ -66,7 +66,7 @@ public class EDSF424SupplementV1_1Generator extends EDSF424SupplementBaseGenerat
         ProposalPerson pi = s2sUtilService.getPrincipalInvestigator(pdDoc);
         edsf424Supplement.setProjectDirector(globLibV20Generator.getContactPersonDataType(pi));
         String answer = null;
-        for (ProposalYnq proposalYnq : pdDoc.getProposalYnqs()) {
+        for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
             if (proposalYnq.getQuestionId() != null && proposalYnq.getQuestionId().equals(PROPOSAL_YNQ_NOVICE_APPLICANT)) {
                 if (proposalYnq.getAnswer() != null) {
                     answer = proposalYnq.getAnswer();
@@ -82,8 +82,8 @@ public class EDSF424SupplementV1_1Generator extends EDSF424SupplementBaseGenerat
                 }
             }
         }
-        Organization organization = pdDoc.getOrganization();
-        for (ProposalSpecialReview specialReview : pdDoc.getPropSpecialReviews()) {
+        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
+        for (ProposalSpecialReview specialReview : pdDoc.getDevelopmentProposal().getPropSpecialReviews()) {
             if (specialReview != null) {
                 if (specialReview.getSpecialReviewCode() != null
                         && specialReview.getSpecialReviewCode().equals(SPECIAL_REVIEW_CODE)) {
@@ -120,7 +120,7 @@ public class EDSF424SupplementV1_1Generator extends EDSF424SupplementBaseGenerat
                 }
             }
         }
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_TYPE_ED_SF424_SUPPLIMENT) {
                 edsf424Supplement.setAttachment(getAttachedFileType(narrative));

@@ -70,9 +70,9 @@ public class RROtherProjectInfoV1_0GeneratorTest extends S2STestBase<RROtherProj
         List<ProposalSpecialReview> speList = new ArrayList<ProposalSpecialReview>();
         speList.add(specialReview);
         speList.add(specialReview1);
-        document.setOrganization(organization);
-        document.setOrganization(organization1);
-        document.setPropSpecialReviews(speList);
+        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setOrganization(organization1);
+        document.getDevelopmentProposal().setPropSpecialReviews(speList);
 
         ProposalYnq proposalYnq = new ProposalYnq();
         proposalYnq.setQuestionId("P002");
@@ -98,7 +98,7 @@ public class RROtherProjectInfoV1_0GeneratorTest extends S2STestBase<RROtherProj
         proList.add(proposalYnq2);
         proList.add(proposalYnq3);
         proList.add(proposalYnq4);
-        document.setProposalYnqs(proList);
+        document.getDevelopmentProposal().setProposalYnqs(proList);
 
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();
@@ -123,6 +123,6 @@ public class RROtherProjectInfoV1_0GeneratorTest extends S2STestBase<RROtherProj
         narrativeType.setDescription("Testing for Project Attachment");
         narrative.setNarrativeType(narrativeType);
         naList.add(narrative);
-        document.setNarratives(naList);
+        document.getDevelopmentProposal().setNarratives(naList);
     }
 }

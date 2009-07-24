@@ -46,7 +46,7 @@ public class PHS398CoverLetterV1_1Generator extends PHS398CoverLetterBaseGenerat
         PHS398CoverLetter phsCoverLetter = PHS398CoverLetter.Factory.newInstance();
         phsCoverLetter.setFormVersion(S2SConstants.FORMVERSION_1_1);
 
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == PHS_COVER_LETTER) {
                 CoverLetterFile coverLetterFile = CoverLetterFile.Factory.newInstance();
                 AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();

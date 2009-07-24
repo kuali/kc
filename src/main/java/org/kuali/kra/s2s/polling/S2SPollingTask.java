@@ -319,11 +319,11 @@ public class S2SPollingTask {
                         ProposalDevelopmentDocument.class, proposalMap);
 
                 String dunsNum;
-                if (pdDoc.getOrganization().getDunsNumber() != null) {
-                    dunsNum = pdDoc.getOrganization().getDunsNumber();
+                if (pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber() != null) {
+                    dunsNum = pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber();
                 }
                 else {
-                    dunsNum = pdDoc.getOrganizationId();
+                    dunsNum = pdDoc.getDevelopmentProposal().getOrganizationId();
                 }
                 Vector<SubmissionData> mailGrpForDunNum = new Vector<SubmissionData>();
                 mailGrpForDunNum.add(localSubInfo);

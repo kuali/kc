@@ -56,7 +56,7 @@ public class RRPerformanceSiteV1_1GeneratorTest extends S2STestBase<RRPerformanc
         rolodex.setState("AL");
         rolodex.setCountryCode("USA");
         performOrganization.setRolodex(rolodex);
-        document.setPerformingOrganization(performOrganization);
+        document.getDevelopmentProposal().setPerformingOrganization(performOrganization);
 
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();
@@ -68,7 +68,7 @@ public class RRPerformanceSiteV1_1GeneratorTest extends S2STestBase<RRPerformanc
         narrativeAttachment.setNarrativeData(narrativePdf);
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();
         narrativeList.add(narrativeAttachment);
-        narrative.setProposalNumber(document.getProposalNumber());
+        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");
@@ -82,6 +82,6 @@ public class RRPerformanceSiteV1_1GeneratorTest extends S2STestBase<RRPerformanc
         naList.add(narrative);
         getService(BusinessObjectService.class).save(narrative);
         narrative.getNarrativeAttachmentList().clear();
-        document.setNarratives(naList);
+        document.getDevelopmentProposal().setNarratives(naList);
     }
 }

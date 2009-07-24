@@ -73,7 +73,7 @@ public class CreditSplitValidatorTest extends KraTestBase {
         LOG.info("Starting validProposalInvetigatorNormal");
         ProposalPerson person1 = INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED.getPerson();
         INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED.populatePerson(document, person1);
-        document.addProposalPerson(person1);
+        document.getDevelopmentProposal().addProposalPerson(person1);
         assertTrue("Audit Rule shouldn't produce audit errors", validator.validate(document));
         assertEquals(0, GlobalVariables.getAuditErrorMap().size());
         LOG.info("Ending validProposalInvetigatorNormal");
@@ -83,7 +83,7 @@ public class CreditSplitValidatorTest extends KraTestBase {
     public void invalidProposalInvestigatorFail() throws Exception {
         ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
         ProposalPerson person = INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.getPerson();
-        document.addProposalPerson(person);
+        document.getDevelopmentProposal().addProposalPerson(person);
         INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", validator.validate(document));
         assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);
@@ -93,7 +93,7 @@ public class CreditSplitValidatorTest extends KraTestBase {
     public void invalidProposalInvestigatorOverHundred() throws Exception {
         ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
         ProposalPerson person = INVESTIGATOR_OVER_ONE_HUNDRED.getPerson();
-        document.addProposalPerson(person);
+        document.getDevelopmentProposal().addProposalPerson(person);
         INVESTIGATOR_OVER_ONE_HUNDRED.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", validator.validate(document));
         assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);
@@ -103,7 +103,7 @@ public class CreditSplitValidatorTest extends KraTestBase {
     public void invalidProposalInvestigatorUnderZero() throws Exception {
         ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
         ProposalPerson person = INVESTIGATOR_UNDER_ZERO.getPerson();
-        document.addProposalPerson(person);
+        document.getDevelopmentProposal().addProposalPerson(person);
         INVESTIGATOR_UNDER_ZERO.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", validator.validate(document));
         assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);
@@ -113,7 +113,7 @@ public class CreditSplitValidatorTest extends KraTestBase {
     public void invalidProposalInvestigatorUnitsUnderZero() throws Exception {
         ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
         ProposalPerson person = INVESTIGATOR_UNIT_UNDER_ZERO.getPerson();
-        document.addProposalPerson(person);
+        document.getDevelopmentProposal().addProposalPerson(person);
         INVESTIGATOR_UNIT_UNDER_ZERO.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", validator.validate(document));
         assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);
@@ -123,7 +123,7 @@ public class CreditSplitValidatorTest extends KraTestBase {
     public void invalidProposalInvestigatorUnitsOverHundred() throws Exception {
         ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
         ProposalPerson person = INVESTIGATOR_UNIT_OVER_ONE_HUNDRED.getPerson();
-        document.addProposalPerson(person);
+        document.getDevelopmentProposal().addProposalPerson(person);
         INVESTIGATOR_UNIT_OVER_ONE_HUNDRED.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", validator.validate(document));
         assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);

@@ -39,12 +39,12 @@ public class ProposalSpecialReviewAuditRule extends ResearchDocumentRuleBase imp
     public boolean processRunAuditBusinessRules(Document document) {
         ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) document;
         boolean retval = true;
-        List <ProposalSpecialReview> proposalSpecialReviews = ((ProposalDevelopmentDocument) document).getPropSpecialReviews();
+        List <ProposalSpecialReview> proposalSpecialReviews = ((ProposalDevelopmentDocument) document).getDevelopmentProposal().getPropSpecialReviews();
         int i = 0;
         for (ProposalSpecialReview  proposalSpecialReview: proposalSpecialReviews) {
             if (proposalSpecialReview.getExpirationDate() != null && proposalSpecialReview.getExpirationDate().before(new java.sql.Date(new java.util.Date().getTime()))) {
                 retval = false;
-                getAuditErrors().add(new AuditError("document.propSpecialReview[" + i + "].expirationDate", KeyConstants.ERROR_EXPIRATION_DATE_PAST, Constants.SPECIAL_REVIEW_PAGE + "." + Constants.SPECIAL_REVIEW_PANEL_ANCHOR));
+                getAuditErrors().add(new AuditError("document.developmentProposalList[0].propSpecialReview[" + i + "].expirationDate", KeyConstants.ERROR_EXPIRATION_DATE_PAST, Constants.SPECIAL_REVIEW_PAGE + "." + Constants.SPECIAL_REVIEW_PANEL_ANCHOR));
             }
             i++;
         }

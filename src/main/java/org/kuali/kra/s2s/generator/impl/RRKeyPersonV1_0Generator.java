@@ -76,7 +76,7 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
                 }
             }
 
-            for (Narrative narrative : pdDoc.getNarratives()) {
+            for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
                 if (narrative.getNarrativeTypeCode() != null) {
                     if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROFILE_TYPE) {
                         AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
@@ -123,12 +123,12 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
                 profile.setFax(PI.getFaxNumber());
             }
             profile.setEmail(PI.getEmailAddress());
-            if (pdDoc.getOrganization() != null) {
-                profile.setOrganizationName(pdDoc.getOrganization().getOrganizationName());
+            if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
+                profile.setOrganizationName(pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName());
             }
             String departmentName = null;
-            if (pdDoc.getOwnedByUnit() != null) {
-                departmentName = pdDoc.getOwnedByUnit().getUnitName();
+            if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
+                departmentName = pdDoc.getDevelopmentProposal().getOwnedByUnit().getUnitName();
                 if (departmentName != null) {
                     if (departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
                         profile.setDepartmentName(departmentName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1));
@@ -177,7 +177,7 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
      */
     private PersonProfileDataType[] getPersonProfileKeyPerson() {
         List<PersonProfileDataType> personProfileDataTypeList = new ArrayList<PersonProfileDataType>();
-        List<ProposalPerson> keyPersons = pdDoc.getProposalPersons();
+        List<ProposalPerson> keyPersons = pdDoc.getDevelopmentProposal().getProposalPersons();
         Collections.sort(keyPersons, new ProposalPersonComparator());
 
         List<ProposalPerson> nKeyPersons = s2sUtilService.getNKeyPersons(keyPersons, true, MAX_KEY_PERSON_COUNT);
@@ -204,12 +204,12 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
                     profileKeyPerson.setFax(keyPerson.getFaxNumber());
                 }
                 profileKeyPerson.setEmail(keyPerson.getEmailAddress());
-                if (pdDoc.getOrganization() != null) {
-                    profileKeyPerson.setOrganizationName(pdDoc.getOrganization().getOrganizationName());
+                if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
+                    profileKeyPerson.setOrganizationName(pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName());
                 }
                 String departmentName = null;
-                if (pdDoc.getOwnedByUnit() != null) {
-                    departmentName = pdDoc.getOwnedByUnit().getUnitName();
+                if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
+                    departmentName = pdDoc.getDevelopmentProposal().getOwnedByUnit().getUnitName();
                     if (departmentName != null) {
                         if (departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
                             profileKeyPerson.setDepartmentName(departmentName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1));

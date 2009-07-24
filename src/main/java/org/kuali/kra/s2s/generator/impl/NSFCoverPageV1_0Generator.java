@@ -63,7 +63,7 @@ public class NSFCoverPageV1_0Generator extends NSFCoverPageBaseGenerator {
         NSFCoverPageDocument nsfCoverPageDocument = NSFCoverPageDocument.Factory.newInstance();
         NSFCoverPage nsfCoverPage = NSFCoverPage.Factory.newInstance();
         nsfCoverPage.setFormVersion(S2SConstants.FORMVERSION_1_0);
-        nsfCoverPage.setFundingOpportunityNumber(pdDoc.getProgramAnnouncementNumber());
+        nsfCoverPage.setFundingOpportunityNumber(pdDoc.getDevelopmentProposal().getProgramAnnouncementNumber());
         nsfCoverPage.setNSFUnitConsideration(getNSFUnitConsideration());
         nsfCoverPage.setPIInfo(getPIInfo());
         nsfCoverPage.setCoPIInfo(getCoPI());
@@ -85,8 +85,8 @@ public class NSFCoverPageV1_0Generator extends NSFCoverPageBaseGenerator {
      */
     private NSFUnitConsideration getNSFUnitConsideration() {
         NSFUnitConsideration unitConsideration = NSFUnitConsideration.Factory.newInstance();
-        unitConsideration.setDivisionCode(pdDoc.getAgencyDivisionCode());
-        unitConsideration.setProgramCode(pdDoc.getAgencyProgramCode());
+        unitConsideration.setDivisionCode(pdDoc.getDevelopmentProposal().getAgencyDivisionCode());
+        unitConsideration.setProgramCode(pdDoc.getDevelopmentProposal().getAgencyProgramCode());
         return unitConsideration;
     }
 
@@ -116,7 +116,7 @@ public class NSFCoverPageV1_0Generator extends NSFCoverPageBaseGenerator {
             otherInfo.setIsHistoricPlaces(yesNoDataType);
         }
 
-        String proposalTypeCode = pdDoc.getProposalTypeCode();
+        String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalTypeCode();
         if (proposalTypeCode != null) {
             otherInfo.setIsAccomplishmentRenewal(proposalTypeCode.equals(QUESTION_ID_ACCOMPLISHMENT_RENEWAL) ? YesNoDataType.YES
                     : YesNoDataType.NO);
@@ -137,7 +137,7 @@ public class NSFCoverPageV1_0Generator extends NSFCoverPageBaseGenerator {
     private AttachedFileDataType[] getAttachedFileDataTypes() {
 
         int size = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null) {               
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PERSONAL_DATA) {
                     size++;
@@ -149,7 +149,7 @@ public class NSFCoverPageV1_0Generator extends NSFCoverPageBaseGenerator {
         }
         AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
         int attachments = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null) {
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PERSONAL_DATA) {
                     attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
@@ -211,7 +211,7 @@ public class NSFCoverPageV1_0Generator extends NSFCoverPageBaseGenerator {
         CoPIInfo coPIInfo = CoPIInfo.Factory.newInstance();
         int count = 0;
         ProposalPerson coInvestigator = null;
-        for (ProposalPerson proposalPerson : pdDoc.getProposalPersons()) {
+        for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPerson.getProposalPersonRoleId() != null
                     && proposalPerson.getProposalPersonRoleId().equals(PI_C0_INVESTIGATOR)) {
                 count++;
@@ -220,7 +220,7 @@ public class NSFCoverPageV1_0Generator extends NSFCoverPageBaseGenerator {
         CoPI[] coPIArray = new CoPI[count];
         count = 0;
         
-        for (ProposalPerson proposalPerson : pdDoc.getProposalPersons()) {
+        for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPerson.getProposalPersonRoleId() != null
                     && proposalPerson.getProposalPersonRoleId().equals(PI_C0_INVESTIGATOR)) {
                 coInvestigator = proposalPerson;
@@ -264,7 +264,7 @@ public class NSFCoverPageV1_0Generator extends NSFCoverPageBaseGenerator {
     private YesNoDataType.Enum getYNQAnswer(String questionId) {
 
         YesNoDataType.Enum answer = null;
-        for (ProposalYnq proposalYnq : pdDoc.getProposalYnqs()) {
+        for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
             if (proposalYnq.getQuestionId() != null && proposalYnq.getQuestionId().equals(questionId)) {
                 if (proposalYnq.getAnswer() != null) {
                     answer = (proposalYnq.getAnswer().equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.YES
@@ -285,7 +285,7 @@ public class NSFCoverPageV1_0Generator extends NSFCoverPageBaseGenerator {
     private YesNoDataType.Enum getLobbyingAnswer() {
 
         YesNoDataType.Enum answer = YesNoDataType.NO;
-        for (ProposalPerson proposalPerson : pdDoc.getProposalPersons()) {
+        for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPerson.getProposalPersonRoleId() != null
                     && proposalPerson.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR)
                     || proposalPerson.getProposalPersonRoleId().equals(PI_C0_INVESTIGATOR)) {

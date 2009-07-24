@@ -224,7 +224,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         super.populate(request);
         ProposalDevelopmentDocument proposalDevelopmentDocument=getDocument();
 
-        proposalDevelopmentDocument.refreshReferenceObject("sponsor");
+        proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("sponsor");
 
         // Temporary hack for KRACOEUS-489
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
@@ -233,7 +233,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
       
         ProposalCopyCriteria cCriteria = this.getCopyCriteria();
         if (cCriteria != null) {
-            cCriteria.setOriginalLeadUnitNumber(proposalDevelopmentDocument.getOwnedByUnitNumber());
+            cCriteria.setOriginalLeadUnitNumber(proposalDevelopmentDocument.getDevelopmentProposal().getOwnedByUnitNumber());
         }
     }
     
@@ -242,21 +242,21 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         super.populateHeaderFields(workflowDocument);
         
         ProposalDevelopmentDocument pd = getDocument();
-        ProposalState proposalState = (pd == null) ? null : pd.getProposalState();
+        ProposalState proposalState = (pd == null) ? null : pd.getDevelopmentProposal().getProposalState();
         HeaderField docStatus = new HeaderField("DataDictionary.DocumentHeader.attributes.financialDocumentStatusCode", proposalState == null? "" : proposalState.getDescription());
         
         getDocInfo().set(1, docStatus);
         
-        if (pd.getSponsor() == null) {
+        if (pd.getDevelopmentProposal().getSponsor() == null) {
             getDocInfo().add(new HeaderField("DataDictionary.Sponsor.attributes.sponsorName", ""));
         } else {
-            getDocInfo().add(new HeaderField("DataDictionary.Sponsor.attributes.sponsorName", pd.getSponsor().getSponsorName()));
+            getDocInfo().add(new HeaderField("DataDictionary.Sponsor.attributes.sponsorName", pd.getDevelopmentProposal().getSponsor().getSponsorName()));
         }
         
         if (getKeyPersonnelService().hasPrincipalInvestigator(pd)) {
             boolean found = false;
             
-            for(Iterator<ProposalPerson> person_it = pd.getInvestigators().iterator();
+            for(Iterator<ProposalPerson> person_it = pd.getDevelopmentProposal().getInvestigators().iterator();
                 person_it.hasNext() && !found; ){
                 ProposalPerson investigator = person_it.next();
                 
@@ -341,7 +341,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
 
 
         ProposalDevelopmentDocument proposalDevelopmentDocument = this.getDocument();
-        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
+        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getDevelopmentProposal().getPropScienceKeywords();
         for(int i=0; i<keywords.size(); i++) {
             PropScienceKeyword propScienceKeyword = keywords.get(i);
             propScienceKeyword.setSelectKeyword(false);
@@ -416,7 +416,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * @return the value of newProposalPersonUnit
      */
     public List<Unit> getNewProposalPersonUnit() {
-        if (this.getDocument().getProposalPersons().size() > this.newProposalPersonUnit.size()) {
+        if (this.getDocument().getDevelopmentProposal().getProposalPersons().size() > this.newProposalPersonUnit.size()) {
             this.newProposalPersonUnit.add(this.newProposalPersonUnit.size(), new Unit());
         }
         return this.newProposalPersonUnit;
@@ -438,7 +438,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      */
     public List<ProposalPersonDegree> getNewProposalPersonDegree() {
 
-        if (this.getDocument().getProposalPersons().size() > this.newProposalPersonDegree.size()) {
+        if (this.getDocument().getDevelopmentProposal().getProposalPersons().size() > this.newProposalPersonDegree.size()) {
             this.newProposalPersonDegree.add(this.newProposalPersonDegree.size(),new ProposalPersonDegree());
         }
         return this.newProposalPersonDegree;
@@ -632,9 +632,9 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      */
     public boolean getIsCopyAttachmentsDisabled() {
         ProposalDevelopmentDocument doc = this.getDocument();
-        return !(doc.getNarratives().size() > 0 ||
-            doc.getInstituteAttachments().size() > 0 ||
-            doc.getPropPersonBios().size() > 0);
+        return !(doc.getDevelopmentProposal().getNarratives().size() > 0 ||
+            doc.getDevelopmentProposal().getInstituteAttachments().size() > 0 ||
+            doc.getDevelopmentProposal().getPropPersonBios().size() > 0);
     }
 
     /**
@@ -669,7 +669,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * @return true if copying budget(s) is disabled; otherwise false.
      */
     public boolean getIsCopyBudgetDisabled() {
-        return !(this.getDocument().getBudgetVersionOverviews().size() > 0);
+        return !(this.getDocument().getDevelopmentProposal().getBudgetVersionOverviews().size() > 0);
     }
 
 
@@ -1085,16 +1085,16 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         boolean showSubmitButton = true;
         boolean showResubmitButton = true;
         ProposalDevelopmentDocument doc = this.getDocument();
-        if(doc.getS2sSubmissionHistory()!=null && doc.getS2sSubmissionHistory().size()!=0){
-            for(S2sSubmissionHistory s2sSubmissionHistory:doc.getS2sSubmissionHistory()){
-                if(StringUtils.equalsIgnoreCase(s2sSubmissionHistory.getProposalNumberOrig(),doc.getProposalNumber())){
+        if(doc.getDevelopmentProposal().getS2sSubmissionHistory()!=null && doc.getDevelopmentProposal().getS2sSubmissionHistory().size()!=0){
+            for(S2sSubmissionHistory s2sSubmissionHistory:doc.getDevelopmentProposal().getS2sSubmissionHistory()){
+                if(StringUtils.equalsIgnoreCase(s2sSubmissionHistory.getProposalNumberOrig(),doc.getDevelopmentProposal().getProposalNumber())){
                     showSubmitButton=false;
                 }
-                if(StringUtils.equalsIgnoreCase(s2sSubmissionHistory.getOriginalProposalId() ,doc.getProposalNumber())){
+                if(StringUtils.equalsIgnoreCase(s2sSubmissionHistory.getOriginalProposalId() ,doc.getDevelopmentProposal().getProposalNumber())){
                     showResubmitButton=false;
                 }
             }
-        } else if (doc.getSubmitFlag()) {
+        } else if (doc.getDevelopmentProposal().getSubmitFlag()) {
             /*
              * If we get here, we have a non-electronic submission which doesn't have a submission history.
              */
@@ -1153,7 +1153,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public void processValidationFail() {
         try {
             boolean cSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME)
-                && getDocument().getInvestigators().size() > 0;
+                && getDocument().getDevelopmentProposal().getInvestigators().size() > 0;
             setCreditSplitEnabled(cSplitEnabled);
         }
         catch (Exception e) {
@@ -1205,7 +1205,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public boolean isSubmissionStatusVisible() {
         String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader()
         .getDocRouteStatus();
-        return KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || (this.getDocument().getSubmitFlag() && KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus));
+        return KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || (this.getDocument().getDevelopmentProposal().getSubmitFlag() && KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus));
     }
     
     public boolean isSubmissionStatusReadOnly() {

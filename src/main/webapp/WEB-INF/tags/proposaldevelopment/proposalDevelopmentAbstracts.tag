@@ -16,14 +16,14 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="readOnly" value="${not KualiForm.editingMode['addNarratives']}" scope="request" />
 
-<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
+<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="proposalAbstractAttributes" value="${DataDictionary.ProposalAbstract.attributes}" />
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
 <c:set var="textAreaFieldName" value="newProposalAbstract.abstractDetails" />
 
 <kul:tab tabTitle="Abstracts" defaultOpen="false" 
-         tabItemCount="${fn:length(KualiForm.document.proposalAbstracts)}" 
-         tabErrorKey="document.proposalAbstract*,newProposalAbstract*">
+         tabItemCount="${fn:length(KualiForm.document.developmentProposalList[0].proposalAbstracts)}" 
+         tabErrorKey="document.developmentProposalList[0].proposalAbstract*,newProposalAbstract*">
          
 	<div class="tab-container" align="center">
     	<h3>
@@ -35,7 +35,7 @@
         <tbody>
         
         	<%-- Table headers --%>
-        	<c:if test="${fn:length(KualiForm.document.proposalAbstracts) > 0 || KualiForm.editingMode['addNarratives']}" >
+        	<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].proposalAbstracts) > 0 || KualiForm.editingMode['addNarratives']}" >
           	<tr>
           		<th><div align="left">&nbsp</div></th> 
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proposalAbstractAttributes.updateTimestamp}" noColon="true" /></div></th>
@@ -77,26 +77,26 @@
             </kra:section>   
             <%-- The list of current abstracts --%>
             
-            <c:if test="${fn:length(KualiForm.document.proposalAbstracts) > 0}" >
-        	<c:forEach var="abstract" items="${KualiForm.document.proposalAbstracts}" varStatus="status">
+            <c:if test="${fn:length(KualiForm.document.developmentProposalList[0].proposalAbstracts) > 0}" >
+        	<c:forEach var="abstract" items="${KualiForm.document.developmentProposalList[0].proposalAbstracts}" varStatus="status">
 	             <tr>
 	             	<th>${status.index + 1}</th>
 	             	
-	             	<td align="left" valign="middle" id="document.proposalAbstract[${status.index}].updateTimestamp">
+	             	<td align="left" valign="middle" id="document.developmentProposalList[0].proposalAbstract[${status.index}].updateTimestamp">
                 	    <fmt:formatDate value="${abstract.updateTimestamp}" type="both" dateStyle="short" timeStyle="short" />
 					</td>
 					
 	             	<td align="left" valign="middle">
-                	    <kul:htmlControlAttribute property="document.proposalAbstract[${status.index}].updateUser" readOnly="true" attributeEntry="${proposalAbstractAttributes.updateUser}" />
+                	    <kul:htmlControlAttribute property="document.developmentProposalList[0].proposalAbstract[${status.index}].updateUser" readOnly="true" attributeEntry="${proposalAbstractAttributes.updateUser}" />
 					</td>
 					
 	             	<td>${abstract.abstractType.description}</td>
 	             	
 				    <td>
 	             		<div align="left">
-					        <kul:htmlControlAttribute property="document.proposalAbstract[${status.index}].abstractDetails" 
+					        <kul:htmlControlAttribute property="document.developmentProposalList[0].proposalAbstract[${status.index}].abstractDetails" 
 					          					      attributeEntry="${proposalAbstractAttributes.abstractDetails}" />
-                    		<kra:expandedTextArea textAreaFieldName="document.proposalAbstract[${status.index}].abstractDetails" action="${action}" textAreaLabel="${proposalAbstractAttributes.abstractDetails.label}" />
+                    		<kra:expandedTextArea textAreaFieldName="document.developmentProposalList[0].proposalAbstract[${status.index}].abstractDetails" action="${action}" textAreaLabel="${proposalAbstractAttributes.abstractDetails.label}" />
                 		</div>
                 	</td>
                 	

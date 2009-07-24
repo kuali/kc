@@ -44,7 +44,7 @@ public class NarrativeReplaceAuthorizer extends NarrativeAuthorizer {
         Narrative narrative = narrativeTask.getNarrative();
        
         boolean hasPermission = false;
-        if (!doc.getSubmitFlag() && hasProposalPermission(username, doc, PermissionConstants.MODIFY_NARRATIVE)) {
+        if (!doc.getDevelopmentProposal().getSubmitFlag() && hasProposalPermission(username, doc, PermissionConstants.MODIFY_NARRATIVE)) {
             hasPermission = hasNarrativeRight(username, narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
         }
         

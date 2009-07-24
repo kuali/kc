@@ -38,12 +38,12 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
     public boolean isAuthorized(String username, ProposalTask task) {
         boolean hasPermission = true;
         ProposalDevelopmentDocument doc = task.getDocument();
-        String proposalNbr = doc.getProposalNumber();
+        String proposalNbr = doc.getDevelopmentProposal().getProposalNumber();
         if (proposalNbr == null) {
             
             // We have to consider the case when we are saving the document for the first time.
             
-            String unitNumber = doc.getOwnedByUnitNumber();
+            String unitNumber = doc.getDevelopmentProposal().getOwnedByUnitNumber();
             
             // If the unit number is not specified, we will let the save operation continue because it
             // will fail with an error.  But if the user tries to save a proposal for a wrong unit, then
@@ -60,7 +60,7 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
              */
             hasPermission = hasProposalPermission(username, doc, PermissionConstants.MODIFY_PROPOSAL) &&
                             !kraWorkflowService.isInWorkflow(doc) &&
-                            !doc.getSubmitFlag();
+                            !doc.getDevelopmentProposal().getSubmitFlag();
         }
         return hasPermission;
     }

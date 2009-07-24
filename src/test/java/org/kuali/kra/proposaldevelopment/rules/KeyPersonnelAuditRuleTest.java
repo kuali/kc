@@ -112,7 +112,7 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
                 
         ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
         ProposalPerson person = INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.getPerson();
-        document.addProposalPerson(person);
+        document.getDevelopmentProposal().addProposalPerson(person);
         INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.populatePerson(document, person);
         assertTrue("Audit Rule shouldn't produce audit errors", auditRule.processRunAuditBusinessRules(document));
         assertTrue(GlobalVariables.getAuditErrorMap().size() < 1);
@@ -144,7 +144,7 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
     public void incompleteYesNoQuestions() throws Exception {
         ProposalPerson person1 = INCOMPLETE_CERTIFICATIONS.getPerson();
         INCOMPLETE_CERTIFICATIONS.populatePerson(document, person1);
-        document.addProposalPerson(person1);
+        document.getDevelopmentProposal().addProposalPerson(person1);
         
         assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
         assertEquals(1,GlobalVariables.getAuditErrorMap().size());
@@ -160,7 +160,7 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
     public void completeYesNoQuestions() throws Exception {
         ProposalPerson person1 = PRINCIPAL_INVESTIGATOR.getPerson();
         PRINCIPAL_INVESTIGATOR.populatePerson(document, person1);
-        document.addProposalPerson(person1);
+        document.getDevelopmentProposal().addProposalPerson(person1);
         
         assertTrue("Audit Rule shouldn't produce audit errors", auditRule.processRunAuditBusinessRules(document));
         assertEquals(0,GlobalVariables.getAuditErrorMap().size());
@@ -193,9 +193,9 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
     public void validProposalInvestigatorUpperBound()throws Exception {
         ProposalPerson person1 = PRINCIPAL_INVESTIGATOR.getPerson();
         PRINCIPAL_INVESTIGATOR.populatePerson(document, person1);
-        document.addProposalPerson(person1);
+        document.getDevelopmentProposal().addProposalPerson(person1);
         ProposalPerson person2 = PRINCIPAL_INVESTIGATOR.getPerson();
-        document.addProposalPerson(person2);
+        document.getDevelopmentProposal().addProposalPerson(person2);
         
         assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
         assertEquals(1,GlobalVariables.getAuditErrorMap().size());
@@ -205,7 +205,7 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
     public void invalidProposalInvestigatorFail() throws Exception {
         ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
         ProposalPerson person = INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.getPerson();
-        document.addProposalPerson(person);
+        document.getDevelopmentProposal().addProposalPerson(person);
         INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
         assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);

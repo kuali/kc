@@ -85,15 +85,15 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         RRSF424Document rrSF424Document = RRSF424Document.Factory.newInstance();
         RRSF424 rrsf424 = RRSF424.Factory.newInstance();
         rrsf424.setFormVersion(S2SConstants.FORMVERSION_1_1);
-        S2sOpportunity s2sOpportunity = pdDoc.getS2sOpportunity();
+        S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
         if (s2sOpportunity != null && s2sOpportunity.getS2sSubmissionTypeCode() != null) {
             s2sOpportunity.refreshNonUpdateableReferences();
-            rrsf424.setSubmissionTypeCode(SubmissionTypeDataType.Enum.forString(pdDoc.getS2sOpportunity().getS2sSubmissionType()
+            rrsf424.setSubmissionTypeCode(SubmissionTypeDataType.Enum.forString(pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionType()
                     .getDescription()));
         }
 
         rrsf424.setSubmittedDate(s2sUtilService.getCurrentCalendar());
-        Rolodex rolodex = pdDoc.getOrganization().getRolodex();
+        Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
         if (rolodex != null) {
             rrsf424.setStateID(rolodex.getState());
         }
@@ -105,30 +105,30 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         rrsf424.setApplicantInfo(getApplicationInfo());
         rrsf424.setApplicantType(getApplicantType());
         rrsf424.setApplicationType(getApplicationType());
-        Organization organization = pdDoc.getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
         if (organization != null) {
             rrsf424.setEmployerID(organization.getFedralEmployerId());
         }
-        Sponsor sponsor = pdDoc.getSponsor();
+        Sponsor sponsor = pdDoc.getDevelopmentProposal().getSponsor();
         if (sponsor != null) {
             rrsf424.setFederalAgencyName(sponsor.getSponsorName());
         }
-        rrsf424.setCFDANumber(pdDoc.getCfdaNumber());
-        if (pdDoc.getProgramAnnouncementTitle() != null) {
+        rrsf424.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
+        if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle() != null) {
             String announcementTitle;
-            if (pdDoc.getProgramAnnouncementTitle().length() > 120) {
-                announcementTitle = pdDoc.getProgramAnnouncementTitle().substring(0, 120);
+            if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle().length() > 120) {
+                announcementTitle = pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle().substring(0, 120);
             }
             else {
-                announcementTitle = pdDoc.getProgramAnnouncementTitle();
+                announcementTitle = pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle();
             }
             rrsf424.setActivityTitle(announcementTitle);
         }
-        rrsf424.setProjectTitle(pdDoc.getTitle());
+        rrsf424.setProjectTitle(pdDoc.getDevelopmentProposal().getTitle());
 
         Rolodex rolodexOrganization = null;
-        if (pdDoc.getPerformingOrganization() != null) {
-            rolodexOrganization = pdDoc.getPerformingOrganization().getRolodex();
+        if (pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
+            rolodexOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization().getRolodex();
         }
         if (rolodexOrganization != null) {
             rrsf424.setLocation(rolodexOrganization.getState());
@@ -148,7 +148,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         // Value is hardcoded
         rrsf424.setTrustAgree(YesNoDataType.Y_YES);
         rrsf424.setAORInfo(getAORInfoType());
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == PRE_APPLICATION) {
                 AttachedFileDataType preAttachment = AttachedFileDataType.Factory.newInstance();
                 preAttachment = getAttachedFileType(narrative);
@@ -227,8 +227,8 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 
         if (contactType.equals(CONTACT_TYPE_I)) {
             // use organization rolodex contact
-            if (pdDoc.getOrganization() != null) {
-                appInfo.setContactPersonInfo(getContactInfo(pdDoc.getOrganization().getRolodex()));
+            if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
+                appInfo.setContactPersonInfo(getContactInfo(pdDoc.getDevelopmentProposal().getOrganization().getRolodex()));
             }
         }
         else {
@@ -248,16 +248,16 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
             appInfo.setContactPersonInfo(contactInfo);
         }
         OrganizationDataType orgType = OrganizationDataType.Factory.newInstance();
-        Rolodex rolodex = pdDoc.getOrganization().getRolodex();
+        Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
         orgType.setAddress(globLibV20Generator.getAddressDataType(rolodex));
 
-        Organization organization = pdDoc.getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
         if (organization != null) {
             orgType.setOrganizationName(organization.getOrganizationName());
             orgType.setDUNSID(organization.getDunsNumber());
         }
-        if (pdDoc.getOwnedByUnit() != null) {
-            String departmentName = pdDoc.getOwnedByUnit().getUnitName();
+        if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
+            String departmentName = pdDoc.getDevelopmentProposal().getOwnedByUnit().getUnitName();
             if (departmentName != null && departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
                 departmentName = departmentName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1);
             }
@@ -292,7 +292,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         }
         DepartmentalPerson depPerson = new DepartmentalPerson();
         if (isNumber) {
-            for (ProposalPerson person : pdDoc.getProposalPersons()) {
+            for (ProposalPerson person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
                 for (ProposalPersonUnit unit : person.getUnits()) {
                     if (unit.isLeadUnit()) {
                         for (UnitAdministrator admin : unit.getUnit().getUnitAdministrators()) {
@@ -371,14 +371,14 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
     private ApplicationType getApplicationType() {
         ApplicationType applicationType = ApplicationType.Factory.newInstance();
         Map<String, String> submissionInfo = s2sUtilService.getSubmissionType(pdDoc);
-        if (pdDoc.getProposalTypeCode() != null && Integer.parseInt(pdDoc.getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
+        if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null && Integer.parseInt(pdDoc.getDevelopmentProposal().getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
             // Check <6 to ensure that if proposalType='TASk ORDER", it must not set. THis is because enum ApplicationType has no
             // entry for TASK ORDER
             ApplicationTypeCodeDataType.Enum applicationTypeCodeDataType = ApplicationTypeCodeDataType.Enum.forInt(Integer
-                    .parseInt(pdDoc.getProposalTypeCode()));
+                    .parseInt(pdDoc.getDevelopmentProposal().getProposalTypeCode()));
             applicationType.setApplicationTypeCode(applicationTypeCodeDataType);
 
-            if (Integer.parseInt(pdDoc.getProposalTypeCode()) == ApplicationTypeCodeDataType.INT_REVISION) {
+            if (Integer.parseInt(pdDoc.getDevelopmentProposal().getProposalTypeCode()) == ApplicationTypeCodeDataType.INT_REVISION) {
                 String revisionCode = null;
                 if (submissionInfo.get(S2SConstants.KEY_REVISION_CODE) != null) {
                     revisionCode = submissionInfo.get(S2SConstants.KEY_REVISION_CODE);
@@ -387,7 +387,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
                 }
             }
 
-            if (Integer.parseInt(pdDoc.getProposalTypeCode()) == ApplicationTypeCodeDataType.INT_RESUBMISSION) {
+            if (Integer.parseInt(pdDoc.getDevelopmentProposal().getProposalTypeCode()) == ApplicationTypeCodeDataType.INT_RESUBMISSION) {
                 String revisionCodeOtherDesc = null;
                 if (submissionInfo.get(S2SConstants.KEY_REVISION_OTHER_DESCRIPTION) != null) {
                     revisionCodeOtherDesc = submissionInfo.get(S2SConstants.KEY_REVISION_OTHER_DESCRIPTION);
@@ -425,8 +425,8 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
      */
     private RRSF424.ProposedProjectPeriod getProjectPeriod() {
         RRSF424.ProposedProjectPeriod proposedProjectPeriod = RRSF424.ProposedProjectPeriod.Factory.newInstance();
-        proposedProjectPeriod.setProposedStartDate(s2sUtilService.convertDateToCalendar(pdDoc.getRequestedStartDateInitial()));
-        proposedProjectPeriod.setProposedEndDate(s2sUtilService.convertDateToCalendar(pdDoc.getRequestedEndDateInitial()));
+        proposedProjectPeriod.setProposedStartDate(s2sUtilService.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedStartDateInitial()));
+        proposedProjectPeriod.setProposedEndDate(s2sUtilService.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedEndDateInitial()));
         return proposedProjectPeriod;
     }
 
@@ -437,8 +437,8 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
      * @return CongressionalDistrict congressional district for the Applicant and Project.
      */
     private RRSF424.CongressionalDistrict getCongDistrict() {
-        Organization organization = pdDoc.getOrganization();
-        Organization performOrganization = pdDoc.getPerformingOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
+        Organization performOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization();
         RRSF424.CongressionalDistrict congressionalDistrict = RRSF424.CongressionalDistrict.Factory.newInstance();
         if (organization != null) {
             congressionalDistrict.setApplicantCongressionalDistrict(organization.getCongressionalDistrict());
@@ -465,10 +465,10 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 
         OrganizationContactPersonDataType PDPI = OrganizationContactPersonDataType.Factory.newInstance();
         ProposalPerson PI = null;
-        for (ProposalPerson proposalPerson : pdDoc.getProposalPersons()) {
+        for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (PRINCIPAL_INVESTIGATOR.equals(proposalPerson.getProposalPersonRoleId())) {
                 PI = proposalPerson;
-                Organization organization = pdDoc.getOrganization();
+                Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
                 PDPI.setName(globLibV20Generator.getHumanNameDataType(PI));
                 PDPI.setPhone(PI.getOfficePhone());
                 PDPI.setEmail(PI.getEmailAddress());
@@ -487,8 +487,8 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
                 }
 
                 String departmentName = null;
-                if (pdDoc.getOwnedByUnit() != null) {
-                    departmentName = pdDoc.getOwnedByUnit().getUnitName();
+                if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
+                    departmentName = pdDoc.getDevelopmentProposal().getOwnedByUnit().getUnitName();
                     if (departmentName != null) {
                         if (departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
                             departmentName = departmentName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1);
@@ -520,7 +520,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
      * @return aorInfoType(AORInfoType) Authorized representative information.
      */
     private AORInfoType getAORInfoType() {
-        Organization organization = pdDoc.getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
         AORInfoType aorInfoType = AORInfoType.Factory.newInstance();
         if (departmentalPerson != null) {
             aorInfoType.setName(globLibV20Generator.getHumanNameDataType(departmentalPerson));
@@ -584,9 +584,9 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         IsWomenOwned isWomenOwned = IsWomenOwned.Factory.newInstance();
         boolean smallBusflag = false;
         int orgTypeCode = 0;
-        if (pdDoc.getOrganization() != null && pdDoc.getOrganization().getOrganizationTypes() != null
-                && pdDoc.getOrganization().getOrganizationTypes().size() > 0) {
-            orgTypeCode = pdDoc.getOrganization().getOrganizationTypes().get(0).getOrganizationTypeCode();
+        if (pdDoc.getDevelopmentProposal().getOrganization() != null && pdDoc.getDevelopmentProposal().getOrganization().getOrganizationTypes() != null
+                && pdDoc.getDevelopmentProposal().getOrganization().getOrganizationTypes().size() > 0) {
+            orgTypeCode = pdDoc.getDevelopmentProposal().getOrganization().getOrganizationTypes().get(0).getOrganizationTypeCode();
         }
         ApplicantTypeCodeDataType.Enum applicantTypeCode = null;
         switch (orgTypeCode) {
@@ -710,7 +710,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
     private ProposalYnq getAnswer(String questionId, ProposalDevelopmentDocument proposalDevelopmentDocument) {
         String question;
         ProposalYnq ynq = null;
-        for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getProposalYnqs()) {
+        for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getDevelopmentProposal().getProposalYnqs()) {
             question = proposalYnq.getQuestionId();
 
             if (question != null && question.equals(questionId)) {

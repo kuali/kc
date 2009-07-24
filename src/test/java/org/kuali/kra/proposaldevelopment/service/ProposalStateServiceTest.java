@@ -151,7 +151,7 @@ public class ProposalStateServiceTest extends MockObjectTestCase {
      */
     private ProposalDevelopmentDocument createProposalDevelopmentDocument(int workflowState, boolean submitted) {
         ProposalDevelopmentDocument doc = new ProposalDevelopmentDocument();
-        doc.setSubmitFlag(submitted);
+        doc.getDevelopmentProposal().setSubmitFlag(submitted);
         
         DocumentHeader docHdr = new DocumentHeader();
         
