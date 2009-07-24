@@ -44,7 +44,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0GeneratorTest extends
         rolodex.setRolodexId(1);
         Organization organization = new Organization();
         organization.setRolodex(rolodex);
-        document.setOrganization(organization);
+        document.getDevelopmentProposal().setOrganization(organization);
         Sponsor sponsor = new Sponsor();
         sponsor.setSponsorCode("000217 ");
         sponsor.setSponsorTypeCode("8");
@@ -71,8 +71,8 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0GeneratorTest extends
         proposalPerson1.setProposalPersonNumber(1002);
         proList.add(proposalPerson);
         proList.add(proposalPerson1);
-        document.setRolodex(rolodex);
-        document.setSponsor(sponsor);
-        document.setProposalPersons(proList);
+        document.getDevelopmentProposal().setRolodex(rolodex);
+        document.getDevelopmentProposal().setSponsor(sponsor);
+        document.getDevelopmentProposal().setProposalPersons(proList);
     }
 }

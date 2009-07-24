@@ -67,8 +67,8 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         List<ProposalYnq> proList = new ArrayList<ProposalYnq>();
         proList.add(proposalYnq);
         proList.add(proposalYnq2);
-        document.setProposalPersons(perList);
-        document.setProposalYnqs(proList);
+        document.getDevelopmentProposal().setProposalPersons(perList);
+        document.getDevelopmentProposal().setProposalYnqs(proList);
 
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();
@@ -80,7 +80,7 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         narrativeAttachment.setNarrativeData(narrativePdf);
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();
         narrativeList.add(narrativeAttachment);
-        narrative.setProposalNumber(document.getProposalNumber());
+        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");
@@ -92,6 +92,6 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         narrativeType.setDescription("Testing for Project Attachment");
         narrative.setNarrativeType(narrativeType);
         naList.add(narrative);
-        document.setNarratives(naList);
+        document.getDevelopmentProposal().setNarratives(naList);
     }
 }

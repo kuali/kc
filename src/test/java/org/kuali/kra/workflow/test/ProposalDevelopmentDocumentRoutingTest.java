@@ -61,13 +61,13 @@ public class ProposalDevelopmentDocumentRoutingTest extends KraTestBase {
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
 
         document.getDocumentHeader().setDocumentDescription("TestRoutingPath-1");
-        document.setSponsorCode("005770");
-        document.setTitle("AltRoutingPath");
-        document.setRequestedStartDateInitial(requestedStartDateInitial);
-        document.setRequestedEndDateInitial(requestedEndDateInitial);
-        document.setActivityTypeCode("1");
-        document.setProposalTypeCode("1");
-        document.setOwnedByUnitNumber("000001");
+        document.getDevelopmentProposal().setSponsorCode("005770");
+        document.getDevelopmentProposal().setTitle("AltRoutingPath");
+        document.getDevelopmentProposal().setRequestedStartDateInitial(requestedStartDateInitial);
+        document.getDevelopmentProposal().setRequestedEndDateInitial(requestedEndDateInitial);
+        document.getDevelopmentProposal().setActivityTypeCode("1");
+        document.getDevelopmentProposal().setProposalTypeCode("1");
+        document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
 
         documentService.saveDocument(document);
 

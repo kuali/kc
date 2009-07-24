@@ -69,17 +69,17 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
         verifySavedRequiredFields(doc, DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_OWNED_BY_UNIT, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "2007-08-14", "2007-08-21", DEFAULT_PROPOSAL_TYPE_CODE);
 
         // check sponsor program info fields
-        assertEquals("P", doc.getDeadlineType());
-        assertEquals("005984", doc.getPrimeSponsorCode());
-        assertEquals("J.02", doc.getNsfCode());
-        assertEquals("123", doc.getAgencyDivisionCode());
-        assertEquals("we want to give you money", doc.getProgramAnnouncementTitle());
-        assertEquals("2", doc.getNoticeOfOpportunityCode());
-        assertEquals("12.456", doc.getCfdaNumber());
-        assertEquals("Program #122", doc.getProgramAnnouncementNumber());
-        assertEquals("234567", doc.getSponsorProposalNumber());
-        assertTrue("Subcontracts should be true", doc.getSubcontracts());
-        assertEquals("456", doc.getAgencyProgramCode());
+        assertEquals("P", doc.getDevelopmentProposal().getDeadlineType());
+        assertEquals("005984", doc.getDevelopmentProposal().getPrimeSponsorCode());
+        assertEquals("J.02", doc.getDevelopmentProposal().getNsfCode());
+        assertEquals("123", doc.getDevelopmentProposal().getAgencyDivisionCode());
+        assertEquals("we want to give you money", doc.getDevelopmentProposal().getProgramAnnouncementTitle());
+        assertEquals("2", doc.getDevelopmentProposal().getNoticeOfOpportunityCode());
+        assertEquals("12.456", doc.getDevelopmentProposal().getCfdaNumber());
+        assertEquals("Program #122", doc.getDevelopmentProposal().getProgramAnnouncementNumber());
+        assertEquals("234567", doc.getDevelopmentProposal().getSponsorProposalNumber());
+        assertTrue("Subcontracts should be true", doc.getDevelopmentProposal().getSubcontracts());
+        assertEquals("456", doc.getDevelopmentProposal().getAgencyProgramCode());
 
         // make sure the fields we set are displayed on the form after saving
         assertContains(savedProposalPage, "Document was successfully saved.");
@@ -140,7 +140,7 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
         verifySavedRequiredFields(doc, DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_OWNED_BY_UNIT, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "2007-08-14", "2007-08-21", DEFAULT_PROPOSAL_TYPE_CODE);
 
         // check sponsor program info fields
-        assertEquals("005984", doc.getPrimeSponsorCode());
+        assertEquals("005984", doc.getDevelopmentProposal().getPrimeSponsorCode());
 
         // make sure the fields we set are displayed on the form after saving
         assertContains(savedProposalPage, "Document was successfully saved.");

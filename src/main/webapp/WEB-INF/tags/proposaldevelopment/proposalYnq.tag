@@ -31,28 +31,28 @@
 <c:set var="answerYesNo" value="${KualiForm.answerYesNo}" /> 
 <c:set var="answerYesNoNa" value="${KualiForm.answerYesNoNA}" /> 
 <div id="workarea">
-<c:forEach items="${KualiForm.document.ynqGroupNames}" var="groups" varStatus="gps">
-    <bean:define id="groupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].groupName"/>
+<c:forEach items="${KualiForm.document.developmentProposalList[0].ynqGroupNames}" var="groups" varStatus="gps">
+    <bean:define id="groupName" name="KualiForm" property="document.developmentProposalList[0].ynqGroupNames[${gps.index}].groupName"/>
     <c:if test="${gps.first}">
         <c:set var="transparent" value="true" />
     </c:if> 
-<bean:define id="trunGroupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].truncGroupName"/>
-<bean:define id="fullGroupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].groupName"/>
+<bean:define id="trunGroupName" name="KualiForm" property="document.developmentProposalList[0].ynqGroupNames[${gps.index}].truncGroupName"/>
+<bean:define id="fullGroupName" name="KualiForm" property="document.developmentProposalList[0].ynqGroupNames[${gps.index}].groupName"/>
   <c:set var="dateValidationError" value="" />
-			<c:forEach items="${KualiForm.document.proposalYnqs}" var="ynqs" varStatus="status">
-    			  <c:set var="iproposalYnq" value="document.proposalYnq[${status.index}]" /> 
+			<c:forEach items="${KualiForm.document.developmentProposalList[0].proposalYnqs}" var="ynqs" varStatus="status">
+    			  <c:set var="iproposalYnq" value="document.developmentProposalList[0].proposalYnq[${status.index}]" /> 
 				  <bean:define id="igroupName" name="KualiForm" property="${iproposalYnq}.ynq.groupName"/>
     			  <c:if test="${igroupName == groupName}">
-						<kul:checkErrors keyMatch="document.proposalYnq[${status.index}].reviewDate"/>
+						<kul:checkErrors keyMatch="document.developmentProposalList[0].proposalYnq[${status.index}].reviewDate"/>
 	                	<c:if test="${hasErrors}">
-	                    	<c:set var="dateValidationError" value="${dateValidationError},document.proposalYnq[${status.index}].reviewDate" />
+	                    	<c:set var="dateValidationError" value="${dateValidationError},document.developmentProposalList[0].proposalYnq[${status.index}].reviewDate" />
 	                	</c:if>
 				  </c:if>
 			</c:forEach>
 
-<kul:tab tabTitle="${trunGroupName}" spanForLongTabTitle="true" defaultOpen="false" tabErrorKey="document.proposalYnq[${groupName}]*, ${dateValidationError}" auditCluster="ynqAuditErrors${fullGroupName}" tabAuditKey="document.proposalYnq[${groupName}]*" transparentBackground="${transparent}" useRiceAuditMode="true" >
-<c:set var="tabErrorKey" value="document.proposalYnq[${gps.index}]"/>
-    <c:set var="proposalYnq" value="document.proposalYnqs[${gps.index}]" /> 
+<kul:tab tabTitle="${trunGroupName}" spanForLongTabTitle="true" defaultOpen="false" tabErrorKey="document.developmentProposalList[0].proposalYnq[${groupName}]*, ${dateValidationError}" auditCluster="ynqAuditErrors${fullGroupName}" tabAuditKey="document.developmentProposalList[0].proposalYnq[${groupName}]*" transparentBackground="${transparent}" useRiceAuditMode="true" >
+<c:set var="tabErrorKey" value="document.developmentProposalList[0].proposalYnq[${gps.index}]"/>
+    <c:set var="proposalYnq" value="document.developmentProposalList[0].proposalYnqs[${gps.index}]" /> 
     <c:set var="transparent" value="false" />
 	<div class="tab-container" align="center">
     	<h3>
@@ -71,8 +71,8 @@
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalYnq.attributes.explanation" />
             <th width="10%" class="infoline">Actions</th>
 			<c:set var="rowIndex" value="1" />
-			<c:forEach items="${KualiForm.document.proposalYnqs}" var="ynqs" varStatus="status">
-    			  <c:set var="iproposalYnq" value="document.proposalYnq[${status.index}]" /> 
+			<c:forEach items="${KualiForm.document.developmentProposalList[0].proposalYnqs}" var="ynqs" varStatus="status">
+    			  <c:set var="iproposalYnq" value="document.developmentProposalList[0].proposalYnq[${status.index}]" /> 
 				  <bean:define id="igroupName" name="KualiForm" property="${iproposalYnq}.ynq.groupName"/>
     			  <c:if test="${igroupName == groupName}">
                   <tr>
@@ -106,7 +106,7 @@
 					</c:when>
 					<c:when test="${dateRequired == 'Yes'}">
 						<c:set var="styleClass" value=""/>
-						<kul:checkErrors keyMatch="document.proposalYnq[${groupName}][${status.index}].reviewDate"/>
+						<kul:checkErrors keyMatch="document.developmentProposalList[0].proposalYnq[${groupName}][${status.index}].reviewDate"/>
 	                	<c:if test="${hasErrors}">
 	                    	<c:set var="styleClass" value="errorField"/>
 	                	</c:if>
@@ -121,7 +121,7 @@
       					<c:set var="disableExplanationRequired" value="true" />
     				</c:if> 
 					<c:set var="styleClass" value=""/>
-					<kul:checkErrors keyMatch="document.proposalYnq[${groupName}][${status.index}].explanation"/>
+					<kul:checkErrors keyMatch="document.developmentProposalList[0].proposalYnq[${groupName}][${status.index}].explanation"/>
                 	<c:if test="${hasErrors}">
                     	<c:set var="styleClass" value="errorField"/>
                 	</c:if>

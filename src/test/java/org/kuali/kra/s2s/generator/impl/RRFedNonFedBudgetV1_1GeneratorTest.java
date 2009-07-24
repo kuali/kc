@@ -55,10 +55,10 @@ public class RRFedNonFedBudgetV1_1GeneratorTest extends S2STestBase<RRFedNonFedB
         List<ProposalPerson> proposalPersonList = new ArrayList<ProposalPerson>();
         proposalPersonList.add(proposalPerson);
 
-        document.setOrganization(organization);
+        document.getDevelopmentProposal().setOrganization(organization);
         document.setUpdateUser("quickstart");
         document.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
-        document.setProposalPersons(proposalPersonList);
+        document.getDevelopmentProposal().setProposalPersons(proposalPersonList);
 
         Calendar startDate = Calendar.getInstance();
         startDate.set(2001, 1, 1);
@@ -105,7 +105,7 @@ public class RRFedNonFedBudgetV1_1GeneratorTest extends S2STestBase<RRFedNonFedB
         overview.setResidualFunds(BudgetDecimal.ZERO);
         List<BudgetVersionOverview> overviewList = new ArrayList<BudgetVersionOverview>();
         overviewList.add(overview);
-        document.setBudgetVersionOverviews(overviewList);
+        document.getDevelopmentProposal().setBudgetVersionOverviews(overviewList);
         KNSServiceLocator.getDocumentService().saveDocument(bd);
     }
 

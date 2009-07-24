@@ -63,8 +63,8 @@ public class BudgetPeriodAuditRule extends ResearchDocumentRuleBase {
         assert budgetDocument != null : "the document is null";
         boolean retval = true;
         
-        final Date projectStartDate = budgetDocument.getProposal().getRequestedStartDateInitial();
-        final Date projectEndDate = budgetDocument.getProposal().getRequestedEndDateInitial();
+        final Date projectStartDate = budgetDocument.getProposal().getDevelopmentProposal().getRequestedStartDateInitial();
+        final Date projectEndDate = budgetDocument.getProposal().getDevelopmentProposal().getRequestedEndDateInitial();
         
         int i = 0;
         for (final BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {

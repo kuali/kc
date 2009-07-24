@@ -25,6 +25,7 @@ import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
@@ -139,8 +140,8 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         ErrorMap errorMap = GlobalVariables.getErrorMap();
 
         int i = 0;
-        
-        for (ProposalSpecialReview propSpecialReview : proposalDevelopmentDocument.getPropSpecialReviews()) {
+
+        for (ProposalSpecialReview propSpecialReview : proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews()) {
             errorMap.addToErrorPath("propSpecialReview[" + i + "]");
             
             ProposalDevelopmentProposalSpecialReviewRule specialReviewRule = new ProposalDevelopmentProposalSpecialReviewRule();
@@ -166,7 +167,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         //checkErrors();
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         int i = 0;
-        List<ProposalPerson> proposalPersons = proposalDevelopmentDocument.getInvestigators();
+        List<ProposalPerson> proposalPersons = proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators();
         for (ProposalPerson proposalPerson : proposalPersons) {
             List<ProposalPersonYnq> proposalPersonYnqs = proposalPerson.getProposalPersonYnqs();
             String errorPath = "proposalPerson[" + i + "]";
@@ -201,9 +202,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         if(!errorMap.getErrorPath().contains("document")) {
             errorMap.clearErrorPath();
             errorMap.addToErrorPath("document");
+            errorMap.addToErrorPath("developmentProposalList[0]");
         }
         HashMap ynqGroupSerial = getQuestionSerialNumberBasedOnGroup(proposalDevelopmentDocument);
-        for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getProposalYnqs()) {
+        for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getDevelopmentProposal().getProposalYnqs()) {
             
             String groupName = proposalYnq.getYnq().getGroupName();
             Integer serialNumber = (Integer)ynqGroupSerial.get(proposalYnq.getQuestionId());
@@ -249,9 +251,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
     private HashMap getQuestionSerialNumberBasedOnGroup(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         HashMap ynqGroupSerial = new HashMap();
-        for (YnqGroupName ynqGroupName : proposalDevelopmentDocument.getYnqGroupNames()) {
+        for (YnqGroupName ynqGroupName : proposalDevelopmentDocument.getDevelopmentProposal().getYnqGroupNames()) {
             Integer serialNumber = Integer.valueOf(1);
-            for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getProposalYnqs()) {
+            for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getDevelopmentProposal().getProposalYnqs()) {
                 if(ynqGroupName.getGroupName().equalsIgnoreCase(proposalYnq.getYnq().getGroupName())) {
                     ynqGroupSerial.put(proposalYnq.getQuestionId(), serialNumber);
                     serialNumber ++;
@@ -275,19 +277,26 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         valid = validateProposalTypeField(proposalDevelopmentDocument);
 
-        proposalDevelopmentDocument.refreshReferenceObject("sponsor");
-        if (proposalDevelopmentDocument.getSponsorCode() != null && proposalDevelopmentDocument.getSponsor() == null) {
+        proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("sponsor");
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode() != null
+                && proposalDevelopmentDocument.getDevelopmentProposal().getSponsor() == null) {
             valid = false;
-            errorMap.putError("sponsorCode", KeyConstants.ERROR_MISSING, dataDictionaryService.getAttributeErrorLabel(ProposalDevelopmentDocument.class, "sponsorCode"));
+            errorMap.putError("sponsorCode", KeyConstants.ERROR_MISSING, dataDictionaryService.getAttributeErrorLabel(
+                    DevelopmentProposal.class, "sponsorCode"));
         }
         
         //if either is missing, it should be caught on the DD validation.
-        if (proposalDevelopmentDocument.getRequestedStartDateInitial() != null && proposalDevelopmentDocument.getRequestedEndDateInitial() != null) {
-            if (proposalDevelopmentDocument.getRequestedStartDateInitial().after(proposalDevelopmentDocument.getRequestedEndDateInitial())) {
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getRequestedStartDateInitial() != null
+                && proposalDevelopmentDocument.getDevelopmentProposal().getRequestedEndDateInitial() != null) {
+            if (proposalDevelopmentDocument.getDevelopmentProposal().getRequestedStartDateInitial().after(
+                    proposalDevelopmentDocument.getDevelopmentProposal().getRequestedEndDateInitial())) {
                 valid = false;
-                errorMap.putError("requestedStartDateInitial", KeyConstants.ERROR_START_DATE_AFTER_END_DATE, 
-                        new String[] {dataDictionaryService.getAttributeErrorLabel(ProposalDevelopmentDocument.class, "requestedStartDateInitial"),
-                        dataDictionaryService.getAttributeErrorLabel(ProposalDevelopmentDocument.class, "requestedEndDateInitial")});
+                errorMap.putError("requestedStartDateInitial", KeyConstants.ERROR_START_DATE_AFTER_END_DATE,
+                        new String[] {
+                                dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class,
+                                        "requestedStartDateInitial"),
+                                dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class,
+                                        "requestedEndDateInitial") });
             }
         }
         
@@ -311,12 +320,13 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
         
-        String proposalTypeCode = proposalDevelopmentDocument.getProposalTypeCode();
-        String sponsorProposalId = proposalDevelopmentDocument.getSponsorProposalNumber();
+        String proposalTypeCode = proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode();
+        String sponsorProposalId = proposalDevelopmentDocument.getDevelopmentProposal().getSponsorProposalNumber();
 
         if (isProposalTypeRenewalRevisionContinuation(proposalTypeCode) && StringUtils.isEmpty(sponsorProposalId)) {
             valid = false;
-            errorMap.putError("sponsorProposalNumber", KeyConstants.ERROR_REQUIRED_PROPOSAL_SPONSOR_ID, dataDictionaryService.getAttributeErrorLabel(ProposalDevelopmentDocument.class, "sponsorProposalNumber"));
+            errorMap.putError("sponsorProposalNumber", KeyConstants.ERROR_REQUIRED_PROPOSAL_SPONSOR_ID, dataDictionaryService
+                    .getAttributeErrorLabel(DevelopmentProposal.class, "sponsorProposalNumber"));
         }
         
         // TODO: Must add in other validations regarding awards, etc.  see KRACOEUS-290.
@@ -343,14 +353,17 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     /**
      *
      * Validate organization/location rule. specifically, at least one location is required.
+     * 
      * @param proposalDevelopmentDocument
      * @return
      */
     private boolean processOrganizationLocationBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
 
-        if (proposalDevelopmentDocument.getOrganizationId()!=null && (proposalDevelopmentDocument.getProposalLocations().size()==0 ||
-                (proposalDevelopmentDocument.getProposalLocations().size()==1 && ((proposalDevelopmentDocument.getProposalLocations().get(0))).getLocationSequenceNumber()==null))) {
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getOrganizationId() != null
+                && (proposalDevelopmentDocument.getDevelopmentProposal().getProposalLocations().size() == 0 || (proposalDevelopmentDocument
+                        .getDevelopmentProposal().getProposalLocations().size() == 1 && ((proposalDevelopmentDocument.getDevelopmentProposal()
+                        .getProposalLocations().get(0))).getLocationSequenceNumber() == null))) {
             GlobalVariables.getErrorMap().removeFromErrorPath("document");
             reportError("newPropLocation.location", KeyConstants.ERROR_REQUIRED_FOR_PROPLOCATION);
             GlobalVariables.getErrorMap().addToErrorPath("document");
@@ -368,14 +381,29 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     */
     private boolean processProposalGrantsGovBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
-        
-        if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode(), getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.S2S_REVISIONTYPE_OTHER).getParameterValue()) && (proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription()==null||StringUtils.equals(proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription().trim(), ""))){
+
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null
+                && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId() != null
+                && StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionCode(),
+                        getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT,
+                                Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.S2S_REVISIONTYPE_OTHER).getParameterValue())
+                && (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionOtherDescription() == null || StringUtils
+                        .equals(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionOtherDescription().trim(),
+                                ""))) {
             reportError("s2sOpportunity.revisionOtherDescription", KeyConstants.ERROR_IF_REVISIONTYPE_IS_OTHER);
             valid &= false;
         }
         
-        if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && !StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode(), getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.S2S_REVISIONTYPE_OTHER).getParameterValue()) && (proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription()!=null && !StringUtils.equals(proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription().trim(), ""))){
-            reportError("s2sOpportunity.revisionOtherDescription", KeyConstants.ERROR_IF_REVISIONTYPE_IS_NOT_OTHER_SPECIFY_NOT_BLANK);
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null
+                && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId() != null
+                && !StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionCode(),
+                        getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT,
+                                Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.S2S_REVISIONTYPE_OTHER).getParameterValue())
+                && (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionOtherDescription() != null && !StringUtils
+                        .equals(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionOtherDescription().trim(),
+                                ""))) {
+            reportError("s2sOpportunity.revisionOtherDescription",
+                    KeyConstants.ERROR_IF_REVISIONTYPE_IS_NOT_OTHER_SPECIFY_NOT_BLANK);
             valid &= false;
         }        
         return valid;
@@ -395,9 +423,12 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         String regExpr = "(\\d{2})(\\.)(\\d{3})[a-zA-z]?";
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
-        if(StringUtils.isNotBlank(proposalDevelopmentDocument.getCfdaNumber()) && !(proposalDevelopmentDocument.getCfdaNumber().matches(regExpr)) && GlobalVariables.getErrorMap().getMessages("document.cfdaNumber") == null) 
-        {
-            errorMap.putError("cfdaNumber", RiceKeyConstants.ERROR_INVALID_FORMAT, new String []{dataDictionaryService.getAttributeErrorLabel(ProposalDevelopmentDocument.class, "cfdaNumber"), proposalDevelopmentDocument.getCfdaNumber() });
+        if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber())
+                && !(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber().matches(regExpr))
+                && GlobalVariables.getErrorMap().getMessages("document.developmentProposalList[0].cfdaNumber") == null) {
+            errorMap.putError("cfdaNumber", RiceKeyConstants.ERROR_INVALID_FORMAT, new String[] {
+                    dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "cfdaNumber"),
+                    proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber() });
             valid = false;
          }
         return valid;
@@ -408,7 +439,8 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      * @see org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule#processAddNarrativeBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,org.kuali.kra.proposaldevelopment.bo.Narrative)
      */
     public boolean processAddNarrativeBusinessRules(AddNarrativeEvent addNarrativeEvent) {
-        return new ProposalDevelopmentNarrativeRule().processAddNarrativeBusinessRules(addNarrativeEvent);    }
+        return new ProposalDevelopmentNarrativeRule().processAddNarrativeBusinessRules(addNarrativeEvent);
+    }
 
     /**
      * @see org.kuali.rice.kns.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
@@ -430,7 +462,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         //Change for KRACOEUS-1403
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
-        proposalDevelopmentDocument.getYnqService().populateProposalQuestions(proposalDevelopmentDocument.getProposalYnqs(), proposalDevelopmentDocument.getYnqGroupNames(), proposalDevelopmentDocument);
+        proposalDevelopmentDocument.getDevelopmentProposal().getYnqService().populateProposalQuestions(
+                proposalDevelopmentDocument.getDevelopmentProposal().getProposalYnqs(),
+                proposalDevelopmentDocument.getDevelopmentProposal().getYnqGroupNames(), proposalDevelopmentDocument);
         processProposalYNQBusinessRule((ProposalDevelopmentDocument) document, true);
         retval &= new ProposalDevelopmentYnqAuditRule().processRunAuditBusinessRules(document);
         //Change for KRACOEUS-1403 ends here

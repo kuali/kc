@@ -16,7 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ page import="java.util.HashMap" %>
 
-<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
+<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" />
 
@@ -59,7 +59,7 @@
                 <th class="grid"><div align="right">*Proposal Role:</div></th>
                 <td class="grid" >
 <c:set var="roleIdAttribute" value="${proposalPersonAttributes.proposalPersonRoleId}" />
-<c:if test="${KualiForm.document.sponsor.acronym == 'NIH'}">
+<c:if test="${KualiForm.document.developmentProposalList[0].sponsor.acronym == 'NIH'}">
   <c:set var="roleIdAttribute" value="${proposalPersonAttributes.nonNihProposalPersonRoleId}" />
 </c:if>
                   <kul:htmlControlAttribute property="newProposalPerson.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" />
@@ -71,7 +71,7 @@
             <html:image property="methodToCall.clearProposalPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton"/>
             <html:image property="methodToCall.insertProposalPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-addpers.gif" title="Add Proposal Person" alt="Add Proposal Person" styleClass="tinybutton"/>
             <c:choose>
-            <c:when test="${KualiForm.document.nih}">
+            <c:when test="${KualiForm.document.developmentProposalList[0].nih}">
             <br>
              <strong>PI/Contact is a required Proposal Role prior to submission. Only one PI/Contact is allowed. 
             For single PI submissions, please designate the lead investigator as PI/Contact & other senior personnel as Key Persons. 
@@ -91,7 +91,7 @@
 
     <kra-pd:keyPersons/>
 
-  <c:if test="${not empty viewOnly && ! viewOnly and fn:length(KualiForm.document.proposalPersons) > 0}">
+  <c:if test="${not empty viewOnly && ! viewOnly and fn:length(KualiForm.document.developmentProposalList[0].proposalPersons) > 0}">
   	<c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_deletesel.gif"/>
   	<c:set var="extraButtonProperty" value="methodToCall.deletePerson"/>
   	<c:set var="extraButtonAlt" value="Delete a Key Person"/>

@@ -18,9 +18,9 @@
 <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
 <c:set var="unitCreditSplitAttributes" value="${DataDictionary.ProposalUnitCreditSplit.attributes}" />
 <c:set var="personCreditSplitAttributes" value="${DataDictionary.ProposalPersonCreditSplit.attributes}" />
-<c:set var="columnWidth" value="${100/(fn:length(KualiForm.document.investigatorCreditTypes) + 1)}%" />
+<c:set var="columnWidth" value="${100/(fn:length(KualiForm.document.developmentProposalList[0].investigatorCreditTypes) + 1)}%" />
 
-<kul:tab tabTitle="Combined Credit Split" defaultOpen="true" tabDescription=" " tabErrorKey="document.creditSplit" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.creditSplit" useRiceAuditMode="true">
+<kul:tab tabTitle="Combined Credit Split" defaultOpen="true" tabDescription=" " tabErrorKey="document.developmentProposalList[0].creditSplit" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.developmentProposalList[0].creditSplit" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Combined Credit Split</span>
@@ -30,12 +30,12 @@
         <table cellpadding="0" cellspacing="0" summary="">
               <tr>
                 <th width="${columnWidth}">&nbsp;</th>
-				<c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType" >
+				<c:forEach items="${KualiForm.document.developmentProposalList[0].investigatorCreditTypes}" var="invType" >
                 	<th width="${columnWidth}">${invType.description}</th>
 				</c:forEach>
               </tr>
-			<c:forEach items="${KualiForm.document.investigators}" var="investigator" varStatus="invStatus">
-  			<c:set var="investigatorProperty" value="document.investigators[${invStatus.index}]" />
+			<c:forEach items="${KualiForm.document.developmentProposalList[0].investigators}" var="investigator" varStatus="invStatus">
+  			<c:set var="investigatorProperty" value="document.developmentProposalList[0].investigator[${invStatus.index}]" />
               <tr>
                 <td nowrap class="tab-subhead"><strong>
                   <kul:htmlControlAttribute property="${investigatorProperty}.fullName" 
@@ -43,7 +43,7 @@
                   </strong></td>
   
   
-  <c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType">
+  <c:forEach items="${KualiForm.document.developmentProposalList[0].investigatorCreditTypes}" var="invType">
       <c:forEach items="${investigator.creditSplits}" var="personcreditsplit" varStatus="splitStatus" >
           <c:set var="personCreditSplit" value="${investigatorProperty}.creditSplits[${splitStatus.index}]" />
                <c:if test="${personcreditsplit.invCreditTypeCode == invType.invCreditTypeCode}">
@@ -62,7 +62,7 @@
     <c:set var="unitProperty" value="${investigatorProperty}.units[${unitStatus.index}]" />
                 <td nowrap>${personUnit.unitNumber} - ${personUnit.unit.unitName}</td>
 
-     <c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType">
+     <c:forEach items="${KualiForm.document.developmentProposalList[0].investigatorCreditTypes}" var="invType">
     <c:forEach items="${personUnit.creditSplits}" var="unitcreditsplit" varStatus="splitStatus" >
       <c:set var="unitCreditSplit" value="${unitProperty}.creditSplits[${splitStatus.index}]" />
                     <c:if test="${unitcreditsplit.invCreditTypeCode == invType.invCreditTypeCode}">
@@ -78,7 +78,7 @@
                 <td nowrap class="infoline"><strong>Unit Total:
                 </strong></td>
   <bean:define id="totalMap" name="KualiForm" property="creditSplitTotals.${investigator.userName}" />
-  <c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType" >
+  <c:forEach items="${KualiForm.document.developmentProposalList[0].investigatorCreditTypes}" var="invType" >
                 <td class="infoline"><div align="right"><strong>${totalMap[invType.invCreditTypeCode]}</strong></div></td>
   </c:forEach>
               </tr>            
@@ -91,7 +91,7 @@
                 <td nowrap class="infoline"><strong>Investigator Total:
                 </strong></td>
   <bean:define id="totalMap" name="KualiForm" property="creditSplitTotals.investigator" />
-  <c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType" >
+  <c:forEach items="${KualiForm.document.developmentProposalList[0].investigatorCreditTypes}" var="invType" >
                 <td class="infoline"><div align="right"><strong>${totalMap[invType.invCreditTypeCode]}</strong></div></td>
   </c:forEach>
               </tr>            

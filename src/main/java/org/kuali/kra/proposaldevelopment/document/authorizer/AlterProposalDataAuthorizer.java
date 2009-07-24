@@ -35,7 +35,7 @@ public class AlterProposalDataAuthorizer extends ProposalAuthorizer {
     public boolean isAuthorized(String username, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
         return kraWorkflowService.isEnRoute(doc) &&
-               !doc.getSubmitFlag() &&
+               !doc.getDevelopmentProposal().getSubmitFlag() &&
                hasProposalPermission(username, doc, PermissionConstants.ALTER_PROPOSAL_DATA);
     }
 }

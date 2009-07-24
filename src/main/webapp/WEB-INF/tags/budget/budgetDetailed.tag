@@ -75,7 +75,7 @@
     	</c:if>
     </c:forEach>
 
-	<%--<c:set var="budgetExpensePanelReadOnly" value="${KualiForm.document.proposal.budgetVersionOverviews[KualiForm.document.budgetVersionNumber-1].finalVersionFlag}" /> --%>
+	<%--<c:set var="budgetExpensePanelReadOnly" value="${KualiForm.document.proposal.developmentProposalList[0].budgetVersionOverviews[KualiForm.document.budgetVersionNumber-1].finalVersionFlag}" /> --%>
 	<c:if test="${! empty budgetLineItemSize}">
   		<c:set var="tabItemCount" value="${budgetLineItemSize} line item" />
   		<c:if test="${budgetLineItemSize > 1}">

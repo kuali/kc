@@ -65,7 +65,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @param narrative
      */
     public void addNarrative(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
-        narrative.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
+        narrative.setProposalNumber(proposaldevelopmentDocument.getDevelopmentProposal().getProposalNumber());
         narrative.setModuleNumber(getNextModuleNumber(proposaldevelopmentDocument));
         narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(proposaldevelopmentDocument));
         updateUserTimestamp(narrative);
@@ -76,12 +76,12 @@ public class NarrativeServiceImpl implements NarrativeService {
         
         getBusinessObjectService().save(narrative);
         narrative.clearAttachment();
-        proposaldevelopmentDocument.getNarratives().add(narrative);
+        proposaldevelopmentDocument.getDevelopmentProposal().getNarratives().add(narrative);
     }
 
     private Integer getNextModuleNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
-        List<Narrative> narrativeList = proposaldevelopmentDocument.getNarratives();
-        List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getInstituteAttachments();
+        List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();
+        List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments();
         List<Narrative> mergedNarrativeList = new ArrayList<Narrative>();
         mergedNarrativeList.addAll(narrativeList);
         mergedNarrativeList.addAll(instituteAttachmentsList);
@@ -94,8 +94,8 @@ public class NarrativeServiceImpl implements NarrativeService {
         return mergedNarrativeList.get(mergedNarrativeList.size()-1).getModuleNumber().intValue()+1;
     }
     private Integer getNextModuleSequenceNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
-        List<Narrative> narrativeList = proposaldevelopmentDocument.getNarratives();
-        List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getInstituteAttachments();
+        List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();
+        List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments();
         List<Narrative> mergedNarrativeList = new ArrayList<Narrative>();
         mergedNarrativeList.addAll(narrativeList);
         mergedNarrativeList.addAll(instituteAttachmentsList);
@@ -198,11 +198,11 @@ public class NarrativeServiceImpl implements NarrativeService {
     }
 
     public void deleteProposalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete) {
-        deleteAttachment(proposaldevelopmentDocument.getNarratives(), lineToDelete);
+        deleteAttachment(proposaldevelopmentDocument.getDevelopmentProposal().getNarratives(), lineToDelete);
     }
 
     public void deleteInstitutionalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete) {
-        deleteAttachment(proposaldevelopmentDocument.getInstituteAttachments(), lineToDelete);
+        deleteAttachment(proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments(), lineToDelete);
     }
 
     private void deleteAttachment(List<Narrative> narratives, int lineToDelete) {
@@ -225,7 +225,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @param narrative
      */
     public void addInstituteAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
-        narrative.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
+        narrative.setProposalNumber(proposaldevelopmentDocument.getDevelopmentProposal().getProposalNumber());
         narrative.setModuleNumber(getNextModuleNumber(proposaldevelopmentDocument));
         narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(proposaldevelopmentDocument));
         narrative.refreshReferenceObject("narrativeType");
@@ -235,7 +235,7 @@ public class NarrativeServiceImpl implements NarrativeService {
         
         getBusinessObjectService().save(narrative);
         narrative.clearAttachment();
-        proposaldevelopmentDocument.getInstituteAttachments().add(narrative);  
+        proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments().add(narrative);  
     }
 
     /**
@@ -259,12 +259,12 @@ public class NarrativeServiceImpl implements NarrativeService {
     }
 
     public void populateNarrativeRightsForLoggedinUser(ProposalDevelopmentDocument proposaldevelopmentDocument) {
-        List<Narrative> narrativeList = proposaldevelopmentDocument.getNarratives();
+        List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narrativeList) {
             populateNarrativeUserRights(proposaldevelopmentDocument,narrative);
         }
         
-        List<Narrative> instituteAttachmentList = proposaldevelopmentDocument.getInstituteAttachments();
+        List<Narrative> instituteAttachmentList = proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments();
         for (Narrative instituteAttachment : instituteAttachmentList) {
             populateNarrativeUserRights(proposaldevelopmentDocument,instituteAttachment);
         }
@@ -353,7 +353,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      */
     public void deletePerson(String username, ProposalDevelopmentDocument proposalDevelopmentDocument) {
         Person person = personService.getPersonByName(username);
-        List<Narrative> narratives = proposalDevelopmentDocument.getNarratives();
+        List<Narrative> narratives = proposalDevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
             List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
             for (NarrativeUserRights right : userRights) {
@@ -368,7 +368,7 @@ public class NarrativeServiceImpl implements NarrativeService {
    
     public void readjustRights(String username, ProposalDevelopmentDocument proposalDevelopmentDocument, List<String> roleNames) {
         Person person = personService.getPersonByName(username);
-        List<Narrative> narratives = proposalDevelopmentDocument.getNarratives();
+        List<Narrative> narratives = proposalDevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
             List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
             for (NarrativeUserRights right : userRights) {
@@ -405,7 +405,7 @@ public class NarrativeServiceImpl implements NarrativeService {
     
     public void addPerson(String username, ProposalDevelopmentDocument proposalDevelopmentDocument, String roleName) {
         Person person = personService.getPersonByName(username);
-        List<Narrative> narratives = proposalDevelopmentDocument.getNarratives();
+        List<Narrative> narratives = proposalDevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
             List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
            

@@ -157,11 +157,11 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends S2SBa
      * 
      */
     private gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson[] populateInvestigators() {
-        List<ProposalPerson> proposalPersonns = pdDoc.getProposalPersons();
+        List<ProposalPerson> proposalPersonns = pdDoc.getDevelopmentProposal().getProposalPersons();
         Collections.sort(proposalPersonns, new ProposalPersonComparator());
         List<ProposalPerson> keyPersons = new LinkedList<ProposalPerson>();
 
-        for (ProposalPerson proposalPerson : pdDoc.getProposalPersons()) {
+        for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPerson.getProposalPersonRoleId() != null
                     && (proposalPerson.getProposalPersonRoleId().equals(C0_INVESTIGATOR) || proposalPerson
                             .getProposalPersonRoleId().equals(ROLE_COLLABORATOR))) {
@@ -231,11 +231,11 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends S2SBa
                 conditionMap.put("rolodexId", proposalPerson.getRolodexId().toString());
                 Rolodex rolodex = (Rolodex) businessObjectService.findByPrimaryKey(Rolodex.class, conditionMap);
                 if (rolodex != null) {
-                    if (rolodex.getSponsorCode() != null && rolodex.getSponsorCode().equals(pdDoc.getSponsorCode())) {
+                    if (rolodex.getSponsorCode() != null && rolodex.getSponsorCode().equals(pdDoc.getDevelopmentProposal().getSponsorCode())) {
                         if (rolodex.getSponsor() != null
                                 && rolodex.getSponsor().getSponsorTypeCode() != null
                                 && Integer.parseInt(rolodex.getSponsor().getSponsorTypeCode()) == Integer.parseInt(pdDoc
-                                        .getSponsor().getSponsorTypeCode())) {
+                                        .getDevelopmentProposal().getSponsor().getSponsorTypeCode())) {
                             sponsortType = Integer.parseInt(rolodex.getSponsor().getSponsorTypeCode());
                             sponsorCode = rolodex.getSponsorCode();
                             if (sponsortType == 0) {
@@ -322,11 +322,11 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends S2SBa
                 conditionMap.put("rolodexId", proposalPerson.getRolodexId().toString());
                 Rolodex rolodex = (Rolodex) businessObjectService.findByPrimaryKey(Rolodex.class, conditionMap);
                 if (rolodex != null) {
-                    if (rolodex.getSponsorCode() != null && rolodex.getSponsorCode().equals(pdDoc.getSponsorCode())) {
+                    if (rolodex.getSponsorCode() != null && rolodex.getSponsorCode().equals(pdDoc.getDevelopmentProposal().getSponsorCode())) {
                         if (rolodex.getSponsor() != null
                                 && rolodex.getSponsor().getSponsorTypeCode() != null
                                 && Integer.parseInt(rolodex.getSponsor().getSponsorTypeCode()) == Integer.parseInt(pdDoc
-                                        .getSponsor().getSponsorTypeCode())) {
+                                        .getDevelopmentProposal().getSponsor().getSponsorTypeCode())) {
                             sponsortType = Integer.parseInt(rolodex.getSponsor().getSponsorTypeCode());
                             sponsorCode = rolodex.getSponsorCode();
                             if (sponsortType == 0) {

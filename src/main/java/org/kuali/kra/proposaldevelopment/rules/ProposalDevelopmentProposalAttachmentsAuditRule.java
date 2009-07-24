@@ -39,11 +39,11 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule  implements Documen
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
             List<AuditError> auditErrors = new ArrayList<AuditError>();
             int i = 0;
-            for(Narrative narrative: proposalDevelopmentDocument.getNarratives()) {
+            for(Narrative narrative: proposalDevelopmentDocument.getDevelopmentProposal().getNarratives()) {
     
              if (narrative.getModuleStatusCode().equals("I")){
                  valid = false;            
-                 auditErrors.add(new AuditError("document.narrative["+i+"].moduleStatusCode", KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE, Constants.ATTACHMENTS_PAGE));
+                 auditErrors.add(new AuditError("document.developmentProposalList[0].narrative["+i+"].moduleStatusCode", KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE, Constants.ATTACHMENTS_PAGE));
              }
              i++;
             }

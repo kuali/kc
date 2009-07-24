@@ -35,8 +35,8 @@ public class CD511V1_1GeneratorTest extends S2STestBase<CD511V1_1Generator> {
 
         Organization organization = new Organization();
         organization.setOrganizationName("MIT");
-        document.setCurrentAwardNumber("00007");
-        document.setTitle("CD511V1_1 Test");
+        document.getDevelopmentProposal().setCurrentAwardNumber("00007");
+        document.getDevelopmentProposal().setTitle("CD511V1_1 Test");
         Rolodex rolodex = new Rolodex();
         rolodex.setTitle("Primary title");
         rolodex.setFirstName("George");
@@ -44,6 +44,6 @@ public class CD511V1_1GeneratorTest extends S2STestBase<CD511V1_1Generator> {
         rolodex.setMiddleName("C.");
         rolodex.setRolodexId(1234);
         organization.setRolodex(rolodex);
-        document.setOrganization(organization);
+        document.getDevelopmentProposal().setOrganization(organization);
     }
 }

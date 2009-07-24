@@ -40,7 +40,7 @@ public class PHS398ResearchPlanV1_1GeneratorTest extends S2STestBase<PHS398Resea
     @Override
     protected void prepareData(ProposalDevelopmentDocument document) throws Exception {
 
-        document.setProposalTypeCode("5");
+        document.getDevelopmentProposal().setProposalTypeCode("5");
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();
         NarrativeAttachment narrativeAttachment = new NarrativeAttachment();
@@ -51,7 +51,7 @@ public class PHS398ResearchPlanV1_1GeneratorTest extends S2STestBase<PHS398Resea
         narrativeAttachment.setNarrativeData(narrativePdf);
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();
         narrativeList.add(narrativeAttachment);
-        narrative.setProposalNumber(document.getProposalNumber());
+        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");
@@ -65,6 +65,6 @@ public class PHS398ResearchPlanV1_1GeneratorTest extends S2STestBase<PHS398Resea
         naList.add(narrative);
         getService(BusinessObjectService.class).save(narrative);
         narrative.getNarrativeAttachmentList().clear();
-        document.setNarratives(naList);
+        document.getDevelopmentProposal().setNarratives(naList);
     }
 }

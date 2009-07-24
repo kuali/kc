@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
+<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 
 <kul:tab tabTitle="Post Submission Status" defaultOpen="false">
 
@@ -28,7 +28,7 @@
         <table cellpadding=0 cellspacing=0 summary="">
         	<tr>
 				<th align="right" valign="middle"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.postSubmissionStatusCode}" /></th>
-				<td align="left" valign="middle" width="74%"><kul:htmlControlAttribute property="document.postSubmissionStatusCode" readOnly="${KualiForm.submissionStatusReadOnly}" attributeEntry="${proposalDevelopmentAttributes.postSubmissionStatusCode}" /></td>
+				<td align="left" valign="middle" width="74%"><kul:htmlControlAttribute property="document.developmentProposalList[0].postSubmissionStatusCode" readOnly="${KualiForm.submissionStatusReadOnly}" attributeEntry="${proposalDevelopmentAttributes.postSubmissionStatusCode}" /></td>
 			</tr>
         </table>
         

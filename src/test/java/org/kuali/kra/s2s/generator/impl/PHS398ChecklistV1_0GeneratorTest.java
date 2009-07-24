@@ -34,13 +34,13 @@ public class PHS398ChecklistV1_0GeneratorTest extends S2STestBase<PHS398Checklis
 
     @Override
     protected void prepareData(ProposalDevelopmentDocument document) throws Exception {
-        document.setProposalTypeCode("2");
+        document.getDevelopmentProposal().setProposalTypeCode("2");
         ProposalYnq proposalYnq = new ProposalYnq();
         proposalYnq.setAnswer("Y");
         proposalYnq.setQuestionId("22");
         proposalYnq.setExplanation("David,Blain");
         List<ProposalYnq> ynqList = new ArrayList<ProposalYnq>();
         ynqList.add(proposalYnq);
-        document.setProposalYnqs(ynqList);
+        document.getDevelopmentProposal().setProposalYnqs(ynqList);
     }
 }

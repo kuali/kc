@@ -101,8 +101,8 @@ public abstract class AbstractBudgetCalculator {
 //            budgetRateService.resetAllBudgetRates(budgetDocument);
 //        }
         if (!rates.isEmpty() && rates.get(0) instanceof BudgetProposalRate) {
-            QueryList qList = filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budgetDocument.getProposal().getActivityTypeCode());
-            if (qList.isEmpty() && !budgetDocument.getActivityTypeCode().equals(budgetDocument.getProposal().getActivityTypeCode())) {
+            QueryList qList = filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budgetDocument.getProposal().getDevelopmentProposal().getActivityTypeCode());
+            if (qList.isEmpty() && !budgetDocument.getActivityTypeCode().equals(budgetDocument.getProposal().getDevelopmentProposal().getActivityTypeCode())) {
                 qList = filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budgetDocument.getActivityTypeCode());                
             }
             return qList;

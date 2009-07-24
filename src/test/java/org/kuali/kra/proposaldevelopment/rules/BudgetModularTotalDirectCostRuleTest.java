@@ -155,13 +155,13 @@ public class BudgetModularTotalDirectCostRuleTest {
         this.pdDocument = new ProposalDevelopmentDocument();
 
         this.pdDocument.getDocumentHeader().setDocumentDescription(this.getClass().getName());
-        this.pdDocument.setSponsorCode("005889");
-        this.pdDocument.setTitle("Project title");
-        this.pdDocument.setRequestedStartDateInitial(new Date(Calendar.getInstance().getTime().getTime()));
-        this.pdDocument.setRequestedEndDateInitial(new Date(Calendar.getInstance().getTime().getTime()));
-        this.pdDocument.setActivityTypeCode("1");
-        this.pdDocument.setProposalTypeCode("1");
-        this.pdDocument.setOwnedByUnitNumber("000001");
+        this.pdDocument.getDevelopmentProposal().setSponsorCode("005889");
+        this.pdDocument.getDevelopmentProposal().setTitle("Project title");
+        this.pdDocument.getDevelopmentProposal().setRequestedStartDateInitial(new Date(Calendar.getInstance().getTime().getTime()));
+        this.pdDocument.getDevelopmentProposal().setRequestedEndDateInitial(new Date(Calendar.getInstance().getTime().getTime()));
+        this.pdDocument.getDevelopmentProposal().setActivityTypeCode("1");
+        this.pdDocument.getDevelopmentProposal().setProposalTypeCode("1");
+        this.pdDocument.getDevelopmentProposal().setOwnedByUnitNumber("000001");
     }
     
     private String getWarning(final BudgetModularTotalDirectCostRule rule) {
@@ -235,7 +235,7 @@ public class BudgetModularTotalDirectCostRuleTest {
     
 
     private void testNoErrors(final DocumentService service) {
-        this.pdDocument.setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
         BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service);
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
@@ -243,7 +243,7 @@ public class BudgetModularTotalDirectCostRuleTest {
         Assert.assertTrue("The validation should not have produced any warnings " + warnings, warnings.isEmpty());
 
         warnings = new HashSet<String>();
-        this.pdDocument.setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
         Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getErrorMap(), GlobalVariables.getErrorMap().isEmpty());
         Assert.assertTrue("The validation should not have produced any warnings " + warnings, warnings.isEmpty());
@@ -274,7 +274,7 @@ public class BudgetModularTotalDirectCostRuleTest {
             }
         };
 
-        this.pdDocument.setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.ONE_INCOMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.ONE_INCOMPLETE);
         BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service);
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
@@ -282,7 +282,7 @@ public class BudgetModularTotalDirectCostRuleTest {
         Assert.assertTrue("The validation should not have produced any warnings " + warnings, warnings.isEmpty());
 
         warnings = new HashSet<String>();
-        this.pdDocument.setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.TWO_INCOMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.TWO_INCOMPLETE);
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
         Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getErrorMap(), GlobalVariables.getErrorMap().isEmpty());
         Assert.assertTrue("The validation should not have produced any warnings " + warnings, warnings.isEmpty());
@@ -426,7 +426,7 @@ public class BudgetModularTotalDirectCostRuleTest {
             }
         };
         
-        this.pdDocument.setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
         BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service);
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
@@ -438,7 +438,7 @@ public class BudgetModularTotalDirectCostRuleTest {
         Assert.assertTrue("The warning was incorrect, warning: "
             + warnings, warnings.contains(getWarning(rule)));
 
-        this.pdDocument.setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
         rule = new BudgetModularTotalDirectCostRule(this.configService, service);
         warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
@@ -481,7 +481,7 @@ public class BudgetModularTotalDirectCostRuleTest {
             }
         };
 
-        this.pdDocument.setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
         BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service);
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
@@ -494,7 +494,7 @@ public class BudgetModularTotalDirectCostRuleTest {
             + GlobalVariables.getErrorMap().size(), 1, GlobalVariables.getErrorMap().size());
 
         GlobalVariables.getErrorMap().clear();
-        this.pdDocument.setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
         rule = new BudgetModularTotalDirectCostRule(this.configService, service);
         warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
@@ -537,7 +537,7 @@ public class BudgetModularTotalDirectCostRuleTest {
             }
         };
 
-        this.pdDocument.setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
         BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service);
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
@@ -548,7 +548,7 @@ public class BudgetModularTotalDirectCostRuleTest {
             + warnings, warnings.contains(getWarning(rule)));
 
         
-        this.pdDocument.setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
         rule = new BudgetModularTotalDirectCostRule(this.configService, service);
         warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);

@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
+<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="proposalChangedDataAttributes" value="${DataDictionary.ProposalChangedData.attributes}" />
 <c:set var="proposalColumnsToAlterAttributes" value="${DataDictionary.ProposalColumnsToAlter.attributes}" />
 <c:set var="action" value="proposalDevelopmentActions" />
@@ -31,7 +31,7 @@
         
         
 		 <table cellpadding="0" cellspacing="0" summary="">
-			<input type="hidden" name="document.proposalNumber" id="document.proposalNumber" value="${KualiForm.document.proposalNumber}" />
+			<input type="hidden" name="document.developmentProposalList[0].proposalNumber" id="document.developmentProposalList[0].proposalNumber" value="${KualiForm.document.developmentProposalList[0].proposalNumber}" />
 			<input type="hidden" name="newProposalChangedData.editableColumn.lookupReturn" id="newProposalChangedData.editableColumn.lookupReturn"  value="${KualiForm.newProposalChangedData.editableColumn.lookupReturn}" />
 			<input type="hidden" name="newProposalChangedData.editableColumn.dataType" id="newProposalChangedData.editableColumn.dataType" value="${KualiForm.newProposalChangedData.editableColumn.dataType}" />
 			<input type="hidden" name="newProposalChangedData.editableColumn.hasLookup" id="newProposalChangedData.editableColumn.hasLookup" value="${KualiForm.newProposalChangedData.editableColumn.hasLookup}" />
@@ -118,7 +118,7 @@
         </kra:section>
         
        
-        <c:if test="${fn:length(KualiForm.document.proposalChangeHistory) > 0}">
+        <c:if test="${fn:length(KualiForm.document.developmentProposalList[0].proposalChangeHistory) > 0}">
 	        <br>
 	        <h3>
 	    		<span class="subhead-left">Proposal Change History</span>
@@ -134,7 +134,7 @@
 	                  <th>Explanation</th>
 	            </tr>
 	                
-	        	<c:forEach var="changedDataListByColumn" items="${KualiForm.document.proposalChangeHistory}" varStatus="status">
+	        	<c:forEach var="changedDataListByColumn" items="${KualiForm.document.developmentProposalList[0].proposalChangeHistory}" varStatus="status">
 	        		<tr><td colspan="5" class="tab-subhead" >${status.current.key}</td></tr>
 	
 		        	<c:forEach var="proposalChangedData" items="${status.current.value}" varStatus="innerStatus">

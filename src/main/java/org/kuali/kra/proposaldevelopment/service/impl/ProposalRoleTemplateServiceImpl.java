@@ -73,7 +73,7 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
     public void addUsers(ProposalDevelopmentDocument doc) {
         String creatorUsername = getCreator(doc);
         
-        Collection<UnitAclEntry> proposalRoleTemplates = getRoleTemplates(doc.getOwnedByUnitNumber());
+        Collection<UnitAclEntry> proposalRoleTemplates = getRoleTemplates(doc.getDevelopmentProposal().getOwnedByUnitNumber());
         for (UnitAclEntry proposalRoleTemplate : proposalRoleTemplates) {
             String personId = proposalRoleTemplate.getPersonId();
             String username = personService.getPerson(personId).getUserName();

@@ -265,7 +265,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentDocument pdDocument = pdForm.getDocument();
         ProposalChangedData newProposalChangedData = pdForm.getNewProposalChangedData();
         
-        newProposalChangedData.setProposalNumber(pdDocument.getProposalNumber());
+        newProposalChangedData.setProposalNumber(pdDocument.getDevelopmentProposal().getProposalNumber());
         newProposalChangedData.setChangeNumber(getNextChangeNumber(boService, newProposalChangedData.getProposalNumber(), newProposalChangedData.getColumnName()));
         if(StringUtils.isEmpty(newProposalChangedData.getDisplayValue()) && StringUtils.isNotEmpty(newProposalChangedData.getChangedValue())) {
             newProposalChangedData.setDisplayValue(newProposalChangedData.getChangedValue());
@@ -305,7 +305,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
     
     private void growProposalChangedHistory(ProposalDevelopmentDocument pdDocument, ProposalChangedData newProposalChangedData) {
-        Map<String, List<ProposalChangedData>> changeHistory = pdDocument.getProposalChangeHistory();
+        Map<String, List<ProposalChangedData>> changeHistory = pdDocument.getDevelopmentProposal().getProposalChangeHistory();
         if(changeHistory.get(newProposalChangedData.getEditableColumn().getColumnLabel()) == null) {
             changeHistory.put(newProposalChangedData.getEditableColumn().getColumnLabel(), new ArrayList<ProposalChangedData>());
         } 
@@ -386,7 +386,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 
                 ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getDocument();
                 initializeProposalUsers(copiedDocument);//add in any default permissions
-                copiedDocument.setS2sAppSubmission(new ArrayList<S2sAppSubmission>());
+                copiedDocument.getDevelopmentProposal().setS2sAppSubmission(new ArrayList<S2sAppSubmission>());            
                 
                 DocumentService docService = KraServiceLocator.getService(DocumentService.class);
                 docService.saveDocument(copiedDocument);
@@ -500,7 +500,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         GlobalVariables.getErrorMap().clear(); // clear error from isValidSubmission()    
         GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
         
-        if ((pdDoc.getContinuedFrom() != null) && isNewProposalType(pdDoc) && isSubmissionApplication(pdDoc)) {
+        if ((pdDoc.getDevelopmentProposal().getContinuedFrom() != null) && isNewProposalType(pdDoc) && isSubmissionApplication(pdDoc)) {
         	GlobalVariables.getErrorMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
         }
         
@@ -551,7 +551,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
          * If this proposal is a continuation from another proposal, it is illegal for
          * it to have a New Proposal Type and Application Submission Type.
          */
-        if ((proposalDevelopmentDocument.getContinuedFrom() != null) && isNewProposalType(proposalDevelopmentDocument) && isSubmissionApplication(proposalDevelopmentDocument)) {
+        if ((proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom() != null) && isNewProposalType(proposalDevelopmentDocument) && isSubmissionApplication(proposalDevelopmentDocument)) {
             state = ERROR;
             //GlobalVariables.getErrorMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
         }
@@ -569,7 +569,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
              * snail mail).
              */
             boolean s2sPassed = true;
-            if (proposalDevelopmentDocument.getS2sOpportunity() != null) {
+            if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null) {
                 S2SService s2sService = (S2SService) KraServiceLocator.getService(S2SService.class);
 //                s2sPassed = s2sService.validateApplication(proposalDevelopmentDocument.getProposalNumber());
                 try {
@@ -608,7 +608,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     private boolean isNewProposalType(ProposalDevelopmentDocument doc) {
         String newProposalTypeValue = getProposalParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
-        return StringUtils.equalsIgnoreCase(doc.getProposalTypeCode(), newProposalTypeValue);
+        return StringUtils.equalsIgnoreCase(doc.getDevelopmentProposal().getProposalTypeCode(), newProposalTypeValue);
     }
                 
     /**
@@ -617,9 +617,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      * @return true if proposal has grants.gov with submission type of APPLICATION; otherwise false
      */
     private boolean isSubmissionApplication(ProposalDevelopmentDocument doc) {
-        if (doc.getS2sOpportunity() != null) {
+        if (doc.getDevelopmentProposal().getS2sOpportunity() != null) {
             String applicationSubmissionValue = getProposalParameterValue(KeyConstants.S2S_SUBMISSIONTYPE_APPLICATION);
-            return StringUtils.equalsIgnoreCase(doc.getS2sOpportunity().getS2sSubmissionTypeCode(), applicationSubmissionValue);
+            return StringUtils.equalsIgnoreCase(doc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode(), applicationSubmissionValue);
         }
         return false;
     }
@@ -654,15 +654,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         /*
          * If there is an opportunity, then this is a Grants.gov submission.  
          */
-        if (proposalDevelopmentDocument.getS2sOpportunity() != null) {
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null) {
             submitS2sApplication(proposalDevelopmentDocument);
             createSubmissionHistory(proposalDevelopmentDocument);
         }
        
-        proposalDevelopmentDocument.setSubmitFlag(true);
+        proposalDevelopmentDocument.getDevelopmentProposal().setSubmitFlag(true);
         
         ProposalStateService proposalStateService = KraServiceLocator.getService(ProposalStateService.class);
-        proposalDevelopmentDocument.setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(proposalDevelopmentDocument, false));
+        proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(proposalDevelopmentDocument, false));
         
         DocumentService documentService = KNSServiceLocator.getDocumentService();
         documentService.saveDocument(proposalDevelopmentDocument);
@@ -687,25 +687,25 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      * @throws Exception
      */
     private void createSubmissionHistory(ProposalDevelopmentDocument proposalDevelopmentDocument)throws Exception{
-        proposalDevelopmentDocument.refreshReferenceObject("s2sAppSubmission");
+        proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("s2sAppSubmission");
         GlobalVariables.getMessageList().add(Constants.GRANTS_GOV_SUBMISSION_SUCCESSFUL_MESSAGE);
-        S2sSubmissionHistory s2sSubmissionHistory = createSubmissionHistory(proposalDevelopmentDocument.getProposalNumber(), proposalDevelopmentDocument);
-        proposalDevelopmentDocument.getS2sSubmissionHistory().add(s2sSubmissionHistory);
+        S2sSubmissionHistory s2sSubmissionHistory = createSubmissionHistory(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), proposalDevelopmentDocument);
+        proposalDevelopmentDocument.getDevelopmentProposal().getS2sSubmissionHistory().add(s2sSubmissionHistory);
                
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         
         Map queryPDD = new HashMap();
-        String continuedFrom = proposalDevelopmentDocument.getContinuedFrom(); 
+        String continuedFrom = proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom(); 
         while (continuedFrom!=null) {
             queryPDD.put("proposalNumber", continuedFrom);
             ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument)businessObjectService.findByPrimaryKey(ProposalDevelopmentDocument.class, queryPDD);
             
-            S2sSubmissionHistory newS2sSubmissionHistory = createSubmissionHistory(pd.getProposalNumber(), proposalDevelopmentDocument);
-            pd.getS2sSubmissionHistory().add(newS2sSubmissionHistory);
-            businessObjectService.save(pd.getS2sSubmissionHistory());
-            continuedFrom = pd.getContinuedFrom();
+            S2sSubmissionHistory newS2sSubmissionHistory = createSubmissionHistory(pd.getDevelopmentProposal().getProposalNumber(), proposalDevelopmentDocument);
+            pd.getDevelopmentProposal().getS2sSubmissionHistory().add(newS2sSubmissionHistory);
+            businessObjectService.save(pd.getDevelopmentProposal().getS2sSubmissionHistory());
+            continuedFrom = pd.getDevelopmentProposal().getContinuedFrom();
         }
-        businessObjectService.save(proposalDevelopmentDocument.getS2sSubmissionHistory());
+        businessObjectService.save(proposalDevelopmentDocument.getDevelopmentProposal().getS2sSubmissionHistory());
     }
     
     /**
@@ -717,13 +717,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private S2sSubmissionHistory createSubmissionHistory(String proposalNumber, ProposalDevelopmentDocument proposalDevelopmentDocument) {
         S2sSubmissionHistory s2sSubmissionHistory = new S2sSubmissionHistory();
         s2sSubmissionHistory.setProposalNumber(proposalNumber);
-        s2sSubmissionHistory.setProposalNumberOrig(proposalDevelopmentDocument.getProposalNumber());
-        s2sSubmissionHistory.setOriginalProposalId(proposalDevelopmentDocument.getContinuedFrom());
-        List<S2sAppSubmission> submissions = proposalDevelopmentDocument.getS2sAppSubmission();
+        s2sSubmissionHistory.setProposalNumberOrig(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber());
+        s2sSubmissionHistory.setOriginalProposalId(proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom());
+        List<S2sAppSubmission> submissions = proposalDevelopmentDocument.getDevelopmentProposal().getS2sAppSubmission();
         s2sSubmissionHistory.setFederalIdentifier(submissions.get(submissions.size()-1).getGgTrackingId());
-        if (proposalDevelopmentDocument.getS2sOpportunity() != null) {
-            s2sSubmissionHistory.setS2sRevisionTypeCode(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode());
-            s2sSubmissionHistory.setS2sSubmissionTypeCode(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode());
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null) {
+            s2sSubmissionHistory.setS2sRevisionTypeCode(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionCode());
+            s2sSubmissionHistory.setS2sSubmissionTypeCode(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode());
         }            
         s2sSubmissionHistory.setSubmittedBy(((UniversalUser) GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier());
         s2sSubmissionHistory.setSubmissionTime(submissions.get(submissions.size()-1).getReceivedDate());
@@ -752,7 +752,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         PrintService printService = KraServiceLocator.getService(PrintService.class);
-        printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getSponsorCode());
+        printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
         return forward;
     }
     
@@ -770,7 +770,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         ActionForward actionForward = mapping.findForward(MAPPING_BASIC);
-        String proposalNumber = proposalDevelopmentDocument.getProposalNumber();
+        String proposalNumber = proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber();
         List<SponsorFormTemplate> printFormTemplates = new ArrayList<SponsorFormTemplate>();  
         
         List<SponsorFormTemplateList> sponsorFormTemplateLists = proposalDevelopmentForm.getSponsorFormTemplates();
@@ -779,7 +779,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         if(!printFormTemplates.isEmpty()) {
             String contentType = Constants.PDF_REPORT_CONTENT_TYPE;
-            String ReportName = proposalNumber.concat("_" + proposalDevelopmentDocument.getSponsorCode()).concat(Constants.PDF_FILE_EXTENSION);
+            String ReportName = proposalNumber.concat("_" + proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode()).concat(Constants.PDF_FILE_EXTENSION);
             streamToResponse(printFormTemplates, proposalNumber, contentType, ReportName, response);
             actionForward = null;
         }
@@ -1013,7 +1013,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         BudgetDocument budgetDocument = null;
         String forward = null;
         try {
-            for (BudgetVersionOverview budgetVersion: pdDoc.getBudgetVersionOverviews()) {
+            for (BudgetVersionOverview budgetVersion: pdDoc.getDevelopmentProposal().getBudgetVersionOverviews()) {
                 if (budgetVersion.isFinalVersionFlag()) {
                     DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
                     budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());

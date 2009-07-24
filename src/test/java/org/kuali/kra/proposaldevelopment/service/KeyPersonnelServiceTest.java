@@ -64,7 +64,7 @@ public class KeyPersonnelServiceTest extends KraTestBase {
     @Test
     public void populateDocument() {
         getKeyPersonnelService().populateDocument(blankDocument);
-        assertTrue(blankDocument.getInvestigatorCreditTypes().size() > 0);
+        assertTrue(blankDocument.getDevelopmentProposal().getInvestigatorCreditTypes().size() > 0);
     }
     
     @Test 
@@ -87,11 +87,11 @@ public class KeyPersonnelServiceTest extends KraTestBase {
     @Test
     public void populateProposalPerson_Investigator() {
         ProposalPerson person = new ProposalPerson();
-        document.setOwnedByUnitNumber("000001");
+        document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
         person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
         
         getKeyPersonnelService().populateProposalPerson(person, document);
-        getKeyPersonnelService().assignLeadUnit(person, document.getOwnedByUnitNumber());
+        getKeyPersonnelService().assignLeadUnit(person, document.getDevelopmentProposal().getOwnedByUnitNumber());
         boolean personHasLeadUnit = false;
         for (ProposalPersonUnit unit : person.getUnits()) {
             personHasLeadUnit |= (unit.isLeadUnit() && unit.getUnitNumber().equals("000001")); 
@@ -108,7 +108,7 @@ public class KeyPersonnelServiceTest extends KraTestBase {
     @Test
     public void populateProposalPerson_KeyPerson() {
         ProposalPerson person = new ProposalPerson();
-        document.setOwnedByUnitNumber("000001");
+        document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
         person.setProposalPersonRoleId("KP");
         assertNull(person.getHomeUnit());
         assertFalse(person.isInvestigator());
@@ -120,11 +120,11 @@ public class KeyPersonnelServiceTest extends KraTestBase {
     @Test
     public void calculateCreditSplitTotals_Default() {
         ProposalPerson person = new ProposalPerson();
-        document.setOwnedByUnitNumber("000001");
+        document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
         person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
         
         getKeyPersonnelService().populateProposalPerson(person, document);
-        document.addProposalPerson(person);
+        document.getDevelopmentProposal().addProposalPerson(person);
         
         Map<String, Map<String,KualiDecimal>> totals = getKeyPersonnelService().calculateCreditSplitTotals(document);
         for(String key : totals.keySet()) {

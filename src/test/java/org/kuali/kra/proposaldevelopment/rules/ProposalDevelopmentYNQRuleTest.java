@@ -84,9 +84,9 @@ public class ProposalDevelopmentYNQRuleTest extends ProposalDevelopmentRuleTestB
     public void testRoutingProposalYnq() throws Exception {
 
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        document.getYnqGroupNames();
+        document.getDevelopmentProposal().getYnqGroupNames();
 
-        for (ProposalYnq ynq : document.getProposalYnqs()) {
+        for (ProposalYnq ynq : document.getDevelopmentProposal().getProposalYnqs()) {
             ynq.setAnswer("Y");
             ynq.setExplanation("Because I said so");
             ynq.setReviewDate(new Date(System.currentTimeMillis()));

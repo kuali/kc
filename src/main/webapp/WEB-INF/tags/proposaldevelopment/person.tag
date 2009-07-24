@@ -17,7 +17,7 @@
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" /> 
 <c:set var="keypersonrole" value="<%=org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE%>" />
 <c:choose>
-<c:when test="${empty KualiForm.document.proposalPersons[personIndex].fullName}">
+<c:when test="${empty KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].fullName}">
 <c:set var="parentTabName" value="" />
 </c:when>
 <c:otherwise>
@@ -219,7 +219,7 @@
    </tr>
     
     
-     <c:if test="${KualiForm.document.proposalPersons[personIndex].proposalPersonRoleId == keypersonrole}">
+     <c:if test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonRoleId == keypersonrole}">
     
                   <tr>
                   <th align="left" nowrap="nowrap" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.projectRole}"  /></div></th>
@@ -230,7 +230,7 @@
                     
 
  
-       <c:if test="${KualiForm.document.nih && KualiForm.document.proposalPersons[personIndex].proposalPersonRoleId == keypersonrole}">
+       <c:if test="${KualiForm.document.developmentProposalList[0].nih && KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonRoleId == keypersonrole}">
                  <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.otherSignificantContributorFlag}" /></div></th>
                     <td align="left"><span>
                       <kul:htmlControlAttribute property="${proposalPerson}.otherSignificantContributorFlag" 
@@ -257,7 +257,7 @@
 </td></tr>
 
 <bean:define id="unitDetailsRequired" name="KualiForm" property="${proposalPerson}.role.unitDetailsRequired" />
-<c:set var="unitsErrorKey" value="document.proposalPersons[${personIndex}].unit*,newProposalPersonUnit[${personIndex}]*" />
+<c:set var="unitsErrorKey" value="document.developmentProposalList[0].proposalPersons[${personIndex}].unit*,newProposalPersonUnit[${personIndex}]*" />
 <c:choose>
  <c:when test="${unitDetailsRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
    	<tr>
@@ -273,7 +273,7 @@
   </c:when>
   <c:otherwise>
      <c:choose>
-      <c:when test="${KualiForm.document.proposalPersons[personIndex].optInUnitStatus == 'Y'}"> 
+      <c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].optInUnitStatus == 'Y'}"> 
    	  <tr><td colspan=4>
       <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="${unitsErrorKey}">
         <div class="innerTab-container" align="left">
@@ -300,7 +300,7 @@
   </c:when>
    <c:otherwise>
    <tr><td colspan=4>
-   <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].newProposalPersonUnit*,newProposalPersonUnit[${status.index}]*">
+   <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.developmentProposalList[0].proposalPersons[${personIndex}].newProposalPersonUnit*,newProposalPersonUnit[${status.index}]*">
    <div class="innerTab-container" align="left">
    <table class=tab cellpadding=0 cellspacing="0" summary=""> 
     <tr>
@@ -326,7 +326,7 @@
  <c:when test="${certificationRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
    	<tr>
 	<td colspan=4>
-  <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false"  auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.proposalPersons[${personIndex}]*">
+  <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false"  auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.developmentProposalList[0].proposalPersons[${personIndex}]*">
      <table class=tab cellpadding=0 cellspacing="0" summary="" >
      <kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
     </table>
@@ -336,9 +336,9 @@
   </c:when>
   <c:otherwise>
      <c:choose>
-      <c:when test="${KualiForm.document.proposalPersons[personIndex].optInCertificationStatus == 'Y'}"> 
+      <c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].optInCertificationStatus == 'Y'}"> 
    	  <tr><td colspan=4>
-      <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.proposalPersons[${personIndex}]*" >
+      <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.developmentProposalList[0].proposalPersons[${personIndex}]*" >
       <div class="innerTab-container" align="left">
        <table class=tab cellpadding=0 cellspacing="0" summary=""> 
       <tr>

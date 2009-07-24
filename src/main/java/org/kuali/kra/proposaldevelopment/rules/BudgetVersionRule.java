@@ -50,13 +50,13 @@ public class BudgetVersionRule  implements AddBudgetVersionRule {
 
         if (!isNameValid(event.getVersionName())) {
             retval = false;
-            GlobalVariables.getErrorMap().putError("document.proposal.budgetVersionOverview.newBudgetVersionName", 
+            GlobalVariables.getErrorMap().putError("document.proposal.developmentProposalList[0].budgetVersionOverview.newBudgetVersionName", 
                     ERROR_BUDGET_NAME_MISSING, "Name");
         }
         
         if (containsVersionOverview(document, event.getVersionName())) {
             retval = false;
-            GlobalVariables.getErrorMap().putError("document.proposal.budgetVersionOverview", BUDGET_VERSION_EXISTS);
+            GlobalVariables.getErrorMap().putError("document.proposal.developmentProposalList[0].budgetVersionOverview", BUDGET_VERSION_EXISTS);
         }            
         return retval;
     }

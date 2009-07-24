@@ -56,17 +56,17 @@ public class ProposalNarrativeTypeValuesFinderTest {
 
     @Test
     public void testFindingNarrativeValues() throws Exception {
-        document.getNarratives().add(createNarrative(proposalNarrativeType));
+        document.getDevelopmentProposal().getNarratives().add(createNarrative(proposalNarrativeType));
         Assert.assertEquals(2, finder.getFilteredKeyValues(copyMasterNarrativeTypeList()).size());
-        document.getNarratives().clear();
+        document.getDevelopmentProposal().getNarratives().clear();
         
-        document.getNarratives().add(createNarrative(bioNarrativeType));
+        document.getDevelopmentProposal().getNarratives().add(createNarrative(bioNarrativeType));
         Assert.assertEquals(2, finder.getFilteredKeyValues(copyMasterNarrativeTypeList()).size());
-        document.getNarratives().clear();
+        document.getDevelopmentProposal().getNarratives().clear();
         
-        document.getNarratives().add(createNarrative(otherNarrativeType));
+        document.getDevelopmentProposal().getNarratives().add(createNarrative(otherNarrativeType));
         Assert.assertEquals(3, finder.getFilteredKeyValues(copyMasterNarrativeTypeList()).size());
-        document.getNarratives().clear();
+        document.getDevelopmentProposal().getNarratives().clear();
     }
 
     private ArrayList<NarrativeType> copyMasterNarrativeTypeList() {

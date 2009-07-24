@@ -55,7 +55,7 @@ public class CopyBudgetVersionsValuesFinderTest {
                 overviews.add(o);
                 
                 ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
-                document.setBudgetVersionOverviews(overviews);
+                document.getDevelopmentProposal().setBudgetVersionOverviews(overviews);
                 
                 return document;
             }  
@@ -77,7 +77,7 @@ public class CopyBudgetVersionsValuesFinderTest {
                 overviews.add(o);
                 
                 ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
-                document.setBudgetVersionOverviews(overviews);
+                document.getDevelopmentProposal().setBudgetVersionOverviews(overviews);
                 
                 return document;
             }  

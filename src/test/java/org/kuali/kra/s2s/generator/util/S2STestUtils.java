@@ -37,7 +37,7 @@ public class S2STestUtils {
         setBaseDocumentFields(pdDoc, "ProposalDevelopmentDocumentTest test doc", "005770", "project title",
                 requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
         BudgetDocument bd = (BudgetDocument) documentService.getNewDocument("BudgetDocument");
-        setBaseDocumentFields(bd, pdDoc.getProposalNumber());
+        setBaseDocumentFields(bd, pdDoc.getDevelopmentProposal().getProposalNumber());
         return bd;
     }
 
@@ -45,13 +45,13 @@ public class S2STestUtils {
             Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode,
             String ownedByUnit) {
         document.getDocumentHeader().setDocumentDescription(description);
-        document.setSponsorCode(sponsorCode);
-        document.setTitle(title);
-        document.setRequestedStartDateInitial(requestedStartDateInitial);
-        document.setRequestedEndDateInitial(requestedEndDateInitial);
-        document.setActivityTypeCode(activityTypeCode);
-        document.setProposalTypeCode(proposalTypeCode);
-        document.setOwnedByUnitNumber(ownedByUnit);
+        document.getDevelopmentProposal().setSponsorCode(sponsorCode);
+        document.getDevelopmentProposal().setTitle(title);
+        document.getDevelopmentProposal().setRequestedStartDateInitial(requestedStartDateInitial);
+        document.getDevelopmentProposal().setRequestedEndDateInitial(requestedEndDateInitial);
+        document.getDevelopmentProposal().setActivityTypeCode(activityTypeCode);
+        document.getDevelopmentProposal().setProposalTypeCode(proposalTypeCode);
+        document.getDevelopmentProposal().setOwnedByUnitNumber(ownedByUnit);
     }
 
     private void setBaseDocumentFields(BudgetDocument bd, String proposalNumber) {

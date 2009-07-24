@@ -105,17 +105,17 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
         }
         grantApplicationType.setSubmittedDate(s2sUtilService.getCurrentCalendar());
         ApplicationTypeCodeType.Enum applicationTypeCodeDataType = null;
-        if (pdDoc.getProposalTypeCode() != null) {
-            int proposalTypeCode = Integer.parseInt(pdDoc.getProposalTypeCode());
+        if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {
+            int proposalTypeCode = Integer.parseInt(pdDoc.getDevelopmentProposal().getProposalTypeCode());
             if (proposalTypeCode < PROPOSAL_TYPE_RESUBMISSION) {
                 applicationTypeCodeDataType = ApplicationTypeCodeType.Enum.forInt(proposalTypeCode);
             }
         }
         grantApplicationType.setApplicationTypeCode(applicationTypeCodeDataType);
-        if (pdDoc.getS2sOpportunity() != null && pdDoc.getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
-            pdDoc.getS2sOpportunity().refreshNonUpdateableReferences();
+        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
+            pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
 
-            String revisionCode = pdDoc.getS2sOpportunity().getRevisionCode();
+            String revisionCode = pdDoc.getDevelopmentProposal().getS2sOpportunity().getRevisionCode();
             if (revisionCode != null) {
                 Revision revision = Revision.Factory.newInstance();
                 String revision1 = null;
@@ -135,23 +135,23 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
                 grantApplicationType.setRevision(revision);
             }
         }
-        if (pdDoc.getSponsor() != null) {
-            grantApplicationType.setAgencyName(pdDoc.getSponsor().getSponsorName());
+        if (pdDoc.getDevelopmentProposal().getSponsor() != null) {
+            grantApplicationType.setAgencyName(pdDoc.getDevelopmentProposal().getSponsor().getSponsorName());
         }
-        Rolodex rolodex = pdDoc.getOrganization().getRolodex();
+        Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
         if (rolodex != null) {
-            grantApplicationType.setStateID(pdDoc.getOrganization().getRolodex().getState());
+            grantApplicationType.setStateID(pdDoc.getDevelopmentProposal().getOrganization().getRolodex().getState());
         }
         grantApplicationType.setFederalID(s2sUtilService.getFederalId(pdDoc));
-        grantApplicationType.setCFDANumber(pdDoc.getCfdaNumber());
-        if (pdDoc.getProgramAnnouncementTitle() != null) {
+        grantApplicationType.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
+        if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle() != null) {
             String announcementTitle;
-            if (pdDoc.getProgramAnnouncementTitle().length() > PROGRAM_ANNOUNCEMENT_TITLE_LENGTH) {
+            if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle().length() > PROGRAM_ANNOUNCEMENT_TITLE_LENGTH) {
                 // announcementTitle contains sub string value of ProgramAnnouncementTitle
-                announcementTitle = pdDoc.getProgramAnnouncementTitle().substring(0, PROGRAM_ANNOUNCEMENT_TITLE_LENGTH);
+                announcementTitle = pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle().substring(0, PROGRAM_ANNOUNCEMENT_TITLE_LENGTH);
             }
             else {
-                announcementTitle = pdDoc.getProgramAnnouncementTitle();
+                announcementTitle = pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle();
             }
             grantApplicationType.setActivityTitle(announcementTitle);
         }
@@ -343,16 +343,16 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
     private Project getProject() {
 
         Project project = Project.Factory.newInstance();
-        project.setProjectTitle(pdDoc.getTitle());
-        Rolodex rolodex = pdDoc.getOrganization().getRolodex();
+        project.setProjectTitle(pdDoc.getDevelopmentProposal().getTitle());
+        Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
         if (rolodex != null) {
-            project.setLocation(pdDoc.getOrganization().getRolodex().getState());
+            project.setLocation(pdDoc.getDevelopmentProposal().getOrganization().getRolodex().getState());
         }
-        project.setProposedStartDate(s2sUtilService.convertDateToCalendar(pdDoc.getRequestedStartDateInitial()));
-        project.setProposedEndDate(s2sUtilService.convertDateToCalendar(pdDoc.getRequestedEndDateInitial()));
+        project.setProposedStartDate(s2sUtilService.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedStartDateInitial()));
+        project.setProposedEndDate(s2sUtilService.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedEndDateInitial()));
 
-        if (pdDoc.getPerformingOrganization() != null) {
-            project.setCongressionalDistrict(pdDoc.getPerformingOrganization().getCongressionalDistrict());
+        if (pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
+            project.setCongressionalDistrict(pdDoc.getDevelopmentProposal().getPerformingOrganization().getCongressionalDistrict());
         }
         else {
             project.setCongressionalDistrict("");
@@ -371,11 +371,11 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
      */
     private SubmittingOrganization getSubmittingOrganization() {
         SubmittingOrganization submittingOrganization = SubmittingOrganization.Factory.newInstance();
-        if (pdDoc.getOrganization() != null) {
-            submittingOrganization.setCongressionalDistrict(pdDoc.getOrganization().getCongressionalDistrict());
+        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
+            submittingOrganization.setCongressionalDistrict(pdDoc.getDevelopmentProposal().getOrganization().getCongressionalDistrict());
         }
         YesNoType.Enum yesNo = YesNoType.N;
-        for (OrganizationYnq orgYnq : pdDoc.getOrganization().getOrganizationYnqs()) {
+        for (OrganizationYnq orgYnq : pdDoc.getDevelopmentProposal().getOrganization().getOrganizationYnqs()) {
             if (PROPOSAL_YNQ_FEDERAL_DEBTS.equals(orgYnq.getQuestionId())) {
                 if (orgYnq.getAnswer() != null) {
                     yesNo = YesNoType.Enum.forString(orgYnq.getAnswer());
@@ -384,15 +384,15 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
         }
         submittingOrganization.setDelinquentFederalDebtIndicator(yesNo);
         Organization organization = Organization.Factory.newInstance();
-        if (pdDoc.getOrganization() != null) {
-            organization.setOrganizationName(pdDoc.getOrganization().getOrganizationName());
+        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
+            organization.setOrganizationName(pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName());
         }
-        if (pdDoc.getOrganization() != null) {
-            organization.setDUNSID(pdDoc.getOrganization().getDunsNumber());
+        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
+            organization.setDUNSID(pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber());
         }
         String departmentName = "";
-        if (pdDoc.getOwnedByUnit() != null) {
-            departmentName = pdDoc.getOwnedByUnit().getUnitName();
+        if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
+            departmentName = pdDoc.getDevelopmentProposal().getOwnedByUnit().getUnitName();
         }
         if (departmentName != null && departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
             organization.setDepartmentName(departmentName.substring(0, DEPARTMENT_NAME_MAX_LENGTH));
@@ -404,11 +404,11 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
         if (divisionName != null) {
             organization.setDivisionName(divisionName);
         }
-        if (pdDoc.getOrganization() != null) {
-            organization.setEmployerID(pdDoc.getOrganization().getFedralEmployerId());
+        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
+            organization.setEmployerID(pdDoc.getDevelopmentProposal().getOrganization().getFedralEmployerId());
         }
         OrganizationIdentifyingInformation orgIdentifyingInformation = OrganizationIdentifyingInformation.Factory.newInstance();
-        orgIdentifyingInformation.setApplicantID(pdDoc.getProposalNumber());
+        orgIdentifyingInformation.setApplicantID(pdDoc.getDevelopmentProposal().getProposalNumber());
         orgIdentifyingInformation.setApplicantTypeCode(getApplicantType());
         orgIdentifyingInformation.setOrganization(organization);
         submittingOrganization.setOrganizationIdentifyingInformation(orgIdentifyingInformation);
@@ -417,8 +417,8 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
         address.setStreet1("");
         address.setCity("");
         Rolodex rolodex = null;
-        if (pdDoc.getPerformingOrganization() != null) {
-            rolodex = pdDoc.getPerformingOrganization().getRolodex();
+        if (pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
+            rolodex = pdDoc.getDevelopmentProposal().getPerformingOrganization().getRolodex();
             address.setStreet1(rolodex.getAddressLine1());
             address.setStreet2(rolodex.getAddressLine2());
             address.setCity(rolodex.getCity());
@@ -447,9 +447,9 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 
         ApplicantTypeCodeType.Enum applicantTypeCode = null;
         int orgTypeCode = 0;
-        if (pdDoc.getOrganization() != null && pdDoc.getOrganization().getOrganizationTypes() != null
-                && pdDoc.getOrganization().getOrganizationTypes().size() > 0) {
-            orgTypeCode = pdDoc.getOrganization().getOrganizationType(0).getOrganizationTypeCode().intValue();
+        if (pdDoc.getDevelopmentProposal().getOrganization() != null && pdDoc.getDevelopmentProposal().getOrganization().getOrganizationTypes() != null
+                && pdDoc.getDevelopmentProposal().getOrganization().getOrganizationTypes().size() > 0) {
+            orgTypeCode = pdDoc.getDevelopmentProposal().getOrganization().getOrganizationType(0).getOrganizationTypeCode().intValue();
         }
         switch (orgTypeCode) {
             case 1: {
@@ -541,15 +541,15 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
         String submissionType = null;
         String suffix;
 
-        if (ACTIVITY_TYPE_CODE_CONSTRUCTION.equals(pdDoc.getActivityTypeCode())) {
+        if (ACTIVITY_TYPE_CODE_CONSTRUCTION.equals(pdDoc.getDevelopmentProposal().getActivityTypeCode())) {
             suffix = ACTIVITY_TYPE_CODE_LS_SUFFIX_CONSTRUCTION;
         }
         else {
             suffix = ACTIVITY_TYPE_CODE_LS_SUFFIX_NONCONSTRUCTION;
         }
-        if (pdDoc.getS2sOpportunity() != null && pdDoc.getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
-            pdDoc.getS2sOpportunity().refreshNonUpdateableReferences();
-            if (S2S_SUBMISSION_TYPE_CODE_NOTSELECTED.equals(pdDoc.getS2sOpportunity().getS2sSubmissionType()
+        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
+            pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
+            if (S2S_SUBMISSION_TYPE_CODE_NOTSELECTED.equals(pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionType()
                     .getS2sSubmissionTypeCode())) {
                 submissionType = ACTIVITY_TYPE_CODE_LS_SUFFIX_PREAPPLICATION + suffix;
             }

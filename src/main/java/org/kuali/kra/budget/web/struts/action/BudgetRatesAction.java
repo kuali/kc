@@ -179,14 +179,11 @@ public class BudgetRatesAction extends BudgetAction {
 
             //Rates-Refresh Scenario-4
             budgetDocument.setRateClassTypesReloaded(true);
-
-            //Rates-Refresh Scenario-4
-            budgetDocument.setRateClassTypesReloaded(true);
             budgetDocument.getBudgetRatesService().syncAllBudgetRates(budgetDocument);
             
             budgetDocument.setRateSynced(true);
-            if (!budgetDocument.getActivityTypeCode().equals(budgetDocument.getProposal().getActivityTypeCode())) {
-                budgetDocument.setActivityTypeCode(budgetDocument.getProposal().getActivityTypeCode());
+            if (!budgetDocument.getActivityTypeCode().equals(budgetDocument.getProposal().getDevelopmentProposal().getActivityTypeCode())) {
+                budgetDocument.setActivityTypeCode(budgetDocument.getProposal().getDevelopmentProposal().getActivityTypeCode());
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);

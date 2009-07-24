@@ -64,7 +64,7 @@ public class ProjectV1_1Generator extends ProjectBaseGenerator {
     private AttachedFileDataType[] getAttachedFileDataType() {
 
         int Attachmentsize = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == PROJECT_ATTACHMENTS) {
                 Attachmentsize++;
@@ -72,7 +72,7 @@ public class ProjectV1_1Generator extends ProjectBaseGenerator {
         }
         AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[Attachmentsize];
         int Attachmentcount = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == PROJECT_ATTACHMENTS) {
                 attachedFileDataTypes[Attachmentcount] = getAttachedFileType(narrative);

@@ -85,7 +85,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
             String[] param = {INSTITUTE, narrative.getNarrativeType().getDescription()};
             String instituteNarrativeTypeGroup = getService(KualiConfigurationService.class).getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, INSTITUTE_NARRATIVE_TYPE_GROUP);
             if (narrative.getNarrativeType().getAllowMultiple().equalsIgnoreCase(NARRATIVE_TYPE_ALLOWMULTIPLE_NO)) {
-                for (Narrative narr : document.getInstituteAttachments()) {
+                for (Narrative narr : document.getDevelopmentProposal().getInstituteAttachments()) {
                     if (narr!=null && StringUtils.equals(narr.getNarrativeTypeCode(),narrative.getNarrativeTypeCode())) {
                         LOG.debug(ERROR_NARRATIVE_TYPE_DUPLICATE);
                         reportError(errorPath+".institutionalAttachmentTypeCode", ERROR_NARRATIVE_TYPE_DUPLICATE, param);

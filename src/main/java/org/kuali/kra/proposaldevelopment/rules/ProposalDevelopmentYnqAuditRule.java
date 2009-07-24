@@ -47,13 +47,13 @@ public class ProposalDevelopmentYnqAuditRule extends ResearchDocumentRuleBase im
         Set<String> ynqPanelNames = new HashSet<String>();
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         
-        if(errorMap.containsKeyMatchingPattern("document.proposalYnq*")) {
+        if(errorMap.containsKeyMatchingPattern("document.developmentProposalList[0].proposalYnq*")) {
             List erroredProperties = errorMap.getPropertiesWithErrors();
             for(Object property : erroredProperties) {
                 String key = (String) property;
-                if(key.startsWith("document.proposalYnq")) {
+                if(key.startsWith("document.developmentProposalList[0].proposalYnq")) {
                     valid = false;
-                    String groupName = key.substring(key.indexOf("[")+1, key.indexOf("]"));
+                    String groupName = key.substring(key.indexOf("[",37)+1, key.indexOf("]",37));
                     boolean newlyAdded = ynqPanelNames.add(groupName);
                     
                     if(newlyAdded) {

@@ -76,7 +76,7 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         
         boolean hasInvestigator = false;
         
-        for (ProposalPerson person : pd.getProposalPersons()) {
+        for (ProposalPerson person : pd.getDevelopmentProposal().getProposalPersons()) {
             retval &= validateInvestigator(person);
             if (!hasInvestigator && isInvestigator(person)) {
                 hasInvestigator = true;
@@ -104,10 +104,10 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         int count = 0;
         AuditError error = null;
         
-        for (ProposalPerson person : document.getProposalPersons()) {
+        for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
             if (shouldValidateYesNoQuestions(person) && !validateYesNoQuestions(person)) {
                 retval = false;
-                error = new AuditError("document.proposalPersons["+count+"]", ERROR_YNQ_INCOMPLETE, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR, new String[]{person.getFullName()});
+                error = new AuditError("document.developmentProposalList[0].proposalPersons["+count+"]", ERROR_YNQ_INCOMPLETE, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR, new String[]{person.getFullName()});
                 getAuditErrors().add(error);
             }
             count++;
@@ -182,13 +182,13 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
        
        if (person.getUnits().size() < 1) {
            LOG.info("error.investigatorUnits.limit");
-           auditErrors.add(new AuditError("document.proposalPerson",ERROR_INVESTIGATOR_UNITS_UPBOUND , KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
+           auditErrors.add(new AuditError("document.developmentProposalList[0].proposalPerson",ERROR_INVESTIGATOR_UNITS_UPBOUND , KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
        }
        
        for (ProposalPersonUnit unit : person.getUnits()) {
            if (isBlank(unit.getUnitNumber())) {
                LOG.trace("error.investigatorUnits.limit");
-               auditErrors.add(new AuditError("document.proposalPerson",ERROR_INVESTIGATOR_UNITS_UPBOUND , KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
+               auditErrors.add(new AuditError("document.developmentProposalList[0].proposalPerson",ERROR_INVESTIGATOR_UNITS_UPBOUND , KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
            }
            
            retval &= validateUnit(unit);

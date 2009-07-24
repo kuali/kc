@@ -405,17 +405,17 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
-        for (BudgetVersionOverview budgetVersion : proposal.getBudgetVersionOverviews()) {
+        for (BudgetVersionOverview budgetVersion : proposal.getDevelopmentProposal().getBudgetVersionOverviews()) {
             budgetVersionsExists = true;
             if (budgetVersion.isFinalVersionFlag()) {
-                if (proposal.getBudgetStatus()!= null 
-                        && proposal.getBudgetStatus().equals(budgetStatusCompleteCode)) {
+                if (proposal.getDevelopmentProposal().getBudgetStatus()!= null 
+                        && proposal.getDevelopmentProposal().getBudgetStatus().equals(budgetStatusCompleteCode)) {
                     finalAndCompleteBudgetVersionFound = true;
                 }
             }
         }
         if(budgetVersionsExists && !finalAndCompleteBudgetVersionFound){
-            auditErrors.add(new AuditError("document.budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
+            auditErrors.add(new AuditError("document.developmentProposalList[0].budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
             retval = false;
         }
         if (auditErrors.size() > 0) {

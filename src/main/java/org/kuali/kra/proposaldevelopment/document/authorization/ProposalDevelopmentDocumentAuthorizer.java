@@ -121,7 +121,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) doc;
          
         Map editModeMap = new HashMap();
-        String proposalNbr = proposalDoc.getProposalNumber();
+        String proposalNbr = proposalDoc.getDevelopmentProposal().getProposalNumber();
         
         // The getEditMode() method is invoked when a proposal is accessed for creation and when it
         // is accessed for modification.  New proposals under creation don't have a proposal number.
@@ -210,7 +210,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
     } 
     
     private void setNarrativePermissions(String username, ProposalDevelopmentDocument doc, Map editModeMap) {
-        List<Narrative> narratives = doc.getNarratives();
+        List<Narrative> narratives = doc.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
             String prefix = "proposalAttachment." + narrative.getModuleNumber() + ".";
             editModeMap.put(prefix + "download", narrative.getDownloadAttachment(username) ? TRUE : FALSE);
@@ -219,7 +219,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
             editModeMap.put(prefix + "modifyRights", narrative.getModifyNarrativeRights(username) ? TRUE : FALSE);
         }
         
-        narratives = doc.getInstituteAttachments();
+        narratives = doc.getDevelopmentProposal().getInstituteAttachments();
         for (Narrative narrative : narratives) {
             String prefix = "instituteAttachment." + narrative.getModuleNumber() + ".";
             editModeMap.put(prefix + "download", narrative.getDownloadAttachment(username) ? TRUE : FALSE);
@@ -260,7 +260,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
     
         ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) document;
          
-        String proposalNbr = proposalDoc.getProposalNumber();
+        String proposalNbr = proposalDoc.getDevelopmentProposal().getProposalNumber();
         String username = user.getPersonUserIdentifier();
         boolean permission;
         if (proposalNbr == null) {
@@ -366,7 +366,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
             String lockDescriptor = getCustomLockDescriptor(document, editMode, user);
             ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument) document;
             if(StringUtils.isNotEmpty(lockDescriptor) && lockDescriptor.contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
-                for(BudgetVersionOverview budgetOverview: pdDocument.getBudgetVersionOverviews()) {
+                for(BudgetVersionOverview budgetOverview: pdDocument.getDevelopmentProposal().getBudgetVersionOverviews()) {
                     KNSServiceLocator.getPessimisticLockService().generateNewLock(budgetOverview.getDocumentNumber(), lockDescriptor, user);
                 }  
             }
@@ -377,10 +377,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
     }
 
     protected boolean isBudgetComplete(ProposalDevelopmentDocument proposalDoc) {
-        if (!proposalDoc.isProposalComplete()) {
+        if (!proposalDoc.getDevelopmentProposal().isProposalComplete()) {
             return false;
         }
-        for (BudgetVersionOverview budgetVersion: proposalDoc.getBudgetVersionOverviews()) {
+        for (BudgetVersionOverview budgetVersion: proposalDoc.getDevelopmentProposal().getBudgetVersionOverviews()) {
             if (budgetVersion.isFinalVersionFlag()) {
                 return true;
             }

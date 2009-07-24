@@ -99,7 +99,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends S2SBaseFormGe
                 break;
             }
             case 2: {
-                String proposaltypecode = pdDoc.getProposalTypeCode();
+                String proposaltypecode = pdDoc.getDevelopmentProposal().getProposalTypeCode();
                 if (proposaltypecode != null
                         && (proposaltypecode.equals(PROPOSAL_TYPE_CODE_8) || proposaltypecode.equals(PROPOSAL_TYPE_CODE_5))) {
                     answer = ANSWER_YES;
@@ -110,7 +110,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends S2SBaseFormGe
                 break;
             }
             case 3: {
-                for (ProposalYnq proYnq : pdDoc.getProposalYnqs()) {
+                for (ProposalYnq proYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
                     if (proYnq.getQuestionId() != null && proYnq.getQuestionId().equals(PROPOSAL_YNQ_QUESTION_21)) {
                         String ynqAnswer = proYnq.getAnswer();
                         if (ynqAnswer != null && ynqAnswer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
@@ -128,7 +128,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends S2SBaseFormGe
                 break;
             }
             case 4: {
-                String proposaltypecode = pdDoc.getProposalTypeCode();
+                String proposaltypecode = pdDoc.getDevelopmentProposal().getProposalTypeCode();
                 if (proposaltypecode != null
                         && (proposaltypecode.equals(PROPOSAL_TYPE_CODE_2) || proposaltypecode.equals(PROPOSAL_TYPE_CODE_3))) {
                     answer = ANSWER_NO;
@@ -139,7 +139,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends S2SBaseFormGe
                 break;
             }
             case 5: {
-                for (ProposalYnq proYnq : pdDoc.getProposalYnqs()) {
+                for (ProposalYnq proYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
                     if (proYnq.getQuestionId() != null && proYnq.getQuestionId().equals(PROPOSAL_YNQ_QUESTION_FG)) {
                         String ynqAnswer = proYnq.getAnswer();
                         if (ynqAnswer != null && ynqAnswer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
@@ -162,7 +162,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends S2SBaseFormGe
                 break;
             }
             case 8: {
-                for (Narrative narrative : pdDoc.getNarratives()) {
+                for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
                     if (narrative.getNarrativeTypeCode() != null && narrative.getNarrativeTypeCode().equals(NARRATIVE_TYPE_CODE_5)) {
                         answer = ANSWER_YES;
                         break;
@@ -175,7 +175,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends S2SBaseFormGe
                 break;
             }
             case 9: {
-                for (Narrative narrative : pdDoc.getNarratives()) {
+                for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
                     if (narrative.getNarrativeTypeCode() != null && narrative.getNarrativeTypeCode().equals(NARRATIVE_TYPE_CODE_1)) {
                         answer = ANSWER_YES;
                         break;
@@ -201,8 +201,8 @@ public abstract class NSFApplicationChecklistBaseGenerator extends S2SBaseFormGe
             }
             case 13: {
                 String proposaltypecode = null;
-                if (pdDoc.getProposalTypeCode() != null) {
-                    proposaltypecode = pdDoc.getProposalTypeCode();
+                if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {
+                    proposaltypecode = pdDoc.getDevelopmentProposal().getProposalTypeCode();
                 }
                 if (PROPOSAL_TYPE_CODE_8.equals(proposaltypecode) || PROPOSAL_TYPE_CODE_5.equals(proposaltypecode)) {
                     answer = ANSWER_YES;
@@ -213,7 +213,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends S2SBaseFormGe
                 break;
             }
             case 14: {
-                for (Narrative narrative : pdDoc.getNarratives()) {
+                for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
                     if (narrative.getNarrativeTypeCode() != null && narrative.getNarrativeTypeCode().equals(NARRATIVE_TYPE_CODE_4)) {
                         answer = ANSWER_YES;
                     }
@@ -225,7 +225,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends S2SBaseFormGe
                 break;
             }
             case 15: {
-                for (Narrative narrative : pdDoc.getNarratives()) {
+                for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
                     if (narrative.getNarrativeTypeCode() != null && narrative.getNarrativeTypeCode().equals(NARRATIVE_TYPE_CODE_2)) {
                         answer = ANSWER_YES;
                     }
@@ -237,7 +237,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends S2SBaseFormGe
                 break;
             }
             case 16: {
-                for (Narrative narrative : pdDoc.getNarratives()) {
+                for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
                     if (narrative.getNarrativeTypeCode() != null && narrative.getNarrativeTypeCode().equals(NARRATIVE_TYPE_CODE_3)) {
                         answer = ANSWER_YES;
                     }
@@ -249,7 +249,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends S2SBaseFormGe
                 break;
             }
             case 17: {
-                for (Narrative narrative : pdDoc.getNarratives()) {
+                for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
                     if (narrative.getNarrativeTypeCode() != null && narrative.getNarrativeTypeCode().equals(NARRATIVE_TYPE_CODE_15)) {
                         answer = ANSWER_YES;
                     }
@@ -285,7 +285,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends S2SBaseFormGe
                 break;
             }
             case 24: {
-                for (Narrative narrative : pdDoc.getNarratives()) {
+                for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
                     if (narrative.getNarrativeTypeCode() != null && narrative.getNarrativeTypeCode().equals(NARRATIVE_TYPE_CODE_7)) {
                         answer = ANSWER_YES;
                     }
@@ -317,7 +317,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends S2SBaseFormGe
                 break;
             }
             case 30: {
-                for (ProposalAbstract proAbstract : pdDoc.getProposalAbstracts()) {
+                for (ProposalAbstract proAbstract : pdDoc.getDevelopmentProposal().getProposalAbstracts()) {
                     if (proAbstract.getAbstractTypeCode() != null
                             && proAbstract.getAbstractTypeCode().equals(ABSTRACT_TYPE_CODE_15)) {
                         answer = ANSWER_YES;
@@ -334,7 +334,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends S2SBaseFormGe
                 break;
             }
             case 32: {
-                for (ProposalAbstract proAbstract : pdDoc.getProposalAbstracts()) {
+                for (ProposalAbstract proAbstract : pdDoc.getDevelopmentProposal().getProposalAbstracts()) {
                     if (proAbstract.getAbstractTypeCode() != null
                             && (proAbstract.getAbstractTypeCode().equals(ABSTRACT_TYPE_CODE_12) || proAbstract
                                     .getAbstractTypeCode().equals(ABSTRACT_TYPE_CODE_14))) {

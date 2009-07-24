@@ -220,7 +220,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
         boolean mulitCampusEnabled = multiCampusEnabledStr.equals(MULTI_CAMPUS_ENABLED_VALUE) ? true : false;
 //        S2SSSLProtocolSocketFactory socketFactory = new S2SSSLProtocolSocketFactory(pdDoc.getOrganization().getDunsNumber(),
 //            mulitCampusEnabled);
-        return configureApplicantIntegrationSoapPort(pdDoc.getOrganization().getDunsNumber(),
+        return configureApplicantIntegrationSoapPort(pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber(),
                 mulitCampusEnabled);
     }
     

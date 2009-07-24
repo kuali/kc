@@ -112,7 +112,7 @@ public class BudgetCalculationServiceTest extends KraTestBase {
                 requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
         documentService.saveDocument(document);
         BudgetDocument bd = (BudgetDocument) documentService.getNewDocument("BudgetDocument");
-        setBaseDocumentFields(bd, document.getProposalNumber());
+        setBaseDocumentFields(bd, document.getDevelopmentProposal().getProposalNumber());
         documentService.saveDocument(bd);
         BudgetDocument savedBudgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(bd.getDocumentNumber());
         assertNotNull("Budget document not saved", savedBudgetDocument);
@@ -354,13 +354,13 @@ public class BudgetCalculationServiceTest extends KraTestBase {
             Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode,
             String ownedByUnit) {
         document.getDocumentHeader().setDocumentDescription(description);
-        document.setSponsorCode(sponsorCode);
-        document.setTitle(title);
-        document.setRequestedStartDateInitial(requestedStartDateInitial);
-        document.setRequestedEndDateInitial(requestedEndDateInitial);
-        document.setActivityTypeCode(activityTypeCode);
-        document.setProposalTypeCode(proposalTypeCode);
-        document.setOwnedByUnitNumber(ownedByUnit);
+        document.getDevelopmentProposal().setSponsorCode(sponsorCode);
+        document.getDevelopmentProposal().setTitle(title);
+        document.getDevelopmentProposal().setRequestedStartDateInitial(requestedStartDateInitial);
+        document.getDevelopmentProposal().setRequestedEndDateInitial(requestedEndDateInitial);
+        document.getDevelopmentProposal().setActivityTypeCode(activityTypeCode);
+        document.getDevelopmentProposal().setProposalTypeCode(proposalTypeCode);
+        document.getDevelopmentProposal().setOwnedByUnitNumber(ownedByUnit);
     }
     
     private void setPositiveCostShareOnPeriodsAndLineItems(Collection<BudgetPeriod> periods) {

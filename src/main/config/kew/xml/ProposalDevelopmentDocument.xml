@@ -155,7 +155,7 @@
 					</display>
 					<fieldEvaluation>
 						<xpathexpression>
-							//document/proposalNumber
+							//document/developmentProposalList[1]/proposalNumber
 						</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>
@@ -187,7 +187,7 @@
 					<validation required="false" />
 					<fieldEvaluation>
 						<xpathexpression>
-						  	wf:xstreamsafe('//document/ownedByUnitNumber')= wf:ruledata('ownedByUnitNumber')
+						  	wf:xstreamsafe('//document/developmentProposalList[1]/ownedByUnitNumber')= wf:ruledata('ownedByUnitNumber')
 						</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>
@@ -213,7 +213,7 @@
 					<validation required="false" />
 					<fieldEvaluation>
 						<xpathexpression>
-							wf:xstreamsafe('//document/ownedByUnitNumber')= 'IN-CARD' and wf:xstreamsafe("//budgetVersionOverviews/org.kuali.kra.budget.bo.BudgetVersionOverview/totalCost/value") &gt;= wf:ruledata('totalCost')
+							wf:xstreamsafe('//document/developmentProposalList[1]/ownedByUnitNumber')= 'IN-CARD' and wf:xstreamsafe("//budgetVersionOverviews/org.kuali.kra.budget.bo.BudgetVersionOverview/totalCost/value") &gt;= wf:ruledata('totalCost')
 						</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>

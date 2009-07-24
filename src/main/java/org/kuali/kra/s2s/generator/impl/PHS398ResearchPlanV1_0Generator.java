@@ -65,7 +65,7 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
         phsResearchPlan.setApplicationType(getApplicationType());
         ResearchPlanAttachments researchPlanAttachments = ResearchPlanAttachments.Factory.newInstance();
         HumanSubjectSection humanSubjectSection = HumanSubjectSection.Factory.newInstance();
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null) {
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == INTRODUCTION_TO_APPLICATION) {
                     IntroductionToApplication introductionToApplication = IntroductionToApplication.Factory.newInstance();
@@ -189,10 +189,10 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
      */
     private ApplicationType getApplicationType() {
         ApplicationType applicationType = ApplicationType.Factory.newInstance();
-        if (pdDoc.getProposalTypeCode() != null && Integer.parseInt(pdDoc.getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
+        if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null && Integer.parseInt(pdDoc.getDevelopmentProposal().getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
             // Check < 6 to ensure that if proposalType='TASK ORDER", it must not set. THis is because enum ApplicationType has no
             // entry for TASK ORDER
-            TypeOfApplication.Enum typeOfApplication = TypeOfApplication.Enum.forInt(Integer.parseInt(pdDoc.getProposalTypeCode()));
+            TypeOfApplication.Enum typeOfApplication = TypeOfApplication.Enum.forInt(Integer.parseInt(pdDoc.getDevelopmentProposal().getProposalTypeCode()));
             applicationType.setTypeOfApplication(typeOfApplication);
         }
         return applicationType;
@@ -206,14 +206,14 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
      */
     private AttachedFileDataType[] getAttachedFileDataTypes() {
         int size = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDIX) {
                 size++;
             }
         }
         AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
         int attachments = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDIX) {
                 attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
                 attachments++;

@@ -50,8 +50,8 @@ public class GGLobbyingFormV1_1Generator extends GGLobbyingFormBaseGenerator {
         String authorizedRepresentativeTitle = EMPTY_STRING;
         String authorizedRepresentativeSignature = EMPTY_STRING;
 
-        if (pdDoc.getOrganization() != null) {
-            organization = pdDoc.getOrganization();
+        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
+            organization = pdDoc.getDevelopmentProposal().getOrganization();
         }
         if (organization != null && organization.getOrganizationName() != null) {
             if (organization.getOrganizationName().length() > ORGANIZATON_NAME_MAX_LENGTH) {

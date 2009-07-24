@@ -47,9 +47,9 @@ public class NSFCoverPageV1_1GeneratorTest extends S2STestBase<NSFCoverPageV1_1G
     @Override
     protected void prepareData(ProposalDevelopmentDocument document) throws Exception {
 
-        document.setProgramAnnouncementNumber("1154");
-        document.setAgencyDivisionCode("007");
-        document.setAgencyProgramCode("008");
+        document.getDevelopmentProposal().setProgramAnnouncementNumber("1154");
+        document.getDevelopmentProposal().setAgencyDivisionCode("007");
+        document.getDevelopmentProposal().setAgencyProgramCode("008");
         ProposalPerson proposalPerson = new ProposalPerson();
         proposalPerson.setPersonId("000000078 ");
         proposalPerson.setProposalPersonRoleId("PI");
@@ -87,7 +87,7 @@ public class NSFCoverPageV1_1GeneratorTest extends S2STestBase<NSFCoverPageV1_1G
         List<ProposalPerson> proList = new ArrayList<ProposalPerson>();
         proList.add(proposalPerson);
         proList.add(proPersonCo);
-        document.setProposalPersons(proList);
+        document.getDevelopmentProposal().setProposalPersons(proList);
 
         ProposalYnq proposalYnq = new ProposalYnq();
         proposalYnq.setAnswer("Y");
@@ -118,7 +118,7 @@ public class NSFCoverPageV1_1GeneratorTest extends S2STestBase<NSFCoverPageV1_1G
         ynqList.add(proposalYnq4);
         ynqList.add(proposalYnq5);
         ynqList.add(proposalYnq6);
-        document.setProposalYnqs(ynqList);
+        document.getDevelopmentProposal().setProposalYnqs(ynqList);
 
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();
@@ -130,7 +130,7 @@ public class NSFCoverPageV1_1GeneratorTest extends S2STestBase<NSFCoverPageV1_1G
         narrativeAttachment.setNarrativeData(narrativePdf);
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();
         narrativeList.add(narrativeAttachment);
-        narrative.setProposalNumber(document.getProposalNumber());
+        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");
@@ -144,6 +144,6 @@ public class NSFCoverPageV1_1GeneratorTest extends S2STestBase<NSFCoverPageV1_1G
         naList.add(narrative);
         getService(BusinessObjectService.class).save(narrative);
         narrative.getNarrativeAttachmentList().clear();
-        document.setNarratives(naList);
+        document.getDevelopmentProposal().setNarratives(naList);
     }
 }

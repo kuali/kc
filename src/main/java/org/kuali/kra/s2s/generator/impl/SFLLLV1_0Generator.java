@@ -75,7 +75,7 @@ public class SFLLLV1_0Generator extends SFLLLBaseGenerator {
         lobbyingDisclosure.setReportType(ReportDataType.INITIAL_FILING);
         lobbyingDisclosure.setReportEntity(getReportEntity());
         lobbyingDisclosure.setFederalAgencyDepartment("");
-        Sponsor sponsor = pdDoc.getSponsor();
+        Sponsor sponsor = pdDoc.getDevelopmentProposal().getSponsor();
         if (sponsor != null) {
             if (sponsor.getSponsorName() != null) {
                 if (sponsor.getSponsorName().length() > SPONSOR_NAME_MAX_LENGTH) {
@@ -87,7 +87,7 @@ public class SFLLLV1_0Generator extends SFLLLBaseGenerator {
             }
         }
         else {
-            String primeSponsorCode = pdDoc.getPrimeSponsorCode();
+            String primeSponsorCode = pdDoc.getDevelopmentProposal().getPrimeSponsorCode();
 
             if (primeSponsorCode != null) {
                 BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
@@ -159,8 +159,8 @@ public class SFLLLV1_0Generator extends SFLLLBaseGenerator {
     private FederalProgramName getFedProgramName() {
 
         FederalProgramName fedProgramName = FederalProgramName.Factory.newInstance();
-        fedProgramName.setFederalProgramDescription(pdDoc.getProgramAnnouncementTitle());
-        fedProgramName.setCFDANumber(pdDoc.getCfdaNumber());
+        fedProgramName.setFederalProgramDescription(pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle());
+        fedProgramName.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
 
         return fedProgramName;
     }
@@ -179,7 +179,7 @@ public class SFLLLV1_0Generator extends SFLLLBaseGenerator {
         reportEntity.setReportEntityIsPrime(YesNoDataType.YES);
         Prime prime = Prime.Factory.newInstance();
         Organization organization = null;
-        organization = pdDoc.getOrganization();
+        organization = pdDoc.getDevelopmentProposal().getOrganization();
 
         if (organization != null) {
             if (organization.getOrganizationName() != null) {
@@ -202,7 +202,7 @@ public class SFLLLV1_0Generator extends SFLLLBaseGenerator {
         }
         prime.setReportEntityType(ReportEntityDataType.PRIME);
         Rolodex rolodex = null;
-        rolodex = pdDoc.getOrganization().getRolodex();
+        rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
         prime.setAddress(globLibV10Generator.getAddressDataType(rolodex));
         reportEntity.setPrime(prime);
         return reportEntity;

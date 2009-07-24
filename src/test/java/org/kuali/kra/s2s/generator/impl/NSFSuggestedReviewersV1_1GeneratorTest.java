@@ -44,6 +44,6 @@ public class NSFSuggestedReviewersV1_1GeneratorTest extends S2STestBase<NSFSugge
         List<ProposalAbstract> proList = new ArrayList<ProposalAbstract>();
         proList.add(propsAbstract);
         proList.add(propsAbstract1);
-        document.setProposalAbstracts(proList);
+        document.getDevelopmentProposal().setProposalAbstracts(proList);
     }
 }

@@ -50,9 +50,9 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         //The Proposal Deadline Date should return a warning during validation for the
         //following conditions: a) if the date entered is older than the current date,
         //or b) if there is no data entered.
-        if (proposalDevelopmentDocument.getDeadlineDate() == null) {
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getDeadlineDate() == null) {
             auditErrors.add(new AuditError(Constants.DEADLINE_DATE_KEY, KeyConstants.WARNING_EMPTY_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
-        } else if (proposalDevelopmentDocument.getDeadlineDate().before(new Date(System.currentTimeMillis()))) {
+        } else if (proposalDevelopmentDocument.getDevelopmentProposal().getDeadlineDate().before(new Date(System.currentTimeMillis()))) {
             auditErrors.add(new AuditError(Constants.DEADLINE_DATE_KEY, KeyConstants.WARNING_PAST_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
         }
         
@@ -62,26 +62,26 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         
         auditErrors = new ArrayList<AuditError>();
         
-        if(proposalDevelopmentDocument.getS2sOpportunity()!=null && proposalDevelopmentDocument.getS2sOpportunity()!=null){
-            if(proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId() != null && proposalDevelopmentDocument.getProgramAnnouncementNumber() != null && !StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId(),proposalDevelopmentDocument.getProgramAnnouncementNumber())){
+		if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null) {
+            if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId() != null && proposalDevelopmentDocument.getDevelopmentProposal().getProgramAnnouncementNumber() != null && !StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId(), proposalDevelopmentDocument.getDevelopmentProposal().getProgramAnnouncementNumber())) {
                 valid &= false;
                 auditErrors.add(new AuditError(Constants.OPPORTUNITY_ID_KEY, KeyConstants.ERROR_OPPORTUNITY_ID_DIFFER , Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
             }
-            if(proposalDevelopmentDocument.getS2sOpportunity().getCfdaNumber() != null && proposalDevelopmentDocument.getCfdaNumber() != null && !StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getCfdaNumber(),proposalDevelopmentDocument.getCfdaNumber())){
+            if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber() != null && proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber() != null && !StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber(), proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber())) {
                 valid &= false;
                 auditErrors.add(new AuditError(Constants.CFDA_NUMBER_KEY, KeyConstants.ERROR_CFDA_NUMBER_DIFFER , Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
             }
-            if(proposalDevelopmentDocument.getProgramAnnouncementTitle() == null || StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getProgramAnnouncementTitle().trim(),"")){
+            if (proposalDevelopmentDocument.getDevelopmentProposal().getProgramAnnouncementTitle() == null || StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getProgramAnnouncementTitle().trim(), "")) {
                 valid &= false;
                 auditErrors.add(new AuditError(Constants.OPPORTUNITY_TITLE_KEY, KeyConstants.ERROR_OPPORTUNITY_TITLE_DELETED , Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
             }
         }
         
-//        if(proposalDevelopmentDocument.getProposalTypeCode()!=null && 
-//                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getProposalTypeCode(),kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW).getParameterValue()) && 
-//                proposalDevelopmentDocument.getS2sOpportunity()!= null &&
-//                proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode()!= null &&
-//                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode().toString(), kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.S2S_SUBMISSIONTYPE_CHANGEDCORRECTED).getParameterValue())){             
+//        if(proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode()!=null && 
+//                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode(),kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW).getParameterValue()) && 
+//                proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity()!= null &&
+//                proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode()!= null &&
+//                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode().toString(), kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.S2S_SUBMISSIONTYPE_CHANGEDCORRECTED).getParameterValue())){             
 //            auditErrors.add(new AuditError(Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_IF_PROPOSAL_TYPE_IS_NEW_AND_S2S_SUBMISSION_TYPE_IS_CHANGED_CORRECTED, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
 //            valid &= false;
 //        }

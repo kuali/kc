@@ -39,10 +39,10 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
     }
     public String getPersonName(ProposalDevelopmentDocument doc, String userId) {
         String propPersonName = null;
-        List<ProposalPerson> proposalPersons = doc.getProposalPersons();
+        List<ProposalPerson> proposalPersons = doc.getDevelopmentProposal().getProposalPersons();
         if(proposalPersons.isEmpty()){
             Map<String,String> queryMap = new HashMap<String,String>();
-            queryMap.put("proposalNumber", doc.getProposalNumber());
+            queryMap.put("proposalNumber", doc.getDevelopmentProposal().getProposalNumber());
             proposalPersons = (List)getBusinessObjectService().findMatching(ProposalPerson.class, queryMap);
         }
         for (ProposalPerson proposalPerson : proposalPersons) {
