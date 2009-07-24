@@ -24,13 +24,13 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.util.IdentitySet;
 import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
@@ -45,22 +45,23 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * introduces so many exception and meta-data types
  */
 public class SequenceUtils {
+    private static final String SEQUENCING_ERR_MSG = "An error occured sequencing";
+
     private static final Log LOGGER = LogFactory.getLog(SequenceUtils.class);
 
     /**
-     * This set acts to prevent circular sequencing; 
-     * i.e. BO A has a collection of BO B which has a collection of BO A's that have been sequenced
-     * 
-     * This means SequenceAssociates must override equals and hashCode!  
+     * Using an identity set to store already sequenced references.  In Java 6 and above the following can be used
+     * as a Set Implementation java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<SequenceAssociate<?>, Boolean>())
      */
-    private final Set<SequenceAssociate<?>> alreadySequencedAssociates = Collections.synchronizedSet(new HashSet<SequenceAssociate<?>>());
+    @SuppressWarnings("unchecked")
+    private final Set<SequenceAssociate<?>> alreadySequencedAssociates = Collections.synchronizedSet(new IdentitySet());
 
     /**
      * This method sequences a SequenceOwner to a new version.
      * @param <T> the type of SequenceOwner to sequence.
-     * @param oldVersion
+     * @param oldVersion the old sequence owner
      * @return The newly versioned owner 
-     * @throws VersionException
+     * @throws VersionException if versioning fails
      */
     public <T extends SequenceOwner<?>> T sequence(T oldVersion) throws VersionException {
         
@@ -72,7 +73,7 @@ public class SequenceUtils {
             sequenceAssociations(newVersion);
             return newVersion;
         } catch (Exception e) {
-            LOGGER.error("An error occured sequencing", e);
+            LOGGER.error(SEQUENCING_ERR_MSG, e);
             throw new VersionException(e);
         }
     }
@@ -80,9 +81,10 @@ public class SequenceUtils {
     /**
      * This method sequences a SeparatelySequenceableAssociate a new version.
      * @param <T> the type of SeparatelySequenceableAssociate to sequence.
-     * @param oldAssociate
+     * @param <U> the type of SequenceOwner
+     * @param oldAssociate the old SeparatelySequenceableAssociate to sequence
      * @return The newly versioned associate 
-     * @throws VersionException
+     * @throws VersionException if versioning fails
      */
     public <T extends SeparatelySequenceableAssociate<U>, U extends SequenceOwner<?>> T sequence(T oldAssociate) throws VersionException {
         try {
@@ -91,7 +93,7 @@ public class SequenceUtils {
             newAssociate.resetPersistenceState();
             return newAssociate;
         } catch (Exception e) {
-            LOGGER.error("An error occured sequencing", e);
+            LOGGER.error(SEQUENCING_ERR_MSG, e);
             throw new VersionException(e);
         }
     }
@@ -99,10 +101,11 @@ public class SequenceUtils {
     /**
      * This method sequences a SequenceOwner and a of SeparatelySequenceableAssociates to a new version.
      * @param <T> the type of SeparatelySequenceableAssociate to sequence.
-     * @param newOwner
-     * @param oldAssociates
+     * @param <U> the type of SequenceOwner
+     * @param newOwner the new owner of the SeparatelySequenceableAssociate
+     * @param oldAssociates the list of old associates
      * @return a List of new Associates
-     * @throws VersionException
+     * @throws VersionException if versioning fails
      */
     public <T extends SeparatelySequenceableAssociate<U>, U extends SequenceOwner<?>> List<T> sequence(U newOwner, List<T> oldAssociates) throws VersionException {
         try {
@@ -115,50 +118,41 @@ public class SequenceUtils {
             }
             return newAssociates;
         } catch (Exception e) {
-            LOGGER.error("An error occured sequencing", e);
+            LOGGER.error(SEQUENCING_ERR_MSG, e);
             throw new VersionException(e);
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private Collection<SequenceAssociate> getSequenceAssociateCollection(Sequenceable parent, Method getter) throws IllegalAccessException, InvocationTargetException {
-        return (Collection<SequenceAssociate>) getter.invoke(parent, (Object[]) null);
-    }
-
-    @SuppressWarnings("unchecked")
-    private boolean isCollectionElementASequenceAssociate(Type returnType) {
-        boolean isSequenceAssociate = returnType instanceof ParameterizedType;
-        if (isSequenceAssociate) {
-            ParameterizedType type = (ParameterizedType) returnType;
-            Type[] typeArguments = type.getActualTypeArguments();
-            isSequenceAssociate = typeArguments.length == 1 && SequenceAssociate.class.isAssignableFrom((Class) typeArguments[0]);
-        }
-        return isSequenceAssociate;
-    }
-
-    private Method findReadMethod(Object parent, Field field) throws IllegalAccessException, InvocationTargetException,
-            NoSuchMethodException {
-        PropertyDescriptor pd = PropertyUtils.getPropertyDescriptor(parent, field.getName());
-        Method getter = PropertyUtils.getReadMethod(pd);
-        return getter;
-    }
-
-    private void sequenceAssociations(SequenceAssociate<?> associate) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        alreadySequencedAssociates.add(associate);
+    private void sequenceAssociations(SequenceAssociate<?> associate) {
+        this.alreadySequencedAssociates.add(associate);
         sequenceOneToOneAssociations(associate);
         sequenceCollections(associate);
     }
 
-    private void sequenceOneToOneAssociations(SequenceAssociate<?> parent) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        
+    private void sequenceOneToOneAssociations(SequenceAssociate<?> parent) {
         for (Field field : parent.getClass().getDeclaredFields()) {
             if (isFieldASequenceAssociate(field)) {
-                Method getter = findReadMethod(parent, field);
-                if (getter != null) {
-                    SequenceAssociate<?> associate = getSequenceAssociateReference(parent, getter);
-                    this.executeSequencing(associate, parent);
-                } else {
-                    throw createExceptionForNoGetter(parent, field);
+                final Method getter = findReadMethod(parent, field);
+                SequenceAssociate<?> associate = getSequenceAssociateReference(parent, getter);
+                this.executeSequencing(associate, parent);
+            }
+        }
+    }
+    
+    /**
+     * Recursively sequences collection(s) of SequenceAssociates represented in the Fields array.
+     * 
+     * @param newVersion
+     * @param parent
+     */
+    private void sequenceCollections(SequenceAssociate<?> parent) {
+        for (Field field : parent.getClass().getDeclaredFields()) {
+            if (isFieldACollection(field)) {
+                final Method getter = findReadMethod(parent, field);
+                if (isCollectionElementASequenceAssociate(getter.getGenericReturnType())) {
+                    for (SequenceAssociate<?> associate : getSequenceAssociateCollection(parent, getter)) {
+                        this.executeSequencing(associate, parent);
+                    }
                 }
             }
         }
@@ -169,11 +163,8 @@ public class SequenceUtils {
      * 
      * @param associate the associate to sequence
      * @param parent the associates parent
-     * @throws NoSuchMethodException if a reflection problem occurs
-     * @throws InvocationTargetException if a reflection problem occurs
-     * @throws IllegalAccessException if a reflection problem occurs
      */
-    private void executeSequencing(SequenceAssociate<?> associate, SequenceAssociate<?> parent) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    private void executeSequencing(SequenceAssociate<?> associate, SequenceAssociate<?> parent) {
         if (associate != null && parent != null && !this.alreadySequencedAssociates.contains(associate)) {
             final SequenceOwner<?> owner = parent instanceof SequenceOwner<?> ? (SequenceOwner<?>) parent : parent.getSequenceOwner();
             this.setSequenceOwner(associate, owner);
@@ -184,50 +175,12 @@ public class SequenceUtils {
         }
     }
 
-    /**
-     * This method...
-     * @param parent
-     * @param field
-     * @return
-     */
-    private RuntimeException createExceptionForNoGetter(SequenceAssociate<?> parent, Field field) {
-        return new RuntimeException(String.format("No getter defined for field %s on class %s", field.getName(), parent.getClass().getName()));
-    }
-
-    /**
-     * Recursively sequences collection(s) of SequenceAssociates represented in the Fields array.
-     * 
-     * @param newVersion
-     * @param parent
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
-     * @throws NoSuchMethodException
-     */
-    private void sequenceCollections(SequenceAssociate<?> parent) throws IllegalAccessException, InvocationTargetException,
-            NoSuchMethodException {
-        for (Field field : parent.getClass().getDeclaredFields()) {
-            if (isFieldACollection(field)) {
-                Method getter = findReadMethod(parent, field);
-                if (getter != null) {
-                    if (isCollectionElementASequenceAssociate(getter.getGenericReturnType())) {
-                        for (SequenceAssociate<?> associate : getSequenceAssociateCollection(parent, getter)) {
-                            this.executeSequencing(associate, parent);
-                        }
-                    }
-                } else {
-                    throw createExceptionForNoGetter(parent, field);
-                }
-            }
-        }
-    }
-
-    private SequenceAssociate<?> getSequenceAssociateReference(SequenceAssociate<?> parent, Method getter) throws IllegalAccessException,
-            InvocationTargetException {
-        return (SequenceAssociate<?>) getter.invoke(parent, (Object[]) null);
-    }
-
     private boolean isFieldASequenceAssociate(Field field) {
         return SequenceAssociate.class.isAssignableFrom(field.getType());
+    }
+    
+    private SequenceAssociate<?> getSequenceAssociateReference(SequenceAssociate<?> parent, Method getter) {
+        return this.getProperty(parent, getter);
     }
     
     private boolean isAssociateAlsoASequenceOwner(SequenceAssociate<?> associate) {
@@ -238,6 +191,20 @@ public class SequenceUtils {
         return Collection.class.isAssignableFrom(field.getType());
     }
     
+    private boolean isCollectionElementASequenceAssociate(Type returnType) {
+        boolean isSequenceAssociate = returnType instanceof ParameterizedType;
+        if (isSequenceAssociate) {
+            ParameterizedType type = (ParameterizedType) returnType;
+            Type[] typeArguments = type.getActualTypeArguments();
+            isSequenceAssociate = typeArguments.length == 1 && SequenceAssociate.class.isAssignableFrom((Class<?>) typeArguments[0]);
+        }
+        return isSequenceAssociate;
+    }
+    
+    private Collection<SequenceAssociate<?>> getSequenceAssociateCollection(Sequenceable parent, Method getter) {
+        return getProperty(parent, getter);
+    }
+    
     /**
      * Sets the sequence associate's owner to the potential owner if the associate's owner is not itself.
      * @param toSet the associate to set the owner on.
@@ -246,7 +213,95 @@ public class SequenceUtils {
     private <T extends SequenceOwner<?>> void setSequenceOwner(SequenceAssociate<T> toSet, SequenceOwner<?> potentialOwner) {
         //this is sort of a suspect workaround for possible incorrect owner setting
         if (toSet.getSequenceOwner() != toSet) {
-            toSet.setSequenceOwner((T)potentialOwner);
+            toSet.setSequenceOwner((T) potentialOwner);
         }
+    }
+    
+    /**
+     * Gets a property on an object using a getter.
+     * @param <T> the type of object to return
+     * @param o the object to execute the getter on
+     * @param getter the getter
+     * @return the object retrieved via the getter
+     * @throws PropertyAccessException if unable to retrieve the object from the getter for some reason
+     */
+    @SuppressWarnings("unchecked")
+    private <T extends Object> T getProperty(Object o, Method getter) throws PropertyAccessException {
+        
+        try {
+            return (T) getter.invoke(o, (Object[]) null);
+        } catch (IllegalArgumentException e) {
+            throw new PropertyAccessException(e);
+        } catch (IllegalAccessException e) {
+            throw new PropertyAccessException(e);
+        } catch (InvocationTargetException e) {
+            throw new PropertyAccessException(e);
+        }
+    }
+    
+    /**
+     * Exception thrown when there is a problem retrieving a property.
+     */
+    private static class PropertyAccessException extends RuntimeException {
+        private static final long serialVersionUID = 4282833885999270264L;
+        
+        /**
+         * Construct an exception wrapping a Throwable.
+         * @param t the throwable.
+         */
+        public PropertyAccessException(Throwable t) {
+            super(t);
+        }
+    }
+    
+    /**
+     * This method retrieves the getter for a field on the passed in object.
+     * 
+     * @param parent the object to retrieve the getter from
+     * @param field the field to retrieve the getter for
+     * @return the getter.  Will never return null
+     * @throws GetterException if there is a problem retrieving the "getter" for a field
+     */
+    private Method findReadMethod(Object parent, Field field) throws GetterException {
+        
+        final PropertyDescriptor pd;
+        try {
+            pd = PropertyUtils.getPropertyDescriptor(parent, field.getName());
+        } catch (IllegalAccessException e) {
+            throw new GetterException(e);
+        } catch (InvocationTargetException e) {
+            throw new GetterException(e);
+        } catch (NoSuchMethodException e) {
+            throw new GetterException(e);
+        }
+        Method getter = PropertyUtils.getReadMethod(pd);
+        if (getter == null) {
+            throw new GetterException(String.format("No getter defined for field %s on class %s", field.getName(), parent.getClass().getName()));
+        }
+        
+        return getter;
+    }
+    
+    /**
+     * Exception thrown when there is a problem retrieving a getter.
+     */
+    private static class GetterException extends RuntimeException {
+        private static final long serialVersionUID = 4282833885999270264L;
+
+        /**
+         * Construct an exception wrapping a Throwable.
+         * @param t the throwable.
+         */
+        public GetterException(Throwable t) {
+            super(t);
+        }
+        
+        /**
+         * Construct an exception with a message.
+         * @param msg the message.
+         */
+        public GetterException(String msg) {
+            super(msg);
+        }  
     }
 }
