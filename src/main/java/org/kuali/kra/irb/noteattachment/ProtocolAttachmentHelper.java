@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -37,17 +36,14 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * This is the "Helper" class for ProtocolNoteAndAttachment.
  */
-public class ProtocolAttachmentHelper implements Serializable {
+public class ProtocolAttachmentHelper {
     
     private static final String UNSUPPORTED_ATTACHMENT_TYPE = "unsupported attachment type ";
     private static final String CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL = "confirmDeleteAttachmentPersonnel";
     private static final String CONFIRM_YES_DELETE_ATTACHMENT_PROTOCOL = "confirmDeleteAttachmentProtocol";
     
-    //TODO: these services cannot be final and transient or else these services will be null
-    //upon deserialization.  Rather than this helper being Serializable, we may want to
-    //reinitialize it on the form and make instance transient
-    private final transient ProtocolAttachmentService notesService;
-    private final transient TaskAuthorizationService authService;
+    private final ProtocolAttachmentService notesService;
+    private final TaskAuthorizationService authService;
     
     private final ProtocolAttachmentVersioningUtility versioningUtil;
     
