@@ -46,7 +46,7 @@ public class CalculateCreditSplitEvent  extends KraDocumentEventBase  {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
         logMessage.append(" with ");
         
-        for (ProposalPerson person : ((ProposalDevelopmentDocument) getDocument()).getProposalPersons()) {
+        for (ProposalPerson person : ((ProposalDevelopmentDocument) getDocument()).getDevelopmentProposal().getProposalPersons()) {
             logMessage.append(person.toString());
             logMessage.append(", ");
         }

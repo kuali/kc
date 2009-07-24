@@ -94,7 +94,7 @@ public class AbstractTypeValuesFinder extends KeyValuesBase {
      */
     private boolean hasAbstract(ProposalDevelopmentDocument doc, AbstractType abstractType) {
         if (doc != null) {
-            List<ProposalAbstract> proposalAbstracts = doc.getProposalAbstracts();
+            List<ProposalAbstract> proposalAbstracts = doc.getDevelopmentProposal().getProposalAbstracts();
             for (ProposalAbstract proposalAbstract : proposalAbstracts) {
                 if (proposalAbstract.getAbstractTypeCode().equals(abstractType.getAbstractTypeCode())) {
                     return true;

@@ -95,7 +95,7 @@ public class BudgetPersonnelCalculationTest extends KraTestBase {
         document.refreshReferenceObject("activityType");
         documentService.saveDocument(document);
         BudgetDocument bd = (BudgetDocument)documentService.getNewDocument("BudgetDocument");
-        setBaseDocumentFields(bd,document.getProposalNumber());
+        setBaseDocumentFields(bd,document.getDevelopmentProposal().getProposalNumber());
         
         BudgetPerson budgetPerson1 = new BudgetPerson();
         budgetPerson1.setPersonId("000000003");
@@ -275,12 +275,12 @@ public class BudgetPersonnelCalculationTest extends KraTestBase {
     
     private void setBaseDocumentFields(ProposalDevelopmentDocument document, String description, String sponsorCode, String title, Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
         document.getDocumentHeader().setDocumentDescription(description);
-        document.setSponsorCode(sponsorCode);
-        document.setTitle(title);
-        document.setRequestedStartDateInitial(requestedStartDateInitial);
-        document.setRequestedEndDateInitial(requestedEndDateInitial);
-        document.setActivityTypeCode(activityTypeCode);
-        document.setProposalTypeCode(proposalTypeCode);
-        document.setOwnedByUnitNumber(ownedByUnit);
+        document.getDevelopmentProposal().setSponsorCode(sponsorCode);
+        document.getDevelopmentProposal().setTitle(title);
+        document.getDevelopmentProposal().setRequestedStartDateInitial(requestedStartDateInitial);
+        document.getDevelopmentProposal().setRequestedEndDateInitial(requestedEndDateInitial);
+        document.getDevelopmentProposal().setActivityTypeCode(activityTypeCode);
+        document.getDevelopmentProposal().setProposalTypeCode(proposalTypeCode);
+        document.getDevelopmentProposal().setOwnedByUnitNumber(ownedByUnit);
     }
 }

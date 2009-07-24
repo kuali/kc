@@ -50,6 +50,7 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -145,8 +146,8 @@ public class BudgetAction extends ProposalActionBase {
         assert budgetForm != null : "the budgetForm is null";
         
         final BudgetDocument budgetDocument = budgetForm.getDocument();
-        if (budgetDocument != null && budgetDocument.getProposal() != null && budgetDocument.getProposal().getBudgetVersionOverviews() != null) {
-            for (final BudgetVersionOverview budgetVersion: budgetDocument.getProposal().getBudgetVersionOverviews()) {
+        if (budgetDocument != null && budgetDocument.getProposal() != null && budgetDocument.getProposal().getDevelopmentProposal().getBudgetVersionOverviews() != null) {
+            for (final BudgetVersionOverview budgetVersion: budgetDocument.getProposal().getDevelopmentProposal().getBudgetVersionOverviews()) {
                 if (budgetVersion.getBudgetVersionNumber().equals(budgetDocument.getBudgetVersionNumber())) {
                     budgetForm.getDocInfo().add(new HeaderField(BudgetForm.BUDGET_NAME_KEY, budgetVersion.getDocumentDescription()));
                     break;
@@ -201,7 +202,7 @@ public class BudgetAction extends ProposalActionBase {
         final ActionForward forward = super.reload(mapping, form, request, response);
         final BudgetForm budgetForm = (BudgetForm) form;
 
-        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetForm.getDocument().getProposal().getBudgetVersionOverviews()));
+        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetForm.getDocument().getProposal().getDevelopmentProposal().getBudgetVersionOverviews()));
         setBudgetStatuses(budgetForm.getDocument().getProposal());
 
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
@@ -212,8 +213,8 @@ public class BudgetAction extends ProposalActionBase {
     
     public ActionForward versions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
-        budgetForm.getDocument().getProposal().refreshReferenceObject(Constants.BUDGET_VERSION_OVERVIEWS);
-        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetForm.getDocument().getProposal().getBudgetVersionOverviews()));
+        budgetForm.getDocument().getProposal().getDevelopmentProposal().refreshReferenceObject(Constants.BUDGET_VERSION_OVERVIEWS);
+        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetForm.getDocument().getProposal().getDevelopmentProposal().getBudgetVersionOverviews()));
         setBudgetStatuses(budgetForm.getDocument().getProposal());
         return mapping.findForward(Constants.BUDGET_VERSIONS_PAGE);
     }
@@ -322,10 +323,10 @@ public class BudgetAction extends ProposalActionBase {
     }
 
     protected void populatePersonnelRoles(BudgetDocument budgetDocument) {
-        KeyPersonnelService keyPersonnelServiec = KraServiceLocator.getService(KeyPersonnelService.class);
-        ProposalDevelopmentDocument proposal = budgetDocument.getProposal();
-        boolean nihSponsorProposal = keyPersonnelServiec.isSponsorNIH(proposal);
-        Map<String, String> roleDescriptions = budgetDocument.getProposal().getNihDescription();
+        KeyPersonnelService keyPersonnelService = KraServiceLocator.getService(KeyPersonnelService.class);
+        DevelopmentProposal proposal = budgetDocument.getProposal().getDevelopmentProposal();
+        boolean nihSponsorProposal = keyPersonnelService.isSponsorNIH(budgetDocument.getProposal());
+        Map<String, String> roleDescriptions = proposal.getNihDescription();
         
         List<BudgetPerson> budgetPersons = budgetDocument.getBudgetPersons();
         for (BudgetPerson budgetPerson: budgetPersons) {
@@ -429,10 +430,10 @@ public class BudgetAction extends ProposalActionBase {
         List<BudgetPerson> budgetPersons = budgetDocument.getBudgetPersons();
         for (BudgetPerson budgetPerson: budgetPersons) {
             if (budgetPerson.getRolodexId() != null) {
-                ProposalPersonRole role = budgetDocument.getProposal().getProposalNonEmployeeRole(budgetPerson.getRolodexId());
+                ProposalPersonRole role = budgetDocument.getProposal().getDevelopmentProposal().getProposalNonEmployeeRole(budgetPerson.getRolodexId());
                 if (role != null) { budgetPerson.setRole(role.getDescription()); }
             } else if (budgetPerson.getPersonId() != null) {
-                ProposalPersonRole role = budgetDocument.getProposal().getProposalEmployeeRole(budgetPerson.getPersonId());
+                ProposalPersonRole role = budgetDocument.getProposal().getDevelopmentProposal().getProposalEmployeeRole(budgetPerson.getPersonId());
                 if (role != null) { budgetPerson.setRole(role.getDescription()); }
             }
         }
@@ -441,7 +442,7 @@ public class BudgetAction extends ProposalActionBase {
     protected void reconcileBudgetStatus(BudgetForm budgetForm) {
         BudgetDocument budgetDocument = budgetForm.getDocument();
         if (budgetDocument.getFinalVersionFlag() != null && Boolean.TRUE.equals(budgetDocument.getFinalVersionFlag())) {
-            budgetDocument.setBudgetStatus(budgetDocument.getProposal().getBudgetStatus());
+            budgetDocument.setBudgetStatus(budgetDocument.getProposal().getDevelopmentProposal().getBudgetStatus());
         } else {
             String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
                     Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);

@@ -66,7 +66,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
      */
     public void synchBudgetPersonsToProposal(BudgetDocument budgetDocument) {
         budgetDocument.refreshReferenceObject("documentNextvalues");
-        for (ProposalPerson proposalPerson: budgetDocument.getProposal().getProposalPersons()) {
+        for (ProposalPerson proposalPerson: budgetDocument.getProposal().getDevelopmentProposal().getProposalPersons()) {
             if (!proposalPerson.isOtherSignificantContributorFlag()) {
                 boolean present = false;
                 for (BudgetPerson budgetPerson: budgetDocument.getBudgetPersons()) {
@@ -89,7 +89,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     
     private void populatePersonDefaultDataIfEmpty(BudgetDocument budgetDocument, BudgetPerson budgetPerson) {
         if (budgetDocument.getProposal() != null && ObjectUtils.isNull(budgetPerson.getEffectiveDate())) {
-            budgetPerson.setEffectiveDate(budgetDocument.getProposal().getRequestedStartDateInitial());
+            budgetPerson.setEffectiveDate(budgetDocument.getProposal().getDevelopmentProposal().getRequestedStartDateInitial());
         }
         
         if (ObjectUtils.isNull(budgetPerson.getCalculationBase())) {

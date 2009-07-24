@@ -81,7 +81,7 @@ public class CreditSplitValidator implements Traceable<CreditSplitValidator> {
         for (InvestigatorCreditType creditType : creditTypes) {
             info(VALIDATING_CT_MESSAGE, creditType.getDescription());
             if (creditType.addsToHundred()) {
-                retval &= validate(document.getInvestigators(), creditType);
+                retval &= validate(document.getDevelopmentProposal().getInvestigators(), creditType);
             }
         }
 

@@ -61,18 +61,18 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         
-        if(proposalDevelopmentDocument.getS2sOpportunity()!=null){
-            if(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber()==null){
-                proposalDevelopmentDocument.getS2sOpportunity().setProposalNumber(proposalDevelopmentDocument.getProposalNumber());                
+        if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity()!=null){
+            if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getProposalNumber()==null){
+                proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().setProposalNumber(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber());                
             }            
-            if(proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null){
-                proposalDevelopmentDocument.setProgramAnnouncementNumber(proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId());                
+            if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId()!=null){
+                proposalDevelopmentDocument.getDevelopmentProposal().setProgramAnnouncementNumber(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId());                
             }
-            if(proposalDevelopmentDocument.getS2sOpportunity().getOpportunityTitle()!=null){
-                proposalDevelopmentDocument.setProgramAnnouncementTitle(proposalDevelopmentDocument.getS2sOpportunity().getOpportunityTitle());                
+            if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle()!=null){
+                proposalDevelopmentDocument.getDevelopmentProposal().setProgramAnnouncementTitle(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());                
             }
-            if(proposalDevelopmentDocument.getS2sOpportunity().getCfdaNumber()!=null){
-                proposalDevelopmentDocument.setCfdaNumber(proposalDevelopmentDocument.getS2sOpportunity().getCfdaNumber());                
+            if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber()!=null){
+                proposalDevelopmentDocument.getDevelopmentProposal().setCfdaNumber(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber());                
             }
         }
         ActionForward actionForward = super.execute(mapping, form, request, response);
@@ -91,8 +91,8 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         Boolean mandatoryFormNotAvailable = false;
         List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
-        if(proposalDevelopmentDocument.getS2sOpportunity().getSchemaUrl()!=null){
-            s2sOppForms = KraServiceLocator.getService(S2SService.class).parseOpportunityForms(proposalDevelopmentDocument.getS2sOpportunity());
+        if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getSchemaUrl()!=null){
+            s2sOppForms = KraServiceLocator.getService(S2SService.class).parseOpportunityForms(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity());
             if(s2sOppForms!=null){
                 for(S2sOppForms s2sOppForm:s2sOppForms){
                     if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
@@ -102,12 +102,12 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
                 }
             }
             if(!mandatoryFormNotAvailable){
-                proposalDevelopmentDocument.getS2sOpportunity().setS2sOppForms(s2sOppForms);
-                proposalDevelopmentDocument.getS2sOpportunity().setVersionNumber(proposalDevelopmentForm.getVersionNumberForS2sOpportunity());
+                proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().setS2sOppForms(s2sOppForms);
+                proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().setVersionNumber(proposalDevelopmentForm.getVersionNumberForS2sOpportunity());
                 proposalDevelopmentForm.setVersionNumberForS2sOpportunity(null);                
             }else{
-                GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId());
-                proposalDevelopmentDocument.setS2sOpportunity(new S2sOpportunity());
+                GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId());
+                proposalDevelopmentDocument.getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
             }            
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -128,12 +128,12 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         if (CONFIRM_REMOVE_OPPRTUNITY_KEY.equals(question)) { 
             ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
             ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
-            proposalDevelopmentForm.setVersionNumberForS2sOpportunity(proposalDevelopmentDocument.getS2sOpportunity().getVersionNumber());            
-            proposalDevelopmentDocument.getS2sOpportunity().setS2sOppForms(null);
-            proposalDevelopmentDocument.setS2sOpportunity(null);
-            proposalDevelopmentDocument.setProgramAnnouncementNumber(null);
-            proposalDevelopmentDocument.setProgramAnnouncementTitle(null);
-            proposalDevelopmentDocument.setCfdaNumber(null);            
+            proposalDevelopmentForm.setVersionNumberForS2sOpportunity(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getVersionNumber());            
+            proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().setS2sOppForms(null);
+            proposalDevelopmentDocument.getDevelopmentProposal().setS2sOpportunity(null);
+            proposalDevelopmentDocument.getDevelopmentProposal().setProgramAnnouncementNumber(null);
+            proposalDevelopmentDocument.getDevelopmentProposal().setProgramAnnouncementTitle(null);
+            proposalDevelopmentDocument.getDevelopmentProposal().setCfdaNumber(null);            
         }        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -165,7 +165,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
     private StrutsConfirmation buildDeleteOpportunityConfirmationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
-        String description = proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId();
+        String description = proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId();
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_REMOVE_OPPRTUNITY_KEY, QUESTION_DELETE_OPPORTUNITY_CONFIRMATION, description);
     }
     
@@ -232,7 +232,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         if(KraServiceLocator.getService(S2SService.class).refreshGrantsGov(proposalDevelopmentDocument)){
-            proposalDevelopmentDocument.refreshReferenceObject("s2sAppSubmission");
+            proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("s2sAppSubmission");
             return mapping.findForward(Constants.MAPPING_BASIC);
         }else{
             throw new RuntimeException("Refresh Failed");
@@ -242,8 +242,8 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
-        if(proposalDevelopmentDocument.getS2sOpportunity()!=null && proposalDevelopmentForm.getVersionNumberForS2sOpportunity()==null){
-            proposalDevelopmentForm.setVersionNumberForS2sOpportunity(proposalDevelopmentDocument.getS2sOpportunity().getVersionNumber());            
+        if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity()!=null && proposalDevelopmentForm.getVersionNumberForS2sOpportunity()==null){
+            proposalDevelopmentForm.setVersionNumberForS2sOpportunity(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getVersionNumber());            
         }
         return super.performLookup(mapping, form, request, response);
     }
@@ -257,10 +257,10 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
                 Constants.PARAMETER_COMPONENT_DOCUMENT, 
                 KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION).getParameterValue();
 
-        if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!= null && 
-                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getProposalTypeCode(), proposalTypeCodeRevision) && 
-                StringUtils.isBlank(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode())) { 
-            GlobalVariables.getErrorMap().putError("document.s2sOpportunity.revisionCode", KeyConstants.ERROR_REQUIRED_REVISIONTYPE);
+        if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity()!= null && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId()!= null && 
+                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode(), proposalTypeCodeRevision) && 
+                StringUtils.isBlank(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionCode())) { 
+            GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].s2sOpportunity.revisionCode", KeyConstants.ERROR_REQUIRED_REVISIONTYPE);
             return mapping.findForward(Constants.MAPPING_BASIC);
         } 
 

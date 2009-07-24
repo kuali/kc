@@ -116,27 +116,27 @@ public class BudgetRatesServiceTest {
     public void testSyncAllBudgetRates_ChangingRatesNotProposalActivityType() throws Exception {
         changeInstituteRates();        
         budgetRatesService.syncAllBudgetRates(budgetDocument);
-        String activityTypeCode = budgetDocument.getProposal().getActivityTypeCode();
+        String activityTypeCode = budgetDocument.getProposal().getDevelopmentProposal().getActivityTypeCode();
         Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudgetProposalRates().size());
         checkSyncedRates();        
     }
     
     @Test
     public void testSyncAllBudgetRates_ChangeProposalActivityType() throws Exception {
-        budgetDocument.getProposal().setActivityTypeCode(INSTRUCTION_ACTIVITY_CODE);
+        budgetDocument.getProposal().getDevelopmentProposal().setActivityTypeCode(INSTRUCTION_ACTIVITY_CODE);
         changeInstituteRates();
         budgetRatesService.syncAllBudgetRates(budgetDocument);
-        String activityTypeCode = budgetDocument.getProposal().getActivityTypeCode();
+        String activityTypeCode = budgetDocument.getProposal().getDevelopmentProposal().getActivityTypeCode();
         Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudgetProposalRates().size());
         checkSyncedRates();        
     }  
     
     @Test
     public void testSyncAllBudgetRates_ChangeProposalActivityType2Other() throws Exception {
-        budgetDocument.getProposal().setActivityTypeCode(OTHER_ACTIVITY_CODE);
+        budgetDocument.getProposal().getDevelopmentProposal().setActivityTypeCode(OTHER_ACTIVITY_CODE);
         changeInstituteRates();
         budgetRatesService.syncAllBudgetRates(budgetDocument);
-        String activityTypeCode = budgetDocument.getProposal().getActivityTypeCode();
+        String activityTypeCode = budgetDocument.getProposal().getDevelopmentProposal().getActivityTypeCode();
         Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudgetProposalRates().size());
         checkSyncedRates();        
     } 
@@ -178,8 +178,8 @@ public class BudgetRatesServiceTest {
         };
         budgetDocument.setBudgetVersionNumber(1);
         budgetDocument.setProposal(initializeProposalDevelopmentDocument());
-        budgetDocument.setStartDate(budgetDocument.getProposal().getRequestedStartDateInitial());
-        budgetDocument.setEndDate(budgetDocument.getProposal().getRequestedEndDateInitial());
+        budgetDocument.setStartDate(budgetDocument.getProposal().getDevelopmentProposal().getRequestedStartDateInitial());
+        budgetDocument.setEndDate(budgetDocument.getProposal().getDevelopmentProposal().getRequestedEndDateInitial());
         budgetDocument.add(generateBudgetPeriod(1, budgetPeriod1Start, budgetPeriod1End));
         budgetDocument.add(generateBudgetPeriod(2, budgetPeriod2Start, budgetPeriod2End));
     }
@@ -194,14 +194,14 @@ public class BudgetRatesServiceTest {
 
     private ProposalDevelopmentDocument initializeProposalDevelopmentDocument() {
         ProposalDevelopmentDocument proposal = new ProposalDevelopmentDocument();
-        proposal.setActivityTypeCode(RESEARCH_ACTIVITY_CODE);
-        proposal.setActivityType(activityTypes.get(RESEARCH_ACTIVITY_CODE));
-        proposal.setOwnedByUnitNumber(UNIT_NO);
+        proposal.getDevelopmentProposal().setActivityTypeCode(RESEARCH_ACTIVITY_CODE);
+        proposal.getDevelopmentProposal().setActivityType(activityTypes.get(RESEARCH_ACTIVITY_CODE));
+        proposal.getDevelopmentProposal().setOwnedByUnitNumber(UNIT_NO);
         Unit unit = new Unit();
         unit.setUnitNumber(UNIT_NO);
-        proposal.setOwnedByUnit(unit);
-        proposal.setRequestedStartDateInitial(budgetPeriod1Start);
-        proposal.setRequestedEndDateInitial(budgetPeriod2End);
+        proposal.getDevelopmentProposal().setOwnedByUnit(unit);
+        proposal.getDevelopmentProposal().setRequestedStartDateInitial(budgetPeriod1Start);
+        proposal.getDevelopmentProposal().setRequestedEndDateInitial(budgetPeriod2End);
         return proposal;
     }
 

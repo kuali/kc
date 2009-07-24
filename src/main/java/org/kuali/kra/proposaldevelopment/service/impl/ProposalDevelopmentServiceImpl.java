@@ -88,30 +88,30 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * @param proposalOrganization
      */
     public void initializeUnitOrganzationLocation(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        Organization proposalOrganization = proposalDevelopmentDocument.getOrganization();
+        Organization proposalOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getOrganization();
 
         // Unit number chosen, set Organzation, etc...
-        if (proposalDevelopmentDocument.getOwnedByUnitNumber() != null && proposalOrganization == null) {
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getOwnedByUnitNumber() != null && proposalOrganization == null) {
             // get Lead Unit details
-            proposalDevelopmentDocument.refreshReferenceObject("ownedByUnit");
-            String organizationId = proposalDevelopmentDocument.getOwnedByUnit().getOrganizationId();
+            proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("ownedByUnit");
+            String organizationId = proposalDevelopmentDocument.getDevelopmentProposal().getOwnedByUnit().getOrganizationId();
 
             // get Organzation assoc. w/ Lead Unit
-            proposalDevelopmentDocument.setOrganizationId(organizationId);
-            proposalDevelopmentDocument.refreshReferenceObject("organization");
-            proposalOrganization = proposalDevelopmentDocument.getOrganization();
-            proposalDevelopmentDocument.setPerformingOrganizationId(organizationId);
-            proposalDevelopmentDocument.refreshReferenceObject("performingOrganization");
+            proposalDevelopmentDocument.getDevelopmentProposal().setOrganizationId(organizationId);
+            proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("organization");
+            proposalOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getOrganization();
+            proposalDevelopmentDocument.getDevelopmentProposal().setPerformingOrganizationId(organizationId);
+            proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("performingOrganization");
 
             // initialize Proposal Locations with Organization details
-            if (proposalDevelopmentDocument.getProposalLocations().isEmpty()) {
+            if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalLocations().isEmpty()) {
                 ProposalLocation newProposalLocation = new ProposalLocation();
                 newProposalLocation.setLocation(proposalOrganization.getOrganizationName());
                 newProposalLocation.setRolodexId(proposalOrganization.getContactAddressId());
                 newProposalLocation.refreshReferenceObject("rolodex");
                 newProposalLocation.setLocationSequenceNumber(proposalDevelopmentDocument
                         .getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
-                proposalDevelopmentDocument.getProposalLocations().add(0, newProposalLocation);
+                proposalDevelopmentDocument.getDevelopmentProposal().getProposalLocations().add(0, newProposalLocation);
             }
 
         }
@@ -188,18 +188,18 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
-        for (BudgetVersionOverview budgetVersion : proposalDevelopmentDocument.getBudgetVersionOverviews()) {
+        for (BudgetVersionOverview budgetVersion : proposalDevelopmentDocument.getDevelopmentProposal().getBudgetVersionOverviews()) {
             budgetVersionsExists = true;
             if (budgetVersion.isFinalVersionFlag()) {
                 valid &= applyAuditRuleForBudgetDocument(budgetVersion);
-                if (proposalDevelopmentDocument.getBudgetStatus()!= null 
-                        && proposalDevelopmentDocument.getBudgetStatus().equals(budgetStatusCompleteCode)) {
+                if (proposalDevelopmentDocument.getDevelopmentProposal().getBudgetStatus()!= null 
+                        && proposalDevelopmentDocument.getDevelopmentProposal().getBudgetStatus().equals(budgetStatusCompleteCode)) {
                     finalAndCompleteBudgetVersionFound = true;
                 }
             }
         }
         if(budgetVersionsExists && !finalAndCompleteBudgetVersionFound){
-            auditErrors.add(new AuditError("document.budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
+            auditErrors.add(new AuditError("document.developmentProposalList[0].budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
             valid &= false;
         }
         if (auditErrors.size() > 0) {
@@ -216,7 +216,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(ProposalDevelopmentDocument proposalDevelopmentDocument)
             throws Exception {
         boolean valid = true;
-        for (BudgetVersionOverview budgetVersion : proposalDevelopmentDocument.getBudgetVersionOverviews()) {
+        for (BudgetVersionOverview budgetVersion : proposalDevelopmentDocument.getDevelopmentProposal().getBudgetVersionOverviews()) {
             String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
                     Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT,
                     Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
@@ -375,7 +375,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             
         }
 
-        document.addNewBudgetVersion(newBudgetDoc, versionName, false);
+        document.getDevelopmentProposal().addNewBudgetVersion(newBudgetDoc, versionName, false);
     }
 
     /**

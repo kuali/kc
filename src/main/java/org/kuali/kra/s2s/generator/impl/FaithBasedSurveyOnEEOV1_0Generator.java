@@ -48,8 +48,8 @@ public class FaithBasedSurveyOnEEOV1_0Generator extends S2SBaseFormGenerator {
         surveyOnEEO.setFormVersion(S2SConstants.FORMVERSION_1_0);
 
         Organization organization = null;
-        if (pdDoc.getOrganization() != null) {
-            organization = pdDoc.getOrganization();
+        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
+            organization = pdDoc.getDevelopmentProposal().getOrganization();
         }
         if (organization != null) {
             if (organization.getOrganizationName() != null) {
@@ -69,7 +69,7 @@ public class FaithBasedSurveyOnEEOV1_0Generator extends S2SBaseFormGenerator {
                 }
             }
         }
-        S2sOpportunity s2sOpportunity = pdDoc.getS2sOpportunity();
+        S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
         String opportunityTitle = "";
         if (s2sOpportunity != null) {
             s2sOpportunity.refreshNonUpdateableReferences();

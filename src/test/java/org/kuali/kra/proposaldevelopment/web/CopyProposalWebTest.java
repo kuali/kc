@@ -196,7 +196,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         criteria.setLeadUnitNumber(LEAD_UNIT_NBR_2);
         compareDocuments(srcDoc, destDoc, criteria, false);
         
-        List<ProposalPerson> persons = destDoc.getProposalPersons();
+        List<ProposalPerson> persons = destDoc.getDevelopmentProposal().getProposalPersons();
         assertEquals(1, persons.size());
         ProposalPerson person = persons.get(0);
         List<ProposalPersonUnit> units = person.getUnits();
@@ -350,7 +350,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         
         // Check the lead unit number.
 
-        assertEquals("Lead Unit", criteria.getLeadUnitNumber(), destDoc.getOwnedByUnitNumber());
+        assertEquals("Lead Unit", criteria.getLeadUnitNumber(), destDoc.getDevelopmentProposal().getOwnedByUnitNumber());
         
         // Compare the document's properties.  They must be the same.
 
@@ -372,25 +372,25 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
             
             // If the attachments are copied, they had better be the same.
 
-            if (!equals(srcDoc.getNarratives(), destDoc.getNarratives())) {
+            if (!equals(srcDoc.getDevelopmentProposal().getNarratives(), destDoc.getDevelopmentProposal().getNarratives())) {
                 fail("Proposal Attachments are different");
             }
             
-            if (!equals(srcDoc.getInstituteAttachments(), destDoc.getInstituteAttachments())) {
+            if (!equals(srcDoc.getDevelopmentProposal().getInstituteAttachments(), destDoc.getDevelopmentProposal().getInstituteAttachments())) {
                 fail("Internal Attachments are different");
             }
             
-            if (!equals(srcDoc.getPropPersonBios(), destDoc.getPropPersonBios())) {
+            if (!equals(srcDoc.getDevelopmentProposal().getPropPersonBios(), destDoc.getDevelopmentProposal().getPropPersonBios())) {
                 fail("Personal Attachments are different");
             }
         } else {
             // If the attachments are not copied, there must not be any.
             
-            if (destDoc.getNarratives().size() != 0) {
+            if (destDoc.getDevelopmentProposal().getNarratives().size() != 0) {
                 fail("Proposal Attachments is not empty");
-            } else if (destDoc.getInstituteAttachments().size() != 0) {
+            } else if (destDoc.getDevelopmentProposal().getInstituteAttachments().size() != 0) {
                 fail("Internal Attachments is not empty");
-            } else if (destDoc.getPropPersonBios().size() != 0) {
+            } else if (destDoc.getDevelopmentProposal().getPropPersonBios().size() != 0) {
                 fail("Personal Attachments is not empty");
             }
         }
@@ -752,7 +752,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
      * @param doc
      */
     private void checkKeyPersonnel(ProposalDevelopmentDocument doc) {
-        List<ProposalPerson> persons = doc.getProposalPersons();
+        List<ProposalPerson> persons = doc.getDevelopmentProposal().getProposalPersons();
         for (ProposalPerson person : persons) {
             ProposalPersonRole role = person.getRole();
             String roleId = role.getProposalPersonRoleId();

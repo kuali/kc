@@ -62,7 +62,7 @@ public class BudgetServiceTest extends KraTestBase {
  
         ProposalDevelopmentDocument pdDocument = getPersistedProposalDevelopmentDocument();
         
-        String testProposalNumber = pdDocument.getProposalNumber();
+        String testProposalNumber = pdDocument.getDevelopmentProposal().getProposalNumber();
         String testDocumentDescription = "Test New Budget Doc";
         
         UserSession currentSession = GlobalVariables.getUserSession();
@@ -89,7 +89,7 @@ public class BudgetServiceTest extends KraTestBase {
         
         ProposalDevelopmentDocument pdDocument = getPersistedProposalDevelopmentDocument();
         
-        String testProposalNumber = pdDocument.getProposalNumber();
+        String testProposalNumber = pdDocument.getDevelopmentProposal().getProposalNumber();
         String testDocumentDescription = "Test Copy Budget Doc";
         
         BudgetDocument budgetDocument = budgetService.getNewBudgetVersion(pdDocument, testDocumentDescription);
@@ -117,17 +117,17 @@ public class BudgetServiceTest extends KraTestBase {
             (ProposalDevelopmentDocument) getDocumentService().getNewDocument(ProposalDevelopmentDocument.class);
         
         pdDocument.getDocumentHeader().setDocumentDescription("Testing budget versions");
-        pdDocument.setActivityTypeCode("2");
-        pdDocument.setOwnedByUnitNumber("IN-CARD");
-        pdDocument.setProposalTypeCode("1");
-        pdDocument.setTitle("Testing budget versions");
-        pdDocument.setSponsorCode("005770");
-        pdDocument.setRequestedStartDateInitial(new Date(1/1/2008));
-        pdDocument.setRequestedEndDateInitial(new Date(12/31/2008));
+        pdDocument.getDevelopmentProposal().setActivityTypeCode("2");
+        pdDocument.getDevelopmentProposal().setOwnedByUnitNumber("IN-CARD");
+        pdDocument.getDevelopmentProposal().setProposalTypeCode("1");
+        pdDocument.getDevelopmentProposal().setTitle("Testing budget versions");
+        pdDocument.getDevelopmentProposal().setSponsorCode("005770");
+        pdDocument.getDevelopmentProposal().setRequestedStartDateInitial(new Date(1/1/2008));
+        pdDocument.getDevelopmentProposal().setRequestedEndDateInitial(new Date(12/31/2008));
         
         getDocumentService().saveDocument(pdDocument);
         
-        pdDocument.refreshReferenceObject("ownedByUnit");
+        pdDocument.getDevelopmentProposal().refreshReferenceObject("ownedByUnit");
         
         String username = "quickstart";
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);

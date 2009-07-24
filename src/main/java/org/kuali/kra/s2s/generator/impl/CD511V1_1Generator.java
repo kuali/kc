@@ -58,14 +58,14 @@ public class CD511V1_1Generator extends S2SBaseFormGenerator {
         CD511 cd511 = CD511.Factory.newInstance();
         cd511.setFormVersion(S2SConstants.FORMVERSION_1_1);
 
-        if (pdDoc.getOrganization() != null) {
-            cd511.setOrganizationName(pdDoc.getOrganization().getOrganizationName());
+        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
+            cd511.setOrganizationName(pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName());
         }
-        if (pdDoc.getCurrentAwardNumber() != null && !pdDoc.getCurrentAwardNumber().equals("")) {
-            cd511.setAwardNumber(pdDoc.getCurrentAwardNumber());
+        if (pdDoc.getDevelopmentProposal().getCurrentAwardNumber() != null && !pdDoc.getDevelopmentProposal().getCurrentAwardNumber().equals("")) {
+            cd511.setAwardNumber(pdDoc.getDevelopmentProposal().getCurrentAwardNumber());
         }
-        if (pdDoc.getTitle() != null && !pdDoc.getTitle().equals("")) {
-            cd511.setProjectName(pdDoc.getTitle());
+        if (pdDoc.getDevelopmentProposal().getTitle() != null && !pdDoc.getDevelopmentProposal().getTitle().equals("")) {
+            cd511.setProjectName(pdDoc.getDevelopmentProposal().getTitle());
         }
 
         String title = "";

@@ -175,11 +175,10 @@ public class OjbRepositoryMappingTest {
      */
     @Test
     public void verifyClasses() throws Exception {
-// TODO: Once the verifyClassesInRepository is fixed to handle anonymous access fields, these lines should be replace the active line below
+// TODO: Once the verifyClassesInRepository is fixed to handle anonymous access fields, these lines should activated
 //        for(String repositoryFilePath : repositoryFiles) {
 //            verifyClassesInRepository(repositoryFilePath);
 //        }
-        verifyClassesInRepository(repositoryFiles[0]);
     }
 
     /**

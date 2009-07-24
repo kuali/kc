@@ -36,9 +36,9 @@ public class SFLLLV1_0GeneratorTest extends S2STestBase<SFLLLV1_0Generator> {
 
         Sponsor sponsor = new Sponsor();
         sponsor.setSponsorName("KUALI");
-        document.setSponsor(sponsor);
-        document.setProgramAnnouncementTitle("Testing for SFLLL");
-        document.setCfdaNumber("565645");
+        document.getDevelopmentProposal().setSponsor(sponsor);
+        document.getDevelopmentProposal().setProgramAnnouncementTitle("Testing for SFLLL");
+        document.getDevelopmentProposal().setCfdaNumber("565645");
 
         Organization organization = new Organization();
         organization.setOrganizationName("MIT");
@@ -52,7 +52,7 @@ public class SFLLLV1_0GeneratorTest extends S2STestBase<SFLLLV1_0Generator> {
         rolodex.setCity("New York");
         rolodex.setRolodexId(1234);
         organization.setRolodex(rolodex);
-        document.setOrganization(organization);
+        document.getDevelopmentProposal().setOrganization(organization);
 
         Rolodex rolodex1 = new Rolodex();
         rolodex1.setAddressLine1("#272/B");
@@ -61,6 +61,6 @@ public class SFLLLV1_0GeneratorTest extends S2STestBase<SFLLLV1_0Generator> {
         rolodex1.setPostalCode("556411");
         rolodex1.setCity("LA");
         rolodex1.setRolodexId(123);
-        document.setRolodex(rolodex1);
+        document.getDevelopmentProposal().setRolodex(rolodex1);
     }
 }

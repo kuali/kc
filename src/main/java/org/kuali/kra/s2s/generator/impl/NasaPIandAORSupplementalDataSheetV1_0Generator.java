@@ -120,7 +120,7 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends S2SBaseFormG
         principalInvestigatorName.setUSGovernmentParticipation(YesNoDataType.N_NO);
         principalInvestigatorName.setInternationalParticipation(YesNoDataType.N_NO);
 
-        for (ProposalYnq proposalYnq : pdDoc.getProposalYnqs()) {
+        for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
             if (proposalYnq.getQuestionId() != null && proposalYnq.getQuestionId().equals(PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION)) {
                 String answer = null;
                 String explanation = null;
@@ -155,7 +155,7 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends S2SBaseFormG
             }
         }
 
-        for (ProposalYnq proposalYnq : pdDoc.getProposalYnqs()) {
+        for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
             if (proposalYnq.getQuestionId() != null && proposalYnq.getQuestionId().equals(PROPOSAL_YNQ_INTERNATIONAL_PARTICIPATION)) {
                 String answer = null;
                 if (proposalYnq.getAnswer() != null) {

@@ -70,13 +70,13 @@ public class PrintFormTest extends KraTestBase {
         rolodex.setCountryCode("USA");
 
         performOrganization.setRolodex(rolodex);
-        document.setPerformingOrganization(performOrganization);
+        document.getDevelopmentProposal().setPerformingOrganization(performOrganization);
 
         List<ProposalLocation> proList = new ArrayList<ProposalLocation>();
         ProposalLocation proposalLocation = new ProposalLocation();
         proposalLocation.setRolodex(rolodex);
         proList.add(proposalLocation);
-        document.setProposalLocations(proList);
+        document.getDevelopmentProposal().setProposalLocations(proList);
 
         Narrative narrative = new Narrative();
         narrative.setModuleNumber(123);
@@ -98,12 +98,12 @@ public class PrintFormTest extends KraTestBase {
         narrative.setNarrativeAttachmentList(narrativeList);
         narrative.setFileName("OpportunityForm");
         naList.add(narrative);
-        document.setNarratives(naList);
+        document.getDevelopmentProposal().setNarratives(naList);
         S2sOppForms forms = new S2sOppForms();
         forms.setOppNameSpace("http://apply.grants.gov/forms/RR_PerformanceSite-V1.0");
         List<S2sOppForms> oppForms = new ArrayList<S2sOppForms>();
         oppForms.add(forms);
-        document.setS2sOppForms(oppForms);
+        document.getDevelopmentProposal().setS2sOppForms(oppForms);
         PrintService printService = ((PrintService) KraServiceLocator.getService(PrintService.class));
         try {
             printService.printForm(document);

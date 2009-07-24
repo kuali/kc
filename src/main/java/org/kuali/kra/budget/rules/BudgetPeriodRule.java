@@ -161,7 +161,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         if (budgetStatus!= null 
                 && budgetStatus.equals(budgetStatusCompleteCode) 
                 && !finalVersionFlag) {
-            errorMap.putError("document.proposal.budgetStatus", KeyConstants.ERROR_NO_FINAL_BUDGET);
+            errorMap.putError("document.proposal.developmentProposalList[0].budgetStatus", KeyConstants.ERROR_NO_FINAL_BUDGET);
             finalVersionFlag = false;
         }
         errorMap.removeFromErrorPath(BUDGET_SUMMARY);

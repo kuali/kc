@@ -105,7 +105,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         map.removeFromErrorPath("newNarrative");
         int size = map.keySet().size();
         rulePassed &= size<=0;
-        rulePassed &= checkNarrative(document.getNarratives(), narrative);
+        rulePassed &= checkNarrative(document.getDevelopmentProposal().getNarratives(), narrative);
         
         return rulePassed;
     }

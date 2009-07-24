@@ -56,7 +56,7 @@ public class RRSF424V1_0GeneratorTest extends S2STestBase<RRSF424V1_0Generator> 
 
     @Override
     protected void prepareData(ProposalDevelopmentDocument document) throws Exception {
-        document.setProposalTypeCode("1");
+        document.getDevelopmentProposal().setProposalTypeCode("1");
         S2sSubmissionType submissionType = new S2sSubmissionType();
         submissionType.setS2sSubmissionTypeCode("2");
         submissionType.setDescription("Application");
@@ -65,8 +65,8 @@ public class RRSF424V1_0GeneratorTest extends S2STestBase<RRSF424V1_0Generator> 
         opportunity.setRevisionOtherDescription("revisionOtherDescription");
         opportunity.setS2sSubmissionTypeCode("2");
         opportunity.setS2sSubmissionType(submissionType);
-        document.setS2sOpportunity(opportunity);
-        opportunity.setProposalNumber(document.getProposalNumber());
+        document.getDevelopmentProposal().setS2sOpportunity(opportunity);
+        opportunity.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         opportunity.setRevisionCode("A");
 
         Rolodex rolodex = new Rolodex();
@@ -95,9 +95,9 @@ public class RRSF424V1_0GeneratorTest extends S2STestBase<RRSF424V1_0Generator> 
         organization.setCongressionalDistrict("Alaska");
         organization.setOrganizationTypes(organizationTypes);
         organization.setRolodex(rolodex);
-        document.setOrganization(organization);
-        document.setPerformingOrganization(organization);
-        document.setRolodex(rolodex);
+        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setPerformingOrganization(organization);
+        document.getDevelopmentProposal().setRolodex(rolodex);
 
         Unit unit = new Unit();
         unit.setUnitName("University");
@@ -187,17 +187,17 @@ public class RRSF424V1_0GeneratorTest extends S2STestBase<RRSF424V1_0Generator> 
         narrative.setNarrativeType(narrativeType);
         naList.add(narrative);
 
-        document.setRequestedStartDateInitial(new Date(0));
-        document.setRequestedEndDateInitial(new Date(0));
-        document.setNarratives(naList);
-        document.setPerformingOrganization(performingOrganization);
-        document.setSponsor(sponsor);
-        document.setProposalPersons(personList);
+        document.getDevelopmentProposal().setRequestedStartDateInitial(new Date(0));
+        document.getDevelopmentProposal().setRequestedEndDateInitial(new Date(0));
+        document.getDevelopmentProposal().setNarratives(naList);
+        document.getDevelopmentProposal().setPerformingOrganization(performingOrganization);
+        document.getDevelopmentProposal().setSponsor(sponsor);
+        document.getDevelopmentProposal().setProposalPersons(personList);
 
-        document.setCfdaNumber("4654654");
-        document.setTitle("RRSF424");
-        document.setProgramAnnouncementTitle("Marwan Abu-Fadel");
-        document.setOwnedByUnit(unit);
-        document.getOwnedByUnit().setParentUnit(unit2);
+        document.getDevelopmentProposal().setCfdaNumber("4654654");
+        document.getDevelopmentProposal().setTitle("RRSF424");
+        document.getDevelopmentProposal().setProgramAnnouncementTitle("Marwan Abu-Fadel");
+        document.getDevelopmentProposal().setOwnedByUnit(unit);
+        document.getDevelopmentProposal().getOwnedByUnit().setParentUnit(unit2);
     }
 }

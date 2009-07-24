@@ -18,7 +18,7 @@
 <c:set var="action" value="proposalDevelopmentPermissions" />
 
 <kul:tabTop tabTitle="Assigned Roles" defaultOpen="true"  
-            tabErrorKey="document.proposalPermissionRole">
+            tabErrorKey="document.developmentProposalList[0].proposalPermissionRole">
          
 	<div class="tab-container" align="center">
     	<h3>

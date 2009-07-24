@@ -440,7 +440,7 @@
   </bean>
    -->
    
-  <bean id="Award-activityTypeCode" parent="ProposalDevelopmentDocument-activityTypeCode-parentBean" />
+  <bean id="Award-activityTypeCode" parent="DevelopmentProposal-activityTypeCode-parentBean" />
   
   <bean id="Award-title" parent="Award-title-parentBean" />
   <bean id="Award-title-parentBean" abstract="true" parent="AttributeDefinition">

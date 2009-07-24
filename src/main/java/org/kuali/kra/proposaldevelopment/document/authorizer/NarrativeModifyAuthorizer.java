@@ -45,7 +45,7 @@ public class NarrativeModifyAuthorizer extends NarrativeAuthorizer {
         // required to have the MODIFY_NARRATIVE permission.
         
         boolean hasPermission = false;
-        if (!kraWorkflowService.isInWorkflow(doc) && !doc.getSubmitFlag()) {
+        if (!kraWorkflowService.isInWorkflow(doc) && !doc.getDevelopmentProposal().getSubmitFlag()) {
             if (hasProposalPermission(username, doc, PermissionConstants.MODIFY_NARRATIVE)) {
                 hasPermission = hasNarrativeRight(username, narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
             }

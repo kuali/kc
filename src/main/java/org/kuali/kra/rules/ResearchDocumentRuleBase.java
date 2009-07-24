@@ -136,7 +136,7 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
             = this.getDictionaryValidationService();
 
         int index = 0;
-        for (BudgetVersionOverview budgetVersion: proposalDevelopmentDocument.getBudgetVersionOverviews()) {
+        for (BudgetVersionOverview budgetVersion: proposalDevelopmentDocument.getDevelopmentProposal().getBudgetVersionOverviews()) {
             if (runDatactionaryValidation) {
                 dictionaryValidationService.validateBusinessObject(budgetVersion, true);
             }

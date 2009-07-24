@@ -28,8 +28,8 @@ public class RRSubAwardBudgetV1_2GeneratorTest extends S2STestBase<RRSubAwardBud
     @Override
     protected void prepareData(ProposalDevelopmentDocument document) throws Exception {
 
-        document.setProposalNumber("8758");
-        document.setTitle("SubAwardBudget");
-        document.setCfdaNumber("565645");
+        document.getDevelopmentProposal().setProposalNumber("8758");
+        document.getDevelopmentProposal().setTitle("SubAwardBudget");
+        document.getDevelopmentProposal().setCfdaNumber("565645");
     }
 }

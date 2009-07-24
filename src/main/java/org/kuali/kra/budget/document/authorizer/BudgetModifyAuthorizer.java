@@ -42,7 +42,7 @@ public class BudgetModifyAuthorizer extends BudgetAuthorizer {
         
         return !kraWorkflowService.isInWorkflow(doc) &&
                hasProposalPermission(username, doc, PermissionConstants.MODIFY_BUDGET) &&
-              !doc.getSubmitFlag();        
+              !doc.getDevelopmentProposal().getSubmitFlag();        
     }
     
     /**
@@ -52,10 +52,10 @@ public class BudgetModifyAuthorizer extends BudgetAuthorizer {
      * @return true if completed; otherwise false
      */
     private boolean isBudgetCompleted(ProposalDevelopmentDocument proposalDoc, BudgetDocument budgetDocument) {
-        if (!proposalDoc.isProposalComplete()) {
+        if (!proposalDoc.getDevelopmentProposal().isProposalComplete()) {
             return false;
         }
-        for (BudgetVersionOverview budgetVersion: proposalDoc.getBudgetVersionOverviews()) {
+        for (BudgetVersionOverview budgetVersion: proposalDoc.getDevelopmentProposal().getBudgetVersionOverviews()) {
             if (budgetVersion.isFinalVersionFlag() && budgetVersion.getBudgetVersionNumber().equals(budgetDocument.getBudgetVersionNumber())) {
                 return true;
             }

@@ -70,7 +70,7 @@ public class RRBudgetV1_1GeneratorTest extends S2STestBase<RRBudgetV1_1Generator
         narrativeAttachment.setNarrativeData(narrativePdf);
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();
         narrativeList.add(narrativeAttachment);
-        narrative.setProposalNumber(document.getProposalNumber());
+        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");
@@ -92,7 +92,7 @@ public class RRBudgetV1_1GeneratorTest extends S2STestBase<RRBudgetV1_1Generator
 
         List<NarrativeAttachment> narrativeList1 = new ArrayList<NarrativeAttachment>();
         narrativeList1.add(narrativeAttachment1);
-        narrative1.setProposalNumber(document.getProposalNumber());
+        narrative1.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrative1.setModuleNumber(2);
         narrative1.setModuleSequenceNumber(2);
         narrative1.setModuleStatusCode("C");
@@ -106,15 +106,15 @@ public class RRBudgetV1_1GeneratorTest extends S2STestBase<RRBudgetV1_1Generator
         getService(BusinessObjectService.class).save(narrative);
         getService(BusinessObjectService.class).save(narrative1);
         narrative.getNarrativeAttachmentList().clear();
-        document.setNarratives(naList);
+        document.getDevelopmentProposal().setNarratives(naList);
 
         List<ProposalPerson> proposalPersonList = new ArrayList<ProposalPerson>();
         proposalPersonList.add(proposalPerson);
 
-        document.setOrganization(organization);
+        document.getDevelopmentProposal().setOrganization(organization);
         document.setUpdateUser("quickstart");
         document.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
-        document.setProposalPersons(proposalPersonList);
+        document.getDevelopmentProposal().setProposalPersons(proposalPersonList);
 
         Calendar startDate = Calendar.getInstance();
         startDate.set(2001, 1, 1);
@@ -161,7 +161,7 @@ public class RRBudgetV1_1GeneratorTest extends S2STestBase<RRBudgetV1_1Generator
         overview.setResidualFunds(BudgetDecimal.ZERO);
         List<BudgetVersionOverview> overviewList = new ArrayList<BudgetVersionOverview>();
         overviewList.add(overview);
-        document.setBudgetVersionOverviews(overviewList);
+        document.getDevelopmentProposal().setBudgetVersionOverviews(overviewList);
         KNSServiceLocator.getDocumentService().saveDocument(bd);
     }
 }

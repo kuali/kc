@@ -122,7 +122,7 @@ public class BudgetParametersAction extends BudgetAction {
                                                                                                    budgetDocument.getOnOffCampusFlag());
                 }
                 if (budgetDocument.getFinalVersionFlag()) {
-                    budgetDocument.getProposal().setBudgetStatus(budgetDocument.getBudgetStatus());
+                    budgetDocument.getProposal().getDevelopmentProposal().setBudgetStatus(budgetDocument.getBudgetStatus());
                 }
 
                 updateBudgetPeriodDbVersion(budgetDocument);
@@ -153,7 +153,7 @@ public class BudgetParametersAction extends BudgetAction {
                                                                                                budgetDocument.getOnOffCampusFlag());
             }
             if (budgetDocument.getFinalVersionFlag()) {
-                budgetDocument.getProposal().setBudgetStatus(budgetDocument.getBudgetStatus());
+                budgetDocument.getProposal().getDevelopmentProposal().setBudgetStatus(budgetDocument.getBudgetStatus());
             }
             updateBudgetPeriodDbVersion(budgetDocument);
             return super.save(mapping, form, request, response);
@@ -181,7 +181,7 @@ public class BudgetParametersAction extends BudgetAction {
                         budgetDocument.getOnOffCampusFlag());
             }
             if (budgetDocument.getFinalVersionFlag()) {
-                budgetDocument.getProposal().setBudgetStatus(budgetDocument.getBudgetStatus());
+                budgetDocument.getProposal().getDevelopmentProposal().setBudgetStatus(budgetDocument.getBudgetStatus());
             }
             updateBudgetPeriodDbVersion(budgetDocument);
             return super.save(mapping, form, request, response);
@@ -408,7 +408,7 @@ public class BudgetParametersAction extends BudgetAction {
         BudgetDocument budgetDocument = (BudgetDocument)budgetForm.getBudgetDocument();
         if (budgetDocument.getFinalVersionFlag()) {
             // This version has been marked as final - update other versions.
-            for (BudgetVersionOverview version : budgetDocument.getProposal().getBudgetVersionOverviews()) {
+            for (BudgetVersionOverview version : budgetDocument.getProposal().getDevelopmentProposal().getBudgetVersionOverviews()) {
                 if (!budgetDocument.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
                     version.setFinalVersionFlag(false);
                 }
@@ -468,7 +468,7 @@ public class BudgetParametersAction extends BudgetAction {
     }
 
     private void updateThisBudgetVersion(BudgetDocument budgetDocument) {
-        for (BudgetVersionOverview version : budgetDocument.getProposal().getBudgetVersionOverviews()) {
+        for (BudgetVersionOverview version : budgetDocument.getProposal().getDevelopmentProposal().getBudgetVersionOverviews()) {
             if (budgetDocument.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
                 version.setFinalVersionFlag(budgetDocument.getFinalVersionFlag());
                 version.setBudgetStatus(budgetDocument.getBudgetStatus());

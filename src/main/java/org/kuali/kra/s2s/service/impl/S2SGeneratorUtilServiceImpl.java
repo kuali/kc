@@ -72,7 +72,7 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
      */
     public Map<String, String> getSubmissionType(ProposalDevelopmentDocument pdDoc) {
         Map<String, String> submissionInfo = new HashMap<String, String>();
-        S2sOpportunity opportunity = pdDoc.getS2sOpportunity();
+        S2sOpportunity opportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
         if (opportunity != null) {
             opportunity.refreshNonUpdateableReferences();
             String submissionTypeCode = opportunity.getS2sSubmissionTypeCode();
@@ -101,8 +101,8 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
         if (count < 1) {
             // Proposal has not been submitted
 
-            Organization organization = pdDoc.getOrganization();
-            Rolodex rolodex = pdDoc.getOrganization().getRolodex();
+            Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
+            Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
             if (rolodex != null) {
                 depPerson.setFirstName(rolodex.getFirstName());
                 depPerson.setMiddleName(rolodex.getMiddleName());
@@ -150,7 +150,7 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
      */
     public Map<String, String> getEOStateReview(ProposalDevelopmentDocument pdDoc) {
         Map<String, String> stateReview = new HashMap<String, String>();
-        for (ProposalYnq proposalYnq : pdDoc.getProposalYnqs()) {
+        for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
             if (proposalYnq.getQuestionId().equals(YNQ_QUESTION_ID_TYPE_EQ)) {
                 stateReview.put(S2SConstants.YNQ_ANSWER, proposalYnq.getAnswer());
                 stateReview.put(S2SConstants.YNQ_REVIEW_DATE, String.valueOf(proposalYnq.getReviewDate().getTime()));

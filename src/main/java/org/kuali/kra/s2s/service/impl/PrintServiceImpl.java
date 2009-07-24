@@ -324,7 +324,7 @@ public class PrintServiceImpl implements PrintService {
         grantsGovPdfData.setContent(mergePdfBytes(pdfArray, bookmarks));
         StringBuilder fileName = new StringBuilder();
         fileName.append(pdDoc.getDocumentNumber());
-        fileName.append(pdDoc.getProgramAnnouncementNumber());
+        fileName.append(pdDoc.getDevelopmentProposal().getProgramAnnouncementNumber());
         fileName.append(Constants.PDF_FILE_EXTENSION);
         grantsGovPdfData.setFileName(fileName.toString());
         grantsGovPdfData.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
@@ -389,7 +389,7 @@ public class PrintServiceImpl implements PrintService {
         FormMappingInfo info = null;
         S2SFormGenerator s2sFormGenerator = null;
         List<AuditError> errors = new ArrayList<AuditError>();
-        List<String> sortedNameSpaces = getSortedNameSpaces(pdDoc.getS2sOppForms());
+        List<String> sortedNameSpaces = getSortedNameSpaces(pdDoc.getDevelopmentProposal().getS2sOppForms());
         for (String namespace : sortedNameSpaces) {
             XmlObject formFragment = null;
             try {
@@ -490,7 +490,7 @@ public class PrintServiceImpl implements PrintService {
         S2SFormGenerator s2sFormGenerator = null;
         ByteArrayOutputStream[] pdfArray = null;
         List<AuditError> errors = new ArrayList<AuditError>();
-        List<String> sortedNameSpaces = getSortedNameSpaces(pdDoc.getS2sOppForms());
+        List<String> sortedNameSpaces = getSortedNameSpaces(pdDoc.getDevelopmentProposal().getS2sOppForms());
 
         for (String namespace : sortedNameSpaces) {
             try {
@@ -597,7 +597,7 @@ public class PrintServiceImpl implements PrintService {
         String[] contentIds = contentId.split("-");
         String[] contentDesc = contentIds[1].split("_");
         Narrative submittedNarrative = null;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             StringBuilder description = new StringBuilder();
             description.append(contentDesc[1]);
             description.append("_");
@@ -721,7 +721,7 @@ public class PrintServiceImpl implements PrintService {
     private S2sAppSubmission getLatestS2SAppSubmission(ProposalDevelopmentDocument pdDoc) {
         S2sAppSubmission s2sSubmission = null;
         int submissionNo = 0;
-        for (S2sAppSubmission s2sAppSubmission : pdDoc.getS2sAppSubmission()) {
+        for (S2sAppSubmission s2sAppSubmission : pdDoc.getDevelopmentProposal().getS2sAppSubmission()) {
             if (s2sAppSubmission.getSubmissionNumber() != null && s2sAppSubmission.getSubmissionNumber().intValue() > submissionNo) {
                 s2sSubmission = s2sAppSubmission;
                 submissionNo = s2sAppSubmission.getSubmissionNumber().intValue();

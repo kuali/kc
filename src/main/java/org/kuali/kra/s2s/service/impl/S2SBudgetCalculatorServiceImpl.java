@@ -478,7 +478,7 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
 
             // populate the budgetPeriod data from the BudgetPeriod
             bpData.setFinalVersionFlag(budgetDoc.getFinalVersionFlag().toString());
-            bpData.setProposalNumber(pdDoc.getProposalNumber());
+            bpData.setProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
             bpData.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
             bpData.setVersion(budgetPeriod.getBudgetVersionNumber());
             bpData.setStartDate(budgetPeriod.getStartDate());
@@ -680,7 +680,7 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
                                 String budgetPersonId = personDetails.getPersonId();
                                 personExistsAsProposalPerson = false;
                                 // get sum of salary of other personnel, but exclude the key persons and investigators
-                                for (ProposalPerson proposalPerson : pdDoc.getProposalPersons()) {
+                                for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
                                     if (budgetPersonId.equals(proposalPerson.getPersonId())) {
                                         personExistsAsProposalPerson = true;
                                         break;
@@ -821,8 +821,8 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
      */
     private String getCognizantFedAgency(ProposalDevelopmentDocument pdDoc) {
         StringBuilder fedAgency = new StringBuilder();
-        if (pdDoc.getOrganization() != null && pdDoc.getOrganization().getRolodex() != null) {
-            Rolodex rolodex = pdDoc.getOrganization().getRolodex();
+        if (pdDoc.getDevelopmentProposal().getOrganization() != null && pdDoc.getDevelopmentProposal().getOrganization().getRolodex() != null) {
+            Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
             fedAgency.append(rolodex.getOrganization());
             fedAgency.append(", ");
             fedAgency.append(rolodex.getFirstName());
@@ -1397,7 +1397,7 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
 
             keyPersons.add(keyPerson);
         }
-        for (ProposalPerson coInvestigator : pdDoc.getInvestigators()) {
+        for (ProposalPerson coInvestigator : pdDoc.getDevelopmentProposal().getInvestigators()) {
             if (coInvestigator.getInvestigatorFlag() && !coInvestigator.equals(principalInvestigator)) {
                 keyPerson = new KeyPersonInfo();
                 keyPerson.setPersonId(coInvestigator.getPersonId());
@@ -1423,7 +1423,7 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 personAlreadyAdded = false;
-                for (ProposalPerson coInvestigator : pdDoc.getInvestigators()) {
+                for (ProposalPerson coInvestigator : pdDoc.getDevelopmentProposal().getInvestigators()) {
                     // Ensure that coINvestigators are not added again because they are already added above
                     if (s2SUtilService.proposalPersonEqualsBudgetPerson(coInvestigator, budgetPersonnelDetails)) {
                         personAlreadyAdded = true;
@@ -1431,7 +1431,7 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
                     }
                 }
                 if (!personAlreadyAdded) {
-                    for (ProposalPerson propPerson : pdDoc.getProposalPersons()) {
+                    for (ProposalPerson propPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
                         if (propPerson.getPersonId() != null
                                 && propPerson.getPersonId().equals(budgetPersonnelDetails.getPersonId())) {
                             keyPerson = new KeyPersonInfo();
@@ -1505,7 +1505,7 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
         CompensationInfo compensationInfo;
         for (KeyPersonInfo keyPersonInfo : nKeyPersons) {
             keyPerson = keyPersonInfo;
-            compensationInfo = getCompensation(keyPerson, budgetPeriod, pdDoc.getProposalNumber());
+            compensationInfo = getCompensation(keyPerson, budgetPeriod, pdDoc.getDevelopmentProposal().getProposalNumber());
             keyPerson.setAcademicMonths(compensationInfo.getAcademicMonths());
             keyPerson.setCalendarMonths(compensationInfo.getCalendarMonths());
             keyPerson.setSummerMonths(compensationInfo.getSummerMonths());
@@ -1523,7 +1523,7 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
         if (extraPersons != null) {
             for (KeyPersonInfo keyPersonInfo : extraPersons) {
                 keyPerson = keyPersonInfo;
-                compensationInfo = getCompensation(keyPerson, budgetPeriod, pdDoc.getProposalNumber());
+                compensationInfo = getCompensation(keyPerson, budgetPeriod, pdDoc.getDevelopmentProposal().getProposalNumber());
 
                 keyPerson.setAcademicMonths(compensationInfo.getAcademicMonths());
                 keyPerson.setCalendarMonths(compensationInfo.getCalendarMonths());
@@ -1760,14 +1760,14 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
      */
     public BudgetDocument getFinalBudgetVersion(ProposalDevelopmentDocument pdDoc) throws S2SException {
         BudgetDocument budgetDocument = null;
-        BudgetVersionOverview versionOverview = pdDoc.getFinalBudgetVersion();
+        BudgetVersionOverview versionOverview = pdDoc.getDevelopmentProposal().getFinalBudgetVersion();
         try {
             if (versionOverview != null) {
                 budgetDocument = (BudgetDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(
                         versionOverview.getDocumentNumber());
             }
             else {
-                List<BudgetVersionOverview> budgetVersions = pdDoc.getBudgetVersionOverviews();
+                List<BudgetVersionOverview> budgetVersions = pdDoc.getDevelopmentProposal().getBudgetVersionOverviews();
                 if (budgetVersions.size() > 0) {
                     // If no final version found and if there are more than zero budget versions, get the last one
                     budgetDocument = (BudgetDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(

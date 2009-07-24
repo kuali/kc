@@ -13,10 +13,33 @@
 	</descriptor-repository>
 
 	<!-- Proposal Development Document and Children -->
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" table="EPS_PROPOSAL_DOCUMENT">
+		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
+    	<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" table="EPS_PROPOSAL">
+		<collection-descriptor name="developmentProposalList" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<inverse-foreignkey field-ref="documentNumber" />
+		</collection-descriptor>
+		
+		<!-- GENERATE NEXT VALUE -->
+   		<collection-descriptor name="documentNextvalues" element-class-ref="org.kuali.kra.bo.DocumentNextvalue" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="documentKey" /> 
+		</collection-descriptor>
+		<!-- GENERATE NEXT VALUE -->
+
+    	<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.kns.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<foreignkey field-ref="documentNumber" />
+    	</reference-descriptor>
+
+	</class-descriptor>
+
+
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" table="EPS_PROPOSAL">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_PROPOSAL_NUMBER_KRA" autoincrement="true" />
-		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous" />
 		<field-descriptor name="proposalTypeCode" column="PROPOSAL_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="creationStatusCode" column="CREATION_STATUS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="continuedFrom" column="CONTINUED_FROM" jdbc-type="VARCHAR" />
@@ -76,12 +99,6 @@
 		</collection-descriptor>
     	<!-- KEYWORD panel -->
 
-		<!-- GENERATE NEXT VALUE -->
-   		<collection-descriptor name="documentNextvalues" element-class-ref="org.kuali.kra.bo.DocumentNextvalue" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="documentKey" /> 
-		</collection-descriptor>
-		<!-- GENERATE NEXT VALUE -->
-
 		<collection-descriptor name="proposalPersons" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="ordinalPosition" sort="ASC" />
 			<inverse-foreignkey field-ref="proposalNumber"/>
@@ -127,10 +144,6 @@
 			<foreignkey field-ref="sponsorCode"/>
 		</reference-descriptor>
 
-    	<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.kns.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
-        	<foreignkey field-ref="documentNumber" />
-    	</reference-descriptor>
-
       <reference-descriptor name="ownedByUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
           <foreignkey field-ref="ownedByUnitNumber" />
       </reference-descriptor>
@@ -166,6 +179,9 @@
             <foreignkey field-ref="proposalStateTypeCode"/>
         </reference-descriptor>
 		
+    	<reference-descriptor name="proposalDocument" class-ref="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="documentNumber" />
+    	</reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter" table="EPS_PROP_COLUMNS_TO_ALTER">

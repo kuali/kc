@@ -53,7 +53,7 @@ public class EDGEPA427V1_1GeneratorTest extends S2STestBase<EDGEPA427V1_1Generat
         narrativeAttachment.setNarrativeData(narrativePdf);
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();
         narrativeList.add(narrativeAttachment);
-        narrative.setProposalNumber(document.getProposalNumber());
+        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");
@@ -67,6 +67,6 @@ public class EDGEPA427V1_1GeneratorTest extends S2STestBase<EDGEPA427V1_1Generat
         naList.add(narrative);
         getService(BusinessObjectService.class).save(narrative);
         narrative.getNarrativeAttachmentList().clear();
-        document.setNarratives(naList);
+        document.getDevelopmentProposal().setNarratives(naList);
     }
 }

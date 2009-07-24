@@ -53,10 +53,10 @@ public class RRPerformanceSiteV1_0Generator extends RRPerformanceSiteBaseGenerat
         SiteLocationDataType siteLocation = SiteLocationDataType.Factory.newInstance();
         Address address = Address.Factory.newInstance();
 
-        if (pdDoc.getPerformingOrganization() != null) {
-            siteLocation.setOrganizationName(pdDoc.getPerformingOrganization().getOrganizationName());
+        if (pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
+            siteLocation.setOrganizationName(pdDoc.getDevelopmentProposal().getPerformingOrganization().getOrganizationName());
         }
-        Rolodex rolodex = pdDoc.getPerformingOrganization().getRolodex();
+        Rolodex rolodex = pdDoc.getDevelopmentProposal().getPerformingOrganization().getRolodex();
         if (rolodex != null) {
             address.setStreet1(rolodex.getAddressLine1());
             address.setStreet2(rolodex.getAddressLine2());
@@ -79,10 +79,10 @@ public class RRPerformanceSiteV1_0Generator extends RRPerformanceSiteBaseGenerat
 
         int otherSiteCount = 0;
         SiteLocationDataType[] siteLocationDataTypeArray = null;
-        if (pdDoc.getProposalLocations() != null) {
-            siteLocationDataTypeArray = new SiteLocationDataType[pdDoc.getProposalLocations().size()];
+        if (pdDoc.getDevelopmentProposal().getProposalLocations() != null) {
+            siteLocationDataTypeArray = new SiteLocationDataType[pdDoc.getDevelopmentProposal().getProposalLocations().size()];
             SiteLocationDataType siteLocationOther = SiteLocationDataType.Factory.newInstance();
-            for (ProposalLocation proposalLocation : pdDoc.getProposalLocations()) {
+            for (ProposalLocation proposalLocation : pdDoc.getDevelopmentProposal().getProposalLocations()) {
                 Address addressOther = Address.Factory.newInstance();
                 if (proposalLocation.getRolodex() != null) {
                     rolodex = proposalLocation.getRolodex();
@@ -106,7 +106,7 @@ public class RRPerformanceSiteV1_0Generator extends RRPerformanceSiteBaseGenerat
                         addressOther.setCountry(countryOther);
                     }
                     siteLocationOther.setAddress(addressOther);
-                    siteLocationOther.setOrganizationName(pdDoc.getPerformingOrganization().getOrganizationName());
+                    siteLocationOther.setOrganizationName(pdDoc.getDevelopmentProposal().getPerformingOrganization().getOrganizationName());
                     siteLocationDataTypeArray[otherSiteCount] = siteLocationOther;
                     otherSiteCount++;
                     LOG.info("otherSiteCount:" + otherSiteCount);
@@ -115,7 +115,7 @@ public class RRPerformanceSiteV1_0Generator extends RRPerformanceSiteBaseGenerat
         }
         rrPerformanceSite.setOtherSiteArray(siteLocationDataTypeArray);
 
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == PERFORMANCE_SITES_ATTACHMENT) {
                 rrPerformanceSite.setAttachedFile(getAttachedFileType(narrative));

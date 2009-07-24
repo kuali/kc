@@ -15,12 +15,12 @@
 --%>
  <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
+<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="organizationAttributes" value="${DataDictionary.Organization.attributes}" />
 <c:set var="propLocationAttributes" value="${DataDictionary.ProposalLocation.attributes}" />
 <c:set var="rolodexAttributes" value="${DataDictionary.Rolodex.attributes}" />
 
-<kul:tab tabTitle="Organization/Location" defaultOpen="false" tabErrorKey="document.organizationId*,document.performingOrganizationId*,document.proposalLocation*,newPropLocation*">
+<kul:tab tabTitle="Organization/Location" defaultOpen="false" tabErrorKey="document.developmentProposalList[0].organizationId*,document.developmentProposalList[0].performingOrganizationId*,document.developmentProposalList[0].proposalLocation*,newPropLocation*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Organization</span>
@@ -31,39 +31,39 @@
              <tr>
 				<th width="40%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.organizationId}" /></div></th>
                 <td align="left" valign="middle"  class="infoline" width="60%">
-                	<kul:htmlControlAttribute property="document.organizationId" attributeEntry="${proposalDevelopmentAttributes.organizationId}" />
-                    <c:out value="${KualiForm.document.organization.organizationName}"/>
+                	<kul:htmlControlAttribute property="document.developmentProposalList[0].organizationId" attributeEntry="${proposalDevelopmentAttributes.organizationId}" />
+                    <c:out value="${KualiForm.document.developmentProposalList[0].organization.organizationName}"/>
                     <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
-                    fieldConversions="organizationId:document.organizationId,congressionalDistrict:document.organization.congressionalDistrict,organizationName:document.organization.organizationName,rolodex.firstName:document.organization.rolodex.firstName,rolodex.lastName:document.organization.rolodex.lastName,rolodex.addressLine1:document.organization.rolodex.addressLine1,rolodex.addressLine2:document.organization.rolodex.addressLine2,rolodex.addressLine3:document.organization.rolodex.addressLine3,rolodex.city:document.organization.rolodex.city,rolodex.state:document.organization.rolodex.state" anchor="${currentTabIndex}"/> 
-                    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.organizationId:organizationId" anchor="${currentTabIndex}"/>
+                    fieldConversions="organizationId:document.developmentProposalList[0].organizationId,congressionalDistrict:document.developmentProposalList[0].organization.congressionalDistrict,organizationName:document.developmentProposalList[0].organization.organizationName,rolodex.firstName:document.developmentProposalList[0].organization.rolodex.firstName,rolodex.lastName:document.developmentProposalList[0].organization.rolodex.lastName,rolodex.addressLine1:document.developmentProposalList[0].organization.rolodex.addressLine1,rolodex.addressLine2:document.developmentProposalList[0].organization.rolodex.addressLine2,rolodex.addressLine3:document.developmentProposalList[0].organization.rolodex.addressLine3,rolodex.city:document.developmentProposalList[0].organization.rolodex.city,rolodex.state:document.developmentProposalList[0].organization.rolodex.state" anchor="${currentTabIndex}"/> 
+                    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.developmentProposalList[0].organizationId:organizationId" anchor="${currentTabIndex}"/>
                   </td>
              </tr>  
              <tr>
 				<th><div align="right">Authorized Representative Name & Address:</div></th>
                 <td align="left" valign="middle"  class="infoline">                  
-                    <c:out value="${KualiForm.document.organization.rolodex.firstName}"/>&nbsp                    
-                    <c:out value="${KualiForm.document.organization.rolodex.lastName}"/><br>
-                    <c:out value="${KualiForm.document.organization.rolodex.addressLine1}"/><br>
-                    <c:out value="${KualiForm.document.organization.rolodex.addressLine2}"/><br>
-                    <c:out value="${KualiForm.document.organization.rolodex.addressLine3}"/><br>
-                    <c:out value="${KualiForm.document.organization.rolodex.city}"/><br>
-                    <c:out value="${KualiForm.document.organization.rolodex.state}"/><br>
+                    <c:out value="${KualiForm.document.developmentProposalList[0].organization.rolodex.firstName}"/>&nbsp                    
+                    <c:out value="${KualiForm.document.developmentProposalList[0].organization.rolodex.lastName}"/><br>
+                    <c:out value="${KualiForm.document.developmentProposalList[0].organization.rolodex.addressLine1}"/><br>
+                    <c:out value="${KualiForm.document.developmentProposalList[0].organization.rolodex.addressLine2}"/><br>
+                    <c:out value="${KualiForm.document.developmentProposalList[0].organization.rolodex.addressLine3}"/><br>
+                    <c:out value="${KualiForm.document.developmentProposalList[0].organization.rolodex.city}"/><br>
+                    <c:out value="${KualiForm.document.developmentProposalList[0].organization.rolodex.state}"/><br>
 				</td>
 				</tr>
 				<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${organizationAttributes.congressionalDistrict}" /></div></th>
                 <td class="infoline">
-                	<c:out value="${KualiForm.document.organization.congressionalDistrict}"/>
+                	<c:out value="${KualiForm.document.developmentProposalList[0].organization.congressionalDistrict}"/>
                 </td>
             </tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.performingOrganizationId}"  /></div></th>
                 <td class="infoline">
-                   	<kul:htmlControlAttribute property="document.performingOrganizationId" attributeEntry="${proposalDevelopmentAttributes.performingOrganizationId}" />               
-                   	<c:out value="${KualiForm.document.performingOrganization.organizationName}"/>	                
+                   	<kul:htmlControlAttribute property="document.developmentProposalList[0].performingOrganizationId" attributeEntry="${proposalDevelopmentAttributes.performingOrganizationId}" />               
+                   	<c:out value="${KualiForm.document.developmentProposalList[0].performingOrganization.organizationName}"/>	                
                     <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
-                    fieldConversions="organizationId:document.performingOrganizationId,organizationName:document.performingOrganization.organizationName"  anchor="${currentTabIndex}"/>
-                    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.performingOrganizationId:organizationId" anchor="${currentTabIndex}"/>
+                    fieldConversions="organizationId:document.developmentProposalList[0].performingOrganizationId,organizationName:document.developmentProposalList[0].performingOrganization.organizationName"  anchor="${currentTabIndex}"/>
+                    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.developmentProposalList[0].performingOrganizationId:organizationId" anchor="${currentTabIndex}"/>
                 </td>
             </tr>
         </table>
@@ -83,8 +83,8 @@
             <kra-pd:propLocationDisplay index="-1" locationIter="${KualiForm.newPropLocation}" docLocation="newPropLocation"/> 
             </kra:section> 
               
-        	<c:forEach var="location" items="${KualiForm.document.proposalLocations}" varStatus="status">
-          		<kra-pd:propLocationDisplay index="${status.index}" locationIter="${location}" docLocation="document.proposalLocation[${status.index}]"/> 
+        	<c:forEach var="location" items="${KualiForm.document.developmentProposalList[0].proposalLocations}" varStatus="status">
+          		<kra-pd:propLocationDisplay index="${status.index}" locationIter="${location}" docLocation="document.developmentProposalList[0].proposalLocation[${status.index}]"/> 
         	</c:forEach>       
         </table>
       

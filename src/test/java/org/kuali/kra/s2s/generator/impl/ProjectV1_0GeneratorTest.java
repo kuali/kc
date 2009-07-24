@@ -54,7 +54,7 @@ public class ProjectV1_0GeneratorTest extends S2STestBase<ProjectV1_0Generator> 
         narrativeAttachment.setNarrativeData(narrativePdf);
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();
         narrativeList.add(narrativeAttachment);
-        narrative.setProposalNumber(document.getProposalNumber());
+        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");
@@ -68,6 +68,6 @@ public class ProjectV1_0GeneratorTest extends S2STestBase<ProjectV1_0Generator> 
         naList.add(narrative);
         getService(BusinessObjectService.class).save(narrative);
         narrative.getNarrativeAttachmentList().clear();
-        document.setNarratives(naList);
+        document.getDevelopmentProposal().setNarratives(naList);
     }
 }

@@ -95,9 +95,9 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
         RRBudgetDocument rrBudgetDocument = RRBudgetDocument.Factory.newInstance();
         RRBudget rrBudget = RRBudget.Factory.newInstance();
         rrBudget.setFormVersion(S2SConstants.FORMVERSION_1_1);
-        if (pdDoc.getOrganization() != null) {
-            rrBudget.setDUNSID(pdDoc.getOrganization().getDunsNumber());
-            rrBudget.setOrganizationName(pdDoc.getOrganization().getOrganizationName());
+        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
+            rrBudget.setDUNSID(pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber());
+            rrBudget.setOrganizationName(pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName());
         }
         rrBudget.setBudgetType(BudgetTypeDataType.PROJECT);
         // Set default values for mandatory fields
@@ -170,7 +170,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
             budgetYear.setCognizantFederalAgency(periodInfo.getCognizantFedAgency());
             budgetYear.setTotalCosts(periodInfo.getTotalCosts().bigDecimalValue());
         }
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
                 budgetYear.setBudgetJustificationAttachment(getAttachedFileType(narrative));
@@ -591,7 +591,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
                 equipment.setTotalFund(periodInfo.getEquipment().get(0).getTotalFund().bigDecimalValue());
             }
         }
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_EQUIPMENT_ATTACHMENT) {
                 AdditionalEquipmentsAttachment equipmentAttachment = AdditionalEquipmentsAttachment.Factory.newInstance();
@@ -804,7 +804,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
         totalFund.setBigDecimalValue(extraFunds.bigDecimalValue());
         keyPersons.setTotalFundForAttachedKeyPersons(totalFund);
 
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_KEYPERSONS_ATTACHMENT) {
                 AttachedKeyPersons attachedKeyPersons = AttachedKeyPersons.Factory.newInstance();

@@ -165,9 +165,9 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
         
-        assertEquals(doc.getS2sOpportunity().getOpportunityId(),VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
-        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),VALID_CFDA_NUMBER_00_000);
-        assertEquals(doc.getS2sOpportunity().getS2sSubmissionTypeCode().toString(),"1");
+        assertEquals(doc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId(),VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        assertEquals(doc.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber(),VALID_CFDA_NUMBER_00_000);
+        assertEquals(doc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode().toString(),"1");
     }
     
     /**
@@ -231,11 +231,11 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         assertContains(page3,"Document was successfully saved.");
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
         
-        assertEquals(doc.getS2sOpportunity().getOpportunityId(),VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
-        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),VALID_CFDA_NUMBER_00_000);
-        assertEquals(doc.getS2sOpportunity().getS2sSubmissionTypeCode().toString(),"1");
-        assertEquals(doc.getS2sOpportunity().getRevisionCode().toString(),"E");
-        assertEquals(doc.getS2sOpportunity().getRevisionOtherDescription(),"RevisionType Is Other");
+        assertEquals(doc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId(),VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        assertEquals(doc.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber(),VALID_CFDA_NUMBER_00_000);
+        assertEquals(doc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode().toString(),"1");
+        assertEquals(doc.getDevelopmentProposal().getS2sOpportunity().getRevisionCode().toString(),"E");
+        assertEquals(doc.getDevelopmentProposal().getS2sOpportunity().getRevisionOtherDescription(),"RevisionType Is Other");
     }   
     
     /**
@@ -298,16 +298,16 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
         
-        assertEquals(doc.getS2sOpportunity().getOpportunityId(),VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
-        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),VALID_CFDA_NUMBER_00_000);
-        assertEquals(doc.getS2sOpportunity().getS2sSubmissionTypeCode().toString(),"1");
+        assertEquals(doc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId(),VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        assertEquals(doc.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber(),VALID_CFDA_NUMBER_00_000);
+        assertEquals(doc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode().toString(),"1");
         
         HtmlPage page4 = clickOn(page3, "methodToCall.removeOpportunity", "Kuali :: Question Dialog Page");
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) getDocument(documentNumber);
-        assertContains(page4,"Are you sure you want to delete the "+document.getS2sOpportunity().getOpportunityId() + " opportunity?");
+        assertContains(page4,"Are you sure you want to delete the "+document.getDevelopmentProposal().getS2sOpportunity().getOpportunityId() + " opportunity?");
         HtmlPage page5 = clickOn(page4, "methodToCall.processAnswer.button0", "Kuali :: Proposal Development Document");
         clickOn(page5, "methodToCall.save", "Kuali :: Proposal Development Document");
         doc = (ProposalDevelopmentDocument) getDocument(documentNumber);  
-        assertNull(doc.getS2sOpportunity());
+        assertNull(doc.getDevelopmentProposal().getS2sOpportunity());
     }
 }

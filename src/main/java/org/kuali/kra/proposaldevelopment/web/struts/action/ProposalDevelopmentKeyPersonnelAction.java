@@ -89,14 +89,14 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     }
     
     public ActionForward moveDown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getDocument().getProposalPersons();
+        List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getDocument().getDevelopmentProposal().getProposalPersons();
         swapAdjacentPersonnel(keyPersonnel, getLineToDelete(request), MoveOperationEnum.MOVING_PERSON_DOWN);
         
         return mapping.findForward(MAPPING_BASIC);
     }
     
     public ActionForward moveUp(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getDocument().getProposalPersons();
+        List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getDocument().getDevelopmentProposal().getProposalPersons();
         swapAdjacentPersonnel(keyPersonnel, getLineToDelete(request), MoveOperationEnum.MOVING_PERSON_UP);
         
         return mapping.findForward(MAPPING_BASIC);
@@ -112,7 +112,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         request.setAttribute(NEW_PERSON_LOOKUP_FLAG, EMPTY_STRING);
         ProposalDevelopmentDocument document=pdform.getDocument();
-        List<ProposalPerson> proposalpersons=document.getProposalPersons();
+        List<ProposalPerson> proposalpersons=document.getDevelopmentProposal().getProposalPersons();
         for (Iterator<ProposalPerson> iter = proposalpersons.iterator(); iter.hasNext();) {
             ProposalPerson person=(ProposalPerson) iter.next();
             if (person.getRole() != null) {
@@ -123,11 +123,11 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         pdform.populatePersonEditableFields();
         handleRoleChangeEvents(pdform.getDocument());
         
-        debug(INV_SIZE_MSG, pdform.getDocument().getInvestigators().size());
+        debug(INV_SIZE_MSG, pdform.getDocument().getDevelopmentProposal().getInvestigators().size());
     
         try {
             boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME)
-                && pdform.getDocument().getInvestigators().size() > 0;
+                && pdform.getDocument().getDevelopmentProposal().getInvestigators().size() > 0;
             request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, new Boolean(creditSplitEnabled));
             pdform.setCreditSplitEnabled(creditSplitEnabled);
         }
@@ -147,7 +147,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      * <code>{@link ProposalPerson}</code> instances. 
      */
     private void handleRoleChangeEvents(ProposalDevelopmentDocument document) {
-        for (ProposalPerson person : document.getProposalPersons()) {
+        for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
             debug(ROLE_CHANGED_MSG, person.getFullName(), person.isRoleChanged());
             
             if (person.isRoleChanged()) {
@@ -195,7 +195,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         }
         
         if (person != null) {
-            person.setProposalNumber(pdform.getDocument().getProposalNumber());
+            person.setProposalNumber(pdform.getDocument().getDevelopmentProposal().getProposalNumber());
             person.setProposalPersonRoleId(pdform.getNewProposalPerson().getProposalPersonRoleId());
             pdform.setNewProposalPerson(person);
             request.setAttribute(NEW_PERSON_LOOKUP_FLAG, new Boolean(true));
@@ -246,15 +246,15 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
 
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
-            document.addProposalPerson(pdform.getNewProposalPerson());
+            document.getDevelopmentProposal().addProposalPerson(pdform.getNewProposalPerson());
             info(ADDED_PERSON_MSG, pdform.getNewProposalPerson().getProposalNumber(), pdform.getNewProposalPerson().getProposalPersonNumber());
             // handle lead unit for investigators respective to coi or pi
             if (getKeyPersonnelService().isPrincipalInvestigator(pdform.getNewProposalPerson())) {
-                getKeyPersonnelService().assignLeadUnit(pdform.getNewProposalPerson(), document.getOwnedByUnitNumber());
+                getKeyPersonnelService().assignLeadUnit(pdform.getNewProposalPerson(), document.getDevelopmentProposal().getOwnedByUnitNumber());
             }
             else {
                 // Lead Unit information needs to be removed in case the person used to be a PI
-                ProposalPersonUnit unit =pdform.getNewProposalPerson().getUnit(document.getOwnedByUnitNumber());
+                ProposalPersonUnit unit =pdform.getNewProposalPerson().getUnit(document.getDevelopmentProposal().getOwnedByUnitNumber());
                 if (unit != null) {
                     unit.setLeadUnit(false);
                 }                
@@ -265,8 +265,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                 }
             }
             getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
-            sort(document.getProposalPersons(), new ProposalPersonComparator());
-            sort(document.getInvestigators(), new ProposalPersonComparator());
+            sort(document.getDevelopmentProposal().getProposalPersons(), new ProposalPersonComparator());
+            sort(document.getDevelopmentProposal().getInvestigators(), new ProposalPersonComparator());
             pdform.setNewProposalPerson(new ProposalPerson());
             pdform.setNewRolodexId("");
             pdform.setNewPersonId("");
@@ -304,7 +304,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentDocument document = pdform.getDocument();
 
         int selectedPersonIndex = getSelectedPersonIndex(request, document);
-        ProposalPerson person = document.getProposalPerson(selectedPersonIndex);
+        ProposalPerson person = document.getDevelopmentProposal().getProposalPerson(selectedPersonIndex);
         ProposalPersonDegree degree = pdform.getNewProposalPersonDegree().get(selectedPersonIndex);
         degree.setDegreeSequenceNumber(pdform.getDocument().getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
          
@@ -332,7 +332,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentDocument document = pdform.getDocument();
 
         int selectedPersonIndex = getSelectedPersonIndex(request, document);
-        ProposalPerson person = document.getProposalPerson(selectedPersonIndex);
+        ProposalPerson person = document.getDevelopmentProposal().getProposalPerson(selectedPersonIndex);
         ProposalPersonUnit unit = getKeyPersonnelService().createProposalPersonUnit(pdform.getNewProposalPersonUnit().get(selectedPersonIndex).getUnitNumber(), person);
         
         // check any business rules
@@ -362,12 +362,12 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getDocument();
         
-        for (Iterator<ProposalPerson> person_it = document.getProposalPersons().iterator(); person_it.hasNext();) {
+        for (Iterator<ProposalPerson> person_it = document.getDevelopmentProposal().getProposalPersons().iterator(); person_it.hasNext();) {
             ProposalPerson person = person_it.next();
             if (person.isDelete()) {
                 person_it.remove();
-                document.getInvestigators().remove(person);
-                document.removePersonnelAttachmentForDeletedPerson(person);
+                document.getDevelopmentProposal().getInvestigators().remove(person);
+                document.getDevelopmentProposal().removePersonnelAttachmentForDeletedPerson(person);
             }
         }
         return mapping.findForward(MAPPING_BASIC);
@@ -387,7 +387,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getDocument();
         int selectedPersonIndex = getSelectedPersonIndex(request, document);
-        ProposalPerson selectedPerson =  document.getProposalPerson(selectedPersonIndex);
+        ProposalPerson selectedPerson =  document.getDevelopmentProposal().getProposalPerson(selectedPersonIndex);
         ProposalPersonUnit unit = selectedPerson.getUnit(getSelectedLine(request));
         selectedPerson.getUnits().remove(unit);
 
@@ -441,7 +441,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         boolean rulePassed = true;
 
-        updateCurrentOrdinalPositions(((ProposalDevelopmentForm) form).getDocument().getProposalPersons());
+        updateCurrentOrdinalPositions(((ProposalDevelopmentForm) form).getDocument().getDevelopmentProposal().getProposalPersons());
         
         // check any business rules
         rulePassed &= getKualiRuleService().applyRules(new SaveKeyPersonEvent(EMPTY_STRING, pdform.getDocument()));
@@ -468,7 +468,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getDocument();
         int selectedPersonIndex = getSelectedPersonIndex(request, document);
-        ProposalPerson person = document.getProposalPerson(selectedPersonIndex);
+        ProposalPerson person = document.getDevelopmentProposal().getProposalPerson(selectedPersonIndex);
         if (isNotBlank(person.getHomeUnit()) && isValidHomeUnit(person,person.getHomeUnit())){
             getKeyPersonnelService().addUnitToPerson(person,getKeyPersonnelService().createProposalPersonUnit(person.getHomeUnit(), person));
         }
@@ -495,7 +495,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         pdform.setOptInUnitDetails("N");
         selectedPerson.setOptInUnitStatus("N");
         selectedPerson.getUnits().clear();
-        document.getInvestigators().remove(selectedPerson);
+        document.getDevelopmentProposal().getInvestigators().remove(selectedPerson);
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -548,7 +548,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         String parameterName = (String) request.getAttribute(METHOD_TO_CALL_ATTRIBUTE);
         if (isNotBlank(parameterName)) {
             int lineNumber = Integer.parseInt(substringBetween(parameterName, "proposalPersons[", "]."));
-            retval = document.getProposalPerson(lineNumber);
+            retval = document.getDevelopmentProposal().getProposalPerson(lineNumber);
         }
 
         return retval;

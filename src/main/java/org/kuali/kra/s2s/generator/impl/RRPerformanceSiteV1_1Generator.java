@@ -49,24 +49,24 @@ public class RRPerformanceSiteV1_1Generator extends RRPerformanceSiteBaseGenerat
         RRPerformanceSite rrPerformanceSite = RRPerformanceSite.Factory.newInstance();
         rrPerformanceSite.setFormVersion(S2SConstants.FORMVERSION_1_1);
         SiteLocationDataType siteLocation = SiteLocationDataType.Factory.newInstance();
-        if (pdDoc.getPerformingOrganization() != null) {
-            siteLocation.setOrganizationName(pdDoc.getPerformingOrganization().getOrganizationName());
+        if (pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
+            siteLocation.setOrganizationName(pdDoc.getDevelopmentProposal().getPerformingOrganization().getOrganizationName());
         }
         Rolodex rolodex = null;
-        if (pdDoc.getPerformingOrganization() != null) {
-            rolodex = pdDoc.getPerformingOrganization().getRolodex();
+        if (pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
+            rolodex = pdDoc.getDevelopmentProposal().getPerformingOrganization().getRolodex();
         }
         siteLocation.setAddress(globLibV20Generator.getAddressDataType(rolodex));
         rrPerformanceSite.setPrimarySite(siteLocation);
         int otherSiteCount = 0;
         SiteLocationDataType[] siteLocationDataTypeArray = null;
-        if (pdDoc.getProposalLocations() != null) {
-            siteLocationDataTypeArray = new SiteLocationDataType[pdDoc.getProposalLocations().size()];
-            for (ProposalLocation proposalLocation : pdDoc.getProposalLocations()) {
+        if (pdDoc.getDevelopmentProposal().getProposalLocations() != null) {
+            siteLocationDataTypeArray = new SiteLocationDataType[pdDoc.getDevelopmentProposal().getProposalLocations().size()];
+            for (ProposalLocation proposalLocation : pdDoc.getDevelopmentProposal().getProposalLocations()) {
                 SiteLocationDataType siteLocationOther = SiteLocationDataType.Factory.newInstance();
                 Rolodex rolodex2 = proposalLocation.getRolodex();
                 if (rolodex2 != null) {
-                    siteLocationOther.setOrganizationName(pdDoc.getPerformingOrganization().getOrganizationName());
+                    siteLocationOther.setOrganizationName(pdDoc.getDevelopmentProposal().getPerformingOrganization().getOrganizationName());
                     siteLocationOther.setAddress(globLibV20Generator.getAddressDataType(rolodex2));
                     siteLocationDataTypeArray[otherSiteCount] = siteLocationOther;
                     otherSiteCount++;
@@ -76,7 +76,7 @@ public class RRPerformanceSiteV1_1Generator extends RRPerformanceSiteBaseGenerat
         }
         rrPerformanceSite.setOtherSiteArray(siteLocationDataTypeArray);
 
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == PERFORMANCE_SITES_ATTACHMENT) {
                 rrPerformanceSite.setAttachedFile(getAttachedFileType(narrative));

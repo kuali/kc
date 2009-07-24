@@ -195,7 +195,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         newNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-        document.getInstituteAttachments().add(narrative);
+        document.getDevelopmentProposal().getInstituteAttachments().add(narrative);
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         

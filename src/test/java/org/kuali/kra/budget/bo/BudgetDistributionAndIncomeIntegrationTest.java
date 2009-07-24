@@ -122,7 +122,7 @@ public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTest
         budgetDocument.add(createBudgetPeriod(1));
         budgetDocument.add(createBudgetPeriod(2));
         
-        budgetDocument.setProposalNumber(proposalDocument.getProposalNumber());
+        budgetDocument.setProposalNumber(proposalDocument.getDevelopmentProposal().getProposalNumber());
         budgetDocument.getDocumentHeader().setDocumentDescription("Budget Document");
         budgetDocument.setBudgetVersionNumber(1);
         budgetDocument.setStartDate(getNowDate());
@@ -144,13 +144,13 @@ public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTest
     private void initProposalDocument() throws Exception {
         proposalDocument = (ProposalDevelopmentDocument) getDocumentService().getNewDocument("ProposalDevelopmentDocument");
         proposalDocument.getDocumentHeader().setDocumentDescription("ProposalDevelopmentDocumentTest test doc");
-        proposalDocument.setSponsorCode("005770");
-        proposalDocument.setTitle("project title");
-        proposalDocument.setRequestedStartDateInitial(getNowDate());
-        proposalDocument.setRequestedEndDateInitial(getNowDate());
-        proposalDocument.setActivityTypeCode("1");
-        proposalDocument.setProposalTypeCode("1");
-        proposalDocument.setOwnedByUnitNumber("000001");
+        proposalDocument.getDevelopmentProposal().setSponsorCode("005770");
+        proposalDocument.getDevelopmentProposal().setTitle("project title");
+        proposalDocument.getDevelopmentProposal().setRequestedStartDateInitial(getNowDate());
+        proposalDocument.getDevelopmentProposal().setRequestedEndDateInitial(getNowDate());
+        proposalDocument.getDevelopmentProposal().setActivityTypeCode("1");
+        proposalDocument.getDevelopmentProposal().setProposalTypeCode("1");
+        proposalDocument.getDevelopmentProposal().setOwnedByUnitNumber("000001");
 
         getDocumentService().saveDocument(proposalDocument);
 

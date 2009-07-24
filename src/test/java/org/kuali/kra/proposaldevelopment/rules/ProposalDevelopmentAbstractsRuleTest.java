@@ -136,7 +136,7 @@ public class ProposalDevelopmentAbstractsRuleTest extends ProposalDevelopmentRul
      * @param abstractTypeCode
      */
     private void addAbstract(ProposalDevelopmentDocument document, String abstractTypeCode) {
-        List<ProposalAbstract> abstracts = document.getProposalAbstracts();
+        List<ProposalAbstract> abstracts = document.getDevelopmentProposal().getProposalAbstracts();
         ProposalAbstract proposalAbstract = new ProposalAbstract();
         proposalAbstract.setAbstractTypeCode("1");
         abstracts.add(proposalAbstract);

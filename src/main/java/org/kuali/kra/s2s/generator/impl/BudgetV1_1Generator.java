@@ -72,7 +72,7 @@ public class BudgetV1_1Generator extends S2SBaseFormGenerator {
     private AttachedFileDataType[] getAttachedFileDataTypes() {
         Log.debug("Getting AttachedFileDataType ");
         int size = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_ATTACHMENTS) {
                 size++;
@@ -80,7 +80,7 @@ public class BudgetV1_1Generator extends S2SBaseFormGenerator {
         }
         AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
         int attachments = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_ATTACHMENTS) {
                 attachedFileDataTypes[attachments] = getAttachedFileType(narrative);

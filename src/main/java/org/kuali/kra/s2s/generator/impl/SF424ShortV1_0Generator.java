@@ -88,14 +88,14 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
         sf424Short.setAuthorizedRepresentativeEmail("");
 
         Map<String, String> sponsorMap = new HashMap<String, String>();
-        sponsorMap.put(SPONSOR_CODE, pdDoc.getPrimeSponsorCode());
+        sponsorMap.put(SPONSOR_CODE, pdDoc.getDevelopmentProposal().getPrimeSponsorCode());
         Sponsor sponsor = (Sponsor) businessObjectService.findByPrimaryKey(Sponsor.class, sponsorMap);
-        if (pdDoc.getSponsor() != null && pdDoc.getSponsor().getSponsorName() != null) {
-            if (pdDoc.getSponsor().getSponsorName().length() > SPONSOR_NAME_MAX_LENGTH) {
-                sf424Short.setAgencyName(pdDoc.getSponsor().getSponsorName().substring(0, SPONSOR_NAME_MAX_LENGTH));
+        if (pdDoc.getDevelopmentProposal().getSponsor() != null && pdDoc.getDevelopmentProposal().getSponsor().getSponsorName() != null) {
+            if (pdDoc.getDevelopmentProposal().getSponsor().getSponsorName().length() > SPONSOR_NAME_MAX_LENGTH) {
+                sf424Short.setAgencyName(pdDoc.getDevelopmentProposal().getSponsor().getSponsorName().substring(0, SPONSOR_NAME_MAX_LENGTH));
             }
             else {
-                sf424Short.setAgencyName(pdDoc.getSponsor().getSponsorName());
+                sf424Short.setAgencyName(pdDoc.getDevelopmentProposal().getSponsor().getSponsorName());
             }
         }
         else if (sponsor.getSponsorName() != null) {
@@ -107,25 +107,25 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
             }
         }
 
-        if (pdDoc.getCfdaNumber() != null) {
-            if (pdDoc.getCfdaNumber().length() > CFDA_NUMBER_MAX_LENGTH) {
-                sf424Short.setCFDANumber(pdDoc.getCfdaNumber().substring(0, CFDA_NUMBER_MAX_LENGTH));
+        if (pdDoc.getDevelopmentProposal().getCfdaNumber() != null) {
+            if (pdDoc.getDevelopmentProposal().getCfdaNumber().length() > CFDA_NUMBER_MAX_LENGTH) {
+                sf424Short.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber().substring(0, CFDA_NUMBER_MAX_LENGTH));
             }
             else {
-                sf424Short.setCFDANumber(pdDoc.getCfdaNumber());
+                sf424Short.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
             }
         }
-        if (pdDoc.getProgramAnnouncementTitle() != null) {
-            if (pdDoc.getProgramAnnouncementTitle().length() > PROGRAM_ANNOUNCEMENT_TITLE_MAX_LENGTH) {
-                sf424Short.setCFDAProgramTitle(pdDoc.getProgramAnnouncementTitle().substring(0,
+        if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle() != null) {
+            if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle().length() > PROGRAM_ANNOUNCEMENT_TITLE_MAX_LENGTH) {
+                sf424Short.setCFDAProgramTitle(pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle().substring(0,
                         PROGRAM_ANNOUNCEMENT_TITLE_MAX_LENGTH));
             }
             else {
-                sf424Short.setCFDAProgramTitle(pdDoc.getProgramAnnouncementTitle());
+                sf424Short.setCFDAProgramTitle(pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle());
             }
         }
         sf424Short.setDateReceived(s2sUtilService.getCurrentCalendar());
-        S2sOpportunity s2sOpportunity = pdDoc.getS2sOpportunity();
+        S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
         if (s2sOpportunity != null) {
             s2sOpportunity.refreshNonUpdateableReferences();
             if (s2sOpportunity.getOpportunityId().length() > OPPORTUNITY_ID_MAX_LENGTH) {
@@ -139,12 +139,12 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
             }
         }
 
-        Organization organization = pdDoc.getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
         if (organization.getOrganizationName() != null) {
             sf424Short.setOrganizationName(organization.getOrganizationName());
         }
 
-        Rolodex rolodex = pdDoc.getOrganization().getRolodex();
+        Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
         if (rolodex != null) {
             sf424Short.setAddress(globLibV20Generator.getAddressDataType(rolodex));
         }
@@ -174,9 +174,9 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
             sf424Short.setCongressionalDistrictApplicant(congressionalDistrict);
         }
 
-        sf424Short.setProjectTitle(pdDoc.getTitle());
+        sf424Short.setProjectTitle(pdDoc.getDevelopmentProposal().getTitle());
 
-        for (ProposalAbstract proposalAbstract : pdDoc.getProposalAbstracts()) {
+        for (ProposalAbstract proposalAbstract : pdDoc.getDevelopmentProposal().getProposalAbstracts()) {
             if (proposalAbstract.getAbstractTypeCode() != null
                     && proposalAbstract.getAbstractTypeCode().equals(ABSTRACT_TYPE_PROJECT_DESCRIPTION)) {
                 if (proposalAbstract.getAbstractTypeCode().length() > ABSTRACT_TYPE_CODE_MAX_LENGTH) {
@@ -190,8 +190,8 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
             }
         }
 
-        sf424Short.setProjectStartDate(s2sUtilService.convertDateToCalendar(pdDoc.getRequestedStartDateInitial()));
-        sf424Short.setProjectEndDate(s2sUtilService.convertDateToCalendar(pdDoc.getRequestedEndDateInitial()));
+        sf424Short.setProjectStartDate(s2sUtilService.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedStartDateInitial()));
+        sf424Short.setProjectEndDate(s2sUtilService.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedEndDateInitial()));
 
         ProposalPerson pi = s2sUtilService.getPrincipalInvestigator(pdDoc);
         sf424Short.setProjectDirectorGroup(globLibV20Generator.getContactPersonDataType(pi));
@@ -263,7 +263,7 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
         int count = -1;
         OrganizationTypeList orgList;
         while (orgTypeIterator.hasNext()) {
-            for (OrganizationType orgType : pdDoc.getOrganization().getOrganizationTypes()) {
+            for (OrganizationType orgType : pdDoc.getDevelopmentProposal().getOrganization().getOrganizationTypes()) {
                 orgList = orgTypeIterator.next();
                 count++;
                 if (count == index) {

@@ -221,7 +221,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     protected AttachedFileDataType getPernonnelAttachments(ProposalDevelopmentDocument pdDoc, String personId, Integer rolodexId,
             String documentType) {
         boolean personBiographyFound = false;
-        for (ProposalPersonBiography proposalPersonBiography : pdDoc.getPropPersonBios()) {
+        for (ProposalPersonBiography proposalPersonBiography : pdDoc.getDevelopmentProposal().getPropPersonBios()) {
             if (personId != null && proposalPersonBiography.getPersonId() != null
                     && proposalPersonBiography.getPersonId().equals(personId)
                     && documentType.equals(proposalPersonBiography.getDocumentTypeCode())) {

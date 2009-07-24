@@ -16,7 +16,7 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
+<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="s2sAppSubmissionAttributes" value="${DataDictionary.S2sAppSubmission.attributes}" />
 <c:set var="s2sAppAttachmentsAttributes" value="${DataDictionary.S2sAppAttachments.attributes}" />
 
@@ -26,10 +26,10 @@
     <div class="innerTab-container" align="left">
         <table class=tab cellpadding=0 cellspacing="0" summary=""> 
         <tbody id="G1">
-            <c:set var="submissionToBeDisplayed" value="${fn:length(KualiForm.document.s2sAppSubmission)}" />
-            <c:set var="textAreaFieldName" value="document.s2sAppSubmission[${submissionToBeDisplayed-1}].comments" />
+            <c:set var="submissionToBeDisplayed" value="${fn:length(KualiForm.document.developmentProposalList[0].s2sAppSubmission)}" />
+            <c:set var="textAreaFieldName" value="document.developmentProposalList[0].s2sAppSubmission[${submissionToBeDisplayed-1}].comments" />
             <c:choose>	
- 	            <c:when test ="${empty KualiForm.document.s2sAppSubmission[submissionToBeDisplayed-1].submissionNumber}">
+ 	            <c:when test ="${empty KualiForm.document.developmentProposalList[0].s2sAppSubmission[submissionToBeDisplayed-1].submissionNumber}">
  		            <tr>
 						<td>
  			            Submission details will be available after the proposal is submitted.
@@ -44,7 +44,7 @@
                             </div>
 						</th>
 						<td>
-							<fmt:formatDate value="${KualiForm.document.s2sAppSubmission[submissionToBeDisplayed-1].receivedDate}" type="both" dateStyle="short" timeStyle="short"/>							
+							<fmt:formatDate value="${KualiForm.document.developmentProposalList[0].s2sAppSubmission[submissionToBeDisplayed-1].receivedDate}" type="both" dateStyle="short" timeStyle="short"/>							
 						</td>
 						<th width="25%">
 							<div align="left">
@@ -52,7 +52,7 @@
 							</div>
 						</th>
 						<td>
-							<fmt:formatDate value="${KualiForm.document.s2sAppSubmission[submissionToBeDisplayed-1].lastModifiedDate}" type="both" dateStyle="short" timeStyle="short"/>							
+							<fmt:formatDate value="${KualiForm.document.developmentProposalList[0].s2sAppSubmission[submissionToBeDisplayed-1].lastModifiedDate}" type="both" dateStyle="short" timeStyle="short"/>							
 						</td>
 					</tr>
 					<tr>
@@ -62,7 +62,7 @@
 							</div>
 						</th>
 						<td>
-							<kul:htmlControlAttribute property="document.s2sAppSubmission[${submissionToBeDisplayed-1}].status" 
+							<kul:htmlControlAttribute property="document.developmentProposalList[0].s2sAppSubmission[${submissionToBeDisplayed-1}].status" 
                                                       attributeEntry="${s2sAppSubmissionAttributes.status}" readOnly="true" />
 						</td>
 					</tr>
@@ -74,7 +74,7 @@
 							</div>
 						</th>
 						<td>
-							<kul:htmlControlAttribute property="document.s2sAppSubmission[${submissionToBeDisplayed-1}].ggTrackingId" 
+							<kul:htmlControlAttribute property="document.developmentProposalList[0].s2sAppSubmission[${submissionToBeDisplayed-1}].ggTrackingId" 
                                                       attributeEntry="${s2sAppSubmissionAttributes.ggTrackingId}" readOnly="true" />
                         </td>
 					</tr>
@@ -86,7 +86,7 @@
 							</div>
 						</th>
 						<td>
-							<kul:htmlControlAttribute property="document.s2sAppSubmission[${submissionToBeDisplayed-1}].agencyTrackingId" 
+							<kul:htmlControlAttribute property="document.developmentProposalList[0].s2sAppSubmission[${submissionToBeDisplayed-1}].agencyTrackingId" 
                                                       attributeEntry="${s2sAppSubmissionAttributes.agencyTrackingId}" readOnly="true" />
 						</td>
 					</tr>
@@ -98,7 +98,7 @@
 							</div>
 						</th>		
 						<td>
-							<kul:htmlControlAttribute property="document.s2sAppSubmission[${submissionToBeDisplayed-1}].comments" 
+							<kul:htmlControlAttribute property="document.developmentProposalList[0].s2sAppSubmission[${submissionToBeDisplayed-1}].comments" 
                                                       attributeEntry="${s2sAppSubmissionAttributes.comments}" readOnly="true"/>
 							<kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" 
                                                   textAreaLabel="${s2sAppSubmissionAttributes.comments.description}" />
@@ -114,11 +114,11 @@
 					</tr>
 
 					<c:forEach var="form" 
-                               items="${KualiForm.document.s2sAppSubmission[submissionToBeDisplayed-1].s2sApplication[0].s2sAppAttachmentList}" 
+                               items="${KualiForm.document.developmentProposalList[0].s2sAppSubmission[submissionToBeDisplayed-1].s2sApplication[0].s2sAppAttachmentList}" 
                                varStatus="status">		                
 						<tr>
 							<td align="left" valign="middle" colspan="4">
-	    						<kul:htmlControlAttribute property="document.s2sAppSubmission[${submissionToBeDisplayed-1}].s2sApplication[0].s2sAppAttachmentList[${status.index}].contentId" 
+	    						<kul:htmlControlAttribute property="document.developmentProposalList[0].s2sAppSubmission[${submissionToBeDisplayed-1}].s2sApplication[0].s2sAppAttachmentList[${status.index}].contentId" 
                                                           attributeEntry="${s2sAppAttachmentsAttributes.contentId}" readOnly="true" />
 							</td>
 						</tr>	

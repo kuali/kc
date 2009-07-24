@@ -35,7 +35,7 @@ public class ProposalAttachmentTaskFactory extends NarrativeTaskFactory {
     protected Narrative getNarrative(ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         int index = getLineNumber(request);
-        return proposalDevelopmentForm.getDocument().getNarrative(index);
+        return proposalDevelopmentForm.getDocument().getDevelopmentProposal().getNarrative(index);
     }
     
     public Task createTask(ActionForm form, HttpServletRequest request) {

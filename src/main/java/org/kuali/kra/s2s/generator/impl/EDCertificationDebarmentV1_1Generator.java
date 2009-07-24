@@ -61,8 +61,8 @@ public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator 
         CertificationDebarment certificationDebarment = CertificationDebarment.Factory.newInstance();
         certificationDebarment.setFormVersion(S2SConstants.FORMVERSION_1_1);
         Organization organization = null;
-        if (pdDoc.getOrganization() != null) {
-            organization = pdDoc.getOrganization();
+        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
+            organization = pdDoc.getDevelopmentProposal().getOrganization();
         }
         if (organization != null && organization.getOrganizationName() != null) {
             if (organization.getOrganizationName().length() > 60) {
@@ -96,7 +96,7 @@ public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator 
         certificationDebarment.setAuthorizedRepresentativeSignature(authorizedRepresentativeSignature);
         certificationDebarment.setSubmittedDate(s2sUtilService.getCurrentCalendar());
 
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == ED_CERTIFICATION_DEBARMENT) {
                 AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
