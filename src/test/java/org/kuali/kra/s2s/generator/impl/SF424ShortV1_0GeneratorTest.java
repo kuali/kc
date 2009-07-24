@@ -93,7 +93,7 @@ public class SF424ShortV1_0GeneratorTest extends S2STestBase<SF424ShortV1_0Gener
         person.setOptInUnitStatus("Y");
         List<ProposalPerson> argProposalPersons = new ArrayList<ProposalPerson>();
         argProposalPersons.add(person);
-        document.setProposalPersons(argProposalPersons);
+        document.getDevelopmentProposal().setProposalPersons(argProposalPersons);
         Rolodex rolodex = new Rolodex();
         rolodex.setRolodexId(1);
         rolodex.setAddressLine1("Address1");
@@ -114,17 +114,17 @@ public class SF424ShortV1_0GeneratorTest extends S2STestBase<SF424ShortV1_0Gener
         unit2.setUnitName("Root of hierarchy");
         unit.setParentUnit(unit2);
 
-        document.setSponsor(sponsor);
-        document.setCfdaNumber("0125");
-        document.setProgramAnnouncementTitle("programAnnouncementTitle");
-        opportunity.setProposalNumber(document.getProposalNumber());
-        document.setS2sOpportunity(opportunity);
-        document.setOrganization(organization);
-        document.setTitle("NewTitle");
-        document.setProposalAbstracts(proList);
-        document.setRequestedStartDateInitial(new Date(0));
-        document.setRequestedEndDateInitial(new Date(0));
-        document.setRolodex(rolodex);
-        document.setOwnedByUnit(unit);
+        document.getDevelopmentProposal().setSponsor(sponsor);
+        document.getDevelopmentProposal().setCfdaNumber("0125");
+        document.getDevelopmentProposal().setProgramAnnouncementTitle("programAnnouncementTitle");
+        opportunity.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        document.getDevelopmentProposal().setS2sOpportunity(opportunity);
+        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setTitle("NewTitle");
+        document.getDevelopmentProposal().setProposalAbstracts(proList);
+        document.getDevelopmentProposal().setRequestedStartDateInitial(new Date(0));
+        document.getDevelopmentProposal().setRequestedEndDateInitial(new Date(0));
+        document.getDevelopmentProposal().setRolodex(rolodex);
+        document.getDevelopmentProposal().setOwnedByUnit(unit);
     }
 }

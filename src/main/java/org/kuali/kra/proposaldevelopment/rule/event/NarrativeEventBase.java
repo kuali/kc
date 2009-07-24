@@ -59,7 +59,7 @@ public abstract class NarrativeEventBase extends KraDocumentEventBase implements
             }
         }
         narratives = new ArrayList<Narrative>();
-        List<Narrative> narativeListToBeSaved = document.getNarratives();
+        List<Narrative> narativeListToBeSaved = document.getDevelopmentProposal().getNarratives();
         for (Narrative narrativeToBeSaved : narativeListToBeSaved) {
             narratives.add((Narrative) ObjectUtils.deepCopy(narrativeToBeSaved));
         }
@@ -77,7 +77,7 @@ public abstract class NarrativeEventBase extends KraDocumentEventBase implements
     protected NarrativeEventBase(String description, String errorPathPrefix, ProposalDevelopmentDocument document) {
         super(description, errorPathPrefix, document);
         narratives = new ArrayList<Narrative>();
-        List<Narrative> narativeListToBeSaved = document.getNarratives();
+        List<Narrative> narativeListToBeSaved = document.getDevelopmentProposal().getNarratives();
         for (Narrative narrativeToBeSaved : narativeListToBeSaved) {
             narratives.add((Narrative) ObjectUtils.deepCopy(narrativeToBeSaved));
         }

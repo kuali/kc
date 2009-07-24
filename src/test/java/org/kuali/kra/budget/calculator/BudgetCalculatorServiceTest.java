@@ -89,7 +89,7 @@ public class BudgetCalculatorServiceTest extends KraTestBase {
         setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
         documentService.saveDocument(document);
         BudgetDocument bd = (BudgetDocument)documentService.getNewDocument("BudgetDocument");
-        setBaseDocumentFields(bd,document.getProposalNumber());
+        setBaseDocumentFields(bd,document.getDevelopmentProposal().getProposalNumber());
         documentService.saveDocument(bd);
         BudgetDocument savedBudgetDocument = (BudgetDocument)documentService.getByDocumentHeaderId(bd.getDocumentNumber());
         populateDummyRates(savedBudgetDocument);
@@ -266,12 +266,12 @@ public class BudgetCalculatorServiceTest extends KraTestBase {
     
     private void setBaseDocumentFields(ProposalDevelopmentDocument document, String description, String sponsorCode, String title, Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
         document.getDocumentHeader().setDocumentDescription(description);
-        document.setSponsorCode(sponsorCode);
-        document.setTitle(title);
-        document.setRequestedStartDateInitial(requestedStartDateInitial);
-        document.setRequestedEndDateInitial(requestedEndDateInitial);
-        document.setActivityTypeCode(activityTypeCode);
-        document.setProposalTypeCode(proposalTypeCode);
-        document.setOwnedByUnitNumber(ownedByUnit);
+        document.getDevelopmentProposal().setSponsorCode(sponsorCode);
+        document.getDevelopmentProposal().setTitle(title);
+        document.getDevelopmentProposal().setRequestedStartDateInitial(requestedStartDateInitial);
+        document.getDevelopmentProposal().setRequestedEndDateInitial(requestedEndDateInitial);
+        document.getDevelopmentProposal().setActivityTypeCode(activityTypeCode);
+        document.getDevelopmentProposal().setProposalTypeCode(proposalTypeCode);
+        document.getDevelopmentProposal().setOwnedByUnitNumber(ownedByUnit);
     }
 }

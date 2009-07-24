@@ -125,7 +125,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             mapping.findForward(Constants.MAPPING_BASIC);
         }
         // refresh, so the status can be displayed properly on tab title
-        List<Narrative> narativeListToBeSaved = proposalDevelopmentDocument.getNarratives();
+        List<Narrative> narativeListToBeSaved = proposalDevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrativeToBeSaved : narativeListToBeSaved) {
             narrativeToBeSaved.refreshNonUpdateableReferences();
         }
@@ -142,10 +142,10 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("proposalNarrativeTypeGroup", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "proposalNarrativeTypeGroup"));
         ActionForward actionForward = super.execute(mapping, form, request, response); 
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)((ProposalDevelopmentForm)form).getDocument();
-        KraServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getPropPersonBios());
+        KraServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getDevelopmentProposal().getPropPersonBios());
         List<Narrative> narratives = new ArrayList<Narrative> ();
-        narratives.addAll(doc.getNarratives());
-        narratives.addAll(doc.getInstituteAttachments());
+        narratives.addAll(doc.getDevelopmentProposal().getNarratives());
+        narratives.addAll(doc.getDevelopmentProposal().getInstituteAttachments());
         KraServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(narratives);
         return actionForward;
     }    
@@ -169,9 +169,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         Narrative narrative = proposalDevelopmentForm.getNewNarrative();
         if(getKualiRuleService().applyRules(new AddNarrativeEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))){
-            proposalDevelopmentDocument.addNarrative(narrative);
+            proposalDevelopmentDocument.getDevelopmentProposal().addNarrative(narrative);
             proposalDevelopmentForm.setNewNarrative(new Narrative());
-            populateTabState(proposalDevelopmentForm, "Proposal Attachments " + proposalDevelopmentDocument.getNarratives().size());
+            populateTabState(proposalDevelopmentForm, "Proposal Attachments " + proposalDevelopmentDocument.getDevelopmentProposal().getNarratives().size());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -192,7 +192,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         String line = request.getParameter(LINE_NUMBER);
         int lineNumber = line == null ? 0 : Integer.parseInt(line);
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getDocument();
-        Narrative narrative = pd.getInstituteAttachments().get(lineNumber);
+        Narrative narrative = pd.getDevelopmentProposal().getInstituteAttachments().get(lineNumber);
         NarrativeAttachment narrativeAttachment = findNarrativeAttachment(narrative);
         if(narrativeAttachment==null && !narrative.getNarrativeAttachmentList().isEmpty()){//get it from the memory
             narrativeAttachment = narrative.getNarrativeAttachmentList().get(0);
@@ -217,7 +217,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         String line = request.getParameter(LINE_NUMBER);
         int lineNumber = line == null ? 0 : Integer.parseInt(line);
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getDocument();
-        Narrative narrative = pd.getNarratives().get(lineNumber);
+        Narrative narrative = pd.getDevelopmentProposal().getNarratives().get(lineNumber);
         NarrativeAttachment narrativeAttachment = findNarrativeAttachment(narrative);
         if(narrativeAttachment==null && !narrative.getNarrativeAttachmentList().isEmpty()){//get it from the memory
             narrativeAttachment = narrative.getNarrativeAttachmentList().get(0);
@@ -292,7 +292,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
-        populateTabState((ProposalDevelopmentForm) form, "Proposal Attachments " + pdDoc.getNarratives().size());
+        populateTabState((ProposalDevelopmentForm) form, "Proposal Attachments " + pdDoc.getDevelopmentProposal().getNarratives().size());
         return deleteAttachment(mapping, form, request, response, CONFIRM_DELETE_PROPOSAL_ATTACHMENT_KEY, "deleteProposalAttachment");
     }
     
@@ -337,9 +337,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
          String line = request.getParameter(LINE_NUMBER);
          int lineNumber = line == null ? getLineToDelete(request) : Integer.parseInt(line);
          ProposalDevelopmentDocument pd = proposalDevelopmentForm.getDocument();
-         pd.populatePersonNameForInstituteAttachmentUserRights(lineNumber);
+         pd.getDevelopmentProposal().populatePersonNameForInstituteAttachmentUserRights(lineNumber);
          
-         Narrative narrative = pd.getInstituteAttachment(lineNumber);
+         Narrative narrative = pd.getDevelopmentProposal().getInstituteAttachment(lineNumber);
          List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
          List<NarrativeUserRights> editUserRights = (List<NarrativeUserRights>) ObjectUtils.deepCopy((Serializable) userRights);
          proposalDevelopmentForm.setNewNarrativeUserRights(editUserRights);
@@ -365,9 +365,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         String line = request.getParameter(LINE_NUMBER);
         int lineNumber = line == null ? getLineToDelete(request) : Integer.parseInt(line);
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getDocument();
-        pd.populatePersonNameForNarrativeUserRights(lineNumber);
+        pd.getDevelopmentProposal().populatePersonNameForNarrativeUserRights(lineNumber);
         
-        Narrative narrative = pd.getNarratives().get(lineNumber);
+        Narrative narrative = pd.getDevelopmentProposal().getNarratives().get(lineNumber);
         List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
         List<NarrativeUserRights> editUserRights = (List<NarrativeUserRights>) ObjectUtils.deepCopy((Serializable) userRights);
         proposalDevelopmentForm.setNewNarrativeUserRights(editUserRights);
@@ -405,7 +405,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             forward = mapping.findForward(MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE);
         }
         else {
-            proposalDevelopmentDocument.getNarrative(lineNumber).setNarrativeUserRights(newNarrativeUserRights);
+            proposalDevelopmentDocument.getDevelopmentProposal().getNarrative(lineNumber).setNarrativeUserRights(newNarrativeUserRights);
             forward = mapping.findForward(MAPPING_CLOSE_PAGE);
         }
         
@@ -441,7 +441,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             forward = mapping.findForward(MAPPING_INSTITUTE_ATTACHMENT_RIGHTS_PAGE);
         }
         else {
-            proposalDevelopmentDocument.getInstituteAttachment(lineNumber).setNarrativeUserRights(newNarrativeUserRights);
+            proposalDevelopmentDocument.getDevelopmentProposal().getInstituteAttachment(lineNumber).setNarrativeUserRights(newNarrativeUserRights);
             forward = mapping.findForward(MAPPING_CLOSE_PAGE);
         }
         
@@ -462,7 +462,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getDocument();
-        pd.replaceAttachment(getSelectedLine(request));
+        pd.getDevelopmentProposal().replaceAttachment(getSelectedLine(request));
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -480,7 +480,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getDocument();
-        pd.replaceInstituteAttachment(getSelectedLine(request));
+        pd.getDevelopmentProposal().replaceInstituteAttachment(getSelectedLine(request));
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -524,7 +524,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
             updateUserTimestamp(proposalAbstract);
-            proposalDevelopmentForm.getDocument().getProposalAbstracts().add(proposalAbstract);
+            proposalDevelopmentForm.getDocument().getDevelopmentProposal().getProposalAbstracts().add(proposalAbstract);
             proposalDevelopmentForm.setNewProposalAbstract(new ProposalAbstract());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -567,7 +567,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         int lineNum = getLineToDelete(request);
 
         if (CONFIRM_DELETE_ABSTRACT_KEY.equals(question)) { 
-            ((ProposalDevelopmentForm) form).getDocument().getProposalAbstracts().remove(lineNum);
+            ((ProposalDevelopmentForm) form).getDocument().getDevelopmentProposal().getProposalAbstracts().remove(lineNum);
         }
         
         return mapping.findForward(MAPPING_BASIC);
@@ -595,7 +595,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentDocument doc = ((ProposalDevelopmentForm) form).getDocument();
 
         // Get the description. This will be used as a parameter to build the message for requesting confirmation feedback from the user.
-        String description = doc.getProposalAbstracts().get(getLineToDelete(request)).getAbstractType().getDescription();
+        String description = doc.getDevelopmentProposal().getProposalAbstracts().get(getLineToDelete(request)).getAbstractType().getDescription();
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_ABSTRACT_KEY, QUESTION_DELETE_ABSTRACT_CONFIRMATION, description);
     }
     // END SNIPPET: buildDeleteAbstractConfirmationQuestion
@@ -622,15 +622,15 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         String fileName = null;
         if (CONFIRM_DELETE_INSTITUTIONAL_ATTACHMENT_KEY.equals(questionId)) {
             description = INSTITUTIONAL_ATTACHMENT_TYPE_NAME;
-            fileName = doc.getInstituteAttachment(getLineToDelete(request)).getFileName();
+            fileName = doc.getDevelopmentProposal().getInstituteAttachment(getLineToDelete(request)).getFileName();
         }
         else if (CONFIRM_DELETE_PERSONNEL_ATTACHMENT_KEY.equals(questionId)) {
             description = PERSONNEL_ATTACHMENT_TYPE_NAME;
-            fileName = doc.getPropPersonBio(getLineToDelete(request)).getFileName();
+            fileName = doc.getDevelopmentProposal().getPropPersonBio(getLineToDelete(request)).getFileName();
         }
         else if (CONFIRM_DELETE_PROPOSAL_ATTACHMENT_KEY.equals(questionId)) {
             description = PROPOSAL_ATTACHMENT_TYPE_NAME;
-            fileName = doc.getNarrative(getLineToDelete(request)).getFileName();
+            fileName = doc.getDevelopmentProposal().getNarrative(getLineToDelete(request)).getFileName();
         }
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, questionId, QUESTION_DELETE_ATTACHMENT_CONFIRMATION, description, fileName);
     }
@@ -664,9 +664,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         if(getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, proposalDevelopmentForm.getNewPropPersonBio()))){
-            proposalDevelopmentDocument.addProposalPersonBiography(proposalDevelopmentForm.getNewPropPersonBio());
+            proposalDevelopmentDocument.getDevelopmentProposal().addProposalPersonBiography(proposalDevelopmentForm.getNewPropPersonBio());
             proposalDevelopmentForm.setNewPropPersonBio(new ProposalPersonBiography());
-            populateTabState(proposalDevelopmentForm, "Personnel Attachments " + proposalDevelopmentDocument.getPropPersonBios().size());
+            populateTabState(proposalDevelopmentForm, "Personnel Attachments " + proposalDevelopmentDocument.getDevelopmentProposal().getPropPersonBios().size());
         } 
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -706,7 +706,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
-        populateTabState((ProposalDevelopmentForm) form, "Personnel Attachments " + pdDoc.getPropPersonBios().size());
+        populateTabState((ProposalDevelopmentForm) form, "Personnel Attachments " + pdDoc.getDevelopmentProposal().getPropPersonBios().size());
 
         return deleteAttachment(mapping, form, request, response, CONFIRM_DELETE_PERSONNEL_ATTACHMENT_KEY, "deleteProposalPersonBiography");
     }
@@ -727,7 +727,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getDocument();
         String line = request.getParameter(LINE_NUMBER);
         int lineNumber = line == null ? 0 : Integer.parseInt(line);
-        ProposalPersonBiography propPersonBio = pd.getPropPersonBios().get(lineNumber);
+        ProposalPersonBiography propPersonBio = pd.getDevelopmentProposal().getPropPersonBios().get(lineNumber);
         Map<String,String> propPersonBioAttVal = new HashMap<String,String>();
         propPersonBioAttVal.put(PROPOSAL_NUMBER, propPersonBio.getProposalNumber());
         propPersonBioAttVal.put(BIOGRAPHY_NUMBER, propPersonBio.getBiographyNumber()+"");
@@ -757,9 +757,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         Narrative narrative = proposalDevelopmentForm.getNewInstituteAttachment();
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         if(getKualiRuleService().applyRules(new AddInstituteAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))){
-            proposalDevelopmentDocument.addInstituteAttachment(narrative);
+            proposalDevelopmentDocument.getDevelopmentProposal().addInstituteAttachment(narrative);
             proposalDevelopmentForm.setNewInstituteAttachment(new Narrative());
-            populateTabState(proposalDevelopmentForm, "Internal Attachments " + proposalDevelopmentDocument.getInstituteAttachments().size());
+            populateTabState(proposalDevelopmentForm, "Internal Attachments " + proposalDevelopmentDocument.getDevelopmentProposal().getInstituteAttachments().size());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
 
@@ -793,7 +793,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     public ActionForward confirmDeleteInstitutionalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
-        populateTabState((ProposalDevelopmentForm) form, "Internal Attachments " + pdDoc.getInstituteAttachments().size());
+        populateTabState((ProposalDevelopmentForm) form, "Internal Attachments " + pdDoc.getDevelopmentProposal().getInstituteAttachments().size());
         return deleteAttachment(mapping, form, request, response, CONFIRM_DELETE_INSTITUTIONAL_ATTACHMENT_KEY, "deleteInstitutionalAttachment");
     }
 
@@ -814,7 +814,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
           ProposalDevelopmentDocument pd = proposalDevelopmentForm.getDocument();
           String line = request.getParameter(LINE_NUMBER);
           int lineNumber = line == null ? 0 : Integer.parseInt(line);
-          Narrative narrative = pd.getInstituteAttachments().get(lineNumber);
+          Narrative narrative = pd.getDevelopmentProposal().getInstituteAttachments().get(lineNumber);
           NarrativeAttachment narrativeAttachment = findNarrativeAttachment(narrative);
           if(narrativeAttachment==null && !narrative.getNarrativeAttachmentList().isEmpty()){//get it from the memory
               narrativeAttachment = narrative.getNarrativeAttachmentList().get(0);

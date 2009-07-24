@@ -16,7 +16,7 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 <c:set var="narrativeUserRightsAttributes" value="${DataDictionary.NarrativeUserRights.attributes}" />
-<c:set var="selectedProposalAttachment" value="${KualiForm.document.narratives[line]}"/>
+<c:set var="selectedProposalAttachment" value="${KualiForm.document.developmentProposalList[0].narratives[line]}"/>
 <%-- <kra:uncollapsable tabTitle="Rights"  > --%>
 <kul:tabTop defaultOpen="true" tabTitle="Rights"
             tabErrorKey="newNarrativeUserRight*">

@@ -59,11 +59,11 @@ public class S2SServiceTest extends KraTestBase{
                 .getNewDocument("ProposalDevelopmentDocument");
         savePropDoc(pd);
         pd1 = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(pd.getDocumentHeader().getDocumentNumber());
-        pd1.getProposalPersons().add(getInvestigator(pd1.getProposalNumber()));
+        pd1.getDevelopmentProposal().getProposalPersons().add(getInvestigator(pd1.getDevelopmentProposal().getProposalNumber()));
         setS2sOpportunity(pd1);
         getService(BusinessObjectService.class).save(pd1);
         pd1.refreshNonUpdateableReferences();
-        proposalNumber = pd1.getProposalNumber().toString();
+        proposalNumber = pd1.getDevelopmentProposal().getProposalNumber().toString();
         assertNotNull(proposalNumber);
     }
 
@@ -77,17 +77,17 @@ public class S2SServiceTest extends KraTestBase{
             LOG.error(e.getMessage(), e);
         }
         S2sOpportunity opp = l.get(0);
-        opp.setProposalNumber(pd.getProposalNumber());
+        opp.setProposalNumber(pd.getDevelopmentProposal().getProposalNumber());
         opp.setS2sSubmissionTypeCode("2");
         opp.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
         opp.setUpdateUser("quickst");
-        pd.setS2sOpportunity(opp);
-        pd.setCfdaNumber(opp.getCfdaNumber());
-        pd.setProgramAnnouncementNumber(opp.getOpportunityId());
-        pd.setProgramAnnouncementTitle(opp.getOpportunityTitle());
+        pd.getDevelopmentProposal().setS2sOpportunity(opp);
+        pd.getDevelopmentProposal().setCfdaNumber(opp.getCfdaNumber());
+        pd.getDevelopmentProposal().setProgramAnnouncementNumber(opp.getOpportunityId());
+        pd.getDevelopmentProposal().setProgramAnnouncementTitle(opp.getOpportunityTitle());
         if (opp.getCompetetionId().equals(""))
             opp.setCompetetionId(null);
-        pd.setMailingAddressId(1);
+        pd.getDevelopmentProposal().setMailingAddressId(1);
         addBudget(pd);
         List<S2sOppForms> oppForms = getS2SService().parseOpportunityForms(opp);
         for (S2sOppForms oppForm : oppForms) {
@@ -106,25 +106,25 @@ public class S2SServiceTest extends KraTestBase{
             BudgetDocument budget = (BudgetDocument) documentService.getNewDocument("BudgetDocument");
             BudgetVersionOverview budgetOverview = new BudgetVersionOverview();
             budgetOverview.setBudgetStatus("1");
-            budgetOverview.setProposalNumber(pd.getProposalNumber());
+            budgetOverview.setProposalNumber(pd.getDevelopmentProposal().getProposalNumber());
             budgetOverview.setBudgetVersionNumber(1);
             budgetOverview.setFinalVersionFlag(true);
             budgetOverview.setOhRateTypeCode("1");
-            budgetOverview.setStartDate(pd.getRequestedStartDateInitial());
-            budgetOverview.setEndDate(pd.getRequestedEndDateInitial());
+            budgetOverview.setStartDate(pd.getDevelopmentProposal().getRequestedStartDateInitial());
+            budgetOverview.setEndDate(pd.getDevelopmentProposal().getRequestedEndDateInitial());
             budgetOverview.setTotalCost(new BudgetDecimal(10000));
             budgetOverview.setDocumentNumber(budget.getDocumentNumber());
-            pd.getBudgetVersionOverviews().add(budgetOverview);
+            pd.getDevelopmentProposal().getBudgetVersionOverviews().add(budgetOverview);
 
 
-            budget.setProposalNumber(pd.getProposalNumber());
+            budget.setProposalNumber(pd.getDevelopmentProposal().getProposalNumber());
             budget.setBudgetVersionNumber(1);
             budget.setBudgetStatus("1");
             budget.setTotalCost(new BudgetDecimal(10000));
             budget.setTotalDirectCost(new BudgetDecimal(9000));
             budget.setTotalIndirectCost(new BudgetDecimal(1000));
-            budget.setStartDate(pd.getRequestedStartDateInitial());
-            budget.setEndDate(pd.getRequestedEndDateInitial());
+            budget.setStartDate(pd.getDevelopmentProposal().getRequestedStartDateInitial());
+            budget.setEndDate(pd.getDevelopmentProposal().getRequestedEndDateInitial());
             budget.setUpdateTimestamp(pd.getUpdateTimestamp());
             budget.setUpdateUser(pd.getUpdateUser());
             budget.setOhRateTypeCode("1");
@@ -186,22 +186,22 @@ public class S2SServiceTest extends KraTestBase{
     }
 
     private void savePropDoc(ProposalDevelopmentDocument pd) {
-        pd.setActivityTypeCode("1");
-        pd.refreshReferenceObject("activityType");
-        pd.setSponsorCode("000162");
-        pd.setOwnedByUnitNumber("000001");
-        pd.refreshReferenceObject("ownedByUnit");
-        pd.setProposalTypeCode("1");
-        pd.setCreationStatusCode("1");
-        pd.setOrganizationId("000001");
-        pd.setPerformingOrganizationId("000001");
-        pd.setNoticeOfOpportunityCode("1");
-        pd.setRequestedStartDateInitial(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-        pd.setRequestedEndDateInitial(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-        pd.setTitle("Test s2s service title");
-        pd.setDeadlineType("P");
-        pd.setDeadlineDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-        pd.setNsfCode("J.05");
+        pd.getDevelopmentProposal().setActivityTypeCode("1");
+        pd.getDevelopmentProposal().refreshReferenceObject("activityType");
+        pd.getDevelopmentProposal().setSponsorCode("000162");
+        pd.getDevelopmentProposal().setOwnedByUnitNumber("000001");
+        pd.getDevelopmentProposal().refreshReferenceObject("ownedByUnit");
+        pd.getDevelopmentProposal().setProposalTypeCode("1");
+        pd.getDevelopmentProposal().setCreationStatusCode("1");
+        pd.getDevelopmentProposal().setOrganizationId("000001");
+        pd.getDevelopmentProposal().setPerformingOrganizationId("000001");
+        pd.getDevelopmentProposal().setNoticeOfOpportunityCode("1");
+        pd.getDevelopmentProposal().setRequestedStartDateInitial(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+        pd.getDevelopmentProposal().setRequestedEndDateInitial(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+        pd.getDevelopmentProposal().setTitle("Test s2s service title");
+        pd.getDevelopmentProposal().setDeadlineType("P");
+        pd.getDevelopmentProposal().setDeadlineDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+        pd.getDevelopmentProposal().setNsfCode("J.05");
 
         pd.setUpdateUser("quickst");
         pd.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));

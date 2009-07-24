@@ -136,13 +136,13 @@ public class KRAS2SServiceImpl implements S2SService {
      */
     public boolean refreshGrantsGov(ProposalDevelopmentDocument pdDoc) throws S2SException {
         Map<String, String> opportunityMap = new HashMap<String, String>();
-        opportunityMap.put(KEY_PROPOSAL_NUMBER, pdDoc.getProposalNumber());
+        opportunityMap.put(KEY_PROPOSAL_NUMBER, pdDoc.getDevelopmentProposal().getProposalNumber());
         S2sOpportunity s2sOpportunity = (S2sOpportunity) businessObjectService.findByPrimaryKey(S2sOpportunity.class,
                 opportunityMap);
         boolean success = false;
         GetApplicationListResponse applicationListResponse = grantsGovConnectorService.getApplicationList(s2sOpportunity
                 .getOpportunityId(), s2sOpportunity.getCfdaNumber(), s2sOpportunity.getProposalNumber());
-        List<S2sAppSubmission> appSubmissionList = pdDoc.getS2sAppSubmission();
+        List<S2sAppSubmission> appSubmissionList = pdDoc.getDevelopmentProposal().getS2sAppSubmission();
         S2sAppSubmission appSubmission = null;
         int submissionNo = 0;
         for (S2sAppSubmission s2AppSubmission : appSubmissionList) {
@@ -172,7 +172,7 @@ public class KRAS2SServiceImpl implements S2SService {
             if (applicationListResponse.getApplicationInformation() == null
                     || applicationListResponse.getApplicationInformation().size() == 0) {
                 GetApplicationStatusDetailResponse response = grantsGovConnectorService.getApplicationStatusDetail(appSubmission
-                        .getGgTrackingId(), pdDoc.getProposalNumber());
+                        .getGgTrackingId(), pdDoc.getDevelopmentProposal().getProposalNumber());
                 if (response != null && response.getDetailedStatus() != null) {
                     String statusDetail = response.getDetailedStatus().toString();
                     statusChanged = !statusDetail.equalsIgnoreCase(appSubmission.getStatus());
@@ -263,7 +263,7 @@ public class KRAS2SServiceImpl implements S2SService {
             SubmitApplicationResponse response = null;
             try {
                 response = grantsGovConnectorService.submitApplication(grantApplicationDocument.xmlText(), attachments, pdDoc
-                        .getProposalNumber());
+                        .getDevelopmentProposal().getProposalNumber());
             }
             catch (S2SException ex) {
                 appSubmission.setStatus(S2SConstants.STATUS_GRANTS_GOV_SUBMISSION_ERROR);
@@ -295,11 +295,11 @@ public class KRAS2SServiceImpl implements S2SService {
         GrantApplication grantApplication = GrantApplication.Factory.newInstance();
         grantApplication.setForms(forms);
         GrantSubmissionHeader grantSubmissionHeader = GrantSubmissionHeader.Factory.newInstance();
-        grantSubmissionHeader.setActivityTitle(pdDoc.getProgramAnnouncementTitle());
-        grantSubmissionHeader.setOpportunityTitle(pdDoc.getProgramAnnouncementTitle());
-        grantSubmissionHeader.setAgencyName(pdDoc.getSponsor().getSponsorName());
-        grantSubmissionHeader.setCFDANumber(pdDoc.getCfdaNumber());
-        S2sOpportunity s2sOpportunity = pdDoc.getS2sOpportunity();
+        grantSubmissionHeader.setActivityTitle(pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle());
+        grantSubmissionHeader.setOpportunityTitle(pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle());
+        grantSubmissionHeader.setAgencyName(pdDoc.getDevelopmentProposal().getSponsor().getSponsorName());
+        grantSubmissionHeader.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
+        S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
         s2sOpportunity.refreshNonUpdateableReferences();
         if (s2sOpportunity.getCompetetionId() != null) {
             grantSubmissionHeader.setCompetitionID(s2sOpportunity.getCompetetionId());
@@ -344,8 +344,8 @@ public class KRAS2SServiceImpl implements S2SService {
             List<S2sApplication> s2sApplicationList = new ArrayList<S2sApplication>();
             s2sApplicationList.add(application);
             appSubmission.setS2sApplication(s2sApplicationList);
-            appSubmission.setProposalNumber(pdDoc.getProposalNumber());
-            List<S2sAppSubmission> appList = pdDoc.getS2sAppSubmission();
+            appSubmission.setProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
+            List<S2sAppSubmission> appList = pdDoc.getDevelopmentProposal().getS2sAppSubmission();
             int submissionNumber = 1;
             for (S2sAppSubmission submittedApplication : appList) {
                 if (submittedApplication.getSubmissionNumber() >= submissionNumber) {
@@ -356,7 +356,7 @@ public class KRAS2SServiceImpl implements S2SService {
             appList.add(appSubmission);
             appSubmission.setStatus(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
             appSubmission.setComments(S2SConstants.GRANTS_GOV_PROCESSING_MESSAGE);
-            pdDoc.setS2sAppSubmission(appList);
+            pdDoc.getDevelopmentProposal().setS2sAppSubmission(appList);
             businessObjectService.save(appSubmission);
         }
     }
@@ -391,7 +391,7 @@ public class KRAS2SServiceImpl implements S2SService {
         FormMappingInfo info = null;
         S2SFormGenerator s2sFormGenerator = null;
 
-        for (S2sOppForms oppForms : pdDoc.getS2sOppForms()) {
+        for (S2sOppForms oppForms : pdDoc.getDevelopmentProposal().getS2sOppForms()) {
             if (!oppForms.getInclude()) {
                 continue;
             }

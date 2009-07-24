@@ -49,12 +49,12 @@ public class BudgetV1_1GeneratorTest extends S2STestBase<BudgetV1_1Generator> {
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
         narrativeAttachment.setNarrativeData(narrativePdf);
-        narrativeAttachment.setProposalNumber(document.getProposalNumber());
+        narrativeAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();
         narrativeList.add(narrativeAttachment);
-        narrative.setProposalNumber(document.getProposalNumber());
+        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");
@@ -68,6 +68,6 @@ public class BudgetV1_1GeneratorTest extends S2STestBase<BudgetV1_1Generator> {
         naList.add(narrative);
         getService(BusinessObjectService.class).save(narrative);
         narrative.getNarrativeAttachmentList().clear();
-        document.setNarratives(naList);
+        document.getDevelopmentProposal().setNarratives(naList);
     }
 }

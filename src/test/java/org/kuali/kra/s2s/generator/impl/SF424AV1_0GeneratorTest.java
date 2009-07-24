@@ -48,7 +48,7 @@ public class SF424AV1_0GeneratorTest extends S2STestBase<SF424AV1_0Generator> {
         Organization organization = new Organization();
         organization.setDunsNumber("122");
         organization.setOrganizationName("MIT");
-        pdDoc.setOrganization(organization);
+        pdDoc.getDevelopmentProposal().setOrganization(organization);
 
         S2sSubmissionType submissionType = new S2sSubmissionType();
         submissionType.setS2sSubmissionTypeCode("1");
@@ -64,7 +64,7 @@ public class SF424AV1_0GeneratorTest extends S2STestBase<SF424AV1_0Generator> {
         pdDoc.setUpdateUser("quickstart");
         pdDoc.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
         KraServiceLocator.getService(BusinessObjectService.class).save(pdDoc);
-        opportunity.setProposalNumber(pdDoc.getProposalNumber());
-        pdDoc.setS2sOpportunity(opportunity);
+        opportunity.setProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
+        pdDoc.getDevelopmentProposal().setS2sOpportunity(opportunity);
     }
 }

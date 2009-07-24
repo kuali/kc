@@ -128,9 +128,9 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
 
         CategorySet[] categorySetArray = new CategorySet[1];
         CategorySet categorySet = CategorySet.Factory.newInstance();
-        if (pdDoc.getS2sOpportunity() != null && pdDoc.getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
-            pdDoc.getS2sOpportunity().refreshNonUpdateableReferences();
-            categorySet.setActivityTitle(pdDoc.getS2sOpportunity().getOpportunityTitle());
+        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
+            pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
+            categorySet.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
         }
 
         List<BudgetCategoryMap> budgetCategoryMapList = s2sBudgetCalculatorService.getBudgetCategoryMapList(
@@ -230,10 +230,10 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         BudgetSummary budgetSummary = BudgetSummary.Factory.newInstance();
         SummaryLineItem[] summaryLineItemArray = new SummaryLineItem[1];
         SummaryLineItem summaryLineItem = SummaryLineItem.Factory.newInstance();
-        if (pdDoc.getS2sOpportunity() != null && pdDoc.getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
-            pdDoc.getS2sOpportunity().refreshNonUpdateableReferences();
-            summaryLineItem.setActivityTitle(pdDoc.getS2sOpportunity().getOpportunityTitle());
-            summaryLineItem.setCFDANumber(pdDoc.getS2sOpportunity().getCfdaNumber());
+        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
+            pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
+            summaryLineItem.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
+            summaryLineItem.setCFDANumber(pdDoc.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber());
         }
         if (budgetDoc != null) {
             costSharing = budgetDoc.getCostSharingAmount();
@@ -264,9 +264,9 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         NonFederalResources nonFederalResources = NonFederalResources.Factory.newInstance();
         ResourceLineItem[] resourceLineItemArray = new ResourceLineItem[1];
         ResourceLineItem resourceLineItem = ResourceLineItem.Factory.newInstance();
-        if (pdDoc.getS2sOpportunity() != null && pdDoc.getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
-            pdDoc.getS2sOpportunity().refreshNonUpdateableReferences();
-            resourceLineItem.setActivityTitle(pdDoc.getS2sOpportunity().getOpportunityTitle());
+        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
+            pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
+            resourceLineItem.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
         }
         if (budgetDoc != null) {
             resourceLineItem.setBudgetApplicantContributionAmount(budgetDoc.getCostSharingAmount().bigDecimalValue());
@@ -371,9 +371,9 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         FundsLineItem[] fundsLineItemArray = new FundsLineItem[1];
         FundsLineItem fundsLineItem = FundsLineItem.Factory.newInstance();
 
-        if (pdDoc.getS2sOpportunity() != null && pdDoc.getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
-            pdDoc.getS2sOpportunity().refreshNonUpdateableReferences();
-            fundsLineItem.setActivityTitle(pdDoc.getS2sOpportunity().getOpportunityTitle());
+        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
+            pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
+            fundsLineItem.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
         }
 
         for (BudgetPeriod budgetPeriod : budgetDoc.getBudgetPeriods()) {

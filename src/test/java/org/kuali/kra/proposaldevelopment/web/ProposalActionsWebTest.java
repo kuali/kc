@@ -58,14 +58,14 @@ public class ProposalActionsWebTest extends ProposalDevelopmentWebTestBase {
         
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
         
-        assertEquals(doc.getS2sOpportunity().getOpportunityId(),VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
-        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),VALID_CFDA_NUMBER_00_000);
-        assertEquals(doc.getS2sOpportunity().getS2sSubmissionTypeCode().toString(),"1");
+        assertEquals(doc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId(),VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        assertEquals(doc.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber(),VALID_CFDA_NUMBER_00_000);
+        assertEquals(doc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode().toString(),"1");
         
         ProposalDevelopmentDocument propDevDoc = (ProposalDevelopmentDocument) getDocument(documentNumber);
         
-        if (propDevDoc.getS2sOpportunity() != null) {
-            log.debug("Saved document has opportunity["+propDevDoc.getS2sOpportunity().getOpportunityId()+"]");
+        if (propDevDoc.getDevelopmentProposal().getS2sOpportunity() != null) {
+            log.debug("Saved document has opportunity["+propDevDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId()+"]");
         } else {
             log.debug("Saved document has opportunity is null");
         }

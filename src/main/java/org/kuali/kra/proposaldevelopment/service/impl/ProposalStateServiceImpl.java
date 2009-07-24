@@ -140,6 +140,6 @@ public class ProposalStateServiceImpl implements ProposalStateService {
      * @return true if submitted to the sponsor; otherwise false
      */
     private boolean isSubmitted(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        return proposalDevelopmentDocument.getSubmitFlag();
+        return proposalDevelopmentDocument.getDevelopmentProposal().getSubmitFlag();
     }   
 }

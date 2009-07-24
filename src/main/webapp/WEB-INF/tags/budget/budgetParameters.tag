@@ -24,10 +24,10 @@
 
 <input type="hidden" id="updateFinalVersion" name="updateFinalVersion" value='<bean:write name="KualiForm" property="updateFinalVersion"/>' />
 
-<c:forEach var="budgetVersionOverviews" items="${KualiForm.document.proposal.budgetVersionOverviews}" varStatus="status">
+<c:forEach var="budgetVersionOverviews" items="${KualiForm.document.proposal.developmentProposalList[0].budgetVersionOverviews}" varStatus="status">
 	<c:if test="${status.index + 1 != KualiForm.document.budgetVersionNumber}">
-		<input type="hidden" id="finalVersionFlag${status.index}" name="KualiForm" property="document.proposal.budgetVersionOverview[${status.index}].finalVersionFlag" value='<bean:write name="KualiForm" property="document.proposal.budgetVersionOverview[${status.index}].finalVersionFlag"/>' />
-		<input type="hidden" id="budgetStatus${status.index}" name="KualiForm" property="document.proposal.budgetVersionOverview[${status.index}].budgetStatus" value='<bean:write name="KualiForm" property="document.proposal.budgetVersionOverview[${status.index}].budgetStatus"/>' />
+		<input type="hidden" id="finalVersionFlag${status.index}" name="KualiForm" property="document.proposal.developmentProposalList[0].budgetVersionOverview[${status.index}].finalVersionFlag" value='<bean:write name="KualiForm" property="document.proposal.developmentProposalList[0].budgetVersionOverview[${status.index}].finalVersionFlag"/>' />
+		<input type="hidden" id="budgetStatus${status.index}" name="KualiForm" property="document.proposal.developmentProposalList[0].budgetVersionOverview[${status.index}].budgetStatus" value='<bean:write name="KualiForm" property="document.proposal.developmentProposalList[0].budgetVersionOverview[${status.index}].budgetStatus"/>' />
 	</c:if>
 </c:forEach>
  
@@ -73,7 +73,7 @@
 			     		<tr>
 			     		    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.finalVersionFlag}" noColon="true" /></div></th>
 			           		<td>
-			           			<kul:htmlControlAttribute property="document.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: confirmFinalizeVersion(document, ${KualiForm.document.proposal.numberOfVersions})" />
+			           			<kul:htmlControlAttribute property="document.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: confirmFinalizeVersion(document, ${KualiForm.document.proposal.developmentProposalList[0].numberOfVersions})" />
 			           			<html:hidden name="KualiForm" property="document.finalVersionFlag" disabled="true" />
 			           		</td>
 			           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>

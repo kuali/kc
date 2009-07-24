@@ -73,22 +73,22 @@ public abstract class S2STestBase<T> extends KraTestBase {
     }
 
     private void savePropDoc(ProposalDevelopmentDocument pd) {
-        pd.setActivityTypeCode("1");
-        pd.refreshReferenceObject("activityType");
-        pd.setSponsorCode("000162");
-        pd.setOwnedByUnitNumber("000001");
-        pd.refreshReferenceObject("ownedByUnit");
-        pd.setProposalTypeCode("1");
-        pd.setCreationStatusCode("1");
-        pd.setOrganizationId("000001");
-        pd.setPerformingOrganizationId("000001");
-        pd.setNoticeOfOpportunityCode("1");
-        pd.setRequestedStartDateInitial(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-        pd.setRequestedEndDateInitial(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-        pd.setTitle("Test s2s service title");
-        pd.setDeadlineType("P");
-        pd.setDeadlineDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-        pd.setNsfCode("J.05");
+        pd.getDevelopmentProposal().setActivityTypeCode("1");
+        pd.getDevelopmentProposal().refreshReferenceObject("activityType");
+        pd.getDevelopmentProposal().setSponsorCode("000162");
+        pd.getDevelopmentProposal().setOwnedByUnitNumber("000001");
+        pd.getDevelopmentProposal().refreshReferenceObject("ownedByUnit");
+        pd.getDevelopmentProposal().setProposalTypeCode("1");
+        pd.getDevelopmentProposal().setCreationStatusCode("1");
+        pd.getDevelopmentProposal().setOrganizationId("000001");
+        pd.getDevelopmentProposal().setPerformingOrganizationId("000001");
+        pd.getDevelopmentProposal().setNoticeOfOpportunityCode("1");
+        pd.getDevelopmentProposal().setRequestedStartDateInitial(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+        pd.getDevelopmentProposal().setRequestedEndDateInitial(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+        pd.getDevelopmentProposal().setTitle("Test s2s service title");
+        pd.getDevelopmentProposal().setDeadlineType("P");
+        pd.getDevelopmentProposal().setDeadlineDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+        pd.getDevelopmentProposal().setNsfCode("J.05");
         pd.setUpdateUser("quickst");
         pd.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
         DocumentHeader docHeader = pd.getDocumentHeader();

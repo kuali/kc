@@ -85,11 +85,11 @@
 	                    </td>
 	                    <td class="datacell center" ><div align=center>
 	                    	<kul:user userIdFieldName="adHocRoutePerson[${ctr}].id" 
-	                    			  userId="${KualiForm.document.adHocRoutePersons[ctr].id}" 
+	                    			  userId="${KualiForm.document.developmentProposalList[0].adHocRoutePersons[ctr].id}" 
 	                    			  universalIdFieldName=""
 	                    			  universalId=""
 	                    			  userNameFieldName="adHocRoutePerson[${ctr}].name"
-	                    			  userName="${KualiForm.document.adHocRoutePersons[ctr].name}"
+	                    			  userName="${KualiForm.document.developmentProposalList[0].adHocRoutePersons[ctr].name}"
 	                    			  readOnly="${displayReadOnly}" 
 	                    			  renderOtherFields="true"
 	                    			  fieldConversions="personId:adHocRoutePerson[${ctr}].id,fullName:adHocRoutePerson[${ctr}].name" 

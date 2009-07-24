@@ -68,7 +68,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         calendar.add(Calendar.DATE, 1);
         Date deadlineDate = new Date(calendar.getTimeInMillis());
 
-        document.setDeadlineDate(deadlineDate);
+        document.getDevelopmentProposal().setDeadlineDate(deadlineDate);
         assertTrue("Audit Rule shouldn't produce any audit errors", auditRule.processRunAuditBusinessRules(document));
         assertEquals(0, GlobalVariables.getAuditErrorMap().size());
     }
@@ -87,7 +87,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         calendar.add(Calendar.DATE, -1);
         Date deadlineDate = new Date(calendar.getTimeInMillis());
 
-        document.setDeadlineDate(deadlineDate);
+        document.getDevelopmentProposal().setDeadlineDate(deadlineDate);
         validateAuditRule(document, KeyConstants.WARNING_PAST_DEADLINE_DATE);
     }
 

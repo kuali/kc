@@ -80,9 +80,9 @@ public class RRPersonalDataV1_1Generator extends RRPersonalDataBaseGenerator {
     private DirectorType[] getCoProjectDirectoryType() {
         DirectorType[] directorTypes = new DirectorType[0];
         List<DirectorType> directorTypeList = new ArrayList<DirectorType>();
-        if (pdDoc.getProposalPersons() != null) {
+        if (pdDoc.getDevelopmentProposal().getProposalPersons() != null) {
             ProposalPerson CoPI = null;
-            for (ProposalPerson proposalPerson : pdDoc.getProposalPersons()) {
+            for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
                 DirectorType coDirectorType = DirectorType.Factory.newInstance();
                 if (proposalPerson.getProposalPersonRoleId() != null) {
                     if (KEYPERSON_TYPE_C0_INVESTIGATOR.equals(proposalPerson.getProposalPersonRoleId())) {

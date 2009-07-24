@@ -166,7 +166,7 @@ public class PHS398ModularBudgetV1_0Generator extends PHS398ModularBudgetBaseGen
 
         BudgetJustifications budgetJustifications = BudgetJustifications.Factory.newInstance();
 
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null) {
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PERSONNEL_JUSTIFICATION_CODE) {
                     PersonnelJustification personnelJustification = PersonnelJustification.Factory.newInstance();
@@ -285,7 +285,7 @@ public class PHS398ModularBudgetV1_0Generator extends PHS398ModularBudgetBaseGen
         periods.setDirectCost(directCost);
 
         // CognizantFederalAgency
-        Organization organization = pdDoc.getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
         Rolodex rolodex = organization.getRolodex();
 
         if (rolodex != null) {
@@ -416,7 +416,7 @@ public class PHS398ModularBudgetV1_0Generator extends PHS398ModularBudgetBaseGen
         // CognizantFederalAgency
         Rolodex rolodex = null;        
         Organization organization = null;
-        if ((organization = pdDoc.getOrganization()) != null ) {           
+        if ((organization = pdDoc.getDevelopmentProposal().getOrganization()) != null ) {           
             rolodex = organization.getRolodex();
             if (rolodex != null) {
                 StringBuilder agency = new StringBuilder();
@@ -546,7 +546,7 @@ public class PHS398ModularBudgetV1_0Generator extends PHS398ModularBudgetBaseGen
         periods3.setDirectCost3(directCost3);
 
         // CognizantFederalAgency
-        Organization organization = pdDoc.getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
         Rolodex rolodex = organization.getRolodex();
 
         if (rolodex != null) {
@@ -675,7 +675,7 @@ public class PHS398ModularBudgetV1_0Generator extends PHS398ModularBudgetBaseGen
         // CognizantFederalAgency
         Rolodex rolodex = null;        
         Organization organization = null;
-        if ((organization = pdDoc.getOrganization()) != null) {
+        if ((organization = pdDoc.getDevelopmentProposal().getOrganization()) != null) {
             rolodex = organization.getRolodex();
             if (rolodex != null) {
                 StringBuilder agency = new StringBuilder();
@@ -802,7 +802,7 @@ public class PHS398ModularBudgetV1_0Generator extends PHS398ModularBudgetBaseGen
         // CognizantFederalAgency
         Rolodex rolodex = null;        
         Organization organization = null;
-        if ((organization = pdDoc.getOrganization()) != null) {
+        if ((organization = pdDoc.getDevelopmentProposal().getOrganization()) != null) {
             rolodex = organization.getRolodex();
             if (rolodex != null) {
                 StringBuilder agency = new StringBuilder();

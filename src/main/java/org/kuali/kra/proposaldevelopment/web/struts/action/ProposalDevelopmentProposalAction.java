@@ -79,8 +79,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         KeyPersonnelService kpservice=KraServiceLocator.getService(KeyPersonnelService.class);
         setKeywordsPanelFlag(request);
         ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
-        if (proposalDevelopmentDocument.getOrganizationId() != null
-                && proposalDevelopmentDocument.getProposalLocations().size() == 0
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getOrganizationId() != null
+                && proposalDevelopmentDocument.getDevelopmentProposal().getProposalLocations().size() == 0
                 && StringUtils.isNotBlank(request.getParameter("methodToCall"))
                 && request.getParameter("methodToCall").toString().equals("refresh")
                 && StringUtils.isNotBlank(request.getParameter("refreshCaller"))
@@ -88,16 +88,16 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
                 && StringUtils.isNotBlank(request.getParameter("document.organizationId"))) {
             // populate 1st location. Not sure yet
             ProposalLocation propLocation = new ProposalLocation();
-            propLocation.setLocation(proposalDevelopmentDocument.getOrganization().getOrganizationName());
+            propLocation.setLocation(proposalDevelopmentDocument.getDevelopmentProposal().getOrganization().getOrganizationName());
             propLocation.setLocationSequenceNumber(proposalDevelopmentDocument
                     .getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
-            proposalDevelopmentDocument.getProposalLocations().add(propLocation);
+            proposalDevelopmentDocument.getDevelopmentProposal().getProposalLocations().add(propLocation);
         }
 
         // populate the Prime Sponsor Name if we have the code
         // this is necessary since the name is only on the form not the document
         // and it is only populated by a lookup or through AJAX/DWR
-        String primeSponsorCode = proposalDevelopmentDocument.getPrimeSponsorCode();
+        String primeSponsorCode = proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsorCode();
         if (StringUtils.isNotEmpty(primeSponsorCode)) {
             String primeSponsorName = (KraServiceLocator.getService(SponsorService.class).getSponsorName(primeSponsorCode));
             if (StringUtils.isEmpty(primeSponsorName)) {
@@ -110,11 +110,11 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             ((ProposalDevelopmentForm) form).setPrimeSponsorName(null);
         }
 
-        if (proposalDevelopmentDocument.getProposalPersons().size() > 0)
-            sort(proposalDevelopmentDocument.getProposalPersons(), new ProposalPersonComparator());
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalPersons().size() > 0)
+            sort(proposalDevelopmentDocument.getDevelopmentProposal().getProposalPersons(), new ProposalPersonComparator());
 
-        if (proposalDevelopmentDocument.getInvestigators().size() > 0)
-            sort(proposalDevelopmentDocument.getInvestigators(), new ProposalPersonComparator());
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators().size() > 0)
+            sort(proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators(), new ProposalPersonComparator());
            
         kpservice.isSponsorNIH(proposalDevelopmentDocument);
         
@@ -155,7 +155,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
                     newProposalLocation))) {
             newProposalLocation.setLocationSequenceNumber(proposalDevelopmentForm.getDocument()
                     .getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
-            proposalDevelopmentForm.getDocument().getProposalLocations().add(newProposalLocation);
+            proposalDevelopmentForm.getDocument().getDevelopmentProposal().getProposalLocations().add(newProposalLocation);
             proposalDevelopmentForm.setNewPropLocation(new ProposalLocation());
         }
 
@@ -176,7 +176,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward deleteLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.getDocument().getProposalLocations().remove(getLineToDelete(request));
+        proposalDevelopmentForm.getDocument().getDevelopmentProposal().getProposalLocations().remove(getLineToDelete(request));
         return mapping.findForward("basic");
     }
 
@@ -196,8 +196,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         int index = getSelectedLine(request);
 
-        proposalDevelopmentForm.getDocument().getProposalLocations().get(index).setRolodexId(new Integer(0));
-        proposalDevelopmentForm.getDocument().getProposalLocations().get(index).setRolodex(new Rolodex());
+        proposalDevelopmentForm.getDocument().getDevelopmentProposal().getProposalLocations().get(index).setRolodexId(new Integer(0));
+        proposalDevelopmentForm.getDocument().getDevelopmentProposal().getProposalLocations().get(index).setRolodex(new Rolodex());
 
         return mapping.findForward("basic");
     }
@@ -219,7 +219,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
-        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
+        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getDevelopmentProposal().getPropScienceKeywords();
         for (Iterator iter = keywords.iterator(); iter.hasNext();) {
             PropScienceKeyword propScienceKeyword = (PropScienceKeyword) iter.next();
             propScienceKeyword.setSelectKeyword(true);
@@ -233,7 +233,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
-        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
+        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getDevelopmentProposal().getPropScienceKeywords();
         List<PropScienceKeyword> newKeywords = new ArrayList<PropScienceKeyword>();
         for (Iterator iter = keywords.iterator(); iter.hasNext();) {
             PropScienceKeyword propScienceKeyword = (PropScienceKeyword) iter.next();
@@ -241,7 +241,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
                 newKeywords.add(propScienceKeyword);
             }
         }
-        proposalDevelopmentDocument.setPropScienceKeywords(newKeywords);
+        proposalDevelopmentDocument.getDevelopmentProposal().setPropScienceKeywords(newKeywords);
 
         return mapping.findForward("basic");
     }
@@ -253,17 +253,17 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         
-        if(proposalDevelopmentDocument!=null && proposalDevelopmentDocument.getPerformingOrganizationId()!=null 
-                && proposalDevelopmentDocument.getOwnedByUnit()!=null && proposalDevelopmentDocument.getOwnedByUnit().getOrganizationId()!=null 
-                && ((StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getPerformingOrganizationId(), proposalDevelopmentDocument.getOwnedByUnit().getOrganizationId()))
-                        ||(StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getPerformingOrganizationId().trim(), "")))){
-            proposalDevelopmentDocument.setPerformingOrganizationId(proposalDevelopmentDocument.getOrganizationId());
+        if (proposalDevelopmentDocument != null && proposalDevelopmentDocument.getDevelopmentProposal().getPerformingOrganizationId() != null 
+				&& proposalDevelopmentDocument.getDevelopmentProposal().getOwnedByUnit() != null && proposalDevelopmentDocument.getDevelopmentProposal().getOwnedByUnit().getOrganizationId() != null 
+				&& ((StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getPerformingOrganizationId(), proposalDevelopmentDocument.getDevelopmentProposal().getOwnedByUnit().getOrganizationId())) 
+						|| (StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getPerformingOrganizationId().trim(), "")))) {
+            proposalDevelopmentDocument.getDevelopmentProposal().setPerformingOrganizationId(proposalDevelopmentDocument.getDevelopmentProposal().getOrganizationId());
         }
         
-        proposalDevelopmentDocument.refreshReferenceObject("organization");             
-        proposalDevelopmentDocument.refreshReferenceObject("performingOrganization");
+        proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("organization");
+        proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("performingOrganization");
                 
-        for(ProposalLocation proposalLocation: proposalDevelopmentDocument.getProposalLocations()){
+        for (ProposalLocation proposalLocation : proposalDevelopmentDocument.getDevelopmentProposal().getProposalLocations()) {
             proposalLocation.refreshReferenceObject("rolodex");
         }
         
@@ -281,11 +281,11 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
                     for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                         ScienceKeyword scienceKeyword = (ScienceKeyword) iter.next();
                         PropScienceKeyword propScienceKeyword = new PropScienceKeyword(proposalDevelopmentDocument
-                                .getProposalNumber(), scienceKeyword);
+                                .getDevelopmentProposal().getProposalNumber(), scienceKeyword);
                         // ignore / drop duplicates
                         if (!isDuplicateKeyword(propScienceKeyword.getScienceKeywordCode(), proposalDevelopmentDocument
-                                .getPropScienceKeywords())) {
-                            proposalDevelopmentDocument.addPropScienceKeyword(propScienceKeyword);
+                                .getDevelopmentProposal().getPropScienceKeywords())) {
+                            proposalDevelopmentDocument.getDevelopmentProposal().addPropScienceKeyword(propScienceKeyword);
                         }
                     }
                 }
@@ -329,14 +329,14 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward clearMailingNameAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        if(proposalDevelopmentForm.getDocument().getRolodex()!=null){
+        if (proposalDevelopmentForm.getDocument().getDevelopmentProposal().getRolodex() != null) {
         
-        proposalDevelopmentForm.getDocument().getRolodex().setAddressLine1("");
-        proposalDevelopmentForm.getDocument().getRolodex().setAddressLine2("");
-        proposalDevelopmentForm.getDocument().getRolodex().setAddressLine3("");
-        proposalDevelopmentForm.getDocument().getRolodex().setCity("");
-        proposalDevelopmentForm.getDocument().getRolodex().setOrganization("");
-        proposalDevelopmentForm.getDocument().getRolodex().setState("");
+            proposalDevelopmentForm.getDocument().getDevelopmentProposal().getRolodex().setAddressLine1("");
+            proposalDevelopmentForm.getDocument().getDevelopmentProposal().getRolodex().setAddressLine2("");
+            proposalDevelopmentForm.getDocument().getDevelopmentProposal().getRolodex().setAddressLine3("");
+            proposalDevelopmentForm.getDocument().getDevelopmentProposal().getRolodex().setCity("");
+            proposalDevelopmentForm.getDocument().getDevelopmentProposal().getRolodex().setOrganization("");
+            proposalDevelopmentForm.getDocument().getDevelopmentProposal().getRolodex().setState("");
         
         }
       return mapping.findForward("basic");

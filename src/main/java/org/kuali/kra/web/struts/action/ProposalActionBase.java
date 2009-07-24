@@ -103,9 +103,9 @@ public class ProposalActionBase extends KraTransactionalDocumentActionBase {
      * @param proposalDevelopmentDocument
      */
     protected void setProposalStatus(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        for (BudgetVersionOverview budgetVersion: proposalDevelopmentDocument.getBudgetVersionOverviews()) {
+        for (BudgetVersionOverview budgetVersion: proposalDevelopmentDocument.getDevelopmentProposal().getBudgetVersionOverviews()) {
             if (budgetVersion.isFinalVersionFlag()) {
-                proposalDevelopmentDocument.setBudgetStatus(budgetVersion.getBudgetStatus());
+                proposalDevelopmentDocument.getDevelopmentProposal().setBudgetStatus(budgetVersion.getBudgetStatus());
                 return;
             }
         }
@@ -123,9 +123,9 @@ public class ProposalActionBase extends KraTransactionalDocumentActionBase {
         String budgetStatusIncompleteCode = kualiConfigurationService.getParameter(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE).getParameterValue();
         
-        for (BudgetVersionOverview budgetVersion: proposalDevelopmentDocument.getBudgetVersionOverviews()) {
+        for (BudgetVersionOverview budgetVersion: proposalDevelopmentDocument.getDevelopmentProposal().getBudgetVersionOverviews()) {
             if (budgetVersion.isFinalVersionFlag()) {
-                budgetVersion.setBudgetStatus(proposalDevelopmentDocument.getBudgetStatus());
+                budgetVersion.setBudgetStatus(proposalDevelopmentDocument.getDevelopmentProposal().getBudgetStatus());
             }
             else {
                 budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
@@ -152,7 +152,7 @@ public class ProposalActionBase extends KraTransactionalDocumentActionBase {
         }
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy);
-        proposalDevelopmentDocument.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription() + " " 
+        proposalDevelopmentDocument.getDevelopmentProposal().addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription() + " " 
                                                         + budgetToCopy.getBudgetVersionNumber() + " copy", true);
     }
 

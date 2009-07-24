@@ -191,9 +191,9 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         
         proposalPage = clickOn(proposalPage, QUESTIONS_LINK_NAME);
         for(int i=0; i<4; i++) {
-            String fieldName = "document.proposalYnq[" + i + "].answer";
-            String explanation = "document.proposalYnq[" + i + "].explanation";
-            String reviewDate = "document.proposalYnq[" + i + "].reviewDate";
+            String fieldName = "document.developmentProposalList[0].proposalYnq[" + i + "].answer";
+            String explanation = "document.developmentProposalList[0].proposalYnq[" + i + "].explanation";
+            String reviewDate = "document.developmentProposalList[0].proposalYnq[" + i + "].reviewDate";
             setFieldValue(proposalPage, fieldName, RADIO_FIELD_VALUE);
             setFieldValue(proposalPage, explanation, "test comments");
             setFieldValue(proposalPage, reviewDate, sponsorDeadlineDate);

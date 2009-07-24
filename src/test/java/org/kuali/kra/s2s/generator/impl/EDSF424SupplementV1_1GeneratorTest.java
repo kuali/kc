@@ -52,10 +52,10 @@ public class EDSF424SupplementV1_1GeneratorTest extends S2STestBase<EDSF424Suppl
         specialReview.setComments("This is the comment for special review comments");
         List<ProposalSpecialReview> reviewList = new ArrayList<ProposalSpecialReview>();
         reviewList.add(specialReview);
-        document.setPropSpecialReviews(reviewList);
+        document.getDevelopmentProposal().setPropSpecialReviews(reviewList);
         Organization organization = new Organization();
         organization.setHumanSubAssurance("humanSubAssurance");
-        document.setOrganization(organization);
+        document.getDevelopmentProposal().setOrganization(organization);
 
         ProposalPerson person = new ProposalPerson();
         person.setProposalPersonRoleId("PI");
@@ -76,7 +76,7 @@ public class EDSF424SupplementV1_1GeneratorTest extends S2STestBase<EDSF424Suppl
         person.setProposalPersonNumber(1001);
         List<ProposalPerson> personList = new ArrayList<ProposalPerson>();
         personList.add(person);
-        document.setProposalPersons(personList);
+        document.getDevelopmentProposal().setProposalPersons(personList);
 
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();
@@ -88,7 +88,7 @@ public class EDSF424SupplementV1_1GeneratorTest extends S2STestBase<EDSF424Suppl
         narrativeAttachment.setNarrativeData(narrativePdf);
         List<NarrativeAttachment> narrativeList = new ArrayList<NarrativeAttachment>();
         narrativeList.add(narrativeAttachment);
-        narrative.setProposalNumber(document.getProposalNumber());
+        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");
@@ -102,6 +102,6 @@ public class EDSF424SupplementV1_1GeneratorTest extends S2STestBase<EDSF424Suppl
         naList.add(narrative);
         getService(BusinessObjectService.class).save(narrative);
         narrative.getNarrativeAttachmentList().clear();
-        document.setNarratives(naList);
+        document.getDevelopmentProposal().setNarratives(naList);
     }
 }

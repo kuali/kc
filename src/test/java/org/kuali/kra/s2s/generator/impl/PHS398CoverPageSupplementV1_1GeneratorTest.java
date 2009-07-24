@@ -40,7 +40,7 @@ public class PHS398CoverPageSupplementV1_1GeneratorTest extends S2STestBase<PHS3
     @Override
     protected void prepareData(ProposalDevelopmentDocument document) throws Exception {
 
-        document.setActivityTypeCode("8");
+        document.getDevelopmentProposal().setActivityTypeCode("8");
         Rolodex rolodex = new Rolodex();
         rolodex.setState("AL");
         rolodex.setAddressLine1("Address1");
@@ -57,8 +57,8 @@ public class PHS398CoverPageSupplementV1_1GeneratorTest extends S2STestBase<PHS3
         rolodex.setRolodexId(1234);
         Organization organization = new Organization();
         organization.setRolodex(rolodex);
-        document.setOrganization(organization);
-        document.setRolodex(rolodex);
+        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setRolodex(rolodex);
 
         ProposalPerson person = new ProposalPerson();
         person.setProposalPersonRoleId("PI");
@@ -79,7 +79,7 @@ public class PHS398CoverPageSupplementV1_1GeneratorTest extends S2STestBase<PHS3
         proListYnq.add(proposalYnq);
         proListYnq.add(proposalYnq2);
         proListYnq.add(proposalYnq3);
-        document.setProposalYnqs(proListYnq);
+        document.getDevelopmentProposal().setProposalYnqs(proListYnq);
 
         ProposalPersonDegree personDegree = new ProposalPersonDegree();
         personDegree.setDegree("MBA");
@@ -92,7 +92,7 @@ public class PHS398CoverPageSupplementV1_1GeneratorTest extends S2STestBase<PHS3
         person.setProposalPersonNumber(1001);
         List<ProposalPerson> argProposalPersons = new ArrayList<ProposalPerson>();
         argProposalPersons.add(person);
-        document.setProposalPersons(argProposalPersons);
-        document.setPrincipalInvestigator(person);
+        document.getDevelopmentProposal().setProposalPersons(argProposalPersons);
+        document.getDevelopmentProposal().setPrincipalInvestigator(person);
     }
 }

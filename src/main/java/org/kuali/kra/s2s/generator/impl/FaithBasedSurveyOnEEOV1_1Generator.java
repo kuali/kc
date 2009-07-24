@@ -47,26 +47,26 @@ public class FaithBasedSurveyOnEEOV1_1Generator extends S2SBaseFormGenerator {
         SurveyOnEEO surveyOnEEO = SurveyOnEEO.Factory.newInstance();
         surveyOnEEO.setFormVersion(S2SConstants.FORMVERSION_1_1);
 
-        if (pdDoc.getOrganization() != null) {
-            if (pdDoc.getOrganization().getOrganizationName() != null) {
-                if (pdDoc.getOrganization().getOrganizationName().length() > ORGANIZATON_NAME_MAX_LENGTH) {
-                    surveyOnEEO.setOrganizationName(pdDoc.getOrganization().getOrganizationName().substring(0, ORGANIZATON_NAME_MAX_LENGTH));
+        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
+            if (pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName() != null) {
+                if (pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName().length() > ORGANIZATON_NAME_MAX_LENGTH) {
+                    surveyOnEEO.setOrganizationName(pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName().substring(0, ORGANIZATON_NAME_MAX_LENGTH));
                 }
                 else {
-                    surveyOnEEO.setOrganizationName(pdDoc.getOrganization().getOrganizationName());
+                    surveyOnEEO.setOrganizationName(pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName());
                 }
             }
 
-            if (pdDoc.getOrganization().getDunsNumber() != null) {
-                if (pdDoc.getOrganization().getDunsNumber().length() > DUNS_NUMBER_MAX_LENGTH) {
-                    surveyOnEEO.setDUNSID(pdDoc.getOrganization().getDunsNumber().substring(0, DUNS_NUMBER_MAX_LENGTH));
+            if (pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber() != null) {
+                if (pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber().length() > DUNS_NUMBER_MAX_LENGTH) {
+                    surveyOnEEO.setDUNSID(pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber().substring(0, DUNS_NUMBER_MAX_LENGTH));
                 }
                 else {
-                    surveyOnEEO.setDUNSID(pdDoc.getOrganization().getDunsNumber());
+                    surveyOnEEO.setDUNSID(pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber());
                 }
             }
         }
-        S2sOpportunity s2sOpportunity = pdDoc.getS2sOpportunity();
+        S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
         String opportunityTitle = "";
         if (s2sOpportunity != null) {
             s2sOpportunity.refreshNonUpdateableReferences();

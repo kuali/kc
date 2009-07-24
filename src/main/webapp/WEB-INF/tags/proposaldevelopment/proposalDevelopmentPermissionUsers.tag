@@ -19,7 +19,7 @@
 <c:set var="action" value="proposalDevelopmentPermissions" />
 
 <kul:tab tabTitle="Users" defaultOpen="true"  
-         tabErrorKey="document.proposalPermissionUser*,newProposalUser*">
+         tabErrorKey="document.developmentProposalList[0].proposalPermissionUser*,newProposalUser*">
          
 	<div class="tab-container" align="center">
     	<h3>
@@ -114,5 +114,5 @@
         </tbody>
     	</table>
     </div> 
-    <input type="hidden" name="lookup.ownedByUnitNumber" value="${KualiForm.document.ownedByUnitNumber}" />
+    <input type="hidden" name="lookup.ownedByUnitNumber" value="${KualiForm.document.developmentProposalList[0].ownedByUnitNumber}" />
 </kul:tab>

@@ -54,7 +54,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         if (ruleService.applyRules(new AddProposalSpecialReviewEvent(Constants.EMPTY_STRING, pdForm.getDocument(), newProposalSpecialReview))){
             
             newProposalSpecialReview.setSpecialReviewNumber(pdForm.getDocument().getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
-            pdForm.getDocument().getPropSpecialReviews().add(newProposalSpecialReview);
+            pdForm.getDocument().getDevelopmentProposal().getPropSpecialReviews().add(newProposalSpecialReview);
 
             pdForm.setNewPropSpecialReview(new ProposalSpecialReview());
         }
@@ -74,7 +74,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
     public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.getDocument().getPropSpecialReviews().remove(getLineToDelete(request));
+        proposalDevelopmentForm.getDocument().getDevelopmentProposal().getPropSpecialReviews().remove(getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

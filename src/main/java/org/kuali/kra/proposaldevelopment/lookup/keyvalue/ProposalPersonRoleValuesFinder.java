@@ -68,7 +68,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
             info("showRole = ", showRole);
 
             if (showRole) {
-                if(document.isNih()){
+                if(document.getDevelopmentProposal().isNih()){
                     keyValues.add(new KeyLabelPair(role.getProposalPersonRoleId(), findNIHRoleDescription(role,document)));
                 }
                 else
@@ -82,7 +82,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
         return keyValues;
     }
     protected String getRoleIdPrefix(ProposalDevelopmentDocument document) {
-        if(document.isNih()){
+        if(document.getDevelopmentProposal().isNih()){
             return "nonnih.";
         }
         else

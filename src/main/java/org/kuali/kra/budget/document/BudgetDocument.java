@@ -229,8 +229,8 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
         
         if (this.getProposal() != null) {
-            if (this.getProposal().getBudgetVersionOverviews() != null) {
-                this.updateDocumentDescriptions(this.getProposal().getBudgetVersionOverviews());
+            if (this.getProposal().getDevelopmentProposal().getBudgetVersionOverviews() != null) {
+                this.updateDocumentDescriptions(this.getProposal().getDevelopmentProposal().getBudgetVersionOverviews());
             }
         } else {
             this.refreshReferenceObject("proposal");
@@ -341,7 +341,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     @Override
     public void toCopy() throws WorkflowException {
         super.toCopy();
-        setBudgetVersionNumber(proposal.getNextBudgetVersionNumber());
+        setBudgetVersionNumber(proposal.getDevelopmentProposal().getNextBudgetVersionNumber());
     }
     
     public String getProposalNumber() {
@@ -622,8 +622,8 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public List<BudgetPeriod> getBudgetPeriods() {
         /* check for new budget version - if new, generate budget periods */
         if(proposal != null) {
-            setStartDate(proposal.getRequestedStartDateInitial());
-            setEndDate(proposal.getRequestedEndDateInitial());
+            setStartDate(proposal.getDevelopmentProposal().getRequestedStartDateInitial());
+            setEndDate(proposal.getDevelopmentProposal().getRequestedEndDateInitial());
         }
         if(budgetPeriods.isEmpty() && getStartDate() != null) {
             getBudgetSummaryService().generateBudgetPeriods(budgetPeriods, getStartDate(), getEndDate());

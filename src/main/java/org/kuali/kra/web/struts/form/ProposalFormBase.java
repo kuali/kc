@@ -102,10 +102,10 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
         Date date = null;
         if (this instanceof BudgetForm) {
             BudgetForm budgetForm = (BudgetForm) this;
-            date = budgetForm.getDocument().getProposal().getRequestedStartDateInitial();
+            date = budgetForm.getDocument().getProposal().getDevelopmentProposal().getRequestedStartDateInitial();
         } else if (this instanceof ProposalDevelopmentForm) {
             ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) this;
-            date = pdForm.getDocument().getRequestedStartDateInitial();
+            date = pdForm.getDocument().getDevelopmentProposal().getRequestedStartDateInitial();
         }
         if (date != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat();
@@ -119,10 +119,10 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
         Date date = null;
         if (this instanceof BudgetForm) {
             BudgetForm budgetForm = (BudgetForm) this;
-            date = budgetForm.getDocument().getProposal().getRequestedEndDateInitial();
+            date = budgetForm.getDocument().getProposal().getDevelopmentProposal().getRequestedEndDateInitial();
         } else if (this instanceof ProposalDevelopmentForm) {
             ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) this;
-            date = pdForm.getDocument().getRequestedEndDateInitial();
+            date = pdForm.getDocument().getDevelopmentProposal().getRequestedEndDateInitial();
         }
         if (date != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat();

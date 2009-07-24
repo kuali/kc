@@ -93,15 +93,15 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
 
         SF424 sf424V2 = SF424.Factory.newInstance();
         sf424V2.setFormVersion(S2SConstants.FORMVERSION_2_0);
-        S2sOpportunity s2sOpportunity = pdDoc.getS2sOpportunity();
+        S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
         if (s2sOpportunity != null && s2sOpportunity.getS2sSubmissionTypeCode() != null) {
             s2sOpportunity.refreshNonUpdateableReferences();
             S2sSubmissionType submissionType = s2sOpportunity.getS2sSubmissionType();
             SubmissionType.Enum subEnum = SubmissionType.Enum.forInt(Integer.parseInt(submissionType.getS2sSubmissionTypeCode()));
             sf424V2.setSubmissionType(subEnum);
             ApplicationType.Enum applicationTypeEnum = null;
-            if (pdDoc.getProposalTypeCode() != null) {
-                int proposalTypeCode = Integer.parseInt(pdDoc.getProposalTypeCode());
+            if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {
+                int proposalTypeCode = Integer.parseInt(pdDoc.getDevelopmentProposal().getProposalTypeCode());
                 if (proposalTypeCode < PROPOSAL_TYPE_RESUBMISSION) {
                     applicationTypeEnum = ApplicationType.Enum.forInt(proposalTypeCode);
                 }
@@ -147,11 +147,11 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             }
         }
         sf424V2.setDateReceived(s2sUtilService.getCurrentCalendar());
-        sf424V2.setApplicantID(pdDoc.getProposalNumber());
+        sf424V2.setApplicantID(pdDoc.getDevelopmentProposal().getProposalNumber());
         sf424V2.setFederalEntityIdentifier(s2sUtilService.getFederalId(pdDoc));
 
         Organization organization = null;
-        organization = pdDoc.getOrganization();
+        organization = pdDoc.getDevelopmentProposal().getOrganization();
         if (organization != null) {
             sf424V2.setOrganizationName(organization.getOrganizationName());
             sf424V2.setEmployerTaxpayerIdentificationNumber(organization.getFedralEmployerId());
@@ -164,11 +164,11 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             sf424V2.setDUNSNumber(null);
         }
         Rolodex rolodex = null;
-        rolodex = pdDoc.getOrganization().getRolodex();
+        rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
         sf424V2.setApplicant(globLibV20Generator.getAddressDataType(rolodex));
         String departmentName = null;
-        if (pdDoc.getOwnedByUnit() != null) {
-            departmentName = pdDoc.getOwnedByUnit().getUnitName();
+        if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
+            departmentName = pdDoc.getDevelopmentProposal().getOwnedByUnit().getUnitName();
         }
         if (departmentName != null) {
             if (departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
@@ -201,32 +201,32 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
 
         setApplicatTypeCodes(sf424V2);
 
-        if (pdDoc.getSponsor() != null) {
-            sf424V2.setAgencyName(pdDoc.getSponsor().getSponsorName());
+        if (pdDoc.getDevelopmentProposal().getSponsor() != null) {
+            sf424V2.setAgencyName(pdDoc.getDevelopmentProposal().getSponsor().getSponsorName());
         }
-        sf424V2.setCFDANumber(pdDoc.getCfdaNumber());
-        if (pdDoc.getProgramAnnouncementTitle() != null) {
+        sf424V2.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
+        if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle() != null) {
             String announcementTitle;
-            if (pdDoc.getProgramAnnouncementTitle().length() > PROGRAM_ANNOUNCEMENT_TITLE_LENGTH) {
-                announcementTitle = pdDoc.getProgramAnnouncementTitle().substring(0, PROGRAM_ANNOUNCEMENT_TITLE_LENGTH);
+            if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle().length() > PROGRAM_ANNOUNCEMENT_TITLE_LENGTH) {
+                announcementTitle = pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle().substring(0, PROGRAM_ANNOUNCEMENT_TITLE_LENGTH);
             }
             else {
-                announcementTitle = pdDoc.getProgramAnnouncementTitle();
+                announcementTitle = pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle();
             }
             sf424V2.setCFDAProgramTitle(announcementTitle);
         }
-        sf424V2.setFundingOpportunityNumber(pdDoc.getProposalNumber());
-        if (pdDoc.getS2sOpportunity() != null) {
-            sf424V2.setFundingOpportunityTitle(pdDoc.getS2sOpportunity().getOpportunityTitle());
-            if (pdDoc.getS2sOpportunity().getCompetetionId() != null) {
-                sf424V2.setCompetitionIdentificationNumber(pdDoc.getS2sOpportunity().getCompetetionId());
+        sf424V2.setFundingOpportunityNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
+        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null) {
+            sf424V2.setFundingOpportunityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
+            if (pdDoc.getDevelopmentProposal().getS2sOpportunity().getCompetetionId() != null) {
+                sf424V2.setCompetitionIdentificationNumber(pdDoc.getDevelopmentProposal().getS2sOpportunity().getCompetetionId());
             }
         }
         else {
             sf424V2.setFundingOpportunityTitle(null);
         }
         String areasAffected = null;
-        for (ProposalAbstract proposalAbstract : pdDoc.getProposalAbstracts()) {
+        for (ProposalAbstract proposalAbstract : pdDoc.getDevelopmentProposal().getProposalAbstracts()) {
             if (proposalAbstract.getAbstractTypeCode() != null
                     && Integer.parseInt(proposalAbstract.getAbstractTypeCode()) == ABSTRACTTYPE_CODE_AREAS_AFFECTED) {
                 areasAffected = proposalAbstract.getAbstractDetails();
@@ -238,7 +238,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
                 }
             }
         }
-        sf424V2.setProjectTitle(pdDoc.getTitle());
+        sf424V2.setProjectTitle(pdDoc.getDevelopmentProposal().getTitle());
         AttachmentGroupMin0Max100DataType attachedFileMin0Max100 = AttachmentGroupMin0Max100DataType.Factory.newInstance();
         attachedFileMin0Max100.setAttachedFileArray(getAttachedFileDataTypes());
         sf424V2.setAdditionalProjectTitle(attachedFileMin0Max100);
@@ -251,7 +251,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             sf424V2.setCongressionalDistrictApplicant(congressionalDistrict);
         }
         Organization perfOrganization = null;
-        perfOrganization = pdDoc.getPerformingOrganization();
+        perfOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization();
         if (perfOrganization != null) {
             String congDistrictProject = perfOrganization.getCongressionalDistrict() == null ? S2SConstants.VALUE_UNKNOWN
                     : perfOrganization.getCongressionalDistrict();
@@ -262,7 +262,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
                 sf424V2.setCongressionalDistrictProgramProject(congDistrictProject);
             }
         }
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == CONGRESSIONAL_DISTRICTS_ATTACHMENT) {
                 AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
@@ -270,14 +270,14 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
                 sf424V2.setAdditionalCongressionalDistricts(attachedFileDataType);
             }
         }
-        if (pdDoc.getRequestedStartDateInitial() != null) {
-            sf424V2.setProjectStartDate(s2sUtilService.convertDateToCalendar(pdDoc.getRequestedStartDateInitial()));
+        if (pdDoc.getDevelopmentProposal().getRequestedStartDateInitial() != null) {
+            sf424V2.setProjectStartDate(s2sUtilService.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedStartDateInitial()));
         }
         else {
             sf424V2.setProjectStartDate(null);
         }
-        if (pdDoc.getRequestedEndDateInitial() != null) {
-            sf424V2.setProjectEndDate(s2sUtilService.convertDateToCalendar(pdDoc.getRequestedEndDateInitial()));
+        if (pdDoc.getDevelopmentProposal().getRequestedEndDateInitial() != null) {
+            sf424V2.setProjectEndDate(s2sUtilService.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedEndDateInitial()));
         }
         else {
             sf424V2.setProjectEndDate(null);
@@ -331,7 +331,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             sf424V2.setStateReviewAvailableDate(stateDate);
         }
         YesNoDataType.Enum yesNo = YesNoDataType.N_NO;
-        for (OrganizationYnq orgYnq : pdDoc.getOrganization().getOrganizationYnqs()) {
+        for (OrganizationYnq orgYnq : pdDoc.getDevelopmentProposal().getOrganization().getOrganizationYnqs()) {
             if (orgYnq.getQuestionId() != null && orgYnq.getQuestionId().equals(PROPOSAL_YNQ_FEDERAL_DEBTS)) {
                 String orgYnqanswer = orgYnq.getAnswer();
                 if (orgYnqanswer != null) {
@@ -371,7 +371,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
     }
 
     private void setApplicatTypeCodes(SF424 sf424V2) {
-        Organization organization = pdDoc.getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
         if (organization.getOrganizationTypes() == null) {
             organization.refreshReferenceObject("organizationTypes");
         }
@@ -502,7 +502,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
      */
     private AttachedFileDataType[] getAttachedFileDataTypes() {
         int size = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == PROJECT_TITLE_ATTACHMENT) {
                 size++;
@@ -510,7 +510,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         }
         AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
         int attachments = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == PROJECT_TITLE_ATTACHMENT) {
                 attachedFileDataTypes[attachments] = getAttachedFileType(narrative);

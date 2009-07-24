@@ -63,13 +63,13 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
         LOG.info("Inside RROtherProjectInfo");
         RROtherProjectInfoDocument rrOtherProjectInfoDocument = RROtherProjectInfoDocument.Factory.newInstance();
         RROtherProjectInfo rrOtherProjectInfo = RROtherProjectInfo.Factory.newInstance();
-        Organization organization = pdDoc.getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
         rrOtherProjectInfo.setFormVersion(S2SConstants.FORMVERSION_1_0);
 
         rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.NO);
         rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.NO);
         String newDescription;
-        for (ProposalSpecialReview proposalSpecialReview : pdDoc.getPropSpecialReviews()) {
+        for (ProposalSpecialReview proposalSpecialReview : pdDoc.getDevelopmentProposal().getPropSpecialReviews()) {
             if (proposalSpecialReview.getSpecialReviewCode() != null) {
                 switch (Integer.parseInt(proposalSpecialReview.getSpecialReviewCode())) {
                     case HUMAN_SUBJECT_SUPPLEMENT:
@@ -226,7 +226,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
         /**
          * Attachments
          */
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null) {
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == EQUIPMENT_ATTACHMENT) {
                     // EQUIPMENT
@@ -279,7 +279,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
     private AttachedFileDataType[] getAttachedFileDataTypes() {
         LOG.info("Getting AttachedFileDataType ");
         int size = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && (Integer.parseInt(narrative.getNarrativeTypeCode()) == OTHER_ATTACHMENT || Integer.parseInt(narrative
                             .getNarrativeTypeCode()) == SUPPLIMENTARY_ATTACHMENT)) {
@@ -288,7 +288,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
         }
         AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
         int attachments = 0;
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && (Integer.parseInt(narrative.getNarrativeTypeCode()) == OTHER_ATTACHMENT || Integer.parseInt(narrative
                             .getNarrativeTypeCode()) == SUPPLIMENTARY_ATTACHMENT)) {
@@ -310,7 +310,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
     private ProposalYnq getAnswer(String questionId, ProposalDevelopmentDocument pdDoc) {
         String question;
         ProposalYnq ynQ = null;
-        for (ProposalYnq proposalYnq : pdDoc.getProposalYnqs()) {
+        for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
             question = proposalYnq.getQuestionId();
             if (question != null && question.equals(questionId)) {
                 ynQ = proposalYnq;

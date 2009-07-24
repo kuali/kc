@@ -40,6 +40,6 @@ public class NSFDeviationAuthorizationV1_0GeneratorTest extends S2STestBase<NSFD
         propsAbstract.setAbstractDetails("Deviation Authorization");
         List<ProposalAbstract> proList = new ArrayList<ProposalAbstract>();
         proList.add(propsAbstract);
-        document.setProposalAbstracts(proList);
+        document.getDevelopmentProposal().setProposalAbstracts(proList);
     }
 }

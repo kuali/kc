@@ -668,7 +668,7 @@ public class BudgetForm extends ProposalFormBase {
         String budgetName = Constants.EMPTY_STRING;
         String budgetVersionNumber = Constants.EMPTY_STRING;
         if (budgetDocument != null && proposalDocument != null) {
-            List<BudgetVersionOverview> budgetVersions = proposalDocument.getBudgetVersionOverviews();
+            List<BudgetVersionOverview> budgetVersions = proposalDocument.getDevelopmentProposal().getBudgetVersionOverviews();
             for (BudgetVersionOverview budgetVersion: budgetVersions) {
                 if (budgetVersion.getBudgetVersionNumber().intValue() == budgetDocument.getBudgetVersionNumber().intValue()) {
                     budgetName = budgetVersion.getDocumentDescription();

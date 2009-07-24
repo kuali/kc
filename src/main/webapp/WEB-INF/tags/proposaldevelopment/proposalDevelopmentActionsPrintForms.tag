@@ -22,8 +22,8 @@
 
 	<c:set var="noOfForms" value="" />
 	<c:set var="availForms" value="" />
-	<c:if test="${!empty KualiForm.document.s2sOpportunity.s2sOppForms && fn:length(KualiForm.document.s2sOpportunity.s2sOppForms)>0}" >
-		<c:forEach var="form" items="${KualiForm.document.s2sOpportunity.s2sOppForms}" varStatus="status">
+	<c:if test="${!empty KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms && fn:length(KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms)>0}" >
+		<c:forEach var="form" items="${KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms}" varStatus="status">
 		     <c:if test="${form.available == 'true'}">
 		   		<c:set var="availForms" value="${availForms + 1}"/>
 		   	</c:if>
@@ -38,17 +38,17 @@
 	<div class="innerTab-container" align="left">
 		 <table class=tab cellpadding=0 cellspacing="0" summary=""> 
 		 <tbody id="G1">
-		    	<c:forEach var="form" items="${KualiForm.document.s2sOpportunity.s2sOppForms}" varStatus="status">
+		    	<c:forEach var="form" items="${KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms}" varStatus="status">
 		    		<c:if test="${form.available == 'true'}">
 			            <tr>	                
 			                <td width="50">
 			                </td>
 			                <td align="left" valign="middle">
-			                	<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].formName" attributeEntry="${s2sFormAttributes.formName}" readOnly="true" />
+			                	<kul:htmlControlAttribute property="document.developmentProposalList[0].s2sOpportunity.s2sOppForms[${status.index}].formName" attributeEntry="${s2sFormAttributes.formName}" readOnly="true" />
 							</td>
 			                <td align="center" valign="middle">
 			                	<div align="center">			                	
-			                	<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" />			                	
+			                	<kul:htmlControlAttribute property="document.developmentProposalList[0].s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" />			                	
 			                	</div>
 			                </td>			                
 			            </tr>    
@@ -73,10 +73,10 @@
 		</table></div>    
 	</kul:innerTab>
 	</c:when>
-	<c:when test="${empty KualiForm.document.s2sOpportunity}" >
+	<c:when test="${empty KualiForm.document.developmentProposalList[0].s2sOpportunity}" >
 		No Grants.gov opportunity has been selected 	
 	</c:when>
-	<c:when test="${empty KualiForm.document.s2sOpportunity.s2sOppForms}" >
+	<c:when test="${empty KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms}" >
 		No forms are currently available for the Grants.gov opportunity selected. 
 	</c:when>	
 	</c:choose>

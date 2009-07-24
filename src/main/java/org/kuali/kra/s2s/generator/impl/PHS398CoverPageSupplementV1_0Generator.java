@@ -117,8 +117,8 @@ public class PHS398CoverPageSupplementV1_0Generator extends PHS398CoverPageSuppl
     private ClinicalTrial getClinicalTrial() {
 
         ClinicalTrial clinicalTrial = ClinicalTrial.Factory.newInstance();
-        if (pdDoc.getActivityTypeCode() != null) {
-            if (pdDoc.getActivityTypeCode().equals(ACTIVITY_TYPE_CLINICAL_TRIAL)) {
+        if (pdDoc.getDevelopmentProposal().getActivityTypeCode() != null) {
+            if (pdDoc.getDevelopmentProposal().getActivityTypeCode().equals(ACTIVITY_TYPE_CLINICAL_TRIAL)) {
                 clinicalTrial.setIsClinicalTrial(YesNoDataType.YES);
             }
             else {
@@ -145,7 +145,7 @@ public class PHS398CoverPageSupplementV1_0Generator extends PHS398CoverPageSuppl
     private ContactPersonInfo getContactPersonInfo(ProposalDevelopmentDocument pdDoc) {
 
         ContactPersonInfo contactPersonInfo = ContactPersonInfo.Factory.newInstance();
-        Rolodex rolodex = pdDoc.getOrganization().getRolodex();
+        Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
         if (rolodex != null) {
             contactPersonInfo.setContactName(globLibV10Generator.getHumanNameDataType(rolodex));
             contactPersonInfo.setContactPhone(rolodex.getPhoneNumber());
@@ -222,7 +222,7 @@ public class PHS398CoverPageSupplementV1_0Generator extends PHS398CoverPageSuppl
     private ProposalYnq getAnswer(String questionId, ProposalDevelopmentDocument pdDoc) {
         String question = null;
         ProposalYnq ynQ=null;
-        for (ProposalYnq proposalYnq : pdDoc.getProposalYnqs()) {
+        for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
             question = proposalYnq.getQuestionId();
             if (question != null && question.equals(questionId)) {
                 ynQ = proposalYnq;

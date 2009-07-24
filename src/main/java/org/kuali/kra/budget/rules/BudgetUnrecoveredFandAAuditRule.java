@@ -64,8 +64,8 @@ public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
         
         int i=0;
         int j=0;
-        Date projectStartDate = budgetDocument.getProposal().getRequestedStartDateInitial();
-        Date projectEndDate = budgetDocument.getProposal().getRequestedEndDateInitial();
+        Date projectStartDate = budgetDocument.getProposal().getDevelopmentProposal().getRequestedStartDateInitial();
+        Date projectEndDate = budgetDocument.getProposal().getDevelopmentProposal().getRequestedEndDateInitial();
 
         // Forces inclusion of source account
         boolean duplicateEntryFound = false;

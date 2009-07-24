@@ -198,8 +198,8 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     
     private String getActivityTypeDescription(BudgetDocument budgetDocument) {
         if (budgetDocument.isRateSynced() || !KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(budgetDocument.getProposal(), budgetDocument.getBudgetVersionNumber().toString())) {
-            if(budgetDocument.getProposal().getActivityType()!= null){
-                return budgetDocument.getProposal().getActivityType().getDescription().concat(SPACE);
+            if(budgetDocument.getProposal().getDevelopmentProposal().getActivityType()!= null){
+                return budgetDocument.getProposal().getDevelopmentProposal().getActivityType().getDescription().concat(SPACE);
             }
             else
             {
@@ -323,8 +323,8 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     @SuppressWarnings("unchecked")
     private Collection<InstituteLaRate> getInstituteLaRates(BudgetDocument budgetDocument) {
         ProposalDevelopmentDocument proposal = budgetDocument.getProposal(); 
-        String unitNumber = proposal.getOwnedByUnitNumber();                               
-        Collection abstractInstituteRates = getFilteredInstituteLaRates(InstituteLaRate.class, unitNumber, proposal.getOwnedByUnit(), getRateFilterMap(budgetDocument));
+        String unitNumber = proposal.getDevelopmentProposal().getOwnedByUnitNumber();                               
+        Collection abstractInstituteRates = getFilteredInstituteLaRates(InstituteLaRate.class, unitNumber, proposal.getDevelopmentProposal().getOwnedByUnit(), getRateFilterMap(budgetDocument));
         abstractInstituteRates = abstractInstituteRates.size() > 0 ? abstractInstituteRates : new ArrayList();
         return (Collection<InstituteLaRate>)abstractInstituteRates ;
     }
@@ -332,22 +332,22 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     @SuppressWarnings("unchecked")
     private Collection getAbstractInstituteRates(BudgetDocument budgetDocument, Class rateType, Map rateFilterMap) {
         ProposalDevelopmentDocument proposal = budgetDocument.getProposal(); 
-        String unitNumber = proposal.getOwnedByUnitNumber();               
-        
-        Collection abstractInstituteRates = getFilteredInstituteRates(rateType, unitNumber, proposal.getOwnedByUnit(), rateFilterMap);        
+        String unitNumber = proposal.getDevelopmentProposal().getOwnedByUnitNumber();   
+		                            
+        Collection abstractInstituteRates = getFilteredInstituteRates(rateType, unitNumber, proposal.getDevelopmentProposal().getOwnedByUnit(), rateFilterMap);        
         
         return abstractInstituteRates.size() > 0 ? abstractInstituteRates : new ArrayList();
     }
 
     private Map<String, String> getRateFilterMap(BudgetDocument budgetDocument) {        
         Map<String, String> rateFilterMap = new HashMap<String, String>();
-        rateFilterMap.put(UNIT_NUMBER_KEY, budgetDocument.getProposal().getOwnedByUnitNumber());
+        rateFilterMap.put(UNIT_NUMBER_KEY, budgetDocument.getProposal().getDevelopmentProposal().getOwnedByUnitNumber());
         return rateFilterMap;
     }
     
     private Map<String, String> getRateFilterMapWithActivityTypeCode(BudgetDocument budgetDocument) {
         Map<String, String> rateFilterMap = getRateFilterMap(budgetDocument);
-        rateFilterMap.put(ACTIVITY_TYPE_CODE_KEY, budgetDocument.getProposal().getActivityTypeCode());
+        rateFilterMap.put(ACTIVITY_TYPE_CODE_KEY, budgetDocument.getProposal().getDevelopmentProposal().getActivityTypeCode());
         return rateFilterMap;
     }
 
@@ -835,11 +835,11 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     }
 
     private AbstractBudgetRate generateBudgetProposalRate(BudgetDocument budgetDocument, InstituteRate instituteRate) {
-        return new BudgetProposalRate(budgetDocument.getProposal().getOwnedByUnitNumber(), instituteRate);
+        return new BudgetProposalRate(budgetDocument.getProposal().getDevelopmentProposal().getOwnedByUnitNumber(), instituteRate);
     }
     
     private AbstractBudgetRate generateBudgetProposalLaRate(BudgetDocument budgetDocument, InstituteLaRate instituteLaRate) {
-        return new BudgetProposalLaRate(budgetDocument.getProposal().getOwnedByUnitNumber(), instituteLaRate);
+        return new BudgetProposalLaRate(budgetDocument.getProposal().getDevelopmentProposal().getOwnedByUnitNumber(), instituteLaRate);
     }
 
     private AbstractBudgetRate generateBudgetRate(BudgetDocument budgetDocument, AbstractInstituteRate abstractInstituteRate) {

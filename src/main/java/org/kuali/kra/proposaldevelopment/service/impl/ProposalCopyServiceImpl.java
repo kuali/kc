@@ -239,14 +239,14 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     private void copyRequiredProperties(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument destDoc) {
         destDoc.getDocumentHeader().setDocumentDescription(srcDoc.getDocumentHeader().getDocumentDescription());
-        destDoc.setProposalTypeCode(srcDoc.getProposalTypeCode());
-        destDoc.setActivityTypeCode(srcDoc.getActivityTypeCode());
-        destDoc.setTitle(srcDoc.getTitle());
-        destDoc.setSponsorCode(srcDoc.getSponsorCode());
-        destDoc.setRequestedStartDateInitial(srcDoc.getRequestedStartDateInitial());
-        destDoc.setRequestedEndDateInitial(srcDoc.getRequestedEndDateInitial());
-        if (isProposalTypeRenewalRevisionContinuation(srcDoc.getProposalTypeCode())) {
-            destDoc.setSponsorProposalNumber(srcDoc.getSponsorProposalNumber());
+        destDoc.getDevelopmentProposal().setProposalTypeCode(srcDoc.getDevelopmentProposal().getProposalTypeCode());
+        destDoc.getDevelopmentProposal().setActivityTypeCode(srcDoc.getDevelopmentProposal().getActivityTypeCode());
+        destDoc.getDevelopmentProposal().setTitle(srcDoc.getDevelopmentProposal().getTitle());
+        destDoc.getDevelopmentProposal().setSponsorCode(srcDoc.getDevelopmentProposal().getSponsorCode());
+        destDoc.getDevelopmentProposal().setRequestedStartDateInitial(srcDoc.getDevelopmentProposal().getRequestedStartDateInitial());
+        destDoc.getDevelopmentProposal().setRequestedEndDateInitial(srcDoc.getDevelopmentProposal().getRequestedEndDateInitial());
+        if (isProposalTypeRenewalRevisionContinuation(srcDoc.getDevelopmentProposal().getProposalTypeCode())) {
+            destDoc.getDevelopmentProposal().setSponsorProposalNumber(srcDoc.getDevelopmentProposal().getSponsorProposalNumber());
         }
     }
     
@@ -447,8 +447,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private void setLeadUnit(ProposalDevelopmentDocument doc, String newLeadUnitNumber) {
         UnitService unitService = KraServiceLocator.getService(UnitService.class);
         Unit newLeadUnit = unitService.getUnit(newLeadUnitNumber);
-        doc.setOwnedByUnitNumber(newLeadUnitNumber);
-        doc.setOwnedByUnit(newLeadUnit);
+        doc.getDevelopmentProposal().setOwnedByUnitNumber(newLeadUnitNumber);
+        doc.getDevelopmentProposal().setOwnedByUnit(newLeadUnit);
     }
         
     /**
@@ -459,14 +459,14 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private void fixProposal(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument newDoc, ProposalCopyCriteria criteria) throws Exception {
         List<Object> list = new ArrayList<Object>();
         // force to materialize - jira 1644 only happen for disapproved doc ??
-        for (ProposalPerson proposalperson : newDoc.getProposalPersons()) {
+        for (ProposalPerson proposalperson : newDoc.getDevelopmentProposal().getProposalPersons()) {
             for (ProposalPersonUnit proposalPersonUnit : proposalperson.getUnits()) {
                 ObjectUtils.materializeObjects(proposalPersonUnit.getCreditSplits());
             }
         }
 
-        fixProposalNumbers(newDoc, newDoc.getProposalNumber(), list);
-        fixKeyPersonnel(newDoc, srcDoc.getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
+        fixProposalNumbers(newDoc, newDoc.getDevelopmentProposal().getProposalNumber(), list);
+        fixKeyPersonnel(newDoc, srcDoc.getDevelopmentProposal().getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
         fixOrganizationAndLocations(newDoc);
         list.clear();
         fixVersionNumbers(newDoc, list);
@@ -480,29 +480,29 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param doc {@link ProposalDevelopmentDocument} to fix
      */
     private void fixOrganizationAndLocations(ProposalDevelopmentDocument doc) {
-        doc.setOrganizationId(doc.getOwnedByUnit().getOrganizationId());
-        doc.refreshReferenceObject("organization");
-        doc.setPerformingOrganizationId(doc.getOwnedByUnit().getOrganizationId());
-        doc.refreshReferenceObject("performingOrganization");
+        doc.getDevelopmentProposal().setOrganizationId(doc.getDevelopmentProposal().getOwnedByUnit().getOrganizationId());
+        doc.getDevelopmentProposal().refreshReferenceObject("organization");
+        doc.getDevelopmentProposal().setPerformingOrganizationId(doc.getDevelopmentProposal().getOwnedByUnit().getOrganizationId());
+        doc.getDevelopmentProposal().refreshReferenceObject("performingOrganization");
         
         // Remove the first Location because it's probably the old one.
         Integer firstProposalLocationSeqeunceNumber = null;
-        if (doc.getProposalLocations().size() > 0) {
-            ProposalLocation proposalLocation = doc.getProposalLocations().get(0);
+        if (doc.getDevelopmentProposal().getProposalLocations().size() > 0) {
+            ProposalLocation proposalLocation = doc.getDevelopmentProposal().getProposalLocations().get(0);
             firstProposalLocationSeqeunceNumber = proposalLocation.getLocationSequenceNumber();
-            doc.getProposalLocations().remove(proposalLocation);
+            doc.getDevelopmentProposal().getProposalLocations().remove(proposalLocation);
         }
   
         // re-initialize Proposal Locations with Organization details
         ProposalLocation newProposalLocation = new ProposalLocation();
-        newProposalLocation.setLocation(doc.getOrganization().getOrganizationName());
-        newProposalLocation.setRolodexId(doc.getOrganization().getContactAddressId());
+        newProposalLocation.setLocation(doc.getDevelopmentProposal().getOrganization().getOrganizationName());
+        newProposalLocation.setRolodexId(doc.getDevelopmentProposal().getOrganization().getContactAddressId());
         newProposalLocation.refreshReferenceObject("rolodex");
         if(firstProposalLocationSeqeunceNumber == null || firstProposalLocationSeqeunceNumber.intValue() <= 0) {
             firstProposalLocationSeqeunceNumber = doc.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER);
         }
         newProposalLocation.setLocationSequenceNumber(firstProposalLocationSeqeunceNumber);
-        doc.getProposalLocations().add(0, newProposalLocation);
+        doc.getDevelopmentProposal().getProposalLocations().add(0, newProposalLocation);
     }
     
     /**
@@ -618,11 +618,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param newLeadUnitNumber the new lead unit number
      */
     private void fixBudgetVersions(ProposalDevelopmentDocument doc) {
-        if (doc.getBudgetVersionOverviews().size() > 0) {
+        if (doc.getDevelopmentProposal().getBudgetVersionOverviews().size() > 0) {
             String budgetStatusIncompleteCode = kualiConfigurationService.getParameterValue(
                     Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
             
-            doc.setBudgetStatus(budgetStatusIncompleteCode);
+            doc.getDevelopmentProposal().setBudgetStatus(budgetStatusIncompleteCode);
         }
     }
     
@@ -631,7 +631,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param doc the Proposal Development Document
      */
     private void clearCertifyQuestions(ProposalDevelopmentDocument doc) {
-        List<ProposalPerson> persons = doc.getProposalPersons();
+        List<ProposalPerson> persons = doc.getDevelopmentProposal().getProposalPersons();
         for (ProposalPerson person : persons) {
             ProposalPersonRole role = person.getRole();
             String roleId = role.getProposalPersonRoleId();
@@ -658,7 +658,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     private void fixKeyPersonnelUnits(ProposalDevelopmentDocument doc, String oldLeadUnitNumber, String newLeadUnitNumber) throws Exception {
        
-        List<ProposalPerson> persons = doc.getProposalPersons();
+        List<ProposalPerson> persons = doc.getDevelopmentProposal().getProposalPersons();
         for (ProposalPerson person : persons) {
             person.setProposalNumber(null);
            
@@ -699,7 +699,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 ynq.setAnswer(null);
             }
         }
-        doc.setInvestigators(new ArrayList<ProposalPerson>());
+        doc.getDevelopmentProposal().setInvestigators(new ArrayList<ProposalPerson>());
         keyPersonnelService.populateDocument(doc);
     }
     
@@ -759,26 +759,26 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     private void copyAttachments(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest) throws Exception {
         
-        NarrativeService narrativeService = dest.getNarrativeService();
-        ProposalPersonBiographyService propPersonBioService = dest.getProposalPersonBiographyService();
+        NarrativeService narrativeService = dest.getDevelopmentProposal().getNarrativeService();
+        ProposalPersonBiographyService propPersonBioService = dest.getDevelopmentProposal().getProposalPersonBiographyService();
  
         loadAttachmentContents(src);
         
-        List<ProposalPersonBiography> propPersonBios = src.getPropPersonBios();
+        List<ProposalPersonBiography> propPersonBios = src.getDevelopmentProposal().getPropPersonBios();
         ProposalPersonBiography destPropPersonBio;
         for (ProposalPersonBiography srcPropPersonBio : propPersonBios) {
             destPropPersonBio = (ProposalPersonBiography)ObjectUtils.deepCopy(srcPropPersonBio);
             propPersonBioService.addProposalPersonBiography(dest, destPropPersonBio);
         }
 
-        List<Narrative> narratives = src.getNarratives();
+        List<Narrative> narratives = src.getDevelopmentProposal().getNarratives();
         Narrative destNarrative;
         for (Narrative srcNarrative : narratives) {
             destNarrative = (Narrative)ObjectUtils.deepCopy(srcNarrative);
             narrativeService.addNarrative(dest, destNarrative);
         }
         
-        List<Narrative> instituteAttachments = src.getInstituteAttachments();
+        List<Narrative> instituteAttachments = src.getDevelopmentProposal().getInstituteAttachments();
         Narrative destInstituteAttachment;
         for (Narrative srcInstituteAttachment : instituteAttachments) {
             destInstituteAttachment = (Narrative)ObjectUtils.deepCopy(srcInstituteAttachment);
@@ -862,19 +862,19 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private void loadAttachmentContents(ProposalDevelopmentDocument doc) {
         
         // Load personal attachments.
-        List<Narrative> narratives = doc.getNarratives();
+        List<Narrative> narratives = doc.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
             loadAttachmentContent(narrative);
         }
         
         // Load institutional attachments.
-        narratives = doc.getInstituteAttachments();
+        narratives = doc.getDevelopmentProposal().getInstituteAttachments();
         for (Narrative narrative : narratives) {
             loadAttachmentContent(narrative);
         }
         
         // Load proposal attachments.
-        List<ProposalPersonBiography> bios = doc.getPropPersonBios();
+        List<ProposalPersonBiography> bios = doc.getDevelopmentProposal().getPropPersonBios();
         for (ProposalPersonBiography bio : bios) {
             loadBioContent(bio);
         }
@@ -916,7 +916,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param doc the new proposal development document
      */
     private void setProposalAttachmentsToIncomplete(ProposalDevelopmentDocument doc) {
-        List<Narrative> narratives = doc.getNarratives();
+        List<Narrative> narratives = doc.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
             narrative.setModuleStatusCode("I");
         }
@@ -960,13 +960,13 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     private void copyBudget(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest, String budgetVersions) throws Exception {
         if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_FINAL_VERSION)) {
-            BudgetVersionOverview finalBudgetVersion = src.getFinalBudgetVersion();
+            BudgetVersionOverview finalBudgetVersion = src.getDevelopmentProposal().getFinalBudgetVersion();
             if (finalBudgetVersion != null) {
                 copyAndFinalizeBudgetVersion(finalBudgetVersion.getDocumentNumber(), dest, 1);
             }
         } else if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_ALL_VERSIONS)) {
             int i = 1;
-            for (BudgetVersionOverview budgetVersionOverview: src.getBudgetVersionOverviews()) {
+            for (BudgetVersionOverview budgetVersionOverview: src.getDevelopmentProposal().getBudgetVersionOverviews()) {
                 copyAndFinalizeBudgetVersion(budgetVersionOverview.getDocumentNumber(), dest, i++);
             }
         }
@@ -975,13 +975,13 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     
     private void copyAndFinalizeBudgetVersion(String documentNumber, ProposalDevelopmentDocument dest, int budgetVersionNumber) throws Exception {
         BudgetDocument budget = (BudgetDocument) documentService.getByDocumentHeaderId(documentNumber);
-        budget.getProposal().setBudgetVersionOverviews(new ArrayList<BudgetVersionOverview>());
+        budget.getProposal().getDevelopmentProposal().setBudgetVersionOverviews(new ArrayList<BudgetVersionOverview>());
         Integer origBudgetVersionNumber = budget.getBudgetVersionNumber();
         budget.toCopy();
         // budget.tocopy set the budgetversionnumber to the new one
         // need to rest it so setobjectpropertydeep can work for 'budgetversionnuumber'
         budget.setBudgetVersionNumber(origBudgetVersionNumber);
-        ObjectUtils.setObjectPropertyDeep(budget, "proposalNumber", String.class, dest.getProposalNumber());
+        ObjectUtils.setObjectPropertyDeep(budget, "proposalNumber", String.class, dest.getDevelopmentProposal().getProposalNumber());
         ObjectUtils.setObjectPropertyDeep(budget, "budgetVersionNumber", Integer.class, budgetVersionNumber);
         
         ObjectUtils.materializeAllSubObjects(budget);

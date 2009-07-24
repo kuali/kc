@@ -62,7 +62,7 @@ public class CopyBudgetVersionsValuesFinder extends KeyValuesBase {
     boolean finalVersionPresent() {
         
         final ProposalDevelopmentDocument document = this.getDocument();
-        for (final BudgetVersionOverview overview : document.getBudgetVersionOverviews()) {
+        for (final BudgetVersionOverview overview : document.getDevelopmentProposal().getBudgetVersionOverviews()) {
             if (overview.isFinalVersionFlag()) {
                 return true;
             }

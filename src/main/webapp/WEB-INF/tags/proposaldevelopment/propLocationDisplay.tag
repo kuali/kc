@@ -34,7 +34,7 @@
 			</c:otherwise>
 			 
 		</c:choose>
-		<input type="hidden" name="${docLocation}.proposalNumber" value="${KualiForm.document.proposalNumber}">
+		<input type="hidden" name="${docLocation}.proposalNumber" value="${KualiForm.document.developmentProposalList[0].proposalNumber}">
 	</th>
 	<td class="${class}" width="20%">
 		<kul:htmlControlAttribute

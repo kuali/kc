@@ -59,10 +59,10 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
         PHS398Checklist phsChecklist = PHS398Checklist.Factory.newInstance();
         phsChecklist.setFormVersion(S2SConstants.FORMVERSION_1_1);
         ApplicationType.Enum applicationEnum = null;
-        if (pdDoc.getProposalTypeCode() != null && Integer.parseInt(pdDoc.getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
+        if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null && Integer.parseInt(pdDoc.getDevelopmentProposal().getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
             // Check <6 to ensure that if proposalType='TASk ORDER", it must not set. THis is because enum ApplicationType has no
             // entry for TASK ORDER
-            applicationEnum = ApplicationType.Enum.forInt(Integer.parseInt(pdDoc.getProposalTypeCode()));
+            applicationEnum = ApplicationType.Enum.forInt(Integer.parseInt(pdDoc.getDevelopmentProposal().getProposalTypeCode()));
         }
         phsChecklist.setApplicationType(applicationEnum);
 
@@ -71,7 +71,7 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
             phsChecklist.setFederalID(federalId);
         }
 
-        for (ProposalYnq proposalYnq : pdDoc.getProposalYnqs()) {
+        for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
             if (proposalYnq.getQuestionId() != null && proposalYnq.getQuestionId().equals(PROPOSAL_YNQ_QUESTION_22)) {
                 String answer = proposalYnq.getAnswer();
                 String explanation = proposalYnq.getExplanation();
@@ -90,7 +90,7 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
                 }
             }
         }
-        for (ProposalYnq proposalYnq : pdDoc.getProposalYnqs()) {
+        for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
             if (proposalYnq.getQuestionId() != null && proposalYnq.getQuestionId().equals(PROPOSAL_YNQ_QUESTION_23)) {
                 String answer = proposalYnq.getAnswer();
                 String explanation = proposalYnq.getExplanation();
@@ -106,7 +106,7 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
                 }
             }
         }
-        for (ProposalYnq proposalYnq : pdDoc.getProposalYnqs()) {
+        for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
             if (proposalYnq.getQuestionId() != null && proposalYnq.getQuestionId().equals(PROPOSAL_YNQ_QUESTION_16)) {
                 String answer = proposalYnq.getAnswer();
                 if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
@@ -168,7 +168,7 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
             phsChecklist.setProgramIncome(YesNoDataType.N_NO);
         }
 
-        for (Narrative narrative : pdDoc.getNarratives()) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == CERTIFICATIONS_ATTACHMENT_CODE) {
                 CertificationExplanation certExplanation = CertificationExplanation.Factory.newInstance();

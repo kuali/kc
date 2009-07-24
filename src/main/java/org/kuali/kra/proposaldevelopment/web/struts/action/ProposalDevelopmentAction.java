@@ -125,7 +125,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             new AuditActionHelper().auditConditionally(proposalDevelopmentForm);
             if (proposalDevelopmentForm.isAuditActivated()) {
                 if (document != null && 
-                    document.getS2sOpportunity() != null ) {
+                    document.getDevelopmentProposal().getS2sOpportunity() != null ) {
                     getService(S2SService.class).validateApplication(document);            
 //                    getService(S2SService.class).validateApplication(document.getS2sOpportunity().getProposalNumber());            
                 }
@@ -146,9 +146,9 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("deliveryInfoDisplayIndicator", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "deliveryInfoDisplayIndicator"));
             ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("proposalNarrativeTypeGroup", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "proposalNarrativeTypeGroup"));
             
-            if(document.getS2sOpportunity()!=null && document.getS2sOpportunity().getS2sOppForms()!=null){
-                Collections.sort(document.getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator2());
-                Collections.sort(document.getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator1());
+            if(document.getDevelopmentProposal().getS2sOpportunity()!=null && document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms()!=null){
+                Collections.sort(document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator2());
+                Collections.sort(document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator1());
             }
          return actionForward;
     }
@@ -188,7 +188,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
 		updateProposalDocument(proposalDevelopmentForm);
         ActionForward forward = super.save(mapping, form, request, response);
 
-        proposalDevelopmentForm.setFinalBudgetVersion(getFinalBudgetVersion(doc.getBudgetVersionOverviews()));
+        proposalDevelopmentForm.setFinalBudgetVersion(getFinalBudgetVersion(doc.getDevelopmentProposal().getBudgetVersionOverviews()));
         setBudgetStatuses(doc);
 
         //if not on budget page
@@ -210,8 +210,8 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         if(StringUtils.isNotEmpty(pdForm.getActionName()) && !pdForm.getActionName().equalsIgnoreCase("ProposalDevelopmentBudgetVersionsAction" )) {
             if(updatedDocCopy != null && updatedDocCopy.getVersionNumber() > pdDocument.getVersionNumber()) {
                   //refresh the reference
-                pdDocument.setBudgetVersionOverviews(updatedDocCopy.getBudgetVersionOverviews());
-                pdDocument.setBudgetStatus(updatedDocCopy.getBudgetStatus());
+                pdDocument.getDevelopmentProposal().setBudgetVersionOverviews(updatedDocCopy.getDevelopmentProposal().getBudgetVersionOverviews());
+                pdDocument.getDevelopmentProposal().setBudgetStatus(updatedDocCopy.getDevelopmentProposal().getBudgetStatus());
                 try {
                     fixVersionNumbers(updatedDocCopy, pdDocument, new ArrayList<Object>());
                 }
@@ -362,7 +362,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         if(StringUtils.isEmpty(headerTabCall)) {
             pdForm.getDocument().refreshPessimisticLocks();
         }        
-        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getDocument().getBudgetVersionOverviews()));
+        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getDocument().getDevelopmentProposal().getBudgetVersionOverviews()));
         setBudgetStatuses(pdForm.getDocument());
         
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
@@ -375,7 +375,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         // TODO temporarily to set up proposal person- remove this once keyperson is completed and htmlunit testing fine
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
-        doc.populateNarrativeRightsForLoggedinUser();
+        doc.getDevelopmentProposal().populateNarrativeRightsForLoggedinUser();
 
         /*
          * Save the current set of narratives.  In some cases, a user can view the
@@ -384,12 +384,12 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
          * If a user attempted to change a narrative they were not authorized to,
          * then an error will be posted.
          */
-        List<Narrative> narratives = (List<Narrative>) ObjectUtils.deepCopy((Serializable) doc.getNarratives());
+        List<Narrative> narratives = (List<Narrative>) ObjectUtils.deepCopy((Serializable) doc.getDevelopmentProposal().getNarratives());
         proposalDevelopmentForm.setNarratives(narratives);
-        KraServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getPropPersonBios());
+        KraServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getDevelopmentProposal().getPropPersonBios());
         List<Narrative> narrativeList = new ArrayList<Narrative> ();
-        narrativeList.addAll(doc.getNarratives());
-        narrativeList.addAll(doc.getInstituteAttachments());
+        narrativeList.addAll(doc.getDevelopmentProposal().getNarratives());
+        narrativeList.addAll(doc.getDevelopmentProposal().getInstituteAttachments());
         KraServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(narrativeList);
 
         return mapping.findForward(Constants.ATTACHMENTS_PAGE);
@@ -434,7 +434,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         PrintService printService = KraServiceLocator.getService(PrintService.class);
-        printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getSponsorCode());
+        printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
         return mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
     }
 
@@ -527,7 +527,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getDocument();
 
         UniversalUser currentUser =  new UniversalUser(GlobalVariables.getUserSession().getPerson());
-        for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getProposalPersons().iterator(); person_it.hasNext();) {
+        for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getDevelopmentProposal().getProposalPersons().iterator(); person_it.hasNext();) {
             ProposalPerson person = person_it.next();
             if((person!= null) && (person.getProposalPersonRoleId().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE))){
                 if(StringUtils.isNotBlank(person.getUserName()) && StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){

@@ -18,8 +18,8 @@
 <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
 <div id="workarea">
 <c:set var="personIndex" value="0" />
-<c:forEach items="${KualiForm.document.proposalPersons}" var="person" varStatus="status">
-    <c:set var="proposalPersonProperty" value="document.proposalPersons[${status.index}]" />
+<c:forEach items="${KualiForm.document.developmentProposalList[0].proposalPersons}" var="person" varStatus="status">
+    <c:set var="proposalPersonProperty" value="document.developmentProposalList[0].proposalPersons[${status.index}]" />
     <c:set var="transparent" value="false" />
 	
 	<c:choose>
@@ -46,11 +46,11 @@
 
 	<c:set var="extraButtonSource" value="${moveUpBtn} ${moveDownBtn}" />
 
-	<kul:checkErrors keyMatch="document.proposalPersons[${status.index}]*,newProposalPersonDegree[${status.index}]*" auditMatch="document.proposalPersons[${status.index}]*"/>
+	<kul:checkErrors keyMatch="document.developmentProposalList[0].proposalPersons[${status.index}]*,newProposalPersonDegree[${status.index}]*" auditMatch="document.developmentProposalList[0].proposalPersons[${status.index}]*"/>
 	<c:set var="isOpen" value="${hasErrors ? true : isOpen}"/>
 	<c:choose>
-		<c:when test="${KualiForm.document.nih}">
-			<c:set var="nihdescription" value="${KualiForm.document.nihDescription}" />
+		<c:when test="${KualiForm.document.developmentProposalList[0].nih}">
+			<c:set var="nihdescription" value="${KualiForm.document.developmentProposalList[0].nihDescription}" />
 			<c:set var="desc" value="${nihdescription[person.role.proposalPersonRoleId]}" />
 			
 			<kul:tab tabTitle="${fn:substring(person.fullName, 0, 22)}"
@@ -83,7 +83,7 @@
     <kra-pd:creditSplit/>
 </c:if>
 
-<c:if test="${fn:length(KualiForm.document.proposalPersons) > 0}">
+<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].proposalPersons) > 0}">
     <kul:panelFooter />
 </c:if>
 

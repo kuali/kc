@@ -79,7 +79,7 @@ public class RRKeyPersonExpandedV1_1GeneratorTest extends S2STestBase<RRKeyPerso
         piBiography.setPersonnelAttachmentList(piAttachmentList);
         List<ProposalPersonBiography> bioList = new ArrayList<ProposalPersonBiography>();
         bioList.add(piBiography);
-        document.setPropPersonBios(bioList);
+        document.getDevelopmentProposal().setPropPersonBios(bioList);
 
         Organization organization = new Organization();
         organization.setOrganizationName("Espace");
@@ -91,7 +91,7 @@ public class RRKeyPersonExpandedV1_1GeneratorTest extends S2STestBase<RRKeyPerso
 
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();
-        narrative.setProposalNumber(document.getProposalNumber());
+        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");
@@ -141,15 +141,15 @@ public class RRKeyPersonExpandedV1_1GeneratorTest extends S2STestBase<RRKeyPerso
         kpAttachmentList.add(kpAttachment);
         kpBiography.setPersonnelAttachmentList(kpAttachmentList);
         bioList.add(kpBiography);
-        document.setPropPersonBios(bioList);
+        document.getDevelopmentProposal().setPropPersonBios(bioList);
 
         List<ProposalPerson> proposalPersonList = new ArrayList<ProposalPerson>();
         proposalPersonList.add(proposalPerson);
         proposalPersonList.add(keyPerson);
-        document.setProposalPersons(proposalPersonList);
-        document.setOrganization(organization);
-        document.setOwnedByUnit(unit);
-        document.getOwnedByUnit().setParentUnit(unit2);
-        document.setNarratives(naList);
+        document.getDevelopmentProposal().setProposalPersons(proposalPersonList);
+        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setOwnedByUnit(unit);
+        document.getDevelopmentProposal().getOwnedByUnit().setParentUnit(unit2);
+        document.getDevelopmentProposal().setNarratives(naList);
     }
 }

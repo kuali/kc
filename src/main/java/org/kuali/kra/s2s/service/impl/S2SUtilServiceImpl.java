@@ -79,7 +79,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      */
     public Map<String, String> getSubmissionType(ProposalDevelopmentDocument pdDoc) {
         Map<String, String> submissionInfo = new HashMap<String, String>();
-        S2sOpportunity opportunity = pdDoc.getS2sOpportunity();
+        S2sOpportunity opportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
         if (opportunity != null) {
             opportunity.refreshNonUpdateableReferences();
             String submissionTypeCode = opportunity.getS2sSubmissionTypeCode();
@@ -114,7 +114,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         if (count < 1) {
             // Proposal has not been submitted
 
-            Organization organization = pdDoc.getOrganization();
+            Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
             Rolodex rolodex = organization==null?null:organization.getRolodex();
             if (rolodex != null) {
                 depPerson.setFirstName(rolodex.getFirstName());
@@ -218,7 +218,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      */
     public Map<String, String> getEOStateReview(ProposalDevelopmentDocument pdDoc) {
         Map<String, String> stateReview = new HashMap<String, String>();
-        for (ProposalYnq proposalYnq : pdDoc.getProposalYnqs()) {
+        for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
             if (proposalYnq.getQuestionId().equals(PROPOSAL_YNQ_STATE_REVIEW)) {
                 stateReview.put(S2SConstants.YNQ_ANSWER, proposalYnq.getAnswer());
                 stateReview.put(S2SConstants.YNQ_REVIEW_DATE, String.valueOf(proposalYnq.getReviewDate().getTime()));
@@ -352,8 +352,8 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      */
     public String getDivisionName(ProposalDevelopmentDocument pdDoc) {
         String divisionName = null;
-        if (pdDoc != null && pdDoc.getOwnedByUnit() != null) {
-            Unit ownedByUnit = pdDoc.getOwnedByUnit();
+        if (pdDoc != null && pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
+            Unit ownedByUnit = pdDoc.getDevelopmentProposal().getOwnedByUnit();
             // traverse through the parent units till the top level unit
             while (ownedByUnit.getParentUnit() != null) {
                 ownedByUnit = ownedByUnit.getParentUnit();
@@ -376,7 +376,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     public ProposalPerson getPrincipalInvestigator(ProposalDevelopmentDocument pdDoc) {
         ProposalPerson proposalPerson = null;
         if (pdDoc != null) {
-            for (ProposalPerson person : pdDoc.getProposalPersons()) {
+            for (ProposalPerson person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
                 if (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR)) {
                     proposalPerson = person;
                 }

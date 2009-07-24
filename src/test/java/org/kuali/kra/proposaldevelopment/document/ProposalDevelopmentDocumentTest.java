@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2006-2008 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -110,15 +110,15 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
 
         setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "2", "000001");
-        document.setContinuedFrom("234567");
-        document.setSponsorProposalNumber("12345");
+        document.getDevelopmentProposal().setContinuedFrom("234567");
+        document.getDevelopmentProposal().setSponsorProposalNumber("12345");
         
         documentService.saveDocument(document);
 
         ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(document.getDocumentNumber());
         assertNotNull(savedDocument);
         checkDocumentFields(savedDocument, document.getDocumentNumber(), "ProposalDevelopmentDocumentTest test doc", "005770", "project title", "1", "2", "000001");
-        assertEquals("234567", savedDocument.getContinuedFrom());
+        assertEquals("234567", savedDocument.getDevelopmentProposal().getContinuedFrom());
     }
 
     @Test public void testSaveWithSponsorProgramInfo() throws Exception {
@@ -130,21 +130,21 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "2", "000001");
 
         // sponsor program info fields
-        document.setDeadlineDate(new Date(System.currentTimeMillis()));
-        document.setDeadlineType("1");
-        document.setPrimeSponsorCode("001044");
-        document.setCurrentAwardNumber("123456");
-        document.setNsfCode("J.02");
-        document.setAgencyDivisionCode("123");
-        document.setProgramAnnouncementTitle("we want to give you money");
-        document.setNoticeOfOpportunityCode("2");
-        document.setCfdaNumber("12.345a");
+        document.getDevelopmentProposal().setDeadlineDate(new Date(System.currentTimeMillis()));
+        document.getDevelopmentProposal().setDeadlineType("1");
+        document.getDevelopmentProposal().setPrimeSponsorCode("001044");
+        document.getDevelopmentProposal().setCurrentAwardNumber("123456");
+        document.getDevelopmentProposal().setNsfCode("J.02");
+        document.getDevelopmentProposal().setAgencyDivisionCode("123");
+        document.getDevelopmentProposal().setProgramAnnouncementTitle("we want to give you money");
+        document.getDevelopmentProposal().setNoticeOfOpportunityCode("2");
+        document.getDevelopmentProposal().setCfdaNumber("12.345a");
         // opportunity id
-        document.setProgramAnnouncementNumber("123478");
-        document.setSponsorProposalNumber("234567");
-        document.setContinuedFrom("98765432");
-        document.setSubcontracts(true);
-        document.setAgencyProgramCode("456");
+        document.getDevelopmentProposal().setProgramAnnouncementNumber("123478");
+        document.getDevelopmentProposal().setSponsorProposalNumber("234567");
+        document.getDevelopmentProposal().setContinuedFrom("98765432");
+        document.getDevelopmentProposal().setSubcontracts(true);
+        document.getDevelopmentProposal().setAgencyProgramCode("456");
 
         documentService.saveDocument(document);
 
@@ -153,19 +153,19 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         checkDocumentFields(savedDocument, document.getDocumentNumber(), "ProposalDevelopmentDocumentTest test doc", "005770", "project title", "1", "2", "000001");
 
         // check sponsor program info fields
-        assertEquals("1", savedDocument.getDeadlineType());
-        assertEquals("001044", savedDocument.getPrimeSponsorCode());
-        assertEquals("123456", savedDocument.getCurrentAwardNumber());
-        assertEquals("J.02", savedDocument.getNsfCode());
-        assertEquals("123", savedDocument.getAgencyDivisionCode());
-        assertEquals("we want to give you money", savedDocument.getProgramAnnouncementTitle());
-        assertEquals("2", savedDocument.getNoticeOfOpportunityCode());
-        assertEquals("12.345a", savedDocument.getCfdaNumber());
-        assertEquals("123478", savedDocument.getProgramAnnouncementNumber());
-        assertEquals("234567", savedDocument.getSponsorProposalNumber());
-        assertEquals("98765432", savedDocument.getContinuedFrom());
-        assertTrue("Subcontracts should be true", savedDocument.getSubcontracts());
-        assertEquals("456", savedDocument.getAgencyProgramCode());
+        assertEquals("1", savedDocument.getDevelopmentProposal().getDeadlineType());
+        assertEquals("001044", savedDocument.getDevelopmentProposal().getPrimeSponsorCode());
+        assertEquals("123456", savedDocument.getDevelopmentProposal().getCurrentAwardNumber());
+        assertEquals("J.02", savedDocument.getDevelopmentProposal().getNsfCode());
+        assertEquals("123", savedDocument.getDevelopmentProposal().getAgencyDivisionCode());
+        assertEquals("we want to give you money", savedDocument.getDevelopmentProposal().getProgramAnnouncementTitle());
+        assertEquals("2", savedDocument.getDevelopmentProposal().getNoticeOfOpportunityCode());
+        assertEquals("12.345a", savedDocument.getDevelopmentProposal().getCfdaNumber());
+        assertEquals("123478", savedDocument.getDevelopmentProposal().getProgramAnnouncementNumber());
+        assertEquals("234567", savedDocument.getDevelopmentProposal().getSponsorProposalNumber());
+        assertEquals("98765432", savedDocument.getDevelopmentProposal().getContinuedFrom());
+        assertTrue("Subcontracts should be true", savedDocument.getDevelopmentProposal().getSubcontracts());
+        assertEquals("456", savedDocument.getDevelopmentProposal().getAgencyProgramCode());
 
     }
 
@@ -181,13 +181,13 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
      */
     private void setBaseDocumentFields(ProposalDevelopmentDocument document, String description, String sponsorCode, String title, Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
         document.getDocumentHeader().setDocumentDescription(description);
-        document.setSponsorCode(sponsorCode);
-        document.setTitle(title);
-        document.setRequestedStartDateInitial(requestedStartDateInitial);
-        document.setRequestedEndDateInitial(requestedEndDateInitial);
-        document.setActivityTypeCode(activityTypeCode);
-        document.setProposalTypeCode(proposalTypeCode);
-        document.setOwnedByUnitNumber(ownedByUnit);
+        document.getDevelopmentProposal().setSponsorCode(sponsorCode);
+        document.getDevelopmentProposal().setTitle(title);
+        document.getDevelopmentProposal().setRequestedStartDateInitial(requestedStartDateInitial);
+        document.getDevelopmentProposal().setRequestedEndDateInitial(requestedEndDateInitial);
+        document.getDevelopmentProposal().setActivityTypeCode(activityTypeCode);
+        document.getDevelopmentProposal().setProposalTypeCode(proposalTypeCode);
+        document.getDevelopmentProposal().setOwnedByUnitNumber(ownedByUnit);
     }
 
     /**
@@ -204,11 +204,11 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
     private void checkDocumentFields(ProposalDevelopmentDocument doc, String documentNumber, String description, String sponsorCode, String title, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
         assertEquals(documentNumber, doc.getDocumentNumber());
         assertEquals(description, doc.getDocumentHeader().getDocumentDescription());
-        assertEquals(sponsorCode, doc.getSponsorCode());
-        assertEquals(title, doc.getTitle());
+        assertEquals(sponsorCode, doc.getDevelopmentProposal().getSponsorCode());
+        assertEquals(title, doc.getDevelopmentProposal().getTitle());
         // check dates
-        assertEquals(activityTypeCode, doc.getActivityTypeCode());
-        assertEquals(proposalTypeCode, doc.getProposalTypeCode());
-        assertEquals(ownedByUnit, doc.getOwnedByUnitNumber());
+        assertEquals(activityTypeCode, doc.getDevelopmentProposal().getActivityTypeCode());
+        assertEquals(proposalTypeCode, doc.getDevelopmentProposal().getProposalTypeCode());
+        assertEquals(ownedByUnit, doc.getDevelopmentProposal().getOwnedByUnitNumber());
     }
 }

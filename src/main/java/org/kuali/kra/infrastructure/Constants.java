@@ -94,8 +94,8 @@ public interface Constants {
 
     public static final String ABSTRACTS_PROPERTY_KEY = "newProposalAbstract";
     public static final String SPONSOR_PROPOSAL_NUMBER_PROPERTY_KEY = "sponsorProposalNumber";
-    public static final String DEADLINE_DATE_KEY = "document.deadlineDate";
-    public static final String PROJECT_TITLE_KEY = "document.title";
+    public static final String DEADLINE_DATE_KEY = "document.developmentProposalList[0].deadlineDate";
+    public static final String PROJECT_TITLE_KEY = "document.developmentProposalList[0].title";
     public static final String SPONSOR_PROPOSAL_NUMBER_LABEL = "Sponsor Proposal ID";
 
     public static final String AUDIT_ERRORS = "Validation Errors";
@@ -135,7 +135,7 @@ public interface Constants {
     public static final String INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY = "invCreditTypeCode";
     public static final String EMPTY_STRING = "";
     public static final String PRINCIPAL_INVESTIGATOR_KEY = "newProposalPerson";
-    public static final String CREDIT_SPLIT_KEY = "document.creditSplit";
+    public static final String CREDIT_SPLIT_KEY = "document.developmentProposalList[0].creditSplit";
 
    
     /* set values for ynq */
@@ -218,15 +218,15 @@ public interface Constants {
     public static final int BUDGET_SUMMARY_PERIOD_GROUP_SIZE = 5;
     
     //Grants.gov
-    public static final String S2S_SUBMISSIONTYPE_CODE_KEY="document.s2sOpportunity.s2sSubmissionTypeCode";
+    public static final String S2S_SUBMISSIONTYPE_CODE_KEY="document.developmentProposalList[0].s2sOpportunity.s2sSubmissionTypeCode";
     public static final String GRANTS_GOV_PANEL_ANCHOR  = "Opportunity";
     public static final String GRANTS_GOV_OPPORTUNITY_PANEL = "GrantsGov";
     public static final String ABSTRACTS_AND_ATTACHMENTS_PANEL ="AbstractsAndAttachments";
-    public static final String OPPORTUNITY_ID_KEY="document.programAnnouncementNumber";
-    public static final String OPPORTUNITY_TITLE_KEY="document.programAnnouncementTitle";
+    public static final String OPPORTUNITY_ID_KEY="document.developmentProposalList[0].programAnnouncementNumber";
+    public static final String OPPORTUNITY_TITLE_KEY="document.developmentProposalList[0].programAnnouncementTitle";
     public static final String CFDA_NUMBER_KEY="document.cfdaNumber";
     public static final String GRANTS_GOV_PAGE = "grantsGov";
-    public static final String ORIGINAL_PROPOSAL_ID_KEY = "document.sponsorProposalNumber";
+    public static final String ORIGINAL_PROPOSAL_ID_KEY = "document.developmentProposalList[0].sponsorProposalNumber";
     public static final String CFDA_NUMBER = "cfdaNumber";
     public static final String OPPORTUNITY_ID= "opportunityId";
     public static final String NO_FIELD= "noField";
@@ -257,7 +257,7 @@ public interface Constants {
     
     public static final String TRUE_FLAG = "Y";
     public static final String FALSE_FLAG = "N";
-    public static final String PROPOSAL_SPECIAL_REVIEW_KEY = "document.proposalSpecialReview*";
+    public static final String PROPOSAL_SPECIAL_REVIEW_KEY = "document.developmentProposalList[0].proposalSpecialReview*";
     public static final String SPECIAL_REVIEW_PAGE = "specialReview";
     public static final String SPECIAL_REVIEW_PANEL_ANCHOR = "SpecialReview";
     public static final String SPECIAL_REVIEW_PANEL_NAME = "Special Review Information";

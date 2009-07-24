@@ -72,7 +72,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
         
         rulePassed &= checkForDescriptionWhenTypeIsOther(proposalPersonBiography);
         
-        List<ProposalPersonBiography> existingPersonBiographyList = document.getPropPersonBios();
+        List<ProposalPersonBiography> existingPersonBiographyList = document.getDevelopmentProposal().getPropPersonBios();
         if(CollectionUtils.isNotEmpty(existingPersonBiographyList)){
             //Loop thru to filter attachment uploaded by the current user
             for(ProposalPersonBiography personBiography: existingPersonBiographyList) {
@@ -95,7 +95,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
         ProposalPersonBiography proposalPersonBiography = savePersonnelAttachmentEvent.getProposalPersonBiography();
         boolean rulePassed = true;
         
-        List<ProposalPersonBiography> existingPersonBiographyList = document.getPropPersonBios();
+        List<ProposalPersonBiography> existingPersonBiographyList = document.getDevelopmentProposal().getPropPersonBios();
         if(CollectionUtils.isNotEmpty(existingPersonBiographyList)){
             //Loop thru to filter attachment uploaded by the current user
             for(ProposalPersonBiography personBiography: existingPersonBiographyList) {

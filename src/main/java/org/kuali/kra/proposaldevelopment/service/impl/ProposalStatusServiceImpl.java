@@ -34,18 +34,18 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
     private BusinessObjectService businessObjectService;
     
     public void saveBudgetFinalVersionStatus(ProposalDevelopmentDocument pdDocument) {
-        ProposalBudgetStatus proposalStatus = getProposalStatus(pdDocument.getProposalNumber());
+        ProposalBudgetStatus proposalStatus = getProposalStatus(pdDocument.getDevelopmentProposal().getProposalNumber());
         
         if (proposalStatus == null) {
-            if (pdDocument.getProposalNumber() != null) {
+            if (pdDocument.getDevelopmentProposal().getProposalNumber() != null) {
                 proposalStatus = new ProposalBudgetStatus();
-                proposalStatus.setProposalNumber(pdDocument.getProposalNumber());
-                proposalStatus.setBudgetStatusCode(pdDocument.getBudgetStatus());
+                proposalStatus.setProposalNumber(pdDocument.getDevelopmentProposal().getProposalNumber());
+                proposalStatus.setBudgetStatusCode(pdDocument.getDevelopmentProposal().getBudgetStatus());
                 businessObjectService.save(proposalStatus);
             }
         } else if (proposalStatus.getBudgetStatusCode() == null || 
-                !proposalStatus.getBudgetStatusCode().equals(pdDocument.getBudgetStatus())) {
-            proposalStatus.setBudgetStatusCode(pdDocument.getBudgetStatus());
+                !proposalStatus.getBudgetStatusCode().equals(pdDocument.getDevelopmentProposal().getBudgetStatus())) {
+            proposalStatus.setBudgetStatusCode(pdDocument.getDevelopmentProposal().getBudgetStatus());
             businessObjectService.save(proposalStatus);
         } // else there is no change - do nothing.
     }
@@ -57,23 +57,23 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
             if (budgetDocument.getProposalNumber() != null && budgetDocument.getProposal() != null) {
                 proposalStatus = new ProposalBudgetStatus();
                 proposalStatus.setProposalNumber(budgetDocument.getProposalNumber());
-                proposalStatus.setBudgetStatusCode(budgetDocument.getProposal().getBudgetStatus());
+                proposalStatus.setBudgetStatusCode(budgetDocument.getProposal().getDevelopmentProposal().getBudgetStatus());
                 businessObjectService.save(proposalStatus);
             }
         } else if (!ObjectUtils.isNull(budgetDocument.getProposal())) {
-            if (proposalStatus.getBudgetStatusCode() == null && budgetDocument.getProposal().getBudgetStatus() != null) {
-                proposalStatus.setBudgetStatusCode(budgetDocument.getProposal().getBudgetStatus());
+            if (proposalStatus.getBudgetStatusCode() == null && budgetDocument.getProposal().getDevelopmentProposal().getBudgetStatus() != null) {
+                proposalStatus.setBudgetStatusCode(budgetDocument.getProposal().getDevelopmentProposal().getBudgetStatus());
                 businessObjectService.save(proposalStatus);
             } else if (proposalStatus.getBudgetStatusCode() != null 
-                    && !proposalStatus.getBudgetStatusCode().equals(budgetDocument.getProposal().getBudgetStatus())) {
-                proposalStatus.setBudgetStatusCode(budgetDocument.getProposal().getBudgetStatus());
+                    && !proposalStatus.getBudgetStatusCode().equals(budgetDocument.getProposal().getDevelopmentProposal().getBudgetStatus())) {
+                proposalStatus.setBudgetStatusCode(budgetDocument.getProposal().getDevelopmentProposal().getBudgetStatus());
                 businessObjectService.save(proposalStatus);
             }
         } // else no change or brand-new document; do nothing
         
         // Also save other budget versions. Can't map this in ORM because we don't want to save this version.
         if (!ObjectUtils.isNull(budgetDocument.getProposal())) {
-            List<BudgetVersionOverview> budgetVersionOverviews = budgetDocument.getProposal().getBudgetVersionOverviews();
+            List<BudgetVersionOverview> budgetVersionOverviews = budgetDocument.getProposal().getDevelopmentProposal().getBudgetVersionOverviews();
             for (BudgetVersionOverview version: budgetVersionOverviews) {
                 if (!version.getBudgetVersionNumber().equals(budgetDocument.getBudgetVersionNumber())) {
                     BudgetVersionOverview dbVersion = getBudgetVersion(version);
@@ -86,9 +86,9 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
     }
     
     public void loadBudgetStatus(ProposalDevelopmentDocument pdDocument) {
-        ProposalBudgetStatus proposalStatus = getProposalStatus(pdDocument.getProposalNumber());
+        ProposalBudgetStatus proposalStatus = getProposalStatus(pdDocument.getDevelopmentProposal().getProposalNumber());
         if (proposalStatus != null) {
-            pdDocument.setBudgetStatus(proposalStatus.getBudgetStatusCode());
+            pdDocument.getDevelopmentProposal().setBudgetStatus(proposalStatus.getBudgetStatusCode());
         }
     }
     

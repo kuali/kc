@@ -96,8 +96,8 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
         String username = proposalUserRolesList.get(index).getUsername();
 
         if (hasModifyNarrativePermission(username, proposalUserRolesList)) {
-            isValid &= !testForLastModifier(username, document.getNarratives(), Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY, "Proposal Attachment");
-            isValid &= !testForLastModifier(username, document.getInstituteAttachments(), Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY, "Internal Attachment");
+            isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getNarratives(), Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY, "Proposal Attachment");
+            isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getInstituteAttachments(), Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY, "Internal Attachment");
         }
         
         // The user cannot delete the last Aggregator on a proposal.
@@ -126,8 +126,8 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
         KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
         String username = editRoles.getUsername();
         if (isRemovingModifyNarrativePermission(proposalUserRolesList, editRoles)) {
-            isValid &= !testForLastModifier(username, document.getNarratives(), Constants.EDIT_ROLES_PROPERTY_KEY, "Proposal Attachment");
-            isValid &= !testForLastModifier(username, document.getInstituteAttachments(), Constants.EDIT_ROLES_PROPERTY_KEY, "Internal Attachment");
+            isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getNarratives(), Constants.EDIT_ROLES_PROPERTY_KEY, "Proposal Attachment");
+            isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getInstituteAttachments(), Constants.EDIT_ROLES_PROPERTY_KEY, "Internal Attachment");
         }
 
         // The Aggregator encompasses all of the other roles.  Therefore, if the
