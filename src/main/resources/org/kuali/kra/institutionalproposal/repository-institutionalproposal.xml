@@ -122,11 +122,9 @@
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
 		-->
-		<!--
-		<collection-descriptor name="propUnitAdministrators" proxy="true" element-class-ref="org.kuali.kra.bo.PropUnitAdministrators" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="institutionalProposalUnitAdministrators" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnitAdministrator" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		-->
 		<!--
 		<collection-descriptor name="proposalComments" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalComments" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
@@ -496,24 +494,28 @@
 			<foreignkey field-ref="invCreditTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>	
-	-->	
-	<!--	
+	-->		
 	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnitAdministrator" table="PROP_UNIT_ADMINISTRATORS">
-		<field-descriptor name="proposalUnitAdministratorsId" column="PROP_UNIT_ADMINISTRATORS_ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="proposalUnitAdministratorsId" column="PROP_UNIT_ADMINISTRATORS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROP_UNIT_ADMIN_ID"/>
 		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT" access="anonymous" />
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="unitAdministratorTypeCode" column="UNIT_ADMINISTRATOR_TYPE_CODE" jdbc-type="INTEGER" />
-		<field-descriptor name="administrator" column="ADMINISTRATOR" jdbc-type="VARCHAR" />
+		<field-descriptor name="unitAdministratorTypeCode" column="UNIT_ADMINISTRATOR_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor id="1" name="administrator" column="ADMINISTRATOR" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="proposalId"/>
 		</reference-descriptor>
+		<reference-descriptor name="unitAdministratorType" class-ref="org.kuali.kra.bo.UnitAdministratorType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="unitAdministratorTypeCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="administrator"/>
+		</reference-descriptor>
 	</class-descriptor>	
-	-->	
 	<class-descriptor class="org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData" table="PROPOSAL_CUSTOM_DATA">
 		<field-descriptor name="proposalCustomDataId" column="PROPOSAL_CUSTOM_DATA_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_CUSTOM_DATA_ID"/>
 		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT" access="anonymous"/>
