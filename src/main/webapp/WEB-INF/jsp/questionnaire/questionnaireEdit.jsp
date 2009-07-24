@@ -568,9 +568,9 @@
          */
             
        // alert("questionnairenumber "+$("#questionNumber").attr("value")+" qid "+$("#qid"+$(this).attr("id").substring(5)).attr("value"));
-        if (i < 4) {
-           alert("node "+idx+"-"+field[3]);
-        }
+        //if (i < 4) {
+        //   alert("node "+idx+"-"+field[3]);
+        //}
         $("#qnum"+idx).attr("value",field[5]);
         $("#qid"+idx).attr("value",field[1]);
         $("#qseq"+idx).attr("value",field[2]);
