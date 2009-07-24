@@ -23,7 +23,8 @@
 		<form-bean name="CommitteeForm" type="org.kuali.kra.committee.web.struts.form.CommitteeForm" />
 		<form-bean name="InstitutionalProposalForm" type="org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm" />
 	    <form-bean name="KraMaintenanceForm" type="org.kuali.kra.maintenance.KraMaintenanceForm" />
-	    <form-bean name="QuestionLookupForm" type="org.kuali.kra.questionnaire.QuestionLookupForm" />
+        <form-bean name="KualiMaintenanceForm" type="org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm" />
+        <form-bean name="QuestionLookupForm" type="org.kuali.kra.questionnaire.QuestionLookupForm" />
 	    <form-bean name="QuestionnaireForm" type="org.kuali.kra.questionnaire.QuestionnaireForm" />
     </form-beans>
 
@@ -112,6 +113,10 @@
       </action>
       
 		<action path="/kraUpdateTextArea" name="KualiForm" type="org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase">
+            <forward name="basic" path="/TextArea.jsp" />
+        </action>
+        
+        <action path="/kraMaintUpdateTextArea" name="KualiForm" type="org.kuali.kra.maintenance.KraMaintenanceDocumentAction">
             <forward name="basic" path="/TextArea.jsp" />
         </action>
         
@@ -269,9 +274,9 @@
           <forward name="committeeSchedule" path="/WEB-INF/jsp/committee/CommitteeSchedule.jsp" />
       </action>
       
-	    <action path="/maintenance" name="KraMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction">
-	        <forward name="basic" path="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" />
-	    </action>    
+	 <action path="/maintenance" name="KualiMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction">
+         <forward name="basic" path="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" />
+     </action>    
 
     </action-mappings>
 

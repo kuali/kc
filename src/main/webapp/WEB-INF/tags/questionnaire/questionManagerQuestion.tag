@@ -15,7 +15,7 @@
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.question" 
                                           attributeEntry="${DataDictionary.Question.attributes.question}" />
                 <kra:expandedTextArea textAreaFieldName="document.newMaintainableObject.businessObject.question" 
-                                      action="businessObject.question" 
+                                      action="maintenance" 
                                       textAreaLabel="${DataDictionary.Question.attributes.question.label}"
                                       viewOnly="${readOnly}" />
             </td>
@@ -70,7 +70,7 @@
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.explanation" 
                                           attributeEntry="${DataDictionary.Question.attributes.explanation}" />
                 <kra:expandedTextArea textAreaFieldName="document.newMaintainableObject.businessObject.explanation" 
-                                      action="businessObject.explanation" 
+                                      action="maintenance" 
                                       textAreaLabel="${DataDictionary.Question.attributes.question.label}"
                                       viewOnly="${readOnly}" />
             </td>
@@ -83,7 +83,7 @@
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.policy" 
                                           attributeEntry="${DataDictionary.Question.attributes.policy}" />
                 <kra:expandedTextArea textAreaFieldName="document.newMaintainableObject.businessObject.policy" 
-                                      action="businessObject.policy" 
+                                      action="maintenance" 
                                       textAreaLabel="${DataDictionary.Question.attributes.question.label}"
                                       viewOnly="${readOnly}" />
             </td>
@@ -96,7 +96,7 @@
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.regulation" 
                                           attributeEntry="${DataDictionary.Question.attributes.regulation}" />
                 <kra:expandedTextArea textAreaFieldName="document.newMaintainableObject.businessObject.regulation" 
-                                      action="businessObject.regulation" 
+                                      action="maintenance" 
                                       textAreaLabel="${DataDictionary.Question.attributes.question.label}"
                                       viewOnly="${readOnly}" />
             </td>
