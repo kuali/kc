@@ -291,7 +291,7 @@
 							</th>
 			       			<td align="left" valign="middle" colspan="3">
 			              		<div align="left" style="display: none;" id="attachmentProtocolFile${itrStatus.index}">
-			              			<html:file property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].newFile" />
+			              			<html:file property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].newFile" size="50" />
 			           			</div>
 			           			<div align="left" id="attachmentProtocolFileName${itrStatus.index}">
 			              			${attachmentProtocol.file.name}
