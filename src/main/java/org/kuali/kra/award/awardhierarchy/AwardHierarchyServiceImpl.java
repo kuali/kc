@@ -52,7 +52,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         AwardHierarchy awardHierarchyRootNode = getRootNode(awardHierarchy.getRootAwardNumber());
         awardHierarchies.put(awardHierarchyRootNode.getAwardNumber(), awardHierarchyRootNode);
         fieldValues.put("parentAwardNumber", awardHierarchyRootNode.getAwardNumber());
-        awardHierarchyChildren = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, awardNumber, true);
+        awardHierarchyChildren = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, "awardNumber", true);
         
         while(awardHierarchyChildren.size()!=0){
             Collection<AwardHierarchy> awardHierarchyChildren2 = null;

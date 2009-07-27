@@ -104,8 +104,11 @@
         <property name="shortLabel" value="Anticipated Total Amount" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="10" />
@@ -122,8 +125,11 @@
         <property name="shortLabel" value="Ant Distributable Amount" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="10" />
@@ -159,8 +165,11 @@
         <property name="shortLabel" value="Amount Obligated To Date" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="10" />
@@ -177,8 +186,11 @@
         <property name="shortLabel" value="Obli Distributable Amount" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="10" />
