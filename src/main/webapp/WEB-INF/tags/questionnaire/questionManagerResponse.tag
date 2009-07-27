@@ -1,40 +1,103 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<script>
+<script type="text/javascript">
     function showQuestionType() {
-        document.getElementById("question_response_type_select").style.display = "none";
-        document.getElementById("question_response_type_yes_no").style.display = "none";
-        document.getElementById("question_response_type_yes_no_na").style.display = "none";
-        document.getElementById("question_response_type_number").style.display = "none";
-        document.getElementById("question_response_type_date").style.display = "none";
-        document.getElementById("question_response_type_text").style.display = "none";
-        document.getElementById("question_response_type_lookup").style.display = "none";
-        document.getElementById("question_response_type_unknown").style.display = "none";
+        document.getElementById("displayed_answers_pre_message").innerHTML = "";
+        document.getElementById("displayed_answers_post_message").innerHTML = "";
+        document.getElementById("displayed_answers_html_control").style.display = "none";
+        document.getElementById("displayed_answers_br").style.display = "none";
+        document.getElementById("lookup_gui_pre_message").innerHTML = "";
+        document.getElementById("lookup_gui_post_message").innerHTML = "";
+        document.getElementById("lookup_gui_html_control").style.display = "none";
+        document.getElementById("lookup_gui_br").style.display = "none";
+        document.getElementById("lookup_name_pre_message").innerHTML = "";
+        document.getElementById("lookup_name_post_message").innerHTML = "";
+        document.getElementById("lookup_name_html_control").style.display = "none";
+        document.getElementById("lookup_name_br").style.display = "none";
+        document.getElementById("response_message").innerHTML = "";
+        document.getElementById("response_message_br").style.display = "none";
+        document.getElementById("answer_max_length_pre_message").innerHTML = "";
+        document.getElementById("answer_max_length_post_message").innerHTML = "";
+        document.getElementById("answer_max_length_html_control").style.display = "none";
+        document.getElementById("answer_max_length_br").style.display = "none";
+        document.getElementById("max_answers_pre_message").innerHTML = "";
+        document.getElementById("max_answers_post_message").innerHTML = "";
+        document.getElementById("max_answers_html_control").style.display = "none";
+        document.getElementById("max_answers_br").style.display = "none";
 
         switch(document.getElementById("document.newMaintainableObject.businessObject.questionTypeId").value) {
         case "" :
-            document.getElementById("question_response_type_select").style.display = "block";
+            document.getElementById("response_message").innerHTML = "<i> Please select the Type of response you would like for this question. </i>";
+            document.getElementById("response_message_br").style.display = "inline";
             break;
         case "1" :
-            document.getElementById("question_response_type_yes_no").style.display = "block";
+            document.getElementById("response_message").innerHTML = "The user will be presented with the following radio buttons: Yes, No. <br /> Only one selection is possible. <br /> A selection is required.";
+            document.getElementById("response_message_br").style.display = "inline";
             break;
         case "2" :
-            document.getElementById("question_response_type_yes_no_na").style.display = "block";
+            document.getElementById("response_message").innerHTML = "The user will be presented with the following pulldown: Yes, No, Not Applicable. <br /> Only one selection is possible. <br /> A selection is required.";
+            document.getElementById("response_message_br").style.display = "inline";
             break;
         case "3" :
-            document.getElementById("question_response_type_number").style.display = "block";
+            document.getElementById("displayed_answers_pre_message").innerHTML = "The user will be presented with ";
+            document.getElementById("displayed_answers_post_message").innerHTML = " text boxes.";
+            document.getElementById("displayed_answers_html_control").style.display = "inline";
+            document.getElementById("displayed_answers_br").style.display = "inline";
+            document.getElementById("response_message").innerHTML = "The entered value will be validated requiring a number only.";
+            document.getElementById("response_message_br").style.display = "inline";
+            document.getElementById("answer_max_length_pre_message").innerHTML = "The maximum length of the number in characters is ";
+            document.getElementById("answer_max_length_post_message").innerHTML = ".";
+            document.getElementById("answer_max_length_html_control").style.display = "inline";
+            document.getElementById("answer_max_length_br").style.display = "inline";
+            document.getElementById("max_answers_pre_message").innerHTML = "The number of possible answers is ";
+            document.getElementById("max_answers_post_message").innerHTML = ", not exceeding the number of text boxes presented.";
+            document.getElementById("max_answers_html_control").style.display = "inline";
+            document.getElementById("max_answers_br").style.display = "inline";
             break;
         case "4" :
-            document.getElementById("question_response_type_date").style.display = "block";
+            document.getElementById("displayed_answers_pre_message").innerHTML = "The user will be presented with ";
+            document.getElementById("displayed_answers_post_message").innerHTML = " text boxes.";
+            document.getElementById("displayed_answers_html_control").style.display = "inline";
+            document.getElementById("displayed_answers_br").style.display = "inline";
+            document.getElementById("response_message").innerHTML = "The entered value will be validated for a date in MM/DD/YYYY format. <br /> A response is required for each text box.";
+            document.getElementById("response_message_br").style.display = "inline";
+            document.getElementById("max_answers_pre_message").innerHTML = "The number of possible answers is ";
+            document.getElementById("max_answers_post_message").innerHTML = ", not exceeding the number of text boxes presented.";
+            document.getElementById("max_answers_html_control").style.display = "inline";
+            document.getElementById("max_answers_br").style.display = "inline";
             break;
         case "5" :
-            document.getElementById("question_response_type_text").style.display = "block";
+        	document.getElementById("displayed_answers_pre_message").innerHTML = "The user will be presented with ";
+        	document.getElementById("displayed_answers_post_message").innerHTML = " text areas.";
+            document.getElementById("displayed_answers_html_control").style.display = "inline";
+            document.getElementById("displayed_answers_br").style.display = "inline";
+            document.getElementById("answer_max_length_pre_message").innerHTML = "Maximum length of each response in characters: ";
+            document.getElementById("answer_max_length_post_message").innerHTML = ".";
+            document.getElementById("answer_max_length_html_control").style.display = "inline";
+            document.getElementById("answer_max_length_br").style.display = "inline";
+            document.getElementById("max_answers_pre_message").innerHTML = "The number of possible answers is ";
+            document.getElementById("max_answers_post_message").innerHTML = ", not exceeding the number of text areas presented.";
+            document.getElementById("max_answers_html_control").style.display = "inline";
+            document.getElementById("max_answers_br").style.display = "inline";
             break;
         case "6" :
-            document.getElementById("question_response_type_lookup").style.display = "block";
+            document.getElementById("lookup_gui_pre_message").innerHTML = "The user will be presented with the ability to search for ";
+            document.getElementById("lookup_gui_post_message").innerHTML = ".";
+            document.getElementById("lookup_gui_html_control").style.display = "inline";
+            document.getElementById("lookup_gui_br").style.display = "inline";
+            document.getElementById("lookup_name_pre_message").innerHTML = "The field to return is ";
+            document.getElementById("lookup_name_post_message").innerHTML = ".";
+            document.getElementById("lookup_name_html_control").style.display = "inline";
+            document.getElementById("lookup_name_br").style.display = "inline";
+            document.getElementById("max_answers_pre_message").innerHTML = "The number of possible returns is ";
+            document.getElementById("max_answers_post_message").innerHTML = ".";
+            document.getElementById("max_answers_html_control").style.display = "inline";
+            document.getElementById("max_answers_br").style.display = "inline";
             break;
         default :
-            document.getElementById("question_response_type_unknown").style.display = "block";
+            document.getElementById("response_message").innerHTML = "<i>The question type is not yet supported.  Contact the system administrator to have this fixed.  Meanwhile please select a different Type of response for for this question.</i> <br />";
+            document.getElementById("response_message_br").style.display = "inline";
+            break;
         }
     }
 </script>
@@ -57,132 +120,22 @@
                                               readOnlyAlternateDisplay="${KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName}"
                                               onchange="javascript:showQuestionType();" />
                     <noscript>
-                        <html:image property="methodToCall.loadRecurrence.anchor${tabKey}"
-                                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif' styleClass="tinybutton" />
+                        <p>
+                            <html:image property="methodToCall.loadRecurrence.anchor${tabKey}"
+                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif' styleClass="tinybutton" />
+                        </p>
                     </noscript>
                 </div>
             </td>
             <td>
-
-                <%-- Start No Selection --%>
-                <kra-questionnaire:questionManagerResponseDivStyle questionType='select' />
-                    <p> 
-                        <i>Please select the Type of response you would like for this question.</i> <br />
-                    </p>
-                </div>
-                <%-- End No Selection --%>
-                
-                <%-- Start Yes/No Answer --%>
-                <kra-questionnaire:questionManagerResponseDivStyle questionType="Yes/No" />
-                    <p> 
-                        The user will be presented with the following radio buttons: Yes, No. <br />
-                        Only one selection is possible. <br />
-                        A selection is required. <br />
-                    </p>
-                </div>
-                <%-- End Yes/No Answer --%>
-
-                <%-- Start Yes/No/NA Answer --%>
-                <kra-questionnaire:questionManagerResponseDivStyle questionType="Yes/No/NA" />
-                    <p> 
-                        The user will be presented with the following pulldown: Yes, No, Not Applicable. <br />
-                        Only one selection is possible. <br />
-                        A selection is required. <br />
-                    </p>
-                </div>
-                <%-- End Yes/No/NA Answer --%>
-                
-                <%-- Start Number --%>
-                <kra-questionnaire:questionManagerResponseDivStyle questionType="Number" />
-                    <p> 
-                        The user will be presented with
-                        <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.displayedAnswers" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.displayedAnswers}" />
-                        text boxes. <br />
-                        The entered value will be validated requiring a number only. <br />
-                        The maximum length of the number in characters is
-                        <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.answerMaxLength" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.answerMaxLength}" />.
-                        <br />
-                        The number of possible answers is
-                        <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.maxAnswers" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.maxAnswers}" />,
-                        not exceeding the number of text boxes presented. <br />
-                    </p>
-                </div>
-                <%-- End Number --%>
-                
-                <%-- Start Date --%>
-                <kra-questionnaire:questionManagerResponseDivStyle questionType="Date" />
-                    <p> 
-                        The user will be presented with
-                        <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.displayedAnswers" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.displayedAnswers}" /> 
-                        text boxes. <br />
-                        The entered value will be validated for a date in MM/DD/YYYY format. <br />
-                        A response is required for each text box. <br />
-                        The number of possible answers is
-                        <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.maxAnswers" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.maxAnswers}" />, 
-                        not exceeding the number of text boxes presented. <br />
-                    </p>
-                </div>
-                <%-- End Date --%>
-                
-                <%-- Start Text --%>
-                <kra-questionnaire:questionManagerResponseDivStyle questionType="Text" />
-                    <p> 
-                        The user will be presented with
-                        <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.displayedAnswers" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.displayedAnswers}" /> 
-                        text areas. <br />
-                        The number of possible answers is
-                        <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.maxAnswers" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.maxAnswers}" />,
-                        not exceeding the number of text areas presented. <br />
-                        The maximum length of each response in characters: 
-                        <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.answerMaxLength" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.answerMaxLength}" />.
-                        <br />
-                    </p>
-                </div>
-                <%-- End Text --%>
-
-                <%-- Start Lookup --%>
-                <kra-questionnaire:questionManagerResponseDivStyle questionType="Lookup" />
-                    <p>
-                        The user will be presented with the ability to search for 
-                        <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.lookupGui" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.lookupGui}"
-                                                  readOnlyAlternateDisplay="${KualiForm.document.newMaintainableObject.businessObject.lookupGui}"
-                                                  onchange="updateLookupReturn(this, updateLookupReturn_Callback)" />. <br />
-                        The field to return is 
-                        <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.lookupName" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.lookupName}"
-                                                  readOnlyAlternateDisplay="${KualiForm.document.newMaintainableObject.businessObject.lookupName}" />.
-                        <c:if test="${!readOnly}">
-                            <noscript>
-                                <html:image property="methodToCall.refreshPulldownOptions" 
-                                            styleClass="tinybutton" 
-	                	                    src='${ConfigProperties.kra.externalizable.images.url}arrow_refresh.png' />
-	                	    </noscript>
-	                	</c:if> <br />
-                        The number of possible returns is
-                        <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.maxAnswers" 
-                                                  attributeEntry="${DataDictionary.Question.attributes.maxAnswers}" />.
-                        <br />
-                    </p>
-                </div>
-                <%-- End Lookup --%>
-
-                <%-- Start Unknown --%>
-                <kra-questionnaire:questionManagerResponseDivStyle questionType="Unknown" />
-                    <p>
-                        <i>The question type is not yet supported.  Contact the system administrator to have this fixed.  Meanwhile please select a different Type of response for for this question.</i> <br />
-                    </p>
-                </div>
-                <%-- End Unknown --%>
-
+                <br />
+                <kra-questionnaire:questionManagerResponseDisplayedAnswers />
+                <kra-questionnaire:questionManagerResponseLookupGui />
+                <kra-questionnaire:questionManagerResponseLookupName />
+                <kra-questionnaire:questionManagerResponseMessage />
+                <kra-questionnaire:questionManagerResponseAnswerMaxLength />
+                <kra-questionnaire:questionManagerResponseMaxAnswers />
+                <br />
             </td>
         </tr>
     </table>
