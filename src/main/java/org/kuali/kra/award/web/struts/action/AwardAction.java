@@ -89,9 +89,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm) form;
-        checkAwardNumber(awardForm.getAwardDocument().getAward());
         ActionForward actionForward = super.execute(mapping, form, request, response);
+                
         new AuditActionHelper().auditConditionally((AwardForm)form);
         return actionForward;
     }
@@ -104,6 +103,9 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
 
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         AwardForm awardForm = (AwardForm) form;
+        
+        checkAwardNumber(awardForm.getAwardDocument().getAward());
+        
         if (isValidSave(awardForm)) {
             forward = super.save(mapping, form, request, response);
     
@@ -124,7 +126,9 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
             AwardNumberService awardNumberService = getAwardNumberService();
             String awardNumber = awardNumberService.getNextAwardNumber();
             award.setAwardNumber(awardNumber);
-            award.getAwardAmountInfos().get(0).setAwardNumber(awardNumber);
+        }
+        if (Award.DEFAULT_AWARD_NUMBER.equals(award.getAwardAmountInfos().get(0).getAwardNumber())) {
+            award.getAwardAmountInfos().get(0).setAwardNumber(award.getAwardNumber());
         }
     }
     
