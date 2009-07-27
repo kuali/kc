@@ -9,76 +9,61 @@
         <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.questionnaire.Questionnaire" altText="help"/> </span>
     </h3>
     
-   <table width="100%" cellpadding="0" cellspacing="0" style="border-top:#E4E3E4 solid 1px;">
-       <tr>
-           <th class="subelementheader" style="text-align:left;color: #708090;" colspan="3" >
-               From Questionnaire :
-           </th>
-       </tr>
-   </table>
-    
-
     <table id="from-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
         <tr>
-            <th align="right" valign="middle" width="115">
+		<td colspan="2" class="tab-subhead" width="50%">
+			<div class="tab-subhead-r">
+                Original
+			</div>
+		</td>
+		<td colspan="2" class="tab-subhead" width="50%">
+            New Copy
+		</td>
+        </tr>
+        <tr>
+            <th class="grid" width="25.0%" align="right">
                 <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.name}" />
             </th>
-            <td align="left" valign="middle" colspan="3">
+            <td class="grid" width="25.0%">
                <html:text property="fromQuestionnaire.name" 
                            styleId="fromQuestionnaire.name" readonly="true"/>
             </td>
-        </tr>
-        <tr>
-            <th align="right" valign="middle" width="115">
-                <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.description}" />
-            </th>
-            <td align="left" valign="middle" colspan="3">
-               <html:textarea property="fromQuestionnaire.description" rows="5" cols="40"
-                           styleId="fromQuestionnaire.description" readonly="true"/>
-            </td>
-        </tr>
-        <tr>
-            <th align="right" valign="middle" width="115">
-                <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.isFinal}" />
-            </th>
-            <td align="left" valign="middle" colspan="3">
-               <html:checkbox property="fromQuestionnaire.isFinal" 
-                           styleId="fromQuestionnaire.isFinal" disabled="true"/>
-            </td>
-        </tr>
-    </table>
-   <table width="100%" cellpadding="0" cellspacing="0" style="border-top:#E4E3E4 solid 1px;">
-       <tr>
-           <th class="subelementheader" style="text-align:left;;color: #708090;" colspan="3">
-               To Questionnaire :
-           </th>
-       </tr>
-   </table>
-         
-    <table id="to-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
-        <tr>
-            <th align="right" valign="middle" width="115">
+            <th class="grid" width="25.0%" align="right">
                 <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.name}" />
             </th>
-            <td align="left" valign="middle" colspan="3">
+            <td class="grid" width="25.0%">
                 <kul:htmlControlAttribute property="newQuestionnaire.name" 
                                           attributeEntry="${questionnaireAttributes.name}" />
             </td>
         </tr>
         <tr>
-            <th align="right" valign="middle" width="115">
+            <th class="grid" width="25.0%" align="right">
                 <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.description}" />
             </th>
-            <td align="left" valign="middle" colspan="3">
+            <td class="grid" width="25.0%">
+               <html:textarea property="fromQuestionnaire.description" rows="5" cols="40"
+                           styleId="fromQuestionnaire.description" readonly="true"/>
+            </td>
+            <th class="grid" width="25.0%" align="right">
+                <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.description}" />
+            </th>
+            <td class="grid" width="25.0%">
                 <kul:htmlControlAttribute property="newQuestionnaire.description" 
                                           attributeEntry="${questionnaireAttributes.description}" />
             </td>
         </tr>
         <tr>
-            <th align="right" valign="middle" width="115">
+            <th class="grid" width="25.0%" align="right">
                 <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.isFinal}" />
             </th>
-            <td align="left" valign="middle" colspan="3">
+            <td class="grid" width="25.0%">
+               <html:checkbox property="fromQuestionnaire.isFinal" 
+                           styleId="fromQuestionnaire.isFinal" disabled="true"/>
+            </td>
+            <th class="grid" width="25.0%" align="right">
+                <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.isFinal}" />
+            </th>
+            <td class="grid" width="25.0%">
                 <kul:htmlControlAttribute property="newQuestionnaire.isFinal" 
                                           attributeEntry="${questionnaireAttributes.isFinal}" />
             </td>
@@ -86,4 +71,5 @@
     </table>
     
 	<input type="hidden" id="fromQuestionnaire.questionnaireId" name="fromQuestionnaire.questionnaireId" value = "${QuestionnaireForm.fromQuestionnaire.questionnaireId}"/>
+	<input type="hidden" id="retData" name="retData" value = "${QuestionnaireForm.retData}"/>
 </div>
