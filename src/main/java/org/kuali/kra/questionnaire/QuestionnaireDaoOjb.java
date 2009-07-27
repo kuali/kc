@@ -22,7 +22,10 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.OjbCollectionAware;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.springmodules.orm.ojb.PersistenceBrokerCallback;
 
 public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, QuestionnaireDao {
@@ -34,7 +37,7 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
 
     public void runScripts(final String[] sqls, final Integer questionnaireId) {
 
-        this.getPersistenceBrokerTemplate().execute(new PersistenceBrokerCallback() {
+         this.getPersistenceBrokerTemplate().execute(new PersistenceBrokerCallback() {
             public Object doInPersistenceBroker(PersistenceBroker pb) {
                 Statement stmt = null;
                 try {
@@ -89,9 +92,14 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
                                 sql = "update questionnaire_questions set QUESTION_SEQ_NUMBER = QUESTION_SEQ_NUMBER -1 where QUESTIONNAIRE_ID = " + questionnaireId 
                                         + " and  PARENT_QUESTION_NUMBER = " + params[3] + " and  QUESTION_SEQ_NUMBER > " + params[4];
 
+                            } else {
+                                // TODO : something not wanted
+                                sql = "";
                             }
-                            LOG.info("Save run scripts " + i + sql);
-                            stmt.addBatch(sql);
+                            if (StringUtils.isNotBlank(sql)) {
+                                LOG.info("Save run scripts " + i + sql);
+                                stmt.addBatch(sql);
+                            }
                         }
                     }
                     int[] updCnt = stmt.executeBatch();
@@ -102,6 +110,8 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
                 }
                 catch (Exception e) {
                     LOG.error("exception error " + e.getStackTrace());
+                    //ErrorMap errorMap = GlobalVariables.getErrorMap();
+                    //errorMap.putError("sqlerror", e.getMessage()+e.getStackTrace());
                 }
                 finally {
                     if (stmt != null) {
@@ -110,6 +120,8 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
                         }
                         catch (Exception e) {
                             LOG.error("error closing statement", e);
+                           // ErrorMap errorMap = GlobalVariables.getErrorMap();
+                           // errorMap.putError("closestmterror", e.getMessage()+e.getStackTrace());
                         }
                     }
                 }
