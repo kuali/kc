@@ -388,7 +388,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="6" />
+            p:size="12" />
     </property>
     <property name="summary" value="Award Number" />
     <property name="description" value="Award Number" />

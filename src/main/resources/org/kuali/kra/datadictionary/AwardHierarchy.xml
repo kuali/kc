@@ -49,8 +49,9 @@
         <property name="shortLabel" value="Root  Award Number" />
         <property name="maxLength" value="12" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
+      		<bean parent="RegexValidationPattern"
+            	p:pattern="\d\d\d\d\d\d-\d\d\d\d\d" />
+	    </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="12" />
@@ -67,8 +68,9 @@
         <property name="shortLabel" value=" Award Number" />
         <property name="maxLength" value="12" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
+      		<bean parent="RegexValidationPattern"
+            	p:pattern="\d\d\d\d\d\d-\d\d\d\d\d" />
+	    </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="12" />
@@ -85,8 +87,9 @@
         <property name="shortLabel" value="Parent  Award Number" />
         <property name="maxLength" value="12" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
+      		<bean parent="RegexValidationPattern"
+            	p:pattern="\d\d\d\d\d\d-\d\d\d\d\d" />
+	    </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="12" />
