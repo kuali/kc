@@ -24,11 +24,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.award.home.AwardType;
+import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
@@ -41,7 +44,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class InstitutionalProposal extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<InstitutionalProposalSpecialReview>{ 
+public class InstitutionalProposal extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<InstitutionalProposalSpecialReview>,
+                                                                                            KeywordsManager<InstitutionalProposalScienceKeyword>{ 
     
     
     private static final long serialVersionUID = 1L;
@@ -76,6 +80,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private boolean mailBy; 
     private boolean mailType; 
     private String mailAccountNumber; 
+    private String mailDescription;
     private boolean subcontractFlag; 
     private String costSharingIndicator; 
     private String idcRateIndicator; 
@@ -90,6 +95,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private String cfdaNumber; 
     private String opportunity; 
     private Integer awardTypeCode; 
+    private String newDescription;
     private NoticeOfOpportunity noticeOfOpportunity; 
     private ProposalType proposalType; 
     private Rolodex rolodex; 
@@ -109,6 +115,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private List<InstitutionalProposalNotepad> institutionalProposalNotepads;
     private List<InstitutionalProposalSpecialReview> specialReviews;
     private List<InstitutionalProposalUnitAdministrator> institutionalProposalUnitAdministrators;
+    private List<InstitutionalProposalScienceKeyword> institutionalProposalScienceKeywords;
 
     public InstitutionalProposal() { 
         super();
@@ -139,6 +146,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         setTotalDirectCostTotal(new KualiDecimal(0));
         setTotalIndirectCostInitial(new KualiDecimal(0));
         setTotalIndirectCostTotal(new KualiDecimal(0));
+        newDescription = getDefaultNewDescription();
     }
     
     /**
@@ -301,11 +309,30 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.institutionalProposalCustomDataList = institutionalProposalCustomDataList;
     }
     
+    
+    
+    /**
+     * Gets the institutionalProposalScienceKeywords attribute. 
+     * @return Returns the institutionalProposalScienceKeywords.
+     */
+    public List<InstitutionalProposalScienceKeyword> getInstitutionalProposalScienceKeywords() {
+        return institutionalProposalScienceKeywords;
+    }
+
+    /**
+     * Sets the institutionalProposalScienceKeywords attribute value.
+     * @param institutionalProposalScienceKeywords The institutionalProposalScienceKeywords to set.
+     */
+    public void setInstitutionalProposalScienceKeywords(List<InstitutionalProposalScienceKeyword> institutionalProposalScienceKeywords) {
+        this.institutionalProposalScienceKeywords = institutionalProposalScienceKeywords;
+    }
+
     protected void initializeCollections() {
         institutionalProposalCustomDataList = new ArrayList<InstitutionalProposalCustomData>();
         institutionalProposalNotepads = new ArrayList<InstitutionalProposalNotepad>();
         specialReviews = new ArrayList<InstitutionalProposalSpecialReview>();
         institutionalProposalUnitAdministrators = new ArrayList<InstitutionalProposalUnitAdministrator>();
+        institutionalProposalScienceKeywords = new ArrayList<InstitutionalProposalScienceKeyword>();
     }
     
     public Long getProposalId() {
@@ -530,6 +557,24 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     public void setMailAccountNumber(String mailAccountNumber) {
         this.mailAccountNumber = mailAccountNumber;
+    }
+    
+    
+
+    /**
+     * Gets the mailDescription attribute. 
+     * @return Returns the mailDescription.
+     */
+    public String getMailDescription() {
+        return mailDescription;
+    }
+
+    /**
+     * Sets the mailDescription attribute value.
+     * @param mailDescription The mailDescription to set.
+     */
+    public void setMailDescription(String mailDescription) {
+        this.mailDescription = mailDescription;
     }
 
     public boolean getSubcontractFlag() {
@@ -774,6 +819,18 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.createTimeStamp = createTimeStamp;
     }
     
+    public String getDefaultNewDescription() {
+        return "(select)";
+    }
+    
+    public String getNewDescription() {
+        return newDescription;
+    }
+
+    public void setNewDescription(String newDescription) {
+        this.newDescription = newDescription;
+    }
+    
     //public Timestamp getUpdateTimestamp() {
       //  return super.getUpdateTimestamp();
     //}
@@ -844,6 +901,38 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     public InstitutionalProposalSpecialReview getSpecialReview(int index) {
         return getSpecialReviews().get(index);
+    }
+    
+    /**
+     * Gets the keywords attribute. 
+     * @return Returns the keywords.
+     */
+    public List<InstitutionalProposalScienceKeyword> getKeywords() {
+        return institutionalProposalScienceKeywords;
+    }
+
+    /**
+     * Sets the keywords attribute value.
+     * @param keywords The keywords to set.
+     */
+    public void setKeywords(List<InstitutionalProposalScienceKeyword> institutionalProposalScienceKeywords) {
+        this.institutionalProposalScienceKeywords = institutionalProposalScienceKeywords;
+    }
+    /**
+     * Add selected science keyword to award science keywords list.
+     * @see org.kuali.kra.document.KeywordsManager#addKeyword(org.kuali.kra.bo.ScienceKeyword)
+     */
+    public void addKeyword(ScienceKeyword scienceKeyword) {
+        InstitutionalProposalScienceKeyword institutionalProposalScienceKeyword = new InstitutionalProposalScienceKeyword(this, scienceKeyword);
+        getKeywords().add(institutionalProposalScienceKeyword);
+    }
+
+    /**
+     * It returns the ScienceKeyword object from keywords list
+     * @see org.kuali.kra.document.KeywordsManager#getKeyword(int)
+     */
+    public InstitutionalProposalScienceKeyword getKeyword(int index) {
+        return getKeywords().get(index);
     }
     
 }

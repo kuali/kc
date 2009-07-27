@@ -1577,6 +1577,23 @@ function selectAllAwardKeywords(document) {
 
 //End Award module
 
+function selectAllInstitutionalProposalKeywords(document) {
+    var j = 0;
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  var e = document.KualiForm.elements[i];
+	  if(e.type == 'checkbox') {
+	  	var name = 'document.institutionalProposal.institutionalProposalScienceKeywords[' + j + '].selectKeyword';
+	  	if (e.name == name) {
+ 		    e.checked = true;
+	  		j++; 
+	  	}
+	  }
+	}
+}
+
+
+
+
 /*
  * Load the Organization Name field based on the Organization Code passed in.
  */

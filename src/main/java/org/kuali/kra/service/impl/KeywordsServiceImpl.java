@@ -99,8 +99,7 @@ public class KeywordsServiceImpl implements KeywordsService {
                 if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                     Class lookupResultsBOClass = Class.forName(multiLookUpForm.getLookupResultsBOClassName());
                     Collection<PersistableBusinessObject> rawValues = KNSServiceLocator.getLookupResultsService()
-                            .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-                                    new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier());
+                    .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getPrincipalId());
                     if (lookupResultsBOClass.isAssignableFrom(ScienceKeyword.class)) {
                         KeywordsService keywordsService = KraServiceLocator.getService(KeywordsService.class);//move this to separate method and give protected access
                         for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
