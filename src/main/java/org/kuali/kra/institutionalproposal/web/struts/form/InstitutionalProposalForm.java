@@ -22,7 +22,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -35,6 +34,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialRevi
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -45,7 +45,7 @@ import org.kuali.rice.kns.util.KNSConstants;
  * This class...
  */
 public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
-                                                            implements CustomDataForm, Auditable,
+                                                            implements CustomDataForm, Auditable, MultiLookupFormBase,
                                                                        SpecialReviewFormBase<InstitutionalProposalSpecialReviewExemption>{
 
     /**
@@ -54,6 +54,9 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
     private static final long serialVersionUID = 4564236415580911082L;
     
     private boolean auditActivated;
+    
+    private String lookupResultsSequenceNumber;
+    private String lookupResultsBOClassName;
     
     private String[] newExemptionTypeCodes;
     private List<InstitutionalProposalSpecialReviewExemption> newSpecialReviewExemptions;
@@ -265,5 +268,41 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
     public ResearchDocumentBase getResearchDocument() {
         return getInstitutionalProposalDocument();
     }
+
+    /**
+     * Gets the lookupResultsSequenceNumber attribute. 
+     * @return Returns the lookupResultsSequenceNumber.
+     */
+    public String getLookupResultsSequenceNumber() {
+        return lookupResultsSequenceNumber;
+    }
+
+    /**
+     * Sets the lookupResultsSequenceNumber attribute value.
+     * @param lookupResultsSequenceNumber The lookupResultsSequenceNumber to set.
+     */
+    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
+        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
+    }
+
+    /**
+     * Gets the lookupResultsBOClassName attribute. 
+     * @return Returns the lookupResultsBOClassName.
+     */
+    public String getLookupResultsBOClassName() {
+        return lookupResultsBOClassName;
+    }
+
+    /**
+     * Sets the lookupResultsBOClassName attribute value.
+     * @param lookupResultsBOClassName The lookupResultsBOClassName to set.
+     */
+    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
+    
+    
+    
+    
 
 }

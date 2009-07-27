@@ -37,8 +37,12 @@ This is the  Institutional Proposal Home - Under Construction
 
 <kul:panelFooter />	
 
- 
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+<SCRIPT type="text/javascript">
+var kualiForm = document.forms['KualiForm'];
+var kualiElements = kualiForm.elements;
+</SCRIPT>
 <script language="javascript" src="scripts/kuali_application.js"></script>
+<script language="javascript" src="dwr/interface/SponsorService.js"></script>
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
 </kul:documentPage>

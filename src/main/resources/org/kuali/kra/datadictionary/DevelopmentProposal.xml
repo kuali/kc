@@ -492,7 +492,6 @@
     <property name="name" value="numberOfCopies"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Number of Copies"/>
-    <property name="shortLabel" value="Number of Copies"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
