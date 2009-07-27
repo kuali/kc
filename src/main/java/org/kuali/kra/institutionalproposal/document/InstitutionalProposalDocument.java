@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.service.InstitutionalProposalCustomAttributeService;
@@ -128,6 +128,7 @@ public class InstitutionalProposalDocument extends ResearchDocumentBase {
         
         managedLists.add(institutionalProposalSpecialReviewExemptions);
         managedLists.add(institutionalProposal.getSpecialReviews());
+        managedLists.add(institutionalProposal.getInstitutionalProposalScienceKeywords());
         
         return managedLists;
     }
