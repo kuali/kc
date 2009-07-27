@@ -276,7 +276,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
                 Class lookupResultsBOClass = Class.forName(proposalDevelopmentForm.getLookupResultsBOClassName());
                 Collection<PersistableBusinessObject> rawValues = KNSServiceLocator.getLookupResultsService()
                         .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-                                ((UniversalUser) GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier());
+                                GlobalVariables.getUserSession().getPrincipalId());
                 if (lookupResultsBOClass.isAssignableFrom(ScienceKeyword.class)) {
                     for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                         ScienceKeyword scienceKeyword = (ScienceKeyword) iter.next();

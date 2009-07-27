@@ -65,6 +65,7 @@
                 <ref bean="InstitutionalProposal-mailBy" />
                 <ref bean="InstitutionalProposal-mailType" />
                 <ref bean="InstitutionalProposal-mailAccountNumber" />
+                <ref bean="InstitutionalProposal-mailDescription"/>
                 <ref bean="InstitutionalProposal-subcontractFlag" />
                 <ref bean="InstitutionalProposal-statusCode" />
                 <ref bean="InstitutionalProposal-nsfCode" />
@@ -472,22 +473,22 @@
     </bean>
 
     <bean id="InstitutionalProposal-numberOfCopies" parent="InstitutionalProposal-numberOfCopies-parentBean" />
-    <bean id="InstitutionalProposal-numberOfCopies-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="numberOfCopies" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Number Of Copies" />
-        <property name="shortLabel" value="Number Of Copies" />
-        <property name="maxLength" value="7" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Number Of Copies" />
-        <property name="description" value="Number Of Copies" />
-    </bean>
+    <bean id="InstitutionalProposal-numberOfCopies-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="numberOfCopies"/>
+    	<property name="forceUppercase" value="false"/>
+    	<property name="label" value="Number of Copies"/>
+    	<property name="shortLabel" value="Number of Copies"/>
+    	<property name="maxLength" value="2"/>
+    	<property name="validationPattern">
+      		<bean parent="NumericValidationPattern"/>
+    	</property>
+    	<property name="required" value="false"/>
+    	<property name="control">
+      		<bean parent="TextControlDefinition" p:size="3"/>
+    	</property>
+    	<property name="summary" value="Number of Copies"/>
+    	<property name="description" value="The number of paper copies of the proposal that should be mailed to the agency/sponsor."/>
+  </bean>
 	<bean id="InstitutionalProposal-createTimeStamp" parent="InstitutionalProposal-createTimeStamp-parentBean" />
     <bean id="InstitutionalProposal-createTimeStamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="createTimeStamp" />
@@ -516,40 +517,69 @@
     </bean>
 
     <bean id="InstitutionalProposal-mailBy" parent="InstitutionalProposal-mailBy-parentBean" />
-    <bean id="InstitutionalProposal-mailBy-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
-        <property name="name" value="mailBy" />
-        <property name="label" value="Mail By" />
-        <property name="shortLabel" value="Mail By" />
-        <property name="summary" value="Mail By" />
-        <property name="description" value="Mail By" />
-    </bean>
+    <bean id="InstitutionalProposal-mailBy-parentBean" abstract="true" parent="MailBy-mailByCode">
+    	<property name="name" value="mailBy"/>
+    	<property name="control">
+      		<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailBy" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="mailByCode" p:labelAttribute="description"/>
+    	</property>
+    	<property name="description" value="This field determines whether the Sponsored Programs Office or the department will be mailing the proposal to the agency/sponsor."/>
+  	</bean>
+  <bean id="DevelopmentProposal-mailType" parent="DevelopmentProposal-mailType-parentBean"/>
 
     <bean id="InstitutionalProposal-mailType" parent="InstitutionalProposal-mailType-parentBean" />
-    <bean id="InstitutionalProposal-mailType-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
-        <property name="name" value="mailType" />
-        <property name="label" value="Mail Type" />
-        <property name="shortLabel" value="Mail Type" />
-        <property name="summary" value="Mail Type" />
-        <property name="description" value="Mail Type" />
-    </bean>
+    <bean id="InstitutionalProposal-mailType-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="mailType"/>
+    	<property name="forceUppercase" value="false"/>
+    	<property name="label" value="Type"/>
+    	<property name="shortLabel" value="Type"/>
+    	<property name="maxLength" value="1"/>
+   	 	<property name="validationPattern">
+      		<bean parent="AnyCharacterValidationPattern"/>
+    	</property>
+    	<property name="required" value="false"/>
+    	<property name="control">
+      		<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailType" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="mailType" p:labelAttribute="description"/>
+    	</property>
+   	 	<property name="summary" value="Mail Type"/>
+    	<property name="description" value="The method by which the proposal will be delivered to the agency/sponsor."/>
+  </bean>
 
     <bean id="InstitutionalProposal-mailAccountNumber" parent="InstitutionalProposal-mailAccountNumber-parentBean" />
-    <bean id="InstitutionalProposal-mailAccountNumber-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="mailAccountNumber" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Mail Account Number" />
-        <property name="shortLabel" value="Mail Account Number" />
-        <property name="maxLength" value="7" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Mail Account Number" />
-        <property name="description" value="Mail Account Number" />
-    </bean>
+    <bean id="InstitutionalProposal-mailAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="mailAccountNumber"/>
+    	<property name="forceUppercase" value="false"/>
+    	<property name="label" value="Mail Account ID"/>
+   	 	<property name="shortLabel" value="Mail Account ID"/>
+    	<property name="maxLength" value="7"/>
+    	<property name="validationPattern">
+      		<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    	</property>
+    	<property name="required" value="false"/>
+    	<property name="control">
+      		<bean parent="TextControlDefinition" p:size="10"/>
+    	</property>
+    	<property name="summary" value="Mail Account ID"/>
+    	<property name="description" value="The internal school account number that should be charged the mailing costs."/>
+  </bean>
+  
+  <bean id="InstitutionalProposal-mailDescription" parent="InstitutionalProposal-mailDescription-parentBean"/>
+
+  <bean id="InstitutionalProposal-mailDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="mailDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Mail Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="80"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="40"/>
+    </property>
+    <property name="summary" value="Mail Description"/>
+    <property name="description" value="Any information that will assist in the delivery of the proposal."/>
+  </bean>
 
     <bean id="InstitutionalProposal-subcontractFlag" parent="InstitutionalProposal-subcontractFlag-parentBean" />
     <bean id="InstitutionalProposal-subcontractFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >

@@ -55,7 +55,7 @@
                 </div></td>
                 <td>
                 	 ${KualiForm.document.developmentProposalList[0].propScienceKeywords[ctr].scienceKeyword.description}
-					<kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" 
+					<kul:lookup boClassName="org.kuali.kra.bo.ScienceKeyword" 
 					fieldConversions="scienceKeywordCode:document.developmentProposalList[0].propScienceKeyword[${ctr}].scienceKeywordCode,description:document.developmentProposalList[0].propScienceKeyword[${ctr}].scienceKeyword.description"
 					lookupParameters="" hideReturnLink="false" />
                 </td>
