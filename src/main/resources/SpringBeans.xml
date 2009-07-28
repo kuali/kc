@@ -178,6 +178,7 @@
 				<value>committeeLookupable</value>	
 				<value>kimIdentityManagementService</value>
 				<value>awardLookupable</value>
+				<!-- <value>awardPersonLookupable</value> -->
 				<value>docSearchCriteriaDTOLookupable</value>
 				<value>questionnaireLookupable</value>
 				<value>dictionaryValidationService</value>
@@ -1795,5 +1796,11 @@
 	<bean id="questionnaireLookupableHelperService" class="org.kuali.kra.questionnaire.QuestionnaireLookupableHelperServiceImpl" 
  		scope="prototype" parent="lookupableHelperService">
   	</bean>
+	
+	<bean id="versionHistoryService" class="org.kuali.kra.service.impl.VersionHistoryServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>		
+	</bean>
 	
 </beans>
