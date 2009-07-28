@@ -33,7 +33,7 @@ public interface SequenceOwner<T extends SequenceOwner<?>> extends SequenceAssoc
     
     /**
      * For Award, this would be "awardNumber", for Committee "committeeName", for Protocol "protocolNumber", etc.
-     * @return
+     * @return the field name that versions are "grouped" by
      */
     String getVersionNameField();
 }
