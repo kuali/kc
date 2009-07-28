@@ -17,12 +17,13 @@ package org.kuali.kra.irb.noteattachment;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -30,6 +31,23 @@ import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * Class used for versioning protocol attachments.
+ * 
+ * <p>
+ * The basic algorithm for versioning is the following:
+ * 
+ * <ol>
+ * <li> check if versioning is required </li>
+ * <li> version the File BO </li>
+ * <li> associate the new File version with an "existing" Attachment BO </li>
+ * <li> create a new Protocol Document </li>
+ * <li> version the Protocol and all its BOs which includes all attachment BOs (that are referencing the new file BO) </li>
+ * <li> set the new Protocol Document w/ the new Protocol version </li>
+ * <li> set the struts form to reference the new Protocol Document </li>
+ * </ol>
+ * </p>
+ * 
+ * It was easier to create the version of the file before the version of the Protocol to allow for easy updating of file references.
+ * Also, versioning of the Protocol naturally only needs to happen once, at the end of this process.
  */
 public class ProtocolAttachmentVersioningUtility {
 
@@ -110,15 +128,9 @@ public class ProtocolAttachmentVersioningUtility {
             throw new IllegalArgumentException("the attachment to version is not new " + toVersion);
         }
         
-        ProtocolAttachmentVersioningUtility.setInitialVersion(toVersion);
+        this.addAttachment(toVersion);
         
-        this.createVersion(this.form.getDocument());
-        this.saveVersionedDocument();
-        
-        this.addAttachmentToVersion(toVersion);
-        this.saveVersionedDocument();
-        
-        this.finishVersionProcessing();
+        this.finishVersionProcessing(true);
     }
     
     
@@ -134,25 +146,18 @@ public class ProtocolAttachmentVersioningUtility {
      * @param toVersion the attachment to version.
      * @throws IllegalArgumentException if the attachment is null or if the attachment is "new"
      */
-    void versionDeletedAttachment(final ProtocolAttachmentBase toDelete) {
-        if (toDelete == null) {
+    void versionDeletedAttachment(final ProtocolAttachmentBase toVersion) {
+        if (toVersion == null) {
             throw new IllegalArgumentException("the attachment to version was null");
         }
         
-        if (toDelete.isNew()) {
-            throw new IllegalArgumentException("the attachment to version is new " + toDelete);
+        if (toVersion.isNew()) {
+            throw new IllegalArgumentException("the attachment to version is new " + toVersion);
         }
         
-        this.createVersion(this.form.getDocument());
-        this.removeAttachmentFromVersion(toDelete);
-        this.saveVersionedDocument();
-        
-        final ProtocolAttachmentBase newVersion = this.createAttachmentVersionOnNewDocumentVersion(toDelete);
-        //FIXME: temp until I figure out how to display deletes
-        newVersion.getFile().setName("DELETED VERSION - " + newVersion.getFile().getName());
-        this.saveVersionedDocument();
-        
-        this.finishVersionProcessing();
+        this.deleteAttachment(toVersion);
+
+        this.finishVersionProcessing(true);
     }
     
     
@@ -171,116 +176,138 @@ public class ProtocolAttachmentVersioningUtility {
      */
     void versionExstingAttachments() {
         //only need to version attachment protocols at the moment
-        this.versionExstingAttachments(this.form.getDocument().getProtocol().getAttachmentProtocols(), ProtocolAttachmentProtocol.class);
+        boolean createVersion = this.versionExstingAttachments(this.form.getDocument().getProtocol().getAttachmentProtocols(), ProtocolAttachmentProtocol.class);
         
-        this.finishVersionProcessing();     
+        this.finishVersionProcessing(createVersion);     
     }
 
     /** 
      * Versions all attachments for a given Collection of attachments on the protocol.  Any changes done on a passed in
      * attachment will effectively be reverted to what is in the database and those changes will be reflected
-     * in a new attachment & protocol version.  The passed in Collection may be modified.
+     * in a new attachment & protocol version.  The passed in Collection or objects in Collection may be modified.
      * <T> the type of attachments
      * @param attachments the attachments.
      * @param type the class token for type of attachments (required for adding to generic Collection)
      */
-    private <T extends ProtocolAttachmentBase> void versionExstingAttachments(final Collection<T> attachments, final Class<T> type) {
+    private <T extends ProtocolAttachmentBase> boolean versionExstingAttachments(final Collection<T> attachments, final Class<T> type) {
         assert attachments != null : "the attachments was null";
         assert type != null : "the type was null";
         
-        final Collection<T> toVersionAndAdd = new ArrayList<T>();
-        
+        boolean createVersion = false;
         for (final T attachment : ProtocolAttachmentBase.filterExistingAttachments(attachments)) {
             final T persistedAttachment = this.notesService.getAttachment(type, attachment.getId());
                 
-            if (hasChanged(attachment, persistedAttachment)) {
-                this.createVersion(this.form.getDocument());
-                this.removeAttachmentFromVersion(attachment);
-                
-                toVersionAndAdd.add(attachment);
+            if (hasChanged(attachment.getFile(), persistedAttachment.getFile())) {
+                createVersion = true;
+                //change the attachments file...when the doc is versioned the change will come w/ it
+                createFileVersionOnAttachment(attachment);
             }
         }
-        
-        if (this.doesNewDocumentVersionExist()) {
-            this.saveVersionedDocument();
-            
-            for (final T attachment : toVersionAndAdd) {
-                this.createAttachmentVersionOnNewDocumentVersion(attachment);
-            }
-            this.saveVersionedDocument();
-        }
-    }
-
-    /**
-     * removes an attachment from a new protocol version.
-     * @param attachment the attachment to remove.
-     */
-    private void removeAttachmentFromVersion(ProtocolAttachmentBase attachment) {
-        assert attachment != null : "the attachment is null";
-        assert this.newDocumentVersion != null : "the newDocumentVersion is null";
-        assert this.newDocumentVersion.getProtocol() != null : "the new document version's protocol is null";
-        
-        this.newDocumentVersion.getProtocol().removeAttachmentsByType(attachment);
+        return createVersion;
     }
     
     /**
-     * Adds an attachment to the new protocol version.
+     * Adds an attachment to the protocol.
      * @param attachment the attachment to add.
      */
-    private void addAttachmentToVersion(ProtocolAttachmentBase attachment) {
+    private void addAttachment(ProtocolAttachmentBase attachment) {
         assert attachment != null : "the attachment is null";
-        assert this.newDocumentVersion != null : "the newDocumentVersion is null";
-        assert this.newDocumentVersion.getProtocol() != null : "the new document version's protocol is null";
         
-        attachment.addSequenceOwner(this.newDocumentVersion.getProtocol());
-        this.newDocumentVersion.getProtocol().addAttachmentsByType(attachment);
+        this.form.getDocument().getProtocol().addAttachmentsByType(attachment);
     }
     
     /**
-     * This method sets the new version (if created) on the ProtocolForm and nulls out the {@link #newDocumentVersion tempVersion}.
-     * This method must be called after calling all versioning methods 
-     * (ex: {@link #versionDeletedAttachments(Collection, Class)}, {@link #versionExstingAttachments()}, {@link #versionNewAttachments(Collection, Class)}
+     * Delete an attachment from the protocol.
+     * @param attachment the attachment to delete.
      */
-    private void finishVersionProcessing() {
-        if (this.doesNewDocumentVersionExist()) {
+    private void deleteAttachment(ProtocolAttachmentBase attachment) {
+        assert attachment != null : "the attachment is null";
+        
+        this.createFileVersionOnAttachment(attachment);
+        //FIXME: temp until I figure out how to display deletes
+        attachment.getFile().setName("DELETED VERSION - " + attachment.getFile().getName());
+    }
+    
+    /**
+     * This method will create a new Document, Protocol version, save the Document, and set the Document on the form.
+     * This method must be called after calling all versioning methods 
+     * (ex: {@link #versionDeletedAttachments(Collection)}, {@link #versionExstingAttachments()}, {@link #versionNewAttachments(Collection)}
+     * @param makeNewVersion whether to make the new version, save, etc.
+     */
+    private void finishVersionProcessing(boolean makeNewVersion) {
+        if (makeNewVersion) {
+            this.createVersion(this.form.getDocument());
+
+            //hack start
+            this.doAttachmentPersonnelSaveHack();
+            //hack end
+            
+            this.saveVersionedDocument();
             this.form.setDocument(this.newDocumentVersion);
+            this.newDocumentVersion = null;
+        }
+    }
+    
+    /**
+     * There is a problem with the way OJB handles 1:1/M relationships and the way the versioning framework triggers new versions.
+     * 
+     * Basically, A Personnel Attachment has a M:1 with Protocol Person.  When the versioning framework finds the Protocol Person
+     * it nulls it primary key to trigger an insert.  At this point Personnel Attachment still has an Id field pointing to the old
+     * Protocol Person.  This must be nulled out manually or else the Personnel Attachment will attempt to do an insert referencing
+     * the wrong Person.  Since the id field is null OJB will violate a DB constraint attempting to add null for the FK field for
+     * Person.
+     * 
+     * For example:
+     * <code>
+     * class ProtocolAttachment {
+     *   String personId; //null
+     *   ProtocolPerson person; valid object with null pk
+     * }
+     * </code>
+     * 
+     * So this workaround removes all Personnel Attachments from the Protocol.  Calls save.  Post save all Protocol Persons
+     * have non-null pks.  Then the work around loops through all attachments setting the correct fk for the Protocol Persons
+     * that have now been saved.
+     */
+    private void doAttachmentPersonnelSaveHack() {
+        
+        final List<ProtocolAttachmentPersonnel> attachToSave = this.newDocumentVersion.getProtocol().getAttachmentPersonnels();
+        this.newDocumentVersion.getProtocol().setAttachmentPersonnels(new ArrayList<ProtocolAttachmentPersonnel>());          
+        this.saveVersionedDocument();
+        for (final ProtocolAttachmentPersonnel attach : attachToSave) {
+            final String personId = attach.getPerson().getPersonId();
+            final Integer rolodexId = attach.getPerson().getRolodexId();
+            
+            for (final ProtocolPerson person : this.newDocumentVersion.getProtocol().getProtocolPersons()) {
+                if (personId != null) {
+                    if (personId.equals(person.getPersonId())) {
+                        attach.setPersonId(person.getProtocolPersonId());
+                    }
+                } else if (rolodexId != null) {
+                    if (rolodexId.equals(person.getRolodexId())) {
+                        attach.setPersonId(person.getProtocolPersonId());
+                    }
+                }
+            }
         }
         
-        this.newDocumentVersion = null;
-    }
-
-    /**
-     * Sets the initial version number.
-     * @param attachment the attachment
-     */
-    private static void setInitialVersion(final ProtocolAttachmentBase attachment) {
-        assert attachment != null : "the attachment was null";
-        attachment.setSequenceNumber(NumberUtils.INTEGER_ONE);
+        this.newDocumentVersion.getProtocol().setAttachmentPersonnels(attachToSave);
     }
     
     /**
      * Checks if a version of an attachment should be created.
      * 
-     * @param localAttachment the local attachment
-     * @param persistedAttachment the persisted attachment with same id
+     * @param localFile the local attachment file
+     * @param persistedFile the persisted attachment file with same id
      * @return true if should be versioned false if not.
      */
-    private static boolean hasChanged(final ProtocolAttachmentBase localAttachment, final ProtocolAttachmentBase persistedAttachment) {
+    private static boolean hasChanged(final ProtocolAttachmentFile localFile, final ProtocolAttachmentFile persistedFile) {
         
-        if (persistedAttachment == null || localAttachment == null) {
+        if (persistedFile == null || localFile == null) {
             return false;
         }
                 
-        return !(persistedAttachment.equals(localAttachment));
-    }
-    
-    /**
-     * Checks if a new Protocol Document version has been created.
-     * 
-     * @return true if a new version exists.  false if not.
-     */
-    private boolean doesNewDocumentVersionExist() {
-        return this.newDocumentVersion != null;
+        return !(persistedFile.equals(localFile));
     }
     
     /**
@@ -302,6 +329,10 @@ public class ProtocolAttachmentVersioningUtility {
         try {
             if (!this.doesNewDocumentVersionExist()) {
                 final Protocol protocolVersion = this.versionService.createNewVersion(protocolDocument.getProtocol());
+                for (ProtocolAttachmentPersonnel attachment : protocolVersion.getAttachmentPersonnels()) {
+                    System.err.println(attachment + " person: " + attachment.getPerson());
+                }
+                
                 
                 try {
                     this.newDocumentVersion = (ProtocolDocument) this.docService.getNewDocument(ProtocolDocument.class);
@@ -320,30 +351,28 @@ public class ProtocolAttachmentVersioningUtility {
     }
     
     /**
-     * Creates a version of an attachment. The act of versioning associates the attachment with its owner.
-     * Also, the attachment is associated as a 1:1 association with its owner.
+     * Creates a version of an attachment's file. The act of versioning associates the passed in attachment with the new file.
      * 
      * @param <T> the attachment type
      * @param attachment the attachment
-     * @return the new version
+     * @return the attachment with the new file version
      * @throws VersionCreationExeption if unable to create a version
      */
-    private <T extends ProtocolAttachmentBase> T createAttachmentVersionOnNewDocumentVersion(final T attachment) {
+    private <T extends ProtocolAttachmentBase> T createFileVersionOnAttachment(final T attachment) {
         assert attachment != null : "the attachment was null";
         
-        final T newVersion;
+        final ProtocolAttachmentFile newVersion;
         
         try {
-            newVersion = this.versionService.versionAssociate(this.newDocumentVersion.getProtocol(), attachment);
+            newVersion = this.versionService.versionAssociate(attachment.getFile());
         } catch (final VersionException e) {
             throw new VersionCreationExeption(e);
         }
         
-        newVersion.setSequenceNumber(Integer.valueOf(attachment.getSequenceNumber().intValue() + 1));
-        newVersion.addSequenceOwner(this.newDocumentVersion.getProtocol());
-        this.addAttachmentToVersion(newVersion);
+        attachment.setFile(newVersion);
+        attachment.setFileId(null);
         
-        return newVersion;
+        return attachment;
     }
     
     /**
@@ -360,6 +389,14 @@ public class ProtocolAttachmentVersioningUtility {
         }
     }
     
+    /**
+     * Checks if a new Protocol Document version has been created.
+     * 
+     * @return true if a new version exists.  false if not.
+     */
+    private boolean doesNewDocumentVersionExist() {
+        return this.newDocumentVersion != null;
+    }
     
     /**
      * Exception thrown for a version creation problem.

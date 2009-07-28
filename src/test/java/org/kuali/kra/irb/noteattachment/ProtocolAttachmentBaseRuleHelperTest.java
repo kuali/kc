@@ -133,7 +133,6 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         attachment.setDocumentId(1);
         Protocol protocol = ProtocolTestUtil.getProtocol(this.context);
         protocol.setProtocolId(1L);
-        attachment.addSequenceOwner(protocol);
         
         this.context.checking(new Expectations() {{         
             one(ddService).isBusinessObjectValid(attachment, "fooPrefix");
@@ -288,7 +287,6 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         attachment.setType(new ProtocolAttachmentType("9", "a desc"));
         attachment.setSequenceNumber(1);
         attachment.setDocumentId(1);
-        attachment.addSequenceOwner(ProtocolTestUtil.getProtocol(this.context));
         
         this.context.checking(new Expectations() {{         
             one(ddService).isBusinessObjectValid(attachment, "fooPrefix");

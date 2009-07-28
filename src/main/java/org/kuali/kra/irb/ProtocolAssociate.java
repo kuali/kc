@@ -32,13 +32,21 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
     
     private String protocolNumber;
 
-    private Integer sequenceNumber;
+    private Integer sequenceNumber = Integer.valueOf(0);
 
     private Long protocolId;
     private Protocol protocol;
 
     /**
+     * Constructs a ProtocolAssociate setting protocol related fields.
      * 
+     * @param protocol the Protocol
+     */
+    public ProtocolAssociate(Protocol protocol) {
+        this.setProtocol(protocol);
+    }
+    
+    /**
      * Constructs a ProtocolAssociate.
      * 
      * Assures that the sequence number is always set. Note that 
@@ -47,7 +55,7 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
      * 
      */
     public ProtocolAssociate() {
-        this.setSequenceNumber(Integer.valueOf(0));
+        super();
     }
     
     /**

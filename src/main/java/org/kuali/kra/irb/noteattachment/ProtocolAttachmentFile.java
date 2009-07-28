@@ -20,12 +20,12 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.irb.ProtocolSeparateAssociate;
 
 /**
  * Represents a Protocol Attachment File.
  */
-public class ProtocolAttachmentFile extends KraPersistableBusinessObjectBase {
+public class ProtocolAttachmentFile extends ProtocolSeparateAssociate {
     
     /** the max file name length. length={@value}*/
     public static final int MAX_FILE_NAME_LENGTH = 150;
@@ -35,7 +35,6 @@ public class ProtocolAttachmentFile extends KraPersistableBusinessObjectBase {
     
     private static final long serialVersionUID = 8999619585664343780L;
     
-    private Long id;
     private String name;
     private String type;
     private byte[] data;
@@ -115,22 +114,6 @@ public class ProtocolAttachmentFile extends KraPersistableBusinessObjectBase {
     }
     
     /**
-     * Gets the the Protocol Attachment File id.
-     * @return the Protocol Attachment File id.
-     */
-    public Long getId() {
-        return this.id;
-    }
-
-    /**
-     * Sets the the Protocol Attachment File id.
-     * @param id the Protocol Attachment File id.
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    /**
      * Gets the Protocol Attachment File name.
      * @return the Protocol Attachment File name
      */
@@ -181,46 +164,37 @@ public class ProtocolAttachmentFile extends KraPersistableBusinessObjectBase {
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("id", this.getId());
+        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
         hashMap.put("name", this.getName());
         hashMap.put("contentType", this.getType());
         return hashMap;
     }
-
+    
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + Arrays.hashCode(this.getData());
-        result = prime * result + ((this.getId() == null) ? 0 : this.getId().hashCode());
         result = prime * result + ((this.getName() == null) ? 0 : this.getName().hashCode());
         result = prime * result + ((this.getType() == null) ? 0 : this.getType().hashCode());
         return result;
     }
-
+    
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
-        if (!(obj instanceof ProtocolAttachmentFile)) {
+        if (this.getClass() != obj.getClass()) {
             return false;
         }
         ProtocolAttachmentFile other = (ProtocolAttachmentFile) obj;
         if (!Arrays.equals(this.getData(), other.getData())) {
-            return false;
-        }
-        if (this.getId() == null) {
-            if (other.getId() != null) {
-                return false;
-            }
-        } else if (!this.getId().equals(other.getId())) {
             return false;
         }
         if (this.getName() == null) {

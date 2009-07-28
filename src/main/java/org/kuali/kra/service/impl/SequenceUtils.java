@@ -81,15 +81,15 @@ public class SequenceUtils {
     /**
      * This method sequences a SeparatelySequenceableAssociate a new version.
      * @param <T> the type of SeparatelySequenceableAssociate to sequence.
-     * @param <U> the type of SequenceOwner
      * @param oldAssociate the old SeparatelySequenceableAssociate to sequence
      * @return The newly versioned associate 
      * @throws VersionException if versioning fails
      */
-    public <T extends SeparatelySequenceableAssociate<U>, U extends SequenceOwner<?>> T sequence(T oldAssociate) throws VersionException {
+    public <T extends SeparatelySequenceableAssociate> T sequence(T oldAssociate) throws VersionException {
         try {
             @SuppressWarnings("unchecked")
             T newAssociate = (T) ObjectUtils.deepCopy(oldAssociate);
+            newAssociate.incrementSequenceNumber();
             newAssociate.resetPersistenceState();
             return newAssociate;
         } catch (Exception e) {
@@ -101,20 +101,15 @@ public class SequenceUtils {
     /**
      * This method sequences a SequenceOwner and a of SeparatelySequenceableAssociates to a new version.
      * @param <T> the type of SeparatelySequenceableAssociate to sequence.
-     * @param <U> the type of SequenceOwner
-     * @param newOwner the new owner of the SeparatelySequenceableAssociate
      * @param oldAssociates the list of old associates
      * @return a List of new Associates
      * @throws VersionException if versioning fails
      */
-    public <T extends SeparatelySequenceableAssociate<U>, U extends SequenceOwner<?>> List<T> sequence(U newOwner, List<T> oldAssociates) throws VersionException {
+    public <T extends SeparatelySequenceableAssociate> List<T> sequence(List<T> oldAssociates) throws VersionException {
         try {
             List<T> newAssociates = new ArrayList<T>();
-            for (SeparatelySequenceableAssociate<U> oldAssociate : oldAssociates) {
-                @SuppressWarnings("unchecked")
-                T newAssociate = (T) ObjectUtils.deepCopy(oldAssociate);
-                newAssociate.resetPersistenceState();
-                newAssociates.add(newAssociate);
+            for (T oldAssociate : oldAssociates) {
+                newAssociates.add(sequence(oldAssociate));
             }
             return newAssociates;
         } catch (Exception e) {
@@ -267,6 +262,9 @@ public class SequenceUtils {
         final PropertyDescriptor pd;
         try {
             pd = PropertyUtils.getPropertyDescriptor(parent, field.getName());
+            if (pd == null) {
+                throw new GetterException(String.format("The property descriptor for field [%s] on class [%s] could not be found", field.getName(), parent.getClass().getName()));
+            }
         } catch (IllegalAccessException e) {
             throw new GetterException(e);
         } catch (InvocationTargetException e) {
@@ -274,9 +272,9 @@ public class SequenceUtils {
         } catch (NoSuchMethodException e) {
             throw new GetterException(e);
         }
-        Method getter = PropertyUtils.getReadMethod(pd);
+        final Method getter = pd.getReadMethod();
         if (getter == null) {
-            throw new GetterException(String.format("No getter defined for field %s on class %s", field.getName(), parent.getClass().getName()));
+            throw new GetterException(String.format("No getter defined for field [%s] on class [%s]", field.getName(), parent.getClass().getName()));
         }
         
         return getter;
