@@ -107,88 +107,12 @@
      });
     
     
-    $("#generate").click(function(){ 
-    
-       $.ajax({
-         url: 'researchAreas.do',
-         type: 'GET',
-         dataType: 'html',
-         cache: false,
-         data:'researchAreaCode=000001&addRA=',
-         async:false,
-         timeout: 1000,
-         error: function(){
-            alert('Error loading XML document');
-         },
-         success: function(xml){
-            //alert("success"+xml);
-            $(xml).find('h3').each(function(){
-            var item_text = $(this).text();
-            i++;
-            //var item = $(this).find('item').text()
-            //alert(item_text+"-")
-            //var text1 = $('<span class="file"></span>').html(item_text);
-            //alert(text1)
-           // $('<li></li>').html($('<span class="file"></span>').html(item_text)).appendTo('ul#file31');
-            var id = "item"+i;
-            var tagId = "listcontrol"+i;
-            var divId = "listcontent"+i;
-            
-           // if (i == 1) {
-            var idDiv = $('<div></div>').attr("id","itemText"+i).html(item_text); // for later change RA description
-            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
-            var div = $('<div  class="hierarchydetail" style="margin-top:2px; "></div>').attr("id",divId);
-            $(document).ready(function () {
-                tag.click(
-					function()
-					{
-					    //alert ("click "+tagId);
-						$(".hierarchydetail:not(#"+divId+")").slideUp(300);
-						$("#"+divId).slideToggle(300);
-						loadChildrenRA(item_text, tagId);
-					}
-				);
-		     }); 		
-//            } else {
-//            var tag = $('<a id="listcontrol04" ></a>').attr("style","margin-left:2px;").html(item_text);
-//            var div = $('<div id="listcontent04" class="hierarchydetail" style="margin-top:2px; "></div>');
-//            }
-             //<div class="hierarchydetail" id="listcontent02" style="margin-top:2px;">
-            
-            //var text = <a id="listcontrol02" style="margin-left:2px;">01. : AGRICULTURE, AGRICULTURE OPERATIONS, AND RELATED SCIENCES</a>
-            var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
-            //tag.appendTo(listitem);
-            //listitem.appendTo('ul#file31');
-            ulTagId = "browser";
-            tableTag(item_text, id).appendTo(div)
-            div.appendTo(listitem);
-            // need this ultag to force to display folder.
-            var childUlTag = $('<ul></ul>').attr("id","ul"+i);
-            childUlTag.appendTo(listitem);
-            listitem.appendTo('ul#example');
-                    // also need this to show 'folder' icon
-            $('#example').treeview({
-               add: listitem
-               // toggle: function() {
-               //   var subul=this.getElementsByTagName("ul")[0]
-               //   if (subul.style.display=="block")
-               //      alert("You've opened this Folder!")
-               //   } 
-               
-            });
-           // setupListItem(item_text).appendTo('ul#browser');
-        
-            });
-         }
-        });  
-        return false;  
-     });  // generate
      
      
      $("#save").click(function(){    
        alert ("save"); 
        $.ajax({
-         url: 'researchAreas.do',
+         url: 'researchAreaAjax.do',
          type: 'GET',
          dataType: 'html',
          cache: false,
@@ -224,7 +148,7 @@
          // check if code exists
              var raExist
              $.ajax({
-                 url: 'researchAreas.do',
+                 url: 'researchAreaAjax.do',
                  type: 'GET',
                  dataType: 'html',
                  data:'researchAreaCode='+trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+'&addRA=Y',
@@ -277,9 +201,92 @@
        return false;
       }); // add0 
             
-         
+  }); // $(document).ready
+        
   // }); // $(document).ready
 
+  function loadFirstLevel(){ 
+    
+    $.ajax({
+      url: 'researchAreaAjax.do',
+      type: 'GET',
+      dataType: 'html',
+      cache: false,
+      data:'researchAreaCode=000001&addRA=',
+      async:false,
+      timeout: 1000,
+      error: function(){
+         alert('Error loading XML document');
+      },
+      success: function(xml){
+         //alert("success"+xml);
+         $(xml).find('h3').each(function(){
+         var item_text = $(this).text();
+         i++;
+         //var item = $(this).find('item').text()
+         //alert(item_text+"-")
+         //var text1 = $('<span class="file"></span>').html(item_text);
+         //alert(text1)
+        // $('<li></li>').html($('<span class="file"></span>').html(item_text)).appendTo('ul#file31');
+         var id = "item"+i;
+         var tagId = "listcontrol"+i;
+         var divId = "listcontent"+i;
+         
+        // if (i == 1) {
+         var idDiv = $('<div></div>').attr("id","itemText"+i).html(item_text); // for later change RA description
+         var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
+         var div = $('<div  class="hierarchydetail" style="margin-top:2px; "></div>').attr("id",divId);
+         //$(document).ready(function () {
+             tag.click(
+                    function()
+                    {
+                        //alert ("sibling "+$(this).siblings('div:eq(0)').attr("id"));
+                        $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                        if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
+                            var idx = $(this).attr("id").substring(11);
+                        	tableTag(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                            $("#"+divId).slideToggle(300);
+                        }    
+                        $("#"+divId).slideToggle(300);
+                        loadChildrenRA(item_text, tagId);
+                    }
+                );
+            // });        
+//         } else {
+//         var tag = $('<a id="listcontrol04" ></a>').attr("style","margin-left:2px;").html(item_text);
+//         var div = $('<div id="listcontent04" class="hierarchydetail" style="margin-top:2px; "></div>');
+//         }
+          //<div class="hierarchydetail" id="listcontent02" style="margin-top:2px;">
+         
+         //var text = <a id="listcontrol02" style="margin-left:2px;">01. : AGRICULTURE, AGRICULTURE OPERATIONS, AND RELATED SCIENCES</a>
+         var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
+         //tag.appendTo(listitem);
+         //listitem.appendTo('ul#file31');
+         ulTagId = "browser";
+         //tableTag(item_text, id).appendTo(div)
+         div.appendTo(listitem);
+         // need this ultag to force to display folder.
+         var childUlTag = $('<ul></ul>').attr("id","ul"+i);
+         childUlTag.appendTo(listitem);
+         listitem.appendTo('ul#example');
+                 // also need this to show 'folder' icon
+         $('#example').treeview({
+            add: listitem
+            // toggle: function() {
+            //   var subul=this.getElementsByTagName("ul")[0]
+            //   if (subul.style.display=="block")
+            //      alert("You've opened this Folder!")
+            //   } 
+            
+         });
+        // setupListItem(item_text).appendTo('ul#browser');
+     
+         });
+      }
+     });  
+    // return false;  
+  }  // generate
+  
 
 function tableTag(name, id) {
 
@@ -449,7 +456,7 @@ function tbodyTag(name, id) {
          // check if code exists
              var raExist
              $.ajax({
-                 url: 'researchAreas.do',
+                 url: 'researchAreaAjax.do',
                  type: 'GET',
                  dataType: 'html',
                  data:'researchAreaCode='+trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+'&addRA=Y',
@@ -534,7 +541,14 @@ function setupListItem(name) {
             $(tag).click(
 					function()
 					{
-						$(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                        $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                        if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
+                            var idx = $(this).attr("id").substring(11);
+                            tableTag(name, "item"+idx).appendTo($("#listcontent"+idx));
+                            $("#listcontent"+idx).slideToggle(300);
+                        }    
+
+                       // $(".hierarchydetail:not(#"+divId+")").slideUp(300);
 						$("#"+divId).slideToggle(300);
 						// comment out temporarily
 						loadChildrenRA(name, tagId);
@@ -543,7 +557,7 @@ function setupListItem(name) {
 		//});
 			//alert(tag.html());	
             var listitem = $('<li class="closed"></li>').attr("id",id1).html(tag);
-            tableTag(name, id1).appendTo(detDiv)
+            //tableTag(name, id1).appendTo(detDiv)
             detDiv.appendTo(listitem);
             //alert(listitem.html());
             return listitem;
@@ -566,7 +580,7 @@ function loadChildrenRA(nodeName, tagId) {
     if (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 ) {
         //alert(liNode.children('ul').size());
         $.ajax({
-         url: 'researchAreas.do',
+         url: 'researchAreaAjax.do',
          type: 'GET',
          dataType: 'html',
          data:'researchAreaCode='+getResearchAreaCode(nodeName),
@@ -608,7 +622,14 @@ function loadChildrenRA(nodeName, tagId) {
 					function()
 					{
 					    //alert ("click "+tagId);
-						$(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                        $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                        if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
+                            var idx = $(this).attr("id").substring(11);
+                            tableTag(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                            $("#"+divId).slideToggle(300);
+                        }    
+
+						//$(".hierarchydetail:not(#"+divId+")").slideUp(300);
 						$("#"+divId).slideToggle(300);
 						loadChildrenRA(item_text, tagId);
 					}
@@ -617,7 +638,7 @@ function loadChildrenRA(nodeName, tagId) {
             //tag.appendTo(listitem);
             //listitem.appendTo('ul#file31');
             ulTagId = ulTag.attr("id");
-            tableTag(item_text, id).appendTo(detDiv)
+            //tableTag(item_text, id).appendTo(detDiv)
             detDiv.appendTo(listitem);
             //listitem.appendTo('ul#file31');
             // need this ultag to force to display folder.
@@ -703,7 +724,6 @@ function getResearchAreaDescription(nodeName) {
 
 
 
-   }); // $(document).ready
    
    
    
@@ -820,7 +840,7 @@ function getResearchAreaDescription(nodeName) {
 	</ul>
 	
         <div id="globalbuttons" class="globalbuttons">
-	<input type="submit" id="generate" value="Generate!" /> 
+	<%-- <input type="submit" id="generate" value="Generate!" /> --%>
 	<input type="image" id="save" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" /> 
     <a
 							href='portal.do?methodToCall=refresh&amp;docFormKey=88888888&amp;anchor=&amp;docNum='  title="cancel"><img
@@ -835,6 +855,13 @@ function getResearchAreaDescription(nodeName) {
   </html:form>
 </body>
 <script>
+
+
+
+$(document).ready(function(){
+
+	loadFirstLevel();
+})
   $("#loading").hide();
 </script>
  </html>
