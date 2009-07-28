@@ -30,4 +30,10 @@ public interface SequenceOwner<T extends SequenceOwner<?>> extends SequenceAssoc
      * @return the owner's sequence number
      */
     Integer getOwnerSequenceNumber();
+    
+    /**
+     * For Award, this would be "awardNumber", for Committee "committeeName", for Protocol "protocolNumber", etc.
+     * @return
+     */
+    String getVersionNameField();
 }
