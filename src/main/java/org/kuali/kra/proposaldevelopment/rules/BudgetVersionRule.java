@@ -45,7 +45,7 @@ public class BudgetVersionRule  implements AddBudgetVersionRule {
      * @returns true if it passed, false if it failed
      */
     public boolean processAddBudgetVersion(AddBudgetVersionEvent event) {
-        BudgetVersionCollection document = (BudgetVersionCollection) event.getDocument();
+        BudgetVersionCollection versionCollection = (BudgetVersionCollection) ((ProposalDevelopmentDocument)event.getDocument()).getDevelopmentProposal();
         boolean retval = true;
 
         if (!isNameValid(event.getVersionName())) {
@@ -54,7 +54,7 @@ public class BudgetVersionRule  implements AddBudgetVersionRule {
                     ERROR_BUDGET_NAME_MISSING, "Name");
         }
         
-        if (containsVersionOverview(document, event.getVersionName())) {
+        if (containsVersionOverview(versionCollection, event.getVersionName())) {
             retval = false;
             GlobalVariables.getErrorMap().putError("document.proposal.developmentProposalList[0].budgetVersionOverview", BUDGET_VERSION_EXISTS);
         }            
