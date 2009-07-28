@@ -31,7 +31,7 @@
 <kra:section permission="modifyProposalBudget">
   <c:set var="readonly" value="false"/>
  </kra:section> 
-<kul:tabTop tabTitle="Budget Versions (${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})" defaultOpen="true" tabErrorKey="document.proposal.developmentProposalList[0].budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey}" auditCluster="budgetVersionErrors" tabAuditKey="document.budgetVersionOverview">
+<kul:tabTop tabTitle="Budget Versions (${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})" defaultOpen="true" tabErrorKey="document.proposal.developmentProposalList[0].budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey}" auditCluster="budgetVersionErrors" tabAuditKey="document.proposal.developmentProposalList[0].budgetVersionOverview">
 
 	<div class="tab-container" align="center">
 
