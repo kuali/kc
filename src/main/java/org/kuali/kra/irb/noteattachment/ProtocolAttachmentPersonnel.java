@@ -145,11 +145,21 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase implemen
         return false;
     }
 
+    /** 
+     * {@inheritDoc}
+     * also nulling the person id because when saving after versioning, the person id is reverting to the wrong BO.
+     */
+    @Override
+    public void resetPersistenceState() {
+        super.resetPersistenceState();
+        this.setPersonId(null);
+    }
+    
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         final LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put(PropertyName.PERSON_ID.getPropertyName(), this.getPerson());
+        hashMap.put(PropertyName.PERSON_ID.getPropertyName(), this.getPersonId());
         hashMap.put(TypedAttachment.PropertyName.TYPE_CODE.getPropertyName(), this.getTypeCode());
         hashMap.put(TypedAttachment.PropertyName.DOCUMENT_ID.getPropertyName(), this.getDocumentId());
         hashMap.put(TypedAttachment.PropertyName.GROUP_CODE.getPropertyName(), this.getGroupCode());

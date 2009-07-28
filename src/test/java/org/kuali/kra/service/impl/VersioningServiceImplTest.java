@@ -21,12 +21,16 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import static org.hamcrest.core.Is.*;
+import static org.hamcrest.core.IsNull.*;
+import static org.hamcrest.core.IsEqual.*;
 import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.versioningartifacts.OwnerAssociate;
 import org.kuali.kra.service.impl.versioningartifacts.SelfReferenceAssociate;
 import org.kuali.kra.service.impl.versioningartifacts.SelfReferenceOwner;
+import org.kuali.kra.service.impl.versioningartifacts.SepSequenceComplexArtifacts;
 import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateAttachmentBO;
 import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateAttachmentBO2;
 import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateChild;
@@ -36,6 +40,7 @@ import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateGrandChil
 import org.kuali.kra.service.impl.versioningartifacts.SequenceOwnerImpl;
 import org.kuali.kra.service.impl.versioningartifacts.SimpleAssociate;
 import org.kuali.kra.service.impl.versioningartifacts.SimpleAssociate2;
+import org.kuali.kra.service.impl.versioningartifacts.SepSequenceComplexArtifacts.*;
 
 
 /**
@@ -130,40 +135,46 @@ public class VersioningServiceImplTest {
     @Test
     public void testVersioning_MtoN_Association_MultipleAssociatesUpdated_TopLevelOwner() throws Exception {
         SequenceOwnerImpl newVersion = service.createNewVersion(originalVersion); 
-        List<? extends SeparatelySequenceableAssociate> newAssociates = service.versionAssociates(newVersion, originalVersion.getAttachments());
-        for(SeparatelySequenceableAssociate newAssociate: newAssociates) {
-            newVersion.add((SequenceAssociateAttachmentBO) newAssociate);
+        List<SequenceAssociateAttachmentBO> newAssociates = service.versionAssociates(originalVersion.getAttachments());
+        for(SequenceAssociateAttachmentBO newAssociate: newAssociates) {
+            newVersion.add(newAssociate);
         }
         
         int numberOfAttachgmentsVersioned = originalVersion.getAttachments().size();
         checkAttachmentCollectionSizeAfterVersioning(newVersion, numberOfAttachgmentsVersioned);
+        checkNewAttachmentsSequenced(newVersion.getAttachments(), numberOfAttachgmentsVersioned);
+        checkOldAttachmentsNotSequenced(originalVersion.getAttachments(), numberOfAttachgmentsVersioned);
         checkIdentifierResetOnNewAttachments(newVersion, numberOfAttachgmentsVersioned);
         checkIdentifierNotResetOnOldAttachmentVersions(newVersion, numberOfAttachgmentsVersioned);
         
         verifyEffectOnOwnerAssociationAssociationsWhenSequencingTopLevel(newVersion);
-    }
+    } 
     
     @Test
     public void testVersioning_MtoN_Association_MultipleAssociatesUpdated_OwnerAssociate() throws Exception {
         OwnerAssociate newOwnerAssociate = service.createNewVersion(originalOwnerAssociate); 
-        List<? extends SeparatelySequenceableAssociate> newAssociates = service.versionAssociates(newOwnerAssociate, originalOwnerAssociate.getAttachments());
+        List<? extends SeparatelySequenceableAssociate> newAssociates = service.versionAssociates(originalOwnerAssociate.getAttachments());
         for(SeparatelySequenceableAssociate newAssociate: newAssociates) {
             newOwnerAssociate.add((SequenceAssociateAttachmentBO2) newAssociate);
         }
         
         int numberOfAttachgmentsVersioned = originalOwnerAssociate.getAttachments().size();
         checkAttachmentCollectionSizeAfterVersioning(newOwnerAssociate, numberOfAttachgmentsVersioned);
+        checkNewAttachmentsSequenced(newOwnerAssociate.getAttachments(), numberOfAttachgmentsVersioned);
+        checkOldAttachmentsNotSequenced(originalOwnerAssociate.getAttachments(), numberOfAttachgmentsVersioned);
         checkIdentifierResetOnNewAttachments(newOwnerAssociate, numberOfAttachgmentsVersioned);
         checkIdentifierNotResetOnOldAttachmentVersions(newOwnerAssociate, numberOfAttachgmentsVersioned);
         
         verifyTopLevelAssociationsNotSequenced(newOwnerAssociate);
     }
+    
+    
 
     @Test
     public void testVersioning_MtoN_Association_SingleAssociateUpdated() throws Exception {
         SequenceAssociateAttachmentBO attachment = originalVersion.getAttachments().get(0);
         SequenceOwnerImpl newVersion = service.createNewVersion(originalVersion); 
-        SeparatelySequenceableAssociate newAttachmentVersion = service.versionAssociate(newVersion, attachment);                                            
+        SeparatelySequenceableAssociate newAttachmentVersion = service.versionAssociate(attachment);                                            
         newVersion.add((SequenceAssociateAttachmentBO) newAttachmentVersion);
         
         checkAttachmentCollectionSizeAfterVersioning(newVersion, 1);
@@ -193,7 +204,57 @@ public class VersioningServiceImplTest {
         
         SelfReferenceOwner newOwner = service.createNewVersion(owner);
     }
+    
+    /** this test makes sure that versioning happens correctly w/ a specific Object structure.
+     * 
+     * @see SepSequenceComplexArtifacts for more information on the structure.
+     * @throws Exception if bad happens
+     */
+    @Test
+    public void testVersioning_separately_sequenceable_multiple_owners() throws Exception {
+        AttachmentOwner owner1 = createAnOwnerWithAttachments();
+        AttachmentOwner newOwner1 = service.createNewVersion(owner1);
+        
+        for (AttachmentMetaData attachment : newOwner1.getAttachments()) {
+            attachment.setData(service.versionAssociate(attachment.getData()));
+        }
+        
+        Assert.assertThat(newOwner1.getAttachments().size(), equalTo(owner1.getAttachments().size()));
+        for (AttachmentMetaData attachment : newOwner1.getAttachments()) {
+            Assert.assertThat(attachment.getData().getId(), nullValue());
+            Assert.assertThat(attachment.getData().getSequenceNumber(), is(1));
+        }
+    }
+    
+    private AttachmentOwner createAnOwnerWithAttachments() {
+        AttachmentOwner owner1 = new AttachmentOwner();
+        createAttachmentAndAddToOwner(owner1);
+        createAttachmentAndAddToOwner(owner1);
+        
+        return owner1;
+    }
+    
+    private void createAttachmentAndAddToOwner(AttachmentOwner owner1) {
+        AttachmentLargeData data1 = new AttachmentLargeData();
+        AttachmentMetaDataAssoc assoc1 = new AttachmentMetaDataAssoc(owner1);
+        AttachmentMetaData attachment1 = new AttachmentMetaData(owner1, assoc1, data1);
+        owner1.addAttachments(attachment1);
+    }
 
+    private void checkNewAttachmentsSequenced(List<? extends SeparatelySequenceableAssociate> attachments, int numberOfAttachmentsVersioned) {
+        int startIndex = attachments.size() - numberOfAttachmentsVersioned;
+        for(int i = startIndex; startIndex < attachments.size(); startIndex++) {
+            Assert.assertThat(attachments.get(i).getSequenceNumber(), is(1));
+        }
+    }
+
+    private void checkOldAttachmentsNotSequenced(List<? extends SeparatelySequenceableAssociate> attachments, int numberOfAttachmentsVersioned) {
+        int lastIndex = numberOfAttachmentsVersioned;
+        for(int i = 0; i < lastIndex; i++) {
+            Assert.assertThat(attachments.get(i).getSequenceNumber(), is(0));
+        }
+    }
+    
     /**
      * This method...
      * @param ownerAssociate

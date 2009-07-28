@@ -37,24 +37,21 @@ import org.kuali.kra.SequenceOwner;
  * it should set to null to allow garbage collection of its associated references.
  * 
  * In a simple versioning not involving the update of a M:N associate, the M:N 
- * associates' persistence identifities are NOT cleared, but the new SequenceOwner 
- * is added to the collection of sequenceOwners in the newly copied M:N collection. When 
- * the new SequenceOwner (the bi-directional relationship owner) is saved, it's expected 
- * a new join table record will be added linking the new SequenceOwner to the existing M:N 
- * associate.
+ * associates' persistence identifities are NOT cleared. When the new SequenceOwner is saved
+ * it's expected a new join table record will be added linking the new SequenceOwner
+ * to the existing M:N associate.
  * 
  * In a versioning involving the update of one or more M:N associates, the M:N 
- * associates' persistence identifities are cleared, thus making them new versions, and the new 
- * SequenceOwner reference is added to the collection of sequenceOwners in the newly 
- * copied collection. When the new SequenceOwner is saved, the new M:N associate will also 
+ * associates' persistence identifities are cleared, thus making them new versions.  The
+ * newly versioned attachment must be manually associated with the new owner.
+ * When the new SequenceOwner is saved, the new M:N associate will also 
  * be saved, and it's expected a new join table record will be automatically added linking the 
  * new SequenceOwner to the new M:N associate.
  */
 public interface VersioningService {
     /**
      * Cause old version of SequenceOwner object to be versioned to new version
-     * Attachment BOs are also copied, but their identifiers are left as is
-     * while their sequence owners are updated.
+     * SeparatelySequenceableAssociate BOs are also copied, but their identifiers are left.
      * @param <T> the type of SequenceOwner to version.
      * @param oldVersion
      * @return The newly sequenced version of the SequenceOwner
@@ -65,23 +62,18 @@ public interface VersioningService {
     /**
      * Cause new version of specified separately sequenced associate is copied.
      * @param <T> the type of SeparatelySequenceableAssociate to version.
-     * @param <U> the type of SequenceOwner of the SeparatelySequenceableAssociate
-     * @param newVersion
      * @param oldAssociate
      * @return The newly versioned associate
      * @throws VersionException
      */
-    <T extends SeparatelySequenceableAssociate<U>, U extends SequenceOwner<?>> T versionAssociate(U newVersion, T oldAssociate) throws VersionException;
+    <T extends SeparatelySequenceableAssociate> T versionAssociate(T oldAssociate) throws VersionException;
     
     /**
-     * Cause new version of SequenceOwner object to be associated to new versions of
-     * the specified SeparatelySequenceableAssociates.
+     * Cause new version of specified separately sequenced associates to be copied.
      * @param <T> the type of SeparatelySequenceableAssociate to version.
-     * @param <U> the type of SequenceOwner of the SeparatelySequenceableAssociate
-     * @param newVersion
      * @param oldAssociates
      * @return The list of newly versioned associates
      * @throws VersionException
      */
-    <T extends SeparatelySequenceableAssociate<U>, U extends SequenceOwner<?>> List<T> versionAssociates(U newVersion, List<T> oldAssociates) throws VersionException;
+    <T extends SeparatelySequenceableAssociate> List<T> versionAssociates(List<T> oldAssociates) throws VersionException;
 }

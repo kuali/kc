@@ -92,4 +92,19 @@ public interface ProtocolAttachmentService {
      * @throws IllegalArgumentException if the code or type is null.
      */
     ProtocolPerson getPerson(Integer personId);
+    
+    /**
+     * Deletes an existing {@link ProtocolAttachmentBase ProtocolAttachmentBase}. It will also
+     * delete any child BOs that should also be removed (ex. the File).
+     * 
+     * <p>
+     * Unlike other methods in the service, passing an invalid attachment will just result in an empty Collection being returned.
+     * </p>
+     * 
+     * @param <T> the type of attachment - only certain types can have "versions" according to what KC recognizes as a version
+     * @param attachment the attachment.
+     * @param type a class token for the type
+     * @return a Collection of attachments
+     */
+    <T extends ProtocolAttachmentBase & TypedAttachment> Collection<T> getAttachmentsWithOlderFileVersions(final T attachment, final Class<T> type);
 }

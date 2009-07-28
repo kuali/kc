@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
+import org.kuali.kra.irb.noteattachment.TypedAttachment;
 
 
 /**
@@ -41,7 +42,8 @@ public interface ProtocolDao {
     /**
      * Gets all the attachment versions based on the passed in attachment.  This will include the pass-in attachment. 
      * @param attachment the attachment to base the query off of
+     * @param type a class token used for retrieving the attachments
      * @return the list of attachments, empty list if none to return or the attachment is invalid for a lookup
      */
-    List<ProtocolAttachmentProtocol> retrieveAttachmentVersions(ProtocolAttachmentProtocol attachment);
+    <T extends ProtocolAttachmentBase & TypedAttachment> List<T> retrieveAttachmentVersions(T attachment, Class<T> type);
 }

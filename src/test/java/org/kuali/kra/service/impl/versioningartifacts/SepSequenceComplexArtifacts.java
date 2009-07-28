@@ -17,7 +17,6 @@ package org.kuali.kra.service.impl.versioningartifacts;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -30,7 +29,7 @@ import org.kuali.kra.SequenceOwner;
  * 
  * This object structure looks like the following:
  * 
- * AttachmentOwner --1:M--> AttachmentMetaDataOwner --M:1--> AttachmentMetaDataAssoc
+ * AttachmentOwner --1:M--> AttachmentMetaData --M:1--> AttachmentMetaDataAssoc
  *                                                 \--M:1--> AttachmentLargeData
  *
  */
@@ -38,12 +37,12 @@ public class SepSequenceComplexArtifacts {
 
     /** an owner BO that contains some attachments. */
     public static class AttachmentOwner implements SequenceOwner<AttachmentOwner> {
-        private Collection<AttachmentMetaDataOwner> attachments = new ArrayList<AttachmentMetaDataOwner>();
+        private Collection<AttachmentMetaData> attachments = new ArrayList<AttachmentMetaData>();
         private Integer sequenceNumber = Integer.valueOf(0);
         private String id = "AttachmentOwner " + UUID.randomUUID().toString(); //randomly give it a id so it is a persisted BO upon construction
     
         public AttachmentOwner() { /* for beanness */ }
-        public AttachmentOwner(AttachmentMetaDataOwner... attachments) { for (AttachmentMetaDataOwner a : attachments) this.attachments.add(a); }
+        public AttachmentOwner(AttachmentMetaData... attachments) { addAttachments(attachments); }
         public Integer getOwnerSequenceNumber() { return null; }
         public void incrementSequenceNumber() { sequenceNumber++; }
         public AttachmentOwner getSequenceOwner() { return this; }
@@ -51,8 +50,9 @@ public class SepSequenceComplexArtifacts {
         public Integer getSequenceNumber() { return sequenceNumber; }
         public void resetPersistenceState() { id = null; }
         
-        public Collection<AttachmentMetaDataOwner> getAttachments() { return attachments; }
-        public void setAttachments(Collection<AttachmentMetaDataOwner> attachments) { this.attachments = attachments; }
+        public Collection<AttachmentMetaData> getAttachments() { return attachments; }
+        public void addAttachments(AttachmentMetaData... attachments) { for (AttachmentMetaData a : attachments) this.attachments.add(a); }
+        public void setAttachments(Collection<AttachmentMetaData> attachments) { this.attachments = attachments; }
         public String getId() { return id; }
         public void setId(String id) { this.id = id; }
         
@@ -60,33 +60,27 @@ public class SepSequenceComplexArtifacts {
         public String toString() {
             return new ToStringBuilder(this).append("id", id).append("sequenceNumber", sequenceNumber).append("attachments", attachments).toString();
         }
-        public String getVersionNameField() {
-            return "id";
-        }
+        public String getVersionNameField() { return "foobar"; }
     }
     
     /** an attachment BO that just contains meta-data and references to the rest of the attachment data. */
-    public static class AttachmentMetaDataOwner implements SequenceAssociate<AttachmentOwner>, SequenceOwner<AttachmentOwner> {
+    public static class AttachmentMetaData implements SequenceAssociate<AttachmentOwner> {
         private AttachmentMetaDataAssoc assoc;
         private AttachmentLargeData data;
         private String id = "AttachmentMetaData " + UUID.randomUUID().toString(); //randomly give it a id so it is a persisted BO upon construction
-        private AttachmentOwner owner;
-        private Integer sequenceNumber = Integer.valueOf(0);
+        private AttachmentOwner sequenceOwner;
         
-        public AttachmentMetaDataOwner() { /* for beanness */ }
-        public AttachmentMetaDataOwner(AttachmentOwner owner, AttachmentMetaDataAssoc assoc, AttachmentLargeData data) { 
-            this.owner = owner; 
+        public AttachmentMetaData() { /* for beanness */ }
+        public AttachmentMetaData(AttachmentOwner owner, AttachmentMetaDataAssoc assoc, AttachmentLargeData data) { 
+            this.sequenceOwner = owner; 
             this.assoc = assoc;
             this.data = data;
         }
         
-        public AttachmentOwner getSequenceOwner() { return owner; }
-        public void setSequenceOwner(AttachmentOwner newlyVersionedOwner) { this.owner = newlyVersionedOwner; }
-        public Integer getSequenceNumber() { return sequenceNumber; }
+        public AttachmentOwner getSequenceOwner() { return sequenceOwner; }
+        public void setSequenceOwner(AttachmentOwner newlyVersionedOwner) { this.sequenceOwner = newlyVersionedOwner; }
+        public Integer getSequenceNumber() { return this.sequenceOwner.getSequenceNumber(); }
         public void resetPersistenceState() { id = null; }
-
-        public Integer getOwnerSequenceNumber() { return owner.getSequenceNumber(); }
-        public void incrementSequenceNumber() { sequenceNumber++; }
         
         public String getId() { return id; }
         public void setId(String id) { this.id = id; }
@@ -97,24 +91,21 @@ public class SepSequenceComplexArtifacts {
         
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("id", id).append("sequenceNumber", sequenceNumber).append("assoc", assoc).append("data", data).toString();
-        }
-        public String getVersionNameField() {
-            return "id";
+            return new ToStringBuilder(this).append("id", id).append("assoc", assoc).append("data", data).toString();
         }
     }
     
     /** some attachment meta-data in the form of a BO that is referenced from the main attachment BO. */
     public static class AttachmentMetaDataAssoc implements SequenceAssociate<AttachmentOwner> {
         private String id = "AttachmentMetaDataAssoc " + UUID.randomUUID().toString(); //randomly give it a id so it is a persisted BO upon construction
-        private AttachmentOwner owner;
+        private AttachmentOwner sequenceOwner;
         
         public AttachmentMetaDataAssoc() { /* for beanness */ }
-        public AttachmentMetaDataAssoc(AttachmentOwner owner) { this.owner = owner; }
+        public AttachmentMetaDataAssoc(AttachmentOwner owner) { this.sequenceOwner = owner; }
         
-        public AttachmentOwner getSequenceOwner() { return owner; }
-        public void setSequenceOwner(AttachmentOwner newlyVersionedOwner) { this.owner = newlyVersionedOwner; }
-        public Integer getSequenceNumber() { return owner.getSequenceNumber(); }
+        public AttachmentOwner getSequenceOwner() { return sequenceOwner; }
+        public void setSequenceOwner(AttachmentOwner newlyVersionedOwner) { this.sequenceOwner = newlyVersionedOwner; }
+        public Integer getSequenceNumber() { return sequenceOwner.getSequenceNumber(); }
         public void resetPersistenceState() { id = null; }
         
         public String getId() { return id; }
@@ -127,21 +118,16 @@ public class SepSequenceComplexArtifacts {
     }
     
     /** the large data portion of an attachment. */
-    public static class AttachmentLargeData implements SeparatelySequenceableAssociate<AttachmentMetaDataOwner> {
+    public static class AttachmentLargeData implements SeparatelySequenceableAssociate {
         private String id = "AttachmentLargeData " + UUID.randomUUID().toString(); //randomly give it a id so it is a persisted BO upon construction
-        private List<AttachmentMetaDataOwner> sequenceOwners = new ArrayList<AttachmentMetaDataOwner>();
+        private Integer sequenceNumber = Integer.valueOf(0);
         
         public AttachmentLargeData() { /* for beanness */ }
-        public AttachmentLargeData(AttachmentMetaDataOwner... owners) { for (AttachmentMetaDataOwner owner : owners) this.sequenceOwners.add(owner); }
         
-        public AttachmentMetaDataOwner getLatestOwner() { return getSequenceOwners().iterator().next(); /* doesn't matter which one we return */ }
-        public List<AttachmentMetaDataOwner> getSequenceOwners() { return this.sequenceOwners; }
-        public void setSequenceOwners(List<AttachmentMetaDataOwner> owners) { this.sequenceOwners = owners; }
-        public Integer getSequenceNumber() { 
-            /* really, I do not need to keep track of sequence numbers on this object but only on its owner. */
-            return null; 
-        }
+        public Integer getSequenceNumber() { return sequenceNumber; }
         public void resetPersistenceState() { id = null; }
+
+        public void incrementSequenceNumber() { sequenceNumber++; }
         
         public String getId() { return id; }
         public void setId(String id) { this.id = id; }

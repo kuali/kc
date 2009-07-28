@@ -148,7 +148,10 @@ public class ProtocolVersioningTest extends KraTestBase {
         
         ProtocolDocument ver2 = createAndSaveVersion(ver1);
         assertIsVersioned(ver1, ver2);
-        assertNotVersioned(ver1.getProtocol().getAttachmentProtocols(), ver2.getProtocol().getAttachmentProtocols());
+        
+        for (int i = 0; i < ver1.getProtocol().getAttachmentProtocols().size(); i++) {
+            assertNotVersioned(ver1.getProtocol().getAttachmentProtocols().get(i).getFile(), ver2.getProtocol().getAttachmentProtocols().get(i).getFile());
+        }
     }
     
     /**
@@ -167,16 +170,12 @@ public class ProtocolVersioningTest extends KraTestBase {
         
         ProtocolDocument ver2 = createAndSaveVersion(ver1);
         assertIsVersioned(ver1, ver2);
-        
-        ver2.getProtocol().removeAttachmentsByType(attachment1);
-        ProtocolAttachmentProtocol newVersion = versioningService.versionAssociate(ver2.getProtocol(), attachment1);
-        //increments the sequence number since the versioning framework does not do this.
-        newVersion.setSequenceNumber(newVersion.getSequenceNumber() + 1);
-        
-        ver2.getProtocol().addAttachmentsByType(newVersion);
+        ProtocolAttachmentFile oldVersion = attachment1.getFile();
+        ProtocolAttachmentFile newVersion = versioningService.versionAssociate(oldVersion);
+        attachment1.setFile(newVersion);
         
         Assert.assertThat(ver2.getProtocol().getAttachmentProtocols().size(), is(1));
-        assertIsVersioned(attachment1, newVersion);
+        assertIsVersioned(oldVersion, newVersion);
     }
     
     private ProtocolAttachmentProtocol createAttachment1() {
@@ -252,7 +251,7 @@ public class ProtocolVersioningTest extends KraTestBase {
      * @param ver1 the first version
      * @param ver2 the second version
      */
-    private void assertIsVersioned(ProtocolSeparateAssociate ver1, ProtocolSeparateAssociate ver2) {
+    private <T extends ProtocolSeparateAssociate> void assertIsVersioned(T ver1, T ver2) {
         Assert.assertThat(ver2.getSequenceNumber(), is(ver1.getSequenceNumber() + 1));
         Assert.assertThat(ver2.getId(), not(equalTo(ver1.getId())));
     }
@@ -262,12 +261,9 @@ public class ProtocolVersioningTest extends KraTestBase {
      * @param ver1 the first version
      * @param ver2 the second version
      */
-    private <T extends ProtocolSeparateAssociate> void assertNotVersioned(List<T> ver1, List<T> ver2) {
-        Assert.assertThat(ver2, equalTo(ver1));
-        
-        for (ProtocolSeparateAssociate attachment : ver2) {
-            Assert.assertThat(attachment.getSequenceNumber(), is(0));    
-        }
+    private <T extends ProtocolSeparateAssociate> void assertNotVersioned(T ver1, T ver2) {
+        Assert.assertThat(ver2.getSequenceNumber(), is(ver1.getSequenceNumber()));
+        Assert.assertThat(ver2.getId(), equalTo(ver1.getId()));
     }
     
     /**
