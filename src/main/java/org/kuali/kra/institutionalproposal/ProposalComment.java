@@ -18,15 +18,14 @@ package org.kuali.kra.institutionalproposal;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.CommentType;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
-public class ProposalComment extends KraPersistableBusinessObjectBase { 
+public class ProposalComment extends InstitutionalProposalAssociate { 
     
     private static final long serialVersionUID = 1L;
 
-    private Integer proposalCommentsId; 
-    private Integer proposalId; 
+    private Long proposalCommentsId; 
+    private Long proposalId; 
     private String commentTypeCode; 
     private String comments; 
     
@@ -37,19 +36,19 @@ public class ProposalComment extends KraPersistableBusinessObjectBase {
 
     } 
     
-    public Integer getProposalCommentsId() {
+    public Long getProposalCommentsId() {
         return proposalCommentsId;
     }
 
-    public void setProposalCommentsId(Integer proposalCommentsId) {
+    public void setProposalCommentsId(Long proposalCommentsId) {
         this.proposalCommentsId = proposalCommentsId;
     }
 
-    public Integer getProposalId() {
+    public Long getProposalId() {
         return proposalId;
     }
 
-    public void setProposalId(Integer proposalId) {
+    public void setProposalId(Long proposalId) {
         this.proposalId = proposalId;
     }
 

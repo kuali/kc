@@ -29,10 +29,10 @@ public class InstitutionalProposalIpReviewActivity extends KraPersistableBusines
     private String proposalNumber; 
     private Integer sequenceNumber; 
     private Integer activityNumber; 
-    private Integer ipReviewActivityTypeCode; 
+    private String ipReviewActivityTypeCode; 
     private Date activityDate; 
     private String comments; 
-    
+    private IntellectualPropertyReviewActivityType ipReviewActivityType;
     
     public InstitutionalProposalIpReviewActivity() { 
 
@@ -78,11 +78,11 @@ public class InstitutionalProposalIpReviewActivity extends KraPersistableBusines
         this.activityNumber = activityNumber;
     }
 
-    public Integer getIpReviewActivityTypeCode() {
+    public String getIpReviewActivityTypeCode() {
         return ipReviewActivityTypeCode;
     }
 
-    public void setIpReviewActivityTypeCode(Integer ipReviewActivityTypeCode) {
+    public void setIpReviewActivityTypeCode(String ipReviewActivityTypeCode) {
         this.ipReviewActivityTypeCode = ipReviewActivityTypeCode;
     }
 
@@ -101,6 +101,14 @@ public class InstitutionalProposalIpReviewActivity extends KraPersistableBusines
     public void setComments(String comments) {
         this.comments = comments;
     }
+    
+    public IntellectualPropertyReviewActivityType getIpReviewActivityType() {
+        return ipReviewActivityType;
+    }
+
+    public void setIpReviewActivityType(IntellectualPropertyReviewActivityType ipReviewActivityType) {
+        this.ipReviewActivityType = ipReviewActivityType;
+    }
 
     /** {@inheritDoc} */
     @Override 
@@ -114,6 +122,92 @@ public class InstitutionalProposalIpReviewActivity extends KraPersistableBusines
         hashMap.put("activityDate", this.getActivityDate());
         hashMap.put("comments", this.getComments());
         return hashMap;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((activityDate == null) ? 0 : activityDate.hashCode());
+        result = prime * result + ((activityNumber == null) ? 0 : activityNumber.hashCode());
+        result = prime * result + ((comments == null) ? 0 : comments.hashCode());
+        result = prime * result + ((ipReviewActivityTypeCode == null) ? 0 : ipReviewActivityTypeCode.hashCode());
+        result = prime * result + ((proposalId == null) ? 0 : proposalId.hashCode());
+        result = prime * result + ((proposalIpReviewActivityId == null) ? 0 : proposalIpReviewActivityId.hashCode());
+        result = prime * result + ((proposalNumber == null) ? 0 : proposalNumber.hashCode());
+        result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        InstitutionalProposalIpReviewActivity other = (InstitutionalProposalIpReviewActivity) obj;
+        if (activityDate == null) {
+            if (other.activityDate != null) {
+                return false;
+            }
+        } else if (!activityDate.equals(other.activityDate)) {
+            return false;
+        }
+        if (activityNumber == null) {
+            if (other.activityNumber != null) {
+                return false;
+            }
+        } else if (!activityNumber.equals(other.activityNumber)) {
+            return false;
+        }
+        if (comments == null) {
+            if (other.comments != null) {
+                return false;
+            }
+        } else if (!comments.equals(other.comments)) {
+            return false;
+        }
+        if (ipReviewActivityTypeCode == null) {
+            if (other.ipReviewActivityTypeCode != null) {
+                return false;
+            }
+        } else if (!ipReviewActivityTypeCode.equals(other.ipReviewActivityTypeCode)) {
+            return false;
+        }
+        if (proposalId == null) {
+            if (other.proposalId != null) {
+                return false;
+            }
+        } else if (!proposalId.equals(other.proposalId)) {
+            return false;
+        }
+        if (proposalIpReviewActivityId == null) {
+            if (other.proposalIpReviewActivityId != null) {
+                return false;
+            }
+        } else if (!proposalIpReviewActivityId.equals(other.proposalIpReviewActivityId)) {
+            return false;
+        }
+        if (proposalNumber == null) {
+            if (other.proposalNumber != null) {
+                return false;
+            }
+        } else if (!proposalNumber.equals(other.proposalNumber)) {
+            return false;
+        }
+        if (sequenceNumber == null) {
+            if (other.sequenceNumber != null) {
+                return false;
+            }
+        } else if (!sequenceNumber.equals(other.sequenceNumber)) {
+            return false;
+        }
+        return true;
     }
     
 }

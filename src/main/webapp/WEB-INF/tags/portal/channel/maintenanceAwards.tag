@@ -28,6 +28,9 @@
     <li>Equipment Approval</li>
     <li><portal:portalLink displayTitle="true" title="Frequency" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.bo.Frequency&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="Frequency Base" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.bo.FrequencyBase&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    <li><portal:portalLink displayTitle="true" title="IP Review Activity Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivityType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    <li><portal:portalLink displayTitle="true" title="IP Review Requirement Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewRequirementType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    <li><portal:portalLink displayTitle="true" title="IP Review Result Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewResultType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Invention</li>
     <li>Method of Payment</li>
     <li>Prior Approval</li>

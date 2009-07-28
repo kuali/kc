@@ -35,6 +35,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="ipReviewer" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="ipReviewRequirementTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="reviewResultCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="generalComments" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="reviewerComments" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
