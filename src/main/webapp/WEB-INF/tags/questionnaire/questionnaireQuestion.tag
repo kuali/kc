@@ -31,11 +31,15 @@ Content </span> <span class="subhead-right"> <kul:help
                     title="Expand the entire tree below" href="#"><img
                     src="/${fn:trim(ConfigProperties.app.context.name)}/static/images/jquery/plus.gif" />
                 Expand All</a></div>
-                &nbsp;&nbsp;&nbsp;&nbsp;<input
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <%-- 
+                <input
                     src="/${fn:trim(ConfigProperties.app.context.name)}/static/images/tinybutton-refresh.gif"
                     onclick="javascript: alert('This would refresh the hierarchies in this questionnaire for non-script browsers.'); return false;"
                     style="border: none;" alt="refresh" title="Refresh"
-                    type="image" /> <input name="nextGroup" id="nextGroup"
+                    type="image" /> 
+                  --%>  
+                    <input name="nextGroup" id="nextGroup"
                     src="static/images/tinybutton-next.gif"
                     style="border: none;" alt="Continue" type="image" /> <input
                     name="prevGroup" id="prevGroup"
