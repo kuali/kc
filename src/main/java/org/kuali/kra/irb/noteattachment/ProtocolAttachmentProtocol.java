@@ -222,7 +222,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
             this.versions = new ArrayList<ProtocolAttachmentProtocol>();
         }      
         this.versions.clear();
-        this.versions.addAll(KraServiceLocator.getService(ProtocolDao.class).retrieveAttachmentVersions(this));
+        this.versions.addAll(KraServiceLocator.getService(ProtocolAttachmentService.class).getAttachmentsWithOlderFileVersions(this, ProtocolAttachmentProtocol.class));
         
         return this.versions;
     }

@@ -21,15 +21,16 @@ import java.util.LinkedHashMap;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolSeparateAssociate;
+import org.kuali.kra.irb.ProtocolAssociate;
 
 /**
  * This is the base class for all Protocol Attachments.
  */
-public abstract class ProtocolAttachmentBase extends ProtocolSeparateAssociate {
+public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
 
     private static final long serialVersionUID = -2519574730475246022L;
     
+    private Long id;
     private Long fileId;
 
     private ProtocolAttachmentFile file;
@@ -110,14 +111,24 @@ public abstract class ProtocolAttachmentBase extends ProtocolSeparateAssociate {
     public abstract String getAttachmentDescription();
     
     /** {@inheritDoc} */
-    @Override
     public void resetPersistenceState() {
-        super.resetPersistenceState();
-
-        this.setFileId(null);
-        if (this.getFile() != null) {
-            this.file.setId(null);
-        }
+        this.setId(null);
+    }
+    
+    /**
+     * Gets the  id.
+     * @return the  id
+     */
+    public Long getId() {
+        return this.id;
+    }
+    
+    /**
+     * Sets the id.
+     * @param id the id
+     */
+    public void setId(Long id) {
+        this.id = id;
     }
     
     /** {@inheritDoc} */
@@ -125,6 +136,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolSeparateAssociate {
     protected LinkedHashMap<String, Object> toStringMapper() {
         final LinkedHashMap<String, Object> hashMap = super.toStringMapper();
         hashMap.put(PropertyName.FILE_ID.getPropertyName(), this.getFileId());
+        hashMap.put(PropertyName.ID.getPropertyName(), this.getId());
         return hashMap;
     }
     
@@ -213,21 +225,18 @@ public abstract class ProtocolAttachmentBase extends ProtocolSeparateAssociate {
      */
     public abstract boolean supportsVersioning();
     
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((this.file == null) ? 0 : this.file.hashCode());
         result = prime * result + ((this.fileId == null) ? 0 : this.fileId.hashCode());
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -239,7 +248,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolSeparateAssociate {
         if (this.getClass() != obj.getClass()) {
             return false;
         }
-        final ProtocolAttachmentBase other = (ProtocolAttachmentBase) obj;
+        ProtocolAttachmentBase other = (ProtocolAttachmentBase) obj;
         if (this.file == null) {
             if (other.file != null) {
                 return false;
@@ -254,14 +263,21 @@ public abstract class ProtocolAttachmentBase extends ProtocolSeparateAssociate {
         } else if (!this.fileId.equals(other.fileId)) {
             return false;
         }
+        if (this.id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        } else if (!this.id.equals(other.id)) {
+            return false;
+        }
         return true;
     }
-    
+
     /**
      * Contains all the property names in this class.
      */
     public static enum PropertyName {
-        FILE_ID("fileId");
+        FILE_ID("fileId"), ID("id");
         
         private final String name;
         

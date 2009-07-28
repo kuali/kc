@@ -460,7 +460,12 @@ public class ProtocolAttachmentHelper {
         
         for (final ProtocolAttachmentBase attachment : attachments) {
             if (ProtocolAttachmentHelper.doesNewFileExist(attachment)) {
-                attachment.setFile(ProtocolAttachmentFile.createFromFormFile(attachment.getNewFile()));
+                final ProtocolAttachmentFile newFile = ProtocolAttachmentFile.createFromFormFile(attachment.getNewFile());
+                //setting the sequence number to the old file sequence number
+                if (attachment.getFile() != null) {
+                    newFile.setSequenceNumber(attachment.getFile().getSequenceNumber());
+                }
+                attachment.setFile(newFile);
             }
         }
     }

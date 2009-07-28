@@ -87,16 +87,25 @@ class ProtocolAttachmentPersonnelRuleHelper {
         }
         
         for (ProtocolAttachmentPersonnel attachment : protocol.getAttachmentPersonnels()) {
-            if (!attachment.getId().equals(attachmentPersonnel.getId())
+            if (!idEquals(attachment.getId(), attachmentPersonnel.getId())
                 && attachment.getType().equals(attachmentPersonnel.getType())
                 && attachment.getPerson().getProtocolPersonId().equals(attachmentPersonnel.getPerson().getProtocolPersonId())) {
                 this.errorReporter.reportError(this.propertyPrefix + "." + TypedAttachment.PropertyName.TYPE_CODE,
                     KeyConstants.ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE);
                 return false;
             }
-        }
-        
+        }    
         return true;
+    }
+    
+    /** 
+     * Checks if two Longs are equal or are both null
+     * @param id1 Long # 1
+     * @param id2 Long # 2
+     * @return true if equal or both null
+     */
+    private static boolean idEquals(Long id1, Long id2) {
+        return (id1 == null && id2 == null) || (id1 != null && id1.equals(id2));
     }
     
     /**
@@ -107,7 +116,7 @@ class ProtocolAttachmentPersonnelRuleHelper {
      */
     boolean availablePerson(final ProtocolAttachmentPersonnel attachmentPersonnel, final Protocol protocol) {
         
-        if (attachmentPersonnel.getPerson() == null) {
+        if (attachmentPersonnel.getPerson() == null || attachmentPersonnel.getPerson().getProtocolPersonId() == null) {
             return true;
         }
         
@@ -136,7 +145,6 @@ class ProtocolAttachmentPersonnelRuleHelper {
     boolean validPerson(final ProtocolAttachmentPersonnel attachment) {
         //This assumes that the person object has been refreshed from the DB
         //and if not found the refresh action set the person to null.
-        //This is an artifact of using anon keys
         
         if (attachment.getPerson() == null) {
             this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentPersonnel.PropertyName.PERSON_ID,

@@ -19,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.rice.kns.util.AuditError;
 
@@ -82,26 +81,6 @@ class ProtocolAttachmentProtocolRuleHelper {
         }
 
         this.propertyPrefix = aPropertyPrefix;
-    }
-    
-    /**
-     * Checks that a type does not already exist for a document. Creates a hard error.
-     * @param attachmentProtocol the attachment.
-     * @param protocol the Protocol
-     * @return true is valid.
-     */
-    boolean duplicateType(final ProtocolAttachmentProtocol attachmentProtocol, final Protocol protocol) {
-        
-        for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
-            if (!attachment.getId().equals(attachmentProtocol.getId())
-                && attachment.getType().equals(attachmentProtocol.getType())) {
-                this.errorReporter.reportError(this.propertyPrefix + "." + TypedAttachment.PropertyName.TYPE_CODE,
-                    KeyConstants.ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE);
-                return false;
-            }
-        }
-        
-        return true;
     }
       
     /**

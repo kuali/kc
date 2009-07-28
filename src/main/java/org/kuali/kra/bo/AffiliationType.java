@@ -20,7 +20,11 @@ import java.util.LinkedHashMap;
 
 public class AffiliationType extends KraPersistableBusinessObjectBase { 
 	
-	private Integer affiliationTypeCode; 
+	/**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -2684716208059362103L;
+    private Integer affiliationTypeCode; 
 	private String description; 
 	
 	public AffiliationType() { 
@@ -28,7 +32,7 @@ public class AffiliationType extends KraPersistableBusinessObjectBase {
 	} 
 	
 	public Integer getAffiliationTypeCode() {
-		return affiliationTypeCode;
+		return this.affiliationTypeCode;
 	}
 
 	public void setAffiliationTypeCode(Integer affiliationTypeCode) {
@@ -36,19 +40,60 @@ public class AffiliationType extends KraPersistableBusinessObjectBase {
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
+	/**  {@inheritDoc} */
 	@Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("affiliationTypeCode", getAffiliationTypeCode());
-		hashMap.put("description", getDescription());
+		hashMap.put("affiliationTypeCode", this.getAffiliationTypeCode());
+		hashMap.put("description", this.getDescription());
 		return hashMap;
 	}
+
+	/**  {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.affiliationTypeCode == null) ? 0 : this.affiliationTypeCode.hashCode());
+        result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
+        return result;
+    }
+
+    /**  {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        AffiliationType other = (AffiliationType) obj;
+        if (this.affiliationTypeCode == null) {
+            if (other.affiliationTypeCode != null) {
+                return false;
+            }
+        } else if (!this.affiliationTypeCode.equals(other.affiliationTypeCode)) {
+            return false;
+        }
+        if (this.description == null) {
+            if (other.description != null) {
+                return false;
+            }
+        } else if (!this.description.equals(other.description)) {
+            return false;
+        }
+        return true;
+    }
 	
 }

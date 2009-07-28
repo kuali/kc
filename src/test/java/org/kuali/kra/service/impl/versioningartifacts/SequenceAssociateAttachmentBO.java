@@ -26,22 +26,16 @@ import org.kuali.kra.SeparatelySequenceableAssociate;
  * many-to-many way to prevent unnecessary copying of attachments that can 
  * be very large
  */
-public class SequenceAssociateAttachmentBO implements SeparatelySequenceableAssociate<SequenceOwnerImpl> {
+public class SequenceAssociateAttachmentBO implements SeparatelySequenceableAssociate {
     private static final long serialVersionUID = -1764304273143080320L;
     
     private Long attachmentId;
     private String name;
-    private List<SequenceOwnerImpl> owners;
-    private Integer sequenceNumber;
+    private Integer sequenceNumber = 0;
 
     public SequenceAssociateAttachmentBO(String name) {
         this.name = name;
         setAttachmentId(new Random().nextLong());
-        owners = new ArrayList<SequenceOwnerImpl>();
-    }
-    
-    public void add(SequenceOwnerImpl newOwner) {
-        owners.add(newOwner);
     }
     
     public Long getAttachmentId() {
@@ -51,34 +45,12 @@ public class SequenceAssociateAttachmentBO implements SeparatelySequenceableAsso
     public void setAttachmentId(Long attachmentId) {
         this.attachmentId = attachmentId;
     }
-
-    /**
-     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
-     */
-    public List<SequenceOwnerImpl> getSequenceOwners() {
-        return owners;
-    }
     
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         setAttachmentId(null);
-    }
-    
-    /**
-     * @see org.kuali.kra.SeparatelySequenceableAssociate#setSequenceOwners(java.util.List)
-     */
-    @SuppressWarnings("unchecked")
-    public void setSequenceOwners(List<SequenceOwnerImpl> owners) {
-        setOwners(owners);
-    }
-    
-    /**
-     * @see org.kuali.kra.SeparatelySequenceableAssociate#getLatestOwner()
-     */
-    public SequenceOwnerImpl getLatestOwner() {
-        return owners.size() > 0 ? owners.get(owners.size() - 1) : null;
     }
     
     /**
@@ -92,15 +64,11 @@ public class SequenceAssociateAttachmentBO implements SeparatelySequenceableAsso
         return name;
     }
 
-    public List<SequenceOwnerImpl> getOwners() {
-        return owners;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setOwners(List<SequenceOwnerImpl> owners) {
-        this.owners = owners;
-    } 
+    public void incrementSequenceNumber() {
+       sequenceNumber++;   
+    }
 }
