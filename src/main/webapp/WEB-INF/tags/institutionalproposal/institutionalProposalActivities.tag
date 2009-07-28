@@ -39,7 +39,7 @@
         <c:forEach var="activity" items="${KualiForm.document.institutionalProposal.intellectualPropertyReview.ipReviewActivities}" varStatus="status"> 
         <tr>
             <th><c:out value="${activity.activityNumber}" /></td>
-            <td><c:out value="${activity.ipReviewActivityTypeCode}" /></td>
+            <td><c:out value="${activity.ipReviewActivityType.description}" /></td>
             <td><c:out value="${activity.activityDate}" /></td>
             <td><c:out value="${activity.comments}" /></td>
         </tr>

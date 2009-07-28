@@ -30,6 +30,9 @@
                 <ref bean="IntellectualPropertyReview-reviewReceiveDate" />
                 <ref bean="IntellectualPropertyReview-reviewResultCode" />
                 <ref bean="IntellectualPropertyReview-ipReviewer" />
+                <ref bean="IntellectualPropertyReview-generalComments" />
+                <ref bean="IntellectualPropertyReview-reviewerComments" />
+                <ref bean="IntellectualPropertyReview-versionNumber" />
             </list>
         </property>
     </bean>
@@ -47,8 +50,13 @@
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+            <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewRequirementType"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:includeKeyInLabel="false"
+                p:includeBlankRow="false"
+                p:keyAttribute="intellectualPropertyReviewRequirementTypeCode"
+                p:labelAttribute="description" />
         </property>
         <property name="summary" value="Review Requirement" />
         <property name="description" value="Review Requirement" />
@@ -83,8 +91,13 @@
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+            <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewResultType"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:includeKeyInLabel="false"
+                p:includeBlankRow="false"
+                p:keyAttribute="intellectualPropertyReviewResultTypeCode"
+                p:labelAttribute="description" />
         </property>
         <property name="summary" value="Review Results" />
         <property name="description" value="Review Results" />
@@ -107,5 +120,46 @@
         <property name="summary" value="Reviewer" />
         <property name="description" value="Reviewer" />
     </bean>
+    
+    <bean id="IntellectualPropertyReview-generalComments" parent="IntellectualPropertyReview-generalComments-parentBean" />
+    <bean id="IntellectualPropertyReview-generalComments-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="generalComments" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="General Comments" />
+        <property name="shortLabel" value="General Comments" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="General Comments" />
+        <property name="description" value="General Comments" />
+    </bean>
+    
+    <bean id="IntellectualPropertyReview-reviewerComments" parent="IntellectualPropertyReview-reviewerComments-parentBean" />
+    <bean id="IntellectualPropertyReview-reviewerComments-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="reviewerComments" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Reviewer Comments" />
+        <property name="shortLabel" value="Reviewer Comments" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Reviewer Comments" />
+        <property name="description" value="Reviewer Comments" />
+    </bean>
+    
+    <bean id="IntellectualPropertyReview-versionNumber" parent="IntellectualPropertyReview-versionNumber-parentBean" />
+    <bean id="IntellectualPropertyReview-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
         
 </beans>
