@@ -31,8 +31,8 @@
   	
   	<kra-b:budgetVersions 
   		budgetVersionOverviews="${KualiForm.document.developmentProposalList[0].budgetVersionOverviews}" 
-  		pathToVersions="document"
-  		errorKey="document.budgetVersion*,document.finalVersionFlag"
+  		pathToVersions="document.developmentProposalList[0]"
+  		errorKey="document.developmentProposalList[0].budgetVersion*,document.developmentProposalList[0].finalVersionFlag"
   		requestedStartDateInitial="${KualiForm.document.developmentProposalList[0].requestedStartDateInitial}"
 		requestedEndDateInitial="${KualiForm.document.developmentProposalList[0].requestedEndDateInitial}"
 		/>
