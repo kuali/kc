@@ -126,7 +126,7 @@
     <bean id="InstitutionalProposal-sponsorProposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="sponsorProposalNumber" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Sponsor Proposal Number" />
+        <property name="label" value="Sponsor Institutional Proposal ID" />
         <property name="shortLabel" value="Sponsor Proposal Number" />
         <property name="maxLength" value="70" />
         <property name="validationPattern" >
@@ -231,6 +231,7 @@
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
+        <property name="required" value="true" />
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="10" />
@@ -261,16 +262,18 @@
     <bean id="InstitutionalProposal-noticeOfOpportunityCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="noticeOfOpportunityCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Notice Of Opportunity Code" />
+        <property name="label" value="Notice Of Opportunity" />
         <property name="shortLabel" value="Notice Of Opportunity Code" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+        <property name="maxLength" value="3"/>
+    	<property name="validationPattern">
+      		<bean parent="AnyCharacterValidationPattern"/>
+    	</property>
+   	 	<property name="required" value="false"/>
+    	<property name="control">
+      		<bean parent="SelectControlDefinition" 
+      			p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NoticeOfOpportunityValuesFinder" 
+      			p:includeKeyInLabel="false"/>
+    	</property>
         <property name="summary" value="Notice Of Opportunity Code" />
         <property name="description" value="Notice Of Opportunity Code" />
     </bean>
@@ -582,10 +585,17 @@
   </bean>
 
     <bean id="InstitutionalProposal-subcontractFlag" parent="InstitutionalProposal-subcontractFlag-parentBean" />
-    <bean id="InstitutionalProposal-subcontractFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+    <bean id="InstitutionalProposal-subcontractFlag-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="subcontractFlag" />
-        <property name="label" value="Subcontract Flag" />
+        <property name="label" value="Does this proposal include subaward(s)?" />
         <property name="shortLabel" value="Subcontract Flag" />
+        <property name="maxLength" value="3" />
+    	<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern" />
+    	</property>
+    	<property name="control" >
+      		<bean parent="CheckboxControlDefinition" />
+    	</property>
         <property name="summary" value="Subcontract Flag" />
         <property name="description" value="Subcontract Flag" />
     </bean>
@@ -618,16 +628,20 @@
     <bean id="InstitutionalProposal-nsfCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="nsfCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Nsf Code" />
+        <property name="label" value="Nsf Science Code" />
         <property name="shortLabel" value="Nsf Code" />
-        <property name="maxLength" value="15" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+        <property name="maxLength" value="15"/>
+    	<property name="validationPattern">
+   			<bean parent="AnyCharacterValidationPattern"/>
+    	</property>
+    	<property name="required" value="false"/>
+    	<property name="control">
+      		<bean parent="SelectControlDefinition" 
+      			p:businessObjectClass="org.kuali.kra.bo.NsfCode" 
+      			p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
+      			p:includeKeyInLabel="false" p:keyAttribute="nsfCode" 
+      			p:labelAttribute="description"/>
+    	</property>
         <property name="summary" value="Nsf Code" />
         <property name="description" value="Nsf Code" />
     </bean>
@@ -636,7 +650,7 @@
     <bean id="InstitutionalProposal-primeSponsorCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="primeSponsorCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Prime Sponsor Code" />
+        <property name="label" value="Prime Sponsor ID" />
         <property name="shortLabel" value="Prime Sponsor Code" />
         <property name="maxLength" value="6" />
         <property name="validationPattern" >
@@ -746,16 +760,20 @@
     <bean id="InstitutionalProposal-awardTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="awardTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Award Type Code" />
+        <property name="label" value="Anticipated Award Type" />
         <property name="shortLabel" value="Award Type Code" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+        <property name="maxLength" value="15"/>
+    	<property name="validationPattern">
+   			<bean parent="AnyCharacterValidationPattern"/>
+    	</property>
+    	<property name="required" value="false"/>
+    	<property name="control">
+      		<bean parent="SelectControlDefinition" 
+      			p:businessObjectClass="org.kuali.kra.award.home.AwardType" 
+      			p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
+      			p:includeKeyInLabel="false" p:keyAttribute="awardTypeCode" 
+      			p:labelAttribute="description"/>
+    	</property>
         <property name="summary" value="Award Type Code" />
         <property name="description" value="Award Type Code" />
     </bean>
