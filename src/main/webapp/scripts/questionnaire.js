@@ -125,8 +125,9 @@ function getMaintTable(idx, vers, childNode) {
 	var trtmp = $('<tr></tr>');
 	var hsdiv = "#HSdiv" + idx;
 	var thtmp = $(
-			'<th class="subelementheader" style="text-align:left;" colspan="3">')
+			'<th style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" colspan="3">')
 			.html("Response");
+//'<th class="subelementheader" style="text-align:left;" colspan="3">')
 	var image = $(
 			'<img src="kr/static/images/tinybutton-hide.gif" alt="show/hide this panel" title="show/hide this panel"  style="width:45px; height:15px; border:none; cursor:pointer; padding:2px; vertical-align:middle;" />')
 			.attr("id", "HScontrol" + idx).toggle(function() {
@@ -145,21 +146,30 @@ function getMaintTable(idx, vers, childNode) {
 	var div360 = $('<div ></div>').attr("id", "HSdiv" + idx);
 	var tbl362 = $('<table class="content_table">');
 	trtmp = $('<tr></tr>');
+	// TODO : can't get class from kuali-stylesheet.css. ??
+	var contentwhite = "background:#FFFFFF;border-top: solid #939393 0px;border-bottom: solid #939393 1px;" +
+	"border-left: solid #939393 1px;border-right: solid #939393 1px;padding-top:3px;padding-right:3px;"+
+    "padding-left:3px;padding-bottom:3px;";
+	var contentgray = "background:#E4E3E4;border-top: solid #939393 0px;border-bottom: solid #939393 1px;" +
+	"border-left: solid #939393 1px;border-right: solid #939393 1px;padding-top:3px;padding-right:3px;"+
+    "padding-left:3px;padding-bottom:3px;font-weight:bold;";
 	tdtmp = $(
-			'<td class="content_grey" style="width:110px; text-align:center;">')
-			.html("Type");
+    //'<td class="content_grey" style="width:110px; text-align:center;">').html("Type");
+	'<td>').attr("style",contentgray+"width:110px; text-align:center;").html("Type");
 	tdtmp.appendTo(trtmp);
-	tdtmp = $('<td class="content_grey" style="text-align:center;">').html(
-			"Values");
+	//tdtmp = $('<td class="content_grey" style="text-align:center;">').html("Values");
+	tdtmp = $('<td>').attr("style",contentgray+"width:110px; text-align:center;").html("Values");
 	tdtmp.appendTo(trtmp);
 	trtmp.appendTo(tbl362);
 	trtmp = $('<tr></tr>');
-	tdtmp = $('<td class="content_white" style="text-align:center; vertical-align:top;">');
+	//tdtmp = $('<td class="content_white" style="text-align:center; vertical-align:top;">');
+	tdtmp = $('<td>').attr("style",contentwhite+"vertical-align:top; text-align:center;");
 	var selecttmp = questionType[qtypeid];
 	tdtmp.html(selecttmp);
 	tdtmp.appendTo(trtmp);
 
-	tdtmp = $('<td class="content_white" style="text-align:left;">');
+	//tdtmp = $('<td class="content_white" style="text-align:left;">');
+	tdtmp = $('<td>').attr("style",contentwhite+"text-align:left;");
 	getQnTypeDesc(qtypeid).appendTo(tdtmp);
 	tdtmp.appendTo(trtmp);
 	trtmp.appendTo(tbl362);
@@ -180,7 +190,10 @@ function getMaintTable(idx, vers, childNode) {
 function getMaintTableHeader(description, vers) {
 	var thead = $('<thead/>');
 	var trtmp = $('<tr/>');
-	var thtmp = $('<th class="subelementheader" align="left">');
+	// TODO not sure why 'subelementheader class is not picked up from new_kuali.css
+	// it is working fine in researchareahierarchy ???
+	//var thtmp = $('<th class="subelementheader" align="left" >');
+	var thtmp = $('<th style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" align="left" >');
 	var imgtmp = $(
 			'<a href="#" class="hidedetail"><img src="kr/static/images/tinybutton-hide.gif" align="absmiddle" border="0" width="45" height="15"></a>')
 			.toggle(
@@ -206,7 +219,7 @@ function getQuestionActionSubTable(qnaireid) {
 	var trtmp = $('<tr></tr>');
 	var tmp = $('<th style="text-align:right; width:120px;">Node:</th>');
 	trtmp.html(tmp);
-	var thtmp = $('<th colspan="3"></th>');
+	var thtmp = $('<td/>');
 	getMoveUpLink(curidx).appendTo(thtmp);
 	getMoveDownLink(curidx).appendTo(thtmp);
 
@@ -231,7 +244,8 @@ function getQuestionActionSubTable(qnaireid) {
 					var parentNum;
 					if ($(liId).parents('ul:eq(0)').parents('li:eq(0)').size() == 0) {
 						parentNum = 0;
-						adjustGroup($(liId).attr("class").substring(5, 6)); // class
+						var idx1 = $(liId).attr("class").indexOf(" ");
+						adjustGroup($(liId).attr("class").substring(5, idx1)); // class
 						// is
 						// "group0
 						// expandable"
@@ -294,11 +308,16 @@ function getQuestionActionSubTable(qnaireid) {
 							pasteChild(qnaireid, removedNode);
 							removedNode = null;
 						} else if (cutNode) {
+						  if (qnaireid.substring(8) == $(cutNode).attr("id").substring(8)) {
+							  alert ("Can Not cut/paste on the same node");
+						  } else {	  
 							if ($(cutNode).parents('ul:eq(0)').parents(
 									'li:eq(0)').size() == 0) {
 								parentNum = 0;
+								var idx1 = $(cutNode).attr("class").indexOf(" ");
+								//alert ("idx "+qnaireid.substring(8)+"-"+$(cutNode).attr("id").substring(8)+"-"+idx1);
 								adjustGroup($(cutNode).attr("class").substring(
-										5, 6)); // class is "group0 expandable"
+										5, idx1)); // class is "group0 expandable"
 							} else {
 								parentNum = $(
 										"#qnum"
@@ -317,6 +336,7 @@ function getQuestionActionSubTable(qnaireid) {
 							var parentRACode;
 							$("li#" + liId).remove();
 							cutNode = null;
+						  }	
 						}
 
 					}// if removednode
@@ -335,9 +355,10 @@ function getQuestionActionSubTable(qnaireid) {
 	image.appendTo(thtmp);
 
 	thtmp.appendTo(trtmp);
-	trtmp.appendTo(tbl80); // row1
+	$('<th style="text-align:right;">Add Question:</th>').appendTo(trtmp);
 
-	getAddQuestionRow(curidx).appendTo(tbl80); // row2
+	getAddQuestionRow(curidx).appendTo(trtmp); // row2
+	trtmp.appendTo(tbl80); // row1
 	return tbl80;
 
 }
@@ -865,12 +886,11 @@ function getAddQuestionRow(curidx) {
 
 	tdtmp.appendTo(trtmp);
 	trtmp.appendTo(tbl95);
-	trtmp1 = $('<tr></tr>');
-	$('<th style="text-align:right;">Add Question(s):</th>').appendTo(trtmp1);
-	thtmp1 = $('<th colspan="3"></th>');
-	tbl95.appendTo(thtmp1);
-	thtmp1.appendTo(trtmp1);
-	return trtmp1;
+//	trtmp1 = $('<tr></tr>');
+//	$('<th style="text-align:right;">Add Question(s):</th>').appendTo(trtag);
+	tdtmp = $('<td/>');
+	tbl95.appendTo(tdtmp);
+	return tdtmp;
 
 }
 
@@ -880,7 +900,9 @@ function getAddQuestionRow(curidx) {
 function getRequirementDisplayTable(curidx) {
 	var tbl154 = $('<table width="100%" cellpadding="0" cellspacing="0" style="border-top:#E4E3E4 solid 1px;">');
 	var trtmp = $('<tr></tr>');
-	var thtmp = $('<th class="subelementheader" style="text-align:left;" colspan="3">');
+	//var thtmp = $('<th class="subelementheader" style="text-align:left;" colspan="3">');
+	var thtmp = $('<th style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" colspan="3">');
+	
 	thtmp.html("Requirements for Display");
 	var hsdiv = "#HSReqdiv" + curidx;
 	var image = $(
@@ -1252,6 +1274,7 @@ function addToGroup(listitem) {
 		groupid++;
 	}
 	$(listitem).attr("class", "group" + groupid);
+	//$(listitem).addClass("group" + groupid);
 	if (curgroup != groupid) {
 		// alert("show");
 		$(listitem).hide();
