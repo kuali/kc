@@ -17,7 +17,6 @@ package org.kuali.kra.proposaldevelopment.hierarchy.service;
 
 import org.kuali.kra.proposaldevelopment.hierarchy.IneligibleChildException;
 import org.kuali.kra.proposaldevelopment.hierarchy.InvalidHierarchyException;
-import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 
 /**
  * This class...
