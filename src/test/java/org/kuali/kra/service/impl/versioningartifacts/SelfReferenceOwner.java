@@ -15,12 +15,14 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.kuali.kra.SequenceOwner;
 
 public class SelfReferenceOwner implements SequenceOwner<SelfReferenceOwner>{
+    private static final long serialVersionUID = 5794406936890268956L;
     
     public Long id = 1L;
     public Integer seq = 0;
@@ -90,4 +92,7 @@ public class SelfReferenceOwner implements SequenceOwner<SelfReferenceOwner>{
         id = null;
     }
     
+    public String getVersionNameField() {
+        return "id";
+    }
 }

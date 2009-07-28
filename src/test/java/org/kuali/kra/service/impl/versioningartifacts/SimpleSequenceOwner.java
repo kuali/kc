@@ -16,8 +16,6 @@
 package org.kuali.kra.service.impl.versioningartifacts;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.kuali.kra.SequenceOwner;
@@ -25,63 +23,20 @@ import org.kuali.kra.SequenceOwner;
 /**
  * This test artifact represents a top level sequenceOwnerImpl; i.e. Award
  */
-public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
+public class SimpleSequenceOwner implements SequenceOwner<SimpleSequenceOwner> {
     private static final long serialVersionUID = 3354366183120742932L;
     
     private Long sequenceOwnerId;
     private String name;
     private Integer sequenceNumber;
-    private SimpleAssociate associate;
-    private OwnerAssociate ownerAssociate;
-    private List<SequenceAssociateChild> children;
-    private List<SequenceAssociateAttachmentBO> attachments;
     
     /**
      * Constructs a SequenceOwnerImpl.java.
      */
-    public SequenceOwnerImpl() {
+    public SimpleSequenceOwner() {
         this.name = "SequenceOwner";
         sequenceNumber = 1;
         setSequenceOwnerId(new Random().nextLong());
-        children = new ArrayList<SequenceAssociateChild>();
-        attachments = new ArrayList<SequenceAssociateAttachmentBO>();
-    }
-    
-    /**
-     * @param sequenceAssociateChild
-     */
-    public void add(SequenceAssociateChild sequenceAssociateChild) {
-        children.add(sequenceAssociateChild);
-        sequenceAssociateChild.setOwner(this);
-    }
-    
-    /**
-     * @param attachmentBO
-     */
-    public void add(SequenceAssociateAttachmentBO attachmentBO) {
-        attachments.add(attachmentBO);
-        //attachmentBO.add(this);
-    }
-    
-    /**
-     * @return
-     */
-    public List<SequenceAssociateChild> getChildren() {
-        return children;
-    }
-    
-    /**
-     * @return
-     */
-    public SimpleAssociate getAssociate() {
-        return associate;
-    }
-    
-    /**
-     * @param associate
-     */
-    public void setAssociate(SimpleAssociate associate) {
-        this.associate = associate;
     }
     
     /**
@@ -99,47 +54,10 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
     }
     
     /**
-     * @return
-     */
-    public List<SequenceAssociateAttachmentBO> getAttachments() {
-        return attachments;
-    }
-
-    /**
-     * Sets the ownerAssociate attribute value.
-     * @param ownerAssociate The ownerAssociate to set.
-     */
-    public void setOwnerAssociate(OwnerAssociate ownerAssociate) {
-        this.ownerAssociate = ownerAssociate;
-    }
-    
-    /**
      * @param sequenceNumber
      */
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
-    }
-
-    /**
-     * @param children
-     */
-    public void setChildren(List<SequenceAssociateChild> children) {
-        this.children = children;
-    }
-
-    /**
-     * @param attachments
-     */
-    public void setAttachments(List<SequenceAssociateAttachmentBO> attachments) {
-        this.attachments = attachments;
-    }
-
-    /**
-     * Gets the ownerAssociate attribute. 
-     * @return Returns the ownerAssociate.
-     */
-    public OwnerAssociate getOwnerAssociate() {
-        return ownerAssociate;
     }
     
     /**
@@ -152,14 +70,14 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
     /**
      * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
-    public void setSequenceOwner(SequenceOwnerImpl newOwner) {
+    public void setSequenceOwner(SimpleSequenceOwner newOwner) {
        // do nothing - this is root sequence association
     }
     
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
-    public SequenceOwnerImpl getSequenceOwner() {
+    public SimpleSequenceOwner getSequenceOwner() {
        return this;
     }
     
@@ -201,10 +119,10 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof SequenceOwnerImpl)) {
+        if (!(obj instanceof SimpleSequenceOwner)) {
             return false;
         }
-        SequenceOwnerImpl other = (SequenceOwnerImpl) obj;
+        SimpleSequenceOwner other = (SimpleSequenceOwner) obj;
         if (name == null) {
             if (other.name != null) {
                 return false;

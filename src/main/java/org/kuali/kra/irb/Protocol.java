@@ -1027,6 +1027,13 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     public Integer getOwnerSequenceNumber() {
         return null;
     }
+    
+    /**
+     * @see org.kuali.kra.SequenceOwner#getVersionNameField()
+     */
+    public String getVersionNameField() {
+        return "protocolNumber";
+    }
 
     /** {@inheritDoc} */
     public void incrementSequenceNumber() {
