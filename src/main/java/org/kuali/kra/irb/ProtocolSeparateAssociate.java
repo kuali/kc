@@ -15,27 +15,18 @@
  */
 package org.kuali.kra.irb;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
+ * This class is meant to be a common base class for Protocol SeparatelySequenceableAssociate BOs (for BOs that haven't already
+ * extended a class).
  * 
- * This class is to maintain repetitive coeus legacy code, protocolNumber & sequenceNumber, for protocol Bos.
- * 
- * Currently our SeparateAssociates (attachments) have 1:m and m:m relationships with protocol.  This is why
- * this class has fields for a single protocol.  
- * 
- * Much of this class is duplicated with ProtocolAssociate but there is no
- * way around that due to the limitations in rice, ojb, etc.
+ * Eventually, this class should become more generic since it is not Protocol specific in any way other than name.
  */
-public abstract class ProtocolSeparateAssociate extends KraPersistableBusinessObjectBase implements SeparatelySequenceableAssociate<Protocol> {
+public abstract class ProtocolSeparateAssociate extends KraPersistableBusinessObjectBase implements SeparatelySequenceableAssociate {
     private static final long serialVersionUID = -8385115657304261423L;
     private static final Integer INITIAL_VERSION = Integer.valueOf(0);
     
@@ -43,55 +34,6 @@ public abstract class ProtocolSeparateAssociate extends KraPersistableBusinessOb
     private Long id;
     
     private Integer sequenceNumber = INITIAL_VERSION;
-    private List<Protocol> sequenceOwners;
-    
-    /** creates an instance. */
-    public ProtocolSeparateAssociate() {
-        super();
-    }
-    
-    /** 
-     * creates an instance adding the passed in protocol to the list of owners.
-     * @param protocol the owner
-     */
-    public ProtocolSeparateAssociate(Protocol protocol) {
-        this.addSequenceOwner(protocol);
-    }
-    
-    /** {@inheritDoc} */
-    public Protocol getLatestOwner() {
-        return Collections.max(this.getSequenceOwners(), SequenceNumber.INSTANCE);
-    }
-      
-    /** 
-     * Cannot return null.
-     * {@inheritDoc}
-    */
-    public List<Protocol> getSequenceOwners() {
-        if (this.sequenceOwners == null) { 
-            this.sequenceOwners = new ArrayList<Protocol>();
-        }
-        return this.sequenceOwners;
-    }
-      
-    /** {@inheritDoc} */
-    public void setSequenceOwners(List<Protocol> owners) {
-        this.sequenceOwners = owners;
-    }
-    
-    /**
-     * Adds a sequence owner.
-     * @param aProtocol a Protocol.
-     */
-    public void addSequenceOwner(Protocol aProtocol) {
-        
-        List<Protocol> owners = this.getSequenceOwners();
-        if (!owners.contains(aProtocol)) {
-            owners.add(aProtocol);    
-        }
-        
-        this.setSequenceOwners(owners);
-    }
     
     /** {@inheritDoc} */
     public Integer getSequenceNumber() {
@@ -104,6 +46,11 @@ public abstract class ProtocolSeparateAssociate extends KraPersistableBusinessOb
      */
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
+    }
+    
+    /** {@inheritDoc} */
+    public void incrementSequenceNumber() {
+        this.sequenceNumber++; 
     }
     
     /** {@inheritDoc} */
@@ -176,19 +123,5 @@ public abstract class ProtocolSeparateAssociate extends KraPersistableBusinessOb
             return false;
         }
         return true;
-    }
-
-    /**
-     * Compares protocols by sequence number.
-     */
-    private static class SequenceNumber implements Comparator<Protocol>, Serializable {
-
-        private static final long serialVersionUID = 7035873029867798117L;
-        private static final Comparator<Protocol> INSTANCE = new SequenceNumber();
-        
-        /** see class comments. */
-        public int compare(Protocol o1, Protocol o2) {
-            return o1.getSequenceNumber().compareTo(o2.getSequenceNumber());
-        }
     }
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -29,7 +30,7 @@ import org.kuali.kra.service.VersioningService;
  * This service implements generic versioning.
  */
 public class VersioningServiceImpl implements VersioningService {
-    private static final String FOR_OLD = " for old: ";
+    
     private static final double NANOS_PER_SECOND = 1000000000.0;
     private static final String IN = " in ";
     private static final String SECONDS = " seconds";
@@ -40,7 +41,6 @@ public class VersioningServiceImpl implements VersioningService {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.service.VersioningService#createNewVersion(SequenceOwner)
      */
     public <T extends SequenceOwner<?>> T createNewVersion(T oldVersion) throws VersionException {
         final long time = getCurrentTime();
@@ -52,26 +52,25 @@ public class VersioningServiceImpl implements VersioningService {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.service.VersioningService#versionAssociate(SequenceOwner, SeparatelySequenceableAssociate)
      */
-    public <T extends SeparatelySequenceableAssociate<U>, U extends SequenceOwner<?>> T versionAssociate(U newVersion, T oldAssociate) throws VersionException {
+    public <T extends SeparatelySequenceableAssociate> T versionAssociate(T oldAssociate) throws VersionException {
         final long time = getCurrentTime();
         SequenceUtils sequenceUtils = new SequenceUtils();
         T newAssociate = sequenceUtils.sequence(oldAssociate);
+        logVersionOperation(time, oldAssociate, newAssociate);
         
-        logVersionOperation(time, newVersion, newVersion, oldAssociate);
         return newAssociate;
     }
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.service.VersioningService#versionAssociates(org.kuali.kra.SequenceOwner, java.util.List)
      */
-    public <T extends SeparatelySequenceableAssociate<U>, U extends SequenceOwner<?>> List<T> versionAssociates(U newVersion, List<T> oldAssociates) throws VersionException {
+    public <T extends SeparatelySequenceableAssociate> List<T> versionAssociates(List<T> oldAssociates) throws VersionException {
         final long time = getCurrentTime();
         SequenceUtils sequenceUtils = new SequenceUtils();
-        List<T> newAssociates = sequenceUtils.sequence(newVersion, oldAssociates);
-        logVersionOperation(time, newVersion, newVersion, oldAssociates);
+        List<T> newAssociates = sequenceUtils.sequence(oldAssociates);
+        
+        logVersionOperation(time, oldAssociates, newAssociates);
         return newAssociates;
     }
     
@@ -84,14 +83,13 @@ public class VersioningServiceImpl implements VersioningService {
     }
     
     /**
-     * Gets an elapsed time StringBuilder snippet based on the current time.
+     * Gets an elapsed time in seconds based on a start and end time.
      * @param startTime the start time in nanos
-     * @return the snippet
+     * @param endTime the end time in nanos
+     * @return the time in seconds
      */
-    private static StringBuilder getElapsedTimeSnippet(long startTime) {
-        return new StringBuilder().append(IN)
-            .append((getCurrentTime() - startTime) / NANOS_PER_SECOND)
-            .append(SECONDS);
+    private static double calcElapsedTimeInSeconds(long startTime, long endTime) {
+        return (endTime - startTime) / NANOS_PER_SECOND;
     }
     
     /**
@@ -110,65 +108,31 @@ public class VersioningServiceImpl implements VersioningService {
      * @param newVersion
      */
     private void logVersionOperation(long startTime, Sequenceable oldVersion, Sequenceable newVersion) {
-        if (LOGGER.isInfoEnabled()) {
-            StringBuilder versionLoggingMessage = new StringBuilder()
-                .append(getNonQualifiedClassName(oldVersion))
-                .append(VERSIONED_FROM)
-                .append(oldVersion.getSequenceNumber())
-                .append(TO)
-                .append(newVersion.getSequenceNumber())
-                .append(getElapsedTimeSnippet(startTime));
-            
-            LOGGER.info(versionLoggingMessage);
-        }
+        this.logVersionOperation(startTime, Collections.singletonList(oldVersion), Collections.singletonList(newVersion));
     }
     
     /**
      * This method logs the versioning operation
      * @param oldVersion
      * @param newVersion
-     * @param oldAssociate
      */
-    private void logVersionOperation(long startTime, Sequenceable oldVersion, Sequenceable newVersion, SeparatelySequenceableAssociate<?> oldAssociate) {
+    private <T extends Sequenceable> void logVersionOperation(long startTime, List<T> oldVersions, List<T> newVersions) {
         if (LOGGER.isInfoEnabled()) {
-            StringBuilder versionLoggingMessage = new StringBuilder()
-                .append(getNonQualifiedClassName(oldVersion))
-                .append(VERSIONED_FROM)
-                .append(oldVersion.getSequenceNumber())
-                .append(TO)
-                .append(newVersion.getSequenceNumber())
-                .append(getElapsedTimeSnippet(startTime))
-                .append(FOR_OLD)
-                .append(getNonQualifiedClassName(oldAssociate));
+            final double seconds = calcElapsedTimeInSeconds(startTime, getCurrentTime());
             
-            LOGGER.info(versionLoggingMessage);
-        }
-    }
-    
-    /**
-     * This method logs the versioning operation
-     * @param oldVersion
-     * @param newVersion
-     * @param associates
-     */
-    private void logVersionOperation(long startTime, Sequenceable oldVersion, Sequenceable newVersion, 
-                                        List<? extends SeparatelySequenceableAssociate<?>> associates) {
-        if (LOGGER.isInfoEnabled()) {
-            
-            StringBuilder versionLoggingMessage = new StringBuilder()
-                .append(getNonQualifiedClassName(oldVersion))
-                .append(VERSIONED_FROM)
-                .append(oldVersion.getSequenceNumber())
-                .append(TO)
-                .append(newVersion.getSequenceNumber())
-                .append(getElapsedTimeSnippet(startTime))
-                .append(FOR_OLD);
-            
-            for (SeparatelySequenceableAssociate<?> associate : associates) {
-                versionLoggingMessage.append(getNonQualifiedClassName(associate));
-                versionLoggingMessage.append("; ");
+            for (int i = 0; i < oldVersions.size(); i++) {
+                final StringBuilder versionLoggingMessage = new StringBuilder()
+                    .append(getNonQualifiedClassName(oldVersions.get(i)))
+                    .append(VERSIONED_FROM)
+                    .append(oldVersions.get(i).getSequenceNumber())
+                    .append(TO)
+                    .append(newVersions.get(i).getSequenceNumber())
+                    .append(IN)
+                    .append(seconds)
+                    .append(SECONDS);
+                
+                LOGGER.info(versionLoggingMessage);
             }
-            LOGGER.info(versionLoggingMessage);
         }
     }
 }
