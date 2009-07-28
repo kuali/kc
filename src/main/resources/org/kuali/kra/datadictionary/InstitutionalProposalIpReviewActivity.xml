@@ -121,18 +121,23 @@
     <bean id="InstitutionalProposalIpReviewActivity-ipReviewActivityTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="ipReviewActivityTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Ip Review Activity Type Code" />
-        <property name="shortLabel" value="Ip Review Activity Type Code" />
+        <property name="label" value="IP Review Activity Type Code" />
+        <property name="shortLabel" value="IP Review Activity Type Code" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+            <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivityType"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:includeKeyInLabel="false"
+                p:includeBlankRow="false"
+                p:keyAttribute="intellectualPropertyReviewActivityTypeCode"
+                p:labelAttribute="description" />
         </property>
-        <property name="summary" value="Ip Review Activity Type Code" />
-        <property name="description" value="Ip Review Activity Type Code" />
+        <property name="summary" value="IP Review Activity Type Code" />
+        <property name="description" value="IP Review Activity Type Code" />
     </bean>
 
     <bean id="InstitutionalProposalIpReviewActivity-activityDate" parent="InstitutionalProposalIpReviewActivity-activityDate-parentBean" />

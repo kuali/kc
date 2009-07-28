@@ -23,15 +23,13 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="intellectualPropertyReview">
-  	
-This is the  Institutional Proposal IntellectualPropertyReview- Under Construction
 
-<kra-ip:institutionalProposalReviewData readOnly="true" />
+<kra-ip:institutionalProposalReviewData />
 <kra-ip:institutionalProposalActivities />
 
 <kul:panelFooter />	
 
-<c:if test="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_SAVE] and not viewOnly}">
+<c:if test="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_SAVE]}">
     <div align="center">
         <html:image src="${ConfigProperties.kra.externalizable.images.url}buttonsmall_editipreview.gif" styleClass="globalbuttons" property="methodToCall.editIntellectualPropertyReview" title="Edit IP Review" alt="Edit Intellectual Property Review"
             onclick="javascript: openNewWindow('institutionalProposalIntellectualPropertyReview','editIntellectualPropertyReview','','${KualiForm.formKey}','${KualiForm.document.sessionDocument}');return false" />
