@@ -38,10 +38,13 @@ public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
     protected static final String DEFAULT_ACTIVITY_TYPE_CODE = "document.institutionalProposal.activityTypeCode";
     protected static final String DOCUMENT_PROPOSAL_TYPE_CODE = "document.institutionalProposal.proposalTypeCode";
     protected static final String DOCUMENT_PROJECT_TITLE = "document.institutionalProposal.title";
+    protected static final String DOCUMENT_SPONSOR_CODE = "document.institutionalProposal.sponsorCode";
+    
 
     
     protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Institutional Proposal Web Test";
     protected static final String DEFAULT_PROJECT_TITLE = "Test Project";
+    protected static final String DEFAULT_SPONSOR_CODE = "005891";
 
     protected static final String METHOD_TO_CALL_PREFIX = "methodToCall.";
     private static final String SAVE_BUTTON_METHOD = METHOD_TO_CALL_PREFIX + "save";
@@ -125,6 +128,7 @@ public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
         setFieldValue(page, DEFAULT_ACTIVITY_TYPE_CODE, ONE);
         setFieldValue(page, DOCUMENT_PROPOSAL_TYPE_CODE, ONE);
         setFieldValue(page, DOCUMENT_PROJECT_TITLE, DEFAULT_PROJECT_TITLE);
+        setFieldValue(page, DOCUMENT_SPONSOR_CODE, DEFAULT_SPONSOR_CODE);
     }
     
     /**

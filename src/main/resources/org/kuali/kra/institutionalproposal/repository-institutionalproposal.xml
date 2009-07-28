@@ -67,7 +67,7 @@
 		<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="scienceCodeIndicator" column="SCIENCE_CODE_INDICATOR" jdbc-type="VARCHAR" />
 		<field-descriptor name="nsfCode" column="NSF_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="primeSponsorCode" column="PRIME_SPONSOR_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor id="1" name="primeSponsorCode" column="PRIME_SPONSOR_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="initialContractAdmin" column="INITIAL_CONTRACT_ADMIN" jdbc-type="VARCHAR" />
 		<!--
 		<field-descriptor name="ipReviewRequirementTypeCode" column="IP_REVIEW_REQ_TYPE_CODE" jdbc-type="INTEGER" />
@@ -152,16 +152,17 @@
 		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rolodexId"/>
 		</reference-descriptor>
+		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="sponsorCode" />
+        </reference-descriptor>
+        <reference-descriptor name="primeSponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="primeSponsorCode" />
+        </reference-descriptor>
 		<!--
-		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="sponsorCode"/>
-		</reference-descriptor>
-		-->
-		<!--
-		<reference-descriptor name="activityType" class-ref="org.kuali.kra.bo.ActivityType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="activityType" class-ref="org.kuali.kra.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="activityTypeCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="awardType" class-ref="org.kuali.kra.bo.AwardType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="awardType" class-ref="org.kuali.kra.bo.AwardType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="awardTypeCode"/>
 		</reference-descriptor>
 		-->
