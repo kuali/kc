@@ -39,7 +39,7 @@
 	   src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on " title="Multiple Value Search on " />
 	    --%>
     			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:newQuestionId,questionTypeId:newQuestionTypeId,question:newQuestion))).((%false%)).anchor" id = "lookupBtn" 
-	   src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on " title="Multiple Value Search on " />
+	   src="kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on " title="Multiple Value Search on " />
    		
          	</label><br>
          	
@@ -67,6 +67,7 @@
                  if (document.getElementById("methodToCall").value != "refresh") {
                  	lookupBtn.click();
                  } else {
+                     alert(document.getElementById("methodToCall").value);
                  	returnQuestion();
                  	window.close();
                  }
