@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -81,7 +82,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private boolean mailType; 
     private String mailAccountNumber; 
     private String mailDescription;
-    private boolean subcontractFlag; 
+    private Boolean subcontractFlag; 
     private String costSharingIndicator; 
     private String idcRateIndicator; 
     private String specialReviewIndicator; 
@@ -100,6 +101,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private ProposalType proposalType; 
     private Rolodex rolodex; 
     private Sponsor sponsor; 
+    private Sponsor primeSponsor;
+    private String sponsorName;
     private ActivityType activityType; 
     private AwardType awardType; 
     private InstitutionalProposalScienceKeyword proposalScienceKeyword; 
@@ -132,7 +135,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      */
     private void initializeInstitutionalProposalWithDefaultValues(){
         setSequenceNumber(1);
-        setSponsorCode("005852");
+        //setSponsorCode("005852");
         setCostSharingIndicator("1");
         setIdcRateIndicator("1");
         setSpecialReviewIndicator("1");
@@ -713,13 +716,49 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.rolodex = rolodex;
     }
 
+    /**
+     * This method violates our policy of not calling a service in a getter.
+     * This will only call the service once to set a sponsor when a sponsor code exists, 
+     * but no sponsor was fetched
+     * 
+     * Seems like a persistence design issue to me. Why wouldn't Sponsor:Award be a 1:M 
+     * relationship handled automagically by the persistence framework? 
+     * 
+     * @return
+     */
+    
     public Sponsor getSponsor() {
+        if(sponsor == null && !StringUtils.isEmpty(sponsorCode)) {
+            this.refreshReferenceObject("sponsor");
+        }
         return sponsor;
     }
 
     public void setSponsor(Sponsor sponsor) {
         this.sponsor = sponsor;
+        this.sponsorCode = sponsor != null ? sponsor.getSponsorCode() : null;
     }
+    
+    // Note: following the pattern of Sponsor, this getter indirectly calls a service.
+    // Is there a better way?
+    public Sponsor getPrimeSponsor() {
+      if(primeSponsor == null && !StringUtils.isEmpty(getPrimeSponsorCode())) {
+            this.refreshReferenceObject("primeSponsor");
+        }
+        return primeSponsor;
+    }
+
+    public void setPrimeSponsor(Sponsor primeSponsor) {
+        this.primeSponsor = primeSponsor;
+    }
+    
+    public String getSponsorName() {
+        Sponsor tempSponsor = getSponsor();
+        sponsorName = tempSponsor != null ? tempSponsor.getSponsorName() : null;
+        return sponsorName;
+    }
+    
+    
 
     public ActivityType getActivityType() {
         return activityType;

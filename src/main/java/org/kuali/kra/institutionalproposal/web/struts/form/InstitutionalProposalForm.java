@@ -303,6 +303,5 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
     
     
     
-    
 
 }
