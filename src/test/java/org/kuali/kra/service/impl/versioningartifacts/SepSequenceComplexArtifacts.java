@@ -60,6 +60,9 @@ public class SepSequenceComplexArtifacts {
         public String toString() {
             return new ToStringBuilder(this).append("id", id).append("sequenceNumber", sequenceNumber).append("attachments", attachments).toString();
         }
+        public String getVersionNameField() {
+            return "id";
+        }
     }
     
     /** an attachment BO that just contains meta-data and references to the rest of the attachment data. */
@@ -95,6 +98,9 @@ public class SepSequenceComplexArtifacts {
         @Override
         public String toString() {
             return new ToStringBuilder(this).append("id", id).append("sequenceNumber", sequenceNumber).append("assoc", assoc).append("data", data).toString();
+        }
+        public String getVersionNameField() {
+            return "id";
         }
     }
     

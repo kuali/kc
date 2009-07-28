@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.committee.bo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -378,5 +379,11 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
             return this.getCommitteeId().compareTo(committee.getCommitteeId());
         }
     }
-    
+
+    /**
+     * @see org.kuali.kra.SequenceOwner#getName()
+     */
+    public String getVersionNameField() {
+        return "committeeName";
+    }
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -206,4 +207,10 @@ public class OwnerAssociate implements SequenceOwner<SequenceOwnerImpl> {
         setOwner(newOwnerReference);
     }
 
+    /**
+     * @see org.kuali.kra.SequenceOwner#getVersionNameField()
+     */
+    public String getVersionNameField() {
+        return "name";
+    }
 }

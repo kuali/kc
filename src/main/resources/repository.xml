@@ -3174,4 +3174,19 @@
 		
 <!--  end Questionnaire -->
 
+	<class-descriptor class="org.kuali.kra.bo.versioning.VersionHistory" table="VERSION_HISTORY">
+		<field-descriptor name="versionHistoryId" column="VERSION_HISTORY_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_VERSION_HISTORY_ID" autoincrement="true"/>
+		<field-descriptor name="sequenceOwnerClassName" column="SEQ_OWNER_CLASS_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceOwnerVersionNameField" column="SEQ_OWNER_VERSION_NAME_FIELD" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceOwnerVersionNameValue" column="SEQ_OWNER_VERSION_NAME_VALUE" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceOwnerSequenceNumber" column="SEQ_OWNER_SEQ_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="statusForOjb" column="VERSION_STATUS" jdbc-type="VARCHAR" />
+		<field-descriptor name="userId" column="USER_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionDate" column="VERSION_DATE" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+
 </descriptor-repository>
