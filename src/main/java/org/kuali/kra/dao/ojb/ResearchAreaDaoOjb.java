@@ -16,11 +16,18 @@
 package org.kuali.kra.dao.ojb;
 
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
+import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.dao.ResearchAreaDao;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.OjbCollectionAware;
 import org.springmodules.orm.ojb.PersistenceBrokerCallback;
 
@@ -37,8 +44,17 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
                     stmt = pb.serviceConnectionManager().getConnection().createStatement();
                     for (int i = 0; i < sqls.length; i++) {
                         if (StringUtils.isNotBlank(sqls[i])) {
+                            if (sqls[i].startsWith("remove((")) {
+                                String researchAreaCode = StringUtils.substringBetween(sqls[i], "((", "))");
+                                String deleteStmt = "delete from research_areas where research_area_code = '" + researchAreaCode
+                                + "'";
+                                LOG.info("Save run scripts " + deleteStmt);
+                                stmt.addBatch(deleteStmt);
+                            getNodesToDelete(researchAreaCode, stmt);
+                            } else {
                             LOG.info("Save run scripts " + i + sqls[i]);
                             stmt.addBatch(sqls[i]);
+                            }
                         }
                     }
                     int[] updCnt = stmt.executeBatch();
@@ -63,6 +79,29 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
             }
         });
 
+    }
+    
+    private void getNodesToDelete(String researchAreaCode, Statement stmt) {
+        try {
+            for (ResearchArea researchArea : getSubResearchAreas(researchAreaCode)) {
+                String deleteStmt = "delete from research_areas where research_area_code = '" + researchArea.getResearchAreaCode()
+                        + "'";
+                LOG.info("Save run scripts " + deleteStmt);
+                stmt.addBatch(deleteStmt);
+                getNodesToDelete(researchArea.getResearchAreaCode(), stmt);
+            }
+        }
+        catch (Exception e) {
+            LOG.error("Exception " + e.getStackTrace());
+        }
+    }
+
+    private List<ResearchArea> getSubResearchAreas(String researchAreaCode) {
+        List<ResearchArea> researchAreasList = new ArrayList<ResearchArea>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("parentResearchAreaCode", researchAreaCode);
+        researchAreasList.addAll(KraServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(ResearchArea.class, fieldValues, "researchAreaCode", true));
+        return researchAreasList;
     }
 
 }
