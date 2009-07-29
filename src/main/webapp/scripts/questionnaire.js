@@ -230,7 +230,7 @@ function getQuestionActionSubTable(qnaireid) {
 				var liId = "li#" + qnaireid;
 				// TODO : IE problem , clone does not clone child node
 					// removedNode = $(liId).clone(true);
-					removedNode = $(liId);
+					//removedNode = $(liId);
 					//alert("Remove node " + removedNode.attr("id"));
 					if ($(liId).prev().size() == 0 && $(liId).next().size() > 0) {
 						$("#moveup" + $(liId).next().attr("id").substring(8))
@@ -1361,21 +1361,19 @@ function isDate(txtDate) {
 			|| isNaN(txtDate.substring(6, 10))) {
 		return false;
 	}
+	if (txtDate.substring(2, 3) != '/' || txtDate.substring(5, 6) != '/') {
+		return false;
+	}	
 
 	var day = txtDate.substring(3, 5) - 0;
 	var month = txtDate.substring(0, 2) - 1; // because months in JS start
 	// with 0
 	var year = txtDate.substring(6, 10) - 0;
 
-	// third and sixth character should be /
-	if (txtDate.substring(2, 3) != '/')
-		return false;
-	if (txtDate.substring(5, 6) != '/')
-		return false;
-
 	// test year range
-	if (year < 999 || year > 3000)
+	if (year < 999 || year > 3000) {
 		return false;
+	}	
 
 	// convert txtDate to the milliseconds
 	mSeconds = (new Date(year, month, day)).getTime();
@@ -1385,14 +1383,9 @@ function isDate(txtDate) {
 	objDate.setTime(mSeconds);
 
 	// if there exists difference then date isn't valid
-	if (objDate.getFullYear() != year)
+	if (objDate.getFullYear() != year || objDate.getMonth() != month || objDate.getDate() != day) {
 		return false;
-	if (objDate.getMonth() != month)
-		return false;
-	if (objDate.getDate() != day)
-		return false;
-
-	// otherwise return true
+	}	
 	return true;
 }
 
