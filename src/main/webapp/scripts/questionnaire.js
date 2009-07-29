@@ -231,7 +231,7 @@ function getQuestionActionSubTable(qnaireid) {
 				// TODO : IE problem , clone does not clone child node
 					// removedNode = $(liId).clone(true);
 					removedNode = $(liId);
-					alert("Remove node " + removedNode.attr("id"));
+					//alert("Remove node " + removedNode.attr("id"));
 					if ($(liId).prev().size() == 0 && $(liId).next().size() > 0) {
 						$("#moveup" + $(liId).next().attr("id").substring(8))
 								.hide();
@@ -258,7 +258,7 @@ function getQuestionActionSubTable(qnaireid) {
 					}
 
 					deleteChild(parentNum, $(liId).attr("id"));
-					alert(sqlScripts);
+					//alert(sqlScripts);
 					// TODO : update seqnum of the sibling nodes following it
 					$(liId).remove();
 					cutNode = null;
@@ -268,7 +268,7 @@ function getQuestionActionSubTable(qnaireid) {
 	image = $(
 			'<a href="#"><img src="static/images/tinybutton-cutnode.gif" width="79" height="15" border="0" alt="Cut Node" title="Cut this node and its child roups/sponsors.  (Node will not be removed until you paste it.)"></a>&nbsp')
 			.attr("id", "cut" + curidx).click(function() {
-				alert("Cut node");
+				//alert("Cut node");
 				var liId = "li#" + qnaireid;
 				cutNode = $(liId);
 				removedNode = null; // remove & cutNode should not co-exist
