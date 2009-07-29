@@ -100,15 +100,44 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         return researchAreasList;
     }
 
-    public boolean isResearchAreaExist(String researchAreaCode) {
+    public boolean isResearchAreaExist(String researchAreaCode, String researchAreas) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("parentResearchAreaCode", researchAreaCode);
-        return businessObjectService.findByPrimaryKey(ResearchArea.class, fieldValues) != null;
+        fieldValues.put("researchAreaCode", researchAreaCode);
+        boolean isExist = businessObjectService.findByPrimaryKey(ResearchArea.class, fieldValues) != null;
+        if (isExist && StringUtils.isNotBlank(researchAreas)) {
+            for (String raCode : researchAreas.split(";")) {
+                if (raCode.equals(researchAreaCode)) {
+                    isExist = false;
+                    break;
+                } else {
+                    if (isExistInDeletedChildren(researchAreaCode, raCode)) {
+                        isExist = false;
+                        break;                        
+                    }
+                }
+            }
+            
+        }
+        return isExist;
     }
 
+    private boolean isExistInDeletedChildren(String researchAreaCode, String raCode) {
+        boolean isExist = false;
+        for (ResearchArea researchArea : getSubResearchAreas(raCode)) {
+            if (researchAreaCode.equals(researchArea.getResearchAreaCode())) {
+                isExist = true;
+                break;
+            } else {
+                isExist = isExistInDeletedChildren(researchAreaCode, researchArea.getResearchAreaCode());
+            }
+        }
+        return isExist;
+    }
+    
     public void saveResearchAreas(String sqlScripts) {
 
-        researchAreaDao.runScripts(sqlScripts.split("#;#"));
+        //researchAreaDao.runScripts(sqlScripts.split("#;#"));
+        researchAreaDao.runScripts(sqlScripts.split(";;;"));
         
     }
 

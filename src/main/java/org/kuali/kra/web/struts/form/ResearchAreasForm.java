@@ -33,6 +33,7 @@ public class ResearchAreasForm   extends KualiForm {
     private String researchAreaCode;
     private String addRA;
     private String sqlScripts;
+    private String deletedRas;
 
     private static final Log LOG = LogFactory.getLog(ResearchAreasForm.class);
     /**
@@ -41,7 +42,7 @@ public class ResearchAreasForm   extends KualiForm {
     public ResearchAreasForm() {
         super();
         researchAreas = KraServiceLocator.getService(ResearchAreasService.class).getInitialResearchAreasList();        
-
+        deletedRas = "";
     }
 
     public void reset(ActionMapping mapping, HttpServletRequest request) {
@@ -54,7 +55,7 @@ public class ResearchAreasForm   extends KualiForm {
        if (StringUtils.isBlank(researchAreaCode)) {
             setResearchAreas(KraServiceLocator.getService(ResearchAreasService.class).getInitialResearchAreasList());
        } else if (StringUtils.isNotBlank(addRA) && addRA.equals("Y")) {
-           if (KraServiceLocator.getService(ResearchAreasService.class).isResearchAreaExist(researchAreaCode)) {
+           if (KraServiceLocator.getService(ResearchAreasService.class).isResearchAreaExist(researchAreaCode, deletedRas)) {
                setResearchAreas("<h3>true</h3>");
            } else {
                setResearchAreas("<h3>false</h3>");
@@ -119,6 +120,14 @@ public class ResearchAreasForm   extends KualiForm {
 
     public void setSqlScripts(String sqlScripts) {
         this.sqlScripts = sqlScripts;
+    }
+
+    public String getDeletedRas() {
+        return deletedRas;
+    }
+
+    public void setDeletedRas(String deletedRas) {
+        this.deletedRas = deletedRas;
     }
 
 
