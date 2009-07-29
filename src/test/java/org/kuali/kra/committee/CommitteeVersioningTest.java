@@ -18,6 +18,7 @@ package org.kuali.kra.committee;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,12 +34,15 @@ import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.protocol.location.ProtocolLocation;
+import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
 
-public class CommitteeVersioningTest {
+public class CommitteeVersioningTest implements Serializable {
 
-    private VersioningService versioningService;
+    private transient VersioningService versioningService;
     private Committee originalCommittee;
 
     
@@ -142,8 +146,37 @@ public class CommitteeVersioningTest {
     
     private CommitteeSchedule createCommitteeSchedule(String date) {
         CommitteeSchedule committeeSchedule = new CommitteeSchedule();
+        List<Protocol> protocols = new ArrayList<Protocol>();
+        protocols.add(createProtocol());
+        committeeSchedule.setProtocols(protocols);
+        
         committeeSchedule.setScheduledDate(Date.valueOf(date));
         return committeeSchedule;
+    }
+
+    /**
+     * This method...
+     * @return
+     */
+    private Protocol createProtocol() {
+        Protocol p = new Protocol() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {}
+
+            @Override
+            protected ProtocolLocationService getProtocolLocationService() {
+               return new ProtocolLocationService() {
+                public void addDefaultProtocolLocation(Protocol protocol) {}
+                public void addProtocolLocation(Protocol protocol, ProtocolLocation protocolLocation) {}
+                public void clearProtocolLocationAddress(Protocol protocol, int lineNumber) { }
+               };
+            }
+            
+        };
+        p.setProtocolNumber("1001");
+        p.setSequenceNumber(1);
+        p.setProtocolId(1L);
+        return p;
     }
 
     private void verifyVersioning(Committee originalCommittee, Committee versionedCommittee) {
@@ -183,6 +216,14 @@ public class CommitteeVersioningTest {
         }
         for (CommitteeSchedule originalSchedule : originalCommittee.getCommitteeSchedules()) {
             assertTrue(versionedScheduledDates.contains(originalSchedule.getScheduledDate()));    
+        }
+        
+        if(originalCommittee.getCommitteeSchedules().size() > 0) {
+            assertEquals(originalCommittee.getCommitteeSchedules().get(0).getProtocols().size(), versionedCommittee.getCommitteeSchedules().get(0).getProtocols().size());
+            Protocol pRef = originalCommittee.getCommitteeSchedules().get(0).getProtocols().get(0);
+            Protocol pCheck = versionedCommittee.getCommitteeSchedules().get(0).getProtocols().get(0);
+            assertTrue(pRef != pCheck);
+            assertEquals(pRef.getProtocolId(), pCheck.getProtocolId());
         }
     }
 
