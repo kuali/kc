@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.SkipVersioning;
 
 /**
  * This test artifact represents a top level sequenceOwnerImpl; i.e. Award
@@ -36,6 +36,12 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
     private List<SequenceAssociateChild> children;
     private List<SequenceAssociateAttachmentBO> attachments;
     
+    @SkipVersioning
+    private SimpleAssociate skipAssociate;
+    
+    @SkipVersioning
+    private List<SequenceAssociateChild> skipChildren;
+    
     /**
      * Constructs a SequenceOwnerImpl.java.
      */
@@ -44,17 +50,10 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
         sequenceNumber = 1;
         setSequenceOwnerId(new Random().nextLong());
         children = new ArrayList<SequenceAssociateChild>();
+        skipChildren = new ArrayList<SequenceAssociateChild>();
         attachments = new ArrayList<SequenceAssociateAttachmentBO>();
     }
-    
-    /**
-     * @param sequenceAssociateChild
-     */
-    public void add(SequenceAssociateChild sequenceAssociateChild) {
-        children.add(sequenceAssociateChild);
-        sequenceAssociateChild.setOwner(this);
-    }
-    
+
     /**
      * @param attachmentBO
      */
@@ -62,134 +61,23 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
         attachments.add(attachmentBO);
         //attachmentBO.add(this);
     }
-    
+
     /**
-     * @return
+     * @param sequenceAssociateChild
      */
-    public List<SequenceAssociateChild> getChildren() {
-        return children;
-    }
-    
-    /**
-     * @return
-     */
-    public SimpleAssociate getAssociate() {
-        return associate;
-    }
-    
-    /**
-     * @param associate
-     */
-    public void setAssociate(SimpleAssociate associate) {
-        this.associate = associate;
-    }
-    
-    /**
-     * @return
-     */
-    public String getName() {
-        return name;
+    public void add(SequenceAssociateChild sequenceAssociateChild) {
+        children.add(sequenceAssociateChild);
+        sequenceAssociateChild.setOwner(this);
     }
 
     /**
-     * @param name
+     * @param sequenceAssociateChild
      */
-    public void setName(String name) {
-        this.name = name;
+    public void addSkipChild(SequenceAssociateChild sequenceAssociateChild) {
+        skipChildren.add(sequenceAssociateChild);
+        sequenceAssociateChild.setOwner(this);
     }
     
-    /**
-     * @return
-     */
-    public List<SequenceAssociateAttachmentBO> getAttachments() {
-        return attachments;
-    }
-
-    /**
-     * Sets the ownerAssociate attribute value.
-     * @param ownerAssociate The ownerAssociate to set.
-     */
-    public void setOwnerAssociate(OwnerAssociate ownerAssociate) {
-        this.ownerAssociate = ownerAssociate;
-    }
-    
-    /**
-     * @param sequenceNumber
-     */
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-
-    /**
-     * @param children
-     */
-    public void setChildren(List<SequenceAssociateChild> children) {
-        this.children = children;
-    }
-
-    /**
-     * @param attachments
-     */
-    public void setAttachments(List<SequenceAssociateAttachmentBO> attachments) {
-        this.attachments = attachments;
-    }
-
-    /**
-     * Gets the ownerAssociate attribute. 
-     * @return Returns the ownerAssociate.
-     */
-    public OwnerAssociate getOwnerAssociate() {
-        return ownerAssociate;
-    }
-    
-    /**
-     * @see org.kuali.kra.Sequenceable#getSequenceNumber()
-     */
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    /**
-     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
-     */
-    public void setSequenceOwner(SequenceOwnerImpl newOwner) {
-       // do nothing - this is root sequence association
-    }
-    
-    /**
-     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
-     */
-    public SequenceOwnerImpl getSequenceOwner() {
-       return this;
-    }
-    
-    /**
-     * @see org.kuali.kra.SequenceOwner#incrementSequenceNumber()
-     */
-    public void incrementSequenceNumber() {
-        sequenceNumber++;
-    }
-    
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((name == null) ? 0 : name.hashCode());
-        result = PRIME * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
-        return result;
-    }
-
-    public Long getSequenceOwnerId() {
-        return sequenceOwnerId;
-    }
-
-    public void setSequenceOwnerId(Long sequenceOwnerId) {
-        this.sequenceOwnerId = sequenceOwnerId;
-    }
-
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -223,17 +111,41 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
     }
 
     /**
-     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     * @return
      */
-    public void resetPersistenceState() {
-       setSequenceOwnerId(null); 
+    public SimpleAssociate getAssociate() {
+        return associate;
     }
     
-    @Override
-    public String toString() {
-        return String.format("%s [%d]", name, sequenceNumber);
+    /**
+     * @return
+     */
+    public List<SequenceAssociateAttachmentBO> getAttachments() {
+        return attachments;
     }
-
+    
+    /**
+     * @return
+     */
+    public List<SequenceAssociateChild> getChildren() {
+        return children;
+    }
+    
+    /**
+     * @return
+     */
+    public String getName() {
+        return name;
+    }
+    
+    /**
+     * Gets the ownerAssociate attribute. 
+     * @return Returns the ownerAssociate.
+     */
+    public OwnerAssociate getOwnerAssociate() {
+        return ownerAssociate;
+    }
+    
     /**
      * @see org.kuali.kra.SequenceOwner#getOwnerSequenceNumber()
      */
@@ -242,9 +154,144 @@ public class SequenceOwnerImpl implements SequenceOwner<SequenceOwnerImpl> {
     }
     
     /**
+     * @see org.kuali.kra.Sequenceable#getSequenceNumber()
+     */
+    public Integer getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     */
+    public SequenceOwnerImpl getSequenceOwner() {
+       return this;
+    }
+    
+    public Long getSequenceOwnerId() {
+        return sequenceOwnerId;
+    }
+
+    /**
+     * Gets the skipAssociate attribute. 
+     * @return Returns the skipAssociate.
+     */
+    public SimpleAssociate getSkipAssociate() {
+        return skipAssociate;
+    }
+    
+    /**
+     * Gets the skipChildren attribute. 
+     * @return Returns the skipChildren.
+     */
+    public List<SequenceAssociateChild> getSkipChildren() {
+        return skipChildren;
+    }
+
+    /**
      * @see org.kuali.kra.SequenceOwner#getVersionNameField()
      */
     public String getVersionNameField() {
         return "name";
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((name == null) ? 0 : name.hashCode());
+        result = PRIME * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+        return result;
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceOwner#incrementSequenceNumber()
+     */
+    public void incrementSequenceNumber() {
+        sequenceNumber++;
+    }
+    
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+       setSequenceOwnerId(null); 
+    }
+
+    /**
+     * @param associate
+     */
+    public void setAssociate(SimpleAssociate associate) {
+        this.associate = associate;
+    }
+    
+    /**
+     * @param attachments
+     */
+    public void setAttachments(List<SequenceAssociateAttachmentBO> attachments) {
+        this.attachments = attachments;
+    }
+    
+    /**
+     * @param children
+     */
+    public void setChildren(List<SequenceAssociateChild> children) {
+        this.children = children;
+    }
+    
+    /**
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Sets the ownerAssociate attribute value.
+     * @param ownerAssociate The ownerAssociate to set.
+     */
+    public void setOwnerAssociate(OwnerAssociate ownerAssociate) {
+        this.ownerAssociate = ownerAssociate;
+    }
+
+    /**
+     * @param sequenceNumber
+     */
+    public void setSequenceNumber(Integer sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     */
+    public void setSequenceOwner(SequenceOwnerImpl newOwner) {
+       // do nothing - this is root sequence association
+    }
+
+    public void setSequenceOwnerId(Long sequenceOwnerId) {
+        this.sequenceOwnerId = sequenceOwnerId;
+    }
+    
+    /**
+     * Sets the skipAssociate attribute value.
+     * @param skipAssociate The skipAssociate to set.
+     */
+    public void setSkipAssociate(SimpleAssociate skipAssociate) {
+        this.skipAssociate = skipAssociate;
+    }
+
+    /**
+     * Sets the skipChildren attribute value.
+     * @param skipChildren The skipChildren to set.
+     */
+    public void setSkipChildren(List<SequenceAssociateChild> skipChildren) {
+        this.skipChildren = skipChildren;
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("%s [%d]", name, sequenceNumber);
     }
 }

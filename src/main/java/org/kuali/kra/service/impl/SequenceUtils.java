@@ -35,6 +35,7 @@ import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.Sequenceable;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.service.VersionException;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -126,7 +127,7 @@ public class SequenceUtils {
 
     private void sequenceOneToOneAssociations(SequenceAssociate<?> parent) {
         for (Field field : parent.getClass().getDeclaredFields()) {
-            if (isFieldASequenceAssociate(field)) {
+            if (isFieldASequenceAssociate(field) & !skipVersioning(field)) {
                 final Method getter = findReadMethod(parent, field);
                 SequenceAssociate<?> associate = getSequenceAssociateReference(parent, getter);
                 this.executeSequencing(associate, parent);
@@ -144,15 +145,19 @@ public class SequenceUtils {
         for (Field field : parent.getClass().getDeclaredFields()) {
             if (isFieldACollection(field)) {
                 final Method getter = findReadMethod(parent, field);
-                if (isCollectionElementASequenceAssociate(getter.getGenericReturnType())) {
-                    for (SequenceAssociate<?> associate : getSequenceAssociateCollection(parent, getter)) {
-                        this.executeSequencing(associate, parent);
+                Type type = getter.getGenericReturnType();
+                if (isCollectionElementASequenceAssociate(type) && !skipVersioning(field)) {
+                    Collection<SequenceAssociate<?>> c = getSequenceAssociateCollection(parent, getter);
+                    if(c != null) {
+                        for (SequenceAssociate<?> associate : c) {
+                            this.executeSequencing(associate, parent);
+                        }
                     }
                 }
             }
         }
     }
-    
+
     /**
      * This method will execute the sequencing logic (figure out if the associate has been sequenced, reset persistence state, etc.).
      * 
@@ -171,7 +176,11 @@ public class SequenceUtils {
     }
 
     private boolean isFieldASequenceAssociate(Field field) {
-        return SequenceAssociate.class.isAssignableFrom(field.getType());
+        return isFieldASpecifiedType(field, SequenceAssociate.class);
+    }
+    
+    private boolean isFieldASpecifiedType(Field field, Class<?> type) {
+        return type.isAssignableFrom(field.getType());
     }
     
     private SequenceAssociate<?> getSequenceAssociateReference(SequenceAssociate<?> parent, Method getter) {
@@ -187,13 +196,18 @@ public class SequenceUtils {
     }
     
     private boolean isCollectionElementASequenceAssociate(Type returnType) {
-        boolean isSequenceAssociate = returnType instanceof ParameterizedType;
-        if (isSequenceAssociate) {
+        return isCollectionElementOfSpecifiedType(returnType, SequenceAssociate.class);
+    }
+
+    private boolean isCollectionElementOfSpecifiedType(Type returnType, Class<?> checkType) {
+        boolean isCheckedType = returnType instanceof ParameterizedType;
+        if (isCheckedType) {
             ParameterizedType type = (ParameterizedType) returnType;
             Type[] typeArguments = type.getActualTypeArguments();
-            isSequenceAssociate = typeArguments.length == 1 && SequenceAssociate.class.isAssignableFrom((Class<?>) typeArguments[0]);
+            
+            isCheckedType = typeArguments.length == 1 && checkType.isAssignableFrom((Class<?>) typeArguments[0]);
         }
-        return isSequenceAssociate;
+        return isCheckedType;
     }
     
     private Collection<SequenceAssociate<?>> getSequenceAssociateCollection(Sequenceable parent, Method getter) {
@@ -205,6 +219,7 @@ public class SequenceUtils {
      * @param toSet the associate to set the owner on.
      * @param potentialOwner the potential new owner
      */
+    @SuppressWarnings("unchecked")
     private <T extends SequenceOwner<?>> void setSequenceOwner(SequenceAssociate<T> toSet, SequenceOwner<?> potentialOwner) {
         //this is sort of a suspect workaround for possible incorrect owner setting
         if (toSet.getSequenceOwner() != toSet) {
@@ -278,6 +293,10 @@ public class SequenceUtils {
         }
         
         return getter;
+    }
+
+    private boolean skipVersioning(Field field) {
+        return field.getAnnotation(SkipVersioning.class) != null;
     }
     
     /**
