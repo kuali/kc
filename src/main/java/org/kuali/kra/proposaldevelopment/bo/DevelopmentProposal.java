@@ -37,6 +37,7 @@ import org.kuali.kra.budget.document.BudgetVersionCollection;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyChildComparable;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
@@ -57,7 +58,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * This class...
  */
-public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements BudgetVersionCollection {
+public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements BudgetVersionCollection, HierarchyChildComparable {
 
 
     /**
@@ -1553,6 +1554,22 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     protected LinkedHashMap toStringMapper() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    /**
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.HierarchyChildComparable#hierarchyChildHashCode()
+     */
+    public int hierarchyChildHashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((investigators == null) ? 0 : investigators.hashCode());
+        result = prime * result + ((narratives == null) ? 0 : narratives.hashCode());
+        result = prime * result + ((principalInvestigator == null) ? 0 : principalInvestigator.hashCode());
+        result = prime * result + ((propScienceKeywords == null) ? 0 : propScienceKeywords.hashCode());
+        result = prime * result + ((propSpecialReviews == null) ? 0 : propSpecialReviews.hashCode());
+        result = prime * result + ((proposalNumber == null) ? 0 : proposalNumber.hashCode());
+        result = prime * result + ((proposalPersons == null) ? 0 : proposalPersons.hashCode());
+        return result;
     }
 
 
