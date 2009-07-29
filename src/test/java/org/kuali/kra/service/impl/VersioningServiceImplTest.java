@@ -68,6 +68,16 @@ public class VersioningServiceImplTest {
     }
     
     @Test
+    public void testSkipVersioning_1to1_Association_TopLevelOwner() throws Exception {
+        SequenceAssociate<?> originalAssociate = originalVersion.getSkipAssociate();
+        SequenceOwnerImpl newVersion = service.createNewVersion(originalVersion);
+        SequenceAssociate<?> newAssociate = newVersion.getSkipAssociate();
+        Assert.assertTrue(originalAssociate != newAssociate);
+        Assert.assertNotNull(newVersion.getSkipAssociate().getSimpleAssociateId());
+        Assert.assertEquals(originalVersion.getSkipAssociate().getSimpleAssociateId(), newVersion.getSkipAssociate().getSimpleAssociateId());
+    }
+    
+    @Test
     public void testVersioning_1to1_Association_OwnerAssociate_CheckDownTheGraph() throws Exception {
         OwnerAssociate originalOwnerAssociate = originalVersion.getOwnerAssociate();
         OwnerAssociate newVersion = service.createNewVersion(originalOwnerAssociate);
@@ -101,10 +111,10 @@ public class VersioningServiceImplTest {
     @Test
     public void testVersioning_1to1_Association_TopLevelOwner() throws Exception {
         SequenceOwnerImpl newVersion = service.createNewVersion(originalVersion);
-        SequenceAssociate associate = newVersion.getAssociate();
+        SequenceAssociate<?> associate = newVersion.getAssociate();
         Assert.assertEquals(newVersion, associate.getSequenceOwner());
         Assert.assertEquals(newVersion.getSequenceNumber(), associate.getSequenceNumber());
-        Assert.assertNull(newVersion.getAssociate().getSimpleAssociateId());
+        Assert.assertNull(newVersion.getAssociate().getSimpleAssociateId());        
     }
     
     @Test
@@ -200,9 +210,7 @@ public class VersioningServiceImplTest {
         SelfReferenceOwner owner = new SelfReferenceOwner();
         SelfReferenceAssociate associate = new SelfReferenceAssociate();
         associate.selfs.add(associate);
-        owner.associates.add(associate);
-        
-        SelfReferenceOwner newOwner = service.createNewVersion(owner);
+        owner.associates.add(associate);        
     }
     
     /** this test makes sure that versioning happens correctly w/ a specific Object structure.
@@ -271,6 +279,12 @@ public class VersioningServiceImplTest {
         associate.setOwner(owner);
     }
     
+    private void addSkipAssociate(SequenceOwnerImpl owner) {
+        SimpleAssociate associate = new SimpleAssociate("SkipAssociate");
+        owner.setSkipAssociate(associate);
+        associate.setOwner(owner);
+    }
+    
     private void addCollectionOfManyToManyAssociates(OwnerAssociate owner) {
         for(int i = 1; i <= NUMBER_OF_CHILD_ATTACHMENT_ASSOCIATES; i++) {
             SequenceAssociateAttachmentBO2 attch = new SequenceAssociateAttachmentBO2(String.format("Attachment2 %d", i));
@@ -308,6 +322,13 @@ public class VersioningServiceImplTest {
                 grandChild.setOwner(owner);
                 child.add(grandChild);
             }
+        }
+    }
+    
+    private void addCollectionOfOneToManySkipAssociates(SequenceOwnerImpl owner) {
+        for(int i = 1; i <= NUMBER_OF_CHILD_ASSOCIATES; i++) {
+            SequenceAssociateChild child = new SequenceAssociateChild(String.format("Child %d", i));
+            owner.addSkipChild(child);            
         }
     }
     
@@ -377,7 +398,9 @@ public class VersioningServiceImplTest {
     private SequenceOwnerImpl populateTopLevelOwner() {
         SequenceOwnerImpl owner = new SequenceOwnerImpl();
         addAssociate(owner);
+        addSkipAssociate(owner);
         addCollectionOfOneToManyAssociates(owner);
+        addCollectionOfOneToManySkipAssociates(owner);
         addCollectionOfManyToManyAssociates(owner);
         return owner;
     }
@@ -453,10 +476,27 @@ public class VersioningServiceImplTest {
     }
 
     /**
-     * This method...
      * @param owner
      */
     private void verifyTopLevelAssociationSequencing(SequenceOwnerImpl owner) {
+        checkAssociatesThatShouldBeVersioned(owner);
+        checkAssociatesThatShouldNotBeVersioned(owner);
+    }
+
+    /**
+     * @param owner
+     */
+    private void checkAssociatesThatShouldNotBeVersioned(SequenceOwnerImpl owner) {
+        for(SequenceAssociateChild child: owner.getSkipChildren()) {
+            Assert.assertNotNull(child.getChildId());            
+        }
+    }
+
+    /**
+     * This method...
+     * @param owner
+     */
+    private void checkAssociatesThatShouldBeVersioned(SequenceOwnerImpl owner) {
         for(SequenceAssociateChild child: owner.getChildren()) {
             Assert.assertEquals(owner, child.getOwner());
             Assert.assertEquals(owner.getSequenceNumber(), child.getSequenceNumber());

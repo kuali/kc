@@ -33,6 +33,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.committee.web.struts.form.schedule.DayOfWeek;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.irb.Protocol;
@@ -110,6 +111,7 @@ public class CommitteeSchedule extends CommitteeAssociate {
     private List<CommitteeScheduleAttendance> committeeScheduleAttendances;        
     
     //TODO revisit required during meeting management to map Protocol
+    @SkipVersioning
     private List<Protocol> protocols;
 
     public CommitteeSchedule() { 

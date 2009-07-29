@@ -32,6 +32,7 @@ public class SimpleAssociate implements SequenceAssociate<SequenceOwnerImpl> {
     
     public SimpleAssociate(String name) {
         this.name = name;
+        this.simpleAssociateId = 1L;
     }
     
     public void setOwner(SequenceOwnerImpl owner) {
