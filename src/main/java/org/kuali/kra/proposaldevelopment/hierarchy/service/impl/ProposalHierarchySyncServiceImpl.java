@@ -48,4 +48,12 @@ public class ProposalHierarchySyncServiceImpl implements ProposalHierarchySyncSe
 
     }
 
+    /**
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchySyncService#aggregateHierarchy(java.lang.String)
+     */
+    public void aggregateHierarchy(String hierarchyProposalNumber) throws InvalidHierarchyException {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
