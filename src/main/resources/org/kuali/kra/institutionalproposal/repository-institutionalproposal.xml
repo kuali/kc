@@ -349,7 +349,7 @@
 		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="applicationDate" column="APPLICATION_DATE" jdbc-type="DATE" />
 		<field-descriptor name="approvalDate" column="APPROVAL_DATE" jdbc-type="DATE" />
-		<!-- <field-descriptor name="expirationDate" column="EXPIRATION_DATE" jdbc-type="DATE" />  -->
+		<field-descriptor name="expirationDate" column="EXPIRATION_DATE" jdbc-type="DATE" />
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
