@@ -158,11 +158,6 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @return the list of persons (see Permission's page)
      */
     private List<Person> getPersons(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        String roleNames[] = { RoleConstants.AGGREGATOR, 
-                               RoleConstants.NARRATIVE_WRITER, 
-                               RoleConstants.BUDGET_CREATOR,
-                               RoleConstants.VIEWER,
-                               RoleConstants.UNASSIGNED };
         
         Map<String, String> roleSearchCriteria = new HashMap<String, String>();
         roleSearchCriteria.put("roleTypeCode", RoleConstants.PROPOSAL_ROLE_TYPE);
