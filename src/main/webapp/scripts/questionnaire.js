@@ -1656,7 +1656,7 @@ $("#save").click(function() {
 				});// .ajax
 
 			}
-
+            var retmsg="";
 			for ( var k = 0; k < sqls.length; k++) {
 				sqlScripts = sqls[k];
 				sqlScripts = sqlScripts.replace(/#;#/g, ";;;");
@@ -1682,13 +1682,26 @@ $("#save").click(function() {
 						alert('error when saving');
 					},
 					success : function(xml) {
-						sqlScripts = "edit";
-						$(xml).find('h3').each(function() {
-							// var item_text = $(this).text();
-								// $('#newQuestionnaire\\.questionnaireId').attr("value",$(this).text().substring(9));
-							});
+			            $(xml).find('h3').each(function(){
+			                retmsg = $(this).text();
+			             // alert(raExist);
+			 
+			              });
+			            if (retmsg.indexOf("error") > -1) {
+			            	$("#headermsg").html("");
+			                $('<span id="msg"/>').css("color", "red").html(
+			                        "Error when save Questionnaire <br/>"+retmsg).appendTo(
+			                        $("#headermsg"))
+			                       $('<br/>').appendTo($("#headermsg"));
+			            } else {	
+						   sqlScripts = "edit";
+						   retmsg="";
+			            }   
 					}
 				});// .ajax
+				if (retmsg != '') {
+					break;
+				}	
 			} // end for
 			sqlidx = 0;
 		} // if-then-else
