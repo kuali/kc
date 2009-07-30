@@ -72,8 +72,8 @@
             <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" property="methodToCall.cancelResearchAreas" title="cancel" alt="cancel" /> --%>  
         </div>
 
+    <script type="text/javascript" src="scripts/researchArea.js"></script> 
 
 </kul:page>
-	<script type="text/javascript" src="scripts/researchArea.js"></script> 
     
  

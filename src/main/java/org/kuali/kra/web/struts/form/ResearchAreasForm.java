@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ResearchAreasService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class ResearchAreasForm   extends KualiForm {
@@ -63,6 +64,13 @@ public class ResearchAreasForm   extends KualiForm {
            setAddRA(""); // jquery next request will be reset to ""
        } else if (StringUtils.isNotBlank(addRA) && addRA.equals("S")) {
            KraServiceLocator.getService(ResearchAreasService.class).saveResearchAreas(sqlScripts);           
+           String error = (String)GlobalVariables.getUserSession().retrieveObject("raError");
+           if (StringUtils.isNotBlank(error)) {
+               setResearchAreas("<h3>"+error+"</h3>");   
+               GlobalVariables.getUserSession().addObject("raError",(Object)null); 
+           } else {
+               setResearchAreas("<h3>Success</h3>");
+           }    
            setAddRA("");
        } else {
            setResearchAreas(KraServiceLocator.getService(ResearchAreasService.class).getSubResearchAreasForTreeView(researchAreaCode));           
