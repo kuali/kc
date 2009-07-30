@@ -117,7 +117,7 @@ public class QuestionnaireAction extends KualiAction {
                 // parentNumber = question.getParentQuestionNumber();
                 // result = result + "#q#parent-" + parentNumber;
                 // }
-                // qqid/qid/seq/desc/qtypeid/qnum/cond/condvalue/parentqnum
+                // qqid/qid/seq/desc/qtypeid/qnum/cond/condvalue/parentqnum/questionseqnum
                 String desc = question.getQuestion().getQuestion();
                 // TODO : : need to deal with '"' in questio's description
                 // also see QuestionLookupAction
@@ -127,7 +127,7 @@ public class QuestionnaireAction extends KualiAction {
                 result = result + "#q#" + question.getQuestionnaireQuestionsId() + "#f#" + question.getQuestionRefIdFk() + "#f#"
                         + question.getQuestionSeqNumber() + "#f#" + desc + "#f#" + question.getQuestion().getQuestionTypeId()
                         + "#f#" + question.getQuestionNumber() + "#f#" + question.getCondition() + "#f#"
-                        + question.getConditionValue() + "#f#" + question.getParentQuestionNumber();
+                        + question.getConditionValue() + "#f#" + question.getParentQuestionNumber()+ "#f#" + question.getQuestion().getSequenceNumber();
                 String childrenResult = getChildren(question, remainQuestions);
                 if (StringUtils.isNotBlank(childrenResult)) {
                     result = result + childrenResult;

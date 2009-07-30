@@ -110,6 +110,7 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
                 }
                 catch (Exception e) {
                     LOG.error("exception error " + e.getStackTrace());
+                    GlobalVariables.getUserSession().addObject("qnError", (Object)("error running scripts " + e.getMessage()));
                     //ErrorMap errorMap = GlobalVariables.getErrorMap();
                     //errorMap.putError("sqlerror", e.getMessage()+e.getStackTrace());
                 }
@@ -120,6 +121,7 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
                         }
                         catch (Exception e) {
                             LOG.error("error closing statement", e);
+                            GlobalVariables.getUserSession().addObject("qnError", (Object)("error closing statement " + e.getMessage()));
                            // ErrorMap errorMap = GlobalVariables.getErrorMap();
                            // errorMap.putError("closestmterror", e.getMessage()+e.getStackTrace());
                         }

@@ -51,6 +51,9 @@ function sethiddenfields() {
 	qntag = $('<input type="hidden" id = "qseq" name = "qseq" />').attr("id",
 			"qseq" + i).attr("name", "qseq" + i);
 	qntag.appendTo(hidtd);
+	qntag = $('<input type="hidden" id = "qvers" name = "qvers" />').attr("id",
+			"qvers" + i).attr("name", "qvers" + i);
+	qntag.appendTo(hidtd);
 	// qntag = $('<input type="hidden" id = "newqtypeid" name = "newqtypeid"
 	// />')
 	// .attr("id", "newqtypeid" + i).attr("name", "newqtypeid" + i);
@@ -82,11 +85,11 @@ function getMaintTable(idx, vers, childNode) {
 	var qtypeid = $("#qtypeid" + idx).attr("value");
 	var qnaireid = "qnaireid" + idx;
 	var divId = "listcontent" + idx;
-	// alert(idx+"-"+description+"-"+qtypeid);
+	 //alert(idx+"-"+vers+"-"+$("#qvers" + idx).attr("value"));
 	var div64 = $(' <div class="hierarchydetail" style="margin-top:2px;">')
 			.attr("id", divId);
 	var tbl70 = $('<table width="100%" cellpadding="0" cellspacing="0" class="subelement" />');
-	getMaintTableHeader(description, vers).appendTo(tbl70);
+	getMaintTableHeader(description, $("#qvers" + idx).attr("value")).appendTo(tbl70);
 
 	var tbodytmp = $('<tbody/>');
 	var tr1 = $('<tr></tr>');
@@ -199,7 +202,7 @@ function getMaintTableHeader(description, vers) {
 			.toggle(
 			// TODO : really need this toggle. Mock's toggle did not show up
 			);
-	thtmp.html(description + "( " + vers + ")");
+	thtmp.html(description + "(" + vers + ")");
 	imgtmp.prependTo(thtmp);
 	thtmp.appendTo(trtmp);
 	trtmp.appendTo(thead);
@@ -1097,7 +1100,7 @@ function returnQuestionList(questionList) {
 	questionList = questionList.replace(/"/g, '\"');
 	// load questions
 	var questions = questionList.split("#q#");
-	// qid/desc/qtypeid
+	// qid/desc/qtypeid/qseqnum
 	var parentnum = 0;
 	var parentidx = 0;
 	var firstidx = -1;
@@ -1109,7 +1112,8 @@ function returnQuestionList(questionList) {
 		var field = questions[k].split("#f#");
 		i++;
 		var parenturl = $('#example');
-		var listitem = getQuestionNew(field[1], field[2], "V1.01", 'false');
+		//alert(questions[k]);
+		var listitem = getQuestionNew(field[1], field[2], field[3], 'false');
 		var ultag = $('<ul></ul>');
 		ultag.appendTo(listitem);
 		var idx = listitem.attr("id").substring(8);
@@ -1150,6 +1154,8 @@ function returnQuestionList(questionList) {
 				field[1]);
 		$("#qtypeid" + $(listitem).attr("id").substring(8)).attr("value",
 				field[2]);
+		$("#qvers" + $(listitem).attr("id").substring(8)).attr("value",
+				field[3]);
 		var seqnum = Number($(listitem).siblings().size()) + 1;
 		$("#qseq" + $(listitem).attr("id").substring(8)).attr("value", seqnum);
 		var qnum = $("#questionNumber").attr("value");
