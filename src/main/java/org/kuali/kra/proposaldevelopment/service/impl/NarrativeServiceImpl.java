@@ -165,7 +165,7 @@ public class NarrativeServiceImpl implements NarrativeService {
         
         KraAuthorizationService kraAuthorizationService = getKraAuthorizationService();
         List<Person> allPersons = new ArrayList<Person>();
-        //for (String roleName : roleNames) {
+
         for (KimRole proposalRole : proposalRoles) {
             List<Person> persons = kraAuthorizationService.getPersonsInRole(proposalDevelopmentDocument, proposalRole.getName());
             for (Person person : persons) {
