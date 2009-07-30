@@ -181,6 +181,7 @@
 				<!-- <value>awardPersonLookupable</value> -->
 				<value>docSearchCriteriaDTOLookupable</value>
 				<value>questionnaireLookupable</value>
+				<value>questionLookupable</value>
 				<value>dictionaryValidationService</value>
 			</set>
 		</property>
@@ -1794,8 +1795,18 @@
 	</bean>	
 
 	<bean id="questionnaireLookupableHelperService" class="org.kuali.kra.questionnaire.QuestionnaireLookupableHelperServiceImpl" 
- 		scope="prototype" parent="lookupableHelperService">
+ 	    scope="prototype" parent="lookupableHelperService">
   	</bean>
+	
+	<bean id="questionLookupable" class="org.kuali.kra.questionnaire.question.QuestionLookupableImpl" scope="prototype">
+    	<property name="lookupableHelperService">
+        	<ref bean="questionLookupableHelperService" />
+        </property>
+    </bean>
+    
+    <bean id="questionLookupableHelperService" class="org.kuali.kra.questionnaire.question.QuestionLookupableHelperServiceImpl" 
+         scope="prototype" parent="lookupableHelperService">
+    </bean>
 	
 	<bean id="versionHistoryService" class="org.kuali.kra.service.impl.VersionHistoryServiceImpl">
 		<property name="businessObjectService">

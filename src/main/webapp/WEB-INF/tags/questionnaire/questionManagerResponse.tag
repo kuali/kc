@@ -121,7 +121,7 @@
                                               onchange="javascript:showQuestionType();" />
                     <noscript>
                         <p>
-                            <html:image property="methodToCall.loadRecurrence.anchor${tabKey}"
+                            <html:image property="methodToCall.loadQuestionResponse.anchor${tabKey}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif' styleClass="tinybutton" />
                         </p>
                     </noscript>
