@@ -22,7 +22,8 @@
                                                 <table width="100%" cellpadding="0" cellspacing="0" class="subelement">
                                                     <thead>
                                                         <tr>
-                                                            <th class="subelementheader" align="left">
+                                                            <%-- <th class="subelementheader" align="left"> --%>
+                                                            <th style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" align="left">
                                                                 <a href="#" class="hidedetail"><img src="../images/tinybutton-hide.gif" align="absmiddle" border="0" width="45" height="15"></a>
                                                                 000001 : All Research Areas
                                                             </th>
