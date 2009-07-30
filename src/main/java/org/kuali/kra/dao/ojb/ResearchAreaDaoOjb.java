@@ -26,34 +26,62 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.dao.ResearchAreaDao;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.OjbCollectionAware;
 import org.springmodules.orm.ojb.PersistenceBrokerCallback;
 
 public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, ResearchAreaDao {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-    .getLog(ResearchAreaDaoOjb.class);
+            .getLog(ResearchAreaDaoOjb.class);
 
     public void runScripts(final String[] sqls) {
-        
+
         this.getPersistenceBrokerTemplate().execute(new PersistenceBrokerCallback() {
             public Object doInPersistenceBroker(PersistenceBroker pb) {
                 Statement stmt = null;
                 try {
                     stmt = pb.serviceConnectionManager().getConnection().createStatement();
+                    String columns = "(RESEARCH_AREA_CODE,PARENT_RESEARCH_AREA_CODE,HAS_CHILDREN_FLAG, DESCRIPTION, update_timestamp, update_user)";
+
                     for (int i = 0; i < sqls.length; i++) {
                         if (StringUtils.isNotBlank(sqls[i])) {
                             if (sqls[i].startsWith("remove((")) {
                                 String researchAreaCode = StringUtils.substringBetween(sqls[i], "((", "))");
-                                String deleteStmt = "delete from research_areas where research_area_code = '" + researchAreaCode
-                                + "'";
+                                String deleteStmt = "delete from research_areas where RESEARCH_AREA_CODE = '" + researchAreaCode
+                                        + "'";
                                 LOG.info("Save run scripts " + deleteStmt);
                                 stmt.addBatch(deleteStmt);
-                            getNodesToDelete(researchAreaCode, stmt);
-                            } else {
-                            LOG.info("Save run scripts " + i + sqls[i]);
-                            stmt.addBatch(sqls[i]);
+                                getNodesToDelete(researchAreaCode, stmt);
+                            }
+                            else if (sqls[i].startsWith("insert R")) {
+                                String insertStmt = sqls[i].replace("insert R", "insert into research_areas " + columns);
+                                insertStmt = insertStmt.replace(", user)", ", '"
+                                        + new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUserIdentifier()
+                                        + "')");
+                                LOG.info("Save run scripts " + insertStmt);
+                                stmt.addBatch(insertStmt);
+                            }
+                            else if (sqls[i].startsWith("delete R")) {
+                                String deleteStmt = sqls[i].replace("delete R", "delete from research_areas where RESEARCH_AREA_CODE = ");
+                                deleteStmt = deleteStmt.replace(", user)", ", '"
+                                        + new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUserIdentifier()
+                                        + "')");
+                                LOG.info("Save run scripts " + deleteStmt);
+                                stmt.addBatch(deleteStmt);
+                            }
+                            else if (sqls[i].startsWith("update R")) {
+                                String updateStmt = sqls[i].replace("update R", "update research_areas set DESCRIPTION =");
+                                updateStmt = updateStmt.replace(", user)", ", '"
+                                        + new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUserIdentifier()
+                                        + "')");
+                                LOG.info("Save run scripts " + updateStmt);
+                                stmt.addBatch(updateStmt);
+                            }
+                            else {
+                                LOG.info("unknown scripts " + i + sqls[i]);
                             }
                         }
                     }
@@ -64,6 +92,7 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
                 }
                 catch (Exception e) {
                     LOG.error("exception error " + e.getStackTrace());
+                    GlobalVariables.getUserSession().addObject("raError", (Object) ("error running scripts" + e.getMessage()));
                 }
                 finally {
                     if (stmt != null) {
@@ -72,6 +101,8 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
                         }
                         catch (Exception e) {
                             LOG.error("error closing statement", e);
+                            GlobalVariables.getUserSession().addObject("raError",
+                                    (Object) ("error closing statement " + e.getMessage()));
                         }
                     }
                 }
@@ -80,11 +111,11 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
         });
 
     }
-    
+
     private void getNodesToDelete(String researchAreaCode, Statement stmt) {
         try {
             for (ResearchArea researchArea : getSubResearchAreas(researchAreaCode)) {
-                String deleteStmt = "delete from research_areas where research_area_code = '" + researchArea.getResearchAreaCode()
+                String deleteStmt = "delete from research_areas where RESEARCH_AREA_CODE = '" + researchArea.getResearchAreaCode()
                         + "'";
                 LOG.info("Save run scripts " + deleteStmt);
                 stmt.addBatch(deleteStmt);
@@ -93,6 +124,7 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
         }
         catch (Exception e) {
             LOG.error("Exception " + e.getStackTrace());
+            GlobalVariables.getUserSession().addObject("raError", (Object) ("error delete nodes " + e.getMessage()));
         }
     }
 
@@ -100,7 +132,8 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
         List<ResearchArea> researchAreasList = new ArrayList<ResearchArea>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("parentResearchAreaCode", researchAreaCode);
-        researchAreasList.addAll(KraServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(ResearchArea.class, fieldValues, "researchAreaCode", true));
+        researchAreasList.addAll(KraServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(ResearchArea.class,
+                fieldValues, "researchAreaCode", true));
         return researchAreasList;
     }
 

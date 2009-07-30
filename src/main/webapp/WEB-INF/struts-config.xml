@@ -115,8 +115,7 @@
 		<action path="/kraUpdateTextArea" name="KualiForm" type="org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase">
             <forward name="basic" path="/TextArea.jsp" />
         </action>
-        
-        <action path="/kraMaintUpdateTextArea" name="KualiForm" type="org.kuali.kra.maintenance.KraMaintenanceDocumentAction">
+		<action path="/kraMaintUpdateTextArea" name="KualiForm" type="org.kuali.kra.maintenance.KraMaintenanceDocumentAction">
             <forward name="basic" path="/TextArea.jsp" />
         </action>
         
@@ -128,8 +127,11 @@
             <forward name="basic" path="/unitHierarchy.jsp" />
         </action>
  		<action path="/researchAreas" name="ResearchAreasForm" type="org.kuali.kra.web.struts.action.ResearchAreasAction">
-            <forward name="basic" path="/researchAreasLoad.jsp" />
+            <forward name="basic" path="/researchAreaHierarchy.jsp" />
             <forward name="lookup" path="/researchAreaSearch.jsp" />
+        </action>
+ 		<action path="/researchAreaAjax" name="ResearchAreasForm" type="org.kuali.kra.web.struts.action.ResearchAreasAction">
+            <forward name="basic" path="/researchAreaAjax.jsp" />
         </action>
         <action path="/researchAreaSearch" name="ResearchAreasForm" type="org.kuali.kra.web.struts.action.ResearchAreasAction">
             <forward name="basic" path="/researchAreaSearch.jsp" />
