@@ -374,6 +374,7 @@
     <bean id="Question-lookupDefinition" parent="Question-lookupDefinition-parentBean" />
     <bean id="Question-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Question Lookup" />
+        <property name="lookupableID" value="questionLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="instructions" value="Look up a Question" />
         <property name="defaultSort" >
