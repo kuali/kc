@@ -67,7 +67,7 @@
                  if (document.getElementById("methodToCall").value != "refresh") {
                  	lookupBtn.click();
                  } else {
-                     alert(document.getElementById("methodToCall").value);
+                     //alert(document.getElementById("methodToCall").value);
                  	returnQuestion();
                  	window.close();
                  }
