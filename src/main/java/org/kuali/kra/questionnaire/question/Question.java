@@ -20,24 +20,26 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 
-public class Question extends KraPersistableBusinessObjectBase { 
+public class Question extends KraPersistableBusinessObjectBase implements Comparable<Question>, SequenceOwner<Question> { 
     
     private static final long serialVersionUID = 1L;
 
-    private Integer questionId; 
+    private Long questionRefId;
+    private Integer questionId;
+    private Integer sequenceNumber;
     private String question;
     private String status;
     private Integer categoryTypeCode; 
-    private Integer maxAnswers;
+    private Integer questionTypeId;  
+    private String lookupClass; 
+    private String lookupReturn; 
     private Integer displayedAnswers;
-    private String validAnswer; 
-    private String lookupName; 
-    private Integer questionTypeId; 
+    private Integer maxAnswers;
     private Integer answerMaxLength; 
-    private String lookupGui; 
     
     private QuestionCategory questionCategory;
     private QuestionType questionType; 
@@ -45,14 +47,17 @@ public class Question extends KraPersistableBusinessObjectBase {
     
     
     public Question() { 
+        this.setSequenceNumber(1);
         this.setQuestionExplanations(new ArrayList<QuestionExplanation>());
-        this.displayedAnswers = 0;
-        this.answerMaxLength = 0;
-        this.maxAnswers = 0;
-
-        // TODO: cniesen - this field isn't used ... can we remove it?
-        this.validAnswer = "x";
     } 
+
+    public Long getQuestionRefId() {
+        return questionRefId;
+    }
+
+    public void setQuestionRefId(Long questionRefId) {
+        this.questionRefId = questionRefId;
+    }
 
     public Integer getQuestionId() {
         return questionId;
@@ -60,6 +65,14 @@ public class Question extends KraPersistableBusinessObjectBase {
 
     public void setQuestionId(Integer questionId) {
         this.questionId = questionId;
+    }
+
+    public Integer getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    public void setSequenceNumber(Integer sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
     }
 
     public String getQuestion() {
@@ -86,46 +99,6 @@ public class Question extends KraPersistableBusinessObjectBase {
         this.categoryTypeCode = categoryTypeCode;
     }
 
-    public Integer getMaxAnswers() {
-        if (ObjectUtils.equals(maxAnswers, 0)) {
-            return null;
-        }else {
-            return maxAnswers;
-        }
-    }
-
-    public void setMaxAnswers(Integer maxAnswers) {
-        this.maxAnswers = maxAnswers;
-    }
-
-    public void setDisplayedAnswers(Integer displayedAnswers) {
-        this.displayedAnswers = displayedAnswers;
-    }
-
-    public Integer getDisplayedAnswers() {
-        if (ObjectUtils.equals(displayedAnswers, 0)) {
-            return null;
-        }else {
-            return displayedAnswers;
-        }
-    }
-
-    public String getValidAnswer() {
-        return validAnswer;
-    }
-
-    public void setValidAnswer(String validAnswer) {
-        this.validAnswer = validAnswer;
-    }
-
-    public String getLookupName() {
-        return lookupName;
-    }
-
-    public void setLookupName(String lookupName) {
-        this.lookupName = lookupName;
-    }
-
     public Integer getQuestionTypeId() {
         return questionTypeId;
     }
@@ -134,24 +107,44 @@ public class Question extends KraPersistableBusinessObjectBase {
         this.questionTypeId = questionTypeId;
     }
 
+    public String getLookupClass() {
+        return lookupClass;
+    }
+
+    public void setLookupClass(String lookupClass) {
+        this.lookupClass = lookupClass;
+    }
+
+    public String getLookupReturn() {
+        return lookupReturn;
+    }
+
+    public void setLookupReturn(String lookupReturn) {
+        this.lookupReturn = lookupReturn;
+    }
+
+    public Integer getDisplayedAnswers() {
+        return displayedAnswers;
+    }
+
+    public void setDisplayedAnswers(Integer displayedAnswers) {
+        this.displayedAnswers = displayedAnswers;
+    }
+
+    public Integer getMaxAnswers() {
+        return maxAnswers;
+    }
+
+    public void setMaxAnswers(Integer maxAnswers) {
+        this.maxAnswers = maxAnswers;
+    }
+
     public Integer getAnswerMaxLength() {
-        if (ObjectUtils.equals(answerMaxLength, 0)) {
-            return null;
-        }else {
-            return answerMaxLength;
-        }
+        return answerMaxLength;
     }
 
     public void setAnswerMaxLength(Integer answerMaxLength) {
         this.answerMaxLength = answerMaxLength;
-    }
-
-    public String getLookupGui() {
-        return lookupGui;
-    }
-
-    public void setLookupGui(String lookupGui) {
-        this.lookupGui = lookupGui;
     }
 
     public QuestionCategory getQuestionCategory() {
@@ -240,7 +233,7 @@ public class Question extends KraPersistableBusinessObjectBase {
         int index = getExplanationObjectIndex(explanationType);
         if (index < 0) {
             QuestionExplanation questionExplanation = new QuestionExplanation();
-            questionExplanation.setQuestionId(this.questionId);
+            questionExplanation.setQuestionRefIdFk(this.questionRefId);
             questionExplanation.setExplanationType(explanationType);
             questionExplanation.setExplanation(explanation);
             this.questionExplanations.add(questionExplanation);
@@ -271,22 +264,62 @@ public class Question extends KraPersistableBusinessObjectBase {
         return -1;
     }
 
+    /**
+     * The default comparator goes by the order of questionId, sequenceNumber.
+     * @param argQuestion the Question to be compared.
+     * @return the value 0 if this Question is equal to the argument Question;
+     *         a value less than 0 if this Question has a questionId & sequenceNumber pair that is less
+     *         than the argument Question;  and a value greater than 0 if this Question has a questionId
+     *         & sequenceNumber pair that is greater than the argument Question.
+     */
+    public int compareTo(Question argQuestion) {
+        if (ObjectUtils.equals(this.getQuestionId(), argQuestion.getQuestionId())) {
+            return this.getSequenceNumber().compareTo(argQuestion.getSequenceNumber());
+        } else {
+            return this.getQuestionId().compareTo(argQuestion.getQuestionId());
+        }
+    }
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("questionRefId", this.getQuestionRefId());
         hashMap.put("questionId", this.getQuestionId());
+        hashMap.put("questionId", this.getSequenceNumber());
         hashMap.put("question", this.getQuestion());
         hashMap.put("status", this.getStatus());
         hashMap.put("categoryTypeCode", this.getCategoryTypeCode());
-        hashMap.put("maxAnswers", this.getMaxAnswers());
-        hashMap.put("displayedAnswers", this.getDisplayedAnswers());
-        hashMap.put("validAnswer", this.getValidAnswer());
-        hashMap.put("lookupName", this.getLookupName());
         hashMap.put("questionTypeId", this.getQuestionTypeId());
+        hashMap.put("lookupClass", this.getLookupClass());
+        hashMap.put("lookupReturn", this.getLookupReturn());
+        hashMap.put("displayedAnswers", this.getDisplayedAnswers());
+        hashMap.put("maxAnswers", this.getMaxAnswers());
         hashMap.put("answerMaxLength", this.getAnswerMaxLength());
-        hashMap.put("lookupGui", this.getLookupGui());
         return hashMap;
+    }
+
+    public Integer getOwnerSequenceNumber() {
+        return null;
+    }
+
+    public String getVersionNameField() {
+        return "questionId";
+    }
+
+    public void incrementSequenceNumber() {
+        sequenceNumber++;
+    }
+
+    public Question getSequenceOwner() {
+        return this;
+    }
+
+    public void setSequenceOwner(Question newlyVersionedOwner) {
+        // do nothing - this is root sequence association
+    }
+
+    public void resetPersistenceState() {
+        this.questionRefId = null;        
     }
 
 }

@@ -232,8 +232,8 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     private boolean validateResponseTypeLookup(Question question) {
         boolean isValid = true;
 
-        isValid &= validateLookupGui(question);
-        isValid &= validateLookupName(question);
+        isValid &= validateLookupClass(question);
+        isValid &= validateLookupReturn(question);
         isValid &= validateMaxAnswers(question);
         
         return isValid;
@@ -312,31 +312,31 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     }
 
     /**
-     * This method validates the lookupGui field.  The field must may not contain null.
+     * This method validates the lookupClass field.  The field must may not contain null.
      * @param question - the question to be validated
      * @return true if all validation has passed, false otherwise
      */
-    private boolean validateLookupGui(Question question) {
-        if (question.getLookupGui() != null) {
+    private boolean validateLookupClass(Question question) {
+        if (question.getLookupClass() != null) {
             return true;
         } else {
-            GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_LOOKUP_GUI,
-                    KeyConstants.ERROR_QUESTION_LOOKUP_GUI_NOT_SPECIFIED);
+            GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_LOOKUP_CLASS,
+                    KeyConstants.ERROR_QUESTION_LOOKUP_CLASS_NOT_SPECIFIED);
             return false;
         }
     }
 
     /**
-     * This method validates the lookupName field.  The field must may not contain null.
+     * This method validates the lookupReturn field.  The field must may not contain null.
      * @param question - the question to be validated
      * @return true if all validation has passed, false otherwise
      */
-    private boolean validateLookupName(Question question) {
-        if (question.getLookupName() != null) {
+    private boolean validateLookupReturn(Question question) {
+        if (question.getLookupReturn() != null) {
             return true;
         } else {
-            GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_LOOKUP_NAME,
-                    KeyConstants.ERROR_QUESTION_LOOKUP_NAME_NOT_SPECIFIED);
+            GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_LOOKUP_RETURN,
+                    KeyConstants.ERROR_QUESTION_LOOKUP_RETURN_NOT_SPECIFIED);
             return false;
         }
     }

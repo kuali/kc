@@ -1047,10 +1047,6 @@ function loadPersonName(usernameFieldName, fullnameElementId) {
     	lookupReturnName = "lookupReturn" ;
     } else if (lookupClassField.name.lastIndexOf("lookupClass") > 0) {
 	    lookupReturnName =  findElPrefix( lookupClassField.name ) + ".lookupReturn" ;
-    } else if (lookupClassField.name.lastIndexOf("lookupGui") == 0) {
-        lookupReturnName = "lookupName" ;
-    } else if (lookupClassField.name.lastIndexOf("lookupGui") > 0) {
-	    lookupReturnName =  findElPrefix( lookupClassField.name ) + ".lookupName" ;
     }
 
     //alert ("in update" +lookupClassField+"-"+lookupClassField.name+"-"+lookupReturn+lookupClassField.value);

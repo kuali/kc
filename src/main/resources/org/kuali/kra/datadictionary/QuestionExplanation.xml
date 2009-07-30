@@ -32,7 +32,7 @@
         <property name="attributes" >
             <list>
                 <ref bean="QuestionExplanation-questionExplanationId" />
-                <ref bean="QuestionExplanation-questionId" />
+                <ref bean="QuestionExplanation-questionRefIdFk" />
                 <ref bean="QuestionExplanation-explanationType" />
                 <ref bean="QuestionExplanation-explanation" />
                 <ref bean="QuestionExplanation-versionNumber" />
@@ -48,7 +48,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Question Explanation Id" />
         <property name="shortLabel" value="Question Explanation Id" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
@@ -60,13 +60,13 @@
         <property name="description" value="Question Explanation Id" />
     </bean>
 
-    <bean id="QuestionExplanation-questionId" parent="QuestionExplanation-questionId-parentBean" />
-    <bean id="QuestionExplanation-questionId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="questionId" />
+    <bean id="QuestionExplanation-questionRefIdFk" parent="QuestionExplanation-questionRefIdFk-parentBean" />
+    <bean id="QuestionExplanation-questionRefIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionRefIdFk" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Question Id" />
-        <property name="shortLabel" value="Question Id" />
-        <property name="maxLength" value="22" />
+        <property name="label" value="Question Ref Id" />
+        <property name="shortLabel" value="Question Ref Id" />
+        <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
@@ -74,8 +74,8 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="Question Id" />
-        <property name="description" value="Question Id" />
+        <property name="summary" value="Question Ref Id" />
+        <property name="description" value="Question Ref Id" />
     </bean>
 
     <bean id="QuestionExplanation-explanationType" parent="QuestionExplanation-explanationType-parentBean" />
@@ -125,7 +125,7 @@
                                 p:attributeName="questionExplanationId" 
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="questionId" />
+                                p:attributeName="questionRefIdFk" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="explanationType" />
                             <bean parent="FieldDefinition"
@@ -153,7 +153,7 @@
                     p:attributeName="questionExplanationId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="questionId" />
+                    p:attributeName="questionRefIdFk" />
                 <bean parent="FieldDefinition"
                     p:attributeName="explanationType" />
                 <bean parent="FieldDefinition"
@@ -166,7 +166,7 @@
                     p:attributeName="questionExplanationId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="questionId" />
+                    p:attributeName="questionRefIdFk" />
                 <bean parent="FieldDefinition"
                     p:attributeName="explanationType" />
                 <bean parent="FieldDefinition"
