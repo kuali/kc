@@ -72,9 +72,9 @@ public class QuestionLookupAction extends KualiAction {
                    //     desc = desc.replace("'", "");
                     }
                         if (StringUtils.isBlank(questions)) {
-                            questions = question.getQuestionId()+"#f#"+desc+"#f#"+question.getQuestionTypeId();
+                            questions = question.getQuestionRefId()+"#f#"+desc+"#f#"+question.getQuestionTypeId()+"#f#"+question.getSequenceNumber();
                         } else {
-                            questions = questions + "#q#" +question.getQuestionId()+"#f#"+desc+"#f#"+question.getQuestionTypeId();
+                            questions = questions + "#q#" +question.getQuestionRefId()+"#f#"+desc+"#f#"+question.getQuestionTypeId()+"#f#"+question.getSequenceNumber();
                             
                         }
                     }

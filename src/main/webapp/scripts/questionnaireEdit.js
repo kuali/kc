@@ -226,6 +226,7 @@ function loadQuestion() {
 			// set up qdesc & qtypeid
 			$("#qdesc" + idx).attr("value", field[3]);
 			$("#qtypeid" + idx).attr("value", field[4]);
+			$("#qvers" + idx).attr("value", field[9]);
 
 		} // end if-then-else
 	} // end for to set up questions
