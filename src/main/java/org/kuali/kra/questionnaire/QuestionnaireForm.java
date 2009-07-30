@@ -165,7 +165,13 @@ public class QuestionnaireForm extends KualiForm {
                     // return error msg
                 //    GlobalVariables.getErrorMap().clear();
                 //}
-                retData = "<h3>qnaireID=" + questionnaire.getQuestionnaireId() + "</h3>";
+                String error = (String)GlobalVariables.getUserSession().retrieveObject("qnError");
+                if (StringUtils.isNotBlank(error)) {
+                    retData = "<h3>"+error+"</h3>";   
+                    GlobalVariables.getUserSession().addObject("qnError",(Object)null); 
+                } else {
+                    retData = "<h3>qnaireID=" + questionnaire.getQuestionnaireId() + "</h3>";
+                }
             }
             action="";
         }
