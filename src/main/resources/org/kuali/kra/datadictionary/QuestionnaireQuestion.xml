@@ -33,7 +33,7 @@
             <list>
                 <ref bean="QuestionnaireQuestion-questionnaireQuestionsId" />
                 <ref bean="QuestionnaireQuestion-questionnaireId" />
-                <ref bean="QuestionnaireQuestion-questionId" />
+                <ref bean="QuestionnaireQuestion-questionRefIdFk" />
                 <ref bean="QuestionnaireQuestion-questionNumber" />
                 <ref bean="QuestionnaireQuestion-parentQuestionNumber" />
                 <ref bean="QuestionnaireQuestion-conditionFlag" />
@@ -83,22 +83,22 @@
         <property name="description" value="Questionnaire Id" />
     </bean>
 
-    <bean id="QuestionnaireQuestion-questionId" parent="QuestionnaireQuestion-questionId-parentBean" />
-    <bean id="QuestionnaireQuestion-questionId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="questionId" />
+    <bean id="QuestionnaireQuestion-questionRefIdFk" parent="QuestionnaireQuestion-questionRefIdFk-parentBean" />
+    <bean id="QuestionnaireQuestion-questionRefIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionRefIdFk" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Question Id" />
-        <property name="shortLabel" value="Question Id" />
+        <property name="label" value="Question Ref Id" />
+        <property name="shortLabel" value="Question Ref Id" />
         <property name="maxLength" value="6" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="6" />
+                p:size="12" />
         </property>
-        <property name="summary" value="Question Id" />
-        <property name="description" value="Question Id" />
+        <property name="summary" value="Question Ref Id" />
+        <property name="description" value="Question Ref Id" />
     </bean>
 
     <bean id="QuestionnaireQuestion-questionNumber" parent="QuestionnaireQuestion-questionNumber-parentBean" />
@@ -221,7 +221,7 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="questionnaireId" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="questionId" />
+                                p:attributeName="questionRefIdFk" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="questionNumber" />
                             <bean parent="FieldDefinition"
@@ -259,7 +259,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="questionnaireId" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="questionId" />
+                    p:attributeName="questionRefIdFk" />
                 <bean parent="FieldDefinition"
                     p:attributeName="questionNumber" />
                 <bean parent="FieldDefinition"
@@ -282,7 +282,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="questionnaireId" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="questionId" />
+                    p:attributeName="questionRefIdFk" />
                 <bean parent="FieldDefinition"
                     p:attributeName="questionNumber" />
                 <bean parent="FieldDefinition"
