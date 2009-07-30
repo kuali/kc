@@ -64,6 +64,9 @@
                     p:name="questionId"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
+                    p:name="sequenceNumber"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
                     p:name="question"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
@@ -73,19 +76,17 @@
                     p:name="categoryTypeCode"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="maxAnswers" />
+                    p:name="questionTypeId" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="lookupClass" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="lookupReturn" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="displayedAnswers" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="validAnswer" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="lookupName" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="questionTypeId" />
+                    p:name="maxAnswers" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="answerMaxLength" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="lookupGui" />
                 <bean parent="MaintainableCollectionDefinition">
                     <property name="name" value="questionExplanations"/>
                     <property name="sourceClassName" value="org.kuali.kra.questionnaire.question.QuestionExplanation"/>

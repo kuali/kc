@@ -17,17 +17,52 @@ package org.kuali.kra.questionnaire.question;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = 7936563894902841571L;
 
+    /**
+     * Since Question is being versioned, the lookup should only return active versions of the question
+     * (the one with the highest sequenceNumber).
+     * 
+     * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     */
+//    // TODO: cniesen - Code has been temporarily disabled as it does not work correctly.  Until we actually
+//    //       version the Question the default getSearchResults() works fine.
+//    @Override
+//    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+//        
+//        return getActiveQuestions(super.getSearchResults(fieldValues));
+//    }
+    
+    @SuppressWarnings("unchecked")
+    private List<? extends BusinessObject> getActiveQuestions(List<? extends BusinessObject> searchResults) {
+
+        List<Question> activeQuestions = new ArrayList<Question>();
+        List<Integer> questionIds = new ArrayList<Integer>();
+        if (CollectionUtils.isNotEmpty(searchResults)) {
+            Collections.sort((List<Question>) searchResults, Collections.reverseOrder());
+            for (Question question : (List<Question>) searchResults) {
+                if (!questionIds.contains(question.getQuestionId())) {
+                    activeQuestions.add(question);
+                    questionIds.add(question.getQuestionId());
+                }
+            }
+        }
+        return activeQuestions;
+    }
+     
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();

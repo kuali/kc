@@ -35,7 +35,7 @@ public class Answer extends KraPersistableBusinessObjectBase {
     
     private String answerHeaderId; 
     private AnswerHeader answerHeader; 
-    private Integer questionId;
+    private Long questionRefIdFk;
     private Question question; 
     
     /**
@@ -74,16 +74,16 @@ public class Answer extends KraPersistableBusinessObjectBase {
      * Gets the questionId attribute. 
      * @return Returns the questionId.
      */
-    public Integer getQuestionId() {
-        return this.questionId;
+    public Long getQuestionRefIdFk() {
+        return this.questionRefIdFk;
     }
 
     /**
      * Sets the questionId attribute value.
-     * @param questionId The questionId to set.
+     * @param questionRefIdFk The questionId to set.
      */
-    public void setQuestionId(Integer questionId) {
-        this.questionId = questionId;
+    public void setQuestionRefIdFk(Long questionRefIdFk) {
+        this.questionRefIdFk = questionRefIdFk;
     }
 
     /**
@@ -172,7 +172,7 @@ public class Answer extends KraPersistableBusinessObjectBase {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("id", this.getId());
         hashMap.put("answerHeaderId", this.getAnswerHeaderId());
-        hashMap.put("questionId", this.getQuestionId());
+        hashMap.put("questionRefIdFk", this.getQuestionRefIdFk());
         hashMap.put("questionNumber", this.getQuestionNumber());
         hashMap.put("answerNumber", this.getAnswerNumber());
         hashMap.put("answer", this.getAnswer());

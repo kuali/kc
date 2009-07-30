@@ -124,7 +124,7 @@ public class QuestionnaireAction extends KualiAction {
                 if (desc.indexOf("\"") > 0) {
                     desc = desc.replace("\"", "&#034;");
                 }
-                result = result + "#q#" + question.getQuestionnaireQuestionsId() + "#f#" + question.getQuestionId() + "#f#"
+                result = result + "#q#" + question.getQuestionnaireQuestionsId() + "#f#" + question.getQuestionRefIdFk() + "#f#"
                         + question.getQuestionSeqNumber() + "#f#" + desc + "#f#" + question.getQuestion().getQuestionTypeId()
                         + "#f#" + question.getQuestionNumber() + "#f#" + question.getCondition() + "#f#"
                         + question.getConditionValue() + "#f#" + question.getParentQuestionNumber();
@@ -153,7 +153,7 @@ public class QuestionnaireAction extends KualiAction {
                 if (desc.indexOf("\"") > 0) {
                     desc = desc.replace("\"", "&#034;");
                 }
-                result = result + "#q#" + question.getQuestionnaireQuestionsId() + "#f#" + question.getQuestionId() + "#f#"
+                result = result + "#q#" + question.getQuestionnaireQuestionsId() + "#f#" + question.getQuestionRefIdFk()+ "#f#"
                         + question.getQuestionSeqNumber() + "#f#" + desc + "#f#" + question.getQuestion().getQuestionTypeId()
                         + "#f#" + question.getQuestionNumber() + "#f#" + question.getCondition() + "#f#"
                         + question.getConditionValue() + "#f#" + question.getParentQuestionNumber();

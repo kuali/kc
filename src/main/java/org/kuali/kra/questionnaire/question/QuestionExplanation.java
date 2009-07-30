@@ -17,17 +17,20 @@ package org.kuali.kra.questionnaire.question;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class QuestionExplanation extends KraPersistableBusinessObjectBase { 
+public class QuestionExplanation extends KraPersistableBusinessObjectBase implements SequenceAssociate<Question> { 
     
     private static final long serialVersionUID = 1L;
 
     private Integer questionExplanationId; 
-    private Integer questionId; 
+    private Long questionRefIdFk; 
     private String explanationType; 
     private String explanation; 
     
+    private Question sequenceOwner;
 
     public QuestionExplanation() { 
 
@@ -41,12 +44,12 @@ public class QuestionExplanation extends KraPersistableBusinessObjectBase {
         this.questionExplanationId = questionExplanationId;
     }
 
-    public Integer getQuestionId() {
-        return questionId;
+    public Long getQuestionRefIdFk() {
+        return questionRefIdFk;
     }
 
-    public void setQuestionId(Integer questionId) {
-        this.questionId = questionId;
+    public void setQuestionRefIdFk(Long questionRefIdFk) {
+        this.questionRefIdFk = questionRefIdFk;
     }
 
     public String getExplanationType() {
@@ -65,15 +68,62 @@ public class QuestionExplanation extends KraPersistableBusinessObjectBase {
         this.explanation = explanation;
     }
 
-    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+        QuestionExplanation questionExplanation = (QuestionExplanation) obj;
+        if (ObjectUtils.equals(this.questionRefIdFk, questionExplanation.questionRefIdFk)
+                && ObjectUtils.equals(this.explanationType, questionExplanation.explanationType)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + (this.questionRefIdFk == null ? 0 : this.questionRefIdFk.hashCode());
+        result = PRIME * result + (this.explanationType == null ? 0 : this.explanationType.hashCode());
+        return result;
+    }
+
+        /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("questionExplanationId", this.getQuestionExplanationId());
-        hashMap.put("questionId", this.getQuestionId());
+        hashMap.put("questionRefIdFk", this.getQuestionRefIdFk());
         hashMap.put("explanationType", this.getExplanationType());
         hashMap.put("explanation", this.getExplanation());
         return hashMap;
+    }
+
+    public Question getSequenceOwner() {
+        return this.sequenceOwner;
+    }
+
+    public void setSequenceOwner(Question newlyVersionedOwner) {
+        this.sequenceOwner = newlyVersionedOwner;
+        
+    }
+
+    public Integer getSequenceNumber() {
+        return this.sequenceOwner.getSequenceNumber();
+    }
+
+    public void resetPersistenceState() {
+        this.questionExplanationId = null;
+        
     }
     
 }

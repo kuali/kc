@@ -15,17 +15,17 @@
     </c:otherwise>
 </c:choose>
 
-<div id="lookup_gui_pre_message" style="display: inline">
+<div id="lookup_class_pre_message" style="display: inline">
     ${preMessage}
 </div>
-<div id="lookup_gui_html_control" style="${htmlControlDivStyle}">
-    <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.lookupGui" 
-                              attributeEntry="${DataDictionary.Question.attributes.lookupGui}"
+<div id="lookup_class_html_control" style="${htmlControlDivStyle}">
+    <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.lookupClass" 
+                              attributeEntry="${DataDictionary.Question.attributes.lookupClass}"
                               onchange="updateLookupReturn(this, updateLookupReturn_Callback)" />
 </div>
-<div id="lookup_gui_post_message" style="display: inline">
+<div id="lookup_class_post_message" style="display: inline">
     ${postMessage}
 </div>
-<div id="lookup_gui_br" style="${htmlControlDivStyle}">
+<div id="lookup_class_br" style="${htmlControlDivStyle}">
     <br />
 </div>

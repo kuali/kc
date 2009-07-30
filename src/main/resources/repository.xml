@@ -3135,7 +3135,7 @@
 	<class-descriptor class="org.kuali.kra.questionnaire.QuestionnaireQuestion" table="QUESTIONNAIRE_QUESTIONS">
 		<field-descriptor name="questionnaireQuestionsId" column="QUESTIONNAIRE_QUESTIONS_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_ID" autoincrement="true"/>
 		<field-descriptor name="questionnaireId" column="QUESTIONNAIRE_ID" jdbc-type="INTEGER" />
-		<field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="questionRefIdFk" column="QUESTION_REF_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="questionNumber" column="QUESTION_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="parentQuestionNumber" column="PARENT_QUESTION_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="conditionFlag" column="CONDITION_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -3147,7 +3147,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<reference-descriptor name="question" class-ref="org.kuali.kra.questionnaire.question.Question" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="questionId"/>
+			<foreignkey field-ref="questionRefIdFk"/>
 		</reference-descriptor>
 		<reference-descriptor name="questionnaire" class-ref="org.kuali.kra.questionnaire.Questionnaire" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="questionnaireId"/>
