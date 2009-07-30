@@ -41,8 +41,8 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase {
     private Long questionnaireQuestionsId; 
     @Column(name="QUESTIONNAIRE_ID")
     private Integer questionnaireId; 
-    @Column(name="QUESTION_ID")
-    private Integer questionId; 
+    @Column(name="QUESTION_REF_ID_FK")
+    private Long questionRefIdFk; 
     @Column(name="QUESTION_NUMBER")
     private Integer questionNumber; 
     @Column(name="PARENT_QUESTION_NUMBER")
@@ -58,7 +58,7 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase {
     private Integer questionSeqNumber; 
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="QUESTION_ID", insertable=false, updatable=false)
+    @JoinColumn(name="QUESTION_REF_ID_FK", insertable=false, updatable=false)
     private Question question;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
@@ -85,12 +85,12 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase {
         this.questionnaireId = questionnaireId;
     }
 
-    public Integer getQuestionId() {
-        return questionId;
+    public Long getQuestionRefIdFk() {
+        return questionRefIdFk;
     }
 
-    public void setQuestionId(Integer questionId) {
-        this.questionId = questionId;
+    public void setQuestionRefIdFk(Long questionRefIdFk) {
+        this.questionRefIdFk = questionRefIdFk;
     }
 
     public Integer getQuestionNumber() {
@@ -163,7 +163,7 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("questionnaireQuestionsId", this.getQuestionnaireQuestionsId());
         hashMap.put("questionnaireId", this.getQuestionnaireId());
-        hashMap.put("questionId", this.getQuestionId());
+        hashMap.put("questionRefIdFk", this.getQuestionRefIdFk());
         hashMap.put("questionNumber", this.getQuestionNumber());
         hashMap.put("parentQuestionNumber", this.getParentQuestionNumber());
         hashMap.put("conditionFlag", this.getConditionFlag());

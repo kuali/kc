@@ -32,7 +32,7 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
             .getLog(QuestionnaireDaoOjb.class);
 
-    private String questionColumns = "(QUESTIONNAIRE_QUESTIONS_ID,QUESTIONNAIRE_ID,QUESTION_ID,QUESTION_NUMBER,PARENT_QUESTION_NUMBER,CONDITION_FLAG,CONDITION,CONDITION_VALUE,QUESTION_SEQ_NUMBER,UPDATE_USER,UPDATE_TIMESTAMP)";
+    private String questionColumns = "(QUESTIONNAIRE_QUESTIONS_ID,QUESTIONNAIRE_ID,QUESTION_REF_ID_FK,QUESTION_NUMBER,PARENT_QUESTION_NUMBER,CONDITION_FLAG,CONDITION,CONDITION_VALUE,QUESTION_SEQ_NUMBER,UPDATE_USER,UPDATE_TIMESTAMP)";
     private String usageColumns = "(QUESTIONNAIRE_USAGE_ID,MODULE_ITEM_CODE,MODULE_SUB_ITEM_CODE,QUESTIONNAIRE_ID,RULE_ID,QUESTIONNAIRE_LABEL,UPDATE_TIMESTAMP,UPDATE_USER)";
 
     public void runScripts(final String[] sqls, final Integer questionnaireId) {
@@ -67,24 +67,24 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
                                 String[] params = sql.split(";");
                                 sql = "update questionnaire_questions set CONDITION_FLAG = " + params[1] + ", CONDITION = "
                                         + params[2] + ", CONDITION_VALUE = " + params[3] + " where QUESTIONNAIRE_ID = "
-                                        + questionnaireId + " and QUESTION_ID = " + params[4] + " and  QUESTION_NUMBER = "
+                                        + questionnaireId + " and QUESTION_REF_ID_FK = " + params[4] + " and  QUESTION_NUMBER = "
                                         + params[5];
 
                             } else if (sql.startsWith("update QPaste")) {
                                 String[] params = sql.split(";");
                                 sql = "update questionnaire_questions set PARENT_QUESTION_NUMBER = "+params[1] +",QUESTION_SEQ_NUMBER = " + params[2]
-                                        + " where QUESTIONNAIRE_ID = " + questionnaireId + " and QUESTION_ID = " + params[3]
+                                        + " where QUESTIONNAIRE_ID = " + questionnaireId + " and QUESTION_REF_ID_FK = " + params[3]
                                         + " and  QUESTION_NUMBER = " + params[4];
 
                             }else if (sql.startsWith("update QMove")) {
                                 String[] params = sql.split(";");
                                 sql = "update questionnaire_questions set QUESTION_SEQ_NUMBER = " + params[1]
-                                        + " where QUESTIONNAIRE_ID = " + questionnaireId + " and QUESTION_ID = " + params[2]
+                                        + " where QUESTIONNAIRE_ID = " + questionnaireId + " and QUESTION_REF_ID_FK = " + params[2]
                                         + " and  QUESTION_NUMBER = " + params[3];
 
                             } else if (sql.startsWith("delete Q")) {
                                 String[] params = sql.split(";");
-                                sql = "delete from questionnaire_questions where QUESTIONNAIRE_ID = " + questionnaireId + " and QUESTION_ID = " + params[1]
+                                sql = "delete from questionnaire_questions where QUESTIONNAIRE_ID = " + questionnaireId + " and QUESTION_REF_ID_FK = " + params[1]
                                         + " and  QUESTION_NUMBER = " + params[2];
                                 LOG.info("Save run scripts " + i + sql);
                                 stmt.addBatch(sql);

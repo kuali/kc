@@ -486,8 +486,8 @@ public interface Constants {
     public static final String QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS = "document.newMaintainableObject.businessObject.displayedAnswers";
     public static final String QUESTION_DOCUMENT_FIELD_ANSWER_MAX_LENGTH = "document.newMaintainableObject.businessObject.answerMaxLength";
     public static final String QUESTION_DOCUMENT_FIELD_MAX_ANSWERS = "document.newMaintainableObject.businessObject.maxAnswers";
-    public static final String QUESTION_DOCUMENT_FIELD_LOOKUP_GUI = "document.newMaintainableObject.businessObject.lookupGui";
-    public static final String QUESTION_DOCUMENT_FIELD_LOOKUP_NAME = "document.newMaintainableObject.businessObject.lookupName";
+    public static final String QUESTION_DOCUMENT_FIELD_LOOKUP_CLASS = "document.newMaintainableObject.businessObject.lookupClass";
+    public static final String QUESTION_DOCUMENT_FIELD_LOOKUP_RETURN = "document.newMaintainableObject.businessObject.lookupReturn";
     
     //Institutional Proposal Audit Rules 
     public static final String GRADUATE_STUDENT_PANEL_ANCHOR = "GraduateStudent";

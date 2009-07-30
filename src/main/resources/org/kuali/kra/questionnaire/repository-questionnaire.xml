@@ -19,17 +19,18 @@
 <descriptor-repository version="1.0">
 
     <class-descriptor class="org.kuali.kra.questionnaire.question.Question" table="QUESTION">
-        <field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="questionRefId" column="QUESTION_REF_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTION_ID" autoincrement="true"/>
+        <field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="question" column="QUESTION" jdbc-type="VARCHAR" />
         <field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR" />
         <field-descriptor name="categoryTypeCode" column="GROUP_TYPE_CODE" jdbc-type="INTEGER" />
-        <field-descriptor name="maxAnswers" column="MAX_ANSWERS" jdbc-type="INTEGER" />
-        <field-descriptor name="displayedAnswers" column="DISPLAYED_ANSWERS" jdbc-type="INTEGER" />
-        <field-descriptor name="validAnswer" column="VALID_ANSWER" jdbc-type="VARCHAR" />
-        <field-descriptor name="lookupName" column="LOOKUP_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="questionTypeId" column="QUESTION_TYPE_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="lookupClass" column="LOOKUP_CLASS" jdbc-type="VARCHAR" />
+        <field-descriptor name="lookupReturn" column="LOOKUP_RETURN" jdbc-type="VARCHAR" />
+        <field-descriptor name="displayedAnswers" column="DISPLAYED_ANSWERS" jdbc-type="INTEGER" />
+        <field-descriptor name="maxAnswers" column="MAX_ANSWERS" jdbc-type="INTEGER" />
         <field-descriptor name="answerMaxLength" column="ANSWER_MAX_LENGTH" jdbc-type="INTEGER" />
-        <field-descriptor name="lookupGui" column="LOOKUP_GUI" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -41,13 +42,13 @@
             <foreignkey field-ref="questionTypeId"/>
         </reference-descriptor>
         <collection-descriptor name="questionExplanations" element-class-ref="org.kuali.kra.questionnaire.question.QuestionExplanation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-            <inverse-foreignkey field-ref="questionId"/>
+            <inverse-foreignkey field-ref="questionRefIdFk"/>
         </collection-descriptor>
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.questionnaire.question.QuestionExplanation" table="QUESTION_EXPLANATION">
         <field-descriptor name="questionExplanationId" column="QUESTION_EXPLANATION_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_QUESTION_ID" autoincrement="true" />
-        <field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="questionRefIdFk" column="QUESTION_REF_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="explanationType" column="EXPLANATION_TYPE" jdbc-type="VARCHAR" />
         <field-descriptor name="explanation" column="EXPLANATION" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -108,7 +109,7 @@
 	<class-descriptor class="org.kuali.kra.questionnaire.answer.Answer" table="QUESTIONNAIRE_ANSWER">
 		<field-descriptor name="answerId" column="QUESTIONNAIRE_ANSWER_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTION_ID" autoincrement="true" />
 		<field-descriptor name="answerHeaderId" column="QUESTIONNAIRE_AH_ID_FK" jdbc-type="BIGINT" />
-		<field-descriptor name="questionId" column="QUESTION_ID_FK" jdbc-type="INTEGER" />
+		<field-descriptor name="questionRefIdFk" column="QUESTION_REF_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="questionNumber" column="QUESTION_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="answerNumber" column="ANSWER_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="answer" column="ANSWER" jdbc-type="VARCHAR" />
@@ -120,7 +121,7 @@
 			<foreignkey field-ref="answerHeaderId"/>
 		</reference-descriptor>
 		<!-- <reference-descriptor name="question" class-ref="org.kuali.kra.questionnaire.question" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="questionId"/>
+			<foreignkey field-ref="questionRefIdFk"/>
 		</reference-descriptor>-->
 	</class-descriptor>
 

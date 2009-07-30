@@ -6,14 +6,14 @@
         document.getElementById("displayed_answers_post_message").innerHTML = "";
         document.getElementById("displayed_answers_html_control").style.display = "none";
         document.getElementById("displayed_answers_br").style.display = "none";
-        document.getElementById("lookup_gui_pre_message").innerHTML = "";
-        document.getElementById("lookup_gui_post_message").innerHTML = "";
-        document.getElementById("lookup_gui_html_control").style.display = "none";
-        document.getElementById("lookup_gui_br").style.display = "none";
-        document.getElementById("lookup_name_pre_message").innerHTML = "";
-        document.getElementById("lookup_name_post_message").innerHTML = "";
-        document.getElementById("lookup_name_html_control").style.display = "none";
-        document.getElementById("lookup_name_br").style.display = "none";
+        document.getElementById("lookup_class_pre_message").innerHTML = "";
+        document.getElementById("lookup_class_post_message").innerHTML = "";
+        document.getElementById("lookup_class_html_control").style.display = "none";
+        document.getElementById("lookup_class_br").style.display = "none";
+        document.getElementById("lookup_return_pre_message").innerHTML = "";
+        document.getElementById("lookup_return_post_message").innerHTML = "";
+        document.getElementById("lookup_return_html_control").style.display = "none";
+        document.getElementById("lookup_return_br").style.display = "none";
         document.getElementById("response_message").innerHTML = "";
         document.getElementById("response_message_br").style.display = "none";
         document.getElementById("answer_max_length_pre_message").innerHTML = "";
@@ -81,14 +81,14 @@
             document.getElementById("max_answers_br").style.display = "inline";
             break;
         case "6" :
-            document.getElementById("lookup_gui_pre_message").innerHTML = "The user will be presented with the ability to search for ";
-            document.getElementById("lookup_gui_post_message").innerHTML = ".";
-            document.getElementById("lookup_gui_html_control").style.display = "inline";
-            document.getElementById("lookup_gui_br").style.display = "inline";
-            document.getElementById("lookup_name_pre_message").innerHTML = "The field to return is ";
-            document.getElementById("lookup_name_post_message").innerHTML = ".";
-            document.getElementById("lookup_name_html_control").style.display = "inline";
-            document.getElementById("lookup_name_br").style.display = "inline";
+            document.getElementById("lookup_class_pre_message").innerHTML = "The user will be presented with the ability to search for ";
+            document.getElementById("lookup_class_post_message").innerHTML = ".";
+            document.getElementById("lookup_class_html_control").style.display = "inline";
+            document.getElementById("lookup_class_br").style.display = "inline";
+            document.getElementById("lookup_return_pre_message").innerHTML = "The field to return is ";
+            document.getElementById("lookup_return_post_message").innerHTML = ".";
+            document.getElementById("lookup_return_html_control").style.display = "inline";
+            document.getElementById("lookup_return_br").style.display = "inline";
             document.getElementById("max_answers_pre_message").innerHTML = "The number of possible returns is ";
             document.getElementById("max_answers_post_message").innerHTML = ".";
             document.getElementById("max_answers_html_control").style.display = "inline";
@@ -130,8 +130,8 @@
             <td>
                 <br />
                 <kra-questionnaire:questionManagerResponseDisplayedAnswers />
-                <kra-questionnaire:questionManagerResponseLookupGui />
-                <kra-questionnaire:questionManagerResponseLookupName />
+                <kra-questionnaire:questionManagerResponseLookupClass />
+                <kra-questionnaire:questionManagerResponseLookupReturn />
                 <kra-questionnaire:questionManagerResponseMessage />
                 <kra-questionnaire:questionManagerResponseAnswerMaxLength />
                 <kra-questionnaire:questionManagerResponseMaxAnswers />

@@ -532,8 +532,8 @@ public final class KeyConstants {
     public static final String ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_BOXES = "error.question.max.answers.invalid.answers.boxes";
     public static final String ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_AREAS = "error.question.max.answers.invalid.answers.areas";
     public static final String ERROR_QUESTION_MAX_ANSWERS_INVALID_RETURNS = "error.question.max.answers.invalid.returns";
-    public static final String ERROR_QUESTION_LOOKUP_GUI_NOT_SPECIFIED = "error.question.lookup.gui.not.specified";
-    public static final String ERROR_QUESTION_LOOKUP_NAME_NOT_SPECIFIED = "error.question.lookup.name.not.specified";
+    public static final String ERROR_QUESTION_LOOKUP_CLASS_NOT_SPECIFIED = "error.question.lookup.class.not.specified";
+    public static final String ERROR_QUESTION_LOOKUP_RETURN_NOT_SPECIFIED = "error.question.lookup.return.not.specified";
 
     /**
      * private utility class ctor.
