@@ -16,7 +16,7 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="readOnly" value="${!KualiForm.membershipHelper.modifyCommittee or KualiForm.lookupHelper.viewOnly}"  scope="request" />
+<c:set var="readOnly" value="${!KualiForm.membershipHelper.modifyCommittee}"  scope="request" />
 
 <kul:documentPage 
     showDocumentInfo="true"

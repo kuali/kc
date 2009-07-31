@@ -156,11 +156,7 @@ public class AwardHomeAction extends AwardAction {
             document.setAward(award);
             reinitializeAwardForm(awardForm, document);
         }
-        if (StringUtils.isNotBlank(commandParam) && commandParam.equals("displayDocSearchView") 
-                && StringUtils.isNotBlank(request.getParameter("viewDocument"))) {
-            awardForm.getLookupHelper().setViewOnly(true);
-            awardForm.getLookupHelper().resetDocumentActionsForView();
-        }
+        
 //        if (!awardForm.getLookupHelper().isViewOnly()) {
 //            awardForm.getAwardHelper().prepareView();
 //        }

@@ -78,24 +78,19 @@ public class ProtocolProtocolAction extends ProtocolAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        ProtocolForm protocolForm = (ProtocolForm)form;
+        
         // Following is for protocol lookup - edit protocol 
+        ProtocolForm protocolForm = (ProtocolForm)form;
         String commandParam = request.getParameter(KNSConstants.PARAMETER_COMMAND);
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate")
             && StringUtils.isNotBlank(request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER))) {
             getProtocolProtocolService().loadProtocolForEdit(protocolForm.getDocument(),
                 request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER));
         }
-        if (StringUtils.isNotBlank(commandParam) && commandParam.equals("displayDocSearchView") && StringUtils.isNotBlank(request.getParameter("viewDocument"))) {
-            if (request.getParameter("viewDocument").equals("true")) {
-                protocolForm.getLookupHelper().setViewOnly(true);
-                protocolForm.getLookupHelper().resetDocumentActionsForView();
-            }
-        }
-        if (!protocolForm.getLookupHelper().isViewOnly()) {
-            protocolForm.getProtocolHelper().prepareView();
-        }
+        
+        protocolForm.getProtocolHelper().prepareView();
         
         return actionForward;
     }

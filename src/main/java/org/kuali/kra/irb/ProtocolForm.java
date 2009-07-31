@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.AbstractSpecialReview;
-import org.kuali.kra.common.web.struts.form.LookupHelper;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -69,7 +68,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     //transient so that the helper and its members don't have to be serializable or transient
     //reinitialized in the getter
     private transient ProtocolAttachmentHelper notesAndAttachmentsHelper;
-    private LookupHelper<ProtocolForm> lookupHelper;
     private boolean auditActivated;
     
     private ProtocolReference newProtocolReference;
@@ -102,10 +100,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         setActionHelper(new ActionHelper(this));
         setNotesAndAttachmentsHelper(new ProtocolAttachmentHelper(this));
         setNewProtocolReference(new ProtocolReference());
-        if (getLookupHelper() == null) {
-           // Don't reset viewonly, when moving from page to page
-           setLookupHelper(new LookupHelper(this));
-        }
     }
     
     /**
@@ -355,13 +349,4 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         // TODO Auto-generated method stub
         return true;
     }
-
-    public LookupHelper<ProtocolForm> getLookupHelper() {
-        return lookupHelper;
-    }
-
-    public void setLookupHelper(LookupHelper<ProtocolForm> lookupHelper) {
-        this.lookupHelper = lookupHelper;
-    }
-
 }

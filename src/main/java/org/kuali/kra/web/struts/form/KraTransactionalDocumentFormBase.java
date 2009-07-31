@@ -25,6 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.SoftError;
@@ -48,6 +49,8 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
 
     protected String actionName;
     protected String navigateTo;
+    
+    private boolean viewOnly = false;
     
     public String getActionName() {
         return actionName;
@@ -223,4 +226,17 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     
     protected abstract void setSaveDocumentControl(Map editMode);
     
+    public final boolean isViewOnly() {
+        return viewOnly;
+    }
+    
+    public final void setViewOnly(boolean viewOnly) {
+        this.viewOnly = viewOnly;
+    }
+    
+    @Override
+    public void setDocument(Document document) {
+        super.setDocument(document);
+        ((ResearchDocumentBase)document).setViewOnly(isViewOnly());
+    }
 }
