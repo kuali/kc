@@ -2,6 +2,7 @@ var node;
 var i = 1;
 var ucount = 1;
 var removedNode;
+var maxCopyNodeIdx = 0;
 var cutNode;
 var copyNode;
 var sqlScripts = "createnew";
