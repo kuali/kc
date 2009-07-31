@@ -35,6 +35,7 @@ import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
+import org.kuali.kra.timeandmoney.service.TimeAndMoneyActionSummaryService;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
@@ -109,6 +110,17 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         forward = super.docHandler(mapping, form, request, response);
         }
         
+        return forward;
+    }
+    
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.execute(mapping, form, request, response);
+        TimeAndMoneyForm timeAndMoneyform = (TimeAndMoneyForm)form;
+        TimeAndMoneyDocument doc = timeAndMoneyform.getTimeAndMoneyDocument();        
+        doc.setTimeAndMoneyHistory(timeAndMoneyform.getDocumentNumbers());
+        
+        TimeAndMoneyActionSummaryService service = KraServiceLocator.getService(TimeAndMoneyActionSummaryService.class);
+        service.populateActionSummary(doc.getTimeAndMoneyActionSummaryItems(), doc.getDocumentNumber(), doc.getAwardNumber(), doc.getSequenceNumber());
         return forward;
     }
     

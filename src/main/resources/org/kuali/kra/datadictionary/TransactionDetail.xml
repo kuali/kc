@@ -1,0 +1,346 @@
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="TransactionDetail" parent="TransactionDetail-parentBean" />
+    <bean id="TransactionDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.timeandmoney.history.TransactionDetail" />
+        <property name="inquiryDefinition" >
+            <ref bean="TransactionDetail-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="TransactionDetail-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="transactionDetailId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="TransactionDetail-transactionDetailId" />                
+                <ref bean="TransactionDetail-awardNumber" />
+                <ref bean="TransactionDetail-sequenceNumber" />
+                <ref bean="TransactionDetail-transactionId" />
+                <ref bean="TransactionDetail-timeAndMoneyDocumentNumber" />
+                <ref bean="TransactionDetail-sourceAwardNumber" />
+                <ref bean="TransactionDetail-destinationAwardNumber" />
+                <ref bean="TransactionDetail-obligatedAmount" />
+                <ref bean="TransactionDetail-anticipatedAmount" />
+                <ref bean="TransactionDetail-comments" />
+                <ref bean="TransactionDetail-versionNumber" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="TransactionDetail-transactionDetailId" parent="TransactionDetail-transactionDetailId-parentBean" />
+    <bean id="TransactionDetail-transactionDetailId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="transactionDetailId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Transaction Detail Id" />
+        <property name="shortLabel" value="Transaction Detail Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Transaction Detail Id" />
+        <property name="description" value="Transaction Detail Id" />
+    </bean>
+
+    <bean id="TransactionDetail-awardNumber" parent="TransactionDetail-awardNumber-parentBean" />
+    <bean id="TransactionDetail-awardNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="awardNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Award Number" />
+        <property name="shortLabel" value="Award Number" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+      		<bean parent="RegexValidationPattern"
+            	p:pattern="\d\d\d\d\d\d-\d\d\d" />
+    	</property>
+        <property name="required" value="true" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Award Number" />
+        <property name="description" value="Award Number" />
+    </bean>
+    
+    <bean id="TransactionDetail-sequenceNumber" parent="TransactionDetail-sequenceNumber-parentBean" />
+
+	  <bean id="TransactionDetail-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="sequenceNumber" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Sequence Number" />
+	    <property name="shortLabel" value="Sequence Number" />
+	    <property name="maxLength" value="4" />
+	    <property name="validationPattern" >
+	      <bean parent="NumericValidationPattern" />
+	    </property>
+	    <property name="control" >
+	      <bean parent="TextControlDefinition"
+	            p:size="4" />
+	    </property>
+	    <property name="summary" value="Sequence Number" />
+	    <property name="description" value="Sequence Number" />
+	  </bean>    
+    
+    <bean id="TransactionDetail-transactionId" parent="TransactionDetail-transactionId-parentBean" />
+    <bean id="TransactionDetail-transactionId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="transactionId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Transaction Id" />
+        <property name="shortLabel" value="Transaction Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Transaction Id" />
+        <property name="description" value="Transaction Id" />
+    </bean>
+    
+        <bean id="TransactionDetail-timeAndMoneyDocumentNumber" parent="TransactionDetail-timeAndMoneyDocumentNumber-parentBean" />
+    <bean id="TransactionDetail-timeAndMoneyDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="timeAndMoneyDocumentNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Document Number" />
+        <property name="shortLabel" value="Document Number" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Document Number" />
+        <property name="description" value="Document Number" />
+    </bean>
+
+    <bean id="TransactionDetail-sourceAwardNumber" parent="TransactionDetail-sourceAwardNumber-parentBean" />
+    <bean id="TransactionDetail-sourceAwardNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sourceAwardNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Source Award" />
+        <property name="shortLabel" value="Source Award" />
+        <property name="maxLength" value="12" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="required" value="true" />
+        <property name="validationPattern" >
+      		<bean parent="RegexValidationPattern"
+            	p:pattern="\d\d\d\d\d\d-\d\d\d" />
+    	</property>
+        <property name="summary" value="Source Award" />
+        <property name="description" value="Source Award" />
+    </bean>
+
+    <bean id="TransactionDetail-destinationAwardNumber" parent="TransactionDetail-destinationAwardNumber-parentBean" />
+    <bean id="TransactionDetail-destinationAwardNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="destinationAwardNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Destination Award" />
+        <property name="shortLabel" value="Destination Award" />
+        <property name="maxLength" value="12" />
+        <property name="required" value="true" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="validationPattern" >
+      		<bean parent="RegexValidationPattern"
+            	p:pattern="\d\d\d\d\d\d-\d\d\d" />
+    	</property>
+        <property name="summary" value="Destination Award" />
+        <property name="description" value="Destination Award" />
+    </bean>
+
+    <bean id="TransactionDetail-obligatedAmount" parent="TransactionDetail-obligatedAmount-parentBean" />
+    <bean id="TransactionDetail-obligatedAmount-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="obligatedAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Obligated" />
+        <property name="shortLabel" value="Obligated" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Obligated" />
+        <property name="description" value="Obligated" />
+    </bean>
+
+    <bean id="TransactionDetail-anticipatedAmount" parent="TransactionDetail-anticipatedAmount-parentBean" />
+    <bean id="TransactionDetail-anticipatedAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="anticipatedAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Anticipated" />
+        <property name="shortLabel" value="Anticipated" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+	      	<bean parent="FixedPointValidationPattern"
+	            p:precision="12"
+	            p:scale="2"
+	            p:allowNegative="true" />
+    	</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="12" />
+        </property>
+        <property name="summary" value="Anticipated" />
+        <property name="description" value="Anticipated" />
+    </bean>
+
+    <bean id="TransactionDetail-comments" parent="TransactionDetail-comments-parentBean" />
+    <bean id="TransactionDetail-comments-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="comments" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Comments" />
+        <property name="shortLabel" value="Comments" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Comments" />
+        <property name="description" value="Comments" />
+    </bean>
+
+    <bean id="TransactionDetail-versionNumber" parent="TransactionDetail-versionNumber-parentBean" />
+    <bean id="TransactionDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="TransactionDetail-inquiryDefinition" parent="TransactionDetail-inquiryDefinition-parentBean" />
+    <bean id="TransactionDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Award Amount Transaction Id" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Award Amount Transaction Id" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="transactionDetailId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                    			p:attributeName="awardNumber" />
+                			<bean parent="FieldDefinition"
+                    			p:attributeName="sequenceNumber" />
+                			<bean parent="FieldDefinition"
+                    			p:attributeName="transactionId" />
+                			<bean parent="FieldDefinition"
+		        				p:attributeName="timeAndMoneyDocumentNumber" />    
+                            <bean parent="FieldDefinition"
+                                p:attributeName="sourceAwardNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="destinationAwardNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="obligatedAmount" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="anticipatedAmount" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="comments" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="TransactionDetail-lookupDefinition" parent="TransactionDetail-lookupDefinition-parentBean" />
+    <bean id="TransactionDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Award Amount Transaction Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="instructions" value="Look up a Award Amount Transaction" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="transactionDetailId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="awardNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="transactionId" />
+                <bean parent="FieldDefinition"
+			        p:attributeName="timeAndMoneyDocumentNumber" />                     
+                <bean parent="FieldDefinition"
+                    p:attributeName="sourceAwardNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="destinationAwardNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligatedAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="comments" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="transactionDetailId" 
+                    p:forceInquiry="true" />                    
+                <bean parent="FieldDefinition"
+                    p:attributeName="awardNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="transactionId" />
+                <bean parent="FieldDefinition"
+			        p:attributeName="timeAndMoneyDocumentNumber" />        
+                <bean parent="FieldDefinition"
+                    p:attributeName="sourceAwardNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="destinationAwardNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="obligatedAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="anticipatedAmount" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="comments" />
+            </list>
+        </property>
+    </bean>
+</beans>

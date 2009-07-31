@@ -68,4 +68,22 @@
 		</property>        
     </bean>
     
+    <bean id="timeAndMoneyHistoryService" class="org.kuali.kra.timeandmoney.service.impl.TimeAndMoneyHistoryServiceImpl">
+    	<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>        
+    </bean>
+    
+    <bean id="timeAndMoneyActionSummaryService" class="org.kuali.kra.timeandmoney.service.impl.TimeAndMoneyActionSummaryServiceImpl">
+    	<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="timeAndMoneyDao">
+            <ref bean="timeAndMoneyDao" />
+        </property>        
+    </bean>
+    
+    <bean id="timeAndMoneyDao" parent="platformAwareDao" class="org.kuali.kra.timeandmoney.dao.impl.TimeAndMoneyDaoOjb" >
+    </bean>
+    
 </beans>

@@ -1641,8 +1641,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
         awardAmountInfos = new ArrayList<AwardAmountInfo>();
         AwardAmountInfo awardAmountInfo = new AwardAmountInfo();
-        awardAmountInfo.setAward(this);
-        awardAmountInfo.setAmountSequenceNumber(1);
+        awardAmountInfo.setAward(this);        
         awardAmountInfos.add(awardAmountInfo);
         
         //customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
