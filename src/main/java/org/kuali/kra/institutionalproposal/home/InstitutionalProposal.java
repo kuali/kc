@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.AwardType;
+import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
@@ -106,7 +107,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private ActivityType activityType; 
     private AwardType awardType; 
     private InstitutionalProposalScienceKeyword proposalScienceKeyword; 
-    private InstitutionalProposalCostSharing proposalCostSharing; 
+    private InstitutionalProposalCostShare proposalCostSharing; 
     //private AwardFundingProposals awardFundingProposals; 
     private InstitutionalProposalPersonCreditSplit proposalPerCreditSplit; 
     private ProposalUnitCreditSplit proposalUnitCreditSplit; 
@@ -119,6 +120,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private List<InstitutionalProposalSpecialReview> specialReviews;
     private List<InstitutionalProposalUnitAdministrator> institutionalProposalUnitAdministrators;
     private List<InstitutionalProposalScienceKeyword> institutionalProposalScienceKeywords;
+    private List<InstitutionalProposalCostShare> institutionalProposalCostShares;
+    private List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs;
 
     public InstitutionalProposal() { 
         super();
@@ -159,18 +162,9 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         InstitutionalProposalUnitAdministrator ipua1 = new InstitutionalProposalUnitAdministrator();
         InstitutionalProposalUnitAdministrator ipua2 = new InstitutionalProposalUnitAdministrator();
         InstitutionalProposalUnitAdministrator ipua3 = new InstitutionalProposalUnitAdministrator();
-        Map<String, String> primaryKeys1 = new HashMap<String, String>();
-        Map<String, String> primaryKeys2 = new HashMap<String, String>();
-        Map<String, String> primaryKeys3 = new HashMap<String, String>();
         ipua1.setAdministrator("000000081");
-        primaryKeys1.put("personId", ipua1.getAdministrator());
         ipua2.setAdministrator("000000011");
-        primaryKeys1.put("personId", ipua2.getAdministrator());
         ipua3.setAdministrator("000000052");
-        primaryKeys1.put("personId", ipua3.getAdministrator());
-        ipua1.setPerson((Person) getKraBusinessObjectService().findByPrimaryKey(Person.class, primaryKeys1));
-        ipua2.setPerson((Person) getKraBusinessObjectService().findByPrimaryKey(Person.class, primaryKeys2));
-        ipua3.setPerson((Person) getKraBusinessObjectService().findByPrimaryKey(Person.class, primaryKeys3));
         ipua1.setInstitutionalProposal(this);
         ipua2.setInstitutionalProposal(this);
         ipua3.setInstitutionalProposal(this);
@@ -221,6 +215,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         institutionalProposalNotepad.setInstitutionalProposal(this);
     }
     
+    public void add(InstitutionalProposalCostShare institutionalProposalCostShare) {
+        institutionalProposalCostShare.setInstitutionalProposal(this);
+        institutionalProposalCostShares.add(institutionalProposalCostShare);
+    }
+    
     /**
      * This method 
      * @return
@@ -242,6 +241,28 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
          returnValue = returnValue.add(totalIndirectCostTotal);
          return returnValue;
      }
+      
+      /**
+       * This method calculates the total value of a list of ValuableItems
+       * @param valuableItems
+       * @return The total value
+       */
+      KualiDecimal getTotalAmount(List<? extends ValuableItem> valuableItems) {
+          KualiDecimal returnVal = new KualiDecimal(0.00);
+          for(ValuableItem item : valuableItems) {
+              KualiDecimal amount = item.getAmount() != null ? item.getAmount() : new KualiDecimal(0.00);
+              returnVal = returnVal.add(amount);
+          }
+          return returnVal;
+      }
+      
+      /**
+       * This method calls getTotalAmount to calculate the total of all Commitment Amounts.
+       * @return
+       */
+       public KualiDecimal getTotalCostShareAmount() {
+          return getTotalAmount(institutionalProposalCostShares);
+      }
       
      /**
       * Gets the specialReviews attribute. 
@@ -336,6 +357,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         specialReviews = new ArrayList<InstitutionalProposalSpecialReview>();
         institutionalProposalUnitAdministrators = new ArrayList<InstitutionalProposalUnitAdministrator>();
         institutionalProposalScienceKeywords = new ArrayList<InstitutionalProposalScienceKeyword>();
+        institutionalProposalCostShares = new ArrayList<InstitutionalProposalCostShare>();
+        institutionalProposalUnrecoveredFandAs = new ArrayList<InstitutionalProposalUnrecoveredFandA>();
     }
     
     public Long getProposalId() {
@@ -784,11 +807,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.proposalScienceKeyword = proposalScienceKeyword;
     }
 
-    public InstitutionalProposalCostSharing getProposalCostSharing() {
+    public InstitutionalProposalCostShare getProposalCostSharing() {
         return proposalCostSharing;
     }
 
-    public void setProposalCostSharing(InstitutionalProposalCostSharing proposalCostSharing) {
+    public void setProposalCostSharing(InstitutionalProposalCostShare proposalCostSharing) {
         this.proposalCostSharing = proposalCostSharing;
     }
 
@@ -842,6 +865,41 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.intellectualPropertyReview = intellectualPropertyReview;
     }
     
+    
+    
+    /**
+     * Gets the institutionalProposalCostShares attribute. 
+     * @return Returns the institutionalProposalCostShares.
+     */
+    public List<InstitutionalProposalCostShare> getInstitutionalProposalCostShares() {
+        return institutionalProposalCostShares;
+    }
+
+    /**
+     * Sets the institutionalProposalCostShares attribute value.
+     * @param institutionalProposalCostShares The institutionalProposalCostShares to set.
+     */
+    public void setInstitutionalProposalCostShares(List<InstitutionalProposalCostShare> institutionalProposalCostShares) {
+        this.institutionalProposalCostShares = institutionalProposalCostShares;
+    }
+
+    /**
+     * Gets the institutionalProposalUnrecoveredFandAs attribute. 
+     * @return Returns the institutionalProposalUnrecoveredFandAs.
+     */
+    public List<InstitutionalProposalUnrecoveredFandA> getInstitutionalProposalUnrecoveredFandAs() {
+        return institutionalProposalUnrecoveredFandAs;
+    }
+
+    /**
+     * Sets the institutionalProposalUnrecoveredFandAs attribute value.
+     * @param institutionalProposalUnrecoveredFandAs The institutionalProposalUnrecoveredFandAs to set.
+     */
+    public void setInstitutionalProposalUnrecoveredFandAs(
+            List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs) {
+        this.institutionalProposalUnrecoveredFandAs = institutionalProposalUnrecoveredFandAs;
+    }
+
     /**
      * Gets the createTimeStamp attribute. 
      * @return Returns the createTimeStamp.
