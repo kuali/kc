@@ -17,24 +17,24 @@ package org.kuali.kra.institutionalproposal.rules;
 
 import org.apache.log4j.Logger;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This class...
  */
-public class InstitutionalProposalAddCostShareRuleEvent extends KraDocumentEventBase {
+public class InstitutionalProposalSaveUnrecoveredFandARuleEvent extends KraDocumentEventBase {
 
-    private static final Logger LOG = Logger.getLogger(InstitutionalProposalAddCostShareRuleEvent.class);
+private static final Logger LOG = Logger.getLogger(InstitutionalProposalAddCostShareRuleEvent.class);
     
-    private InstitutionalProposalCostShare institutionalProposalCostShare;
+    private InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA;
 
-    public InstitutionalProposalAddCostShareRuleEvent(String errorPathPrefix, 
+    public InstitutionalProposalSaveUnrecoveredFandARuleEvent(String errorPathPrefix, 
             InstitutionalProposalDocument institutionalProposalDocument,
-            InstitutionalProposalCostShare institutionalProposalCostShare) {
+            InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA) {
         super("Cost Share", errorPathPrefix, institutionalProposalDocument);
-        this.institutionalProposalCostShare = institutionalProposalCostShare;
+        this.institutionalProposalUnrecoveredFandA = institutionalProposalUnrecoveredFandA;
     }
     
     /**
@@ -49,8 +49,8 @@ public class InstitutionalProposalAddCostShareRuleEvent extends KraDocumentEvent
      * This method returns the equipment item for validation
      * @return
      */
-    public InstitutionalProposalCostShare getCostShareForValidation() {
-        return institutionalProposalCostShare;
+    public InstitutionalProposalUnrecoveredFandA getUnrecoveredFandAForValidation() {
+        return institutionalProposalUnrecoveredFandA;
     }
     
     
@@ -59,7 +59,7 @@ public class InstitutionalProposalAddCostShareRuleEvent extends KraDocumentEvent
      */
     @Override
     protected void logEvent() {
-        LOG.info("Logging InstitutionalProposalCostShareRuleEvent");
+        LOG.info("Logging InstitutionalProposalUnrecoveredFandARuleEvent");
     }
 
     /**
@@ -67,14 +67,14 @@ public class InstitutionalProposalAddCostShareRuleEvent extends KraDocumentEvent
      */
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
-        return InstitutionalProposalAddCostShareRule.class;
+        return InstitutionalProposalUnrecoveredFandARule.class;
     }
 
     /**
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((InstitutionalProposalAddCostShareRule)rule).processAddInstitutionalProposalCostShareBusinessRules(this);
+        return ((InstitutionalProposalUnrecoveredFandARule)rule).processSaveInstitutionalProposalUnrecoveredFandABusinessRules(this);
     }
 
 }

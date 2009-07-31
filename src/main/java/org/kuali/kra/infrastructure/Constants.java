@@ -491,6 +491,7 @@ public interface Constants {
     
     //Institutional Proposal Rules
     public static final String IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY = "newInstitutionalProposalCostShare";
+    public static final String IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY = "newInstitutionalProposalUnrecoveredFandA";
     
     //Institutional Proposal Audit Rules 
     public static final String GRADUATE_STUDENT_PANEL_ANCHOR = "GraduateStudent";

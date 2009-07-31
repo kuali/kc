@@ -215,9 +215,22 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         institutionalProposalNotepad.setInstitutionalProposal(this);
     }
     
+    /**
+     * This method...
+     * @param institutionalProposalCostShare
+     */
     public void add(InstitutionalProposalCostShare institutionalProposalCostShare) {
         institutionalProposalCostShare.setInstitutionalProposal(this);
         institutionalProposalCostShares.add(institutionalProposalCostShare);
+    }
+    
+    /**
+     * This method...
+     * @param institutionalProposalUnrecoveredFandA
+     */
+    public void add(InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA) {
+        institutionalProposalUnrecoveredFandA.setInstitutionalProposal(this);
+        institutionalProposalUnrecoveredFandAs.add(institutionalProposalUnrecoveredFandA);
     }
     
     /**
@@ -263,6 +276,14 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
        public KualiDecimal getTotalCostShareAmount() {
           return getTotalAmount(institutionalProposalCostShares);
       }
+       
+       /**
+        * This method calls getTotalAmount to calculate the total of all Unrecovered FandAs.
+        * @return
+        */
+        public KualiDecimal getTotalUnrecoveredFandAAmount() {
+           return getTotalAmount(institutionalProposalUnrecoveredFandAs);
+       }
       
      /**
       * Gets the specialReviews attribute. 

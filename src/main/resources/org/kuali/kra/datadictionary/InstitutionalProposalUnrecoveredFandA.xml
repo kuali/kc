@@ -106,15 +106,18 @@
         <property name="name" value="applicableIndirectcostRate" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Applicable Indirectcost Rate" />
-        <property name="shortLabel" value="Applicable Indirectcost Rate" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+        <property name="shortLabel" value="Applicable Rate" />
+        <property name="maxLength" value="10" />
+    	<property name="validationPattern" >
+      		<bean parent="FixedPointValidationPattern"
+            	p:precision="5"
+            	p:scale="2" />
+    	</property>
+    	<property name="required" value="false" />
+    	<property name="control" >
+      		<bean parent="TextControlDefinition"
+            	p:size="10" />
+    	</property>
         <property name="summary" value="Applicable Indirectcost Rate" />
         <property name="description" value="Applicable Indirectcost Rate" />
     </bean>
@@ -124,15 +127,21 @@
         <property name="name" value="indirectcostRateTypeCode" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Idc Rate Type Code" />
-        <property name="shortLabel" value="Idc Rate Type Code" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+        <property name="shortLabel" value="FNA Rate Type" />
+        <property name="maxLength" value="3" />
+    	<property name="validationPattern" >
+      		<bean parent="NumericValidationPattern" />
+    	</property>
+    	<property name="required" value="true" />
+    	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.institutionalproposal.IndirectcostRateType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+            	p:keyAttribute="indirectcostRateTypeCode"
+            	p:labelAttribute="description" />
+    	</property>
         <property name="summary" value="Idc Rate Type Code" />
         <property name="description" value="Idc Rate Type Code" />
     </bean>
@@ -159,7 +168,13 @@
     <bean id="InstitutionalProposalUnrecoveredFandA-onCampusFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
         <property name="name" value="onCampusFlag" />
         <property name="label" value="On Campus Flag" />
-        <property name="shortLabel" value="On Campus Flag" />
+        <property name="shortLabel" value="On Campus" />
+        <property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern" />
+    	</property>
+    	<property name="control" >
+      		<bean parent="CheckboxControlDefinition" />
+    	</property>
         <property name="summary" value="On Campus Flag" />
         <property name="description" value="On Campus Flag" />
     </bean>
@@ -169,15 +184,19 @@
         <property name="name" value="underrecoveryOfIndirectcost" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Underrecovery Of Indirectcost" />
-        <property name="shortLabel" value="Underrecovery Of Indirectcost" />
+        <property name="shortLabel" value="Amount" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+      		<bean parent="FixedPointValidationPattern"
+           	 	p:precision="12"
+            	p:scale="2" />
+    	</property>
+    	<property name="required" value="true" />
+    	<property name="control" >
+      		<bean parent="CurrencyControlDefinition"
+           		p:formattedMaxLength="22"
+            	p:size="16" />
+    	</property>
         <property name="summary" value="Underrecovery Of Indirectcost" />
         <property name="description" value="Underrecovery Of Indirectcost" />
     </bean>
@@ -189,13 +208,15 @@
         <property name="label" value="Source Account" />
         <property name="shortLabel" value="Source Account" />
         <property name="maxLength" value="7" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+    	<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    	</property>
+    	<property name="required" value="false" />
+    	<property name="control" >
+      		<bean parent="TextControlDefinition"
+            	p:size="7" />
+    	</property>
         <property name="summary" value="Source Account" />
         <property name="description" value="Source Account" />
     </bean>

@@ -17,19 +17,21 @@ package org.kuali.kra.institutionalproposal.home;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.institutionalproposal.IndirectcostRateType;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
+import org.kuali.rice.kns.util.KualiDecimal;
 
-public class InstitutionalProposalUnrecoveredFandA extends InstitutionalProposalAssociate { 
+public class InstitutionalProposalUnrecoveredFandA extends InstitutionalProposalAssociate implements ValuableItem{ 
     
     private static final long serialVersionUID = 1L;
 
     private Long proposalUnrecoveredFandAId;  
-    private Long applicableIndirectcostRate; 
+    private KualiDecimal applicableIndirectcostRate; 
     private Integer indirectcostRateTypeCode; 
     private String fiscalYear; 
     private boolean onCampusFlag; 
-    private Long underrecoveryOfIndirectcost; 
+    private KualiDecimal underrecoveryOfIndirectcost; 
     private String sourceAccount; 
     
     private IndirectcostRateType indirectcostRateType; 
@@ -46,11 +48,11 @@ public class InstitutionalProposalUnrecoveredFandA extends InstitutionalProposal
         this.proposalUnrecoveredFandAId = proposalUnrecoveredFandAId;
     }
 
-    public Long getApplicableIndirectcostRate() {
+    public KualiDecimal getApplicableIndirectcostRate() {
         return applicableIndirectcostRate;
     }
 
-    public void setApplicableIndirectcostRate(Long applicableIndirectcostRate) {
+    public void setApplicableIndirectcostRate(KualiDecimal applicableIndirectcostRate) {
         this.applicableIndirectcostRate = applicableIndirectcostRate;
     }
 
@@ -78,11 +80,11 @@ public class InstitutionalProposalUnrecoveredFandA extends InstitutionalProposal
         this.onCampusFlag = onCampusFlag;
     }
 
-    public Long getUnderrecoveryOfIndirectcost() {
+    public KualiDecimal getUnderrecoveryOfIndirectcost() {
         return underrecoveryOfIndirectcost;
     }
 
-    public void setUnderrecoveryOfIndirectcost(Long underrecoveryOfIndirectcost) {
+    public void setUnderrecoveryOfIndirectcost(KualiDecimal underrecoveryOfIndirectcost) {
         this.underrecoveryOfIndirectcost = underrecoveryOfIndirectcost;
     }
 
@@ -114,6 +116,10 @@ public class InstitutionalProposalUnrecoveredFandA extends InstitutionalProposal
         hashMap.put("underrecoveryOfIndirectcost", this.getUnderrecoveryOfIndirectcost());
         hashMap.put("sourceAccount", this.getSourceAccount());
         return hashMap;
+    }
+
+    public KualiDecimal getAmount() {
+        return underrecoveryOfIndirectcost;
     }
     
 }
