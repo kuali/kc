@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.common.web.struts.form.LookupHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -56,7 +55,6 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     private MembershipHelper membershipHelper;
     private MembershipRolesHelper membershipRolesHelper;
     private MembershipExpertiseHelper membershipExpertiseHelper;
-    private LookupHelper<CommitteeForm> lookupHelper;
     
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeForm.class);
@@ -90,9 +88,6 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
         setMembershipRolesHelper(new MembershipRolesHelper(this));
         setMembershipExpertiseHelper(new MembershipExpertiseHelper(this));
         setCommitteeScheduleHelper(new CommitteeScheduleHelper(this));
-        if (getLookupHelper() == null) {
-            setLookupHelper(new LookupHelper(this));
-        }
     }
 
     /**
@@ -247,14 +242,6 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
      */
     public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
         return true;
-    }
-
-    public LookupHelper<CommitteeForm> getLookupHelper() {
-        return lookupHelper;
-    }
-
-    public void setLookupHelper(LookupHelper<CommitteeForm> lookupHelper) {
-        this.lookupHelper = lookupHelper;
     }
 }
 

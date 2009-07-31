@@ -51,7 +51,6 @@ import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionBean;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
-import org.kuali.kra.common.web.struts.form.LookupHelper;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -120,7 +119,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
     private PermissionsHelper permissionsHelper;
     private AwardCreditSplitBean awardCreditSplitBean;
-    private LookupHelper<AwardForm> lookupHelper;
     private Map<String, AwardHierarchy> awardHierarchyNodes;
     private String awardNumberInputTemp;//This is temporary till the GUI mock is ready for award hierarchy
     
@@ -286,13 +284,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_AWARD;
     }
 
-    /**
-     * @return
-     */
-    public LookupHelper<AwardForm> getLookupHelper() {
-        return lookupHelper;
-    }
-    
     /**
      * Gets the lookupResultsBOClassName attribute. 
      * @return Returns the lookupResultsBOClassName.

@@ -15,102 +15,104 @@
  */
 package org.kuali.kra.award.document.authorization;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.AwardTaskNames;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kns.util.KNSConstants;
 
 /**
- * 
- * This class represents the Award Document Authorizer.
+ * This class is the Award Document Authorizer.  It determines the edit modes and
+ * document actions for all award documents.
  */
-public class AwardDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
-    
-    private static final String TRUE = "TRUE";
+public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     
     /**
-     * Used for permissions
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
      */
-    @SuppressWarnings("unchecked")
-    public Map getEditMode(Document doc, UniversalUser user) {
-                 
-        Map editModeMap = new HashMap();
+    public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
+        Set<String> editModes = new HashSet<String>();
         
-        AwardDocument awardDocument = (AwardDocument) doc;
+        String username = user.getPrincipalId();
+        AwardDocument awardDocument = (AwardDocument) document;
         
-        String username = user.getPersonUserIdentifier();
         if (awardDocument.getAward().getAwardId() == null) {
-            String editMode = canCreateAward(user) ? AuthorizationConstants.EditMode.FULL_ENTRY : AuthorizationConstants.EditMode.UNVIEWABLE;
-            editModeMap.put(editMode, TRUE);
-        }else {
+            if (canCreateAward(user)) {
+                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+            }
+            else {
+                editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
+            }
+        }
+        else {
             if (canExecuteAwardTask(username, awardDocument, AwardTaskNames.MODIFY_AWARD.getAwardTaskName())) {  
-                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
-            }else if (canExecuteAwardTask(username, awardDocument, AwardTaskNames.VIEW_AWARD.getAwardTaskName())) {
-                editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
-            }else {
-                editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
+                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+            }
+            else if (canExecuteAwardTask(username, awardDocument, AwardTaskNames.VIEW_AWARD.getAwardTaskName())) {
+                editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
+            }
+            else {
+                editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
         }
         
-        return editModeMap;
+        return editModes;
     }
     
     /**
-     * 
-     * This method determines if user has initiate authorization on the document.
-     * @param document
-     * @param user
-     * @return
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
      */
-    public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
-   
-        AwardDocument awardDocument = (AwardDocument) document;
-        
-        boolean permission;
-        if (awardDocument.getAward().getAwardId() == null) {
-            permission = canCreateAward(user);
-        }else {
-            String username = user.getPersonUserIdentifier();
-            permission = canExecuteAwardTask(username, awardDocument, AwardTaskNames.MODIFY_AWARD.getAwardTaskName());
-        }
-        return permission;
+    public boolean canInitiate(String documentTypeName, Person user) {
+        return canCreateAward(user);
     }
-   
+  
     /**
-     * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getDocumentActions(org.kuali.rice.kns.document.Document, 
-     *                                                                                              org.kuali.rice.kim.bo.Person, java.util.Set)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    public boolean canOpen(Document document, Person user) {
+        AwardDocument awardDocument = (AwardDocument) document;
+        if (awardDocument.getAward().getAwardId() == null) {
+            return canCreateAward(user);
+        }
+        return canExecuteAwardTask(user.getPrincipalId(), (AwardDocument) document, AwardTaskNames.VIEW_AWARD.getAwardTaskName());
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
-        super.getDocumentActions(document, user, documentActions);
-        documentActions.remove(KNSConstants.KUALI_ACTION_CAN_COPY);
-        
-//      Any user who has the Initiate Authorization can save and cancel.
-        if (this.hasInitiateAuthorization(document, new UniversalUser(user))) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
-        } else {
-            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
-            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_CANCEL);
-            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_RELOAD);
-        }
-        
-        return documentActions;
+    public boolean canEdit(Document document, Person user) {
+        return canExecuteAwardTask(user.getPrincipalId(), (AwardDocument) document, AwardTaskNames.MODIFY_AWARD.getAwardTaskName());
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canSave(Document document, Person user) {
+        return canEdit(document, user);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canReload(Document document, Person user) {
+        return canEdit(document, user);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canCopy(Document document, Person user) {
+        return false;
     }
     
     /**
@@ -118,8 +120,8 @@ public class AwardDocumentAuthorizer extends TransactionalDocumentAuthorizerBase
      * @param user the user
      * @return true if the user can create a award; otherwise false
      */
-    private boolean canCreateAward(UniversalUser user) {
-        String username = user.getPersonUserIdentifier();
+    private boolean canCreateAward(Person user) {
+        String username = user.getPrincipalId();
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_AWARD);
         return getTaskAuthorizationService().isAuthorized(username, task);
     }
@@ -134,14 +136,5 @@ public class AwardDocumentAuthorizer extends TransactionalDocumentAuthorizerBase
     private boolean canExecuteAwardTask(String username, AwardDocument doc, String taskName) {
         AwardTask task = new AwardTask(taskName, doc.getAward());
         return getTaskAuthorizationService().isAuthorized(username, task);
-    }
-    
-    /**
-     * 
-     * This is a helper method for retrieving TaskAuthorizationService using the service locator.
-     * @return
-     */
-    protected TaskAuthorizationService getTaskAuthorizationService(){
-        return (TaskAuthorizationService) KraServiceLocator.getService(TaskAuthorizationService.class);        
     }
 }

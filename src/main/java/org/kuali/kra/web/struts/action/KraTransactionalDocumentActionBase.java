@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,12 +44,13 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
-import org.kuali.kra.budget.web.struts.action.BudgetPersonnelAction;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -64,12 +67,12 @@ import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.SessionDocument;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -104,6 +107,22 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         if (((KualiDocumentFormBase) form).getErrorMapFromPreviousRequest() == null) {
             ((KualiDocumentFormBase) form).setErrorMapFromPreviousRequest(new ErrorMap());
         }
+        
+        /*
+         * If the document is being opened in view only mode, mark the form.  We will also
+         * mark the document, but it should be mentioned that a reload will cause a new 
+         * document instance to be placed into the form.  When the form's setDocument() is
+         * invoked, the document's view only flag is set according to the form's view only flag.
+         */
+        KraTransactionalDocumentFormBase kcForm = (KraTransactionalDocumentFormBase) form;
+        String commandParam = request.getParameter(KNSConstants.PARAMETER_COMMAND);
+        if (StringUtils.isNotBlank(commandParam) && commandParam.equals("displayDocSearchView") && StringUtils.isNotBlank(request.getParameter("viewDocument"))) {
+            if (request.getParameter("viewDocument").equals("true")) {
+                kcForm.setViewOnly(true);
+                ((ResearchDocumentBase)kcForm.getDocument()).setViewOnly(kcForm.isViewOnly());
+            }
+        }
+        
         ActionForward returnForward = mapping.findForward(Constants.MAPPING_BASIC);
         returnForward = super.execute(mapping, form, request, response);
         
@@ -324,8 +343,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     private boolean isTaskAuthorized(String methodName, ActionForm form, HttpServletRequest request) {
         WebAuthorizationService webAuthorizationService = KraServiceLocator.getService(WebAuthorizationService.class);
         Person person = GlobalVariables.getUserSession().getPerson();
-        UniversalUser user = new UniversalUser(person);
-        String username = user.getPersonUserIdentifier();
+        String username = person.getPrincipalId();
         ((KraTransactionalDocumentFormBase) form).setActionName(getClass().getSimpleName());
         boolean isAuthorized = webAuthorizationService.isAuthorized(username, this.getClass(), methodName, form, request);
         if (!isAuthorized) {
@@ -407,7 +425,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                 KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         GlobalVariables.getUserSession().removeObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         PessimisticLockService lockService = KNSServiceLocator.getPessimisticLockService();
-        UniversalUser loggedInUser = (UniversalUser) GlobalVariables.getUserSession().getPerson();
+        Person loggedInUser = GlobalVariables.getUserSession().getPerson();
         BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
 
         String budgetLockDescriptor = null;
@@ -439,27 +457,71 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         }  
     }
     
-    // TODO Temporary hack to overcome pessimistic lock bug
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @SuppressWarnings("unchecked")
     @Override
-    protected void populateAuthorizationFields(KualiDocumentFormBase formBase){
+    protected void populateAuthorizationFields(KualiDocumentFormBase formBase) {
+        
         if (formBase.isFormDocumentInitialized()) {
-            Document document = formBase.getDocument();
+            KraTransactionalDocumentFormBase kcFormBase = (KraTransactionalDocumentFormBase) formBase;
+            ResearchDocumentBase document = (ResearchDocumentBase) formBase.getDocument();
             Person user = GlobalVariables.getUserSession().getPerson();
-            DocumentPresentationController documentPresentationController = KNSServiceLocator.getDocumentHelperService().getDocumentPresentationController(document);
-            DocumentAuthorizer documentAuthorizer = getDocumentHelperService().getDocumentAuthorizer(document);
-            Set<String> documentActions =  documentPresentationController.getDocumentActions(document);
-            documentActions = documentAuthorizer.getDocumentActions(document, user, documentActions);
-
-//            if (getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking()) {
-//                documentActions = getPessimisticLockService().getDocumentActions(document, user, documentActions);
-//            }
-
-            //DocumentActionFlags flags = new DocumentActionFlags();
-            KraTransactionalDocumentFormBase kraFormBase = (KraTransactionalDocumentFormBase) formBase;
-            kraFormBase.setupLockRegions();
-            formBase.setDocumentActions(convertSetToMap(documentActions));
-
+            KcTransactionalDocumentAuthorizerBase documentAuthorizer = (KcTransactionalDocumentAuthorizerBase) getDocumentHelperService().getDocumentAuthorizer(document);
+    
+            Set<String> editModes = new HashSet<String>();
+            
+            if (!documentAuthorizer.canOpen(document, user)) {
+                editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
+            }
+            else {
+                document.setViewOnly(kcFormBase.isViewOnly());
+                
+                /*
+                 * Documents that require a pessimistic lock need to be treated differently.  If a user
+                 * can edit the document, they need to obtain the lock, but it is possible that another
+                 * user already has the lock.  So, we try to get the lock using FULL_ENTRY.  If the
+                 * edit mode is downgraded to VIEW_ONLY, we flag the document as such.
+                 */
+                if (requiresLock(document) && documentAuthorizer.canEdit(document, user)) {
+                    editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+                            
+                    Map<String, String> editMode = convertSetToMap(editModes);
+                    editMode = getPessimisticLockService().establishLocks(document, editMode, user);
+                            
+                    if (editMode.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY)) {
+                        document.setViewOnly(true);
+                    }
+                }
+                editModes = documentAuthorizer.getEditModes(document, user, null);
+                Set<String> documentActions = documentAuthorizer.getDocumentActions(document, user, null);
+                
+                KraTransactionalDocumentFormBase kraFormBase = (KraTransactionalDocumentFormBase) formBase;
+                kraFormBase.setupLockRegions();
+                formBase.setDocumentActions(convertSetToMap(documentActions));
+            }
+            formBase.setEditingMode(convertSetToMap(editModes));
         }
+    }
+    
+    private boolean requiresLock(Document document) {
+        return getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking();
+    }
+    
+    /**
+     * Hack because "TRUE" must be uppercase for pessimistic locking service to work.
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#convertSetToMap(java.util.Set)
+     */
+    @Override
+    protected Map convertSetToMap(Set s){
+        Map map = new HashMap();
+        Iterator i = s.iterator();
+        while(i.hasNext()) {
+            Object key = i.next();
+           map.put(key, "TRUE");
+        }
+        return map;
     }
     
     /**
@@ -635,9 +697,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             throw new UnknownDocumentIdException("Document no longer exists.  It may have been cancelled before being saved.");
         }
         KualiWorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
-        if (!getDocumentHelperService().getDocumentAuthorizer(doc).canOpen(doc, GlobalVariables.getUserSession().getPerson())) {
-            throw buildAuthorizationException("open", doc);
-        }
+        
         // re-retrieve the document using the current user's session - remove the system user from the WorkflowDcument object
         if ( workflowDocument != doc.getDocumentHeader().getWorkflowDocument() ) {
             LOG.warn( "Workflow document changed via canOpen check" );
@@ -649,8 +709,13 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         // KualiDocumentFormBase.populate() needs this updated in the session
         String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(workflowDoc.getRouteHeaderId()).getDocumentContent();
         if (doc instanceof CommitteeDocument && !workflowDoc.getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
-            ((CommitteeDocument)doc).getCommitteeList().add((Committee)populateCommitteeFromXmlDocumentContents(content));
+            Committee committee = (Committee)populateCommitteeFromXmlDocumentContents(content);
+            ((CommitteeDocument)doc).getCommitteeList().add(committee);
+            committee.setCommitteeDocument((CommitteeDocument) doc);
             //populateCommitteeFromXmlDocumentContents(content);
+        }
+        if (!getDocumentHelperService().getDocumentAuthorizer(doc).canOpen(doc, GlobalVariables.getUserSession().getPerson())) {
+            throw buildAuthorizationException("open", doc);
         }
         GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
     }

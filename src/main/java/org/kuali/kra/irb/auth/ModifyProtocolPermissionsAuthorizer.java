@@ -25,6 +25,7 @@ public class ModifyProtocolPermissionsAuthorizer extends ProtocolAuthorizer {
 
     @Override
     public boolean isAuthorized(String userName, ProtocolTask task) {
-        return hasPermission(userName, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_ACCESS);
+        return !task.getProtocol().getProtocolDocument().isViewOnly() &&
+               hasPermission(userName, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_ACCESS);
     }
 }

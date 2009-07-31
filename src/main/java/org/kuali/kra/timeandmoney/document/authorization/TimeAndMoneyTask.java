@@ -33,7 +33,7 @@ public final class TimeAndMoneyTask extends Task {
      * @param timeAndMoneyDocument the TimeAndMoneyDocument
      */
     public TimeAndMoneyTask(String taskName, TimeAndMoneyDocument timeAndMoneyDocument) {
-        super(TaskGroupName.AWARD, taskName);
+        super(TaskGroupName.TIME_AND_MONEY, taskName);
         this.timeAndMoneyDocument = timeAndMoneyDocument;
     }
 

@@ -547,15 +547,6 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         }
         return super.headerTab(mapping, form, request, response);
     }
-    
-    @Override
-    protected void populateAuthorizationFields(KualiDocumentFormBase formBase){
-        super.populateAuthorizationFields(formBase);
-        ProposalDevelopmentDocumentAuthorizer documentAuthorizer = new ProposalDevelopmentDocumentAuthorizer();
-        formBase.setEditingMode(documentAuthorizer.getEditMode(formBase.getDocument(), 
-                new UniversalUser(GlobalVariables.getUserSession().getPerson())));
-    }
-
 }
 
 class S2sOppFormsComparator1 implements Comparator<S2sOppForms> {
