@@ -997,6 +997,7 @@ function getAddRequirementRow(curidx) {
 
 /*
  * check if required fields entered for requirement to add
+ * Also, some basic validation of number and date
  */
 function okToAddRequirement(response, value) {
 	var valid = false;
@@ -1007,7 +1008,7 @@ function okToAddRequirement(response, value) {
 	} else if (response >= 3 && response <= 7 && isNaN(value)) {
 		alert("Value must be a number");
 	} else if (response > 7 && !isDate(value)) {
-		alert("Not a Valid Date");
+		alert("Not a Valid Date (mm/dd/yyyy)");
 	} else {
 		valid = true;
 	}
