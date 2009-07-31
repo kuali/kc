@@ -17,7 +17,8 @@
 	  
 	<class-descriptor class="org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument" table="TIME_AND_MONEY_DOCUMENT">			
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
-		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />		
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
@@ -26,6 +27,9 @@
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
     	<collection-descriptor name="pendingTransactions" proxy="true" element-class-ref="org.kuali.kra.timeandmoney.transactions.PendingTransaction" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="documentNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="awardAmountTransactions" proxy="true" element-class-ref="org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="documentNumber"/>
 		</collection-descriptor>
 	</class-descriptor>
@@ -52,6 +56,39 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.timeandmoney.history.TransactionDetail" table="TRANSACTION_DETAILS">
+		<field-descriptor name="transactionDetailId" column="TRANSACTION_DETAIL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_TRANSACTION_DETAIL_ID" />
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="transactionId" column="TRANSACTION_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="timeAndMoneyDocumentNumber" column="TNM_DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sourceAwardNumber" column="SOURCE_AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="destinationAwardNumber" column="DESTINATION_AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="anticipatedAmount" column="ANTICIPATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction" table="AWARD_AMOUNT_TRANSACTION">
+		<field-descriptor name="awardAmountTransactionId" column="AWARD_AMOUNT_TRANSACTION_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_AMOUNT_TRANS_ID" />
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="documentNumber" column="TRANSACTION_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="transactionTypeCode" column="TRANSACTION_TYPE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="noticeDate" column="NOTICE_DATE" jdbc-type="DATE" />
+		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="awardTransactionType" class-ref="org.kuali.kra.timeandmoney.transactions.AwardTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="transactionTypeCode" />
+    	</reference-descriptor>		
 	</class-descriptor>
 	
 </descriptor-repository>

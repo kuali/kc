@@ -293,7 +293,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{ 
         AwardForm awardForm = (AwardForm) form;
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        String awardNumber = awardForm.getAwardDocument().getAward().getAwardNumber();
+        Award award = awardForm.getAwardDocument().getAward();
         if(isNewAward(awardForm)){
             AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
             awardForm.getAwardDocument().getAward().setAwardDirectFandADistributions
@@ -301,11 +301,12 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
                                         generateDefaultAwardDirectFandADistributionPeriods(awardForm.getAwardDocument().getAward()));
         }
         
-        Map<String, String> unique = new HashMap<String, String>();
-        unique.put("awardNumber", awardNumber);
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("awardNumber", award.getAwardNumber());
+        fieldValues.put("sequenceNumber", award.getSequenceNumber());
         BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
         
-        List<TimeAndMoneyDocument> timeAndMoneyDocuments = (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, unique);
+        List<TimeAndMoneyDocument> timeAndMoneyDocuments = (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues);
         TimeAndMoneyDocument timeAndMoneyDocument = null;
 
         if(timeAndMoneyDocuments.size()!=0){
@@ -317,7 +318,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         if(timeAndMoneyDocument == null){            
             timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
             timeAndMoneyDocument.getDocumentHeader().setDocumentDescription("timeandmoney document");
-            timeAndMoneyDocument.setAwardNumber(awardNumber);                
+            timeAndMoneyDocument.setAwardNumber(award.getAwardNumber());
+            timeAndMoneyDocument.setSequenceNumber(award.getSequenceNumber());
         }
         
         documentService.saveDocument(timeAndMoneyDocument);

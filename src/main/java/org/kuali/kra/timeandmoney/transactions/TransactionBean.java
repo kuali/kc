@@ -16,17 +16,12 @@
 package org.kuali.kra.timeandmoney.transactions;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kns.service.KualiRuleService;
-import org.springframework.util.StringUtils;
 
 /**
  * This class supports the TimeAndMoneyForm class
@@ -38,6 +33,7 @@ public class TransactionBean implements Serializable {
      */
     private static final long serialVersionUID = -5513993757805685581L;
     private PendingTransaction newPendingTransaction;
+    private AwardAmountTransaction newAwardAmountTransaction;
     private KualiRuleService ruleService;
     private TimeAndMoneyForm form;
     
@@ -143,5 +139,21 @@ public class TransactionBean implements Serializable {
      */
     public void setNewPendingTransaction(PendingTransaction newPendingTransaction) {
         this.newPendingTransaction = newPendingTransaction;
+    }
+
+    /**
+     * Gets the newAwardAmountTransaction attribute. 
+     * @return Returns the newAwardAmountTransaction.
+     */
+    public AwardAmountTransaction getNewAwardAmountTransaction() {
+        return newAwardAmountTransaction;
+    }
+
+    /**
+     * Sets the newAwardAmountTransaction attribute value.
+     * @param newAwardAmountTransaction The newAwardAmountTransaction to set.
+     */
+    public void setNewAwardAmountTransaction(AwardAmountTransaction newAwardAmountTransaction) {
+        this.newAwardAmountTransaction = newAwardAmountTransaction;
     }
 }

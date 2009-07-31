@@ -33,20 +33,20 @@ public class AwardAmountInfo extends AwardAssociate {
     
     private static final long serialVersionUID = 1L;
 
-    private Long awardAmountInfoId; 
-    private Integer amountSequenceNumber; 
+    private Long awardAmountInfoId;    
+    private Long transactionId;
+    private String timeAndMoneyDocumentNumber;
     private KualiDecimal anticipatedTotalAmount; 
     private KualiDecimal antDistributableAmount; 
     private Date finalExpirationDate; 
     private Date currentFundEffectiveDate; 
     private KualiDecimal amountObligatedToDate; 
     private KualiDecimal obliDistributableAmount; 
-    private Date obligationExpirationDate; 
-    private Long transactionId; 
+    private Date obligationExpirationDate;
     private boolean entryType; 
     private boolean eomProcessFlag; 
-    private Long anticipatedChange; 
-    private Long obligatedChange; 
+    private KualiDecimal anticipatedChange; 
+    private KualiDecimal obligatedChange; 
     private Long obligatedChangeDirect; 
     private Long obligatedChangeIndirect; 
     private Long anticipatedChangeDirect; 
@@ -74,14 +74,6 @@ public class AwardAmountInfo extends AwardAssociate {
 
     public void setAwardAmountInfoId(Long awardAmountInfoId) {
         this.awardAmountInfoId = awardAmountInfoId;
-    }
-
-    public Integer getAmountSequenceNumber() {
-        return amountSequenceNumber;
-    }
-
-    public void setAmountSequenceNumber(Integer amountSequenceNumber) {
-        this.amountSequenceNumber = amountSequenceNumber;
     }
 
     public KualiDecimal getAnticipatedTotalAmount() {
@@ -164,19 +156,19 @@ public class AwardAmountInfo extends AwardAssociate {
         this.eomProcessFlag = eomProcessFlag;
     }
 
-    public Long getAnticipatedChange() {
+    public KualiDecimal getAnticipatedChange() {
         return anticipatedChange;
     }
 
-    public void setAnticipatedChange(Long anticipatedChange) {
+    public void setAnticipatedChange(KualiDecimal anticipatedChange) {
         this.anticipatedChange = anticipatedChange;
     }
 
-    public Long getObligatedChange() {
+    public KualiDecimal getObligatedChange() {
         return obligatedChange;
     }
 
-    public void setObligatedChange(Long obligatedChange) {
+    public void setObligatedChange(KualiDecimal obligatedChange) {
         this.obligatedChange = obligatedChange;
     }
 
@@ -266,16 +258,16 @@ public class AwardAmountInfo extends AwardAssociate {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("awardAmountInfoId", this.getAwardAmountInfoId());
         hashMap.put("awardNumber", this.getAwardNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("amountSequenceNumber", this.getAmountSequenceNumber());
+        hashMap.put("sequenceNumber", this.getSequenceNumber());        
+        hashMap.put("transactionId", this.getTransactionId());
+        hashMap.put("timeAndMoneyDocumentNumber", this.getTimeAndMoneyDocumentNumber());
         hashMap.put("anticipatedTotalAmount", this.getAnticipatedTotalAmount());
         hashMap.put("antDistributableAmount", this.getAntDistributableAmount());
         hashMap.put("finalExpirationDate", this.getFinalExpirationDate());
         hashMap.put("currentFundEffectiveDate", this.getCurrentFundEffectiveDate());
         hashMap.put("amountObligatedToDate", this.getAmountObligatedToDate());
         hashMap.put("obliDistributableAmount", this.getObliDistributableAmount());
-        hashMap.put("obligationExpirationDate", this.getObligationExpirationDate());
-        hashMap.put("transactionId", this.getTransactionId());
+        hashMap.put("obligationExpirationDate", this.getObligationExpirationDate());        
         hashMap.put("entryType", this.getEntryType());
         hashMap.put("eomProcessFlag", this.getEomProcessFlag());
         hashMap.put("anticipatedChange", this.getAnticipatedChange());
@@ -296,5 +288,21 @@ public class AwardAmountInfo extends AwardAssociate {
      */
     public void resetPersistenceState() {
         this.awardAmountInfoId = null;
+    }
+
+    /**
+     * Gets the timeAndMoneyDocumentNumber attribute. 
+     * @return Returns the timeAndMoneyDocumentNumber.
+     */
+    public String getTimeAndMoneyDocumentNumber() {
+        return timeAndMoneyDocumentNumber;
+    }
+
+    /**
+     * Sets the timeAndMoneyDocumentNumber attribute value.
+     * @param timeAndMoneyDocumentNumber The timeAndMoneyDocumentNumber to set.
+     */
+    public void setTimeAndMoneyDocumentNumber(String timeAndMoneyDocumentNumber) {
+        this.timeAndMoneyDocumentNumber = timeAndMoneyDocumentNumber;
     }
 }
