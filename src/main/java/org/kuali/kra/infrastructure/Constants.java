@@ -489,6 +489,9 @@ public interface Constants {
     public static final String QUESTION_DOCUMENT_FIELD_LOOKUP_CLASS = "document.newMaintainableObject.businessObject.lookupClass";
     public static final String QUESTION_DOCUMENT_FIELD_LOOKUP_RETURN = "document.newMaintainableObject.businessObject.lookupReturn";
     
+    //Institutional Proposal Rules
+    public static final String IP_COST_SHARE_ADD_ACTION_PROPERTY_KEY = "newInstitutionalProposalCostShare";
+    
     //Institutional Proposal Audit Rules 
     public static final String GRADUATE_STUDENT_PANEL_ANCHOR = "GraduateStudent";
     public static final String GRADUATE_STUDENT_PANEL_NAME = "GraduateStudent";

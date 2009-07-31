@@ -26,7 +26,7 @@
   	
 This is the  Institutional Proposal Distribution - Under Construction
 
-<kra-ip:institutionalProposalCostSharing/>
+<kra-ip:institutionalProposalCostShare/>
 <kra-ip:institutionalProposalUnrecoveredFAndA />
 
 <kul:panelFooter />	

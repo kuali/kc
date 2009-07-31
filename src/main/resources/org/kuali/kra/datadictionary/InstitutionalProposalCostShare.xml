@@ -19,40 +19,40 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="InstitutionalProposalCostSharing" parent="InstitutionalProposalCostSharing-parentBean" />
-    <bean id="InstitutionalProposalCostSharing-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostSharing" />
+    <bean id="InstitutionalProposalCostShare" parent="InstitutionalProposalCostShare-parentBean" />
+    <bean id="InstitutionalProposalCostShare-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare" />
         <property name="inquiryDefinition" >
-            <ref bean="InstitutionalProposalCostSharing-inquiryDefinition" />
+            <ref bean="InstitutionalProposalCostShare-inquiryDefinition" />
         </property>
         <property name="lookupDefinition" >
-            <ref bean="InstitutionalProposalCostSharing-lookupDefinition" />
+            <ref bean="InstitutionalProposalCostShare-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="proposalCostSharingId" />
+        <property name="titleAttribute" value="proposalCostShareId" />
         <property name="attributes" >
             <list>
-                <ref bean="InstitutionalProposalCostSharing-proposalCostSharingId" />
-                <ref bean="InstitutionalProposalCostSharing-proposalId" />
-                <ref bean="InstitutionalProposalCostSharing-proposalNumber" />
-                <ref bean="InstitutionalProposalCostSharing-sequenceNumber" />
-                <ref bean="InstitutionalProposalCostSharing-fiscalYear" />
-                <ref bean="InstitutionalProposalCostSharing-costSharingPercentage" />
-                <ref bean="InstitutionalProposalCostSharing-costSharingTypeCode" />
-                <ref bean="InstitutionalProposalCostSharing-sourceAccount" />
-                <ref bean="InstitutionalProposalCostSharing-amount" />
-                <ref bean="InstitutionalProposalCostSharing-versionNumber" />
+                <ref bean="InstitutionalProposalCostShare-proposalCostShareId" />
+                <ref bean="InstitutionalProposalCostShare-proposalId" />
+                <ref bean="InstitutionalProposalCostShare-proposalNumber" />
+                <ref bean="InstitutionalProposalCostShare-sequenceNumber" />
+                <ref bean="InstitutionalProposalCostShare-fiscalYear" />
+                <ref bean="InstitutionalProposalCostShare-costSharePercentage" />
+                <ref bean="InstitutionalProposalCostShare-costShareTypeCode" />
+                <ref bean="InstitutionalProposalCostShare-sourceAccount" />
+                <ref bean="InstitutionalProposalCostShare-amount" />
+                <ref bean="InstitutionalProposalCostShare-versionNumber" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
     
-    <bean id="InstitutionalProposalCostSharing-proposalCostSharingId" parent="InstitutionalProposalCostSharing-proposalCostSharingId-parentBean" />
-    <bean id="InstitutionalProposalCostSharing-proposalCostSharingId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="proposalCostSharingId" />
+    <bean id="InstitutionalProposalCostShare-proposalCostShareId" parent="InstitutionalProposalCostShare-proposalCostShareId-parentBean" />
+    <bean id="InstitutionalProposalCostShare-proposalCostShareId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalCostShareId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Proposal Cost Sharing Id" />
-        <property name="shortLabel" value="Proposal Cost Sharing Id" />
+        <property name="label" value="Proposal Cost Share Id" />
+        <property name="shortLabel" value="Proposal Cost Share Id" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -61,12 +61,12 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="Proposal Cost Sharing Id" />
-        <property name="description" value="Proposal Cost Sharing Id" />
+        <property name="summary" value="Proposal Cost Share Id" />
+        <property name="description" value="Proposal Cost Share Id" />
     </bean>
 
-    <bean id="InstitutionalProposalCostSharing-proposalId" parent="InstitutionalProposalCostSharing-proposalId-parentBean" />
-    <bean id="InstitutionalProposalCostSharing-proposalId-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="InstitutionalProposalCostShare-proposalId" parent="InstitutionalProposalCostShare-proposalId-parentBean" />
+    <bean id="InstitutionalProposalCostShare-proposalId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalId" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Proposal Id" />
@@ -83,8 +83,8 @@
         <property name="description" value="Proposal Id" />
     </bean>
 
-    <bean id="InstitutionalProposalCostSharing-proposalNumber" parent="InstitutionalProposalCostSharing-proposalNumber-parentBean" />
-    <bean id="InstitutionalProposalCostSharing-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="InstitutionalProposalCostShare-proposalNumber" parent="InstitutionalProposalCostShare-proposalNumber-parentBean" />
+    <bean id="InstitutionalProposalCostShare-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalNumber" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Proposal Number" />
@@ -101,8 +101,8 @@
         <property name="description" value="Proposal Number" />
     </bean>
 
-    <bean id="InstitutionalProposalCostSharing-sequenceNumber" parent="InstitutionalProposalCostSharing-sequenceNumber-parentBean" />
-    <bean id="InstitutionalProposalCostSharing-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="InstitutionalProposalCostShare-sequenceNumber" parent="InstitutionalProposalCostShare-sequenceNumber-parentBean" />
+    <bean id="InstitutionalProposalCostShare-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="sequenceNumber" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Sequence Number" />
@@ -119,113 +119,129 @@
         <property name="description" value="Sequence Number" />
     </bean>
 
-    <bean id="InstitutionalProposalCostSharing-fiscalYear" parent="InstitutionalProposalCostSharing-fiscalYear-parentBean" />
-    <bean id="InstitutionalProposalCostSharing-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="InstitutionalProposalCostShare-fiscalYear" parent="InstitutionalProposalCostShare-fiscalYear-parentBean" />
+    <bean id="InstitutionalProposalCostShare-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="fiscalYear" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Fiscal Year" />
         <property name="shortLabel" value="Fiscal Year" />
         <property name="maxLength" value="4" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="5" />
-        </property>
+    	<property name="validationPattern" >
+      		<bean parent="NumericValidationPattern"/>
+    	</property>
+    	<property name="required" value="true" />
+    	<property name="control" >
+      		<bean parent="TextControlDefinition"
+            	p:size="5" />
+    	</property>
         <property name="summary" value="Fiscal Year" />
         <property name="description" value="Fiscal Year" />
     </bean>
 
-    <bean id="InstitutionalProposalCostSharing-costSharingPercentage" parent="InstitutionalProposalCostSharing-costSharingPercentage-parentBean" />
-    <bean id="InstitutionalProposalCostSharing-costSharingPercentage-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="costSharingPercentage" />
+    <bean id="InstitutionalProposalCostShare-costSharePercentage" parent="InstitutionalProposalCostShare-costSharePercentage-parentBean" />
+    <bean id="InstitutionalProposalCostShare-costSharePercentage-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="costSharePercentage" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Cost Sharing Percentage" />
-        <property name="shortLabel" value="Cost Sharing Percentage" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Cost Sharing Percentage" />
-        <property name="description" value="Cost Sharing Percentage" />
+        <property name="label" value="Cost Share Percentage" />
+        <property name="shortLabel" value="Percentage" />
+        <property name="maxLength" value="10" />
+    	<property name="validationPattern" >
+      		<bean parent="FixedPointValidationPattern"
+            	p:precision="5"
+            	p:scale="2" />
+    	</property>
+    	<property name="required" value="false" />
+    	<property name="control" >
+      		<bean parent="TextControlDefinition"
+            	p:size="10" />
+    	</property>
+        <property name="summary" value="Cost Share Percentage" />
+        <property name="description" value="Cost Share Percentage" />
     </bean>
 
-    <bean id="InstitutionalProposalCostSharing-costSharingTypeCode" parent="InstitutionalProposalCostSharing-costSharingTypeCode-parentBean" />
-    <bean id="InstitutionalProposalCostSharing-costSharingTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="costSharingTypeCode" />
+    <bean id="InstitutionalProposalCostShare-costShareTypeCode" parent="InstitutionalProposalCostShare-costShareTypeCode-parentBean" />
+    <bean id="InstitutionalProposalCostShare-costShareTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="costShareTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Cost Sharing Type Code" />
-        <property name="shortLabel" value="Cost Sharing Type Code" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Cost Sharing Type Code" />
-        <property name="description" value="Cost Sharing Type Code" />
+        <property name="label" value="Cost Share Type Code" />
+        <property name="shortLabel" value="Cost Share Type" />
+        <property name="maxLength" value="3" />
+    	<property name="validationPattern" >
+      		<bean parent="NumericValidationPattern" />
+    	</property>
+    	<property name="required" value="true" />
+    	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.bo.CostShareType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+            	p:keyAttribute="costShareTypeCode"
+            	p:labelAttribute="description" />
+    	</property>
+        <property name="summary" value="Cost Share Type Code" />
+        <property name="description" value="Cost Share Type Code" />
     </bean>
 
-    <bean id="InstitutionalProposalCostSharing-sourceAccount" parent="InstitutionalProposalCostSharing-sourceAccount-parentBean" />
-    <bean id="InstitutionalProposalCostSharing-sourceAccount-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="InstitutionalProposalCostShare-sourceAccount" parent="InstitutionalProposalCostShare-sourceAccount-parentBean" />
+    <bean id="InstitutionalProposalCostShare-sourceAccount-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="sourceAccount" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Source Account" />
         <property name="shortLabel" value="Source Account" />
         <property name="maxLength" value="7" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+    	<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    	</property>
+    	<property name="required" value="false" />
+    	<property name="control" >
+      		<bean parent="TextControlDefinition"
+            	p:size="7" />
+    	</property>
         <property name="summary" value="Source Account" />
         <property name="description" value="Source Account" />
     </bean>
 
-    <bean id="InstitutionalProposalCostSharing-amount" parent="InstitutionalProposalCostSharing-amount-parentBean" />
-    <bean id="InstitutionalProposalCostSharing-amount-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="InstitutionalProposalCostShare-amount" parent="InstitutionalProposalCostShare-amount-parentBean" />
+    <bean id="InstitutionalProposalCostShare-amount-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="amount" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Amount" />
         <property name="shortLabel" value="Amount" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+        <property name="maxLength" value="12" />
+    	<property name="validationPattern" >
+      		<bean parent="FixedPointValidationPattern"
+           	 	p:precision="12"
+            	p:scale="2" />
+    	</property>
+    	<property name="required" value="true" />
+    	<property name="control" >
+      		<bean parent="CurrencyControlDefinition"
+           		p:formattedMaxLength="22"
+            	p:size="16" />
+    	</property>
         <property name="summary" value="Amount" />
         <property name="description" value="Amount" />
     </bean>
 
-    <bean id="InstitutionalProposalCostSharing-versionNumber" parent="InstitutionalProposalCostSharing-versionNumber-parentBean" />
-    <bean id="InstitutionalProposalCostSharing-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <bean id="InstitutionalProposalCostShare-versionNumber" parent="InstitutionalProposalCostShare-versionNumber-parentBean" />
+    <bean id="InstitutionalProposalCostShare-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
 
     <!-- Business Object Inquiry Definition -->
-    <bean id="InstitutionalProposalCostSharing-inquiryDefinition" parent="InstitutionalProposalCostSharing-inquiryDefinition-parentBean" />
-    <bean id="InstitutionalProposalCostSharing-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <bean id="InstitutionalProposalCostShare-inquiryDefinition" parent="InstitutionalProposalCostShare-inquiryDefinition-parentBean" />
+    <bean id="InstitutionalProposalCostShare-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Proposal Cost Sharing Id" />
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Proposal Cost Sharing Id" />
+                    <property name="title" value="Proposal Cost Share Id" />
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                                p:attributeName="proposalCostSharingId" 
+                                p:attributeName="proposalCostShareId" 
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="proposalId" />
@@ -236,9 +252,9 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="fiscalYear" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="costSharingPercentage" />
+                                p:attributeName="costSharePercentage" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="costSharingTypeCode" />
+                                p:attributeName="costShareTypeCode" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="sourceAccount" />
                             <bean parent="FieldDefinition"
@@ -251,9 +267,9 @@
     </bean>
 
     <!-- Business Object Lookup Definition -->
-    <bean id="InstitutionalProposalCostSharing-lookupDefinition" parent="InstitutionalProposalCostSharing-lookupDefinition-parentBean" />
-    <bean id="InstitutionalProposalCostSharing-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Proposal Cost Sharing Lookup" />
+    <bean id="InstitutionalProposalCostShare-lookupDefinition" parent="InstitutionalProposalCostShare-lookupDefinition-parentBean" />
+    <bean id="InstitutionalProposalCostShare-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Proposal Cost Share Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="instructions" value="Look up a Proposal Cost Sharing" />
         <property name="defaultSort" >
@@ -263,7 +279,7 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="proposalCostSharingId" 
+                    p:attributeName="proposalCostShareId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalId" />
@@ -274,9 +290,9 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="fiscalYear" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="costSharingPercentage" />
+                    p:attributeName="costSharePercentage" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="costSharingTypeCode" />
+                    p:attributeName="costShareTypeCode" />
                 <bean parent="FieldDefinition"
                     p:attributeName="sourceAccount" />
                 <bean parent="FieldDefinition"
@@ -286,7 +302,7 @@
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="proposalCostSharingId" 
+                    p:attributeName="proposalCostShareId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalId" />
@@ -297,9 +313,9 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="fiscalYear" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="costSharingPercentage" />
+                    p:attributeName="costSharePercentage" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="costSharingTypeCode" />
+                    p:attributeName="costShareTypeCode" />
                 <bean parent="FieldDefinition"
                     p:attributeName="sourceAccount" />
                 <bean parent="FieldDefinition"

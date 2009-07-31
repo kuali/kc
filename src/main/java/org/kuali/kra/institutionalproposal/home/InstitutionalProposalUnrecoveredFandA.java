@@ -17,16 +17,14 @@ package org.kuali.kra.institutionalproposal.home;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.IndirectcostRateType;
+import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 
-public class InstitutionalProposalIndirectcostRate extends KraPersistableBusinessObjectBase { 
+public class InstitutionalProposalUnrecoveredFandA extends InstitutionalProposalAssociate { 
     
     private static final long serialVersionUID = 1L;
 
-    private Integer proposalIndirectcostRateId; 
-    private String proposalNumber; 
-    private Integer sequenceNumber; 
+    private Long proposalUnrecoveredFandAId;  
     private Long applicableIndirectcostRate; 
     private Integer indirectcostRateTypeCode; 
     private String fiscalYear; 
@@ -36,32 +34,16 @@ public class InstitutionalProposalIndirectcostRate extends KraPersistableBusines
     
     private IndirectcostRateType indirectcostRateType; 
     
-    public InstitutionalProposalIndirectcostRate() { 
+    public InstitutionalProposalUnrecoveredFandA() { 
 
     } 
     
-    public Integer getProposalIndirectcostRateId() {
-        return proposalIndirectcostRateId;
+    public Long getProposalUnrecoveredFandAId() {
+        return proposalUnrecoveredFandAId;
     }
 
-    public void setProposalIndirectcostRateId(Integer proposalIndirectcostRateId) {
-        this.proposalIndirectcostRateId = proposalIndirectcostRateId;
-    }
-
-    public String getProposalNumber() {
-        return proposalNumber;
-    }
-
-    public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
+    public void setProposalIndirectcostRateId(Long proposalUnrecoveredFandAId) {
+        this.proposalUnrecoveredFandAId = proposalUnrecoveredFandAId;
     }
 
     public Long getApplicableIndirectcostRate() {
@@ -117,16 +99,14 @@ public class InstitutionalProposalIndirectcostRate extends KraPersistableBusines
     }
 
     public void setIndirectcostRateType(IndirectcostRateType idcRateType) {
-        this.indirectcostRateType = indirectcostRateType;
+        this.indirectcostRateType = idcRateType;
     }
 
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("proposalIndirectcostRateId", this.getProposalIndirectcostRateId());
-        hashMap.put("proposalNumber", this.getProposalNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
+        hashMap.put("proposalUnrecoveredFandAId", this.getProposalUnrecoveredFandAId());
         hashMap.put("applicableIndirectcostRate", this.getApplicableIndirectcostRate());
         hashMap.put("indirectcostRateTypeCode", this.getIndirectcostRateTypeCode());
         hashMap.put("fiscalYear", this.getFiscalYear());

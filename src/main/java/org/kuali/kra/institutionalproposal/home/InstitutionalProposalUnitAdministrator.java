@@ -56,8 +56,8 @@ public class InstitutionalProposalUnitAdministrator extends InstitutionalProposa
         return administrator;
     }
 
-    public void setAdministrator(String administrator) {
-        this.administrator = administrator;
+    public void setAdministrator(String personId) {
+        this.administrator = personId;
     }  
 
     /**

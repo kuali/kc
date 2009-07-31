@@ -508,6 +508,15 @@ public final class KeyConstants {
     //Institutional Proposal Validation
     public static final String ERROR_EMPTY_GRADUATE_STUDENT_DATA = "error.empty.graduate.student.data";
     
+    //Institutional Proposal Cost Share
+    public static final String ERROR_IP_FISCAL_YEAR_RANGE = "error.institutionalProposalCostShare.fiscalYear.range";
+    public static final String ERROR_IP_FISCAL_YEAR_REQUIRED = "error.institutionalProposalCostShare.fiscalYear.required";
+    public static final String ERROR_IP_COST_SHARE_TYPE_REQUIRED = "error.institutionalProposalCostShare.costShareTypeCode.required";
+    public static final String ERROR_IP_COST_SHARE_TYPE_INVALID = "error.institutionalProposalCostShare.costShareTypeCode.invalid";
+    public static final String ERROR_IP_COST_SHARE_COMMITMENT_AMOUNT_REQUIRED = "error.institutionalProposalCostShare.amount.required";
+    public static final String ERROR_IP_COST_SHARE_COMMITMENT_AMOUNT_INVALID = "error.institutionalProposalCostShare.amount.invalid";
+    public static final String ERROR_IP_FISCAL_YEAR_INCORRECT_FORMAT = "error.fiscalYear.IncorrectFormat";
+    
     //CommitteeSchedule Messages
     public static final String ERROR_COMMITTEESCHEDULE_STARTANDENDDATE_EQUAL = "error.committeeSchedule.start.and.endDate.equal";
     public static final String ERROR_COMMITTEESCHEDULE_STARTANDENDDATE = "error.committeeSchedule.start.and.endDate";
