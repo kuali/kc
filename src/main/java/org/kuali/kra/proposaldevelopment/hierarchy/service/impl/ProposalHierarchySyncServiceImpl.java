@@ -17,20 +17,13 @@ package org.kuali.kra.proposaldevelopment.hierarchy.service.impl;
 
 import org.kuali.kra.proposaldevelopment.hierarchy.IneligibleChildException;
 import org.kuali.kra.proposaldevelopment.hierarchy.InvalidHierarchyException;
+import org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchy;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchySyncService;
 
 /**
  * This class...
  */
 public class ProposalHierarchySyncServiceImpl implements ProposalHierarchySyncService {
-
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchySyncService#computeChildHashCode(java.lang.String)
-     */
-    public int computeChildHashCode(String childProposalNumber) throws IneligibleChildException {
-        // TODO Auto-generated method stub
-        return 0;
-    }
 
     /**
      * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchySyncService#synchronizeAllChildren(java.lang.String)
@@ -52,7 +45,17 @@ public class ProposalHierarchySyncServiceImpl implements ProposalHierarchySyncSe
      * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchySyncService#aggregateHierarchy(java.lang.String)
      */
     public void aggregateHierarchy(String hierarchyProposalNumber) throws InvalidHierarchyException {
-        // TODO Auto-generated method stub
+        // TODO get hierarchy
+        ProposalHierarchy hierarchy = null;
+        
+        String oldPiPersonId = hierarchy.getPrincipalInvestigator().getPersonId();
+        hierarchy.setPrincipalInvestigator(null);
+        hierarchy.getInvestigators().clear();
+        hierarchy.getProposalPersons().clear();
+        hierarchy.getPropScienceKeywords().clear();
+        hierarchy.getNarratives().clear();
+        hierarchy.getPropSpecialReviews().clear();
+        
         
     }
 
