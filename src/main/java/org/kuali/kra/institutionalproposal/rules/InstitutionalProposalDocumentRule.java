@@ -15,11 +15,17 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
+import java.util.List;
+
+import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
+import org.kuali.kra.award.commitments.AwardCostShareRuleImpl;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalCustomDataAuditRule;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalGraduateStudentAuditRule;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataRuleImpl;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalSaveCustomDataRuleEvent;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -32,6 +38,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String INSTITUTIONAL_PROPOSAL_ERROR_PATH = "institutionalProposalList[0]";
+    public static final String IP_ERROR_PATH = "institutionalProposal";
     
     public static final boolean VALIDATION_REQUIRED = true;
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
@@ -57,6 +64,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         
         
         retval &= processSaveInstitutionalProposalCustomDataBusinessRules(document);
+        retval &= processUnrecoveredFandABusinessRules(document);
         
         return retval;
     }    
@@ -80,6 +88,36 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         valid &= new InstitutionalProposalCustomDataRuleImpl().processSaveInstitutionalProposalCustomDataBusinessRules(event);
         errorMap.removeFromErrorPath(errorPath);
         errorMap.removeFromErrorPath(INSTITUTIONAL_PROPOSAL_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        return valid;
+    }
+    
+    /**
+    *
+    * process Cost Share business rules.
+    * @param awardDocument
+    * @return
+    */
+    private boolean processUnrecoveredFandABusinessRules(Document document) {
+        boolean valid = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
+        int i = 0;
+        List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs = 
+                                    institutionalProposalDocument.getInstitutionalProposal().getInstitutionalProposalUnrecoveredFandAs();
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(IP_ERROR_PATH);
+        for (InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA : institutionalProposalUnrecoveredFandAs) {
+            String errorPath = "institutionalProposalUnrecoveredFandAs[" + i + Constants.RIGHT_SQUARE_BRACKET;
+            errorMap.addToErrorPath(errorPath);
+            InstitutionalProposalSaveUnrecoveredFandARuleEvent event = new InstitutionalProposalSaveUnrecoveredFandARuleEvent(errorPath, 
+                                                                                institutionalProposalDocument, 
+                                                                                institutionalProposalUnrecoveredFandA);
+            valid &= new InstitutionalProposalUnrecoveredFandARuleImpl().processSaveInstitutionalProposalUnrecoveredFandABusinessRules(event);
+            errorMap.removeFromErrorPath(errorPath);
+            i++;
+        }
+        errorMap.removeFromErrorPath(IP_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return valid;
     }
