@@ -18,6 +18,7 @@ package org.kuali.kra.timeandmoney.document;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,8 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
+import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
+import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
@@ -42,9 +45,13 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     public static final String DOCUMENT_TYPE_CODE = "TAMD";
     
     private String awardNumber;
+    private Integer sequenceNumber;
     private Map<String, AwardHierarchyNode> awardHierarchyNodes;
     private Map<String, AwardHierarchy> awardHierarchyItems;
     private List<PendingTransaction> pendingTransactions;
+    private List<AwardAmountTransaction> awardAmountTransactions;
+    private Map<Object, Object> timeAndMoneyHistory;
+    private List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems;
     
     /**
      * Constructs a AwardDocument object
@@ -74,6 +81,9 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
         awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
         awardHierarchyItems = new HashMap<String, AwardHierarchy>();
         pendingTransactions = new ArrayList<PendingTransaction>();
+        awardAmountTransactions = new ArrayList<AwardAmountTransaction>();
+        timeAndMoneyHistory = new LinkedHashMap<Object, Object>();
+        timeAndMoneyActionSummaryItems = new ArrayList<TimeAndMoneyActionSummary>();
     }
     
     /**
@@ -174,5 +184,69 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
      */
     public void setAwardHierarchyItems(Map<String, AwardHierarchy> awardHierarchyItems) {
         this.awardHierarchyItems = awardHierarchyItems;
+    }
+
+    /**
+     * Gets the awardAmountTransactions attribute. 
+     * @return Returns the awardAmountTransactions.
+     */
+    public List<AwardAmountTransaction> getAwardAmountTransactions() {
+        return awardAmountTransactions;
+    }
+
+    /**
+     * Sets the awardAmountTransactions attribute value.
+     * @param awardAmountTransactions The awardAmountTransactions to set.
+     */
+    public void setAwardAmountTransactions(List<AwardAmountTransaction> awardAmountTransactions) {
+        this.awardAmountTransactions = awardAmountTransactions;
+    }
+
+    /**
+     * Gets the sequenceNumber attribute. 
+     * @return Returns the sequenceNumber.
+     */
+    public Integer getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    /**
+     * Sets the sequenceNumber attribute value.
+     * @param sequenceNumber The sequenceNumber to set.
+     */
+    public void setSequenceNumber(Integer sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
+    /**
+     * Gets the timeAndMoneyHistory attribute. 
+     * @return Returns the timeAndMoneyHistory.
+     */
+    public Map<Object, Object> getTimeAndMoneyHistory() {
+        return timeAndMoneyHistory;
+    }
+
+    /**
+     * Sets the timeAndMoneyHistory attribute value.
+     * @param timeAndMoneyHistory The timeAndMoneyHistory to set.
+     */
+    public void setTimeAndMoneyHistory(Map<Object, Object> timeAndMoneyHistory) {
+        this.timeAndMoneyHistory = timeAndMoneyHistory;
+    }
+
+    /**
+     * Gets the timeAndMoneyActionSummaryItems attribute. 
+     * @return Returns the timeAndMoneyActionSummaryItems.
+     */
+    public List<TimeAndMoneyActionSummary> getTimeAndMoneyActionSummaryItems() {
+        return timeAndMoneyActionSummaryItems;
+    }
+
+    /**
+     * Sets the timeAndMoneyActionSummaryItems attribute value.
+     * @param timeAndMoneyActionSummaryItems The timeAndMoneyActionSummaryItems to set.
+     */
+    public void setTimeAndMoneyActionSummaryItems(List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems) {
+        this.timeAndMoneyActionSummaryItems = timeAndMoneyActionSummaryItems;
     }
 }

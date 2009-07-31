@@ -24,6 +24,7 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.TransactionBean;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -43,6 +44,11 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         super();        
         this.setDocument(new TimeAndMoneyDocument());
         initialize();        
+    }
+    
+    public Map<Object, Object> getDocumentNumbers(){
+       TimeAndMoneyHistoryService service = KraServiceLocator.getService(TimeAndMoneyHistoryService.class);
+       return service.getAwardDocumentNumbers(this.getTimeAndMoneyDocument().getAwardNumber());
     }
     
     public void initialize() {
