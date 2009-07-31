@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,6 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -102,18 +102,7 @@ public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
      * @see org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService#getDefaultNarrativeRight(java.lang.String)
      */
     public NarrativeRight getDefaultNarrativeRight(String roleName) {
-        List<Permission> permissions = systemAuthorizationService.getPermissionsForRole(roleName);
-        NarrativeRight right;
-        if (isPermissionInList(PermissionConstants.MODIFY_NARRATIVE, permissions)) {
-            right = NarrativeRight.MODIFY_NARRATIVE_RIGHT;
-        }
-        else if (isPermissionInList(PermissionConstants.VIEW_NARRATIVE, permissions)) {
-            right = NarrativeRight.VIEW_NARRATIVE_RIGHT;
-        }
-        else {
-            right = NarrativeRight.NO_NARRATIVE_RIGHT;
-        }
-        return right;
+        return this.getDefaultNarrativeRight(Collections.singletonList(roleName));
     }
     
     public NarrativeRight getDefaultNarrativeRight(List<String> roleNames) {
