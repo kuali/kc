@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -66,6 +67,12 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         
         ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.SUBMIT_TO_IRB);
         protocol.getProtocolActions().add(protocolAction);
+
+        //TODO this is for workflow testing, but we do need to plumb the status change in here somewhere.
+        ProtocolStatus protocolStatus = new ProtocolStatus();
+        protocolStatus.setProtocolStatusCode(ProtocolActionType.SUBMIT_TO_IRB);
+        protocol.setProtocolStatus(protocolStatus);
+        protocol.setProtocolStatusCode(ProtocolActionType.SUBMIT_TO_IRB);        
         
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         
