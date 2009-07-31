@@ -16,9 +16,11 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="awardHierarchyNodeAttributes" value="${DataDictionary.AwardHierarchyNode.attributes}" />
+<c:set var="awardAmountTransactionAttributes" value="${DataDictionary.AwardAmountTransaction.attributes}" />
+
 <c:set var="action" value="awardHierarchy" />
 
-<kul:tab tabTitle="Hierarchy" defaultOpen="true" tabErrorKey="" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
+<kul:tab tabTitle="Award Hierarchy" defaultOpen="true" tabErrorKey="" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
     	<h3>
     		<span class="subhead-left">Hierarchy</span>
@@ -26,7 +28,53 @@
     			<kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardFandaRate" altText="help"/>
 			</span>
         </h3>        
-    
+    <table cellpadding="0" cellspacing="0" summary="">
+    	<tr>
+    		<kul:htmlAttributeHeaderCell attributeEntry="${awardAmountTransactionAttributes.transactionTypeCode}" scope="col" /></div></th>
+    		<kul:htmlAttributeHeaderCell attributeEntry="${awardAmountTransactionAttributes.noticeDate}" scope="col" /></div></th>
+    		<kul:htmlAttributeHeaderCell attributeEntry="${awardAmountTransactionAttributes.comments}" scope="col" /></div></th>
+    	</tr>
+    	<tr>
+    		<c:choose>
+    			<c:when test="${fn:length(KualiForm.document.awardAmountTransactions) > 0}" >
+    				<td align="left" valign="middle">					
+		    		<div align="center">            
+		            	<kul:htmlControlAttribute property="document.awardAmountTransactions[0].transactionTypeCode" attributeEntry="${awardAmountTransactionAttributes.transactionTypeCode}" />
+					</div>
+					</td>
+					<td align="left" valign="middle">					
+		    		<div align="center">            
+		            	<kul:htmlControlAttribute property="document.awardAmountTransactions[0].noticeDate" attributeEntry="${awardAmountTransactionAttributes.noticeDate}" />
+					</div>
+					</td>
+					<td align="left" valign="middle">					
+		    		<div align="center">            
+		            	<kul:htmlControlAttribute property="document.awardAmountTransactions[0].comments" attributeEntry="${awardAmountTransactionAttributes.comments}" />
+					</div>
+					</td>
+    			</c:when>
+    			<c:otherwise>
+    				<td align="left" valign="middle">					
+		    		<div align="center">            
+		            	<kul:htmlControlAttribute property="transactionBean.newAwardAmountTransaction.transactionTypeCode" attributeEntry="${awardAmountTransactionAttributes.transactionTypeCode}" />
+					</div>
+					</td>
+					<td align="left" valign="middle">					
+		    		<div align="center">            
+		            	<kul:htmlControlAttribute property="transactionBean.newAwardAmountTransaction.noticeDate" attributeEntry="${awardAmountTransactionAttributes.noticeDate}" />
+					</div>
+					</td>
+					<td align="left" valign="middle">					
+		    		<div align="center">            
+		            	<kul:htmlControlAttribute property="transactionBean.newAwardAmountTransaction.comments" attributeEntry="${awardAmountTransactionAttributes.comments}" />
+					</div>
+					</td>    			
+    			</c:otherwise>
+    		</c:choose>
+    		
+    	</tr>
+    </table>
+    	
 	<table cellpadding="0" cellspacing="0" summary="">
     	<%-- Header --%>
     	
@@ -46,7 +94,7 @@
 			</th>            
           <td align="left" valign="middle">
 			<div align="center">
-              		<c:out value ="${awardHierarchyNode.value.awardNumber}" /> : <c:out value ="${awardHierarchyNode.value.leadUnitName}" /> : <c:out value ="${awardHierarchyNode.value.principalInvestigatorName}" />
+              	<c:out value ="${awardHierarchyNode.value.awardNumber}" /> : <c:out value ="${awardHierarchyNode.value.leadUnitName}" /> : <c:out value ="${awardHierarchyNode.value.principalInvestigatorName}" />
 			</div>
 		  </td>
           <td align="left" valign="middle">
