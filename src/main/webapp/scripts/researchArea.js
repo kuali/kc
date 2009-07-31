@@ -84,7 +84,7 @@
 		 */
        $("#add0").click(function(){    
        // click 'add' for 000001
-            alert ("top add");
+            //alert ("top add");
          
          
                    var trNode = $(this).parents('tr:eq(0)');
@@ -291,16 +291,16 @@
                         }
                         if (newNodes != ";" && newNodes.indexOf(";"+getResearchAreaCode($(liId).children('a:eq(0)').text())+";") > -1) {
                         	newNodes = newNodes.replace(";"+getResearchAreaCode($(liId).children('a:eq(0)').text())+";",";");
-                            alert("newnodes "+newNodes);
+                            //alert("newnodes "+newNodes);
                         }   
                                    
                         $(liId).remove();
-                        alert (sqlScripts);
+                        //alert (sqlScripts);
                         cutNode=null;
                       }); 
     tag.html(image);
     image = $('<a href="#"><img src="static/images/tinybutton-cutnode.gif" width="79" height="15" border="0" alt="Cut Node" title="Cut this node and its child roups/sponsors.  (Node will not be removed until you paste it.)"></a>&nbsp').attr("id","cut"+idx).click(function() {
-                        alert("Cut node");
+                        //alert("Cut node");
                          var liId="li#"+id;
                         cutNode = $(liId).clone(true);
                         removedNode=null; // remove & cutNode should not
@@ -313,7 +313,7 @@
                         var parentNode = $("#"+id);
                         var ulTag = parentNode.children('ul');
                         if (ulTag.size() > 0) {                     
-                             alert(ulTag.attr("id"));
+                             //alert(ulTag.attr("id"));
                         } else {
                            alert("not found")
                             i++;
@@ -330,7 +330,7 @@
 							// working
                             // cutNode.parents('li:eq(0)') is not working
                             // $("li#"+liId).parents('li:eq(0)')is ok
-                            alert(liId+"-"+$("li#"+liId).parents().size())
+                            //alert(liId+"-"+$("li#"+liId).parents().size())
                             if ($("li#"+liId).parents('li:eq(0)').size() == 0) {
                                 parentRACode = '000001';
                             } else {
@@ -401,7 +401,7 @@
             var header = $("#raHeader"+$(this).attr("id").substring(6));
             // $("#raHeader"+i) will not work because "i" is evaluated when this
 			// function is called; not when this function is created
-            alert ($(this).attr("id").substring(6));
+            //alert ($(this).attr("id").substring(6));
             
             var desc = editResearchArea($(this).attr("id").substring(6));
             
@@ -417,7 +417,7 @@
 			// additional 'div' tag for this purposes.
             // tried many different ways, include 'replace', but it did not
 			// work. So, finally decide on this approach.
-            alert(sqlScripts);
+            //alert(sqlScripts);
             }
             });  // end editlink click
                   
