@@ -37,6 +37,7 @@ public class ModifyProposalPermissionsAuthorizer extends ProposalAuthorizer {
     public boolean isAuthorized(String username, ProposalTask task) {
         return (hasFullAuthorization(username, task) || hasAddViewerAuthorization(username, task));
     }
+    
     /**
      * This method checks if the user has full (pre-workflow/pre-submission) proposal access maintenance rights
      * @param username the name of the user requesting access
@@ -45,9 +46,10 @@ public class ModifyProposalPermissionsAuthorizer extends ProposalAuthorizer {
      */
     private boolean hasFullAuthorization(String username, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
-        boolean hasPermission = hasProposalPermission(username, doc, PermissionConstants.MAINTAIN_PROPOSAL_ACCESS)
-                && !kraWorkflowService.isInWorkflow(doc) 
-                && !doc.getDevelopmentProposal().getSubmitFlag();
+        boolean hasPermission = !doc.isViewOnly() 
+                                && hasProposalPermission(username, doc, PermissionConstants.MAINTAIN_PROPOSAL_ACCESS)
+                                && !kraWorkflowService.isInWorkflow(doc) 
+                                && !doc.getDevelopmentProposal().getSubmitFlag();
         return hasPermission;
     }
     

@@ -31,11 +31,14 @@ import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalLockService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -158,5 +161,10 @@ public class ProposalActionBase extends KraTransactionalDocumentActionBase {
 
     protected void populateTabState(KualiForm form, String tabTitle) {
         form.getTabStates().put(WebUtils.generateTabKey(tabTitle), "OPEN");
+    }
+    
+    @Override
+    protected PessimisticLockService getPessimisticLockService() {
+        return KraServiceLocator.getService(ProposalLockService.class);
     }
 }

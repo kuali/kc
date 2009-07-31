@@ -58,7 +58,8 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
              * After the initial save, the proposal can only be modified if it is not in workflow
              * and the user has the require permission.
              */
-            hasPermission = hasProposalPermission(username, doc, PermissionConstants.MODIFY_PROPOSAL) &&
+            hasPermission = !doc.isViewOnly() &&
+                            hasProposalPermission(username, doc, PermissionConstants.MODIFY_PROPOSAL) &&
                             !kraWorkflowService.isInWorkflow(doc) &&
                             !doc.getDevelopmentProposal().getSubmitFlag();
         }

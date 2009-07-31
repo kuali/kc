@@ -108,14 +108,19 @@ public class CommitteeAuthorizationServiceImpl implements CommitteeAuthorization
     public boolean hasPermission(String username, Committee committee, String permissionName) {
         boolean userHasPermission = false;
         if (isValidPerson(username)) {
-            Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-            qualifiedRoleAttributes.put(COMMITTEE_KEY, committee.getId().toString());
-            userHasPermission = kimPersonService.hasQualifiedPermission(username, Constants.KRA_NAMESPACE, permissionName, qualifiedRoleAttributes);
-            if (!userHasPermission) {
-                Person person = personService.getPersonByName(username);
-                if (person != null) {
-                    String unitNumber = person.getHomeUnit();
-                    userHasPermission = unitAuthorizationService.hasPermission(username, unitNumber, permissionName);
+            if (committee.getId() == null) {
+                userHasPermission = true; // committee not yet saved
+            }
+            else {
+                Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
+                qualifiedRoleAttributes.put(COMMITTEE_KEY, committee.getId().toString());
+                userHasPermission = kimPersonService.hasQualifiedPermission(username, Constants.KRA_NAMESPACE, permissionName, qualifiedRoleAttributes);
+                if (!userHasPermission) {
+                    Person person = personService.getPersonByName(username);
+                    if (person != null) {
+                        String unitNumber = person.getHomeUnit();
+                        userHasPermission = unitAuthorizationService.hasPermission(username, unitNumber, permissionName);
+                    }
                 }
             }
         }

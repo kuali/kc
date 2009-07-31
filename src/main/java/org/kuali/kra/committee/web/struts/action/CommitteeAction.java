@@ -58,9 +58,6 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);  
-        if (((CommitteeForm) form).getLookupHelper().isViewOnly()) {
-            ((CommitteeForm)form).getLookupHelper().resetDocumentActionsForView();            
-        }
         return actionForward;
     }
     

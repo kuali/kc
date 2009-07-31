@@ -47,16 +47,16 @@
         <property name="taskAuthorizers">
             <list>
                 <bean class="org.kuali.kra.timeandmoney.document.authorizer.ModifyTimeAndMoneyAuthorizer" parent="parentAwardAuthorizer">
-                    <property name="taskName" value="modifyAward" />
+                    <property name="taskName" value="modifyTimeAndMoney" />
                 </bean>
                 
                 <bean class="org.kuali.kra.timeandmoney.document.authorizer.ViewTimeAndMoneyAuthorizer" parent="parentAwardAuthorizer">
-                    <property name="taskName" value="viewAward" />
+                    <property name="taskName" value="viewTimeAndMoney" />
                 </bean>
                 
                 <!--  Task Authorizer for modifying persons and their roles on an award -->
                 <bean class="org.kuali.kra.timeandmoney.document.authorizer.ModifyTimeAndMoneyPermissionsAuthorizer" parent="parentAwardAuthorizer">
-                    <property name="taskName" value="modifyAwardRoles" />
+                    <property name="taskName" value="modifyTimeAndMoneyRoles" />
                 </bean>
             </list>
         </property>

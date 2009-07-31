@@ -492,6 +492,14 @@
 		<property name="budgetService" ref="budgetService" /> 
 		<property name="budgetVersionRule" ref="budgetVersionRule" /> 
 	</bean>
+	
+	<bean id="proposalLockService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalLockServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+	
+	<bean id="budgetLockService" class="org.kuali.kra.budget.service.impl.BudgetLockServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
 
 	<bean id="sponsorService" class="org.kuali.kra.service.impl.SponsorServiceImpl">
 		<property name="businessObjectService">

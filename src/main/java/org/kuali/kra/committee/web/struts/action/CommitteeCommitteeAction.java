@@ -64,14 +64,9 @@ public class CommitteeCommitteeAction extends CommitteeAction {
             VersioningService versionService = new VersioningServiceImpl();
             committeeForm.getCommitteeDocument().setCommittee((Committee) versionService.createNewVersion(committee));
         }
-        if (StringUtils.isNotBlank(commandParam) && commandParam.equals("displayDocSearchView") && StringUtils.isNotBlank(request.getParameter("viewDocument"))) {
-            committeeForm.getLookupHelper().setViewOnly(true);
-            committeeForm.getLookupHelper().resetDocumentActionsForView();
-        }
-        if (!committeeForm.getLookupHelper().isViewOnly()) {
-            committeeForm.getCommitteeHelper().prepareView();
-            committeeForm.getMembershipHelper().prepareView();
-        }
+       
+        committeeForm.getCommitteeHelper().prepareView();
+        committeeForm.getMembershipHelper().prepareView();
         
         return actionForward;
     }

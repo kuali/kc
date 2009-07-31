@@ -46,7 +46,8 @@ public class ModifyCommitteeAuthorizer extends CommitteeAuthorizer {
             /*
              * After the initial save, the committee can only be modified has the required permission.
              */
-            hasPermission = hasPermission(username, committee, PermissionConstants.MODIFY_COMMITTEE);
+            hasPermission = !committee.getCommitteeDocument().isViewOnly() &&
+                            hasPermission(username, committee, PermissionConstants.MODIFY_COMMITTEE);
         }
         return hasPermission;
     }

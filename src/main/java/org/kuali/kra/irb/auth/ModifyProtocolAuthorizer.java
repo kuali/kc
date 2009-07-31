@@ -45,7 +45,8 @@ public class ModifyProtocolAuthorizer extends ProtocolAuthorizer {
             /*
              * After the initial save, the protocol can only be modified has the required permission.
              */
-            hasPermission = hasPermission(username, protocol, PermissionConstants.MODIFY_PROTOCOL);
+            hasPermission = !protocol.getProtocolDocument().isViewOnly() &&
+                            hasPermission(username, protocol, PermissionConstants.MODIFY_PROTOCOL);
         }
         return hasPermission;
     }

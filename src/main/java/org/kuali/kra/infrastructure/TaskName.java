@@ -94,5 +94,11 @@ public interface TaskName {
     public static final String ADD_COMMITTEE = "addCommittee";
     public static final String MODIFY_COMMITTEE = "modifyCommittee";
     public static final String VIEW_COMMITTEE = "viewCommittee";
-  
+    
+    /*
+     * Time and Money Tasks
+     */
+    public static final String MODIFY_TIME_AND_MONEY = "modifyTimeAndMoney";
+    public static final String VIEW_TIME_AND_MONEY = "viewTimeAndMoney";
+    public static final String MODIFY_TIME_AND_MONEY_ROLES = "modifyTimeAndMoneyRoles";
 }
