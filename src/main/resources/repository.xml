@@ -388,7 +388,7 @@
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.bo.Person" table="PERSON">
-		<field-descriptor id="1" name="personId" column="PERSON_ID" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="socialSecurityNumber" column="SSN" jdbc-type="VARCHAR" />
 		<field-descriptor name="lastName" column="LAST_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="firstName" column="FIRST_NAME" jdbc-type="VARCHAR" />

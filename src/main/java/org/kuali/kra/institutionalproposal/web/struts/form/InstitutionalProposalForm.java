@@ -29,9 +29,11 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataFormHelper;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShareBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandABean;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
@@ -64,6 +66,9 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
     
     private InstitutionalProposalCustomDataFormHelper institutionalProposalCustomDataFormHelper;
     private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;
+    private InstitutionalProposalCostShareBean institutionalProposalCostShareBean;
+    private InstitutionalProposalUnrecoveredFandABean institutionalProposalUnrecoveredFandABean;
+    
     
     /**
      * 
@@ -83,6 +88,8 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
     public void initialize() {
         institutionalProposalCustomDataFormHelper = new InstitutionalProposalCustomDataFormHelper(this);
         institutionalProposalNotepadBean = new InstitutionalProposalNotepadBean(this);
+        institutionalProposalCostShareBean = new InstitutionalProposalCostShareBean(this);
+        institutionalProposalUnrecoveredFandABean = new InstitutionalProposalUnrecoveredFandABean(this);
         
         newInstitutionalProposalSpecialReview = new InstitutionalProposalSpecialReview();
         newSpecialReviewExemptions = new ArrayList<InstitutionalProposalSpecialReviewExemption>();
@@ -168,6 +175,39 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase
     
     
 
+
+    /**
+     * Gets the institutionalProposalCostShareBean attribute. 
+     * @return Returns the institutionalProposalCostShareBean.
+     */
+    public InstitutionalProposalCostShareBean getInstitutionalProposalCostShareBean() {
+        return institutionalProposalCostShareBean;
+    }
+
+    /**
+     * Sets the institutionalProposalCostShareBean attribute value.
+     * @param institutionalProposalCostShareBean The institutionalProposalCostShareBean to set.
+     */
+    public void setInstitutionalProposalCostShareBean(InstitutionalProposalCostShareBean institutionalProposalCostShareBean) {
+        this.institutionalProposalCostShareBean = institutionalProposalCostShareBean;
+    }
+
+    /**
+     * Gets the institutionalProposalUnrecoveredFandABean attribute. 
+     * @return Returns the institutionalProposalUnrecoveredFandABean.
+     */
+    public InstitutionalProposalUnrecoveredFandABean getInstitutionalProposalUnrecoveredFandABean() {
+        return institutionalProposalUnrecoveredFandABean;
+    }
+
+    /**
+     * Sets the institutionalProposalUnrecoveredFandABean attribute value.
+     * @param institutionalProposalUnrecoveredFandABean The institutionalProposalUnrecoveredFandABean to set.
+     */
+    public void setInstitutionalProposalUnrecoveredFandABean(
+            InstitutionalProposalUnrecoveredFandABean institutionalProposalUnrecoveredFandABean) {
+        this.institutionalProposalUnrecoveredFandABean = institutionalProposalUnrecoveredFandABean;
+    }
 
     /**
      * Gets the newInstitutionalProposalSpecialReview attribute. 
