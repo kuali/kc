@@ -38,9 +38,9 @@ import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.authorization.BudgetDocumentAuthorizer;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
 import org.kuali.kra.budget.service.BudgetDistributionAndIncomeService;
+import org.kuali.kra.budget.service.BudgetLockService;
 import org.kuali.kra.budget.service.BudgetModularService;
 import org.kuali.kra.budget.service.BudgetPrintService;
 import org.kuali.kra.budget.service.BudgetService;
@@ -55,7 +55,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -64,11 +63,11 @@ import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
@@ -498,14 +497,11 @@ public class BudgetAction extends ProposalActionBase {
         }
     }
 
-    
+    /**
+     * @see org.kuali.kra.web.struts.action.ProposalActionBase#getPessimisticLockService()
+     */
     @Override
-    protected void populateAuthorizationFields(KualiDocumentFormBase formBase){
-        super.populateAuthorizationFields(formBase);
-        BudgetDocumentAuthorizer documentAuthorizer = new BudgetDocumentAuthorizer();
-        formBase.setEditingMode(documentAuthorizer.getEditMode(formBase.getDocument(), 
-                new UniversalUser(GlobalVariables.getUserSession().getPerson())));
+    protected PessimisticLockService getPessimisticLockService() {
+        return KraServiceLocator.getService(BudgetLockService.class);
     }
-
-
 }

@@ -15,109 +15,73 @@
  */
 package org.kuali.kra.irb.auth;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kns.util.KNSConstants;
 
 /**
- * The Protocol Document Authorizer controls creation and access to protocol documents.
+ * This class is the Proposal Development Document Authorizer.  It determines the edit modes and
+ * document actions for all proposal development documents.
  */
-public class ProtocolDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
-    
-    private static final String TRUE = "TRUE";
-    private static final String FALSE = "FALSE";
+public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     
     /**
-     * Used for permissions
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
      */
-    @SuppressWarnings("unchecked")
-    public Map getEditMode(Document doc, UniversalUser user) {
-                 
-        Map editModeMap = new HashMap();
+    public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
+        Set<String> editModes = new HashSet<String>();
         
-        ProtocolDocument protocolDocument = (ProtocolDocument) doc;
+        ProtocolDocument protocolDocument = (ProtocolDocument) document;
         
-        String username = user.getPersonUserIdentifier();
+        String username = user.getPrincipalId();
         if (protocolDocument.getProtocol().getProtocolId() == null) {
             if (canCreateProtocol(user)) {
-                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
+                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             } 
             else {
-                editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
+                editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
         } 
         else {
             if (canExecuteProtocolTask(username, protocolDocument, TaskName.MODIFY_PROTOCOL)) {  
-                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
+                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             }
             else if (canExecuteProtocolTask(username, protocolDocument, TaskName.VIEW_PROTOCOL)) {
-                editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
+                editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             }
             else {
-                editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
+                editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
         }
         
-        return editModeMap;
+        return editModes;
     }
     
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
      */
-    public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
-   
-        ProtocolDocument protocolDocument = (ProtocolDocument) document;
-        
-        boolean permission;
-        if (protocolDocument.getProtocol().getProtocolId() == null) {
-            permission = canCreateProtocol(user);
-        }
-        else {
-            String username = user.getPersonUserIdentifier();
-            permission = canExecuteProtocolTask(username, protocolDocument, TaskName.MODIFY_PROTOCOL);
-        }
-        return permission;
+    public boolean canInitiate(String documentTypeName, Person user) {
+        return canCreateProtocol(user);
     }
-   
+
     /**
-     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
      */
-    @Override
-    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
-       
-        // no copy button
-        super.getDocumentActions(document, user, documentActions);
-        documentActions.remove(KNSConstants.KUALI_ACTION_CAN_COPY);
-       
-        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
-        if (documentActions.contains(KNSConstants.KUALI_ACTION_CAN_ROUTE)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ANNOTATE);
+    public boolean canOpen(Document document, Person user) {
+        ProtocolDocument protocolDocument = (ProtocolDocument) document;
+        if (protocolDocument.getProtocol().getProtocolId() == null) {
+            return canCreateProtocol(user);
         }
-       
-        // Any user who has the Initiate Authorization can save and cancel.
-        if (this.hasInitiateAuthorization(document, new UniversalUser(user))) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
-        }
-        else {
-            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
-            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_CANCEL);
-        }
-        
-        return documentActions;
+        return canExecuteProtocolTask(user.getPrincipalId(), (ProtocolDocument) document, TaskName.VIEW_PROTOCOL);
     }
     
     /**
@@ -125,8 +89,8 @@ public class ProtocolDocumentAuthorizer extends TransactionalDocumentAuthorizerB
      * @param user the user
      * @return true if the user can create a protocol; otherwise false
      */
-    private boolean canCreateProtocol(UniversalUser user) {
-        String username = user.getPersonUserIdentifier();
+    private boolean canCreateProtocol(Person user) {
+        String username = user.getPrincipalId();
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL);       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(username, task);
@@ -143,5 +107,45 @@ public class ProtocolDocumentAuthorizer extends TransactionalDocumentAuthorizerB
         ProtocolTask task = new ProtocolTask(taskName, doc.getProtocol());       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(username, task);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    public boolean canEdit(Document document, Person user) {
+        return canExecuteProtocolTask(user.getPrincipalId(), (ProtocolDocument) document, TaskName.MODIFY_PROTOCOL);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canSave(Document document, Person user) {
+        return canEdit(document, user);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canCopy(Document document, Person user) {
+        return false;
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canCancel(Document document, Person user) {
+        return false;
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canRoute(Document document, Person user) {
+        return false;
     }
 }

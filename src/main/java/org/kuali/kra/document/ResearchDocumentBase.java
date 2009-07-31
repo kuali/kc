@@ -47,6 +47,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     private Timestamp updateTimestamp;
     private List<DocumentNextvalue> documentNextvalues;
     private Map<String, CustomAttributeDocument> customAttributeDocuments;
+    private boolean viewOnly = false;
 
     public ResearchDocumentBase() {
         super();
@@ -239,4 +240,12 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     }
     
     public abstract String getDocumentTypeCode();
+
+    public boolean isViewOnly() {
+        return viewOnly;
+    }
+    
+    public void setViewOnly(boolean viewOnly) {
+        this.viewOnly = viewOnly;
+    }
 }

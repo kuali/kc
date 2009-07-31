@@ -15,32 +15,21 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorization;
 
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.ApplicationTask;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kns.exception.PessimisticLockingException;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -49,78 +38,12 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
-   
-    private static final String TRUE = "TRUE";
-    private static final String FALSE = "FALSE";
-    
-    private static Map<String, String> entryEditModeReplacementMap = new HashMap<String, String>();
-    
-    /**
-     * This method is used to check if the given parameters warrant a new lock to be created for the given user. This method
-     * utilizes the {@link #isEntryEditMode(java.util.Map.Entry)} method.
-     * 
-     * @param document -
-     *            document to verify lock creation against
-     * @param editMode -
-     *            edit modes list to check for 'entry type' edit modes
-     * @param user -
-     *            user the lock will be 'owned' by
-     * @return true if the given edit mode map has at least one 'entry type' edit mode... false otherwise
-     */
-    protected boolean isLockRequiredByUser(Document document, Map editMode, UniversalUser user) {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        
-        // check for entry edit mode
-        for (Iterator iterator = editMode.entrySet().iterator(); iterator.hasNext();) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            if (isEntryEditMode(entry) && StringUtils.isNotEmpty(activeLockRegion)) {
-                return true;
-            }
-        }
-        return false;
-    }
+public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
 
-    /**
-     * This method should be used to define Document Authorizer classes which will use custom lock descriptors in the
-     * {@link PessimisticLock} objects NOTE: if this method is overriden to return true then the method
-     * {@link #getCustomLockDescriptor(Document, Map, UniversalUser)} must be overriden
-     * 
-     * @return false if the document will not be using lock descriptors or true if the document will use lock descriptors.
-     *         The default return value is false
-     */
-    protected boolean useCustomLockDescriptors() {
-        return true;
-    }
-
-    /**
-     * This method should be overriden by groups requiring the lock descriptor field in the {@link PessimisticLock} objects.
-     * If it is not overriden and {@link #useCustomLockDescriptors()} returns true then this method will throw a
-     * {@link PessimisticLockingException}
-     * 
-     * @param document - document being checked for locking
-     * @param editMode - editMode generated for passed in user
-     * @param user - user attempting to establish locks
-     * @return a {@link PessimisticLockingException} will be thrown as the default implementation
-     */
-    //@Override
-    protected String getCustomLockDescriptor(Document document, Map editMode, UniversalUser user) {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        if(StringUtils.isNotEmpty(activeLockRegion))
-            return document.getDocumentNumber()+"-"+activeLockRegion; 
-        
-        return null;
-    }
-
-
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document, org.kuali.rice.kns.bo.user.UniversalUser)
-     */
-    public Map getEditMode(Document doc, UniversalUser user) {
-        
-        ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) doc;
+    public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
+        Set<String> editModes = new HashSet<String>();
          
-        Map editModeMap = new HashMap();
+        ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) document;
         String proposalNbr = proposalDoc.getDevelopmentProposal().getProposalNumber();
         
         // The getEditMode() method is invoked when a proposal is accessed for creation and when it
@@ -128,42 +51,39 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         // For a new proposal, we have to know if the user has the permission to create a proposal.
         // For a current proposal, we have to know if the user the permission to modify or view the proposal.
         
-        String username = user.getPersonUserIdentifier();
+        String username = user.getPrincipalId();
         if (proposalNbr == null) {
             if (canCreateProposal(user)) {
-                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
-                setPermissions(username, proposalDoc, editModeMap);
-            } else {
-                editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
+                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+                setPermissions(username, proposalDoc, editModes);
+            } 
+            else {
+                editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
-        } else {
+        } 
+        else {
             if (canExecuteProposalTask(username, proposalDoc, TaskName.MODIFY_PROPOSAL)) {  
-                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
-                setPermissions(username, proposalDoc, editModeMap);
+                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+                setPermissions(username, proposalDoc, editModes);
             }
             else if (canExecuteProposalTask(username, proposalDoc, TaskName.VIEW_PROPOSAL)) {
-                editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
-                setPermissions(username, proposalDoc, editModeMap);
+                editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
+                setPermissions(username, proposalDoc, editModes);
             }
             else {
-                editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
+                editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
     
-            String modifyBudgetPermission = null;
-            if(editModeMap.get("addBudget") != null) {
-                modifyBudgetPermission = editModeMap.get("addBudget").toString();
-            }
-            
-	        if(isBudgetComplete(proposalDoc)) {
-        	    editModeMap.put("modifyBudgets", FALSE);
-            	editModeMap.put("addBudget", FALSE);
-                if(StringUtils.isNotBlank(modifyBudgetPermission) && StringUtils.equals(modifyBudgetPermission, TRUE)) {
-                    editModeMap.put("modifyCompletedBudgets", TRUE);
-                }
+	        if (isBudgetComplete(proposalDoc)) {
+	            if (editModes.contains("addBudget")) {
+	                editModes.add("modifyCompletedBudgets");
+	            }
+        	    editModes.remove("modifyBudgets");
+            	editModes.remove("addBudget");
         	}
         }
         
-        return editModeMap;
+        return editModes;
     }
 
     /**
@@ -185,47 +105,87 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @param doc the Proposal Development Document
      * @param editModeMap the edit mode map
      */
-    @SuppressWarnings("unchecked")
-    private void setPermissions(String username, ProposalDevelopmentDocument doc, Map editModeMap) {
-        editModeMap.put("modifyProposal", editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) ? TRUE : FALSE);
-        editModeMap.put("addBudget", canExecuteTask(username, doc, TaskName.ADD_BUDGET));
-        editModeMap.put("openBudgets", canExecuteTask(username, doc, TaskName.OPEN_BUDGETS));
-        editModeMap.put("modifyProposalBudget", canExecuteTask(username, doc, TaskName.MODIFY_BUDGET));
-        editModeMap.put("modifyPermissions", canExecuteTask(username, doc, TaskName.MODIFY_PROPOSAL_ROLES));
-        editModeMap.put("addNarratives", canExecuteTask(username, doc, TaskName.ADD_NARRATIVE));
-        editModeMap.put("certify", canExecuteTask(username, doc, TaskName.CERTIFY));
-        editModeMap.put("printProposal", canExecuteTask(username, doc, TaskName.PRINT_PROPOSAL));
-        editModeMap.put("alterProposalData", canExecuteTask(username, doc, TaskName.ALTER_PROPOSAL_DATA));
-        editModeMap.put("showAlterProposalData", canExecuteTask(username, doc, TaskName.SHOW_ALTER_PROPOSAL_DATA));
-        editModeMap.put("submitToSponsor", canExecuteTask(username, doc, TaskName.SUBMIT_TO_SPONSOR));
-        setNarrativePermissions(username, doc, editModeMap);
+    private void setPermissions(String username, ProposalDevelopmentDocument doc, Set<String> editModes) {
+        if (editModes.contains(AuthorizationConstants.EditMode.FULL_ENTRY)) {
+            editModes.add("modifyProposal");
+        }
         
-        entryEditModeReplacementMap.put(KraAuthorizationConstants.ProposalEditMode.MODIFY_PROPOSAL, KraAuthorizationConstants.ProposalEditMode.VIEW_PROPOSAL);
-        entryEditModeReplacementMap.put(KraAuthorizationConstants.ProposalEditMode.MODIFY_PERMISSIONS, KraAuthorizationConstants.ProposalEditMode.VIEW_PERMISSIONS);
-        entryEditModeReplacementMap.put(KraAuthorizationConstants.ProposalEditMode.ADD_NARRATIVES, KraAuthorizationConstants.ProposalEditMode.VIEW_NARRATIVES);
-        entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
-        //Looks like addBudget is needed in EditModeMap at all times
-        //entryEditModeReplacementMap.put("addBudget", "openBudgets");
-        entryEditModeReplacementMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, AuthorizationConstants.EditMode.VIEW_ONLY);
+        if (canExecuteTask(username, doc, TaskName.ADD_BUDGET)) {
+            editModes.add("addBudget");
+        }
+                
+        if (canExecuteTask(username, doc, TaskName.OPEN_BUDGETS)) {
+            editModes.add("openBudgets");
+        }
+                
+        if (canExecuteTask(username, doc, TaskName.MODIFY_BUDGET)) {
+            editModes.add("modifyProposalBudget");
+        }
+                
+        if (canExecuteTask(username, doc, TaskName.MODIFY_PROPOSAL_ROLES)) {
+            editModes.add("modifyPermissions");
+        }
+                
+        if (canExecuteTask(username, doc, TaskName.ADD_NARRATIVE)) {
+            editModes.add("addNarratives");
+        }
+                   
+        if (canExecuteTask(username, doc, TaskName.CERTIFY)) {
+            editModes.add("certify");
+        }
+                
+        if (canExecuteTask(username, doc, TaskName.PRINT_PROPOSAL)) {
+            editModes.add("printProposal");
+        }
+                
+        if (canExecuteTask(username, doc, TaskName.ALTER_PROPOSAL_DATA)) {
+            editModes.add("alterProposalData");
+        }
+                
+        if (canExecuteTask(username, doc, TaskName.SHOW_ALTER_PROPOSAL_DATA)) {
+            editModes.add("showAlterProposalData");
+        }
+                
+        if (canExecuteTask(username, doc, TaskName.SUBMIT_TO_SPONSOR)) {
+            editModes.add("submitToSponsor");
+        }
+                
+        setNarrativePermissions(username, doc, editModes);
     } 
     
-    private void setNarrativePermissions(String username, ProposalDevelopmentDocument doc, Map editModeMap) {
+    private void setNarrativePermissions(String username, ProposalDevelopmentDocument doc, Set<String> editModes) {
         List<Narrative> narratives = doc.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
             String prefix = "proposalAttachment." + narrative.getModuleNumber() + ".";
-            editModeMap.put(prefix + "download", narrative.getDownloadAttachment(username) ? TRUE : FALSE);
-            editModeMap.put(prefix + "replace", narrative.getReplaceAttachment(username) ? TRUE : FALSE);
-            editModeMap.put(prefix + "delete", narrative.getDeleteAttachment(username) ? TRUE : FALSE);
-            editModeMap.put(prefix + "modifyRights", narrative.getModifyNarrativeRights(username) ? TRUE : FALSE);
+            if (narrative.getDownloadAttachment(username)) {
+                editModes.add(prefix + "download");
+            }
+            if (narrative.getReplaceAttachment(username)) {
+                editModes.add(prefix + "replace");
+            }
+            if (narrative.getDeleteAttachment(username)) {
+                editModes.add(prefix + "delete");
+            }
+            if (narrative.getModifyNarrativeRights(username)) {
+                editModes.add(prefix + "modifyRights");
+            }
         }
         
         narratives = doc.getDevelopmentProposal().getInstituteAttachments();
         for (Narrative narrative : narratives) {
             String prefix = "instituteAttachment." + narrative.getModuleNumber() + ".";
-            editModeMap.put(prefix + "download", narrative.getDownloadAttachment(username) ? TRUE : FALSE);
-            editModeMap.put(prefix + "replace", narrative.getReplaceAttachment(username) ? TRUE : FALSE);
-            editModeMap.put(prefix + "delete", narrative.getDeleteAttachment(username) ? TRUE : FALSE);
-            editModeMap.put(prefix + "modifyRights", narrative.getModifyNarrativeRights(username) ? TRUE : FALSE);
+            if (narrative.getDownloadAttachment(username)) {
+                editModes.add(prefix + "download");
+            }
+            if (narrative.getReplaceAttachment(username)) {
+                editModes.add(prefix + "replace");
+            }
+            if (narrative.getDeleteAttachment(username)) {
+                editModes.add(prefix + "delete");
+            }
+            if (narrative.getModifyNarrativeRights(username)) {
+                editModes.add(prefix + "modifyRights");
+            }
         }
     }
 
@@ -236,8 +196,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @param taskName the name of the task
      * @return "TRUE" if has permission; otherwise "FALSE"
      */
-    private String canExecuteTask(String username, ProposalDevelopmentDocument doc, String taskName) {
-        return canExecuteProposalTask(username, doc, taskName) ? TRUE : FALSE;
+    private boolean canExecuteTask(String username, ProposalDevelopmentDocument doc, String taskName) {
+        return canExecuteProposalTask(username, doc, taskName);
     }
     
     /**
@@ -253,23 +213,18 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         return taskAuthenticationService.isAuthorized(username, task);
     }
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
-     */
-    public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
     
-        ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) document;
-         
-        String proposalNbr = proposalDoc.getDevelopmentProposal().getProposalNumber();
-        String username = user.getPersonUserIdentifier();
-        boolean permission;
-        if (proposalNbr == null) {
-            permission = canCreateProposal(user);
+    
+    public boolean canInitiate(String documentTypeName, Person user) {
+        return canCreateProposal(user);
+    }
+    
+    public boolean canOpen(Document document, Person user) {
+        ProposalDevelopmentDocument proposalDocument = (ProposalDevelopmentDocument) document;
+        if (proposalDocument.getDevelopmentProposal().getProposalNumber() == null) {
+            return canCreateProposal(user);
         }
-        else {
-            permission = canExecuteProposalTask(username, proposalDoc, TaskName.MODIFY_PROPOSAL);
-        }
-        return permission;
+        return canExecuteProposalTask(user.getPrincipalId(), proposalDocument, TaskName.VIEW_PROPOSAL);
     }
     
     /**
@@ -278,102 +233,47 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @param user the user
      * @return true if the user has the CREATE_PROPOSAL permission in at least one unit; otherwise false
      */
-    private boolean canCreateProposal(UniversalUser user) {
-        String username = user.getPersonUserIdentifier();
+    private boolean canCreateProposal(Person user) {
+        String username = user.getPrincipalId();
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROPOSAL);       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(username, task);
     }
     
-    /**
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.rice.kns.bo.user.UniversalUser)
-     */
     @Override
-    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
-        // no copy button
-        super.getDocumentActions(document, user, documentActions);
-        documentActions.remove(KNSConstants.KUALI_ACTION_CAN_COPY);
-        
-        // Any user who has the Initiate Authorization can save and cancel.
-        if (this.hasInitiateAuthorization(document, (new UniversalUser(user)))) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
-        }
-        
-        if (canExecuteProposalTask((new UniversalUser(user)).getPersonUserIdentifier(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ROUTE);
-//          NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ANNOTATE);
-        }
-        
+    public boolean canEdit(Document document, Person user) {
+        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.MODIFY_PROPOSAL);
+    }
+    
+    @Override
+    protected boolean canSave(Document document, Person user) {
+        return canEdit(document, user);
+    }
+    
+    @Override
+    protected boolean canCancel(Document document, Person user) {
+        return canEdit(document, user) && super.canCancel(document, user);
+    }
+    
+    @Override
+    protected boolean canReload(Document document, Person user) {
         KualiWorkflowDocument workflow = document.getDocumentHeader().getWorkflowDocument();
-        if (workflow.stateIsCanceled()) documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
-        
-        return documentActions;
+        return canEdit(document, user) || workflow.stateIsCanceled();
     }
     
-    /**
-     * This method is used to check if the given {@link Map.Entry} is an 'entry type' edit mode and that the value is set to
-     * signify that this user has that edit mode available to them
-     * 
-     * @param entry -
-     *            the {@link Map.Entry} object that contains an edit mode such as the ones returned but
-     *            {@link #getEditMode(Document, UniversalUser)}
-     * @return true if the given entry has a key signifying an 'entry type' edit mode and the value is equal to
-     *         {@link #EDIT_MODE_DEFAULT_TRUE_VALUE}... false if not
-     */
-    protected boolean isEntryEditMode(Map.Entry entry) {
-        if (AuthorizationConstants.EditMode.FULL_ENTRY.equals(entry.getKey())
-                || KraAuthorizationConstants.ProposalEditMode.ADD_NARRATIVES.equals(entry.getKey())
-                || KraAuthorizationConstants.ProposalEditMode.MODIFY_PERMISSIONS.equals(entry.getKey())
-                || KraAuthorizationConstants.ProposalEditMode.MODIFY_PROPOSAL.equals(entry.getKey())
-                || KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET.equals(entry.getKey())
-                || "addBudget".equals(entry.getKey()) 
-                ) {
-            String fullEntryEditModeValue = (String)entry.getValue();
-            return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && (EDIT_MODE_DEFAULT_TRUE_VALUE.equals(fullEntryEditModeValue)) );
-        }
+    @Override
+    protected boolean canRoute(Document document, Person user) {
+        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW);
+    }
+    
+    @Override
+    protected boolean canAnnotate(Document document, Person user) {
+        return canRoute(document, user);
+    }
+    
+    @Override
+    protected boolean canCopy(Document document, Person user) {
         return false;
-    }
-    
-    /**
-     * This method is used to return values needed to replace the given 'entry type' edit mode {@link Map.Entry} with one that will not allow the user to enter data on the document 
-     * 
-     * @param entry - the current 'entry type' edit mode to replace 
-     * @return a Map of edit modes that will be used to replace this edit mode (represented by the given entry parameter)
-     */
-    protected Map getEntryEditModeReplacementMode(Map.Entry entry) {
-        Map editMode = new HashMap(); 
-        editMode.put(entryEditModeReplacementMap.get(entry.getKey()), EDIT_MODE_DEFAULT_TRUE_VALUE); 
-        return editMode;
-    }
-    
-    protected Map getEditModeWithEditableModesRemoved(Map currentEditMode) {
-        Map editModeMap = new HashMap();
-        //Map editModeMap = super.getEditModeWithEditableModesRemoved(currentEditMode);
-        for (Iterator iterator = editModeMap.entrySet().iterator(); iterator.hasNext();) {
-            Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
-            if (StringUtils.equals(entry.getKey(), "addBudget")) {
-                entry.setValue(FALSE);
-            }
-        }
-        return editModeMap;
-    }
-    
-    protected PessimisticLock createNewPessimisticLock(Document document, Map editMode, UniversalUser user) {
-        if (useCustomLockDescriptors()) {
-            String lockDescriptor = getCustomLockDescriptor(document, editMode, user);
-            ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument) document;
-            if(StringUtils.isNotEmpty(lockDescriptor) && lockDescriptor.contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
-                for(BudgetVersionOverview budgetOverview: pdDocument.getDevelopmentProposal().getBudgetVersionOverviews()) {
-                    KNSServiceLocator.getPessimisticLockService().generateNewLock(budgetOverview.getDocumentNumber(), lockDescriptor, user);
-                }  
-            }
-            return KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), lockDescriptor, user);
-        } else {
-            return KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), user);
-        }
     }
 
     protected boolean isBudgetComplete(ProposalDevelopmentDocument proposalDoc) {

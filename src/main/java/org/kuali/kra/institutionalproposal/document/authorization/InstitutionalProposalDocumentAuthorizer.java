@@ -15,11 +15,40 @@
  */
 package org.kuali.kra.institutionalproposal.document.authorization;
 
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.document.Document;
 
 /**
- * This class...
+ * This class is the Institutional Proposal Document Authorizer.  It determines the edit modes and
+ * document actions for all institutional proposal documents.
  */
-public class InstitutionalProposalDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
+public class InstitutionalProposalDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
 
+    /**
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
+     */
+    public Set<String> getEditModes(Document document, Person user, Set<String> oldEditModes) {
+        Set<String> editModes = new HashSet<String>();
+        editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+        return editModes;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
+     */
+    public boolean canInitiate(String documentTypeName, Person user) {
+        return true;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    public boolean canOpen(Document document, Person user) {
+        return true;
+    }
 }

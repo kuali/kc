@@ -59,8 +59,7 @@ public class ModifyAwardAuthorizer extends AwardAuthorizer {
      * @return
      */
     protected boolean canUserModifyAward(String username, Award award){
-        return hasPermission(username, award, AwardPermissionConstants.MODIFY_AWARD.getAwardPermission());
+        return !award.getAwardDocument().isViewOnly() &&
+               hasPermission(username, award, AwardPermissionConstants.MODIFY_AWARD.getAwardPermission());
     }
-    
-    
 }

@@ -15,122 +15,169 @@
  */
 package org.kuali.kra.committee.document.authorization;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kns.util.KNSConstants;
 
 /**
- * The document authorizer controls access to the Committee as well as
- * other document associated authorizations.
+ * This class is the Committee Document Authorizer.  It determines the edit modes and
+ * document actions for all committee documents.
  */
-public class CommitteeDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
-    
-    private static final String TRUE = "TRUE";
-    private static final String FALSE = "FALSE";
-    
+public class CommitteeDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
+       
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
      */
-    @SuppressWarnings("unchecked")
-    public Map getEditMode(Document doc, UniversalUser user) {
-                 
-        Map editModeMap = new HashMap();
+    public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
+        Set<String> editModes = new HashSet<String>();
         
-        CommitteeDocument committeeDocument = (CommitteeDocument) doc;
-        
-        String username = user.getPersonUserIdentifier();
+        String username = user.getPrincipalId();
+        CommitteeDocument committeeDocument = (CommitteeDocument) document;
         if (committeeDocument.getCommittee().getCommitteeId() == null) {
             if (canCreateCommittee(user)) {
-                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
+                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             } 
             else {
-                editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
+                editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
         } 
         else {
             if (canExecuteCommitteeTask(username, committeeDocument, TaskName.MODIFY_COMMITTEE)) {  
-                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
+                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             }
             else if (canExecuteCommitteeTask(username, committeeDocument, TaskName.VIEW_COMMITTEE)) {
-                editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
+                editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             }
             else {
-                editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
+                editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
         }
         
-        return editModeMap;
+        return editModes;
     }
     
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
      */
-    public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
-   
-        CommitteeDocument committeeDocument = (CommitteeDocument) document;
-        
-        boolean permission;
-        if (committeeDocument.getCommittee().getCommitteeId() == null) {
-            permission = canCreateCommittee(user);
-        }
-        else {
-            String username = user.getPersonUserIdentifier();
-            permission = canExecuteCommitteeTask(username, committeeDocument, TaskName.MODIFY_COMMITTEE);
-        }
-        return permission;
+    public boolean canInitiate(String documentTypeName, Person user) {
+        return canCreateCommittee(user);
     }
-   
+    
     /**
-     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    public boolean canOpen(Document document, Person user) {
+        CommitteeDocument committeeDocument = (CommitteeDocument) document;
+        if (committeeDocument.getCommittee().getCommitteeId() == null) {
+            return canCreateCommittee(user);
+        }
+        return canExecuteCommitteeTask(user.getPrincipalId(), (CommitteeDocument) document, TaskName.VIEW_COMMITTEE);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
-        // no copy button
-        super.getDocumentActions(document, user, documentActions);
-        documentActions.remove(KNSConstants.KUALI_ACTION_CAN_COPY);
-        
-        // Any user who has the Initiate Authorization can save and cancel.
-        if (this.hasInitiateAuthorization(document, (new UniversalUser(user)))) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
-//            documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
-        }
-        
-        if (canExecuteCommitteeTask((new UniversalUser(user)).getPersonUserIdentifier(), (CommitteeDocument) document, TaskName.SUBMIT_TO_WORKFLOW)) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ROUTE);
-//          NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ANNOTATE);
-        }
-        // display same buttons like maintenance doc
-        documentActions.remove(KNSConstants.KUALI_ACTION_CAN_ACKNOWLEDGE);
-        documentActions.remove(KNSConstants.KUALI_ACTION_CAN_FYI);
-        documentActions.remove(KNSConstants.KUALI_ACTION_CAN_DISAPPROVE);
-        documentActions.remove(KNSConstants.KUALI_ACTION_CAN_APPROVE);
-        if (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
-            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
-            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_ROUTE);
-            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
-            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_CANCEL);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);            
-            
-        } else {
-            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_RELOAD);            
-        }
-
-        return documentActions;
+    public boolean canEdit(Document document, Person user) {
+        return !isFinal(document) &&
+               canExecuteCommitteeTask(user.getPrincipalId(), (CommitteeDocument) document, TaskName.MODIFY_COMMITTEE);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canSave(Document document, Person user) {
+        return canEdit(document, user);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canRoute(Document document, Person user) {
+        return !isFinal(document) && super.canRoute(document, user);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canBlanketApprove(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canBlanketApprove(Document document, Person user) {
+        return !isFinal(document) && super.canBlanketApprove(document, user);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canCancel(Document document, Person user) {
+        return !isFinal(document) && super.canCancel(document, user);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canAcknowledge(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canAcknowledge(Document document, Person user) {
+        return false;
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canFYI(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canFYI(Document document, Person user) {
+        return false;
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canApprove(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canApprove(Document document, Person user) {
+        return false;
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canDisapprove(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canDisapprove(Document document, Person user) {
+        return false;
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canReload(Document document, Person user) {
+        return isFinal(document);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canCopy(Document document, Person user) {
+        return false;
+    }
+    
+    /**
+     * Is the document in the final route state?
+     * @param document
+     * @return true if in the final state; otherwise false
+     */
+    private boolean isFinal(Document document) {
+        return document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_FINAL_CD);
     }
     
     /**
@@ -138,11 +185,10 @@ public class CommitteeDocumentAuthorizer extends TransactionalDocumentAuthorizer
      * @param user the user
      * @return true if the user can create a committee; otherwise false
      */
-    private boolean canCreateCommittee(UniversalUser user) {
-        String username = user.getPersonUserIdentifier();
+    private boolean canCreateCommittee(Person user) {
+        String username = user.getPrincipalId();
         ApplicationTask task = new ApplicationTask(TaskName.ADD_COMMITTEE);       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthenticationService.isAuthorized(username, task);
+        return getTaskAuthorizationService().isAuthorized(username, task);
     }
     
     /**
@@ -154,7 +200,6 @@ public class CommitteeDocumentAuthorizer extends TransactionalDocumentAuthorizer
      */
     private boolean canExecuteCommitteeTask(String username, CommitteeDocument doc, String taskName) {
         CommitteeTask task = new CommitteeTask(taskName, doc.getCommittee());       
-        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthenticationService.isAuthorized(username, task);
+        return getTaskAuthorizationService().isAuthorized(username, task);
     }
 }

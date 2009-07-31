@@ -15,85 +15,61 @@
  */
 package org.kuali.kra.budget.document.authorization;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
-public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
-    
-    private static final String TRUE = "TRUE";
-    private static final String FALSE = "FALSE";
-    private static Map<String, String> entryEditModeReplacementMap = new HashMap<String, String>();
-    
-    public BudgetDocumentAuthorizer() {
-        entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
-    }
+/**
+ * This class is the Budget Document Authorizer.  It determines the edit modes and
+ * document actions for all budget documents.
+ */
+public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     
     /**
-     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
      */
-    public Map getEditMode(Document d, UniversalUser u) {
-        Map editModeMap = new HashMap();
-          
-        BudgetDocument budgetDoc = (BudgetDocument) d;
+    public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
+        Set<String> editModes = new HashSet<String>();
+         
+        BudgetDocument budgetDoc = (BudgetDocument) document;
         ProposalDevelopmentDocument proposalDoc = budgetDoc.getProposal();
-        String username = u.getPersonUserIdentifier();
+        String username = user.getPrincipalId();
         
         if (canExecuteBudgetTask(username, budgetDoc, TaskName.MODIFY_BUDGET)) {
-            editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
-            editModeMap.put("modifyBudgets", TRUE);
-            editModeMap.put("viewBudgets", TRUE);
-            setPermissions(username, proposalDoc, editModeMap);
+            editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+            editModes.add("modifyBudgets");
+            editModes.add("viewBudgets");
+            setPermissions(username, proposalDoc, editModes);
         }
         else if (canExecuteBudgetTask(username, budgetDoc, TaskName.VIEW_BUDGET)) {
-            editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
-            editModeMap.put("modifyBudgets", FALSE);
-            editModeMap.put("viewBudgets", TRUE);
-            setPermissions(username, proposalDoc, editModeMap);
+            editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
+            editModes.add("viewBudgets");
+            setPermissions(username, proposalDoc, editModes);
         }
         else {
-            editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
+            editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
         }
         
-        //Extra Code - starts here
-        String modifyBudgetPermission = null;
-        if(editModeMap.get("modifyBudgets") != null) {
-            modifyBudgetPermission = editModeMap.get("modifyBudgets").toString();
-        }
-
-        if(isBudgetComplete(proposalDoc, budgetDoc)) {
-            editModeMap.put("modifyBudgets", FALSE);
-            editModeMap.put("addBudget", FALSE);
-            if(StringUtils.isNotBlank(modifyBudgetPermission) && StringUtils.equals(modifyBudgetPermission, TRUE)) {
-                editModeMap.put("modifyCompletedBudgets", TRUE);
+        if (isBudgetComplete(proposalDoc, budgetDoc)) {
+            editModes.remove("modifyBudgets");
+            editModes.remove("addBudget");
+            if (editModes.contains("modifyBudgets")) {
+                editModes.add("modifyCompletedBudgets");
             }
-            entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
         }
         
-        return editModeMap;
+        return editModes;
     }
     
     /**
@@ -115,26 +91,22 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
      * @param doc the Proposal Development Document
      * @param editModeMap the edit mode map
      */
-    private void setPermissions(String username, ProposalDevelopmentDocument doc, Map editModeMap) {
-        editModeMap.put("addBudget", canExecuteTask(username, doc, TaskName.ADD_BUDGET));
-        editModeMap.put("openBudgets", canExecuteTask(username, doc, TaskName.OPEN_BUDGETS));
-        editModeMap.put("modifyProposalBudget", canExecuteTask(username, doc, TaskName.MODIFY_BUDGET));
-        editModeMap.put("printProposal", canExecuteTask(username, doc, TaskName.PRINT_PROPOSAL));
+    private void setPermissions(String username, ProposalDevelopmentDocument doc, Set<String> editModes) {
+        if (canExecuteProposalTask(username, doc, TaskName.ADD_BUDGET)) {
+            editModes.add("addBudget");
+        }
         
-        entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
-        //Looks like addBudget is needed in EditModeMap at all times
-        //entryEditModeReplacementMap.put("addBudget", "openBudgets");
-     } 
-    
-    /**
-     * Can the user execute the given task?
-     * @param username the user's username
-     * @param doc the proposal development document
-     * @param taskName the name of the task
-     * @return "TRUE" if has permission; otherwise "FALSE"
-     */
-    private String canExecuteTask(String username, ProposalDevelopmentDocument doc, String taskName) {
-        return canExecuteProposalTask(username, doc, taskName) ? TRUE : FALSE;
+        if (canExecuteProposalTask(username, doc, TaskName.OPEN_BUDGETS)) {
+            editModes.add("openBudgets");
+        }
+        
+        if (canExecuteProposalTask(username, doc, TaskName.MODIFY_BUDGET)) {
+            editModes.add("modifyProposalBudget");
+        }
+        
+        if (canExecuteProposalTask(username, doc, TaskName.PRINT_PROPOSAL)) {
+            editModes.add("printProposal");
+        }
     }
     
     /**
@@ -150,7 +122,6 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
         return taskAuthenticationService.isAuthorized(username, task);
     }
 
-    
     /**
      * Can the user execute the given budget task?
      * @param username the user's username
@@ -166,140 +137,75 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
     }
     
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document, org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
      */
-    // TODO Take Person instead of UniversalUser
-    public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
-
-        BudgetDocument budgetDoc = (BudgetDocument) document;
-        String username = user.getPersonUserIdentifier();
-        
-        return canExecuteBudgetTask(username, budgetDoc, TaskName.MODIFY_BUDGET);
+    public boolean canInitiate(String documentTypeName, Person user) {
+        return true;
     }
     
     /**
-     * Adds settings for transactional-document-specific flags.
-     * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    public boolean canOpen(Document document, Person user) {
+        BudgetDocument budgetDocument = (BudgetDocument) document;
+        return canExecuteBudgetTask(user.getPrincipalId(), budgetDocument, TaskName.VIEW_BUDGET);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
-        super.getDocumentActions(document, user, documentActions);
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        boolean hasInitiateAuthorization = hasInitiateAuthorization(document, new UniversalUser(user));
-        documentActions.add(KNSConstants.KUALI_ACTION_CAN_ROUTE);
-        
-        // Allow finalized budgets to be edited
-        if (workflowDocument.stateIsFinal()) {
-            if (hasInitiateAuthorization) {
-                documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
-                documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
-                documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
-            }
-            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_COPY);
-        }
-        
-        return documentActions;
+    public boolean canEdit(Document document, Person user) {
+        return canExecuteBudgetTask(user.getPrincipalId(), (BudgetDocument) document, TaskName.MODIFY_BUDGET);
     }
-
-//  @Override
-    protected boolean isLockRequiredByUser(Document document, Map editMode, UniversalUser user) {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        
-        // check for entry edit mode
-        for (Iterator iterator = editMode.entrySet().iterator(); iterator.hasNext();) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            if (isEntryEditMode(entry) && StringUtils.isNotEmpty(activeLockRegion)) {
-                return true;  
-            }
-        }
-        return false;
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canSave(Document document, Person user) {
+        return canEdit(document, user);
     }
-
-//  @Override
-    protected boolean useCustomLockDescriptors() {
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canCancel(Document document, Person user) {
+        return canEdit(document, user);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canReload(Document document, Person user) {
+        return canEdit(document, user);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canRoute(Document document, Person user) {
         return true;
     }
-
-    //@Override
-    protected String getCustomLockDescriptor(Document document, Map editMode, UniversalUser user) {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        if(StringUtils.isNotEmpty(activeLockRegion)) {
-            ProposalDevelopmentDocument parent = ((BudgetDocument) document).getProposal();
-            if(parent != null) {
-                return parent.getDocumentNumber()+"-"+activeLockRegion; 
-            }
-            return document.getDocumentNumber()+"-"+activeLockRegion;
-        }
-        
-        return null;
-    }
-
-    //@Override
-    protected boolean isEntryEditMode(Map.Entry entry) {
-        if (AuthorizationConstants.EditMode.FULL_ENTRY.equals(entry.getKey())
-                || KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET.equals(entry.getKey())
-                 || "addBudget".equals(entry.getKey())
-                ) {
-            String fullEntryEditModeValue = (String)entry.getValue();
-            return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && (EDIT_MODE_DEFAULT_TRUE_VALUE.equals(fullEntryEditModeValue)) );
-        }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canCopy(Document document, Person user) {
         return false;
     }
     
-    //@Override
-    protected Map getEditModeWithEditableModesRemoved(Map currentEditMode) {
-        //Map editModeMap = super.getEditModeWithEditableModesRemoved(currentEditMode);
-        Map editModeMap = new HashMap();
-        for (Iterator iterator = editModeMap.entrySet().iterator(); iterator.hasNext();) {
-            Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
-            if (StringUtils.equals(entry.getKey(), "addBudget")) {
-                entry.setValue(FALSE);
-            }
-        }
-        return editModeMap;
-    }
-        
-    
-    //@Override
-    protected Map getEntryEditModeReplacementMode(Map.Entry entry) {
-        Map editMode = new HashMap(); 
-        editMode.put(entryEditModeReplacementMap.get(entry.getKey()), EDIT_MODE_DEFAULT_TRUE_VALUE); 
-        return editMode;
-    }
-
-    //@Override
-    public boolean hasPreRouteEditAuthorization(Document document, UniversalUser user) {
-        BudgetDocument budgetDocument = (BudgetDocument) document;
-        
-//        if(super.hasPreRouteEditAuthorization(document, user)) {
-//            return true;
-//        } else {
-            for (Iterator iterator = budgetDocument.getProposal().getPessimisticLocks().iterator(); iterator.hasNext();) {
-                PessimisticLock lock = (PessimisticLock) iterator.next();
-                if (lock.getLockDescriptor().endsWith(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET) && lock.isOwnedByUser(user)) {
-                    return true;
-                }
-            }
-       // } 
-        
-        return false;
-    }
-
-    protected PessimisticLock createNewPessimisticLock(Document document, Map editMode, UniversalUser user) {
-        BudgetDocument budgetDocument = (BudgetDocument) document;
-        if (useCustomLockDescriptors()) {
-            //String lockDescriptor = getCustomLockDescriptor(budgetDocument.getProposal(), editMode, user);
-            String lockDescriptor = getCustomLockDescriptor(budgetDocument, editMode, user);
-            PessimisticLock budgetLockForProposal = KNSServiceLocator.getPessimisticLockService().generateNewLock(budgetDocument.getProposal().getDocumentNumber(), lockDescriptor, user);
-            budgetDocument.getProposal().addPessimisticLock(budgetLockForProposal);
-            return KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), lockDescriptor, user);
-        } else {
-            return KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), user);
-        }  
-    }
-    
-    protected boolean isBudgetComplete(ProposalDevelopmentDocument proposalDoc, BudgetDocument budgetDocument) {
+    /**
+     * Is the Budget in the final state?
+     * @param proposalDoc
+     * @param budgetDocument
+     * @return
+     */
+    private boolean isBudgetComplete(ProposalDevelopmentDocument proposalDoc, BudgetDocument budgetDocument) {
         if (!proposalDoc.getDevelopmentProposal().isProposalComplete()) {
             return false;
         }
@@ -310,5 +216,4 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
         }
         return false;
     }
-
 }
