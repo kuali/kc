@@ -94,11 +94,12 @@
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
 		-->
-		<!--
-		<collection-descriptor name="proposalCostSharing" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostSharing" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="institutionalProposalCostShares" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		-->
+		<collection-descriptor name="institutionalProposalUnrecoveredFandAs" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="proposalId"/>
+		</collection-descriptor>
 		<collection-descriptor name="institutionalProposalCustomDataList" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
@@ -208,27 +209,28 @@
 		</reference-descriptor>
 	</class-descriptor>
 	-->
-	<!--
-	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostSharing" table="PROPOSAL_COST_SHARING">
-		<field-descriptor name="proposalCostSharingId" column="PROPOSAL_COST_SHARING_ID" jdbc-type="INTEGER" primarykey="true" />
-		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="INTEGER" />
+	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare" table="PROPOSAL_COST_SHARING">
+		<field-descriptor name="proposalCostShareId" column="PROPOSAL_COST_SHARING_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_COST_SHARE_ID"/>
+		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="INTEGER" access="anonymous"/>
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="VARCHAR" />
-		<field-descriptor name="costSharingPercentage" column="COST_SHARING_PERCENTAGE" jdbc-type="DECIMAL" />
-		<field-descriptor name="costSharingTypeCode" column="COST_SHARING_TYPE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="costSharePercentage" column="COST_SHARING_PERCENTAGE" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="costShareTypeCode" column="COST_SHARING_TYPE_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="sourceAccount" column="SOURCE_ACCOUNT" jdbc-type="VARCHAR" />
-		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" />
+		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="proposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="costShareType" class-ref="org.kuali.kra.bo.CostShareType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="costShareTypeCode"/> 
+		</reference-descriptor>	
+		<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="proposalId"/>
 		</reference-descriptor>
 	</class-descriptor>
-	-->
-	<!--				
+					
 	<class-descriptor class="org.kuali.kra.institutionalproposal.IndirectcostRateType" table="IDC_RATE_TYPE">
 		<field-descriptor name="indirectcostRateTypeCode" column="IDC_RATE_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
@@ -237,10 +239,10 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
-	-->
-	<!--					
-	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalIndirectcostRate" table="PROPOSAL_IDC_RATE">
-		<field-descriptor name="proposalIndirectcostRateId" column="PROPOSAL_IDC_RATE_ID" jdbc-type="INTEGER" primarykey="true" />
+						
+	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA" table="PROPOSAL_IDC_RATE">
+		<field-descriptor name="proposalUnrecoveredFandAId" column="PROPOSAL_IDC_RATE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_UNRECOVERED_FNA_ID"/>
+		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="INTEGER" access="anonymous"/>
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="applicableIndirectcostRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" />
@@ -253,11 +255,14 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="indirectcostRateType" class-ref="org.kuali.kra.institutionalproposal.IndirectcostRateType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="proposalId"/>
+		</reference-descriptor>
+		<reference-descriptor name="indirectcostRateType" class-ref="org.kuali.kra.institutionalproposal.IndirectcostRateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="indirectcostRateTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
-	-->
+	
 	<!--
 	<class-descriptor class="org.kuali.kra.institutionalproposal.personnel.InstitutionalProposalPerson" table="PROPOSAL_PERSONS">
 		<field-descriptor name="proposalPersonId" column="PROPOSAL_PERSON_ID" jdbc-type="INTEGER" primarykey="true" />
@@ -466,7 +471,7 @@
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="unitAdministratorTypeCode" column="UNIT_ADMINISTRATOR_TYPE_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor id="1" name="administrator" column="ADMINISTRATOR" jdbc-type="VARCHAR" />
+		<field-descriptor name="administrator" column="ADMINISTRATOR" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

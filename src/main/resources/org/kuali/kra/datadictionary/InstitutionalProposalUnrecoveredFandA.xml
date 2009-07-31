@@ -19,40 +19,40 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="InstitutionalProposalIndirectcostRate" parent="InstitutionalProposalIndirectcostRate-parentBean" />
-    <bean id="InstitutionalProposalIndirectcostRate-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalIndirectcostRate" />
+    <bean id="InstitutionalProposalUnrecoveredFandA" parent="InstitutionalProposalUnrecoveredFandA-parentBean" />
+    <bean id="InstitutionalProposalUnrecoveredFandA-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA" />
         <property name="inquiryDefinition" >
-            <ref bean="InstitutionalProposalIndirectcostRate-inquiryDefinition" />
+            <ref bean="InstitutionalProposalUnrecoveredFandA-inquiryDefinition" />
         </property>
         <property name="lookupDefinition" >
-            <ref bean="InstitutionalProposalIndirectcostRate-lookupDefinition" />
+            <ref bean="InstitutionalProposalUnrecoveredFandA-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="proposalIndirectcostRateId" />
+        <property name="titleAttribute" value="proposalUnrecoveredFandAId" />
         <property name="attributes" >
             <list>
-                <ref bean="InstitutionalProposalIndirectcostRate-proposalIndirectcostRateId" />
-                <ref bean="InstitutionalProposalIndirectcostRate-proposalNumber" />
-                <ref bean="InstitutionalProposalIndirectcostRate-sequenceNumber" />
-                <ref bean="InstitutionalProposalIndirectcostRate-applicableIndirectcostRate" />
-                <ref bean="InstitutionalProposalIndirectcostRate-indirectcostRateTypeCode" />
-                <ref bean="InstitutionalProposalIndirectcostRate-fiscalYear" />
-                <ref bean="InstitutionalProposalIndirectcostRate-onCampusFlag" />
-                <ref bean="InstitutionalProposalIndirectcostRate-underrecoveryOfIndirectcost" />
-                <ref bean="InstitutionalProposalIndirectcostRate-sourceAccount" />
-                <ref bean="InstitutionalProposalIndirectcostRate-versionNumber" />
+                <ref bean="InstitutionalProposalUnrecoveredFandA-proposalUnrecoveredFandAId" />
+                <ref bean="InstitutionalProposalUnrecoveredFandA-proposalNumber" />
+                <ref bean="InstitutionalProposalUnrecoveredFandA-sequenceNumber" />
+                <ref bean="InstitutionalProposalUnrecoveredFandA-applicableIndirectcostRate" />
+                <ref bean="InstitutionalProposalUnrecoveredFandA-indirectcostRateTypeCode" />
+                <ref bean="InstitutionalProposalUnrecoveredFandA-fiscalYear" />
+                <ref bean="InstitutionalProposalUnrecoveredFandA-onCampusFlag" />
+                <ref bean="InstitutionalProposalUnrecoveredFandA-underrecoveryOfIndirectcost" />
+                <ref bean="InstitutionalProposalUnrecoveredFandA-sourceAccount" />
+                <ref bean="InstitutionalProposalUnrecoveredFandA-versionNumber" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
     
-    <bean id="InstitutionalProposalIndirectcostRate-proposalIndirectcostRateId" parent="InstitutionalProposalIndirectcostRate-proposalIndirectcostRateId-parentBean" />
-    <bean id="InstitutionalProposalIndirectcostRate-proposalIndirectcostRateId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="proposalIndirectcostRateId" />
+    <bean id="InstitutionalProposalUnrecoveredFandA-proposalUnrecoveredFandAId" parent="InstitutionalProposalUnrecoveredFandA-proposalUnrecoveredFandAId-parentBean" />
+    <bean id="InstitutionalProposalUnrecoveredFandA-proposalUnrecoveredFandAId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalUnrecoveredFandAId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Proposal Indirectcost Rate Id" />
-        <property name="shortLabel" value="Proposal Indirectcost Rate Id" />
+        <property name="label" value="Proposal Unrecovered FNA Id" />
+        <property name="shortLabel" value="Proposal Unrecovered FNA Id" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -61,12 +61,12 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="Proposal Indirectcost Rate Id" />
-        <property name="description" value="Proposal Indirectcost Rate Id" />
+        <property name="summary" value="Proposal Unrecovered FNA Id" />
+        <property name="description" value="Proposal Unrecovered FNA Id" />
     </bean>
 
-    <bean id="InstitutionalProposalIndirectcostRate-proposalNumber" parent="InstitutionalProposalIndirectcostRate-proposalNumber-parentBean" />
-    <bean id="InstitutionalProposalIndirectcostRate-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="InstitutionalProposalUnrecoveredFandA-proposalNumber" parent="InstitutionalProposalUnrecoveredFandA-proposalNumber-parentBean" />
+    <bean id="InstitutionalProposalUnrecoveredFandA-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalNumber" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Proposal Number" />
@@ -83,8 +83,8 @@
         <property name="description" value="Proposal Number" />
     </bean>
 
-    <bean id="InstitutionalProposalIndirectcostRate-sequenceNumber" parent="InstitutionalProposalIndirectcostRate-sequenceNumber-parentBean" />
-    <bean id="InstitutionalProposalIndirectcostRate-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="InstitutionalProposalUnrecoveredFandA-sequenceNumber" parent="InstitutionalProposalUnrecoveredFandA-sequenceNumber-parentBean" />
+    <bean id="InstitutionalProposalUnrecoveredFandA-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="sequenceNumber" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Sequence Number" />
@@ -101,8 +101,8 @@
         <property name="description" value="Sequence Number" />
     </bean>
 
-    <bean id="InstitutionalProposalIndirectcostRate-applicableIndirectcostRate" parent="InstitutionalProposalIndirectcostRate-applicableIndirectcostRate-parentBean" />
-    <bean id="InstitutionalProposalIndirectcostRate-applicableIndirectcostRate-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="InstitutionalProposalUnrecoveredFandA-applicableIndirectcostRate" parent="InstitutionalProposalUnrecoveredFandA-applicableIndirectcostRate-parentBean" />
+    <bean id="InstitutionalProposalUnrecoveredFandA-applicableIndirectcostRate-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="applicableIndirectcostRate" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Applicable Indirectcost Rate" />
@@ -119,8 +119,8 @@
         <property name="description" value="Applicable Indirectcost Rate" />
     </bean>
 
-    <bean id="InstitutionalProposalIndirectcostRate-indirectcostRateTypeCode" parent="InstitutionalProposalIndirectcostRate-indirectcostRateTypeCode-parentBean" />
-    <bean id="InstitutionalProposalIndirectcostRate-indirectcostRateTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="InstitutionalProposalUnrecoveredFandA-indirectcostRateTypeCode" parent="InstitutionalProposalUnrecoveredFandA-indirectcostRateTypeCode-parentBean" />
+    <bean id="InstitutionalProposalUnrecoveredFandA-indirectcostRateTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="indirectcostRateTypeCode" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Idc Rate Type Code" />
@@ -137,8 +137,8 @@
         <property name="description" value="Idc Rate Type Code" />
     </bean>
 
-    <bean id="InstitutionalProposalIndirectcostRate-fiscalYear" parent="InstitutionalProposalIndirectcostRate-fiscalYear-parentBean" />
-    <bean id="InstitutionalProposalIndirectcostRate-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="InstitutionalProposalUnrecoveredFandA-fiscalYear" parent="InstitutionalProposalUnrecoveredFandA-fiscalYear-parentBean" />
+    <bean id="InstitutionalProposalUnrecoveredFandA-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="fiscalYear" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Fiscal Year" />
@@ -155,8 +155,8 @@
         <property name="description" value="Fiscal Year" />
     </bean>
 
-    <bean id="InstitutionalProposalIndirectcostRate-onCampusFlag" parent="InstitutionalProposalIndirectcostRate-onCampusFlag-parentBean" />
-    <bean id="InstitutionalProposalIndirectcostRate-onCampusFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+    <bean id="InstitutionalProposalUnrecoveredFandA-onCampusFlag" parent="InstitutionalProposalUnrecoveredFandA-onCampusFlag-parentBean" />
+    <bean id="InstitutionalProposalUnrecoveredFandA-onCampusFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
         <property name="name" value="onCampusFlag" />
         <property name="label" value="On Campus Flag" />
         <property name="shortLabel" value="On Campus Flag" />
@@ -164,8 +164,8 @@
         <property name="description" value="On Campus Flag" />
     </bean>
 
-    <bean id="InstitutionalProposalIndirectcostRate-underrecoveryOfIndirectcost" parent="InstitutionalProposalIndirectcostRate-underrecoveryOfIndirectcost-parentBean" />
-    <bean id="InstitutionalProposalIndirectcostRate-underrecoveryOfIndirectcost-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="InstitutionalProposalUnrecoveredFandA-underrecoveryOfIndirectcost" parent="InstitutionalProposalUnrecoveredFandA-underrecoveryOfIndirectcost-parentBean" />
+    <bean id="InstitutionalProposalUnrecoveredFandA-underrecoveryOfIndirectcost-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="underrecoveryOfIndirectcost" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Underrecovery Of Indirectcost" />
@@ -182,8 +182,8 @@
         <property name="description" value="Underrecovery Of Indirectcost" />
     </bean>
 
-    <bean id="InstitutionalProposalIndirectcostRate-sourceAccount" parent="InstitutionalProposalIndirectcostRate-sourceAccount-parentBean" />
-    <bean id="InstitutionalProposalIndirectcostRate-sourceAccount-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="InstitutionalProposalUnrecoveredFandA-sourceAccount" parent="InstitutionalProposalUnrecoveredFandA-sourceAccount-parentBean" />
+    <bean id="InstitutionalProposalUnrecoveredFandA-sourceAccount-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="sourceAccount" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Source Account" />
@@ -200,23 +200,23 @@
         <property name="description" value="Source Account" />
     </bean>
 
-    <bean id="InstitutionalProposalIndirectcostRate-versionNumber" parent="InstitutionalProposalIndirectcostRate-versionNumber-parentBean" />
-    <bean id="InstitutionalProposalIndirectcostRate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <bean id="InstitutionalProposalUnrecoveredFandA-versionNumber" parent="InstitutionalProposalUnrecoveredFandA-versionNumber-parentBean" />
+    <bean id="InstitutionalProposalUnrecoveredFandA-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
 
     <!-- Business Object Inquiry Definition -->
-    <bean id="InstitutionalProposalIndirectcostRate-inquiryDefinition" parent="InstitutionalProposalIndirectcostRate-inquiryDefinition-parentBean" />
-    <bean id="InstitutionalProposalIndirectcostRate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <bean id="InstitutionalProposalUnrecoveredFandA-inquiryDefinition" parent="InstitutionalProposalUnrecoveredFandA-inquiryDefinition-parentBean" />
+    <bean id="InstitutionalProposalUnrecoveredFandA-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Proposal Indirectcost Rate Id" />
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Proposal Indirectcost Rate Id" />
+                    <property name="title" value="ProposalUnrecovered FNA Id" />
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                                p:attributeName="proposalIndirectcostRateId" 
+                                p:attributeName="proposalUnrecoveredFandAId" 
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="proposalNumber" />
@@ -242,11 +242,11 @@
     </bean>
 
     <!-- Business Object Lookup Definition -->
-    <bean id="InstitutionalProposalIndirectcostRate-lookupDefinition" parent="InstitutionalProposalIndirectcostRate-lookupDefinition-parentBean" />
-    <bean id="InstitutionalProposalIndirectcostRate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Proposal Indirectcost Rate Lookup" />
+    <bean id="InstitutionalProposalUnrecoveredFandA-lookupDefinition" parent="InstitutionalProposalUnrecoveredFandA-lookupDefinition-parentBean" />
+    <bean id="InstitutionalProposalUnrecoveredFandA-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Proposal Unrecovered FNA Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Proposal Indirectcost Rate" />
+        <property name="instructions" value="Look up a Proposal Unrecovered FNA" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>
@@ -254,7 +254,7 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="proposalIndirectcostRateId" 
+                    p:attributeName="proposalUnrecoveredFandAId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalNumber" />
@@ -277,7 +277,7 @@
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="proposalIndirectcostRateId" 
+                    p:attributeName="proposalUnrecoveredFandAId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalNumber" />

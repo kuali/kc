@@ -32,6 +32,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
     
     protected static final String CUSTOM_DATA_LINK_NAME = "customData.x";
+    protected static final String DISTRIBUTION_LINK_NAME = "distribution.x";
     
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
     protected static final String DOCUMENT_STATUS_CODE = "document.institutionalProposal.statusCode";
@@ -42,6 +43,8 @@ public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
     
 
     
+    protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
+    protected static final String ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST = "table or view does not exist";
     protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Institutional Proposal Web Test";
     protected static final String DEFAULT_PROJECT_TITLE = "Test Project";
     protected static final String DEFAULT_SPONSOR_CODE = "005891";
