@@ -17,7 +17,6 @@ package org.kuali.kra.proposaldevelopment.hierarchy.service;
 
 import org.kuali.kra.proposaldevelopment.hierarchy.IneligibleChildException;
 import org.kuali.kra.proposaldevelopment.hierarchy.InvalidHierarchyException;
-import org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchyChild;
 
 /**
  * This class...
@@ -37,14 +36,6 @@ public interface ProposalHierarchySyncService {
      * @throws InvalidHierarchyException
      */
     public void synchronizeAllChildren(String hierarchyProposalNumber) throws InvalidHierarchyException;
-    
-    /**
-     * This method...
-     * @param childProposalNumber
-     * @return
-     * @throws IneligibleChildException
-     */
-    public int computeChildHashCode(String childProposalNumber) throws IneligibleChildException;
     
     /**
      * This method...
