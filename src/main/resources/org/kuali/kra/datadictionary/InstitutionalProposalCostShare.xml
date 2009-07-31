@@ -126,14 +126,13 @@
         <property name="label" value="Fiscal Year" />
         <property name="shortLabel" value="Fiscal Year" />
         <property name="maxLength" value="4" />
-    	<property name="validationPattern" >
-      		<bean parent="NumericValidationPattern"/>
-    	</property>
-    	<property name="required" value="true" />
-    	<property name="control" >
-      		<bean parent="TextControlDefinition"
-            	p:size="5" />
-    	</property>
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="5" />
+        </property>
         <property name="summary" value="Fiscal Year" />
         <property name="description" value="Fiscal Year" />
     </bean>

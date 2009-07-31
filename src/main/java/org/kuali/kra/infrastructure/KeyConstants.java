@@ -517,6 +517,18 @@ public final class KeyConstants {
     public static final String ERROR_IP_COST_SHARE_COMMITMENT_AMOUNT_INVALID = "error.institutionalProposalCostShare.amount.invalid";
     public static final String ERROR_IP_FISCAL_YEAR_INCORRECT_FORMAT = "error.fiscalYear.IncorrectFormat";
     
+    //Institutional Proposal Unrecovered FandA
+    public static final String QUESTION_DELETE_UNRECOVERED_FNA = "document.question.deleteUnrecoveredFandA.text";
+    public static final String ERROR_PROPOSAL_UFNA_AMOUNT_REQUIRED = "error.institutionalProposalUnrecoveredFandA.amount.required";
+    public static final String ERROR_PROPOSAL_UFNA_FISCAL_YEAR_RANGE = "error.institutionalProposalUnrecoveredFandA.fiscalYear.range";
+    public static final String ERROR_PROPOSAL_UFNA_FISCAL_YEAR_REQUIRED = "error.institutionalProposalUnrecoveredFandA.fiscalYear.required";
+    public static final String ERROR_PROPOSAL_UFNA_RATE_TYPE_CODE_REQUIRED = "error.institutionalProposalUnrecoveredFandA.rateTypeCode.required";
+    public static final String ERROR_PROPOSAL_UFNA_RATE_TYPE_CODE_INVALID = "error.institutionalProposalUnrecoveredFandA.rateTypeCode.invalid";
+    public static final String ERROR_PROPOSAL_UFNA_AMOUNT_INVALID = "error.institutionalProposalUnrecoveredFandA.amount.invalid";
+    public static final String ERROR_PROPOSAL_UFNA_FISCAL_YEAR_FORMAT = "error.institutionalProposalUnrecoveredFandA.fiscalYear.IncorrectFormat";
+    public static final String ERROR_PROPOSAL_UFNA_APPLICABLE_RATE_INVALID = "error.institutionalProposalUnrecoveredFandA.percentage.range";
+
+    
     //CommitteeSchedule Messages
     public static final String ERROR_COMMITTEESCHEDULE_STARTANDENDDATE_EQUAL = "error.committeeSchedule.start.and.endDate.equal";
     public static final String ERROR_COMMITTEESCHEDULE_STARTANDENDDATE = "error.committeeSchedule.start.and.endDate";

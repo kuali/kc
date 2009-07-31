@@ -18,7 +18,12 @@
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 <c:set var="institutionalProposalCostShareAttributes" value="${DataDictionary.InstitutionalProposalCostShare.attributes}" />
 
-<kul:tabTop tabTitle="Cost Sharing" defaultOpen="false" tabErrorKey="newInstitutionalProposalCostShare.*">
+<c:set var="tabItemCount" value="0" />
+<c:forEach var="institutionalProposalCostShare" items="${KualiForm.document.institutionalProposal.institutionalProposalCostShares}" varStatus="status">               
+        <c:set var="tabItemCount" value="${tabItemCount+1}" />
+</c:forEach>
+
+<kul:tabTop tabTitle="Cost Sharing (${tabItemCount})" defaultOpen="false" tabErrorKey="newInstitutionalProposalCostShare.*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Cost Share</span>
