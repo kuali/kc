@@ -36,8 +36,8 @@
 
 <kul:panelFooter />
 	<kul:documentControls 
-		transactionalDocument="false"
-		suppressRoutingControls="true"
+		transactionalDocument="true"
+		suppressRoutingControls="false"
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"
