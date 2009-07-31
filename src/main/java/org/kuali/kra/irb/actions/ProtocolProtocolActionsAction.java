@@ -147,7 +147,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward submitForReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+    
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL, protocolForm.getProtocolDocument().getProtocol());
         if (isAuthorized(task)) {
@@ -158,10 +159,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 }
                 getProtocolActionService().submitToIrbForReview(protocolForm.getProtocolDocument().getProtocol(),
                                                                 submitAction);
+                
+                forward = super.route(mapping, form, request, response);
             }
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
     }
     
     private ProtocolSubmitActionService getProtocolActionService() {
