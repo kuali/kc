@@ -1572,6 +1572,8 @@ $("#save").click(function() {
 			alert("Questionnaire Name is required");
 		} else if (qdescription == '') {
 			alert("Questionnaire description is required");
+		} else if ($("#example").children('li').size() == 0) {
+			alert("No question is added");
 		} else {
 			// TODO : FF seems to have trouble with "#;#"
 
