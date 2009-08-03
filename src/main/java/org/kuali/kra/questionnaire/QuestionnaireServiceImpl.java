@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -32,13 +33,21 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
             Map pkMap = new HashMap();
             pkMap.put("questionnaireId", questionnaire.getQuestionnaireId());
             questionnaire = (Questionnaire)businessObjectService.findByPrimaryKey(Questionnaire.class, pkMap);
-            //Questionnaire oldQuestionnair = (Questionnaire)businessObjectService.findByPrimaryKey(Questionnaire.class, pkMap);
-            //questionnaire.setVersionNumber(oldQuestionnair.getVersionNumber());
         }
-        //businessObjectService.save(questionnaire);
-        //questionnaireDao.runScripts(sqlScripts.split("#;#"),questionnaire.getQuestionnaireId());
         questionnaireDao.runScripts(sqlScripts.split(";;;"),questionnaire.getQuestionnaireId());
             
+    }
+
+    
+    public boolean isQuestionnaireNameExist(Integer questionnaireId, String name) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("name", name);
+        boolean isExist = false;
+        Questionnaire questionnaire = (Questionnaire)businessObjectService.findByPrimaryKey(Questionnaire.class, fieldValues);
+        if (questionnaire != null && (questionnaireId==null || !questionnaire.getQuestionnaireId().equals(questionnaireId))) {
+            isExist = true;
+        }
+        return isExist;
     }
 
     public void copyQuestionnaire(Questionnaire src, Questionnaire dest) {
