@@ -69,6 +69,22 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     }
     
     /**
+     * This method is used to update notedPad values
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward updateNotes(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+       
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
      * 
      * This method is for selecting all keywords if javascript is disabled on a browser. 
      * @param mapping

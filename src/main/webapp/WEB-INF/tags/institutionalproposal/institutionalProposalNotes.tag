@@ -31,7 +31,7 @@
         <table id="cost-share-table" cellpadding="0" cellspacing="0" summary="Cost Share">
 			<tr>
 				<th scope="row">&nbsp;</th>
-				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.updateTimestamp}" useShortLabel="true" noColon="true" /></th>
+				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.createTimestamp}" useShortLabel="true" noColon="true" /></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.updateUser}" useShortLabel="true" noColon="true" /></th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.noteTopic}" useShortLabel="true" noColon="true"/></th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.comments}" useShortLabel="true" noColon="true"/></th>
@@ -77,19 +77,19 @@
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td valign="middle">
-						${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].updateTimestamp}&nbsp;
+						${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].createTimestamp}&nbsp;
 					</td>
 	                <td valign="middle">
 						${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].updateUser}&nbsp;
 	                </td>
 	                <td valign="middle">                	
 					<div align="center">
-                  		<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalNotepads[${status.index}].noteTopic" attributeEntry="${institutionalProposalNotesAttributes.noteTopic}"/> 
+						${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].noteTopic}&nbsp;  
 					</div>
 					</td>
 	                <td valign="middle">                	
 					<div align="left">
-                  		<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalNotepads[${status.index}].comments" attributeEntry="${institutionalProposalNotesAttributes.comments}"/> 
+						${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].comments}&nbsp; 
 					</div>
 					</td>
 	                <td valign="middle">
@@ -99,8 +99,8 @@
 	                </td>
 					<td>
 					<div align="center">&nbsp;
-						<html:image property="methodToCall.deleteCostShare.line${status.index}.anchor${currentTabIndex}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+						<html:image property="methodToCall.updateNotes.line${status.index}.anchor${currentTabIndex}"
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif' styleClass="tinybutton"/>
 					</div>
 	                </td>
 	            </tr>
