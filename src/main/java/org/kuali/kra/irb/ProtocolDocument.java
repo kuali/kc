@@ -19,12 +19,17 @@ package org.kuali.kra.irb;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.plexus.util.StringUtils;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
+import org.kuali.kra.service.VersioningService;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * 
@@ -125,5 +130,28 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
+    }
+    
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) throws Exception {
+        System.out.println("ROUTE STATUS CHANGE");
+        System.out.println(statusChangeEvent.toString());
+        if (StringUtils.equals("F", statusChangeEvent.getNewRouteStatus())) {
+            ProtocolDocument newDoc = createAndSaveVersion(this);
+        }
+    }
+    
+    private ProtocolDocument createAndSaveVersion(ProtocolDocument oldDoc) throws Exception {
+        VersioningService versioningService = KraServiceLocator.getService(VersioningService.class);
+        Protocol newVersion = versioningService.createNewVersion(oldDoc.getProtocol());
+        
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getNewDocument(ProtocolDocument.class);
+        protocolDocument.getDocumentHeader().setDocumentDescription(oldDoc.getDocumentHeader().getDocumentDescription());
+        protocolDocument.setDocumentNextvalues(new ArrayList<DocumentNextvalue>());
+        protocolDocument.setProtocol(newVersion);
+            
+        documentService.saveDocument(protocolDocument);
+        
+        return protocolDocument;
     }
 }

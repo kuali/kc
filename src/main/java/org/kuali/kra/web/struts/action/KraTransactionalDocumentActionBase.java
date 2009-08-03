@@ -343,7 +343,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     private boolean isTaskAuthorized(String methodName, ActionForm form, HttpServletRequest request) {
         WebAuthorizationService webAuthorizationService = KraServiceLocator.getService(WebAuthorizationService.class);
         Person person = GlobalVariables.getUserSession().getPerson();
-        String username = person.getPrincipalId();
+        String username = person.getPrincipalName();
         ((KraTransactionalDocumentFormBase) form).setActionName(getClass().getSimpleName());
         boolean isAuthorized = webAuthorizationService.isAuthorized(username, this.getClass(), methodName, form, request);
         if (!isAuthorized) {

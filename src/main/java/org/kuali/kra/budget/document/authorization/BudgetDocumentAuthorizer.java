@@ -44,7 +44,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
          
         BudgetDocument budgetDoc = (BudgetDocument) document;
         ProposalDevelopmentDocument proposalDoc = budgetDoc.getProposal();
-        String username = user.getPrincipalId();
+        String username = user.getPrincipalName();
         
         if (canExecuteBudgetTask(username, budgetDoc, TaskName.MODIFY_BUDGET)) {
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
@@ -148,7 +148,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      */
     public boolean canOpen(Document document, Person user) {
         BudgetDocument budgetDocument = (BudgetDocument) document;
-        return canExecuteBudgetTask(user.getPrincipalId(), budgetDocument, TaskName.VIEW_BUDGET);
+        return canExecuteBudgetTask(user.getPrincipalName(), budgetDocument, TaskName.VIEW_BUDGET);
     }
     
     /**
@@ -156,7 +156,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      */
     @Override
     public boolean canEdit(Document document, Person user) {
-        return canExecuteBudgetTask(user.getPrincipalId(), (BudgetDocument) document, TaskName.MODIFY_BUDGET);
+        return canExecuteBudgetTask(user.getPrincipalName(), (BudgetDocument) document, TaskName.MODIFY_BUDGET);
     }
     
     /**
