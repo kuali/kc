@@ -20,78 +20,36 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.dao.ResearchAreaDao;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ResearchAreasService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class ResearchAreasServiceImpl implements ResearchAreasService {
+    private static final String COLUMN_CODE = "%3A";
     private BusinessObjectService businessObjectService;
-    private static final String COLUMN = ":";
-    private static final String SEPARATOR = ";1;";
     private ResearchAreaDao researchAreaDao;
     
-    public String getInitialResearchAreasList() {
-        List<ResearchArea> researchAreasList = getSubResearchAreas("000000");
-        if (CollectionUtils.isEmpty(researchAreasList)) {
-            return Constants.EMPTY_STRING;
-        }
-        ResearchArea topResearcgArea = researchAreasList.get(0);
-        String initialResearchAreas = "<h3>"+topResearcgArea.getResearchAreaCode() +KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+topResearcgArea.getDescription()+"</h3><h3>";
-        for (ResearchArea researcgArea : getSubResearchAreas(topResearcgArea.getResearchAreaCode())) {
-            // TODO : limit this for testing
-            if (researcgArea.getResearchAreaCode().startsWith("21.")) {
-            initialResearchAreas = initialResearchAreas + researcgArea.getResearchAreaCode() +KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+researcgArea.getDescription()+"</h3><h3>";
-            }
-        }
-        initialResearchAreas = initialResearchAreas + KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp().toString()+"</h3>";
-       // initialResearchAreas = initialResearchAreas.substring(0, initialResearchAreas.length() - 4);
-
-        return initialResearchAreas;
-        
-    }
-
+    /**
+     * 
+     * @see org.kuali.kra.service.ResearchAreasService#getSubResearchAreasForTreeView(java.lang.String)
+     */
     public String getSubResearchAreasForTreeView(String researchAreaCode) {
         String researchAreas = "<h3>";
         for (ResearchArea researcgArea : getSubResearchAreas(researchAreaCode)) {
-            researchAreas = researchAreas + researcgArea.getResearchAreaCode() +KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+researcgArea.getDescription()+"</h3><h3>";
+            researchAreas = researchAreas + researcgArea.getResearchAreaCode() +KNSConstants.BLANK_SPACE+COLUMN_CODE+KNSConstants.BLANK_SPACE+researcgArea.getDescription()+"</h3><h3>";
         }
         researchAreas = researchAreas.substring(0, researchAreas.length() - 4);        
         return researchAreas;
         
     }
    
-    public String getAscendantList(String researchAreaCode) {
-        
-        String retStr = Constants.EMPTY_STRING;
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("researchAreaCode", researchAreaCode);
-        // what if not found, can it be casted? is it return a pbo or null
-        ResearchArea researchArea = (ResearchArea)businessObjectService.findByPrimaryKey(ResearchArea.class, fieldValues);
-
-        while (researchArea != null && !researchArea.getParentResearchAreaCode().equals("000000")) {
-            fieldValues.put("researchAreaCode", researchArea.getParentResearchAreaCode());
-            researchArea = (ResearchArea)businessObjectService.findByPrimaryKey(ResearchArea.class, fieldValues);            
-            if (researchArea != null) {
-                if (retStr.equals(Constants.EMPTY_STRING)) {
-                    retStr = researchArea.getResearchAreaCode();
-                } else {
-                    retStr = researchArea.getResearchAreaCode()+ SEPARATOR + retStr;
-                    
-                }
-                
-            }
-        }
-        return retStr;
-        
-    }
-
+    /*
+     * call businessobjectservice to get a list of sub research areas of 'researchareacode'
+     */
     private List<ResearchArea> getSubResearchAreas(String researchAreaCode) {
         List<ResearchArea> researchAreasList = new ArrayList<ResearchArea>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -100,6 +58,10 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         return researchAreasList;
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.service.ResearchAreasService#isResearchAreaExist(java.lang.String, java.lang.String)
+     */
     public boolean isResearchAreaExist(String researchAreaCode, String researchAreas) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("researchAreaCode", researchAreaCode);
@@ -121,6 +83,10 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         return isExist;
     }
 
+    /*
+     * This method is a recursive call to check whether the new 'researchAreaCode' matched
+     * raCode's decendants' code
+     */
     private boolean isExistInDeletedChildren(String researchAreaCode, String raCode) {
         boolean isExist = false;
         for (ResearchArea researchArea : getSubResearchAreas(raCode)) {
@@ -134,6 +100,10 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         return isExist;
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.service.ResearchAreasService#saveResearchAreas(java.lang.String)
+     */
     public void saveResearchAreas(String sqlScripts) {
 
         //researchAreaDao.runScripts(sqlScripts.split("#;#"));
@@ -141,7 +111,6 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         
     }
 
-    
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }

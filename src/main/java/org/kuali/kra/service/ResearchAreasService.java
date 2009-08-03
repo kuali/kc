@@ -17,10 +17,29 @@ package org.kuali.kra.service;
 
 
 public interface ResearchAreasService {
-    public String getInitialResearchAreasList();
+    /**
+     * 
+     * This method to get children research area codes of 'reresearchAreaCode'
+     * 
+     * @param researchAreaCode
+     * @return
+     */
     public String getSubResearchAreasForTreeView(String researchAreaCode);
-    public String getAscendantList(String researchAreaCode);
+
+    /**
+     * 
+     * This method is check whetehr the new research area code exist in DB
+     * @param researchAreaCode : new research area code
+     * @param researchAreas : list of research area codes that are being removed, but has not been removed from DB yet.
+     * @return
+     */
     public boolean isResearchAreaExist(String researchAreaCode, String researchAreas);
+
+    /**
+     * 
+     * This method is call cal dao to run a list of sqlscripts.
+     * @param sqlScripts : a sequence of sql scripts that were being performed on questionnaire page.
+     */
     public void saveResearchAreas(String sqlScripts);
 
 }

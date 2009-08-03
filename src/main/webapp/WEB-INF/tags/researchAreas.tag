@@ -95,7 +95,7 @@
 <%-- 0000001 --%>
 
   <div style = "background:#e4e4e4" >
-  <ul id="example" class="filetree"  >
+  <ul id="researcharea" class="filetree"  >
         <%-- <li><span class="folder">00000</span>
         </li> --%>
     </ul>
