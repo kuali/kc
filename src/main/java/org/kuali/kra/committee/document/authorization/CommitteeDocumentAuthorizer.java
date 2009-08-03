@@ -39,7 +39,7 @@ public class CommitteeDocumentAuthorizer extends KcTransactionalDocumentAuthoriz
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
         
-        String username = user.getPrincipalId();
+        String username = user.getPrincipalName();
         CommitteeDocument committeeDocument = (CommitteeDocument) document;
         if (committeeDocument.getCommittee().getCommitteeId() == null) {
             if (canCreateCommittee(user)) {
@@ -79,7 +79,7 @@ public class CommitteeDocumentAuthorizer extends KcTransactionalDocumentAuthoriz
         if (committeeDocument.getCommittee().getCommitteeId() == null) {
             return canCreateCommittee(user);
         }
-        return canExecuteCommitteeTask(user.getPrincipalId(), (CommitteeDocument) document, TaskName.VIEW_COMMITTEE);
+        return canExecuteCommitteeTask(user.getPrincipalName(), (CommitteeDocument) document, TaskName.VIEW_COMMITTEE);
     }
     
     /**
@@ -88,7 +88,7 @@ public class CommitteeDocumentAuthorizer extends KcTransactionalDocumentAuthoriz
     @Override
     public boolean canEdit(Document document, Person user) {
         return !isFinal(document) &&
-               canExecuteCommitteeTask(user.getPrincipalId(), (CommitteeDocument) document, TaskName.MODIFY_COMMITTEE);
+               canExecuteCommitteeTask(user.getPrincipalName(), (CommitteeDocument) document, TaskName.MODIFY_COMMITTEE);
     }
     
     /**
@@ -186,7 +186,7 @@ public class CommitteeDocumentAuthorizer extends KcTransactionalDocumentAuthoriz
      * @return true if the user can create a committee; otherwise false
      */
     private boolean canCreateCommittee(Person user) {
-        String username = user.getPrincipalId();
+        String username = user.getPrincipalName();
         ApplicationTask task = new ApplicationTask(TaskName.ADD_COMMITTEE);       
         return getTaskAuthorizationService().isAuthorized(username, task);
     }
