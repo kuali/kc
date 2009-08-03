@@ -26,7 +26,7 @@ import org.kuali.kra.service.ResearchAreasService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
-public class ResearchAreasForm   extends KualiForm {
+public class ResearchAreasForm extends KualiForm {
 
     private String researchAreas;
     private String searchResults;
@@ -37,44 +37,42 @@ public class ResearchAreasForm   extends KualiForm {
     private String deletedRas;
 
     private static final Log LOG = LogFactory.getLog(ResearchAreasForm.class);
+
     /**
      * Constructs a ResearchAreasForm.
      */
     public ResearchAreasForm() {
         super();
-        researchAreas = KraServiceLocator.getService(ResearchAreasService.class).getInitialResearchAreasList();        
-        deletedRas = "";
     }
 
     public void reset(ActionMapping mapping, HttpServletRequest request) {
-        // FIXME : just a temporary soln.  it always get the methodtocall='refresh' after it started properly the first time.  
+        // FIXME : just a temporary soln. it always get the methodtocall='refresh' after it started properly the first time.
         // need to investigate this.
         this.setMethodToCall("");
+        addRA = "";
+        deletedRas = "";
     }
-    
+
     public String getResearchAreas() {
-       if (StringUtils.isBlank(researchAreaCode)) {
-            setResearchAreas(KraServiceLocator.getService(ResearchAreasService.class).getInitialResearchAreasList());
-       } else if (StringUtils.isNotBlank(addRA) && addRA.equals("Y")) {
-           if (KraServiceLocator.getService(ResearchAreasService.class).isResearchAreaExist(researchAreaCode, deletedRas)) {
-               setResearchAreas("<h3>true</h3>");
-           } else {
-               setResearchAreas("<h3>false</h3>");
-           }
-           setAddRA(""); // jquery next request will be reset to ""
-       } else if (StringUtils.isNotBlank(addRA) && addRA.equals("S")) {
-           KraServiceLocator.getService(ResearchAreasService.class).saveResearchAreas(sqlScripts);           
-           String error = (String)GlobalVariables.getUserSession().retrieveObject("raError");
-           if (StringUtils.isNotBlank(error)) {
-               setResearchAreas("<h3>"+error+"</h3>");   
-               GlobalVariables.getUserSession().addObject("raError",(Object)null); 
-           } else {
-               setResearchAreas("<h3>Success</h3>");
-           }    
-           setAddRA("");
-       } else {
-           setResearchAreas(KraServiceLocator.getService(ResearchAreasService.class).getSubResearchAreasForTreeView(researchAreaCode));           
-       } 
+        if (StringUtils.isNotBlank(addRA) && addRA.equals("Y")) {
+            if (KraServiceLocator.getService(ResearchAreasService.class).isResearchAreaExist(researchAreaCode, deletedRas)) {
+                setResearchAreas("<h3>true</h3>");
+            }else {
+                setResearchAreas("<h3>false</h3>");
+            }
+        } else if (StringUtils.isNotBlank(addRA) && addRA.equals("S")) {
+            KraServiceLocator.getService(ResearchAreasService.class).saveResearchAreas(sqlScripts);
+            String error = (String) GlobalVariables.getUserSession().retrieveObject("raError");
+            if (StringUtils.isNotBlank(error)) {
+                setResearchAreas("<h3>" + error + "</h3>");
+                GlobalVariables.getUserSession().addObject("raError", (Object) null);
+            } else {
+                setResearchAreas("<h3>Success</h3>");
+            }
+        } else {
+            setResearchAreas(KraServiceLocator.getService(ResearchAreasService.class).getSubResearchAreasForTreeView(
+                    researchAreaCode));
+        }
         return researchAreas;
     }
 
