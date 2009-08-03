@@ -17,7 +17,7 @@
 
 <kul:page showDocumentInfo="false" docTitle="Questionnaire"
 	htmlFormAction="questionnaireMaint" transactionalDocument="false"
-	headerTitle="Questionnaire" auditCount="0">
+	headerTitle="Questionnaire Details, Content & Use" auditCount="0">
 
 	<script language="JavaScript" type="text/javascript"
 		src="dwr/engine.js"></script>
@@ -51,7 +51,7 @@
 	<div align="center" style="margin: 10px">
 	<div id="headermsg" align="left"></div>
 	<br />
-	<kul:tabTop defaultOpen="true" tabTitle="Questionnaire"
+	<kul:tabTop defaultOpen="true" tabTitle="Questionnaire Details, Content & Use "
 		tabErrorKey="questionnaire*">
 		<kra-questionnaire:questionnaireCore />
 		<kra-questionnaire:questionnaireQuestion />

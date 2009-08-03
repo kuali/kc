@@ -18,5 +18,6 @@ package org.kuali.kra.questionnaire;
 public interface QuestionnaireService {
     void saveQuestionnaire(String sqlScripts, Questionnaire questionnaire);
     public void copyQuestionnaire(Questionnaire src, Questionnaire dest);
+    public boolean isQuestionnaireNameExist(Integer questionnaireId, String name);
 
 }
