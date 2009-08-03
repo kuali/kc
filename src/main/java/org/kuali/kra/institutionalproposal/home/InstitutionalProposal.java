@@ -165,6 +165,18 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         ipua1.setAdministrator("000000081");
         ipua2.setAdministrator("000000011");
         ipua3.setAdministrator("000000052");
+        ipua1.setPerson(new Person());
+        ipua1.getPerson().setFullName("CLINKSCALES, LOGAN V");
+        ipua1.getPerson().setOfficePhone("123-4567");
+        ipua1.getPerson().setEmailAddress("clinkscales@indiana.edu");
+        ipua2.setPerson(new Person());
+        ipua2.getPerson().setFullName("NUGENT,DOMINIC O");
+        ipua2.getPerson().setOfficePhone("123-4567");
+        ipua2.getPerson().setEmailAddress("nugent@indiana.edu");
+        ipua3.setPerson(new Person());
+        ipua3.getPerson().setFullName("Inez Chew");
+        ipua3.getPerson().setOfficePhone("123-4567");
+        ipua3.getPerson().setEmailAddress("chew@indiana.edu");
         ipua1.setInstitutionalProposal(this);
         ipua2.setInstitutionalProposal(this);
         ipua3.setInstitutionalProposal(this);
