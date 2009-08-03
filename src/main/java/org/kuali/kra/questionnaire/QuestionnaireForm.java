@@ -26,7 +26,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -40,9 +39,10 @@ public class QuestionnaireForm extends KualiForm {
     private String retData;
     private String editData;
     private Integer questionNumber;
-    private Long questionnaireQuestionsId; 
+    private Long questionnaireQuestionsId;
     private String lookupResultsBOClassName;
     private String action;
+
     public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
     }
@@ -74,7 +74,7 @@ public class QuestionnaireForm extends KualiForm {
     }
 
     public void reset(ActionMapping mapping, HttpServletRequest request) {
-        // FIXME : just a temporary soln.  it always get the methodtocall='refresh' after it started properly the first time.  
+        // FIXME : just a temporary soln. it always get the methodtocall='refresh' after it started properly the first time.
         // need to investigate this.
         this.setMethodToCall("");
         // TODO : if do lookup again to edit, 'form' is not initialized ? initialized here ?
@@ -83,8 +83,8 @@ public class QuestionnaireForm extends KualiForm {
         questionNumber = 1;
         sqlScripts = "";
         retData = "";
-        action="";
-        
+        action = "";
+
     }
 
     public Questionnaire getNewQuestionnaire() {
@@ -124,21 +124,31 @@ public class QuestionnaireForm extends KualiForm {
             if (action.equals("savebo")) {
                 // only pass questionnaire data
                 Questionnaire questionnaire = getNewQuestionnaire();
-                String desc = questionnaire.getDescription();
-                if (desc.indexOf(";amp") > 0) {
-                    desc = desc.replace(";amp", "&");
-                    questionnaire.setDescription(desc);
-                }
 
-                if (questionnaire.getQuestionnaireId() != null) {
-                    Map pkMap = new HashMap();
-                    pkMap.put("questionnaireId", questionnaire.getQuestionnaireId());
-                    Questionnaire oldQuestionnair = (Questionnaire)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(Questionnaire.class, pkMap);
-                    questionnaire.setVersionNumber(oldQuestionnair.getVersionNumber());
+                if (KraServiceLocator.getService(QuestionnaireService.class).isQuestionnaireNameExist(
+                        questionnaire.getQuestionnaireId(), questionnaire.getName())) {
+                    retData = "<h3>true</h3>";
                 }
-                KraServiceLocator.getService(BusinessObjectService.class).save(questionnaire);
-                retData = "<h3>qnaireID=" + questionnaire.getQuestionnaireId() + "</h3>";
-            }  else if (action.equals("savebo1")) {
+                else {
+
+                    String desc = questionnaire.getDescription();
+                    if (desc.indexOf(";amp") > 0) {
+                        desc = desc.replace(";amp", "&");
+                        questionnaire.setDescription(desc);
+                    }
+
+                    if (questionnaire.getQuestionnaireId() != null) {
+                        Map pkMap = new HashMap();
+                        pkMap.put("questionnaireId", questionnaire.getQuestionnaireId());
+                        Questionnaire oldQuestionnair = (Questionnaire) KraServiceLocator.getService(BusinessObjectService.class)
+                                .findByPrimaryKey(Questionnaire.class, pkMap);
+                        questionnaire.setVersionNumber(oldQuestionnair.getVersionNumber());
+                    }
+                    KraServiceLocator.getService(BusinessObjectService.class).save(questionnaire);
+                    retData = "<h3>qnaireID=" + questionnaire.getQuestionnaireId() + "</h3>";
+                }
+            }
+            else if (action.equals("savebo1")) {
                 // 2nd half of the description
                 Questionnaire questionnaire = getNewQuestionnaire();
                 String desc = questionnaire.getDescription();
@@ -149,31 +159,38 @@ public class QuestionnaireForm extends KualiForm {
                 if (questionnaire.getQuestionnaireId() != null) {
                     Map pkMap = new HashMap();
                     pkMap.put("questionnaireId", questionnaire.getQuestionnaireId());
-                    Questionnaire oldQuestionnair = (Questionnaire)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(Questionnaire.class, pkMap);
+                    Questionnaire oldQuestionnair = (Questionnaire) KraServiceLocator.getService(BusinessObjectService.class)
+                            .findByPrimaryKey(Questionnaire.class, pkMap);
                     questionnaire.setVersionNumber(oldQuestionnair.getVersionNumber());
-                    questionnaire.setDescription(oldQuestionnair.getDescription()+questionnaire.getDescription());
+                    questionnaire.setDescription(oldQuestionnair.getDescription() + questionnaire.getDescription());
                 }
                 KraServiceLocator.getService(BusinessObjectService.class).save(questionnaire);
                 retData = "<h3>qnaireID=" + questionnaire.getQuestionnaireId() + "</h3>";
-            } else {
+            }
+            else if (action.equals("checkname")) {
+                Questionnaire questionnaire = getNewQuestionnaire();
+                if (KraServiceLocator.getService(QuestionnaireService.class).isQuestionnaireNameExist(
+                        questionnaire.getQuestionnaireId(), questionnaire.getName())) {
+                    retData = "<h3>true</h3>";
+                }
+                else {
+                    retData = "<h3>false</h3>";
+                }
+            }
+            else {
                 Questionnaire questionnaire = new Questionnaire();
                 questionnaire = getNewQuestionnaire();
                 KraServiceLocator.getService(QuestionnaireService.class).saveQuestionnaire(sqlScripts, questionnaire);
-                // TODO : if runsqlscripts has exception
-                //ErrorMap errorMap = GlobalVariables.getErrorMap();
-                //if (errorMap.getErrorCount() > 0) {
-                    // return error msg
-                //    GlobalVariables.getErrorMap().clear();
-                //}
-                String error = (String)GlobalVariables.getUserSession().retrieveObject("qnError");
+                String error = (String) GlobalVariables.getUserSession().retrieveObject("qnError");
                 if (StringUtils.isNotBlank(error)) {
-                    retData = "<h3>"+error+"</h3>";   
-                    GlobalVariables.getUserSession().addObject("qnError",(Object)null); 
-                } else {
+                    retData = "<h3>" + error + "</h3>";
+                    GlobalVariables.getUserSession().addObject("qnError", (Object) null);
+                }
+                else {
                     retData = "<h3>qnaireID=" + questionnaire.getQuestionnaireId() + "</h3>";
                 }
             }
-            action="";
+            action = "";
         }
         return retData;
     }

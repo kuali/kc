@@ -5,7 +5,7 @@
 
 <div class="tab-container" align="center">
     <h3>
-        <span class="subhead-left"> Questionnaire </span>
+        <span class="subhead-left"> Details </span>
         <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.questionnaire.Questionnaire" altText="help"/> </span>
     </h3>
     

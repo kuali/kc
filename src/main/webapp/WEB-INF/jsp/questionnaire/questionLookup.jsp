@@ -58,7 +58,7 @@
           	            var newQuestion = document.getElementById("newQuestion").value
           	            var nodeIndex = document.getElementById("nodeIndex").value
           	            //var mapKey = document.getElementById("mapKey").value
-          	            alert(newQuestionId+"-"+newQuestionTypeId+"-"+newQuestion+"-")
+          	            //alert(newQuestionId+"-"+newQuestionTypeId+"-"+newQuestion+"-")
           	         	window.opener.returnQuestion(newQuestionId, newQuestion,newQuestionTypeId,nodeIndex);
           	     
           	     }

@@ -85,7 +85,7 @@ function getMaintTable(idx, vers, childNode) {
 	var qtypeid = $("#qtypeid" + idx).attr("value");
 	var qnaireid = "qnaireid" + idx;
 	var divId = "listcontent" + idx;
-	 //alert(idx+"-"+vers+"-"+$("#qvers" + idx).attr("value"));
+	 // alert(idx+"-"+vers+"-"+$("#qvers" + idx).attr("value"));
 	var div64 = $(' <div class="hierarchydetail" style="margin-top:2px;">')
 			.attr("id", divId);
 	var tbl70 = $('<table width="100%" cellpadding="0" cellspacing="0" class="subelement" />');
@@ -130,7 +130,7 @@ function getMaintTable(idx, vers, childNode) {
 	var thtmp = $(
 			'<th style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" colspan="3">')
 			.html("Response");
-//'<th class="subelementheader" style="text-align:left;" colspan="3">')
+// '<th class="subelementheader" style="text-align:left;" colspan="3">')
 	var image = $(
 			'<img src="kr/static/images/tinybutton-hide.gif" alt="show/hide this panel" title="show/hide this panel"  style="width:45px; height:15px; border:none; cursor:pointer; padding:2px; vertical-align:middle;" />')
 			.attr("id", "HScontrol" + idx).toggle(function() {
@@ -157,21 +157,24 @@ function getMaintTable(idx, vers, childNode) {
 	"border-left: solid #939393 1px;border-right: solid #939393 1px;padding-top:3px;padding-right:3px;"+
     "padding-left:3px;padding-bottom:3px;font-weight:bold;";
 	tdtmp = $(
-    //'<td class="content_grey" style="width:110px; text-align:center;">').html("Type");
+    // '<td class="content_grey" style="width:110px;
+	// text-align:center;">').html("Type");
 	'<td>').attr("style",contentgray+"width:110px; text-align:center;").html("Type");
 	tdtmp.appendTo(trtmp);
-	//tdtmp = $('<td class="content_grey" style="text-align:center;">').html("Values");
+	// tdtmp = $('<td class="content_grey"
+	// style="text-align:center;">').html("Values");
 	tdtmp = $('<td>').attr("style",contentgray+"width:110px; text-align:center;").html("Values");
 	tdtmp.appendTo(trtmp);
 	trtmp.appendTo(tbl362);
 	trtmp = $('<tr></tr>');
-	//tdtmp = $('<td class="content_white" style="text-align:center; vertical-align:top;">');
+	// tdtmp = $('<td class="content_white" style="text-align:center;
+	// vertical-align:top;">');
 	tdtmp = $('<td>').attr("style",contentwhite+"vertical-align:top; text-align:center;");
 	var selecttmp = questionType[qtypeid];
 	tdtmp.html(selecttmp);
 	tdtmp.appendTo(trtmp);
 
-	//tdtmp = $('<td class="content_white" style="text-align:left;">');
+	// tdtmp = $('<td class="content_white" style="text-align:left;">');
 	tdtmp = $('<td>').attr("style",contentwhite+"text-align:left;");
 	getQnTypeDesc(qtypeid).appendTo(tdtmp);
 	tdtmp.appendTo(trtmp);
@@ -193,9 +196,10 @@ function getMaintTable(idx, vers, childNode) {
 function getMaintTableHeader(description, vers) {
 	var thead = $('<thead/>');
 	var trtmp = $('<tr/>');
-	// TODO not sure why 'subelementheader class is not picked up from new_kuali.css
+	// TODO not sure why 'subelementheader class is not picked up from
+	// new_kuali.css
 	// it is working fine in researchareahierarchy ???
-	//var thtmp = $('<th class="subelementheader" align="left" >');
+	// var thtmp = $('<th class="subelementheader" align="left" >');
 	var thtmp = $('<th style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" align="left" >');
 	var imgtmp = $(
 			'<a href="#" class="hidedetail"><img src="kr/static/images/tinybutton-hide.gif" align="absmiddle" border="0" width="45" height="15"></a>')
@@ -233,8 +237,8 @@ function getQuestionActionSubTable(qnaireid) {
 				var liId = "li#" + qnaireid;
 				// TODO : IE problem , clone does not clone child node
 					// removedNode = $(liId).clone(true);
-					//removedNode = $(liId);
-					//alert("Remove node " + removedNode.attr("id"));
+					// removedNode = $(liId);
+					// alert("Remove node " + removedNode.attr("id"));
 					if ($(liId).prev().size() == 0 && $(liId).next().size() > 0) {
 						$("#moveup" + $(liId).next().attr("id").substring(8))
 								.hide();
@@ -261,7 +265,7 @@ function getQuestionActionSubTable(qnaireid) {
 					}
 
 					deleteChild(parentNum, $(liId).attr("id"));
-					//alert(sqlScripts);
+					// alert(sqlScripts);
 					// TODO : update seqnum of the sibling nodes following it
 					$(liId).remove();
 					cutNode = null;
@@ -271,7 +275,7 @@ function getQuestionActionSubTable(qnaireid) {
 	image = $(
 			'<a href="#"><img src="static/images/tinybutton-cutnode.gif" width="79" height="15" border="0" alt="Cut Node" title="Cut this node and its child roups/sponsors.  (Node will not be removed until you paste it.)"></a>&nbsp')
 			.attr("id", "cut" + curidx).click(function() {
-				//alert("Cut node");
+				// alert("Cut node");
 				var liId = "li#" + qnaireid;
 				cutNode = $(liId);
 				removedNode = null; // remove & cutNode should not co-exist
@@ -281,7 +285,7 @@ function getQuestionActionSubTable(qnaireid) {
 	image = $(
 			'<a href="#"><img src="static/images/jquery/tinybutton-copynode.gif" width="79" height="15" border="0" alt="Copy Node" title="Copy this node and its child.)"></a>&nbsp')
 			.attr("id", "copy" + curidx).click(function() {
-				//alert("Copy node");
+				// alert("Copy node");
 				var liId = "li#" + qnaireid;
 				copyNode = $(liId);
 				removedNode = null; // remove & cutNode should not co-exist
@@ -300,9 +304,9 @@ function getQuestionActionSubTable(qnaireid) {
 						var parentNode = $("#" + qnaireid);
 						var ulTag = parentNode.children('ul');
 						if (ulTag.size() > 0) {
-							//alert(ulTag.attr("id"));
+							// alert(ulTag.attr("id"));
 						} else {
-							//alert("not found")
+							// alert("not found")
 							i++;
 							ulTag = $('<ul class="filetree"></ul>').attr("id",
 									"ul" + curidx);
@@ -314,13 +318,30 @@ function getQuestionActionSubTable(qnaireid) {
 						  if (qnaireid.substring(8) == $(cutNode).attr("id").substring(8)) {
 							  alert ("Can Not cut/paste on the same node");
 						  } else {	  
+							// alert($(cutNode).children('li').size());
+							
+							var found = false;
+							var pastenode = $("#"+qnaireid);
+							while (!found && pastenode.parents('ul:eq(0)').parents('li:eq(0)').size() > 0 ) {
+							  if (pastenode.parents('ul:eq(0)').parents('li:eq(0)').attr("id") == $(cutNode).attr("id")) {
+								  found = true;
+							  } else {
+								  pastenode = pastenode.parents('ul:eq(0)').parents('li:eq(0)');
+							  }	  
+							}
+							
+						  if (found) {
+							  alert ("Can Not cut/paste to its decendant");
+						  } else {	  
 							if ($(cutNode).parents('ul:eq(0)').parents(
 									'li:eq(0)').size() == 0) {
 								parentNum = 0;
 								var idx1 = $(cutNode).attr("class").indexOf(" ");
-								//alert ("idx "+qnaireid.substring(8)+"-"+$(cutNode).attr("id").substring(8)+"-"+idx1);
+								// alert ("idx
+								// "+qnaireid.substring(8)+"-"+$(cutNode).attr("id").substring(8)+"-"+idx1);
 								adjustGroup($(cutNode).attr("class").substring(
-										5, idx1)); // class is "group0 expandable"
+										5, idx1)); // class is "group0
+													// expandable"
 							} else {
 								parentNum = $(
 										"#qnum"
@@ -339,8 +360,11 @@ function getQuestionActionSubTable(qnaireid) {
 							var parentRACode;
 							$("li#" + liId).remove();
 							cutNode = null;
+						   } // not paste to itself or its children
 						  }	
-						}
+						
+						}// cutnode
+						
 
 					}// if removednode
 
@@ -371,7 +395,7 @@ function pasteCopyNode(nodeid) {
 	var ulTag = parentNode.children('ul');
 
 	startnode = $("#" + copyNode);
-	//alert("copy node " + $(startnode).attr("id").substring(8));
+	// alert("copy node " + $(startnode).attr("id").substring(8));
 	qdesc = $('#qdesc' + $(startnode).attr("id").substring(8)).attr("value");
 	qtypeid = $('#qtypeid' + $(startnode).attr("id").substring(8))
 			.attr("value");
@@ -385,7 +409,7 @@ function pasteCopyNode(nodeid) {
 		$("#movedn" + listitem.prev().attr("id").substring(8)).show();
 	}
 
-	//alert("node " + nodeid + "-" + parentNode.children('ul').size());
+	// alert("node " + nodeid + "-" + parentNode.children('ul').size());
 	listitem.appendTo(ulTag);
 	// also need this to show 'folder' icon
 	$('#example').treeview( {
@@ -406,19 +430,19 @@ function pasteCopyNode(nodeid) {
 	var insertValues = "insert into Q" + qid + "," + qnum + "," + parentNum
 			+ ",'N','',''," + seqnum + ",user,sysdate)"
 	addSqlScripts(insertValues);
-	//alert("paste copy node " + sqlScripts);
+	// alert("paste copy node " + sqlScripts);
 	$("#questionNumber").attr("value",
 			Number($("#questionNumber").attr("value")) + 1)
 
-	//alert("copy li c size " + $("#" + copyNode).attr("id") + "-"
-	//		+ $("#" + copyNode).children('ul.eq(0)').children('li').size());
+	// alert("copy li c size " + $("#" + copyNode).attr("id") + "-"
+	// + $("#" + copyNode).children('ul.eq(0)').children('li').size());
 	if ($("#" + copyNode).children('ul.eq(0)').children('li').size() > 0) {
 
 		$("#" + copyNode).children('ul.eq(0)').children('li').each(
 				function() {
-					//alert("child copy node"
-					//		+ $("deletereq" + $(this).attr("id").substring(8))
-					//				.size());
+					// alert("child copy node"
+					// + $("deletereq" + $(this).attr("id").substring(8))
+					// .size());
 					pasteChild($(listitem).attr("id"), $(this).attr("id"));
 				});
 	}
@@ -477,8 +501,8 @@ function pasteChild(parentid, startnode) {
 	$("#questionNumber").attr("value",
 			Number($("#questionNumber").attr("value")) + 1)
 
-	//alert("child copy node"
-	//		+ $("#cond" + $(startnode).attr("id").substring(8)).attr("value"));
+	// alert("child copy node"
+	// + $("#cond" + $(startnode).attr("id").substring(8)).attr("value"));
 	cidx = $(startnode).attr("id").substring(8);
 
 	cond = $("#cond" + cidx).attr("value");
@@ -653,6 +677,7 @@ function getMoveUpLink(curidx) {
 						divtmp.appendTo($(nextNode).children('div:eq(1)'));
 					}
 
+					
 					// $(this).parents('li:eq(0)').remove();
 					curNode.insertBefore(nextNode);
 					var idx = $(curNode).attr("id").substring(8);
@@ -889,8 +914,8 @@ function getAddQuestionRow(curidx) {
 
 	tdtmp.appendTo(trtmp);
 	trtmp.appendTo(tbl95);
-//	trtmp1 = $('<tr></tr>');
-//	$('<th style="text-align:right;">Add Question(s):</th>').appendTo(trtag);
+// trtmp1 = $('<tr></tr>');
+// $('<th style="text-align:right;">Add Question(s):</th>').appendTo(trtag);
 	tdtmp = $('<td/>');
 	tbl95.appendTo(tdtmp);
 	return tdtmp;
@@ -903,7 +928,8 @@ function getAddQuestionRow(curidx) {
 function getRequirementDisplayTable(curidx) {
 	var tbl154 = $('<table width="100%" cellpadding="0" cellspacing="0" style="border-top:#E4E3E4 solid 1px;">');
 	var trtmp = $('<tr></tr>');
-	//var thtmp = $('<th class="subelementheader" style="text-align:left;" colspan="3">');
+	// var thtmp = $('<th class="subelementheader" style="text-align:left;"
+	// colspan="3">');
 	var thtmp = $('<th style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" colspan="3">');
 	
 	thtmp.html("Requirements for Display");
@@ -996,8 +1022,8 @@ function getAddRequirementRow(curidx) {
 }
 
 /*
- * check if required fields entered for requirement to add
- * Also, some basic validation of number and date
+ * check if required fields entered for requirement to add Also, some basic
+ * validation of number and date
  */
 function okToAddRequirement(response, value) {
 	var valid = false;
@@ -1031,8 +1057,8 @@ function getRequirementDeleteRow(response, value, curidx) {
 			'<input src="kr/static/images/tinybutton-delete1.gif"  style="border:none;" alt="delete" type="image" />')
 			.attr("id", "deletereq" + curidx).click(
 					function() {
-						//alert("This would delete this requirement."
-						//		+ $(this).parents('tr:eq(0)').next().size());
+						// alert("This would delete this requirement."
+						// + $(this).parents('tr:eq(0)').next().size());
 						var idx = $(this).parents('li:eq(0)').attr("id")
 								.substring(8);
 						addSqlScripts("update QCond;'N';'';'';"
@@ -1113,7 +1139,7 @@ function returnQuestionList(questionList) {
 		var field = questions[k].split("#f#");
 		i++;
 		var parenturl = $('#example');
-		//alert(questions[k]);
+		// alert(questions[k]);
 		var listitem = getQuestionNew(field[1], field[2], field[3], 'false');
 		var ultag = $('<ul></ul>');
 		ultag.appendTo(listitem);
@@ -1171,7 +1197,7 @@ function returnQuestionList(questionList) {
 		addToGroup(listitem);
 
 	} // end for to set up questions
-	//alert(curgroup + "-" + initgroup + "-" + firstidx + "-" + groupid)
+	// alert(curgroup + "-" + initgroup + "-" + firstidx + "-" + groupid)
 	$(".group" + curgroup).hide();
 	curgroup = initgroup;
 	$(".group" + curgroup).show();
@@ -1281,7 +1307,7 @@ function addToGroup(listitem) {
 		groupid++;
 	}
 	$(listitem).attr("class", "group" + groupid);
-	//$(listitem).addClass("group" + groupid);
+	// $(listitem).addClass("group" + groupid);
 	if (curgroup != groupid) {
 		// alert("show");
 		$(listitem).hide();
@@ -1295,7 +1321,8 @@ function swapGroupId(curNode, nextNode) {
 	var nextclass = $(nextNode).attr("class");
 	$(curNode).attr("class", nextclass);
 	$(nextNode).attr("class", curclass);
-	if (curclass.substring(0, 7) != nextclass.substring(0, 7)) {
+	// alert(curclass+"-"+nextclass);
+	if (curclass.substring(0, 7).trim() != nextclass.substring(0, 7).trim()) {
 		$(curNode).hide();
 		$(nextNode).show();
 	}
@@ -1501,6 +1528,9 @@ $("#rootSearch").click(function() {
 		return false;
 	});
 
+/*
+ * function when 'next' button is clicked. Move to next page of 20 questions
+ */
 $("#nextGroup").click(function() {
 	if (groupid != curgroup) {
 		$(".group" + curgroup).hide();
@@ -1522,8 +1552,11 @@ $("#nextGroup").click(function() {
 
 });
 
+/*
+ * function when 'back' button is clicked. Move to previous page of 20 questions
+ */
 $("#prevGroup").click(function() {
-	//alert ("prevgroup");
+	// alert ("prevgroup");
 	if (groupid > 0) {
 		$(".group" + curgroup).hide();
 		if (--curgroup == 0) {
@@ -1573,8 +1606,42 @@ $("#save").click(function() {
 		} else if (qdescription == '') {
 			alert("Questionnaire description is required");
 		} else if ($("#example").children('li').size() == 0) {
-			alert("No question is added");
+			alert("No question is added");	
 		} else {
+			
+			// check if name exist
+			var isexist='true';
+// $.ajax( {
+// url : 'questionnaireAjax.do',
+// type : 'GET',
+// dataType : 'html',
+// cache : false,
+// data : 'action=checkname&newQuestionnaire.name=' + qname
+// + '&newQuestionnaire.questionnaireId='
+// + questionnaireId,
+// async : false,
+// timeout : 1000,
+// error : function() {
+// // alert('Error loading XML document');
+// jumpToAnchor('topOfForm');
+// $('<span id="msg"/>').css("color", "red").html(
+// "Error when save Questionnaire").appendTo(
+// $("#headermsg"))
+// $('<br/>').appendTo($("#headermsg"));
+// },
+// success : function(xml) {
+// // sqlScripts="createnew";
+// $(xml).find('h3').each(function() {
+// isexist = $(this).text();
+// });
+// }
+// });// .ajax
+//
+//			
+//			
+// if (isexist == 'true') {
+// alert("Name already exists");
+// } else {
 			// TODO : FF seems to have trouble with "#;#"
 
 			if (sqlScripts.indexOf("#;#") > 1) {
@@ -1620,6 +1687,14 @@ $("#save").click(function() {
 				// sqlScripts="createnew";
 				$(xml).find('h3').each(function() {
 					// var item_text = $(this).text();
+					if ($(this).text() == 'true') {
+						jumpToAnchor('topOfForm');
+						$('<span id="msg"/>').css("color", "red").html(
+								"Questionnaire Name already exist").appendTo(
+								$("#headermsg"))
+						$('<br/>').appendTo($("#headermsg"));
+						saveok = 'false';
+					} else {	
 						$('#newQuestionnaire\\.questionnaireId').attr("value",
 								$(this).text().substring(9));
 						$('<span id="msg"/>').css("color", "black").html(
@@ -1627,6 +1702,7 @@ $("#save").click(function() {
 								$("#headermsg"));
 						$('<br/>').appendTo($("#headermsg"));
 						jumpToAnchor('topOfForm');
+					}	
 					});
 			}
 			});// .ajax
@@ -1653,6 +1729,7 @@ $("#save").click(function() {
 							"Error when save Questionnaire").appendTo(
 							$("#headermsg"))
 					$('<br/>').appendTo($("#headermsg"));
+					saveok = 'false';
 				},
 				success : function(xml) {
 					// sqlScripts="createnew";
@@ -1665,6 +1742,7 @@ $("#save").click(function() {
 				});// .ajax
 
 			}
+		if (saveok == 'true')	 {
             var retmsg="";
 			for ( var k = 0; k < sqls.length; k++) {
 				sqlScripts = sqls[k];
@@ -1678,6 +1756,7 @@ $("#save").click(function() {
 				// also need to deal with 'description' which is varchar2(2000)
 				// we can not assume that is is not over 2000, so need to think
 				// about it.
+			if (sqls[k] != '') {	
 				$.ajax( {
 					url : 'questionnaireAjax.do',
 					type : 'GET',
@@ -1704,16 +1783,20 @@ $("#save").click(function() {
 			                       $('<br/>').appendTo($("#headermsg"));
 			            } else {	
 						   sqlScripts = "edit";
+						   sqls[k]="";
 						   retmsg="";
 			            }   
 					}
 				});// .ajax
+			} // end if sqlk!=''
 				if (retmsg != '') {
 					break;
 				}	
 			} // end for
+		}// saveok=true
 			sqlidx = 0;
-		} // if-then-else
+		// } // if-else isexisat
+		}	// if-then-else
 		return false;
 	});
 
