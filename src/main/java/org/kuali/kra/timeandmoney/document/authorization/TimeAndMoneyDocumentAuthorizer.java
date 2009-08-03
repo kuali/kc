@@ -40,7 +40,7 @@ public class TimeAndMoneyDocumentAuthorizer extends KcTransactionalDocumentAutho
         
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) document;
         
-        String username = user.getPrincipalId();
+        String username = user.getPrincipalName();
         if (timeAndMoneyDocument.getDocumentNumber() == null) {
             if (canCreateTimeAndMoney(user)) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
@@ -78,7 +78,7 @@ public class TimeAndMoneyDocumentAuthorizer extends KcTransactionalDocumentAutho
         if (timeAndMoneyDocument.getDocumentNumber() == null) {
             return canCreateTimeAndMoney(user);
         }
-        return canExecuteTimeAndMoneyTask(user.getPrincipalId(), timeAndMoneyDocument, TaskName.VIEW_TIME_AND_MONEY);
+        return canExecuteTimeAndMoneyTask(user.getPrincipalName(), timeAndMoneyDocument, TaskName.VIEW_TIME_AND_MONEY);
     }
     
     /**
@@ -86,7 +86,7 @@ public class TimeAndMoneyDocumentAuthorizer extends KcTransactionalDocumentAutho
      */
     @Override
     public boolean canEdit(Document document, Person user) {
-        return canExecuteTimeAndMoneyTask(user.getPrincipalId(), (TimeAndMoneyDocument) document, TaskName.MODIFY_TIME_AND_MONEY);
+        return canExecuteTimeAndMoneyTask(user.getPrincipalName(), (TimeAndMoneyDocument) document, TaskName.MODIFY_TIME_AND_MONEY);
     }
     
     /**
@@ -119,7 +119,7 @@ public class TimeAndMoneyDocumentAuthorizer extends KcTransactionalDocumentAutho
      * @return true if the user can create a award; otherwise false
      */
     private boolean canCreateTimeAndMoney(Person user) {
-        String username = user.getPrincipalId();
+        String username = user.getPrincipalName();
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_TAMD);
         return getTaskAuthorizationService().isAuthorized(username, task);
     }
