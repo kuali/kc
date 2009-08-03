@@ -40,6 +40,7 @@
                 <ref bean="InstitutionalProposalNotepad-versionNumber" />
                 <ref bean="InstitutionalProposalNotepad-updateUser" />
 				<ref bean="InstitutionalProposalNotepad-updateTimestamp" />
+				<ref bean="InstitutionalProposalNotepad-createTimestamp" />
             </list>
         </property>
     </bean>
@@ -138,6 +139,15 @@
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
     </bean>
+    
+    <bean id="InstitutionalProposalNotepad-createTimestamp" parent="InstitutionalProposalNotepad-createTimestamp-parentBean" />
+    <bean id="InstitutionalProposalNotepad-createTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="createTimeStamp" />
+        <property name="label" value="Posted Timestamp" />
+        <property name="shortLabel" value="Posted Timestamp" />
+        <property name="summary" value="Posted Timestamp" />
+        <property name="description" value="Posted Timestamp" />
+    </bean>
 
     <bean id="InstitutionalProposalNotepad-restrictedView" parent="InstitutionalProposalNotepad-restrictedView-parentBean" />
     <bean id="InstitutionalProposalNotepad-restrictedView-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
@@ -196,6 +206,8 @@
                                 p:attributeName="comments" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="restrictedView" />
+                           	<bean parent="FieldDefinition"
+                                p:attributeName="createTimestamp" />
                         </list>
                     </property>
                 </bean>
@@ -226,6 +238,8 @@
                     p:attributeName="comments" />
                 <bean parent="FieldDefinition"
                     p:attributeName="restrictedView" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="createTimestamp" />
             </list>
         </property>
         <property name="resultFields" >
@@ -241,6 +255,8 @@
                     p:attributeName="comments" />
                 <bean parent="FieldDefinition"
                     p:attributeName="restrictedView" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="createTimestamp" />
             </list>
         </property>
     </bean>
