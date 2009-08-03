@@ -187,6 +187,12 @@ public class QuestionnaireAction extends KualiAction {
             throws Exception {
         QuestionnaireForm questionnaireForm = (QuestionnaireForm) form;
         questionnaireForm.setFromQuestionnaire(getQuestionnaire(Integer.parseInt(request.getParameter("questionnaireId"))));
+        if (questionnaireForm.getNewQuestionnaire().getName() == null) {
+            questionnaireForm.getNewQuestionnaire().setName(questionnaireForm.getFromQuestionnaire().getName());
+        }
+        if (questionnaireForm.getNewQuestionnaire().getDescription() == null) {
+            questionnaireForm.getNewQuestionnaire().setDescription(questionnaireForm.getFromQuestionnaire().getDescription());
+        }
         return mapping.findForward("copy");
     }
 

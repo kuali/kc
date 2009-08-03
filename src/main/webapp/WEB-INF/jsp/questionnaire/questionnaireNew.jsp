@@ -17,7 +17,7 @@
 
 <kul:page showDocumentInfo="false" docTitle="Questionnaire"
     htmlFormAction="questionnaireNew" transactionalDocument="false"
-    headerTitle="Questionnaire" auditCount="0">
+    headerTitle="Questionnaire Details, Content & Use" auditCount="0">
 
     <script language="JavaScript" type="text/javascript"
         src="dwr/engine.js"></script>

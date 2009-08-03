@@ -16,6 +16,8 @@
 package org.kuali.kra.questionnaire;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.RiceKeyConstants;
@@ -23,22 +25,31 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
 public class QuestionnaireRule {
     public QuestionnaireRule() {
     }
-    
-    
+
+
     public boolean questionnaireRequiredFields(QuestionnaireForm questionnaireForm) {
         boolean valid = true;
-        
+
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         if (StringUtils.isBlank(questionnaireForm.getNewQuestionnaire().getName())) {
             errorMap.putError("newQuestionnaire.name", RiceKeyConstants.ERROR_REQUIRED, "Questionnaire Name");
             valid = false;
-        } 
+        }
         if (StringUtils.isBlank(questionnaireForm.getNewQuestionnaire().getDescription())) {
             errorMap.putError("newQuestionnaire.description", RiceKeyConstants.ERROR_REQUIRED, "Questionnaire Description");
             valid = false;
         }
-        
+
+        if (getQuestionnaireService().isQuestionnaireNameExist(
+                questionnaireForm.getNewQuestionnaire().getQuestionnaireId(), questionnaireForm.getNewQuestionnaire().getName())) {
+            errorMap.putError("newQuestionnaire.name", KeyConstants.ERROR_QUESTIONNAIRE_NAME_EXIST);
+            valid = false;
+
+        }
         return valid;
     }
 
+    private QuestionnaireService getQuestionnaireService() {
+        return KraServiceLocator.getService(QuestionnaireService.class);
+    }
 }
