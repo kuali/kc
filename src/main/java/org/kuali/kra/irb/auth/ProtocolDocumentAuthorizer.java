@@ -42,7 +42,7 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
         
         ProtocolDocument protocolDocument = (ProtocolDocument) document;
         
-        String username = user.getPrincipalId();
+        String username = user.getPrincipalName();
         if (protocolDocument.getProtocol().getProtocolId() == null) {
             if (canCreateProtocol(user)) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
@@ -81,7 +81,7 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
         if (protocolDocument.getProtocol().getProtocolId() == null) {
             return canCreateProtocol(user);
         }
-        return canExecuteProtocolTask(user.getPrincipalId(), (ProtocolDocument) document, TaskName.VIEW_PROTOCOL);
+        return canExecuteProtocolTask(user.getPrincipalName(), (ProtocolDocument) document, TaskName.VIEW_PROTOCOL);
     }
     
     /**
@@ -90,7 +90,7 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
      * @return true if the user can create a protocol; otherwise false
      */
     private boolean canCreateProtocol(Person user) {
-        String username = user.getPrincipalId();
+        String username = user.getPrincipalName();
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL);       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(username, task);
@@ -114,7 +114,7 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
      */
     @Override
     public boolean canEdit(Document document, Person user) {
-        return canExecuteProtocolTask(user.getPrincipalId(), (ProtocolDocument) document, TaskName.MODIFY_PROTOCOL);
+        return canExecuteProtocolTask(user.getPrincipalName(), (ProtocolDocument) document, TaskName.MODIFY_PROTOCOL);
     }
     
     /**

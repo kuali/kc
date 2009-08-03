@@ -39,7 +39,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
         
-        String username = user.getPrincipalId();
+        String username = user.getPrincipalName();
         AwardDocument awardDocument = (AwardDocument) document;
         
         if (awardDocument.getAward().getAwardId() == null) {
@@ -80,7 +80,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         if (awardDocument.getAward().getAwardId() == null) {
             return canCreateAward(user);
         }
-        return canExecuteAwardTask(user.getPrincipalId(), (AwardDocument) document, AwardTaskNames.VIEW_AWARD.getAwardTaskName());
+        return canExecuteAwardTask(user.getPrincipalName(), (AwardDocument) document, AwardTaskNames.VIEW_AWARD.getAwardTaskName());
     }
     
     /**
@@ -88,7 +88,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      */
     @Override
     public boolean canEdit(Document document, Person user) {
-        return canExecuteAwardTask(user.getPrincipalId(), (AwardDocument) document, AwardTaskNames.MODIFY_AWARD.getAwardTaskName());
+        return canExecuteAwardTask(user.getPrincipalName(), (AwardDocument) document, AwardTaskNames.MODIFY_AWARD.getAwardTaskName());
     }
     
     /**
@@ -121,7 +121,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      * @return true if the user can create a award; otherwise false
      */
     private boolean canCreateAward(Person user) {
-        String username = user.getPrincipalId();
+        String username = user.getPrincipalName();
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_AWARD);
         return getTaskAuthorizationService().isAuthorized(username, task);
     }

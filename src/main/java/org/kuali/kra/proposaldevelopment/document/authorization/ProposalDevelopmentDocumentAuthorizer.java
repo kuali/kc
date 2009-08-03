@@ -51,7 +51,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         // For a new proposal, we have to know if the user has the permission to create a proposal.
         // For a current proposal, we have to know if the user the permission to modify or view the proposal.
         
-        String username = user.getPrincipalId();
+        String username = user.getPrincipalName();
         if (proposalNbr == null) {
             if (canCreateProposal(user)) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
@@ -224,7 +224,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         if (proposalDocument.getDevelopmentProposal().getProposalNumber() == null) {
             return canCreateProposal(user);
         }
-        return canExecuteProposalTask(user.getPrincipalId(), proposalDocument, TaskName.VIEW_PROPOSAL);
+        return canExecuteProposalTask(user.getPrincipalName(), proposalDocument, TaskName.VIEW_PROPOSAL);
     }
     
     /**
@@ -234,7 +234,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
      * @return true if the user has the CREATE_PROPOSAL permission in at least one unit; otherwise false
      */
     private boolean canCreateProposal(Person user) {
-        String username = user.getPrincipalId();
+        String username = user.getPrincipalName();
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROPOSAL);       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(username, task);
@@ -242,7 +242,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
     
     @Override
     public boolean canEdit(Document document, Person user) {
-        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.MODIFY_PROPOSAL);
+        return canExecuteProposalTask(user.getPrincipalName(), (ProposalDevelopmentDocument) document, TaskName.MODIFY_PROPOSAL);
     }
     
     @Override
@@ -263,7 +263,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
     
     @Override
     protected boolean canRoute(Document document, Person user) {
-        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW);
+        return canExecuteProposalTask(user.getPrincipalName(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW);
     }
     
     @Override
