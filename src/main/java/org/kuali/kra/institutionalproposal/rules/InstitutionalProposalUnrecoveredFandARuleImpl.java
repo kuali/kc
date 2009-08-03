@@ -40,6 +40,8 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends ResearchDocum
      */
     private static final long serialVersionUID = 8573006511997627073L;
     
+    BusinessObjectService businessObjectService;
+    
     private static final String NEW_PROPOSAL_UNRECOVERED_FNA = "newInstitutionalProposalUnrecoveredFandA";
     InstitutionalProposalCostShare institutionalProposalCostShare;
 
@@ -126,10 +128,15 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends ResearchDocum
             this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + ".rateTypeCode", KeyConstants.ERROR_PROPOSAL_UFNA_RATE_TYPE_CODE_REQUIRED);
         }
         else {
-            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            BusinessObjectService thisBusinessObjectService;
+            if (businessObjectService == null) {
+                thisBusinessObjectService = getBusinessObjectService();
+            }else {
+                thisBusinessObjectService = businessObjectService;
+            }
             Map<String,Integer> fieldValues = new HashMap<String,Integer>();
             fieldValues.put("indirectcostRateTypeCode", rateTypeCode);
-            if (businessObjectService.countMatching(IndirectcostRateType.class, fieldValues) != 1) {
+            if (thisBusinessObjectService.countMatching(IndirectcostRateType.class, fieldValues) != 1) {
                 isValid = false;
                 this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + ".rateTypeCode", KeyConstants.ERROR_PROPOSAL_UFNA_RATE_TYPE_CODE_INVALID, new String[] { rateTypeCode.toString() });
             }
@@ -149,5 +156,14 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends ResearchDocum
         }
         return isValid;
     }
-
+    
+    /**
+     * Accessor for <code>{@link BusinessObjectService}</code>
+     *
+     * @param bos BusinessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService bos) {
+        businessObjectService = bos;
+    }
+    
 }
