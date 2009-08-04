@@ -26,13 +26,15 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.lookup.CommitteeLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
 public class CommitteeLookupHelperServiceTest extends KraTestBase {
     private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 9;
-    private static final String EDIT_URL = "../committeeCommittee.do?methodToCall=docHandler&command=initiate&docTypeName=CommitteeDocument&committeeId=100";
+    private static final String EDIT_URL = "../committeeCommittee.do?committeeId=100&docTypeName=CommitteeDocument&methodToCall=docHandler&command=initiate";
     CommitteeLookupableHelperServiceImpl committeeLookupableHelperServiceImpl;
 
     @Before
@@ -41,12 +43,14 @@ public class CommitteeLookupHelperServiceTest extends KraTestBase {
         committeeLookupableHelperServiceImpl = (CommitteeLookupableHelperServiceImpl) KraServiceLocator
                 .getService("committeeLookupableHelperService");
         committeeLookupableHelperServiceImpl.setBusinessObjectClass(Committee.class);
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
     @After
     public void tearDown() throws Exception {
         super.tearDown();
         committeeLookupableHelperServiceImpl = null;
+        GlobalVariables.setUserSession(null);
     }
 
     /**
