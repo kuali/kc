@@ -58,6 +58,7 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
                                 sql = "insert into questionnaire_usage " + usageColumns + " values(" + questionnaireUsageId + ",'" 
                                      + params[1] + "','0'," +  questionnaireId + ",'0','"+params[2]+"',sysdate,user)";
                             } else if (sql.startsWith("delete U")) {
+                                // TODO : this may not be appropriate because one module may be associated with different version of questionnaire
                                 Long questionnaireUsageId = KraServiceLocator.getService(SequenceAccessorService.class)
                                 .getNextAvailableSequenceNumber("SEQ_QUESTIONNAIRE_ID");
                                 String[] params = sql.split(";");
@@ -70,11 +71,11 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
                                         + questionnaireId + " and QUESTION_REF_ID_FK = " + params[4] + " and  QUESTION_NUMBER = "
                                         + params[5];
 
-                            } else if (sql.startsWith("update QPaste")) {
-                                String[] params = sql.split(";");
-                                sql = "update questionnaire_questions set PARENT_QUESTION_NUMBER = "+params[1] +",QUESTION_SEQ_NUMBER = " + params[2]
-                                        + " where QUESTIONNAIRE_ID = " + questionnaireId + " and QUESTION_REF_ID_FK = " + params[3]
-                                        + " and  QUESTION_NUMBER = " + params[4];
+                            //} else if (sql.startsWith("commit")) {
+                                //String[] params = sql.split(";");
+                               // sql = "update questionnaire_questions set PARENT_QUESTION_NUMBER = "+params[1] +",QUESTION_SEQ_NUMBER = " + params[2]
+                                //        + " where QUESTIONNAIRE_ID = " + questionnaireId + " and QUESTION_REF_ID_FK = " + params[3]
+                                //        + " and  QUESTION_NUMBER = " + params[4];
 
                             }else if (sql.startsWith("update QMove")) {
                                 String[] params = sql.split(";");
