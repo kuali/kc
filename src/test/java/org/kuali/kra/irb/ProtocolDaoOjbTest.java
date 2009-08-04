@@ -35,7 +35,12 @@ import org.kuali.rice.test.data.UnitTestFile;
 @PerTestUnitTestData(
     @UnitTestData(
             sqlFiles = {
-                  @UnitTestFile(filename = "classpath:sql/dml/load_protocols_for_protocoldaotest.sql", delimiter = ";")
+                    @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
+                    @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
+                    @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
+                    @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
+                    @UnitTestFile(filename = "classpath:sql/dml/load_FUNDING_SOURCE_TYPE.sql", delimiter = ";"),
+                        @UnitTestFile(filename = "classpath:sql/dml/load_protocols_for_protocoldaotest.sql", delimiter = ";")
             }
    )
 )
