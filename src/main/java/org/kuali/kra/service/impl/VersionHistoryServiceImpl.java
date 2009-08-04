@@ -44,14 +44,12 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
     public VersionHistory createVersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId) {
         VersionHistory versionHistory = new VersionHistory(sequenceOwner, versionStatus, userId, new Date(new java.util.Date().getTime()));
         
-        if(versionStatus == VersionStatus.ACTIVE) {
-            List<VersionHistory> versionHistories = loadVersionHistory(sequenceOwner.getClass(), getVersionName(sequenceOwner));
-            for(VersionHistory history: versionHistories) {
-                history.setStatus(VersionStatus.ARCHIVED);
-            }
+        List<VersionHistory> list = new ArrayList<VersionHistory>();
+        if(versionStatus == VersionStatus.ACTIVE || versionStatus == VersionStatus.CANCELED) {
+            resetExistingVersionsToArchived(sequenceOwner, list);
         }
-        
-        bos.save(versionHistory);
+        list.add(versionHistory);
+        bos.save(list);
         return versionHistory;
     }
 
@@ -157,6 +155,14 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         return map;
     }
 
+    private void resetExistingVersionsToArchived(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, List<VersionHistory> versionHistories) {
+        List<VersionHistory> existingEntries = loadVersionHistory(sequenceOwner.getClass(), getVersionName(sequenceOwner));
+        for(VersionHistory versionHistory: existingEntries) {
+            versionHistory.setStatus(VersionStatus.ARCHIVED);
+        }
+        versionHistories.addAll(existingEntries);
+    }
+    
     private String getVersionName(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner) {
         return ObjectUtils.getPropertyValue(sequenceOwner, sequenceOwner.getVersionNameField()).toString();
     }
