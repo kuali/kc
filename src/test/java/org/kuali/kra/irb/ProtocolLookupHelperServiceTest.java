@@ -32,7 +32,9 @@ import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolLookupableHelperServiceImpl;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
@@ -51,12 +53,14 @@ public class ProtocolLookupHelperServiceTest extends KraTestBase {
         super.setUp();
         protocolLookupableHelperServiceImpl = (ProtocolLookupableHelperServiceImpl)KraServiceLocator.getService("protocolLookupableHelperService");
         protocolLookupableHelperServiceImpl.setBusinessObjectClass(Protocol.class);
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
    }
 
     @After
     public void tearDown() throws Exception {
         super.tearDown();
         protocolLookupableHelperServiceImpl = null;
+        GlobalVariables.setUserSession(null);
     }
 
     /**
