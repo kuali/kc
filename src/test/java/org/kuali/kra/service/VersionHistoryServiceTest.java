@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -137,14 +138,18 @@ public class VersionHistoryServiceTest {
      * This class mocks out the BusinessObjectService
      */
     private class MockBusinessObjectService implements BusinessObjectService {
-        private List<VersionHistory> mockHistory = new ArrayList<VersionHistory>();
+        private Map<Long, VersionHistory> mockHistory = new TreeMap<Long, VersionHistory>();
         
         public Collection findAll(Class clazz) {
-            return mockHistory;
+            return mockHistory.values();
         }
         
         public void save(PersistableBusinessObject bo) {
-            mockHistory.add((VersionHistory) bo);
+            VersionHistory versionHistory = (VersionHistory) bo;
+            if(versionHistory.getVersionHistoryId() == null) {
+                versionHistory.setVersionHistoryId(System.currentTimeMillis() + versionHistory.hashCode());
+            }
+            mockHistory.put(versionHistory.getVersionHistoryId(), versionHistory);
         }
 
         public PersistableBusinessObject findByPrimaryKey(Class clazz, Map primaryKeys) { return null; }
@@ -170,7 +175,8 @@ public class VersionHistoryServiceTest {
         private Collection handleSequenceOwnerImplClass(Class clazz, String versionNameField) {
             Collection collection = new ArrayList();
             String className = clazz.getName();
-            for(VersionHistory vh: mockHistory) {
+            for(Long id: mockHistory.keySet()) {
+                VersionHistory vh = mockHistory.get(id);
                 SequenceOwner sequenceOwner = vh.getSequenceOwner();
                 String versionName = (String) ObjectUtils.getPropertyValue(sequenceOwner, sequenceOwner.getVersionNameField());
                 if(vh.getSequenceOwnerClassName().equals(className) && vh.getSequenceOwnerVersionNameValue().equals(versionName)) {
@@ -189,7 +195,8 @@ public class VersionHistoryServiceTest {
         private Collection handleVersionHistoryClass(Map fieldValues, String versionName) {
             Collection collection = new ArrayList();
             String className = (String) fieldValues.get(VersionHistoryServiceImpl.SEQUENCE_OWNER_CLASS_NAME_FIELD);
-            for(VersionHistory vh: mockHistory) {
+            for(Long id: mockHistory.keySet()) {
+                VersionHistory vh = mockHistory.get(id);
                 boolean conditionsForInclusion = vh.getSequenceOwnerClassName().equals(className) && vh.getSequenceOwnerVersionNameValue().equals(versionName);
                 if(fieldValues.containsKey(VersionHistoryServiceImpl.VERSION_STATUS_FIELD)) {
                     conditionsForInclusion &= fieldValues.get(VersionHistoryServiceImpl.VERSION_STATUS_FIELD).equals(vh.getStatusForOjb());
@@ -210,9 +217,13 @@ public class VersionHistoryServiceTest {
         public void linkUserFields(List<PersistableBusinessObject> bos) { }
         public PersistableBusinessObject retrieve(PersistableBusinessObject object) { return null; }
         
+        public void save(List businessObjects) {
+            for(Object bo: businessObjects) {
+                save((PersistableBusinessObject) bo);
+            }
+        }
         
         
-        public void save(List businessObjects) { }
         public int countMatching(Class clazz, Map fieldValues) { return 0; }
         public int countMatching(Class clazz, Map positiveFieldValues, Map negativeFieldValues) { return 0;}
         public void delete(PersistableBusinessObject bo) {}
