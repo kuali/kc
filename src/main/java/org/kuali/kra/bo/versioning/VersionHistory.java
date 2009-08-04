@@ -23,7 +23,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class VersionHistory extends KraPersistableBusinessObjectBase {
-
+    private static final long serialVersionUID = -4851728455206181532L;
+    
     private Long versionHistoryId;
     private String sequenceOwnerClassName;
     private String sequenceOwnerVersionNameField;
@@ -102,6 +103,9 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
      * @return Returns the status.
      */
     public VersionStatus getStatus() {
+        if(status == null && statusForOjb != null) {
+            status = VersionStatus.valueOf(statusForOjb);
+        }
         return status;
     }
     
@@ -229,7 +233,18 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
     }
     
     @Override
-    protected LinkedHashMap toStringMapper() {
-        return null;
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+        
+        map.put("versionHistoryId", versionHistoryId);
+        map.put("sequenceOwnerClassName", sequenceOwnerClassName);
+        map.put("sequenceOwnerVersionNameField", sequenceOwnerVersionNameField);
+        map.put("sequenceOwnerVersionNameValue", sequenceOwnerVersionNameValue);
+        map.put("sequenceOwnerSequenceNumber", sequenceOwnerSequenceNumber);
+        map.put("statusForOjb", statusForOjb);
+        map.put("userId", userId);
+        map.put("versionDate", versionDate);
+        
+        return map;
     }
 }
