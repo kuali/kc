@@ -83,7 +83,7 @@
             
             <%-- The list of current users --%>
             
-            <c:forEach var="user" items="${KualiForm.permissionsHelper.users}" varStatus="status">
+            <c:forEach var="user" items="${KualiForm.permissionsHelper.users}" varStatus="status">R
 	             <tr>
 	             	<th>${status.index + 1}</th>
 	             	<td align="left" valign="middle">${user.person.userName}</td>
@@ -118,5 +118,8 @@
     
     <c:if test="${name == 'protocol'}" >    	
     	<input type="hidden" name="lookup.leadUnit" value="${KualiForm.document.protocolList[0].leadUnit.unitNumber}" />
+    </c:if>
+    <c:if test="${name == 'award'}" >    	
+    	<input type="hidden" name="lookup.leadUnit" value="${KualiForm.document.awardList[0].leadUnit.unitNumber}" />
     </c:if>
 </kul:tab>
