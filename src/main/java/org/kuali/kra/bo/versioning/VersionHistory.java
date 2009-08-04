@@ -60,6 +60,74 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
         setUserId(userId);
         setVersionDate(versionDate);
     }
+    
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((sequenceOwnerClassName == null) ? 0 : sequenceOwnerClassName.hashCode());
+        result = prime * result + ((sequenceOwnerSequenceNumber == null) ? 0 : sequenceOwnerSequenceNumber.hashCode());
+        result = prime * result + ((sequenceOwnerVersionNameValue == null) ? 0 : sequenceOwnerVersionNameValue.hashCode());
+        result = prime * result + ((statusForOjb == null) ? 0 : statusForOjb.hashCode());
+        result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+        result = prime * result + ((versionDate == null) ? 0 : versionDate.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof VersionHistory))
+            return false;
+        VersionHistory other = (VersionHistory) obj;
+        if (sequenceOwnerClassName == null) {
+            if (other.sequenceOwnerClassName != null)
+                return false;
+        }
+        else if (!sequenceOwnerClassName.equals(other.sequenceOwnerClassName))
+            return false;
+        if (sequenceOwnerSequenceNumber == null) {
+            if (other.sequenceOwnerSequenceNumber != null)
+                return false;
+        }
+        else if (!sequenceOwnerSequenceNumber.equals(other.sequenceOwnerSequenceNumber))
+            return false;
+        if (sequenceOwnerVersionNameValue == null) {
+            if (other.sequenceOwnerVersionNameValue != null)
+                return false;
+        }
+        else if (!sequenceOwnerVersionNameValue.equals(other.sequenceOwnerVersionNameValue))
+            return false;
+        if (statusForOjb == null) {
+            if (other.statusForOjb != null)
+                return false;
+        }
+        else if (!statusForOjb.equals(other.statusForOjb))
+            return false;
+        if (userId == null) {
+            if (other.userId != null)
+                return false;
+        }
+        else if (!userId.equals(other.userId))
+            return false;
+        if (versionDate == null) {
+            if (other.versionDate != null)
+                return false;
+        }
+        else if (!versionDate.equals(other.versionDate))
+            return false;
+        return true;
+    }
+
     /**
      * Gets the sequenceOwner attribute. 
      * @return Returns the sequenceOwner.
