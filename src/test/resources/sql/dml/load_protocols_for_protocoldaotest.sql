@@ -13,10 +13,10 @@ insert into protocol (PROTOCOL_ID ,DOCUMENT_NUMBER , PROTOCOL_NUMBER,SEQUENCE_NU
   values ( 201,9999, 202,201,1,100, 'test', sysdate,user,1,1)     ;         
 
 
-insert into protocol_research_areas (PROTOCOL_ID, PROTOCOL_NUMBER ,SEQUENCE_NUMBER,RESEARCH_AREA_CODE,UPDATE_TIMESTAMP,      UPDATE_USER,VER_NBR,OBJ_ID )                              
- values (201,202, 201,'01.02',sysdate,user, 1 ,1);
-insert into protocol_research_areas(PROTOCOL_ID, PROTOCOL_NUMBER ,SEQUENCE_NUMBER,RESEARCH_AREA_CODE,UPDATE_TIMESTAMP,      UPDATE_USER,VER_NBR,OBJ_ID )                              
- values (201,202, 201,'01.01',sysdate,user, 1 ,1);
+insert into protocol_research_areas (id, PROTOCOL_ID, PROTOCOL_NUMBER ,SEQUENCE_NUMBER,RESEARCH_AREA_CODE,UPDATE_TIMESTAMP,      UPDATE_USER,VER_NBR,OBJ_ID )                              
+ values (1,201,202, 201,'01.02',sysdate,user, 1 ,1);
+insert into protocol_research_areas(id, PROTOCOL_ID, PROTOCOL_NUMBER ,SEQUENCE_NUMBER,RESEARCH_AREA_CODE,UPDATE_TIMESTAMP,      UPDATE_USER,VER_NBR,OBJ_ID )                              
+ values (2,201,202, 201,'01.01',sysdate,user, 1 ,1);
 
 insert into protocol_persons ( PROTOCOL_PERSON_ID,PROTOCOL_ID,PROTOCOL_NUMBER,SEQUENCE_NUMBER,PERSON_ID,PERSON_NAME ,    PROTOCOL_PERSON_ROLE_ID,ROLODEX_ID, UPDATE_TIMESTAMP,UPDATE_USER ,VER_NBR,OBJ_ID  )                             
 values( 212,201, 0 , 0,'000000001','Terry Durkin','PI','',sysdate,user, 1,1);
