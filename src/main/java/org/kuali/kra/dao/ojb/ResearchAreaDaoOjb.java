@@ -65,7 +65,8 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
                                 stmt.addBatch(insertStmt);
                             }
                             else if (sqls[i].startsWith("delete R")) {
-                                String deleteStmt = sqls[i].replace("delete R", "delete from research_areas where RESEARCH_AREA_CODE = ");
+                                String deleteStmt = sqls[i].replace("delete R",
+                                        "delete from research_areas where RESEARCH_AREA_CODE = ");
                                 deleteStmt = deleteStmt.replace(", user)", ", '"
                                         + new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUserIdentifier()
                                         + "')");
@@ -86,9 +87,9 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
                         }
                     }
                     int[] updCnt = stmt.executeBatch();
-                    // for (int i = 0; i < updCnt.length ; i++) {
+                     for (int i = 0; i < updCnt.length ; i++) {
                     // // do we need to do check
-                    // }
+                    }
                 }
                 catch (Exception e) {
                     LOG.error("exception error " + e.getStackTrace());
