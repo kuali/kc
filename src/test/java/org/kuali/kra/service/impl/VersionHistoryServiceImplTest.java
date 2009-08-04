@@ -22,7 +22,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
@@ -33,6 +32,8 @@ import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class VersionHistoryServiceImplTest extends KraTestBase {
+    private static final String PROTOCOL_VERSION_NAME = "2001";
+    private static final String AWARD_VERSION_NAME = "1001-001";
     private VersionHistoryService versioningHistoryService;
     
     @Before
@@ -49,45 +50,45 @@ public class VersionHistoryServiceImplTest extends KraTestBase {
     
     @Test
     public void testSavingAVersionHistory() {
-        Award award = createAndSaveAward("1001", 1);
-        VersionHistory vh = versioningHistoryService.createVersionHistory(award, "jtester");
+        Award award = createAward(AWARD_VERSION_NAME, 1);
+        VersionHistory vh = versioningHistoryService.createVersionHistory(award, VersionStatus.ACTIVE, "jtester");
         Assert.assertNotNull("VersionHistory was null", vh);
     }
 
     @Test
     public void testSavingVersionHistories() {
-        versioningHistoryService.createVersionHistory(createAndSaveAward("1001", 1), "u1");
-        versioningHistoryService.createVersionHistory(createAndSaveProtocol("2001", 1), "u2");
-        versioningHistoryService.createVersionHistory(createAndSaveAward("1001", 2), "u3");
-        versioningHistoryService.createVersionHistory(createAndSaveProtocol("2001", 2), "u4");
-        versioningHistoryService.createVersionHistory(createAndSaveAward("1001", 3), "u5");
+        versioningHistoryService.createVersionHistory(createAward(AWARD_VERSION_NAME, 1), VersionStatus.ACTIVE, "u1");
+        versioningHistoryService.createVersionHistory(createProtocol(PROTOCOL_VERSION_NAME, 1), VersionStatus.ACTIVE, "u2");
+        versioningHistoryService.createVersionHistory(createAward(AWARD_VERSION_NAME, 2), VersionStatus.ACTIVE, "u3");
+        versioningHistoryService.createVersionHistory(createProtocol(PROTOCOL_VERSION_NAME, 2), VersionStatus.ACTIVE, "u4");
+        versioningHistoryService.createVersionHistory(createAward(AWARD_VERSION_NAME, 3), VersionStatus.ACTIVE, "u5");
         
-        List<VersionHistory> list = versioningHistoryService.loadVersionHistory(Award.class, "1001"); 
+        List<VersionHistory> list = versioningHistoryService.loadVersionHistory(Award.class, AWARD_VERSION_NAME); 
         Assert.assertEquals(3, list.size());
         Assert.assertEquals(VersionStatus.ARCHIVED, list.get(0).getStatus());
         Assert.assertEquals(VersionStatus.ARCHIVED, list.get(1).getStatus());
         Assert.assertEquals(VersionStatus.ACTIVE, list.get(2).getStatus());
         
-        list = versioningHistoryService.loadVersionHistory(Protocol.class, "2001"); 
+        list = versioningHistoryService.loadVersionHistory(Protocol.class, PROTOCOL_VERSION_NAME); 
         Assert.assertEquals(2, list.size());
         Assert.assertEquals(VersionStatus.ARCHIVED, list.get(0).getStatus());
         Assert.assertEquals(VersionStatus.ACTIVE, list.get(1).getStatus());
         
-        VersionHistory activeVersion = versioningHistoryService.findActiveVersion(Award.class, "1001");
+        VersionHistory activeVersion = versioningHistoryService.findActiveVersion(Award.class, AWARD_VERSION_NAME);
         Assert.assertEquals("u5", activeVersion.getUserId());
         
-        activeVersion = versioningHistoryService.findActiveVersion(Protocol.class, "2001");
+        activeVersion = versioningHistoryService.findActiveVersion(Protocol.class, PROTOCOL_VERSION_NAME);
         Assert.assertEquals("u4", activeVersion.getUserId());        
     }
     
-    private Award createAndSaveAward(String versionName, Integer versionNumber) {
+    private Award createAward(String versionName, Integer versionNumber) {
         Award award = new Award();
         award.setAwardNumber(versionName);
         award.setSequenceNumber(versionNumber);
         return award;
     }
     
-    private Protocol createAndSaveProtocol(String versionName, Integer versionNumber) {
+    private Protocol createProtocol(String versionName, Integer versionNumber) {
         Protocol protocol = new Protocol();
         protocol.setProtocolNumber(versionName);
         protocol.setSequenceNumber(versionNumber);

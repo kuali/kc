@@ -39,14 +39,16 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
     private BusinessObjectService bos;
     
     /**
-     * @see org.kuali.kra.service.VersionHistoryService#createVersionHistory(org.kuali.kra.SequenceOwner, java.lang.String)
+     * @see org.kuali.kra.service.VersionHistoryService#createVersionHistory(org.kuali.kra.SequenceOwner, org.kuali.kra.bo.versioning.VersionStatus, java.lang.String)
      */
-    public VersionHistory createVersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, String userId) {
-        VersionHistory versionHistory = new VersionHistory(sequenceOwner, VersionStatus.ACTIVE, userId, new Date(new java.util.Date().getTime()));
+    public VersionHistory createVersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId) {
+        VersionHistory versionHistory = new VersionHistory(sequenceOwner, versionStatus, userId, new Date(new java.util.Date().getTime()));
         
-        List<VersionHistory> versionHistories = loadVersionHistory(sequenceOwner.getClass(), getVersionName(sequenceOwner));
-        for(VersionHistory history: versionHistories) {
-            history.setStatus(VersionStatus.ARCHIVED);
+        if(versionStatus == VersionStatus.ACTIVE) {
+            List<VersionHistory> versionHistories = loadVersionHistory(sequenceOwner.getClass(), getVersionName(sequenceOwner));
+            for(VersionHistory history: versionHistories) {
+                history.setStatus(VersionStatus.ARCHIVED);
+            }
         }
         
         bos.save(versionHistory);
@@ -61,12 +63,11 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         List<VersionHistory> histories = new ArrayList<VersionHistory>(bos.findMatching(VersionHistory.class, buildFieldValueMapForActiveVersionHistory(klass, versionName)));
         
         /*
-         * For some reason, the BOS doesn't bring back just the ACTIVE record, despite the VERSION_STATUS_FIELD being included
-         * making the following line innefective:
+         * For some reason, in the testcase the BOS doesn't bring back just the ACTIVE record, despite the VERSION_STATUS_FIELD being included.
+         * However, in the live run, this does bring back just one record. Just to be safe, I provide an alternative approach
+         * 
          */
-//        return histories.size() == 1 ? histories.get(0) : null;
-        
-        // ... and necessitating this approach:
+//        VersionHistory activeVersionHistory = histories.size() == 1 ? histories.get(0) : null;        
         VersionHistory activeVersionHistory = findActiveVersionHistory(histories);
         
         if(activeVersionHistory != null) {
