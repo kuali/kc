@@ -30,7 +30,7 @@
 	    		<span class="subhead-left">F&A Rates</span>
 	    		<span class="subhead-right">
 	    			<kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardFandaRate" altText="help"/>						
-					<kul:lookup boClassName="org.kuali.kra.award.bo.ValidRates" anchor="${tabKey}" autoSearch="yes" 
+					<kul:lookup boClassName="org.kuali.kra.award.home.ValidRates" anchor="${tabKey}" autoSearch="yes" 
 					            readOnlyFields="yes" hideReturnLink="true" suppressActions="true" />		
 				</span>
 	        </h3>
@@ -216,7 +216,7 @@
 				<span class="subhead-left"> Benefits Rates</span>
 				<span class="subhead-right">
 					<kul:help businessObjectClassName="org.kuali.kra.award.bo.Award" altText="help"/>						
-					<kul:lookup boClassName="org.kuali.kra.award.bo.ValidRates" fieldConversions="onCampusRate:document.awardList[0].specialEbRateOnCampus,offCampusRate:document.awardList[0].specialEbRateOffCampus" anchor="${tabKey}" />		
+					<kul:lookup boClassName="org.kuali.kra.award.home.ValidRates" fieldConversions="onCampusRate:document.awardList[0].specialEbRateOnCampus,offCampusRate:document.awardList[0].specialEbRateOffCampus" anchor="${tabKey}" />		
 				</span>
 		    </h3>
 		    <table id="Benefits Rates" cellpadding="0" cellspacing="0" summary="Benefits Rates">
