@@ -20,6 +20,7 @@ import java.sql.Statement;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -42,6 +43,7 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
                 Statement stmt = null;
                 try {
                     stmt = pb.serviceConnectionManager().getConnection().createStatement();
+                    String userName = new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUserIdentifier();
                     for (int i = 1; i < sqls.length; i++) {
                         if (StringUtils.isNotBlank(sqls[i])) {
                             String sql = sqls[i];
@@ -50,13 +52,14 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
                                         .getNextAvailableSequenceNumber("SEQ_QUESTIONNAIRE_ID");
                                 sql = sql.replace("insert into Q", "insert into questionnaire_questions " + questionColumns + " values("
                                         + questionnaireQuestionId + "," + questionnaireId + ",");
+                                sql = sql.replace("user,sysdate", "'"+userName+"',sysdate");
                             } else if (sql.startsWith("insert U")) {
                                 // TODO : sub_mod_code and rule_id are set to '0' for now
                                 Long questionnaireUsageId = KraServiceLocator.getService(SequenceAccessorService.class)
                                 .getNextAvailableSequenceNumber("SEQ_QUESTIONNAIRE_ID");
                                 String[] params = sql.split(";");
                                 sql = "insert into questionnaire_usage " + usageColumns + " values(" + questionnaireUsageId + ",'" 
-                                     + params[1] + "','0'," +  questionnaireId + ",'0','"+params[2]+"',sysdate,user)";
+                                     + params[1] + "','0'," +  questionnaireId + ",'0','"+params[2]+"',sysdate,'"+userName+"')";
                             } else if (sql.startsWith("delete U")) {
                                 // TODO : this may not be appropriate because one module may be associated with different version of questionnaire
                                 Long questionnaireUsageId = KraServiceLocator.getService(SequenceAccessorService.class)
@@ -66,8 +69,8 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
                                      questionnaireId + " and MODULE_ITEM_CODE = '"+params[1]+"'";
                             } else if (sql.startsWith("update QCond")) {
                                 String[] params = sql.split(";");
-                                sql = "update questionnaire_questions set CONDITION_FLAG = " + params[1] + ", CONDITION = "
-                                        + params[2] + ", CONDITION_VALUE = " + params[3] + " where QUESTIONNAIRE_ID = "
+                                sql = "update questionnaire_questions set CONDITION_FLAG = " + params[1] + ", CONDITION = " + params[2] 
+                                        + ", CONDITION_VALUE = " + params[3] + ", UPDATE_USER = '" + userName+ "', UPDATE_TIMESTAMP = sysdate where QUESTIONNAIRE_ID = "
                                         + questionnaireId + " and QUESTION_REF_ID_FK = " + params[4] + " and  QUESTION_NUMBER = "
                                         + params[5];
 
@@ -79,7 +82,7 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
 
                             }else if (sql.startsWith("update QMove")) {
                                 String[] params = sql.split(";");
-                                sql = "update questionnaire_questions set QUESTION_SEQ_NUMBER = " + params[1]
+                                sql = "update questionnaire_questions set QUESTION_SEQ_NUMBER = " + params[1] + ", UPDATE_USER = '" + userName+ "', UPDATE_TIMESTAMP = sysdate "
                                         + " where QUESTIONNAIRE_ID = " + questionnaireId + " and QUESTION_REF_ID_FK = " + params[2]
                                         + " and  QUESTION_NUMBER = " + params[3];
 
