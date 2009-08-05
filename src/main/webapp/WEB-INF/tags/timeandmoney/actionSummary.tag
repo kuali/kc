@@ -18,7 +18,7 @@
 <c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" />
 <c:set var="awardAmountTransactionAttributes" value="${DataDictionary.AwardAmountTransaction.attributes}" />
 
-<kul:tab tabTitle="Action Summary" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Action Summary (${KualiForm.document.awardNumber})" defaultOpen="false" tabErrorKey="">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> History</span>

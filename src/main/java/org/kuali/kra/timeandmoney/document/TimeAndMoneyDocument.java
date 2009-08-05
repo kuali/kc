@@ -23,13 +23,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
+import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.rice.kns.document.Copyable;
@@ -44,6 +47,7 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     
     public static final String DOCUMENT_TYPE_CODE = "TAMD";
     
+    private Long awardId;
     private String awardNumber;
     private Integer sequenceNumber;
     private Map<String, AwardHierarchyNode> awardHierarchyNodes;
@@ -52,6 +56,7 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     private List<AwardAmountTransaction> awardAmountTransactions;
     private Map<Object, Object> timeAndMoneyHistory;
     private List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems;
+    private Award award;
     
     /**
      * Constructs a AwardDocument object
@@ -84,6 +89,20 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
         awardAmountTransactions = new ArrayList<AwardAmountTransaction>();
         timeAndMoneyHistory = new LinkedHashMap<Object, Object>();
         timeAndMoneyActionSummaryItems = new ArrayList<TimeAndMoneyActionSummary>();
+    }
+    
+    @Override
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();
+
+        KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
+        if(!kraWorkflowService.isInWorkflow(this)){
+            getActivePendingTransactionsService().approveTransactions();
+        }
+    }
+    
+    protected ActivePendingTransactionsService getActivePendingTransactionsService(){
+        return (ActivePendingTransactionsService) KraServiceLocator.getService(ActivePendingTransactionsService.class);
     }
     
     /**
@@ -248,5 +267,37 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
      */
     public void setTimeAndMoneyActionSummaryItems(List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems) {
         this.timeAndMoneyActionSummaryItems = timeAndMoneyActionSummaryItems;
+    }
+
+    /**
+     * Gets the award attribute. 
+     * @return Returns the award.
+     */
+    public Award getAward() {
+        return award;
+    }
+
+    /**
+     * Sets the award attribute value.
+     * @param award The award to set.
+     */
+    public void setAward(Award award) {
+        this.award = award;
+    }
+
+    /**
+     * Gets the awardId attribute. 
+     * @return Returns the awardId.
+     */
+    public Long getAwardId() {
+        return awardId;
+    }
+
+    /**
+     * Sets the awardId attribute value.
+     * @param awardId The awardId to set.
+     */
+    public void setAwardId(Long awardId) {
+        this.awardId = awardId;
     }
 }

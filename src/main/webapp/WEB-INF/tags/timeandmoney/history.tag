@@ -18,7 +18,7 @@
 <c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" />
 <c:set var="transactionDetailAttributes" value="${DataDictionary.TransactionDetail.attributes}" />
 
-<kul:tab tabTitle="History" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="History (${KualiForm.document.awardNumber})" defaultOpen="false" tabErrorKey="">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> History</span>
@@ -32,8 +32,8 @@
           		<kul:htmlAttributeHeaderCell literalLabel="Description" scope="col" colspan="9"/>
           	</tr>
           	
-          	<c:forEach var="timeAndMoneyHistory" items="${KualiForm.document.timeAndMoneyHistory}" varStatus="status">			          		
-				<c:choose>
+          	<c:forEach var="timeAndMoneyHistory" items="${KualiForm.document.timeAndMoneyHistory}" varStatus="status">
+          		<c:choose>
 					<c:when test="${timeAndMoneyHistory.key.class.name == 'java.lang.String'}">
 						<tr>
 						<td align="left" valign="middle" class="infoline" rowspan="1">
@@ -53,7 +53,7 @@
 							<c:when test="${timeAndMoneyHistory.value.class.name == 'org.kuali.kra.award.home.AwardAmountInfo'}">								
 							<tr>
 							<td align="left" valign="middle" class="infoline" rowspan="4">
-			                	<div align="center">
+			                	<div align="center">			                	
 			                		<c:out value="${timeAndMoneyHistory.key}" />
 			                	</div>                	
 							</td>
