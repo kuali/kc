@@ -15,8 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.service;
 
-import org.kuali.kra.proposaldevelopment.hierarchy.IneligibleChildException;
-import org.kuali.kra.proposaldevelopment.hierarchy.InvalidHierarchyException;
+import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 
 /**
  * This class...
@@ -29,18 +28,18 @@ public interface ProposalHierarchyService {
      * 
      * @param proposalNumber The number of the proposal in question
      * @return true if the proposal indicated by proposalNumber is a Hiearchy parent, false otherwise.
-     * @throws InvalidHierarchyException is proposalNumber does not exist
+     * @throws ProposalHierarchyException is proposalNumber does not exist
      */
-    public boolean isParent(String proposalNumber) throws InvalidHierarchyException;
+    public boolean isParent(String proposalNumber) throws ProposalHierarchyException;
 
     /**
      * This method determines if the proposal indicated by the proposalNumber is a Hierarchy child
      * 
      * @param proposalNumber The number of the proposal in question
      * @return true if the proposal indicated by proposalNumber is a Hiearchy child, false otherwise.
-     * @throws IneligibleChildException if proposalNumber does not exist
+     * @throws ProposalHierarchyException if proposalNumber does not exist
      */
-    public boolean isChild(String proposalNumber) throws IneligibleChildException;
+    public boolean isChild(String proposalNumber) throws ProposalHierarchyException;
 
     /**
      * This method takes the proposal indicated by initialChildProposalNumber, creates a Hierarchy
@@ -48,9 +47,9 @@ public interface ProposalHierarchyService {
      * 
      * @param initialChildProposalNumber 
      * @return the proposal number of the new hierarchy
-     * @throws IneligibleChildException if the proposal is already a member of a hierarchy or does not exist
+     * @throws ProposalHierarchyException if the proposal is already a member of a hierarchy or does not exist
      */
-    public String createHierarchy(String initialChildProposalNumber) throws IneligibleChildException;
+    public String createHierarchy(String initialChildProposalNumber) throws ProposalHierarchyException;
 
     /**
      * This method links the proposal represented by newChildProposalNumber to the Hierarchy
@@ -58,26 +57,47 @@ public interface ProposalHierarchyService {
      * 
      * @param hierarchyProposalNumber the hierarchy to link the new child to
      * @param newChildProposalNumber the proposal to link to the hierarchy
-     * @throws InvalidHierarchyException if hierarchyProposalNumber is not a valid Hierarchy or does not exist
-     * @throws IneligibleChildException if newChildProposalNumber is already a member of a hierarchy or does not exist
+     * @throws ProposalHierarchyException if hierarchyProposalNumber is not a valid Hierarchy or does not exist
+     * or if newChildProposalNumber is already a member of a hierarchy or does not exist
      */
-    public void linkToHierarchy(String hierarchyProposalNumber, String newChildProposalNumber) throws InvalidHierarchyException, IneligibleChildException;
+    public void linkToHierarchy(String hierarchyProposalNumber, String newChildProposalNumber) throws ProposalHierarchyException;
 
     /**
      * This method removes childProposalNumber from the hierarchy of which it is a member
      * 
      * @param childProposalNumber the proposal to remove
-     * @throws IneligibleChildException if childProposalNumber is not a member of a hierarchy or does not exist
+     * @throws ProposalHierarchyException if childProposalNumber is not a member of a hierarchy or does not exist
      */
-    public void removeFromHierarchy(String childProposalNumber) throws IneligibleChildException;
+    public void removeFromHierarchy(String childProposalNumber) throws ProposalHierarchyException;
 
     /**
      * This method returns the proposal number of the hierarchy to which childProposalNumber belongs
      * 
      * @param childProposalNumber the child proposal in question
      * @return the proposal number of the hierarchy to which childProposalNumber belongs
-     * @throws IneligibleChildException if childProposalNumber is not a member of a hierarchy or does not exist
+     * @throws ProposalHierarchyException if childProposalNumber is not a member of a hierarchy or does not exist
      */
-    public String getHierarchyProposal(String childProposalNumber) throws IneligibleChildException;
+    public String getHierarchyProposal(String childProposalNumber) throws ProposalHierarchyException;
+
+    /**
+     * This method...
+     * @param childProposalNumber
+     * @throws ProposalHierarchyException
+     */
+    public void synchronizeChild(String childProposalNumber) throws ProposalHierarchyException;
+    
+    /**
+     * This method...
+     * @param hierarchyProposalNumber
+     * @throws ProposalHierarchyException
+     */
+    public void synchronizeAllChildren(String hierarchyProposalNumber) throws ProposalHierarchyException;
+    
+    /**
+     * This method...
+     * @param hierarchyProposalNumber
+     * @throws ProposalHierarchyException
+     */
+    public void aggregateHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException;
 
 }

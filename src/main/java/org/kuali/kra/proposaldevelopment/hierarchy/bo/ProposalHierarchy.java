@@ -18,6 +18,9 @@ package org.kuali.kra.proposaldevelopment.hierarchy.bo;
 import java.util.List;
 
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 
 /**
  * This class...
@@ -29,7 +32,71 @@ public class ProposalHierarchy extends DevelopmentProposal {
      */
     private static final long serialVersionUID = 8162683517589540746L;
 
-    
+    // the member fields below are items that are kept locally to the hierarchy as opposed to the aggregated hierarchy
     private List<ProposalHierarchyChild> children;
+    private List<PropScienceKeyword> hierarchyPropScienceKeywords;
+    private List<ProposalSpecialReview> hierarchySpecialReviews;
+    private List<Narrative> hierarchyNarratives;
+
+    
+    /**
+     * Gets the children attribute. 
+     * @return Returns the children.
+     */
+    public List<ProposalHierarchyChild> getChildren() {
+        return children;
+    }
+    /**
+     * Sets the children attribute value.
+     * @param children The children to set.
+     */
+    public void setChildren(List<ProposalHierarchyChild> children) {
+        this.children = children;
+    }
+    
+    
+    /**
+     * Gets the hierarchyPropScienceKeywords attribute. 
+     * @return Returns the hierarchyPropScienceKeywords.
+     */
+    public List<PropScienceKeyword> getHierarchyPropScienceKeywords() {
+        return hierarchyPropScienceKeywords;
+    }
+    /**
+     * Sets the hierarchyPropScienceKeywords attribute value.
+     * @param hierarchyPropScienceKeywords The hierarchyPropScienceKeywords to set.
+     */
+    public void setHierarchyPropScienceKeywords(List<PropScienceKeyword> hierarchyPropScienceKeywords) {
+        this.hierarchyPropScienceKeywords = hierarchyPropScienceKeywords;
+    }
+    /**
+     * Gets the hierarchySpecialReviews attribute. 
+     * @return Returns the hierarchySpecialReviews.
+     */
+    public List<ProposalSpecialReview> getHierarchySpecialReviews() {
+        return hierarchySpecialReviews;
+    }
+    /**
+     * Sets the hierarchySpecialReviews attribute value.
+     * @param hierarchySpecialReviews The hierarchySpecialReviews to set.
+     */
+    public void setHierarchySpecialReviews(List<ProposalSpecialReview> hierarchySpecialReviews) {
+        this.hierarchySpecialReviews = hierarchySpecialReviews;
+    }
+    /**
+     * Gets the hierarchyNarratives attribute. 
+     * @return Returns the hierarchyNarratives.
+     */
+    public List<Narrative> getHierarchyNarratives() {
+        return hierarchyNarratives;
+    }
+    /**
+     * Sets the hierarchyNarratives attribute value.
+     * @param hierarchyNarratives The hierarchyNarratives to set.
+     */
+    public void setHierarchyNarratives(List<Narrative> hierarchyNarratives) {
+        this.hierarchyNarratives = hierarchyNarratives;
+    }
+    
     
 }
