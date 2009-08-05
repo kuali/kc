@@ -23,10 +23,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.OjbCollectionAware;
-import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.springmodules.orm.ojb.PersistenceBrokerCallback;
 
 public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, QuestionnaireDao {
