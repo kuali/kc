@@ -45,39 +45,44 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
                 try {
                     stmt = pb.serviceConnectionManager().getConnection().createStatement();
                     String columns = "(RESEARCH_AREA_CODE,PARENT_RESEARCH_AREA_CODE,HAS_CHILDREN_FLAG, DESCRIPTION, update_timestamp, update_user)";
-
+                    String userName = new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUserIdentifier();
                     for (int i = 0; i < sqls.length; i++) {
                         if (StringUtils.isNotBlank(sqls[i])) {
                             if (sqls[i].startsWith("remove((")) {
-                                String researchAreaCode = StringUtils.substringBetween(sqls[i], "((", "))");
-                                String deleteStmt = "delete from research_areas where RESEARCH_AREA_CODE = '" + researchAreaCode
+                                String[] codes = StringUtils.substringBetween(sqls[i], "((", "))").split(";");
+                                String deleteStmt = "delete from research_areas where RESEARCH_AREA_CODE = '" + codes[0]
                                         + "'";
                                 LOG.info("Save run scripts " + deleteStmt);
                                 stmt.addBatch(deleteStmt);
-                                getNodesToDelete(researchAreaCode, stmt);
+                                String updateStmt = "update research_areas set HAS_CHILDREN_FLAG = 'N', UPDATE_USER = '" + userName+ "', UPDATE_TIMESTAMP = sysdate where RESEARCH_AREA_CODE = '" + codes[1]+"' and (select count(*) from research_areas where PARENT_RESEARCH_AREA_CODE = '" + codes[1]+"') = 0";
+                                LOG.info("Save run scripts " + updateStmt);
+                                stmt.addBatch(updateStmt);
+                                getNodesToDelete(codes[0], stmt);
                             }
                             else if (sqls[i].startsWith("insert R")) {
                                 String insertStmt = sqls[i].replace("insert R", "insert into research_areas " + columns);
                                 insertStmt = insertStmt.replace(", user)", ", '"
-                                        + new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUserIdentifier()
-                                        + "')");
+                                        + userName + "')");
                                 LOG.info("Save run scripts " + insertStmt);
                                 stmt.addBatch(insertStmt);
+                                String data[] = sqls[i].split(",");
+                                String updateStmt = "update research_areas set HAS_CHILDREN_FLAG = 'Y', UPDATE_USER = '" + userName+ "', UPDATE_TIMESTAMP = sysdate  where RESEARCH_AREA_CODE = " + data[1];
+                                LOG.info("Save run scripts " + updateStmt);
+                                stmt.addBatch(updateStmt);
+                                
                             }
                             else if (sqls[i].startsWith("delete R")) {
+                                String parentCode = StringUtils.substringBetween(sqls[i], "RESEARCH_AREA_CODE = '","'");
                                 String deleteStmt = sqls[i].replace("delete R",
                                         "delete from research_areas where RESEARCH_AREA_CODE = ");
-                                deleteStmt = deleteStmt.replace(", user)", ", '"
-                                        + new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUserIdentifier()
-                                        + "')");
                                 LOG.info("Save run scripts " + deleteStmt);
                                 stmt.addBatch(deleteStmt);
+                                String updateStmt = "update research_areas set HAS_CHILDREN_FLAG = 'N', UPDATE_USER = '" + userName+ "', UPDATE_TIMESTAMP = sysdate  where RESEARCH_AREA_CODE = '" + parentCode+"' and (select count(*) from research_areas where PARENT_RESEARCH_AREA_CODE = '" + parentCode+"') = 0";
+                                LOG.info("Save run scripts " + updateStmt);
+                                stmt.addBatch(updateStmt);
                             }
                             else if (sqls[i].startsWith("update R")) {
-                                String updateStmt = sqls[i].replace("update R", "update research_areas set DESCRIPTION =");
-                                updateStmt = updateStmt.replace(", user)", ", '"
-                                        + new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUserIdentifier()
-                                        + "')");
+                                String updateStmt = sqls[i].replace("update R", "update research_areas set UPDATE_USER = '" + userName+ "', UPDATE_TIMESTAMP = sysdate, DESCRIPTION =");
                                 LOG.info("Save run scripts " + updateStmt);
                                 stmt.addBatch(updateStmt);
                             }

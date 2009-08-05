@@ -8,6 +8,7 @@
     var sqlidx = 0;
     var deletedNodes="";
     var newNodes=";";
+    var loadedidx=0;
       
     $(document).ready(function(){
       $.ajaxSettings.cache = false; 
@@ -19,8 +20,10 @@
                  
                      $(".hierarchydetail:not(#"+divId+")").slideUp(300);
                      $("#"+divId).slideToggle(300);
+                     //alert(idstr +"-"+ loadedidx)
+                     //if (idstr <= loadedidx) {  // TODO : if this is not a new node
                      loadChildrenRA($("#itemText"+idstr).text(), tagId);
-                 
+                     //}
                     // var subul=this.getElementsByTagName("ul")[0]
                     // if (subul.style.display=="block")
                     // alert("You've opened this Folder!" + idstr)
@@ -128,6 +131,12 @@
               // need this ultag to force to display folder.
               var childUlTag = $('<ul></ul>').attr("id","ul"+i);
               childUlTag.appendTo(listitem);
+              
+              // this is new nodes, so it is same as already loaded from DB
+              var loadedId = "loaded"+i;
+              var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
+              inputtag.appendTo(childUlTag);
+              
                  listitem.appendTo(ulTag);
                  // alert("ultagid "+ulTag.attr("id").substring(2));
                  // force to display folder icon
@@ -293,17 +302,17 @@
                            parentRACode = getResearchAreaCode($(liId).parents('li:eq(0)'));
                         }
                         // alert (parentRACode);
-                        addSqlScripts("remove(("+getResearchAreaCode($(liId))+"))");
+                        addSqlScripts("remove(("+getResearchAreaCode($(liId))+";"+parentRACode+"))");
                         if (deletedNodes == '') {
                             deletedNodes=getResearchAreaCode($(liId));
                         } else {
                             deletedNodes=deletedNodes+";"+getResearchAreaCode($(liId));
                         }
-                        if (newNodes != ";" && newNodes.indexOf(";"+getResearchAreaCode($(liId))+";") > -1) {
-                        	newNodes = newNodes.replace(";"+getResearchAreaCode($(liId))+";",";");
-                            //alert("newnodes "+newNodes);
-                        }   
-                                   
+//                        if (newNodes != ";" && newNodes.indexOf(";"+getResearchAreaCode($(liId))+";") > -1) {
+//                        	newNodes = newNodes.replace(";"+getResearchAreaCode($(liId))+";",";");
+//                            //alert("newnodes "+newNodes);
+//                        }   
+                        deleteChild(id) ;         
                         $(liId).remove();
                         //alert (sqlScripts);
                         cutNode=null;
@@ -499,6 +508,12 @@
               // need this ultag to force to display folder.
               var childUlTag = $('<ul></ul>').attr("id","ul"+i);
               childUlTag.appendTo(listitem);
+              
+              // this is new nodes, so it is same as already loaded from DB
+              var loadedId = "loaded"+i;
+              var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
+              inputtag.appendTo(childUlTag);
+              
                  listitem.appendTo(ulTag);
                  //alert("ultagid "+ulTag.attr("id").substring(2));
                  // force to display folder icon
@@ -599,8 +614,8 @@
                               $("#"+divId).slideToggle(300);
                               // $("#"+divId).show();;
                           }  
-                          // comment out temporarily
-                          loadChildrenRA(code +" : "+name, tagId);
+                          // TODO : this is a new item, so should not need to loadchildren ?
+                       //   loadChildrenRA(code +" : "+name, tagId);
                       }
                   );
           // });
@@ -737,7 +752,7 @@
            }
           });    
       }
-      
+      loadedidx=i;
   } // end loadChildrenRA
 
   /*
@@ -820,11 +835,6 @@
 
 
 
-     
-     
-    
-
-
   function hasFormAlreadyBeenSubmitted() {
       // return false;
   }
@@ -834,6 +844,7 @@
 	  //for (var k = 0; k<3;k++) {
 		  // performance test
       loadFirstLevel();
+      loadedidx=i;
 	  //}
       // $("#listcontrol00").show();
       // $("#listcontent00").slideToggle(300);
@@ -901,8 +912,29 @@
      } 
     } // end for
           sqlidx = 0;
-         
+          loadedidx=i;
         return false;
    }); 
 
-    
+  /*
+   * To keep newnodes list up-to-date.  This will prevent cases like
+   * add 01->01.1->01.1.1.  01.1 & 01.1.1 are new.
+   * remove 01.1 will also remove 01.1.1.  This function will remove both the newnodes list.
+   */
+  function deleteChild(childid) {
+
+		var childrenli = $("#" + childid).children('ul.eq(0)').children('li');
+        if (newNodes != ";" && newNodes.indexOf(";"+getResearchAreaCode($("#" + childid))+";") > -1) {
+        	newNodes = newNodes.replace(";"+getResearchAreaCode($("#" + childid))+";",";");
+            //alert("newnodes "+newNodes);
+        }   
+
+		if (childrenli.size() > 0) {
+
+			childrenli.each(function() {
+				deleteChild($(this).attr("id"));
+			});
+		}
+
+	}
+
