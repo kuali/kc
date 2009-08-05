@@ -45,7 +45,7 @@ import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.service.AwardSponsorTermService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
+import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -293,6 +293,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{ 
         AwardForm awardForm = (AwardForm) form;
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
+        boolean createNewTimeAndMoneyDocument = Boolean.TRUE;
         Award award = awardForm.getAwardDocument().getAward();
         if(isNewAward(awardForm)){
             AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
@@ -308,18 +310,24 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         
         List<TimeAndMoneyDocument> timeAndMoneyDocuments = (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues);
         TimeAndMoneyDocument timeAndMoneyDocument = null;
-
-        if(timeAndMoneyDocuments.size()!=0){
-            timeAndMoneyDocument = timeAndMoneyDocuments.get(0);   
-            timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(timeAndMoneyDocument.getDocumentNumber());
-            
+        
+        for(TimeAndMoneyDocument t : timeAndMoneyDocuments){
+            timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
+            timeAndMoneyDocument.setAwardId(award.getAwardId());
+            timeAndMoneyDocument.refreshReferenceObject("award");
+            if(!kraWorkflowService.isInWorkflow(timeAndMoneyDocument)){
+                createNewTimeAndMoneyDocument = Boolean.FALSE;
+                break;
+            }
         }
         
-        if(timeAndMoneyDocument == null){            
+        if(createNewTimeAndMoneyDocument){            
             timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
             timeAndMoneyDocument.getDocumentHeader().setDocumentDescription("timeandmoney document");
             timeAndMoneyDocument.setAwardNumber(award.getAwardNumber());
             timeAndMoneyDocument.setSequenceNumber(award.getSequenceNumber());
+            timeAndMoneyDocument.setAwardId(award.getAwardId());
+            timeAndMoneyDocument.refreshReferenceObject("award");
         }
         
         documentService.saveDocument(timeAndMoneyDocument);

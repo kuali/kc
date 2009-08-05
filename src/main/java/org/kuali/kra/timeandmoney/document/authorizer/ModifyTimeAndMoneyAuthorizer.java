@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.timeandmoney.document.authorizer;
 
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.document.authorization.TimeAndMoneyTask;
@@ -49,6 +48,25 @@ public class ModifyTimeAndMoneyAuthorizer extends TimeAndMoneyAuthorizer {
      */
     protected boolean canUserCreateAward(String username, TimeAndMoneyDocument timeAndMoneyDocument){
         return true;
+        /*boolean hasPermission = Boolean.FALSE;
+        if (timeAndMoneyDocument.getDocumentNumber() == null) {
+            
+            // We have to consider the case when we are saving the document for the first time.
+            
+            String unitNumber = null;
+            
+            // If the unit number is not specified, we will let the save operation continue because it
+            // will fail with an error.  But if the user tries to save a proposal for a wrong unit, then
+            // we will indicate that the user does not have permission to do that.
+            
+            if (unitNumber != null) {
+                UnitAuthorizationService auth = KraServiceLocator.getService(UnitAuthorizationService.class);
+                hasPermission = auth.hasPermission(username, unitNumber, AwardPermissionConstants.CREATE_AWARD.getAwardPermission());
+            }
+        }
+        
+        
+        return hasPermission;*/
         //return hasUnitPermission(username, AwardPermissionConstants.CREATE_AWARD.getAwardPermission());
     }
     
@@ -60,9 +78,16 @@ public class ModifyTimeAndMoneyAuthorizer extends TimeAndMoneyAuthorizer {
      * @param award
      * @return
      */
-    protected boolean canUserModifyAward(String username, TimeAndMoneyDocument timeAndMoneyDocument){
-        return true;
-        //return hasPermission(username, timeAndMoneyDocument, AwardPermissionConstants.MODIFY_AWARD.getAwardPermission());
+    protected boolean canUserModifyAward(String username, TimeAndMoneyDocument doc){
+        //return true;
+        /*
+         * After the initial save, the proposal can only be modified if it is not in workflow
+         * and the user has the require permission.
+         */
+         
+        return !doc.isViewOnly() &&
+                        hasPermission(username, doc, AwardPermissionConstants.MODIFY_AWARD.getAwardPermission()) &&
+                        !kraWorkflowService.isInWorkflow(doc);
     }
     
     
