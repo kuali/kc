@@ -14,7 +14,7 @@
                 <value>moduleCode</value>
             </list>
         </property>
-        <property name="documentTypeName" value="Coeus Module Maintenance Document" />
+        <property name="documentTypeName" value="CoeusModuleMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
     </bean>
 
