@@ -33,13 +33,13 @@
 <table cellpadding="0" cellspacing="0">
     <tr>
         <th align="right"><kul:htmlAttributeLabel attributeEntry="${intellectualPropertyReviewAttributes.reviewSubmissionDate}" /></th>
-        <td><kul:htmlControlAttribute property="document.institutionalProposal.intellectualPropertyReview.reviewSubmissionDate" attributeEntry="${intellectualPropertyReviewAttributes.reviewSubmissionDate}" readOnly="${readOnly}" /></td>
+        <td><kul:htmlControlAttribute property="document.institutionalProposal.intellectualPropertyReview.reviewSubmissionDate" attributeEntry="${intellectualPropertyReviewAttributes.reviewSubmissionDate}" readOnly="true" /></td>
         <th align="right"><kul:htmlAttributeLabel attributeEntry="${intellectualPropertyReviewAttributes.ipReviewRequirementTypeCode}" /></th>
         <td><c:out value="${KualiForm.document.institutionalProposal.intellectualPropertyReview.ipReviewRequirementType.description}" /></td>
     </tr>
     <tr>
         <th align="right"><kul:htmlAttributeLabel attributeEntry="${intellectualPropertyReviewAttributes.reviewReceiveDate}" /></th>
-        <td><kul:htmlControlAttribute property="document.institutionalProposal.intellectualPropertyReview.reviewReceiveDate" attributeEntry="${intellectualPropertyReviewAttributes.reviewReceiveDate}" readOnly="${readOnly}" /></td>
+        <td><kul:htmlControlAttribute property="document.institutionalProposal.intellectualPropertyReview.reviewReceiveDate" attributeEntry="${intellectualPropertyReviewAttributes.reviewReceiveDate}" readOnly="true" /></td>
         <th align="right"><kul:htmlAttributeLabel attributeEntry="${intellectualPropertyReviewAttributes.reviewResultCode}" /></th>
         <td><c:out value="${KualiForm.document.institutionalProposal.intellectualPropertyReview.reviewResult.description}" /></td>
     </tr>
