@@ -34,7 +34,9 @@ This is the Time and Money Page - Under Construction
 <kra-timeandmoney:summary />
 <kra-timeandmoney:actionSummary />
 <kra-timeandmoney:history />
-<kra-timeandmoney:adHocRecipients />
+
+<kul:adHocRecipients />
+<kul:routeLog />
 <kul:panelFooter />
 
 <SCRIPT type="text/javascript">
@@ -44,6 +46,6 @@ var kualiElements = kualiForm.elements;
 <script language="javascript" src="scripts/kuali_application.js"></script>
 <script language="javascript" src="dwr/interface/SponsorService.js"></script>
 
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="false" />
 
 </kul:documentPage>

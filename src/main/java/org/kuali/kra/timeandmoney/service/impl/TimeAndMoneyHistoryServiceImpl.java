@@ -43,6 +43,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         fieldValues.put("awardNumber", awardNumber);
         List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, fieldValues, "sequenceNumber", true);        
         List<TimeAndMoneyDocument> docs = null;
+        int key = 150;
         
         for(Award award : awards){
             award.refreshReferenceObject("awardDocument");
@@ -68,7 +69,8 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                         fieldValues3.put("timeAndMoneyDocumentNumber", awardAmountInfo.getTimeAndMoneyDocumentNumber());
                         List<TransactionDetail> transactionDetails = ((List<TransactionDetail>)businessObjectService.findMatching(TransactionDetail.class, fieldValues3));
                         for(TransactionDetail transactionDetail : transactionDetails){
-                            returnValues.put(transactionDetail.getTransactionDetailId(), transactionDetail);
+                            returnValues.put(key, transactionDetail);
+                            key++;
                         }
                     }
                 }
