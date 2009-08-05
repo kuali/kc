@@ -264,7 +264,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate {
                     InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
                     Constants.PARAMETER_COMPONENT_DOCUMENT, REVIEWER_COMMENT_CODE_PARM_NM);
         }
-        return generalCommentCode;
+        return reviewerCommentCode;
     }
     
     KualiConfigurationService getKualiConfigurationService() {
