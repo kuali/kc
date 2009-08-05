@@ -397,5 +397,5 @@ Insert into KRNS_PARM_T
    ('KC-PROTOCOL', 'D', 'IRB_COMM_SELECTION_DURING_SUBMISSION', sys_guid(), 1, 'CONFG', 'O', 'Implementing institution can decide to allow committee/schedule/reviewers to be selected upon an IRB submission.', 'A', 'WorkflowAdmin', 'Y');
 
 insert into krns_nmspc_t(NMSPC_CD,NM,ACTV_IND) values('KC-IP','Institutional Proposal','Y');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,ACTV_IND) values ('KC-IP','D','proposalcommenttype.generalcomment','CONFG','1','Code for General Proposal Comment Type','A','Y');
-insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,ACTV_IND) values ('KC-IP','D','proposalcommenttype.reviewercomment','CONFG','1','Code for IP Reviewer Proposal Comment Type','A','Y');   
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,ACTV_IND) values ('KC-IP','D','proposalcommenttype.generalcomment','CONFG','2','Code for General Proposal Comment Type','A','Y');
+insert into KRNS_PARM_T (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,ACTV_IND) values ('KC-IP','D','proposalcommenttype.reviewercomment','CONFG','16','Code for IP Reviewer Proposal Comment Type','A','Y');
