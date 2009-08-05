@@ -24,7 +24,7 @@
     <li><portal:portalLink displayTitle="true" title="Current Locks" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.core.document.authorization.PessimisticLock&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
     <li>EDI Enabled Sponsors</li>
     <li>Investigators Credit Type</li>
-    <li>Module Names</li>
+    <li><portal:portalLink displayTitle="true" title="Module Names" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.CoeusModule&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Negotiation Activity Type</li>
     <li>Negotiation Status</li>
     <li>Organization Type</li>
