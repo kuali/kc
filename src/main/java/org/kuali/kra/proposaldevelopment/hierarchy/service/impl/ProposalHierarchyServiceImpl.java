@@ -95,11 +95,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     public void synchronizeAllChildren(String hierarchyProposalNumber) throws ProposalHierarchyException {
         // TODO get hierarchy
         ProposalHierarchy hierarchy = null;
+        boolean changed = false;
         
         for (ProposalHierarchyChild child : hierarchy.getChildren()) {
-            synchronizeChild(child.getProposalNumber(), false);
+            changed &= synchronizeChild(child.getProposalNumber(), false);
         }
-        aggregateHierarchy(hierarchyProposalNumber);
+        if (changed) aggregateHierarchy(hierarchyProposalNumber);
     }
 
     /**
@@ -111,7 +112,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     @SuppressWarnings("unchecked")
-    private void synchronizeChild(String childProposalNumber, boolean performAggregation) throws ProposalHierarchyException {
+    private boolean synchronizeChild(String childProposalNumber, boolean performAggregation) throws ProposalHierarchyException {
         String hierarchyProposalNumber = getHierarchyProposal(childProposalNumber);
         // TODO get hierarchy
         ProposalHierarchy hierarchy = null;
@@ -130,7 +131,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
         if (childProposal.getUpdateTimestamp().equals(hierarchyChild.getProposalUpdateTimestamp())
                 || childProposal.hierarchyChildHashCode() == hierarchyChild.getProposalChildHashCode()) {
-            return;
+            return false;
         }
         
         hierarchyChild.setPropScienceKeywords((List<PropScienceKeyword>) cloneAndUpdateProposalNumber(childProposal.getPropScienceKeywords(), hierarchyProposalNumber));
@@ -148,6 +149,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if (performAggregation) {
             aggregateHierarchy(hierarchyProposalNumber);
         }
+        
+        return true;
     }
 
     /**

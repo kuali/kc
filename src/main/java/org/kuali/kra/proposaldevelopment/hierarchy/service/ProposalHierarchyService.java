@@ -80,23 +80,23 @@ public interface ProposalHierarchyService {
     public String getHierarchyProposal(String childProposalNumber) throws ProposalHierarchyException;
 
     /**
-     * This method...
-     * @param childProposalNumber
-     * @throws ProposalHierarchyException
+     * This method synchronizes the contents of one child into its hierarchy.  If the child has changed since its last synchronization, the parent is reaggregated.
+     * @param childProposalNumber the child proposal in question
+     * @throws ProposalHierarchyException if childProposalNumber is not a member of a hierarchy or does not exist
      */
     public void synchronizeChild(String childProposalNumber) throws ProposalHierarchyException;
     
     /**
-     * This method...
-     * @param hierarchyProposalNumber
-     * @throws ProposalHierarchyException
+     * This method  synchronizes the contents of all children into the hierarchy.  If any child has changed since its last synchronization, the parent is reaggregated.
+     * @param hierarchyProposalNumber the hierarchy in question
+     * @throws ProposalHierarchyException if hierarchyProposalNumber is not a valid Hierarchy or does not exist
      */
     public void synchronizeAllChildren(String hierarchyProposalNumber) throws ProposalHierarchyException;
     
     /**
-     * This method...
-     * @param hierarchyProposalNumber
-     * @throws ProposalHierarchyException
+     * This method aggregated the contents of the "parent" and children of the hierarchy into a single proposal
+     * @param hierarchyProposalNumber the hierarchy in question
+     * @throws ProposalHierarchyException if hierarchyProposalNumber is not a valid Hierarchy or does not exist
      */
     public void aggregateHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException;
 
