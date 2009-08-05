@@ -18,24 +18,24 @@ package org.kuali.kra.proposaldevelopment.hierarchy;
 /**
  * This class...
  */
-public class IneligibleChildException extends Exception {
+public class ProposalHierarchyException extends Exception {
 
-    public IneligibleChildException() {
+    public ProposalHierarchyException() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-    public IneligibleChildException(String message, Throwable cause) {
+    public ProposalHierarchyException(String message, Throwable cause) {
         super(message, cause);
         // TODO Auto-generated constructor stub
     }
 
-    public IneligibleChildException(String message) {
+    public ProposalHierarchyException(String message) {
         super(message);
         // TODO Auto-generated constructor stub
     }
 
-    public IneligibleChildException(Throwable cause) {
+    public ProposalHierarchyException(Throwable cause) {
         super(cause);
         // TODO Auto-generated constructor stub
     }
