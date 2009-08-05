@@ -11,12 +11,10 @@
     
         
                                             <img src="static/images/jquery/hierarchy-root.png" width="14" height="14" border="0"> <a id="listcontrol00" style="margin-left:2px;">000001 : All Research Areas</a>
-                                            <div id="treecontrol" style="display:inline;">
+                                            <%-- <div id="treecontrol" style="display:inline;">
                                                 &nbsp;&nbsp;&nbsp;&nbsp;<a title="Collapse the entire tree below" href="#"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
                                                 &nbsp;&nbsp;&nbsp;&nbsp;<a title="Expand the entire tree below" href="#"><img src="static/images/jquery/plus.gif" /> Expand All</a>
-                                                <!--&nbsp;&nbsp;&nbsp;&nbsp;<a title="Toggle the tree below, opening closed branches, closing open branches" href="#">Toggle All</a>-->
-                                                <!--<a href="#"><img align="absmiddle" src="../images/searchicon.gif" width="16" height="16" border="0" alt="Search for Group" title="Search for Area of Research"></a>-->
-                                            </div>
+                                            </div> --%>
                                             <div class="hierarchydetail" id="listcontent00" style="margin-top:2px;text-align:left;">
                                                 
                                                 <table width="100%" cellpadding="0" cellspacing="0" class="subelement">
