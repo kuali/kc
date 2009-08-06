@@ -801,8 +801,8 @@
 		</plugins>
 	</reporting>
 	<scm>
-    	<connection>scm:svn:https://test.kuali.org/svn/kc_project/branches/kc_project_r1_patch_br</connection>
-    	<developerConnection>scm:svn:https://test.kuali.org/svn/kc_project/branches/kc_project_r1_patch_br</developerConnection>
+    	<connection>scm:svn:https://test.kuali.org/svn/kc_project/trunk</connection>
+    	<developerConnection>scm:svn:https://test.kuali.org/svn/kc_project/trunk</developerConnection>
     	<tag>HEAD</tag>
     	<url>https://test.kuali.org/fisheye/browse/kc_project</url>
   	</scm>
