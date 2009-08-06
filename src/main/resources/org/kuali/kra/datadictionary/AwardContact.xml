@@ -47,21 +47,7 @@
   
   <bean id="AwardContact-awardNumber" parent="AwardContact-awardNumber-parentBean" />
 
-  <bean id="AwardContact-awardNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awardNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Award Number" />
-    <property name="shortLabel" value="Award Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="12" />
-    </property>
-    <property name="summary" value="Award Number" />
-    <property name="description" value="Award Number" />
+  <bean id="AwardContact-awardNumber-parentBean" abstract="true" parent="Award-awardNumber">
   </bean>
   
   <bean id="AwardContact-sequenceNumber" parent="AwardContact-sequenceNumber-parentBean" />

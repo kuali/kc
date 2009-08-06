@@ -67,22 +67,7 @@
 	</bean>
 
 	<bean id="AwardPaymentSchedule-awardNumber" parent="AwardPaymentSchedule-awardNumber-parentBean" />
-	<bean id="AwardPaymentSchedule-awardNumber-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="awardNumber" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Award Number" />
-		<property name="shortLabel" value="Award Number" />
-		<property name="maxLength" value="12" />
-        <property name="validationPattern" >
-          <bean parent="RegexValidationPattern"
-                p:pattern="\d\d\d\d\d\d-\d\d\d" />
-        </property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Award Number" />
-		<property name="description" value="Award Number" />
+	<bean id="AwardPaymentSchedule-awardNumber-parentBean" abstract="true" parent="Award-awardNumber" >
 	</bean>
 
 	<bean id="AwardPaymentSchedule-sequenceNumber" parent="AwardPaymentSchedule-sequenceNumber-parentBean" />
