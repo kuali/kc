@@ -11,6 +11,7 @@ var sqls = [];
 var sqlidx = 0;
 var groupid = 0;
 var curgroup = 0;
+var cutNodeParentCode = 0;
 $(document).ready(function() {
 	$.ajaxSettings.cache = false;
 	$("#example").treeview( {
