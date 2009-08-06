@@ -12,6 +12,7 @@ var sqlidx = 0;
 var groupid = 0;
 var curgroup = 0;
 var loadcount = 0;
+var cutNodeParentCode = 0;
 $(document).ready(function() {
 	$.ajaxSettings.cache = false;
 	$("#example").treeview( {
@@ -64,6 +65,7 @@ jumpToAnchor('topOfForm');
 
 
 // load usage
+// TODO : need to load 'questionnaire version too because it will be part of the uniqueness check
 // quid/modulecode/label
 
 if (dataarray.length > 1) {
@@ -81,7 +83,9 @@ if (dataarray.length > 1) {
 		tdtmp.appendTo(trtmp);
 		tdtmp = $('<td align="left" valign="middle">').html(field[2]);
 		tdtmp.appendTo(trtmp);
-		tdtmp = $('<td align="left" valign="middle">').html("1.00");
+		// TODO : questionnaire version# will be loaded later
+		//tdtmp = $('<td align="left" valign="middle">').html(field[2]);  
+		tdtmp = $('<td align="left" valign="middle">').html("1.00");  
 		tdtmp.appendTo(trtmp);
 		inputtmp = $(
 				'<input type="image" id="deleteUsage" name="deleteUsage" src="static/images/tinybutton-delete1.gif" class="tinybutton">')

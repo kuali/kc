@@ -268,8 +268,8 @@ function getQuestionActionSubTable(qnaireid) {
 					// alert(sqlScripts);
 					// TODO : update seqnum of the sibling nodes following it
 					$(liId).remove();
-					cutNode = null;
-					copyNode = null;
+					//cutNode = null;
+					//copyNode = null;
 				});
 	image.appendTo(thtmp);
 	image = $(
@@ -280,6 +280,7 @@ function getQuestionActionSubTable(qnaireid) {
 				cutNode = $(liId);
 				removedNode = null; // remove & cutNode should not co-exist
 					copyNode = null;
+					cutNodeParentCode = null;
 				});
 	image.appendTo(thtmp);
 	image = $(
@@ -290,6 +291,7 @@ function getQuestionActionSubTable(qnaireid) {
 				copyNode = $(liId);
 				removedNode = null; // remove & cutNode should not co-exist
 					cutNode = null;
+					cutNodeParentCode = null;
 				});
 	image.appendTo(thtmp);
 	image = $(
@@ -332,18 +334,23 @@ function getQuestionActionSubTable(qnaireid) {
 							
 						  if (found) {
 							  alert ("Can Not cut/paste to its decendant");
-						  } else {	  
-							if ($(cutNode).parents('ul:eq(0)').parents(
+						  } else {	
+							if (cutNodeParentCode != null) {
+								// if cutNodeParentCode=0, then if(cutNodeParentCode) is false
+								parentNum = cutNodeParentCode;
+							} else {
+								// paste cutnode for the 1st time
+							    if ($(cutNode).parents('ul:eq(0)').parents(
 									'li:eq(0)').size() == 0) {
-								parentNum = 0;
-								var idx1 = $(cutNode).attr("class").indexOf(" ");
+								    parentNum = 0;
+								    var idx1 = $(cutNode).attr("class").indexOf(" ");
 								// alert ("idx
 								// "+qnaireid.substring(8)+"-"+$(cutNode).attr("id").substring(8)+"-"+idx1);
-								adjustGroup($(cutNode).attr("class").substring(
+								    adjustGroup($(cutNode).attr("class").substring(
 										5, idx1)); // class is "group0
 													// expandable"
-							} else {
-								parentNum = $(
+							    } else {
+								    parentNum = $(
 										"#qnum"
 												+ $(cutNode)
 														.parents('ul:eq(0)')
@@ -351,15 +358,20 @@ function getQuestionActionSubTable(qnaireid) {
 														.attr("id")
 														.substring(8)).attr(
 										"value");
+							    }
+								deleteChild(parentNum, $(cutNode).attr("id"));
+								cutNodeParentCode = parentNum;
 							}
-
-							deleteChild(parentNum, $(cutNode).attr("id"));
 							pasteChild(qnaireid, cutNode);
 
 							var liId = cutNode.attr("id");
 							var parentRACode;
-							$("li#" + liId).remove();
-							cutNode = null;
+							if ($("li#" + liId).parents('ul:eq(0)').size() > 0) {
+								// only remove the first time
+							    $("li#" + liId).remove();
+							   // alert(cutNode.attr("id"));
+							}    
+							//cutNode = null;
 						   } // not paste to itself or its children
 						  }	
 						
@@ -1454,6 +1466,10 @@ $('<option value="9">After date</option>').appendTo(responseOptions);
 $("#addUsage")
 		.click(function() {
 			// TODO : 1 header and one 'add' row, so has 2 more
+			if (isDuplicateUsage($("#newQuestionnaireUsage\\.moduleItemCode").attr("value"), "1.00")) {
+				alert("Module is already added");
+			} else {	
+
 				ucount = $("#usage-table").children('tbody:eq(0)').children(
 						'tr').size() - 1;
 				trtmp = $('<tr/>').attr("id", "usage" + ucount);
@@ -1510,6 +1526,7 @@ $("#addUsage")
 						+ ";"
 						+ $("#newQuestionnaireUsage\\.questionnaireLabel")
 								.attr("value"));
+			   }// end if-then-else
 				// alert(sqlScripts);
 				return false;
 			});
@@ -1800,4 +1817,21 @@ $("#save").click(function() {
 		return false;
 	});
 
+/*
+ * This method is to check whether the new coeus module is already exist. For
+ * each version of questionnaire, each module can only be added once.
+ */
+function isDuplicateUsage(moduleitemcode, vers) {
+	ucount = $("#usage-table").children('tbody:eq(0)').children('tr').size() - 1;
+	var isduplicate = false;
+	var k =0;
+	$("#usage-table").children('tbody:eq(0)').children('tr').each(
+	  function() {
+        if (k++ > 0 && $(this).children('td:eq(0)').children('input:eq(0)').attr("value") == moduleitemcode && $(this).children('td:eq(2)').html() == vers) {
+        	isduplicate = true;
+        }   
+	});
+	return isduplicate;
+	
+}
 // -- end should be shared
