@@ -39,6 +39,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      */
     private static final long serialVersionUID = 2737159069734793860L;
     private TransactionBean transactionBean;
+    private String goToAwardNumber;
     
     public TimeAndMoneyForm() {
         super();        
@@ -131,5 +132,21 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      */
     public void setTransactionBean(TransactionBean transactionBean) {
         this.transactionBean = transactionBean;
+    }
+
+    /**
+     * Gets the goToAwardNumber attribute. 
+     * @return Returns the goToAwardNumber.
+     */
+    public String getGoToAwardNumber() {
+        return goToAwardNumber;
+    }
+
+    /**
+     * Sets the goToAwardNumber attribute value.
+     * @param goToAwardNumber The goToAwardNumber to set.
+     */
+    public void setGoToAwardNumber(String goToAwardNumber) {
+        this.goToAwardNumber = goToAwardNumber;
     }
 }
