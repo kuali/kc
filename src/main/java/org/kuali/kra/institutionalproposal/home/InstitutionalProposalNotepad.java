@@ -19,9 +19,11 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 
-public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate { 
+public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate implements SequenceAssociate { 
     
     private static final long serialVersionUID = 1L;
 
@@ -113,6 +115,27 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
      */
     public void setCreateTimestamp(Date createTimestamp) {
         this.createTimestamp = createTimestamp;
+    }
+    
+    /**
+     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     */
+    public SequenceOwner getSequenceOwner() {
+        return getInstitutionalProposal();
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     */
+    public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
+        setInstitutionalProposal((InstitutionalProposal) newlyVersionedOwner);
+    }
+
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.proposalNotepadId = null;
     }
 
 

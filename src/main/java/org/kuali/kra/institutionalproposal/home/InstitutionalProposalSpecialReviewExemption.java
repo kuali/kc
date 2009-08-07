@@ -61,6 +61,13 @@ public class InstitutionalProposalSpecialReviewExemption extends AbstractSpecial
         this.institutionalProposalSpecialReview = institutionalProposalSpecialReview;
     }
     
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.institutionalProposalSpecialReviewExemptionId = null;
+    }
+    
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -68,4 +75,5 @@ public class InstitutionalProposalSpecialReviewExemption extends AbstractSpecial
         hashMap.put("institutionalProposalSpecialReviewExemptionId", getInstitutionalProposalSpecialReviewExemptionId());
         return hashMap;
     }
+    
 }
