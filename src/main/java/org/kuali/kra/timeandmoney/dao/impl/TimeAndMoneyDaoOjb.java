@@ -49,8 +49,12 @@ public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeA
                 timeAndMoneyActionSummary = new TimeAndMoneyActionSummary();
                 timeAndMoneyActionSummary.setNoticeDate(rs.getDate(1));
                 timeAndMoneyActionSummary.setTransactionType(rs.getString(2));
-                timeAndMoneyActionSummary.setChangeAmount(new KualiDecimal((BigDecimal)rs.getObject(3)));
-                timeAndMoneyActionSummary.setObligationCumulative(new KualiDecimal((BigDecimal)rs.getObject(4)));
+                if(rs.getObject(3)!=null){
+                    timeAndMoneyActionSummary.setChangeAmount(new KualiDecimal((BigDecimal)rs.getObject(3)));    
+                }
+                if(rs.getObject(4)!=null){
+                    timeAndMoneyActionSummary.setObligationCumulative(new KualiDecimal((BigDecimal)rs.getObject(4)));    
+                }
                 timeAndMoneyActionSummary.setObligationEndDate(rs.getDate(5));
                 timeAndMoneyActionSummary.setObligationStartDate(rs.getDate(6));
                 timeAndMoneyActionSummaryItems.add(timeAndMoneyActionSummary);

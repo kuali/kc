@@ -15,8 +15,17 @@
  */
 package org.kuali.kra.timeandmoney.service;
 
+import java.util.List;
+
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardAmountInfo;
+
 public interface ActivePendingTransactionsService {
     
     void approveTransactions();
+    
+    AwardAmountInfo fetchAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos);
+    
+    Award getActiveAwardVersion(String awardNumber);
 
 }
