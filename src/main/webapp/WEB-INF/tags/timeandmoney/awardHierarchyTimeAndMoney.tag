@@ -74,7 +74,19 @@
     		
     	</tr>
     </table>
-    	
+    
+    <table cellpadding="0" cellspacing="0" summary="">	
+		<tr>
+			<th>
+				<div align="left">
+					Go To:
+					<html:text property="goToAwardNumber" size="12" maxlength="12" />
+					<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-go.gif" styleClass="globalbuttons" alt="Go" property="methodToCall.switchAward" />
+				</div>
+			</th>			
+		</tr>
+	</table>
+	
 	<table cellpadding="0" cellspacing="0" summary="">
     	<%-- Header --%>
     	
