@@ -17,9 +17,12 @@ package org.kuali.kra.institutionalproposal.home;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.AbstractSpecialReview;
 
-public class InstitutionalProposalSpecialReview extends AbstractSpecialReview<InstitutionalProposalSpecialReviewExemption> { 
+public class InstitutionalProposalSpecialReview extends AbstractSpecialReview<InstitutionalProposalSpecialReviewExemption> 
+implements SequenceAssociate { 
     
     private static final long serialVersionUID = 1L;
 
@@ -92,7 +95,37 @@ public class InstitutionalProposalSpecialReview extends AbstractSpecialReview<In
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
+    
+    /**
+     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     */
+    public SequenceOwner getSequenceOwner() {
+        return getInstitutionalProposal();
+    }
 
+    /**
+     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     */
+    public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
+        setInstitutionalProposal((InstitutionalProposal) newlyVersionedOwner);
+    }
+
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.proposalSpecialReviewId = null;
+        resetSpecialReviewExemptionPersistenceStates();
+    }
+    
+    // This relationship is a bit of an exception to the normal sequencing paradigm
+    // So we reset it here explicitly instead of relying on the versioning service
+    protected void resetSpecialReviewExemptionPersistenceStates() {
+        for (InstitutionalProposalSpecialReviewExemption specialReviewExemption : this.getSpecialReviewExemptions()) {
+            specialReviewExemption.resetPersistenceState();
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     @Override 
     protected LinkedHashMap toStringMapper() {
@@ -173,5 +206,4 @@ public class InstitutionalProposalSpecialReview extends AbstractSpecialReview<In
         return proposalSpecialReviewId;
     }
 
-    
 }

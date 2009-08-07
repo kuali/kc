@@ -18,15 +18,14 @@ package org.kuali.kra.institutionalproposal.home;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ValuableItem;
-import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.Person;
@@ -47,7 +46,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class InstitutionalProposal extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<InstitutionalProposalSpecialReview>,
-                                                                                            KeywordsManager<InstitutionalProposalScienceKeyword>{ 
+                                                                                            KeywordsManager<InstitutionalProposalScienceKeyword>,
+                                                                                            SequenceOwner<InstitutionalProposal> { 
     
     
     private static final long serialVersionUID = 1L;
@@ -1063,6 +1063,48 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      */
     public InstitutionalProposalScienceKeyword getKeyword(int index) {
         return getKeywords().get(index);
+    }
+    
+    /**
+     * @see org.kuali.kra.SequenceOwner#getOwnerSequenceNumber()
+     */
+    public Integer getOwnerSequenceNumber() {
+        return null;
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceOwner#incrementSequenceNumber()
+     */
+    public void incrementSequenceNumber() {
+       this.sequenceNumber++; 
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     */
+    public InstitutionalProposal getSequenceOwner() {
+        return this;
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     */
+    public void setSequenceOwner(InstitutionalProposal newOwner) {
+       // no-op
+    }
+
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.proposalId = null;
+    }
+    
+    /**
+     * @see org.kuali.kra.SequenceOwner#getName()
+     */
+    public String getVersionNameField() {
+        return "proposalNumber";
     }
     
 }
