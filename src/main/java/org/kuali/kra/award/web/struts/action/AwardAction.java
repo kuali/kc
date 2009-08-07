@@ -49,6 +49,7 @@ import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -294,7 +295,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         AwardForm awardForm = (AwardForm) form;
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
-        boolean createNewTimeAndMoneyDocument = Boolean.TRUE;
+        boolean createNewTimeAndMoneyDocument = Boolean.TRUE;        
         Award award = awardForm.getAwardDocument().getAward();
         if(isNewAward(awardForm)){
             AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
@@ -313,8 +314,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         
         for(TimeAndMoneyDocument t : timeAndMoneyDocuments){
             timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
-            timeAndMoneyDocument.setAwardId(award.getAwardId());
-            timeAndMoneyDocument.refreshReferenceObject("award");
+            timeAndMoneyDocument.setAwardId(award.getAwardId());           
             if(!kraWorkflowService.isInWorkflow(timeAndMoneyDocument)){
                 createNewTimeAndMoneyDocument = Boolean.FALSE;
                 break;
@@ -327,7 +327,6 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
             timeAndMoneyDocument.setAwardNumber(award.getAwardNumber());
             timeAndMoneyDocument.setSequenceNumber(award.getSequenceNumber());
             timeAndMoneyDocument.setAwardId(award.getAwardId());
-            timeAndMoneyDocument.refreshReferenceObject("award");
         }
         
         documentService.saveDocument(timeAndMoneyDocument);
