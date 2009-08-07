@@ -17,11 +17,13 @@ package org.kuali.kra.institutionalproposal.home;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 
-public class InstitutionalProposalUnitAdministrator extends InstitutionalProposalAssociate { 
+public class InstitutionalProposalUnitAdministrator extends InstitutionalProposalAssociate implements SequenceAssociate { 
     
     private static final long serialVersionUID = 1L;
 
@@ -90,6 +92,27 @@ public class InstitutionalProposalUnitAdministrator extends InstitutionalProposa
      */
     public void setPerson(Person person) {
         this.person = person;
+    }
+    
+    /**
+     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     */
+    public SequenceOwner getSequenceOwner() {
+        return getInstitutionalProposal();
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     */
+    public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
+        setInstitutionalProposal((InstitutionalProposal) newlyVersionedOwner);
+    }
+
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.proposalUnitAdministratorsId = null;
     }
 
     /** {@inheritDoc} */

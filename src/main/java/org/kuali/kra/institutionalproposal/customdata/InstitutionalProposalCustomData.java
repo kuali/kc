@@ -17,13 +17,16 @@ package org.kuali.kra.institutionalproposal.customdata;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
 /**
  * This is Business Object class for IP custom data BO.
  */
-public class InstitutionalProposalCustomData extends InstitutionalProposalAssociate { 
+public class InstitutionalProposalCustomData extends InstitutionalProposalAssociate implements SequenceAssociate { 
     
     private static final long serialVersionUID = 1L;
 
@@ -102,6 +105,27 @@ public class InstitutionalProposalCustomData extends InstitutionalProposalAssoci
      */
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
+    }
+    
+    /**
+     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     */
+    public SequenceOwner getSequenceOwner() {
+        return getInstitutionalProposal();
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     */
+    public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
+        setInstitutionalProposal((InstitutionalProposal) newlyVersionedOwner);
+    }
+
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.proposalCustomDataId = null;
     }
 
 
