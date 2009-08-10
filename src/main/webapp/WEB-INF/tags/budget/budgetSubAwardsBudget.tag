@@ -22,7 +22,7 @@
  <div class="tab-container" align="center">
      <div class="h2-container">
          <span class="subhead-left"><h2>Sub Award Budget</h2></span>
-         <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetSubAwards" altText="help"/></span>
+         <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards" altText="help"/></span>
      </div>
      <div align="center">
      	<table border="0" cellpadding=0 cellspacing=0 summary="">
@@ -64,28 +64,28 @@
             </tr>
 			</c:if>
 			
-			<c:forEach var="budgetSubAwards" items="${KualiForm.document.budgetSubAwards}" varStatus="status">
+			<c:forEach var="budgetSubAwards" items="${KualiForm.document.budget.budgetSubAwards}" varStatus="status">
 		    	<tr>
     				<th width="5%" rowspan=2 class="infoline">
 						<c:out value="${status.index + 1}" />
 					</th>
 					<td valign="middle" class="infoline">
 	                	<div align="center">
-	                	<kul:htmlControlAttribute property="document.budgetSubAwards[${status.index}].organizationName" attributeEntry="${budgetSubAwardsAttributes.organizationName}" readOnly="true"/>
+	                	<kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].organizationName" attributeEntry="${budgetSubAwardsAttributes.organizationName}" readOnly="true"/>
 	                	<%-- <kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationName:document.budgetSubAwards[${status.index}].organizationName" anchor="${tabKey}" lookupParameters="newSubAward.organizationName:organizationName"/>	                	                	
-	                	<kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.budgetSubAwards[${status.index}].organizationName:organizationName" anchor="${tabKey}"/>
+	                	<kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.budget.budgetSubAwards[${status.index}].organizationName:organizationName" anchor="${tabKey}"/>
 	                	--%>
 	                	</div>
 					</td>
 					<td valign="middle" class="infoline">
 	                	<div align="center">
-	                	<kul:htmlControlAttribute property="document.budgetSubAwards[${status.index}].comments" attributeEntry="${budgetSubAwardsAttributes.comments}" readOnly="true"/>
+	                	<kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].comments" attributeEntry="${budgetSubAwardsAttributes.comments}" readOnly="true"/>
 	                	</div>
 					</td>
 	                <td valign="middle" class="infoline">
 	                	<div align="center">
-	                	<kul:htmlControlAttribute property="document.budgetSubAwards[${status.index}].subAwardXfdFileName" attributeEntry="${budgetSubAwardsAttributes.subAwardXfdFileName}" readOnly="true"/>	                		                	
-	                	<%--<html:file property="document.budgetSubAwards[${status.index}].subAwardXfdFile" />--%>						
+	                	<kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].subAwardXfdFileName" attributeEntry="${budgetSubAwardsAttributes.subAwardXfdFileName}" readOnly="true"/>	                		                	
+	                	<%--<html:file property="document.budget.budgetSubAwards[${status.index}].subAwardXfdFile" />--%>						
 	                	</div>
 					</td>
 					<td valign="middle" class="infoline">
@@ -110,15 +110,15 @@
 			        			</tr>
 			        			<tr>		        					
 					        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.xfdUpdateTimestamp}" noColon="true" /></div></th>
-					        		<td><div align="left"><kul:htmlControlAttribute property="document.budgetSubAwards[${status.index}].xfdUpdateTimestamp" attributeEntry="${budgetSubAwardsAttributes.xfdUpdateTimestamp}" readOnly="true"/></div></td>
+					        		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].xfdUpdateTimestamp" attributeEntry="${budgetSubAwardsAttributes.xfdUpdateTimestamp}" readOnly="true"/></div></td>
 			        			</tr>
 			        			<tr>		        					
 					        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.xmlUpdateTimestamp}" noColon="true" /></div></th>
-					        		<td><div align="left"><kul:htmlControlAttribute property="document.budgetSubAwards[${status.index}].xmlUpdateTimestamp" attributeEntry="${budgetSubAwardsAttributes.xmlUpdateTimestamp}" readOnly="true"/></div></td>
+					        		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].xmlUpdateTimestamp" attributeEntry="${budgetSubAwardsAttributes.xmlUpdateTimestamp}" readOnly="true"/></div></td>
 			        			</tr>
 			        			<tr>		        					
 					        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.subAwardStatusCode}" noColon="true" /></div></th>
-					        		<td><div align="left"><kul:htmlControlAttribute property="document.budgetSubAwards[${status.index}].subAwardStatusCode" attributeEntry="${budgetSubAwardsAttributes.subAwardStatusCode}" readOnly="true"/></div></td>
+					        		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].subAwardStatusCode" attributeEntry="${budgetSubAwardsAttributes.subAwardStatusCode}" readOnly="true"/></div></td>
 			        			</tr>
 			        		</table>
 			        	</div>		

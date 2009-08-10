@@ -19,9 +19,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.RateDecimal;
-import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
-import org.kuali.kra.budget.rule.AddBudgetUnrecoveredFandARule;
-import org.kuali.kra.budget.rule.event.AddBudgetUnrecoveredFandAEvent;
+import org.kuali.kra.budget.distributionincome.AddBudgetUnrecoveredFandAEvent;
+import org.kuali.kra.budget.distributionincome.AddBudgetUnrecoveredFandARule;
+import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
+import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandARuleImpl;
 
 public class AddBudgetUnrecoveredFandARuleTest extends AddBudgetDistributionAndIncomeTest {
     private static final int BUDGET_FISCAL_YEAR = 2008;
@@ -46,7 +47,7 @@ public class AddBudgetUnrecoveredFandARuleTest extends AddBudgetDistributionAndI
     
     @Override
     protected void addArtifactToDocument(Object artifact) {
-        document.add((BudgetUnrecoveredFandA) artifact);
+        document.getBudget().add((BudgetUnrecoveredFandA) artifact);
     }
 
     @Override

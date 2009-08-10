@@ -16,7 +16,7 @@
 package org.kuali.kra.document;
 
 import org.junit.Test;
-import org.kuali.kra.budget.bo.BudgetCategoryType;
+import org.kuali.kra.budget.core.BudgetCategoryType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
@@ -107,7 +107,7 @@ public class BudgetCategoryTypeMaintenanceDocumentTest extends MaintenanceDocume
 
     @Test
     public void testCreateNewBudgetCategoryType() throws Exception {
-        HtmlPage budgetCategoryTypeMaintenancePage = getMaintenanceDocumentPage("Budget Category Type","org.kuali.kra.budget.bo.BudgetCategoryType","Kuali :: Budget Category Type Maintenance Document");
+        HtmlPage budgetCategoryTypeMaintenancePage = getMaintenanceDocumentPage("Budget Category Type","org.kuali.kra.proposaldevelopment.budget.bo.BudgetCategoryType","Kuali :: Budget Category Type Maintenance Document");
         String documentNumber = getFieldValue(budgetCategoryTypeMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(budgetCategoryTypeMaintenancePage,"Edit Budget Category Types New * Budget Category Type: * Description: Sort Id:");
         setFieldValue(budgetCategoryTypeMaintenancePage, "document.documentHeader.documentDescription", "Budget Category Type - test");

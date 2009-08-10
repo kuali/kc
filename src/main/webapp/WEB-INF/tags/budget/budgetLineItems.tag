@@ -24,14 +24,14 @@
 
 <c:set var="budgetLineItemAttributes" value="${DataDictionary.BudgetLineItem.attributes}" />
 <c:set var="action" value="budgetExpensesAction" />
-<c:set var="textAreaFieldNameLineItemDescription" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemDescription" />
+<c:set var="textAreaFieldNameLineItemDescription" value="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemDescription" />
 
 <c:if test="${readOnly}" >
 	<c:set var="budgetExpensePanelReadOnly" value="true" />
 </c:if>
 
 <c:set var="budgetExpensePanelReadOnlyIfBudgetVersionIsFinal" value="${budgetExpensePanelReadOnly}" />
-<c:if test="${budgetCategoryTypeCode == 'P' and fn:length(KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList) > 0}" >
+<c:if test="${budgetCategoryTypeCode == 'P' and fn:length(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList) > 0}" >
 	<c:set var="budgetExpensePanelReadOnly" value="true" />
 </c:if>
 
@@ -55,7 +55,7 @@
 					<c:set var="costElementOptions" value="" />
 					<c:forEach items="${krafn:getOptionList('org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder', paramMap)}" var="option">
 						<c:choose>
-							<c:when test="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].costElement == option.key}">
+							<c:when test="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].costElement == option.key}">
 								<c:set var="costElementOptions" value="${costElementOptions}${'<option value=\"'}${option.key}${'\" selected=\"selected\">'}${option.label}${'</option>'}" />
 								<c:set var="selectedCostElement" value="${option.label}" />								
 							</c:when>
@@ -66,28 +66,28 @@
 					</c:forEach> 
 					
 	                    	<c:out value="${selectedCostElement}"/>
-				<input type="hidden" name="document.budgetCategoryTypeLineItem[${budgetLineItemNumber}]" value="${budgetCategoryTypeCode}">
-				<kul:directInquiry boClassName="org.kuali.kra.budget.bo.CostElement" inquiryParameters="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement:costElement" anchor="${tabKey}"/>	
+				<input type="hidden" name="document.budget.budgetCategoryTypeLineItem[${budgetLineItemNumber}]" value="${budgetCategoryTypeCode}">
+				<kul:directInquiry boClassName="org.kuali.kra.budget.core.CostElement" inquiryParameters="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement:costElement" anchor="${tabKey}"/>	
 				</div>
 				<div id="costElementCode.div" align="center" class="fineprint">
-					<bean:write name="KualiForm" property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement" />&nbsp;
+					<bean:write name="KualiForm" property="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement" />&nbsp;
 				</div>				
 				</td>
-				<c:set var="textAreaFieldNameLineItemDescription" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemDescription" />
+				<c:set var="textAreaFieldNameLineItemDescription" value="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemDescription" />
 				<td width="25%" valign="middle" >
 					<div align=center>
-               		<kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].lineItemDescription" attributeEntry="${budgetLineItemAttributes.lineItemDescription}" readOnly="${budgetExpensePanelReadOnlyIfBudgetVersionIsFinal}"/>
+               		<kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].lineItemDescription" attributeEntry="${budgetLineItemAttributes.lineItemDescription}" readOnly="${budgetExpensePanelReadOnlyIfBudgetVersionIsFinal}"/>
                		<kra:expandedTextArea textAreaFieldName="${textAreaFieldNameLineItemDescription}" action="${action}" textAreaLabel="${budgetLineItemAttributes.lineItemDescription.label}" />
 					</div>
 				</td>
                 <td width="6%" valign="middle" >
 					<div align=center>
-               		<kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].quantity" attributeEntry="${budgetLineItemAttributes.quantity}" styleClass="text-right" readOnly="${budgetExpensePanelReadOnly}"/>
+               		<kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].quantity" attributeEntry="${budgetLineItemAttributes.quantity}" styleClass="text-right" readOnly="${budgetExpensePanelReadOnly}"/>
 					</div>
                 </td>
                 <td width="16%" valign="middle" >               	
 					<div align=center>
-                 		<kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].lineItemCost" attributeEntry="${budgetLineItemAttributes.lineItemCost}" styleClass="amount" readOnly="${budgetExpensePanelReadOnly}"/> 
+                 		<kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].lineItemCost" attributeEntry="${budgetLineItemAttributes.lineItemCost}" styleClass="amount" readOnly="${budgetExpensePanelReadOnly}"/> 
 					</div>
 				</td>
 				<td width="8%" valign="middle" >&nbsp;
@@ -108,6 +108,6 @@
 	     	</tr>
 			</c:when>
 			<c:otherwise>			 
-				<input type="hidden" name="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetCategoryCode" value="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetCategoryCode}">
+				<input type="hidden" name="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetCategoryCode" value="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetCategoryCode}">
 			</c:otherwise>
 			</c:choose>

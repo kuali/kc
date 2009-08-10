@@ -537,7 +537,7 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 	
-	<bean id="budgetSummaryService" class="org.kuali.kra.budget.service.impl.BudgetSummaryServiceImpl">
+	<bean id="budgetSummaryService" class="org.kuali.kra.budget.summary.BudgetSummaryServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -546,7 +546,7 @@
 		</property>
 	</bean>
 
-	<bean id="budgetRatesService" class="org.kuali.kra.budget.service.impl.BudgetRatesServiceImpl">
+	<bean id="budgetRatesService" class="org.kuali.kra.budget.rates.BudgetRatesServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -732,7 +732,7 @@
 		</property>
 	</bean>
 	
-	<bean id="budgetPersonService" class="org.kuali.kra.budget.service.impl.BudgetPersonServiceImpl">
+	<bean id="budgetPersonService" class="org.kuali.kra.budget.personnel.BudgetPersonServiceImpl">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService"/>
 		</property>
@@ -741,7 +741,7 @@
 		</property>
 	</bean>
 	
-	<bean id="budgetPersonnelBudgetService" class="org.kuali.kra.budget.service.impl.BudgetPersonnelBudgetServiceImpl">
+	<bean id="budgetPersonnelBudgetService" class="org.kuali.kra.budget.personnel.BudgetPersonnelBudgetServiceImpl">
 		<property name="budgetPersonService">
 			<ref bean="budgetPersonService"/>
 		</property>
@@ -749,7 +749,7 @@
 			<ref bean="budgetCalculationService"/>
 		</property>
 	</bean>
-	<bean id="budgetService" class="org.kuali.kra.budget.service.impl.BudgetServiceImpl">
+	<bean id="budgetService" class="org.kuali.kra.budget.core.BudgetServiceImpl">
 		<property name="documentService">
 			<ref bean="documentService"/>
 		</property>
@@ -764,7 +764,7 @@
 		</property>
 	</bean>
 	
-	<bean id="jobCodeService" class="org.kuali.kra.budget.service.impl.JobCodeServiceImpl">
+	<bean id="jobCodeService" class="org.kuali.kra.budget.personnel.JobCodeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -778,7 +778,7 @@
   		</property>
 	</bean>
 	
-	<bean id="budgetCalculationService" class="org.kuali.kra.budget.service.impl.BudgetCalculationServiceImpl">
+	<bean id="budgetCalculationService" class="org.kuali.kra.budget.calculator.BudgetCalculationServiceImpl">
 		<property name="businessObjectService" >
   			<ref bean="businessObjectService"/>
   		</property>
@@ -788,7 +788,7 @@
   		
 	</bean>
 
-	<bean id="budgetDistributionAndIncomeService" class="org.kuali.kra.budget.service.impl.BudgetDistributionAndIncomeServiceImpl">
+	<bean id="budgetDistributionAndIncomeService" class="org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeServiceImpl">
 	</bean>
 
     <bean id="kraWorkflowService" class="org.kuali.kra.service.impl.KraWorkflowServiceImpl" />
@@ -927,11 +927,11 @@
         <property name="groupName" value="budget" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.kra.budget.document.authorizer.BudgetModifyAuthorizer" parent="parentProposalAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ProposalBudgetModifyAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="modifyBudget" />
                 </bean>
                 
-                <bean class="org.kuali.kra.budget.document.authorizer.BudgetViewAuthorizer" parent="parentProposalAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ProposalBudgetViewAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="viewBudget" />
                 </bean>
             </list>
@@ -1185,7 +1185,7 @@
         <property name="mappings">
             <map>
                 <entry key="save">
-                    <bean class="org.kuali.kra.budget.web.struts.authorization.BudgetTaskFactory" parent="parentTaskFactory">
+                    <bean class="org.kuali.kra.budget.document.authorization.BudgetTaskFactory" parent="parentTaskFactory">
                         <property name="taskName" value="modifyBudget" />
                     </bean>
                 </entry>
@@ -1295,7 +1295,7 @@
         <property name="lookupableHelperService" ref="nonOrganizationalRolodexHelperService" />
     </bean>    
 	
-	<bean id="budgetModularService" class="org.kuali.kra.budget.service.impl.BudgetModularServiceImpl">
+	<bean id="budgetModularService" class="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularServiceImpl">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -1348,13 +1348,13 @@
   	
   	<bean id="copyPeriodsQuestion" class="org.kuali.kra.question.CopyPeriodsQuestion" scope="prototype" /><!--
 
-	<bean id="coeusBean2KraBoConverterService" class="org.kuali.kra.budget.service.impl.CoeusBean2KraBoConverterServiceImpl">
+	<bean id="coeusBean2KraBoConverterService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.CoeusBean2KraBoConverterServiceImpl">
 	</bean>
 	-->
-	<bean id="budgetPrintService" class="org.kuali.kra.budget.service.impl.BudgetPrintServiceDummyImpl">
+	<bean id="budgetPrintService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetPrintServiceDummyImpl">
 	</bean>
 	<!--
-	<bean id="budgetPrintService" class="org.kuali.kra.budget.service.impl.BudgetPrintServiceImpl">
+	<bean id="budgetPrintService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetPrintServiceImpl">
   		<property name="coeusBean2KraBoConverterService">
     		<ref bean="coeusBean2KraBoConverterService" />
   		</property>  		
@@ -1379,7 +1379,7 @@
     </bean>
     
 	<bean id="proposalStateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStateServiceImpl" />
-    <bean id="budgetSubAwardService" class="org.kuali.kra.budget.service.impl.BudgetSubAwardServiceImpl" />
+    <bean id="budgetSubAwardService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetSubAwardServiceImpl" />
 
 	<bean id="kcPessimisticLockService" class="org.kuali.kra.service.impl.KcPessimisticLockServiceImpl">
 		<property name="configurationService" ref="kualiConfigurationService" />

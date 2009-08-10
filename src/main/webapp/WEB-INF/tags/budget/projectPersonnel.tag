@@ -19,12 +19,12 @@
 <c:set var="budgetPersonAttributes" value="${DataDictionary.BudgetPerson.attributes}" />
 
 <div id="workarea">
-<kul:tab tabTitle="Project Personnel (All Periods)" defaultOpen="true" transparentBackground="true" tabErrorKey="document.budgetPerson*" auditCluster="budgetPersonnelAuditWarnings" tabAuditKey="document.budgetPerson*" useRiceAuditMode="true">
+<kul:tab tabTitle="Project Personnel (All Periods)" defaultOpen="true" transparentBackground="true" tabErrorKey="document.budget.budgetPerson*" auditCluster="budgetPersonnelAuditWarnings" tabAuditKey="document.budget.budgetPerson*" useRiceAuditMode="true">
 
 <%-- handle job code error start--%>		
 		<c:set var="firstErrorFound" value="false" />
 		<c:forEach var="property" items="${ErrorContainer.errorPropertyList}">
-			<c:if test="${fn:startsWith(property,'document.budgetPerson')}">
+			<c:if test="${fn:startsWith(property,'document.budget.budgetPerson')}">
 				<c:set var="firstErrorFound" value="true" />
 			</c:if>
 		</c:forEach>
@@ -32,22 +32,22 @@
 		<div class="tab-container-error">
 			<div class="left-errmsg-tab">
 				<div class="error">
-					<c:forEach var="budgetPersons" items="${KualiForm.document.budgetPersons}" varStatus="status">			
+					<c:forEach var="budgetPersons" items="${KualiForm.document.budget.budgetPersons}" varStatus="status">			
 						
 						<c:set var="foundJobCodeError" value="false" />
 						<c:forEach var="property" items="${ErrorContainer.errorPropertyList}">
-							<c:set var="propertyName" value="document.budgetPersons[${status.index}].jobCode"/>
+							<c:set var="propertyName" value="document.budget.budgetPersons[${status.index}].jobCode"/>
 							<c:if test="${property eq propertyName}">
 								<c:set var="foundJobCodeError" value="true" />
 							</c:if>
 						</c:forEach>
 						
-						<c:if test="${(KualiForm.document.budgetPersons[status.index].jobCode == '' or empty KualiForm.document.budgetPersons[status.index].jobCode) && foundJobCodeError == false}">
+						<c:if test="${(KualiForm.document.budget.budgetPersons[status.index].jobCode == '' or empty KualiForm.document.budget.budgetPersons[status.index].jobCode) && foundJobCodeError == false}">
 							<c:if test="${not empty firstErrorFound && firstErrorFound == false}">
 								<strong>Errors found in this Section:</strong>
 								<c:set var="firstErrorFound" value="true" />
 							</c:if>	
-							<li>The Job Code for <c:out value="${KualiForm.document.budgetPersons[status.index].personName}" /> is not complete. You must enter a job code value before budgeting this individual.</li>
+							<li>The Job Code for <c:out value="${KualiForm.document.budget.budgetPersons[status.index].personName}" /> is not complete. You must enter a job code value before budgeting this individual.</li>
 						</c:if>		
 					</c:forEach>
 				</div>
@@ -61,7 +61,7 @@
     	</div>  
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Project Personnel (All Periods)</h2></span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetPerson" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.personnel.BudgetPerson" altText="help"/></span>
         </div>
         <table id="budget-personnel-table" cellpadding=0 cellspacing="0" summary="">
         	<tr>
@@ -85,43 +85,43 @@
               		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
                     	lookedUpCollectionName="newBudgetRolodexes" /></label><br>
                     <label>To be named</label>
-                   	<label><kul:multipleValueLookup boClassName="org.kuali.kra.budget.bo.TbnPerson" 
+                   	<label><kul:multipleValueLookup boClassName="org.kuali.kra.budget.personnel.TbnPerson" 
                     	lookedUpCollectionName="newTbnPersons" /></label>
 	            </td>
 			</tr>
 			</kra:section>
 			
-            <c:forEach var="person" items="${KualiForm.document.budgetPersons}" varStatus="status">
+            <c:forEach var="person" items="${KualiForm.document.budget.budgetPersons}" varStatus="status">
             <tr>
               	<th scope="row"><div align="center">${status.index + 1}</div></th>
               	<td>${person.personName} <c:if test="${!empty person.role}"><span class="fineprint">(${person.role})</span></c:if></td>
               	
               	<td>
-              	 	<c:set var="jobCodeFieldName" value="document.budgetPersons[${status.index}].jobCode"/> 
-              	 	<c:set var="jobTitleFieldName" value="document.budgetPersons[${status.index}].jobTitle"/> 
-              		<kul:htmlControlAttribute property="document.budgetPersons[${status.index}].jobCode" attributeEntry="${budgetPersonAttributes.jobCode}" onblur="loadJobCodeTitle('${jobCodeFieldName}', '${jobTitleFieldName}');" />
-              		<kul:lookup boClassName="org.kuali.kra.budget.bo.JobCode" fieldConversions="jobCode:document.budgetPersons[${status.index}].jobCode,jobTitle:document.budgetPersons[${status.index}].jobTitle" anchor="${tabKey}" />
+              	 	<c:set var="jobCodeFieldName" value="document.budget.budgetPersons[${status.index}].jobCode"/> 
+              	 	<c:set var="jobTitleFieldName" value="document.budget.budgetPersons[${status.index}].jobTitle"/> 
+              		<kul:htmlControlAttribute property="document.budget.budgetPersons[${status.index}].jobCode" attributeEntry="${budgetPersonAttributes.jobCode}" onblur="loadJobCodeTitle('${jobCodeFieldName}', '${jobTitleFieldName}');" />
+              		<kul:lookup boClassName="org.kuali.kra.budget.personnel.JobCode" fieldConversions="jobCode:document.budget.budgetPersons[${status.index}].jobCode,jobTitle:document.budget.budgetPersons[${status.index}].jobTitle" anchor="${tabKey}" />
               		
-              		<div id="document.budgetPersons[${status.index}].jobTitle.div" align="left">
-                        <c:if test="${!empty KualiForm.document.budgetPersons[status.index].jobCode}">               	    
-							${KualiForm.document.budgetPersons[status.index].jobTitle}
-							<c:if test="${empty KualiForm.document.budgetPersons[status.index].jobTitle}">
+              		<div id="document.budget.budgetPersons[${status.index}].jobTitle.div" align="left">
+                        <c:if test="${!empty KualiForm.document.budget.budgetPersons[status.index].jobCode}">               	    
+							${KualiForm.document.budget.budgetPersons[status.index].jobTitle}
+							<c:if test="${empty KualiForm.document.budget.budgetPersons[status.index].jobTitle}">
 	                    		<span style='color: red;'>not found</span>
 							</c:if>                   
                         </c:if>
 					</div>
               	</td>
               	<td>
-              		<kra:kraControlAttribute property="document.budgetPersons[${status.index}].appointmentTypeCode" readOnly="${readOnly}" attributeEntry="${budgetPersonAttributes.appointmentType}"/>
+              		<kra:kraControlAttribute property="document.budget.budgetPersons[${status.index}].appointmentTypeCode" readOnly="${readOnly}" attributeEntry="${budgetPersonAttributes.appointmentType}"/>
               	</td>
               	<td>
               		<div align="center">
-                  		<kul:htmlControlAttribute property="document.budgetPersons[${status.index}].calculationBase" attributeEntry="${budgetPersonAttributes.calculationBase}" styleClass="amount" />
+                  		<kul:htmlControlAttribute property="document.budget.budgetPersons[${status.index}].calculationBase" attributeEntry="${budgetPersonAttributes.calculationBase}" styleClass="amount" />
               		</div>
               	</td>
               	<td>
               		<div align="center">
-						<kul:htmlControlAttribute property="document.budgetPersons[${status.index}].effectiveDate" attributeEntry="${budgetPersonAttributes.effectiveDate}" datePicker="true" />
+						<kul:htmlControlAttribute property="document.budget.budgetPersons[${status.index}].effectiveDate" attributeEntry="${budgetPersonAttributes.effectiveDate}" datePicker="true" />
                   	</div>
                 </td>
               	<td>

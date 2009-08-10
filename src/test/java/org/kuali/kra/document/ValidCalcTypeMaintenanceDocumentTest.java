@@ -16,7 +16,7 @@
 package org.kuali.kra.document;
 
 import org.junit.Test;
-import org.kuali.kra.budget.bo.ValidCalcType;
+import org.kuali.kra.budget.calculator.ValidCalcType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
@@ -139,7 +139,7 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
     @Test
     public void testCreateNewValidCalcTypeMaintenanceDocument() throws Exception {
         HtmlPage validCalcTypeMaintenancePage = getMaintenanceDocumentPage("Valid Calculation Type",
-                "org.kuali.kra.budget.bo.ValidCalcType", "Kuali :: Valid Calc Types Maintenance Document");
+                "org.kuali.kra.proposaldevelopment.budget.bo.ValidCalcType", "Kuali :: Valid Calc Types Maintenance Document");
         String documentNumber = getFieldValue(validCalcTypeMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(
                 validCalcTypeMaintenancePage,

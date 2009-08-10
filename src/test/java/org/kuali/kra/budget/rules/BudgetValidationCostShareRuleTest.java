@@ -22,9 +22,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetCostShare;
-import org.kuali.kra.budget.rule.BudgetValidationCostShareRule;
-import org.kuali.kra.budget.rule.event.BudgetValidationCostShareEvent;
+import org.kuali.kra.budget.distributionincome.BudgetCostShare;
+import org.kuali.kra.budget.distributionincome.BudgetCostShareRuleImpl;
+import org.kuali.kra.budget.distributionincome.BudgetValidationCostShareEvent;
+import org.kuali.kra.budget.distributionincome.BudgetValidationCostShareRule;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -68,7 +69,7 @@ public class BudgetValidationCostShareRuleTest extends TestCase {
     public void testValidatingRequiredFields_NoneSet() throws Exception {
         budgetCostShare = new BudgetCostShare();
         Assert.assertFalse(budgetCostShareRule.processBudgetValidationCostShareBusinessRules(getEvent(budgetCostShare)));
-        Assert.assertEquals(2, GlobalVariables.getErrorMap().keySet().size());
+        Assert.assertEquals(3, GlobalVariables.getErrorMap().keySet().size());
     }
     
     @Test

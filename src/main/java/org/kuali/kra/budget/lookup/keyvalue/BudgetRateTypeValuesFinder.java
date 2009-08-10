@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.budget.bo.RateClass;
+import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;

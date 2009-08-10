@@ -23,7 +23,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -122,7 +124,7 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      * @throws NullPointerException if the proposalDevelopmentDocument is null
      */
     protected boolean processBudgetVersionsBusinessRule(
-        final ProposalDevelopmentDocument proposalDevelopmentDocument,
+        final BudgetParentDocument proposalDevelopmentDocument,
         final boolean runDatactionaryValidation) {
         if (proposalDevelopmentDocument == null) {
             throw new NullPointerException("the proposalDevelopmentDocument is null.");
@@ -136,7 +138,8 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
             = this.getDictionaryValidationService();
 
         int index = 0;
-        for (BudgetVersionOverview budgetVersion: proposalDevelopmentDocument.getDevelopmentProposal().getBudgetVersionOverviews()) {
+        for (BudgetDocumentVersion budgetDocumentVersion: proposalDevelopmentDocument.getBudgetDocumentVersions()) {
+            BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
             if (runDatactionaryValidation) {
                 dictionaryValidationService.validateBusinessObject(budgetVersion, true);
             }

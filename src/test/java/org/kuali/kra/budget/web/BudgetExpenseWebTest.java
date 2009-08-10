@@ -32,7 +32,7 @@ public class BudgetExpenseWebTest extends ProposalDevelopmentWebTestBase {
     
     private static final String NEW_BUDGET_VERSION_NAME = "newBudgetVersionName";
     private static final String ADD_BUDGET_VERSION_BUTTON = "methodToCall.addBudgetVersion";
-    
+
     @Test
     public void testBudgetExpensePage() throws Exception {        
         HtmlPage pdBudgetVersionsPage = getBudgetVersionsPage();        

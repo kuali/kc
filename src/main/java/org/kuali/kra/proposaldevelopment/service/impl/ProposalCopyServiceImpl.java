@@ -28,11 +28,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.budget.bo.BudgetModular;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.BudgetProjectIncome;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -50,6 +51,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
@@ -618,7 +620,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param newLeadUnitNumber the new lead unit number
      */
     private void fixBudgetVersions(ProposalDevelopmentDocument doc) {
-        if (doc.getDevelopmentProposal().getBudgetVersionOverviews().size() > 0) {
+        if (doc.getDevelopmentProposal().getBudgetDocumentVersions().size() > 0) {
             String budgetStatusIncompleteCode = kualiConfigurationService.getParameterValue(
                     Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
             
@@ -960,13 +962,15 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     private void copyBudget(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest, String budgetVersions) throws Exception {
         if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_FINAL_VERSION)) {
-            BudgetVersionOverview finalBudgetVersion = src.getDevelopmentProposal().getFinalBudgetVersion();
+            BudgetVersionOverview finalBudgetVersion = src.getDevelopmentProposal().getFinalBudgetVersion().getBudgetVersionOverview();
             if (finalBudgetVersion != null) {
                 copyAndFinalizeBudgetVersion(finalBudgetVersion.getDocumentNumber(), dest, 1);
             }
         } else if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_ALL_VERSIONS)) {
             int i = 1;
-            for (BudgetVersionOverview budgetVersionOverview: src.getDevelopmentProposal().getBudgetVersionOverviews()) {
+            for (BudgetDocumentVersion budgetDocumentVersion: src.getDevelopmentProposal().getBudgetDocumentVersions()) {
+                BudgetVersionOverview budgetVersionOverview = budgetDocumentVersion.getBudgetVersionOverview(); 
+                
                 copyAndFinalizeBudgetVersion(budgetVersionOverview.getDocumentNumber(), dest, i++);
             }
         }
@@ -974,18 +978,19 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     }
     
     private void copyAndFinalizeBudgetVersion(String documentNumber, ProposalDevelopmentDocument dest, int budgetVersionNumber) throws Exception {
-        BudgetDocument budget = (BudgetDocument) documentService.getByDocumentHeaderId(documentNumber);
-        budget.getProposal().getDevelopmentProposal().setBudgetVersionOverviews(new ArrayList<BudgetVersionOverview>());
-        Integer origBudgetVersionNumber = budget.getBudgetVersionNumber();
-        budget.toCopy();
+        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(documentNumber);
+        budgetDocument.getParentDocument().setBudgetDocumentVersions(new ArrayList<BudgetDocumentVersion>());
+        Integer origBudgetVersionNumber = budgetDocument.getBudget().getBudgetVersionNumber();
+        budgetDocument.toCopy();
         // budget.tocopy set the budgetversionnumber to the new one
         // need to rest it so setobjectpropertydeep can work for 'budgetversionnuumber'
-        budget.setBudgetVersionNumber(origBudgetVersionNumber);
-        ObjectUtils.setObjectPropertyDeep(budget, "proposalNumber", String.class, dest.getDevelopmentProposal().getProposalNumber());
-        ObjectUtils.setObjectPropertyDeep(budget, "budgetVersionNumber", Integer.class, budgetVersionNumber);
+        budgetDocument.getBudget().setBudgetVersionNumber(origBudgetVersionNumber);
+        ObjectUtils.setObjectPropertyDeep(budgetDocument, "proposalNumber", String.class, dest.getDevelopmentProposal().getProposalNumber());
+        ObjectUtils.setObjectPropertyDeep(budgetDocument, "budgetVersionNumber", Integer.class, budgetVersionNumber);
         
-        ObjectUtils.materializeAllSubObjects(budget);
+        ObjectUtils.materializeAllSubObjects(budgetDocument);
 
+        Budget budget = budgetDocument.getBudget();
         Map<String, Object> objectMap = new HashMap<String, Object>();
         fixNumericProperty(budget, "setBudgetPeriodId", Long.class, null, objectMap);
         objectMap.clear();
@@ -993,7 +998,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         objectMap.clear(); 
         
         budget.setFinalVersionFlag(false);
-        budget.setProposal(dest);
+        budgetDocument.setParentDocument(dest);
         
         //Work around for 1-to-1 Relationship between BudgetPeriod & BudgetModular
         Map<String, BudgetModular> tmpBudgetModulars = new HashMap<String, BudgetModular>(); 
@@ -1002,17 +1007,19 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             if(budgetPeriod.getBudgetModular() != null) {
                 tmpObject = (BudgetModular) ObjectUtils.deepCopy(budgetPeriod.getBudgetModular());
             }
-            tmpBudgetModulars.put(budgetPeriod.getProposalNumber()+ (budgetPeriod.getVersionNumber()+1) + budgetPeriod.getBudgetPeriod(), tmpObject);
+//            tmpBudgetModulars.put(budgetPeriod.getProposalNumber()+ (budgetPeriod.getVersionNumber()+1) + budgetPeriod.getBudgetPeriod(), tmpObject);
+            tmpBudgetModulars.put(""+budgetPeriod.getBudget().getBudgetId()+ (budgetPeriod.getVersionNumber()+1) + budgetPeriod.getBudgetPeriod(), tmpObject);
             budgetPeriod.setBudgetModular(null);
         }
         
         List<BudgetProjectIncome> srcProjectIncomeList = budget.getBudgetProjectIncomes();
         budget.setBudgetProjectIncomes(new ArrayList<BudgetProjectIncome>());
         
-        documentService.saveDocument(budget);
+        documentService.saveDocument(budgetDocument);
         
         for(BudgetPeriod tmpBudgetPeriod: budget.getBudgetPeriods()) {
-            BudgetModular tmpBudgetModular = tmpBudgetModulars.get(tmpBudgetPeriod.getProposalNumber()+ tmpBudgetPeriod.getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
+//            BudgetModular tmpBudgetModular = tmpBudgetModulars.get(tmpBudgetPeriod.getProposalNumber()+ tmpBudgetPeriod.getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
+            BudgetModular tmpBudgetModular = tmpBudgetModulars.get(tmpBudgetPeriod.getBudget().getBudgetId()+ tmpBudgetPeriod.getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
             if(tmpBudgetModular != null) {
                 tmpBudgetModular.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
                 tmpBudgetPeriod.setBudgetModular(tmpBudgetModular);
@@ -1021,15 +1028,16 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             for(BudgetProjectIncome budgetProjectIncome : srcProjectIncomeList) {
                 if(budgetProjectIncome.getBudgetPeriodNumber().intValue() == tmpBudgetPeriod.getBudgetPeriod().intValue()) {
                     budgetProjectIncome.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
-                    budgetProjectIncome.setProposalNumber(tmpBudgetPeriod.getProposalNumber());
+                    budgetProjectIncome.setBudgetId(tmpBudgetPeriod.getBudget().getBudgetId());
+//                    budgetProjectIncome.setProposalNumber(tmpBudgetPeriod.getProposalNumber());
                     budgetProjectIncome.setVersionNumber(new Long(0));
                 }
             }
         }
         
         budget.setBudgetProjectIncomes(srcProjectIncomeList);
-        documentService.saveDocument(budget);
-        documentService.routeDocument(budget, "Route to Final", new ArrayList());
+        documentService.saveDocument(budgetDocument);
+        documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
     }
     
     /**

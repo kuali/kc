@@ -43,10 +43,10 @@
               	<td>
               		<c:choose>
               			<c:when test="${periodNum > 0}">
-              				<bean:write name="KualiForm" property="document.budgetPeriod[${periodNum - 1}].startDate"/>
+              				<bean:write name="KualiForm" property="document.budget.budgetPeriod[${periodNum - 1}].startDate"/>
               			</c:when>
               			<c:otherwise>
-              				<fmt:formatDate value="${KualiForm.document.proposal.developmentProposalList[0].requestedStartDateInitial}" pattern="MM/dd/yyyy" />
+              				<fmt:formatDate value="${KualiForm.document.parentDocument.developmentProposalList[0].requestedStartDateInitial}" pattern="MM/dd/yyyy" />
               			</c:otherwise>
               		</c:choose>
               	</td>
@@ -63,7 +63,7 @@
               	<td>
               		<c:choose>
               			<c:when test="${periodNum > 0}">
-              				$ <bean:write name="KualiForm" property="document.budgetPeriod[${periodNum - 1}].budgetModular.totalRequestedCost"/>
+              				$ <bean:write name="KualiForm" property="document.budget.budgetPeriod[${periodNum - 1}].budgetModular.totalRequestedCost"/>
               			</c:when>
               			<c:otherwise>
               				&nbsp;
@@ -76,10 +76,10 @@
               	<td>
               		<c:choose>
               			<c:when test="${periodNum > 0}">
-              				<bean:write name="KualiForm" property="document.budgetPeriod[${periodNum - 1}].endDate"/>
+              				<bean:write name="KualiForm" property="document.budget.budgetPeriod[${periodNum - 1}].endDate"/>
               			</c:when>
               			<c:otherwise>
-              				<fmt:formatDate value="${KualiForm.document.proposal.developmentProposalList[0].requestedEndDateInitial}" pattern="MM/dd/yyyy" />
+              				<fmt:formatDate value="${KualiForm.document.parentDocument.developmentProposalList[0].requestedEndDateInitial}" pattern="MM/dd/yyyy" />
               			</c:otherwise>
               		</c:choose>
               	</td>
@@ -90,11 +90,11 @@
     </div>
 </kul:tabTop>
 
-<kul:tab tabTitle="Direct Cost" defaultOpen="false" tabErrorKey="document.budgetPeriod[${periodNum - 1}].budgetModular.directCostLessConsortiumFna,document.budgetPeriod[${periodNum - 1}].budgetModular.consortiumFna">
+<kul:tab tabTitle="Direct Cost" defaultOpen="false" tabErrorKey="document.budget.budgetPeriod[${periodNum - 1}].budgetModular.directCostLessConsortiumFna,document.budget.budgetPeriod[${periodNum - 1}].budgetModular.consortiumFna">
 	<div class="tab-container" align="center">
    		<div class="h2-container">
    			<span class="subhead-left"><h2>Direct Cost</h2></span>
-   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetModular" altText="help"/></span>
+   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular" altText="help"/></span>
        	</div>
 		<table cellpadding=0 cellspacing="0" summary="Direct Cost Breakdown">
             <tr>
@@ -102,7 +102,7 @@
               	<td>
               		<c:choose>
               			<c:when test="${periodNum > 0}">
-              				$ <kul:htmlControlAttribute property="document.budgetPeriod[${periodNum - 1}].budgetModular.directCostLessConsortiumFna" attributeEntry="${budgetModularAttributes.directCostLessConsortiumFna}" />
+              				$ <kul:htmlControlAttribute property="document.budget.budgetPeriod[${periodNum - 1}].budgetModular.directCostLessConsortiumFna" attributeEntry="${budgetModularAttributes.directCostLessConsortiumFna}" />
               			</c:when>
               			<c:otherwise>
               				$ ${KualiForm.budgetModularSummary.directCostLessConsortiumFna}
@@ -115,7 +115,7 @@
 				<td>
                 	<c:choose>
               			<c:when test="${periodNum > 0}">
-              				$ <kul:htmlControlAttribute property="document.budgetPeriod[${periodNum - 1}].budgetModular.consortiumFna" attributeEntry="${budgetModularAttributes.consortiumFna}" />
+              				$ <kul:htmlControlAttribute property="document.budget.budgetPeriod[${periodNum - 1}].budgetModular.consortiumFna" attributeEntry="${budgetModularAttributes.consortiumFna}" />
               			</c:when>
               			<c:otherwise>
               				$ ${KualiForm.budgetModularSummary.consortiumFna}
@@ -128,7 +128,7 @@
               	<td>
               		<c:choose>
               			<c:when test="${periodNum > 0}">
-              				$ <bean:write name="KualiForm" property="document.budgetPeriod[${periodNum - 1}].budgetModular.totalDirectCost"/>
+              				$ <bean:write name="KualiForm" property="document.budget.budgetPeriod[${periodNum - 1}].budgetModular.totalDirectCost"/>
               			</c:when>
               			<c:otherwise>
               				$ ${KualiForm.budgetModularSummary.totalDirectCost}
@@ -140,11 +140,11 @@
    	</div>
 </kul:tab>
 
-<kul:tab tabTitle="F&A" defaultOpen="false" tabErrorKey="document.budgetPeriod[${periodNum - 1}].budgetModular.budgetModularIdc*,newBudgetModularIdc*">
+<kul:tab tabTitle="F&A" defaultOpen="false" tabErrorKey="document.budget.budgetPeriod[${periodNum - 1}].budgetModular.budgetModularIdc*,newBudgetModularIdc*">
 	<div class="tab-container" align="center">
    		<div class="h2-container">
    			<span class="subhead-left"><h2>F&A</h2></span>
-   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetModularIdc" altText="help"/></span>
+   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc" altText="help"/></span>
        	</div>
 		<table align="center" border="0" cellpadding="2" cellspacing="0" width="98%">
         	<tbody>
@@ -193,29 +193,29 @@
              	
             	<c:choose>
             		<c:when test="${periodNum > 0}">
-            			<c:forEach var="budgetPeriod" items="${KualiForm.document.budgetPeriods}" varStatus="periodStatus">
+            			<c:forEach var="budgetPeriod" items="${KualiForm.document.budget.budgetPeriods}" varStatus="periodStatus">
             				<c:if test="${periodStatus.index + 1 == periodNum}">
             					<c:forEach var="budgetModularIdc" items="${budgetPeriod.budgetModular.budgetModularIdcs}" varStatus="idcStatus">
             						<tr>
 	            						<th class="infoline"><div align="center">${idcStatus.index + 1}</div></th>
 					            		<td nowrap class="infoline">
 					            			<div align="center">
-					            				<kul:htmlControlAttribute property="document.budgetPeriod[${periodStatus.index}].budgetModular.budgetModularIdc[${idcStatus.index}].description" attributeEntry="${budgetModularIdcAttributes.description}"/>
+					            				<kul:htmlControlAttribute property="document.budget.budgetPeriod[${periodStatus.index}].budgetModular.budgetModularIdc[${idcStatus.index}].description" attributeEntry="${budgetModularIdcAttributes.description}"/>
 					              			</div>
 					              		</td>
 					            		<td class="infoline">
 					            			<div align="center">
-					            				<kul:htmlControlAttribute property="document.budgetPeriod[${periodStatus.index}].budgetModular.budgetModularIdc[${idcStatus.index}].idcRate" attributeEntry="${budgetModularIdcAttributes.idcRate}"/> %
+					            				<kul:htmlControlAttribute property="document.budget.budgetPeriod[${periodStatus.index}].budgetModular.budgetModularIdc[${idcStatus.index}].idcRate" attributeEntry="${budgetModularIdcAttributes.idcRate}"/> %
 					              			</div>
 					              		</td>
 						           	 	<td nowrap class="infoline">
 						           	 		<div align="center">
-						           	 			$ <kul:htmlControlAttribute property="document.budgetPeriod[${periodStatus.index}].budgetModular.budgetModularIdc[${idcStatus.index}].idcBase" attributeEntry="${budgetModularIdcAttributes.idcBase}"/>
+						           	 			$ <kul:htmlControlAttribute property="document.budget.budgetPeriod[${periodStatus.index}].budgetModular.budgetModularIdc[${idcStatus.index}].idcBase" attributeEntry="${budgetModularIdcAttributes.idcBase}"/>
 						              		</div>
 						              	</td>
 						            	<td nowrap class="infoline">
 						              		<div align="right">
-						              			$ <kul:htmlControlAttribute property="document.budgetPeriod[${periodStatus.index}].budgetModular.budgetModularIdc[${idcStatus.index}].fundsRequested" attributeEntry="${budgetModularIdcAttributes.fundsRequested}" readOnly="true"/>
+						              			$ <kul:htmlControlAttribute property="document.budget.budgetPeriod[${periodStatus.index}].budgetModular.budgetModularIdc[${idcStatus.index}].fundsRequested" attributeEntry="${budgetModularIdcAttributes.fundsRequested}" readOnly="true"/>
 						                	</div>
 						                </td>
 						                <td class="infoline">
@@ -265,7 +265,7 @@
               			<div align="right">
               				<c:choose>
               					<c:when test="${periodNum > 0}">
-              						<strong>$ <bean:write name="KualiForm" property="document.budgetPeriod[${periodNum - 1}].budgetModular.totalFnaRequested"/> </strong>
+              						<strong>$ <bean:write name="KualiForm" property="document.budget.budgetPeriod[${periodNum - 1}].budgetModular.totalFnaRequested"/> </strong>
               					</c:when>
               					<c:otherwise>
               						$ ${KualiForm.budgetModularSummary.totalFnaRequested}

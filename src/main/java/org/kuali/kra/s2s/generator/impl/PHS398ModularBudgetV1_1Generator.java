@@ -53,11 +53,12 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetModular;
-import org.kuali.kra.budget.bo.BudgetModularIdc;
-import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
+import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -90,16 +91,16 @@ public class PHS398ModularBudgetV1_1Generator extends PHS398ModularBudgetBaseGen
         PHS398ModularBudget modularBudget = PHS398ModularBudget.Factory.newInstance();
         modularBudget.setFormVersion(S2SConstants.FORMVERSION_1_1);
 
-        BudgetDocument budgetDoc = null;
+        Budget budget = null;
         try {
-            budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+            budget = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc).getBudget();
         }
         catch (S2SException e) {
             LOG.error(e.getMessage(), e);
             return modularBudgetDocument;
         }
-        if (budgetDoc != null) {
-            for (BudgetPeriod budgetPeriod : budgetDoc.getBudgetPeriods()) {
+        if (budget != null) {
+            for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                 if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_1) {
                     modularBudget.setPeriods(getPeriods(budgetPeriod));
                 }

@@ -23,8 +23,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.rice.kns.document.Document;
@@ -37,6 +38,12 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
+/**
+ * Finds the available set of supported Narrative Statuses.  See
+ * the method <code>getKeyValues()</code> for a full description.
+ * 
+ * @author KRADEV team
+ */
 /**
  * Finds the available set of supported Narrative Statuses.  See
  * the method <code>getKeyValues()</code> for a full description.
@@ -64,9 +71,9 @@ public class BudgetPersonValuesFinder extends KeyValuesBase {
             Document doc = ((KualiDocumentFormBase) form).getDocument();
             if(doc instanceof BudgetDocument) {
                 BudgetDocument budgetDocument = (BudgetDocument) doc;
+                Budget budget = budgetDocument.getBudget();
                 Map queryMap = new HashMap();
-                queryMap.put("proposalNumber", budgetDocument.getProposalNumber());
-                queryMap.put("budgetVersionNumber", budgetDocument.getBudgetVersionNumber());
+                queryMap.put("budgetId", budget.getBudgetId());
                 List<BudgetPerson> budgetPersons = (List<BudgetPerson>) boService.findMatching(BudgetPerson.class, queryMap);
 
                 keyLabelPairs = buildKeyLabelPairs(budgetPersons);

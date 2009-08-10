@@ -25,8 +25,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.RolePersons;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
-import org.kuali.kra.budget.service.BudgetService;
+import org.kuali.kra.budget.core.BudgetService;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.rice.shim.UniversalUserService;
@@ -82,9 +83,10 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         populateCustomAttributes();
     }
     
-    protected void updateDocumentDescriptions(List<BudgetVersionOverview> budgetVersionOverviews) {
+    protected void updateDocumentDescriptions(List<BudgetDocumentVersion> budgetVersionOverviews) {
         BudgetService budgetService = this.getService(BudgetService.class);
-        for (BudgetVersionOverview budgetVersion: budgetVersionOverviews) {
+        for (BudgetDocumentVersion budgetDocumentVersion: budgetVersionOverviews) {
+            BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
             if (budgetVersion.isDescriptionUpdatable() && !StringUtils.isBlank(budgetVersion.getDocumentDescription())) {
                 budgetService.updateDocumentDescription(budgetVersion);
                 budgetVersion.setDescriptionUpdatable(false); // Only get one chance to set this

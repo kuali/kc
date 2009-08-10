@@ -21,8 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -54,9 +55,10 @@ public class S2STestUtils {
         document.getDevelopmentProposal().setOwnedByUnitNumber(ownedByUnit);
     }
 
-    private void setBaseDocumentFields(BudgetDocument bd, String proposalNumber) {
-        bd.getDocumentHeader().setDocumentDescription("Test budget calculation");
-        bd.setProposalNumber(proposalNumber);
+    private void setBaseDocumentFields(BudgetDocument bdoc, String proposalNumber) {
+        Budget bd = bdoc.getBudget();
+        bdoc.getDocumentHeader().setDocumentDescription("Test budget calculation");
+        bdoc.setParentDocumentKey(proposalNumber);
         bd.setBudgetVersionNumber(1);
         bd.setStartDate(java.sql.Date.valueOf("2002-01-01"));
         bd.setEndDate(java.sql.Date.valueOf("2008-12-31"));
@@ -73,11 +75,10 @@ public class S2STestUtils {
         bd.setBudgetPeriods(periods);
     }
 
-    private BudgetPeriod getBudgetPeriod(BudgetDocument bd, int period, String startDate, String endDate) {
+    private BudgetPeriod getBudgetPeriod(Budget bd, int period, String startDate, String endDate) {
 
         BudgetPeriod bp = new BudgetPeriod();
-        bp.setProposalNumber(bd.getProposalNumber().toString());
-        bp.setBudgetVersionNumber(bd.getBudgetVersionNumber());
+        bp.setBudgetId(bd.getBudgetId());
         bp.setBudgetPeriod(period);
         bp.setStartDate(java.sql.Date.valueOf(startDate));
         bp.setEndDate(java.sql.Date.valueOf(endDate));

@@ -1224,7 +1224,7 @@ public class Person extends KraPersistableBusinessObjectBase implements Contacta
     }
 
    /**
-     * Unit reference referred by {@link #getOwnedByUnit()}
+     * Unit reference referred by {@link #getUnit()}
      *
      * @param unit 
      */
@@ -1233,7 +1233,7 @@ public class Person extends KraPersistableBusinessObjectBase implements Contacta
     }
 
     /**
-     * Unit reference referred by {@link #getOwnedByUnit()}
+     * Unit reference referred by {@link #getUnit()}
      *
      * @return unit 
      */

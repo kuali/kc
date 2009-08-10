@@ -22,8 +22,8 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -38,20 +38,6 @@ import org.kuali.rice.test.data.UnitTestSql;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
-
-//@PerTestUnitTestData(
-//        @UnitTestData(
-//sqlStatements = {
-//      @UnitTestSql("delete from BUDGET_DETAILS where proposal_number = 999999"),
-//      @UnitTestSql("delete from BUDGET_DETAILS_CAL_AMTS where proposal_number = 999999")
-//      ,@UnitTestSql("commit")
-//      }, 
-//sqlFiles = {
-//        @UnitTestFile(filename = "classpath:sql/dml/load_budget_line_item_for_total.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_budget_details_cam_amts.sql", delimiter = ";")
-//      })
-//)
-
 
 public class BudgetTotalsWebTest extends ProposalDevelopmentWebTestBase {
     private static final String PDDOC_BUDGET_VERSIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.budgetVersions.x";

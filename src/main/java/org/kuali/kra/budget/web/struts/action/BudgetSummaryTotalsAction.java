@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -54,6 +55,7 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
     public ActionForward nextPeriodSet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        Budget budget = budgetDocument.getBudget();
         
         if(StringUtils.isNotEmpty(request.getParameter("periodStartIndex")) && 
                 StringUtils.isNotEmpty(request.getParameter("periodEndIndex"))) {
@@ -63,11 +65,11 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
             int newPeriodStartIndex = -1; 
             int newPeriodEndIndex = -1;
                     
-            if(budgetDocument.getBudgetPeriods().size() > (oldPeriodEndIndex + Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE)) {
+            if(budget.getBudgetPeriods().size() > (oldPeriodEndIndex + Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE)) {
                 newPeriodEndIndex = oldPeriodEndIndex + Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE;
                 newPeriodStartIndex = oldPeriodStartIndex + Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE;
-            } else if (budgetDocument.getBudgetPeriods().size() > (oldPeriodEndIndex +1) ) {
-                newPeriodEndIndex = budgetDocument.getBudgetPeriods().size() -1 ;
+            } else if (budget.getBudgetPeriods().size() > (oldPeriodEndIndex +1) ) {
+                newPeriodEndIndex = budget.getBudgetPeriods().size() -1 ;
                 newPeriodStartIndex = newPeriodEndIndex - (Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE -1);
             }
             

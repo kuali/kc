@@ -23,13 +23,15 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetModular;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
@@ -115,17 +117,17 @@ public final class BudgetModularTotalDirectCostRule {
      * is positive and at least one is not positive than a warning is produced.
      * </p>
      *
-     * @param pdDocument the document to check rule against
+     * @param parentDocument the document to check rule against
      * @param reportErrors whether to report errors
      * @param warningMessages container to place warning messages.  Warning messages
      * are added to this set to be accessed by the caller.
      *
      * @throws NullPointerException if the pdDocument or warningMessages are null.
      */
-    public boolean validateTotalDirectCost(final ProposalDevelopmentDocument pdDocument,
+    public boolean validateTotalDirectCost(final BudgetParentDocument parentDocument,
         final boolean reportErrors, Set<String> warningMessages) {
 
-        if (pdDocument == null) {
+        if (parentDocument == null) {
             throw new NullPointerException("the document is null");
         }
 
@@ -135,12 +137,11 @@ public final class BudgetModularTotalDirectCostRule {
 
         boolean passed = true;
 
-        final List<BudgetVersionOverview> budgetOverviews
-        = pdDocument.getDevelopmentProposal().getBudgetVersionOverviews();
+        final List<BudgetDocumentVersion> budgetDocumentOverviews = parentDocument.getBudgetDocumentVersions();
 
-        for (int i = 0; i < budgetOverviews.size(); i++) {
-            final BudgetVersionOverview budgetOverview
-            = budgetOverviews.get(i);
+        for (int i = 0; i < budgetDocumentOverviews.size(); i++) {
+            final BudgetDocumentVersion budgetDocumentOverview = budgetDocumentOverviews.get(i);
+            BudgetVersionOverview budgetOverview = budgetDocumentOverview.getBudgetVersionOverview();
 
             if (this.budgetStatusCompleteCode.equalsIgnoreCase(
                 budgetOverview.getBudgetStatus())) {
@@ -171,11 +172,11 @@ public final class BudgetModularTotalDirectCostRule {
         assert currentIndex >= 0 : "the current index was not valid, index: " + currentIndex;
         assert warningMessages != null : "the warningMessages is null";
 
-        if (Boolean.FALSE.equals(budgetDocument.getModularBudgetFlag())) {
+        if (Boolean.FALSE.equals(budgetDocument.getBudget().getModularBudgetFlag())) {
             return true;
         }
 
-        final Collection<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
+        final Collection<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
 
         if (budgetPeriods != null) {
 

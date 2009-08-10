@@ -20,6 +20,8 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -50,7 +52,7 @@ public class BudgetProjectIncomeIntegrationTest extends BudgetDistributionAndInc
     @Test(expected=ValidationException.class)
     public void testSave_MissingRequiredField_BudgetPeriodNumber() throws Exception {
         BudgetProjectIncome budgetProjectIncome = createBudgetProjectIncome(null, PROJECT_INCOME_1, DESCRIPTION_1);
-        budgetDocument.add(budgetProjectIncome);
+        budgetDocument.getBudget().add(budgetProjectIncome);
         
         getDocumentService().saveDocument(budgetDocument);
     }
@@ -58,7 +60,7 @@ public class BudgetProjectIncomeIntegrationTest extends BudgetDistributionAndInc
     @Test(expected=ValidationException.class)
     public void testSave_MissingRequiredField_Description() throws Exception {
         BudgetProjectIncome budgetProjectIncome = createBudgetProjectIncome(BUDGET_PERIOD_1, PROJECT_INCOME_2, null);
-        budgetDocument.add(budgetProjectIncome);
+        budgetDocument.getBudget().add(budgetProjectIncome);
         
         getDocumentService().saveDocument(budgetDocument);
     }
@@ -66,7 +68,7 @@ public class BudgetProjectIncomeIntegrationTest extends BudgetDistributionAndInc
     @Test(expected=ValidationException.class)
     public void testSave_MissingRequiredField_ProjectIncome() throws Exception {
         BudgetProjectIncome budgetProjectIncome = createBudgetProjectIncome(BUDGET_PERIOD_2, null, DESCRIPTION_2);
-        budgetDocument.add(budgetProjectIncome);
+        budgetDocument.getBudget().add(budgetProjectIncome);
         
         getDocumentService().saveDocument(budgetDocument);
     }
@@ -82,8 +84,8 @@ public class BudgetProjectIncomeIntegrationTest extends BudgetDistributionAndInc
     @Override
     protected void addBudgetDistributionAndIncomeComponent(BudgetDistributionAndIncomeComponent component) {
         BudgetProjectIncome budgetProjectIncome = (BudgetProjectIncome) component;
-        budgetProjectIncome.setBudgetPeriodId(budgetDocument.getBudgetPeriod(budgetProjectIncome.getBudgetPeriodNumber()-1).getBudgetPeriodId());
-        budgetDocument.add((BudgetProjectIncome) component);
+        budgetProjectIncome.setBudgetPeriodId(budgetDocument.getBudget().getBudgetPeriod(budgetProjectIncome.getBudgetPeriodNumber()-1).getBudgetPeriodId());
+        budgetDocument.getBudget().add((BudgetProjectIncome) component);
         
     }
 
@@ -97,7 +99,7 @@ public class BudgetProjectIncomeIntegrationTest extends BudgetDistributionAndInc
 
     @Override
     protected List<? extends BudgetDistributionAndIncomeComponent> getBudgetDistributionAndIncomeComponents(BudgetDocument budgetDocument) {
-        return budgetDocument.getBudgetProjectIncomes();
+        return budgetDocument.getBudget().getBudgetProjectIncomes();
     }
 
     @Override

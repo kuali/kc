@@ -21,10 +21,11 @@ import static org.springframework.util.StringUtils.hasText;
 
 import java.util.List;
 
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.BudgetVersionCollection;
-import org.kuali.kra.budget.rules.BudgetDocumentRule;
+import org.kuali.kra.budget.document.BudgetDocumentRule;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionCollection;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddBudgetVersionRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
@@ -82,7 +83,9 @@ public class BudgetVersionRule  implements AddBudgetVersionRule {
      * @returns true if it found <code>versionName</code> inside <code>document</code>, false otherwise
      */
     private boolean containsVersionOverview(BudgetVersionCollection document, String versionName) {
-        for (BudgetVersionOverview version : document.getBudgetVersionOverviews()) {
+        for (BudgetDocumentVersion budgetDocumentVersion : document.getBudgetDocumentVersions()) {
+            BudgetVersionOverview version = budgetDocumentVersion.getBudgetVersionOverview();
+            
             info("Comparing ", version.getDocumentDescription(), " to ", versionName);
             if (version.getDocumentDescription().equals(versionName)) {
                 return true;

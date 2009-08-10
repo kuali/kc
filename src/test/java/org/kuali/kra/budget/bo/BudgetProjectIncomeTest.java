@@ -21,7 +21,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -33,7 +36,7 @@ public class BudgetProjectIncomeTest {
     private static final double _4K = 4000.00;
     private static final double _500 = 500.00;
     
-    private BudgetDocument document;
+    private Budget document;
 
     private int nextValue = 1;
     
@@ -89,7 +92,7 @@ public class BudgetProjectIncomeTest {
     
     @SuppressWarnings("serial")
     private void initializeDocument() {
-        document = new BudgetDocument() {
+        document = new Budget() {
             // stub out method to avoid loading Spring and database
             @Override
             public Integer getHackedDocumentNextValue(String propertyName) {

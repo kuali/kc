@@ -18,7 +18,6 @@ package org.kuali.kra.budget.web;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;

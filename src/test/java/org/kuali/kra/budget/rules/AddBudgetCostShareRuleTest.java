@@ -18,9 +18,10 @@ package org.kuali.kra.budget.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetCostShare;
-import org.kuali.kra.budget.rule.AddBudgetCostShareRule;
-import org.kuali.kra.budget.rule.event.AddBudgetCostShareEvent;
+import org.kuali.kra.budget.distributionincome.AddBudgetCostShareEvent;
+import org.kuali.kra.budget.distributionincome.AddBudgetCostShareRule;
+import org.kuali.kra.budget.distributionincome.BudgetCostShare;
+import org.kuali.kra.budget.distributionincome.BudgetCostShareRuleImpl;
 
 public class AddBudgetCostShareRuleTest extends AddBudgetDistributionAndIncomeTest {
     private static final int BUDGET_FISCAL_YEAR = 2008;
@@ -44,7 +45,7 @@ public class AddBudgetCostShareRuleTest extends AddBudgetDistributionAndIncomeTe
     
     @Override
     protected void addArtifactToDocument(Object artifact) {
-        document.add((BudgetCostShare) artifact);
+        document.getBudget().add((BudgetCostShare) artifact);
     }
     
     @Override

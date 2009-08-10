@@ -3,7 +3,7 @@
   <bean id="ValidCeRateTypeMaintenanceDocument" parent="ValidCeRateTypeMaintenanceDocument-parentBean"/>
 
   <bean id="ValidCeRateTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.ValidCeRateType"/>
+    <property name="businessObjectClass" value="org.kuali.kra.budget.rates.ValidCeRateType"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -23,7 +23,7 @@
     
     
     <property name="documentTypeName" value="ValidCeRateTypeMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.budget.rules.ValidCeRateTypeMaintenanceDocumentRule"/>
+    <property name="businessRulesClass" value="org.kuali.kra.budget.nonpersonnel.ValidCeRateTypeMaintenanceDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     

@@ -21,6 +21,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -76,7 +77,7 @@ public class BudgetServiceTest extends KraTestBase {
         //assertEquals(KNSConstants.DocumentStatusCodes.APPROVED, budgetDocument.getDocumentHeader().getDocumentStatusCode());
         
         // Verify that fields were set properly
-        assertEquals(budgetDocument.getProposalNumber(), testProposalNumber);
+        assertEquals(((ProposalDevelopmentDocument)budgetDocument.getParentDocument()).getDevelopmentProposal().getProposalNumber(), testProposalNumber);
         assertEquals(budgetDocument.getDocumentHeader().getDocumentDescription(), testDocumentDescription);
     }
     
@@ -101,7 +102,7 @@ public class BudgetServiceTest extends KraTestBase {
         //assertEquals(KNSConstants.DocumentStatusCodes.APPROVED, budgetDocument.getDocumentHeader().getDocumentStatus());
         
         // Verify that fields were set properly
-        assertEquals(copyBudgetDocument.getProposalNumber(), testProposalNumber);
+        assertEquals(((ProposalDevelopmentDocument)copyBudgetDocument.getParentDocument()).getDevelopmentProposal().getProposalNumber(), testProposalNumber);
         assertEquals(copyBudgetDocument.getDocumentHeader().getDocumentDescription(), testDocumentDescription);
     }
     
