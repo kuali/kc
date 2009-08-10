@@ -21,7 +21,7 @@
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 <c:set var="action" value="awardCloseout" />
 
-<kul:tab tabTitle="Closeout" defaultOpen="true" tabErrorKey="awardCloseoutBean.newAwardCloseout*,document.awardList[0].archiveLocation*,document.awardList[0].closeoutDate*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Closeout" defaultOpen="false" tabErrorKey="awardCloseoutBean.newAwardCloseout*,document.awardList[0].archiveLocation*,document.awardList[0].closeoutDate*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> Award Closeout</span>
