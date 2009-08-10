@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.AwardSyncableList;
@@ -32,7 +32,6 @@ import org.kuali.kra.award.paymentreports.FrequencyBase;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReporting;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 
 /**
@@ -40,16 +39,16 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * This class represents the AwardReportTerm business object 
  * 
  */
-public class AwardReportTerm extends KraPersistableBusinessObjectBase implements SequenceAssociate { 
+public class AwardReportTerm extends AwardAssociate  { 
     
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3117988810554700250L;
     private Long awardReportTermId;
-    private String awardNumber; 
-    private Integer sequenceNumber; 
-    private Award award; 
+    //private String awardNumber; 
+    //private Integer sequenceNumber; 
+    //private Award award; 
     private List<AwardReporting> awardReportings;
     
     
@@ -98,56 +97,56 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase implements
      * 
      * @return
      */
-    public String getAwardNumber() {
-        return awardNumber;
-    }
+    //public String getAwardNumber() {
+    //    return awardNumber;
+    //}
 
     /**
      * 
      * @param awardNumber
      */
-    public void setAwardNumber(String awardNumber) {
+    //public void setAwardNumber(String awardNumber) {
         // do nothing
-    }
+    //}
 
     /**
      * 
      * @return
      */
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
+    //public Integer getSequenceNumber() {
+     //   return sequenceNumber;
+    //}
 
     /**
      * 
      * @param sequenceNumber
      */
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
+    //public void setSequenceNumber(Integer sequenceNumber) {
+       // this.sequenceNumber = sequenceNumber;
+    //}
 
     /**
      *
      * @return
      */
-    public Award getAward() {
-        return award;
-    }
+    //public Award getAward() {
+       // return award;
+    //}
 
     /**
      *
      * @param award
      */
-    public void setAward(Award award) {
-        this.award = award;
-        if(award == null) {
-            sequenceNumber = null;
-            awardNumber = null;
-        } else {
-            sequenceNumber = award.getSequenceNumber();
-            awardNumber = award.getAwardNumber();
-        }
-    }    
+   // public void setAward(Award award) {
+       // this.award = award;
+       // if(award == null) {
+         //   sequenceNumber = null;
+          //  awardNumber = null;
+       // } else {
+          //  sequenceNumber = award.getSequenceNumber();
+           // awardNumber = award.getAwardNumber();
+       // }
+   // }    
 
 
     
@@ -165,8 +164,8 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase implements
         hashMap.put("ospDistributionCode", getOspDistributionCode());
         hashMap.put("dueDate", getDueDate());
         hashMap.put("awardReportTermId", getAwardReportTermId());        
-        hashMap.put("awardNumber", getAwardNumber());
-        hashMap.put("sequenceNumber", getSequenceNumber());
+        //hashMap.put("awardNumber", getAwardNumber());
+        //hashMap.put("sequenceNumber", getSequenceNumber());
         return hashMap;
     }
 
@@ -194,8 +193,8 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase implements
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
-        result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+       // result = prime * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
+        //result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
         return result;
     }
 
@@ -235,16 +234,16 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase implements
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
-    public SequenceOwner getSequenceOwner() {
-        return getAward();
-    }
+   // public SequenceOwner getSequenceOwner() {
+        //return getAward();
+    //}
 
     /**
      * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
-    public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
-        setAward((Award) newlyVersionedOwner);
-    }
+    //public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
+       // setAward((Award) newlyVersionedOwner);
+    //}
 
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
