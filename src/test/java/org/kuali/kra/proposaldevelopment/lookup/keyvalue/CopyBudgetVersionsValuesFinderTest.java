@@ -22,12 +22,10 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -48,14 +46,14 @@ public class CopyBudgetVersionsValuesFinderTest {
         this.finalVerFinder = new CopyBudgetVersionsValuesFinder() {
             @Override
             ProposalDevelopmentDocument getDocument() {
-                List<BudgetVersionOverview> overviews = new ArrayList<BudgetVersionOverview>();
-                overviews.add(new BudgetVersionOverview());
-                BudgetVersionOverview o = new BudgetVersionOverview();
-                o.setFinalVersionFlag(true);
+                List<BudgetDocumentVersion> overviews = new ArrayList<BudgetDocumentVersion>();
+                overviews.add(new BudgetDocumentVersion());
+                BudgetDocumentVersion o = new BudgetDocumentVersion();
+                o.getBudgetVersionOverview().setFinalVersionFlag(true);
                 overviews.add(o);
                 
                 ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
-                document.getDevelopmentProposal().setBudgetVersionOverviews(overviews);
+                document.getDevelopmentProposal().setBudgetDocumentVersions(overviews);
                 
                 return document;
             }  
@@ -71,13 +69,13 @@ public class CopyBudgetVersionsValuesFinderTest {
         this.nonFinalVerFinder = new CopyBudgetVersionsValuesFinder() {
             @Override
             ProposalDevelopmentDocument getDocument() {
-                List<BudgetVersionOverview> overviews = new ArrayList<BudgetVersionOverview>();
-                overviews.add(new BudgetVersionOverview());
-                BudgetVersionOverview o = new BudgetVersionOverview();
+                List<BudgetDocumentVersion> overviews = new ArrayList<BudgetDocumentVersion>();
+                overviews.add(new BudgetDocumentVersion());
+                BudgetDocumentVersion o = new BudgetDocumentVersion();
                 overviews.add(o);
                 
                 ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
-                document.getDevelopmentProposal().setBudgetVersionOverviews(overviews);
+                document.getDevelopmentProposal().setBudgetDocumentVersions(overviews);
                 
                 return document;
             }  

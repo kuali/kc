@@ -19,10 +19,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
@@ -51,31 +53,33 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
     }
     
     public void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument) {
-        ProposalBudgetStatus proposalStatus = getProposalStatus(budgetDocument.getProposalNumber());
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
+        ProposalBudgetStatus proposalStatus = getProposalStatus(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber());
         
         if (proposalStatus == null) {
-            if (budgetDocument.getProposalNumber() != null && budgetDocument.getProposal() != null) {
+            if (proposalDevelopmentDocument != null && proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber() != null) {
                 proposalStatus = new ProposalBudgetStatus();
-                proposalStatus.setProposalNumber(budgetDocument.getProposalNumber());
-                proposalStatus.setBudgetStatusCode(budgetDocument.getProposal().getDevelopmentProposal().getBudgetStatus());
+                proposalStatus.setProposalNumber(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber());
+                proposalStatus.setBudgetStatusCode(proposalDevelopmentDocument.getDevelopmentProposal().getBudgetStatus());
                 businessObjectService.save(proposalStatus);
             }
-        } else if (!ObjectUtils.isNull(budgetDocument.getProposal())) {
-            if (proposalStatus.getBudgetStatusCode() == null && budgetDocument.getProposal().getDevelopmentProposal().getBudgetStatus() != null) {
-                proposalStatus.setBudgetStatusCode(budgetDocument.getProposal().getDevelopmentProposal().getBudgetStatus());
+        } else if (!ObjectUtils.isNull(budgetDocument.getParentDocument())) {
+            if (proposalStatus.getBudgetStatusCode() == null && proposalDevelopmentDocument.getDevelopmentProposal().getBudgetStatus() != null) {
+                proposalStatus.setBudgetStatusCode(proposalDevelopmentDocument.getDevelopmentProposal().getBudgetStatus());
                 businessObjectService.save(proposalStatus);
             } else if (proposalStatus.getBudgetStatusCode() != null 
-                    && !proposalStatus.getBudgetStatusCode().equals(budgetDocument.getProposal().getDevelopmentProposal().getBudgetStatus())) {
-                proposalStatus.setBudgetStatusCode(budgetDocument.getProposal().getDevelopmentProposal().getBudgetStatus());
+                    && !proposalStatus.getBudgetStatusCode().equals(proposalDevelopmentDocument.getDevelopmentProposal().getBudgetStatus())) {
+                proposalStatus.setBudgetStatusCode(proposalDevelopmentDocument.getDevelopmentProposal().getBudgetStatus());
                 businessObjectService.save(proposalStatus);
             }
         } // else no change or brand-new document; do nothing
         
         // Also save other budget versions. Can't map this in ORM because we don't want to save this version.
-        if (!ObjectUtils.isNull(budgetDocument.getProposal())) {
-            List<BudgetVersionOverview> budgetVersionOverviews = budgetDocument.getProposal().getDevelopmentProposal().getBudgetVersionOverviews();
-            for (BudgetVersionOverview version: budgetVersionOverviews) {
-                if (!version.getBudgetVersionNumber().equals(budgetDocument.getBudgetVersionNumber())) {
+        if (!ObjectUtils.isNull(budgetDocument.getParentDocument())) {
+            List<BudgetDocumentVersion> budgetDocumentVersions = budgetDocument.getParentDocument().getBudgetDocumentVersions();
+            for (BudgetDocumentVersion documentVersion: budgetDocumentVersions) {
+                BudgetVersionOverview version = documentVersion.getBudgetVersionOverview();
+                if (!version.getBudgetVersionNumber().equals(budgetDocument.getBudget().getBudgetVersionNumber())) {
                     BudgetVersionOverview dbVersion = getBudgetVersion(version);
                     if (dbVersion == null || dbVersion.isFinalVersionFlag() != version.isFinalVersionFlag()) {
                         businessObjectService.save(version);
@@ -85,10 +89,10 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
         }
     }
     
-    public void loadBudgetStatus(ProposalDevelopmentDocument pdDocument) {
-        ProposalBudgetStatus proposalStatus = getProposalStatus(pdDocument.getDevelopmentProposal().getProposalNumber());
+    public void loadBudgetStatus(DevelopmentProposal proposal) {
+        ProposalBudgetStatus proposalStatus = getProposalStatus(proposal.getProposalNumber());
         if (proposalStatus != null) {
-            pdDocument.getDevelopmentProposal().setBudgetStatus(proposalStatus.getBudgetStatusCode());
+            proposal.setBudgetStatus(proposalStatus.getBudgetStatusCode());
         }
     }
     
@@ -108,8 +112,7 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
     private BudgetVersionOverview getBudgetVersion(BudgetVersionOverview version) {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, Object> keyMap = new HashMap<String, Object>();
-        keyMap.put(Constants.PROPOSAL_NUMBER, version.getProposalNumber());
-        keyMap.put(Constants.BUDGET_VERSION_NUMBER, version.getBudgetVersionNumber());
+        keyMap.put("budgetId", version.getBudgetId());
         BudgetVersionOverview dbVersion = (BudgetVersionOverview) boService.findByPrimaryKey(BudgetVersionOverview.class, keyMap);
         return dbVersion;
     }
@@ -117,5 +120,20 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
+    public void loadBudgetStatus(String proposalNumber) {
+        Map<String, Object> keyMap = new HashMap<String, Object>();
+        keyMap.put(Constants.PROPOSAL_NUMBER, proposalNumber);
+        DevelopmentProposal proposal = (DevelopmentProposal)businessObjectService.findByPrimaryKey(DevelopmentProposal.class, keyMap);
+        loadBudgetStatus(proposal);
+    }
+
+    public void loadBudgetStatusByProposalDocumentNumber(String documentNumber) {
+        Map<String, Object> keyMap = new HashMap<String, Object>();
+        keyMap.put("documentNumber", documentNumber);
+        DevelopmentProposal proposal = (DevelopmentProposal)businessObjectService.findByPrimaryKey(DevelopmentProposal.class, keyMap);
+        loadBudgetStatus(proposal);
+    }
+    
     
 }

@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="readOnly" value="false"  scope="request"/>
 <%-- example to register for security reason 
-<c:set var="epMethodToCallAttribute" value="methodToCall.performLookup.(!!org.kuali.kra.budget.bo.RateClassType!!).(((rateClassType:document.newMaintainableObject.rateClassType,))).((#document.newMaintainableObject.rateClassType:rateClassType,#)).((<>)).(([])).((**)).((^^)).((&&)).((/rateClassTypeT/)).((~~)).anchor1"/>
+<c:set var="epMethodToCallAttribute" value="methodToCall.performLookup.(!!org.kuali.kra.budget.rates.RateClassType!!).(((rateClassType:document.newMaintainableObject.rateClassType,))).((#document.newMaintainableObject.rateClassType:rateClassType,#)).((<>)).(([])).((**)).((^^)).((&&)).((/rateClassTypeT/)).((~~)).anchor1"/>
 ${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)} 
 --%>
 

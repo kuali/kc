@@ -19,11 +19,11 @@
 <c:set var="budgetCostShareAttributes" value="${DataDictionary.BudgetCostShare.attributes}" />
 
 <kul:tabTop 
-		tabTitle="Cost Sharing (${KualiForm.document.budgetCostShareCount})" 
+		tabTitle="Cost Sharing (${KualiForm.document.budget.budgetCostShareCount})" 
 		defaultOpen="false" 
 		tabErrorKey="newCostShare*,document.budgetCostShare*"
 		auditCluster="budgetCostShareAuditErrors" 
-		tabAuditKey="document.budgetCostShare*"
+		tabAuditKey="document.budget.budgetCostShare*"
 		>
 	<div class="tab-container" align="center">
 		<c:choose>
@@ -32,7 +32,7 @@
 				<div class="h2-container">
 			    	<div class="h2-container">
 			    		<span class="subhead-left"><h2>Cost Sharing Distribution List</h2></span>
-			    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetCostShare" altText="help"/></span>
+			    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.distributionincome.BudgetCostShare" altText="help"/></span>
 			        </div>
 			    </div>
 				<div align="center">
@@ -70,29 +70,29 @@
 			          	</tr>
 			          	</kra:section>
 					          	
-			  			<c:forEach var="budgetCostShare" items="${KualiForm.document.budgetCostShares}" varStatus="status">
+			  			<c:forEach var="budgetCostShare" items="${KualiForm.document.budget.budgetCostShares}" varStatus="status">
 			          		<tr>
 			          			<th><div align="right">${status.index + 1}</div></th>
 			            		
 			            		<td><div align="center">
-									<kul:htmlControlAttribute property="document.budgetCostShare[${status.index}].fiscalYear" attributeEntry="${budgetCostShareAttributes.fiscalYear}" />            				
+									<kul:htmlControlAttribute property="document.budget.budgetCostShare[${status.index}].fiscalYear" attributeEntry="${budgetCostShareAttributes.fiscalYear}" />            				
 			        			</div></td>
 			        			
 			            		<td><div align="center">
-			            			<kul:htmlControlAttribute property="document.budgetCostShare[${status.index}].sharePercentage" attributeEntry="${budgetCostShareAttributes.sharePercentage}" styleClass="amount" />
+			            			<kul:htmlControlAttribute property="document.budget.budgetCostShare[${status.index}].sharePercentage" attributeEntry="${budgetCostShareAttributes.sharePercentage}" styleClass="amount" />
 			    				</div></td>
 			            		
 			            		<td><div align="center">
-			        				<kul:htmlControlAttribute property="document.budgetCostShare[${status.index}].sourceAccount" attributeEntry="${budgetCostShareAttributes.sourceAccount}" />
+			        				<kul:htmlControlAttribute property="document.budget.budgetCostShare[${status.index}].sourceAccount" attributeEntry="${budgetCostShareAttributes.sourceAccount}" />
 			        			</div></td>
 			            		
 			            		<td><div align="center">
-			            			<kul:htmlControlAttribute property="document.budgetCostShare[${status.index}].shareAmount" attributeEntry="${budgetCostShareAttributes.shareAmount}" styleClass="amount" />
+			            			<kul:htmlControlAttribute property="document.budget.budgetCostShare[${status.index}].shareAmount" attributeEntry="${budgetCostShareAttributes.shareAmount}" styleClass="amount" />
 			        			</div></td>
 			        				        			
 			            		<td>
 			            			<div align=center>
-			            				<c:if test="${!viewOnly and fn:length(KualiForm.document.budgetCostShares) > 0}">
+			            				<c:if test="${!viewOnly and fn:length(KualiForm.document.budget.budgetCostShares) > 0}">
 										  	<html:image property="methodToCall.deleteCostShare.line${status.index}" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' title="Delete a Cost Share" alt="Delete a Cost Share" styleClass="tinybutton" />
 										</c:if>
 									</div>
@@ -104,7 +104,7 @@
 			          		<th colspan="4" class="infoline"><div align="right">Total Allocated:</div></th>
 						    <td><div align="right">
 						    	<span class="amount">
-						    		<fmt:formatNumber value="${KualiForm.document.allocatedCostSharing}" type="currency" currencySymbol="$" maxFractionDigits="2" />
+						    		<fmt:formatNumber value="${KualiForm.document.budget.allocatedCostSharing}" type="currency" currencySymbol="$" maxFractionDigits="2" />
 						    	</span>
 						    </div></td></td>
 						    <th>&nbsp;</th>	          		
@@ -113,7 +113,7 @@
 			          		<th colspan="4" class="infoline"><div align="right">Unallocated:</div></th>
 						    <td><div align="right">
 						    	<span class="amount">
-						    		<fmt:formatNumber value="${KualiForm.document.unallocatedCostSharing}" type="currency" currencySymbol="$" maxFractionDigits="2" />
+						    		<fmt:formatNumber value="${KualiForm.document.budget.unallocatedCostSharing}" type="currency" currencySymbol="$" maxFractionDigits="2" />
 						    	</span></div></td>
 						    <th>&nbsp;</th>
 			          	</tr>
@@ -126,7 +126,7 @@
 			
 				<div align="center">
 					<table id="budget-cost-sharing-summary-table" cellpadding="0" cellspacing="0" summary="Cost Sharing Amounts to be Allocated">
-			    		<c:forEach var="budgetPeriod" items="${KualiForm.document.budgetPeriods}" varStatus="status">
+			    		<c:forEach var="budgetPeriod" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status">
 							<tr>
 						    	<th width="68.5%"><div align="right">Period ${status.index + 1}: ${budgetPeriod.dateRangeLabel}:</div></th>
 						    	<td width="17%"><div align="right"><span class="amount"><fmt:formatNumber value="${budgetPeriod.costSharingAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" /></span></div></td>

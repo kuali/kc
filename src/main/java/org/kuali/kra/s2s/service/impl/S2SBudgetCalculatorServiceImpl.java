@@ -28,20 +28,22 @@ import org.apache.log4j.Logger;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetCategoryMap;
-import org.kuali.kra.budget.bo.BudgetCategoryMapping;
-import org.kuali.kra.budget.bo.BudgetLineItem;
-import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
-import org.kuali.kra.budget.bo.BudgetModularIdc;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.BudgetPerson;
-import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
-import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
-import org.kuali.kra.budget.bo.BudgetRateAndBase;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
-import org.kuali.kra.budget.bo.RateClass;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetCategoryMap;
+import org.kuali.kra.budget.core.BudgetCategoryMapping;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.personnel.BudgetPerson;
+import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.rates.RateClass;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.bo.BudgetPeriodInfo;
@@ -151,7 +153,7 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
     private BudgetDecimal totalForeignTravelNonFund = BudgetDecimal.ZERO;
     private BudgetDecimal cumTotalEquipNonFund = BudgetDecimal.ZERO;
     private static final Logger LOG = Logger.getLogger(S2SBudgetCalculatorServiceImpl.class);
-    private BudgetDocument budgetDoc = null;
+    private Budget budgetDoc = null;
     private int totCountOtherPersonnel = 0;
     private static final String PRINCIPAL_INVESTIGATOR_ROLE = "PD/PI";
     private static final String KEY_ROLODEX_ID = "rolodexId";
@@ -167,7 +169,6 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
      * @throws S2SException
      * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetInfo(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
-    // TODO: method too long; should be broken down in smaller units.
     public BudgetSummaryInfo getBudgetInfo(ProposalDevelopmentDocument pdDoc) throws S2SException {
         BudgetSummaryInfo budgetSummaryInfo = new BudgetSummaryInfo();
         List<BudgetPeriodInfo> budgetPeriodInfos = null;
@@ -448,11 +449,10 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
      * @throws S2SException
      * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetPeriods(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
-    // TODO: Method length too long - should be broken down into smaller units.
     public List<BudgetPeriodInfo> getBudgetPeriods(ProposalDevelopmentDocument pdDoc) throws S2SException {
         List<BudgetPeriodInfo> budgetPeriods = new ArrayList<BudgetPeriodInfo>();
 
-        budgetDoc = getFinalBudgetVersion(pdDoc);
+        budgetDoc = getFinalBudgetVersion(pdDoc).getBudget();
         if (budgetDoc == null) {
             return budgetPeriods;
         }
@@ -480,7 +480,7 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
             bpData.setFinalVersionFlag(budgetDoc.getFinalVersionFlag().toString());
             bpData.setProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
             bpData.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
-            bpData.setVersion(budgetPeriod.getBudgetVersionNumber());
+            bpData.setVersion(budgetPeriod.getBudget().getBudgetVersionNumber());
             bpData.setStartDate(budgetPeriod.getStartDate());
             bpData.setEndDate(budgetPeriod.getEndDate());
             bpData.setTotalCosts(budgetPeriod.getTotalCost());
@@ -1760,18 +1760,18 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
      */
     public BudgetDocument getFinalBudgetVersion(ProposalDevelopmentDocument pdDoc) throws S2SException {
         BudgetDocument budgetDocument = null;
-        BudgetVersionOverview versionOverview = pdDoc.getDevelopmentProposal().getFinalBudgetVersion();
+        BudgetVersionOverview versionOverview = pdDoc.getDevelopmentProposal().getFinalBudgetVersion().getBudgetVersionOverview();
         try {
             if (versionOverview != null) {
                 budgetDocument = (BudgetDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(
                         versionOverview.getDocumentNumber());
             }
             else {
-                List<BudgetVersionOverview> budgetVersions = pdDoc.getDevelopmentProposal().getBudgetVersionOverviews();
+                List<BudgetDocumentVersion> budgetVersions = pdDoc.getDevelopmentProposal().getBudgetDocumentVersions();
                 if (budgetVersions.size() > 0) {
                     // If no final version found and if there are more than zero budget versions, get the last one
                     budgetDocument = (BudgetDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(
-                            budgetVersions.get(budgetVersions.size() - 1).getDocumentNumber());
+                            budgetVersions.get(budgetVersions.size() - 1).getBudgetVersionOverview().getDocumentNumber());
                 }
             }
         }
@@ -1796,7 +1796,7 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
             throws S2SException {
         BudgetDecimal salary = BudgetDecimal.ZERO;
 
-        BudgetDocument budgetDoc = getFinalBudgetVersion(pdDoc);
+        Budget budgetDoc = getFinalBudgetVersion(pdDoc).getBudget();
         if (budgetDoc != null) {
             for (BudgetPeriod budgetPeriod : budgetDoc.getBudgetPeriods()) {
                 for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {

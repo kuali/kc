@@ -34,7 +34,7 @@
 	<c:set var="rateAttributeEntry" value="${budgetLineItemCalculatedAmountAttributes.calculatedCostSharing}" />
 </c:if>
 
-<c:set var="budgetLineItem" value="${KualiForm.document.budgetPeriods[budgetPeriodNumber - 1].budgetLineItems[budgetLineItemNumber]}"/>
+<c:set var="budgetLineItem" value="${KualiForm.document.budget.budgetPeriods[budgetPeriodNumber - 1].budgetLineItems[budgetLineItemNumber]}"/>
 
 <kul:tabTop defaultOpen="true" tabTitle="${docTitle}" tabErrorKey="*">
 	<div class="tab-container" align="center">

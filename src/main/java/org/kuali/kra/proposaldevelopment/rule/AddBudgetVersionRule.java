@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.rule;
 
-import org.kuali.kra.budget.rules.BudgetDocumentRule;
+import org.kuali.kra.budget.document.BudgetDocumentRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
 import org.kuali.rice.kns.rule.BusinessRule;
 

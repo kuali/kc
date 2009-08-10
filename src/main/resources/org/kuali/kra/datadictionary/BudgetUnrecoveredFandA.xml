@@ -7,7 +7,7 @@
   <bean id="BudgetUnrecoveredFandA" parent="BudgetUnrecoveredFandA-parentBean" />
 
   <bean id="BudgetUnrecoveredFandA-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.BudgetUnrecoveredFandA" />
+    <property name="businessObjectClass" value="org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA" />
     <property name="titleAttribute" value="documentComponentId" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"

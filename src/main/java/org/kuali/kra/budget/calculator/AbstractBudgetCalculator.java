@@ -26,18 +26,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.AbstractBudgetCalculatedAmount;
-import org.kuali.kra.budget.bo.AbstractBudgetRate;
-import org.kuali.kra.budget.bo.BudgetLineItem;
-import org.kuali.kra.budget.bo.BudgetLineItemBase;
-import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
-import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
-import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
-import org.kuali.kra.budget.bo.BudgetProposalLaRate;
-import org.kuali.kra.budget.bo.BudgetProposalRate;
-import org.kuali.kra.budget.bo.CostElement;
-import org.kuali.kra.budget.bo.ValidCalcType;
-import org.kuali.kra.budget.bo.ValidCeRateType;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.calculator.query.GreaterThan;
@@ -45,7 +33,18 @@ import org.kuali.kra.budget.calculator.query.LesserThan;
 import org.kuali.kra.budget.calculator.query.NotEquals;
 import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.calculator.query.QueryEngine;
-import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.CostElement;
+import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.rates.AbstractBudgetRate;
+import org.kuali.kra.budget.rates.BudgetProposalLaRate;
+import org.kuali.kra.budget.rates.BudgetProposalRate;
+import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -59,7 +58,7 @@ public abstract class AbstractBudgetCalculator {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AbstractBudgetCalculator.class);
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
-    protected BudgetDocument budgetDocument;
+    protected Budget budget;
     protected BudgetLineItemBase budgetLineItem;
     private QueryList<BudgetProposalLaRate> lineItemPropLaRates;
     private QueryList<BudgetProposalRate> lineItemPropRates;
@@ -71,11 +70,11 @@ public abstract class AbstractBudgetCalculator {
     /**
      * 
      * Constructs a CalculatorBase.java.
-     * @param budgetDocument
+     * @param budget
      * @param budgetLineItem
      */
-    public AbstractBudgetCalculator(BudgetDocument budgetDocument, BudgetLineItemBase budgetLineItem) {
-        this.budgetDocument = budgetDocument;
+    public AbstractBudgetCalculator(Budget budget, BudgetLineItemBase budgetLineItem) {
+        this.budget = budget;
         this.budgetLineItem = budgetLineItem;
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         dateTimeService = KNSServiceLocator.getDateTimeService();
@@ -98,15 +97,16 @@ public abstract class AbstractBudgetCalculator {
     public QueryList filterRates(List rates) {
 //        if(rates.isEmpty()){
 //            BudgetRatesService budgetRateService = KraServiceLocator.getService(BudgetRatesService.class);
-//            budgetRateService.resetAllBudgetRates(budgetDocument);
+//            budgetRateService.resetAllBudgetRates(budget);
 //        }
+        String activityTypeCode = budget.getBudgetDocument().getParentDocument().getActivityTypeCode();
         if (!rates.isEmpty() && rates.get(0) instanceof BudgetProposalRate) {
-            QueryList qList = filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budgetDocument.getProposal().getDevelopmentProposal().getActivityTypeCode());
-            if (qList.isEmpty() && !budgetDocument.getActivityTypeCode().equals(budgetDocument.getProposal().getDevelopmentProposal().getActivityTypeCode())) {
-                qList = filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budgetDocument.getActivityTypeCode());                
+            QueryList qList = filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), activityTypeCode);
+            if (qList.isEmpty() && !budget.getActivityTypeCode().equals(activityTypeCode)) {
+                qList = filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budget.getActivityTypeCode());                
             }
             return qList;
-            //return filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budgetDocument.getActivityTypeCode());
+            //return filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budget.getActivityTypeCode());
         }
         else {
             return filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), null);
@@ -177,7 +177,7 @@ public abstract class AbstractBudgetCalculator {
             }
             // Add underrecovery rates
             if(!isUndercoveryMatchesOverhead()){
-                Equals equalsRC = new Equals("rateClassCode", budgetDocument.getUrRateClassCode());
+                Equals equalsRC = new Equals("rateClassCode", budget.getUrRateClassCode());
                 Equals equalsRT = new Equals("rateTypeCode", UNDER_REECOVERY_RATE_TYPE_CODE);
                 Equals equalsOnOff = new Equals("onOffCampusFlag", budgetLineItem.getOnOffCampusFlag());
                 And RCandRT = new And(equalsRC, equalsRT);
@@ -198,7 +198,7 @@ public abstract class AbstractBudgetCalculator {
     }
 
     private boolean isUndercoveryMatchesOverhead() {
-        return budgetDocument.getOhRateClassCode().equals(budgetDocument.getUrRateClassCode());
+        return budget.getOhRateClassCode().equals(budget.getUrRateClassCode());
     }
 
     public void calculate() {
@@ -342,8 +342,8 @@ public abstract class AbstractBudgetCalculator {
 
     protected void createAndCalculateBreakupIntervals() {
         populateCalculatedAmountLineItems();
-        setQlLineItemPropLaRates(filterRates(budgetDocument.getBudgetProposalLaRates()));
-        setQlLineItemPropRates(filterRates(budgetDocument.getBudgetProposalRates()));
+        setQlLineItemPropLaRates(filterRates(budget.getBudgetProposalLaRates()));
+        setQlLineItemPropRates(filterRates(budget.getBudgetProposalRates()));
         createBreakUpInterval();
         calculateBreakUpInterval();
     }
@@ -398,8 +398,11 @@ public abstract class AbstractBudgetCalculator {
             for (Boundary boundary : boundaries) {
                 BreakUpInterval breakUpInterval = new BreakUpInterval();
                 breakUpInterval.setBoundary(boundary);
-                breakUpInterval.setProposalNumber(budgetLineItem.getProposalNumber());
-                breakUpInterval.setVersionNumber(budgetLineItem.getBudgetVersionNumber());
+                
+//                breakUpInterval.setProposalNumber(budgetLineItem.getProposalNumber());
+//                breakUpInterval.setVersionNumber(budgetLineItem.getBudgetVersionNumber());
+//                
+                breakUpInterval.setBudgetId(budgetLineItem.getBudgetId());
                 breakUpInterval.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
                 breakUpInterval.setLineItemNumber(budgetLineItem.getLineItemNumber());
                 QueryList<RateAndCost> qlRateAndCosts = new QueryList<RateAndCost>();
@@ -560,7 +563,7 @@ public abstract class AbstractBudgetCalculator {
                 }
                 // Set the URRates if required
                 if (!isUndercoveryMatchesOverhead() && hasValidUnderRecoveryRate()) {
-                    Equals equalsRC = new Equals("rateClassCode", budgetDocument.getUrRateClassCode());
+                    Equals equalsRC = new Equals("rateClassCode", budget.getUrRateClassCode());
                     Equals equalsRT = new Equals("rateTypeCode", UNDER_REECOVERY_RATE_TYPE_CODE);
                     Equals equalsOnOff = new Equals("onOffCampusFlag", budgetLineItem.getOnOffCampusFlag());
                     And RCandRT = new And(equalsRC, equalsRT);
@@ -585,7 +588,7 @@ public abstract class AbstractBudgetCalculator {
     }
 
     private boolean hasValidUnderRecoveryRate() {
-        Equals equalsRC = new Equals("rateClassCode", budgetDocument.getUrRateClassCode());
+        Equals equalsRC = new Equals("rateClassCode", budget.getUrRateClassCode());
         Equals equalsRT = new Equals("rateTypeCode", UNDER_REECOVERY_RATE_TYPE_CODE);
         Equals equalsRCT = new Equals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
         And RCandRT = new And(equalsRC, equalsRT);
@@ -718,7 +721,7 @@ public abstract class AbstractBudgetCalculator {
     }
 
     private Equals equalsOverHeadRateClassCode() {
-        return new Equals("rateClassCode", "" + budgetDocument.getOhRateClassCode());
+        return new Equals("rateClassCode", "" + budget.getOhRateClassCode());
     }
 
     private NotEquals notEqualsOverHeadRateClassType() {
@@ -738,7 +741,7 @@ public abstract class AbstractBudgetCalculator {
                                                      .or(notEqualsOverHeadRateClassType())
                                                      .and(notEqualsInflationRateClassType()));
 
-        List<BudgetProposalLaRate> budgetProposalLaRates = budgetDocument.getBudgetProposalLaRates();
+        List<BudgetProposalLaRate> budgetProposalLaRates = budget.getBudgetProposalLaRates();
         if (budgetProposalLaRates == null || budgetProposalLaRates.size() == 0) {
             qValidCeRateTypes = qValidCeRateTypes.filter(notEqualsLabAllocationRateClassType());
         }
@@ -796,7 +799,7 @@ public abstract class AbstractBudgetCalculator {
         }
     }
     
-    public final void setCalculatedAmounts(BudgetDocument budgetDocument, BudgetLineItemBase budgetLineItem) {
+    public final void setCalculatedAmounts(Budget budget, BudgetLineItemBase budgetLineItem) {
         QueryEngine queryEngine = new QueryEngine();
         BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt = null;
 

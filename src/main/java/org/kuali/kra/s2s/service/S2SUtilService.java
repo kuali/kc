@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.State;
-import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;

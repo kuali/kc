@@ -17,7 +17,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="top" required="true" %>
 
-<c:set var="budgetDocumentAttributes" value="${DataDictionary.BudgetDocument.attributes}" />
+<c:set var="budgetDocumentAttributes" value="${DataDictionary.Budget.attributes}" />
 
 <c:if test="${top == 'true'}">
     <kul:tabTop tabTitle="Budget Justification" defaultOpen="false" tabErrorKey="budgetJustificationWrapper.*">

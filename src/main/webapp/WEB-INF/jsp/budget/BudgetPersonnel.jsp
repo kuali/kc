@@ -37,8 +37,8 @@
 	<kra-b:projectPersonnel/>
 	
 	<c:set var="action" value="budgetExpensesAction" />
-	<c:set var="budgetCategoryTypeCodeKey" value="${KualiForm.document.budgetCategoryTypeCodes[0].key}" />
-	<c:set var="budgetCategoryTypeCodeLabel" value="${KualiForm.document.budgetCategoryTypeCodes[0].label}" />
+	<c:set var="budgetCategoryTypeCodeKey" value="${KualiForm.document.budget.budgetCategoryTypeCodes[0].key}" />
+	<c:set var="budgetCategoryTypeCodeLabel" value="${KualiForm.document.budget.budgetCategoryTypeCodes[0].label}" />
 	<c:set var="catCodes" value="0" />
 	
 	<kra-b:budgetExpenseBudgetOverview transparentBackground="false" defaultOpen="false" /> 

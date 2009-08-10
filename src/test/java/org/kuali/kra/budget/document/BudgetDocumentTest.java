@@ -31,8 +31,10 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.BudgetProjectIncome;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class BudgetDocumentTest {
@@ -55,7 +57,7 @@ public class BudgetDocumentTest {
      */
     @Test
     public void testCalculatingDatefromString() throws Exception {
-        BudgetDocument bd = new BudgetDocument();
+        Budget bd = new Budget();
         Date fiscalYearDate = bd.createDateFromString("07/01/2000");
         
         Calendar cal = Calendar.getInstance();
@@ -73,7 +75,7 @@ public class BudgetDocumentTest {
         
         final BusinessObjectService mockBOS = context.mock(BusinessObjectService.class);
         
-        final BudgetDocument bd = new BudgetDocument() {
+        final BudgetDocument bdoc = new BudgetDocument() {
             @Override
             protected <T> T getService(Class<T> serviceClass) {
                 if (BusinessObjectService.class.equals(serviceClass)) {
@@ -82,20 +84,20 @@ public class BudgetDocumentTest {
                 throw new RuntimeException("unexpected request for service " + serviceClass);
             }
         };
-        bd.setProposalNumber("1234");
+        final Budget bd = bdoc.getBudget();
+//        bd.setProposalNumber("1234");
         bd.setBudgetVersionNumber(Integer.valueOf(1));
         
         final List<BudgetPeriod> periods = new ArrayList<BudgetPeriod>();
         final BudgetPeriod p = new BudgetPeriod();
         p.setBudgetPeriodId(Long.valueOf(1));
-        p.setProposalNumber("1234");
+        p.setBudget(bd);
         periods.add(p);
         
         context.checking(new Expectations() {
             {
                 final Map<Object, Object> matchCriteria = new HashMap<Object, Object>();
-                matchCriteria.put("proposalNumber", bd.getProposalNumber());
-                matchCriteria.put("budgetVersionNumber", bd.getBudgetVersionNumber());
+                matchCriteria.put("budgetId", bdoc.getBudget().getBudgetId());
                 
                 oneOf(mockBOS).findMatching(BudgetPeriod.class, matchCriteria);
                 will(returnValue(periods));
@@ -128,7 +130,7 @@ public class BudgetDocumentTest {
     public void handlePeriodToProjectIncomeRelationshipNoItemsToDelete() throws Exception {
         final BusinessObjectService mockBOS = context.mock(BusinessObjectService.class);
         
-        final BudgetDocument bd = new BudgetDocument() {
+        final BudgetDocument bdoc = new BudgetDocument() {
             @Override
             protected <T> T getService(Class<T> serviceClass) {
                 if (BusinessObjectService.class.equals(serviceClass)) {
@@ -137,14 +139,14 @@ public class BudgetDocumentTest {
                 throw new RuntimeException("unexpected request for service " + serviceClass);
             }
         };
-        bd.setProposalNumber("1234");
+        final Budget bd = bdoc.getBudget();
+        bd.setBudgetId(1234l);
         bd.setBudgetVersionNumber(Integer.valueOf(1));
         
         context.checking(new Expectations() {
             {
                 final Map<Object, Object> matchCriteria = new HashMap<Object, Object>();
-                matchCriteria.put("proposalNumber", bd.getProposalNumber());
-                matchCriteria.put("budgetVersionNumber", bd.getBudgetVersionNumber());
+                matchCriteria.put("budgetId", bd.getBudgetId());
                 
                 oneOf(mockBOS).findMatching(BudgetPeriod.class, matchCriteria);
                 will(returnValue(Collections.emptyList()));
@@ -178,7 +180,7 @@ public class BudgetDocumentTest {
         
         final BusinessObjectService mockBOS = context.mock(BusinessObjectService.class);
         
-        final BudgetDocument bd = new BudgetDocument() {
+        final BudgetDocument bdoc = new BudgetDocument() {
             @Override
             protected <T> T getService(Class<T> serviceClass) {
                 if (BusinessObjectService.class.equals(serviceClass)) {
@@ -187,13 +189,15 @@ public class BudgetDocumentTest {
                 throw new RuntimeException("unexpected request for service " + serviceClass);
             }
         };
-        bd.setProposalNumber("1234");
+        final Budget bd = bdoc.getBudget();
+        bd.setBudgetId(1234l);
         bd.setBudgetVersionNumber(Integer.valueOf(1));
         
         final List<BudgetPeriod> periods = new ArrayList<BudgetPeriod>();
         final BudgetPeriod p = new BudgetPeriod();
         p.setBudgetPeriodId(Long.valueOf(1));
-        p.setProposalNumber("1234");
+        p.setBudget(bd);
+//        p.setProposalNumber("1234");
         periods.add(p);
         
         bd.setBudgetPeriods(periods);
@@ -201,8 +205,7 @@ public class BudgetDocumentTest {
         context.checking(new Expectations() {
             {
                 final Map<Object, Object> matchCriteria = new HashMap<Object, Object>();
-                matchCriteria.put("proposalNumber", bd.getProposalNumber());
-                matchCriteria.put("budgetVersionNumber", bd.getBudgetVersionNumber());
+                matchCriteria.put("budgetId", bd.getBudgetId());
                 
                 oneOf(mockBOS).findMatching(BudgetPeriod.class, matchCriteria);
                 will(returnValue(periods));
@@ -236,7 +239,7 @@ public class BudgetDocumentTest {
         
         final BusinessObjectService mockBOS = context.mock(BusinessObjectService.class);
         
-        final BudgetDocument bd = new BudgetDocument() {
+        final BudgetDocument bdoc = new BudgetDocument() {
             @Override
             protected <T> T getService(Class<T> serviceClass) {
                 if (BusinessObjectService.class.equals(serviceClass)) {
@@ -245,13 +248,15 @@ public class BudgetDocumentTest {
                 throw new RuntimeException("unexpected request for service " + serviceClass);
             }
         };
-        bd.setProposalNumber("1234");
+        final Budget bd = bdoc.getBudget();
+        bd.setBudgetId(1234l);
         bd.setBudgetVersionNumber(Integer.valueOf(1));
         
         final List<BudgetPeriod> newPeriods = new ArrayList<BudgetPeriod>();
         final BudgetPeriod newP = new BudgetPeriod();
         newP.setBudgetPeriodId(null);
-        newP.setProposalNumber("1234");
+//        newP.setProposalNumber("1234");
+        newP.setBudget(bd);
         newPeriods.add(newP);
         
         bd.setBudgetPeriods(newPeriods);
@@ -259,13 +264,12 @@ public class BudgetDocumentTest {
         context.checking(new Expectations() {
             {
                 final Map<Object, Object> matchCriteria = new HashMap<Object, Object>();
-                matchCriteria.put("proposalNumber", bd.getProposalNumber());
-                matchCriteria.put("budgetVersionNumber", bd.getBudgetVersionNumber());
+                matchCriteria.put("budgetId", bd.getBudgetId());
                 
                 final List<BudgetPeriod> periods = new ArrayList<BudgetPeriod>();
                 final BudgetPeriod p = new BudgetPeriod();
                 p.setBudgetPeriodId(Long.valueOf(1));
-                p.setProposalNumber("1234");
+                p.setBudget(bd);
                 periods.add(p);
                 
                 oneOf(mockBOS).findMatching(BudgetPeriod.class, matchCriteria);

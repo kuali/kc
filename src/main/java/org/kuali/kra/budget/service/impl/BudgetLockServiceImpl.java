@@ -22,6 +22,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.service.BudgetLockService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kim.bo.Person;
@@ -74,7 +75,7 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
     protected String getCustomLockDescriptor(Document document, Map editMode, Person user) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         if(StringUtils.isNotEmpty(activeLockRegion)) {
-            ProposalDevelopmentDocument parent = ((BudgetDocument) document).getProposal();
+            BudgetParentDocument parent = ((BudgetDocument) document).getParentDocument();
             if(parent != null) {
                 return parent.getDocumentNumber()+"-"+activeLockRegion; 
             }
@@ -125,8 +126,8 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
         BudgetDocument budgetDocument = (BudgetDocument) document;
         if (useCustomLockDescriptors()) {
             String lockDescriptor = getCustomLockDescriptor(budgetDocument, editMode, user);
-            PessimisticLock budgetLockForProposal = generateNewLock(budgetDocument.getProposal().getDocumentNumber(), lockDescriptor, user);
-            budgetDocument.getProposal().addPessimisticLock(budgetLockForProposal);
+            PessimisticLock budgetLockForProposal = generateNewLock(budgetDocument.getParentDocumentKey(), lockDescriptor, user);
+            budgetDocument.getParentDocument().addPessimisticLock(budgetLockForProposal);
             return generateNewLock(document.getDocumentNumber(), lockDescriptor, user);
         } 
         else {
@@ -142,7 +143,7 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
     public boolean hasPreRouteEditAuthorization(Document document, Person user) {
         BudgetDocument budgetDocument = (BudgetDocument) document;
          
-        for (Iterator iterator = budgetDocument.getProposal().getPessimisticLocks().iterator(); iterator.hasNext();) {
+        for (Iterator iterator = budgetDocument.getParentDocument().getPessimisticLocks().iterator(); iterator.hasNext();) {
             PessimisticLock lock = (PessimisticLock) iterator.next();
             if (lock.getLockDescriptor().endsWith(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET) && lock.isOwnedByUser(user)) {
                 return true;

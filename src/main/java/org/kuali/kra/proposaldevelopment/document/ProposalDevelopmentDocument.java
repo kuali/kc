@@ -15,39 +15,56 @@
  */
 package org.kuali.kra.proposaldevelopment.document;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.kra.authorization.Task;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.workflow.DocumentInitiator;
 import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
 
-public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable, SessionDocument, Permissionable {
+public class ProposalDevelopmentDocument extends BudgetParentDocument implements Copyable, SessionDocument, Permissionable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
 
     private static final String DOCUMENT_TYPE_CODE = "PRDV";
 
     private static final long serialVersionUID = 2958631745964610527L;
     private List<DevelopmentProposal> developmentProposalList;
+    private List<BudgetDocumentVersion> budgetDocumentVersions;
 
 
     public ProposalDevelopmentDocument() {
         super();
         developmentProposalList = new ArrayList<DevelopmentProposal>();
-        DevelopmentProposal newProposal = new DevelopmentProposal();
+        DevelopmentProposal newProposal = new DevelopmentProposal(); 
         newProposal.setProposalDocument(this);
         developmentProposalList.add(newProposal);
+        budgetDocumentVersions = new ArrayList<BudgetDocumentVersion>();
     }
 
     public List<DevelopmentProposal> getDevelopmentProposalList() {
@@ -124,17 +141,45 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
         KraServiceLocator.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
 
-        if (getDevelopmentProposal().getBudgetVersionOverviews() != null) {
-            updateDocumentDescriptions(getDevelopmentProposal().getBudgetVersionOverviews());
+        if (getDevelopmentProposal().getBudgetDocumentVersions() != null) {
+            updateDocumentDescriptions(getDevelopmentProposal().getBudgetDocumentVersions());
         }
     }
 
     @Override
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
-        KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this);
+        KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this.getDevelopmentProposal());
 
         getDevelopmentProposal().updateProposalChangeHistory();
+    }
+
+    public void setAllowsNoteAttachments(boolean allowsNoteAttachments) {
+        getDevelopmentProposal().setAllowsNoteAttachments(allowsNoteAttachments);
+    }
+    
+    public void addNewBudgetVersion(BudgetDocument budgetDocument, String name, boolean isDescriptionUpdatable) {
+        Budget budget = budgetDocument.getBudget();
+        BudgetDocumentVersion budgetDocumentVersion = new BudgetDocumentVersion();
+        budgetDocumentVersion.setDocumentNumber(budgetDocument.getDocumentNumber());
+        budgetDocumentVersion.setParentDocumentKey(getDocumentNumber());
+        budgetDocumentVersion.setVersionNumber(budgetDocument.getVersionNumber());
+        BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
+        budgetVersion.setDocumentNumber(budgetDocument.getDocumentNumber());
+        budgetVersion.setDocumentDescription(name);
+        budgetVersion.setBudgetVersionNumber(budget.getBudgetVersionNumber());
+        budgetVersion.setStartDate(budget.getStartDate());
+        budgetVersion.setEndDate(budget.getEndDate());
+        budgetVersion.setOhRateTypeCode(budget.getOhRateTypeCode());
+        budgetVersion.setOhRateClassCode(budget.getOhRateClassCode());
+        budgetVersion.setVersionNumber(budget.getVersionNumber());
+        budgetVersion.setDescriptionUpdatable(isDescriptionUpdatable);
+        
+        String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+        budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
+        
+        getBudgetDocumentVersions().add(budgetDocumentVersion);
     }
 
     /**
@@ -179,6 +224,112 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         managedLists.addAll(getDevelopmentProposal().buildListOfDeletionAwareLists());
         managedLists.add(developmentProposalList);
         return managedLists;
+    }
+
+    /**
+     * Sets the budgetDocumentVersions attribute value.
+     * @param budgetDocumentVersions The budgetDocumentVersions to set.
+     */
+    public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetDocumentVersions) {
+        this.budgetDocumentVersions = budgetDocumentVersions;
+    }
+
+    /**
+     * Gets the budgetDocumentVersions attribute. 
+     * @return Returns the budgetDocumentVersions.
+     */
+    public List<BudgetDocumentVersion> getBudgetDocumentVersions() {
+        return budgetDocumentVersions;
+    }
+
+    @Override
+    public String getActivityTypeCode() {
+        return getDevelopmentProposal().getActivityTypeCode();
+    }
+
+    @Override
+    public String getBudgetStatus() {
+        return getDevelopmentProposal().getBudgetStatus();
+    }
+
+    @Override
+    public Task getParentAuthZTask(String taskName) {
+        return new ProposalTask(taskName,this);
+    }
+
+    @Override
+    public Date getRequestedEndDateInitial() {
+        return getDevelopmentProposal().getRequestedEndDateInitial();
+    }
+
+    @Override
+    public Date getRequestedStartDateInitial() {
+        return getDevelopmentProposal().getRequestedStartDateInitial();
+    }
+
+    @Override
+    public boolean isComplete() {
+        return getDevelopmentProposal().isProposalComplete();
+    }
+
+    @Override
+    public void setBudgetStatus(String budgetStatus) {
+        getDevelopmentProposal().setBudgetStatus(budgetStatus);
+    }
+
+    @Override
+    public ActivityType getActivityType() {
+        return getDevelopmentProposal().getActivityType();
+    }
+
+    @Override
+    public BudgetDocumentVersion getBudgetDocumentVersion(int selectedLine) {
+        return getDevelopmentProposal().getBudgetDocumentVersion(selectedLine);
+    }
+
+    @Override
+    public Unit getUnit() {
+        return getDevelopmentProposal().getOwnedByUnit();
+    }
+
+    @Override
+    public List getPersonRolodexList() {
+        return getDevelopmentProposal().getProposalPersons();
+    }
+
+    @Override
+    public String getUnitNumber() {
+        return getDevelopmentProposal().getOwnedByUnitNumber();
+    }
+
+    @Override
+    public Map<String, String> getNihDescription() {
+        return getDevelopmentProposal().getNihDescription();
+    }
+
+    @Override
+    public PersonRolodex getProposalEmployee(String personId) {
+        return getDevelopmentProposal().getProposalEmployee(personId);
+    }
+
+    @Override
+    public ProposalPersonRole getProposalEmployeeRole(String personId) {
+        return getDevelopmentProposal().getProposalEmployeeRole(personId);
+    }
+
+    @Override
+    public PersonRolodex getProposalNonEmployee(Integer rolodexId) {
+        return getDevelopmentProposal().getProposalNonEmployee(rolodexId);
+    }
+
+    @Override
+    public ProposalPersonRole getProposalNonEmployeeRole(Integer rolodexId) {
+        return getDevelopmentProposal().getProposalNonEmployeeRole(rolodexId);
+    }
+
+    @Override
+    public boolean isNih() {
+        return getDevelopmentProposal().isNih();
     }
 
 }

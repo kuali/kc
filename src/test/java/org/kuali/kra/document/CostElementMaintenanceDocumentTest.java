@@ -16,7 +16,7 @@
 package org.kuali.kra.document;
 
 import org.junit.Test;
-import org.kuali.kra.budget.bo.CostElement;
+import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
@@ -123,7 +123,7 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
 
     @Test
     public void testCreateNewCostElementMaintenanceDocument() throws Exception {
-        HtmlPage costElementMaintenancePage = getMaintenanceDocumentPage(CE_MAINT_TITLE, "org.kuali.kra.budget.bo.CostElement", "Kuali :: Cost Element Maintenance Document");
+        HtmlPage costElementMaintenancePage = getMaintenanceDocumentPage(CE_MAINT_TITLE, "org.kuali.kra.proposaldevelopment.budget.bo.CostElement", "Kuali :: Cost Element Maintenance Document");
         String documentNumber = getFieldValue(costElementMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(costElementMaintenancePage,"Edit Cost Element New * Object Code Name: Budget Category Code: * Description: * On/Off Campus Flag: unchecked");
         setFieldValue(costElementMaintenancePage, "document.documentHeader.documentDescription", "Cost Element - test");

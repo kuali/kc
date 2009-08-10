@@ -24,7 +24,7 @@
 		<convert converter="bean" match="org.kuali.kra.bo.Sponsor">
 			<param name="include" value="sponsorCode,sponsorName" />
 		</convert>
-		<convert converter="bean" match="org.kuali.kra.budget.bo.JobCode">
+		<convert converter="bean" match="org.kuali.kra.budget.personnel.JobCode">
 			<param name="include" value="jobCode" />
 		</convert>		
 		<convert converter="bean" match="org.kuali.kra.bo.Person">

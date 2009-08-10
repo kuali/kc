@@ -28,7 +28,7 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.State;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
@@ -429,7 +429,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * @param budgetPersonnelDetails person from BudgetPersonnelDetails
      * @return true if persons match, false otherwise
      * @see org.kuali.kra.s2s.service.S2SUtilService#proposalPersonEqualsBudgetPerson(org.kuali.kra.proposaldevelopment.bo.ProposalPerson,
-     *      org.kuali.kra.budget.bo.BudgetPersonnelDetails)
+     *      org.kuali.kra.budget.personnel.BudgetPersonnelDetails)
      */
     public boolean proposalPersonEqualsBudgetPerson(ProposalPerson proposalPerson, BudgetPersonnelDetails budgetPersonnelDetails) {
         boolean equal = false;
@@ -451,7 +451,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * @param budgetPersonnelDetails person from BudgetPersonnelDetails
      * @return true if persons match, false otherwise
      * @see org.kuali.kra.s2s.service.S2SUtilService#keyPersonEqualsBudgetPerson(org.kuali.kra.s2s.generator.bo.KeyPersonInfo,
-     *      org.kuali.kra.budget.bo.BudgetPersonnelDetails)
+     *      org.kuali.kra.budget.personnel.BudgetPersonnelDetails)
      */
     public boolean keyPersonEqualsBudgetPerson(KeyPersonInfo keyPersonInfo, BudgetPersonnelDetails budgetPersonnelDetails) {
         boolean equal = false;

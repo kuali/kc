@@ -17,7 +17,6 @@ package org.kuali.kra.budget.calculator;
 
 import java.util.List;
 
-import org.kuali.kra.budget.bo.ValidCalcType;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;

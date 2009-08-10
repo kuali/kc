@@ -38,8 +38,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.SponsorFormTemplateList;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -1013,7 +1014,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         BudgetDocument budgetDocument = null;
         String forward = null;
         try {
-            for (BudgetVersionOverview budgetVersion: pdDoc.getDevelopmentProposal().getBudgetVersionOverviews()) {
+            for (BudgetDocumentVersion budgetDocumentVersion: pdDoc.getDevelopmentProposal().getBudgetDocumentVersions()) {
+                BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
                 if (budgetVersion.isFinalVersionFlag()) {
                     DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
                     budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());

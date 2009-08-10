@@ -30,12 +30,13 @@ import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
-import org.kuali.kra.budget.bo.BudgetLineItem;
-import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 
 public class GroupNameValuesFinder extends KeyValuesBase{
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
@@ -59,8 +60,8 @@ public class GroupNameValuesFinder extends KeyValuesBase{
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         
         Map fieldValues = new HashMap();
-        fieldValues.put("proposalNumber", budgetDocument.getProposalNumber());
-        fieldValues.put("budgetVersionNumber", budgetDocument.getBudgetVersionNumber());
+//        DevelopmentProposal proposal = budgetDocument.getParentDocument().getDevelopmentProposal();
+        fieldValues.put("budgetId", budgetDocument.getBudget().getBudgetId());
         
         int budgetPeriodNumber = -1;
         if(budgetForm.getViewBudgetPeriod() == null)
@@ -91,7 +92,7 @@ public class GroupNameValuesFinder extends KeyValuesBase{
              }
         }       
         
-        for (BudgetLineItem newBudgetLineItem : budgetDocument.getBudgetPeriod(budgetPeriodNumber-1).getBudgetLineItems()) {
+        for (BudgetLineItem newBudgetLineItem : budgetDocument.getBudget().getBudgetPeriod(budgetPeriodNumber-1).getBudgetLineItems()) {
             if(StringUtils.isNotEmpty(newBudgetLineItem.getGroupName())) {
                 distinct = distinctGroupNames.add(newBudgetLineItem.getGroupName());
                 if(distinct) {

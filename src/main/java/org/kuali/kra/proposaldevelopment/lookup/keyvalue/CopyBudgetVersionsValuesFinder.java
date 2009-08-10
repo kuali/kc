@@ -18,10 +18,11 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -62,8 +63,8 @@ public class CopyBudgetVersionsValuesFinder extends KeyValuesBase {
     boolean finalVersionPresent() {
         
         final ProposalDevelopmentDocument document = this.getDocument();
-        for (final BudgetVersionOverview overview : document.getDevelopmentProposal().getBudgetVersionOverviews()) {
-            if (overview.isFinalVersionFlag()) {
+        for (final BudgetDocumentVersion overview : document.getDevelopmentProposal().getBudgetDocumentVersions()) {
+            if (overview.getBudgetVersionOverview().isFinalVersionFlag()) {
                 return true;
             }
         }
