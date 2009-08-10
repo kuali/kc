@@ -298,4 +298,6 @@
 	    <property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
+	<bean id="protocolFinderDao" class="org.kuali.kra.irb.ProtocolFinderDaoOjb" parent="platformAwareDao" />
+	
 </beans>

@@ -70,6 +70,21 @@ public class ProtocolFactory {
         documentService.saveDocument(protocolDocument);
         return protocolDocument;
     }
+    
+    /**
+     * Get a new Protocol Document.
+     * 
+     * @return a new Protocol Document.
+     * @throws WorkflowException
+     */
+    public static ProtocolDocument createProtocolDocument(String protocolNumber, Integer sequenceNumber) throws WorkflowException {
+        DocumentService documentService = KNSServiceLocator.getDocumentService();
+        ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getNewDocument("ProtocolDocument");
+        setProtocolRequiredFields(protocolDocument, protocolNumber);
+        protocolDocument.getProtocol().setSequenceNumber(sequenceNumber);
+        documentService.saveDocument(protocolDocument);
+        return protocolDocument;
+    }
 
 
     /**
