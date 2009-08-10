@@ -23,7 +23,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
@@ -117,19 +120,19 @@ public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTest
     
     private void initBudgetDocument() throws Exception {
         budgetDocument = (BudgetDocument) getDocumentService().getNewDocument("BudgetDocument");
-        
+        Budget budget = budgetDocument.getBudget();
         // add budget periods here to circumvent automatic generation of budget periods 
-        budgetDocument.add(createBudgetPeriod(1));
-        budgetDocument.add(createBudgetPeriod(2));
+        budget.add(createBudgetPeriod(1));
+        budget.add(createBudgetPeriod(2));
         
-        budgetDocument.setProposalNumber(proposalDocument.getDevelopmentProposal().getProposalNumber());
+//        budget.setProposalNumber(proposalDocument.getDevelopmentProposal().getProposalNumber());
         budgetDocument.getDocumentHeader().setDocumentDescription("Budget Document");
-        budgetDocument.setBudgetVersionNumber(1);
-        budgetDocument.setStartDate(getNowDate());
-        budgetDocument.setEndDate(getNowDate());
-        budgetDocument.setOhRateClassCode("1");
-        budgetDocument.setUrRateClassCode("2");
-        budgetDocument.setModularBudgetFlag(false);
+        budget.setBudgetVersionNumber(1);
+        budget.setStartDate(getNowDate());
+        budget.setEndDate(getNowDate());
+        budget.setOhRateClassCode("1");
+        budget.setUrRateClassCode("2");
+        budget.setModularBudgetFlag(false);
         
         getDocumentService().saveDocument(budgetDocument);
         budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());        

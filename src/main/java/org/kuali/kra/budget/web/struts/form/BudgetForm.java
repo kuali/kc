@@ -25,19 +25,23 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetCostShare;
-import org.kuali.kra.budget.bo.BudgetLineItem;
-import org.kuali.kra.budget.bo.BudgetModularIdc;
-import org.kuali.kra.budget.bo.BudgetModularSummary;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
-import org.kuali.kra.budget.bo.BudgetProjectIncome;
-import org.kuali.kra.budget.bo.BudgetSubAwards;
-import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.distributionincome.BudgetCostShare;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
+import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
+import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
+import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularSummary;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -52,7 +56,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class BudgetForm extends ProposalFormBase {
@@ -64,7 +67,7 @@ public class BudgetForm extends ProposalFormBase {
     private static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
     private static final String KR_EXTERNALIZABLE_IMAGES_URI_KEY = "kr.externalizable.images.url";
     private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
-    public static final String VERSION_NUMBER_KEY = "DataDictionary.BudgetDocument.attributes.budgetVersionNumber";
+    public static final String VERSION_NUMBER_KEY = "DataDictionary.Budget.attributes.budgetVersionNumber";
     public static final String BUDGET_NAME_KEY = "DataDictionary.KraAttributeReferenceDummy.attributes.budgetName";
     
     private String newBudgetPersons;
@@ -76,8 +79,8 @@ public class BudgetForm extends ProposalFormBase {
     private BudgetLineItem newPersonnelLineItem;   
     private Integer newBudgetPeriodNumber = Integer.valueOf(0);    
     
-	private BudgetCostShare newBudgetCostShare;
-	private BudgetProjectIncome newBudgetProjectIncome;
+    private BudgetCostShare newBudgetCostShare;
+    private BudgetProjectIncome newBudgetProjectIncome;
     private BudgetUnrecoveredFandA newBudgetUnrecoveredFandA;
     private BudgetModularIdc newBudgetModularIdc;
     private BudgetModularSummary budgetModularSummary;
@@ -159,7 +162,7 @@ public class BudgetForm extends ProposalFormBase {
      */
     public void initialize() {
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.budget.document.BudgetDocument.class.getName());
+        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
         List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
         HeaderNavigation[] list = new HeaderNavigation[navList.size()];
         navList.toArray(list);
@@ -174,7 +177,7 @@ public class BudgetForm extends ProposalFormBase {
         newBudgetLineItems = new ArrayList<BudgetLineItem>();
         newPersonnelLineItem = new BudgetLineItem();          
         setDocumentNextValueRefresh(true);
-        budgetJustificationWrapper = new BudgetJustificationWrapper(getDocument().getBudgetJustification());
+        budgetJustificationWrapper = new BudgetJustificationWrapper(getDocument().getBudget().getBudgetJustification());
         newSubAward = new BudgetSubAwards();
         this.getDocInfo().add(new HeaderField(BUDGET_NAME_KEY, Constants.EMPTY_STRING));
         this.getDocInfo().add(new HeaderField(VERSION_NUMBER_KEY, Constants.EMPTY_STRING));
@@ -209,8 +212,8 @@ public class BudgetForm extends ProposalFormBase {
 
     public void setNewBudgetPeriod(BudgetPeriod newBudgetPeriod) {
         Integer budgetPeriod = 1;
-        if(getDocument().getBudgetPeriods() != null) {
-            budgetPeriod = getDocument().getBudgetPeriods().size() + 1;
+        if(getDocument().getBudget().getBudgetPeriods() != null) {
+            budgetPeriod = getDocument().getBudget().getBudgetPeriods().size() + 1;
         }
         newBudgetPeriod.setBudgetPeriod(budgetPeriod);
         this.newBudgetPeriod = newBudgetPeriod;
@@ -331,8 +334,9 @@ public class BudgetForm extends ProposalFormBase {
      * @return
      */
     public boolean isCostSharingEditFormVisible() {
-        BudgetDocument budgetDocument = getDocument();        
-        return budgetDocument != null && budgetDocument.isCostSharingApplicable() && budgetDocument.isCostSharingAvailable(); 
+        BudgetDocument budgetDocument = getDocument();  
+        Budget budget = budgetDocument != null?budgetDocument.getBudget():null;
+        return budget != null && budget.isCostSharingApplicable() && budget.isCostSharingAvailable(); 
     }
     
     /**
@@ -341,7 +345,8 @@ public class BudgetForm extends ProposalFormBase {
      */
     public boolean isUnrecoveredFandAEditFormVisible() {
         BudgetDocument budgetDocument = getDocument(); 
-        return budgetDocument != null && budgetDocument.isUnrecoveredFandAApplicable() && budgetDocument.isUnrecoveredFandAAvailable(); 
+        Budget budget = budgetDocument != null?budgetDocument.getBudget():null;
+        return budget != null && budget.isUnrecoveredFandAApplicable() && budget.isUnrecoveredFandAAvailable(); 
     }
     
     public void setExtraTopButtons(List<ExtraButton> extraTopButtons) {
@@ -627,26 +632,26 @@ public class BudgetForm extends ProposalFormBase {
     @Override
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         BudgetDocument budgetDocument = (BudgetDocument) getDocument();
-        ProposalDevelopmentDocument proposalDocument = budgetDocument.getProposal();
+        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         KualiWorkflowDocument parentWorkflowDocument = null;
         
         try {
-            if(proposalDocument != null) {
-                parentWorkflowDocument = proposalDocument.getDocumentHeader().getWorkflowDocument();
+            if(parentDocument != null) {
+                parentWorkflowDocument = parentDocument.getDocumentHeader().getWorkflowDocument();
             }
         } catch (RuntimeException e) {
         }
         
         try {
-            if(proposalDocument != null && parentWorkflowDocument == null) {
-                Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(proposalDocument.getDocumentNumber());
+            if(parentDocument != null && parentWorkflowDocument == null) {
+                Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(parentDocument.getDocumentNumber());
                 parentWorkflowDocument = retrievedDocument.getDocumentHeader().getWorkflowDocument();
             }
         } catch (WorkflowException e) {
         } 
         
         //Document Number TODO replace universal user inquiry
-        HeaderField docNumber = new HeaderField("DataDictionary.DocumentHeader.attributes.documentNumber", proposalDocument != null? proposalDocument.getDocumentNumber() : null); 
+        HeaderField docNumber = new HeaderField("DataDictionary.DocumentHeader.attributes.documentNumber", parentDocument != null? parentDocument.getDocumentNumber() : null); 
         HeaderField docStatus = new HeaderField("DataDictionary.DocumentHeader.attributes.financialDocumentStatusCode", parentWorkflowDocument != null? parentWorkflowDocument.getStatusDisplayValue() : null);
         HeaderField docInitiator = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.initiatorNetworkId", 
                 parentWorkflowDocument != null? parentWorkflowDocument.getInitiatorNetworkId() : null, 
@@ -667,21 +672,23 @@ public class BudgetForm extends ProposalFormBase {
         
         String budgetName = Constants.EMPTY_STRING;
         String budgetVersionNumber = Constants.EMPTY_STRING;
-        if (budgetDocument != null && proposalDocument != null) {
-            List<BudgetVersionOverview> budgetVersions = proposalDocument.getDevelopmentProposal().getBudgetVersionOverviews();
-            for (BudgetVersionOverview budgetVersion: budgetVersions) {
-                if (budgetVersion.getBudgetVersionNumber().intValue() == budgetDocument.getBudgetVersionNumber().intValue()) {
+        if (budgetDocument != null && parentDocument != null) {
+            Budget budget = budgetDocument.getBudget();
+            List<BudgetDocumentVersion> budgetDocumentVersions = parentDocument.getBudgetDocumentVersions();
+            for (BudgetDocumentVersion budgetDocumentVersion: budgetDocumentVersions) {
+                BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
+                if (budgetVersion.getBudgetVersionNumber().intValue() == budget.getBudgetVersionNumber().intValue()) {
                     budgetName = budgetVersion.getDocumentDescription();
                     break;
                 }
             }
             
-            if (budgetDocument.getBudgetVersionNumber() != null) {
-                budgetVersionNumber = Integer.toString(budgetDocument.getBudgetVersionNumber());
+            if (budget.getBudgetVersionNumber() != null) {
+                budgetVersionNumber = Integer.toString(budget.getBudgetVersionNumber());
             }
         }
-        getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", budgetName));
-        getDocInfo().add(new HeaderField("DataDictionary.BudgetDocument.attributes.budgetVersionNumber", budgetVersionNumber));
+        getDocInfo().add(new HeaderField(BUDGET_NAME_KEY, budgetName));
+        getDocInfo().add(new HeaderField(VERSION_NUMBER_KEY, budgetVersionNumber));
     }
 
     public String getUrRateClassCodePrevValue() {

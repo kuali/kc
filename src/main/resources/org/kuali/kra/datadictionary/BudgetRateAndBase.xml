@@ -7,7 +7,7 @@
   <bean id="BudgetRateAndBase" parent="BudgetRateAndBase-parentBean" />
 
   <bean id="BudgetRateAndBase-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.BudgetRateAndBase" />
+    <property name="businessObjectClass" value="org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase" />
     <property name="lookupDefinition" >
       <ref bean="BudgetRateAndBase-lookupDefinition" />
     </property>

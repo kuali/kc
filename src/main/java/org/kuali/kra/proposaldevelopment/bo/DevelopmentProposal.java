@@ -31,9 +31,11 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.BudgetVersionCollection;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionCollection;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -132,7 +134,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     private List<ProposalYnq> proposalYnqs;
     private List<YnqGroupName> ynqGroupNames;
-    private List<BudgetVersionOverview> budgetVersionOverviews;
+//    private List<BudgetDocumentVersion> budgetDocumentVersions;
     private String creationStatusCode;
     private List<S2sSubmissionHistory> s2sSubmissionHistory;
     private boolean nih;
@@ -162,7 +164,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         propPersonBios = new ArrayList<ProposalPersonBiography>();
         proposalYnqs = new ArrayList<ProposalYnq>();
         ynqGroupNames = new ArrayList<YnqGroupName>();
-        budgetVersionOverviews = new TypedArrayList(BudgetVersionOverview.class);
         investigators = new ArrayList<ProposalPerson>();
         s2sOppForms = new ArrayList<S2sOppForms>();
         s2sAppSubmission = new ArrayList<S2sAppSubmission>();
@@ -1234,12 +1235,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.budgetStatus = budgetStatus;
     }
 
-    public List<BudgetVersionOverview> getBudgetVersionOverviews() {
-        return budgetVersionOverviews;
+    public List<BudgetDocumentVersion> getBudgetDocumentVersions() {
+        return getProposalDocument().getBudgetDocumentVersions();
     }
 
-    public void setBudgetVersionOverviews(List<BudgetVersionOverview> budgetVersionOverviews) {
-        this.budgetVersionOverviews = budgetVersionOverviews;
+    public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetDocumentVersions) {
+        this.getProposalDocument().setBudgetDocumentVersions(budgetDocumentVersions);
     }
 
     /**
@@ -1249,13 +1250,13 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      * @return Integer
      */
     public Integer getNextBudgetVersionNumber() {
-        List<BudgetVersionOverview> versions = getBudgetVersionOverviews();
+        List<BudgetDocumentVersion> versions = getBudgetDocumentVersions();
         if (versions.isEmpty()) {
             return 1;
         }
         Collections.sort(versions);
-        BudgetVersionOverview lastVersion = versions.get(versions.size() - 1);
-        return lastVersion.getBudgetVersionNumber() + 1;
+        BudgetDocumentVersion lastVersion = versions.get(versions.size() - 1);
+        return lastVersion.getBudgetVersionOverview().getBudgetVersionNumber() + 1;
     }
 
     /**
@@ -1264,11 +1265,11 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      * @param index
      * @return BudgetVersionOverview at index i
      */
-    public BudgetVersionOverview getBudgetVersionOverview(int index) {
-        while (getBudgetVersionOverviews().size() <= index) {
-            getBudgetVersionOverviews().add(new BudgetVersionOverview());
+    public BudgetDocumentVersion getBudgetDocumentVersion(int index) {
+        while (getBudgetDocumentVersions().size() <= index) {
+            getBudgetDocumentVersions().add(new BudgetDocumentVersion());
         }
-        return getBudgetVersionOverviews().get(index);
+        return getBudgetDocumentVersions().get(index);
     }
 
     public List<S2sOppForms> getS2sOppForms() {
@@ -1340,9 +1341,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return null;
     }
 
-    public BudgetVersionOverview getFinalBudgetVersion() {
-        for (BudgetVersionOverview version : this.getBudgetVersionOverviews()) {
-            if (version.isFinalVersionFlag()) {
+    public BudgetDocumentVersion getFinalBudgetVersion() {
+        for (BudgetDocumentVersion version : this.getBudgetDocumentVersions()) {
+            if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
                 return version;
             }
         }
@@ -1363,25 +1364,27 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.allowsNoteAttachments = allowsNoteAttachments;
     }
 
-    public void addNewBudgetVersion(BudgetDocument budgetDocument, String name, boolean isDescriptionUpdatable) {
-        BudgetVersionOverview budgetVersion = new BudgetVersionOverview();
-        budgetVersion.setDocumentNumber(budgetDocument.getDocumentNumber());
-        budgetVersion.setProposalNumber(this.getProposalNumber());
-        budgetVersion.setDocumentDescription(name);
-        budgetVersion.setBudgetVersionNumber(budgetDocument.getBudgetVersionNumber());
-        budgetVersion.setStartDate(budgetDocument.getStartDate());
-        budgetVersion.setEndDate(budgetDocument.getEndDate());
-        budgetVersion.setOhRateTypeCode(budgetDocument.getOhRateTypeCode());
-        budgetVersion.setOhRateClassCode(budgetDocument.getOhRateClassCode());
-        budgetVersion.setVersionNumber(budgetDocument.getVersionNumber());
-        budgetVersion.setDescriptionUpdatable(isDescriptionUpdatable);
-
-        String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
-        budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
-
-        this.getBudgetVersionOverviews().add(budgetVersion);
-    }
+//    public void addNewBudgetVersion(BudgetDocument budgetDocument, String name, boolean isDescriptionUpdatable) {
+//        BudgetDocumentVersion budgetDocumentVersion = new BudgetDocumentVersion();
+//        budgetDocumentVersion.setParentDocumentKey(getProposalDocument().getDocumentNumber());
+//        BudgetVersionOverview budgetVersionOverview = budgetDocumentVersion.getBudgetVersionOverview();
+//        budgetVersionOverview.setDocumentNumber(budgetDocument.getDocumentNumber());
+////        budget.setProposalNumber(this.getProposalNumber());
+//        budgetVersionOverview.setDocumentDescription(name);
+//        budgetVersionOverview.setBudgetVersionNumber(budgetVersionOverview.getBudgetVersionNumber());
+//        budgetVersionOverview.setStartDate(budgetVersionOverview.getStartDate());
+//        budgetVersionOverview.setEndDate(budgetVersionOverview.getEndDate());
+//        budgetVersionOverview.setOhRateTypeCode(budgetVersionOverview.getOhRateTypeCode());
+//        budgetVersionOverview.setOhRateClassCode(budgetVersionOverview.getOhRateClassCode());
+////        budgetVersionOverview.setVersionNumber(budgetDocument.getVersionNumber());
+//        budgetVersionOverview.setDescriptionUpdatable(isDescriptionUpdatable);
+//
+//        String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
+//                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+//        budgetVersionOverview.setBudgetStatus(budgetStatusIncompleteCode);
+//
+//        this.getBudgetDocumentVersions().add(budgetDocumentVersion);
+//    }
 
     /**
      * Gets the creationStatusCode attribute.
@@ -1421,7 +1424,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     public int getNumberOfVersions() {
-        return this.getBudgetVersionOverviews().size();
+        return this.getBudgetDocumentVersions().size();
     }
 
 
@@ -1555,6 +1558,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         // TODO Auto-generated method stub
         return null;
     }
+
 
     /**
      * @see org.kuali.kra.proposaldevelopment.hierarchy.HierarchyChildComparable#hierarchyChildHashCode()

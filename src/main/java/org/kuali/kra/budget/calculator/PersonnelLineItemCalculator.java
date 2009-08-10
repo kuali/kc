@@ -25,11 +25,12 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetLineItemBase;
-import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
-import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
-import org.kuali.kra.budget.bo.BudgetPersonnelRateAndBase;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
+import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -39,14 +40,14 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
 
     private BudgetPersonnelDetails budgetPersonnelLineItem;
-    private BudgetDocument budgetDocument;
+    private Budget budget;
     private SalaryCalculator salaryCalculator; 
 
-    public PersonnelLineItemCalculator(BudgetDocument bd, BudgetLineItemBase bli) {
-        super(bd, bli);
+    public PersonnelLineItemCalculator(Budget budget, BudgetLineItemBase bli) {
+        super(budget, bli);
         this.budgetPersonnelLineItem = (BudgetPersonnelDetails)bli;
-        this.budgetDocument = bd;
-        salaryCalculator = new SalaryCalculator(budgetDocument,budgetPersonnelLineItem);
+        this.budget = budget;
+        salaryCalculator = new SalaryCalculator(budget,budgetPersonnelLineItem);
     }
 
     /**
@@ -59,7 +60,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
     }
 
     private boolean isDocumentOhRateSameAsFormOhRate() {
-        if(budgetDocument.getOhRateClassCode()!= null && ((BudgetForm)GlobalVariables.getKualiForm())!= null && StringUtils.equalsIgnoreCase(budgetDocument.getOhRateClassCode(), ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue())){
+        if(budget.getOhRateClassCode()!= null && ((BudgetForm)GlobalVariables.getKualiForm())!= null && StringUtils.equalsIgnoreCase(budget.getOhRateClassCode(), ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue())){
             return true;
         }
         
@@ -94,7 +95,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
            applyRateFlags = saveApplyRateFlagsForReset();
            
            budgetPersonnelLineItem.setBudgetPersonnelCalculatedAmounts(new ArrayList<BudgetPersonnelCalculatedAmount>());
-           setCalculatedAmounts(budgetDocument,budgetPersonnelLineItem);
+           setCalculatedAmounts(budget,budgetPersonnelLineItem);
            
            for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts()) {
                if (versionNumber != null && versionNumber.longValue() > -1) {
@@ -104,7 +105,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
        }
 
        if (budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().size() <= 0) {
-           setCalculatedAmounts(budgetDocument,budgetPersonnelLineItem);
+           setCalculatedAmounts(budget,budgetPersonnelLineItem);
        }
 
        for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts()) {
@@ -130,8 +131,9 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
     protected void addBudgetLineItemCalculatedAmount(String rateClassCode, String rateTypeCode,
             String rateClassType) {
         BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmt = new BudgetPersonnelCalculatedAmount();
-            budgetPersonnelCalculatedAmt.setProposalNumber(budgetPersonnelLineItem.getProposalNumber());
-            budgetPersonnelCalculatedAmt.setBudgetVersionNumber(budgetPersonnelLineItem.getBudgetVersionNumber());
+//            budgetPersonnelCalculatedAmt.setProposalNumber(budgetPersonnelLineItem.getProposalNumber());
+//            budgetPersonnelCalculatedAmt.setBudgetVersionNumber(budgetPersonnelLineItem.getBudgetVersionNumber());
+            budgetPersonnelCalculatedAmt.setBudgetId(budgetPersonnelLineItem.getBudgetId());
             budgetPersonnelCalculatedAmt.setBudgetPeriodId(budgetPersonnelLineItem.getBudgetPeriodId());
             budgetPersonnelCalculatedAmt.setBudgetPeriod(budgetPersonnelLineItem.getBudgetPeriod());
             budgetPersonnelCalculatedAmt.setLineItemNumber(budgetPersonnelLineItem.getLineItemNumber());
@@ -179,7 +181,9 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
                 
                 budgetRateBase.setLineItemNumber(budgetPersonnelLineItem.getLineItemNumber());
                 budgetRateBase.setOnOffCampusFlag(budgetPersonnelLineItem.getOnOffCampusFlag());
-                budgetRateBase.setProposalNumber(budgetPersonnelLineItem.getProposalNumber());
+//                budgetRateBase.setProposalNumber(budgetPersonnelLineItem.getProposalNumber());
+//                budgetRateBase.setBudgetVersionNumber(budgetPersonnelLineItem.getBudgetVersionNumber());
+                budgetRateBase.setBudgetId(budgetPersonnelLineItem.getBudgetId());
                 budgetRateBase.setPersonNumber(budgetPersonnelLineItem.getPersonNumber());
                 budgetRateBase.setPersonId(budgetPersonnelLineItem.getPersonId());
                 
@@ -188,7 +192,6 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
                 budgetRateBase.setRateTypeCode(rateAndCost.getRateTypeCode());
                 java.util.Date startDate = breakUpInterval.getBoundary().getStartDate();
                 budgetRateBase.setStartDate(new java.sql.Date(startDate.getTime()));
-                budgetRateBase.setBudgetVersionNumber(budgetPersonnelLineItem.getBudgetVersionNumber());
 //                if(prevVersionNumber!=null) budgetRateBase.setVersionNumber(prevVersionNumber);
                 budgetRateAndBaseList.add(budgetRateBase);
             }   

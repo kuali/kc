@@ -26,12 +26,14 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.budget.bo.BudgetLineItem;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.BudgetPerson;
-import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.service.BudgetService;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.personnel.BudgetPerson;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.personnel.BudgetPersonnelRule;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -110,12 +112,13 @@ public class BudgetPersonnelRuleTest {
         
         context.checking(new Expectations() {
             {   
-                oneOf(budgetService).getApplicableCostElements("1234", "1", "1");
+                oneOf(budgetService).getApplicableCostElements(1l, "1");
                 will(returnValue(Collections.emptyList()));
             }});
         
         BudgetDocument doc = getBudgetDoc();
-        doc.getBudgetPerson(0).setJobCode(null);
+        
+        doc.getBudget().getBudgetPerson(0).setJobCode(null);
         
         rule.processCheckForJobCodeChange(doc, 1);
         
@@ -137,12 +140,12 @@ public class BudgetPersonnelRuleTest {
         
         context.checking(new Expectations() {
             {   
-                oneOf(budgetService).getApplicableCostElements("1234", "1", "1");
+                oneOf(budgetService).getApplicableCostElements(1l, "1");
                 will(returnValue(Collections.emptyList()));
             }});
         
         BudgetDocument doc = getBudgetDoc();
-        doc.getBudgetPerson(0).setJobCode("Foo");
+        doc.getBudget().getBudgetPerson(0).setJobCode("Foo");
         
         rule.processCheckForJobCodeChange(doc, 1);
         
@@ -155,7 +158,8 @@ public class BudgetPersonnelRuleTest {
      * @return the BudgetDocument
      */
     private BudgetDocument getBudgetDoc() {
-        BudgetDocument doc = new BudgetDocument();
+        BudgetDocument bdoc = new BudgetDocument();
+        Budget doc = bdoc.getBudget();
         
         List<BudgetPeriod> periods = new ArrayList<BudgetPeriod>();
         BudgetPeriod period = new BudgetPeriod();
@@ -191,15 +195,14 @@ public class BudgetPersonnelRuleTest {
         };
         
         person.setPersonSequenceNumber(1);
-        person.setProposalNumber("1234");
-        person.setBudgetVersionNumber(1);
+        person.setBudgetId(1l);
         
         persons.add(person);
         
         doc.setBudgetPeriods(periods);
         doc.setBudgetPersons(persons);
-        doc.setProposalNumber("1234");
+        bdoc.setParentDocumentKey("1234");
         doc.setBudgetVersionNumber(1);
-        return doc;
+        return bdoc;
     }
 }

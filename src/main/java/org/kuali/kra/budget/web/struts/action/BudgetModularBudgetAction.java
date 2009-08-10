@@ -27,16 +27,17 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.budget.bo.BudgetModular;
-import org.kuali.kra.budget.bo.BudgetModularIdc;
-import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.rule.event.SyncModularBudgetEvent;
-import org.kuali.kra.budget.service.BudgetModularService;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
+import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
+import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularService;
+import org.kuali.kra.proposaldevelopment.budget.modular.SyncModularBudgetEvent;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.service.KualiRuleService;
 
@@ -53,19 +54,22 @@ public class BudgetModularBudgetAction extends BudgetAction {
     
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        Budget budget = budgetDocument.getBudget();        
         BudgetModularIdc newBudgetModularIdc = budgetForm.getNewBudgetModularIdc();
-        newBudgetModularIdc.setRateNumber(budgetForm.getDocument().getHackedDocumentNextValue("rateNumber"));
+        newBudgetModularIdc.setRateNumber(budgetDocument.getHackedDocumentNextValue("rateNumber"));
         newBudgetModularIdc.calculateFundsRequested();
-        BudgetModular budgetModular = budgetForm.getDocument().getBudgetPeriods().get(budgetForm.getModularSelectedPeriod() - 1).getBudgetModular();
+        BudgetModular budgetModular = budget.getBudgetPeriods().get(budgetForm.getModularSelectedPeriod() - 1).getBudgetModular();
         budgetModular.addNewBudgetModularIdc(newBudgetModularIdc);
         generateModularPeriod(budgetForm);
         budgetForm.setNewBudgetModularIdc(new BudgetModularIdc());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetModular budgetModular = budgetForm.getDocument().getBudgetPeriods().get(budgetForm.getModularSelectedPeriod() - 1).getBudgetModular();
+        Budget budget = budgetForm.getBudgetDocument().getBudget();        
+        BudgetModular budgetModular = budget.getBudgetPeriods().get(budgetForm.getModularSelectedPeriod() - 1).getBudgetModular();
         budgetModular.getBudgetModularIdcs().remove(getLineToDelete(request));
         generateModularPeriod(budgetForm);
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -81,7 +85,7 @@ public class BudgetModularBudgetAction extends BudgetAction {
     }
     
     public ActionForward sync(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        boolean passed = getKualiRuleService().applyRules(createSyncModularBudgetEvent(((BudgetForm)form).getDocument()));
+        boolean passed = getKualiRuleService().applyRules(createSyncModularBudgetEvent(((BudgetForm)form).getBudgetDocument()));
         if (passed) {
             return confirm(buildSyncBudgetModularConfirmationQuestion(mapping, form, request, response), CONFIRM_SYNC_BUDGET_MODULAR, "");
         }
@@ -119,8 +123,9 @@ public class BudgetModularBudgetAction extends BudgetAction {
         if (CONFIRM_SYNC_BUDGET_MODULAR.equals(question)) {
             BudgetModularService budgetModularService = KraServiceLocator.getService(BudgetModularService.class);
             BudgetForm budgetForm = (BudgetForm) form;
-            budgetModularService.synchModularBudget(budgetForm.getDocument());
-            budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budgetForm.getDocument()));
+            Budget budget = budgetForm.getBudgetDocument().getBudget();        
+            budgetModularService.synchModularBudget(budget);
+            budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budget));
         }
         
         return mapping.findForward(MAPPING_BASIC);
@@ -131,16 +136,16 @@ public class BudgetModularBudgetAction extends BudgetAction {
     }
     
     private void generateModularPeriod(BudgetForm budgetForm) {
-        BudgetDocument budgetDocument = budgetForm.getDocument();
+        Budget budget = budgetForm.getBudgetDocument().getBudget();        
         BudgetModularService budgetModularService = KraServiceLocator.getService(BudgetModularService.class);
         if (budgetForm.getModularSelectedPeriod().equals(0)) {
-            budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budgetDocument));
+            budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budget));
             return;
         }
-        BudgetPeriod budgetPeriod = budgetDocument.getBudgetPeriods().get(budgetForm.getModularSelectedPeriod() - 1);
+        BudgetPeriod budgetPeriod = budget.getBudgetPeriods().get(budgetForm.getModularSelectedPeriod() - 1);
         budgetModularService.generateModularPeriod(budgetPeriod);
         // Also update project totals
-        budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budgetForm.getDocument()));
+        budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budget));
     }
     
     protected SyncModularBudgetEvent createSyncModularBudgetEvent(BudgetDocument budgetDocument) {

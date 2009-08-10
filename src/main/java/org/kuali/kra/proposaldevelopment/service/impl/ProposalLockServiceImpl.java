@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalLockService;
 import org.kuali.kra.rice.shim.UniversalUser;
@@ -143,7 +143,7 @@ public class ProposalLockServiceImpl extends PessimisticLockServiceImpl implemen
             String lockDescriptor = getCustomLockDescriptor(document, editMode, user);
             ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument) document;
             if(StringUtils.isNotEmpty(lockDescriptor) && lockDescriptor.contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
-                for(BudgetVersionOverview budgetOverview: pdDocument.getDevelopmentProposal().getBudgetVersionOverviews()) {
+                for(BudgetDocumentVersion budgetOverview: pdDocument.getBudgetDocumentVersions()) {
                     generateNewLock(budgetOverview.getDocumentNumber(), lockDescriptor, user);
                 }  
             }

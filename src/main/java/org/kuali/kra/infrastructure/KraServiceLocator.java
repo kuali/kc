@@ -33,6 +33,7 @@ public final class KraServiceLocator {
     private static final String COMMITTEE_SPRING_BEANS = "org/kuali/kra/committee/CommitteeSpringBeans.xml";
     private static final String QUESTIONNAIRE_SPRING_BEANS = "org/kuali/kra/questionnaire/QuestionnaireSpringBeans.xml";
     private static final String TIME_AND_MONEY_SPRING_BEANS = "org/kuali/kra/award/AwardSpringBeans.xml";
+    public static final String BUDGET_SPRING_BEANS = "org/kuali/kra/budget/BudgetSpringBeans.xml";
 
     /**
      * private utility class ctor.
@@ -48,7 +49,7 @@ public final class KraServiceLocator {
      */
     private static final class ContextHolder {
         
-        static String[] springFiles = new String[] {COMMON_SPRING_BEANS, AWARD_SPRING_BEANS, IRB_SPRING_BEANS, COMMITTEE_SPRING_BEANS, 
+        static String[] springFiles = new String[] {COMMON_SPRING_BEANS,BUDGET_SPRING_BEANS, AWARD_SPRING_BEANS, IRB_SPRING_BEANS, COMMITTEE_SPRING_BEANS, 
                 INSTITUTIONAL_PROPOSAL_SPRING_BEANS, QUESTIONNAIRE_SPRING_BEANS, TIME_AND_MONEY_SPRING_BEANS};
         
         public static final ConfigurableApplicationContext APP_CONTEXT

@@ -23,9 +23,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.RateDecimal;
-import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
-import org.kuali.kra.budget.rule.BudgetValidationUnrecoveredFandARule;
-import org.kuali.kra.budget.rule.event.BudgetValidationUnrecoveredFandAEvent;
+import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
+import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandARuleImpl;
+import org.kuali.kra.budget.distributionincome.BudgetValidationUnrecoveredFandAEvent;
+import org.kuali.kra.budget.distributionincome.BudgetValidationUnrecoveredFandARule;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 

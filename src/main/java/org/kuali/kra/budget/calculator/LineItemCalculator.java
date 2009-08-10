@@ -25,12 +25,11 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetLineItem;
-import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
-import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
-import org.kuali.kra.budget.bo.BudgetRateAndBase;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.service.BudgetCalculationService;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -43,20 +42,20 @@ import static org.kuali.kra.logging.BufferedLogger.*;
  * This class for calculating non personnel line item
  */
 public class LineItemCalculator extends AbstractBudgetCalculator {
-    private BudgetDocument bd;
+    private Budget budget;
     private BudgetLineItem bli;
     private DateTimeService dateTimeService;
     private BudgetCalculationService budgetCalculationService;
-    public LineItemCalculator(BudgetDocument bd,BudgetLineItem bli){
-        super(bd,bli);
+    public LineItemCalculator(Budget budget,BudgetLineItem bli){
+        super(budget,bli);
         this.bli = bli;
-        this.bd = bd;
+        this.budget = budget;
         dateTimeService = getDateTimeService();
         budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class); 
     }
 
     private boolean isDocumentOhRateSameAsFormOhRate() {
-        if(bd.getOhRateClassCode()!= null && ((BudgetForm)GlobalVariables.getKualiForm())!= null && StringUtils.equalsIgnoreCase(bd.getOhRateClassCode(), ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue())){
+        if(budget.getOhRateClassCode()!= null && ((BudgetForm)GlobalVariables.getKualiForm())!= null && StringUtils.equalsIgnoreCase(budget.getOhRateClassCode(), ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue())){
             return true;
         }
         
@@ -79,7 +78,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             bli.refreshReferenceObject("budgetLineItemCalculatedAmounts");
         }
         if (bli.getBudgetLineItemCalculatedAmounts().size() <= 0) {
-            setCalculatedAmounts(bd,bli);
+            setCalculatedAmounts(budget,bli);
         }
 
         if(!isDocumentOhRateSameAsFormOhRate()){
@@ -92,7 +91,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
 
             bli.setBudgetLineItemCalculatedAmounts(new ArrayList<BudgetLineItemCalculatedAmount>());
             
-            setCalculatedAmounts(bd,bli);
+            setCalculatedAmounts(budget,bli);
             
             for(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : bli.getBudgetLineItemCalculatedAmounts()){
                 if (versionNumber != null) {
@@ -121,7 +120,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
         BudgetDecimal costSharingRequested = BudgetDecimal.ZERO;
         if(!personnelDetailsList.isEmpty()){
             for (BudgetPersonnelDetails budgetPersonnelDetails : personnelDetailsList) {
-                budgetCalculationService.calculateBudgetLineItem(bd, budgetPersonnelDetails);
+                budgetCalculationService.calculateBudgetLineItem(budget, budgetPersonnelDetails);
                 salaryRequested = salaryRequested.add(budgetPersonnelDetails.getSalaryRequested());
                 costSharingRequested = costSharingRequested.add(budgetPersonnelDetails.getCostSharingAmount());
             }
@@ -136,8 +135,9 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
     @Override
     protected void addBudgetLineItemCalculatedAmount(String rateClassCode, String rateTypeCode, String rateClassType) {
         BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt = new BudgetLineItemCalculatedAmount();
-        budgetLineItemCalculatedAmt.setProposalNumber(bli.getProposalNumber());
-        budgetLineItemCalculatedAmt.setBudgetVersionNumber(bli.getBudgetVersionNumber());
+//        budgetLineItemCalculatedAmt.setProposalNumber(bli.getProposalNumber());
+//        budgetLineItemCalculatedAmt.setBudgetVersionNumber(bli.getBudgetVersionNumber());
+        budgetLineItemCalculatedAmt.setBudgetId(bli.getBudgetId());
         budgetLineItemCalculatedAmt.setBudgetPeriod(bli.getBudgetPeriod());
         budgetLineItemCalculatedAmt.setBudgetPeriodId(bli.getBudgetPeriodId());
         budgetLineItemCalculatedAmt.setLineItemNumber(bli.getLineItemNumber());
@@ -189,13 +189,14 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
                 
                 budgetRateBase.setLineItemNumber(bli.getLineItemNumber());
                 budgetRateBase.setOnOffCampusFlag(bli.getOnOffCampusFlag());
-                budgetRateBase.setProposalNumber(bli.getProposalNumber());
+//                budgetRateBase.setProposalNumber(bli.getProposalNumber());
+//                budgetRateBase.setBudgetVersionNumber(bli.getBudgetVersionNumber());
+                budgetRateBase.setBudgetId(bli.getBudgetId());
                 budgetRateBase.setRateClassCode(rateAndCost.getRateClassCode());
                 budgetRateBase.setRateNumber(++rateNumber);
                 budgetRateBase.setRateTypeCode(rateAndCost.getRateTypeCode());
                 java.util.Date startDate = breakUpInterval.getBoundary().getStartDate();
                 budgetRateBase.setStartDate(new java.sql.Date(startDate.getTime()));
-                budgetRateBase.setBudgetVersionNumber(bli.getBudgetVersionNumber());
                 budgetRateAndBaseList.add(budgetRateBase);
             }   
         }

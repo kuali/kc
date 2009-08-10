@@ -23,25 +23,26 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.budget.core.Budget;
 
 public class BudgetDocumentIntegrationTest {
     private static final int MILLIS_PER_SECOND = 1000;
     
-    private BudgetDocument budgetDocument;
+    private Budget budget;
     
     @Before
     public void setUp() {
-        budgetDocument = new BudgetDocument();
+        budget = new Budget();
     }
     
     @After
     public void tearDown() {
-        budgetDocument = null;
+        budget = null;
     }
     
     @Test
     public void testLoadingFiscalYearStart() {
-        Date fiscalYearStart = budgetDocument.loadFiscalYearStart();
+        Date fiscalYearStart = budget.loadFiscalYearStart();
         
         Calendar cal = GregorianCalendar.getInstance();
         cal.set(2000, Calendar.JULY, 1, 0, 0, 0); // test data set via load_system_params.sql

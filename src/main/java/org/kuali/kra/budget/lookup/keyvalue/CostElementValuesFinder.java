@@ -23,9 +23,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.budget.bo.BudgetCategory;
-import org.kuali.kra.budget.bo.BudgetCategoryType;
-import org.kuali.kra.budget.bo.CostElement;
+import org.kuali.kra.budget.core.BudgetCategory;
+import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;

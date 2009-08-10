@@ -47,7 +47,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetProjectIncome;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -270,7 +270,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
         budget.setFederalEstimatedAmount(BigDecimal.ZERO);
         budget.setTotalEstimatedAmount(BigDecimal.ZERO);
 
-        BudgetDocument budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+        org.kuali.kra.budget.core.Budget budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc).getBudget();
         if (budgetDoc != null) {
             budget.setFederalEstimatedAmount(budgetDoc.getTotalCost().bigDecimalValue());
             budget.setApplicantEstimatedAmount(budgetDoc.getCostSharingAmount().bigDecimalValue());

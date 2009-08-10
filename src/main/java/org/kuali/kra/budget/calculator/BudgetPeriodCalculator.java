@@ -23,22 +23,22 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetLineItem;
-import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
-import org.kuali.kra.budget.bo.BudgetProposalRate;
-import org.kuali.kra.budget.bo.CostElement;
-import org.kuali.kra.budget.bo.ValidCeRateType;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.calculator.query.GreaterThan;
 import org.kuali.kra.budget.calculator.query.LesserThan;
 import org.kuali.kra.budget.calculator.query.NotEquals;
 import org.kuali.kra.budget.calculator.query.Or;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.service.BudgetCalculationService;
-import org.kuali.kra.budget.service.BudgetSummaryService;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.rates.BudgetProposalRate;
+import org.kuali.kra.budget.rates.ValidCeRateType;
+import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -62,10 +62,10 @@ public class BudgetPeriodCalculator {
      * 
      * This method calculates and sync the budget period
      * 
-     * @param budgetDocument
+     * @param budget
      * @param budgetPeriod
      */
-    public void calculate(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod) {
+    public void calculate(Budget budget, BudgetPeriod budgetPeriod) {
         List<BudgetLineItem> cvLineItemDetails = budgetPeriod.getBudgetLineItems();
 //        if(cvLineItemDetails.isEmpty())
 //            return;
@@ -75,7 +75,7 @@ public class BudgetPeriodCalculator {
         budgetPeriod.setTotalCost(BudgetDecimal.ZERO);
         budgetPeriod.setUnderrecoveryAmount(BudgetDecimal.ZERO);
         for (BudgetLineItem budgetLineItem : cvLineItemDetails) {
-            budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItem);
+            budgetCalculationService.calculateBudgetLineItem(budget, budgetLineItem);
             budgetPeriod.setTotalDirectCost(budgetPeriod.getTotalDirectCost().add(budgetLineItem.getDirectCost()));
             //add line item indirect costs to budget period.
             budgetPeriod.setTotalIndirectCost(budgetPeriod.getTotalIndirectCost().add(budgetLineItem.getIndirectCost()));
@@ -83,23 +83,23 @@ public class BudgetPeriodCalculator {
             budgetPeriod.setUnderrecoveryAmount(budgetPeriod.getUnderrecoveryAmount().add(budgetLineItem.getUnderrecoveryAmount()));
             budgetPeriod.setCostSharingAmount(budgetPeriod.getCostSharingAmount().add(budgetLineItem.getTotalCostSharingAmount()));
         }
-        if(budgetDocument.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null){
-        //if(budgetDocument.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && budgetDocument.getBudgetPeriods().size() == budgetPeriod.getBudgetPeriod()){
+        if(budget.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null){
+        //if(budget.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && budget.getBudgetPeriods().size() == budgetPeriod.getBudgetPeriod()){
             // this should be set at the last period, otherwise, only the first period will be updated properly because lots of places check prevohrateclass
             // This approach affect other area, so rolled it back.
-            ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(budgetDocument.getOhRateClassCode());
+            ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(budget.getOhRateClassCode());
         }        
-        // syncBudgetTotals(budgetDocument);
+        // syncBudgetTotals(budget);
     }
 
-    public void applyToLaterPeriods(BudgetDocument budgetDocument, BudgetPeriod currentBudgetPeriod, BudgetLineItem currentBudgetLineItem) {
+    public void applyToLaterPeriods(Budget budget, BudgetPeriod currentBudgetPeriod, BudgetLineItem currentBudgetLineItem) {
 
         //put all lineitems in one bucket
-        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
+        List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         BudgetLineItem prevBudgetLineItem = currentBudgetLineItem;
         int periodDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(currentBudgetPeriod.getStartDate(), currentBudgetPeriod.getEndDate(), false);
         // calculate for the apply-from item in case there is any change, so it will be updated properly after apply-to
-        budgetCalculationService.calculateBudgetLineItem(budgetDocument, currentBudgetLineItem);
+        budgetCalculationService.calculateBudgetLineItem(budget, currentBudgetLineItem);
         
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             if(budgetPeriod.getBudgetPeriod()<=currentBudgetPeriod.getBudgetPeriod()) continue;
@@ -119,7 +119,7 @@ public class BudgetPeriodCalculator {
                             return;
                         }
                         
-                        BudgetDecimal lineItemCost = calculateInflation(budgetDocument, prevBudgetLineItem, budgetLineItemToBeApplied
+                        BudgetDecimal lineItemCost = calculateInflation(budget, prevBudgetLineItem, budgetLineItemToBeApplied
                                 .getStartDate());
                         if(!budgetLineItemToBeApplied.getCostElement().equals(prevBudgetLineItem.getCostElement())){
                             budgetLineItemToBeApplied.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
@@ -131,7 +131,7 @@ public class BudgetPeriodCalculator {
                             budgetLineItemToBeApplied.setBudgetCategoryCode(budgetLineItemToBeApplied.getCostElementBO().getBudgetCategoryCode());
     //                        budgetLineItemToBeApplied.setCostElement(prevBudgetLineItem.getCostElement());
     //                        budgetLineItemToBeApplied.setCostElementBO(prevBudgetLineItem.getCostElementBO());
-    //                        budgetCalculationService.rePopulateCalculatedAmount(budgetDocument, budgetLineItemToBeApplied);
+    //                        budgetCalculationService.rePopulateCalculatedAmount(budget, budgetLineItemToBeApplied);
                         }
                         
                         budgetLineItemToBeApplied.setLineItemCost(lineItemCost);
@@ -145,7 +145,7 @@ public class BudgetPeriodCalculator {
                     budgetLineItemToBeApplied.setOnOffCampusFlag(prevBudgetLineItem.getOnOffCampusFlag());
 
                     // apply all periods : generate calamts , then update apply rate flag
-                    budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItemToBeApplied);
+                    budgetCalculationService.calculateBudgetLineItem(budget, budgetLineItemToBeApplied);
                     for (BudgetLineItemCalculatedAmount prevCalAmts : prevBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                         for (BudgetLineItemCalculatedAmount CalAmts : budgetLineItemToBeApplied.getBudgetLineItemCalculatedAmounts()) {
                             if (prevCalAmts.getRateClassCode().equals(CalAmts.getRateClassCode()) && prevCalAmts.getRateTypeCode().equals(CalAmts.getRateTypeCode())) {
@@ -154,7 +154,7 @@ public class BudgetPeriodCalculator {
                         }
                     }
 
-                    budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItemToBeApplied);
+                    budgetCalculationService.calculateBudgetLineItem(budget, budgetLineItemToBeApplied);
                     prevBudgetLineItem = budgetLineItemToBeApplied;
                } else if(StringUtils.equals(currentBudgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(), KeyConstants.PERSONNEL_CATEGORY)){
                     //Additional Check for Personnel Source Line Item
@@ -200,12 +200,12 @@ public class BudgetPeriodCalculator {
 
                 
                 budgetLineItem.setBasedOnLineItem(prevBudgetLineItem.getLineItemNumber());
-                //budgetLineItem.setLineItemNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));                    
+                //budgetLineItem.setLineItemNumber(budget.getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));                    
                 //budgetLineItem.setLineItemSequence(budgetLineItem.getLineItemNumber());
                 budgetLineItem.setVersionNumber(null);
                 
                 if (prevBudgetLineItem.getApplyInRateFlag()){
-                    BudgetDecimal lineItemCost = calculateInflation(budgetDocument, prevBudgetLineItem, budgetLineItem.getStartDate());
+                    BudgetDecimal lineItemCost = calculateInflation(budget, prevBudgetLineItem, budgetLineItem.getStartDate());
                     budgetLineItem.setLineItemCost(lineItemCost);
                 }
                 
@@ -220,7 +220,7 @@ public class BudgetPeriodCalculator {
                     budgetPersonnelDetail.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
                     budgetPersonnelDetail.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
                     //budgetPersonnelDetail.setLineItemNumber(budgetLineItem.getLineItemNumber());
-                    budgetPersonnelDetail.setLineItemSequence(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
+                    budgetPersonnelDetail.setLineItemSequence(getBudgetDocument(budget).getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
                     //budgetPersonnelDetail.setStartDate(budgetPeriod.getStartDate());
                     //budgetPersonnelDetail.setEndDate(budgetPeriod.getEndDate());
                     
@@ -242,7 +242,7 @@ public class BudgetPeriodCalculator {
                     budgetPersonnelDetail.setVersionNumber(null);
                 }
                 budgetPeriod.getBudgetLineItems().add(budgetLineItem);
-                budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItem);
+                budgetCalculationService.calculateBudgetLineItem(budget, budgetLineItem);
                 for (BudgetLineItemCalculatedAmount prevCalAmts : prevBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                     for (BudgetLineItemCalculatedAmount CalAmts : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                         if (prevCalAmts.getRateClassCode().equals(CalAmts.getRateClassCode()) && prevCalAmts.getRateTypeCode().equals(CalAmts.getRateTypeCode())) {
@@ -251,14 +251,21 @@ public class BudgetPeriodCalculator {
                     }
                 }
                 // calculate again after reset apply rate flag
-                budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItem);
+                budgetCalculationService.calculateBudgetLineItem(budget, budgetLineItem);
 
                 prevBudgetLineItem=budgetLineItem;
             }
 
         }
     }
-    private BudgetDecimal calculateInflation(BudgetDocument budgetDocument, BudgetLineItem budgetLineItem, Date endDate) {
+    private BudgetDocument getBudgetDocument(Budget budget) {
+        // TODO Auto-generated method stub
+        //created as part of refactoring. need to implement
+        BudgetDocument budgetDocument = null;
+        return budgetDocument;
+    }
+
+    private BudgetDecimal calculateInflation(Budget budget, BudgetLineItem budgetLineItem, Date endDate) {
         CostElement costElement = budgetLineItem.getCostElementBO();
         BudgetDecimal lineItemCost = budgetLineItem.getLineItemCost();
         Date startDate = budgetLineItem.getStartDate();
@@ -287,7 +294,7 @@ public class BudgetPeriodCalculator {
 
             And rcAndRtAndLtOrEqEDAndGtSD = new And(rcAndRt, ltOrEqEDAndGtSD);
 
-            QueryList<BudgetProposalRate> vecPropInflationRates = new QueryList<BudgetProposalRate>(budgetDocument
+            QueryList<BudgetProposalRate> vecPropInflationRates = new QueryList<BudgetProposalRate>(budget
                     .getBudgetProposalRates()).filter(rcAndRtAndLtOrEqEDAndGtSD);
 
             if (!vecPropInflationRates.isEmpty()) {
@@ -303,7 +310,7 @@ public class BudgetPeriodCalculator {
         return lineItemCost;
     }
 
-    public void syncToPeriodCostLimit(BudgetDocument budgetDocument, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
+    public void syncToPeriodCostLimit(Budget budget, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
 
         Equals eqBudgetPeriod = new Equals("budgetPeriod", new Integer(budgetDetailBean.getBudgetPeriod()));
         Equals eqLINumber = new Equals("lineItemNumber", new Integer(budgetDetailBean.getLineItemNumber()));
@@ -321,7 +328,7 @@ public class BudgetPeriodCalculator {
             errorMessages.add(KeyConstants.CANNOT_SYNC_TO_ZERO_LIMIT);
             return;
         }
-        calculate(budgetDocument, budgetPeriodBean);
+        calculate(budget, budgetPeriodBean);
 
         // If total_cost equals total_cost_limit, disp msg "Cost limit and total cost for this period is already in sync."
         BudgetDecimal periodTotal = budgetPeriodBean.getTotalCost();
@@ -342,7 +349,7 @@ public class BudgetPeriodCalculator {
             budgetDetailBean.setLineItemCost(new BudgetDecimal(10000));
         }
 
-        calculate(budgetDocument, budgetPeriodBean);
+        calculate(budget, budgetPeriodBean);
 
         QueryList<BudgetLineItemCalculatedAmount> vecCalAmts = new QueryList<BudgetLineItemCalculatedAmount>(budgetDetailBean
                 .getBudgetLineItemCalculatedAmounts());
@@ -361,7 +368,7 @@ public class BudgetPeriodCalculator {
         }else {
             multifactor = totalCost.divide(new BudgetDecimal(10000));
             budgetDetailBean.setLineItemCost(BudgetDecimal.ZERO);
-            calculate(budgetDocument, budgetPeriodBean);
+            calculate(budget, budgetPeriodBean);
             totalCost = BudgetDecimal.ZERO;
         }
 
@@ -373,7 +380,7 @@ public class BudgetPeriodCalculator {
         // Set New Cost
         BudgetDecimal newCost = lineItemCost.add((difference.divide(multifactor)));
         budgetDetailBean.setLineItemCost(newCost);
-        calculate(budgetDocument, budgetPeriodBean);
+        calculate(budget, budgetPeriodBean);
     }
 
     public List<String> getErrorMessages() {

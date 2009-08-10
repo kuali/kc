@@ -32,13 +32,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetLineItem;
-import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.CostElement;
-import org.kuali.kra.budget.bo.RateType;
+import org.kuali.kra.budget.calculator.BudgetCalculationService;
+import org.kuali.kra.budget.calculator.BudgetCalculationServiceImpl;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.CostElement;
+import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.service.impl.BudgetCalculationServiceImpl;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DocumentService;
@@ -130,15 +133,16 @@ public class BudgetCalculationServiceTest extends KraTestBase {
     public void calculateBudgetTotalsTest() throws Exception {
         
         // set up 4 bd periods 01/01/2007 - 12/31/2110
-        BudgetDocument bd = createBudgetDocument();
+        BudgetDocument bdoc = createBudgetDocument();
+        Budget bd = bdoc.getBudget();
         assertNotNull("Budget document not saved", bd);
 
         bd.getBudgetPeriods();
         // set up period line item costs
-        setPeriodLineItemCost(bd, bd.getBudgetPeriods().get(0));
-        setPeriodLineItemCost(bd, bd.getBudgetPeriods().get(1));
-        setPeriodLineItemCost(bd, bd.getBudgetPeriods().get(2));
-        setPeriodLineItemCost(bd, bd.getBudgetPeriods().get(3));
+        setPeriodLineItemCost(bdoc, bd.getBudgetPeriods().get(0));
+        setPeriodLineItemCost(bdoc, bd.getBudgetPeriods().get(1));
+        setPeriodLineItemCost(bdoc, bd.getBudgetPeriods().get(2));
+        setPeriodLineItemCost(bdoc, bd.getBudgetPeriods().get(3));
         budgetCalculationService.calculateBudgetTotals(bd);
 
         // check object code total
@@ -177,7 +181,7 @@ public class BudgetCalculationServiceTest extends KraTestBase {
     @Test
     public void syncCostsToBudgetPeriodCalcRequiredTest() throws Exception {
         BudgetDocument bd = createBudgetDocument();
-        List<BudgetPeriod> periods = bd.getBudgetPeriods();
+        List<BudgetPeriod> periods = bd.getBudget().getBudgetPeriods();
         
         // set up period line item costs
         setPeriodLineItemCost(bd, periods.get(0));
@@ -228,7 +232,7 @@ public class BudgetCalculationServiceTest extends KraTestBase {
     public void initCostDependentItemsZeroCostSharedBothTest() throws Exception {
         
         final BudgetDocument bd = createBudgetDocument();
-        List<BudgetPeriod> periods = bd.getBudgetPeriods();
+        List<BudgetPeriod> periods = bd.getBudget().getBudgetPeriods();
         
         // set up period line item costs
         setPeriodLineItemCost(bd, periods.get(0));
@@ -248,7 +252,7 @@ public class BudgetCalculationServiceTest extends KraTestBase {
         final BudgetDistributionAndIncomeService mockService = context.mock(BudgetDistributionAndIncomeService.class);
         context.checking(new Expectations() {
             {
-                oneOf(mockService).initializeCostSharingCollectionDefaults(bd);
+                oneOf(mockService).initializeCostSharingCollectionDefaults(bd.getBudget());
             }
         });
         
@@ -298,8 +302,7 @@ public class BudgetCalculationServiceTest extends KraTestBase {
     private BudgetLineItem getLineItem(BudgetPeriod bp, int lineItemNumber, String costElement, double lineItemCost,
             double costSharingAmount) {
         BudgetLineItem bli = new BudgetLineItem();
-        bli.setProposalNumber(bp.getProposalNumber());
-        bli.setBudgetVersionNumber(bp.getBudgetVersionNumber());
+        bli.setBudgetId(bp.getBudgetId());
         bli.setBudgetPeriod(bp.getBudgetPeriod());
         bli.setStartDate(bp.getStartDate());
         bli.setEndDate(bp.getEndDate());
@@ -319,8 +322,7 @@ public class BudgetCalculationServiceTest extends KraTestBase {
     private BudgetLineItemCalculatedAmount getLineItemCalAmt(BudgetLineItem bli, String rateClass, String rateType,
             double calculatedCost) {
         BudgetLineItemCalculatedAmount BliCalAmt = new BudgetLineItemCalculatedAmount();
-        BliCalAmt.setProposalNumber(bli.getProposalNumber());
-        BliCalAmt.setBudgetVersionNumber(bli.getBudgetVersionNumber());
+        BliCalAmt.setBudgetId(bli.getBudgetId());
         BliCalAmt.setBudgetPeriod(bli.getBudgetPeriod());
         BliCalAmt.setRateClassCode(rateClass);
         BliCalAmt.setRateTypeCode(rateType);
@@ -335,9 +337,10 @@ public class BudgetCalculationServiceTest extends KraTestBase {
     // TODO : some of the private methods are copied from lineitemcalculationtest, so
     // probably should create a utility or helper class to share these private methods.
     
-    private void setBaseDocumentFields(BudgetDocument bd, String proposalNumber) {
-        bd.getDocumentHeader().setDocumentDescription("Test budget calculation");
-        bd.setProposalNumber(proposalNumber);
+    private void setBaseDocumentFields(BudgetDocument bdoc, String proposalNumber) {
+        Budget bd = bdoc.getBudget();
+        bdoc.getDocumentHeader().setDocumentDescription("Test budget calculation");
+        bdoc.setParentDocumentKey(proposalNumber);
         bd.setBudgetVersionNumber(1);
         bd.setStartDate(java.sql.Date.valueOf("2007-01-01"));
         bd.setEndDate(java.sql.Date.valueOf("2010-12-31"));

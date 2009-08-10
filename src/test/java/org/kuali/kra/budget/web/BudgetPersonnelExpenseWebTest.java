@@ -26,16 +26,17 @@ import java.util.Map;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetLineItem;
-import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.BudgetPerson;
-import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
-import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
-import org.kuali.kra.budget.bo.ValidCalcType;
-import org.kuali.kra.budget.bo.ValidCeRateType;
+import org.kuali.kra.budget.calculator.ValidCalcType;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.personnel.BudgetPerson;
+import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.rates.ValidCeRateType;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.KraUnitTestClassRunner;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -84,15 +85,15 @@ public class BudgetPersonnelExpenseWebTest extends BudgetExpenseWebTest {
         
         ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
         assertNotNull(proposalDoc);
-        List<BudgetVersionOverview> budgetVersions = proposalDoc.getDevelopmentProposal().getBudgetVersionOverviews();
+        List<BudgetDocumentVersion> budgetVersions = proposalDoc.getDevelopmentProposal().getBudgetDocumentVersions();
         assertNotNull(budgetVersions);
         assertEquals(1, budgetVersions.size());
-        BudgetVersionOverview firstVersion = budgetVersions.get(0);
+        BudgetDocumentVersion firstVersion = budgetVersions.get(0);
         assertNotNull(firstVersion);
-        BudgetDocument budgetDoc = (BudgetDocument) documentService.getByDocumentHeaderId(firstVersion.getDocumentNumber());
+        BudgetDocument budgetDoc = (BudgetDocument) documentService.getByDocumentHeaderId(firstVersion.getBudgetVersionOverview().getDocumentNumber());
         assertNotNull(budgetDoc);
         
-        List<BudgetPeriod> periods = budgetDoc.getBudgetPeriods();
+        List<BudgetPeriod> periods = budgetDoc.getBudget().getBudgetPeriods();
         assertNotNull(periods);
         assertEquals(3, periods.size());
         
@@ -103,7 +104,7 @@ public class BudgetPersonnelExpenseWebTest extends BudgetExpenseWebTest {
         BudgetLineItem firstPeriodFirstLineItem = firstPeriodLineItems.get(0);
         assertNotNull(firstPeriodFirstLineItem);
         
-        List<BudgetPerson> budgetPersonnel = budgetDoc.getBudgetPersons();
+        List<BudgetPerson> budgetPersonnel = budgetDoc.getBudget().getBudgetPersons();
         assertNotNull(budgetPersonnel);
         assertEquals(2, budgetPersonnel.size());
         

@@ -19,16 +19,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.AbstractBudgetRate;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.BudgetProposalLaRate;
-import org.kuali.kra.budget.bo.BudgetProposalRate;
-import org.kuali.kra.budget.bo.BudgetRateAndBase;
-import org.kuali.kra.budget.bo.ValidCalcType;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.calculator.query.NotEquals;
 import org.kuali.kra.budget.calculator.query.Or;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.rates.AbstractBudgetRate;
+import org.kuali.kra.budget.rates.BudgetProposalLaRate;
+import org.kuali.kra.budget.rates.BudgetProposalRate;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -49,10 +49,11 @@ public class BreakUpInterval{
     private BudgetProposalRate uRRatesBean;
     private boolean laWithEBVACalculated = false;
 
-    private String proposalNumber;
+//    private String proposalNumber;
+//    private Integer budgetVersionNumber;
+    private Long budgetId;
     private Integer budgetPeriod;
     private Integer lineItemNumber;
-    private Integer budgetVersionNumber;
     private Integer rateNumber;
     private QueryList<BudgetRateAndBase> cvRateBase ;
     /*
@@ -241,12 +242,15 @@ public class BreakUpInterval{
                BudgetRateAndBase budgetRateBaseBean = new BudgetRateAndBase();
                Boundary boundary = getBoundary();
                boolean flag = amountBean.isApplyRateFlag();
-               budgetRateBaseBean.setProposalNumber(getProposalNumber());
-               budgetRateBaseBean.setBudgetVersionNumber(getVersionNumber());
+//               budgetRateBaseBean.setProposalNumber(getProposalNumber());
+//               budgetRateBaseBean.setBudgetVersionNumber(getVersionNumber());
+               budgetRateBaseBean.setBudgetId(getBudgetId());
                budgetRateBaseBean.setBudgetPeriod(getBudgetPeriod());
                
-               keyMap.put("proposalNumber", getProposalNumber());
-               keyMap.put("budgetVersionNumber", getVersionNumber());
+//               keyMap.put("proposalNumber", getProposalNumber());
+//               keyMap.put("budgetVersionNumber", getVersionNumber());
+               
+               keyMap.put("budgetId", getBudgetId());
                keyMap.put("budgetPeriod", getBudgetPeriod());
                BudgetPeriod bPeriod = (BudgetPeriod) boService.findByPrimaryKey(BudgetPeriod.class, keyMap);
                if (bPeriod != null) {
@@ -644,21 +648,21 @@ public class BreakUpInterval{
         this.uRRatesBean = uRRatesBean;
     }
     
-    /**
-     * Getter for property proposalNumber.
-     * @return Value of property proposalNumber.
-     */
-    public java.lang.String getProposalNumber() {
-        return proposalNumber;
-    }    
-   
-    /**
-     * Setter for property proposalNumber.
-     * @param proposalNumber New value of property proposalNumber.
-     */
-    public void setProposalNumber(java.lang.String proposalNumber) {
-        this.proposalNumber = proposalNumber;
-    }    
+//    /**
+//     * Getter for property proposalNumber.
+//     * @return Value of property proposalNumber.
+//     */
+//    public java.lang.String getProposalNumber() {
+//        return proposalNumber;
+//    }    
+//   
+//    /**
+//     * Setter for property proposalNumber.
+//     * @param proposalNumber New value of property proposalNumber.
+//     */
+//    public void setProposalNumber(java.lang.String proposalNumber) {
+//        this.proposalNumber = proposalNumber;
+//    }    
     
     /**
      * Getter for property budgetPeriod.
@@ -692,21 +696,21 @@ public class BreakUpInterval{
         this.lineItemNumber = lineItemNumber;
     }
     
-    /**
-     * Getter for property versionNumber.
-     * @return Value of property versionNumber.
-     */
-    public int getVersionNumber() {
-        return budgetVersionNumber;
-    }
-    
-    /**
-     * Setter for property versionNumber.
-     * @param versionNumber New value of property versionNumber.
-     */
-    public void setVersionNumber(int versionNumber) {
-        this.budgetVersionNumber = versionNumber;
-    }
+//    /**
+//     * Getter for property versionNumber.
+//     * @return Value of property versionNumber.
+//     */
+//    public int getVersionNumber() {
+//        return budgetVersionNumber;
+//    }
+//    
+//    /**
+//     * Setter for property versionNumber.
+//     * @param versionNumber New value of property versionNumber.
+//     */
+//    public void setVersionNumber(int versionNumber) {
+//        this.budgetVersionNumber = versionNumber;
+//    }
     
     /**
      * Getter for property rateNumber.
@@ -722,6 +726,23 @@ public class BreakUpInterval{
      */
     public void setRateNumber(int rateNumber) {
         this.rateNumber = rateNumber;
+    }
+
+
+    /**
+     * Gets the budget attribute. 
+     * @return Returns the budget.
+     */
+    public Long getBudgetId() {
+        return budgetId;
+    }
+
+    /**
+     * Sets the budget attribute value.
+     * @param budget id to set.
+     */
+    public void setBudgetId(Long budgetId) {
+        this.budgetId = budgetId;
     }
  }
 

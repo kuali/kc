@@ -38,7 +38,8 @@ import org.kuali.kra.bo.OrganizationType;
 import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetProjectIncome;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
@@ -283,9 +284,9 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             sf424V2.setProjectEndDate(null);
         }
 
-        BudgetDocument budgetDoc = null;
+        Budget budgetDoc = null;
         try {
-            budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+            budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc).getBudget();
         }
         catch (S2SException e) {
             LOG.error(e.getMessage(), e);

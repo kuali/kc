@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2007 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ package org.kuali.kra.budget.document;
 
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
-import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -30,14 +30,14 @@ public class ObjectUtilsTest extends KraTestBase {
     public void testObjectUtils_equalsByKey() throws Exception {
         BudgetPeriod periodDB = new BudgetPeriod();
         periodDB.setBudgetPeriodId(new Long(268));
-        periodDB.setProposalNumber("103");
-        periodDB.setBudgetVersionNumber(1);
+//        periodDB.setProposalNumber("103");
+//        periodDB.setBudgetVersionNumber(1);
         periodDB.setBudgetPeriod(3);
         
         BudgetPeriod periodNew = new BudgetPeriod();
         periodNew.setBudgetPeriodId(null);
-        periodNew.setProposalNumber(null);
-        periodNew.setBudgetVersionNumber(null);
+//        periodNew.setProposalNumber(null);
+//        periodNew.setBudgetVersionNumber(null);
         periodNew.setBudgetPeriod(3);
         
         boolean equalsResult = false;

@@ -19,18 +19,18 @@
 <c:set var="ufaAttributes" value="${DataDictionary.BudgetUnrecoveredFandA.attributes}" />
 
 <kul:tab tabTitle="Unrecovered F&A" 
-		tabItemCount="${KualiForm.document.budgetUnrecoveredFandACount}" 
+		tabItemCount="${KualiForm.document.budget.budgetUnrecoveredFandACount}" 
 		defaultOpen="false" 
 		tabErrorKey="newUnrecoveredFandA*,document.unrecoveredFandA*,document.budgetUnrecoveredFandA*" 
 		auditCluster="budgetUnrecoveredFandAAuditErrors,budgetUnrecoveredFandAAuditWarnings" 
-		tabAuditKey="document.budgetUnrecoveredFandA*"
+		tabAuditKey="document.budget.budgetUnrecoveredFandA*"
 		useRiceAuditMode="true">
 	<div class="tab-container" align="center">
 		<c:choose>
 			<c:when test="${KualiForm.unrecoveredFandAEditFormVisible}">
 				<div class="h2-container">
 					<span class="subhead-left"><h2>Unrecovered F&A Distribution List</h2></span>
-					<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetUnrecoveredFandA" altText="help"/></span>
+					<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA" altText="help"/></span>
 				</div>
 			
 				<div align="center">
@@ -85,12 +85,12 @@
 				          	</tr>
 				        </kra:section>
 						          	
-			  			<c:forEach var="unrecoveredFandA" items="${KualiForm.document.budgetUnrecoveredFandAs}" varStatus="status">
+			  			<c:forEach var="unrecoveredFandA" items="${KualiForm.document.budget.budgetUnrecoveredFandAs}" varStatus="status">
 			          		<tr>
 			          			<th><div align="right">${status.index + 1}</div></th>
 			            		
 			            		<td><div align="center">
-									<kul:htmlControlAttribute property="document.budgetUnrecoveredFandA[${status.index}].fiscalYear" attributeEntry="${ufaAttributes.fiscalYear}" />            				
+									<kul:htmlControlAttribute property="document.budget.budgetUnrecoveredFandA[${status.index}].fiscalYear" attributeEntry="${ufaAttributes.fiscalYear}" />            				
 			        			</div></td>
 			        			
 			            		<td><div align="center">
@@ -110,7 +110,7 @@
 					                    	<c:out value="${campusFlagText}" />  
 					                     </c:when>
 				                     	<c:otherwise>
-					                     	<html:select property="document.budgetUnrecoveredFandA[${status.index}].onCampusFlag">
+					                     	<html:select property="document.budget.budgetUnrecoveredFandA[${status.index}].onCampusFlag">
 					        					<html:option value="">Select</html:option>
 					        					<html:option value="Y">Yes</html:option>
 					        					<html:option value="N">No</html:option>
@@ -120,16 +120,16 @@
 			        			</div></td>
 			            		
 			            		<td><div align="center">
-			        				<kul:htmlControlAttribute property="document.budgetUnrecoveredFandA[${status.index}].sourceAccount" attributeEntry="${ufaAttributes.sourceAccount}" />
+			        				<kul:htmlControlAttribute property="document.budget.budgetUnrecoveredFandA[${status.index}].sourceAccount" attributeEntry="${ufaAttributes.sourceAccount}" />
 			        			</div></td>
 			            		
 			            		<td><div align="center">
-			        				<kul:htmlControlAttribute property="document.budgetUnrecoveredFandA[${status.index}].amount" attributeEntry="${ufaAttributes.amount}" styleClass="amount" />
+			        				<kul:htmlControlAttribute property="document.budget.budgetUnrecoveredFandA[${status.index}].amount" attributeEntry="${ufaAttributes.amount}" styleClass="amount" />
 			        			</div></td>
 			        				        			
 			            		<td>
 			            			<div align=center>&nbsp;
-			            				<c:if test="${!viewOnly and fn:length(KualiForm.document.budgetUnrecoveredFandAs) > 0}">
+			            				<c:if test="${!viewOnly and fn:length(KualiForm.document.budget.budgetUnrecoveredFandAs) > 0}">
 										  	<html:image property="methodToCall.deleteUnrecoveredFandA.line${status.index}" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' title="Delete an Unrecovered F&A" alt="Delete an Unrecovered F&A" styleClass="tinybutton" />
 										</c:if>
 									</div>
@@ -138,12 +138,12 @@
 			          	</c:forEach>
 		          		<tr>
 				    		<th colspan="5" class="infoline"><div align="right">Total Allocated:</div></th>
-				    		<td><div align="right"><span class="amount"><fmt:formatNumber value="${KualiForm.document.allocatedUnrecoveredFandA}" type="currency" currencySymbol="$" maxFractionDigits="2" /></span></div></td>
+				    		<td><div align="right"><span class="amount"><fmt:formatNumber value="${KualiForm.document.budget.allocatedUnrecoveredFandA}" type="currency" currencySymbol="$" maxFractionDigits="2" /></span></div></td>
 				    		<td>&nbsp;</td>
 				    	</tr>
 				    	<tr>
 				    		<th colspan="5" class="infoline"><div align="right">Unallocated:</div></th>
-				    		<td><div align="right"><span class="amount"><fmt:formatNumber value="${KualiForm.document.unallocatedUnrecoveredFandA}" type="currency" currencySymbol="$" maxFractionDigits="2" /></span></div></td>
+				    		<td><div align="right"><span class="amount"><fmt:formatNumber value="${KualiForm.document.budget.unallocatedUnrecoveredFandA}" type="currency" currencySymbol="$" maxFractionDigits="2" /></span></div></td>
 				    		<td>&nbsp;</td>
 				    	</tr>
 			        </table>
@@ -155,7 +155,7 @@
 				
 				<div align="center">
 			    	<table id="budget-unrecovered-fna-summary-table" cellpadding="0" cellspacing="0" summary="Unrecovered F & A Amounts to be Allocated">
-			    		<c:forEach var="budgetPeriod" items="${KualiForm.document.budgetPeriods}" varStatus="status">
+			    		<c:forEach var="budgetPeriod" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status">
 							<tr>
 						    	<th width="70.5%" class="infoline"><div align="right">Period ${status.index + 1}: ${budgetPeriod.dateRangeLabel}:</div></th>
 						    	<td width="15%"><div align="right"><span class="amount"><fmt:formatNumber value="${budgetPeriod.underrecoveryAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" /></span></div></td>

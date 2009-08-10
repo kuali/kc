@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -33,7 +34,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.42 $
  */
-public class ProposalPerson extends Person implements CreditSplitable {
+public class ProposalPerson extends Person implements CreditSplitable,PersonRolodex {
     /**
      * Comment for <code>serialVersionUID</code>
      */

@@ -21,6 +21,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.distributionincome.BudgetCostShare;
+import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -46,16 +49,17 @@ public class BudgetCostShareIntegrationTest extends BudgetDistributionAndIncomeI
     public void testSave_MissingFieldsRequiredAtProposalValidation() throws Exception {
         BudgetCostShare budgetCostShare = new BudgetCostShare();
         budgetCostShare.setSourceAccount(null);
-        budgetDocument.add(budgetCostShare);
+        Budget budget  = budgetDocument.getBudget();
+        budget.add(budgetCostShare);
         getDocumentService().saveDocument(budgetDocument);
         
         BudgetDocument savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
         assertNotNull(savedDocument);        
-        assertEquals(1, savedDocument.getBudgetCostShares().size());
-        assertNull(savedDocument.getBudgetCostShares().get(0).getFiscalYear());
-        assertEquals(BudgetDecimal.ZERO, savedDocument.getBudgetCostShares().get(0).getShareAmount());
-        assertEquals(BudgetDecimal.ZERO, savedDocument.getBudgetCostShares().get(0).getSharePercentage());
-        assertNull(savedDocument.getBudgetCostShares().get(0).getSourceAccount());
+        assertEquals(1, savedDocument.getBudget().getBudgetCostShares().size());
+        assertNull(savedDocument.getBudget().getBudgetCostShares().get(0).getFiscalYear());
+        assertEquals(BudgetDecimal.ZERO, savedDocument.getBudget().getBudgetCostShares().get(0).getShareAmount());
+        assertEquals(BudgetDecimal.ZERO, savedDocument.getBudget().getBudgetCostShares().get(0).getSharePercentage());
+        assertNull(savedDocument.getBudget().getBudgetCostShares().get(0).getSourceAccount());
     }
 
     protected BudgetDistributionAndIncomeComponent[] createBudgetDistributionAndIncomeComponentCollection() {
@@ -66,11 +70,11 @@ public class BudgetCostShareIntegrationTest extends BudgetDistributionAndIncomeI
     }
 
     protected void addBudgetDistributionAndIncomeComponent(BudgetDistributionAndIncomeComponent costShare) {
-        budgetDocument.add((BudgetCostShare)costShare);
+        budgetDocument.getBudget().add((BudgetCostShare)costShare);
     }
     
     protected List<? extends BudgetDistributionAndIncomeComponent> getBudgetDistributionAndIncomeComponents(BudgetDocument budgetDocument) {
-        return budgetDocument.getBudgetCostShares();
+        return budgetDocument.getBudget().getBudgetCostShares();
     }
 
     @Override

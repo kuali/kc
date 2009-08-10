@@ -34,34 +34,34 @@
 </c:choose>
 
 	<c:set var="tabErrorKeyString" value=""/>
-    <c:forEach var="budgetCategoryTypeIndex" items="${KualiForm.document.budgetCategoryTypeCodes}" varStatus="status1">
+    <c:forEach var="budgetCategoryTypeIndex" items="${KualiForm.document.budget.budgetCategoryTypeCodes}" varStatus="status1">
     	<c:if test="${budgetCategoryTypeIndex.key ==  budgetCategoryTypeCodeKey}">
     		<c:set var="index" value="0"/>
-    		<c:forEach var="budgetLineItems" items="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems}" varStatus="status">			    		
+    		<c:forEach var="budgetLineItems" items="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems}" varStatus="status">			    		
     		<c:if test="${budgetLineItems.budgetCategory.budgetCategoryTypeCode == budgetCategoryTypeIndex.key}" >    						
 			<c:set var="index" value="${index+1}"/>
 				<c:choose>
 	    			<c:when test="${empty tabErrorKeyString}">
-	    				<c:set var="tabErrorKeyString" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].lineItemDescription"/>
+	    				<c:set var="tabErrorKeyString" value="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].lineItemDescription"/>
 	    			</c:when>
 	    			<c:otherwise>
-	    				<c:set var="tabErrorKeyString" value="${tabErrorKeyString},document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].lineItemDescription"/>
+	    				<c:set var="tabErrorKeyString" value="${tabErrorKeyString},document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].lineItemDescription"/>
 	    			</c:otherwise>
 	    		</c:choose>
 	    		<c:choose>
 	    			<c:when test="${empty tabErrorKeyString2}">
-	    				<c:set var="tabErrorKeyString2" value="document.budgetCategoryTypes[${budgetCategoryTypeIndex.key}].budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].*"/>
+	    				<c:set var="tabErrorKeyString2" value="document.budget.budgetCategoryTypes[${budgetCategoryTypeIndex.key}].budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].*"/>
 	    			</c:when>
 	    			<c:otherwise>
-	    				<c:set var="tabErrorKeyString2" value="${tabErrorKeyString2},document.budgetCategoryTypes[${budgetCategoryTypeIndex.key}].budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].*"/>
+	    				<c:set var="tabErrorKeyString2" value="${tabErrorKeyString2},document.budget.budgetCategoryTypes[${budgetCategoryTypeIndex.key}].budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].*"/>
 	    			</c:otherwise>
 	    		</c:choose>
 	    		<c:choose>
 	    			<c:when test="${empty tabErrorKeyString3}">
-	    				<c:set var="tabErrorKeyString3" value="document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].*"/>
+	    				<c:set var="tabErrorKeyString3" value="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].*"/>
 	    			</c:when>
 	    			<c:otherwise>
-	    				<c:set var="tabErrorKeyString3" value="${tabErrorKeyString3},document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].*"/>
+	    				<c:set var="tabErrorKeyString3" value="${tabErrorKeyString3},document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].*"/>
 	    			</c:otherwise>
 	    		</c:choose>			    		
     		</c:if>    		
@@ -76,7 +76,7 @@
 		<div class="tab-container" align="center">
 		
 		<div style="text-align:left;width: 98%" >
-		   	<c:forEach var="budgetLineItem" items="${KualiForm.document.budgetPeriods[budgetPeriod-1].budgetLineItems}" varStatus="status">
+		   	<c:forEach var="budgetLineItem" items="${KualiForm.document.budget.budgetPeriods[budgetPeriod-1].budgetLineItems}" varStatus="status">
 			   	<c:forEach var="budgetPersonnelDetails" items="${budgetLineItem.budgetPersonnelDetailsList}" varStatus="personStatus">
 					<c:set var="msg" value="${budgetPersonnelDetails.effdtAfterStartdtMsg}" /> 
 	     			<c:if test="${!empty  msg}" >
@@ -88,7 +88,7 @@
 		
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Add Details</h2></span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetPersonnelDetails" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.personnel.BudgetPersonnelDetails" altText="help"/></span>
         </div>
         <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 		<c:set target="${paramMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCodeKey}" />
@@ -104,7 +104,7 @@
 	            <tr>
 					<td valign="middle" nowrap="true">
 	                	<div align="center">
-	                	<kul:htmlControlAttribute property="newBudgetPersonnelDetails.personSequenceNumber" attributeEntry="${budgetPersonnelDetailsAttributes.personSequenceNumber}"  onchange="updateCostElement('${KualiForm.document.proposalNumber}', '${KualiForm.document.budgetVersionNumber}', 'newBudgetLineItems[${catCodes}].costElement', this, '${budgetCategoryTypeCodeKey}', updateCostElement_Callback);" />
+	                	<kul:htmlControlAttribute property="newBudgetPersonnelDetails.personSequenceNumber" attributeEntry="${budgetPersonnelDetailsAttributes.personSequenceNumber}"  onchange="updateCostElement('${KualiForm.document.budget.budgetId}', 'newBudgetLineItems[${catCodes}].costElement', this, '${budgetCategoryTypeCodeKey}', updateCostElement_Callback);" />
 	                	<input type="hidden" name="costElementLookup">
 	                	</div>
 					</td>
@@ -134,13 +134,13 @@
 		                    </c:choose>                    
 		                    </c:forEach>
 		                    </html:select>
-		                    <input type="hidden" name="document.budgetCategoryType[${catCodes}]" value="${budgetCategoryTypeCodeKey}">
+		                    <input type="hidden" name="document.budget.budgetCategoryType[${catCodes}]" value="${budgetCategoryTypeCodeKey}">
 		
 		                    <span id="ceLookupDiv">                 
-		                		<kul:lookup boClassName="org.kuali.kra.budget.bo.CostElement" fieldConversions="costElement:newBudgetLineItems[${catCodes}].costElement" anchor="${tabKey}" lookupParameters="newBudgetLineItems[${catCodes}].costElement:costElement,document.budgetCategoryType[${catCodes}]:budgetCategoryTypeCode" autoSearch="yes"/>
+		                		<kul:lookup boClassName="org.kuali.kra.budget.core.CostElement" fieldConversions="costElement:newBudgetLineItems[${catCodes}].costElement" anchor="${tabKey}" lookupParameters="newBudgetLineItems[${catCodes}].costElement:costElement,document.budget.budgetCategoryType[${catCodes}]:budgetCategoryTypeCode" autoSearch="yes"/>
 		                	</span>
 		                	
-		                	<kul:directInquiry boClassName="org.kuali.kra.budget.bo.CostElement" inquiryParameters="newBudgetLineItems[${catCodes}].costElement:costElement" anchor="${tabKey}"/>
+		                	<kul:directInquiry boClassName="org.kuali.kra.budget.core.CostElement" inquiryParameters="newBudgetLineItems[${catCodes}].costElement:costElement" anchor="${tabKey}"/>
 		                	<c:set var="hasErrors" value="" scope="request"/>                	
 	                	</div>
 					</td>
@@ -165,7 +165,7 @@
              
                     
     		<c:set var="index" value="0"/>
-    		<c:forEach var="budgetLineItems" items="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems}" varStatus="status">
+    		<c:forEach var="budgetLineItems" items="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems}" varStatus="status">
     		<c:if test="${budgetLineItems.costElementBO.budgetCategory.budgetCategoryTypeCode == budgetCategoryTypeCodeKey}" >
     			<tr>
     				<td colspan="4" width="100%">

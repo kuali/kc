@@ -27,19 +27,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.AppointmentType;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.BudgetPerson;
-import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
-import org.kuali.kra.budget.bo.BudgetProposalRate;
-import org.kuali.kra.budget.bo.CostElement;
-import org.kuali.kra.budget.bo.ValidCeRateType;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.calculator.query.GreaterThan;
 import org.kuali.kra.budget.calculator.query.LesserThan;
 import org.kuali.kra.budget.calculator.query.Or;
-import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.CostElement;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.personnel.AppointmentType;
+import org.kuali.kra.budget.personnel.BudgetPerson;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.rates.BudgetProposalRate;
+import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -50,7 +50,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
  */
 public class SalaryCalculator {
     private static final int DEFAULT_WORKING_MONTHS = 12;
-    private BudgetDocument budgetDocument;
+    private Budget budget;
     private BudgetPersonnelDetails personnelLineItem;
     private Date startDate;
     private Date endDate;
@@ -63,11 +63,11 @@ public class SalaryCalculator {
     /**
      * 
      * Constructs a SalaryCalculator.java.
-     * @param budgetDocument
+     * @param budget
      * @param personnelLineItem
      */
-    public SalaryCalculator(BudgetDocument budgetDocument, BudgetPersonnelDetails personnelLineItem) {
-        this.budgetDocument = budgetDocument;
+    public SalaryCalculator(Budget budget, BudgetPersonnelDetails personnelLineItem) {
+        this.budget = budget;
         this.personnelLineItem = personnelLineItem;
         this.startDate = personnelLineItem.getStartDate();
         this.endDate = personnelLineItem.getEndDate();
@@ -126,7 +126,7 @@ public class SalaryCalculator {
         And dateAndRateAndOnOffCampusFlag = new And(dateAndRate, onOffCampus);
 
         if (personnelLineItem.getApplyInRateFlag()) {
-            return getInflationRates()==null?new QueryList<BudgetProposalRate>(budgetDocument.getBudgetProposalRates()).filter(dateAndRateAndOnOffCampusFlag):getInflationRates().filter(dateAndRateAndOnOffCampusFlag);
+            return getInflationRates()==null?new QueryList<BudgetProposalRate>(budget.getBudgetProposalRates()).filter(dateAndRateAndOnOffCampusFlag):getInflationRates().filter(dateAndRateAndOnOffCampusFlag);
         } else {
             return new QueryList<BudgetProposalRate>();
         }
@@ -146,8 +146,7 @@ public class SalaryCalculator {
         
         BusinessObjectService businessObjectService = KNSServiceLocator.getBusinessObjectService();
         Map queryMap = new HashMap();
-        queryMap.put("proposalNumber", budgetDocument.getProposalNumber());
-        queryMap.put("budgetVersionNumber", budgetDocument.getBudgetVersionNumber());
+        queryMap.put("budgetId", budget.getBudgetId());
         savedBudgetPersons = (List<BudgetPerson>) businessObjectService.findMatching(BudgetPerson.class, queryMap);
         if(savedBudgetPersons.isEmpty()) return filteredPersons;
 
@@ -156,7 +155,7 @@ public class SalaryCalculator {
         List<BudgetPerson> documentBudgetPersons = new ArrayList<BudgetPerson>();
         for(BudgetPerson savedPerson : savedBudgetPersons){
             personInDocument = false;
-            for(BudgetPerson docPerson : budgetDocument.getBudgetPersons()){
+            for(BudgetPerson docPerson : budget.getBudgetPersons()){
                 if(savedPerson.getPersonSequenceNumber().intValue() == docPerson.getPersonSequenceNumber().intValue()) {
                     documentBudgetPersons.add(i, docPerson);
                     personInDocument = true;
@@ -354,10 +353,10 @@ public class SalaryCalculator {
                     // before apply the inflation applicable rate
                     salaryDetails.setActualBaseSalary(getPrevSalaryBase(budgetPerson, boundary));
                     //salaryDetails.calculateActualBaseSalary(budgetProposalRate.getApplicableRate());
-                    if(prevBudgetProposalRate!=null && budgetPerson.getEffectiveDate().before(prevBudgetProposalRate.getStartDate()) && budgetPerson.getEffectiveDate().before(boundary.getStartDate()) && prevBudgetProposalRate.getStartDate().before(boundary.getEndDate()) && (prevBudgetProposalRate.getStartDate().equals(boundary.getStartDate()) || budgetDocument.getBudgetPeriods().get(0).getEndDate().before(startDate) )){
+                    if(prevBudgetProposalRate!=null && budgetPerson.getEffectiveDate().before(prevBudgetProposalRate.getStartDate()) && budgetPerson.getEffectiveDate().before(boundary.getStartDate()) && prevBudgetProposalRate.getStartDate().before(boundary.getEndDate()) && (prevBudgetProposalRate.getStartDate().equals(boundary.getStartDate()) || budget.getBudgetPeriods().get(0).getEndDate().before(startDate) )){
                         salaryDetails.calculateActualBaseSalary(budgetProposalRate.getApplicableRate());
                     } else {
-                        if(budgetProposalRate!=null && budgetPerson.getEffectiveDate().before(budgetProposalRate.getStartDate()) && budgetPerson.getEffectiveDate().before(startDate) && budgetProposalRate.getStartDate().before(boundary.getEndDate()) && (budgetProposalRate.getStartDate().compareTo(startDate) <= 0 || budgetDocument.getBudgetPeriods().get(0).getEndDate().before(startDate) )){
+                        if(budgetProposalRate!=null && budgetPerson.getEffectiveDate().before(budgetProposalRate.getStartDate()) && budgetPerson.getEffectiveDate().before(startDate) && budgetProposalRate.getStartDate().before(boundary.getEndDate()) && (budgetProposalRate.getStartDate().compareTo(startDate) <= 0 || budget.getBudgetPeriods().get(0).getEndDate().before(startDate) )){
                             salaryDetails.calculateActualBaseSalary(budgetProposalRate.getApplicableRate());
                         }
                     }
@@ -426,7 +425,7 @@ public class SalaryCalculator {
     private BudgetPerson getSameJobPerson(Boundary boundary, BudgetPerson curBudgetPerson) {
         // may need a list because potential several promotions in a short period of time
         // same job/person within the boundary.
-        for (BudgetPerson budgetPerson : budgetDocument.getBudgetPersons()) {
+        for (BudgetPerson budgetPerson : budget.getBudgetPersons()) {
             if (((curBudgetPerson.getPersonId() != null && curBudgetPerson.getPersonId().equals(budgetPerson.getPersonId())) || (curBudgetPerson.getRolodexId() != null && curBudgetPerson.getRolodexId().equals(budgetPerson.getRolodexId())) || (curBudgetPerson.getTbnId() != null && curBudgetPerson.getTbnId().equals(budgetPerson.getTbnId())) )
                  && !budgetPerson.getPersonSequenceNumber().equals(curBudgetPerson.getPersonSequenceNumber()) && budgetPerson.getJobCode().equals(curBudgetPerson.getJobCode()) && budgetPerson.getEffectiveDate().after(curBudgetPerson.getEffectiveDate()) && budgetPerson.getEffectiveDate().compareTo(boundary.getStartDate()) >= 0 && budgetPerson.getEffectiveDate().compareTo(boundary.getEndDate()) <= 0) {
                 return budgetPerson;
@@ -617,12 +616,12 @@ public class SalaryCalculator {
     
     private BudgetDecimal getPrevSalaryBase(BudgetPerson budgetPerson, Boundary boundary) {
         //int daysToEndDate = KraServiceLocator.getService(DateTimeService.class).dateDiff(newStartDate, parentEndDate, false);
-        Date p1StartDate = budgetDocument.getBudgetPeriods().get(0).getStartDate();
+        Date p1StartDate = budget.getBudgetPeriods().get(0).getStartDate();
         BudgetPerson newBudgetPerson = budgetPerson;
         // in case same person job get promotion
         // 01/01/2008 - 12/31/2008, promoted at 02/01/2008
         // for boundary 07/01/2008-12/31/2008, it has to use 03/01 record
-        for (BudgetPerson budgetPerson1 : budgetDocument.getBudgetPersons()) {
+        for (BudgetPerson budgetPerson1 : budget.getBudgetPersons()) {
             if (((budgetPerson1.getPersonId() != null && budgetPerson1.getPersonId().equals(budgetPerson.getPersonId())) || (budgetPerson1.getRolodexId() != null && budgetPerson1.getRolodexId().equals(budgetPerson.getRolodexId())) || (budgetPerson1.getTbnId() != null && budgetPerson1.getTbnId().equals(budgetPerson.getTbnId())) )
                   &&  !budgetPerson1.getPersonSequenceNumber().equals(newBudgetPerson.getPersonSequenceNumber()) && budgetPerson1.getJobCode() != null && budgetPerson1.getJobCode().equals(newBudgetPerson.getJobCode()) && budgetPerson1.getEffectiveDate().after(newBudgetPerson.getEffectiveDate()) && budgetPerson1.getEffectiveDate().compareTo(boundary.getStartDate()) <= 0) {
                 newBudgetPerson =  budgetPerson1;
@@ -637,7 +636,7 @@ public class SalaryCalculator {
          * increase the calculation base by that base
          * 
          */ 
-        for (BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
+        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             if (budgetPeriod.getEndDate().compareTo(newBudgetPerson.getEffectiveDate()) >= 0) {
                 QueryList<BudgetProposalRate> qlist = filterInflationRates(budgetPeriod.getStartDate(), budgetPeriod.getEndDate());
                 for (BudgetProposalRate budgetProposalrate : qlist) {
@@ -658,7 +657,7 @@ public class SalaryCalculator {
         // in case same person job get promotion
         // 01/01/2008 - 12/31/2008, promoted at 02/01/2008
         // for boundary 07/01/2008-12/31/2008, it has to use 03/01 record
-        for (BudgetPerson budgetPerson1 : budgetDocument.getBudgetPersons()) {
+        for (BudgetPerson budgetPerson1 : budget.getBudgetPersons()) {
             if (((budgetPerson1.getPersonId() != null && budgetPerson1.getPersonId().equals(budgetPerson.getPersonId())) || (budgetPerson1.getRolodexId() != null && budgetPerson1.getRolodexId().equals(budgetPerson.getRolodexId())) || (budgetPerson1.getTbnId() != null && budgetPerson1.getTbnId().equals(budgetPerson.getTbnId())) )
                   &&  !budgetPerson1.getPersonSequenceNumber().equals(newBudgetPerson.getPersonSequenceNumber()) && budgetPerson1.getJobCode() != null && budgetPerson1.getJobCode().equals(newBudgetPerson.getJobCode()) && budgetPerson1.getEffectiveDate().after(newBudgetPerson.getEffectiveDate()) && budgetPerson1.getEffectiveDate().compareTo(boundary.getStartDate()) <= 0) {
                 return budgetPerson1;
@@ -708,9 +707,9 @@ public class SalaryCalculator {
         Equals onOffCampus = new Equals("onOffCampusFlag", costElement.getOnOffCampusFlag());
         And dateAndRateAndOnOffCampusFlag = new And(dateAndRate, onOffCampus);
 
-        //return getInflationRates()==null?new QueryList<BudgetProposalRate>(budgetDocument.getBudgetProposalRates()).filter(dateAndRateAndOnOffCampusFlag):getInflationRates().filter(dateAndRateAndOnOffCampusFlag);
+        //return getInflationRates()==null?new QueryList<BudgetProposalRate>(budget.getBudgetProposalRates()).filter(dateAndRateAndOnOffCampusFlag):getInflationRates().filter(dateAndRateAndOnOffCampusFlag);
         if (personnelLineItem.getApplyInRateFlag()) {
-            return getInflationRates()==null?new QueryList<BudgetProposalRate>(budgetDocument.getBudgetProposalRates()).filter(dateAndRateAndOnOffCampusFlag):getInflationRates().filter(dateAndRateAndOnOffCampusFlag);
+            return getInflationRates()==null?new QueryList<BudgetProposalRate>(budget.getBudgetProposalRates()).filter(dateAndRateAndOnOffCampusFlag):getInflationRates().filter(dateAndRateAndOnOffCampusFlag);
         } else {
             return new QueryList<BudgetProposalRate>();
         }

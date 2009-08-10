@@ -7,7 +7,7 @@
   <bean id="RateType" parent="RateType-parentBean" />
 
   <bean id="RateType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.RateType" />
+    <property name="businessObjectClass" value="org.kuali.kra.budget.rates.RateType" />
     <property name="inquiryDefinition" >
       <ref bean="RateType-inquiryDefinition" />
     </property>

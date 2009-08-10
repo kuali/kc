@@ -22,6 +22,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.RateDecimal;
+import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent;
+import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
 
 public class BudgetUnrecoveredFandAIntegrationTest extends BudgetDistributionAndIncomeIntegrationTest {
@@ -45,13 +47,13 @@ public class BudgetUnrecoveredFandAIntegrationTest extends BudgetDistributionAnd
     @Test
     public void testSave_MissingFieldsRequiredAtProposalValidation() throws Exception {
         BudgetUnrecoveredFandA budgetUnrecoveredFandA = new BudgetUnrecoveredFandA();
-        budgetDocument.add(budgetUnrecoveredFandA);
+        budgetDocument.getBudget().add(budgetUnrecoveredFandA);
         getDocumentService().saveDocument(budgetDocument);
         
         BudgetDocument savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
         assertNotNull(savedDocument);        
-        assertEquals(1, savedDocument.getBudgetUnrecoveredFandAs().size());
-        BudgetUnrecoveredFandA savedBudgetUnrecoveredFandA = savedDocument.getBudgetUnrecoveredFandAs().get(0); 
+        assertEquals(1, savedDocument.getBudget().getBudgetUnrecoveredFandAs().size());
+        BudgetUnrecoveredFandA savedBudgetUnrecoveredFandA = savedDocument.getBudget().getBudgetUnrecoveredFandAs().get(0); 
         assertEquals(BudgetDecimal.ZERO, savedBudgetUnrecoveredFandA.getAmount());
         assertNull(savedBudgetUnrecoveredFandA.getApplicableRate());
         assertNull(savedBudgetUnrecoveredFandA.getOnCampusFlag());
@@ -61,7 +63,7 @@ public class BudgetUnrecoveredFandAIntegrationTest extends BudgetDistributionAnd
 
     @Override
     protected void addBudgetDistributionAndIncomeComponent(BudgetDistributionAndIncomeComponent component) {
-        budgetDocument.add((BudgetUnrecoveredFandA) component);
+        budgetDocument.getBudget().add((BudgetUnrecoveredFandA) component);
     }
 
     @Override
@@ -75,7 +77,7 @@ public class BudgetUnrecoveredFandAIntegrationTest extends BudgetDistributionAnd
 
     @Override
     protected List<? extends BudgetDistributionAndIncomeComponent> getBudgetDistributionAndIncomeComponents(BudgetDocument budgetDocument) {
-        return budgetDocument.getBudgetUnrecoveredFandAs();
+        return budgetDocument.getBudget().getBudgetUnrecoveredFandAs();
     }
 
     @Override

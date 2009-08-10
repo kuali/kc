@@ -49,14 +49,15 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetModularIdc;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.BudgetProjectIncome;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
+import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
@@ -174,7 +175,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
      * @throws S2SException
      */
     private EstimatedProjectFunding getProjectFunding() throws S2SException {
-        BudgetDocument budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+        Budget budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc).getBudget();
         EstimatedProjectFunding funding = EstimatedProjectFunding.Factory.newInstance();
         funding.setTotalEstimatedAmount(BigDecimal.ZERO);
         funding.setTotalfedNonfedrequested(BigDecimal.ZERO);

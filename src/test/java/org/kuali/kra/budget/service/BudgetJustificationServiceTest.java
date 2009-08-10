@@ -23,15 +23,17 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.BudgetException;
-import org.kuali.kra.budget.bo.BudgetLineItem;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.CostElement;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.service.impl.BudgetJustificationServiceImpl;
-import org.kuali.kra.budget.web.struts.form.BudgetJustificationWrapper;
+import org.kuali.kra.budget.nonpersonnel.BudgetJustificationService;
+import org.kuali.kra.budget.nonpersonnel.BudgetJustificationServiceImpl;
+import org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 
 public class BudgetJustificationServiceTest {
-    private BudgetDocument budgetDocument;
+    private Budget budgetDocument;
     private BudgetJustificationService budgetJustificationService;
     private BudgetJustificationWrapper budgetJustificationWrapper;
     private Map<String, CostElement> costElementMap;
@@ -138,7 +140,7 @@ public class BudgetJustificationServiceTest {
     }
         
     private void initializeBudgetDocument() {
-        budgetDocument = new BudgetDocument();
+        budgetDocument = new Budget();
         for(int i = 1; i <= 2; i++) {
             BudgetPeriod budgetPeriod = new BudgetPeriod();
             budgetPeriod.setBudgetPeriod(i);
