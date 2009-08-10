@@ -23,7 +23,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.document.BudgetDocument.FiscalYearSummary;
+import org.kuali.kra.budget.core.Budget.FiscalYearSummary;
 
 public class BudgetUnrecoveredFandATest extends BudgetDistributionAndIncomeTest {
 

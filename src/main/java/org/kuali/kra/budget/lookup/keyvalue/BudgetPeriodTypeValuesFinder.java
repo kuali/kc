@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2006-2008 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kra.budget.bo.BudgetPeriodType;
+import org.kuali.kra.budget.parameters.BudgetPeriodType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;

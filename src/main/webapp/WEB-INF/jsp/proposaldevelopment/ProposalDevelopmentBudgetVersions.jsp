@@ -17,7 +17,7 @@
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
 
 <c:if test="${KualiForm.editingMode['modifyCompletedBudgets']}">
-	<c:set target="${KualiForm.documentActionFlags}" property="canSave" value="true"/>
+	<c:set target="${KualiForm.documentActions}" property="canSave" value="true"/>
 </c:if>
 
 <kul:documentPage
@@ -30,7 +30,7 @@
   	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Budget Versions" /></div>
   	
   	<kra-b:budgetVersions 
-  		budgetVersionOverviews="${KualiForm.document.developmentProposalList[0].budgetVersionOverviews}" 
+  		budgetDocumentVersions="${KualiForm.document.developmentProposalList[0].budgetDocumentVersions}" 
   		pathToVersions="document.developmentProposalList[0]"
   		errorKey="document.developmentProposalList[0].budgetVersion*,document.developmentProposalList[0].finalVersionFlag"
   		requestedStartDateInitial="${KualiForm.document.developmentProposalList[0].requestedStartDateInitial}"

@@ -16,7 +16,7 @@
 package org.kuali.kra.document;
 
 import org.junit.Test;
-import org.kuali.kra.budget.bo.RateClassType;
+import org.kuali.kra.budget.rates.RateClassType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
@@ -112,7 +112,7 @@ public class RateClassTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
 
     @Test
     public void testCreateNewRateClassType() throws Exception {
-        HtmlPage rateClassTypeMaintenancePage = getMaintenanceDocumentPage("Rate Class Type","org.kuali.kra.budget.bo.RateClassType","Kuali :: Rate Class Type Maintenance Document");
+        HtmlPage rateClassTypeMaintenancePage = getMaintenanceDocumentPage("Rate Class Type","org.kuali.kra.proposaldevelopment.budget.bo.RateClassType","Kuali :: Rate Class Type Maintenance Document");
         String documentNumber = getFieldValue(rateClassTypeMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(rateClassTypeMaintenancePage,"Edit Rate Class Types New * Rate Class Type: * Description: * Prefix Activity Type?: unchecked Sort Id:");
         setFieldValue(rateClassTypeMaintenancePage, "document.documentHeader.documentDescription", "Rate Class Type - test");

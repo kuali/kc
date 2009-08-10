@@ -19,8 +19,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -43,25 +45,25 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
         Set<String> editModes = new HashSet<String>();
          
         BudgetDocument budgetDoc = (BudgetDocument) document;
-        ProposalDevelopmentDocument proposalDoc = budgetDoc.getProposal();
+        BudgetParentDocument parentDocument = budgetDoc.getParentDocument();
         String username = user.getPrincipalName();
         
         if (canExecuteBudgetTask(username, budgetDoc, TaskName.MODIFY_BUDGET)) {
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             editModes.add("modifyBudgets");
             editModes.add("viewBudgets");
-            setPermissions(username, proposalDoc, editModes);
+            setPermissions(username, parentDocument, editModes);
         }
         else if (canExecuteBudgetTask(username, budgetDoc, TaskName.VIEW_BUDGET)) {
             editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             editModes.add("viewBudgets");
-            setPermissions(username, proposalDoc, editModes);
+            setPermissions(username, parentDocument, editModes);
         }
         else {
             editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
         }
         
-        if (isBudgetComplete(proposalDoc, budgetDoc)) {
+        if (isBudgetComplete(parentDocument, budgetDoc)) {
             editModes.remove("modifyBudgets");
             editModes.remove("addBudget");
             if (editModes.contains("modifyBudgets")) {
@@ -91,7 +93,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      * @param doc the Proposal Development Document
      * @param editModeMap the edit mode map
      */
-    private void setPermissions(String username, ProposalDevelopmentDocument doc, Set<String> editModes) {
+    private void setPermissions(String username, BudgetParentDocument doc, Set<String> editModes) {
         if (canExecuteProposalTask(username, doc, TaskName.ADD_BUDGET)) {
             editModes.add("addBudget");
         }
@@ -116,8 +118,8 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
      */
-    private boolean canExecuteProposalTask(String username, ProposalDevelopmentDocument doc, String taskName) {
-        ProposalTask task = new ProposalTask(taskName, doc);       
+    private boolean canExecuteProposalTask(String username, BudgetParentDocument doc, String taskName) {
+        Task task = doc.getParentAuthZTask(taskName);       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(username, task);
     }
@@ -201,16 +203,16 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
     
     /**
      * Is the Budget in the final state?
-     * @param proposalDoc
+     * @param parentDocument
      * @param budgetDocument
      * @return
      */
-    private boolean isBudgetComplete(ProposalDevelopmentDocument proposalDoc, BudgetDocument budgetDocument) {
-        if (!proposalDoc.getDevelopmentProposal().isProposalComplete()) {
+    private boolean isBudgetComplete(BudgetParentDocument parentDocument, BudgetDocument budgetDocument) {
+        if (!parentDocument.isComplete()) {
             return false;
         }
-        for (BudgetVersionOverview budgetVersion: proposalDoc.getDevelopmentProposal().getBudgetVersionOverviews()) {
-            if (budgetVersion.isFinalVersionFlag() && budgetVersion.getBudgetVersionNumber().equals(budgetDocument.getBudgetVersionNumber())) {
+        for (BudgetDocumentVersion budgetVersion: parentDocument.getBudgetDocumentVersions()) {
+            if (budgetVersion.getBudgetVersionOverview().isFinalVersionFlag() && budgetVersion.getBudgetVersionOverview().getBudgetVersionNumber().equals(budgetDocument.getBudget().getBudgetVersionNumber())) {
                 return true;
             }
         }

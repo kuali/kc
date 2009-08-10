@@ -21,7 +21,8 @@ import java.util.Set;
 
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -276,12 +277,12 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         return false;
     }
 
-    protected boolean isBudgetComplete(ProposalDevelopmentDocument proposalDoc) {
-        if (!proposalDoc.getDevelopmentProposal().isProposalComplete()) {
+    protected boolean isBudgetComplete(BudgetParentDocument parentDocument) {
+        if (!parentDocument.isComplete()) {
             return false;
         }
-        for (BudgetVersionOverview budgetVersion: proposalDoc.getDevelopmentProposal().getBudgetVersionOverviews()) {
-            if (budgetVersion.isFinalVersionFlag()) {
+        for (BudgetDocumentVersion budgetVersion: parentDocument.getBudgetDocumentVersions()) {
+            if (budgetVersion.getBudgetVersionOverview().isFinalVersionFlag()) {
                 return true;
             }
         }

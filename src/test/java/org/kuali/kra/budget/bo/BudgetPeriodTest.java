@@ -23,6 +23,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 
 public class BudgetPeriodTest {
     private static final int DAY_1 = 1;

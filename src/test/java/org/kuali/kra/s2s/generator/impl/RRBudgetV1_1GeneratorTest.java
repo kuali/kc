@@ -26,9 +26,11 @@ import java.util.List;
 
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
@@ -122,10 +124,11 @@ public class RRBudgetV1_1GeneratorTest extends S2STestBase<RRBudgetV1_1Generator
         endDate.set(2005, 1, 1);
 
         S2STestUtils testUtils = new S2STestUtils();
-        BudgetDocument bd = testUtils.createBudgetDocument(document);
-        bd.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
+        BudgetDocument bdoc = testUtils.createBudgetDocument(document);
+        bdoc.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
+        Budget bd = bdoc.getBudget();
         bd.setModularBudgetFlag(false);
-        bd.setProposal(document);
+        bd.getBudgetDocument().setParentDocument(document);
         bd.setVersionNumber(new Long(1));
         bd.setBudgetVersionNumber(1);
         bd.setBudgetStatus("Open");
@@ -141,13 +144,14 @@ public class RRBudgetV1_1GeneratorTest extends S2STestBase<RRBudgetV1_1Generator
         budgetPeriods.add(firstPeriod);
         bd.setBudgetPeriods(budgetPeriods);
 
+        List<BudgetVersionOverview> overviewList = new ArrayList<BudgetVersionOverview>();
         BudgetVersionOverview overview = new BudgetVersionOverview();
         overview.setBudgetStatus("");
         overview.setBudgetVersionNumber(1);
         overview.setComments("");
         overview.setCostSharingAmount(BudgetDecimal.ZERO);
         overview.setDocumentDescription("Description");
-        overview.setDocumentNumber(bd.getDocumentHeader().getDocumentNumber());
+        overview.setDocumentNumber(bdoc.getDocumentHeader().getDocumentNumber());
         overview.setEndDate(new Date(endDate.getTimeInMillis()));
         overview.setFinalVersionFlag(true);
         overview.setName("overview");
@@ -159,9 +163,12 @@ public class RRBudgetV1_1GeneratorTest extends S2STestBase<RRBudgetV1_1Generator
         overview.setTotalIndirectCost(BudgetDecimal.ZERO);
         overview.setVersionNumber(new Long(1));
         overview.setResidualFunds(BudgetDecimal.ZERO);
-        List<BudgetVersionOverview> overviewList = new ArrayList<BudgetVersionOverview>();
         overviewList.add(overview);
-        document.getDevelopmentProposal().setBudgetVersionOverviews(overviewList);
-        KNSServiceLocator.getDocumentService().saveDocument(bd);
+        List<BudgetDocumentVersion> docVerList = new ArrayList<BudgetDocumentVersion>();
+        BudgetDocumentVersion docVer = new BudgetDocumentVersion();
+        docVer.setBudgetVersionOverviews(overviewList);
+        docVerList.add(docVer);
+        document.getDevelopmentProposal().setBudgetDocumentVersions(docVerList);
+        KNSServiceLocator.getDocumentService().saveDocument(bdoc);
     }
 }

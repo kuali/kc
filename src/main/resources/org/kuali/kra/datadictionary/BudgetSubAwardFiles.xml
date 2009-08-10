@@ -7,7 +7,7 @@
   <bean id="BudgetSubAwardFiles" parent="BudgetSubAwardFiles-parentBean" />
 
   <bean id="BudgetSubAwardFiles-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.BudgetSubAwardFiles" />
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetSubAwardFiles-inquiryDefinition" />
     </property>

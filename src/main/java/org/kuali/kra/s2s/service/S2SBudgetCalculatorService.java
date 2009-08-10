@@ -18,7 +18,7 @@ package org.kuali.kra.s2s.service;
 import java.util.List;
 
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetCategoryMap;
+import org.kuali.kra.budget.core.BudgetCategoryMap;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;

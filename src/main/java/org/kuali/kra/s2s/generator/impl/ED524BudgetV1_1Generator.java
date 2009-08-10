@@ -29,8 +29,9 @@ import java.math.BigDecimal;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -95,8 +96,8 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
         if (budgetDoc == null) {
             return ed524BudgetDocument;
         }
-
-        for (BudgetPeriod budgetPeriod : budgetDoc.getBudgetPeriods()) {
+        Budget budget = budgetDoc.getBudget();
+        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_1)) {
                 getTotalCosts(budgetPeriod);
                 ed524Budget.setBudgetFederalFirstYearAmount(totalCost.bigDecimalValue());

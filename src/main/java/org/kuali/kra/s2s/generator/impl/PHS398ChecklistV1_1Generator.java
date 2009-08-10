@@ -28,7 +28,8 @@ import java.math.BigDecimal;
 
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.budget.bo.BudgetProjectIncome;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
@@ -123,9 +124,9 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
             }
         }
 
-        BudgetDocument budgetDoc = null;
+        Budget budget = null;
         try {
-            budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+            budget = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc).getBudget();
         }
         catch (S2SException e) {
             LOG.error(e.getMessage(), e);
@@ -133,16 +134,16 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
         }
 
 
-        if (budgetDoc != null && budgetDoc.getBudgetProjectIncomes().size() > 0) {
+        if (budget != null && budget.getBudgetProjectIncomes().size() > 0) {
             phsChecklist.setProgramIncome(YesNoDataType.Y_YES);
             IncomeBudgetPeriod incomeBudgPeriod = IncomeBudgetPeriod.Factory.newInstance();
             IncomeBudgetPeriod[] budgetPeriodsArray = null;
-            if (budgetDoc.getBudgetProjectIncomes() != null) {
-                budgetPeriodsArray = new IncomeBudgetPeriod[budgetDoc.getBudgetProjectIncomes().size()];
+            if (budget.getBudgetProjectIncomes() != null) {
+                budgetPeriodsArray = new IncomeBudgetPeriod[budget.getBudgetProjectIncomes().size()];
             }
             int periodCount = 0;
             BigDecimal amount = BigDecimal.ZERO;
-            for (BudgetProjectIncome projectIncome : budgetDoc.getBudgetProjectIncomes()) {
+            for (BudgetProjectIncome projectIncome : budget.getBudgetProjectIncomes()) {
                 if (projectIncome.getProjectIncome() != null) {
                     amount = amount.add(projectIncome.getProjectIncome().bigDecimalValue());
                 }

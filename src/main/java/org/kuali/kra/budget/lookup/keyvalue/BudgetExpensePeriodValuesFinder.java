@@ -18,8 +18,8 @@ package org.kuali.kra.budget.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.rice.kns.document.Document;
@@ -50,7 +50,7 @@ public class BudgetExpensePeriodValuesFinder extends BudgetPeriodValuesFinder {
         if(form instanceof KualiDocumentFormBase) {
             Document doc = ((KualiDocumentFormBase) form).getDocument();
             if(doc instanceof BudgetDocument) {
-                List<BudgetPeriod> budgetPeriods = ((BudgetDocument)doc).getBudgetPeriods();
+                List<BudgetPeriod> budgetPeriods = ((BudgetDocument)doc).getBudget().getBudgetPeriods();
                 if (budgetPeriods.size() > 0) {
                     keyLabelPairs = buildKeyLabelPairs(budgetPeriods);
                 }

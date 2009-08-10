@@ -26,7 +26,7 @@
     
     
     <property name="documentTypeName" value="InstituteLaRateMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.budget.rules.InstituteRateMaintenanceDocumentRule"/>
+    <property name="businessRulesClass" value="org.kuali.kra.budget.rates.InstituteRateMaintenanceDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     

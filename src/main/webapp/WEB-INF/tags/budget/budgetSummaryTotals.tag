@@ -23,11 +23,11 @@
 
 <c:if test="${(empty periodStartIndex or periodStartIndex == '') && (empty periodEndIndex or periodEndIndex == '') }">
 	<c:set var="periodStartIndex" value="0" />
-	<c:if test="${fn:length(KualiForm.document.budgetPeriods) >= budgetPeriodGroupMax}" >
+	<c:if test="${fn:length(KualiForm.document.budget.budgetPeriods) >= budgetPeriodGroupMax}" >
 		<c:set var="periodEndIndex" value="${budgetPeriodGroupMax-1}" />
 	</c:if> 
-	<c:if test="${fn:length(KualiForm.document.budgetPeriods) < budgetPeriodGroupMax}" >
-		<c:set var="periodEndIndex" value="${fn:length(KualiForm.document.budgetPeriods)-1}" />
+	<c:if test="${fn:length(KualiForm.document.budget.budgetPeriods) < budgetPeriodGroupMax}" >
+		<c:set var="periodEndIndex" value="${fn:length(KualiForm.document.budget.budgetPeriods)-1}" />
 	</c:if> 
 </c:if>
 
@@ -43,7 +43,7 @@
 
 <c:set var="anchorIndex" value="1" />
 
-<c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status">
+<c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status">
 	<c:set var="periodTotalVar" value="period${status.index}" />
 	<c:set target="${nonPersonnelSubTotalsMap}" property="${periodTotalVar}" value="0.00" />
 	<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="0.00" />
@@ -69,11 +69,11 @@
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-back.gif' />
 						</c:if>
 						&nbsp;
-						<c:if test="${periodEndIndex == (fn:length(KualiForm.document.budgetPeriods)-1) }" >
+						<c:if test="${periodEndIndex == (fn:length(KualiForm.document.budget.budgetPeriods)-1) }" >
 							<html:image property="methodToCall.nextPeriodSet"  disabled="true"  
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-next1.gif' />
 						</c:if>
-						<c:if test="${periodEndIndex < (fn:length(KualiForm.document.budgetPeriods)-1) }" >
+						<c:if test="${periodEndIndex < (fn:length(KualiForm.document.budget.budgetPeriods)-1) }" >
 							<html:image property="methodToCall.nextPeriodSet"  onclick="javascript: nextPeriodSet();"  
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-next.gif' />
 						</c:if>
@@ -83,7 +83,7 @@
                   <th colspan="1" rowspan="2" width="10%" class="infoline" >Total</th>
             </tr>
             <tr>
-            	<c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" begin="${periodStartIndex}" end="${periodEndIndex}">
+            	<c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" begin="${periodStartIndex}" end="${periodEndIndex}">
                 	<th nowrap>
                 		<div>
                 			Period ${period.budgetPeriod}<br/>
@@ -110,9 +110,9 @@
               		</a>
            	  </td>
               <td colspan="2" class="tab-subhead" >Salary</td>
-              <c:set var="personnelSalaryTotals" value="${KualiForm.document.budgetSummaryTotals['personnelSalaryTotals']}" />
+              <c:set var="personnelSalaryTotals" value="${KualiForm.document.budget.budgetSummaryTotals['personnelSalaryTotals']}" />
               <c:set var="personnelSalaryCumulativeTotals" value="0.00" />
-              <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status">
+              <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status">
                 	<c:set var="periodTotalVar" value="period${status.index}" />
                		<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + personnelSalaryTotals[period.budgetPeriod-1]}" />
 
@@ -132,7 +132,7 @@
 			 </td>
             </tr>
             
-            <c:set var="objectCodeListByBudgetCategoryType" value="${KualiForm.document.objectCodeListByBudgetCategoryType}" />
+            <c:set var="objectCodeListByBudgetCategoryType" value="${KualiForm.document.budget.objectCodeListByBudgetCategoryType}" />
             <c:set var="personnelObjectCodes" />
             <c:forEach var="objectCodeMapEntry" items="${objectCodeListByBudgetCategoryType}" varStatus="mapIndex">
             	<c:set var="categoryType" value="${objectCodeMapEntry.key}" /> 
@@ -144,7 +144,7 @@
 			<c:set var="firstCellRowSpan" value="0" />
 			<c:forEach var="personnelObjectCode" items="${personnelObjectCodes}" varStatus="objStatus" >
 				<c:set var="firstCellRowSpan" value="${firstCellRowSpan+1}" />
-				<c:set var="personnelList" value="${KualiForm.document.objectCodePersonnelList[personnelObjectCode]}" />
+				<c:set var="personnelList" value="${KualiForm.document.budget.objectCodePersonnelList[personnelObjectCode]}" />
 	            <c:forEach var="person" items="${personnelList}" varStatus="personStatus" >
 	            	<c:set var="firstCellRowSpan" value="${firstCellRowSpan+1}" />
 				</c:forEach>	                 
@@ -152,7 +152,7 @@
 			            
             <tbody id="G${anchorIndex}" style="display: none;">
 	           	<c:forEach var="personnelObjectCode" items="${personnelObjectCodes}" varStatus="objStatus" >
-			        <c:set var="summarySalaryTotals" value="${KualiForm.document.objectCodePersonnelSalaryTotals[personnelObjectCode.costElement]}" />
+			        <c:set var="summarySalaryTotals" value="${KualiForm.document.budget.objectCodePersonnelSalaryTotals[personnelObjectCode.costElement]}" />
 			        <c:if test="${summarySalaryTotals != null}">
 			         	<c:set var="firstCellRowSpan" value="${firstCellRowSpan+1}" />
 			        </c:if>
@@ -163,7 +163,7 @@
 		                <th colspan="2" width="20%"><div align="left"><strong>${personnelObjectCode.description}</strong></div></td>
 		                
 		        	    <c:set var="cumPersonnelObjCodeTotal" value="0.00" />
-						<c:forEach var="periodPersonnelObjCodeTotal" items="${KualiForm.document.objectCodeTotals[personnelObjectCode]}" varStatus="objPeriodStatus" >
+						<c:forEach var="periodPersonnelObjCodeTotal" items="${KualiForm.document.budget.objectCodeTotals[personnelObjectCode]}" varStatus="objPeriodStatus" >
 							<c:set var="periodTotalVar" value="period${objPeriodStatus.index}" />
 							<c:if test="${objPeriodStatus.index ge periodStartIndex and objPeriodStatus.index le periodEndIndex }" >
 								<th>
@@ -183,10 +183,10 @@
 		        	    
 		        	 </tr>
 	        	 
-	                 <c:set var="personnelList" value="${KualiForm.document.objectCodePersonnelList[personnelObjectCode]}" />
+	                 <c:set var="personnelList" value="${KualiForm.document.budget.objectCodePersonnelList[personnelObjectCode]}" />
 	                 <c:forEach var="person" items="${personnelList}" varStatus="personStatus" >
 	                 		<c:set var="personSalaryTotalsMapKey" value="${personnelObjectCode.costElement},${person.personId}" />
-	                  		<c:set var="personSalaryTotals" value="${KualiForm.document.objectCodePersonnelSalaryTotals[personSalaryTotalsMapKey]}" />
+	                  		<c:set var="personSalaryTotals" value="${KualiForm.document.budget.objectCodePersonnelSalaryTotals[personSalaryTotalsMapKey]}" />
 	                  		<tr>
 	                  			
 				                <td width="12%">
@@ -196,7 +196,7 @@
 				                	<div align="left">&nbsp;&nbsp;${person.budgetPerson.role}&nbsp;</div>
 				                </td>
 				                <c:set var="personSalaryCumulativeTotals" value="0.00" />
-				                <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
+				                <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
 				                	<c:set var="periodTotalVar" value="period${status.index}" />
 			                		<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 					                  	<td>
@@ -221,7 +221,7 @@
 	                 		<td><div align="left">&nbsp;&nbsp;Summary Line Item</div></td>
 	                 		<td><div align="left">&nbsp;&nbsp;</div></td>   
 			                <c:set var="summarySalaryCumulativeTotals" value = "0.00" />
-			                <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
+			                <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
 			                	<c:set var="periodTotalVar" value="period${status.index}" />
 		                		<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 			                 		<td><div align="right">&nbsp;
@@ -249,9 +249,9 @@
               	</a>
 			  </td>
               <td colspan="2" width="25%" class="tab-subhead" >Fringe</td>
-              <c:set var="personnelFringeTotals" value="${KualiForm.document.budgetSummaryTotals['personnelFringeTotals']}" />
+              <c:set var="personnelFringeTotals" value="${KualiForm.document.budget.budgetSummaryTotals['personnelFringeTotals']}" />
               <c:set var="personnelFringeCumulativeTotals" value="0.00" />
-              <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
+              <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
                 	<c:set var="periodTotalVar" value="period${status.index}" />
                		<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + personnelFringeTotals[period.budgetPeriod-1]}" />
 	              <c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
@@ -273,7 +273,7 @@
             
             <tbody id="G${anchorIndex}" style="display: none;">
 	           	<c:forEach var="personnelObjectCode" items="${personnelObjectCodes}" varStatus="objStatus" >
-			        <c:set var="summaryFringeTotals" value="${KualiForm.document.objectCodePersonnelFringeTotals[personnelObjectCode.costElement]}" />
+			        <c:set var="summaryFringeTotals" value="${KualiForm.document.budget.objectCodePersonnelFringeTotals[personnelObjectCode.costElement]}" />
 			        <c:if test="${summaryFringeTotals != null}">
 			         	<c:set var="firstCellRowSpan" value="${firstCellRowSpan+1}" />
 			        </c:if>
@@ -283,19 +283,19 @@
 		        	 	</c:if>
 		                <th colspan="2" width="25%"><div align="left"><strong>${personnelObjectCode.description}</strong></div></td>
 		        	    
-		        	     <c:set var="personnelList" value="${KualiForm.document.objectCodePersonnelList[personnelObjectCode]}" />
+		        	     <c:set var="personnelList" value="${KualiForm.document.budget.objectCodePersonnelList[personnelObjectCode]}" />
 						 <c:set var="personFringeCumulativeTotals" value="0.00" />
- 						 <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
+ 						 <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
 			        	     <c:set var="periodFringeCumulativeTotals" value="0.00" />
 							 <c:forEach var="person" items="${personnelList}" varStatus="personStatus" >
 									<c:set var="personFringeTotalsMapKey" value="${personnelObjectCode.costElement},${person.personId}" />
-									<c:set var="personFringeTotals" value="${KualiForm.document.objectCodePersonnelFringeTotals[personFringeTotalsMapKey]}" />
+									<c:set var="personFringeTotals" value="${KualiForm.document.budget.objectCodePersonnelFringeTotals[personFringeTotalsMapKey]}" />
 									<c:set var="periodFringeCumulativeTotals" value = "${periodFringeCumulativeTotals + personFringeTotals[period.budgetPeriod-1] }" />
 							 </c:forEach>
 							 
 							 <c:if test="${fn:length(personnelList) == 0}">
 									<c:set var="personFringeTotalsMapKey" value="${personnelObjectCode.costElement}" />
-									<c:set var="personFringeTotals" value="${KualiForm.document.objectCodePersonnelFringeTotals[personFringeTotalsMapKey]}" />
+									<c:set var="personFringeTotals" value="${KualiForm.document.budget.objectCodePersonnelFringeTotals[personFringeTotalsMapKey]}" />
 									<c:set var="periodFringeCumulativeTotals" value = "${periodFringeCumulativeTotals + personFringeTotals[period.budgetPeriod-1] }" />
 							 </c:if>
 							 
@@ -308,10 +308,10 @@
 						 <th width="10%"><div align="right"><fmt:formatNumber value="${personFringeCumulativeTotals}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</div></th>
 		        	 </tr>
 	        	 
-	                 <c:set var="personnelList" value="${KualiForm.document.objectCodePersonnelList[personnelObjectCode]}" />
+	                 <c:set var="personnelList" value="${KualiForm.document.budget.objectCodePersonnelList[personnelObjectCode]}" />
 	                 <c:forEach var="person" items="${personnelList}" varStatus="personStatus" >
 	                 		<c:set var="personFringeTotalsMapKey" value="${personnelObjectCode.costElement},${person.personId}" />
-	                  		<c:set var="personFringeTotals" value="${KualiForm.document.objectCodePersonnelFringeTotals[personFringeTotalsMapKey]}" />
+	                  		<c:set var="personFringeTotals" value="${KualiForm.document.budget.objectCodePersonnelFringeTotals[personFringeTotalsMapKey]}" />
 	                  		<tr>
 	                  			
 				                <td width="12%">
@@ -322,7 +322,7 @@
 				                </td>
 				                
 				                <c:set var="personFringeCumulativeTotals" value="0.00" />
-				                <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
+				                <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
 				                	<c:set var="periodTotalVar" value="period${status.index}" />
 				                	<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 					                  	<td>
@@ -347,7 +347,7 @@
 	                 		<td><div align="left">&nbsp;&nbsp;Summary Line Item</div></td>
 	                 		<td><div align="left">&nbsp;&nbsp;</div></td>   
 			                <c:set var="summaryFringeCumulativeTotals" value = "0.00" />
-			                <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
+			                <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
 			                	<c:set var="periodTotalVar" value="period${status.index}" />
 		                		<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 			                 		<td><div align="right">&nbsp;
@@ -375,9 +375,9 @@
 				</a>
 				</td>
 				<td colspan="2" class="tab-subhead" >Calculated Direct Costs</td>
-				<c:set var="personnelCalculatedExpenseSummaryTotals" value="${KualiForm.document.budgetSummaryTotals['personnelCalculatedExpenseSummaryTotals']}" />
+				<c:set var="personnelCalculatedExpenseSummaryTotals" value="${KualiForm.document.budget.budgetSummaryTotals['personnelCalculatedExpenseSummaryTotals']}" />
 				<c:set var="personnelCalculatedExpenseSummaryCumulativeTotals" value="0.00" />
-              	<c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
+              	<c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
                 	<c:set var="periodTotalVar" value="period${status.index}" />
                		<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="${personnelSubTotalsMap[periodTotalVar] + personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1]}" />
               		<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
@@ -398,14 +398,14 @@
 
 		   <c:set var="firstCellRowSpan" value="0" />
 		   <c:set var="directExpenseCounter" value="0" /> 
-		   <c:forEach var="calculatedExpenseTotal" items="${KualiForm.document.personnelCalculatedExpenseTotals}" >
+		   <c:forEach var="calculatedExpenseTotal" items="${KualiForm.document.budget.personnelCalculatedExpenseTotals}" >
 		   		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassType && calculatedExpenseTotal.key.rateClass.rateClassType ne 'O'}">
 		   			<c:set var="firstCellRowSpan" value="${firstCellRowSpan + 1}" />
 		   		</c:if>
 		   </c:forEach>
 			
 		   <tbody id="G${anchorIndex}" style="display: none;">			            
-	           <c:forEach var="calculatedExpenseTotal" items="${KualiForm.document.personnelCalculatedExpenseTotals}" >
+	           <c:forEach var="calculatedExpenseTotal" items="${KualiForm.document.budget.personnelCalculatedExpenseTotals}" >
 	           		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassType && calculatedExpenseTotal.key.rateClass.rateClassType eq 'O'}">
 		                <c:forEach var="periodTotal" items="${calculatedExpenseTotal.value}" varStatus="status">
 		                	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
@@ -455,7 +455,7 @@
         	 	<th width="5%" class="infoline">&nbsp;</th>
                 <td colspan="2" width="20%"><strong>Personnel Subtotal</strong></td>
                 <c:set var="cumPersonnelTotal" value="0.00" />
-        	    <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
+        	    <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
         	    	<c:set var="periodTotalVar" value="period${status.index}" />
         	    	<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 						<td><div align="right"><i><fmt:formatNumber value="${personnelSubTotalsMap[periodTotalVar]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</i></div></td>
@@ -491,9 +491,9 @@
 			              		</a>
 			           	  </td>
 			              <td colspan="2" class="tab-subhead" >${categoryType.description}</td>
-			              <c:set var="nonPersonnelSummaryTotals" value="${KualiForm.document.budgetSummaryTotals[categoryType.budgetCategoryTypeCode]}" />
+			              <c:set var="nonPersonnelSummaryTotals" value="${KualiForm.document.budget.budgetSummaryTotals[categoryType.budgetCategoryTypeCode]}" />
 			              <c:set var="nonPersonnelCumulativeTotals" value="0.00" />
-			              <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
+			              <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
 				              	<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 						           	<td class="tab-subhead" >
 										<div align="right">
@@ -520,7 +520,7 @@
 					                <td colspan="2" width="20%"><strong>${nonPersonnelObjectCode.description}</strong></td>
 					                
 					                <c:set var="cumTotal" value="0.00" />
-					                <c:forEach var="periodTotal" items="${KualiForm.document.objectCodeTotals[nonPersonnelObjectCode]}" varStatus="objPeriodStatus" >
+					                <c:forEach var="periodTotal" items="${KualiForm.document.budget.objectCodeTotals[nonPersonnelObjectCode]}" varStatus="objPeriodStatus" >
 					                	<c:set var="periodTotalVar" value="period${objPeriodStatus.index}" />
 					                	<c:if test="${objPeriodStatus.index ge periodStartIndex and objPeriodStatus.index le periodEndIndex }" >
 							                <td>
@@ -552,9 +552,9 @@
 				</a>
 				</td>
 				<td colspan="2" class="tab-subhead" >Calculated Direct Costs</td>
-				<c:set var="nonPersonnelCalculatedExpenseSummaryTotals" value="${KualiForm.document.budgetSummaryTotals['nonPersonnelCalculatedExpenseSummaryTotals']}" />
+				<c:set var="nonPersonnelCalculatedExpenseSummaryTotals" value="${KualiForm.document.budget.budgetSummaryTotals['nonPersonnelCalculatedExpenseSummaryTotals']}" />
 				<c:set var="nonPersonnelCalculatedExpenseSummaryCumulativeTotals" value="0.00" />
-              	<c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
+              	<c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
               		<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 		           		<td class="tab-subhead" >
 		           			<div align="right">
@@ -573,7 +573,7 @@
 		   
 		   <c:set var="firstCellRowSpan" value="0" />
 		   <c:set var="directExpenseCounter" value="0" /> 
-		   <c:forEach var="calculatedExpenseTotal" items="${KualiForm.document.nonPersonnelCalculatedExpenseTotals}" >
+		   <c:forEach var="calculatedExpenseTotal" items="${KualiForm.document.budget.nonPersonnelCalculatedExpenseTotals}" >
 		   		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassType && calculatedExpenseTotal.key.rateClass.rateClassType ne 'O'}">
 		   			<c:set var="firstCellRowSpan" value="${firstCellRowSpan + 1}" />
 		   		</c:if>
@@ -581,7 +581,7 @@
 		   
 		   <tbody id="G${anchorIndex}" style="display: none;">	
 		   				            
-	           <c:forEach var="calculatedExpenseTotal" items="${KualiForm.document.nonPersonnelCalculatedExpenseTotals}" >
+	           <c:forEach var="calculatedExpenseTotal" items="${KualiForm.document.budget.nonPersonnelCalculatedExpenseTotals}" >
 	           		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassType && calculatedExpenseTotal.key.rateClass.rateClassType eq 'O'}">
 		               <c:forEach var="periodTotal" items="${calculatedExpenseTotal.value}" varStatus="status">
 		               		<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
@@ -630,7 +630,7 @@
         	 	<th width="5%" class="infoline">&nbsp;</th>
                 <td colspan="2" width="20%"><strong>Non-Personnel Subtotal</strong></td>
                 <c:set var="cumNonPersonnelTotal" value="0.00" />
-        	    <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
+        	    <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
         	    	<c:set var="periodTotalVar" value="period${status.index}" />
         	    	<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 						<td><div align="right"><i><fmt:formatNumber value="${nonPersonnelSubTotalsMap[periodTotalVar]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</i></div></td>
@@ -654,7 +654,7 @@
                 <td width="5%" rowspan="3" class="infoline">&nbsp;</td>
                 <td colspan="2" width="20%" class="infoline"><strong>TOTAL DIRECT COSTS</strong></td>
                 <c:set var="cumTotal" value="0.00" />
-        	    <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
+        	    <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
         	    	<c:set var="periodTotalVar" value="period${status.index}" />
         	    	<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 						<td class="infoline"><div align="right"><strong><fmt:formatNumber value="${personnelSubTotalsMap[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</strong></div></td>
@@ -675,7 +675,7 @@
                 	<strong>TOTAL F&amp;A COSTS</strong>
                 </td>
                 <c:set var="cumTotal" value="0.00" />
-        	    <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
+        	    <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
         	    	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
         	    	<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 						<td class="infoline">
@@ -698,7 +698,7 @@
         	 <tr>
                 <td colspan="2" width="20%" class="infoline"><strong>TOTAL COSTS</strong></td>
                 <c:set var="cumTotal" value="0.00" />
-        	    <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
+        	    <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
         	    	<c:set var="periodTotalVar" value="period${status.index}" />
         	    	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
         	    	<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >

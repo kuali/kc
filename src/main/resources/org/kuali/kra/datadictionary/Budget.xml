@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans     
+	    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="Budget" parent="Budget-parentBean"/>
+
+  <bean id="Budget-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.core.Budget" />
+    <property name="lookupDefinition" >
+      <ref bean="Budget-lookupDefinition" />
+    </property>
+    
+    <property name="titleAttribute" value="comments" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition" p:parameterNamespace="KRA-B" p:parameterName="budgetVersionsHelp" p:parameterDetailType="D"/>
+    </property>
+    
+    <property name="attributes">
+      <list>
+        <ref bean="Budget-proposalNumber"/>
+        <ref bean="Budget-documentNumber"/>
+        <ref bean="Budget-costSharingAmount"/>
+        <ref bean="Budget-endDate"/>
+        <ref bean="Budget-finalVersionFlag"/>
+        <ref bean="Budget-modularBudgetFlag"/>
+        <ref bean="Budget-ohRateClassCode"/>
+        <ref bean="Budget-ohRateTypeCode"/>
+        <ref bean="Budget-residualFunds"/>
+        <ref bean="Budget-startDate"/>
+        <ref bean="Budget-totalCost"/>
+        <ref bean="Budget-totalCostLimit"/>
+        <ref bean="Budget-totalDirectCost"/>
+        <ref bean="Budget-totalIndirectCost"/>
+        <ref bean="Budget-underrecoveryAmount"/>
+        <ref bean="Budget-urRateClassCode"/>
+        <ref bean="Budget-comments"/>
+        <ref bean="Budget-budgetJustification"/>
+        <ref bean="Budget-budgetVersionNumber"/>
+        <ref bean="Budget-onOffCampusFlag"/>
+        <ref bean="Budget-versionNumber"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="Budget-proposalNumber" parent="Budget-proposalNumber-parentBean"/>
+
+  <bean id="Budget-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Proposal Number"/>
+    <property name="shortLabel" value="Proposal Number"/>
+    <property name="maxLength" value="12"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
+    </property>
+    <property name="summary" value="Proposal Number"/>
+    <property name="description" value="Proposal Number"/>
+  </bean>
+
+  <bean id="Budget-documentNumber" parent="Budget-documentNumber-parentBean"/>
+
+  <bean id="Budget-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Document Number"/>
+    <property name="shortLabel" value="Document Number"/>
+    <property name="maxLength" value="12"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
+    </property>
+    <property name="summary" value="Document Number"/>
+    <property name="description" value="Document Number"/>
+  </bean>
+
+  <bean id="Budget-costSharingAmount" parent="Budget-costSharingAmount-parentBean"/>
+
+  <bean id="Budget-costSharingAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
+    <property name="name" value="costSharingAmount"/>
+    <property name="label" value="Cost Sharing Amount"/>
+    <property name="shortLabel" value="Cost Sharing Amount"/>
+    <property name="summary" value="Cost Sharing Amount"/>
+    <property name="description" value="Cost Sharing Amount"/>
+  </bean>
+  <bean id="Budget-endDate" parent="Budget-endDate-parentBean"/>
+
+  <bean id="Budget-endDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="endDate"/>
+    <property name="label" value="Project End Date"/>
+    <property name="shortLabel" value="Project End Dt"/>
+    <property name="summary" value="Project End Date"/>
+    <property name="description" value="Project End Date"/>
+  </bean>
+  <bean id="Budget-finalVersionFlag" parent="Budget-finalVersionFlag-parentBean"/>
+
+  <bean id="Budget-finalVersionFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="finalVersionFlag"/>
+    <property name="label" value="Final?"/>
+    <property name="shortLabel" value="Final"/>
+    <property name="summary" value="Final Version Flag"/>
+    <property name="description" value="Final Version Flag"/>
+  </bean>
+  <bean id="Budget-modularBudgetFlag" parent="Budget-modularBudgetFlag-parentBean"/>
+
+  <bean id="Budget-modularBudgetFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="modularBudgetFlag"/>
+    <property name="label" value="Modular Budget?"/>
+    <property name="shortLabel" value="Modular Budget?"/>
+    <property name="summary" value="Modular Budget Flag"/>
+    <property name="description" value="Modular Budget Flag"/>
+  </bean>
+  <bean id="Budget-ohRateClassCode" parent="Budget-ohRateClassCode-parentBean"/>
+
+  <bean id="Budget-ohRateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="ohRateClassCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="F&amp;A Rate Type"/>
+    <property name="shortLabel" value="F&amp;A Rate Type"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetRateTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="summary" value="F&amp;A Rate Type"/>
+    <property name="description" value="F&amp;A Rate Type"/>
+  </bean>
+  <bean id="Budget-ohRateTypeCode" parent="Budget-ohRateTypeCode-parentBean"/>
+
+  <bean id="Budget-ohRateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="ohRateTypeCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="F&amp;A Rate Type"/>
+    <property name="shortLabel" value="F&amp;A Rate Type"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="summary" value="F&amp;A Rate Type"/>
+    <property name="description" value="F&amp;A Rate Type"/>
+  </bean>
+  <bean id="Budget-residualFunds" parent="Budget-residualFunds-parentBean"/>
+
+  <bean id="Budget-residualFunds-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
+    <property name="name" value="residualFunds"/>
+    <property name="label" value="Residual Funds"/>
+    <property name="shortLabel" value="Residual Funds"/>
+    <property name="summary" value="Residual Funds"/>
+    <property name="description" value="Residual Funds"/>
+  </bean>
+  <bean id="Budget-startDate" parent="Budget-startDate-parentBean"/>
+
+  <bean id="Budget-startDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="startDate"/>
+    <property name="label" value="Project Start Date"/>
+    <property name="shortLabel" value="Project Start Date"/>
+    <property name="summary" value="Project Start Date"/>
+    <property name="description" value="Project Start Date"/>
+  </bean>
+  <bean id="Budget-totalCost" parent="Budget-totalCost-parentBean"/>
+
+  <bean id="Budget-totalCost-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
+    <property name="name" value="totalCost"/>
+    <property name="label" value="Total Cost"/>
+    <property name="shortLabel" value="Total Cost"/>
+    <property name="summary" value="Total Cost"/>
+    <property name="description" value="Total Cost"/>
+  </bean>
+  <bean id="Budget-totalCostLimit" parent="Budget-totalCostLimit-parentBean"/>
+
+  <bean id="Budget-totalCostLimit-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
+    <property name="name" value="totalCostLimit"/>
+    <property name="label" value="Total Cost Limit"/>
+    <property name="shortLabel" value="Total Cost Limit"/>
+    <property name="summary" value="Total Cost Limit"/>
+    <property name="description" value="Total Cost Limit"/>
+  </bean>
+  <bean id="Budget-totalDirectCost" parent="Budget-totalDirectCost-parentBean"/>
+
+  <bean id="Budget-totalDirectCost-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
+    <property name="name" value="totalDirectCost"/>
+    <property name="label" value="Total Direct Cost"/>
+    <property name="shortLabel" value="Direct Cost"/>
+    <property name="summary" value="Total Direct Cost"/>
+    <property name="description" value="Total Direct Cost"/>
+  </bean>
+  <bean id="Budget-totalIndirectCost" parent="Budget-totalIndirectCost-parentBean"/>
+
+  <bean id="Budget-totalIndirectCost-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
+    <property name="name" value="totalIndirectCost"/>
+    <property name="label" value="Total Indirect Cost"/>
+    <property name="shortLabel" value="F &amp; A"/>
+    <property name="summary" value="Total Indirect Cost"/>
+    <property name="description" value="Total Indirect Cost"/>
+  </bean>
+  <bean id="Budget-underrecoveryAmount" parent="Budget-underrecoveryAmount-parentBean"/>
+
+  <bean id="Budget-underrecoveryAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
+    <property name="name" value="underrecoveryAmount"/>
+    <property name="label" value="Underrecovery Amount"/>
+    <property name="shortLabel" value="Underrecovery Amount"/>
+    <property name="summary" value="Underrecovery Amount"/>
+    <property name="description" value="Underrecovery Amount"/>
+  </bean>
+  <bean id="Budget-urRateClassCode" parent="Budget-urRateClassCode-parentBean"/>
+
+  <bean id="Budget-urRateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="urRateClassCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Unrecovered F &amp; A Rate Type"/>
+    <property name="shortLabel" value="Unrecovered F &amp; A Rate Type"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetRateTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="summary" value="Ur Rate Class Code"/>
+    <property name="description" value="Ur Rate Class Code"/>
+  </bean>
+  <bean id="Budget-comments" parent="Budget-comments-parentBean"/>
+
+  <bean id="Budget-comments-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="comments"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Comments"/>
+    <property name="shortLabel" value="Comments"/>
+    <property name="maxLength" value="2000"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="30"/>
+    </property>
+    <property name="summary" value="The Comments for this budget."/>
+    <property name="description" value="The Comments for this budget."/>
+  </bean>
+  <bean id="Budget-budgetJustification" parent="Budget-budgetJustification-parentBean"/>
+
+  <bean id="Budget-budgetJustification-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetJustification"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Budget Justification"/>
+    <property name="shortLabel" value="Budget Justification"/>
+    <property name="maxLength" value="4000"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="8" p:cols="60"/>
+    </property>
+    <property name="summary" value="Budget Justification"/>
+    <property name="description" value="Budget Justification"/>
+  </bean>
+  <bean id="Budget-budgetVersionNumber" parent="Budget-budgetVersionNumber-parentBean"/>
+
+  <bean id="Budget-budgetVersionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetVersionNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Budget Version Number"/>
+    <property name="shortLabel" value="Version #"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="summary" value="Budget Version Number"/>
+    <property name="description" value="Budget Version Number for header display"/>
+  </bean>
+  <bean id="Budget-onOffCampusFlag" parent="Budget-onOffCampusFlag-parentBean"/>
+
+  <bean id="Budget-onOffCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="onOffCampusFlag"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="On/Off Campus"/>
+    <property name="shortLabel" value="On/Off Campus"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetOnOffCampusValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="summary" value="On Off Campus flag"/>
+    <property name="description" value="On Off Campus flag allowing the user to set all expense line items to be either 'all on' or 'all off-campus'; overriding the object code level defaults."/>
+  </bean>
+  <bean id="Budget-versionNumber" parent="Budget-versionNumber-parentBean"/>
+
+  <bean id="Budget-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  
+  </bean>
+  
+  <bean id="Budget-workflowAttributes" parent="Budget-workflowAttributes-parentBean"/>
+
+  <bean id="Budget-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+  </bean>
+	<bean id="Budget-lookupDefinition" parent="Budget-lookupDefinition-parentBean" />
+  	<bean id="Budget-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Budget Lookup" />
+		<property name="lookupableID" value="budgetLookupable" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="instructions" value="Look up a Budget" />
+		<property name="defaultSort" >
+		  <bean parent="SortDefinition">
+		  </bean>
+		</property>
+		<property name="lookupFields" >
+		  <list>
+	        <bean p:attributeName="proposalNumber" p:forceInquiry="true" parent="FieldDefinition" />
+	        <bean p:attributeName="documentNumber" parent="FieldDefinition" />
+	        <bean p:attributeName="costSharingAmount" parent="FieldDefinition" />
+	        <bean p:attributeName="endDate" parent="FieldDefinition" />
+	        <bean p:attributeName="finalVersionFlag" parent="FieldDefinition" />
+	        <bean p:attributeName="modularBudgetFlag" parent="FieldDefinition" />
+	        <bean p:attributeName="ohRateClassCode" parent="FieldDefinition" />
+	        <bean p:attributeName="ohRateTypeCode" parent="FieldDefinition" />
+	        <bean p:attributeName="residualFunds" parent="FieldDefinition" />
+	        <bean p:attributeName="startDate" parent="FieldDefinition" />
+	        <bean p:attributeName="totalCost" parent="FieldDefinition" />
+	        <bean p:attributeName="totalCostLimit" parent="FieldDefinition" />
+	        <bean p:attributeName="totalDirectCost" parent="FieldDefinition" />
+	        <bean p:attributeName="totalIndirectCost" parent="FieldDefinition" />
+	        <bean p:attributeName="underrecoveryAmount" parent="FieldDefinition" />
+	        <bean p:attributeName="urRateClassCode" parent="FieldDefinition" />
+	        <bean p:attributeName="comments" parent="FieldDefinition" />
+	        <bean p:attributeName="budgetJustification" parent="FieldDefinition" />
+	        <bean p:attributeName="budgetVersionNumber" parent="FieldDefinition" />
+	        <bean p:attributeName="onOffCampusFlag" parent="FieldDefinition" />
+	        <bean p:attributeName="versionNumber" parent="FieldDefinition" />
+		  </list>
+		</property>
+		<property name="resultFields" >
+		  <list>
+	        <bean p:attributeName="proposalNumber" p:forceInquiry="true" parent="FieldDefinition" />
+	        <bean p:attributeName="documentNumber" parent="FieldDefinition" />
+	        <bean p:attributeName="costSharingAmount" parent="FieldDefinition" />
+	        <bean p:attributeName="endDate" parent="FieldDefinition" />
+	        <bean p:attributeName="finalVersionFlag" parent="FieldDefinition" />
+	        <bean p:attributeName="modularBudgetFlag" parent="FieldDefinition" />
+	        <bean p:attributeName="ohRateClassCode" parent="FieldDefinition" />
+	        <bean p:attributeName="ohRateTypeCode" parent="FieldDefinition" />
+	        <bean p:attributeName="residualFunds" parent="FieldDefinition" />
+	        <bean p:attributeName="startDate" parent="FieldDefinition" />
+	        <bean p:attributeName="totalCost" parent="FieldDefinition" />
+	        <bean p:attributeName="totalCostLimit" parent="FieldDefinition" />
+	        <bean p:attributeName="totalDirectCost" parent="FieldDefinition" />
+	        <bean p:attributeName="totalIndirectCost" parent="FieldDefinition" />
+	        <bean p:attributeName="underrecoveryAmount" parent="FieldDefinition" />
+	        <bean p:attributeName="urRateClassCode" parent="FieldDefinition" />
+	        <bean p:attributeName="comments" parent="FieldDefinition" />
+	        <bean p:attributeName="budgetJustification" parent="FieldDefinition" />
+	        <bean p:attributeName="budgetVersionNumber" parent="FieldDefinition" />
+	        <bean p:attributeName="onOffCampusFlag" parent="FieldDefinition" />
+	        <bean p:attributeName="versionNumber" parent="FieldDefinition" />
+		  </list>
+		</property>
+		<property name="resultSetLimit" value="50" />
+	</bean>
+</beans>

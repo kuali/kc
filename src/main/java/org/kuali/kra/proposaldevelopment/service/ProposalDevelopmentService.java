@@ -18,8 +18,9 @@ package org.kuali.kra.proposaldevelopment.service;
 import java.util.List;
 
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
-import org.kuali.kra.budget.service.BudgetService;
+import org.kuali.kra.budget.core.BudgetService;
+import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalExemptNumber;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -73,19 +74,19 @@ public interface ProposalDevelopmentService {
      * @throws Exception
      * TODO : not sure this is the proper place for this method.  Maybe implemented in BudgetService or ResearchDocumentBaseService ?
      */
-    public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(ProposalDevelopmentDocument proposalDevelopmentDocument) throws Exception;
+    public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(BudgetParentDocument proposalDevelopmentDocument) throws Exception;
 
     public String populateProposalEditableFieldMetaDataForAjaxCall(String proposalNumber, String editableFieldDBColumn);
     
     public Object getProposalFieldValueFromDBColumnName(String proposalNumber, String dbColumnName) ;
 
     /**
-     * Add a new Budget Version by name to a {@link ProposalDevelopmentDocument}
+     * Add a new Budget Version by name to a {@link BudgetParentDocument}
      * 
      * @param document instance to add {@link BudgetVersionOverview} to
      * @param versionName of the {@link BudgetVersionOverview}
      */
-    public void addBudgetVersion(ProposalDevelopmentDocument document, String versionName) throws WorkflowException;
+    public void addBudgetVersion(BudgetParentDocument document, String versionName) throws WorkflowException;
 
     /**
      * Determine if the names of a {@link BudgetVersionOverview} instances in the given {@link  ProposalDevelopmentDocument} instance is valid
@@ -94,7 +95,7 @@ public interface ProposalDevelopmentService {
      * @param versionName to check
      * @return true for valid false otherwie
      */
-    public boolean isBudgetVersionNameValid(ProposalDevelopmentDocument document, String versionName);
+    public boolean isBudgetVersionNameValid(BudgetParentDocument document, String versionName);
 
     /**
      * Retrieve injected <code>{@link BudgetService}</code> singleton

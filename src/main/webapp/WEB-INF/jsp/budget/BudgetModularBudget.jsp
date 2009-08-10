@@ -32,7 +32,7 @@
   			<label for="budget period">Budget Period:</label>
   			<html:select property="modularSelectedPeriod">
   				<html:option value="0">View All</html:option>
-  				<c:forEach var="budgetPeriod" items="${KualiForm.document.budgetPeriods}" varStatus="status">
+  				<c:forEach var="budgetPeriod" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status">
   					<html:option value="${budgetPeriod.budgetPeriod}">${budgetPeriod.budgetPeriod}: ${budgetPeriod.dateRange}</html:option>
   				</c:forEach>
   			</html:select>
@@ -46,7 +46,7 @@
 	<c:set var="extraButtonSource" value="" scope="request" />
 	<c:set var="extraButtonProperty" value="" scope="request" />
 	<c:set var="extraButtonAlt" value="" scope="request" />
-	<c:if test="${KualiForm.editingMode['modifyBudgets'] && KualiForm.document.budgetStatus != '1'}">
+	<c:if test="${KualiForm.editingMode['modifyBudgets'] && KualiForm.document.budget.budgetStatus != '1'}">
 		<c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_sync.gif" scope="request" />
 	    <c:set var="extraButtonProperty" value="methodToCall.sync" scope="request" />
 		<c:set var="extraButtonAlt" value="" scope="request" />

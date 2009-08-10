@@ -24,11 +24,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.RateDecimal;
-import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetDistributionAndIncomeTest;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
-import org.kuali.kra.budget.service.impl.BudgetDistributionAndIncomeServiceImpl;
+import org.kuali.kra.budget.distributionincome.BudgetCostShare;
+import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
+import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeServiceImpl;
+import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 
 public class BudgetDistributionAndIncomeServiceTest extends BudgetDistributionAndIncomeTest {
     private BudgetDistributionAndIncomeService bdiService;

@@ -2033,7 +2033,7 @@ var documentWebScope
 
 var costElementFieldName;
 
- function updateCostElement(proposalNumber, budgetVersionNumber, costElement, personSequenceNumberField, budgetCategoryTypeCode, callbackFunction ) {
+ function updateCostElement(budgetId, costElement, personSequenceNumberField, budgetCategoryTypeCode, callbackFunction ) {
 	var personSequenceNumber = personSequenceNumberField.value;
 	costElementFieldName = costElement;
 	if ( personSequenceNumber != "") {
@@ -2043,7 +2043,7 @@ var costElementFieldName;
 				window.status = errorMessage;
 			}
 		};
-		BudgetService.getApplicableCostElementsForAjaxCall(proposalNumber, budgetVersionNumber, personSequenceNumber, budgetCategoryTypeCode, dwrReply );
+		BudgetService.getApplicableCostElementsForAjaxCall(budgetId, personSequenceNumber, budgetCategoryTypeCode, dwrReply );
 	} else {
 	    kualiElements[costElementFieldName].options.length=1;
 	    var ceLookupDiv = document.getElementById("ceLookupDiv");

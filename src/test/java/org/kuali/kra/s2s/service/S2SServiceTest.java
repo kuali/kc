@@ -13,8 +13,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
@@ -103,21 +105,24 @@ public class S2SServiceTest extends KraTestBase{
 
     private void addBudget(ProposalDevelopmentDocument pd) {
         try {
-            BudgetDocument budget = (BudgetDocument) documentService.getNewDocument("BudgetDocument");
-            BudgetVersionOverview budgetOverview = new BudgetVersionOverview();
+            BudgetDocument budgetDoc = (BudgetDocument) documentService.getNewDocument("BudgetDocument");
+            BudgetDocumentVersion budgetDocumentVersion = new BudgetDocumentVersion();
+            BudgetVersionOverview budgetOverview = budgetDocumentVersion.getBudgetVersionOverview();
             budgetOverview.setBudgetStatus("1");
-            budgetOverview.setProposalNumber(pd.getDevelopmentProposal().getProposalNumber());
+//            budgetOverview.setProposalNumber(pd.getDevelopmentProposal().getProposalNumber());
             budgetOverview.setBudgetVersionNumber(1);
             budgetOverview.setFinalVersionFlag(true);
             budgetOverview.setOhRateTypeCode("1");
             budgetOverview.setStartDate(pd.getDevelopmentProposal().getRequestedStartDateInitial());
             budgetOverview.setEndDate(pd.getDevelopmentProposal().getRequestedEndDateInitial());
             budgetOverview.setTotalCost(new BudgetDecimal(10000));
-            budgetOverview.setDocumentNumber(budget.getDocumentNumber());
-            pd.getDevelopmentProposal().getBudgetVersionOverviews().add(budgetOverview);
+            budgetOverview.setDocumentNumber(budgetDoc.getDocumentNumber());
+            pd.getDevelopmentProposal().getBudgetDocumentVersions().add(budgetDocumentVersion);
 
+            Budget budget = budgetDoc.getBudget();
 
-            budget.setProposalNumber(pd.getDevelopmentProposal().getProposalNumber());
+            budgetDoc.setParentDocumentKey(proposalNumber);
+            budgetDoc.setParentDocument(pd);
             budget.setBudgetVersionNumber(1);
             budget.setBudgetStatus("1");
             budget.setTotalCost(new BudgetDecimal(10000));
@@ -133,7 +138,7 @@ public class S2SServiceTest extends KraTestBase{
             budget.setModularBudgetFlag(false);
             budget.setActivityTypeCode("1");
             budget.setOnOffCampusFlag("D");
-            budget.setProposal(pd);
+            budget.getBudgetDocument().setParentDocument(pd);
             getService(BusinessObjectService.class).save(budget);
         }
         catch (WorkflowException e) {

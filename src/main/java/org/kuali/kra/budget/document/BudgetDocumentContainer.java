@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.document;
 
 
+
 /**
  * This interface was created primarily to allow easy mocking of BudgetForm to remove Spring context dependency imposed by KualiDocumentFormBase  
  */

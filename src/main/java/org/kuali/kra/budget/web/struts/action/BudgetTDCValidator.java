@@ -20,6 +20,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.BudgetModularTotalDirectCostRule;
 
@@ -58,7 +59,7 @@ public class BudgetTDCValidator {
      * @param proposalDocument the proposal document to validate.
      * @throws NullPointerException if the document is null.
      */
-    public void validateGeneratingErrorsAndWarnings(final ProposalDevelopmentDocument proposalDocument) {
+    public void validateGeneratingErrorsAndWarnings(final BudgetParentDocument proposalDocument) {
 
         if (proposalDocument == null) {
             throw new NullPointerException("the request is null.");
@@ -84,7 +85,7 @@ public class BudgetTDCValidator {
      * @param proposalDocument the proposal document to validate.
      * @throws NullPointerException if the document is null.
      */
-    public void validateGeneratingWarnings(final ProposalDevelopmentDocument proposalDocument) {
+    public void validateGeneratingWarnings(final BudgetParentDocument proposalDocument) {
 
         if (proposalDocument == null) {
             throw new NullPointerException("the request is null.");

@@ -42,13 +42,14 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetCategoryMap;
-import org.kuali.kra.budget.bo.BudgetCategoryMapping;
-import org.kuali.kra.budget.bo.BudgetLineItem;
-import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.BudgetProjectIncome;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetCategoryMap;
+import org.kuali.kra.budget.core.BudgetCategoryMapping;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -63,7 +64,7 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
 
     private static final Logger LOG = Logger.getLogger(SF424AV1_0Generator.class);
 
-    private BudgetDocument budgetDoc = null;
+    private Budget budget = null;
 
     /**
      * 
@@ -75,7 +76,7 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
     private BudgetInformationDocument getSF424A() {
         BudgetInformationDocument budgetInformationDocument = BudgetInformationDocument.Factory.newInstance();
         try {
-            budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+            budget = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc).getBudget();
         }
         catch (S2SException e) {
             LOG.error(e.getMessage(), e);
@@ -121,10 +122,10 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
 
         BudgetCategories budgetCategories = BudgetCategories.Factory.newInstance();
         CategoryTotals categoryTotals = CategoryTotals.Factory.newInstance();
-        if (budgetDoc == null) {
+        if (budget == null) {
             return budgetCategories;
         }
-        BudgetPeriod budgetPeriod = budgetDoc.getBudgetPeriod(0);
+        BudgetPeriod budgetPeriod = budget.getBudgetPeriod(0);
 
         CategorySet[] categorySetArray = new CategorySet[1];
         CategorySet categorySet = CategorySet.Factory.newInstance();
@@ -183,7 +184,7 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             }
         }
 
-        for (BudgetProjectIncome budgetProjectIncome : budgetDoc.getBudgetProjectIncomes()) {
+        for (BudgetProjectIncome budgetProjectIncome : budget.getBudgetProjectIncomes()) {
             programIncome = programIncome.add(new BudgetDecimal(budgetProjectIncome.getProjectIncome().bigDecimalValue()));
         }
 
@@ -195,22 +196,22 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         categoryTotals.setBudgetEquipmentRequestedAmount(equipmentCost.bigDecimalValue());
         categorySet.setBudgetFringeBenefitsRequestedAmount(calculatedCost.bigDecimalValue());
         categoryTotals.setBudgetFringeBenefitsRequestedAmount(calculatedCost.bigDecimalValue());
-        categorySet.setBudgetIndirectChargesAmount(budgetDoc.getTotalIndirectCost().bigDecimalValue());
-        categoryTotals.setBudgetIndirectChargesAmount(budgetDoc.getTotalIndirectCost().bigDecimalValue());
+        categorySet.setBudgetIndirectChargesAmount(budget.getTotalIndirectCost().bigDecimalValue());
+        categoryTotals.setBudgetIndirectChargesAmount(budget.getTotalIndirectCost().bigDecimalValue());
         categorySet.setBudgetOtherRequestedAmount(otherCost.bigDecimalValue());
         categoryTotals.setBudgetOtherRequestedAmount(otherCost.bigDecimalValue());
         categorySet.setBudgetPersonnelRequestedAmount(personnelCost.bigDecimalValue());
         categoryTotals.setBudgetPersonnelRequestedAmount(personnelCost.bigDecimalValue());
         categorySet.setBudgetSuppliesRequestedAmount(suppliesCost.bigDecimalValue());
         categoryTotals.setBudgetSuppliesRequestedAmount(suppliesCost.bigDecimalValue());
-        categorySet.setBudgetTotalAmount(budgetDoc.getTotalCost().bigDecimalValue());
-        categorySet.setBudgetTotalDirectChargesAmount(budgetDoc.getTotalDirectCost().bigDecimalValue());
+        categorySet.setBudgetTotalAmount(budget.getTotalCost().bigDecimalValue());
+        categorySet.setBudgetTotalDirectChargesAmount(budget.getTotalDirectCost().bigDecimalValue());
         categorySet.setBudgetTravelRequestedAmount(travelCost.bigDecimalValue());
         categoryTotals.setBudgetTravelRequestedAmount(travelCost.bigDecimalValue());
         categorySet.setProgramIncomeAmount(programIncome.bigDecimalValue());
         categoryTotals.setProgramIncomeAmount(programIncome.bigDecimalValue());
-        categoryTotals.setBudgetTotalAmount(budgetDoc.getTotalCost().bigDecimalValue());
-        categoryTotals.setBudgetTotalDirectChargesAmount(budgetDoc.getTotalDirectCost().bigDecimalValue());
+        categoryTotals.setBudgetTotalAmount(budget.getTotalCost().bigDecimalValue());
+        categoryTotals.setBudgetTotalDirectChargesAmount(budget.getTotalDirectCost().bigDecimalValue());
 
         categorySetArray[0] = categorySet;
         budgetCategories.setCategorySetArray(categorySetArray);
@@ -235,19 +236,19 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             summaryLineItem.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
             summaryLineItem.setCFDANumber(pdDoc.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber());
         }
-        if (budgetDoc != null) {
-            costSharing = budgetDoc.getCostSharingAmount();
-            totalFedCost = budgetDoc.getTotalCost().subtract(costSharing);
+        if (budget != null) {
+            costSharing = budget.getCostSharingAmount();
+            totalFedCost = budget.getTotalCost().subtract(costSharing);
             summaryLineItem.setBudgetFederalNewOrRevisedAmount(totalFedCost.bigDecimalValue());
             summaryLineItem.setBudgetNonFederalNewOrRevisedAmount(costSharing.bigDecimalValue());
-            summaryLineItem.setBudgetTotalNewOrRevisedAmount(budgetDoc.getTotalCost().bigDecimalValue());
+            summaryLineItem.setBudgetTotalNewOrRevisedAmount(budget.getTotalCost().bigDecimalValue());
             summaryLineItemArray[0] = summaryLineItem;
             budgetSummary.setSummaryLineItemArray(summaryLineItemArray);
 
             SummaryTotals summaryTotals = SummaryTotals.Factory.newInstance();
             summaryTotals.setBudgetFederalNewOrRevisedAmount(totalFedCost.bigDecimalValue());
             summaryTotals.setBudgetNonFederalNewOrRevisedAmount(costSharing.bigDecimalValue());
-            summaryTotals.setBudgetTotalNewOrRevisedAmount(budgetDoc.getTotalCost().bigDecimalValue());
+            summaryTotals.setBudgetTotalNewOrRevisedAmount(budget.getTotalCost().bigDecimalValue());
             budgetSummary.setSummaryTotals(summaryTotals);
         }
 
@@ -268,15 +269,15 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
             resourceLineItem.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
         }
-        if (budgetDoc != null) {
-            resourceLineItem.setBudgetApplicantContributionAmount(budgetDoc.getCostSharingAmount().bigDecimalValue());
-            resourceLineItem.setBudgetTotalContributionAmount(budgetDoc.getCostSharingAmount().bigDecimalValue());
+        if (budget != null) {
+            resourceLineItem.setBudgetApplicantContributionAmount(budget.getCostSharingAmount().bigDecimalValue());
+            resourceLineItem.setBudgetTotalContributionAmount(budget.getCostSharingAmount().bigDecimalValue());
             resourceLineItemArray[0] = resourceLineItem;
             nonFederalResources.setResourceLineItemArray(resourceLineItemArray);
 
             ResourceTotals resourceTotals = ResourceTotals.Factory.newInstance();
-            resourceTotals.setBudgetApplicantContributionAmount(budgetDoc.getCostSharingAmount().bigDecimalValue());
-            resourceTotals.setBudgetTotalContributionAmount(budgetDoc.getCostSharingAmount().bigDecimalValue());
+            resourceTotals.setBudgetApplicantContributionAmount(budget.getCostSharingAmount().bigDecimalValue());
+            resourceTotals.setBudgetTotalContributionAmount(budget.getCostSharingAmount().bigDecimalValue());
             nonFederalResources.setResourceTotals(resourceTotals);
         }
 
@@ -294,22 +295,22 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         BudgetDecimal totalFedCost = BudgetDecimal.ZERO;
         BudgetDecimal costSharing = BudgetDecimal.ZERO;
         BudgetForecastedCashNeeds budgetForecastedCashNeeds = BudgetForecastedCashNeeds.Factory.newInstance();
-        if (budgetDoc != null) {
+        if (budget != null) {
             BudgetFirstYearAmounts budgetFirstYearAmounts = BudgetFirstYearAmounts.Factory.newInstance();
             BudgetFirstQuarterAmounts budgetFirstQuarterAmounts = BudgetFirstQuarterAmounts.Factory.newInstance();
             BudgetSecondQuarterAmounts budgetSecondQuarterAmounts = BudgetSecondQuarterAmounts.Factory.newInstance();
             BudgetThirdQuarterAmounts budgetThirdQuarterAmounts = BudgetThirdQuarterAmounts.Factory.newInstance();
             BudgetFourthQuarterAmounts budgetFourthQuarterAmounts = BudgetFourthQuarterAmounts.Factory.newInstance();
 
-            costSharing = budgetDoc.getCostSharingAmount();
-            totalFedCost = budgetDoc.getTotalCost().subtract(costSharing);
-            BudgetDecimal totalEstimation = budgetDoc.getTotalCost().divide(new BudgetDecimal(4));
+            costSharing = budget.getCostSharingAmount();
+            totalFedCost = budget.getTotalCost().subtract(costSharing);
+            BudgetDecimal totalEstimation = budget.getTotalCost().divide(new BudgetDecimal(4));
             BudgetDecimal costShareEstimation = costSharing.divide(new BudgetDecimal(4));
             BudgetDecimal totalFedEstimation = totalFedCost.divide(new BudgetDecimal(4));
 
             budgetFirstYearAmounts.setBudgetFederalForecastedAmount(totalFedCost.bigDecimalValue());
             budgetFirstYearAmounts.setBudgetNonFederalForecastedAmount(costSharing.bigDecimalValue());
-            budgetFirstYearAmounts.setBudgetTotalForecastedAmount(budgetDoc.getTotalCost().bigDecimalValue());
+            budgetFirstYearAmounts.setBudgetTotalForecastedAmount(budget.getTotalCost().bigDecimalValue());
 
             budgetForecastedCashNeeds.setBudgetFirstYearAmounts(budgetFirstYearAmounts);
 
@@ -362,7 +363,7 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         BudgetDecimal fourthYearNetCost = BudgetDecimal.ZERO;
 
         FederalFundsNeeded federalFundsNeeded = FederalFundsNeeded.Factory.newInstance();
-        if (budgetDoc == null) {
+        if (budget == null) {
             return federalFundsNeeded;
         }
 
@@ -376,7 +377,7 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             fundsLineItem.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
         }
 
-        for (BudgetPeriod budgetPeriod : budgetDoc.getBudgetPeriods()) {
+        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_2) {
                 firstYearCost = firstYearCost.add(budgetPeriod.getTotalCost());
                 firstYearCostSharing = firstYearCostSharing.add(budgetPeriod.getCostSharingAmount());

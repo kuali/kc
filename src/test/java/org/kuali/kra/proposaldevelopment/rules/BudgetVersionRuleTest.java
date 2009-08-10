@@ -23,9 +23,10 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.BudgetVersionCollection;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionCollection;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
 import org.kuali.rice.kns.document.Document;
@@ -99,15 +100,15 @@ public class BudgetVersionRuleTest {
      * @param name of the {@link BudgetVersionOverview} to add
      */
     public void addNewBudgetVersion(BudgetVersionCollection document, String name) {
-        document.getBudgetVersionOverviews().add(new PseudoBudgetVersionOverview(name));
+        document.getBudgetDocumentVersions().add(new PseudoBudgetVersionOverview(name));
     }
 
     /**
      * Fake {@link BudgetDocument} with a name constructor
      */
-    public class PseudoBudgetVersionOverview extends BudgetVersionOverview {
+    public class PseudoBudgetVersionOverview extends BudgetDocumentVersion {
         public PseudoBudgetVersionOverview(String name) {
-            setDocumentDescription(name);
+//            setDocumentDescription(name);
         }
     }
 
@@ -116,17 +117,17 @@ public class BudgetVersionRuleTest {
      *
      */
     public class PseudoProposalDevelopmentDocument extends DocumentBase implements BudgetVersionCollection {
-        private List<BudgetVersionOverview> overviews;
+        private List<BudgetDocumentVersion> overviews;
 
         public PseudoProposalDevelopmentDocument() {
-            setBudgetVersionOverviews(new ArrayList<BudgetVersionOverview>());
+            setBudgetDocumentVersions(new ArrayList<BudgetDocumentVersion>());
         }
 
-        public List<BudgetVersionOverview> getBudgetVersionOverviews() {
+        public List<BudgetDocumentVersion> getBudgetDocumentVersions() {
             return overviews;
         }
         
-        public void setBudgetVersionOverviews(List<BudgetVersionOverview> budgetVersionOverviews) {
+        public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetVersionOverviews) {
             overviews = budgetVersionOverviews;
         }
     }

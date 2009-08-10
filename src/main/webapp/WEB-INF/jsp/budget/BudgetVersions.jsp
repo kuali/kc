@@ -17,8 +17,8 @@
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
 
 <c:if test="${KualiForm.editingMode['modifyCompletedBudgets']}">
-	<c:set target="${KualiForm.documentActionFlags}" property="canSave" value="true"/>
-</c:if>
+	<c:set target="${KualiForm.documentActions}" property="canSave" value="true"/>
+</c:if> 
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -32,11 +32,11 @@
   	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Budget Versions" /></div>
 
 	<kra-b:budgetVersions 
-		budgetVersionOverviews="${KualiForm.proposal.developmentProposalList[0].budgetVersionOverviews}"
-		pathToVersions="document.proposal.developmentProposalList[0]"
-		errorKey="document.proposal.developmentProposalList[0].budgetVersion*,document.proposal.developmentProposalList[0].finalVersionFlag,document.proposal.developmentProposalList[0].documentDescription"
-		requestedStartDateInitial="${KualiForm.document.proposal.developmentProposalList[0].requestedStartDateInitial}"
-		requestedEndDateInitial="${KualiForm.document.proposal.developmentProposalList[0].requestedEndDateInitial}"
+		budgetDocumentVersions="${KualiForm.document.parentDocument.developmentProposalList[0].budgetDocumentVersions}"
+		pathToVersions="document.parentDocument.developmentProposalList[0]"
+		errorKey="document.parentDocument.developmentProposalList[0].budgetVersion*,document.parentDocument.developmentProposalList[0].finalVersionFlag,document.parentDocument.developmentProposalList[0].documentDescription"
+		requestedStartDateInitial="${KualiForm.document.parentDocument.developmentProposalList[0].requestedStartDateInitial}"
+		requestedEndDateInitial="${KualiForm.document.parentDocument.developmentProposalList[0].requestedEndDateInitial}"
 		/>
 
 	<kul:documentControls 

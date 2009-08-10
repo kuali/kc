@@ -16,13 +16,13 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<%@ attribute name="budgetVersionOverviews" required="true" type="java.util.List"%>
+<%@ attribute name="budgetDocumentVersions" required="true" type="java.util.List"%>
 <%@ attribute name="pathToVersions" required="true"%>
 <%@ attribute name="requestedStartDateInitial" required="true" %>
 <%@ attribute name="requestedEndDateInitial" required="true" %>
 <%@ attribute name="errorKey" required="false"%>
 
-<c:set var="budgetAttributes" value="${DataDictionary.BudgetDocument.attributes}" />
+<c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}" />
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="budgetVersionOverviewAttributes" value="${DataDictionary.BudgetVersionOverview.attributes}" />
 <c:set var="javascriptEnabled" value="true" />
@@ -31,7 +31,7 @@
 <kra:section permission="modifyProposalBudget">
   <c:set var="readonly" value="false"/>
  </kra:section> 
-<kul:tabTop tabTitle="Budget Versions (${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})" defaultOpen="true" tabErrorKey="document.proposal.developmentProposalList[0].budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey}" auditCluster="budgetVersionErrors" tabAuditKey="document.proposal.developmentProposalList[0].budgetVersionOverview">
+<kul:tabTop tabTitle="Budget Versions (${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})" defaultOpen="true" tabErrorKey="document.budget.parentDocument.developmentProposalList[0].budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey}" auditCluster="budgetVersionErrors" tabAuditKey="document.budget.budgetVersionOverview">
 
 	<div class="tab-container" align="center">
 
@@ -78,9 +78,9 @@
           	</tr>
           	</kra:section>
           	
-          	<c:forEach var="budgetVersion" items="${budgetVersionOverviews}" varStatus="status">
-          		<c:set var="version" value="${pathToVersions}.budgetVersionOverview[${status.index}]" />
-          		<bean:define id="descriptionUpdatable" name="KualiForm" property="${pathToVersions}.budgetVersionOverview[${status.index}].descriptionUpdatable" />
+          	<c:forEach var="budgetVersion" items="${budgetDocumentVersions}" varStatus="status">
+          		<c:set var="version" value="${pathToVersions}.budgetDocumentVersion[${status.index}].budgetVersionOverview" />
+          		<bean:define id="descriptionUpdatable" name="KualiForm" property="${pathToVersions}.budgetDocumentVersion[${status.index}].budgetVersionOverview.descriptionUpdatable" />
           		<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
           		<c:set var="parentTab" value="Budget Versions" scope="request"/>
           		<c:set var="tabTitle" value="${status.index}" scope="request"/>
@@ -112,7 +112,7 @@
            				</div>
            			</td>
            			<td class="tab-subhead1"><kul:htmlControlAttribute property="${version}.documentDescription" attributeEntry="${budgetVersionOverviewAttributes.documentDescription}" readOnly="${descriptionUpdatable != 'Yes'}"/></td>
-	            	<td class="tab-subhead1"><div align="center">${budgetVersion.budgetVersionNumber}</div></td>
+	            	<td class="tab-subhead1"><div align="center">${budgetVersion.budgetVersionOverview.budgetVersionNumber}</div></td>
 		            <td class="tab-subhead1"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalDirectCost" attributeEntry="${budgetVersionOverviewAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/></div></td>
 		            <td class="tab-subhead1"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalIndirectCost" attributeEntry="${budgetVersionOverviewAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
 		            <td class="tab-subhead1"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalCost" attributeEntry="${budgetVersionOverviewAttributes.totalCost}" styleClass="amount" readOnly="true"/></div></td>
@@ -148,25 +148,25 @@
             			<table cellpadding="0" cellspacing="0" summary="" style="width:100%;">
                 			<tr>
 	                    		<th width="1%" nowrap><div align="right">Residual Funds:</div></th>
-	                    		<td align="left" width="12%">${budgetVersion.residualFunds}&nbsp;</td>
+	                    		<td align="left" width="12%">${budgetVersion.budgetVersionOverview.residualFunds}&nbsp;</td>
 	                    		<th width="40%" nowrap><div align="right">F&A Rate Type:</div></th>
-	                    		<td align="left" width="99%">${budgetVersion.rateClass.description}&nbsp;</td>
+	                    		<td align="left" width="99%">${budgetVersion.budgetVersionOverview.rateClass.description}&nbsp;</td>
                   			</tr>
 	                  		<tr>
 	                    		<th nowrap><div align="right">Cost Sharing:</div></th>
-	                    		<td align="left">${budgetVersion.costSharingAmount}&nbsp;</td>
+	                    		<td align="left">${budgetVersion.budgetVersionOverview.costSharingAmount}&nbsp;</td>
 	                    		<th nowrap><div align="right">Last Updated:</div></th>
-	                    		<td align="left"><fmt:formatDate value="${budgetVersion.updateTimestamp}" type="both" />&nbsp;</td>
+	                    		<td align="left"><fmt:formatDate value="${budgetVersion.budgetVersionOverview.updateTimestamp}" type="both" />&nbsp;</td>
 	                  		</tr>
 				            <tr>
 				                <th nowrap><div align="right">Unrecovered F&amp;A:</div></th>
-				                <td align="left">${budgetVersion.underrecoveryAmount}&nbsp;</td>
+				                <td align="left">${budgetVersion.budgetVersionOverview.underrecoveryAmount}&nbsp;</td>
 				                <th nowrap><div align="right">Last Updated By:</div></th>
-				                <td align="left">${budgetVersion.updateUser}&nbsp;</td>
+				                <td align="left">${budgetVersion.budgetVersionOverview.updateUser}&nbsp;</td>
 				            </tr>
                  			<tr>
                    				<th nowrap><div align="right">Comments:</div></th>
-                   				<td colspan="3" align="left">${budgetVersion.comments}&nbsp;</td>
+                   				<td colspan="3" align="left">${budgetVersion.budgetVersionOverview.comments}&nbsp;</td>
                  			</tr>
            				</table>
            			</td>

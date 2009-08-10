@@ -28,8 +28,8 @@ import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -100,7 +100,7 @@ public class ED524BudgetV1_0Generator extends ED524BudgetBaseGenerator {
             return ed524BudgetDocument;
         }
 
-        for (BudgetPeriod budgetPeriod : budgetDoc.getBudgetPeriods()) {
+        for (BudgetPeriod budgetPeriod : budgetDoc.getBudget().getBudgetPeriods()) {
             if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_1)) {
                 getTotalCosts(budgetPeriod);
                 ed524Budget.setBudgetFederalFirstYearAmount(totalCost.bigDecimalValue());

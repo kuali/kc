@@ -18,8 +18,8 @@ package org.kuali.kra.budget.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.service.BudgetRatesService;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;

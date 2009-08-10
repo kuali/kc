@@ -22,9 +22,11 @@ import java.util.GregorianCalendar;
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
+import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeServiceImpl;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.service.BudgetDistributionAndIncomeService;
-import org.kuali.kra.budget.service.impl.BudgetDistributionAndIncomeServiceImpl;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 
 public abstract class BudgetDistributionAndIncomeTest {
     protected static final BudgetDecimal FY_2007_Q3_AMT = new BudgetDecimal(100.0);
@@ -46,7 +48,7 @@ public abstract class BudgetDistributionAndIncomeTest {
     protected BudgetDecimal[] costShareAmounts = { FY_2007_Q3_AMT, FY_2007_Q4_AMT, FY_2008_Q1_AMT, FY_2008_Q2_AMT, FY_2009_Q1_AMT, FY_2009_Q2_AMT };
     protected BudgetDecimal[] unrecoveredFandAAmounts = { FY_2007_Q3_AMT, FY_2007_Q4_AMT, FY_2008_Q1_AMT, FY_2008_Q2_AMT, FY_2009_Q1_AMT, FY_2009_Q2_AMT };
     
-    protected BudgetDocument budgetDocument;
+    protected Budget budgetDocument;
     protected Calendar calendar;
     protected BudgetDistributionAndIncomeService budgetDistributionAndIncomeService;
     
@@ -108,7 +110,7 @@ public abstract class BudgetDistributionAndIncomeTest {
         }        
     }
     
-    public class BudgetDocument_CostShareAndUnrecoveredFandAApplicable extends BudgetDocument {
+    public class BudgetDocument_CostShareAndUnrecoveredFandAApplicable extends Budget {
         private static final long serialVersionUID = 1L;
                 
         @Override
@@ -117,7 +119,7 @@ public abstract class BudgetDistributionAndIncomeTest {
         }
 
         @Override
-        protected Date loadFiscalYearStart() {
+        public Date loadFiscalYearStart() {
             return fiscalYearStartArtifact;
         }
 
@@ -131,7 +133,7 @@ public abstract class BudgetDistributionAndIncomeTest {
         }
     }
     
-    public class BudgetDocument_CostShareAndUnrecoveredFandANotApplicable extends BudgetDocument {
+    public class BudgetDocument_CostShareAndUnrecoveredFandANotApplicable extends Budget {
         private static final long serialVersionUID = 1L;
                 
         @Override
@@ -140,7 +142,7 @@ public abstract class BudgetDistributionAndIncomeTest {
         }
 
         @Override
-        protected Date loadFiscalYearStart() {
+        public Date loadFiscalYearStart() {
             return fiscalYearStartArtifact;
         }
 

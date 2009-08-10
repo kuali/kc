@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.budget.bo.CostElement;
+import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.service.ObjectCodeToBudgetCategoryCodeService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 

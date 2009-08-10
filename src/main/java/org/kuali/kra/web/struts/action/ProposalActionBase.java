@@ -24,10 +24,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.service.BudgetService;
+import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -91,10 +94,10 @@ public class ProposalActionBase extends KraTransactionalDocumentActionBase {
      * @param budgetVersions
      * @return
      */
-    protected Integer getFinalBudgetVersion(List<BudgetVersionOverview> budgetVersions) {
-        for (BudgetVersionOverview budgetVersion: budgetVersions) {
-            if (budgetVersion.isFinalVersionFlag()) {
-                return budgetVersion.getBudgetVersionNumber();
+    protected Integer getFinalBudgetVersion(List<BudgetDocumentVersion> budgetVersions) {
+        for (BudgetDocumentVersion budgetVersion: budgetVersions) {
+            if (budgetVersion.getBudgetVersionOverview().isFinalVersionFlag()) {
+                return budgetVersion.getBudgetVersionOverview().getBudgetVersionNumber();
             }
         }
         return null;
@@ -105,10 +108,10 @@ public class ProposalActionBase extends KraTransactionalDocumentActionBase {
      * 
      * @param proposalDevelopmentDocument
      */
-    protected void setProposalStatus(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        for (BudgetVersionOverview budgetVersion: proposalDevelopmentDocument.getDevelopmentProposal().getBudgetVersionOverviews()) {
-            if (budgetVersion.isFinalVersionFlag()) {
-                proposalDevelopmentDocument.getDevelopmentProposal().setBudgetStatus(budgetVersion.getBudgetStatus());
+    protected void setProposalStatus(BudgetParentDocument proposalDevelopmentDocument) {
+        for (BudgetDocumentVersion budgetVersion: proposalDevelopmentDocument.getBudgetDocumentVersions()) {
+            if (budgetVersion.getBudgetVersionOverview().isFinalVersionFlag()) {
+                proposalDevelopmentDocument.setBudgetStatus(budgetVersion.getBudgetVersionOverview().getBudgetStatus());
                 return;
             }
         }
@@ -120,15 +123,16 @@ public class ProposalActionBase extends KraTransactionalDocumentActionBase {
      * 
      * @param proposalDevelopmentDocument
      */
-    protected void setBudgetStatuses(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    protected void setBudgetStatuses(BudgetParentDocument proposalDevelopmentDocument) {
         
         KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
         String budgetStatusIncompleteCode = kualiConfigurationService.getParameter(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE).getParameterValue();
         
-        for (BudgetVersionOverview budgetVersion: proposalDevelopmentDocument.getDevelopmentProposal().getBudgetVersionOverviews()) {
+        for (BudgetDocumentVersion budgetDocumentVersion: proposalDevelopmentDocument.getBudgetDocumentVersions()) {
+            BudgetVersionOverview budgetVersion =  budgetDocumentVersion.getBudgetVersionOverview();
             if (budgetVersion.isFinalVersionFlag()) {
-                budgetVersion.setBudgetStatus(proposalDevelopmentDocument.getDevelopmentProposal().getBudgetStatus());
+                budgetVersion.setBudgetStatus(proposalDevelopmentDocument.getBudgetStatus());
             }
             else {
                 budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
@@ -143,19 +147,20 @@ public class ProposalActionBase extends KraTransactionalDocumentActionBase {
      * @param budgetToCopy
      * @param copyPeriodOneOnly if only the first budget period is to be copied
      */
-    protected void copyBudget(ProposalDevelopmentDocument proposalDevelopmentDocument, BudgetVersionOverview budgetToCopy, boolean copyPeriodOneOnly) 
+    protected void copyBudget(BudgetParentDocument proposalDevelopmentDocument, BudgetVersionOverview budgetToCopy, boolean copyPeriodOneOnly) 
     throws WorkflowException {
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
+        Budget budget = budgetDocToCopy.getBudget();
         if (copyPeriodOneOnly) {
-            BudgetPeriod firstPeriod = budgetDocToCopy.getBudgetPeriods().get(0);
+            BudgetPeriod firstPeriod = budget.getBudgetPeriods().get(0);
             List<BudgetPeriod> newBudgetPeriods = new ArrayList<BudgetPeriod>();
             newBudgetPeriods.add(firstPeriod);
-            budgetDocToCopy.setBudgetPeriods(newBudgetPeriods);
+            budget.setBudgetPeriods(newBudgetPeriods);
         }
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy);
-        proposalDevelopmentDocument.getDevelopmentProposal().addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription() + " " 
+        proposalDevelopmentDocument.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription() + " " 
                                                         + budgetToCopy.getBudgetVersionNumber() + " copy", true);
     }
 
