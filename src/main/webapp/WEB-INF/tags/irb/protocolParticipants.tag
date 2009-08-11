@@ -49,14 +49,13 @@
 	
 	            <td align="left" valign="middle" class="infoline">
 	               	<div align="center">
-	               		<kul:htmlControlAttribute property="participantsHelper.newProtocolParticipant.participantTypeCode" attributeEntry="${protocolParticipantAttributes.participantTypeCode}" />
+	               		<kul:htmlControlAttribute property="participantsHelper.newProtocolParticipant.participantTypeCode" attributeEntry="${protocolParticipantAttributes.participantTypeCode}" readOnly="false" />
 	            	</div>
 				</td>
-				
-	
+			
 	            <td align="left" valign="middle" class="infoline">
 	               	<div align="center">
-	               	    <kul:htmlControlAttribute property="participantsHelper.newProtocolParticipant.participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" />
+	               	    <kul:htmlControlAttribute property="participantsHelper.newProtocolParticipant.participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" readOnly="false" />
 	               	</div>
 	            </td>
 	
