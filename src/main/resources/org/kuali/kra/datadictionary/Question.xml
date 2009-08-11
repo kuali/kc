@@ -28,7 +28,7 @@
         <property name="lookupDefinition" >
             <ref bean="Question-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="questionId" />
+        <property name="titleAttribute" value="questionRefId" />
         <property name="attributes" >
             <list>
                 <ref bean="Question-questionRefId" />
