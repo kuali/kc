@@ -166,6 +166,9 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
                 if (map.get(awardCloseout.getCloseoutReportCode()) instanceof Date) {
                     awardCloseout.setDueDate((Date) map.get(awardCloseout.getCloseoutReportCode()));
                     awardCloseout.setMultiple(false);
+                } else if (map.get(awardCloseout.getCloseoutReportCode()) == null) {
+                    awardCloseout.setDueDate(null);
+                    awardCloseout.setMultiple(false);
                 } else if (StringUtils.equalsIgnoreCase(MULTIPLE,(String) map.get(awardCloseout.getCloseoutReportCode()))) {
                     awardCloseout.setMultiple(true);
                 }
