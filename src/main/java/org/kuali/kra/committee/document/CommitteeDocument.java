@@ -46,8 +46,10 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
      * Constructs a CommitteeDocument object
      */
     public CommitteeDocument() {
-        committeeList.add(new Committee());
-    } 
+        Committee committee = new Committee();
+        committeeList.add(committee);
+        committee.setCommitteeDocument(this);
+    }
 
     /**
      * @see org.kuali.kra.document.ResearchDocumentBase#initialize()
