@@ -37,7 +37,7 @@
         </property> 
         <property name="lockingKeys" >
             <list>
-                <value>questionId</value>
+                <value>questionRefId</value>
             </list>
         </property>
         <property name="documentTypeName" value="QuestionMaintenanceDocument" />
@@ -47,7 +47,6 @@
         <property name="webScriptFiles">
             <list>
                 <value>../dwr/interface/CustomAttributeService.js</value>
-                <value>../dwr/interface/ArgValueLookupService.js</value>
             </list>
         </property>
     </bean>
@@ -60,6 +59,9 @@
         <property name="title" value="Edit Question"/>
         <property name="maintainableItems">
             <list>
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="questionRefId"
+                    p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="questionId"
                     p:required="true" />
