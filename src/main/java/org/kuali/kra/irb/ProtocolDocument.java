@@ -24,6 +24,7 @@ import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
@@ -133,14 +134,45 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     }
     
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) throws Exception {
-        System.out.println("ROUTE STATUS CHANGE");
-        System.out.println(statusChangeEvent.toString());
-        if (StringUtils.equals("F", statusChangeEvent.getNewRouteStatus())) {
-            ProtocolDocument newDoc = createAndSaveVersion(this);
+        if (isFinal(statusChangeEvent)) {
+            if (isAmendment()) {
+                mergeAmendment(ProtocolStatus.AMENDMENT_MERGED);
+            }
+            else if (isRenewal()) {
+                mergeAmendment(ProtocolStatus.RENEWAL_MERGED);
+            }
         }
     }
     
-    private ProtocolDocument createAndSaveVersion(ProtocolDocument oldDoc) throws Exception {
+    private void mergeAmendment(String protocolStatusCode) throws Exception {
+        ProtocolFinderDao protocolFinder = KraServiceLocator.getService(ProtocolFinderDao.class);
+        Protocol currentProtocol = protocolFinder.findCurrentProtocolByNumber(getOriginalProtocolNumber());
+        ProtocolDocument newProtocolDocument = createVersion(currentProtocol.getProtocolDocument());
+        newProtocolDocument.getProtocol().merge(getProtocol());
+        getProtocol().setProtocolStatusCode(protocolStatusCode);
+        
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        documentService.saveDocument(this);
+        documentService.saveDocument(newProtocolDocument);
+    }
+    
+    private String getOriginalProtocolNumber() {
+        return getProtocol().getProtocolNumber().substring(0, 10);
+    }
+
+    private boolean isFinal(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        return StringUtils.equals("F", statusChangeEvent.getNewRouteStatus());
+    }
+
+    private boolean isRenewal() {
+        return getProtocol().getProtocolNumber().contains("R");
+    }
+
+    public boolean isAmendment() {
+        return getProtocol().getProtocolNumber().contains("A");
+    }
+
+    private ProtocolDocument createVersion(ProtocolDocument oldDoc) throws Exception {
         VersioningService versioningService = KraServiceLocator.getService(VersioningService.class);
         Protocol newVersion = versioningService.createNewVersion(oldDoc.getProtocol());
         
