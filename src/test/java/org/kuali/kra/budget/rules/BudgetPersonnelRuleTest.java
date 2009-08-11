@@ -112,7 +112,7 @@ public class BudgetPersonnelRuleTest {
         
         context.checking(new Expectations() {
             {   
-                oneOf(budgetService).getApplicableCostElements(1l, "1");
+                oneOf(budgetService).getApplicableCostElements(1L, "1");
                 will(returnValue(Collections.emptyList()));
             }});
         
@@ -140,7 +140,7 @@ public class BudgetPersonnelRuleTest {
         
         context.checking(new Expectations() {
             {   
-                oneOf(budgetService).getApplicableCostElements(1l, "1");
+                oneOf(budgetService).getApplicableCostElements(1L, "1");
                 will(returnValue(Collections.emptyList()));
             }});
         
@@ -195,7 +195,7 @@ public class BudgetPersonnelRuleTest {
         };
         
         person.setPersonSequenceNumber(1);
-        person.setBudgetId(1l);
+        person.setBudgetId(1L);
         
         persons.add(person);
         
