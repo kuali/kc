@@ -28,91 +28,93 @@
 		
 		<kra:softError softErrorKey="datesInConflict" />
 		
-    	<h3>
-    		<span class="subhead-left">Add to Schedule</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.document.CommitteeDocument" altText="help"/></span>
-        </h3>      
+		<c:if test="${!readOnly}">
+        	<h3>
+        		<span class="subhead-left">Add to Schedule</span>
+    	    	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.document.CommitteeDocument" altText="help"/></span>
+            </h3>      
         
-        <table cellpadding=0 cellspacing=0 summary="">
-              <tr>
-                <th width="30%"><div align="right">Date:</div></th>
-                <td width="70%">
-                		<kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.scheduleStartDate" 
-	                								datePicker="true"	attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" />                		              
-                </span></td>
-              </tr>  
+            <table cellpadding=0 cellspacing=0 summary="">
+                <tr>
+                    <th width="30%"><div align="right">Date:</div></th>
+                    <td width="70%">
+                	     <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.scheduleStartDate" 
+	                	                           datePicker="true" attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" />                		              
+                    </td>
+                </tr>  
 
-              <tr>
-                <th><div align="right"><span class="labelText">Start Time:</span></div></th>
-				<td nobr>
-					<kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.time.time" attributeEntry="${committeeScheduleAttributeReferenceDummy.time}" /> 
+                <tr>
+                    <th><div align="right">Start Time:</div></th>
+				    <td nobr>
+					    <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.time.time" attributeEntry="${committeeScheduleAttributeReferenceDummy.time}" /> 
 					
-					<kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.time.meridiem" attributeEntry="${committeeScheduleAttributeReferenceDummy.meridiem}" /> 		
-				</td>
-              </tr>
-              <tr>
-                <th><div align="right">Place:</div></th>
-                <td>
-                	<kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.place" attributeEntry="${committeeScheduleAttributes.place}" />
-                </td>
-              </tr>
+					    <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.time.meridiem" attributeEntry="${committeeScheduleAttributeReferenceDummy.meridiem}" /> 		
+				    </td>
+                </tr>
+                
+                <tr>
+                    <th><div align="right">Place:</div></th>
+                    <td>
+                	    <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.place" attributeEntry="${committeeScheduleAttributes.place}" />
+                    </td>
+                </tr>
 
-              <tr>
-                <th><div align="right">Recurrence:</div></th>
-                <td><table width="100%" border="0" cellspacing="0" cellpadding="0" class="nobord">
-                    <tr>
-                      <td width="15%" nowrap class="nobord"><span class="labelText">
- 						<html:radio property="committeeScheduleHelper.scheduleData.recurrenceType" value="NEVER" onclick="javascript:repeat_type='calendar_never_table';showTable('calendar_never_table');" styleClass="radio">
- 						Never&nbsp;</html:radio><br>   
-                        <html:radio property="committeeScheduleHelper.scheduleData.recurrenceType" value="DAILY" onclick="javascript:repeat_type='calendar_daily_table';showTable('calendar_daily_table');" styleClass="radio">
-                        Daily&nbsp;</html:radio><br>
-                        <html:radio property="committeeScheduleHelper.scheduleData.recurrenceType" value="WEEKLY" onclick="javascript:repeat_type='calendar_weekly_table';showTable('calendar_weekly_table');" styleClass="radio">
-                        Weekly&nbsp;</html:radio><br>
-                        <html:radio property="committeeScheduleHelper.scheduleData.recurrenceType" value="MONTHLY" onclick="javascript:repeat_type='calendar_weekly_table';showTable('calendar_monthly_table');" styleClass="radio">
-                        Monthly&nbsp;</html:radio><br>
-                        <html:radio property="committeeScheduleHelper.scheduleData.recurrenceType" value="YEARLY" onclick="javascript:repeat_type='calendar_yearly_table';showTable('calendar_yearly_table');" styleClass="radio">
-                        Yearly&nbsp;</html:radio></span>
+                <tr>
+                    <th><div align="right">Recurrence:</div></th>
+                    <td><table width="100%" border="0" cellspacing="0" cellpadding="0" class="nobord">
+                        <tr>
+                            <td width="15%" nowrap class="nobord">
+ 						        <html:radio property="committeeScheduleHelper.scheduleData.recurrenceType" value="NEVER" onclick="javascript:repeat_type='calendar_never_table';showTable('calendar_never_table');" styleClass="radio">
+ 						        Never&nbsp;</html:radio><br>   
+                                <html:radio property="committeeScheduleHelper.scheduleData.recurrenceType" value="DAILY" onclick="javascript:repeat_type='calendar_daily_table';showTable('calendar_daily_table');" styleClass="radio">
+                                Daily&nbsp;</html:radio><br>
+                                <html:radio property="committeeScheduleHelper.scheduleData.recurrenceType" value="WEEKLY" onclick="javascript:repeat_type='calendar_weekly_table';showTable('calendar_weekly_table');" styleClass="radio">
+                                Weekly&nbsp;</html:radio><br>
+                                <html:radio property="committeeScheduleHelper.scheduleData.recurrenceType" value="MONTHLY" onclick="javascript:repeat_type='calendar_weekly_table';showTable('calendar_monthly_table');" styleClass="radio">
+                                Monthly&nbsp;</html:radio><br>
+                                <html:radio property="committeeScheduleHelper.scheduleData.recurrenceType" value="YEARLY" onclick="javascript:repeat_type='calendar_yearly_table';showTable('calendar_yearly_table');" styleClass="radio">
+                                Yearly&nbsp;</html:radio>
                         
-                        <p style="text-align:center;">
-                        <noscript>
-                        	<html:image property="methodToCall.loadRecurrence.anchor${tabKey}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif' styleClass="tinybutton"/>
-                        </noscript>
-                        </p>                        
-                      </td>
+                                <p style="text-align:center;">
+                                    <noscript>
+                        	            <html:image property="methodToCall.loadRecurrence.anchor${tabKey}"
+									                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif' styleClass="tinybutton"/>
+                                    </noscript>
+                                </p>                        
+                            </td>
 
-                      <td class="nobord">
+                            <td class="nobord">
                         
-                        <%-- Never --%>
-                        <div id="calendar_never_table" style="${styleClass['NEVER']}"> Do not repeat this event. </div>
-                        <%-- END Never --%>
+                                <%-- Never --%>
+                                <div id="calendar_never_table" style="${styleClass['NEVER']}"> Do not repeat this event. </div>
+                                <%-- END Never --%>
                         
-                        <%-- Daily --%>
-						<kra-committee:committeeDailySchedule/>
-						<%-- END Daily --%>
+                                <%-- Daily --%>
+				        		<kra-committee:committeeDailySchedule/>
+			    		    	<%-- END Daily --%>
 						
-						<%-- Weekly --%>
-                        <kra-committee:committeeWeeklySchedule/>
-                        <%-- END Weekly --%>
+		    			    	<%-- Weekly --%>
+                                <kra-committee:committeeWeeklySchedule/>
+                                <%-- END Weekly --%>
                         
-                        <%-- Monthly --%>
-                        <kra-committee:committeeMonthlySchedule/>
-                        <%-- End Monthly --%>
-                        
-                        <%-- Yearly --%>
-						<kra-committee:committeeYearlySchedule/>
-                        <%--End Yearly --%>
-                        </td>
-					</tr>
-                  </table>
-                </td>
-              </tr>      		  
-        </table>
+                                <%-- Monthly --%>
+                                <kra-committee:committeeMonthlySchedule/>
+                                <%-- End Monthly --%>
+                            
+                                <%-- Yearly --%>
+        						<kra-committee:committeeYearlySchedule/>
+                                <%--End Yearly --%>
+                            </td>
+				    	</tr>
+                    </table></td>
+                </tr>      		  
+            </table>
 
-	  <p>
-	  	<html:image property="methodToCall.addEvent.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-addevent.gif' styleClass="tinybutton" onclick="clearCommitteeScheduleRecurrenceData();"/>
-	  </p>	
+    	    <p>
+	  	        <html:image property="methodToCall.addEvent.anchor${tabKey}"
+	    					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-addevent.gif' styleClass="tinybutton" onclick="clearCommitteeScheduleRecurrenceData();"/>
+    	    </p>
+        </c:if>
 
 		<%--Schedule Sub Panel Display --%>
 
@@ -130,11 +132,15 @@
 
                         <td valign="middle" class="nobord" style="background-color:none">From<br>
                           <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.filterStartDate" 
-	                								datePicker="true"	attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}"  />
+	                								datePicker="true"
+	                								attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}"
+	                								readOnly="false" />
 	                								
                         <td valign="middle" class="nobord" style="background-color:none">To</span><br>
                           <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.filerEndDate" 
-	                								datePicker="true"	attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}"  />
+	                								datePicker="true"
+	                								attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}"
+	                								readOnly="false" />
 	                								                        
                         <td valign="middle" class="nobord" style="background-color:none">
                         	<html:image property="methodToCall.filterCommitteeScheduleDates.anchor${tabKey}"
