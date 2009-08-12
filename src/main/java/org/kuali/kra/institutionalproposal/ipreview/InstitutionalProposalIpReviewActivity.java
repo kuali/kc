@@ -18,9 +18,12 @@ package org.kuali.kra.institutionalproposal.ipreview;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
-public class InstitutionalProposalIpReviewActivity extends KraPersistableBusinessObjectBase { 
+public class InstitutionalProposalIpReviewActivity extends KraPersistableBusinessObjectBase implements SequenceAssociate { 
     
     private static final long serialVersionUID = 1L;
 
@@ -33,6 +36,7 @@ public class InstitutionalProposalIpReviewActivity extends KraPersistableBusines
     private Date activityDate; 
     private String comments; 
     private IntellectualPropertyReviewActivityType ipReviewActivityType;
+    private IntellectualPropertyReview intellectualPropertyReview;
     
     public InstitutionalProposalIpReviewActivity() { 
 
@@ -108,6 +112,42 @@ public class InstitutionalProposalIpReviewActivity extends KraPersistableBusines
 
     public void setIpReviewActivityType(IntellectualPropertyReviewActivityType ipReviewActivityType) {
         this.ipReviewActivityType = ipReviewActivityType;
+    }
+    
+    public IntellectualPropertyReview getIntellectualPropertyReview() {
+        return intellectualPropertyReview;
+    }
+
+    public void setIntellectualPropertyReview(IntellectualPropertyReview intellectualPropertyReview) {
+        this.intellectualPropertyReview = intellectualPropertyReview;
+        if (intellectualPropertyReview != null) {
+            setSequenceNumber(intellectualPropertyReview.getSequenceNumber());
+            setProposalNumber(intellectualPropertyReview.getProposalNumber());
+        } else {
+            setSequenceNumber(0);
+            setProposalNumber("");
+        }
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     */
+    public SequenceOwner getSequenceOwner() {
+        return getIntellectualPropertyReview();
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     */
+    public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
+        setIntellectualPropertyReview((IntellectualPropertyReview) newlyVersionedOwner);
+    }
+
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.proposalIpReviewActivityId = null;
     }
 
     /** {@inheritDoc} */

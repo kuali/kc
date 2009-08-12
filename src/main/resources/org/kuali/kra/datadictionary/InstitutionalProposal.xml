@@ -108,8 +108,8 @@
     <bean id="InstitutionalProposal-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalNumber" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Institutional Proposal ID" />
-        <property name="shortLabel" value="InstitutionalProposal Number" />
+        <property name="label" value="Proposal Number" />
+        <property name="shortLabel" value="Proposal Number" />
         <property name="maxLength" value="8" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -118,8 +118,8 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="InstitutionalProposal Number" />
-        <property name="description" value="InstitutionalProposal Number" />
+        <property name="summary" value="Institutional Proposal Number" />
+        <property name="description" value="Institutional Proposal Number" />
     </bean>
 
     <bean id="InstitutionalProposal-sponsorProposalNumber" parent="InstitutionalProposal-sponsorProposalNumber-parentBean" />
@@ -272,7 +272,8 @@
     	<property name="control">
       		<bean parent="SelectControlDefinition" 
       			p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NoticeOfOpportunityValuesFinder" 
-      			p:includeKeyInLabel="false"/>
+      			p:includeKeyInLabel="false"
+      			p:includeBlankRow="false" />
     	</property>
         <property name="summary" value="Notice Of Opportunity Code" />
         <property name="description" value="Notice Of Opportunity Code" />
@@ -523,7 +524,13 @@
     <bean id="InstitutionalProposal-mailBy-parentBean" abstract="true" parent="MailBy-mailByCode">
     	<property name="name" value="mailBy"/>
     	<property name="control">
-      		<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailBy" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="mailByCode" p:labelAttribute="description"/>
+      		<bean parent="SelectControlDefinition" 
+      		p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailBy" 
+      		p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
+      		p:includeKeyInLabel="false" 
+      		p:includeBlankRow="false"
+      		p:keyAttribute="mailByCode" 
+      		p:labelAttribute="description"/>
     	</property>
     	<property name="description" value="This field determines whether the Sponsored Programs Office or the department will be mailing the proposal to the agency/sponsor."/>
   	</bean>
@@ -541,7 +548,13 @@
     	</property>
     	<property name="required" value="false"/>
     	<property name="control">
-      		<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailType" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="mailType" p:labelAttribute="description"/>
+      		<bean parent="SelectControlDefinition" 
+      		p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailType" 
+      		p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
+      		p:includeKeyInLabel="false" 
+      		p:includeBlankRow="false"
+      		p:keyAttribute="mailType" 
+      		p:labelAttribute="description"/>
     	</property>
    	 	<property name="summary" value="Mail Type"/>
     	<property name="description" value="The method by which the proposal will be delivered to the agency/sponsor."/>
@@ -639,7 +652,9 @@
       		<bean parent="SelectControlDefinition" 
       			p:businessObjectClass="org.kuali.kra.bo.NsfCode" 
       			p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
-      			p:includeKeyInLabel="false" p:keyAttribute="nsfCode" 
+      			p:includeKeyInLabel="false"
+      			p:includeBlankRow="false" 
+      			p:keyAttribute="nsfCode" 
       			p:labelAttribute="description"/>
     	</property>
         <property name="summary" value="Nsf Code" />
@@ -771,7 +786,9 @@
       		<bean parent="SelectControlDefinition" 
       			p:businessObjectClass="org.kuali.kra.award.home.AwardType" 
       			p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
-      			p:includeKeyInLabel="false" p:keyAttribute="awardTypeCode" 
+      			p:includeKeyInLabel="false" 
+      			p:includeBlankRow="false"
+      			p:keyAttribute="awardTypeCode" 
       			p:labelAttribute="description"/>
     	</property>
         <property name="summary" value="Award Type Code" />
@@ -921,6 +938,7 @@
     <bean id="InstitutionalProposal-lookupDefinition" parent="InstitutionalProposal-lookupDefinition-parentBean" />
     <bean id="InstitutionalProposal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Proposal Lookup" />
+        <property name="lookupableID" value="institutionalProposalLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="instructions" value="Look up a Proposal" />
         <property name="defaultSort" >
@@ -930,135 +948,45 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="proposalId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
                     p:attributeName="proposalNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sponsorProposalNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
+                <bean parent="FieldDefinition" 
                     p:attributeName="proposalTypeCode" />
-                <bean parent="FieldDefinition"
+                <bean parent="FieldDefinition" 
+                    p:attributeName="statusCode" />
+                <bean parent="FieldDefinition" 
                     p:attributeName="currentAccountNumber" />
                 <bean parent="FieldDefinition"
                     p:attributeName="title" />
-                <bean parent="FieldDefinition"
+                <!-- Department Number -->
+                <!-- Unit Name -->
+                <!-- Investigator -->
+                <bean parent="FieldDefinition" 
                     p:attributeName="sponsorCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="rolodexId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="noticeOfOpportunityCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="gradStudHeadcount" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="gradStudPersonMonths" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="typeOfAccount" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="activityTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="requestedStartDateInitial" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="requestedStartDateTotal" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="requestedEndDateInitial" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="requestedEndDateTotal" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="totalDirectCostInitial" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="totalDirectCostTotal" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="totalIndirectCostInitial" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="totalIndirectCostTotal" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="numberOfCopies" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="deadlineDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="deadlineType" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="mailBy" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="mailType" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="mailAccountNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="subcontractFlag" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="costSharingIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="idcRateIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="specialReviewIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="statusCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="scienceCodeIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="nsfCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="primeSponsorCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="initialContractAdmin" />
-                    <!--
-                <bean parent="FieldDefinition"
-                    p:attributeName="ipReviewReqTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="reviewSubmissionDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="reviewReceiveDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="reviewResultCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="ipReviewer" />
-                    -->
-                <bean parent="FieldDefinition"
-                    p:attributeName="ipReviewActivityIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="currentAwardNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="cfdaNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="opportunity" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="awardTypeCode" />
+                <!-- Sponsor Name -->
             </list>
         </property>
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="proposalId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
                     p:attributeName="proposalNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sponsorProposalNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
+                <bean parent="FieldDefinition" p:forceInquiry="true"
                     p:attributeName="proposalTypeCode" />
-                <bean parent="FieldDefinition"
+                <bean parent="FieldDefinition" p:forceInquiry="true"
+                    p:attributeName="activityTypeCode" />
+                <bean parent="FieldDefinition" p:forceInquiry="true"
+                    p:attributeName="statusCode" />
+                <!-- Lead Unit -->
+                <!-- Lead Unit Name -->
+                <bean parent="FieldDefinition" p:forceInquiry="true"
                     p:attributeName="currentAccountNumber" />
                 <bean parent="FieldDefinition"
                     p:attributeName="title" />
-                <bean parent="FieldDefinition"
+                <bean parent="FieldDefinition" p:forceInquiry="true"
                     p:attributeName="sponsorCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="rolodexId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="noticeOfOpportunityCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="gradStudHeadcount" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="gradStudPersonMonths" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="typeOfAccount" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="activityTypeCode" />
+                <!-- Sponsor Name -->
+                <bean parent="FieldDefinition" p:forceInquiry="true"
+                    p:attributeName="primeSponsorCode" />
+                <!-- PI -->
                 <bean parent="FieldDefinition"
                     p:attributeName="requestedStartDateInitial" />
                 <bean parent="FieldDefinition"
@@ -1067,7 +995,7 @@
                     p:attributeName="requestedEndDateInitial" />
                 <bean parent="FieldDefinition"
                     p:attributeName="requestedEndDateTotal" />
-                <bean parent="FieldDefinition"
+                    <bean parent="FieldDefinition"
                     p:attributeName="totalDirectCostInitial" />
                 <bean parent="FieldDefinition"
                     p:attributeName="totalDirectCostTotal" />
@@ -1075,58 +1003,6 @@
                     p:attributeName="totalIndirectCostInitial" />
                 <bean parent="FieldDefinition"
                     p:attributeName="totalIndirectCostTotal" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="numberOfCopies" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="deadlineDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="deadlineType" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="mailBy" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="mailType" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="mailAccountNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="subcontractFlag" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="costSharingIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="idcRateIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="specialReviewIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="statusCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="scienceCodeIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="nsfCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="primeSponsorCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="initialContractAdmin" />
-                    <!--
-                <bean parent="FieldDefinition"
-                    p:attributeName="ipReviewReqTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="reviewSubmissionDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="reviewReceiveDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="reviewResultCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="ipReviewer" />
-                    -->
-                <bean parent="FieldDefinition"
-                    p:attributeName="ipReviewActivityIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="currentAwardNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="cfdaNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="opportunity" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="awardTypeCode" />
             </list>
         </property>
     </bean>
