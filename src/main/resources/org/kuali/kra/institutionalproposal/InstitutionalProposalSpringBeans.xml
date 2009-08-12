@@ -40,4 +40,15 @@
 		    <ref bean="businessObjectService" />
 		</property>
 	</bean>
+	
+	<bean id="institutionalProposalLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="institutionalProposalLookupableHelperService" />
+        </property>
+    </bean> 
+
+    <bean id="institutionalProposalLookupableHelperService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalLookupableHelperServiceImpl" 
+        scope="prototype" parent="lookupableHelperService">
+    </bean>
+    
 </beans>
