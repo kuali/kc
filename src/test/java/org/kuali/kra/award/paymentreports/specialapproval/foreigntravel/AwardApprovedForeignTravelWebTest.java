@@ -235,7 +235,7 @@ public class AwardApprovedForeignTravelWebTest extends AwardPaymentsAndTermsWebT
     
     private void checkAddingApprovedForeignTravel_CausesRequiredError(String errorContext) throws Exception {
         assertContains(paymentReportsAndTermsPage, ERRORS_FOUND_ON_PAGE);
-        assertContains(paymentReportsAndTermsPage, String.format(INVALID_FIELD_MSG, errorContext));
+        assertContains(paymentReportsAndTermsPage, String.format(DD_REQUIRED_FIELD_MSG, errorContext, errorContext));
     }
     
     private void checkEditApprovedForeignTravel_CausesRequiredError(String fieldLabel, String fieldName, String errorMessageContext) throws IOException {
