@@ -19,6 +19,6 @@ import java.util.Map;
 
 public interface TimeAndMoneyHistoryService {
     
-    Map<Object, Object>  getAwardDocumentNumbers(String awardNumber);
+    void  getTimeAndMoneyHistory(String awardNumber, Map<Object, Object> timeAndMoneyHistory);
 
 }
