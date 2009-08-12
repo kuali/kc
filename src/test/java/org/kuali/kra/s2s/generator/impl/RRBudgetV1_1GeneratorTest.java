@@ -113,7 +113,7 @@ public class RRBudgetV1_1GeneratorTest extends S2STestBase<RRBudgetV1_1Generator
         List<ProposalPerson> proposalPersonList = new ArrayList<ProposalPerson>();
         proposalPersonList.add(proposalPerson);
 
-        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrganization(organization);
         document.setUpdateUser("quickstart");
         document.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
         document.getDevelopmentProposal().setProposalPersons(proposalPersonList);

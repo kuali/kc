@@ -114,7 +114,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         if (count < 1) {
             // Proposal has not been submitted
 
-            Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
+            Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
             Rolodex rolodex = organization==null?null:organization.getRolodex();
             if (rolodex != null) {
                 depPerson.setFirstName(rolodex.getFirstName());

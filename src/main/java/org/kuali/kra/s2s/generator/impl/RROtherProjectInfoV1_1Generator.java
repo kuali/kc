@@ -64,7 +64,7 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
         RROtherProjectInfoDocument rrOtherProjectInfoDocument = RROtherProjectInfoDocument.Factory.newInstance();
         RROtherProjectInfoDocument.RROtherProjectInfo rrOtherProjectInfo = RROtherProjectInfoDocument.RROtherProjectInfo.Factory
                 .newInstance();
-        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         rrOtherProjectInfo.setFormVersion(S2SConstants.FORMVERSION_1_1);
 
         rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.N_NO);

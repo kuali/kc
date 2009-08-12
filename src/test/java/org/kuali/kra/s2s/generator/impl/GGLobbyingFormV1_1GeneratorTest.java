@@ -42,6 +42,6 @@ public class GGLobbyingFormV1_1GeneratorTest extends S2STestBase<GGLobbyingFormV
         rolodex.setTitle("Project Title");
         rolodex.setRolodexId(1234);
         organization.setRolodex(rolodex);
-        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrganization(organization);
     }
 }

@@ -61,8 +61,8 @@ public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator 
         CertificationDebarment certificationDebarment = CertificationDebarment.Factory.newInstance();
         certificationDebarment.setFormVersion(S2SConstants.FORMVERSION_1_1);
         Organization organization = null;
-        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
-            organization = pdDoc.getDevelopmentProposal().getOrganization();
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
+            organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         }
         if (organization != null && organization.getOrganizationName() != null) {
             if (organization.getOrganizationName().length() > 60) {

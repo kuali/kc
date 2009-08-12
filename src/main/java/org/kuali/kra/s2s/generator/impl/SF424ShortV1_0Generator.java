@@ -139,12 +139,12 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
             }
         }
 
-        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         if (organization.getOrganizationName() != null) {
             sf424Short.setOrganizationName(organization.getOrganizationName());
         }
 
-        Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
+        Rolodex rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
         if (rolodex != null) {
             sf424Short.setAddress(globLibV20Generator.getAddressDataType(rolodex));
         }
@@ -263,7 +263,7 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
         int count = -1;
         OrganizationTypeList orgList;
         while (orgTypeIterator.hasNext()) {
-            for (OrganizationType orgType : pdDoc.getDevelopmentProposal().getOrganization().getOrganizationTypes()) {
+            for (OrganizationType orgType : pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationTypes()) {
                 orgList = orgTypeIterator.next();
                 count++;
                 if (count == index) {

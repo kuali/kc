@@ -23,6 +23,8 @@ import java.io.Serializable;
  */
 public class ParticipantsHelper implements Serializable {
     
+    private static final long serialVersionUID = 2276161861254166963L;
+    
     private ProtocolParticipant newProtocolParticipant;
     
     public void prepareView() {

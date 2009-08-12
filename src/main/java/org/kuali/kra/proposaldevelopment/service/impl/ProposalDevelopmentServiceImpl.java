@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import static java.util.Collections.sort;
 import static org.kuali.kra.logging.BufferedLogger.debug;
 
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.bo.ExemptionType;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
@@ -41,21 +39,15 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
-import org.kuali.kra.lookup.keyvalue.KeyLabelPairComparator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
-import org.kuali.kra.proposaldevelopment.bo.ProposalExemptNumber;
-import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
 import org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.service.UnitAuthorizationService;
-import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -71,8 +63,6 @@ import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
@@ -90,7 +80,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * @param proposalOrganization
      */
     public void initializeUnitOrganzationLocation(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        Organization proposalOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getOrganization();
+        Organization proposalOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getApplicantOrganization().getOrganization();
 
         // Unit number chosen, set Organzation, etc...
         if (proposalDevelopmentDocument.getDevelopmentProposal().getOwnedByUnitNumber() != null && proposalOrganization == null) {
@@ -98,36 +88,42 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("ownedByUnit");
             String organizationId = proposalDevelopmentDocument.getDevelopmentProposal().getOwnedByUnit().getOrganizationId();
 
-            // get Organzation assoc. w/ Lead Unit
-            proposalDevelopmentDocument.getDevelopmentProposal().setOrganizationId(organizationId);
-            proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("organization");
-            proposalOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getOrganization();
-            proposalDevelopmentDocument.getDevelopmentProposal().setPerformingOrganizationId(organizationId);
-            proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("performingOrganization");
+            // get Organzation assoc. w/ Lead Unit, set applicant org and performing org
+            ProposalSite applicantOrganization = createProposalSite(organizationId, getNextSiteNumber(proposalDevelopmentDocument));
+            proposalDevelopmentDocument.getDevelopmentProposal().setApplicantOrganization(applicantOrganization);
 
-            // initialize Proposal Locations with Organization details
-            if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalLocations().isEmpty()) {
-                ProposalLocation newProposalLocation = new ProposalLocation();
-                newProposalLocation.setLocation(proposalOrganization.getOrganizationName());
-                newProposalLocation.setRolodexId(proposalOrganization.getContactAddressId());
-                newProposalLocation.refreshReferenceObject("rolodex");
-                newProposalLocation.setLocationSequenceNumber(proposalDevelopmentDocument
-                        .getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
-                proposalDevelopmentDocument.getDevelopmentProposal().getProposalLocations().add(0, newProposalLocation);
-            }
-
+            ProposalSite performingOrganization = createProposalSite(organizationId, getNextSiteNumber(proposalDevelopmentDocument));
+            proposalDevelopmentDocument.getDevelopmentProposal().setPerformingOrganization(performingOrganization);
         }
     }
 
+    /**
+     * Constructs a ProposalSite; initializes the organization, locationName, and siteNumber fields.
+     * @param organizationId
+     */
+    private ProposalSite createProposalSite(String organizationId, int siteNumber) {
+        ProposalSite proposalSite = new ProposalSite();
+        proposalSite.setOrganizationId(organizationId);
+        proposalSite.refreshReferenceObject("organization");
+        proposalSite.setLocationName(proposalSite.getOrganization().getOrganizationName());
+        proposalSite.setSiteNumber(siteNumber);
+        return proposalSite;
+    }
+    
+    private int getNextSiteNumber(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        return proposalDevelopmentDocument.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER);
+    }
+    
+    @SuppressWarnings("unchecked")
     public List<Unit> getDefaultModifyProposalUnitsForUser(String userName) {
-        Map queryMap = new HashMap();
+        Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put("userName", userName);
 
 
         List<Person> persons = (List<Person>) getBusinessObjectService().findMatching(Person.class, queryMap);
 
         if (persons.size() > 1) {
-            throw new RuntimeException("More than one person retieved for userName: " + userName);
+            throw new RuntimeException("More than one person retrieved for userName: " + userName);
         }
 
         Person person = persons.get(0);
@@ -145,7 +141,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         Collection<Unit> retval = new ArrayList<Unit>();
 
         for (String unitNumber : unitNumbers) {
-            Map query_map = new HashMap();
+            Map<String, String> query_map = new HashMap<String, String>();
             query_map.put("unitNumber", unitNumber);
             retval.add((Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, query_map));
         }

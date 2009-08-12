@@ -95,9 +95,9 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
         RRBudgetDocument rrBudgetDocument = RRBudgetDocument.Factory.newInstance();
         RRBudget rrBudget = RRBudget.Factory.newInstance();
         rrBudget.setFormVersion(S2SConstants.FORMVERSION_1_1);
-        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
-            rrBudget.setDUNSID(pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber());
-            rrBudget.setOrganizationName(pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName());
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
+            rrBudget.setDUNSID(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getDunsNumber());
+            rrBudget.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
         }
         rrBudget.setBudgetType(BudgetTypeDataType.PROJECT);
         // Set default values for mandatory fields

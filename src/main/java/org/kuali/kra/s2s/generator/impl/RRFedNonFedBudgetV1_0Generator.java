@@ -92,11 +92,11 @@ public class RRFedNonFedBudgetV1_0Generator extends RRFedNonFedBudgetBaseGenerat
         RRFedNonFedBudgetDocument.RRFedNonFedBudget fedNonFedBudget = RRFedNonFedBudgetDocument.RRFedNonFedBudget.Factory
                 .newInstance();
         fedNonFedBudget.setFormVersion(S2SConstants.FORMVERSION_1_0);
-        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
-            fedNonFedBudget.setDUNSID(pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber());
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
+            fedNonFedBudget.setDUNSID(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getDunsNumber());
         }
-        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
-            fedNonFedBudget.setOrganizationName(pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName());
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
+            fedNonFedBudget.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
         }
         fedNonFedBudget.setBudgetType(BudgetTypeDataType.PROJECT);
         // Set default values for mandatory fields

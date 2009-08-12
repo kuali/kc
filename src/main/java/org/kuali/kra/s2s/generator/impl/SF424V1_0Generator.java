@@ -138,9 +138,9 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
         if (pdDoc.getDevelopmentProposal().getSponsor() != null) {
             grantApplicationType.setAgencyName(pdDoc.getDevelopmentProposal().getSponsor().getSponsorName());
         }
-        Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
+        Rolodex rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
         if (rolodex != null) {
-            grantApplicationType.setStateID(pdDoc.getDevelopmentProposal().getOrganization().getRolodex().getState());
+            grantApplicationType.setStateID(pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex().getState());
         }
         grantApplicationType.setFederalID(s2sUtilService.getFederalId(pdDoc));
         grantApplicationType.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
@@ -344,15 +344,15 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 
         Project project = Project.Factory.newInstance();
         project.setProjectTitle(pdDoc.getDevelopmentProposal().getTitle());
-        Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
+        Rolodex rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
         if (rolodex != null) {
-            project.setLocation(pdDoc.getDevelopmentProposal().getOrganization().getRolodex().getState());
+            project.setLocation(pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex().getState());
         }
         project.setProposedStartDate(s2sUtilService.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedStartDateInitial()));
         project.setProposedEndDate(s2sUtilService.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedEndDateInitial()));
 
         if (pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
-            project.setCongressionalDistrict(pdDoc.getDevelopmentProposal().getPerformingOrganization().getCongressionalDistrict());
+            project.setCongressionalDistrict(pdDoc.getDevelopmentProposal().getPerformingOrganization().getFirstCongressionalDistrictName());
         }
         else {
             project.setCongressionalDistrict("");
@@ -371,11 +371,11 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
      */
     private SubmittingOrganization getSubmittingOrganization() {
         SubmittingOrganization submittingOrganization = SubmittingOrganization.Factory.newInstance();
-        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
-            submittingOrganization.setCongressionalDistrict(pdDoc.getDevelopmentProposal().getOrganization().getCongressionalDistrict());
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
+            submittingOrganization.setCongressionalDistrict(pdDoc.getDevelopmentProposal().getApplicantOrganization().getFirstCongressionalDistrictName());
         }
         YesNoType.Enum yesNo = YesNoType.N;
-        for (OrganizationYnq orgYnq : pdDoc.getDevelopmentProposal().getOrganization().getOrganizationYnqs()) {
+        for (OrganizationYnq orgYnq : pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationYnqs()) {
             if (PROPOSAL_YNQ_FEDERAL_DEBTS.equals(orgYnq.getQuestionId())) {
                 if (orgYnq.getAnswer() != null) {
                     yesNo = YesNoType.Enum.forString(orgYnq.getAnswer());
@@ -384,11 +384,11 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
         }
         submittingOrganization.setDelinquentFederalDebtIndicator(yesNo);
         Organization organization = Organization.Factory.newInstance();
-        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
-            organization.setOrganizationName(pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName());
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
+            organization.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
         }
-        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
-            organization.setDUNSID(pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber());
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
+            organization.setDUNSID(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getDunsNumber());
         }
         String departmentName = "";
         if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
@@ -404,8 +404,8 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
         if (divisionName != null) {
             organization.setDivisionName(divisionName);
         }
-        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
-            organization.setEmployerID(pdDoc.getDevelopmentProposal().getOrganization().getFedralEmployerId());
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
+            organization.setEmployerID(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getFedralEmployerId());
         }
         OrganizationIdentifyingInformation orgIdentifyingInformation = OrganizationIdentifyingInformation.Factory.newInstance();
         orgIdentifyingInformation.setApplicantID(pdDoc.getDevelopmentProposal().getProposalNumber());
@@ -447,9 +447,9 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 
         ApplicantTypeCodeType.Enum applicantTypeCode = null;
         int orgTypeCode = 0;
-        if (pdDoc.getDevelopmentProposal().getOrganization() != null && pdDoc.getDevelopmentProposal().getOrganization().getOrganizationTypes() != null
-                && pdDoc.getDevelopmentProposal().getOrganization().getOrganizationTypes().size() > 0) {
-            orgTypeCode = pdDoc.getDevelopmentProposal().getOrganization().getOrganizationType(0).getOrganizationTypeCode().intValue();
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null && pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationTypes() != null
+                && pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationTypes().size() > 0) {
+            orgTypeCode = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationType(0).getOrganizationTypeCode().intValue();
         }
         switch (orgTypeCode) {
             case 1: {

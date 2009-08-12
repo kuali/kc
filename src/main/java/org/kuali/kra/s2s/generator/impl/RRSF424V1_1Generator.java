@@ -56,6 +56,7 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -94,7 +95,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         }
 
         rrsf424.setSubmittedDate(s2sUtilService.getCurrentCalendar());
-        Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
+        Rolodex rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
         if (rolodex != null) {
             rrsf424.setStateID(rolodex.getState());
         }
@@ -106,9 +107,9 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         rrsf424.setApplicantInfo(getApplicationInfo());
         rrsf424.setApplicantType(getApplicantType());
         rrsf424.setApplicationType(getApplicationType());
-        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
-        if (organization != null) {
-            rrsf424.setEmployerID(organization.getFedralEmployerId());
+        ProposalSite applicantOrganization = pdDoc.getDevelopmentProposal().getApplicantOrganization();
+        if (applicantOrganization != null) {
+            rrsf424.setEmployerID(applicantOrganization.getOrganization().getFedralEmployerId());
         }
         Sponsor sponsor = pdDoc.getDevelopmentProposal().getSponsor();
         if (sponsor != null) {
@@ -228,8 +229,8 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 
         if (contactType.equals(CONTACT_TYPE_I)) {
             // use organization rolodex contact
-            if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
-                appInfo.setContactPersonInfo(getContactInfo(pdDoc.getDevelopmentProposal().getOrganization().getRolodex()));
+            if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
+                appInfo.setContactPersonInfo(getContactInfo(pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex()));
             }
         }
         else {
@@ -249,10 +250,10 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
             appInfo.setContactPersonInfo(contactInfo);
         }
         OrganizationDataType orgType = OrganizationDataType.Factory.newInstance();
-        Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
+        Rolodex rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
         orgType.setAddress(globLibV20Generator.getAddressDataType(rolodex));
 
-        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         if (organization != null) {
             orgType.setOrganizationName(organization.getOrganizationName());
             orgType.setDUNSID(organization.getDunsNumber());
@@ -438,17 +439,17 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
      * @return CongressionalDistrict congressional district for the Applicant and Project.
      */
     private RRSF424.CongressionalDistrict getCongDistrict() {
-        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
-        Organization performOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization();
+        ProposalSite applicantOrganization = pdDoc.getDevelopmentProposal().getApplicantOrganization();
+        ProposalSite performOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization();
         RRSF424.CongressionalDistrict congressionalDistrict = RRSF424.CongressionalDistrict.Factory.newInstance();
-        if (organization != null) {
-            congressionalDistrict.setApplicantCongressionalDistrict(organization.getCongressionalDistrict());
+        if (applicantOrganization != null) {
+            congressionalDistrict.setApplicantCongressionalDistrict(applicantOrganization.getFirstCongressionalDistrictName());
         }
         else {
             congressionalDistrict.setApplicantCongressionalDistrict("");
         }
         if (performOrganization != null) {
-            congressionalDistrict.setProjectCongressionalDistrict(performOrganization.getCongressionalDistrict());
+            congressionalDistrict.setProjectCongressionalDistrict(performOrganization.getFirstCongressionalDistrictName());
         }
         else {
             congressionalDistrict.setProjectCongressionalDistrict("");
@@ -469,7 +470,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (PRINCIPAL_INVESTIGATOR.equals(proposalPerson.getProposalPersonRoleId())) {
                 PI = proposalPerson;
-                Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
+                ProposalSite applicantOrganization = pdDoc.getDevelopmentProposal().getApplicantOrganization();
                 PDPI.setName(globLibV20Generator.getHumanNameDataType(PI));
                 PDPI.setPhone(PI.getOfficePhone());
                 PDPI.setEmail(PI.getEmailAddress());
@@ -506,8 +507,8 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
                 if (divisionName != null) {
                     PDPI.setDivisionName(divisionName);
                 }
-                if (organization != null) {
-                    PDPI.setOrganizationName(organization.getOrganizationName());
+                if (applicantOrganization != null) {
+                    PDPI.setOrganizationName(applicantOrganization.getLocationName());
                 }
             }
         }
@@ -521,7 +522,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
      * @return aorInfoType(AORInfoType) Authorized representative information.
      */
     private AORInfoType getAORInfoType() {
-        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
+        ProposalSite applicantOrganization = pdDoc.getDevelopmentProposal().getApplicantOrganization();
         AORInfoType aorInfoType = AORInfoType.Factory.newInstance();
         if (departmentalPerson != null) {
             aorInfoType.setName(globLibV20Generator.getHumanNameDataType(departmentalPerson));
@@ -563,8 +564,8 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
             }
 
         }
-        if (organization != null) {
-            aorInfoType.setOrganizationName(organization.getOrganizationName());
+        if (applicantOrganization != null) {
+            aorInfoType.setOrganizationName(applicantOrganization.getLocationName());
         }
 
 
@@ -585,9 +586,9 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         IsWomenOwned isWomenOwned = IsWomenOwned.Factory.newInstance();
         boolean smallBusflag = false;
         int orgTypeCode = 0;
-        if (pdDoc.getDevelopmentProposal().getOrganization() != null && pdDoc.getDevelopmentProposal().getOrganization().getOrganizationTypes() != null
-                && pdDoc.getDevelopmentProposal().getOrganization().getOrganizationTypes().size() > 0) {
-            orgTypeCode = pdDoc.getDevelopmentProposal().getOrganization().getOrganizationTypes().get(0).getOrganizationTypeCode();
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null && pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationTypes() != null
+                && pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationTypes().size() > 0) {
+            orgTypeCode = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationTypes().get(0).getOrganizationTypeCode();
         }
         ApplicantTypeCodeDataType.Enum applicantTypeCode = null;
         switch (orgTypeCode) {

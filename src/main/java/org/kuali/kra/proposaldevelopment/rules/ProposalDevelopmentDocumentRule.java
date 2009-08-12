@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -38,15 +37,17 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AbstractsRule;
+import org.kuali.kra.proposaldevelopment.rule.AddCongressionalDistrictRule;
 import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
 import org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentRule;
-import org.kuali.kra.proposaldevelopment.rule.AddProposalLocationRule;
+import org.kuali.kra.proposaldevelopment.rule.AddProposalSiteRule;
 import org.kuali.kra.proposaldevelopment.rule.AddProposalSpecialReviewRule;
 import org.kuali.kra.proposaldevelopment.rule.CalculateCreditSplitRule;
 import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.CopyProposalRule;
+import org.kuali.kra.proposaldevelopment.rule.DeleteCongressionalDistrictRule;
 import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
 import org.kuali.kra.proposaldevelopment.rule.PermissionsRule;
 import org.kuali.kra.proposaldevelopment.rule.ProposalDataOverrideRule;
@@ -55,9 +56,12 @@ import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.AddProposalLocationEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.AddProposalCongressionalDistrictEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalCongressionalDistrictEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
@@ -83,7 +87,7 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
  * @see org.kuali.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalLocationRule,AddProposalSpecialReviewRule , AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, PermissionsRule, CustomAttributeRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule  {
+public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalSiteRule,AddProposalSpecialReviewRule , AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, CustomAttributeRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule  {
     
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -152,6 +156,18 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             i++;
         }
         return valid;
+    }
+
+    public boolean processDeleteProposalSiteRules(DeleteProposalSiteEvent deleteProposalSiteEvent) {
+        return new ProposalSiteRule().processDeleteProposalSiteRules(deleteProposalSiteEvent);
+    }
+    
+    public boolean processAddCongressionalDistrictRules(AddProposalCongressionalDistrictEvent addCongressionalDistrictEvent) {
+        return new ProposalDevelopmentCongressionalDistrictRule().processAddCongressionalDistrictRules(addCongressionalDistrictEvent);
+    }
+
+    public boolean processDeleteCongressionalDistrictRules(DeleteProposalCongressionalDistrictEvent deleteCongressionalDistrictEvent) {
+        return new ProposalDevelopmentCongressionalDistrictRule().processDeleteCongressionalDistrictRules(deleteCongressionalDistrictEvent);
     }
 
     /**
@@ -360,10 +376,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     private boolean processOrganizationLocationBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
 
-        if (proposalDevelopmentDocument.getDevelopmentProposal().getOrganizationId() != null
-                && (proposalDevelopmentDocument.getDevelopmentProposal().getProposalLocations().size() == 0 || (proposalDevelopmentDocument
-                        .getDevelopmentProposal().getProposalLocations().size() == 1 && ((proposalDevelopmentDocument.getDevelopmentProposal()
-                        .getProposalLocations().get(0))).getLocationSequenceNumber() == null))) {
+        DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
+        if (developmentProposal.getApplicantOrganization() != null && (developmentProposal.getProposalSites().size() == 0 ||
+                (proposalDevelopmentDocument.getDevelopmentProposal().getProposalSites().size() == 1 &&
+                        developmentProposal.getProposalSites().get(0).getSiteNumber() == 0))) {
             GlobalVariables.getErrorMap().removeFromErrorPath("document");
             reportError("newPropLocation.location", KeyConstants.ERROR_REQUIRED_FOR_PROPLOCATION);
             GlobalVariables.getErrorMap().addToErrorPath("document");
@@ -538,10 +554,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
     /**
      * 
-     * @see org.kuali.kra.proposaldevelopment.rule.AddProposalLocationRule#processAddProposalLocationBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddProposalLocationEvent)
+     * @see org.kuali.kra.proposaldevelopment.rule.AddProposalSiteRule#processAddProposalSiteBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent)
      */
-    public boolean processAddProposalLocationBusinessRules(AddProposalLocationEvent addProposalLocationEvent) {
-        return new ProposalDevelopmentProposalLocationRule().processAddProposalLocationBusinessRules(addProposalLocationEvent);    
+    public boolean processAddProposalSiteBusinessRules(AddProposalSiteEvent addProposalLocationEvent) {
+        return new ProposalDevelopmentProposalLocationRule().processAddProposalSiteBusinessRules(addProposalLocationEvent);    
     }
 
     /**
