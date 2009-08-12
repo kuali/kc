@@ -125,7 +125,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument implements
         transInfo.setDocumentInitiator(initiatior);
         KraDocumentXMLMaterializer xmlWrapper = new KraDocumentXMLMaterializer();
         // KualiDocumentXmlMaterializer xmlWrapper = new KualiDocumentXmlMaterializer();
-        // xmlWrapper.setDocument(getDocumentRepresentationForSerialization());
+        xmlWrapper.setDocument(this);
         xmlWrapper.setKualiTransactionalDocumentInformation(transInfo);
         xmlWrapper.setRolepersons(proposalauthservice.getAllRolePersons(this));
         return xmlWrapper;
