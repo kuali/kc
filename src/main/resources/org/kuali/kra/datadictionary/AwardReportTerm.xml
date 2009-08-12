@@ -208,7 +208,7 @@
 		<property name="shortLabel" value="Due Date" />
 		<property name="summary" value="Due Date" />
 		<property name="description" value="Due Date" />
-		<property name="required" value="true" />
+		<property name="required" value="false" />
 	</bean>
 
 	<bean id="AwardReportTerm-numberOfCopies" parent="AwardReportTerm-numberOfCopies-parentBean" />
