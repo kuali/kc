@@ -138,7 +138,7 @@ public class SF424V2_0GeneratorTest extends S2STestBase<SF424V2_0Generator> {
         document.getDevelopmentProposal().setRolodex(rolodex);
         document.getDevelopmentProposal().setOwnedByUnit(unit);
         document.getDevelopmentProposal().getOwnedByUnit().setParentUnit(unit2);
-        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrganization(organization);
         document.getDevelopmentProposal().setSponsor(sponsor);
         document.getDevelopmentProposal().setProposalTypeCode("1");
         document.getDevelopmentProposal().setCfdaNumber("0125");

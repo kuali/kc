@@ -179,7 +179,7 @@ public class SFLLLV1_0Generator extends SFLLLBaseGenerator {
         reportEntity.setReportEntityIsPrime(YesNoDataType.YES);
         Prime prime = Prime.Factory.newInstance();
         Organization organization = null;
-        organization = pdDoc.getDevelopmentProposal().getOrganization();
+        organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
 
         if (organization != null) {
             if (organization.getOrganizationName() != null) {
@@ -202,7 +202,7 @@ public class SFLLLV1_0Generator extends SFLLLBaseGenerator {
         }
         prime.setReportEntityType(ReportEntityDataType.PRIME);
         Rolodex rolodex = null;
-        rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
+        rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
         prime.setAddress(globLibV10Generator.getAddressDataType(rolodex));
         reportEntity.setPrime(prime);
         return reportEntity;

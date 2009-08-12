@@ -94,7 +94,7 @@ public class RRSF424V1_1GeneratorTest extends S2STestBase<RRSF424V1_1Generator> 
         organization.setCongressionalDistrict("Alaska");
         organization.setOrganizationTypes(organizationTypes);
         organization.setRolodex(rolodex);
-        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrganization(organization);
         document.getDevelopmentProposal().setPerformingOrganization(organization);
         document.getDevelopmentProposal().setRolodex(rolodex);
 

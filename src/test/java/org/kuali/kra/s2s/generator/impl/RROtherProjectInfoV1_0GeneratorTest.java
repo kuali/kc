@@ -70,8 +70,8 @@ public class RROtherProjectInfoV1_0GeneratorTest extends S2STestBase<RROtherProj
         List<ProposalSpecialReview> speList = new ArrayList<ProposalSpecialReview>();
         speList.add(specialReview);
         speList.add(specialReview1);
-        document.getDevelopmentProposal().setOrganization(organization);
-        document.getDevelopmentProposal().setOrganization(organization1);
+        document.getDevelopmentProposal().setApplicantOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrganization(organization1);
         document.getDevelopmentProposal().setPropSpecialReviews(speList);
 
         ProposalYnq proposalYnq = new ProposalYnq();

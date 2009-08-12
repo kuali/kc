@@ -62,10 +62,6 @@ import org.kuali.rice.kns.util.TypedArrayList;
  */
 public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements BudgetVersionCollection, HierarchyChildComparable {
 
-
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
     private static final long serialVersionUID = -9211313487776934111L;
 
     private String proposalNumber;
@@ -98,12 +94,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private String numberOfCopies;
     private String proposalStateTypeCode;
     private ProposalState proposalState;
-    private String organizationId;
-    private String performingOrganizationId;
-    private List<ProposalLocation> proposalLocations;
-    private Organization organization;
-    // TODO: just for organization panel. not a real reference
-    private Organization performingOrganization;
+    private List<ProposalSite> proposalSites;
     // TODO: just for delivery panel. not a real reference
     private Rolodex rolodex;
     private List<ProposalSpecialReview> propSpecialReviews;
@@ -145,16 +136,15 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     private Boolean submitFlag = Boolean.FALSE;
 
-
     private ProposalDevelopmentDocument proposalDocument;
 
 
+    @SuppressWarnings("unchecked")
     public DevelopmentProposal() {
         super();
         setProposalStateTypeCode(ProposalState.IN_PROGRESS);
         propScienceKeywords = new TypedArrayList(PropScienceKeyword.class);
         newDescription = getDefaultNewDescription();
-        proposalLocations = new ArrayList<ProposalLocation>();
         propSpecialReviews = new TypedArrayList(ProposalSpecialReview.class);
         proposalPersons = new ArrayList<ProposalPerson>();
         nextProposalPersonNumber = Integer.valueOf(1);
@@ -170,8 +160,15 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         s2sSubmissionHistory = new ArrayList<S2sSubmissionHistory>();
         proposalChangedDataList = new TypedArrayList(ProposalChangedData.class);
         proposalChangeHistory = new TreeMap<String, List<ProposalChangedData>>();
+        initProposalSites();
     }
 
+    private void initProposalSites() {
+        proposalSites = new ArrayList<ProposalSite>();
+        setApplicantOrganization(new ProposalSite());
+        setPerformingOrganization(new ProposalSite());
+    }
+    
     public void initializeOwnedByUnitNumber() {
         ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
         List<Unit> userUnits = proposalDevelopmentService.getDefaultModifyProposalUnitsForUser(GlobalVariables.getUserSession()
@@ -574,50 +571,188 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.numberOfCopies = numberOfCopies;
     }
 
-    public String getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
-    }
-
-    public String getPerformingOrganizationId() {
-        return performingOrganizationId;
+    public void setApplicantOrganizationId(String applicantOrganizationId) {
+        ProposalSite applicantOrganization = getApplicantOrganization();
+        applicantOrganization.setOrganizationId(applicantOrganizationId);
+        setApplicantOrganization(applicantOrganization);
     }
 
     public void setPerformingOrganizationId(String performingOrganizationId) {
-        // TODO : not sure yet
-        if ((performingOrganizationId == null || performingOrganizationId.trim().equals("")) && organizationId != null) {
-            this.performingOrganizationId = organizationId;
+        ProposalSite performingOrganization = getPerformingOrganization();
+        performingOrganization.setOrganizationId(performingOrganizationId);
+        setPerformingOrganization(performingOrganization);
+    }
+
+    public void setApplicantOrganization(ProposalSite applicantOrganization) {
+        setProposalSiteForType(applicantOrganization, ProposalSite.PROPOSAL_SITE_APPLICANT_ORGANIZATION);
+    }
+
+    /**
+     * This method sets the Applicant Organization based on a Organization object.
+     * @param organization
+     */
+    public void setApplicantOrganization(Organization organization) {
+        if (organization == null) {
+            setApplicantOrganization((ProposalSite)null);
         }
         else {
-            this.performingOrganizationId = performingOrganizationId;
+            ProposalSite applicantSite = new ProposalSite();
+            applicantSite.setOrganization(organization);
+            setApplicantOrganization(applicantSite);
+        }
+    }
+    
+    public ProposalSite getApplicantOrganization() {
+        return getProposalSiteForType(ProposalSite.PROPOSAL_SITE_APPLICANT_ORGANIZATION);
+    }
+
+    public void setPerformingOrganization(ProposalSite performingOrganization) {
+        setProposalSiteForType(performingOrganization, ProposalSite.PROPOSAL_SITE_PERFORMING_ORGANIZATION);
+    }
+
+    /**
+     * This method sets the Performing Organization based on a Organization object.
+     * @param organization
+     */
+    public void setPerformingOrganization(Organization organization) {
+        if (organization == null) {
+            setPerformingOrganization((ProposalSite)null);
+        }
+        else {
+            ProposalSite performingSite = new ProposalSite();
+            performingSite.setOrganization(organization);
+            setPerformingOrganization(performingSite);
+        }
+    }
+    
+    public ProposalSite getPerformingOrganization() {
+        return getProposalSiteForType(ProposalSite.PROPOSAL_SITE_PERFORMING_ORGANIZATION);
+    }
+    
+    public void addProposalSite(ProposalSite proposalSite) {
+        proposalSites.add(proposalSite);
+    }
+
+    /**
+     * This method replaces one or more Proposal Sites of a given type with another Proposal Site.
+     * The new Proposal Site's type is set to the locationType parameter.
+     * @param proposalSite
+     * @param locationType
+     */
+    private void setProposalSiteForType(ProposalSite proposalSite, int locationType) {
+        deleteAllProposalSitesOfType(locationType);
+        proposalSite.setLocationTypeCode(locationType);   // make sure the location type is set
+        addProposalSite(proposalSite);
+    }
+    
+    /**
+     * This method replaces all Proposal Sites of a given type with a new list of Proposal Sites.
+     * Each new Proposal Site's types are set to the locationType parameter.
+     * @param proposalSites
+     * @param locationType
+     */
+    private void setProposalSitesForType(List<ProposalSite> proposalSites, int locationType) {
+        deleteAllProposalSitesOfType(locationType);
+        for (ProposalSite proposalSite: proposalSites) {
+            proposalSite.setLocationTypeCode(locationType);   // make sure the location type is set
+        }
+        proposalSites.addAll(proposalSites);
+    }
+    
+    private void deleteAllProposalSitesOfType(int locationType) {
+        for (int i=proposalSites.size()-1; i>=0; i--) {
+            ProposalSite proposalSite = proposalSites.get(i);
+            if (proposalSite.getLocationTypeCode() == locationType) {
+                proposalSites.remove(i);
+            }
+        }
+    }
+    
+    private ProposalSite getProposalSiteForType(int locationType) {
+        List<ProposalSite> matchingSites = getProposalSitesForType(locationType);
+        if (matchingSites.isEmpty()) {
+            return null;
+        }
+        else {
+            return matchingSites.get(0);
         }
     }
 
-    public List<ProposalLocation> getProposalLocations() {
-        return proposalLocations;
+    private List<ProposalSite> getProposalSitesForType(int locationType) {
+        ArrayList<ProposalSite> matchingSites = new ArrayList<ProposalSite>();
+        for (ProposalSite proposalSite: proposalSites) {
+            if (proposalSite.getLocationTypeCode() == locationType) {
+                matchingSites.add(proposalSite);
+            }
+        }
+        return matchingSites;
     }
 
-    public void setProposalLocations(List<ProposalLocation> proposalLocations) {
-        this.proposalLocations = proposalLocations;
+    public void setPerformanceSites(List<ProposalSite> performanceSites) {
+        setProposalSitesForType(performanceSites, ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE);
     }
 
-    public Organization getOrganization() {
-        return organization;
+    public List<ProposalSite> getPerformanceSites() {
+        return getProposalSitesForType(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE);
     }
 
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
+    public void addPerformanceSite(ProposalSite performanceSite) {
+        performanceSite.setLocationTypeCode(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE);   // make sure the location type is set
+        addProposalSite(performanceSite);
     }
 
-    public Organization getPerformingOrganization() {
-        return performingOrganization;
+    public void removePerformanceSite(int index) {
+        removeProposalSiteOfType(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE, index);
     }
 
-    public void setPerformingOrganization(Organization performingOrganization) {
-        this.performingOrganization = performingOrganization;
+    public void setOtherOrganizations(List<ProposalSite> otherOrganizations) {
+        setProposalSitesForType(otherOrganizations, ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);
+    }
+
+    public List<ProposalSite> getOtherOrganizations() {
+        return getProposalSitesForType(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);
+    }
+
+    public void addOtherOrganization(ProposalSite otherOrganization) {
+        otherOrganization.setLocationTypeCode(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);   // make sure the location type is set
+        addProposalSite(otherOrganization);
+    }
+
+    public void removeOtherOrganization(int index) {
+        removeProposalSiteOfType(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION, index);
+    }
+
+    /**
+     * Among all ProposalSites of a given location type, this method deletes the index-th
+     * one of them.
+     * If, for example, there is a total of eight Proposal Sites, of which five are Performance Sites,
+     * then calling this method with the location type ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE
+     * and index 2 will delete the second Performance Site (not the second Proposal Site overall).
+     * @param locationType
+     * @param index
+     */
+    private void removeProposalSiteOfType(int locationType, int index) {
+        for (ProposalSite proposalSite: getProposalSitesForType(locationType)) {
+            if (proposalSite.getLocationTypeCode() == locationType) {
+                index--;
+                if (index < 0) {
+                    proposalSites.remove(proposalSite);
+                    break;
+                }
+            }
+        }
+    }
+    
+    public void setProposalSites(List<ProposalSite> proposalSites) {
+        this.proposalSites = proposalSites;
+    }
+    
+    /**
+     * This method returns all proposal sites associated with the document
+     * @return
+     */
+    public List<ProposalSite> getProposalSites() {
+        return proposalSites;
     }
 
     public Rolodex getRolodex() {
@@ -731,9 +866,15 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
         managedLists.add(units);
         managedLists.add(degrees);
-        managedLists.add(getProposalLocations());
+        managedLists.add(getProposalSites());
         managedLists.add(getPropSpecialReviews());
 
+        List<CongressionalDistrict> congressionalDistricts = new ArrayList<CongressionalDistrict>();
+        for (ProposalSite proposalSite: getProposalSites()) {
+            congressionalDistricts.addAll(proposalSite.getCongressionalDistricts());
+        }
+        managedLists.add(congressionalDistricts);
+        
         List<ProposalExemptNumber> proposalExemptNumbers = new ArrayList<ProposalExemptNumber>();
 
         for (ProposalSpecialReview review : getPropSpecialReviews()) {
@@ -1108,19 +1249,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
             getPropScienceKeywords().add(new PropScienceKeyword());
         }
         return getPropScienceKeywords().get(index);
-    }
-
-    /**
-     * Gets index i from the proposalLocations list.
-     * 
-     * @param index
-     * @return Question at index i
-     */
-    public ProposalLocation getProposalLocation(int index) {
-        while (getProposalLocations().size() <= index) {
-            getProposalLocations().add(new ProposalLocation());
-        }
-        return getProposalLocations().get(index);
     }
 
     /**
@@ -1550,15 +1678,14 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         }
     }
 
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
+    /** {@inheritDoc} */
     @Override
     protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
+        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("proposalNumber", getProposalNumber());
+        hashMap.put("proposalTypeCode", getProposalTypeCode());
+        return hashMap;
     }
-
 
     /**
      * @see org.kuali.kra.proposaldevelopment.hierarchy.HierarchyChildComparable#hierarchyChildHashCode()

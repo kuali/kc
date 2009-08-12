@@ -49,7 +49,6 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalDevelopmentDocumentAuthorizer;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
@@ -62,7 +61,6 @@ import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
-import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.Note;
@@ -251,6 +249,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         return false;
     }
     
+    @SuppressWarnings("unchecked")
     private void fixVersionNumbers(Object srcObject, Object object, List<Object> list) throws Exception {
         Class[] setterParamTypes = {Long.class};
         if (object != null && object instanceof PersistableBusinessObject) {
@@ -371,6 +370,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         return mapping.findForward(Constants.PD_BUDGET_VERSIONS_PAGE);
     }
 
+    @SuppressWarnings("unchecked")
     public ActionForward abstractsAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         // TODO temporarily to set up proposal person- remove this once keyperson is completed and htmlunit testing fine
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -522,7 +522,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     @Override
     public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ((KualiForm) form).setTabStates(new HashMap());
+        ((KualiForm) form).setTabStates(new HashMap<String, String>());
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getDocument();
 

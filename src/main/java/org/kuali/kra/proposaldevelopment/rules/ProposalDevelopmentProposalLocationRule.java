@@ -17,26 +17,24 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.AddProposalLocationRule;
-import org.kuali.kra.proposaldevelopment.rule.event.AddProposalLocationEvent;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
+import org.kuali.kra.proposaldevelopment.rule.AddProposalSiteRule;
+import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class ProposalDevelopmentProposalLocationRule extends ResearchDocumentRuleBase implements AddProposalLocationRule {
+public class ProposalDevelopmentProposalLocationRule extends ResearchDocumentRuleBase implements AddProposalSiteRule {
     private static final String NEW_PROPOSAL_LOCATION = "newPropLocation";
 
     /**
      * 
-     * @see org.kuali.kra.proposaldevelopment.rule.AddProposalLocationRule#processAddProposalLocationBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddProposalLocationEvent)
+     * @see org.kuali.kra.proposaldevelopment.rule.AddProposalSiteRule#processAddProposalSiteBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent)
      */
-    public boolean processAddProposalLocationBusinessRules(AddProposalLocationEvent addProposalLocationEvent) {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)addProposalLocationEvent.getDocument();
-        ProposalLocation proposalLocation = addProposalLocationEvent.getProposalLocation();
+    public boolean processAddProposalSiteBusinessRules(AddProposalSiteEvent addProposalLocationEvent) {
+        ProposalSite proposalSite = addProposalLocationEvent.getProposalSite();
         boolean rulePassed = true;
         String errorPath = NEW_PROPOSAL_LOCATION;
 
-        if(StringUtils.isBlank(proposalLocation.getLocation())){
+        if(StringUtils.isBlank(proposalSite.getLocationName())){
             rulePassed = false;
             reportError(errorPath+".location", KeyConstants.ERROR_REQUIRED_FOR_PROPLOCATION_NAME);
         }

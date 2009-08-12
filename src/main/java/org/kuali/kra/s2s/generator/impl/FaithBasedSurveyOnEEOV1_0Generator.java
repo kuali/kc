@@ -48,8 +48,8 @@ public class FaithBasedSurveyOnEEOV1_0Generator extends S2SBaseFormGenerator {
         surveyOnEEO.setFormVersion(S2SConstants.FORMVERSION_1_0);
 
         Organization organization = null;
-        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
-            organization = pdDoc.getDevelopmentProposal().getOrganization();
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
+            organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         }
         if (organization != null) {
             if (organization.getOrganizationName() != null) {

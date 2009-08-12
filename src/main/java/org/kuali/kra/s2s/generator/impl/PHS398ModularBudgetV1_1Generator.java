@@ -287,7 +287,7 @@ public class PHS398ModularBudgetV1_1Generator extends PHS398ModularBudgetBaseGen
         // CognizantFederalAgency
         Rolodex rolodex = null;
         Organization organization = null;
-        if ((organization = pdDoc.getDevelopmentProposal().getOrganization()) != null) {
+        if ((organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization()) != null) {
             rolodex = organization.getRolodex();
             if (rolodex != null) {
                 StringBuilder agency = new StringBuilder();
@@ -422,11 +422,11 @@ public class PHS398ModularBudgetV1_1Generator extends PHS398ModularBudgetBaseGen
 
         // CognizantFederalAgency
         Rolodex rolodex = null;
-        if (pdDoc.getDevelopmentProposal().getOrganization().getRolodex() != null) {
-            rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex() != null) {
+            rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
         }
         Organization organization = null;
-        if ((organization = pdDoc.getDevelopmentProposal().getOrganization()) != null) {
+        if ((organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization()) != null) {
             rolodex = organization.getRolodex();
             if (rolodex != null) {
                 StringBuilder agency = new StringBuilder();
@@ -558,7 +558,7 @@ public class PHS398ModularBudgetV1_1Generator extends PHS398ModularBudgetBaseGen
         // CognizantFederalAgency
         Rolodex rolodex = null;
         Organization organization = null;
-        if ((organization = pdDoc.getDevelopmentProposal().getOrganization()) != null) {
+        if ((organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization()) != null) {
             rolodex = organization.getRolodex();
             if (rolodex != null) {
                 StringBuilder agency = new StringBuilder();
@@ -688,7 +688,7 @@ public class PHS398ModularBudgetV1_1Generator extends PHS398ModularBudgetBaseGen
         // CognizantFederalAgency
         Rolodex rolodex = null;
         Organization organization = null;
-        if ((organization = pdDoc.getDevelopmentProposal().getOrganization()) != null) {
+        if ((organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization()) != null) {
             rolodex = organization.getRolodex();
             if (rolodex != null) {
                 StringBuilder agency = new StringBuilder();
@@ -816,7 +816,7 @@ public class PHS398ModularBudgetV1_1Generator extends PHS398ModularBudgetBaseGen
         // CognizantFederalAgency
         Rolodex rolodex = null;
         Organization organization = null;
-        if ((organization = pdDoc.getDevelopmentProposal().getOrganization()) != null) {
+        if ((organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization()) != null) {
             rolodex = organization.getRolodex();
             if (rolodex != null) {
                 StringBuilder agency = new StringBuilder();

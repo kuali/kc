@@ -129,8 +129,8 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
                 profile.setFax(PI.getFaxNumber());
             }
             profile.setEmail(PI.getEmailAddress());
-            if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
-                profile.setOrganizationName(pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName());
+            if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
+                profile.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
             }
             String departmentName = null;           
             if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
@@ -214,7 +214,7 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
                     profileKeyPerson.setFax(keyPerson.getFaxNumber());
                 }
                 profileKeyPerson.setEmail(keyPerson.getEmailAddress());
-                profileKeyPerson.setOrganizationName(pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName());
+                profileKeyPerson.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
                 String departmentName = null;
                 if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
                     departmentName = pdDoc.getDevelopmentProposal().getOwnedByUnit().getUnitName();

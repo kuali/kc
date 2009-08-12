@@ -57,7 +57,7 @@ public class RRFedNonFedBudgetV1_1GeneratorTest extends S2STestBase<RRFedNonFedB
         List<ProposalPerson> proposalPersonList = new ArrayList<ProposalPerson>();
         proposalPersonList.add(proposalPerson);
 
-        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrganization(organization);
         document.setUpdateUser("quickstart");
         document.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
         document.getDevelopmentProposal().setProposalPersons(proposalPersonList);

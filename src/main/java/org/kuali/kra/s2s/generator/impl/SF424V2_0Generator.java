@@ -44,6 +44,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
@@ -152,7 +153,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         sf424V2.setFederalEntityIdentifier(s2sUtilService.getFederalId(pdDoc));
 
         Organization organization = null;
-        organization = pdDoc.getDevelopmentProposal().getOrganization();
+        organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         if (organization != null) {
             sf424V2.setOrganizationName(organization.getOrganizationName());
             sf424V2.setEmployerTaxpayerIdentificationNumber(organization.getFedralEmployerId());
@@ -165,7 +166,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             sf424V2.setDUNSNumber(null);
         }
         Rolodex rolodex = null;
-        rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
+        rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
         sf424V2.setApplicant(globLibV20Generator.getAddressDataType(rolodex));
         String departmentName = null;
         if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
@@ -251,11 +252,10 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         else {
             sf424V2.setCongressionalDistrictApplicant(congressionalDistrict);
         }
-        Organization perfOrganization = null;
-        perfOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization();
+        ProposalSite perfOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization();
         if (perfOrganization != null) {
-            String congDistrictProject = perfOrganization.getCongressionalDistrict() == null ? S2SConstants.VALUE_UNKNOWN
-                    : perfOrganization.getCongressionalDistrict();
+            String congDistrictProject = perfOrganization.getFirstCongressionalDistrictName() == null ? S2SConstants.VALUE_UNKNOWN
+                    : perfOrganization.getFirstCongressionalDistrictName();
             if (congDistrictProject.length() > CONGRESSIONAL_DISTRICT_MAX_LENGTH) {
                 sf424V2.setCongressionalDistrictProgramProject(congDistrictProject.substring(0, CONGRESSIONAL_DISTRICT_MAX_LENGTH));
             }
@@ -332,18 +332,21 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             sf424V2.setStateReviewAvailableDate(stateDate);
         }
         YesNoDataType.Enum yesNo = YesNoDataType.N_NO;
-        for (OrganizationYnq orgYnq : pdDoc.getDevelopmentProposal().getOrganization().getOrganizationYnqs()) {
-            if (orgYnq.getQuestionId() != null && orgYnq.getQuestionId().equals(PROPOSAL_YNQ_FEDERAL_DEBTS)) {
-                String orgYnqanswer = orgYnq.getAnswer();
-                if (orgYnqanswer != null) {
-                    if (orgYnqanswer.equalsIgnoreCase(ORGANIZATION_YNQ_ANSWER_YES)) {
-                        yesNo = YesNoDataType.Y_YES;
+        Organization applicantOrganization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
+        if (applicantOrganization != null) {
+            for (OrganizationYnq orgYnq : applicantOrganization.getOrganizationYnqs()) {
+                if (orgYnq.getQuestionId() != null && orgYnq.getQuestionId().equals(PROPOSAL_YNQ_FEDERAL_DEBTS)) {
+                    String orgYnqanswer = orgYnq.getAnswer();
+                    if (orgYnqanswer != null) {
+                        if (orgYnqanswer.equalsIgnoreCase(ORGANIZATION_YNQ_ANSWER_YES)) {
+                            yesNo = YesNoDataType.Y_YES;
+                        }
+                        else {
+                            yesNo = YesNoDataType.N_NO;
+                        }
                     }
-                    else {
-                        yesNo = YesNoDataType.N_NO;
-                    }
+                    federalDebtExp = orgYnq.getExplanation();
                 }
-                federalDebtExp = orgYnq.getExplanation();
             }
         }
         sf424V2.setDelinquentFederalDebt(yesNo);
@@ -372,7 +375,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
     }
 
     private void setApplicatTypeCodes(SF424 sf424V2) {
-        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         if (organization.getOrganizationTypes() == null) {
             organization.refreshReferenceObject("organizationTypes");
         }

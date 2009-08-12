@@ -22,7 +22,9 @@ import java.util.List;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 public class Organization extends KraPersistableBusinessObjectBase {
-	private String organizationId;
+    private static final long serialVersionUID = 2010946634885248282L;
+    
+    private String organizationId;
 	private String address;
 	private String agencySymbol;
 	private String animalWelfareAssurance;
@@ -52,7 +54,6 @@ public class Organization extends KraPersistableBusinessObjectBase {
 	private Date scienceMisconductComplDate;
 	private String telexNumber;
 	private String vendorCode;
-	private String fedralEmployerId;
 	
 	private Rolodex rolodex;
     private List<OrganizationYnq> organizationYnqs;
@@ -60,6 +61,7 @@ public class Organization extends KraPersistableBusinessObjectBase {
     private List<OrganizationIndirectcost> organizationIdcs;
     private List<OrganizationAudit> organizationAudits;
     
+    @SuppressWarnings("unchecked")
     public Organization() {
         super();
         organizationYnqs = new TypedArrayList(OrganizationYnq.class);        
@@ -310,7 +312,8 @@ public class Organization extends KraPersistableBusinessObjectBase {
 	}
 
 
-	@Override 
+	@SuppressWarnings("unchecked")
+    @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("organizationId", getOrganizationId());

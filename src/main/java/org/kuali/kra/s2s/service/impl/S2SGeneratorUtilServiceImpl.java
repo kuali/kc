@@ -101,8 +101,8 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
         if (count < 1) {
             // Proposal has not been submitted
 
-            Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
-            Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
+            Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
+            Rolodex rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
             if (rolodex != null) {
                 depPerson.setFirstName(rolodex.getFirstName());
                 depPerson.setMiddleName(rolodex.getMiddleName());
