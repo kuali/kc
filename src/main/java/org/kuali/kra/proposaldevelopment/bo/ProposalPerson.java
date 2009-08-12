@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -34,7 +35,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.42 $
  */
-public class ProposalPerson extends Person implements CreditSplitable,PersonRolodex {
+public class ProposalPerson extends Person implements CreditSplitable, PersonRolodex, HierarchyMaintainable {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -66,7 +67,10 @@ public class ProposalPerson extends Person implements CreditSplitable,PersonRolo
     private boolean unitdelete;
     private String projectRole;
     private Integer ordinalPosition;
-    
+
+    private String hierarchyProposalNumber;
+    private boolean hiddenInHierarchy;
+
     private transient boolean moveDownAllowed;
     private transient boolean moveUpAllowed;    
     
@@ -597,28 +601,53 @@ public class ProposalPerson extends Person implements CreditSplitable,PersonRolo
         return (ProposalPersonYnq) getProposalPersonYnqs().get(index);
     }
 
+
     /**
-     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((personId == null) ? 0 : personId.hashCode());
+        result = prime * result + ((rolodexId == null) ? 0 : rolodexId.hashCode());
+        return result;
+    }
+
+    /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj)
+            return true;
+        if (obj == null)
             return false;
-        }
-        
+
         // Assume if obj is a String, then it must represent the PERSON_ID or ROLODEX_ID
         if (obj instanceof String) {
             return (obj.equals(getPersonId()) || obj.equals(getRolodexId()));
         }
-       
-        if (obj instanceof ProposalPerson) {
-            ProposalPerson p = (ProposalPerson) obj;
-            return ((getPersonId() != null && getPersonId().equals(p.getPersonId())) 
-                    || (getRolodexId() != null && getRolodexId().equals(p.getRolodexId())));
+        
+        if (getClass() != obj.getClass())
+            return false;
+        ProposalPerson other = (ProposalPerson) obj;
+        if (personId == null) {
+            if (other.personId != null)
+                return false;
         }
-        return false;
+        else if (!personId.equals(other.personId))
+            return false;
+        if (rolodexId == null) {
+            if (other.rolodexId != null)
+                return false;
+        }
+        else if (!rolodexId.equals(other.rolodexId))
+            return false;
+        return true;
     }
 
+    
     /**
      * Determine if the <code>{@link ProposalPerson}</code> instance role has changed
      * 
@@ -724,5 +753,36 @@ public class ProposalPerson extends Person implements CreditSplitable,PersonRolo
         this.ordinalPosition = ordinalPosition;
     }
 
+    /**
+     * Gets the hierarchyProposalNumber attribute. 
+     * @return Returns the hierarchyProposalNumber.
+     */
+    public String getHierarchyProposalNumber() {
+        return hierarchyProposalNumber;
+    }
+
+    /**
+     * Sets the hierarchyProposalNumber attribute value.
+     * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
+     */
+    public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
+        this.hierarchyProposalNumber = hierarchyProposalNumber;
+    }
+
+    /**
+     * Gets the hiddenInHierarchy attribute. 
+     * @return Returns the hiddenInHierarchy.
+     */
+    public boolean isHiddenInHierarchy() {
+        return hiddenInHierarchy;
+    }
+
+    /**
+     * Sets the hiddenInHierarchy attribute value.
+     * @param hiddenInHierarchy The hiddenInHierarchy to set.
+     */
+    public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
+        this.hiddenInHierarchy = hiddenInHierarchy;
+    }
 
 }
