@@ -34,11 +34,10 @@ public class ProposalHierarchyChild extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = -6265373411837495670L;
 
     private String proposalNumber;
+    private String hierarchyProposalNumber;
     private int proposalChildHashCode;
     private Timestamp proposalUpdateTimestamp;
     private List<PropScienceKeyword> propScienceKeywords;
-    private ProposalPerson principalInvestigator;
-    private List<ProposalPerson> investigators;
     private List<ProposalPerson> proposalPersons;
     private List<ProposalSpecialReview> propSpecialReviews;
     private List<Narrative> narratives;
@@ -51,6 +50,24 @@ public class ProposalHierarchyChild extends KraPersistableBusinessObjectBase {
      */
     public String getProposalNumber() {
         return proposalNumber;
+    }
+
+
+    /**
+     * Gets the hierarchyProposalNumber attribute. 
+     * @return Returns the hierarchyProposalNumber.
+     */
+    public String getHierarchyProposalNumber() {
+        return hierarchyProposalNumber;
+    }
+
+
+    /**
+     * Sets the hierarchyProposalNumber attribute value.
+     * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
+     */
+    public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
+        this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
 
 
@@ -121,46 +138,6 @@ public class ProposalHierarchyChild extends KraPersistableBusinessObjectBase {
      */
     public void setPropScienceKeywords(List<PropScienceKeyword> propScienceKeywords) {
         this.propScienceKeywords = propScienceKeywords;
-    }
-
-
-    /**
-     * Gets the principalInvestigator attribute.
-     * 
-     * @return Returns the principalInvestigator.
-     */
-    public ProposalPerson getPrincipalInvestigator() {
-        return principalInvestigator;
-    }
-
-
-    /**
-     * Sets the principalInvestigator attribute value.
-     * 
-     * @param principalInvestigator The principalInvestigator to set.
-     */
-    public void setPrincipalInvestigator(ProposalPerson principalInvestigator) {
-        this.principalInvestigator = principalInvestigator;
-    }
-
-
-    /**
-     * Gets the investigators attribute.
-     * 
-     * @return Returns the investigators.
-     */
-    public List<ProposalPerson> getInvestigators() {
-        return investigators;
-    }
-
-
-    /**
-     * Sets the investigators attribute value.
-     * 
-     * @param investigators The investigators to set.
-     */
-    public void setInvestigators(List<ProposalPerson> investigators) {
-        this.investigators = investigators;
     }
 
 
