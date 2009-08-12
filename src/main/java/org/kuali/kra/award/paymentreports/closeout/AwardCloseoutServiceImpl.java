@@ -80,7 +80,8 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
             dateCalculatedUsingFrequencyOld = null;
             List<AwardReportTerm> awardReportTerms = filterAwardReportTerms(award.getAwardReportTermItems(), closeoutReportTypeCode);
             if (awardReportTerms.size() == 0) {
-                updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, closeoutReportTypeCode);
+                closeoutDueDates.put(closeoutReportTypeCode, null);
+                //updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, closeoutReportTypeCode);
             } else {
                 Calendar calendar = getDateTimeService().getCalendar(finalExpirationDate);
                 for (AwardReportTerm awardReportTerm : awardReportTerms) {
@@ -117,15 +118,15 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
      * closeout  report type is 0.
      *
      */
-    protected void updateCloseoutDueDateWhenFilteredListSizeIsZero(Map<String, Object> closeoutDueDates, java.util.Date dateCalculatedUsingFinalInvoiceDue
-                            , String closeoutReportTypeCode) {        
-        if (StringUtils.equalsIgnoreCase(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT
-                , KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT).getParameterValue(),closeoutReportTypeCode)) {
-            closeoutDueDates.put(closeoutReportTypeCode, new Date(dateCalculatedUsingFinalInvoiceDue.getTime()));   
-        } else {
-            closeoutDueDates.put(closeoutReportTypeCode, null);    
-        }
-    }
+//    protected void updateCloseoutDueDateWhenFilteredListSizeIsZero(Map<String, Object> closeoutDueDates, java.util.Date dateCalculatedUsingFinalInvoiceDue
+//                            , String closeoutReportTypeCode) {        
+//        if (StringUtils.equalsIgnoreCase(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT
+//                , KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT).getParameterValue(),closeoutReportTypeCode)) {
+//            closeoutDueDates.put(closeoutReportTypeCode, new Date(dateCalculatedUsingFinalInvoiceDue.getTime()));   
+//        } else {
+//            closeoutDueDates.put(closeoutReportTypeCode, null);    
+//        }
+//    }
 
     /*
      * This method updates the due dates for Award Closeout static reports based on allDueDatesAreEqual flag and 
