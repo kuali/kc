@@ -26,12 +26,12 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
 /**
  * Class representing a Proposal Special Review.
  */
-public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
+public class ProposalSpecialReview extends KraPersistableBusinessObjectBase implements HierarchyMaintainable {
 
     private static final long serialVersionUID = -2375697998735262371L;
 
@@ -51,7 +51,10 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
 
     private String[] exemptNumbers;
     private List<ProposalExemptNumber> proposalExemptNumbers = new ArrayList<ProposalExemptNumber>();
-    
+ 
+    private String hierarchyProposalNumber;
+    private boolean hiddenInHierarchy;
+
     /** {@inheritDoc} */
     @Override
     public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
@@ -234,5 +237,39 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
             this.exemptNumbers[i] = this.proposalExemptNumbers.get(i).getExemptionTypeCode();
         }
     }
+
+    /**
+     * Gets the hierarchyProposalNumber attribute. 
+     * @return Returns the hierarchyProposalNumber.
+     */
+    public String getHierarchyProposalNumber() {
+        return hierarchyProposalNumber;
+    }
+
+    /**
+     * Sets the hierarchyProposalNumber attribute value.
+     * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
+     */
+    public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
+        this.hierarchyProposalNumber = hierarchyProposalNumber;
+    }
+
+    /**
+     * Gets the hiddenInHierarchy attribute. 
+     * @return Returns the hiddenInHierarchy.
+     */
+    public boolean isHiddenInHierarchy() {
+        return hiddenInHierarchy;
+    }
+
+    /**
+     * Sets the hiddenInHierarchy attribute value.
+     * @param hiddenInHierarchy The hiddenInHierarchy to set.
+     */
+    public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
+        this.hiddenInHierarchy = hiddenInHierarchy;
+    }
+    
+    
 }
 

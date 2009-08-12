@@ -29,25 +29,22 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
-import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
 /**
  * 
  * This class is BO for narrarive
  */
-public class Narrative extends KraPersistableBusinessObjectBase {
+public class Narrative extends KraPersistableBusinessObjectBase implements HierarchyMaintainable {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(Narrative.class);
     
@@ -70,6 +67,9 @@ public class Narrative extends KraPersistableBusinessObjectBase {
     private String institutionalAttachmentTypeCode;
     private Timestamp timestampDisplay;
     private String uploadUserDisplay;
+
+    private String hierarchyProposalNumber;
+    private boolean hiddenInHierarchy;
 
     public Narrative() {
         narrativeAttachmentList = new ArrayList<NarrativeAttachment>(1);
@@ -441,5 +441,37 @@ public class Narrative extends KraPersistableBusinessObjectBase {
 
     public void setUploadUserDisplay(String uploadUserDisplay) {
         this.uploadUserDisplay = uploadUserDisplay;
+    }
+
+    /**
+     * Gets the hierarchyProposalNumber attribute. 
+     * @return Returns the hierarchyProposalNumber.
+     */
+    public String getHierarchyProposalNumber() {
+        return hierarchyProposalNumber;
+    }
+
+    /**
+     * Sets the hierarchyProposalNumber attribute value.
+     * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
+     */
+    public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
+        this.hierarchyProposalNumber = hierarchyProposalNumber;
+    }
+
+    /**
+     * Gets the hiddenInHierarchy attribute. 
+     * @return Returns the hiddenInHierarchy.
+     */
+    public boolean isHiddenInHierarchy() {
+        return hiddenInHierarchy;
+    }
+
+    /**
+     * Sets the hiddenInHierarchy attribute value.
+     * @param hiddenInHierarchy The hiddenInHierarchy to set.
+     */
+    public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
+        this.hiddenInHierarchy = hiddenInHierarchy;
     }
 }

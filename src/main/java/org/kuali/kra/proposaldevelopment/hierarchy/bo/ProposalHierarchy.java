@@ -37,8 +37,7 @@ public class ProposalHierarchy extends DevelopmentProposal {
     private List<PropScienceKeyword> hierarchyPropScienceKeywords;
     private List<ProposalSpecialReview> hierarchySpecialReviews;
     private List<Narrative> hierarchyNarratives;
-
-    
+        
     /**
      * Gets the children attribute. 
      * @return Returns the children.
@@ -53,8 +52,7 @@ public class ProposalHierarchy extends DevelopmentProposal {
     public void setChildren(List<ProposalHierarchyChild> children) {
         this.children = children;
     }
-    
-    
+        
     /**
      * Gets the hierarchyPropScienceKeywords attribute. 
      * @return Returns the hierarchyPropScienceKeywords.
@@ -62,6 +60,7 @@ public class ProposalHierarchy extends DevelopmentProposal {
     public List<PropScienceKeyword> getHierarchyPropScienceKeywords() {
         return hierarchyPropScienceKeywords;
     }
+    
     /**
      * Sets the hierarchyPropScienceKeywords attribute value.
      * @param hierarchyPropScienceKeywords The hierarchyPropScienceKeywords to set.
@@ -69,6 +68,7 @@ public class ProposalHierarchy extends DevelopmentProposal {
     public void setHierarchyPropScienceKeywords(List<PropScienceKeyword> hierarchyPropScienceKeywords) {
         this.hierarchyPropScienceKeywords = hierarchyPropScienceKeywords;
     }
+    
     /**
      * Gets the hierarchySpecialReviews attribute. 
      * @return Returns the hierarchySpecialReviews.
