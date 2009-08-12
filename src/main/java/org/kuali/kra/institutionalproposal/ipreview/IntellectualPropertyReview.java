@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -30,7 +31,7 @@ import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.institutionalproposal.ProposalComment;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
-public class IntellectualPropertyReview extends InstitutionalProposalAssociate {
+public class IntellectualPropertyReview extends InstitutionalProposalAssociate implements SequenceOwner {
     
     private static final long serialVersionUID = 1L;
     private static final String GENERAL_COMMENT_CODE_PARM_NM = "proposalcommenttype.generalcomment";
@@ -272,6 +273,45 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate {
             kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
         }
         return this.kualiConfigurationService;
+    }
+    
+    /**
+     * @see org.kuali.kra.SequenceOwner#getOwnerSequenceNumber()
+     */
+    public Integer getOwnerSequenceNumber() {
+        return null;
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceOwner#incrementSequenceNumber()
+     */
+    public void incrementSequenceNumber() {
+       this.setSequenceNumber(this.getSequenceNumber() + 1);
+    }
+
+    /**
+     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     */
+    public IntellectualPropertyReview getSequenceOwner() {
+        return this;
+    }
+
+    public void setSequenceOwner(SequenceOwner newlyVersionedOwner) {
+        // TODO Auto-generated method stub
+    }
+
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        this.proposalId = null;
+    }
+    
+    /**
+     * @see org.kuali.kra.SequenceOwner#getName()
+     */
+    public String getVersionNameField() {
+        return "proposalNumber";
     }
     
     /** {@inheritDoc} */
