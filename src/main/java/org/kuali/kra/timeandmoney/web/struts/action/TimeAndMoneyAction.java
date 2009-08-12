@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.timeandmoney.web.struts.action;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ojb.broker.accesslayer.LookupException;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -39,24 +41,27 @@ import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyActionSummaryService;
+import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
+import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     
     @Override
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form
-            , HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;        
         ActionForward forward = handleDocument(mapping, form, request, response, timeAndMoneyForm);
         timeAndMoneyForm.initializeFormOrDocumentBasedOnCommand();        
-        timeAndMoneyForm.getTimeAndMoneyDocument().setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(timeAndMoneyForm.getTimeAndMoneyDocument().getAwardNumber()));
-        
+        String rootAwardNumber = timeAndMoneyForm.getTimeAndMoneyDocument().getRootAwardNumber();
+        timeAndMoneyForm.getTimeAndMoneyDocument().setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(rootAwardNumber));
+        timeAndMoneyForm.getTimeAndMoneyDocument().setAwardNumber(rootAwardNumber);
         setupHierachyNodes(timeAndMoneyForm.getTimeAndMoneyDocument());
-        
+        populateOtherPanels(timeAndMoneyForm.getTransactionBean().getNewAwardAmountTransaction(), timeAndMoneyForm.getTimeAndMoneyDocument(), rootAwardNumber);
         return forward;
     }
     
@@ -86,6 +91,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             awardHierarchyNode.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
             timeAndMoneyDocument.getAwardHierarchyNodes().put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
         }
+        System.out.println("Abc: " + timeAndMoneyDocument.getAwardHierarchyNodes().size());
     }
     
     /**
@@ -116,17 +122,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         return forward;
     }
     
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.execute(mapping, form, request, response);
-        TimeAndMoneyForm timeAndMoneyform = (TimeAndMoneyForm)form;
-        TimeAndMoneyDocument doc = timeAndMoneyform.getTimeAndMoneyDocument();        
-        doc.setTimeAndMoneyHistory(timeAndMoneyform.getDocumentNumbers());
-        
-        TimeAndMoneyActionSummaryService service = KraServiceLocator.getService(TimeAndMoneyActionSummaryService.class);
-        service.populateActionSummary(doc.getTimeAndMoneyActionSummaryItems(), doc.getDocumentNumber(), doc.getAwardNumber(), doc.getSequenceNumber());
-        return forward;
-    }
-    
     public ActionForward addTransaction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         ((TimeAndMoneyForm) form).getTransactionBean().addPendingTransactionItem();
@@ -142,24 +137,46 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     public ActionForward approveTransactions(ActionMapping mapping, ActionForm form , HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         
-        getActivePendingTransactionsService().approveTransactions();
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm)GlobalVariables.getKualiForm();
+        getActivePendingTransactionsService().approveTransactions(timeAndMoneyForm.getTimeAndMoneyDocument(), timeAndMoneyForm.getTransactionBean().getNewAwardAmountTransaction());
         
         return mapping.findForward("basic");
     }
     
     public ActionForward switchAward(ActionMapping mapping, ActionForm form , HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        TimeAndMoneyForm timeAndMoneyform = (TimeAndMoneyForm)form;
-        TimeAndMoneyDocument doc = timeAndMoneyform.getTimeAndMoneyDocument();
-        String goToAwardNumber = timeAndMoneyform.getGoToAwardNumber();
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm)form;
+        TimeAndMoneyDocument doc = timeAndMoneyForm.getTimeAndMoneyDocument();
+        String goToAwardNumber = timeAndMoneyForm.getGoToAwardNumber();
         
-        Award award = getActiveAwardVersion(goToAwardNumber);
-        
-        doc.setAwardId(award.getAwardId());
-        doc.setAwardNumber(award.getAwardNumber());
-        doc.setSequenceNumber(award.getSequenceNumber());
+        populateOtherPanels(timeAndMoneyForm.getTransactionBean().getNewAwardAmountTransaction(), doc, goToAwardNumber);
         
         return mapping.findForward("basic");
+    }
+
+    /**
+     * This method...
+     * @param timeAndMoneyForm
+     * @param doc
+     * @param goToAwardNumber
+     * @throws LookupException
+     * @throws SQLException
+     */
+    private void populateOtherPanels(AwardAmountTransaction newAwardAmountTransaction, TimeAndMoneyDocument doc, String goToAwardNumber)
+            throws LookupException, SQLException {
+        Award award = getActiveAwardVersion(goToAwardNumber);
+        
+        doc.setAwardNumber(award.getAwardNumber());
+        doc.setAward(award);
+        
+        TimeAndMoneyHistoryService tamhs = KraServiceLocator.getService(TimeAndMoneyHistoryService.class);
+        
+        tamhs.getTimeAndMoneyHistory(doc.getAwardNumber(), doc.getTimeAndMoneyHistory());
+        
+        TimeAndMoneyActionSummaryService tamass = KraServiceLocator.getService(TimeAndMoneyActionSummaryService.class);
+        tamass.populateActionSummary(doc.getTimeAndMoneyActionSummaryItems(), doc.getAwardNumber());
+        
+        doc.setNewAwardAmountTransaction(newAwardAmountTransaction);
     }
 
     /**

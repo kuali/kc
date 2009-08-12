@@ -52,7 +52,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         AwardHierarchy awardHierarchyRootNode = getRootNode(awardHierarchy.getRootAwardNumber());
         awardHierarchies.put(awardHierarchyRootNode.getAwardNumber(), awardHierarchyRootNode);
         fieldValues.put("parentAwardNumber", awardHierarchyRootNode.getAwardNumber());
-        awardHierarchyChildren = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, "awardNumber", true);
+        awardHierarchyChildren = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, "parentAwardNumber", true);
         
         while(awardHierarchyChildren.size()!=0){
             Collection<AwardHierarchy> awardHierarchyChildren2 = null;
@@ -61,9 +61,9 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
                 fieldValues = new HashMap<String, String>();
                 fieldValues.put("parentAwardNumber", awardHierarchyItem.getAwardNumber());
                 if(awardHierarchyChildren2!=null){
-                    awardHierarchyChildren2.addAll(businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, awardNumber, true));    
+                    awardHierarchyChildren2.addAll(businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, "parentAwardNumber", true));    
                 }else{
-                    awardHierarchyChildren2 = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, awardNumber, true);
+                    awardHierarchyChildren2 = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, "parentAwardNumber", true);
                 }                
             }
             awardHierarchyChildren = awardHierarchyChildren2; 

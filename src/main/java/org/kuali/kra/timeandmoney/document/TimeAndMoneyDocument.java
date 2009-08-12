@@ -22,6 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.RolePersons;
@@ -29,12 +30,13 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 
@@ -47,9 +49,8 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     
     public static final String DOCUMENT_TYPE_CODE = "TAMD";
     
-    private Long awardId;
+    private String rootAwardNumber;
     private String awardNumber;
-    private Integer sequenceNumber;
     private Map<String, AwardHierarchyNode> awardHierarchyNodes;
     private Map<String, AwardHierarchy> awardHierarchyItems;
     private List<PendingTransaction> pendingTransactions;
@@ -57,6 +58,7 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     private Map<Object, Object> timeAndMoneyHistory;
     private List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems;
     private Award award;
+    private AwardAmountTransaction newAwardAmountTransaction;
     
     /**
      * Constructs a AwardDocument object
@@ -92,12 +94,12 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     }
     
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
-
-        KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
-        if(!kraWorkflowService.isInWorkflow(this)){
-            getActivePendingTransactionsService().approveTransactions();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) throws Exception {
+        
+        AwardAmountTransaction newAwardAmountTransaction = this.getNewAwardAmountTransaction();
+        super.doRouteStatusChange(statusChangeEvent);
+        if (StringUtils.equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD, statusChangeEvent.getNewRouteStatus())){
+            getActivePendingTransactionsService().approveTransactions(this, newAwardAmountTransaction);
         }
     }
     
@@ -222,22 +224,6 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     }
 
     /**
-     * Gets the sequenceNumber attribute. 
-     * @return Returns the sequenceNumber.
-     */
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    /**
-     * Sets the sequenceNumber attribute value.
-     * @param sequenceNumber The sequenceNumber to set.
-     */
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-
-    /**
      * Gets the timeAndMoneyHistory attribute. 
      * @return Returns the timeAndMoneyHistory.
      */
@@ -286,18 +272,35 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     }
 
     /**
-     * Gets the awardId attribute. 
-     * @return Returns the awardId.
+     * Gets the newAwardAmountTransaction attribute. 
+     * @return Returns the newAwardAmountTransaction.
      */
-    public Long getAwardId() {
-        return awardId;
+    public AwardAmountTransaction getNewAwardAmountTransaction() {
+        return newAwardAmountTransaction;
     }
 
     /**
-     * Sets the awardId attribute value.
-     * @param awardId The awardId to set.
+     * Sets the newAwardAmountTransaction attribute value.
+     * @param newAwardAmountTransaction The newAwardAmountTransaction to set.
      */
-    public void setAwardId(Long awardId) {
-        this.awardId = awardId;
+    public void setNewAwardAmountTransaction(AwardAmountTransaction newAwardAmountTransaction) {
+        this.newAwardAmountTransaction = newAwardAmountTransaction;
     }
+
+    /**
+     * Gets the rootAwardNumber attribute. 
+     * @return Returns the rootAwardNumber.
+     */
+    public String getRootAwardNumber() {
+        return rootAwardNumber;
+    }
+
+    /**
+     * Sets the rootAwardNumber attribute value.
+     * @param rootAwardNumber The rootAwardNumber to set.
+     */
+    public void setRootAwardNumber(String rootAwardNumber) {
+        this.rootAwardNumber = rootAwardNumber;
+    }
+
 }

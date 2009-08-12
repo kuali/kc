@@ -47,11 +47,6 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         initialize();        
     }
     
-    public Map<Object, Object> getDocumentNumbers(){
-       TimeAndMoneyHistoryService service = KraServiceLocator.getService(TimeAndMoneyHistoryService.class);
-       return service.getAwardDocumentNumbers(this.getTimeAndMoneyDocument().getAwardNumber());
-    }
-    
     public void initialize() {
         initializeHeaderNavigationTabs();
         transactionBean = new TransactionBean(this);
