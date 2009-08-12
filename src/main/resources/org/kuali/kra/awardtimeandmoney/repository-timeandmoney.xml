@@ -17,9 +17,7 @@
 	  
 	<class-descriptor class="org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument" table="TIME_AND_MONEY_DOCUMENT">			
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
-		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" />
-		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="rootAwardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
@@ -33,9 +31,6 @@
 		<collection-descriptor name="awardAmountTransactions" proxy="true" element-class-ref="org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="documentNumber"/>
 		</collection-descriptor>
-		<reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none">
-        	<foreignkey field-ref="awardId" />
-    	</reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.timeandmoney.transactions.AwardTransactionType" table="AWARD_TRANSACTION_TYPE">

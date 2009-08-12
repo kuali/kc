@@ -23,6 +23,6 @@ import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
 
 public interface TimeAndMoneyActionSummaryService {
     
-    void populateActionSummary(List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems, String documentNumber, String awardNumber, Integer sequenceNumber) throws LookupException, SQLException;
+    void populateActionSummary(List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems, String awardNumber) throws LookupException, SQLException;
 
 }

@@ -19,10 +19,13 @@ import java.util.List;
 
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 
 public interface ActivePendingTransactionsService {
     
-    void approveTransactions();
+    void approveTransactions(TimeAndMoneyDocument document, AwardAmountTransaction newAwardAmountTransaction);
+    //void approveTransactions();
     
     AwardAmountInfo fetchAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos);
     

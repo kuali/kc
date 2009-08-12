@@ -16,7 +16,6 @@
 package org.kuali.kra.timeandmoney.service.impl;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,13 +32,14 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
     
     BusinessObjectService businessObjectService; 
 
-    public Map<Object, Object>  getAwardDocumentNumbers(String awardNumber) {
+    public void getTimeAndMoneyHistory(String awardNumber, Map<Object, Object> timeAndMoneyHistory) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         Map<String, Object> fieldValues1 = new HashMap<String, Object>();
         Map<String, Object> fieldValues2 = new HashMap<String, Object>();
         Map<String, Object> fieldValues3 = new HashMap<String, Object>();        
-        Map<Object, Object> returnValues = new LinkedHashMap<Object, Object>();
+        
         AwardAmountTransaction awardAmountTransaction = null;
+        timeAndMoneyHistory.clear();
         fieldValues.put("awardNumber", awardNumber);
         List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, fieldValues, "sequenceNumber", true);        
         List<TimeAndMoneyDocument> docs = null;
@@ -47,9 +47,9 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         
         for(Award award : awards){
             award.refreshReferenceObject("awardDocument");
-            returnValues.put(award.getAwardDocument().getDocumentNumber(), "url for award document");
-            fieldValues1.put("awardNumber", award.getAwardNumber());
-            fieldValues1.put("sequenceNumber", award.getSequenceNumber());
+            timeAndMoneyHistory.put(award.getAwardDocument().getDocumentNumber(), "url for award document");
+            fieldValues1.put("rootAwardNumber", award.getAwardNumber());
+            
             docs = (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, "documentNumber", true);
             for(TimeAndMoneyDocument doc: docs){
                 fieldValues2.put("awardNumber", award.getAwardNumber());
@@ -57,19 +57,19 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                 List<AwardAmountTransaction> awardAmountTransactions = ((List<AwardAmountTransaction>)businessObjectService.findMatching(AwardAmountTransaction.class, fieldValues2));
                 if(awardAmountTransactions.size()>0){
                     awardAmountTransaction = awardAmountTransactions.get(0);
-                    returnValues.put(doc.getDocumentNumber(), awardAmountTransaction.getComments());
+                    timeAndMoneyHistory.put(doc.getDocumentNumber(), awardAmountTransaction.getComments());
                 }    
                 
                 for(AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()){
                     if(StringUtils.equalsIgnoreCase(doc.getDocumentNumber(),awardAmountInfo.getTimeAndMoneyDocumentNumber())){
-                        returnValues.put(awardAmountInfo.getTransactionId(), awardAmountInfo);
+                        timeAndMoneyHistory.put(awardAmountInfo.getTransactionId(), awardAmountInfo);
                         fieldValues3.put("awardNumber", awardAmountInfo.getAwardNumber());
                         fieldValues3.put("sequenceNumber", awardAmountInfo.getSequenceNumber());
                         fieldValues3.put("transactionId", awardAmountInfo.getTransactionId());
                         fieldValues3.put("timeAndMoneyDocumentNumber", awardAmountInfo.getTimeAndMoneyDocumentNumber());
                         List<TransactionDetail> transactionDetails = ((List<TransactionDetail>)businessObjectService.findMatching(TransactionDetail.class, fieldValues3));
                         for(TransactionDetail transactionDetail : transactionDetails){
-                            returnValues.put(key, transactionDetail);
+                            timeAndMoneyHistory.put(key, transactionDetail);
                             key++;
                         }
                     }
@@ -77,9 +77,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
             }
             
             
-        }
-        
-        return returnValues;
+        }        
     }
 
     /**
