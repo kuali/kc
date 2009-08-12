@@ -101,22 +101,22 @@ public class AwardCloseoutServiceImplTest {
      * for the case where Report Class is Financial Report.
      *
      */
-    @Test
-    public final void testUpdateCloseoutDueDateWhenFilteredListSizeIsZero_ReportClassIsFinancialReport(){
-        
-        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);        
-        final Parameter parameter = new Parameter();        
-        parameter.setParameterName(KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);
-        parameter.setParameterValue(REPORT_CLASS_CODE_FINANCIAL_REPORT);        
-        context.checking(new Expectations() {{
-            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);will(returnValue(parameter));
-        }});        
-        service.setKualiConfigurationService(kualiConfigurationService);
-                
-        dateCalculatedUsingFinalInvoiceDue.setTime(100000000);
-        service.updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, REPORT_CLASS_CODE_FINANCIAL_REPORT);
-        Assert.assertEquals(dateCalculatedUsingFinalInvoiceDue.getTime(), ((java.util.Date)closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT)).getTime());
-    }
+//    @Test
+//    public final void testUpdateCloseoutDueDateWhenFilteredListSizeIsZero_ReportClassIsFinancialReport(){
+//        
+//        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);        
+//        final Parameter parameter = new Parameter();        
+//        parameter.setParameterName(KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);
+//        parameter.setParameterValue(REPORT_CLASS_CODE_FINANCIAL_REPORT);        
+//        context.checking(new Expectations() {{
+//            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);will(returnValue(parameter));
+//        }});        
+//        service.setKualiConfigurationService(kualiConfigurationService);
+//                
+//        dateCalculatedUsingFinalInvoiceDue.setTime(100000000);
+//        service.updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, REPORT_CLASS_CODE_FINANCIAL_REPORT);
+//        Assert.assertEquals(dateCalculatedUsingFinalInvoiceDue.getTime(), ((java.util.Date)closeoutDueDates.get(REPORT_CLASS_CODE_FINANCIAL_REPORT)).getTime());
+//    }
     
     /**
      * 
@@ -124,21 +124,21 @@ public class AwardCloseoutServiceImplTest {
      * for the case where Report Class is not Financial Report.
      *
      */
-    @Test
-    public final void testUpdateCloseoutDueDateWhenFilteredListSizeIsZero_ReportClassIsNotFinancialReport(){
-        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);        
-        final Parameter parameter = new Parameter();        
-        parameter.setParameterName(KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);
-        parameter.setParameterValue(REPORT_CLASS_CODE_FINANCIAL_REPORT);        
-        context.checking(new Expectations() {{
-            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);will(returnValue(parameter));
-        }});        
-        service.setKualiConfigurationService(kualiConfigurationService);
-        
-        dateCalculatedUsingFinalInvoiceDue.setTime(100000000);
-        service.updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, REPORT_CLASS_CODE_PATENT);
-        Assert.assertEquals(null, closeoutDueDates.get(REPORT_CLASS_CODE_PATENT));
-    }
+//    @Test
+//    public final void testUpdateCloseoutDueDateWhenFilteredListSizeIsZero_ReportClassIsNotFinancialReport(){
+//        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);        
+//        final Parameter parameter = new Parameter();        
+//        parameter.setParameterName(KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);
+//        parameter.setParameterValue(REPORT_CLASS_CODE_FINANCIAL_REPORT);        
+//        context.checking(new Expectations() {{
+//            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT);will(returnValue(parameter));
+//        }});        
+//        service.setKualiConfigurationService(kualiConfigurationService);
+//        
+//        dateCalculatedUsingFinalInvoiceDue.setTime(100000000);
+//        service.updateCloseoutDueDateWhenFilteredListSizeIsZero(closeoutDueDates, dateCalculatedUsingFinalInvoiceDue, REPORT_CLASS_CODE_PATENT);
+//        Assert.assertEquals(null, closeoutDueDates.get(REPORT_CLASS_CODE_PATENT));
+//    }
     
     /**
      * 
