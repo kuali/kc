@@ -27,6 +27,16 @@
         </c:otherwise>
     </c:choose>
     
+    <%-- Create Delete Checkbox --%>
+    <c:choose>
+        <c:when test="${!readOnly}">
+            <c:set var="deleteProperty" value="${committeeMembershipProperty}.delete" />
+        </c:when>
+        <c:otherwise>
+            <c:set var="deleteProperty" value="" />
+        </c:otherwise>    
+    </c:choose>
+        
     <kul:tab tabTitle="${tabTitleValue}"
              tabErrorKey=""
              innerTabErrorKey="${committeeMembershipProperty}.*,${committeeMembershipRoleProperty}.*,${committeeMembershipExpertiseProperty}.*"
@@ -34,7 +44,7 @@
              tabAuditKey="" 
              useRiceAuditMode="true"
              tabDescription="${tabDescriptionValue}"
-             leftSideHtmlProperty="${committeeMembershipProperty}.delete" 
+             leftSideHtmlProperty="${deleteProperty}" 
              leftSideHtmlAttribute="${committeeMembershipAttributes.delete}" 
              leftSideHtmlDisabled="${readOnly}" 
              defaultOpen="false"
