@@ -202,7 +202,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * @return Returns the institutionalProposalDocument.
      */
     public InstitutionalProposalDocument getInstitutionalProposalDocument() {
-        if(institutionalProposalDocument == null) {
+        if (institutionalProposalDocument == null) {
             this.refreshReferenceObject("institutionalProposalDocument");
         }
         return institutionalProposalDocument;

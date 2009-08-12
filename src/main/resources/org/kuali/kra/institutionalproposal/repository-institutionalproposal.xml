@@ -135,11 +135,9 @@
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
 		-->
-		<!--
 		<reference-descriptor name="institutionalProposalDocument" class-ref="org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
-        -->
 		<!--
 		<reference-descriptor name="noticeOfOpportunity" class-ref="org.kuali.kra.bo.NoticeOfOpportunity" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="noticeOfOpportunityCode"/>
