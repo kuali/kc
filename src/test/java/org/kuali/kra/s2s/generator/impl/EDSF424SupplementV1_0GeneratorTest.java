@@ -55,7 +55,7 @@ public class EDSF424SupplementV1_0GeneratorTest extends S2STestBase<EDSF424Suppl
         document.getDevelopmentProposal().setPropSpecialReviews(reviewList);
         Organization organization = new Organization();
         organization.setHumanSubAssurance("humanSubAssurance");
-        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrganization(organization);
 
         ProposalPerson person = new ProposalPerson();
         person.setProposalPersonRoleId("PI");

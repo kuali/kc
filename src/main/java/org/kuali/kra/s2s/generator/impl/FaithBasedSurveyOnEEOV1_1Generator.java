@@ -47,22 +47,22 @@ public class FaithBasedSurveyOnEEOV1_1Generator extends S2SBaseFormGenerator {
         SurveyOnEEO surveyOnEEO = SurveyOnEEO.Factory.newInstance();
         surveyOnEEO.setFormVersion(S2SConstants.FORMVERSION_1_1);
 
-        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
-            if (pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName() != null) {
-                if (pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName().length() > ORGANIZATON_NAME_MAX_LENGTH) {
-                    surveyOnEEO.setOrganizationName(pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName().substring(0, ORGANIZATON_NAME_MAX_LENGTH));
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
+            if (pdDoc.getDevelopmentProposal().getApplicantOrganization().getLocationName() != null) {
+                if (pdDoc.getDevelopmentProposal().getApplicantOrganization().getLocationName().length() > ORGANIZATON_NAME_MAX_LENGTH) {
+                    surveyOnEEO.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getLocationName().substring(0, ORGANIZATON_NAME_MAX_LENGTH));
                 }
                 else {
-                    surveyOnEEO.setOrganizationName(pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName());
+                    surveyOnEEO.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getLocationName());
                 }
             }
 
-            if (pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber() != null) {
-                if (pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber().length() > DUNS_NUMBER_MAX_LENGTH) {
-                    surveyOnEEO.setDUNSID(pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber().substring(0, DUNS_NUMBER_MAX_LENGTH));
+            if (pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getDunsNumber() != null) {
+                if (pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getDunsNumber().length() > DUNS_NUMBER_MAX_LENGTH) {
+                    surveyOnEEO.setDUNSID(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getDunsNumber().substring(0, DUNS_NUMBER_MAX_LENGTH));
                 }
                 else {
-                    surveyOnEEO.setDUNSID(pdDoc.getDevelopmentProposal().getOrganization().getDunsNumber());
+                    surveyOnEEO.setDUNSID(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getDunsNumber());
                 }
             }
         }

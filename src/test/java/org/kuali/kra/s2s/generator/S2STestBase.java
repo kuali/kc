@@ -23,6 +23,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.rice.kns.UserSession;
@@ -73,22 +74,24 @@ public abstract class S2STestBase<T> extends KraTestBase {
     }
 
     private void savePropDoc(ProposalDevelopmentDocument pd) {
-        pd.getDevelopmentProposal().setActivityTypeCode("1");
-        pd.getDevelopmentProposal().refreshReferenceObject("activityType");
-        pd.getDevelopmentProposal().setSponsorCode("000162");
-        pd.getDevelopmentProposal().setOwnedByUnitNumber("000001");
-        pd.getDevelopmentProposal().refreshReferenceObject("ownedByUnit");
-        pd.getDevelopmentProposal().setProposalTypeCode("1");
-        pd.getDevelopmentProposal().setCreationStatusCode("1");
-        pd.getDevelopmentProposal().setOrganizationId("000001");
-        pd.getDevelopmentProposal().setPerformingOrganizationId("000001");
-        pd.getDevelopmentProposal().setNoticeOfOpportunityCode("1");
-        pd.getDevelopmentProposal().setRequestedStartDateInitial(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-        pd.getDevelopmentProposal().setRequestedEndDateInitial(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-        pd.getDevelopmentProposal().setTitle("Test s2s service title");
-        pd.getDevelopmentProposal().setDeadlineType("P");
-        pd.getDevelopmentProposal().setDeadlineDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-        pd.getDevelopmentProposal().setNsfCode("J.05");
+        DevelopmentProposal developmentProposal = pd.getDevelopmentProposal();
+        
+        developmentProposal.setActivityTypeCode("1");
+        developmentProposal.refreshReferenceObject("activityType");
+        developmentProposal.setSponsorCode("000162");
+        developmentProposal.setOwnedByUnitNumber("000001");
+        developmentProposal.refreshReferenceObject("ownedByUnit");
+        developmentProposal.setProposalTypeCode("1");
+        developmentProposal.setCreationStatusCode("1");
+        developmentProposal.setApplicantOrganizationId("000001");
+        developmentProposal.setPerformingOrganizationId("000001");
+        developmentProposal.setNoticeOfOpportunityCode("1");
+        developmentProposal.setRequestedStartDateInitial(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+        developmentProposal.setRequestedEndDateInitial(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+        developmentProposal.setTitle("Test s2s service title");
+        developmentProposal.setDeadlineType("P");
+        developmentProposal.setDeadlineDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+        developmentProposal.setNsfCode("J.05");
         pd.setUpdateUser("quickst");
         pd.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
         DocumentHeader docHeader = pd.getDocumentHeader();

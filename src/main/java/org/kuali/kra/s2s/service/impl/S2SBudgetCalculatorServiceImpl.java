@@ -821,8 +821,8 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
      */
     private String getCognizantFedAgency(ProposalDevelopmentDocument pdDoc) {
         StringBuilder fedAgency = new StringBuilder();
-        if (pdDoc.getDevelopmentProposal().getOrganization() != null && pdDoc.getDevelopmentProposal().getOrganization().getRolodex() != null) {
-            Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null && pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex() != null) {
+            Rolodex rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
             fedAgency.append(rolodex.getOrganization());
             fedAgency.append(", ");
             fedAgency.append(rolodex.getFirstName());

@@ -33,7 +33,7 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
-import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
@@ -70,13 +70,16 @@ public class PrintFormTest extends KraTestBase {
         rolodex.setCountryCode("USA");
 
         performOrganization.setRolodex(rolodex);
-        document.getDevelopmentProposal().setPerformingOrganization(performOrganization);
+        
+        ProposalSite performSite = new ProposalSite();
+        performSite.setOrganization(performOrganization);
+        document.getDevelopmentProposal().setPerformingOrganization(performSite);
 
-        List<ProposalLocation> proList = new ArrayList<ProposalLocation>();
-        ProposalLocation proposalLocation = new ProposalLocation();
-        proposalLocation.setRolodex(rolodex);
-        proList.add(proposalLocation);
-        document.getDevelopmentProposal().setProposalLocations(proList);
+        List<ProposalSite> proList = new ArrayList<ProposalSite>();
+        ProposalSite proposalSite = new ProposalSite();
+        proposalSite.setRolodex(rolodex);
+        proList.add(proposalSite);
+        document.getDevelopmentProposal().setOtherOrganizations(proList);
 
         Narrative narrative = new Narrative();
         narrative.setModuleNumber(123);

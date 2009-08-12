@@ -50,7 +50,7 @@
     <class>org.kuali.kra.proposaldevelopment.bo.PostSubmissionStatus</class>
     <class>org.kuali.kra.bo.Rolodex</class>
     <class>org.kuali.kra.bo.NonOrganizationalRolodex</class>
-    <class>org.kuali.kra.proposaldevelopment.bo.ProposalLocation</class>
+    <class>org.kuali.kra.proposaldevelopment.bo.ProposalSite</class>
     <class>org.kuali.kra.bo.Organization</class>
     <class>org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq</class>
     <class>org.kuali.kra.proposaldevelopment.bo.ProposalYnq</class>

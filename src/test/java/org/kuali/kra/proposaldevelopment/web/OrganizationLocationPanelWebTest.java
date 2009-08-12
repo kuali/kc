@@ -139,10 +139,10 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
        assertNotNull(doc);
 
        verifySavedRequiredFields(doc, DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_OWNED_BY_UNIT, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "2007-08-14", "2007-08-21", DEFAULT_PROPOSAL_TYPE_CODE);
-       assertEquals("000001", doc.getDevelopmentProposal().getOrganizationId());
-       assertEquals("000002", doc.getDevelopmentProposal().getPerformingOrganizationId());
-       assertEquals("location 2", doc.getDevelopmentProposal().getProposalLocations().get(0).getLocation());
-       assertEquals(new Integer(1727), doc.getDevelopmentProposal().getProposalLocations().get(0).getRolodexId());
+       assertEquals("000001", doc.getDevelopmentProposal().getApplicantOrganization().getOrganizationId());
+       assertEquals("000002", doc.getDevelopmentProposal().getPerformingOrganization().getOrganizationId());
+       assertEquals("location 2", doc.getDevelopmentProposal().getProposalSites().get(0).getLocationName());
+       assertEquals(1727, doc.getDevelopmentProposal().getProposalSites().get(0).getRolodexId());
 
    }
    
@@ -170,8 +170,8 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
       ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
       
       
-      assertEquals("000002", doc.getDevelopmentProposal().getPerformingOrganizationId());
-      assertEquals("000002", doc.getDevelopmentProposal().getOrganizationId());
+      assertEquals("000002", doc.getDevelopmentProposal().getPerformingOrganization().getOrganizationId());
+      assertEquals("000002", doc.getDevelopmentProposal().getApplicantOrganization().getOrganizationId());
       
       // performing org lookup
       HtmlPage page4 = lookup(page3, "document.performingOrganizationId", "organizationId", "000005");
@@ -179,8 +179,8 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
       
       doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
       
-      assertEquals("000005", doc.getDevelopmentProposal().getPerformingOrganizationId());
-      assertEquals("000002", doc.getDevelopmentProposal().getOrganizationId());
+      assertEquals("000005", doc.getDevelopmentProposal().getPerformingOrganization().getOrganizationId());
+      assertEquals("000002", doc.getDevelopmentProposal().getApplicantOrganization().getOrganizationId());
       
       // applicant org lookup
       HtmlPage page6 = lookup(page5, "document.organizationId", "organizationId", "000007");
@@ -189,8 +189,8 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
       
       doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
       
-      assertEquals("000005", doc.getDevelopmentProposal().getPerformingOrganizationId());
-      assertEquals("000007", doc.getDevelopmentProposal().getOrganizationId());
+      assertEquals("000005", doc.getDevelopmentProposal().getPerformingOrganization().getOrganizationId());
+      assertEquals("000007", doc.getDevelopmentProposal().getApplicantOrganization().getOrganizationId());
   }
   /**
   *
@@ -224,8 +224,8 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
      
      ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
      
-     assertEquals("000002", doc.getDevelopmentProposal().getOrganizationId());
-     assertEquals("000002", doc.getDevelopmentProposal().getPerformingOrganizationId());
+     assertEquals("000002", doc.getDevelopmentProposal().getApplicantOrganization().getOrganizationId());
+     assertEquals("000002", doc.getDevelopmentProposal().getPerformingOrganization().getOrganizationId());
      
      
      // performing org lookup
@@ -234,8 +234,8 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
      
      doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
      
-     assertEquals("000005", doc.getDevelopmentProposal().getPerformingOrganizationId());
-     assertEquals("000002", doc.getDevelopmentProposal().getOrganizationId());      
+     assertEquals("000005", doc.getDevelopmentProposal().getPerformingOrganization().getOrganizationId());
+     assertEquals("000002", doc.getDevelopmentProposal().getApplicantOrganization());      
      
  }
 }

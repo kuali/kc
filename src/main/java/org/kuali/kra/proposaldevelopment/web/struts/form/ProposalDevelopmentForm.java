@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.form;
 
-
-
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
@@ -33,7 +31,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,10 +57,10 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAssignedRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
-import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
@@ -75,7 +72,6 @@ import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitService;
@@ -93,9 +89,9 @@ import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -110,7 +106,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     
     private boolean creditSplitEnabled;
     private String primeSponsorName;
-    private ProposalLocation newPropLocation;
     private ProposalSpecialReview newPropSpecialReview;
     private ProposalPerson newProposalPerson;
     private List<ProposalPersonDegree> newProposalPersonDegree;
@@ -142,13 +137,16 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private List<Narrative> narratives;
     private boolean reject;
     private boolean saveAfterCopy;
-    private List<KeyLabelPair> exemptNumberList;
-    private String[] newExemptNumbers;
-    private List<String[]> documentExemptNumbers;
     private String optInUnitDetails;
     private String optInCertificationStatus;
     private ProposalChangedData newProposalChangedData;
-    private Long versionNumberForS2sOpportunity;    
+    private Long versionNumberForS2sOpportunity;
+    private ProposalSite newPerformanceSite;
+    private ProposalSite newOtherOrganization;
+    private CongressionalDistrictHelper applicantOrganizationHelper;
+    private CongressionalDistrictHelper performingOrganizationHelper;
+    private List<CongressionalDistrictHelper> performanceSiteHelpers;
+    private List<CongressionalDistrictHelper> otherOrganizationHelpers;
 
     private String proposalFormTabTitle = "Print Sponsor Form Packages ";
 
@@ -166,8 +164,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      *
      * This method initialize all form variables
      */
+    @SuppressWarnings("unchecked")
     public void initialize() {
-        setNewPropLocation(new ProposalLocation());
         setNewPropSpecialReview(new ProposalSpecialReview());
         setNewNarrative(createNarrative());
         setNewProposalPerson(new ProposalPerson());
@@ -176,6 +174,12 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         setNewProposalAbstract(new ProposalAbstract());
         setNewProposalUser(new ProposalUser());
         setNewS2sOpportunity(new S2sOpportunity());
+        setNewPerformanceSite(new ProposalSite());
+        setNewOtherOrganization(new ProposalSite());
+        setApplicantOrganizationHelper(new CongressionalDistrictHelper());
+        setPerformingOrganizationHelper(new CongressionalDistrictHelper());
+        setPerformanceSiteHelpers(new TypedArrayList(CongressionalDistrictHelper.class));
+        setOtherOrganizationHelpers(new TypedArrayList(CongressionalDistrictHelper.class));
         customAttributeValues = new HashMap<String, String[]>();
         setCopyCriteria(new ProposalCopyCriteria(getDocument()));
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
@@ -272,25 +276,9 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         
     }
 
-    private void populateCurrentProposalColumnValues() {
-        DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-        Set<String> attributeNames = dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName()).getAttributeNames();
-    }
-
-    public ProposalLocation getNewPropLocation() {
-        return newPropLocation;
-    }
-
-
-    public void setNewPropLocation(ProposalLocation newPropLocation) {
-        this.newPropLocation = newPropLocation;
-    }
-
-
     public ProposalSpecialReview getNewPropSpecialReview() {
         return newPropSpecialReview;
     }
-
 
     public void setNewPropSpecialReview(ProposalSpecialReview newPropSpecialReview) {
         this.newPropSpecialReview = newPropSpecialReview;
@@ -1231,6 +1219,54 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         this.versionNumberForS2sOpportunity = versionNumberForS2sOpportunity;
     }    
     
+    public void setNewPerformanceSite(ProposalSite newPerformanceSite) {
+        this.newPerformanceSite = newPerformanceSite;
+    }
+
+    public ProposalSite getNewPerformanceSite() {
+        return newPerformanceSite;
+    }
+
+    public void setNewOtherOrganization(ProposalSite newOtherOrganization) {
+        this.newOtherOrganization = newOtherOrganization;
+    }
+
+    public ProposalSite getNewOtherOrganization() {
+        return newOtherOrganization;
+    }
+
+    public void setApplicantOrganizationHelper(CongressionalDistrictHelper applicantOrganizationHelper) {
+        this.applicantOrganizationHelper = applicantOrganizationHelper;
+    }
+
+    public CongressionalDistrictHelper getApplicantOrganizationHelper() {
+        return applicantOrganizationHelper;
+    }
+
+    public void setPerformingOrganizationHelper(CongressionalDistrictHelper performingOrganizationHelper) {
+        this.performingOrganizationHelper = performingOrganizationHelper;
+    }
+
+    public CongressionalDistrictHelper getPerformingOrganizationHelper() {
+        return performingOrganizationHelper;
+    }
+
+    public void setPerformanceSiteHelpers(List<CongressionalDistrictHelper> performanceSiteHelpers) {
+        this.performanceSiteHelpers = performanceSiteHelpers;
+    }
+
+    public List<CongressionalDistrictHelper> getPerformanceSiteHelpers() {
+        return performanceSiteHelpers;
+    }
+
+    public void setOtherOrganizationHelpers(List<CongressionalDistrictHelper> otherOrganizationHelpers) {
+        this.otherOrganizationHelpers = otherOrganizationHelpers;
+    }
+
+    public List<CongressionalDistrictHelper> getOtherOrganizationHelpers() {
+        return otherOrganizationHelpers;
+    }
+
     public final String getProposalFormTabTitle() {
         String totalForms = getSponsorFormTemplates().size() + "";
         return proposalFormTabTitle.concat("(" + totalForms + ")");

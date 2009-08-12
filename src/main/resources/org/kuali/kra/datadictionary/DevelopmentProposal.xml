@@ -66,8 +66,6 @@
 	        <ref bean="DevelopmentProposal-numberOfCopies"/>
 	        <ref bean="DevelopmentProposal-mailingAddressId"/>
 	        <ref bean="DevelopmentProposal-mailDescription"/>
-	        <ref bean="DevelopmentProposal-organizationId"/>
-	        <ref bean="DevelopmentProposal-performingOrganizationId"/>
 	        <ref bean="DevelopmentProposal-budgetStatus"/>
 	        <ref bean="DevelopmentProposal-postSubmissionStatusCode"/>
 	        <ref bean="DevelopmentProposal-versionNumber"/>
@@ -538,41 +536,6 @@
     </property>
     <property name="summary" value="Mail Description"/>
     <property name="description" value="Any information that will assist in the delivery of the proposal."/>
-  </bean>
-  <bean id="DevelopmentProposal-organizationId" parent="DevelopmentProposal-organizationId-parentBean"/>
-
-  <bean id="DevelopmentProposal-organizationId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationId"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Applicant Organization"/>
-    <property name="shortLabel" value="Organization"/>
-    <property name="maxLength" value="8"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="HiddenControlDefinition"/>
-    </property>
-    <property name="summary" value="Organization and contact info"/>
-    <property name="description" value="This field is the Name of the official authorized applicant institution/unit."/>
-  </bean>
-  <bean id="DevelopmentProposal-performingOrganizationId" parent="DevelopmentProposal-performingOrganizationId-parentBean"/>
-
-  <bean id="DevelopmentProposal-performingOrganizationId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="performingOrganizationId"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Performing Organization"/>
-    <property name="shortLabel" value="performingOrganizationId"/>
-    <property name="maxLength" value="8"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="HiddenControlDefinition"/>
-    </property>
-    <property name="summary" value="performingOrganizationId"/>
-    <property name="description" value="This field is the name of the institution(s) in which the main project effort will take place."/>
   </bean>
   <bean id="DevelopmentProposal-budgetStatus" parent="DevelopmentProposal-budgetStatus-parentBean"/>
 

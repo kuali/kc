@@ -94,7 +94,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
                     .getDescription()));
         }
         rrsf424.setSubmittedDate(s2sUtilService.getCurrentCalendar());
-        Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
+        Rolodex rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
         if (rolodex != null) {
             rrsf424.setStateID(rolodex.getState());
         }
@@ -105,7 +105,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
         rrsf424.setApplicantInfo(getApplicationInfo());
         rrsf424.setApplicantType(getApplicantType());
         rrsf424.setApplicationType(getApplicationType());
-        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         if (organization != null) {
             rrsf424.setEmployerID(organization.getFedralEmployerId());
         }
@@ -224,8 +224,8 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
         String contactType = getContactType();
         if (CONTACT_TYPE_I.equals(contactType)) {
             // use organization rolodex contact
-            if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
-                appInfo.setContactPersonInfo(getContactInfo(pdDoc.getDevelopmentProposal().getOrganization().getRolodex()));
+            if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
+                appInfo.setContactPersonInfo(getContactInfo(pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex()));
             }
         }
         else {
@@ -245,10 +245,10 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
             appInfo.setContactPersonInfo(contactInfo);
         }
         OrganizationDataTypeV2 orgType = OrganizationDataTypeV2.Factory.newInstance();
-        Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
+        Rolodex rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
         orgType.setAddress(globLibV10Generator.getAddressRequireCountryDataType(rolodex));
 
-        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         if (organization != null) {
             orgType.setOrganizationName(organization.getOrganizationName());
             orgType.setDUNSID(organization.getDunsNumber());
@@ -439,8 +439,8 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
      * @return CongressionalDistrict congressional district for the Applicant and Project.
      */
     private RRSF424.CongressionalDistrict getCongDistrict() {
-        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
-        Organization performOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
+        Organization performOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization().getOrganization();
         RRSF424.CongressionalDistrict congressionalDistrict = RRSF424.CongressionalDistrict.Factory.newInstance();
         if (organization != null) {
             congressionalDistrict.setApplicantCongressionalDistrict(organization.getCongressionalDistrict());
@@ -470,7 +470,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
         for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (PRINCIPAL_INVESTIGATOR.equals(proposalPerson.getProposalPersonRoleId())) {
                 PI = proposalPerson;
-                Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
+                Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
                 PDPI.setName(globLibV10Generator.getHumanNameDataType(PI));
                 PDPI.setPhone(PI.getOfficePhone());
                 PDPI.setEmail(PI.getEmailAddress());
@@ -523,7 +523,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
      * @return aorInfoType(AORInfoType) Authorized representative information.
      */
     private AORInfoType getAORInfoType() {
-        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         AORInfoType aorInfoType = AORInfoType.Factory.newInstance();
         if (departmentalPerson != null) {
             aorInfoType.setName(globLibV10Generator.getHumanNameDataType(departmentalPerson));
@@ -570,9 +570,9 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
         IsWomenOwned isWomenOwned = IsWomenOwned.Factory.newInstance();
         boolean smallBusflag = false;
         int orgTypeCode = 0;
-        if (pdDoc.getDevelopmentProposal().getOrganization() != null && pdDoc.getDevelopmentProposal().getOrganization().getOrganizationTypes() != null
-                && pdDoc.getDevelopmentProposal().getOrganization().getOrganizationTypes().size() > 0) {
-            orgTypeCode = pdDoc.getDevelopmentProposal().getOrganization().getOrganizationTypes().get(0).getOrganizationTypeCode();
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null && pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationTypes() != null
+                && pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationTypes().size() > 0) {
+            orgTypeCode = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationTypes().get(0).getOrganizationTypeCode();
         }
         ApplicantTypeCodeDataType.Enum applicantTypeCode = null;
         switch (orgTypeCode) {

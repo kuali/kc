@@ -50,6 +50,12 @@ public final class KeyConstants {
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION = "proposaldevelopment.proposaltype.revision";
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION = "proposaldevelopment.proposaltype.continuation";
     
+    // Proposal Sites errors
+    public static final String ERROR_PROPOSAL_SITES_STATE_CODE_INVALID = "error.document.accountMaintenance.stateCodeInvalid";
+    public static final String ERROR_PROPOSAL_SITES_DISTRICT_NUMBER_LESS_THAN_ONE = "error.lessThanOne";
+    public static final String ERROR_PROPOSAL_SITES_DISTRICT_NUMBER_INVALID_FORMAT = "error.integer";
+    public static final String ERROR_PROPOSAL_SITES_INDEX_INVALID_FORMAT = "error.integer";   // used for site indexes and district indexes
+        
     // Key Personnel Mojo
     public static final String ERROR_INVESTIGATOR_UNITS_UPBOUND = "error.investigatorUnits.upbound";
     public static final String ERROR_INVESTIGATOR_UPBOUND = "error.principalInvestigators.upbound";

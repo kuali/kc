@@ -20,9 +20,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.event.AddProposalLocationEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -54,11 +54,11 @@ public class ProposalDevelopmentProposalLocationRuleTest extends ProposalDevelop
 
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
 
-        ProposalLocation newProposalLocation = new ProposalLocation();
-        newProposalLocation.setLocation("test location");
-        AddProposalLocationEvent addProposalLocationEvent = new AddProposalLocationEvent(Constants.EMPTY_STRING, document,
-            newProposalLocation);
-        assertTrue(rule.processAddProposalLocationBusinessRules(addProposalLocationEvent));
+        ProposalSite newProposalSite = new ProposalSite();
+        newProposalSite.setLocationName("test location");
+        AddProposalSiteEvent addProposalLocationEvent = new AddProposalSiteEvent(Constants.EMPTY_STRING, document,
+            newProposalSite);
+        assertTrue(rule.processAddProposalSiteBusinessRules(addProposalLocationEvent));
     }
 
     /**
@@ -70,11 +70,11 @@ public class ProposalDevelopmentProposalLocationRuleTest extends ProposalDevelop
     @Test
     public void testEmptyLocationName() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        ProposalLocation newProposalLocation = new ProposalLocation();
-        // newProposalLocation.setLocation("test location");
-        AddProposalLocationEvent addProposalLocationEvent = new AddProposalLocationEvent(Constants.EMPTY_STRING, document,
-            newProposalLocation);
-        assertFalse(rule.processAddProposalLocationBusinessRules(addProposalLocationEvent));
+        ProposalSite newProposalSite = new ProposalSite();
+        // newProposalSite.setLocationName("test location");
+        AddProposalSiteEvent addProposalLocationEvent = new AddProposalSiteEvent(Constants.EMPTY_STRING, document,
+            newProposalSite);
+        assertFalse(rule.processAddProposalSiteBusinessRules(addProposalLocationEvent));
 
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROPOSAL_LOCATION + ".location");
         assertTrue(errors.size() == 1);

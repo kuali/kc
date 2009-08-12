@@ -44,7 +44,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0GeneratorTest extends
         rolodex.setRolodexId(1);
         Organization organization = new Organization();
         organization.setRolodex(rolodex);
-        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrganization(organization);
         Sponsor sponsor = new Sponsor();
         sponsor.setSponsorCode("000217 ");
         sponsor.setSponsorTypeCode("8");
