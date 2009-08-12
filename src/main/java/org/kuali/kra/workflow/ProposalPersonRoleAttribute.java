@@ -123,7 +123,9 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
         Element rootElement=routeContext.getDocumentContent().getApplicationContent(); 
         if(rootElement!=null){
             Element documentElement = getChildElement(rootElement, "document");
-            Element proposalPersonElement=getChildElement(documentElement, "proposalPersons");
+            Element proposalListElement = getChildElement(documentElement, "developmentProposalList");
+            Element proposal = getChildElement(proposalListElement, "org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal");
+            Element proposalPersonElement=getChildElement(proposal, "proposalPersons");
             NodeList proposalperonList=proposalPersonElement.getChildNodes();
             for (int i = 0; i < proposalperonList.getLength(); i++) {
                 Node proposalpersonNode =proposalperonList.item(i);
@@ -144,7 +146,9 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
         Element rootElement=routeContext.getDocumentContent().getApplicationContent();
         if(rootElement!=null){
             Element documentElement =getChildElement(rootElement, "document");
-            Element proposalPersonElement=getChildElement(documentElement, "proposalPersons");
+            Element proposalListElement = getChildElement(documentElement, "developmentProposalList");
+            Element proposal = getChildElement(proposalListElement, "org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal");
+            Element proposalPersonElement=getChildElement(proposal, "proposalPersons");
             NodeList proposalperonList=proposalPersonElement.getChildNodes();
             for (int i = 0; i < proposalperonList.getLength(); i++) {
                 Node proposalpersonNode =proposalperonList.item(i);
@@ -164,7 +168,9 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
         Element rootElement=routeContext.getDocumentContent().getApplicationContent();
         if(rootElement!=null){
             Element documentElement = getChildElement(rootElement, "document");
-            Element proposalPersonElement=getChildElement(documentElement, "proposalPersons");
+            Element proposalListElement = getChildElement(documentElement, "developmentProposalList");
+            Element proposal = getChildElement(proposalListElement, "org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal");
+            Element proposalPersonElement=getChildElement(proposal, "proposalPersons");
             NodeList proposalperonList=proposalPersonElement.getChildNodes();
             for (int i = 0; i < proposalperonList.getLength(); i++) {
                 Node proposalpersonNode =proposalperonList.item(i);
@@ -184,7 +190,9 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
         Element rootElement=routeContext.getDocumentContent().getApplicationContent();
         if(rootElement!=null){
             Element documentElement = getChildElement(rootElement, "document");
-            Element proposalPersonElement=getChildElement(documentElement, "proposalPersons");
+            Element proposalListElement = getChildElement(documentElement, "developmentProposalList");
+            Element proposal = getChildElement(proposalListElement, "org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal");
+            Element proposalPersonElement=getChildElement(proposal, "proposalPersons");
             NodeList proposalperonList=proposalPersonElement.getChildNodes();
             for (int i = 0; i < proposalperonList.getLength(); i++) {
                 Node proposalpersonNode =proposalperonList.item(i);
@@ -204,7 +212,9 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
         Element rootElement=routeContext.getDocumentContent().getApplicationContent();
         if(rootElement!=null){
             Element documentElement = getChildElement(rootElement, "document");
-            Element proposalPersonElement=getChildElement(documentElement, "proposalPersons");
+            Element proposalListElement = getChildElement(documentElement, "developmentProposalList");
+            Element proposal = getChildElement(proposalListElement, "org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal");
+            Element proposalPersonElement=getChildElement(proposal, "proposalPersons");
             NodeList proposalperonList=proposalPersonElement.getChildNodes();
             for (int i = 0; i < proposalperonList.getLength(); i++) {
                 Node proposalpersonNode =proposalperonList.item(i);
