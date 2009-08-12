@@ -19,12 +19,16 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ScienceKeyword;
-public class PropScienceKeyword extends KraPersistableBusinessObjectBase {
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
+public class PropScienceKeyword extends KraPersistableBusinessObjectBase implements HierarchyMaintainable {
 	private String proposalNumber;
 	private String scienceKeywordCode;
 	private String scienceKeywordDescription;
     private ScienceKeyword scienceKeyword;
     private Boolean selectKeyword = false;
+    
+    private String hierarchyProposalNumber;
+    private boolean hiddenInHierarchy;
 
     /**
      * Default constructor.
@@ -124,6 +128,38 @@ public class PropScienceKeyword extends KraPersistableBusinessObjectBase {
         else if (!scienceKeywordCode.equals(other.scienceKeywordCode))
             return false;
         return true;
+    }
+
+    /**
+     * Gets the hierarchyProposalNumber attribute. 
+     * @return Returns the hierarchyProposalNumber.
+     */
+    public String getHierarchyProposalNumber() {
+        return hierarchyProposalNumber;
+    }
+
+    /**
+     * Sets the hierarchyProposalNumber attribute value.
+     * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
+     */
+    public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
+        this.hierarchyProposalNumber = hierarchyProposalNumber;
+    }
+
+    /**
+     * Gets the hiddenInHierarchy attribute. 
+     * @return Returns the hiddenInHierarchy.
+     */
+    public boolean isHiddenInHierarchy() {
+        return hiddenInHierarchy;
+    }
+
+    /**
+     * Sets the hiddenInHierarchy attribute value.
+     * @param hiddenInHierarchy The hiddenInHierarchy to set.
+     */
+    public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
+        this.hiddenInHierarchy = hiddenInHierarchy;
     }
     
 }
