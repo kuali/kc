@@ -2288,7 +2288,7 @@
 		<field-descriptor name="sequenceOwnerSequenceNumber" column="SEQ_OWNER_SEQ_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="statusForOjb" column="VERSION_STATUS" jdbc-type="VARCHAR" />
 		<field-descriptor name="userId" column="USER_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionDate" column="VERSION_DATE" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="versionDate" column="VERSION_DATE" jdbc-type="DATE" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
