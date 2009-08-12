@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.rule;
 
-import org.kuali.kra.proposaldevelopment.rule.event.AddProposalLocationEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent;
 import org.kuali.rice.kns.rule.BusinessRule;
 
-public interface AddProposalLocationRule  extends BusinessRule {
+public interface AddProposalSiteRule  extends BusinessRule {
     
     /**
      * Rule invoked upon adding a proposal location 
@@ -26,5 +26,5 @@ public interface AddProposalLocationRule  extends BusinessRule {
      *
      * @return boolean
      */
-    public boolean processAddProposalLocationBusinessRules(AddProposalLocationEvent addProposalLocationEvent);
+    public boolean processAddProposalSiteBusinessRules(AddProposalSiteEvent addProposalLocationEvent);
 }

@@ -51,8 +51,8 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
         ED524Budget ed524Budget = ED524Budget.Factory.newInstance();
 
         ed524Budget.setFormVersion(S2SConstants.FORMVERSION_1_1);
-        if (pdDoc.getDevelopmentProposal().getOrganization() != null) {
-            ed524Budget.setLEGALNAME(pdDoc.getDevelopmentProposal().getOrganization().getOrganizationName());
+        if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
+            ed524Budget.setLEGALNAME(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
         }
         else {
             ed524Budget.setLEGALNAME(DEFAULT_LEGAL_NAME);
@@ -633,7 +633,7 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
         IndirectCostRateAgreementFromDate fromDate = IndirectCostRateAgreementFromDate.Factory.newInstance();
         String restrictedQuestion = RESTIRCTED_QUESTION;
         String agencyName = getAgencyName();
-        String indirectCostRateAgreement = pdDoc.getDevelopmentProposal().getOrganization().getIndirectCostRateAgreement();
+        String indirectCostRateAgreement = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getIndirectCostRateAgreement();
         if (indirectCostRateAgreement != null && indirectCostRateAgreement.equals(INDIRECT_COST_RATE_AGREEMENT_NONE)) {
             approvingFederalAgency.setIsIndirectCostRateAgreementApproved(YesNoDataType.N_NO);
         }

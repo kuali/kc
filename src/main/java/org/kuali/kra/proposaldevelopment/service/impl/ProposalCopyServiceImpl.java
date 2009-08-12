@@ -39,17 +39,18 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
-import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -60,7 +61,6 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -477,34 +477,40 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
     /**
      * If the Lead Unit has changed in the previous {@link Document}, then this method corrects related
-     * properties {@link Organization} and {@link ProposalLocation} instances
+     * properties {@link Organization} and {@link ProposalSite} instances
      *
      * @param doc {@link ProposalDevelopmentDocument} to fix
      */
     private void fixOrganizationAndLocations(ProposalDevelopmentDocument doc) {
-        doc.getDevelopmentProposal().setOrganizationId(doc.getDevelopmentProposal().getOwnedByUnit().getOrganizationId());
-        doc.getDevelopmentProposal().refreshReferenceObject("organization");
-        doc.getDevelopmentProposal().setPerformingOrganizationId(doc.getDevelopmentProposal().getOwnedByUnit().getOrganizationId());
-        doc.getDevelopmentProposal().refreshReferenceObject("performingOrganization");
+        DevelopmentProposal developmentProposal = doc.getDevelopmentProposal();
+
+        // update applicant org Id, then refresh applicant org
+        developmentProposal.setApplicantOrganizationId(developmentProposal.getOwnedByUnit().getOrganizationId());
         
         // Remove the first Location because it's probably the old one.
         Integer firstProposalLocationSeqeunceNumber = null;
-        if (doc.getDevelopmentProposal().getProposalLocations().size() > 0) {
-            ProposalLocation proposalLocation = doc.getDevelopmentProposal().getProposalLocations().get(0);
-            firstProposalLocationSeqeunceNumber = proposalLocation.getLocationSequenceNumber();
-            doc.getDevelopmentProposal().getProposalLocations().remove(proposalLocation);
+        ProposalSite firstSite = null;
+        if (developmentProposal.getPerformanceSites().size() > 0) {
+            firstSite = developmentProposal.getPerformanceSites().get(0);
+            firstProposalLocationSeqeunceNumber = firstSite.getSiteNumber();
+            developmentProposal.removePerformanceSite(0);
         }
-  
-        // re-initialize Proposal Locations with Organization details
-        ProposalLocation newProposalLocation = new ProposalLocation();
-        newProposalLocation.setLocation(doc.getDevelopmentProposal().getOrganization().getOrganizationName());
-        newProposalLocation.setRolodexId(doc.getDevelopmentProposal().getOrganization().getContactAddressId());
-        newProposalLocation.refreshReferenceObject("rolodex");
+        else if (developmentProposal.getOtherOrganizations().size() > 0) {
+            firstSite = developmentProposal.getOtherOrganizations().get(0);
+            firstProposalLocationSeqeunceNumber = firstSite.getSiteNumber();
+            developmentProposal.removeOtherOrganization(0);
+        }
+        
+        // re-initialize Proposal Sites with Organization details
+        ProposalSite newProposalSite = new ProposalSite();
+        newProposalSite.setLocationName(doc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
+        newProposalSite.setRolodexId(doc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getContactAddressId());
+        newProposalSite.refreshReferenceObject("rolodex");
         if(firstProposalLocationSeqeunceNumber == null || firstProposalLocationSeqeunceNumber.intValue() <= 0) {
             firstProposalLocationSeqeunceNumber = doc.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER);
         }
-        newProposalLocation.setLocationSequenceNumber(firstProposalLocationSeqeunceNumber);
-        doc.getDevelopmentProposal().getProposalLocations().add(0, newProposalLocation);
+        newProposalSite.setSiteNumber(firstProposalLocationSeqeunceNumber);
+        doc.getDevelopmentProposal().addOtherOrganization(newProposalSite);
     }
     
     /**
@@ -513,6 +519,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param object the object
      * @param proposalNumber the proposal number
      */
+    @SuppressWarnings("unchecked")
     private void fixProposalNumbers(Object object, String proposalNumber, List<Object> list) throws Exception {
         if (object instanceof BusinessObject) {
             if (list.contains(object)) return;
@@ -544,6 +551,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * document must be left as is.
      * @param object the object
      */
+    @SuppressWarnings("unchecked")
     private void fixVersionNumbers(Object object, List<Object> list) throws Exception {
         
         if (object instanceof BusinessObject) {

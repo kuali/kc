@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
@@ -27,7 +27,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 public interface ProposalLocationEvent extends KualiDocumentEvent {
     
     /**
-     * @return <code>{@link ProposalLocation}</code> that triggered this event.
+     * @return <code>{@link ProposalSite}</code> that triggered this event.
      */
-    public ProposalLocation getProposalLocation();
+    public ProposalSite getProposalSite();
 }

@@ -36,7 +36,7 @@ public class FaithBasedSurveyOnEEOV1_1GeneratorTest extends S2STestBase<FaithBas
         Organization organization = new Organization();
         organization.setOrganizationName("Organization Name");
         organization.setDunsNumber("000000000");
-        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrganization(organization);
         S2sOpportunity s2sOpportunity = new S2sOpportunity();
         s2sOpportunity.setOpportunityTitle("Opportunity Title");
         s2sOpportunity.setCfdaNumber("00.000");

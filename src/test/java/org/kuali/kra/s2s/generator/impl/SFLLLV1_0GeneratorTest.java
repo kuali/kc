@@ -52,7 +52,7 @@ public class SFLLLV1_0GeneratorTest extends S2STestBase<SFLLLV1_0Generator> {
         rolodex.setCity("New York");
         rolodex.setRolodexId(1234);
         organization.setRolodex(rolodex);
-        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrganization(organization);
 
         Rolodex rolodex1 = new Rolodex();
         rolodex1.setAddressLine1("#272/B");

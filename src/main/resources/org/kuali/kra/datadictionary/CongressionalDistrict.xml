@@ -1,0 +1,115 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CongressionalDistrict" parent="CongressionalDistrict-parentBean" />
+  <bean id="CongressionalDistrict-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict" />
+    <property name="titleAttribute" value="CongressionalDistrict" />
+    <property name="attributes" >
+      <list>
+        <ref bean="CongressionalDistrict-proposalNumber" />
+        <ref bean="CongressionalDistrict-siteNumber" />
+        <ref bean="CongressionalDistrict-congressionalDistrict" />
+        <ref bean="CongressionalDistrict-stateCode" />
+        <ref bean="CongressionalDistrict-districtNumber" />
+      </list>
+    </property>
+  </bean>
+
+  <!-- Attribute Definitions -->
+
+  <bean id="CongressionalDistrict-proposalNumber" parent="CongressionalDistrict-proposalNumber-parentBean" />
+  <bean id="CongressionalDistrict-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  
+  <bean id="CongressionalDistrict-siteNumber" parent="CongressionalDistrict-siteNumber-parentBean" />
+  <bean id="CongressionalDistrict-siteNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="siteNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Site Number" />
+    <property name="shortLabel" value="Site Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10" />
+    </property>
+    <property name="summary" value="Proposal Site Number" />
+    <property name="description" value="Proposal Site Number" />
+  </bean>
+  
+  <bean id="CongressionalDistrict-congressionalDistrict" parent="CongressionalDistrict-congressionalDistrict-parentBean" />
+  <bean id="CongressionalDistrict-congressionalDistrict-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="congressionalDistrict" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Congressional District" />
+    <property name="shortLabel" value="Congressional District" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10" />
+    </property>
+    <property name="summary" value="State code plus congressional district number" />
+    <property name="description" value="State code plus congressional district number" />
+  </bean>
+  
+  <bean id="CongressionalDistrict-stateCode" parent="CongressionalDistrict-stateCode-parentBean" />
+  <bean id="CongressionalDistrict-stateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="stateCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="State" />
+    <property name="shortLabel" value="State" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.bo.State"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="stateCode"
+            p:labelAttribute="stateCode" />
+    </property>
+    <property name="summary" value="State code, e.g. AZ" />
+    <property name="description" value="State code, e.g. AZ" />
+  </bean>
+  
+  <bean id="CongressionalDistrict-districtNumber" parent="CongressionalDistrict-districtNumber-parentBean" />
+  <bean id="CongressionalDistrict-districtNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="districtNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="District Number" />
+    <property name="shortLabel" value="District Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10" />
+    </property>
+    <property name="summary" value="District Number" />
+    <property name="description" value="District Number" />
+  </bean>
+  
+</beans>

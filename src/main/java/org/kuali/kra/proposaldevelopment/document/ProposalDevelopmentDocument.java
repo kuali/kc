@@ -49,17 +49,15 @@ import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
 
 public class ProposalDevelopmentDocument extends BudgetParentDocument implements Copyable, SessionDocument, Permissionable {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
-
-    private static final String DOCUMENT_TYPE_CODE = "PRDV";
-
     private static final long serialVersionUID = 2958631745964610527L;
+    private static final String DOCUMENT_TYPE_CODE = "PRDV";
+    
     private List<DevelopmentProposal> developmentProposalList;
     private List<BudgetDocumentVersion> budgetDocumentVersions;
 
-
     public ProposalDevelopmentDocument() {
         super();
+
         developmentProposalList = new ArrayList<DevelopmentProposal>();
         DevelopmentProposal newProposal = new DevelopmentProposal(); 
         newProposal.setProposalDocument(this);
@@ -197,7 +195,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument implements
 
         return roleNames;
     }
-
+    
     /**
      * 
      * @see org.kuali.kra.common.permissions.Permissionable#getDocumentNumberForPermission()
@@ -213,7 +211,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument implements
     public String getDocumentKey() {
         return Permissionable.PROPOSAL_KEY;
     }
-
+    
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */

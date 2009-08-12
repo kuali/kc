@@ -55,8 +55,7 @@ public class ED524BudgetV1_0GeneratorTest extends S2STestBase<ED524BudgetV1_0Gen
         proposalPerson.setProposalPersonNumber(1001);
         List<ProposalPerson> proposalPersonList = new ArrayList<ProposalPerson>();
         proposalPersonList.add(proposalPerson);
-
-        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrganization(organization);
         document.setUpdateUser("quickstart");
         document.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
         document.getDevelopmentProposal().setProposalPersons(proposalPersonList);

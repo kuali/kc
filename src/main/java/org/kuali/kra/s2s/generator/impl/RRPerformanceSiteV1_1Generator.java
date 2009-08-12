@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -50,7 +50,7 @@ public class RRPerformanceSiteV1_1Generator extends RRPerformanceSiteBaseGenerat
         rrPerformanceSite.setFormVersion(S2SConstants.FORMVERSION_1_1);
         SiteLocationDataType siteLocation = SiteLocationDataType.Factory.newInstance();
         if (pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
-            siteLocation.setOrganizationName(pdDoc.getDevelopmentProposal().getPerformingOrganization().getOrganizationName());
+            siteLocation.setOrganizationName(pdDoc.getDevelopmentProposal().getPerformingOrganization().getLocationName());
         }
         Rolodex rolodex = null;
         if (pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
@@ -60,13 +60,13 @@ public class RRPerformanceSiteV1_1Generator extends RRPerformanceSiteBaseGenerat
         rrPerformanceSite.setPrimarySite(siteLocation);
         int otherSiteCount = 0;
         SiteLocationDataType[] siteLocationDataTypeArray = null;
-        if (pdDoc.getDevelopmentProposal().getProposalLocations() != null) {
-            siteLocationDataTypeArray = new SiteLocationDataType[pdDoc.getDevelopmentProposal().getProposalLocations().size()];
-            for (ProposalLocation proposalLocation : pdDoc.getDevelopmentProposal().getProposalLocations()) {
+        if (pdDoc.getDevelopmentProposal().getProposalSites() != null) {
+            siteLocationDataTypeArray = new SiteLocationDataType[pdDoc.getDevelopmentProposal().getProposalSites().size()];
+            for (ProposalSite proposalSite: pdDoc.getDevelopmentProposal().getProposalSites()) {
                 SiteLocationDataType siteLocationOther = SiteLocationDataType.Factory.newInstance();
-                Rolodex rolodex2 = proposalLocation.getRolodex();
+                Rolodex rolodex2 = proposalSite.getRolodex();
                 if (rolodex2 != null) {
-                    siteLocationOther.setOrganizationName(pdDoc.getDevelopmentProposal().getPerformingOrganization().getOrganizationName());
+                    siteLocationOther.setOrganizationName(pdDoc.getDevelopmentProposal().getPerformingOrganization().getLocationName());
                     siteLocationOther.setAddress(globLibV20Generator.getAddressDataType(rolodex2));
                     siteLocationDataTypeArray[otherSiteCount] = siteLocationOther;
                     otherSiteCount++;

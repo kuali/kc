@@ -63,7 +63,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
         LOG.info("Inside RROtherProjectInfo");
         RROtherProjectInfoDocument rrOtherProjectInfoDocument = RROtherProjectInfoDocument.Factory.newInstance();
         RROtherProjectInfo rrOtherProjectInfo = RROtherProjectInfo.Factory.newInstance();
-        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         rrOtherProjectInfo.setFormVersion(S2SConstants.FORMVERSION_1_0);
 
         rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.NO);

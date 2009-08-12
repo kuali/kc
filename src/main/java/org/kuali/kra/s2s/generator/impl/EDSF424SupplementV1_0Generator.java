@@ -74,7 +74,7 @@ public class EDSF424SupplementV1_0Generator extends EDSF424SupplementBaseGenerat
                 }
             }
         }
-        Organization organization = pdDoc.getDevelopmentProposal().getOrganization();
+        Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         for (ProposalSpecialReview specialReview : pdDoc.getDevelopmentProposal().getPropSpecialReviews()) {
             if (specialReview != null) {
                 if (specialReview.getSpecialReviewCode() != null

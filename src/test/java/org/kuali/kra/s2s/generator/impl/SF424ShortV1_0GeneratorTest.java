@@ -119,7 +119,7 @@ public class SF424ShortV1_0GeneratorTest extends S2STestBase<SF424ShortV1_0Gener
         document.getDevelopmentProposal().setProgramAnnouncementTitle("programAnnouncementTitle");
         opportunity.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         document.getDevelopmentProposal().setS2sOpportunity(opportunity);
-        document.getDevelopmentProposal().setOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrganization(organization);
         document.getDevelopmentProposal().setTitle("NewTitle");
         document.getDevelopmentProposal().setProposalAbstracts(proList);
         document.getDevelopmentProposal().setRequestedStartDateInitial(new Date(0));

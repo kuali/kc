@@ -145,7 +145,7 @@ public class PHS398CoverPageSupplementV1_0Generator extends PHS398CoverPageSuppl
     private ContactPersonInfo getContactPersonInfo(ProposalDevelopmentDocument pdDoc) {
 
         ContactPersonInfo contactPersonInfo = ContactPersonInfo.Factory.newInstance();
-        Rolodex rolodex = pdDoc.getDevelopmentProposal().getOrganization().getRolodex();
+        Rolodex rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
         if (rolodex != null) {
             contactPersonInfo.setContactName(globLibV10Generator.getHumanNameDataType(rolodex));
             contactPersonInfo.setContactPhone(rolodex.getPhoneNumber());
