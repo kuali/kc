@@ -18,8 +18,6 @@
 <c:set var="awardHierarchyNodeAttributes" value="${DataDictionary.AwardHierarchyNode.attributes}" />
 <c:set var="awardAmountTransactionAttributes" value="${DataDictionary.AwardAmountTransaction.attributes}" />
 
-<c:set var="action" value="awardHierarchy" />
-
 <kul:tab tabTitle="Award Hierarchy" defaultOpen="true" tabErrorKey="" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
     	<h3>
@@ -56,17 +54,17 @@
     			<c:otherwise>
     				<td align="left" valign="middle">					
 		    		<div align="center">            
-		            	<kul:htmlControlAttribute property="transactionBean.newAwardAmountTransaction.transactionTypeCode" attributeEntry="${awardAmountTransactionAttributes.transactionTypeCode}" />
+		            	<kul:htmlControlAttribute property="document.newAwardAmountTransaction.transactionTypeCode" attributeEntry="${awardAmountTransactionAttributes.transactionTypeCode}" />
 					</div>
 					</td>
 					<td align="left" valign="middle">					
 		    		<div align="center">            
-		            	<kul:htmlControlAttribute property="transactionBean.newAwardAmountTransaction.noticeDate" attributeEntry="${awardAmountTransactionAttributes.noticeDate}" />
+		            	<kul:htmlControlAttribute property="document.newAwardAmountTransaction.noticeDate" attributeEntry="${awardAmountTransactionAttributes.noticeDate}" />
 					</div>
 					</td>
 					<td align="left" valign="middle">					
 		    		<div align="center">            
-		            	<kul:htmlControlAttribute property="transactionBean.newAwardAmountTransaction.comments" attributeEntry="${awardAmountTransactionAttributes.comments}" />
+		            	<kul:htmlControlAttribute property="document.newAwardAmountTransaction.comments" attributeEntry="${awardAmountTransactionAttributes.comments}" />
 					</div>
 					</td>    			
     			</c:otherwise>
@@ -97,8 +95,11 @@
        		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.obligationExpirationDate}" scope="col" /></div></th>
        		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.finalExpirationDate}" scope="col" /></div></th>
        		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.amountObligatedToDate}" scope="col" /></div></th>
-       		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.anticipatedTotalAmount}" scope="col" /></div></th>       		
-       	</tr>       	
+       		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.obliDistributableAmount}" scope="col" /></div></th>
+       		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.anticipatedTotalAmount}" scope="col" /></div></th>
+       		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.antDistributableAmount}" scope="col" /></div></th>       		
+       	</tr>
+       	
 		<c:forEach var="awardHierarchyNode" items="${KualiForm.document.awardHierarchyNodes}" varStatus="status">
           <tr>
 			<th class="infoline">
@@ -131,7 +132,17 @@
   		  </td>
   		  <td align="left" valign="middle">
 			<div align="center">
+              		<c:out value ="${awardHierarchyNode.value.obliDistributableAmount}" />
+			</div>
+  		  </td>
+  		  <td align="left" valign="middle">
+			<div align="center">
               		<c:out value ="${awardHierarchyNode.value.anticipatedTotalAmount}" />
+			</div>
+  		  </td>
+  		  <td align="left" valign="middle">
+			<div align="center">
+              		<c:out value ="${awardHierarchyNode.value.antDistributableAmount}" />
 			</div>
   		  </td>		  
            </tr>

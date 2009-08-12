@@ -93,7 +93,20 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         ActionForward actionForward = super.execute(mapping, form, request, response);
                 
         new AuditActionHelper().auditConditionally((AwardForm)form);
+        
         return actionForward;
+    }
+
+    /**
+     * This method...
+     * @param form
+     */
+    private void populateAwardHierarchy(ActionForm form) {
+        AwardForm awardForm = (AwardForm)form;
+        Award award = awardForm.getAwardDocument().getAward();
+        Map<String, AwardHierarchy> awardHierarchyNodes = getAwardHierarchyService().getAwardHierarchy(award.getAwardNumber());
+        
+        awardForm.setAwardHierarchyNodes(awardHierarchyNodes);
     }
     
     /**
@@ -295,7 +308,10 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         AwardForm awardForm = (AwardForm) form;
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
-        boolean createNewTimeAndMoneyDocument = Boolean.TRUE;        
+        boolean createNewTimeAndMoneyDocument = Boolean.TRUE;
+        
+        populateAwardHierarchy(form);
+        
         Award award = awardForm.getAwardDocument().getAward();
         if(isNewAward(awardForm)){
             AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
@@ -305,8 +321,9 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         }
         
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("awardNumber", award.getAwardNumber());
-        fieldValues.put("sequenceNumber", award.getSequenceNumber());
+        String rootAwardNumber = awardForm.getAwardHierarchyNodes().get(award.getAwardNumber()).getRootAwardNumber();
+        fieldValues.put("rootAwardNumber", rootAwardNumber);
+        //fieldValues.put("sequenceNumber", award.getSequenceNumber());
         BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
         
         List<TimeAndMoneyDocument> timeAndMoneyDocuments = (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues);
@@ -314,7 +331,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         
         for(TimeAndMoneyDocument t : timeAndMoneyDocuments){
             timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
-            timeAndMoneyDocument.setAwardId(award.getAwardId());           
+            timeAndMoneyDocument.setAwardNumber(award.getAwardNumber());
+            timeAndMoneyDocument.setAward(award);
             if(!kraWorkflowService.isInWorkflow(timeAndMoneyDocument)){
                 createNewTimeAndMoneyDocument = Boolean.FALSE;
                 break;
@@ -324,9 +342,9 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         if(createNewTimeAndMoneyDocument){            
             timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
             timeAndMoneyDocument.getDocumentHeader().setDocumentDescription("timeandmoney document");
+            timeAndMoneyDocument.setRootAwardNumber(rootAwardNumber);
             timeAndMoneyDocument.setAwardNumber(award.getAwardNumber());
-            timeAndMoneyDocument.setSequenceNumber(award.getSequenceNumber());
-            timeAndMoneyDocument.setAwardId(award.getAwardId());
+            timeAndMoneyDocument.setAward(award);
         }
         
         documentService.saveDocument(timeAndMoneyDocument);
@@ -492,11 +510,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     public ActionForward awardActions(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {
         
-        AwardForm awardForm = (AwardForm)form;
-        Award award = awardForm.getAwardDocument().getAward();
-        Map<String, AwardHierarchy> awardHierarchyNodes = getAwardHierarchyService().getAwardHierarchy(award.getAwardNumber());
-        
-        awardForm.setAwardHierarchyNodes(awardHierarchyNodes);
+        populateAwardHierarchy(form);
         
         return mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
     }
