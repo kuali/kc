@@ -20,7 +20,7 @@
 <h3>
 	<span class="subhead-left">Miscellaneous Procurement/Purchasing</span>
 	<span class="subhead-right">
-		<kul:help businessObjectClassName="org.kuali.kra.award.bo.Award" altText="help"/>
+		<kul:help businessObjectClassName="org.kuali.kra.award.home.Award" altText="help"/>
 	</span>
 </h3>
 	<table border="0" cellpadding="0" cellspacing="0" summary="">

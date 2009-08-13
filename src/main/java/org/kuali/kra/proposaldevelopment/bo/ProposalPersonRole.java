@@ -130,4 +130,11 @@ public class ProposalPersonRole extends KraPersistableBusinessObjectBase impleme
     public String getRoleDescription() {
         return getDescription();
     }
+    /**
+     * This method determines if ProposalPersonRole is PI
+     * @return
+     */
+    public boolean isPrincipalInvestigatorRole() {
+        return ContactRole.PI_CODE.equals(getRoleCode());
+    }
 }

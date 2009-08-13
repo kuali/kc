@@ -27,7 +27,7 @@
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Unit Contacts</span>
-			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardUnitContact" altText="help"/></span>
+			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.contacts.AwardUnitContact" altText="help"/></span>
 		</h3>
 	    <table id="contacts-table" cellpadding="0" cellspacing="0" summary="Unit Contacts">
 			<tr>

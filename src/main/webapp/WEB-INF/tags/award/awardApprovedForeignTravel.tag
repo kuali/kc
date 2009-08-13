@@ -37,9 +37,13 @@
         	<th width="50" align="center" scope="row"><div align="right">Add:</div></th>
         	<td class="infoline">
         	  	<div align="center">
-        	  	 	<kul:htmlControlAttribute property="approvedForeignTravelBean.newApprovedForeignTravel.travelerName" attributeEntry="${approvedForeignTravelAttributes.travelerName}" readOnly="true" />
-        	  	 	<kul:lookup boClassName="org.kuali.kra.bo.Person" fieldConversions="personId:approvedForeignTravelBean.newApprovedForeignTravel.travelerId" anchor="${tabKey}" 
-        	  	 				lookupParameters="approvedForeignTravelBean.newApprovedForeignTravel.travelerId:personId" />
+        	  		<c:set var="dummy" value="${KualiForm.approvedForeignTravelBean.newApprovedForeignTravel.travelerId}" /> <%-- coerce setting from genericId --%> 
+        	  	 	<kul:htmlControlAttribute property="approvedForeignTravelBean.newApprovedForeignTravel.travelerName" 
+        	  	 							attributeEntry="${approvedForeignTravelAttributes.travelerName}" readOnly="true" />
+        	  	 	<kul:lookup boClassName="org.kuali.kra.award.contacts.AwardPerson" 
+        	  	 				fieldConversions="genericId:approvedForeignTravelBean.newApprovedForeignTravel.travelerId,fullName:approvedForeignTravelBean.newApprovedForeignTravel.travelerName"  
+        	  	 				lookupParameters="approvedForeignTravelBean.newApprovedForeignTravel.travelerId:genericId,${docAward}.awardNumber:awardNumber,${docAward}.sequenceNumber:sequenceNumber" 
+        	  	 				anchor="${tabKey}" />
         	 	</div>
         	</td>
             <td class="infoline">

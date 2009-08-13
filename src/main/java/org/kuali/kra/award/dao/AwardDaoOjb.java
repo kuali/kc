@@ -16,11 +16,13 @@
 package org.kuali.kra.award.dao;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
@@ -30,6 +32,8 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.versioning.VersionHistory;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.dao.LookupDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
@@ -52,6 +56,8 @@ class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware,
     private List<String> excludedFields = new ArrayList<String>();
     private Set<String> unitFieldNames;
     
+    private VersionHistoryService versionHistoryService; 
+    
     /**
      * Constructs a AwardDaoOjb.java.
      */
@@ -67,9 +73,9 @@ class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware,
     @SuppressWarnings("unchecked")
     public List<Award> getAwards(Map<String, String> lookupFieldNameValuePairs) {
         prepareCriteriaMaps(lookupFieldNameValuePairs);
-        return new ArrayList<Award>(getPersistenceBrokerTemplate().getCollectionByQuery(createQuery()));
+        return filterForActiveAwards(getPersistenceBrokerTemplate().getCollectionByQuery(createQuery()));
     }
-
+    
     /**
      * @param dataDictionaryService
      */
@@ -82,6 +88,13 @@ class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware,
      */
     public void setLookupDao(LookupDao lookupDao) {
         this.lookupDao = lookupDao;
+    }
+    
+    /**
+     * @param versionHistoryService
+     */
+    public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
+       this.versionHistoryService = versionHistoryService; 
     }
 
     /**
@@ -178,14 +191,30 @@ class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware,
         return criteria;
     }
 
-    /**
-     * This method...
-     * @return
-     */
     private QueryByCriteria createQuery() {
         return QueryFactory.newQuery(Award.class, createCriteria(), true);
     }
 
+    private List<Award> filterForActiveAwards(Collection<Award> collectionByQuery) {
+        Set<String> awardNumbers = new TreeSet<String>();
+        for(Award award: collectionByQuery) {
+            awardNumbers.add(award.getAwardNumber());
+        }
+        
+        List<Award> activeAwards = new ArrayList<Award>();
+        for(String versionName: awardNumbers) {
+            VersionHistory versionHistory = versionHistoryService.findActiveVersion(Award.class, versionName);
+            if(versionHistory != null) {
+                Award activeAward = (Award) versionHistory.getSequenceOwner();
+                if(activeAward != null) {
+                    activeAwards.add(activeAward);
+                }
+            }
+        }        
+                
+        return activeAwards;
+    }
+    
     /*
      * 
      * Builds up criteria object based on the object and map.
@@ -348,18 +377,11 @@ class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware,
             return fieldValue;
         }
 
-        public String getLookupFieldName() {
-            return lookupFieldName;
-        }
-
         public void setFieldValue(String fieldValue) {
             this.fieldValue = fieldValue;
         }   
     }
     
-    /**
-     * This class...
-     */
     private enum UnitCriteria {
         UNIT_NAME("unitName"),
         UNIT_NUMBER("unitNumber");
@@ -368,17 +390,6 @@ class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware,
 
         private UnitCriteria(String fieldName) {
             this.lookupFieldName = fieldName;
-        }
-
-        private static UnitCriteria findForFieldName(String fieldName) {
-            UnitCriteria foundCriteria = null;
-            for(UnitCriteria criteria: values()) {
-                if(criteria.lookupFieldName.equals(fieldName)) {
-                    foundCriteria = criteria;
-                    break;
-                }
-            }
-            return foundCriteria;
         }
 
         public String getLookupFieldName() {

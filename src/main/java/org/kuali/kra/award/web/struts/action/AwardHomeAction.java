@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,16 +28,22 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.contacts.AwardCreditSplitBean;
-import org.kuali.kra.award.contacts.AwardProjectPersonnelBean;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
+import org.kuali.kra.bo.versioning.VersionHistory;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KeywordsService;
+import org.kuali.kra.service.VersionException;
+import org.kuali.kra.service.VersioningService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 
@@ -46,6 +53,8 @@ import org.kuali.rice.kns.util.KNSConstants;
  */
 public class AwardHomeAction extends AwardAction { 
     
+    private static final String AWARD_VERSION_EDITPENDING_PROMPT_KEY = "message.award.version.editpending.prompt";
+    private static final String DOC_HANDLER_URL_PATTERN = "%s/DocHandler.do?command=displayDocSearchView&docId=%s";
     private ApprovedSubawardActionHelper approvedSubawardActionHelper;
     
     public AwardHomeAction(){
@@ -119,6 +128,29 @@ public class AwardHomeAction extends AwardAction {
     }
     
     /**
+     * 
+     * This method opens a document in read-only mode
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward open(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        AwardForm awardForm = (AwardForm) form;
+        String commandParam = request.getParameter(KNSConstants.PARAMETER_COMMAND);
+        if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate")
+            && StringUtils.isNotBlank(request.getParameter(AWARD_ID_PARAMETER_NAME))) {
+            Award award = findSelectedAward(request.getParameter(AWARD_ID_PARAMETER_NAME));
+            initializeFormWithAward(awardForm, award);
+        }
+        
+        return actionForward;
+    }
+    
+    /**
      * This method is used to recalculate the Total Subaward amount in the Subaward panel.
      * 
      * @param mapping
@@ -146,33 +178,15 @@ public class AwardHomeAction extends AwardAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        AwardForm awardForm = (AwardForm) form;
-        // Following is for award lookup - edit award 
+        AwardForm awardForm = (AwardForm) form; 
         String commandParam = request.getParameter(KNSConstants.PARAMETER_COMMAND);
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate")
             && StringUtils.isNotBlank(request.getParameter(AWARD_ID_PARAMETER_NAME))) {
             Award award = findSelectedAward(request.getParameter(AWARD_ID_PARAMETER_NAME));
-            AwardDocument document = (AwardDocument) getDocumentService().getByDocumentHeaderId(award.getAwardDocument().getDocumentNumber());
-            document.setAward(award);
-            reinitializeAwardForm(awardForm, document);
+            initializeFormWithAward(awardForm, award);
         }
         
-//        if (!awardForm.getLookupHelper().isViewOnly()) {
-//            awardForm.getAwardHelper().prepareView();
-//        }
-        
         return actionForward;
-    }
-
-    /**
-     * This method prepares the AwardForm with the document found via the Award lookup
-     * Because the helper beans may have preserved a different AwardForm, we need to reset these too
-     * @param awardForm
-     * @param document
-     */
-    private void reinitializeAwardForm(AwardForm awardForm, AwardDocument document) {
-        awardForm.setDocument(document);
-        awardForm.initialize();
     }
     
     /**
@@ -250,6 +264,53 @@ public class AwardHomeAction extends AwardAction {
     }
     
     /**
+     * This method is used to handle the edit button action on an ACTIVE Award. If no Pending version exists for the same
+     * awardNumber, a new Award version is created. If a Pending version exists, the user is prompted as to whether she would
+     * like to edit the Pending version. Answering Yes results in that Pending version AwardDocument to be opened. Answering No 
+     * simply returns the user to the ACTIVE document screen 
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward editOrVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                        HttpServletResponse response) throws Exception {
+        
+        AwardForm awardForm = ((AwardForm)form);
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+        Award award = awardDocument.getAward();
+        VersionHistory foundPending = findPendingVersion(award);
+        
+        ActionForward forward;
+        if(foundPending != null) {
+            Object question = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            forward = question == null ? showPromptForEditingPendingVersion(mapping, form, request, response) :
+                                         processPromptForEditingPendingVersionResponse(mapping, request, response, awardForm, foundPending);
+        } else {
+            forward = createAndSaveNewAwardVersion(response, awardForm, awardDocument, award);
+        }
+        return forward;
+    }
+
+    private ActionForward createAndSaveNewAwardVersion(HttpServletResponse response, AwardForm awardForm,
+                                                        AwardDocument awardDocument, Award award) throws VersionException, 
+                                                                                                         WorkflowException, 
+                                                                                                         IOException {
+        Award newVersion = getVersioningService().createNewVersion(award);
+        AwardDocument newAwardDocument = (AwardDocument) getDocumentService().getNewDocument(AwardDocument.class);
+        newAwardDocument.getDocumentHeader().setDocumentDescription(awardDocument.getDocumentHeader().getDocumentDescription());
+        newAwardDocument.setAward(newVersion);
+        getDocumentService().saveDocument(newAwardDocument);
+        getVersionHistoryService().createVersionHistory(newVersion, VersionStatus.PENDING, GlobalVariables.getUserSession().getPrincipalName());
+        reinitializeAwardForm(awardForm, newAwardDocument);
+        response.sendRedirect(makeDocumentOpenUrl(newAwardDocument));
+        return null;
+    }
+    
+    /**
      * 
      * This method adds a new AwardTransferringSponsor to the list. 
      * It uses {@link KeywordsService} to process the request 
@@ -266,8 +327,7 @@ public class AwardHomeAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    /**
-     * 
+    /** 
      * This method removes an AwardTransferringSponsor from the list. 
      * It uses {@link KeywordsService} to process the request 
      * @param mapping
@@ -288,6 +348,13 @@ public class AwardHomeAction extends AwardAction {
     }
 
     /**
+     * @return
+     */
+    protected VersioningService getVersioningService() {
+        return KraServiceLocator.getService(VersioningService.class);
+    }
+    
+    /**
      * This method locates an award for the specified awardId
      * @param awardId
      * @return
@@ -298,5 +365,69 @@ public class AwardHomeAction extends AwardAction {
         fieldMap.put(AWARD_ID_PARAMETER_NAME, awardId);
         List<Award> awards = (List<Award>) getBusinessObjectService().findMatching(Award.class, fieldMap);
         return (Award) awards.get(0);
+    }
+
+    private void initializeFormWithAward(AwardForm awardForm, Award award) throws WorkflowException {
+        reinitializeAwardForm(awardForm, findDocumentForAward(award));
+    }
+
+    private AwardDocument findDocumentForAward(Award award) throws WorkflowException {
+        AwardDocument document = (AwardDocument) getDocumentService().getByDocumentHeaderId(award.getAwardDocument().getDocumentNumber());
+        document.setAward(award);
+        return document;
+    }
+    
+    /**
+     * This method prepares the AwardForm with the document found via the Award lookup
+     * Because the helper beans may have preserved a different AwardForm, we need to reset these too
+     * @param awardForm
+     * @param document
+     */
+    private void reinitializeAwardForm(AwardForm awardForm, AwardDocument document) throws WorkflowException {
+        awardForm.populateHeaderFields(document.getDocumentHeader().getWorkflowDocument());
+        awardForm.setDocument(document);
+        document.setDocumentSaveAfterAwardLookupEditOrVersion(true);
+        awardForm.initialize();
+    }
+    
+    private String makeDocumentOpenUrl(AwardDocument newAwardDocument) {
+        String workflowUrl = getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY);
+        return String.format(DOC_HANDLER_URL_PATTERN, workflowUrl, newAwardDocument.getDocumentNumber());
+    }
+    
+    private VersionHistory findPendingVersion(Award award) {
+        List<VersionHistory> histories = getVersionHistoryService().loadVersionHistory(Award.class, award.getAwardNumber());
+        VersionHistory foundPending = null;
+        for(VersionHistory history: histories) {
+            if (history.getStatus() == VersionStatus.PENDING && award.getSequenceNumber() < history.getSequenceOwnerSequenceNumber()) {
+                foundPending = history;
+                break;
+            }
+        }
+        return foundPending;
+    }
+
+    private ActionForward showPromptForEditingPendingVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                                                HttpServletResponse response) throws Exception {
+        return this.performQuestionWithoutInput(mapping, form, request, response, "EDIT_OR_VERSION_QUESTION_ID",
+                                                getResources(request).getMessage(AWARD_VERSION_EDITPENDING_PROMPT_KEY),
+                                                KNSConstants.CONFIRMATION_QUESTION,
+                                                KNSConstants.MAPPING_CANCEL, "");
+    }
+    
+    private ActionForward processPromptForEditingPendingVersionResponse(ActionMapping mapping, HttpServletRequest request,
+            HttpServletResponse response, AwardForm awardForm, 
+            VersionHistory foundPending) throws WorkflowException, 
+                                                IOException {
+        ActionForward forward;
+        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        if (ConfirmationQuestion.NO.equals(buttonClicked)) {
+            forward = mapping.findForward(Constants.MAPPING_BASIC);
+        } else {
+            initializeFormWithAward(awardForm, (Award) foundPending.getSequenceOwner());
+            response.sendRedirect(makeDocumentOpenUrl(awardForm.getAwardDocument()));
+            forward = null;
+        }
+        return forward;
     }
 }
