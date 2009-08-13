@@ -29,10 +29,12 @@ This is the Award Home Page - Under Construction
 
 <div align="right"><kul:help documentTypeName="AwardDocument" pageName="Award" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
-<kra-a:awardFundingPropsals />
+<%-- <kra-a:awardFundingProposals /> --%>
 <kra-a:awardDetailsDates />
 <kra-a:awardSubaward />
 <kra-a:awardSponsorTemplate />
+
+
 
 <c:if test="${displayKeywordPanel}">
 <kra-a:awardKeywords />
@@ -47,6 +49,15 @@ var kualiElements = kualiForm.elements;
 <script language="javascript" src="scripts/kuali_application.js"></script>
 <script language="javascript" src="dwr/interface/SponsorService.js"></script>
 
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+<c:if test="${KualiForm.editingMode['viewOnly'] == 'TRUE'}">
+	<c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_edit_temp.gif"/>
+	<c:set var="extraButtonProperty" value="methodToCall.editOrVersion"/>
+	<c:set var="extraButtonAlt" value="Edit or Version"/>
+</c:if>
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" 
+						extraButtonSource="${extraButtonSource}" 
+						extraButtonProperty="${extraButtonProperty}"
+						extraButtonAlt="${extraButtonAlt}" 
+						/>
 
 </kul:documentPage>

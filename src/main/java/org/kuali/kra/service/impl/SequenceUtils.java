@@ -37,6 +37,7 @@ import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.Sequenceable;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.service.VersionException;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -70,7 +71,7 @@ public class SequenceUtils {
             @SuppressWarnings("unchecked")
             T newVersion = (T) ObjectUtils.deepCopy(oldVersion);
             newVersion.incrementSequenceNumber();
-            newVersion.resetPersistenceState();
+            resetPersistenceState(newVersion);
             sequenceAssociations(newVersion);
             return newVersion;
         } catch (Exception e) {
@@ -168,11 +169,22 @@ public class SequenceUtils {
         if (associate != null && parent != null && !this.alreadySequencedAssociates.contains(associate)) {
             final SequenceOwner<?> owner = parent instanceof SequenceOwner<?> ? (SequenceOwner<?>) parent : parent.getSequenceOwner();
             this.setSequenceOwner(associate, owner);
-            associate.resetPersistenceState();
+            resetPersistenceState(associate);
             if (!isAssociateAlsoASequenceOwner(associate)) {
                 sequenceAssociations(associate);
             }
         }
+    }
+
+    /**
+     * This method...
+     * @param associate
+     */
+    private void resetPersistenceState(SequenceAssociate<?> associate) {
+        if(associate instanceof PersistableBusinessObject) {
+            ((PersistableBusinessObject) associate).setVersionNumber(null);
+        }
+        associate.resetPersistenceState();
     }
 
     private boolean isFieldASequenceAssociate(Field field) {

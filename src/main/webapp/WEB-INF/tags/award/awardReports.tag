@@ -20,7 +20,7 @@
     	<h3>
     		<span class="subhead-left">Report Classes</span>
     		<span class="subhead-right">
-    			<kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardFandaRate" altText="help"/>
+    			<kul:help businessObjectClassName="org.kuali.kra.award.commitments.AwardFandaRate" altText="help"/>
 			</span>
         </h3>
 

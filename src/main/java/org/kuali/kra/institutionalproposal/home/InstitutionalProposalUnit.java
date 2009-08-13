@@ -36,6 +36,10 @@ public class InstitutionalProposalUnit extends KraPersistableBusinessObjectBase 
     public InstitutionalProposalUnit() { 
 
     } 
+
+    public boolean isLeadUnit() {
+        return leadUnitFlag;
+    }
     
     public Integer getProposalUnitsId() {
         return proposalUnitsId;

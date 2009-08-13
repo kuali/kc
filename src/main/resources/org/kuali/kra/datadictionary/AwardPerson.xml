@@ -7,6 +7,11 @@
   <bean id="AwardPerson" parent="AwardPerson-parentBean" />
   <bean id="AwardPerson-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.contacts.AwardPerson" />
+    
+    <property name="lookupDefinition" >
+      <ref bean="AwardPerson-lookupDefinition" />
+    </property>
+    
     <property name="titleAttribute" value="awardContact" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
@@ -165,6 +170,30 @@
 	    </property>
 	    <property name="summary" value="Project Role" />
 	    <property name="description" value="Project Role" />
+	</bean>
+
+	<bean id="AwardPerson-lookupDefinition" parent="AwardPerson-lookupDefinition-parentBean" />
+  	<bean id="AwardPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Award Person Lookup" />
+		<property name="lookupableID" value="awardPersonLookupable" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="instructions" value="Look up an Award Person" />
+		<property name="defaultSort" >
+		  <bean parent="SortDefinition" />
+		</property>
+		<property name="lookupFields" >
+		  <list>
+		  	<bean p:attributeName="awardNumber" parent="FieldDefinition" />
+		  	<bean p:attributeName="sequenceNumber" parent="FieldDefinition" />
+		  	<bean p:attributeName="fullName" parent="FieldDefinition" />		  	
+		  </list>
+		</property>
+		<property name="resultFields" >
+		  <list>
+		    <bean p:attributeName="fullName" parent="FieldDefinition" />
+		  </list>
+		</property>
+		<property name="resultSetLimit" value="50" />
 	</bean>
   
 </beans>
