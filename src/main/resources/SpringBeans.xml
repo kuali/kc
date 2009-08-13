@@ -1822,5 +1822,14 @@
 			<ref bean="businessObjectService" />
 		</property>		
 	</bean>
+
+	<bean id="proposalHierarchyService" class="org.kuali.kra.proposaldevelopment.hierarchy.service.impl.ProposalHierarchyServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+	</bean>
 	
 </beans>
