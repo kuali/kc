@@ -478,6 +478,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= new AwardReportAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardTermsAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardCustomDataAuditRule().processRunAuditBusinessRules(document);
+        retval &= new AwardPaymentAndInvoicesAuditRule().processRunAuditBusinessRules(document);
         
         return retval;
         

@@ -20,7 +20,7 @@
 <c:set var="awardPaymentAndInvoiceRequirementsCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 <c:set var="action" value="awardPaymentReportsAndTerms" />
 
-<kul:tabTop tabTitle="Payment & Invoices" defaultOpen="false" tabErrorKey="" >
+<kul:tabTop tabTitle="Payment & Invoices" defaultOpen="false" tabErrorKey="" auditCluster="paymentAndInvoicesAuditErrors" tabAuditKey="document.paymentsAuditRules*">
 	<div class="tab-container" align="right">
 		<kra-a:awardPaymentAndInvoicesTopPanel />	
 		<kra-a:awardReportClasses index="5" reportClassKey="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode}" 
