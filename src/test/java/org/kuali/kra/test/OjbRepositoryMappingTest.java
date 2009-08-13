@@ -539,8 +539,8 @@ public class OjbRepositoryMappingTest {
      * 
      */
     class TableValidationHandler extends DefaultHandler {
-        private static final String COLUMN_NOT_FOUND_MESSAGE = "There is no column named %s in table %s\n";
-        private static final String TABLE_NOT_FOUND_MESSAGE = "There is no table named %s\n";
+        private static final String COLUMN_NOT_FOUND_MESSAGE = "There is no column named %s in table or view %s\n";
+        private static final String TABLE_NOT_FOUND_MESSAGE = "There is no table or view named %s\n";
         private Connection connection;
         private Locator locator;
         private String currentTableName;
@@ -576,7 +576,7 @@ public class OjbRepositoryMappingTest {
                 ResultSet results = null;
                 try {
                     results = getConnection().getMetaData().getTables(null, dsSchema, getCurrentTableName(),
-                            new String[] { "TABLE" });
+                            new String[] { "TABLE", "VIEW" });
 
                     boolean found = false;
                     while (results.next() && !found) {
@@ -591,7 +591,7 @@ public class OjbRepositoryMappingTest {
                         throw createSaxParseException(TABLE_NOT_FOUND_MESSAGE, attributes.getValue(TABLE_ATTRIBUTE_NAME));
                     }
                     else {
-                        LOG.debug(String.format("Found table %s\n", getCurrentTableName()));
+                        LOG.debug(String.format("Found table or view %s\n", getCurrentTableName()));
                     }
                 }
                 catch (Exception e) {
