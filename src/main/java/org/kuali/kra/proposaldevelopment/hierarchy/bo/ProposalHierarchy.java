@@ -98,5 +98,19 @@ public class ProposalHierarchy extends DevelopmentProposal {
         this.hierarchyNarratives = hierarchyNarratives;
     }
     
+
+    /**
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedList = super.buildListOfDeletionAwareLists();
+        managedList.add(getChildren());
+        managedList.add(getHierarchyNarratives());
+        managedList.add(getHierarchyPropScienceKeywords());
+        managedList.add(getHierarchySpecialReviews());
+        return managedList;
+    }
+
     
 }

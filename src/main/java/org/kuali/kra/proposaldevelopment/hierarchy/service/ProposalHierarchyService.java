@@ -16,6 +16,8 @@
 package org.kuali.kra.proposaldevelopment.hierarchy.service;
 
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
+import org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchy;
+import org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchyChild;
 
 /**
  * This class...
@@ -77,7 +79,7 @@ public interface ProposalHierarchyService {
      * @return the proposal number of the hierarchy to which childProposalNumber belongs
      * @throws ProposalHierarchyException if childProposalNumber is not a member of a hierarchy or does not exist
      */
-    public String getHierarchyProposal(String childProposalNumber) throws ProposalHierarchyException;
+    public String getHierarchyParent(String childProposalNumber) throws ProposalHierarchyException;
 
     /**
      * This method synchronizes the contents of one child into its hierarchy.  If the child has changed since its last synchronization, the parent is reaggregated.
@@ -100,4 +102,6 @@ public interface ProposalHierarchyService {
      */
     public void aggregateHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException;
 
+    public ProposalHierarchy getHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException;
+    public ProposalHierarchyChild getHierarchyChild(String childProposalNumber) throws ProposalHierarchyException;
 }
