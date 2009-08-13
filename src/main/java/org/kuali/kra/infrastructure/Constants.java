@@ -400,11 +400,14 @@ public interface Constants {
     //Award Audit Rules
     public static final String REPORT_TERMS_AUDIT_RULES_ERROR_KEY = "document.reportTermsAuditRules";
     public static final String TERMS_AUDIT_RULES_ERROR_KEY = "document.termsAuditRules";
+    public static final String PAYMENT_AND_INVOICES_AUDIT_RULES_ERROR_KEY = "document.paymentsAuditRules";
     public static final String AWARD_PAGE = "award";
     public static final String REPORTS_PANEL_ANCHOR = "Reports";
     public static final String REPORTS_PANEL_NAME = "Reports";
     public static final String TERMS_PANEL_ANCHOR = "Terms";
     public static final String TERMS_PANEL_NAME = "Terms";
+    public static final String PAYMENT_AND_INVOICES_PANEL_ANCHOR = "Payments";
+    public static final String PAYMENT_AND_INVOICES_PANEL_NAME = "Payments";
 
     // Award Rules
     public static final String COST_SHARE_ADD_ACTION_PROPERTY_KEY = "newAwardCostShare";
