@@ -42,6 +42,13 @@
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardCommitmentsHelp" p:parameterDetailType="D"/>
+          </property>
+          <property name="headerTabDisplayName" value="Budget Versions"/>
+          <property name="headerTabNavigateTo" value="budgetVersions"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
             <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardTimeAndMoneyHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Time &amp; Money"/>

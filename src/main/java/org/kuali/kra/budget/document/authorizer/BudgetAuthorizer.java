@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.document.authorizer;
 
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
+import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KraAuthorizationService;
 
@@ -43,7 +44,7 @@ public abstract class BudgetAuthorizer extends TaskAuthorizerImpl {
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
      */
-    protected final boolean hasProposalPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
+    protected final boolean hasProposalPermission(String username, BudgetParentDocument doc, String permissionName) {
         return kraAuthorizationService.hasPermission(username, doc, permissionName);
     }
 }

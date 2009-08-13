@@ -62,6 +62,20 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             }
         }
         
+        //FIXME: Adding all budget permissions for the time being.
+//        if (canExecuteTask(username, awardDocument, TaskName.ADD_BUDGET)) {
+            editModes.add("addBudget");
+//        }
+                
+//        if (canExecuteTask(username, awardDocument, TaskName.OPEN_BUDGETS)) {
+            editModes.add("openBudgets");
+//        }
+                
+//        if (canExecuteTask(username, awardDocument, TaskName.MODIFY_BUDGET)) {
+            editModes.add("modifyProposalBudget");
+//        }
+
+        
         return editModes;
     }
     

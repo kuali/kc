@@ -61,7 +61,7 @@ public interface BudgetService {
      * @param budgetVersionNumbe
      * @return
      */
-    public boolean checkActivityTypeChange(ProposalDevelopmentDocument pdDoc, Budget budget);
+    public boolean checkActivityTypeChange(BudgetParentDocument pdDoc, Budget budget);
   
     /**
      * 

@@ -81,7 +81,7 @@ public class BudgetServiceImpl implements BudgetService {
         budgetDocument = (BudgetDocument) documentService.getNewDocument(BudgetDocument.class);
         budgetDocument.setParentDocument(parentDocument);
         budgetDocument.setParentDocumentKey(parentDocument.getDocumentNumber());
-        
+        budgetDocument.setParentDocumentTypeCode(parentDocument.getDocumentTypeCode());
         budgetDocument.getDocumentHeader().setDocumentDescription(documentDescription);
         
         Budget budget = budgetDocument.getBudget();
@@ -114,7 +114,7 @@ public class BudgetServiceImpl implements BudgetService {
         
         documentService.saveDocument(budgetDocument);
         documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
-//        budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+        budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
         
 //        parentDocument.refreshReferenceObject("budgetDocumentVersions");
 //        budgetDocument.refreshReferenceObject("budgets");
@@ -278,16 +278,14 @@ public class BudgetServiceImpl implements BudgetService {
     }
     
     public Collection<BudgetProposalRate> getSavedProposalRates(Budget budget) {
-//        DevelopmentProposal proposal = pdDoc.getDevelopmentProposal();
         Map qMap = new HashMap();
         qMap.put("budgetId",budget.getBudgetId());
-//        qMap.put("budgetVersionNumber",budgetVersionNumber);
         return businessObjectService.findMatching(BudgetProposalRate.class, qMap);
     }
     
-    public boolean checkActivityTypeChange(Collection<BudgetProposalRate> allPropRates, String proposalActivityTypeCode) {
+    public boolean checkActivityTypeChange(Collection<BudgetProposalRate> allPropRates, String activityTypeCode) {
         if (CollectionUtils.isNotEmpty(allPropRates)) {
-            Equals equalsActivityType = new Equals("activityTypeCode", proposalActivityTypeCode);
+            Equals equalsActivityType = new Equals("activityTypeCode", activityTypeCode);
             QueryList matchActivityTypePropRates = new QueryList(allPropRates).filter(equalsActivityType);
             if (CollectionUtils.isEmpty(matchActivityTypePropRates) || allPropRates.size() != matchActivityTypePropRates.size()) {
                 return true;
@@ -297,8 +295,8 @@ public class BudgetServiceImpl implements BudgetService {
         return false;
     }
     
-    public boolean checkActivityTypeChange(ProposalDevelopmentDocument pdDoc, Budget budget) {
-        return checkActivityTypeChange(getSavedProposalRates(budget), pdDoc.getDevelopmentProposal().getActivityTypeCode());
+    public boolean checkActivityTypeChange(BudgetParentDocument pdDoc, Budget budget) {
+        return checkActivityTypeChange(getSavedProposalRates(budget), pdDoc.getActivityTypeCode());
     }
     
     public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem) {

@@ -38,6 +38,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private static final String DOCUMENT_TYPE_CODE = "BUDG";
 
     private String parentDocumentKey;
+    private String parentDocumentTypeCode;
     private BudgetParentDocument parentDocument;
     private List<Budget> budgets;
     
@@ -50,7 +51,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
         if(getParentDocumentKey()!=null){
-            getService(ProposalStatusService.class).loadBudgetStatusByProposalDocumentNumber(getParentDocumentKey());
+            getParentDocument().processAfterRetrieveForBudget(this);
         }
     }
 
@@ -105,7 +106,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     @Override
     public void prepareForSave() {
         super.prepareForSave();
-        getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
+        getParentDocument().saveBudgetFinalVersionStatus(this);
         
         if (this.getParentDocument() != null) {
             if (this.getParentDocument().getBudgetDocumentVersions() != null) {
@@ -193,6 +194,23 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public void setParentDocumentKey(String parentDocumentNumber) {
         this.parentDocumentKey = parentDocumentNumber;
     }
+
+    /**
+     * Gets the parentDocumentTypeCode attribute. 
+     * @return Returns the parentDocumentTypeCode.
+     */
+    public String getParentDocumentTypeCode() {
+        return parentDocumentTypeCode;
+    }
+
+    /**
+     * Sets the parentDocumentTypeCode attribute value.
+     * @param parentDocumentTypeCode The parentDocumentTypeCode to set.
+     */
+    public void setParentDocumentTypeCode(String parentDocumentTypeCode) {
+        this.parentDocumentTypeCode = parentDocumentTypeCode;
+    }
+
 
 //    /**
 //     * Gets the budgetVersionNumber attribute. 

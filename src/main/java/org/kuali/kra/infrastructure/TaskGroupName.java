@@ -27,7 +27,8 @@ public interface TaskGroupName {
     public static final String APPLICATION = "application";
     public static final String PROPOSAL = "proposal";
     public static final String NARRATIVE = "narrative";
-    public static final String BUDGET = "budget";
+    public static final String PROPOSAL_BUDGET = "proposalBudget";
+    public static final String AWARD_BUDGET = "awardBudget";
     public static final String PROTOCOL = "protocol";
     public static final String COMMITTEE = "committee";
     public static final String AWARD = "award";

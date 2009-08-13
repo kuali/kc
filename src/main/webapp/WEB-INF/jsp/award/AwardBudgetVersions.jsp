@@ -18,28 +18,26 @@
 
 <c:if test="${KualiForm.editingMode['modifyCompletedBudgets']}">
 	<c:set target="${KualiForm.documentActions}" property="canSave" value="true"/>
-</c:if> 
+</c:if>
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="budgetVersions"
-	documentTypeName="BudgetDocument"
+	htmlFormAction="awardBudgetVersions"
+	documentTypeName="AwardDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="versions"
-  	extraTopButtons="${KualiForm.extraTopButtons}"
-  	>
+  	headerTabActive="budgetVersions">
   	
-  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Budget Versions" /></div>
-
-	<kra-b:budgetVersions 
-		budgetDocumentVersions="${KualiForm.document.parentDocument.budgetDocumentVersions}"
-		pathToVersions="document.parentDocument"
-		errorKey="document.parentDocument.budgetDocumentVersion*,document.parentDocument.finalVersionFlag,document.parentDocument.documentDescription"
-		requestedStartDateInitial="${KualiForm.document.parentDocument.requestedStartDateInitial}"
-		requestedEndDateInitial="${KualiForm.document.parentDocument.requestedEndDateInitial}"
+  	<div align="right"><kul:help documentTypeName="AwardDocument" pageName="Budget Versions" /></div>
+  	
+  	<kra-b:budgetVersions 
+  		budgetDocumentVersions="${KualiForm.document.budgetDocumentVersions}" 
+  		pathToVersions="document"
+  		errorKey="document.award.budgetVersion*,document.award.finalVersionFlag"
+  		requestedStartDateInitial="${KualiForm.document.requestedStartDateInitial}"
+		requestedEndDateInitial="${KualiForm.document.requestedEndDateInitial}"
 		/>
-
-	<kul:documentControls 
+  	
+  	<kul:documentControls 
 		transactionalDocument="false"
 		suppressRoutingControls="true"
 		extraButtonSource="${extraButtonSource}"
@@ -47,5 +45,5 @@
 		extraButtonAlt="${extraButtonAlt}"
 		viewOnly="${viewOnly}"
 		/>
-
+		
 </kul:documentPage>

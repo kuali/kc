@@ -24,7 +24,7 @@
 
 <input type="hidden" id="updateFinalVersion" name="updateFinalVersion" value='<bean:write name="KualiForm" property="updateFinalVersion"/>' />
 
-<c:forEach var="budgetDocumentVersions" items="${KualiForm.document.parentDocument.developmentProposalList[0].budgetDocumentVersions}" varStatus="status">
+<c:forEach var="budgetDocumentVersions" items="${KualiForm.document.parentDocument.budgetDocumentVersions}" varStatus="status">
 	<c:if test="${status.index + 1 != KualiForm.document.budget.budgetVersionNumber}">
 		<input type="hidden" id="finalVersionFlag${status.index}" name="KualiForm" property="document.parentDocument.budgetDocumentVersion[${status.index}].budgetVersionOverview.finalVersionFlag" value='<bean:write name="KualiForm" property="document.parentDocument.budgetDocumentVersion[${status.index}].budgetVersionOverview.finalVersionFlag"/>' />
 		<input type="hidden" id="budgetStatus${status.index}" name="KualiForm" property="document.parentDocument.budgetDocumentVersion[${status.index}].budgetVersionOverview.budgetStatus" value='<bean:write name="KualiForm" property="document.parentDocument.budgetDocumentVersion[${status.index}].budgetVersionOverview.budgetStatus"/>' />
@@ -73,7 +73,7 @@
 			     		<tr>
 			     		    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.finalVersionFlag}" noColon="true" /></div></th>
 			           		<td>
-			           			<kul:htmlControlAttribute property="document.budget.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: confirmFinalizeVersion(document, ${KualiForm.document.budget.parentDocument.developmentProposalList[0].numberOfVersions})" />
+			           			<kul:htmlControlAttribute property="document.budget.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: confirmFinalizeVersion(document, ${KualiForm.document.budget.parentDocument.numberOfVersions})" />
 			           			<html:hidden name="KualiForm" property="document.budget.finalVersionFlag" disabled="true" />
 			           		</td>
 			           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>
