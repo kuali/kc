@@ -925,7 +925,7 @@
     
     <!-- Budget Authorizers -->
     <bean id="budgetTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
-        <property name="groupName" value="budget" />
+        <property name="groupName" value="proposalBudget" />
         <property name="taskAuthorizers">
             <list>
                 <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ProposalBudgetModifyAuthorizer" parent="parentProposalAuthorizer">
@@ -939,6 +939,20 @@
         </property>
     </bean>
     
+    <bean id="awardBudgetTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="awardBudget" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.award.budget.document.authorizer.AwardBudgetModifyAuthorizer" >
+                    <property name="taskName" value="modifyBudget" />
+                </bean>
+                
+                <bean class="org.kuali.kra.award.budget.document.authorizer.AwardBudgetViewAuthorizer">
+                    <property name="taskName" value="viewBudget" />
+                </bean>
+            </list>
+        </property>
+    </bean>
     <!-- Task Authorization Service -->
 
     <bean id="taskAuthorizationService" class="org.kuali.kra.service.impl.TaskAuthorizationServiceImpl">
@@ -948,6 +962,7 @@
                 <ref bean="proposalTaskAuthorizers" />
                 <ref bean="narrativeTaskAuthorizers" />
                 <ref bean="budgetTaskAuthorizers" />
+                <ref bean="awardBudgetTaskAuthorizers" />
                 <ref bean="protocolTaskAuthorizers" />
                 <ref bean="committeeTaskAuthorizers" />
                 <ref bean="awardTaskAuthorizers" />

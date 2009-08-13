@@ -21,12 +21,16 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    	<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.kns.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
-        	<foreignkey field-ref="documentNumber" />
-    	</reference-descriptor>
     	<collection-descriptor name="awardList" proxy="true" element-class-ref="org.kuali.kra.award.home.Award" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>
+        <collection-descriptor name="budgetDocumentVersions" proxy="true" element-class-ref="org.kuali.kra.budget.versions.BudgetDocumentVersion" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+	  	   <inverse-foreignkey field-ref="parentDocumentKey"/> 
+	    </collection-descriptor>
+    	<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.kns.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<foreignkey field-ref="documentNumber" />
+    	</reference-descriptor>
+    	
 	</class-descriptor>
 	
 	
@@ -183,6 +187,9 @@
 		</reference-descriptor>
  		<reference-descriptor name="paymentInvoiceFrequency" class-ref="org.kuali.kra.award.paymentreports.Frequency" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="paymentInvoiceFreqCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="activityTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>	
 	

@@ -30,12 +30,14 @@ import org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl;
  */
 public class BudgetTaskFactory extends WebTaskFactoryImpl {
 
+    private String taskGroupName = TaskGroupName.PROPOSAL_BUDGET;
     /**
      * @see org.kuali.kra.web.struts.authorization.WebTaskFactory#createTask(java.lang.String, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
      */
     public Task createTask(ActionForm form, HttpServletRequest request) {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        taskGroupName = budgetDocument.getParentDocument().getTaskGroupName();
         return new BudgetTask(getTaskName(), budgetDocument);
     }
     
@@ -44,6 +46,6 @@ public class BudgetTaskFactory extends WebTaskFactoryImpl {
      */
     @Override
     public String getTaskGroupName() {
-        return TaskGroupName.BUDGET;
+        return taskGroupName;
     }
 }

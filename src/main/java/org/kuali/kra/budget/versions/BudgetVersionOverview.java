@@ -224,6 +224,9 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     public boolean isDescriptionUpdatable() {
         return descriptionUpdatable;
     }
+    public String getDescriptionUpdatable() {
+        return descriptionUpdatable?"Yes":"No";
+    }
 
     public void setDescriptionUpdatable(boolean descriptionUpdatable) {
         this.descriptionUpdatable = descriptionUpdatable;

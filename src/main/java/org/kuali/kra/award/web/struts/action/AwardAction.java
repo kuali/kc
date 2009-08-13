@@ -27,6 +27,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.AwardLockService;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.AwardTemplateSyncService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -38,9 +39,11 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
 import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.service.ProposalLockService;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
@@ -59,6 +62,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -68,7 +72,7 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  * 
  * This class represents base Action class for all the Award pages.
  */
-public class AwardAction extends KraTransactionalDocumentActionBase {
+public class AwardAction extends BudgetParentActionBase {
     protected static final String AWARD_ID_PARAMETER_NAME = "awardId";
     private static final String AWARD_NUMBER_SERVICE = "awardNumberService";
     
@@ -525,6 +529,19 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         return mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
     }
     
+    /**
+     * 
+     * This method gets called upon navigation to Awards tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward budgetVersions(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) {        
+        return mapping.findForward(Constants.MAPPING_AWARD_BUDGET_VERSIONS_PAGE);
+    }
    
     /**
      * @param mapping
@@ -609,11 +626,16 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         }
         return syncPropertyName;
     }
-    
+    @Override
+    protected PessimisticLockService getPessimisticLockService() {
+        return KraServiceLocator.getService(AwardLockService.class);
+    }
     /**
      * @return
      */
     protected VersionHistoryService getVersionHistoryService() {
         return KraServiceLocator.getService(VersionHistoryService.class);
     }
+    
+    
 }

@@ -363,7 +363,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         PessimisticLock budgetLockForProposalDoc = null;
 
         for(PessimisticLock pdLock : document.getPessimisticLocks()) {
-            if(pdLock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
+            if(pdLock.getLockDescriptor()!=null && pdLock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
                 budgetLockForProposalDoc = pdLock;
                 break;
             }

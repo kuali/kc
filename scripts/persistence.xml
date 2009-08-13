@@ -72,47 +72,47 @@
     <class>org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment</class>
     <class>org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography</class>
     <class>org.kuali.kra.budget.document.BudgetDocument</class>
-    <class>org.kuali.kra.budget.bo.BudgetVersionOverview</class>
+    <class>org.kuali.kra.budget.versions.BudgetVersionOverview</class>
     <class>org.kuali.kra.s2s.bo.S2sOpportunity</class>
     <class>org.kuali.kra.s2s.bo.S2sAppSubmission</class>
     <class>org.kuali.kra.s2s.bo.S2sOppForms</class>
     <class>org.kuali.kra.s2s.bo.S2sApplication</class>
     <class>org.kuali.kra.s2s.bo.S2sAppAttachments</class>
-    <class>org.kuali.kra.budget.bo.BudgetSubAwards</class>
-    <class>org.kuali.kra.budget.bo.BudgetSubAwardFiles</class>
-    <class>org.kuali.kra.budget.bo.BudgetSubAwardAttachment</class>
-    <class>org.kuali.kra.budget.bo.BudgetCategory</class>
-    <class>org.kuali.kra.budget.bo.BudgetCategoryType</class>
-    <class>org.kuali.kra.budget.bo.BudgetCategoryMap</class>
-    <class>org.kuali.kra.budget.bo.BudgetCategoryMapping</class>
-    <class>org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount</class>
-    <class>org.kuali.kra.budget.bo.BudgetLineItem</class>
-    <class>org.kuali.kra.budget.bo.BudgetPeriod</class>
-    <class>org.kuali.kra.budget.bo.BudgetCostShare</class>
-    <class>org.kuali.kra.budget.bo.BudgetProjectIncome</class>
-    <class>org.kuali.kra.budget.bo.BudgetUnrecoveredFandA</class>
-    <class>org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount</class>
-    <class>org.kuali.kra.budget.bo.BudgetPerson</class>
-    <class>org.kuali.kra.budget.bo.TbnPerson</class>
-    <class>org.kuali.kra.budget.bo.BudgetRateAndBase</class>
-    <class>org.kuali.kra.budget.bo.BudgetPersonnelRateAndBase</class>
-    <class>org.kuali.kra.budget.bo.CostElement</class>
-    <class>org.kuali.kra.budget.bo.BudgetProposalRate</class>
+    <class>org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards</class>
+    <class>org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles</class>
+    <class>org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment</class>
+    <class>org.kuali.kra.budget.core.BudgetCategory</class>
+    <class>org.kuali.kra.budget.core.BudgetCategoryType</class>
+    <class>org.kuali.kra.budget.core.BudgetCategoryMap</class>
+    <class>org.kuali.kra.budget.core.BudgetCategoryMapping</class>
+    <class>org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount</class>
+    <class>org.kuali.kra.budget.nonpersonnel.BudgetLineItem</class>
+    <class>org.kuali.kra.budget.parameters.BudgetPeriod</class>
+    <class>org.kuali.kra.budget.distributionincome.BudgetCostShare</class>
+    <class>org.kuali.kra.budget.distributionincome.BudgetProjectIncome</class>
+    <class>org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA</class>
+    <class>org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount</class>
+    <class>org.kuali.kra.budget.personnel.BudgetPerson</class>
+    <class>org.kuali.kra.budget.personnel.TbnPerson</class>
+    <class>org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase</class>
+    <class>org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase</class>
+    <class>org.kuali.kra.budget.core.CostElement</class>
+    <class>org.kuali.kra.budget.rates.BudgetProposalRate</class>
     <class>org.kuali.kra.bo.InstituteLaRate</class>
     <class>org.kuali.kra.bo.InstituteRate</class>
-    <class>org.kuali.kra.budget.bo.JobCode</class>
-    <class>org.kuali.kra.budget.bo.RateClass</class>
-    <class>org.kuali.kra.budget.bo.RateClassType</class>
-    <class>org.kuali.kra.budget.bo.RateType</class>
-    <class>org.kuali.kra.budget.bo.ValidCalcType</class>
-    <class>org.kuali.kra.budget.bo.ValidCeJobCode</class>
-    <class>org.kuali.kra.budget.bo.ValidCeRateType</class>
-    <class>org.kuali.kra.budget.bo.BudgetProposalLaRate</class>
-    <class>org.kuali.kra.budget.bo.BudgetPersonnelDetails</class>
-    <class>org.kuali.kra.budget.bo.BudgetModular</class>
-    <class>org.kuali.kra.budget.bo.BudgetModularIdc</class>
-    <class>org.kuali.kra.budget.bo.AppointmentType</class>
-    <class>org.kuali.kra.budget.bo.BudgetPeriodType</class>
+    <class>org.kuali.kra.budget.personnel.JobCode</class>
+    <class>org.kuali.kra.budget.rates.RateClass</class>
+    <class>org.kuali.kra.budget.rates.RateClassType</class>
+    <class>org.kuali.kra.budget.rates.RateType</class>
+    <class>org.kuali.kra.budget.calculator.ValidCalcType</class>
+    <class>org.kuali.kra.budget.personnel.ValidCeJobCode</class>
+    <class>org.kuali.kra.budget.rates.ValidCeRateType</class>
+    <class>org.kuali.kra.budget.rates.BudgetProposalLaRate</class>
+    <class>org.kuali.kra.budget.personnel.BudgetPersonnelDetails</class>
+    <class>org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular</class>
+    <class>org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc</class>
+    <class>org.kuali.kra.budget.personnel.AppointmentType</class>
+    <class>org.kuali.kra.budget.parameters.BudgetPeriodType</class>
     <class>org.kuali.kra.kim.bo.KimPerson</class>
     <class>org.kuali.kra.kim.bo.KimGroup</class>
     <class>org.kuali.kra.kim.bo.KimPermission</class>
