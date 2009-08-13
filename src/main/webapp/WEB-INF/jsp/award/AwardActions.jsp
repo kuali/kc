@@ -26,8 +26,8 @@
   	headerTabActive="awardActions">
   	
 This is the Award Actions - Under Construction
-
-<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>
+<kra-a:awardDataValidation />
+<%--<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>--%>
 <kra-a:awardHierarchy />
 
 <kul:adHocRecipients />
