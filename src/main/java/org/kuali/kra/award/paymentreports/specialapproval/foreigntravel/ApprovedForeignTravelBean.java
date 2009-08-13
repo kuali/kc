@@ -26,7 +26,10 @@ import org.kuali.kra.bo.Person;
  * This class supports the AwardForm class
  */
 public class ApprovedForeignTravelBean extends SpecialApprovalBean {
+    private static final long serialVersionUID = 8787570417382374201L;
+    
     private AwardApprovedForeignTravel newApprovedForeignTravel;
+    
     /**
      * Constructs a ApprovedEquipmentBean
      * @param parent
@@ -78,7 +81,7 @@ public class ApprovedForeignTravelBean extends SpecialApprovalBean {
      * Initialize subform
      */
     public void init() {
-        newApprovedForeignTravel = new AwardApprovedForeignTravel(); 
+        newApprovedForeignTravel = new AwardApprovedForeignTravel();
     }
 
     public void refreshTravelers() {

@@ -27,7 +27,7 @@
 
 <h3>
 	<span class="subhead-left">Institution</span>
-	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.bo.Award" altText="help"/></span>
+	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.home.Award" altText="help"/></span>
 </h3>
 <table cellpAdding="0" cellspacing="0" summary="">
   	<tr>

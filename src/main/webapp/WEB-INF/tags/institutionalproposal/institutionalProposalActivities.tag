@@ -25,7 +25,7 @@
 
 <h3>
     <span class="subhead-left">Activities</span>
-    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.bo.Award" altText="help"/></span>
+    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.home.Award" altText="help"/></span>
 </h3>
 
 <table summary="" align="center" cellpadding="0" cellspacing="0">

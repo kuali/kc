@@ -126,7 +126,13 @@
   		<property name="lookupableHelperService">
     		<ref bean="awardLookupableHelperService" />
   		</property>  		
-	</bean>	
+	</bean>
+	
+	<bean id="awardPersonLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="awardPersonLookupableHelperService" />
+  		</property>  		
+	</bean>		
 
 	<bean id="awardLookupableHelperService" class="org.kuali.kra.award.lookup.AwardLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
         <property name="awardDao">
@@ -134,8 +140,26 @@
         </property>
   	</bean>
 
+	<bean id="awardPersonLookupableHelperService" class="org.kuali.kra.award.lookup.AwardPersonLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
+        <property name="awardPersonDao">
+            <ref bean="awardPersonDao" />
+        </property>
+  	</bean>
+
     <bean id="awardDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.AwardDaoOjb">
         <property name="lookupDao">
+            <ref bean="lookupDao" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="versionHistoryService">
+            <ref bean="versionHistoryService" />
+        </property>
+	</bean>
+	
+	<bean id="awardPersonDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.AwardPersonDaoOjb">
+		<property name="lookupDao">
             <ref bean="lookupDao" />
         </property>
         <property name="dataDictionaryService">

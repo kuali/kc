@@ -46,7 +46,16 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+        addEditHtmlData(htmlDataList, businessObject);
+        return htmlDataList;
 
+}
+
+    /**
+     * @param businessObject
+     * @return
+     */
+    protected void addEditHtmlData(List<HtmlData> htmlDataList, BusinessObject businessObject) {
         Properties parameters = new Properties();
         parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
         parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.INITIATE_COMMAND);
@@ -57,9 +66,7 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
         AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, 
                 KNSConstants.DOC_HANDLER_METHOD, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
         htmlDataList.add(anchorHtmlData);
-        return htmlDataList;
-
-}
+    }
 
     protected AnchorHtmlData getViewLink(Document document) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
@@ -87,7 +94,7 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
         lookupForm.setShowMaintenanceLinks(true);
         return super.performLookup(lookupForm, resultTable, bounded);
     }
-
+    
     /**
      * 
      * This method to set both fields if child class override getSearchResults
