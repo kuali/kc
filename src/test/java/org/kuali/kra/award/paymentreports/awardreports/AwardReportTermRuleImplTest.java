@@ -113,12 +113,4 @@ public class AwardReportTermRuleImplTest {
         Assert.assertFalse(awardReportTermRule.isDistributionFieldComplete(awardReportTerm));
     }
 
-    @Test
-    public final void testEvaluateRuleForDueDate() {
-        awardReportTerm.setDueDate(new Date(new Long("10004232")));
-        Assert.assertTrue(awardReportTermRule.isDueDateFieldComplete(awardReportTerm));
-        awardReportTerm.setDueDate(null);
-        Assert.assertFalse(awardReportTermRule.isDueDateFieldComplete(awardReportTerm));
-    }
-
 }
