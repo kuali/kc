@@ -207,4 +207,19 @@ public class ProposalHierarchyChild extends KraPersistableBusinessObjectBase {
         return null;
     }
 
+
+    /**
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedList = super.buildListOfDeletionAwareLists();
+        managedList.add(getNarratives());
+        managedList.add(getProposalPersons());
+        managedList.add(getPropScienceKeywords());
+        managedList.add(getPropSpecialReviews());
+        return managedList;
+    }
+
+    
 }

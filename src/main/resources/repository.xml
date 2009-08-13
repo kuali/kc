@@ -46,7 +46,8 @@
 	</class-descriptor>
 
 
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" table="EPS_PROPOSAL">
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" table="EPS_PROPOSAL" row-reader="org.kuali.kra.proposaldevelopment.hierarchy.HierarchyRowReader">
+		<extent-class class-ref="org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchy"/>
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_PROPOSAL_NUMBER_KRA" autoincrement="true" />
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous" />
 		<field-descriptor name="proposalTypeCode" column="PROPOSAL_TYPE_CODE" jdbc-type="VARCHAR" />
@@ -87,6 +88,13 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<collection-descriptor name="propSpecialReviews" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber"/>
+			<query-customizer
+      			class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+	          <attribute
+	              attribute-name="hiddenInHierarchy"
+	              attribute-value="N"
+	          />
+	       </query-customizer>
 		</collection-descriptor>
 		
 		<collection-descriptor name="proposalAbstracts" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalAbstract" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -100,12 +108,26 @@
 		<!-- KEYWORD panel -->
    		<collection-descriptor name="propScienceKeywords" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber" />
+			<query-customizer
+      			class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+	          <attribute
+	              attribute-name="hiddenInHierarchy"
+	              attribute-value="N"
+	          />
+	       </query-customizer>
 		</collection-descriptor>
     	<!-- KEYWORD panel -->
 
 		<collection-descriptor name="proposalPersons" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="ordinalPosition" sort="ASC" />
 			<inverse-foreignkey field-ref="proposalNumber"/>
+			<query-customizer
+      			class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+	          <attribute
+	              attribute-name="hiddenInHierarchy"
+	              attribute-value="N"
+	          />
+	       </query-customizer>
 		</collection-descriptor>
 
 		<collection-descriptor name="narratives" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Narrative" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -117,6 +139,13 @@
 	              attribute-value="proposalNarrativeTypeGroup"
 	          />
       		</query-customizer>
+			<query-customizer
+      			class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+	          <attribute
+	              attribute-name="hiddenInHierarchy"
+	              attribute-value="N"
+	          />
+	       </query-customizer>
 		</collection-descriptor>
 		<collection-descriptor name="instituteAttachments" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Narrative" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber"/>
@@ -184,6 +213,7 @@
     	<reference-descriptor name="proposalDocument" class-ref="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
+    	<field-descriptor name="hierarchy" column="IS_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter" table="EPS_PROP_COLUMNS_TO_ALTER">
@@ -287,6 +317,8 @@
 		<reference-descriptor name="scienceKeyword" class-ref="org.kuali.kra.bo.ScienceKeyword" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="scienceKeywordCode"/>
 		</reference-descriptor>
+		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	</class-descriptor>
 	<!-- KEYWORD panel -->
 
@@ -585,6 +617,8 @@
 			<foreignkey field-ref="proposalNumber"/>
 			<foreignkey field-ref="proposalPersonNumber"/>
 		</reference-descriptor>
+		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification" table="PROPOSAL_INV_CERTIFICATION">
@@ -1297,6 +1331,9 @@
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="specialReviewNumber"/>
 		</collection-descriptor> 
+
+		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		
 	</class-descriptor>
 
@@ -1435,6 +1472,8 @@
 		<reference-descriptor name="narrativeStatus" class-ref="org.kuali.kra.proposaldevelopment.bo.NarrativeStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="moduleStatusCode"/> 
 		</reference-descriptor>
+		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment" table="NARRATIVE_ATTACHMENT">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
@@ -2295,4 +2334,209 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchyChild" table="EPS_HIERARCHY_CHILD">
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="proposalHashCode" column="PROPOSAL_HASH_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="proposalUpdateTimestamp" column="PROPOSAL_UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<collection-descriptor name="propScienceKeywords" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="hierarchyProposalNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="proposalPersons" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="hierarchyProposalNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="propSpecialReviews" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="hierarchyProposalNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="narratives" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Narrative" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="hierarchyProposalNumber"/>
+		</collection-descriptor>
+				
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />	
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchy" table="EPS_PROPOSAL" row-reader="org.kuali.kra.proposaldevelopment.hierarchy.HierarchyRowReader">
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_PROPOSAL_NUMBER_KRA" autoincrement="true" />
+		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous" />
+		<field-descriptor name="proposalTypeCode" column="PROPOSAL_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="creationStatusCode" column="CREATION_STATUS_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="continuedFrom" column="CONTINUED_FROM" jdbc-type="VARCHAR" />
+    	<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="ownedByUnitNumber" column="OWNED_BY_UNIT" jdbc-type="VARCHAR" />
+    	<field-descriptor name="requestedStartDateInitial" column="REQUESTED_START_DATE_INITIAL" jdbc-type="DATE" />
+    	<field-descriptor name="requestedEndDateInitial" column="REQUESTED_END_DATE_INITIAL" jdbc-type="DATE" />
+    	<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="currentAwardNumber" column="CURRENT_AWARD_NUMBER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="deadlineDate" column="DEADLINE_DATE" jdbc-type="DATE" />
+    	<field-descriptor name="noticeOfOpportunityCode" column="NOTICE_OF_OPPORTUNITY_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="deadlineType" column="DEADLINE_TYPE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="cfdaNumber" column="CFDA_NUMBER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="programAnnouncementNumber" column="PROGRAM_ANNOUNCEMENT_NUMBER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="primeSponsorCode" column="PRIME_SPONSOR_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="sponsorProposalNumber" column="SPONSOR_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="nsfCode" column="NSF_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="subcontracts" column="SUBCONTRACT_FLAG" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" jdbc-type="VARCHAR" />
+    	<field-descriptor name="agencyDivisionCode" column="AGENCY_DIVISION_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="agencyProgramCode" column="AGENCY_PROGRAM_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="programAnnouncementTitle" column="PROGRAM_ANNOUNCEMENT_TITLE" jdbc-type="VARCHAR" />
+		<field-descriptor name="mailBy" column="MAIL_BY" jdbc-type="VARCHAR" />
+		<field-descriptor name="mailType" column="MAIL_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="mailAccountNumber" column="MAIL_ACCOUNT_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="mailDescription" column="MAIL_DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="mailingAddressId" column="MAILING_ADDRESS_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="numberOfCopies" column="NUMBER_OF_COPIES" jdbc-type="VARCHAR" />
+		<field-descriptor name="proposalStateTypeCode" column="STATUS_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="submitFlag" column="SUBMIT_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<!-- <field-descriptor name="budgetStatus" column="BUDGET_STATUS" jdbc-type="VARCHAR" />  -->
+		<field-descriptor name="postSubmissionStatusCode" column="POST_SUB_STATUS_CODE" jdbc-type="INTEGER"/>
+    	<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<collection-descriptor name="propSpecialReviews" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="proposalNumber"/>
+			<query-customizer
+      			class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+	          <attribute
+	              attribute-name="hiddenInHierarchy"
+	              attribute-value="N"
+	          />
+	       </query-customizer>
+		</collection-descriptor>
+		
+		<collection-descriptor name="proposalAbstracts" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalAbstract" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="proposalNumber"/>
+		</collection-descriptor>
+
+		<collection-descriptor name="proposalYnqs" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalYnq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="proposalNumber"/>
+		</collection-descriptor>
+
+		<!-- KEYWORD panel -->
+   		<collection-descriptor name="propScienceKeywords" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="proposalNumber" />
+			<query-customizer
+      			class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+	          <attribute
+	              attribute-name="hiddenInHierarchy"
+	              attribute-value="N"
+	          />
+	       </query-customizer>
+		</collection-descriptor>
+    	<!-- KEYWORD panel -->
+
+		<collection-descriptor name="proposalPersons" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="ordinalPosition" sort="ASC" />
+			<inverse-foreignkey field-ref="proposalNumber"/>
+			<query-customizer
+      			class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+	          <attribute
+	              attribute-name="hiddenInHierarchy"
+	              attribute-value="N"
+	          />
+	       </query-customizer>
+		</collection-descriptor>
+
+		<collection-descriptor name="narratives" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Narrative" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="proposalNumber"/>
+			<query-customizer
+      			class="org.kuali.kra.proposaldevelopment.dao.ProposalQueryCustomizer">
+	          <attribute
+	              attribute-name="narrativeType.narrativeTypeGroup"
+	              attribute-value="proposalNarrativeTypeGroup"
+	          />
+      		</query-customizer>
+			<query-customizer
+      			class="org.kuali.kra.dao.KraQueryCustomizerDefaultImpl">
+	          <attribute
+	              attribute-name="hiddenInHierarchy"
+	              attribute-value="N"
+	          />
+	       </query-customizer>
+		</collection-descriptor>
+		<collection-descriptor name="instituteAttachments" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Narrative" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="proposalNumber"/>
+			<query-customizer
+      			class="org.kuali.kra.proposaldevelopment.dao.ProposalQueryCustomizer">
+	          <attribute
+	              attribute-name="narrativeType.narrativeTypeGroup"
+	              attribute-value="instituteNarrativeTypeGroup"
+	          />
+      		</query-customizer>
+		</collection-descriptor>
+		<collection-descriptor name="propPersonBios" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="proposalNumber"/>
+		</collection-descriptor>
+		
+        <collection-descriptor name="proposalSites" proxy="false" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalSite" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <orderby name="siteNumber" sort="ASC" />
+            <inverse-foreignkey field-ref="proposalNumber"/>
+        </collection-descriptor>
+
+		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="mailingAddressId"/>
+		</reference-descriptor>
+
+		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="sponsorCode"/>
+		</reference-descriptor>
+
+      <reference-descriptor name="ownedByUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+          <foreignkey field-ref="ownedByUnitNumber" />
+      </reference-descriptor>
+ 	  <!--       
+      <collection-descriptor name="budgetVersionOverviews" proxy="true" element-class-ref="org.kuali.kra.budget.versions.BudgetVersionOverview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+	  	<orderby name="budgetVersionNumber" sort="ASC" />
+	  	<inverse-foreignkey field-ref="documentNumber"/>
+	  </collection-descriptor>
+	  -->
+	  
+	  <reference-descriptor name="s2sOpportunity" class-ref="org.kuali.kra.s2s.bo.S2sOpportunity" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<foreignkey field-ref="proposalNumber"/>
+	  </reference-descriptor>
+
+	  <collection-descriptor name="s2sAppSubmission" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sAppSubmission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<inverse-foreignkey field-ref="proposalNumber"/>
+	  </collection-descriptor>
+
+		<reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="activityTypeCode"/>
+		</reference-descriptor>
+
+		<collection-descriptor name="s2sSubmissionHistory" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sSubmissionHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<inverse-foreignkey field-ref="proposalNumber"/>
+		</collection-descriptor>
+		
+		<collection-descriptor name="proposalChangedDataList" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<orderby name="columnName" sort="DESC" /> 
+			<orderby name="changeNumber" sort="DESC" /> 
+			<inverse-foreignkey field-ref="proposalNumber"/>
+		</collection-descriptor>
+		
+		<reference-descriptor name="proposalState" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalState" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="proposalStateTypeCode"/>
+        </reference-descriptor>
+		
+    	<reference-descriptor name="proposalDocument" class-ref="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="documentNumber" />
+    	</reference-descriptor>
+    	<field-descriptor name="hierarchy" column="IS_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+    			<collection-descriptor name="propScienceKeywords" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="hierarchyProposalNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="proposalPersons" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="hierarchyProposalNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="propSpecialReviews" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="hierarchyProposalNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="narratives" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Narrative" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="hierarchyProposalNumber"/>
+		</collection-descriptor>
+    	
+	</class-descriptor>
 </descriptor-repository>

@@ -137,7 +137,24 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private Boolean submitFlag = Boolean.FALSE;
 
     private ProposalDevelopmentDocument proposalDocument;
+    private boolean hierarchy;
 
+
+    /**
+     * Gets the hierarchy attribute. 
+     * @return Returns the hierarchy.
+     */
+    public boolean isHierarchy() {
+        return hierarchy;
+    }
+
+    /**
+     * Sets the hierarchy attribute value.
+     * @param hierarchy The hierarchy to set.
+     */
+    public void setHierarchy(boolean hierarchy) {
+        this.hierarchy = hierarchy;
+    }
 
     @SuppressWarnings("unchecked")
     public DevelopmentProposal() {
