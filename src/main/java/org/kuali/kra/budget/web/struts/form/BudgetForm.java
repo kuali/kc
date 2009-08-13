@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
@@ -62,13 +63,15 @@ public class BudgetForm extends ProposalFormBase {
     
     private static final long serialVersionUID = -8853937659597422800L;
     
-    private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to proposal";
-
     private static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
     private static final String KR_EXTERNALIZABLE_IMAGES_URI_KEY = "kr.externalizable.images.url";
-    private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
     public static final String VERSION_NUMBER_KEY = "DataDictionary.Budget.attributes.budgetVersionNumber";
     public static final String BUDGET_NAME_KEY = "DataDictionary.KraAttributeReferenceDummy.attributes.budgetName";
+    private static final String RETURN_TO_AWARD_ALT_TEXT = "return to award";
+    private static final String RETURN_TO_AWARD_METHOD_TO_CALL = "methodToCall.returnToAward";
+    private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to award";
+    private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
+    
     
     private String newBudgetPersons;
     private String newBudgetRolodexes;
@@ -153,7 +156,8 @@ public class BudgetForm extends ProposalFormBase {
     public BudgetForm() {
         super();
         this.setDocument(new BudgetDocument());
-        initialize();        
+        //Its actually calling from Action's docHandler. So, no need to call in here
+//        initialize();        
     }
 
     /**
@@ -161,9 +165,11 @@ public class BudgetForm extends ProposalFormBase {
      * This method initialize all form variables
      */
     public void initialize() {
-        DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
-        List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
+        BudgetParentDocument budgetParentDocument = getDocument().getParentDocument();
+        List<HeaderNavigation> navList = getBudgetHeaderNavigatorList();
+        if(budgetParentDocument!=null){
+            navList =budgetParentDocument.getBudgetHeaderNavigatorList();
+        }
         HeaderNavigation[] list = new HeaderNavigation[navList.size()];
         navList.toArray(list);
         this.setHeaderNavigationTabs(list);
@@ -182,6 +188,22 @@ public class BudgetForm extends ProposalFormBase {
         this.getDocInfo().add(new HeaderField(BUDGET_NAME_KEY, Constants.EMPTY_STRING));
         this.getDocInfo().add(new HeaderField(VERSION_NUMBER_KEY, Constants.EMPTY_STRING));
     }
+    private List<HeaderNavigation> getHeaderNavigationListForAward() {
+        List<HeaderNavigation> headerNavList = getBudgetHeaderNavigatorList();
+        List<HeaderNavigation> awardBudgetHeaderNavList = new ArrayList<HeaderNavigation>();
+        for (HeaderNavigation headerNavigation : headerNavList) {
+            if(!headerNavigation.getHeaderTabNavigateTo().equals("headerTabNavigateTo")){
+                awardBudgetHeaderNavList.add(headerNavigation);
+            }
+        }
+        return awardBudgetHeaderNavList;
+    }
+
+    public List<HeaderNavigation> getBudgetHeaderNavigatorList(){
+        DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
+        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
+        return docEntry.getHeaderNavigationList();
+      }
     
 //  TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
     public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
@@ -285,7 +307,7 @@ public class BudgetForm extends ProposalFormBase {
 
     public List<ExtraButton> getExtraTotalsTopButtons() {
         extraTopButtons.clear();
-        extraTopButtons.add(configureReturnToProposalTopButton()); 
+        extraTopButtons.add(configureReturnToParentTopButton()); 
         
         ExtraButton customExpandAllButton = new ExtraButton();
         String expandAllImage = lookupKualiConfigurationService().getPropertyString(KR_EXTERNALIZABLE_IMAGES_URI_KEY) + "tinybutton-expandall.gif"; 
@@ -306,6 +328,23 @@ public class BudgetForm extends ProposalFormBase {
         return extraTopButtons;
     }
     
+    private ExtraButton configureReturnToParentTopButton() {
+//        ExtraButton returnToParentButton = new ExtraButton();
+//        if(AwardDocument.DOCUMENT_TYPE_CODE.equals(getBudgetDocument().getParentDocumentTypeCode())){
+//            returnToParentButton.setExtraButtonProperty(RETURN_TO_AWARD_METHOD_TO_CALL);
+//            returnToParentButton.setExtraButtonSource(buildExtraButtonSourceURI("tinybutton-retprop.gif"));
+//            returnToParentButton.setExtraButtonAltText(RETURN_TO_AWARD_ALT_TEXT);
+//        }else{
+//            returnToParentButton.setExtraButtonProperty(RETURN_TO_PROPOSAL_METHOD_TO_CALL);
+//            returnToParentButton.setExtraButtonSource(buildExtraButtonSourceURI("tinybutton-retprop.gif"));
+//            returnToParentButton.setExtraButtonAltText(RETURN_TO_AWARD_ALT_TEXT);
+//        }
+//
+//        return returnToParentButton;
+        BudgetParentDocument budgetParentDocument = getDocument().getParentDocument();
+        return budgetParentDocument!=null?getDocument().getParentDocument().configureReturnToParentTopButton():new ExtraButton();
+    }
+
     /**
      * This is a utility method to add a new button to the extra buttons
      * collection.
@@ -581,21 +620,10 @@ public class BudgetForm extends ProposalFormBase {
      */
     private void configureExtraTopButtons() {
         extraTopButtons = new ArrayList<ExtraButton>();
-        extraTopButtons.add(configureReturnToProposalTopButton());
+        
+        extraTopButtons.add(configureReturnToParentTopButton());
     }
     
-    /**
-     * This method does what its name says
-     */
-    private ExtraButton configureReturnToProposalTopButton() {
-        ExtraButton returnToProposalButton = new ExtraButton();
-        returnToProposalButton.setExtraButtonProperty(RETURN_TO_PROPOSAL_METHOD_TO_CALL);
-        returnToProposalButton.setExtraButtonSource(buildExtraButtonSourceURI("tinybutton-retprop.gif"));
-        returnToProposalButton.setExtraButtonAltText(RETURN_TO_PROPOSAL_ALT_TEXT);
-        
-        return returnToProposalButton;
-    }
-
     /**
      * This method does what its name says
      * @param buttonFileName

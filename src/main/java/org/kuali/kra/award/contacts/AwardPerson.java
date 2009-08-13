@@ -23,13 +23,14 @@ import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class implements an Award Person 
  */
-public class AwardPerson extends AwardContact {
+public class AwardPerson extends AwardContact implements PersonRolodex {
     private static final long serialVersionUID = 7980027108784055721L;
     private KualiDecimal academicYearEffort;
 
@@ -278,5 +279,11 @@ public class AwardPerson extends AwardContact {
         map.put("units", units);
         
         return map;
+    }
+    public String getProjectRole() {
+        return getContactRole().getRoleDescription();
+    }
+    public boolean isOtherSignificantContributorFlag() {
+        return false;
     }
 }

@@ -17,19 +17,18 @@
 
     <!-- Budget tables -->
     
-    <class-descriptor class="org.kuali.kra.budget.document.BudgetDocument" table="BUDGET_DOCUMENT">			
+    <class-descriptor class="org.kuali.kra.budget.document.BudgetDocument" table="BUDGET_DOCUMENT" row-reader="org.kuali.kra.budget.core.BudgetParentRowReaderImpl">			
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />		
 		<field-descriptor name="parentDocumentKey" column="PARENT_DOCUMENT_KEY" jdbc-type="VARCHAR"/>
+		<field-descriptor name="parentDocumentTypeCode" column="PARENT_DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    	<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.kns.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
-        	<foreignkey field-ref="documentNumber" />
-    	</reference-descriptor>
-		<reference-descriptor name="parentDocument" class-ref="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="parentDocumentKey"/> 
-		</reference-descriptor> 
+		<reference-descriptor name="parentDocument" class-ref="org.kuali.kra.budget.document.BudgetParentDocument" 
+							auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="parentDocumentKey"/>
+	    </reference-descriptor>
     	<collection-descriptor name="budgets" proxy="true" element-class-ref="org.kuali.kra.budget.core.Budget" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>
@@ -38,26 +37,34 @@
 			<inverse-foreignkey field-ref="documentKey" /> 
 		</collection-descriptor>
 		<!-- GENERATE NEXT VALUE -->
+    	<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.kns.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<foreignkey field-ref="documentNumber" />
+    	</reference-descriptor>
 	</class-descriptor>
     <class-descriptor class="org.kuali.kra.budget.versions.BudgetDocumentVersion" table="BUDGET_DOCUMENT">			
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />		
 		<field-descriptor name="parentDocumentKey" column="PARENT_DOCUMENT_KEY" jdbc-type="VARCHAR"/>
+		<field-descriptor name="parentDocumentTypeCode" column="PARENT_DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    	
     	<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.kns.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
-    	<!--
-		<reference-descriptor name="parentDocument" class-ref="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="parentDocumentKey"/> 
-		</reference-descriptor>--> 
+    	
     	<collection-descriptor name="budgetVersionOverviews" proxy="true" element-class-ref="org.kuali.kra.budget.versions.BudgetVersionOverview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="Object" auto-delete="Object">
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>
 	</class-descriptor>
-    
+<!-- Factory definitions start -->
+	<class-descriptor class="org.kuali.kra.budget.document.BudgetParentDocument">
+	    <extent-class class-ref="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument"/>
+	    <extent-class class-ref="org.kuali.kra.award.document.AwardDocument"/>
+	</class-descriptor>
+<!-- Factory definitions end -->
+
     <class-descriptor class="org.kuali.kra.budget.core.Budget" table="BUDGET">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BUDGET_ID" />
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous" />

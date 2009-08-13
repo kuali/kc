@@ -57,6 +57,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
+import org.kuali.kra.web.struts.form.ProposalFormBase;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
@@ -70,7 +71,7 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  * 
  * This class represents the Award Form Struts class.
  */
-public class AwardForm extends KraTransactionalDocumentFormBase 
+public class AwardForm extends ProposalFormBase 
                                         implements MultiLookupFormBase,
                                                     SpecialReviewFormBase<AwardSpecialReviewExemption>,
                                                     Auditable,

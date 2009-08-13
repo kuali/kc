@@ -52,6 +52,7 @@ import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -127,7 +128,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private AwardBasisOfPayment awardBasisOfPayment;
     private AwardMethodOfPayment awardMethodOfPayment;
     
-    
+    private ActivityType activityType;
     
     private Sponsor sponsor;
     private Sponsor primeSponsor;
@@ -2402,5 +2403,21 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
      */
     public String getVersionNameField() {
         return "awardNumber";
+    }
+
+    /**
+     * Gets the activityType attribute. 
+     * @return Returns the activityType.
+     */
+    public ActivityType getActivityType() {
+        return activityType;
+    }
+
+    /**
+     * Sets the activityType attribute value.
+     * @param activityType The activityType to set.
+     */
+    public void setActivityType(ActivityType activityType) {
+        this.activityType = activityType;
     }
 }

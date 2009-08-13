@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.budget.document.authorizer;
+package org.kuali.kra.award.budget.document.authorizer;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -29,19 +29,19 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalBudgetViewAuthorizer extends BudgetAuthorizer {
+public class AwardBudgetViewAuthorizer extends BudgetAuthorizer {
  
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
     public boolean isAuthorized(String username, Task task) {
-        
-        BudgetTask budgetTask = (BudgetTask) task;
-        
-        BudgetDocument budgetDocument = budgetTask.getBudgetDocument();
-        BudgetParentDocument doc = (BudgetParentDocument)budgetDocument.getParentDocument();
-        
-        return kraWorkflowService.hasWorkflowPermission(username, doc) ||
-               hasProposalPermission(username, doc, PermissionConstants.VIEW_BUDGET);
+        return true;
+//        BudgetTask budgetTask = (BudgetTask) task;
+//        
+//        BudgetDocument budgetDocument = budgetTask.getBudgetDocument();
+//        BudgetParentDocument doc = (BudgetParentDocument)budgetDocument.getParentDocument();
+//        
+//        return kraWorkflowService.hasWorkflowPermission(username, doc) ||
+//               hasProposalPermission(username, doc, PermissionConstants.VIEW_BUDGET);
     }
 }
