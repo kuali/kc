@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
@@ -33,15 +34,40 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     private Long approvedForeignTravelId;
     private Person traveler;
     private String travelerId;
+    private Serializable genericId;
+    /**
+     * Gets the genericId attribute. 
+     * @return Returns the genericId.
+     */
+    public Serializable getGenericId() {
+        return genericId;
+    }
+
+    /**
+     * Sets the genericId attribute value.
+     * @param genericId The genericId to set.
+     */
+    public void setGenericId(Serializable genericId) {
+        this.genericId = genericId;        
+    }
+
     private String travelerName;
     private String destination;
     private Date startDate;
     private Date endDate;
     private KualiDecimal amount;
+    
+    private static int instanceCount;
+    private int instanceNumber;
     /**
      * Constructs a AwardApprovedForeignTravel
      */
     public AwardApprovedForeignTravel() {
+        instanceNumber = instanceCount++;
+    }
+
+    public int getInstanceNumber() {
+        return instanceNumber;
     }
     
     /**
@@ -95,6 +121,9 @@ public class AwardApprovedForeignTravel extends AwardAssociate
     }
     
     public String getTravelerId() {
+        if(travelerId == null && genericId != null) {
+            travelerId = genericId.toString();
+        }
         return travelerId;
     }
 
@@ -301,6 +330,10 @@ public class AwardApprovedForeignTravel extends AwardAssociate
         return map;
     }
 
+    public String toString() {
+        return String.format("********** %s=%s;%s=%s [%d]", "travelerId", travelerId, "travelerName", travelerName, instanceNumber);
+    }
+    
     public int compareTo(AwardApprovedForeignTravel other) {
         int result = startDate != null ? startDate.compareTo(other.startDate) : 0;
         if(result == 0) {

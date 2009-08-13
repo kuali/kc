@@ -17,6 +17,7 @@ package org.kuali.kra.award.lookup;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -27,10 +28,13 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
@@ -38,6 +42,7 @@ import org.kuali.rice.kns.web.ui.Row;
  * This class provides Award lookup support
  */
 class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {    
+    private static final String COPY_HREF_PATTERN = "../DocCopyHandler.do?docId=%s&command=displayDocSearchView&documentTypeName=%s";
     static final String PERSON_ID = "personId";
     static final String ROLODEX_ID = "rolodexId";
     static final String UNIT_NUMBER = "unitNumber";
@@ -57,16 +62,14 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
      * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
      */
     @Override
-    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, @SuppressWarnings("unchecked")List pkNames) {
+    @SuppressWarnings("unchecked")
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
-        AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
         AwardDocument document = ((Award) businessObject).getAwardDocument();
-        htmlData.setHref("../DocCopyHandler.do?docId="+document.getDocumentNumber()
-            +"&command=displayDocSearchView&documentTypeName="+getDocumentTypeName());
-        htmlDataList.add(htmlData);
+        htmlDataList.add(getOpenLink(document));
+        addCopyLink(businessObject, pkNames, htmlDataList, COPY_HREF_PATTERN, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL);        
         return htmlDataList;
     }
-
 
     /**
      * This override is reset field definitions
@@ -80,12 +83,6 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
                 if (field.getPropertyName().equals(AwardDao.PI_NAME)) {
                     super.updateLookupField(field, AwardDao.PI_NAME, AwardPerson.class.getName());
                 }
-//                } else if (field.getPropertyName().equals(AwardLookupConstants.Property.PERFORMING_ORGANIZATION_ID)) {
-//                    super.updateLookupField(field,AwardLookupConstants.Property.ORGANIZATION_ID,ORGANIZATION_CLASS_PATH);
-//                } else if (field.getPropertyName().equals(AwardLookupConstants.Property.STATUS_CODE)) {
-//                    // to disable lookup/inquiry display
-//                    field.setQuickFinderClassNameImpl(KNSConstants.EMPTY_STRING);
-//                }
             }
         }
         return rows;
@@ -119,11 +116,30 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     }
 
     /**
-     * This method...
-     * @param bo
-     * @param propertyName
+     * @param document
      * @return
      */
+    protected AnchorHtmlData getOpenLink(Document document) {
+        AnchorHtmlData htmlData = new AnchorHtmlData();
+        htmlData.setDisplayText("open");
+        Properties parameters = new Properties();
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
+        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
+        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put("viewDocument", "true");
+        parameters.put("docId", document.getDocumentNumber());
+        String href = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
+        htmlData.setHref(href);
+        return htmlData;
+    }
+    
+    private void addCopyLink(BusinessObject businessObject, List<String> pkNames, List<HtmlData> htmlDataList, String hrefPattern, String methodToCall) {
+        AnchorHtmlData htmlData = getUrlData(businessObject, methodToCall, pkNames);
+        AwardDocument document = ((Award) businessObject).getAwardDocument();
+        htmlData.setHref(String.format(hrefPattern, document.getDocumentNumber(), getDocumentTypeName()));
+        htmlDataList.add(htmlData);
+    }
+    
     private HtmlData getOspAdminNameInquiryUrl(Award award) {
         Person ospAdministrator = award.getOspAdministrator();
         Person inqBo = new Person();
@@ -131,13 +147,6 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         return super.getInquiryUrl(inqBo, PERSON_ID);
     }
 
-    /**
-     * This method...
-     * @param bo
-     * @param propertyName
-     * @param inquiryUrl
-     * @return
-     */
     private HtmlData getPrincipalInvestigatorNameInquiryUrl(Award award) {
         HtmlData inquiryUrl = null;
         AwardPerson principalInvestigator = award.getPrincipalInvestigator();
@@ -176,6 +185,16 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         return "awardHome.do";
     }
     
+    /**
+     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#createdEditHtmlData(org.kuali.rice.kns.bo.BusinessObject)
+     * 
+     * Edit is not supported for Award lookup, so we'll just no-op
+     */
+    @Override
+    protected void addEditHtmlData(List<HtmlData> htmlDataList, BusinessObject businessObject) {
+        //no-op
+    }
+
     @Override
     protected String getDocumentTypeName() {
         return "AwardDocument";

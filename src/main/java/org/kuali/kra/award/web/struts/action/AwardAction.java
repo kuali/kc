@@ -37,6 +37,7 @@ import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -45,6 +46,7 @@ import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.service.AwardSponsorTermService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
@@ -118,13 +120,20 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         AwardForm awardForm = (AwardForm) form;
         
-        checkAwardNumber(awardForm.getAwardDocument().getAward());
+        Award award = awardForm.getAwardDocument().getAward();
+        checkAwardNumber(award);
         
         if (isValidSave(awardForm)) {
+            boolean savingNewAward = award.getAwardId() == null;
+            
             forward = super.save(mapping, form, request, response);
-    
             if (awardForm.getMethodToCall().equals("save") && awardForm.isAuditActivated()) {
                 forward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
+            }
+            
+            boolean newAwardSaved = savingNewAward && award.getAwardId() != null; 
+            if(newAwardSaved) {
+                getVersionHistoryService().createVersionHistory(award, VersionStatus.PENDING, GlobalVariables.getUserSession().getPrincipalName());
             }
         }
 
@@ -163,9 +172,10 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         AwardForm awardForm = (AwardForm) form;
         
         createInitialAwardUsers(awardForm.getAwardDocument().getAward());
-        populateStaticCloseoutReports(awardForm);        
-        createDefaultAwardHierarchy(awardForm.getAwardDocument().getAward(),awardForm.getPrevAwardNumber(), awardForm.getPrevRootAwardNumber());
-        
+        populateStaticCloseoutReports(awardForm);
+        if(!awardForm.getAwardDocument().isDocumentSaveAfterVersioning()) {
+            createDefaultAwardHierarchy(awardForm.getAwardDocument().getAward(),awardForm.getPrevAwardNumber(), awardForm.getPrevRootAwardNumber());
+        }
     }
 
     /**
@@ -598,5 +608,12 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
             syncPropertyName = StringUtils.substringBetween(parameterName, ".syncPropertyName", ".anchor");
         }
         return syncPropertyName;
+    }
+    
+    /**
+     * @return
+     */
+    protected VersionHistoryService getVersionHistoryService() {
+        return KraServiceLocator.getService(VersionHistoryService.class);
     }
 }

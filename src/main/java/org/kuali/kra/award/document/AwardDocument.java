@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.home.Award;
@@ -28,12 +30,17 @@ import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.RolePersons;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardCustomAttributeService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 
@@ -45,7 +52,8 @@ import org.kuali.rice.kns.document.SessionDocument;
  * Award and AwardDocument can have a 1:1 relationship.
  */
 public class AwardDocument extends ResearchDocumentBase implements  Copyable, SessionDocument{
-    
+    private static final Log LOG = LogFactory.getLog(AwardDocument.class);
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -54,6 +62,8 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
     public static final String DOCUMENT_TYPE_CODE = "AWRD";
     
     private List<Award> awardList;
+    
+    private transient boolean documentSaveAfterVersioning;
     
     /**
      * Constructs a AwardDocument object
@@ -104,6 +114,20 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
     }
     
     /**
+     * @return
+     */
+    public boolean isDocumentSaveAfterVersioning() {
+        return documentSaveAfterVersioning;
+    }
+    
+    /**
+     * @param documentSaveAfterVersioning
+     */
+    public void setDocumentSaveAfterAwardLookupEditOrVersion(boolean documentSaveAfterVersioning) {
+        this.documentSaveAfterVersioning = documentSaveAfterVersioning;
+    }
+    
+    /**
      * 
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
@@ -150,6 +174,27 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
         return managedLists;
     }
     
+    /**
+     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     */
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) throws Exception {
+        super.doRouteStatusChange(statusChangeEvent);
+        
+        String newStatus = statusChangeEvent.getNewRouteStatus();
+        
+        if(LOG.isDebugEnabled()) {
+            LOG.debug(String.format("********************* Status Change: from %s to %s", statusChangeEvent.getOldRouteStatus(), newStatus));
+        }
+        
+        if(KEWConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equalsIgnoreCase(newStatus)) {
+            getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
+        }
+        if(newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+            getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
+        }
+    }
+    
     protected void init() {
         awardList = new ArrayList<Award>();
         awardList.add(new Award());
@@ -187,5 +232,12 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
         AwardCustomAttributeService awardCustomAttributeService = KraServiceLocator.getService(AwardCustomAttributeService.class);
         Map<String, CustomAttributeDocument> customAttributeDocuments = awardCustomAttributeService.getDefaultAwardCustomAttributeDocuments();
         setCustomAttributeDocuments(customAttributeDocuments);
+    }
+    
+    /**
+     * @return
+     */
+    protected VersionHistoryService getVersionHistoryService() {
+        return KraServiceLocator.getService(VersionHistoryService.class);
     }
 }

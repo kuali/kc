@@ -163,6 +163,14 @@ public class InstitutionalProposalPerson extends KraPersistableBusinessObjectBas
     public Long getAcademicYearEffort() {
         return academicYearEffort;
     }
+    
+    /**
+     * Is this contact a PI?
+     * @return
+     */
+    public boolean isPrincipalInvestigator() {
+        return proposalPersonRole != null && proposalPersonRole.isPrincipalInvestigatorRole();
+    }
 
     public void setAcademicYearEffort(Long academicYearEffort) {
         this.academicYearEffort = academicYearEffort;
