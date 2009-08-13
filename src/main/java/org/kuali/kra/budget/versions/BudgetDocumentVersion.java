@@ -31,7 +31,7 @@ public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase imp
      */
     private static final long serialVersionUID = -2143813153034264031L;
     private String parentDocumentKey;
-//    private ProposalDevelopmentDocument parentDocument;
+    private String parentDocumentTypeCode;
     private List<BudgetVersionOverview> budgetVersionOverviews;
     private String documentNumber;
     private DocumentHeader documentHeader;
@@ -40,22 +40,6 @@ public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase imp
     public BudgetDocumentVersion(){
         budgetVersionOverviews = new ArrayList<BudgetVersionOverview>();
     }
-
-//    /**
-//     * Gets the parentDocument attribute. 
-//     * @return Returns the parentDocument.
-//     */
-//    public ProposalDevelopmentDocument getParentDocument() {
-//        return parentDocument;
-//    }
-//
-//    /**
-//     * Sets the parentDocument attribute value.
-//     * @param parentDocument The parentDocument to set.
-//     */
-//    public void setParentDocument(ProposalDevelopmentDocument proposal) {
-//        this.parentDocument = proposal;
-//    }
 
     /**
      * Gets the budgetVersionOverviews attribute. 
@@ -145,6 +129,20 @@ public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase imp
         this.documentHeader = documentHeader;
     }
 
-    
+    /**
+     * Gets the parentDocumentTypeCode attribute. 
+     * @return Returns the parentDocumentTypeCode.
+     */
+    public String getParentDocumentTypeCode() {
+        return parentDocumentTypeCode;
+    }
+
+    /**
+     * Sets the parentDocumentTypeCode attribute value.
+     * @param parentDocumentTypeCode The parentDocumentTypeCode to set.
+     */
+    public void setParentDocumentTypeCode(String parentDocumentTypeCode) {
+        this.parentDocumentTypeCode = parentDocumentTypeCode;
+    }
 
 }

@@ -22,16 +22,26 @@ import java.util.Map;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionCollection;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 
 @SuppressWarnings("serial")
-public abstract class BudgetParentDocument extends ResearchDocumentBase implements BudgetVersionCollection {
+public abstract class BudgetParentDocument extends ResearchDocumentBase implements BudgetVersionCollection,Permissionable {
     public abstract String getBudgetStatus();
     public abstract void setBudgetStatus(String budgetStatus);
     public abstract String getActivityTypeCode();
@@ -54,11 +64,35 @@ public abstract class BudgetParentDocument extends ResearchDocumentBase implemen
         BudgetDocumentVersion lastVersion = versions.get(versions.size() - 1);
         return lastVersion.getBudgetVersionOverview().getBudgetVersionNumber() + 1;
     }
+    public void addNewBudgetVersion(BudgetDocument budgetDocument, String name, boolean isDescriptionUpdatable) {
+        Budget budget = budgetDocument.getBudget();
+        BudgetDocumentVersion budgetDocumentVersion = new BudgetDocumentVersion();
+        budgetDocumentVersion.setDocumentNumber(budgetDocument.getDocumentNumber());
+        budgetDocumentVersion.setParentDocumentKey(getDocumentNumber());
+        budgetDocumentVersion.setVersionNumber(budgetDocument.getVersionNumber());
+        BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
+        budgetVersion.setDocumentNumber(budgetDocument.getDocumentNumber());
+        budgetVersion.setDocumentDescription(name);
+        budgetVersion.setBudgetVersionNumber(budget.getBudgetVersionNumber());
+        budgetVersion.setStartDate(budget.getStartDate());
+        budgetVersion.setEndDate(budget.getEndDate());
+        budgetVersion.setOhRateTypeCode(budget.getOhRateTypeCode());
+        budgetVersion.setOhRateClassCode(budget.getOhRateClassCode());
+        budgetVersion.setVersionNumber(budget.getVersionNumber());
+        budgetVersion.setDescriptionUpdatable(isDescriptionUpdatable);
+        
+        String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+        budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
+        
+        getBudgetDocumentVersions().add(budgetDocumentVersion);
+    }
+    public BudgetDocumentVersion getBudgetDocumentVersion(int selectedLine) {
+        return getBudgetDocumentVersions().get(selectedLine);
+    }
     public abstract ActivityType getActivityType();
     public abstract String getUnitNumber();
     public abstract Unit getUnit();
-    public abstract BudgetDocumentVersion getBudgetDocumentVersion(int selectedLine);
-    public abstract void addNewBudgetVersion(BudgetDocument newBudgetDoc, String versionName, boolean b);
     public abstract List<PersonRolodex> getPersonRolodexList();
     public abstract ProposalPersonRole getProposalNonEmployeeRole(Integer rolodexId);
     public abstract PersonRolodex getProposalEmployee(String personId);
@@ -66,4 +100,13 @@ public abstract class BudgetParentDocument extends ResearchDocumentBase implemen
     public abstract ProposalPersonRole getProposalEmployeeRole(String personId);
     public abstract boolean isNih();
     public abstract Map<String, String> getNihDescription();
+    public abstract void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument);
+    public abstract void processAfterRetrieveForBudget(BudgetDocument budgetDocument);
+    public abstract String getTaskGroupName();
+    public abstract ExtraButton configureReturnToParentTopButton();
+    public List<HeaderNavigation> getBudgetHeaderNavigatorList(){
+      DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
+      DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
+      return docEntry.getHeaderNavigationList();
+    }
 }

@@ -38,6 +38,8 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
     private Integer finalBudgetVersion;
     private boolean auditActivated;
     private String activePanelName;
+    private boolean saveAfterCopy;
+    
     
     /**
      * The type of result returned by the multi-value lookup
@@ -149,5 +151,15 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
     public void setActivePanelName(String activePanelName) {
         this.activePanelName = activePanelName;
     }
+    
+    public boolean isSaveAfterCopy() {
+        return saveAfterCopy;
+    }
+
+    public void setSaveAfterCopy(boolean val) {
+        saveAfterCopy = val;
+    }
+    
+
     
 }

@@ -35,7 +35,7 @@ public final class BudgetTask extends Task {
      * @param budgetDocument the Budget Document
      */
     public BudgetTask(String taskName, BudgetDocument budgetDocument) {
-        super(TaskGroupName.BUDGET, taskName);
+        super(budgetDocument.getParentDocument().getTaskGroupName(), taskName);
         this.budgetDocument = budgetDocument;
     }
     

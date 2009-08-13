@@ -33,6 +33,7 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -44,16 +45,22 @@ import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.workflow.DocumentInitiator;
 import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
 
 public class ProposalDevelopmentDocument extends BudgetParentDocument implements Copyable, SessionDocument, Permissionable {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
+
+    public static final String DOCUMENT_TYPE_CODE = "PRDV";
+
     private static final long serialVersionUID = 2958631745964610527L;
-    private static final String DOCUMENT_TYPE_CODE = "PRDV";
-    
     private List<DevelopmentProposal> developmentProposalList;
     private List<BudgetDocumentVersion> budgetDocumentVersions;
+    private static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
+    private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to proposal";
+    private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
 
     public ProposalDevelopmentDocument() {
         super();
@@ -156,29 +163,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument implements
         getDevelopmentProposal().setAllowsNoteAttachments(allowsNoteAttachments);
     }
     
-    public void addNewBudgetVersion(BudgetDocument budgetDocument, String name, boolean isDescriptionUpdatable) {
-        Budget budget = budgetDocument.getBudget();
-        BudgetDocumentVersion budgetDocumentVersion = new BudgetDocumentVersion();
-        budgetDocumentVersion.setDocumentNumber(budgetDocument.getDocumentNumber());
-        budgetDocumentVersion.setParentDocumentKey(getDocumentNumber());
-        budgetDocumentVersion.setVersionNumber(budgetDocument.getVersionNumber());
-        BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
-        budgetVersion.setDocumentNumber(budgetDocument.getDocumentNumber());
-        budgetVersion.setDocumentDescription(name);
-        budgetVersion.setBudgetVersionNumber(budget.getBudgetVersionNumber());
-        budgetVersion.setStartDate(budget.getStartDate());
-        budgetVersion.setEndDate(budget.getEndDate());
-        budgetVersion.setOhRateTypeCode(budget.getOhRateTypeCode());
-        budgetVersion.setOhRateClassCode(budget.getOhRateClassCode());
-        budgetVersion.setVersionNumber(budget.getVersionNumber());
-        budgetVersion.setDescriptionUpdatable(isDescriptionUpdatable);
-        
-        String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
-        budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
-        
-        getBudgetDocumentVersions().add(budgetDocumentVersion);
-    }
 
     /**
      * 
@@ -211,7 +195,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument implements
     public String getDocumentKey() {
         return Permissionable.PROPOSAL_KEY;
     }
-    
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
@@ -281,11 +265,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument implements
     }
 
     @Override
-    public BudgetDocumentVersion getBudgetDocumentVersion(int selectedLine) {
-        return getDevelopmentProposal().getBudgetDocumentVersion(selectedLine);
-    }
-
-    @Override
     public Unit getUnit() {
         return getDevelopmentProposal().getOwnedByUnit();
     }
@@ -329,5 +308,44 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument implements
     public boolean isNih() {
         return getDevelopmentProposal().isNih();
     }
+
+    @Override
+    public void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument) {
+        getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
+    }
+
+    @Override
+    public void processAfterRetrieveForBudget(BudgetDocument budgetDocument) {
+        getService(ProposalStatusService.class).loadBudgetStatusByProposalDocumentNumber(getDocumentNumber());
+    }
+
+    @Override
+    public String getTaskGroupName() {
+        return TaskGroupName.PROPOSAL_BUDGET;
+    }
+
+    @Override
+    public ExtraButton configureReturnToParentTopButton() {
+        ExtraButton returnToProposalButton = new ExtraButton();
+        returnToProposalButton.setExtraButtonProperty(RETURN_TO_PROPOSAL_METHOD_TO_CALL);
+        returnToProposalButton.setExtraButtonSource(buildExtraButtonSourceURI("tinybutton-retprop.gif"));
+        returnToProposalButton.setExtraButtonAltText(RETURN_TO_PROPOSAL_ALT_TEXT);
+        
+        return returnToProposalButton;
+    }
+
+    /**
+     * This method does what its name says
+     * @param buttonFileName
+     * @return
+     */
+    private String buildExtraButtonSourceURI(String buttonFileName) {
+        return lookupKualiConfigurationService().getPropertyString(KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
+    }
+
+    private KualiConfigurationService lookupKualiConfigurationService() {
+        return KraServiceLocator.getService(KualiConfigurationService.class);
+    }
+    
 
 }

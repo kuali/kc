@@ -199,19 +199,19 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
     
     private String getActivityTypeDescription(BudgetDocument budgetDocument) {
         Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument proposal = budgetDocument.getParentDocument();
+        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         
         if (budget.isRateSynced() || !KraServiceLocator.getService(BudgetService.class).
-                checkActivityTypeChange(getProposal(budget), budget)) {
-            if(proposal.getActivityType()!= null){
-                return proposal.getActivityType().getDescription().concat(SPACE);
+                checkActivityTypeChange(getBudgetParentDocument(budget), budget)) {
+            if(parentDocument.getActivityType()!= null){
+                return parentDocument.getActivityType().getDescription().concat(SPACE);
             }
             else
             {
                 return "";
             }
         } else {
-            ProposalDevelopmentDocument pdDoc = getProposal(budget);
+            BudgetParentDocument parentDoc = getBudgetParentDocument(budget);
             String activityTypeCode=null;
             if (CollectionUtils.isNotEmpty(budget.getBudgetProposalRates())) {
                 activityTypeCode = ((BudgetProposalRate)budget.getBudgetProposalRates().get(0)).getActivityTypeCode();
@@ -349,14 +349,14 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
      * @param budget
      * @return
      */
-    private ProposalDevelopmentDocument getProposal(Budget budget) {
+    private BudgetParentDocument getBudgetParentDocument(Budget budget) {
         BudgetDocument budgetDocument = budget.getBudgetDocument();
         if(budgetDocument==null){
             budget.refreshReferenceObject("budgetDocument");
             budgetDocument = budget.getBudgetDocument();
         }
-        ProposalDevelopmentDocument proposal = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
-        return proposal;
+//        ProposalDevelopmentDocument proposal = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
+        return budgetDocument.getParentDocument();
     }
 
     private Map<String, String> getRateFilterMap(BudgetDocument budgetDocument) {        
@@ -407,7 +407,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
     }
 
     private Unit makeParentUnitAsCurrentUnit(Unit currentUnit, Map<String, String> rateFilterMap) {
-        Unit parentUnit = currentUnit.getParentUnit();
+        Unit parentUnit = currentUnit==null?null:currentUnit.getParentUnit();
         if(parentUnit != null) {
             rateFilterMap.put(UNIT_NUMBER_KEY, parentUnit.getUnitNumber());
         }

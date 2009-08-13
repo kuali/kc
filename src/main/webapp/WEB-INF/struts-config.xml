@@ -197,6 +197,7 @@
       <action path="/award*" name="AwardForm" input="/WEB-INF/jsp/award/Award{1}.jsp" type="org.kuali.kra.award.web.struts.action.Award{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/award/Award{1}.jsp" />
           <forward name="home" path="/WEB-INF/jsp/award/AwardHome.jsp" />
+          <forward name="budgetVersions" path="/WEB-INF/jsp/award/AwardBudgetVersions.jsp" />
           <forward name="contacts" path="/WEB-INF/jsp/award/AwardContacts.jsp" />
           <forward name="commitments" path="/WEB-INF/jsp/award/AwardCommitments.jsp" />
           <forward name="timeAndMoney" path="/WEB-INF/jsp/timeAndMoney/TimeAndMoney.jsp" />

@@ -30,6 +30,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
@@ -66,7 +67,10 @@ import org.kuali.kra.web.struts.action.ProposalActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
@@ -96,7 +100,7 @@ public class BudgetAction extends ProposalActionBase {
         }else{
             budgetForm.initialize();
         }
-        
+
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         // populate costelement and other shared field to personnel detail
@@ -115,6 +119,23 @@ public class BudgetAction extends ProposalActionBase {
         return forward;
     }
 
+    private List<HeaderNavigation> getHeaderNavigationListForAward() {
+        List<HeaderNavigation> headerNavList = getBudgetHeaderNavigatorList();
+        List<HeaderNavigation> awardBudgetHeaderNavList = new ArrayList<HeaderNavigation>();
+        for (HeaderNavigation headerNavigation : headerNavList) {
+            if(!headerNavigation.getHeaderTabNavigateTo().equals("headerTabNavigateTo")){
+                awardBudgetHeaderNavList.add(headerNavigation);
+            }
+        }
+        return awardBudgetHeaderNavList;
+    }
+
+    public List<HeaderNavigation> getBudgetHeaderNavigatorList(){
+        DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
+        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
+        return docEntry.getHeaderNavigationList();
+      }
+    
     /**
      * Need to suppress buttons here when 'Totals' tab is clicked.
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -165,9 +186,9 @@ public class BudgetAction extends ProposalActionBase {
                     setAdditionalInfo = true;
                     break;
                 }
-//                else {
-//                    budgetForm.getDocInfo().add(new HeaderField(BudgetForm.BUDGET_NAME_KEY, Constants.EMPTY_STRING));
-//                }
+                else {
+                    budgetForm.getDocInfo().add(new HeaderField(BudgetForm.BUDGET_NAME_KEY, Constants.EMPTY_STRING));
+                }
             }
             if(!setAdditionalInfo){
                 budgetForm.getDocInfo().add(new HeaderField(BudgetForm.BUDGET_NAME_KEY, Constants.EMPTY_STRING));
@@ -435,7 +456,37 @@ public class BudgetAction extends ProposalActionBase {
         
         return forward;
     }
+    public ActionForward returnToAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        final BudgetForm budgetForm = (BudgetForm) form;
+        ActionForward forward = null;
+        
+        if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
+            forward = this.save(mapping, form, request, response);
+        }
+        
+        if (forward == null || !forward.getPath().contains(KNSConstants.QUESTION_ACTION)) {
+            return this.getReturnToAwardForward(budgetForm);
+        }
+        
+        return forward;
+    }
     
+    private ActionForward getReturnToAwardForward(BudgetForm budgetForm) throws Exception{
+        assert budgetForm != null : "the form is null";
+        
+        final DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+        final String docNumber = budgetForm.getDocument().getParentDocument().getDocumentNumber();
+        
+        final BudgetParentDocument pdDoc = (BudgetParentDocument) docService.getByDocumentHeaderId(docNumber);
+        String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+        if(budgetForm.isAuditActivated()) {
+            forwardUrl = StringUtils.replace(forwardUrl, "Award.do?", "Actions.do?");
+        }
+        
+        return new ActionForward(forwardUrl, true);
+    }
+
     /**
      * Gets the correct return-to-proposal action forward.
      * 
