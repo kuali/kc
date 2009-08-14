@@ -14,8 +14,7 @@
     <property name="documentClass" value="org.kuali.kra.award.document.AwardDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.award.AwardDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer"/>
-    <property name="documentPresentationControllerClass" value="org.kuali.kra.award.document.authorization.AwardDocumentPresentationController"/>
-    
+     
     <property name="allowsCopy" value="true"/>
     <property name="headerNavigationList">
       <list>

@@ -29,7 +29,6 @@
     	<property name="documentClass" value="org.kuali.kra.irb.ProtocolDocument"/>
     	<property name="businessRulesClass" value="org.kuali.kra.irb.ProtocolDocumentRule"/>
     	<property name="documentAuthorizerClass" value="org.kuali.kra.irb.auth.ProtocolDocumentAuthorizer"/>
-    	<property name="documentPresentationControllerClass" value="org.kuali.kra.irb.auth.ProtocolDocumentPresentationController"/>
     	
     	<property name="allowsCopy" value="true"/>
     	<property name="headerNavigationList">

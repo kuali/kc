@@ -38,7 +38,7 @@ public abstract class TimeAndMoneyAuthorizer extends TaskAuthorizerImpl {
     /**
      * Is the user authorized to execute the given Time and Money task?
      * @param username the user's unique username
-     * @param task the award task
+     * @param task the Time And Money task
      * @return true if the user is authorized; otherwise false
      */
     public abstract boolean isAuthorized(String username, TimeAndMoneyTask task);
@@ -52,9 +52,9 @@ public abstract class TimeAndMoneyAuthorizer extends TaskAuthorizerImpl {
     }
     
     /**
-     * Does the given user has the permission for this award?
+     * Does the given user has the permission for this Time And Money?
      * @param username the unique username of the user
-     * @param award the award
+     * @param timeAndMoneyDocument the Time And Money
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
      */
