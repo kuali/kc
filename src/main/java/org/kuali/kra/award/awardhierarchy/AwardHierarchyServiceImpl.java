@@ -17,14 +17,15 @@ package org.kuali.kra.award.awardhierarchy;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class AwardHierarchyServiceImpl implements AwardHierarchyService {
 
+    private static final String DEFAULT_PARENT_AWARD_NUMBER = "000000-00000";
     BusinessObjectService businessObjectService;
     
     public void persistAwardHierarchy(AwardHierarchy awardHierarchy){
@@ -35,12 +36,11 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         AwardHierarchy awardHierarchy = new AwardHierarchy();
         awardHierarchy.setRootAwardNumber(awardNumber);
         awardHierarchy.setAwardNumber(awardNumber);
-        awardHierarchy.setParentAwardNumber("0000000");
-        
+        awardHierarchy.setParentAwardNumber(DEFAULT_PARENT_AWARD_NUMBER);
     }
     
-    public Map<String, AwardHierarchy> getAwardHierarchy(String awardNumber){
-        Map<String, AwardHierarchy> awardHierarchies = new TreeMap<String, AwardHierarchy>();
+    public Map<String, AwardHierarchy> getAwardHierarchy(String awardNumber, List<String> order){
+        Map<String, AwardHierarchy> awardHierarchies = new HashMap<String, AwardHierarchy>();
         
         Map<String, String> primaryKeys = new HashMap<String, String>();
         Map<String, String> fieldValues = new HashMap<String, String>();        
@@ -54,20 +54,52 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         fieldValues.put("parentAwardNumber", awardHierarchyRootNode.getAwardNumber());
         awardHierarchyChildren = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, "parentAwardNumber", true);
         
+        Map<String, Collection<AwardHierarchy>> mapOfChildren = new HashMap<String, Collection<AwardHierarchy>>();
+        mapOfChildren.put(awardHierarchyRootNode.getAwardNumber(), awardHierarchyChildren);
         while(awardHierarchyChildren.size()!=0){
             Collection<AwardHierarchy> awardHierarchyChildren2 = null;
             for(AwardHierarchy awardHierarchyItem : awardHierarchyChildren){
                 awardHierarchies.put(awardHierarchyItem.getAwardNumber(), awardHierarchyItem);
                 fieldValues = new HashMap<String, String>();
                 fieldValues.put("parentAwardNumber", awardHierarchyItem.getAwardNumber());
+                Collection<AwardHierarchy> listOfChildren = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, "parentAwardNumber", true);
+                
                 if(awardHierarchyChildren2!=null){
-                    awardHierarchyChildren2.addAll(businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, "parentAwardNumber", true));    
+                    awardHierarchyChildren2.addAll(listOfChildren);    
                 }else{
-                    awardHierarchyChildren2 = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, "parentAwardNumber", true);
-                }                
+                    awardHierarchyChildren2 = listOfChildren;
+                }
+                
+                mapOfChildren.put(awardHierarchyItem.getAwardNumber(), businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, "parentAwardNumber", true));
             }
             awardHierarchyChildren = awardHierarchyChildren2; 
         }
+
+        String parentAwardNumber = awardHierarchyRootNode.getAwardNumber();
+        
+        order.add(parentAwardNumber);
+        int l = 0;
+        Collection<AwardHierarchy> ahCollection = null;
+        AwardHierarchy ah1 = null;
+        while(!StringUtils.equalsIgnoreCase(parentAwardNumber,DEFAULT_PARENT_AWARD_NUMBER)){
+            if(mapOfChildren.get(parentAwardNumber).size()!=0){
+                ahCollection = mapOfChildren.get(parentAwardNumber);
+                ah1 = ahCollection.iterator().next();
+                parentAwardNumber = ah1.getAwardNumber();        
+                order.add(parentAwardNumber);
+                l++;               
+            }else if(ahCollection.size() ==0){
+                ah1 = awardHierarchies.get(awardHierarchies.get(parentAwardNumber).getParentAwardNumber());
+                parentAwardNumber = ah1.getParentAwardNumber();
+                if(!StringUtils.equalsIgnoreCase(parentAwardNumber,DEFAULT_PARENT_AWARD_NUMBER)){                    
+                    mapOfChildren.get(parentAwardNumber).remove(ah1);    
+                }
+            }
+            else{                
+                parentAwardNumber = ah1.getParentAwardNumber();
+                ahCollection.remove(ah1);                
+            }
+        }        
         
         return awardHierarchies;
     }

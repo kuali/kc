@@ -59,11 +59,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             throws Exception {
         
         ActionForward forward = super.reload(mapping, form, request, response);
-        AwardForm awardForm = (AwardForm)form;
-        Award award = awardForm.getAwardDocument().getAward();
-        Map<String, AwardHierarchy> awardHierarchyNodes = getAwardHierarchyService().getAwardHierarchy(award.getAwardNumber());
-        
-        awardForm.setAwardHierarchyNodes(awardHierarchyNodes);
+        super.populateAwardHierarchy(form);
         
         return forward;
     }    

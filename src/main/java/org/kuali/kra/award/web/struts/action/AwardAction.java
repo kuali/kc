@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,12 +108,15 @@ public class AwardAction extends BudgetParentActionBase {
      * This method...
      * @param form
      */
-    private void populateAwardHierarchy(ActionForm form) {
+    protected void populateAwardHierarchy(ActionForm form) {
         AwardForm awardForm = (AwardForm)form;
         Award award = awardForm.getAwardDocument().getAward();
-        Map<String, AwardHierarchy> awardHierarchyNodes = getAwardHierarchyService().getAwardHierarchy(award.getAwardNumber());
+        List<String> order = new ArrayList<String>();
+        
+        Map<String, AwardHierarchy> awardHierarchyNodes = getAwardHierarchyService().getAwardHierarchy(award.getAwardNumber(), order);
         
         awardForm.setAwardHierarchyNodes(awardHierarchyNodes);
+        awardForm.setOrder(order);
     }
     
     /**
