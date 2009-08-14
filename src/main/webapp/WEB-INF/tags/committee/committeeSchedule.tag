@@ -218,12 +218,8 @@
 					<td>
 						<div align=center>&nbsp;
 						<c:if test="${committeeSchedule.delete}">
-								<kul:htmlControlAttribute property="document.committeeList[0].committeeSchedules[${status.index}].selected" 
-	                								attributeEntry="${committeeScheduleAttributes.selected}" />
-	                			<!-- 					
-								<html:image property="methodToCall.deleteCommitteeSchedule.line${status.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-								 -->	
+							<kul:htmlControlAttribute property="document.committeeList[0].committeeSchedules[${status.index}].selected" 
+	                		  						  attributeEntry="${committeeScheduleAttributes.selected}" />
 						</c:if>  
 						</div>
 	                </td>
