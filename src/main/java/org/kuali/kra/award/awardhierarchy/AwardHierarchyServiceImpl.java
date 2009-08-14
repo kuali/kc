@@ -90,7 +90,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
                     order.add(parentAwardNumber);
                     l++;               
                 }else if(ahCollection!=null && ahCollection.size() ==0){
-                    ah1 = awardHierarchies.get(awardHierarchies.get(parentAwardNumber).getParentAwardNumber());
+                    ah1 = awardHierarchies.get(awardHierarchies.get(parentAwardNumber).getAwardNumber());
                     if(ah1!=null){
                         parentAwardNumber = ah1.getParentAwardNumber();
                         if(!StringUtils.equalsIgnoreCase(parentAwardNumber,DEFAULT_PARENT_AWARD_NUMBER)){                    
