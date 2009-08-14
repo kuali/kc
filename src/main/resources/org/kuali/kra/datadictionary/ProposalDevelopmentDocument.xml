@@ -14,8 +14,7 @@
     <property name="documentClass" value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kra.proposaldevelopment.document.authorization.ProposalDevelopmentDocumentAuthorizer"/>
-    <property name="documentPresentationControllerClass" value="org.kuali.kra.proposaldevelopment.document.authorization.ProposalDevelopmentDocumentPresentationController"/> 
-    
+     
     <property name="displayTopicFieldInNotes" value="true"/>
     <property name="allowsCopy" value="true"/>
     <property name="headerNavigationList">

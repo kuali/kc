@@ -13,8 +13,7 @@
     	<property name="documentClass" value="org.kuali.kra.committee.document.CommitteeDocument"/>
     	<property name="businessRulesClass" value="org.kuali.kra.committee.rules.CommitteeDocumentRule"/>
     	<property name="documentAuthorizerClass" value="org.kuali.kra.committee.document.authorization.CommitteeDocumentAuthorizer"/>
-    	    	<property name="documentPresentationControllerClass" value="org.kuali.kra.committee.document.authorization.CommitteeDocumentPresentationController"/>
-    	
+    	    	
     	<property name="allowsCopy" value="true"/>
     	<property name="headerNavigationList">
       	<list>

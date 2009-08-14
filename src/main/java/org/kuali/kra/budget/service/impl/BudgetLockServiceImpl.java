@@ -24,7 +24,6 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.service.BudgetLockService;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
@@ -40,6 +39,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements BudgetLockService {
 
     private static final String FALSE = "FALSE";
+    private static final String ADD_BUDGET = "addBudget";
 
     /**
      * @see org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl#isLockRequiredByUser(org.kuali.rice.kns.document.Document, java.util.Map, org.kuali.rice.kim.bo.Person)
@@ -74,12 +74,12 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
     @Override
     protected String getCustomLockDescriptor(Document document, Map editMode, Person user) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        if(StringUtils.isNotEmpty(activeLockRegion)) {
+        if (StringUtils.isNotEmpty(activeLockRegion)) {
             BudgetParentDocument parent = ((BudgetDocument) document).getParentDocument();
-            if(parent != null) {
-                return parent.getDocumentNumber()+"-"+activeLockRegion; 
+            if (parent != null) {
+                return parent.getDocumentNumber() + "-" + activeLockRegion; 
             }
-            return document.getDocumentNumber()+"-"+activeLockRegion;
+            return document.getDocumentNumber() + "-" + activeLockRegion;
         }
         
         return null;
@@ -93,7 +93,7 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
     protected boolean isEntryEditMode(Map.Entry entry) {
         if (AuthorizationConstants.EditMode.FULL_ENTRY.equals(entry.getKey())
                 || KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET.equals(entry.getKey())
-                 || "addBudget".equals(entry.getKey())
+                 || ADD_BUDGET.equals(entry.getKey())
                 ) {
             String fullEntryEditModeValue = (String)entry.getValue();
             return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && (EDIT_MODE_DEFAULT_TRUE_VALUE.equals(fullEntryEditModeValue)));
@@ -110,7 +110,7 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
         Map editModeMap = new HashMap();
         for (Iterator iterator = editModeMap.entrySet().iterator(); iterator.hasNext();) {
             Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
-            if (StringUtils.equals(entry.getKey(), "addBudget")) {
+            if (StringUtils.equals(entry.getKey(), ADD_BUDGET)) {
                 entry.setValue(FALSE);
             }
         }
