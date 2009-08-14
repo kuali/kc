@@ -81,25 +81,31 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         int l = 0;
         Collection<AwardHierarchy> ahCollection = null;
         AwardHierarchy ah1 = null;
-        while(!StringUtils.equalsIgnoreCase(parentAwardNumber,DEFAULT_PARENT_AWARD_NUMBER)){
-            if(mapOfChildren.get(parentAwardNumber).size()!=0){
-                ahCollection = mapOfChildren.get(parentAwardNumber);
-                ah1 = ahCollection.iterator().next();
-                parentAwardNumber = ah1.getAwardNumber();        
-                order.add(parentAwardNumber);
-                l++;               
-            }else if(ahCollection.size() ==0){
-                ah1 = awardHierarchies.get(awardHierarchies.get(parentAwardNumber).getParentAwardNumber());
-                parentAwardNumber = ah1.getParentAwardNumber();
-                if(!StringUtils.equalsIgnoreCase(parentAwardNumber,DEFAULT_PARENT_AWARD_NUMBER)){                    
-                    mapOfChildren.get(parentAwardNumber).remove(ah1);    
+        if(awardHierarchies.size()>1){
+            while(!StringUtils.equalsIgnoreCase(parentAwardNumber,DEFAULT_PARENT_AWARD_NUMBER)){
+                if(mapOfChildren.get(parentAwardNumber).size()!=0){
+                    ahCollection = mapOfChildren.get(parentAwardNumber);
+                    ah1 = ahCollection.iterator().next();
+                    parentAwardNumber = ah1.getAwardNumber();        
+                    order.add(parentAwardNumber);
+                    l++;               
+                }else if(ahCollection!=null && ahCollection.size() ==0){
+                    ah1 = awardHierarchies.get(awardHierarchies.get(parentAwardNumber).getParentAwardNumber());
+                    if(ah1!=null){
+                        parentAwardNumber = ah1.getParentAwardNumber();
+                        if(!StringUtils.equalsIgnoreCase(parentAwardNumber,DEFAULT_PARENT_AWARD_NUMBER)){                    
+                            mapOfChildren.get(parentAwardNumber).remove(ah1);    
+                        }   
+                    }else{
+                        parentAwardNumber = DEFAULT_PARENT_AWARD_NUMBER;
+                    }
+                }
+                else if(ah1!=null){                
+                    parentAwardNumber = ah1.getParentAwardNumber();
+                    ahCollection.remove(ah1);                
                 }
             }
-            else{                
-                parentAwardNumber = ah1.getParentAwardNumber();
-                ahCollection.remove(ah1);                
-            }
-        }        
+        }
         
         return awardHierarchies;
     }
