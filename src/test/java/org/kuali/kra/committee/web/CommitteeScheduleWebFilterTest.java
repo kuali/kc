@@ -42,8 +42,6 @@ public class CommitteeScheduleWebFilterTest extends CommitteeScheduleWebTestBase
     
     public static final String METHODTOCALL_RESETCOMMITTEESCHEDULEDATES_ANCHORSCHEDULE = "methodToCall.resetCommitteeScheduleDates.anchorSchedule";
     
-    public static final String PLACE_DAVIS_103 = "Davis 103";
-    
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -75,25 +73,23 @@ public class CommitteeScheduleWebFilterTest extends CommitteeScheduleWebTestBase
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 0));        
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 1));        
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 2));
-               
+        assertScheduleRowCount(pageAfterAdd, 3);
+        
         setFieldValue(pageAfterAdd, SCHEDULEDATA_FILTERSTARTDATE, scheduleDate);    
-        setFieldValue(pageAfterAdd, SCHEDULEDATA_FILERENDDATE, scheduleDate); 
+        setFieldValue(pageAfterAdd, SCHEDULEDATA_FILERENDDATE, formatDate(DateUtils.addDays(dt, 1))); 
         
         HtmlPage filteredPage = clickOnByName(pageAfterAdd,METHODTOCALL_FILTER_COMMITTEESCHEDULEDATES_ANCHORSCHEDULE, true);
                                                            
+        //assertFalse(hasError(filteredPage));        
+
         assertRecord(filteredPage, DateUtils.addDays(dt, 0));
-        
-        String textOfPage = filteredPage.asText();
-        String place = PLACE_DAVIS_103;
-        
-        int count = getWordCount(textOfPage,place);
-        
-        //assertEquals(2, count);
+        assertScheduleRowCount(filteredPage, 2);
                       
         HtmlPage resetFilter = clickOnByName(filteredPage,METHODTOCALL_RESETCOMMITTEESCHEDULEDATES_ANCHORSCHEDULE, true);
         
         assertRecord(resetFilter, DateUtils.addDays(dt, 0));        
         assertRecord(resetFilter, DateUtils.addDays(dt, 1));        
         assertRecord(resetFilter, DateUtils.addDays(dt, 2));
-    } 
+        assertScheduleRowCount(resetFilter, 3);
+    }
 }

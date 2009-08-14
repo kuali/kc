@@ -259,4 +259,21 @@ public class CommitteeScheduleWebTestBase extends CommitteeWebTestBase {
         
         return month;
     }
+    
+    /**
+     * 
+     * This method asserts the number of displayed schedule rows.
+     * 
+     * @param schedulePage     - the web page
+     * @param expectedRowCount - numbers of schedule rows that are expected to be displayed
+     */
+    protected void assertScheduleRowCount(HtmlPage schedulePage, int expectedRowCount) {
+        String textOfPage = schedulePage.asText();
+        String place = PLACE_DAVIS_103;
+        
+        int count = getWordCount(textOfPage,place);
+        
+        assertEquals((expectedRowCount + 1), count);
+    }
+    
 }
