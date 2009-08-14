@@ -122,6 +122,7 @@ public class AwardForm extends ProposalFormBase
     private AwardCreditSplitBean awardCreditSplitBean;
     private Map<String, AwardHierarchy> awardHierarchyNodes;
     private String awardNumberInputTemp;//This is temporary till the GUI mock is ready for award hierarchy
+    private List<String> order;
     
     /**
      * 
@@ -171,6 +172,7 @@ public class AwardForm extends ProposalFormBase
         awardCommentBean = new AwardCommentBean(this);
         awardCloseoutBean = new AwardCloseoutBean(this);
         awardHierarchyNodes = new TreeMap<String, AwardHierarchy>();
+        order = new ArrayList<String>();
     }
     
     /**
@@ -689,5 +691,21 @@ public class AwardForm extends ProposalFormBase
      */
     public void setAwardNumberInputTemp(String awardNumberInputTemp) {
         this.awardNumberInputTemp = awardNumberInputTemp;
+    }
+
+    /**
+     * Gets the order attribute. 
+     * @return Returns the order.
+     */
+    public List<String> getOrder() {
+        return order;
+    }
+
+    /**
+     * Sets the order attribute value.
+     * @param order The order to set.
+     */
+    public void setOrder(List<String> order) {
+        this.order = order;
     }
 }

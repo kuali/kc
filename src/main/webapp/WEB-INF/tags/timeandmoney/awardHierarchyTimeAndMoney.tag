@@ -91,6 +91,7 @@
   		<tr>
        		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
        		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.awardNumber}" scope="col" /></div></th>
+       		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.parentAwardNumber}" scope="col" /></div></th>
        		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.currentFundEffectiveDate}" scope="col" /></div></th>
        		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.obligationExpirationDate}" scope="col" /></div></th>
        		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.finalExpirationDate}" scope="col" /></div></th>
@@ -100,49 +101,54 @@
        		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.antDistributableAmount}" scope="col" /></div></th>       		
        	</tr>
        	
-		<c:forEach var="awardHierarchyNode" items="${KualiForm.document.awardHierarchyNodes}" varStatus="status">
+		<c:forEach var="order" items="${KualiForm.order}" varStatus="status">
           <tr>
 			<th class="infoline">
 				<c:out value="${status.index+1}" />
 			</th>            
           <td align="left" valign="middle">
 			<div align="center">
-              	<c:out value ="${awardHierarchyNode.value.awardNumber}" /> : <c:out value ="${awardHierarchyNode.value.leadUnitName}" /> : <c:out value ="${awardHierarchyNode.value.principalInvestigatorName}" />
-			</div>
-		  </td>
-          <td align="left" valign="middle">
-			<div align="center">
-              		<c:out value ="${awardHierarchyNode.value.currentFundEffectiveDate}" />
+              	<c:out value ="${KualiForm.document.awardHierarchyNodes[order].awardNumber}" /> : <c:out value ="${KualiForm.document.awardHierarchyNodes[order].leadUnitName}" /> : <c:out value ="${KualiForm.document.awardHierarchyNodes[order].principalInvestigatorName}" />
 			</div>
 		  </td>
 		  <td align="left" valign="middle">
 			<div align="center">
-              		<c:out value ="${awardHierarchyNode.value.obligationExpirationDate}" />
+              	<c:out value ="${KualiForm.document.awardHierarchyNodes[order].parentAwardNumber}" />
+			</div>
+		  </td>
+          <td align="left" valign="middle">
+			<div align="center">
+              		<c:out value ="${KualiForm.document.awardHierarchyNodes[order].currentFundEffectiveDate}" />
+			</div>
+		  </td>
+		  <td align="left" valign="middle">
+			<div align="center">
+              		<c:out value ="${KualiForm.document.awardHierarchyNodes[order].obligationExpirationDate}" />
 			</div>
   		  </td>
   		  <td align="left" valign="middle">
 			<div align="center">
-              		<c:out value ="${awardHierarchyNode.value.finalExpirationDate}" />
+              		<c:out value ="${KualiForm.document.awardHierarchyNodes[order].finalExpirationDate}" />
 			</div>
   		  </td>
   		  <td align="left" valign="middle">
 			<div align="center">
-              		<c:out value ="${awardHierarchyNode.value.amountObligatedToDate}" />
+              		<c:out value ="${KualiForm.document.awardHierarchyNodes[order].amountObligatedToDate}" />
 			</div>
   		  </td>
   		  <td align="left" valign="middle">
 			<div align="center">
-              		<c:out value ="${awardHierarchyNode.value.obliDistributableAmount}" />
+              		<c:out value ="${KualiForm.document.awardHierarchyNodes[order].obliDistributableAmount}" />
 			</div>
   		  </td>
   		  <td align="left" valign="middle">
 			<div align="center">
-              		<c:out value ="${awardHierarchyNode.value.anticipatedTotalAmount}" />
+              		<c:out value ="${KualiForm.document.awardHierarchyNodes[order].anticipatedTotalAmount}" />
 			</div>
   		  </td>
   		  <td align="left" valign="middle">
 			<div align="center">
-              		<c:out value ="${awardHierarchyNode.value.antDistributableAmount}" />
+              		<c:out value ="${KualiForm.document.awardHierarchyNodes[order].antDistributableAmount}" />
 			</div>
   		  </td>		  
            </tr>
