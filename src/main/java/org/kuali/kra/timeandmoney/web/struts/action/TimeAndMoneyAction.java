@@ -16,6 +16,7 @@
 package org.kuali.kra.timeandmoney.web.struts.action;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,8 +59,10 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         ActionForward forward = handleDocument(mapping, form, request, response, timeAndMoneyForm);
         timeAndMoneyForm.initializeFormOrDocumentBasedOnCommand();        
         String rootAwardNumber = timeAndMoneyForm.getTimeAndMoneyDocument().getRootAwardNumber();
-        timeAndMoneyForm.getTimeAndMoneyDocument().setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(rootAwardNumber));
+        List<String> order = new ArrayList<String>();        
+        timeAndMoneyForm.getTimeAndMoneyDocument().setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(rootAwardNumber, order));
         timeAndMoneyForm.getTimeAndMoneyDocument().setAwardNumber(rootAwardNumber);
+        timeAndMoneyForm.setOrder(order);
         setupHierachyNodes(timeAndMoneyForm.getTimeAndMoneyDocument());
         populateOtherPanels(timeAndMoneyForm.getTransactionBean().getNewAwardAmountTransaction(), timeAndMoneyForm.getTimeAndMoneyDocument(), rootAwardNumber);
         return forward;
@@ -91,7 +94,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             awardHierarchyNode.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
             timeAndMoneyDocument.getAwardHierarchyNodes().put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
         }
-        System.out.println("Abc: " + timeAndMoneyDocument.getAwardHierarchyNodes().size());
+
     }
     
     /**

@@ -15,13 +15,14 @@
  */
 package org.kuali.kra.award.awardhierarchy;
 
+import java.util.List;
 import java.util.Map;
 
 public interface AwardHierarchyService {
 
     void persistAwardHierarchy(AwardHierarchy awardHierarchy);
     
-    Map<String, AwardHierarchy> getAwardHierarchy(String awardNumber);
+    Map<String, AwardHierarchy> getAwardHierarchy(String awardNumber, List<String> order);
     
     void createBasicHierarchy(String awardNumber);
     

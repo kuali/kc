@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.timeandmoney;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,6 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.TransactionBean;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -40,6 +40,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     private static final long serialVersionUID = 2737159069734793860L;
     private TransactionBean transactionBean;
     private String goToAwardNumber;
+    private List<String> order;
     
     public TimeAndMoneyForm() {
         super();        
@@ -50,6 +51,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     public void initialize() {
         initializeHeaderNavigationTabs();
         transactionBean = new TransactionBean(this);
+        order = new ArrayList<String>();
     }
     
     /**
@@ -143,5 +145,21 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      */
     public void setGoToAwardNumber(String goToAwardNumber) {
         this.goToAwardNumber = goToAwardNumber;
+    }
+
+    /**
+     * Gets the order attribute. 
+     * @return Returns the order.
+     */
+    public List<String> getOrder() {
+        return order;
+    }
+
+    /**
+     * Sets the order attribute value.
+     * @param order The order to set.
+     */
+    public void setOrder(List<String> order) {
+        this.order = order;
     }
 }
