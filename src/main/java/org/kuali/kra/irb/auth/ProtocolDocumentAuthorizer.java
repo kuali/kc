@@ -29,7 +29,7 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
 
 /**
- * This class is the Proposal Development Document Authorizer.  It determines the edit modes and
+ * This class is the Proposal Document Authorizer.  It determines the edit modes and
  * document actions for all proposal development documents.
  */
 public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {

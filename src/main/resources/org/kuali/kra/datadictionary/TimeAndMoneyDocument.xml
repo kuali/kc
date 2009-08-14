@@ -14,8 +14,7 @@
     <property name="documentClass" value="org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.timeandmoney.TimeAndMoneyDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kra.timeandmoney.document.authorization.TimeAndMoneyDocumentAuthorizer"/>
-    <property name="documentPresentationControllerClass" value="org.kuali.kra.timeandmoney.document.authorization.TimeAndMoneyDocumentPresentationController"/>
-    
+     
     <property name="allowsCopy" value="true"/>
     <property name="headerNavigationList">
       <list>
