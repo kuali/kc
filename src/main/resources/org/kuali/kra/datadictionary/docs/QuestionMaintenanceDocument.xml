@@ -60,8 +60,7 @@
         <property name="maintainableItems">
             <list>
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="questionRefId"
-                    p:required="true" />
+                    p:name="questionRefId" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="questionId"
                     p:required="true" />
