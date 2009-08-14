@@ -36,6 +36,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class ProposalLockServiceImpl extends PessimisticLockServiceImpl implements ProposalLockService {
 
+    private static final String FALSE = "FALSE";
+    private static final String ADD_BUDGET = "addBudget";
+    
     /**
      * This method is used to check if the given parameters warrant a new lock to be created for the given user. This method
      * utilizes the {@link #isEntryEditMode(java.util.Map.Entry)} method.
@@ -90,9 +93,9 @@ public class ProposalLockServiceImpl extends PessimisticLockServiceImpl implemen
     @Override
     protected String getCustomLockDescriptor(Document document, Map editMode, Person user) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        if(StringUtils.isNotEmpty(activeLockRegion))
-            return document.getDocumentNumber()+"-"+activeLockRegion; 
-        
+        if (StringUtils.isNotEmpty(activeLockRegion)) {
+            return document.getDocumentNumber() + "-" + activeLockRegion; 
+        }
         return null;
     }
 
@@ -114,7 +117,7 @@ public class ProposalLockServiceImpl extends PessimisticLockServiceImpl implemen
                 || KraAuthorizationConstants.ProposalEditMode.MODIFY_PERMISSIONS.equals(entry.getKey())
                 || KraAuthorizationConstants.ProposalEditMode.MODIFY_PROPOSAL.equals(entry.getKey())
                 || KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET.equals(entry.getKey())
-                || "addBudget".equals(entry.getKey()) 
+                || ADD_BUDGET.equals(entry.getKey()) 
                 ) {
             String fullEntryEditModeValue = (String)entry.getValue();
             return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && (EDIT_MODE_DEFAULT_TRUE_VALUE.equals(fullEntryEditModeValue)) );
@@ -126,11 +129,10 @@ public class ProposalLockServiceImpl extends PessimisticLockServiceImpl implemen
     @Override
     protected Map getEditModeWithEditableModesRemoved(Map currentEditMode) {
         Map editModeMap = new HashMap();
-        //Map editModeMap = super.getEditModeWithEditableModesRemoved(currentEditMode);
         for (Iterator iterator = editModeMap.entrySet().iterator(); iterator.hasNext();) {
             Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
-            if (StringUtils.equals(entry.getKey(), "addBudget")) {
-                entry.setValue("FALSE");
+            if (StringUtils.equals(entry.getKey(), ADD_BUDGET)) {
+                entry.setValue(FALSE);
             }
         }
         return editModeMap;
