@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -43,9 +44,11 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
    public void prepareForSave() {
        super.prepareForSave();
        
-       // This is a solution to enable the lookreturn have a proper dropdown list
-       if (businessObject instanceof Question && StringUtils.isNotBlank(((Question)businessObject).getLookupClass())) {
-           GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object)((Question)businessObject).getLookupClass());
+       if ((businessObject != null) && (businessObject instanceof KraPersistableBusinessObjectBase)) {
+           // This is a solution to enable the lookreturn have a proper dropdown list
+           if (businessObject instanceof Question && StringUtils.isNotBlank(((Question)businessObject).getLookupClass())) {
+               GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object)((Question)businessObject).getLookupClass());
+           }
        }
    }
 
