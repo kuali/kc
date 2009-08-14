@@ -309,26 +309,4 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
         assertRecord(pageAfterAdd, monday);
 
     }
-
-/*    *//**
-     * This method test's reload button.
-     * @throws Exception
-     *//*
-    @Test
-    public void testCommitteeScheduleReload() throws Exception {
-        
-        HtmlPage schedulePage =  prerequisite();        
-        Date dt = new Date();        
-        String scheduleDate = formatDate(dt);        
-        setFields(schedulePage, scheduleDate);
-        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, YEARLY);  
-        
-        HtmlPage pageAfterAdd1 = clickOnByName(schedulePage,METHODTOCALL_LOADRECURRENCE_ANCHORSCHEDULE, true);
-        assertFalse(hasError(pageAfterAdd1));
-        
-        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, MONTHLY);
-        HtmlPage pageAfterAdd2 = clickOnByName(schedulePage,METHODTOCALL_LOADRECURRENCE_ANCHORSCHEDULE, true);
-        assertFalse(hasError(pageAfterAdd2));          
-    }
-*/
 }

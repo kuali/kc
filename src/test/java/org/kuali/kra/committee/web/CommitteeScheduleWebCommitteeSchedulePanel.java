@@ -50,7 +50,7 @@ public class CommitteeScheduleWebCommitteeSchedulePanel extends CommitteeSchedul
     
     public static final String TIME_10_30 = "10:30";
     
-    public static final String METHODTOCALL_DELETECOMMITTEESCHEDULE_LINE_2_ANCHOR_0 = "methodToCall.deleteCommitteeSchedule.line2.anchor0";
+    public static final String METHODTOCALL_DELETECOMMITTEESCHEDULE_ANCHOR_0 = "methodToCall.deleteCommitteeSchedule.anchor0";
     
     public static final String METHODTOCALL_PROCESSANSWER_BUTTON = "methodToCall.processAnswer.button0";
     
@@ -105,10 +105,10 @@ public class CommitteeScheduleWebCommitteeSchedulePanel extends CommitteeSchedul
         assertContains(pageAfterSave,TIME_10_30);
     }
 
-/*    *//**
+    /**
      * This method test's delete button in schedule panel.
      * @throws Exception
-     *//*
+     */
     @Test
     public void testScheduleDelete() throws Exception {
         
@@ -127,13 +127,16 @@ public class CommitteeScheduleWebCommitteeSchedulePanel extends CommitteeSchedul
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 1));        
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 2));
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 3));
+        assertScheduleRowCount(pageAfterAdd, 4);
         
-        HtmlPage deletePage = clickOnByName(pageAfterAdd,METHODTOCALL_DELETECOMMITTEESCHEDULE_LINE_2_ANCHOR_0, true);        
+        setFieldValue(pageAfterAdd, "document.committeeList[0].committeeSchedules[1].selected", "on");
+        HtmlPage deletePage = clickOnByName(pageAfterAdd,METHODTOCALL_DELETECOMMITTEESCHEDULE_ANCHOR_0, true);        
         HtmlPage confirmPage = clickOnByName(deletePage,METHODTOCALL_PROCESSANSWER_BUTTON, true);
         HtmlPage savePage = saveDoc(confirmPage);
         
         assertRecord(savePage, DateUtils.addDays(dt, 0));        
-        assertRecord(savePage, DateUtils.addDays(dt, 1));        
-        assertRecord(savePage, DateUtils.addDays(dt, 3));       
-    }*/
+        assertRecord(savePage, DateUtils.addDays(dt, 2));        
+        assertRecord(savePage, DateUtils.addDays(dt, 3));
+        assertScheduleRowCount(savePage, 3);
+    }
 }
