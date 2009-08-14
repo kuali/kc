@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.RolePersons;
@@ -90,7 +90,7 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
         pendingTransactions = new ArrayList<PendingTransaction>();
         awardAmountTransactions = new ArrayList<AwardAmountTransaction>();
         timeAndMoneyHistory = new LinkedHashMap<Object, Object>();
-        timeAndMoneyActionSummaryItems = new ArrayList<TimeAndMoneyActionSummary>();
+        timeAndMoneyActionSummaryItems = new ArrayList<TimeAndMoneyActionSummary>();        
     }
     
     @Override
@@ -302,5 +302,4 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     public void setRootAwardNumber(String rootAwardNumber) {
         this.rootAwardNumber = rootAwardNumber;
     }
-
 }

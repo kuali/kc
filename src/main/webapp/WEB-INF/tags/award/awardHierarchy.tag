@@ -41,61 +41,62 @@
           		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyAttributes.parentAwardNumber}" scope="col" /></div></th>
           		<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
           	</tr>
-		<c:forEach var="awardHierarchyNode" items="${KualiForm.awardHierarchyNodes}" varStatus="status">
+        
+		<c:forEach var="order" items="${KualiForm.order}" varStatus="status">
           <tr>
 			<th class="infoline">
 				<c:out value="${status.index+1}" />
 			</th>
                 <td align="left" valign="middle">
 			<div align="center">
-              		<c:out value ="${awardHierarchyNode.value.rootAwardNumber}" />
+              		<c:out value ="${KualiForm.awardHierarchyNodes[order].rootAwardNumber}" />
 			</div>
   			</td>
                 <td align="left" valign="middle">
 			<div align="center">
-              		<c:out value ="${awardHierarchyNode.value.awardNumber}" />
+              		<c:out value ="${KualiForm.awardHierarchyNodes[order].awardNumber}" />
 			</div>
 		  </td>
           <td align="left" valign="middle">
 			<div align="center">
-              		<c:out value ="${awardHierarchyNode.value.parentAwardNumber}" />
+              		<c:out value ="${KualiForm.awardHierarchyNodes[order].parentAwardNumber}" />
 			</div>
 		  </td>
 		  <td class="infoline">
 			<div align="center">
-				<html:image property="methodToCall.createANewChildAward.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+				<html:image property="methodToCall.createANewChildAward.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Create New Child Award" />
 			</div>
 			<div align="center">					
-				<html:image property="methodToCall.createANewChildAwardBasedOnParent.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+				<html:image property="methodToCall.createANewChildAwardBasedOnParent.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Create New Child Award Based on Parent Award" />					
 			</div>
 			<div align="center">
-				<html:image property="methodToCall.createANewChildAwardBasedOnAnotherAwardInHierarchy.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+				<html:image property="methodToCall.createANewChildAwardBasedOnAnotherAwardInHierarchy.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Create New Child Award Based on Another Award in Hierarchy" />
 			</div>
 			<div align="center">	
-				<html:image property="methodToCall.copyAwardAsANewHierarchy.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+				<html:image property="methodToCall.copyAwardAsANewHierarchy.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Copy an Award as a New Hierarchy" />
 			</div>
 			<div align="center">
-				<html:image property="methodToCall.copyAwardAsANewHierarchyWithDescendants.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+				<html:image property="methodToCall.copyAwardAsANewHierarchyWithDescendants.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Copy an Award as a New Hierarchy with all its descendants" />
 			</div>
 			<div align="center">
-				<html:image property="methodToCall.copyAwardAsAChildInCurrentHierarchy.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+				<html:image property="methodToCall.copyAwardAsAChildInCurrentHierarchy.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-maintain1.gif' styleClass="tinybutton" alt="Copy an Award as a child in the current Hierarchy" />
 			</div>
 			<div align="center">
-				<html:image property="methodToCall.copyAwardAsAChildInCurrentHierarchyWithDescendants.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+				<html:image property="methodToCall.copyAwardAsAChildInCurrentHierarchyWithDescendants.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copy1.gif' styleClass="tinybutton" alt="Copy an Award as a child in the current Hierarchy with all its descendants" />
 			</div>
 			<div align="center">
-				<html:image property="methodToCall.copyAwardAsAChildOfAwardInAnotherHierarchy.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+				<html:image property="methodToCall.copyAwardAsAChildOfAwardInAnotherHierarchy.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copy1.gif' styleClass="tinybutton" alt="Copy Award as Child of an Award in another Hierarchy" />
 			</div>
 			<div align="center">
-				<html:image property="methodToCall.copyAwardAsAChildOfAwardInAnotherHierarchyWithDescendants.line${status.index}.awardNumber${awardHierarchyNode.value.awardNumber}.anchor${currentTabIndex}"
+				<html:image property="methodToCall.copyAwardAsAChildOfAwardInAnotherHierarchyWithDescendants.line${status.index}.awardNumber${KualiForm.awardHierarchyNodes[order].awardNumber}.anchor${currentTabIndex}"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copy1.gif' styleClass="tinybutton" alt="Copy Award as Child of an Award in another Hierarchy with all its descendants" />	
 			</div>
           </td>
