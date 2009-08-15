@@ -15,74 +15,55 @@
  */
 package org.kuali.kra.committee.authorizers;
 
-import static org.junit.Assert.assertEquals;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.kuali.kra.KraTestBase;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.committee.document.authorizer.ModifyCommitteeAuthorizer;
 import org.kuali.kra.committee.service.CommitteeAuthorizationService;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * Test the Modify Committee Authorizer.
  */
-@RunWith(JMock.class)
-public class ModifyCommitteeAuthorizerTest {
+public class ModifyCommitteeAuthorizerTest extends KraTestBase {
 
     private static final String USERNAME = "quickstart";
     
-    private Mockery context = new JUnit4Mockery();
-    
     @Test
-    public void testCreatePermission() {
+    public void testCreatePermission() throws WorkflowException {
         ModifyCommitteeAuthorizer authorizer = new ModifyCommitteeAuthorizer();
         
-        final UnitAuthorizationService unitAuthorizationService = context.mock(UnitAuthorizationService.class);
-        context.checking(new Expectations() {{
-            one(unitAuthorizationService).hasPermission(USERNAME, PermissionConstants.ADD_COMMITTEE); will(returnValue(true));
-        }});
+        final UnitAuthorizationService unitAuthorizationService = new UnitAuthorizationServiceMock(true);
         authorizer.setUnitAuthorizationService(unitAuthorizationService);
         
-        Committee committee = new Committee();
+        Committee committee = createCommittee(null, false);
         CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, committee);
         assertEquals(true, authorizer.isAuthorized(USERNAME, task));
     }
     
     @Test
-    public void testNotCreatePermission() {
+    public void testNotCreatePermission() throws WorkflowException {
         ModifyCommitteeAuthorizer authorizer = new ModifyCommitteeAuthorizer();
         
-        final UnitAuthorizationService unitAuthorizationService = context.mock(UnitAuthorizationService.class);
-        context.checking(new Expectations() {{
-            one(unitAuthorizationService).hasPermission(USERNAME, PermissionConstants.ADD_COMMITTEE); will(returnValue(false));
-        }});
+        final UnitAuthorizationService unitAuthorizationService = new UnitAuthorizationServiceMock(false);
         authorizer.setUnitAuthorizationService(unitAuthorizationService);
         
-        Committee committee = new Committee();
+        Committee committee = createCommittee(null, false);
         CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, committee);
         assertEquals(false, authorizer.isAuthorized(USERNAME, task));
     }
     
-    
     @Test
-    public void testModifyPermission() {
+    public void testModifyPermission() throws WorkflowException {
         ModifyCommitteeAuthorizer authorizer = new ModifyCommitteeAuthorizer();
         
-        final Committee committee = new Committee();
-        committee.setId(1L);
+        final Committee committee = createCommittee(1L, false);
         
-        final CommitteeAuthorizationService committeeAuthorizationService = context.mock(CommitteeAuthorizationService.class);
-        context.checking(new Expectations() {{
-            one(committeeAuthorizationService).hasPermission(USERNAME, committee, PermissionConstants.MODIFY_COMMITTEE); will(returnValue(true));
-        }});
+        final CommitteeAuthorizationService committeeAuthorizationService = new CommitteeAuthorizationServiceMock(true);
         authorizer.setCommitteeAuthorizationService(committeeAuthorizationService);
         
         CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, committee);
@@ -90,19 +71,37 @@ public class ModifyCommitteeAuthorizerTest {
     }
     
     @Test
-    public void testNotModifyPermission() {
+    public void testNotModifyPermission() throws WorkflowException {
         ModifyCommitteeAuthorizer authorizer = new ModifyCommitteeAuthorizer();
         
-        final Committee committee = new Committee();
-        committee.setId(1L);
+        final Committee committee = createCommittee(1L, false);
         
-        final CommitteeAuthorizationService committeeAuthorizationService = context.mock(CommitteeAuthorizationService.class);
-        context.checking(new Expectations() {{
-            one(committeeAuthorizationService).hasPermission(USERNAME, committee, PermissionConstants.MODIFY_COMMITTEE); will(returnValue(false));
-        }});
+        final CommitteeAuthorizationService committeeAuthorizationService = new CommitteeAuthorizationServiceMock(false);
         authorizer.setCommitteeAuthorizationService(committeeAuthorizationService);
         
         CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, committee);
         assertEquals(false, authorizer.isAuthorized(USERNAME, task));
+    }
+    
+    @Test
+    public void testViewOnly() throws WorkflowException {
+        ModifyCommitteeAuthorizer authorizer = new ModifyCommitteeAuthorizer();
+        
+        final Committee committee = createCommittee(1L, true);
+        
+        final CommitteeAuthorizationService committeeAuthorizationService = new CommitteeAuthorizationServiceMock(true);
+        authorizer.setCommitteeAuthorizationService(committeeAuthorizationService);
+        
+        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, committee);
+        assertEquals(false, authorizer.isAuthorized(USERNAME, task));
+    }
+    
+    private Committee createCommittee(Long id, boolean viewOnly) throws WorkflowException {
+       
+        CommitteeDocument doc = new CommitteeDocument();
+        doc.getCommittee().setId(id);
+        doc.setViewOnly(viewOnly);
+        
+        return doc.getCommittee();
     }
 }
