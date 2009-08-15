@@ -15,42 +15,30 @@
  */
 package org.kuali.kra.irb.auth;
 
-import static org.junit.Assert.assertEquals;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.auth.ModifyProtocolPermissionsAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * Test the Modify Protocol Permissions Authorizer.
  */
-@RunWith(JMock.class)
-public class ModifyProtocolPermissionsAuthorizerTest {
+public class ModifyProtocolPermissionsAuthorizerTest extends KraTestBase {
 
     private static final String USERNAME = "quickstart";
     
-    private Mockery context = new JUnit4Mockery();
-    
     @Test
-    public void testModifyPermission() {
+    public void testModifyPermission() throws WorkflowException {
         ModifyProtocolPermissionsAuthorizer authorizer = new ModifyProtocolPermissionsAuthorizer();
         
-        final Protocol protocol = new Protocol();
-        protocol.setProtocolId(1L);
+        final Protocol protocol = createProtocol(1L, false);
         
-        final ProtocolAuthorizationService protocolAuthorizationService = context.mock(ProtocolAuthorizationService.class);
-        context.checking(new Expectations() {{
-            one(protocolAuthorizationService).hasPermission(USERNAME, protocol, PermissionConstants.MAINTAIN_PROTOCOL_ACCESS); will(returnValue(true));
-        }});
+        final ProtocolAuthorizationService protocolAuthorizationService = new ProtocolAuthorizationServiceMock(true);
         authorizer.setProtocolAuthorizationService(protocolAuthorizationService);
         
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ROLES, protocol);
@@ -58,19 +46,37 @@ public class ModifyProtocolPermissionsAuthorizerTest {
     }
     
     @Test
-    public void testNotModifyPermission() {
+    public void testNotModifyPermission() throws WorkflowException {
         ModifyProtocolPermissionsAuthorizer authorizer = new ModifyProtocolPermissionsAuthorizer();
         
-        final Protocol protocol = new Protocol();
-        protocol.setProtocolId(1L);
+        final Protocol protocol = createProtocol(1L, false);
         
-        final ProtocolAuthorizationService protocolAuthorizationService = context.mock(ProtocolAuthorizationService.class);
-        context.checking(new Expectations() {{
-            one(protocolAuthorizationService).hasPermission(USERNAME, protocol, PermissionConstants.MAINTAIN_PROTOCOL_ACCESS); will(returnValue(false));
-        }});
+        final ProtocolAuthorizationService protocolAuthorizationService = new ProtocolAuthorizationServiceMock(false);
         authorizer.setProtocolAuthorizationService(protocolAuthorizationService);
         
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ROLES, protocol);
         assertEquals(false, authorizer.isAuthorized(USERNAME, task));
+    }
+    
+    @Test
+    public void testViewOnly() throws WorkflowException {
+        ModifyProtocolPermissionsAuthorizer authorizer = new ModifyProtocolPermissionsAuthorizer();
+        
+        final Protocol protocol = createProtocol(1L, true);
+        
+        final ProtocolAuthorizationService protocolAuthorizationService = new ProtocolAuthorizationServiceMock(true);
+        authorizer.setProtocolAuthorizationService(protocolAuthorizationService);
+        
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ROLES, protocol);
+        assertEquals(false, authorizer.isAuthorized(USERNAME, task));
+    }
+    
+    private Protocol createProtocol(Long id, boolean viewOnly) throws WorkflowException {
+        
+        ProtocolDocument doc = new ProtocolDocument();
+        doc.getProtocol().setProtocolId(id);
+        doc.setViewOnly(viewOnly);
+        
+        return doc.getProtocol();
     }
 }
