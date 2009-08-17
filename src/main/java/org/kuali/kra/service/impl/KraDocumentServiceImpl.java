@@ -75,10 +75,4 @@ public class KraDocumentServiceImpl extends DocumentServiceImpl {
         document.postProcessSave(event);
     }
 
-    //    @Override
-    //    public void updateDocument(Document document) {
-    //        // TODO Auto-generated method stub
-    //       // super.updateDocument(document);
-    //    }
-
 }
