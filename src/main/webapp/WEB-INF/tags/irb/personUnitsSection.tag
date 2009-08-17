@@ -27,7 +27,7 @@
 <table cellpadding=0 cellspacing=0 summary="">
  	<tr>
 		<td>
-			<kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="personnelHelper.newProtocolPersonUnits[${personIndex}]*">
+			<kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="personnelHelper.newProtocolPersonUnits[${personIndex}]*" useCurrentTabIndexAsKey="true">
 				<div class="innerTab-container" align="left">
 			        <table class=tab cellpadding="0" cellspacing="0" summary="">
               			<tbody id="G3">
