@@ -39,6 +39,7 @@ public class QuestionnaireDaoTest extends KraTestBase {
     private String[] uScripts1 = { "", "delete U;1" };
     private QuestionnaireDao qDao;
     private BusinessObjectService bos;
+    private static final Long TEST_QN_ID = new Long(1); 
 
     @Before
     public void setUp() throws Exception {
@@ -62,7 +63,7 @@ public class QuestionnaireDaoTest extends KraTestBase {
         qScripts[3] = "insert into Q11,3,1,'N','','',2,user,sysdate)";
         qScripts[4] = "update QMove;1;11;3";
         qScripts[5] = "update QMove;2;11;2";
-        qDao.runScripts(qScripts, 1);
+        qDao.runScripts(qScripts, TEST_QN_ID);
         HashMap<String, String> keyMap = new HashMap<String, String>();
         keyMap.put("questionRefIdFk", "10");
         keyMap.put("questionNumber", "1");
@@ -88,7 +89,7 @@ public class QuestionnaireDaoTest extends KraTestBase {
     public void testUpdateCondition() {
         qScripts[2] = "insert into Q11,2,1,'N','','',1,user,sysdate)";
         qScripts[3] = "update QCond;'Y';1;'A';11;2";
-        qDao.runScripts(qScripts, 1);
+        qDao.runScripts(qScripts, TEST_QN_ID);
         HashMap<String, String> keyMap = new HashMap<String, String>();
         keyMap.put("questionRefIdFk", "10");
         keyMap.put("questionNumber", "1");
@@ -109,16 +110,16 @@ public class QuestionnaireDaoTest extends KraTestBase {
 
     @Test
     public void testInsertDeleteQuestion() {
-        qDao.runScripts(qScripts, 1);
+        qDao.runScripts(qScripts, TEST_QN_ID);
         HashMap<String, String> keyMap = new HashMap<String, String>();
         keyMap.put("questionRefIdFk", "10");
         keyMap.put("questionNumber", "1");
         List<QuestionnaireQuestion> questions = (List<QuestionnaireQuestion>) bos.findMatching(
                 QuestionnaireQuestion.class, keyMap);
         assertTrue(questions.size() == 1);
-        Integer qid = questions.get(0).getQuestionnaireId();
+        Long qid = questions.get(0).getQuestionnaireRefIdFk();
         qScripts[1] = "delete Q;10;" + qid + ";1;0;1";
-        qDao.runScripts(qScripts, 1);
+        qDao.runScripts(qScripts, TEST_QN_ID);
         questions = (List<QuestionnaireQuestion>) bos.findMatching(QuestionnaireQuestion.class,
                 keyMap);
         assertTrue(questions.size() == 0);
@@ -126,14 +127,14 @@ public class QuestionnaireDaoTest extends KraTestBase {
 
     @Test
     public void testInsertDeleteUsage() {
-        qDao.runScripts(uScripts, 1);
+        qDao.runScripts(uScripts, TEST_QN_ID);
         HashMap<String, String> keyMap = new HashMap<String, String>();
         keyMap.put("moduleItemCode", "1");
         keyMap.put("questionnaireLabel", "Award Label");
         List<QuestionnaireUsage> questions = (List<QuestionnaireUsage>) bos.findMatching(
                 QuestionnaireUsage.class, keyMap);
         assertTrue(questions.size() == 1);
-        qDao.runScripts(uScripts1, 1);
+        qDao.runScripts(uScripts1, TEST_QN_ID);
         questions = (List<QuestionnaireUsage>) bos.findMatching(QuestionnaireUsage.class,
                 keyMap);
         assertTrue(questions.size() == 0);

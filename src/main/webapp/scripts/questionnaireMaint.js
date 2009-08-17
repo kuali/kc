@@ -18,7 +18,7 @@ function getQuestionNew(description, qtypeid, vers, childNode) {
 			// var idx = $(this).attr("id").substring(11);
 			var vers = "1.00";
 			// alert("set up table "+idx);
-			var divtmp = getMaintTable(idx, vers, childNode);
+			var divtmp = getMaintTable(idx, childNode);
 			divtmp.appendTo($(this).parents('div:eq(0)'));
 			$("#listcontent" + idx).slideToggle(300);
 		}
@@ -80,7 +80,7 @@ function sethiddenfields() {
 
 }
 
-function getMaintTable(idx, vers, childNode) {
+function getMaintTable(idx, childNode) {
 	var description = $("#qdesc" + idx).attr("value");
 	var qtypeid = $("#qtypeid" + idx).attr("value");
 	var qnaireid = "qnaireid" + idx;
@@ -635,7 +635,7 @@ function getMoveDownLink(curidx) {
 							if ($(nextNode).parents('ul:eq(0)').attr("id") == 'example') {
 								childNode = 'false';
 							}
-							var divtmp = getMaintTable(nextidx, vers, childNode);
+							var divtmp = getMaintTable(nextidx, childNode);
 							divtmp.appendTo($(nextNode).children('div:eq(1)'));
 						}
 
@@ -705,7 +705,7 @@ function getMoveUpLink(curidx) {
 						if ($(nextNode).parents('ul:eq(0)').attr("id") == 'example') {
 							childNode = 'false';
 						}
-						var divtmp = getMaintTable(nextidx, vers, childNode);
+						var divtmp = getMaintTable(nextidx, childNode);
 						divtmp.appendTo($(nextNode).children('div:eq(1)'));
 					}
 
@@ -1564,10 +1564,11 @@ $('<option value="7">Greater than number</option>').appendTo(responseOptions);
 $('<option value="8">Before date</option>').appendTo(responseOptions);
 $('<option value="9">After date</option>').appendTo(responseOptions);
 
+// TODO : currently this one is not working copied to questionnairequestion.jsp
 $("#addUsage")
 		.click(function() {
 			// TODO : 1 header and one 'add' row, so has 2 more
-			if (isDuplicateUsage($("#newQuestionnaireUsage\\.moduleItemCode").attr("value"), "1.00")) {
+			if (isDuplicateUsage($("#newQuestionnaireUsage\\.moduleItemCode").attr("value"), qnversion)) {
 				alert("Module is already added");
 			} else {	
 
@@ -1591,7 +1592,7 @@ $("#addUsage")
 						$("#newQuestionnaireUsage\\.questionnaireLabel").attr(
 								"value"));
 				tdtmp.appendTo(trtmp);
-				tdtmp = $('<td align="left" valign="middle">').html("1.00");
+				tdtmp = $('<td align="left" valign="middle">').html(qnversion);
 				tdtmp.appendTo(trtmp);
 				inputtmp = $(
 						'<input type="image" id="deleteUsage" name="deleteUsage" src="static/images/tinybutton-delete1.gif" class="tinybutton">')
@@ -1602,7 +1603,10 @@ $("#addUsage")
 								addSqlScripts("delete U;"
 										+ $(this).parents('tr:eq(0)').children(
 												'td:eq(0)').children(
-												'input:eq(0)').attr("value"));
+												'input:eq(0)').attr("value") 
+										+";"+ $(this).parents('tr:eq(0)').children(
+												'td:eq(2)').html());
+								//alert($(this).parents('tr:eq(0)').children('td:eq(2)').html())
 								// TODO : delete usage also need to update 'item
 								// number' in the first column
 								curnode = $(this).parents('tr:eq(0)');
@@ -1624,7 +1628,7 @@ $("#addUsage")
 				addSqlScripts("insert U;"
 						+ $("#newQuestionnaireUsage\\.moduleItemCode").attr(
 								"value")
-						+ ";"
+						+ ";"+qnversion+ ";"
 						+ $("#newQuestionnaireUsage\\.questionnaireLabel")
 								.attr("value"));
 			   }// end if-then-else
@@ -1712,11 +1716,19 @@ $("#backToTop").click(function() {
 // This is save function when 'save' button is clicked for edit or create new
 // questionnaire.
 // First save questionnaire bo because 'description'
-$("#save").click(function() {
-	var qname = $('#newQuestionnaire\\.name').attr("value");
-	var qnaireid = $('#newQuestionnaire\\.questionnaireRefId').attr("value");
-	var qdescription = $('#newQuestionnaire\\.description').attr("value");
-	var qisfinal = $('#newQuestionnaire\\.isFinal').attr("checked");
+
+$(document).ready(function() {
+  $("#save").click(function() {
+	var qname = $('#document\\.newMaintainableObject\\.businessObject\\.name').attr("value");
+	var qnaireid = $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value");
+	var qid = $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireId').attr("value");
+	var docstatus = $('#docStatus').attr("value");
+	var qdescription = $('#document\\.newMaintainableObject\\.businessObject\\.description').attr("value");
+	var qisfinal = $('#document\\.newMaintainableObject\\.businessObject\\.isFinal').attr("checked");
+	var retval = false;
+	//if ($('#newQuestionnaire\\.questionnaireId').attr("value") == '0') {
+	//	// TODO : temp hack for 'edit', the first time to save,it will based on this to version
+	//}	qnaireid=":"+qnaireid;
 	// alert
 		// ("save"+qname+qdescription+$('#newQuestionnaire\\.isFinal').attr("checked"));
 		if (qname == '') {
@@ -1727,115 +1739,126 @@ $("#save").click(function() {
 			alert("No question is added");	
 		} else {
 			
+			var saveok = 'true';
 			// check if name exist
 			var isexist='true';
 			// TODO : FF seems to have trouble with "#;#"
 
-			//alert(sqlScripts);
+			alert(sqlScripts);
 			if (sqlScripts.indexOf("#;#") > 1) {
 				// if current sqlScripts is not in array yet
 				// 10 should be fine to use as check
 				sqls[sqlidx++] = sqlScripts;
 			}
 			// TODO : problem with '&' in string will in name or description
-			qname = qname.replace(/&/g, ";amp");
-			qdescription = qdescription.replace(/&/g, ";amp");
-
-			var desc1 = "";
-			var saveok = 'true';
-			if (qdescription.length > 1800) {
-				// TODO : 1800 should be ok
-				desc1 = qdescription.substring(1800);
-				qdescription = qdescription.substring(0, 1800);
-			}
-
-			// Save new questionnaire bo
-			$("#headermsg").html(""); // clear error message
-			$.ajax( {
-				url : 'questionnaireAjax.do',
-				type : 'GET',
-				dataType : 'html',
-				cache : false,
-				data : 'action=savebo&newQuestionnaire.name=' + qname
-						+ '&newQuestionnaire.questionnaireRefId=' + qnaireid
-						+ '&newQuestionnaire.description=' + qdescription
-						+ '&newQuestionnaire.isFinal=' + qisfinal,
-				async : false,
-				timeout : 1000,
-				error : function() {
-					// alert('Error loading XML document');
-				jumpToAnchor('topOfForm');
-				$('<span id="msg"/>').css("color", "red").html(
-						"Error when save Questionnaire").appendTo(
-						$("#headermsg"))
-				$('<br/>').appendTo($("#headermsg"));
-				saveok = 'false';
-			},
-			success : function(xml) {
-				// sqlScripts="createnew";
-				$(xml).find('h3').each(function() {
-					// var item_text = $(this).text();
-					if ($(this).text() == 'true') {
-						jumpToAnchor('topOfForm');
-						$('<span id="msg"/>').css("color", "red").html(
-								"Questionnaire Name already exist").appendTo(
-								$("#headermsg"))
-						$('<br/>').appendTo($("#headermsg"));
-						saveok = 'false';
-					} else {	
-						$('#newQuestionnaire\\.questionnaireRefId').attr("value",
-								$(this).text().substring(9));
-						$('<span id="msg"/>').css("color", "black").html(
-								"Questionnaire saved successfully").appendTo(
-								$("#headermsg"));
-						$('<br/>').appendTo($("#headermsg"));
-						jumpToAnchor('topOfForm');
-					}	
-					});
-			}
-			});// .ajax
-
-			if (desc1 != '' && saveok == 'true') {
-				// if description is really long cause the query string more
-				// than 2000 characters
-				$.ajax( {
-					url : 'questionnaireAjax.do',
-					type : 'GET',
-					dataType : 'html',
-					cache : false,
-					data : 'action=savebo1&newQuestionnaire.name=' + qname
-							+ '&newQuestionnaire.questionnaireRefId='
-							+ questionnaireRefId
-							+ '&newQuestionnaire.description=' + desc1
-							+ '&newQuestionnaire.isFinal=' + qisfinal,
-					async : false,
-					timeout : 1000,
-					error : function() {
-						// alert('Error loading XML document');
-					jumpToAnchor('topOfForm');
-					$('<span id="msg"/>').css("color", "red").html(
-							"Error when save Questionnaire").appendTo(
-							$("#headermsg"))
-					$('<br/>').appendTo($("#headermsg"));
-					saveok = 'false';
-				},
-				success : function(xml) {
-					// sqlScripts="createnew";
-					$(xml).find('h3').each(function() {
-						// var item_text = $(this).text();
-							$('#newQuestionnaire\\.questionnaireRefId').attr(
-									"value", $(this).text().substring(9));
-						});
-				}
-				});// .ajax
-
-			}
+//			qname = qname.replace(/&/g, ";amp");
+//			qdescription = qdescription.replace(/&/g, ";amp");
+//
+//			var desc1 = "";
+//			var saveok = 'true';
+//			if (qdescription.length > 1800) {
+//				// TODO : 1800 should be ok
+//				desc1 = qdescription.substring(1800);
+//				qdescription = qdescription.substring(0, 1800);
+//			}
+//
+//			// Save new questionnaire bo
+//			$("#headermsg").html(""); // clear error message
+//			$.ajax( {
+//				url : 'questionnaireAjax.do',
+//				type : 'GET',
+//				dataType : 'html',
+//				cache : false,
+//				data : 'action=savebo&newQuestionnaire.name=' + qname
+//				+ '&newQuestionnaire.questionnaireRefId=' + qnaireid
+//				+ '&newQuestionnaire.questionnaireId=' + qid
+//				+ '&docStatus=' + docstatus
+//						+ '&newQuestionnaire.description=' + qdescription
+//						+ '&newQuestionnaire.isFinal=' + qisfinal,
+//				async : false,
+//				timeout : 1000,
+//				error : function() {
+//					// alert('Error loading XML document');
+//				jumpToAnchor('topOfForm');
+//				$('<span id="msg"/>').css("color", "red").html(
+//						"Error when save Questionnaire").appendTo(
+//						$("#headermsg"))
+//				$('<br/>').appendTo($("#headermsg"));
+//				saveok = 'false';
+//			},
+//			success : function(xml) {
+//				// sqlScripts="createnew";
+//				$(xml).find('h3').each(function() {
+//					// var item_text = $(this).text();
+//					if ($(this).text() == 'true') {
+//						jumpToAnchor('topOfForm');
+//						$('<span id="msg"/>').css("color", "red").html(
+//								"Questionnaire Name already exist").appendTo(
+//								$("#headermsg"))
+//						$('<br/>').appendTo($("#headermsg"));
+//						saveok = 'false';
+//					} else {	
+//						var retids = $(this).text().substring(9).split(";"); // refid/qid/seqnum
+//						$('#newQuestionnaire\\.questionnaireRefId').attr("value",
+//								retids[0]);
+//						$('#newQuestionnaire\\.questionnaireId').attr("value",
+//								retids[1]);
+//						$('#newQuestionnaire\\.sequenceNumber').attr("value",
+//								retids[2]);
+//						$('<span id="msg"/>').css("color", "black").html(
+//								"Questionnaire saved successfully").appendTo(
+//								$("#headermsg"));
+//						$('<br/>').appendTo($("#headermsg"));
+//						jumpToAnchor('topOfForm');
+//					}	
+//					});
+//			}
+//			});// .ajax
+//			
+//			qnaireid = $('#newQuestionnaire\\.questionnaireRefId').attr("value");
+//			if (desc1 != '' && saveok == 'true') {
+//				// if description is really long cause the query string more
+//				// than 2000 characters
+//				$.ajax( {
+//					url : 'questionnaireAjax.do',
+//					type : 'GET',
+//					dataType : 'html',
+//					cache : false,
+//					data : 'action=savebo1&newQuestionnaire.name=' + qname
+//							+ '&newQuestionnaire.questionnaireRefId='
+//							+ qnaireid
+//							+ '&newQuestionnaire.description=' + desc1
+//							+ '&newQuestionnaire.isFinal=' + qisfinal,
+//					async : false,
+//					timeout : 1000,
+//					error : function() {
+//						// alert('Error loading XML document');
+//					jumpToAnchor('topOfForm');
+//					$('<span id="msg"/>').css("color", "red").html(
+//							"Error when save Questionnaire").appendTo(
+//							$("#headermsg"))
+//					$('<br/>').appendTo($("#headermsg"));
+//					saveok = 'false';
+//				},
+//				success : function(xml) {
+//					// sqlScripts="createnew";
+//					$(xml).find('h3').each(function() {
+//						// var item_text = $(this).text();
+//							//$('#newQuestionnaire\\.questionnaireRefId').attr(
+//							//		"value", $(this).text().substring(9));
+//						});
+//				}
+//				});// .ajax
+//
+//			}
 		if (saveok == 'true')	 {
+			retval = true;
             var retmsg="";
+            var sqlstring ="";
 			for ( var k = 0; k < sqls.length; k++) {
 				sqlScripts = sqls[k];
 				sqlScripts = sqlScripts.replace(/#;#/g, ";;;");
-				qnaireid = $('#newQuestionnaire\\.questionnaireRefId').attr(
+				qnaireid = $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr(
 						"value");
 				// alert(sqls.length+"-"+k)
 				// TODO : should consider to send newquestionnaire itself to
@@ -1844,38 +1867,44 @@ $("#save").click(function() {
 				// also need to deal with 'description' which is varchar2(2000)
 				// we can not assume that is is not over 2000, so need to think
 				// about it.
+				
 			if (sqls[k] != '') {	
-				$.ajax( {
-					url : 'questionnaireAjax.do',
-					type : 'GET',
-					dataType : 'html',
-					cache : false,
-					data : 'action=new&sqlScripts=' + sqlScripts
-							+ '&newQuestionnaire.questionnaireRefId=' + qnaireid,
-					async : false,
-					timeout : 1000,
-					error : function() {
-						alert('error when saving');
-					},
-					success : function(xml) {
-			            $(xml).find('h3').each(function(){
-			                retmsg = $(this).text();
-			             // alert(raExist);
-			 
-			              });
-			            if (retmsg.indexOf("error") > -1) {
-			            	$("#headermsg").html("");
-			                $('<span id="msg"/>').css("color", "red").html(
-			                        "Error when save Questionnaire <br/>"+retmsg).appendTo(
-			                        $("#headermsg"))
-			                       $('<br/>').appendTo($("#headermsg"));
-			            } else {	
-						   sqlScripts = "edit";
-						   sqls[k]="";
-						   retmsg="";
-			            }   
-					}
-				});// .ajax
+				if (sqlstring == '') {
+					sqlstring = sqls[k];
+				} else {	
+				sqlstring = sqlstring+"#S#"+sqls[k];
+				}
+//				$.ajax( {
+//					url : 'questionnaireAjax.do',
+//					type : 'GET',
+//					dataType : 'html',
+//					cache : false,
+//					data : 'action=new&sqlScripts=' + sqlScripts
+//							+ '&newQuestionnaire.questionnaireRefId=' + qnaireid,
+//					async : false,
+//					timeout : 1000,
+//					error : function() {
+//						alert('error when saving');
+//					},
+//					success : function(xml) {
+//			            $(xml).find('h3').each(function(){
+//			                retmsg = $(this).text();
+//			             // alert(raExist);
+//			 
+//			              });
+//			            if (retmsg.indexOf("error") > -1) {
+//			            	$("#headermsg").html("");
+//			                $('<span id="msg"/>').css("color", "red").html(
+//			                        "Error when save Questionnaire <br/>"+retmsg).appendTo(
+//			                        $("#headermsg"))
+//			                       $('<br/>').appendTo($("#headermsg"));
+//			            } else {	
+//						   sqlScripts = "edit";
+//						   sqls[k]="";
+//						   retmsg="";
+//			            }   
+//					}
+//				});// .ajax
 			} // end if sqlk!=''
 				if (retmsg != '') {
 					break;
@@ -1883,10 +1912,83 @@ $("#save").click(function() {
 			} // end for
 		}// saveok=true
 			sqlidx = 0;
+			sqlstring = sqlstring.replace(/#;#/g, ";;;");
+			$('#sqlScripts').attr("value",sqlstring);
 		// } // if-else isexisat
 		}	// if-then-else
-		return false;
-	});
+		//document.getElementById("newQuestionnaire.questionnaireRefId").value = $('#newQuestionnaire\\.questionnaireRefId').attr("value");
+        // Note : hidden value "newQuestionnaire.questionnaireRefId" is still null in 'save' method.  although it shows value here before sent
+		// to 'save'.  not sure why
+		alert("return "+retval+"-"+document.getElementById("document.newMaintainableObject.businessObject.questionnaireRefId").value)
+		return retval;  // comment for rice maint
+	}); // #save
+  
+  $("#route").click(function() {
+		var qname = $('#newQuestionnaire\\.name').attr("value");
+		var qnaireid = $('#newQuestionnaire\\.questionnaireRefId').attr("value");
+		var qid = $('#newQuestionnaire\\.questionnaireId').attr("value");
+		var docstatus = $('#docStatus').attr("value");
+		var qdescription = $('#newQuestionnaire\\.description').attr("value");
+		var qisfinal = $('#newQuestionnaire\\.isFinal').attr("checked");
+		var retval = false;
+		var saveok = 'false';
+			if (qname == '') {
+				alert("Questionnaire Name is required");
+			} else if (qdescription == '') {
+				alert("Questionnaire description is required");
+			} else if ($("#example").children('li').size() == 0) {
+				alert("No question is added");	
+			} else {
+				
+				saveok = 'true';
+				// check if name exist
+				var isexist='true';
+				// TODO : FF seems to have trouble with "#;#"
+
+				alert(sqlScripts);
+				if (sqlScripts.indexOf("#;#") > 1) {
+					// if current sqlScripts is not in array yet
+					// 10 should be fine to use as check
+					sqls[sqlidx++] = sqlScripts;
+				}
+				// TODO : problem with '&' in string will in name or description
+			if (saveok == 'true')	 {
+				retval = true;
+	            var retmsg="";
+	            var sqlstring ="";
+				for ( var k = 0; k < sqls.length; k++) {
+					sqlScripts = sqls[k];
+					sqlScripts = sqlScripts.replace(/#;#/g, ";;;");
+					qnaireid = $('#newQuestionnaire\\.questionnaireRefId').attr(
+							"value");
+					
+				if (sqls[k] != '') {	
+					if (sqlstring == '') {
+						sqlstring = sqls[k];
+					} else {	
+					sqlstring = sqlstring+"#S#"+sqls[k];
+					}
+				} // end if sqlk!=''
+					if (retmsg != '') {
+						break;
+					}	
+				} // end for
+			}// saveok=true
+				sqlidx = 0;
+				sqlstring = sqlstring.replace(/#;#/g, ";;;");
+				$('#sqlScripts').attr("value",sqlstring);
+			// } // if-else isexisat
+			}	// if-then-else
+			//document.getElementById("newQuestionnaire.questionnaireRefId").value = $('#newQuestionnaire\\.questionnaireRefId').attr("value");
+	        // Note : hidden value "newQuestionnaire.questionnaireRefId" is still null in 'save' method.  although it shows value here before sent
+			// to 'save'.  not sure why
+			alert("return "+retval+"-"+document.getElementById("newQuestionnaire.questionnaireRefId").value)
+			return retval;  // comment for rice maint
+		}); // #route
+
+  
+  
+}); // document.ready
 
 /*
  * This method is to check whether the new coeus module is already exist. For

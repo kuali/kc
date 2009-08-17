@@ -27,20 +27,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
+import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.questionnaire.question.Question;
 
 @Entity 
 @Table(name="QUESTIONNAIRE_QUESTIONS")
-public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase { 
+public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase implements SequenceAssociate<Questionnaire> { 
     
     private static final long serialVersionUID = 1L;
 
     @Id 
     @Column(name="QUESTIONNAIRE_QUESTIONS_ID")
     private Long questionnaireQuestionsId; 
-    @Column(name="QUESTIONNAIRE_ID")
-    private Integer questionnaireId; 
+    @Column(name="QUESTIONNAIRE_REF_ID_FK")
+    private Long questionnaireRefIdFk; 
     @Column(name="QUESTION_REF_ID_FK")
     private Long questionRefIdFk; 
     @Column(name="QUESTION_NUMBER")
@@ -62,9 +65,11 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase {
     private Question question;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="QUESTIONNAIRE_ID", insertable=false, updatable=false)
+    @JoinColumn(name="QUESTIONNAIRE_REF_ID_FK", insertable=false, updatable=false)
     private Questionnaire questionnaire;
         
+    private Questionnaire sequenceOwner;
+
     public QuestionnaireQuestion() { 
 
     } 
@@ -77,12 +82,12 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase {
         this.questionnaireQuestionsId = questionnaireQuestionsId;
     }
 
-    public Integer getQuestionnaireId() {
-        return questionnaireId;
+    public Long getQuestionnaireRefIdFk() {
+        return questionnaireRefIdFk;
     }
 
-    public void setQuestionnaireId(Integer questionnaireId) {
-        this.questionnaireId = questionnaireId;
+    public void setQuestionnaireRefIdFk(Long questionnaireRefIdFk) {
+        this.questionnaireRefIdFk = questionnaireRefIdFk;
     }
 
     public Long getQuestionRefIdFk() {
@@ -162,7 +167,7 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase {
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("questionnaireQuestionsId", this.getQuestionnaireQuestionsId());
-        hashMap.put("questionnaireId", this.getQuestionnaireId());
+        hashMap.put("questionnaireRefIdFk", this.getQuestionnaireRefIdFk());
         hashMap.put("questionRefIdFk", this.getQuestionRefIdFk());
         hashMap.put("questionNumber", this.getQuestionNumber());
         hashMap.put("parentQuestionNumber", this.getParentQuestionNumber());
@@ -171,6 +176,23 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase {
         hashMap.put("conditionValue", this.getConditionValue());
         hashMap.put("questionSeqNumber", this.getQuestionSeqNumber());
         return hashMap;
+    }
+
+    public Questionnaire getSequenceOwner() {
+        return this.getQuestionnaire();
+    }
+
+    public void setSequenceOwner(Questionnaire newlyVersionedOwner) {
+        setQuestionnaire(newlyVersionedOwner);
+        
+    }
+    /** {@inheritDoc} */
+    public void resetPersistenceState() {
+        this.setQuestionnaireQuestionsId(null);
+    }
+
+    public Integer getSequenceNumber() {
+        return this.sequenceOwner.getSequenceNumber();
     }
     
 }

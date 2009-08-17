@@ -71,14 +71,14 @@
        var qname = $('#newQuestionnaire\\.name').attr("value");
        var qdescription =$('#newQuestionnaire\\.description').attr("value");
        var qisfinal = $('#newQuestionnaire\\.isFinal').attr("checked");
-       var questionnaireId = $('#fromQuestionnaire\\.questionnaireId').attr("value");
-       alert ("copy"+qname+qdescription+questionnaireId); 
+       var questionnaireRefId = $('#fromQuestionnaire\\.questionnaireRefId').attr("value");
+       alert ("copy"+qname+qdescription+questionnaireRefId); 
        $.ajax({
          url: 'questionnaireAjax.do',
          type: 'GET',
          dataType: 'html',
          cache: false,
-         data:'sqlScripts=copyQuestionnaire&newQuestionnaire.name='+qname+'&newQuestionnaire.questionnaireId='+'&newQuestionnaire.description='+qdescription+'&newQuestionnaire.isFinal='+qisfinal,
+         data:'sqlScripts=copyQuestionnaire&newQuestionnaire.name='+qname+'&newQuestionnaire.questionnaireRefId='+'&newQuestionnaire.description='+qdescription+'&newQuestionnaire.isFinal='+qisfinal,
          async:false,
          timeout: 1000,
          error: function(){

@@ -1820,6 +1820,9 @@
 
 	<bean id="questionnaireLookupableHelperService" class="org.kuali.kra.questionnaire.QuestionnaireLookupableHelperServiceImpl" 
  	    scope="prototype" parent="lookupableHelperService">
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
   	</bean>
 	
 	<bean id="questionLookupable" class="org.kuali.kra.questionnaire.question.QuestionLookupableImpl" scope="prototype">
@@ -1836,15 +1839,6 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>		
-	</bean>
-
-	<bean id="proposalHierarchyService" class="org.kuali.kra.proposaldevelopment.hierarchy.service.impl.ProposalHierarchyServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="documentService">
-			<ref bean="documentService" />
-		</property>
 	</bean>
 	
 </beans>
