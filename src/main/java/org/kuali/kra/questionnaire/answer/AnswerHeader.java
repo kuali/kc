@@ -33,7 +33,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     private String moduleItemKey; 
     private Integer moduleSubItemCode; 
     private String moduleSubItemKey;
-    private Integer questionnaireId;
+    private Long questionnaireRefIdFk;
     private Questionnaire questionnaire; 
     private boolean completed; 
     
@@ -105,18 +105,18 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
 
     /**
      * Gets the questionnaireId attribute. 
-     * @return Returns the questionnaireId.
+     * @return Returns the questionnaireRefId.
      */
-    public Integer getQuestionnaireId() {
-        return this.questionnaireId;
+    public Long getQuestionnaireRefIdFk() {
+        return this.questionnaireRefIdFk;
     }
 
     /**
      * Sets the questionnaireId attribute value.
      * @param questionnaireId The questionnaireId to set.
      */
-    public void setQuestionnaireId(Integer questionnaireId) {
-        this.questionnaireId = questionnaireId;
+    public void setQuestionnaireRefIdFk(Long questionnaireRefIdFk) {
+        this.questionnaireRefIdFk = questionnaireRefIdFk;
     }
 
     /**
@@ -191,7 +191,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
         hashMap.put("moduleItemKey", this.getModuleItemKey());
         hashMap.put("moduleSubItemCode", this.getModuleSubItemCode());
         hashMap.put("moduleSubItemKey", this.getModuleSubItemKey());
-        hashMap.put("questionnaireId", this.getQuestionnaireId());
+        hashMap.put("questionnaireRefIdFk", this.getQuestionnaireRefIdFk());
         hashMap.put("id", this.getId());
         hashMap.put("completed", Boolean.valueOf(this.getCompleted()));
         return hashMap;

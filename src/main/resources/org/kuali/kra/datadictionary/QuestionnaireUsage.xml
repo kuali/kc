@@ -34,7 +34,8 @@
                 <ref bean="QuestionnaireUsage-questionnaireUsageId" />
                 <ref bean="QuestionnaireUsage-moduleItemCode" />
                 <ref bean="QuestionnaireUsage-moduleSubItemCode" />
-                <ref bean="QuestionnaireUsage-questionnaireId" />
+                <ref bean="QuestionnaireUsage-questionnaireRefIdFk" />
+                <ref bean="QuestionnaireUsage-questionnaireSequenceNumber"/>
                 <ref bean="QuestionnaireUsage-ruleId" />
                 <ref bean="QuestionnaireUsage-questionnaireLabel" />
                 <ref bean="QuestionnaireUsage-versionNumber" />
@@ -99,9 +100,9 @@
         <property name="description" value="Module Sub Item Code" />
     </bean>
 
-    <bean id="QuestionnaireUsage-questionnaireId" parent="QuestionnaireUsage-questionnaireId-parentBean" />
-    <bean id="QuestionnaireUsage-questionnaireId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="questionnaireId" />
+    <bean id="QuestionnaireUsage-questionnaireRefIdFk" parent="QuestionnaireUsage-questionnaireRefIdFk-parentBean" />
+    <bean id="QuestionnaireUsage-questionnaireRefIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionnaireRefIdFk" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Questionnaire Id" />
         <property name="shortLabel" value="Questionnaire Id" />
@@ -115,6 +116,11 @@
         </property>
         <property name="summary" value="Questionnaire Id" />
         <property name="description" value="Questionnaire Id" />
+    </bean>
+    <bean id="QuestionnaireUsage-questionnaireSequenceNumber" parent="QuestionnaireUsage-questionnaireSequenceNumber-parentBean" />
+    <bean id="QuestionnaireUsage-questionnaireSequenceNumber-parentBean" abstract="true" parent="KraAttributeReferenceDummy-sequenceNumber" >
+        <property name="label" value="Version" />
+        <property name="shortLabel" value="Version" />
     </bean>
 
     <bean id="QuestionnaireUsage-ruleId" parent="QuestionnaireUsage-ruleId-parentBean" />

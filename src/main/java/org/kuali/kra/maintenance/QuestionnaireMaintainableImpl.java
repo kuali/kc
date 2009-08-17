@@ -17,8 +17,10 @@ package org.kuali.kra.maintenance;
 
 import java.util.Map;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.DocumentService;
 
 public class QuestionnaireMaintainableImpl extends KraMaintainableImpl {
 
@@ -30,7 +32,25 @@ public class QuestionnaireMaintainableImpl extends KraMaintainableImpl {
     @Override
     public void saveBusinessObject() {
         Questionnaire questionnaire = ((Questionnaire) businessObject);
+        MaintenanceDocument document;
+        try {
+            document = (MaintenanceDocument)KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
+        } catch (Exception e) {
+            
+        }
         super.saveBusinessObject();
+    }
+
+    @Override
+    public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
+        // TODO Auto-generated method stub
+        super.processAfterPost(document, parameters);
+    }
+
+    @Override
+    public void processAfterRetrieve() {
+        // TODO Auto-generated method stub
+        super.processAfterRetrieve();
     }
 
 }

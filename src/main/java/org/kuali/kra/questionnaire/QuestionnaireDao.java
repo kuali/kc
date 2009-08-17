@@ -16,5 +16,5 @@
 package org.kuali.kra.questionnaire;
 
 public interface QuestionnaireDao {
-    public void runScripts(final String[] sqls, Integer questionnaireId);
+    public void runScripts(final String[] sqls, Long questionnaireRefId);
 }

@@ -32,7 +32,7 @@
         <property name="attributes" >
             <list>
                 <ref bean="QuestionnaireQuestion-questionnaireQuestionsId" />
-                <ref bean="QuestionnaireQuestion-questionnaireId" />
+                <ref bean="QuestionnaireQuestion-questionnaireRefIdFk" />
                 <ref bean="QuestionnaireQuestion-questionRefIdFk" />
                 <ref bean="QuestionnaireQuestion-questionNumber" />
                 <ref bean="QuestionnaireQuestion-parentQuestionNumber" />
@@ -65,19 +65,19 @@
         <property name="description" value="Questionnaire Questions Id" />
     </bean>
 
-    <bean id="QuestionnaireQuestion-questionnaireId" parent="QuestionnaireQuestion-questionnaireId-parentBean" />
-    <bean id="QuestionnaireQuestion-questionnaireId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="questionnaireId" />
+    <bean id="QuestionnaireQuestion-questionnaireRefIdFk" parent="QuestionnaireQuestion-questionnaireRefIdFk-parentBean" />
+    <bean id="QuestionnaireQuestion-questionnaireRefIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionnaireRefIdFk" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Questionnaire Id" />
         <property name="shortLabel" value="Questionnaire Id" />
-        <property name="maxLength" value="6" />
+        <property name="maxLength" value="10" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="6" />
+                p:size="10" />
         </property>
         <property name="summary" value="Questionnaire Id" />
         <property name="description" value="Questionnaire Id" />

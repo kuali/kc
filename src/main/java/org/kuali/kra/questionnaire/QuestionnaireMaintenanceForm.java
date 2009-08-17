@@ -29,9 +29,9 @@ import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
-public class QuestionnaireForm extends KualiForm {
+public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private Questionnaire newQuestionnaire;
     private Questionnaire fromQuestionnaire;
     private QuestionnaireUsage newQuestionnaireUsage;
@@ -67,9 +67,10 @@ public class QuestionnaireForm extends KualiForm {
     /**
      * Constructs a ResearchAreasForm.
      */
-    public QuestionnaireForm() {
+    public QuestionnaireMaintenanceForm() {
         super();
         newQuestionnaire = new Questionnaire();
+        fromQuestionnaire = new Questionnaire();
         questionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
         // TODO : if it is newquestionnaire, then set questionnumber to 1
         questionNumber = 1;
@@ -82,10 +83,12 @@ public class QuestionnaireForm extends KualiForm {
         this.setMethodToCall("");
         // TODO : if do lookup again to edit, 'form' is not initialized ? initialized here ?
         newQuestionnaire = new Questionnaire();
+        fromQuestionnaire = new Questionnaire();
         questionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
         questionNumber = 1;
         sqlScripts = "";
         retData = "";
+        editData = "";
         action = "";
 
     }
@@ -127,7 +130,6 @@ public class QuestionnaireForm extends KualiForm {
             if (action.equals("savebo")) {
                 // only pass questionnaire data
                 Questionnaire questionnaire = getNewQuestionnaire();
-                questionnaire.setSequenceNumber(1);
 
                 if (KraServiceLocator.getService(QuestionnaireService.class).isQuestionnaireNameExist(
                         questionnaire.getQuestionnaireId(), questionnaire.getName())) {
@@ -146,8 +148,8 @@ public class QuestionnaireForm extends KualiForm {
                         pkMap.put("questionnaireRefId", questionnaire.getQuestionnaireRefId());
                         Questionnaire oldQuestionnair = (Questionnaire) KraServiceLocator.getService(BusinessObjectService.class)
                                 .findByPrimaryKey(Questionnaire.class, pkMap);
+                        //if (questionnaire.getQuestionnaireId().equals(0)) {
                         if (questionnaire.getQuestionnaireId() != null && getDocStatus().equals("I")) {
-                            // TODO : is this a good way to make sure that it is 'edit' and first save ?
                             try {
                                 VersioningService versionService = new VersioningServiceImpl();
                                 questionnaire = (Questionnaire) versionService.createNewVersion(oldQuestionnair);
@@ -166,7 +168,7 @@ public class QuestionnaireForm extends KualiForm {
                     }
                     KraServiceLocator.getService(BusinessObjectService.class).save(questionnaire);
                     retData = "<h3>qnaireID=" + questionnaire.getQuestionnaireRefId() + ";" + questionnaire.getQuestionnaireId()
-                    + ";" + questionnaire.getSequenceNumber() + "</h3>";
+                            + ";" + questionnaire.getSequenceNumber() + "</h3>";
                 }
             }
             else if (action.equals("savebo1")) {
@@ -186,8 +188,8 @@ public class QuestionnaireForm extends KualiForm {
                     questionnaire.setDescription(oldQuestionnair.getDescription() + questionnaire.getDescription());
                 }
                 KraServiceLocator.getService(BusinessObjectService.class).save(questionnaire);
-                retData = "<h3>qnaireID=" + questionnaire.getQuestionnaireRefId() + ";" + questionnaire.getQuestionnaireId()
-                + ";" + questionnaire.getSequenceNumber() + "</h3>";
+                retData = "<h3>qnaireID=" + questionnaire.getQuestionnaireRefId() + ";" + questionnaire.getQuestionnaireId() + ";"
+                        + questionnaire.getSequenceNumber() + "</h3>";
             }
             else if (action.equals("checkname")) {
                 Questionnaire questionnaire = getNewQuestionnaire();
@@ -210,7 +212,7 @@ public class QuestionnaireForm extends KualiForm {
                 }
                 else {
                     retData = "<h3>qnaireID=" + questionnaire.getQuestionnaireRefId() + ";" + questionnaire.getQuestionnaireId()
-                    + ";" + questionnaire.getSequenceNumber() + "</h3>";
+                            + ";" + questionnaire.getSequenceNumber() + "</h3>";
                 }
             }
             action = "";
@@ -270,6 +272,14 @@ public class QuestionnaireForm extends KualiForm {
         this.action = action;
     }
 
+    @Override
+    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
+        // TODO Auto-generated method stub
+        // fromquestionnaire is return false for some reason ??
+        // return super.shouldPropertyBePopulatedInForm(requestParameterName, request);
+        return true;
+    }
+
     public String getDocStatus() {
         return docStatus;
     }
@@ -277,5 +287,12 @@ public class QuestionnaireForm extends KualiForm {
     public void setDocStatus(String docStatus) {
         this.docStatus = docStatus;
     }
+
+    // @Override
+    // public String getDocTypeName() {
+    // // TODO Auto-generated method stub
+    // return "QuestionMaintenanceDocument";
+    // //return super.getDocTypeName();
+    // }
 
 }
