@@ -24,7 +24,7 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="home">
   	
-This is the  Institutional Proposal Home - Under Construction
+<c:set var="readOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
 
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-ip:institutionalProposalInstitutionalProposal />
