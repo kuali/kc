@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.customdata;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,9 @@ import org.kuali.kra.common.customattributes.CustomDataHelperBase;
  * The CustomDataHelper is used to manage the Custom Data tab web page.
  * It contains the data, forms, and methods needed to render the page.
  */
+/**
+ * This class...
+ */
 public class CustomDataHelper extends CustomDataHelperBase {
 
     /**
@@ -46,6 +50,10 @@ public class CustomDataHelper extends CustomDataHelperBase {
     private static final long serialVersionUID = -2308402022153534376L;
 
     private static final String MAPPING_CUSTOM_DATA = "customData";
+    
+    private List<AwardStringObjectBO> customDataValues;
+    
+   
     
     /**
      * Each Helper must contain a reference to its document form
@@ -59,6 +67,8 @@ public class CustomDataHelper extends CustomDataHelperBase {
      */
     public CustomDataHelper(AwardForm awardForm) {
         this.awardForm = awardForm;
+        //customDataValues = new ArrayList<String>();
+        customDataValues = new ArrayList<AwardStringObjectBO>();
     }
     
     /*
@@ -72,6 +82,8 @@ public class CustomDataHelper extends CustomDataHelperBase {
         return document.getAward();
     }
     
+    
+    
     /**
      * @see org.kuali.kra.common.customattributes.CustomDataHelperBase#canModifyCustomData()
      */
@@ -80,6 +92,60 @@ public class CustomDataHelper extends CustomDataHelperBase {
         // TODO Auto-generated method stub
         return false;
     }
+    
+
+    /**
+     * Gets the customDataValues attribute. 
+     * @return Returns the customDataValues.
+     */
+    public List<AwardStringObjectBO> getCustomDataValues() {
+        return customDataValues;
+    }
+
+    /**
+     * Sets the customDataValues attribute value.
+     * @param customDataValues The customDataValues to set.
+     */
+    public void setCustomDataValues(List<AwardStringObjectBO> customDataValues) {
+        this.customDataValues = customDataValues;
+    }
+
+    /**
+     * This method populates Array of AwardStringObjectBo with string values to be displayed in UI.  It is called when navigating to Custom
+     * Data Tab and on Reload.
+     */
+    public void populateCustomDataValuesFromParentMap() {
+        if(customDataValues.size() == 0) {
+            for(Map.Entry<String, String[]> customAttributeValue:getCustomAttributeValues().entrySet()) {
+                AwardStringObjectBO tempAwardStringObjectBO = new AwardStringObjectBO();
+                tempAwardStringObjectBO.setValue("");
+                customDataValues.add(tempAwardStringObjectBO);
+            }
+        }
+        for(Map.Entry<String, String[]> customAttributeValue:getCustomAttributeValues().entrySet()) {
+            customDataValues.get(Integer.parseInt(customAttributeValue.getKey().substring(2)) - 1).setValue(customAttributeValue.getValue()[0]);
+        }
+    }
+    
+    /**
+     * This method copies data out of Array of AwardStringObjectBo into parent collection which is in turn copied into collection of 
+     * AwardCustomData objects on Award for data persitence.
+     */
+    public void populateCustomAttributeValuesMap() {
+        for(Map.Entry<String, String[]> customAttributeValue:getCustomAttributeValues().entrySet()) {
+            int id = 1;
+            for(AwardStringObjectBO stringBO : customDataValues) {
+                  if(id == Integer.parseInt(customAttributeValue.getKey().substring(2))) {
+                      customAttributeValue.getValue()[0] = stringBO.getValue();
+                      break;
+                  }else {
+                      id++;
+                  }
+            }
+        }
+    }
+    
+    
     
     /**
      * Invoked when the "Custom Data" tab is clicked on in Award Module.  In other words, the
@@ -128,7 +194,7 @@ public class CustomDataHelper extends CustomDataHelperBase {
                 }
             }
             awardForm.getCustomDataHelper().getCustomAttributeValues()
-            .put("id" + customAttributeDocumentEntry.getValue().getCustomAttributeId().toString(),new String[]{loopAwardCustomData.getValue()});
+            .put("id" + customAttributeDocumentEntry.getValue().getCustomAttributeId().toString(), new String[] {loopAwardCustomData.getValue()});
             String groupName = 
                 customAttributeDocuments.get(loopAwardCustomData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName();
             List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);   
@@ -138,6 +204,7 @@ public class CustomDataHelper extends CustomDataHelperBase {
                 }
                 customAttributeDocumentList.add(customAttributeDocuments.get(loopAwardCustomData.getCustomAttributeId().toString()));
              }
+        populateCustomDataValuesFromParentMap();
     }
     
     /**
@@ -152,7 +219,7 @@ public class CustomDataHelper extends CustomDataHelperBase {
                                                            CustomAttributeDocument> customAttributeDocuments) {
         for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
             awardForm.getCustomDataHelper().getCustomAttributeValues()
-                .put("id" + customAttributeDocumentEntry.getValue().getCustomAttributeId().toString(), new String[]{null});       
+                .put("id" + customAttributeDocumentEntry.getValue().getCustomAttributeId().toString(), new String[] {""});       
            String groupName = customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName();
             List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
                 if (customAttributeDocumentList == null) {
@@ -161,6 +228,39 @@ public class CustomDataHelper extends CustomDataHelperBase {
                 }
                 customAttributeDocumentList.add(customAttributeDocuments.get(customAttributeDocumentEntry.getValue().getCustomAttributeId().toString()));
         }
+        populateCustomDataValuesFromParentMap();
+    }
+
+    /**
+     * This class is being used as a workaround to a struts issue that will not allow indexing into a list of string primatives from JSP.
+     * The only purpose of this class is to hold a string object with getters and setters so the tag file can call into index of ArrayList
+     * and getValue().
+     */
+    public class AwardStringObjectBO implements Serializable{
+        
+        /**
+         * Comment for <code>serialVersionUID</code>
+         */
+        private static final long serialVersionUID = -4685926051202342610L;
+        private String value;
+
+        /**
+         * Gets the value attribute. 
+         * @return Returns the value.
+         */
+        public String getValue() {
+            return value;
+        }
+
+        /**
+         * Sets the value attribute value.
+         * @param value The value to set.
+         */
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+
     }
 
 }
