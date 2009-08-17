@@ -73,6 +73,7 @@ public class AwardCustomDataAction extends AwardAction {
      * @param form
      */
     public void copyCustomDataToAward(AwardForm awardForm) {
+        awardForm.getCustomDataHelper().populateCustomAttributeValuesMap();
         if(awardForm.getAwardDocument().getAward().getAwardCustomDataList().size() == 0) {
             copyCustomDataToNewAward(awardForm);
         }else {
@@ -92,7 +93,7 @@ public class AwardCustomDataAction extends AwardAction {
             awardCustomData.getCustomAttribute().setId(customAttributeId);
             awardCustomData.setCustomAttributeId((long) customAttributeId);
             awardCustomData.setAward(awardForm.getAwardDocument().getAward());
-            if(customAttributeValue.getValue()[0].length() == 0) {
+            if(customAttributeValue.getValue()[0] == null) {
                 awardCustomData.setValue("");
             }else {
                 awardCustomData.setValue(customAttributeValue.getValue()[0]);
