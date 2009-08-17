@@ -277,7 +277,7 @@
           <forward name="committeeSchedule" path="/WEB-INF/jsp/committee/CommitteeSchedule.jsp" />
       </action>
       
-     <action path="/maintenance" name="KualiMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.kra.maintenance.KraMaintenanceDocumentAction">
+     <action path="/maintenance" name="KraMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.kra.maintenance.KraMaintenanceDocumentAction">
           <forward name="basic" path="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" />
      </action>    
 
