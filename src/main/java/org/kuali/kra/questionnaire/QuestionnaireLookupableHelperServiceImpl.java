@@ -16,30 +16,121 @@
 package org.kuali.kra.questionnaire;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KNSConstants;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    private DocumentService documentService;
+
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
+        List<Questionnaire> activeQuestionnaires = new ArrayList<Questionnaire>();
+        List<Integer> questionnaireIds = new ArrayList<Integer>();
+        if (CollectionUtils.isNotEmpty(searchResults)) {
+            Collections.sort((List<Questionnaire>) searchResults);
+            Collections.reverse((List<Questionnaire>) searchResults);
+            // Collections.sort((List<Questionnaire>) searchResults, Collections.reverseOrder());
+            for (Questionnaire questionnaire : (List<Questionnaire>) searchResults) {
+                if (!questionnaireIds.contains(questionnaire.getQuestionnaireId()) && isFinal(questionnaire)) {
+                    activeQuestionnaires.add(questionnaire);
+                    questionnaireIds.add(questionnaire.getQuestionnaireId());
+                }
+            }
+        }
+        return activeQuestionnaires;
+    }
+
+    private boolean isFinal(Questionnaire questionnaire) {
+        boolean isFinal = true;
+        if (questionnaire.getDocumentNumber() == null) {
+            isFinal = false;
+        }
+        else {
+            try {
+                isFinal = documentService.getByDocumentHeaderId(questionnaire.getDocumentNumber()).getDocumentHeader()
+                        .getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F");
+            }
+            catch (Exception e) {
+
+            }
+        }
+        return isFinal;
+    }
+
+    // TODO : Maybe we need a versioninghistory for Questionnaire, so we don't have to do this.
+    private Questionnaire getQuestionnaireById(Integer questionnaireId) {
+        Questionnaire questionnaire = null;
+        if (questionnaireId != null) {
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("QUESTIONNAIRE_ID", questionnaireId);
+            // TODO : inject businessobjectservice
+            Collection<Questionnaire> questionnaires = KraServiceLocator.getService(BusinessObjectService.class).findMatching(Questionnaire.class, fieldValues);
+            if (questionnaires.size() > 0) {
+                questionnaire = (Questionnaire) Collections.max(questionnaires);
+            }
+        }
+        return questionnaire;
+    }
+
+    // @Override
+    // public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+    // List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+    // AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+    // Questionnaire questionnaire = ((Questionnaire) businessObject);
+    // htmlData.setHref("../questionnaireMaint.do?questionnaireRefId=" + questionnaire.getQuestionnaireRefId()
+    // + "&command=edit");
+    // htmlDataList.add(htmlData);
+    // AnchorHtmlData htmlData1 = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
+    // Questionnaire questionnaire1 = ((Questionnaire) businessObject);
+    // htmlData1.setHref("../questionnaireMaint.do?questionnaireRefId=" + questionnaire1.getQuestionnaireRefId()
+    // + "&command=copy");
+    // htmlDataList.add(htmlData1);
+    // return htmlDataList;
+    // }
 
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+        Questionnaire questionnaire = getQuestionnaireById(((Questionnaire)businessObject).getQuestionnaireId());
         AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-        Questionnaire questionnaire = ((Questionnaire) businessObject);
-        htmlData.setHref("../questionnaireMaint.do?questionnaireId=" + questionnaire.getQuestionnaireId()
-                + "&command=edit");
+        htmlData.setHref(htmlData.getHref().replace("maintenance", "../maintenanceQn"));
+        if (!questionnaire.getQuestionnaireRefId().equals(((Questionnaire)businessObject).getQuestionnaireRefId())) {
+            htmlData.setHref(htmlData.getHref().replace("=edit", "=view"));
+            htmlData.setDisplayText("view");
+        } else {
+            AnchorHtmlData htmlData2 = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+            htmlData2.setHref(htmlData.getHref().replace("maintenance", "../maintenanceQn"));
+            htmlData2.setHref(htmlData.getHref().replace("=edit", "=view"));
+            htmlData2.setDisplayText("view");
+            htmlDataList.add(htmlData2);
+        }
         htmlDataList.add(htmlData);
         AnchorHtmlData htmlData1 = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
-        Questionnaire questionnaire1 = ((Questionnaire) businessObject);
-        htmlData1.setHref("../questionnaireMaint.do?questionnaireId=" + questionnaire1.getQuestionnaireId()
-                + "&command=copy");
+        htmlData1.setHref(htmlData1.getHref().replace("maintenance", "../maintenanceQn"));
         htmlDataList.add(htmlData1);
         return htmlDataList;
     }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
 
 }

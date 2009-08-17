@@ -9,7 +9,8 @@
                 <value>questionnaireId</value>
             </list>
         </property>
-        <property name="documentTypeName" value="Questionnaire Maintenance Document" />
+        <property name="documentTypeName" value="QuestionnaireMaintenanceDocument" />
+        <property name="businessRulesClass" value="org.kuali.kra.questionnaire.QuestionnaireMaintenanceDocumentRule" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
         <property name="additionalSectionsFile" value="/WEB-INF/jsp/questionnaire/questionnaireQuestion.jsp"></property>
     </bean>

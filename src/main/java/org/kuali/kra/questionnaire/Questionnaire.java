@@ -28,20 +28,25 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.hibernate.annotations.Type;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.AwardTemplateContact;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
+import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 @Entity 
 @Table(name="QUESTIONNAIRE")
-public class Questionnaire extends KraPersistableBusinessObjectBase { 
+public class Questionnaire extends KraPersistableBusinessObjectBase implements Comparable<Questionnaire>,SequenceOwner<Questionnaire>{ 
     
     private static final long serialVersionUID = 1L;
 
-    @Id 
+    @Id
+    @Column(name = "QUESTIONNAIRE_REF_ID")
+    private Long questionnaireRefId;
     @Column(name="QUESTIONNAIRE_ID")
     private Integer questionnaireId; 
     @Column(name="NAME")
@@ -52,6 +57,11 @@ public class Questionnaire extends KraPersistableBusinessObjectBase {
     @Column(name="IS_FINAL")
     private boolean isFinal; 
     
+    @Column(name = "SEQUENCE_NUMBER")
+    private Integer sequenceNumber;
+    @Column(name="DOCUMENT_NUMBER")
+    private String documentNumber;
+
     
     @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="QUESTIONNAIRE_ID", insertable=false, updatable=false)
@@ -114,7 +124,7 @@ public class Questionnaire extends KraPersistableBusinessObjectBase {
         return questionnaireUsages;
     }
 
-    public void setQuestionnaireUsage(List<QuestionnaireUsage> questionnaireUsages) {
+    public void setQuestionnaireUsages(List<QuestionnaireUsage> questionnaireUsages) {
         this.questionnaireUsages = questionnaireUsages;
     }
 
@@ -122,11 +132,72 @@ public class Questionnaire extends KraPersistableBusinessObjectBase {
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("questionnaireRefId", this.getQuestionnaireRefId());
         hashMap.put("questionnaireId", this.getQuestionnaireId());
         hashMap.put("name", this.getName());
+        hashMap.put("sequenceNumber", this.getSequenceNumber());
+        hashMap.put("documentNumber", this.getDocumentNumber());
         hashMap.put("description", this.getDescription());
         hashMap.put("isFinal", this.getIsFinal());
         return hashMap;
+    }
+
+    public Integer getOwnerSequenceNumber() {
+        return null;
+    }
+
+    public String getVersionNameField() {
+        return "questionnaireId";
+    }
+
+    public void incrementSequenceNumber() {
+        sequenceNumber++;
+    }
+
+    public Questionnaire getSequenceOwner() {
+        return this;
+    }
+
+    public void setSequenceOwner(Questionnaire newlyVersionedOwner) {
+        // do nothing - this is root sequence association
+    }
+
+
+    public void resetPersistenceState() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public Integer getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    public void setSequenceNumber(Integer sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
+    public Long getQuestionnaireRefId() {
+        return questionnaireRefId;
+    }
+
+    public void setQuestionnaireRefId(Long questionnaireRefId) {
+        this.questionnaireRefId = questionnaireRefId;
+    }
+
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
+    public int compareTo(Questionnaire argQuestionnaire) {
+        if (ObjectUtils.equals(this.getQuestionnaireId(), argQuestionnaire.getQuestionnaireId())) {
+            return this.getSequenceNumber().compareTo(argQuestionnaire.getSequenceNumber());
+        } else {
+            return this.getQuestionnaireId().compareTo(argQuestionnaire.getQuestionnaireId());
+        }
     }
     
 }

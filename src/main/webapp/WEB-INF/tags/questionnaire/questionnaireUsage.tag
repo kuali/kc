@@ -1,7 +1,10 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="readOnly" value="false"  scope="request"/>
 <c:set var="questionnaireUsageAttributes" value="${DataDictionary.QuestionnaireUsage.attributes}" />
-
+<c:set var="vers" value="${KualiForm.newQuestionnaire.sequenceNumber}" />
+<c:if test="${KualiForm.document.newMaintainableObject.maintenanceAction == 'Edit' and KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus == 'I'}">
+   <c:set var="vers" value="${KualiForm.newQuestionnaire.sequenceNumber+1}" />
+</c:if>
 <div class="tab-container" align="center">
     <h3>
         <span class="subhead-left"><a href="#" class="usagepanelcontrol"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
@@ -36,8 +39,9 @@
                 <div align="center">
                 </td>
                 <td class="infoline">   
-                <div align="center">    
-                  1.00 ?         	
+                <div align="center">   
+                     
+                        ${vers}
 				</div>
 				</td>
 				<td class="infoline">
@@ -62,7 +66,7 @@
 	                </td>
 	                <td>     
 	                <div align="center">           	
-                        1.00 ?
+                        ${questionnaireUsage.questionnaireSequenceNumber}
 					</div>
 					</td>
 					<td>

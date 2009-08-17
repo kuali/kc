@@ -37,6 +37,7 @@ public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
     private String principalInvestigator;
     private BudgetDecimal genericRate;
     private String budgetName;
+    private Integer sequenceNumber;
 
 
     /**
@@ -176,5 +177,13 @@ public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
 
     public void setBudgetName(String budgetName) {
         this.budgetName = budgetName;
+    }
+
+    public Integer getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    public void setSequenceNumber(Integer sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
     }
 }

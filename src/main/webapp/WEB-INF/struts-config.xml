@@ -26,6 +26,7 @@
         <form-bean name="KualiMaintenanceForm" type="org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm" />
         <form-bean name="QuestionLookupForm" type="org.kuali.kra.questionnaire.QuestionLookupForm" />
 	    <form-bean name="QuestionnaireForm" type="org.kuali.kra.questionnaire.QuestionnaireForm" />
+        <form-bean name="QuestionnaireMaintenanceForm" type="org.kuali.kra.questionnaire.QuestionnaireMaintenanceForm" />
     </form-beans>
 
     <global-exceptions>
@@ -279,6 +280,10 @@
       
      <action path="/maintenance" name="KraMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.kra.maintenance.KraMaintenanceDocumentAction">
           <forward name="basic" path="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" />
+     </action>    
+     <action path="/maintenanceQn" name="QuestionnaireMaintenanceForm" attribute="KualiForm" scope="request" 
+         parameter="methodToCall" validate="false" input="/WEB-INF/jsp/questionnaire/questionnaireMaintenanceDocument.jsp" type="org.kuali.kra.questionnaire.QuestionnaireMaintenanceDocumentAction">
+          <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionnaireMaintenanceDocument.jsp" />
      </action>    
 
     </action-mappings>
