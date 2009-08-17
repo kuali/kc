@@ -65,6 +65,9 @@
 	            <c:if test="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_DISAPPROVE] and not suppressRoutingControls}">
 	                <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_disapprove.gif" styleClass="globalbuttons" property="methodToCall.disapprove" title="disapprove" alt="disapprove"/>
 	            </c:if>
+	            <c:if test="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_DISAPPROVE] and not suppressRoutingControls}">
+	                <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_reject.gif" styleClass="globalbuttons" property="methodToCall.reject" title="reject" alt="reject"/>
+	            </c:if>
 	            <c:if test="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_FYI] and not suppressRoutingControls}">
 	                <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_fyi.gif" styleClass="globalbuttons" property="methodToCall.fyi" title="fyi" alt="fyi"/>
 	            </c:if>
