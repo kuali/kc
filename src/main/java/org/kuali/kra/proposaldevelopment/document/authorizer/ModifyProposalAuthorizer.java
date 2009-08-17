@@ -20,6 +20,8 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+
 
 /**
  * The Modify Proposal Authorizer checks to see if the user has 
@@ -31,7 +33,7 @@ import org.kuali.kra.service.UnitAuthorizationService;
  * the document cannot be in workflow.
  */
 public class ModifyProposalAuthorizer extends ProposalAuthorizer {
-
+    
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
@@ -39,6 +41,7 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
         boolean hasPermission = true;
         ProposalDevelopmentDocument doc = task.getDocument();
         String proposalNbr = doc.getDevelopmentProposal().getProposalNumber();
+
         if (proposalNbr == null) {
             
             // We have to consider the case when we are saving the document for the first time.
@@ -58,9 +61,12 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
              * After the initial save, the proposal can only be modified if it is not in workflow
              * and the user has the require permission.
              */
+            KualiWorkflowDocument wfd=doc.getDocumentHeader().getWorkflowDocument();
+
+            boolean hasBeenRejected=("Initiated".equals(wfd.getCurrentRouteNodeNames()) && wfd.getRouteHeader().isApproveRequested());
             hasPermission = !doc.isViewOnly() &&
                             hasProposalPermission(username, doc, PermissionConstants.MODIFY_PROPOSAL) &&
-                            !kraWorkflowService.isInWorkflow(doc) &&
+                            (!kraWorkflowService.isInWorkflow(doc) || hasBeenRejected) &&
                             !doc.getDevelopmentProposal().getSubmitFlag();
         }
         return hasPermission;

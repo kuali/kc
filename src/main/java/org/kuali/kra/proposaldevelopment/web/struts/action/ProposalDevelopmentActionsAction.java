@@ -419,13 +419,17 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         String NodeName = null;
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         KualiWorkflowDocument workflowdocument=kualiDocumentFormBase.getDocument().getDocumentHeader().getWorkflowDocument();
+/*
         Long routeHeaderId=kualiDocumentFormBase.getDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         List currentNodeInstances = KEWServiceLocator.getRouteNodeService().getCurrentNodeInstances(routeHeaderId);
         List<RouteNodeInstance> nodeInstances = new ArrayList<RouteNodeInstance>();
+
         for (Iterator iterator = currentNodeInstances.iterator(); iterator.hasNext();) {
            RouteNodeInstance nodeInstance = (RouteNodeInstance) iterator.next();
            NodeName= nodeInstance.getRouteNode().getRouteNodeName();
         }
+*/        
+        
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
         String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
@@ -441,7 +445,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         {
             String introNoteMessage = "Proposal Rejected" + KNSConstants.BLANK_SPACE;
             rejectNoteText = introNoteMessage + reason;
-            workflowdocument.returnToPreviousNode(rejectNoteText, NodeName);
+//            workflowdocument.returnToPreviousNode(rejectNoteText, NodeName);
+		// Using deprecated method because nothing else available works
+            workflowdocument.returnToPreviousRouteLevel(rejectNoteText, 0);
             return super.returnToSender(mapping, kualiDocumentFormBase);
         }
         
