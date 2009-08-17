@@ -15,18 +15,21 @@
  */
 package org.kuali.kra.questionnaire;
 
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 
 public class QuestionnaireLookupableImpl extends KualiLookupableImpl {
 
-    @Override
+//    @Override
+//    public String getCreateNewUrl() {
+//        // TODO Auto-generated method stub
+//        String url =  super.getCreateNewUrl();
+//        String appContext = ConfigContext.getCurrentContextConfig().getProperty(Constants.APP_CONTEXT_KEY);
+//        url = url.replace(url.substring(0, url.indexOf("<img")), "<a href=\"/"+appContext+"/questionnaireNew.do\">");
+//        return url;
+//    }
     public String getCreateNewUrl() {
-        // TODO Auto-generated method stub
         String url =  super.getCreateNewUrl();
-        String appContext = ConfigContext.getCurrentContextConfig().getProperty(Constants.APP_CONTEXT_KEY);
-        url = url.replace(url.substring(0, url.indexOf("<img")), "<a href=\"/"+appContext+"/questionnaireNew.do\">");
+        url = url.replace("maintenance","../maintenanceQn");
         return url;
     }
 

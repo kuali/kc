@@ -16,7 +16,7 @@
                 <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.name}" />
             </th>
             <td align="left" valign="middle">
-                <kul:htmlControlAttribute property="newQuestionnaire.name" 
+                <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.name" 
                                           attributeEntry="${questionnaireAttributes.name}" />
             </td>
             <td align="left" valign="middle">
@@ -26,7 +26,7 @@
                 <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.isFinal}" />
             </th>
             <td align="left" valign="middle">
-                <kul:htmlControlAttribute property="newQuestionnaire.isFinal" 
+                <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.isFinal" 
                                           attributeEntry="${questionnaireAttributes.isFinal}" />
             </td>
             
@@ -44,13 +44,16 @@
                 <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.description}" />
             </th>
             <td align="left" valign="middle" colspan="4">
-                <kul:htmlControlAttribute property="newQuestionnaire.description" 
+                <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.description" 
                                           attributeEntry="${questionnaireAttributes.description}" />
             </td>
         </tr>
     </table>
-	<input type="hidden" id="questionNumber" name="questionNumber" value = "${QuestionnaireForm.questionNumber}"/>
-	<input type="hidden" id="newQuestionnaire.questionnaireRefId" name="newQuestionnaire.questionnaireRefId" value = "${QuestionnaireForm.newQuestionnaire.questionnaireRefId}"/>
-	<input type="hidden" id="retData" name="retData" value = "${QuestionnaireForm.retData}"/>
-	<input type="hidden" id="editData" name="retData" value = "${QuestionnaireForm.editData}"/>
+	<input type="hidden" id="questionNumber" name="questionNumber" value = "${KualiForm.questionNumber}"/>
+    <input type="hidden" id="sqlScripts" name="sqlScripts" value = "${KualiForm.sqlScripts}"/>
+	<input type="hidden" id="document.newMaintainableObject.businessObject.questionnaireRefId" name="document.newMaintainableObject.businessObject.questionnaireRefId" value = "${KualiForm.document.newMaintainableObject.businessObject.questionnaireRefId}"/>
+    <input type="hidden" id="document.newMaintainableObject.businessObject.questionnaireId" name="document.newMaintainableObject.businessObject.questionnaireId" value = "${KualiForm.document.newMaintainableObject.businessObject.questionnaireId}"/>
+    <input type="hidden" id="document.newMaintainableObject.businessObject.sequenceNumber" name="document.newMaintainableObject.businessObject.sequenceNumber" value = "${KualiForm.document.newMaintainableObject.businessObject.sequenceNumber}"/>
+	<input type="hidden" id="retData" name="retData" value = "${KualiForm.retData}"/>
+	<input type="hidden" id="editData" name="editData" value = "${KualiForm.editData}"/>
 </div>

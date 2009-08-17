@@ -31,16 +31,37 @@
         <property name="titleAttribute" value="questionnaireId" />
         <property name="attributes" >
             <list>
+                <ref bean="Questionnaire-questionnaireRefId" />
                 <ref bean="Questionnaire-questionnaireId" />
+                <ref bean="Questionnaire-sequenceNumber" />
                 <ref bean="Questionnaire-name" />
                 <ref bean="Questionnaire-description" />
                 <ref bean="Questionnaire-isFinal" />
                 <ref bean="Questionnaire-versionNumber" />
+                <ref bean="Questionnaire-documentNumber" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
+
+    <bean id="Questionnaire-questionnaireRefId" parent="Questionnaire-questionnaireRefId-parentBean" />
+    <bean id="Questionnaire-questionnaireRefId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionnaireRefId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Questionnaire Ref Id" />
+        <property name="shortLabel" value="Questionnaire Ref Id" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Questionnaire Ref Id" />
+        <property name="description" value="Questionnaire Ref Id" />
+    </bean>
     
     <bean id="Questionnaire-questionnaireId" parent="Questionnaire-questionnaireId-parentBean" />
     <bean id="Questionnaire-questionnaireId-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -58,6 +79,28 @@
         </property>
         <property name="summary" value="Questionnaire Id" />
         <property name="description" value="Questionnaire Id" />
+    </bean>
+    <bean id="Questionnaire-documentNumber" parent="Questionnaire-documentNumber-parentBean" />
+    <bean id="Questionnaire-documentNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="documentNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Document Number" />
+        <property name="shortLabel" value="Document Number" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Document Number" />
+        <property name="description" value="Document Number" />
+    </bean>
+
+
+    <bean id="Questionnaire-sequenceNumber" parent="Questionnaire-sequenceNumber-parentBean" />
+    <bean id="Questionnaire-sequenceNumber-parentBean" abstract="true" parent="KraAttributeReferenceDummy-sequenceNumber" >
     </bean>
 
     <bean id="Questionnaire-name" parent="Questionnaire-name-parentBean" />
@@ -108,10 +151,15 @@
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
+                                p:attributeName="questionnaireRefId" 
+                                p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
                                 p:attributeName="questionnaireId" 
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="name" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="sequenceNumber" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="description" />
                             <bean parent="FieldDefinition"
@@ -137,10 +185,15 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
+                    p:attributeName="questionnaireRefId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
                     p:attributeName="questionnaireId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="name" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
                 <bean parent="FieldDefinition"
                     p:attributeName="description" />
                 <bean parent="FieldDefinition"
@@ -150,10 +203,15 @@
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
+                    p:attributeName="questionnaireRefId" 
+                    p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
                     p:attributeName="questionnaireId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="name" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sequenceNumber" />
                 <bean parent="FieldDefinition"
                     p:attributeName="description" />
                 <bean parent="FieldDefinition"

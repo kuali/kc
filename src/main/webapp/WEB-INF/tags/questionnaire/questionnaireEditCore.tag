@@ -39,7 +39,7 @@
             </td>
         </tr>
     </table>
-	<input type="hidden" id="fromQuestionnaire.questionnaireId" name="fromQuestionnaire.questionnaireId" value = "${QuestionnaireForm.fromQuestionnaire.questionnaireId}"/>
+	<input type="hidden" id="fromQuestionnaire.questionnaireRefId" name="fromQuestionnaire.questionnaireRefId" value = "${QuestionnaireForm.fromQuestionnaire.questionnaireRefId}"/>
 	<input type="hidden" id="retData" name="retData" value = "${QuestionnaireForm.retData}"/>
 
 </div>

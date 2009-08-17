@@ -24,6 +24,7 @@
         <ref bean="KraAttributeReferenceDummy-genericRate" />
         <ref bean="KraAttributeReferenceDummy-budgetName" />
         <ref bean="KraAttributeReferenceDummy-genericAmount" />
+        <ref bean="KraAttributeReferenceDummy-sequenceNumber" />
       </list>
     </property>
   </bean>
@@ -305,4 +306,24 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="This attribute should always be overriden on the descriptive elements." />
   </bean>
+  
+      <bean id="KraAttributeReferenceDummy-sequenceNumber" parent="KraAttributeReferenceDummy-sequenceNumber-parentBean" />
+    <bean id="KraAttributeReferenceDummy-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sequenceNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sequence Number" />
+        <property name="shortLabel" value="Sequence Number" />
+        <property name="maxLength" value="4" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="4" />
+        </property>
+        <property name="summary" value="Sequence Number" />
+        <property name="description" value="Sequence Number" />
+    </bean>
+  
+  
 </beans>
