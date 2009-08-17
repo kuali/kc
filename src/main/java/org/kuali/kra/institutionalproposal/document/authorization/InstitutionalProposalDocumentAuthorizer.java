@@ -34,7 +34,11 @@ public class InstitutionalProposalDocumentAuthorizer extends KcTransactionalDocu
      */
     public Set<String> getEditModes(Document document, Person user, Set<String> oldEditModes) {
         Set<String> editModes = new HashSet<String>();
-        editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+        if (super.canEdit(document)) {
+            editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+        } else {
+            editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
+        }
         return editModes;
     }
 
