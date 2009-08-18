@@ -36,6 +36,8 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     public static final String NOTIFY_IRB = "116";
     public static final String AMENDMENT_CREATED = "103";
     public static final String RENEWAL_CREATED = "102";
+    public static final String APPROVED = "204";
+    public static final String DISAPPROVED = "304";
     
     private String protocolActionTypeCode;
     

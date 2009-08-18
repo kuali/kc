@@ -24,6 +24,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.auth.ModifyProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kew.exception.WorkflowException;
 
@@ -68,6 +69,9 @@ public class ModifyProtocolAuthorizerTest extends KraTestBase {
         final ProtocolAuthorizationService protocolAuthorizationService = new ProtocolAuthorizationServiceMock(true);
         authorizer.setProtocolAuthorizationService(protocolAuthorizationService);
         
+        final KraWorkflowService workflowService = new KraWorkflowServiceMock();
+        authorizer.setKraWorkflowService(workflowService);
+        
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocol);
         assertEquals(true, authorizer.isAuthorized(USERNAME, task));
     }
@@ -81,6 +85,9 @@ public class ModifyProtocolAuthorizerTest extends KraTestBase {
         final ProtocolAuthorizationService protocolAuthorizationService = new ProtocolAuthorizationServiceMock(false);
         authorizer.setProtocolAuthorizationService(protocolAuthorizationService);
         
+        final KraWorkflowService workflowService = new KraWorkflowServiceMock();
+        authorizer.setKraWorkflowService(workflowService);
+        
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocol);
         assertEquals(false, authorizer.isAuthorized(USERNAME, task));
     }
@@ -93,6 +100,25 @@ public class ModifyProtocolAuthorizerTest extends KraTestBase {
         
         final ProtocolAuthorizationService protocolAuthorizationService = new ProtocolAuthorizationServiceMock(true);
         authorizer.setProtocolAuthorizationService(protocolAuthorizationService);
+        
+        final KraWorkflowService workflowService = new KraWorkflowServiceMock();
+        authorizer.setKraWorkflowService(workflowService);
+        
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocol);
+        assertEquals(false, authorizer.isAuthorized(USERNAME, task));
+    }
+    
+    @Test
+    public void testInWorkflow() throws WorkflowException {
+        ModifyProtocolAuthorizer authorizer = new ModifyProtocolAuthorizer();
+        
+        final Protocol protocol = createProtocol(1L, false);
+        
+        final ProtocolAuthorizationService protocolAuthorizationService = new ProtocolAuthorizationServiceMock(false);
+        authorizer.setProtocolAuthorizationService(protocolAuthorizationService);
+        
+        final KraWorkflowService workflowService = new KraWorkflowServiceMock(true);
+        authorizer.setKraWorkflowService(workflowService);
         
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocol);
         assertEquals(false, authorizer.isAuthorized(USERNAME, task));
