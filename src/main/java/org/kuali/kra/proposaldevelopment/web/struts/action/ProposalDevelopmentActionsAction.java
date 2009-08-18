@@ -1020,7 +1020,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         BudgetDocument budgetDocument = null;
         String forward = null;
         try {
-            for (BudgetDocumentVersion budgetDocumentVersion: pdDoc.getDevelopmentProposal().getBudgetDocumentVersions()) {
+            for (BudgetDocumentVersion budgetDocumentVersion: pdDoc.getBudgetDocumentVersions()) {
                 BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
                 if (budgetVersion.isFinalVersionFlag()) {
                     DocumentService documentService = KraServiceLocator.getService(DocumentService.class);

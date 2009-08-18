@@ -60,7 +60,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * This class...
  */
-public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements BudgetVersionCollection, HierarchyChildComparable {
+public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements HierarchyChildComparable {
 
     private static final long serialVersionUID = -9211313487776934111L;
 
@@ -1380,13 +1380,13 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.budgetStatus = budgetStatus;
     }
 
-    public List<BudgetDocumentVersion> getBudgetDocumentVersions() {
-        return getProposalDocument().getBudgetDocumentVersions();
-    }
-
-    public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetDocumentVersions) {
-        this.getProposalDocument().setBudgetDocumentVersions(budgetDocumentVersions);
-    }
+//    public List<BudgetDocumentVersion> getBudgetDocumentVersions() {
+//        return getProposalDocument().getBudgetDocumentVersions();
+//    }
+//
+//    public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetDocumentVersions) {
+//        this.getProposalDocument().setBudgetDocumentVersions(budgetDocumentVersions);
+//    }
 
     /**
      * This method gets the next budget version number for this proposal. We can't use documentNextVersionNumber because that
@@ -1394,15 +1394,15 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      * 
      * @return Integer
      */
-    public Integer getNextBudgetVersionNumber() {
-        List<BudgetDocumentVersion> versions = getBudgetDocumentVersions();
-        if (versions.isEmpty()) {
-            return 1;
-        }
-        Collections.sort(versions);
-        BudgetDocumentVersion lastVersion = versions.get(versions.size() - 1);
-        return lastVersion.getBudgetVersionOverview().getBudgetVersionNumber() + 1;
-    }
+//    public Integer getNextBudgetVersionNumber() {
+//        List<BudgetDocumentVersion> versions = getBudgetDocumentVersions();
+//        if (versions.isEmpty()) {
+//            return 1;
+//        }
+//        Collections.sort(versions);
+//        BudgetDocumentVersion lastVersion = versions.get(versions.size() - 1);
+//        return lastVersion.getBudgetVersionOverview().getBudgetVersionNumber() + 1;
+//    }
 
     /**
      * Gets index i from the budget versions list.
@@ -1410,12 +1410,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      * @param index
      * @return BudgetVersionOverview at index i
      */
-    public BudgetDocumentVersion getBudgetDocumentVersion(int index) {
-        while (getBudgetDocumentVersions().size() <= index) {
-            getBudgetDocumentVersions().add(new BudgetDocumentVersion());
-        }
-        return getBudgetDocumentVersions().get(index);
-    }
+//    public BudgetDocumentVersion getBudgetDocumentVersion(int index) {
+//        while (getBudgetDocumentVersions().size() <= index) {
+//            getBudgetDocumentVersions().add(new BudgetDocumentVersion());
+//        }
+//        return getBudgetDocumentVersions().get(index);
+//    }
 
     public List<S2sOppForms> getS2sOppForms() {
         return s2sOppForms;
@@ -1486,14 +1486,14 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return null;
     }
 
-    public BudgetDocumentVersion getFinalBudgetVersion() {
-        for (BudgetDocumentVersion version : this.getBudgetDocumentVersions()) {
-            if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
-                return version;
-            }
-        }
-        return null;
-    }
+//    public BudgetDocumentVersion getFinalBudgetVersion() {
+//        for (BudgetDocumentVersion version : this.getBudgetDocumentVersions()) {
+//            if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
+//                return version;
+//            }
+//        }
+//        return null;
+//    }
 
     public Boolean getAllowsNoteAttachments() {
         if (allowsNoteAttachments == null) {
@@ -1568,9 +1568,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return false;
     }
 
-    public int getNumberOfVersions() {
-        return this.getBudgetDocumentVersions().size();
-    }
+//    public int getNumberOfVersions() {
+//        return this.getBudgetDocumentVersions().size();
+//    }
 
 
     public boolean isNih() {

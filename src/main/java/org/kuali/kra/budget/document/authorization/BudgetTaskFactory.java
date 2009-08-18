@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionForm;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl;
@@ -37,8 +38,11 @@ public class BudgetTaskFactory extends WebTaskFactoryImpl {
     public Task createTask(ActionForm form, HttpServletRequest request) {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        taskGroupName = budgetDocument.getParentDocument().getTaskGroupName();
-        return new BudgetTask(getTaskName(), budgetDocument);
+        BudgetParentDocument parentDocument = budgetDocument.getParentDocument(); 
+        if(parentDocument!=null ){
+            taskGroupName = budgetDocument.getParentDocument().getTaskGroupName();
+        }
+        return new BudgetTask(getTaskName(), getTaskGroupName(),budgetDocument);
     }
     
     /**

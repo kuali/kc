@@ -186,7 +186,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
-        for (BudgetDocumentVersion budgetDocumentVersion : proposalDevelopmentDocument.getDevelopmentProposal().getBudgetDocumentVersions()) {
+        for (BudgetDocumentVersion budgetDocumentVersion : proposalDevelopmentDocument.getBudgetDocumentVersions()) {
             BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
             budgetVersionsExists = true;
             if (budgetVersion.isFinalVersionFlag()) {
