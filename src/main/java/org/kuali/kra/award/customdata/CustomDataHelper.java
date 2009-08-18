@@ -67,7 +67,6 @@ public class CustomDataHelper extends CustomDataHelperBase {
      */
     public CustomDataHelper(AwardForm awardForm) {
         this.awardForm = awardForm;
-        //customDataValues = new ArrayList<String>();
         customDataValues = new ArrayList<AwardStringObjectBO>();
     }
     

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.customdata;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.customdata.CustomDataHelper.AwardStringObjectBO;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
@@ -43,6 +45,8 @@ public class InstitutionalProposalCustomDataFormHelper extends CustomDataHelperB
     
     private InstitutionalProposalForm institutionalProposalForm;
     
+    private List<InstitutionalProposalStringObjectBO> customDataValues;
+    
     
     /**
      * Constructs a CustomDataHelper.
@@ -50,6 +54,7 @@ public class InstitutionalProposalCustomDataFormHelper extends CustomDataHelperB
      */
     public InstitutionalProposalCustomDataFormHelper(InstitutionalProposalForm institutionalProposalForm) {
         this.institutionalProposalForm = institutionalProposalForm;
+        customDataValues = new ArrayList<InstitutionalProposalStringObjectBO>();
     }
     
 
@@ -58,6 +63,60 @@ public class InstitutionalProposalCustomDataFormHelper extends CustomDataHelperB
         // TODO Auto-generated method stub
         return false;
     }
+    
+    /**
+     * This method populates Array of AwardStringObjectBo with string values to be displayed in UI.  It is called when navigating to Custom
+     * Data Tab and on Reload.
+     */
+    public void populateCustomDataValuesFromParentMap() {
+        if(customDataValues.size() == 0) {
+            for(Map.Entry<String, String[]> customAttributeValue:getCustomAttributeValues().entrySet()) {
+                InstitutionalProposalStringObjectBO tempInstitutionalProposalStringObjectBO = new InstitutionalProposalStringObjectBO();
+                tempInstitutionalProposalStringObjectBO.setValue("");
+                customDataValues.add(tempInstitutionalProposalStringObjectBO);
+            }
+        }
+        for(Map.Entry<String, String[]> customAttributeValue:getCustomAttributeValues().entrySet()) {
+            customDataValues.get(Integer.parseInt(customAttributeValue.getKey().substring(2)) - 1).setValue(customAttributeValue.getValue()[0]);
+        }
+    }
+    
+    /**
+     * This method copies data out of Array of AwardStringObjectBo into parent collection which is in turn copied into collection of 
+     * AwardCustomData objects on Award for data persitence.
+     */
+    public void populateCustomAttributeValuesMap() {
+        for(Map.Entry<String, String[]> customAttributeValue:getCustomAttributeValues().entrySet()) {
+            int id = 1;
+            for(InstitutionalProposalStringObjectBO stringBO : customDataValues) {
+                  if(id == Integer.parseInt(customAttributeValue.getKey().substring(2))) {
+                      customAttributeValue.getValue()[0] = stringBO.getValue();
+                      break;
+                  }else {
+                      id++;
+                  }
+            }
+        }
+    }
+    
+
+    /**
+     * Gets the customDataValues attribute. 
+     * @return Returns the customDataValues.
+     */
+    public List<InstitutionalProposalStringObjectBO> getCustomDataValues() {
+        return customDataValues;
+    }
+
+
+    /**
+     * Sets the customDataValues attribute value.
+     * @param customDataValues The customDataValues to set.
+     */
+    public void setCustomDataValues(List<InstitutionalProposalStringObjectBO> customDataValues) {
+        this.customDataValues = customDataValues;
+    }
+
 
     /**
      * Invoked when the "Custom Data" tab is clicked on in Award Module.  In other words, the
@@ -118,6 +177,7 @@ public class InstitutionalProposalCustomDataFormHelper extends CustomDataHelperB
                 }
                 customAttributeDocumentList.add(customAttributeDocuments.get(loopInstitutionalProposalCustomData.getCustomAttributeId().toString()));
              }
+        populateCustomDataValuesFromParentMap();
     }
     
     /**
@@ -141,6 +201,39 @@ public class InstitutionalProposalCustomDataFormHelper extends CustomDataHelperB
                 }
                 customAttributeDocumentList.add(customAttributeDocuments.get(customAttributeDocumentEntry.getValue().getCustomAttributeId().toString()));
         }
+        populateCustomDataValuesFromParentMap();
+    }
+    
+    /**
+     * This class is being used as a workaround to a struts issue that will not allow indexing into a list of string primatives from JSP.
+     * The only purpose of this class is to hold a string object with getters and setters so the tag file can call into index of ArrayList
+     * and getValue().
+     */
+    public class InstitutionalProposalStringObjectBO implements Serializable{
+        
+        /**
+         * Comment for <code>serialVersionUID</code>
+         */
+        private static final long serialVersionUID = -4685926051202342610L;
+        private String value;
+
+        /**
+         * Gets the value attribute. 
+         * @return Returns the value.
+         */
+        public String getValue() {
+            return value;
+        }
+
+        /**
+         * Sets the value attribute value.
+         * @param value The value to set.
+         */
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+
     }
 
 }
