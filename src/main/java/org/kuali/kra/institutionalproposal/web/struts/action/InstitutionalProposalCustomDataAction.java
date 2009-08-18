@@ -68,6 +68,7 @@ public class InstitutionalProposalCustomDataAction extends InstitutionalProposal
      * @param form
      */
     public void copyCustomDataToInstitutionalProposal(InstitutionalProposalForm institutionalProposalForm) {
+        institutionalProposalForm.getCustomDataHelper().populateCustomAttributeValuesMap();
         if(institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getInstitutionalProposalCustomDataList().size() == 0 ||
                 institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal().getInstitutionalProposalCustomDataList().get(0).getCustomAttribute() == null) {
             copyCustomDataToNewInstitutionalProposal(institutionalProposalForm);
@@ -88,7 +89,7 @@ public class InstitutionalProposalCustomDataAction extends InstitutionalProposal
             institutionalProposalCustomData.getCustomAttribute().setId(customAttributeId);
             institutionalProposalCustomData.setCustomAttributeId((long) customAttributeId);
            institutionalProposalCustomData.setInstitutionalProposal(institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal());
-            if(customAttributeValue.getValue()[0].length() == 0) {
+            if(customAttributeValue.getValue()[0] == null) {
                 institutionalProposalCustomData.setValue("");
             }else {
                 institutionalProposalCustomData.setValue(customAttributeValue.getValue()[0]);

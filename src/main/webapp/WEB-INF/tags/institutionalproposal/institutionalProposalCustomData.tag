@@ -46,7 +46,7 @@
 				  	   <c:set var="customAttributeValue" value="${institutionalProposalCustomData.value}" />
 				  	</c:if>
 				</c:forEach>
-				<c:set var="customAttributeId" value="institutionalProposalCustomDataFormHelper.customAttributeValues(id${customAttributeDocument.customAttributeId})" />
+				<c:set var="customAttributeId" value="institutionalProposalCustomDataFormHelper.customDataValues[${customAttributeDocument.customAttributeId-1}].value" />
 				
           	  <c:set var="customAttributeErrorStyle" value="" scope="request"/>
 				<c:forEach items="${ErrorPropertyList}" var="key">
