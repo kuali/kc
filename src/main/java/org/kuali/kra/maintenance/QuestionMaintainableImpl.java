@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -75,6 +76,57 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
         }
         
         return new ArrayList<Section>();
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.maintenance.KraMaintainableImpl#handleRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     */
+    @Override
+    public void handleRouteStatusChange(DocumentHeader documentHeader) {
+        clearUnusedFieldValues();
+    }
+    
+    /**
+     * This method sets the unused fields of the question response type to null.
+     */
+    private void clearUnusedFieldValues() {
+        if (businessObject instanceof Question) {
+            Question question = (Question) businessObject;
+            switch (question.getQuestionTypeId()) {
+                case Constants.QUESTION_RESPONSE_TYPE_YES_NO: 
+                    question.setLookupClass(null);
+                    question.setLookupReturn(null);
+                    question.setDisplayedAnswers(null);
+                    question.setMaxAnswers(null);
+                    question.setAnswerMaxLength(null);
+                    break;
+                case Constants.QUESTION_RESPONSE_TYPE_YES_NO_NA: 
+                    question.setLookupClass(null);
+                    question.setLookupReturn(null);
+                    question.setDisplayedAnswers(null);
+                    question.setMaxAnswers(null);
+                    question.setAnswerMaxLength(null);
+                    break;
+                case Constants.QUESTION_RESPONSE_TYPE_NUMBER: 
+                    question.setLookupClass(null);
+                    question.setLookupReturn(null);
+                    break;
+                case Constants.QUESTION_RESPONSE_TYPE_DATE: 
+                    question.setLookupClass(null);
+                    question.setLookupReturn(null);
+                    question.setAnswerMaxLength(null);
+                    break;
+                case Constants.QUESTION_RESPONSE_TYPE_TEXT: 
+                    question.setLookupClass(null);
+                    question.setLookupReturn(null);
+                    break;
+                case Constants.QUESTION_RESPONSE_TYPE_LOOKUP:
+                    question.setDisplayedAnswers(null);
+                    question.setAnswerMaxLength(null);
+                    break;
+            }
+        }
     }
 
 }
