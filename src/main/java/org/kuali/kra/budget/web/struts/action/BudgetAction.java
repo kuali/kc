@@ -119,17 +119,12 @@ public class BudgetAction extends ProposalActionBase {
         return forward;
     }
 
-    private List<HeaderNavigation> getHeaderNavigationListForAward() {
-        List<HeaderNavigation> headerNavList = getBudgetHeaderNavigatorList();
-        List<HeaderNavigation> awardBudgetHeaderNavList = new ArrayList<HeaderNavigation>();
-        for (HeaderNavigation headerNavigation : headerNavList) {
-            if(!headerNavigation.getHeaderTabNavigateTo().equals("headerTabNavigateTo")){
-                awardBudgetHeaderNavList.add(headerNavigation);
-            }
-        }
-        return awardBudgetHeaderNavList;
-    }
 
+    @Override
+    protected boolean exitingDocument() {
+        return false;
+    }
+    
     public List<HeaderNavigation> getBudgetHeaderNavigatorList(){
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());

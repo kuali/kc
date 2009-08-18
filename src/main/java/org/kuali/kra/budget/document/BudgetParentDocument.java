@@ -49,6 +49,15 @@ public abstract class BudgetParentDocument extends ResearchDocumentBase implemen
     public abstract Date getRequestedEndDateInitial();
     public abstract Task getParentAuthZTask(String taskName);
     public abstract boolean isComplete();
+    public BudgetDocumentVersion getFinalBudgetVersion() {
+      for (BudgetDocumentVersion version : getBudgetDocumentVersions()) {
+          if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
+              return version;
+          }
+      }
+      return null;
+    }
+
     /**
      * This method gets the next budget version number for this proposal. We can't use documentNextVersionNumber because that
      * requires a save and we don't want to save the proposal development document before forwarding to the budget document.

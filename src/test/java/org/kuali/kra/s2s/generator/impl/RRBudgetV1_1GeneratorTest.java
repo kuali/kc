@@ -168,7 +168,7 @@ public class RRBudgetV1_1GeneratorTest extends S2STestBase<RRBudgetV1_1Generator
         BudgetDocumentVersion docVer = new BudgetDocumentVersion();
         docVer.setBudgetVersionOverviews(overviewList);
         docVerList.add(docVer);
-        document.getDevelopmentProposal().setBudgetDocumentVersions(docVerList);
+        document.setBudgetDocumentVersions(docVerList);
         KNSServiceLocator.getDocumentService().saveDocument(bdoc);
     }
 }
