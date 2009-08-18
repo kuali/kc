@@ -35,6 +35,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
@@ -160,6 +161,11 @@ public class AwardAction extends BudgetParentActionBase {
         }
         if (Award.DEFAULT_AWARD_NUMBER.equals(award.getAwardAmountInfos().get(0).getAwardNumber())) {
             award.getAwardAmountInfos().get(0).setAwardNumber(award.getAwardNumber());
+        }
+        for(AwardApprovedSubaward approvedSubaward : award.getAwardApprovedSubawards()) {
+            if(Award.DEFAULT_AWARD_NUMBER.equals(approvedSubaward.getAwardNumber())) {
+                approvedSubaward.setAwardNumber(award.getAwardNumber());
+            }
         }
     }
     
