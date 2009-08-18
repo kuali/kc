@@ -26,6 +26,7 @@ public class ModifyProtocolPermissionsAuthorizer extends ProtocolAuthorizer {
     @Override
     public boolean isAuthorized(String userName, ProtocolTask task) {
         return !task.getProtocol().getProtocolDocument().isViewOnly() &&
+               !kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) &&
                hasPermission(userName, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_ACCESS);
     }
 }

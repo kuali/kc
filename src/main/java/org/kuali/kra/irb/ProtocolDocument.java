@@ -24,7 +24,10 @@ import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
@@ -133,7 +136,11 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         return DOCUMENT_TYPE_CODE;
     }
     
+    /**
+     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     */
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) throws Exception {
+        super.doRouteStatusChange(statusChangeEvent);
         if (isFinal(statusChangeEvent)) {
             if (isAmendment()) {
                 mergeAmendment(ProtocolStatus.AMENDMENT_MERGED);
@@ -141,9 +148,49 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
             else if (isRenewal()) {
                 mergeAmendment(ProtocolStatus.RENEWAL_MERGED);
             }
+            else {
+                approveProtocol();
+            }
+        }
+        else if (isDisapproved(statusChangeEvent)) { 
+            if (isNormal()){
+                disapproveProtocol();
+            }
         }
     }
     
+    /**
+     * Update the protocol's status to approved.
+     */
+    private void approveProtocol() {
+        updateProtocolStatus(ProtocolActionType.APPROVED);
+    }
+    
+    /**
+     * Update the protocol's status to disapproved.
+     */
+    private void disapproveProtocol() {
+        updateProtocolStatus(ProtocolActionType.DISAPPROVED);
+    }
+    
+    /**
+     * Add a new protocol action to the protocol and update the status.
+     * @param actionTypeCode the new action
+     */
+    private void updateProtocolStatus(String actionTypeCode) {
+        ProtocolAction protocolAction = new ProtocolAction(getProtocol(), null, actionTypeCode);
+        getProtocol().getProtocolActions().add(protocolAction);
+        
+        ProtocolActionService protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
+        protocolActionService.updateProtocolStatus(protocolAction, getProtocol());
+    }
+
+    /**
+     * Merge the amendment into the original protocol.  Actually, we must first make a new
+     * version of the original and then merge the amendment into that new version.
+     * @param protocolStatusCode
+     * @throws Exception
+     */
     private void mergeAmendment(String protocolStatusCode) throws Exception {
         ProtocolFinderDao protocolFinder = KraServiceLocator.getService(ProtocolFinderDao.class);
         Protocol currentProtocol = protocolFinder.findCurrentProtocolByNumber(getOriginalProtocolNumber());
@@ -163,7 +210,11 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     private boolean isFinal(DocumentRouteStatusChangeDTO statusChangeEvent) {
         return StringUtils.equals("F", statusChangeEvent.getNewRouteStatus());
     }
-
+    
+    private boolean isDisapproved(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        return StringUtils.equals("D", statusChangeEvent.getNewRouteStatus());
+    }
+    
     private boolean isRenewal() {
         return getProtocol().getProtocolNumber().contains("R");
     }
@@ -171,7 +222,11 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     public boolean isAmendment() {
         return getProtocol().getProtocolNumber().contains("A");
     }
-
+    
+    public boolean isNormal() {
+        return !isAmendment() && !isRenewal();
+    }
+    
     private ProtocolDocument createVersion(ProtocolDocument oldDoc) throws Exception {
         VersioningService versioningService = KraServiceLocator.getService(VersioningService.class);
         Protocol newVersion = versioningService.createNewVersion(oldDoc.getProtocol());
