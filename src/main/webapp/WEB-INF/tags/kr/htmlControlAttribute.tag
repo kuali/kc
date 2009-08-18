@@ -185,15 +185,7 @@
             <html:textarea property="${property}" style="${textStyle}" title="${accessibleTitle}" tabindex="${tabindex}" 
                            rows="${attributeEntry.control.rows}" cols="${attributeEntry.control.cols}" 
                            styleId="${property}" disabled="${disableField}" styleClass="${styleClass}" 
-                           onkeyup="textLimit(${attributeEntry.maxLength});" /> 
-            <script type="text/javascript"> 
-              function textLimit(maxlen) { 
-              var field=window.document.forms[0].elements['${property}']; 
-                if (field.value.length > maxlen) { 
-                  field.value = field.value.substr(0, maxlen); 
-                } 
-              }; 
-            </script>
+                           onkeyup="textLimit(${attributeEntry.maxLength}, '${property}');" /> 
     </c:when> 
 
     <%-- select --%>

@@ -55,6 +55,19 @@
 </c:if>
 
 <head>
+
+<%-- BEGIN textLimit function. This is temporary. Needs to go into Rice. --%>
+<%-- Not using ConfigProperties.javascript.files for this because HtmlControlAttribute depends on it --%>
+<script language="JavaScript" type="text/javascript">
+    function textLimit(maxlen, property) { 
+      var field=window.document.forms[0].elements[property]; 
+      if (field.value.length > maxlen) { 
+        field.value = field.value.substr(0, maxlen); 
+      } 
+    }; 
+</script>
+<%-- END textLimit function --%>
+
 	<script>var jsContextPath = "${pageContext.request.contextPath}";</script>
 	<title><bean:message key="app.title" /> :: ${headerTitle}</title>
 	<c:forEach items="${fn:split(ConfigProperties.css.files, ',')}"
