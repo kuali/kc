@@ -47,7 +47,7 @@ public class InstitutionalProposalIntellectualPropertyReviewAction extends Insti
         response.sendRedirect("kr/maintenance.do?businessObjectClassName=org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview&methodToCall=edit&proposalId=" 
                 + institutionalProposalDocument.getInstitutionalProposal().getProposalId());
         
-        return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        return null;
     }
 
 }
