@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -49,7 +50,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         pendingTransactionsAfterDeletingProcessedOnes.addAll(doc.getPendingTransactions());
         
         List<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
-        List<AwardAmountTransaction> awardAmountTransactionItems = new ArrayList<AwardAmountTransaction>();
+        Map<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
         List<Award> awardItems = new ArrayList<Award>();
         
         for(PendingTransaction pendingTransaction: doc.getPendingTransactions()){
@@ -124,8 +125,13 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             doc.getPendingTransactions().remove(pendingTransaction);
         }
         
+        List<AwardAmountTransaction> awardAmountTransactions = new ArrayList<AwardAmountTransaction>();
+        for(Entry<String, AwardAmountTransaction> awardAmountTransaction:awardAmountTransactionItems.entrySet()){
+            awardAmountTransactions.add(awardAmountTransaction.getValue());
+        }
+        
         businessObjectService.save(transactionDetailItems);
-        businessObjectService.save(awardAmountTransactionItems);
+        businessObjectService.save(awardAmountTransactions);
         businessObjectService.save(awardItems);
         businessObjectService.save(doc);
     }
@@ -223,7 +229,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * @param pendingTransactionsAfterDeletingProcessedOnes TODO
      * @param newAwardAmountTransaction TODO
      */
-    private void createIntermediateTransactions(TimeAndMoneyDocument doc, List<AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems
+    private void createIntermediateTransactions(TimeAndMoneyDocument doc, Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems
             , PendingTransaction pendingTransaction, String awardNumber, String parentAwardNumber, String parentOfParentAwardNumber, boolean direction
             , List<TransactionDetail> transactionDetailItems, List<PendingTransaction> pendingTransactionsAfterDeletingProcessedOnes
             , AwardAmountTransaction newAwardAmountTransaction) {
@@ -252,7 +258,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         }
     }
     
-    private void createIntermediateTransactions(TimeAndMoneyDocument doc, List<AwardAmountTransaction> awardAmountTransactionItems,
+    private void createIntermediateTransactions(TimeAndMoneyDocument doc, Map<String, AwardAmountTransaction> awardAmountTransactionItems,
             List<Award> awardItems, PendingTransaction pendingTransaction, String parentAwardNumber, List<TransactionDetail> transactionDetailItems, List<PendingTransaction> pendingTransactionsAfterDeletingProcessedOnes, AwardAmountTransaction newAwardAmountTransaction) {
         while(!StringUtils.equalsIgnoreCase(parentAwardNumber, PARENT_OF_ROOT)){
             handleSingleTransaction(false, false, pendingTransaction, parentAwardNumber, doc.getDocumentNumber(), awardAmountTransactionItems, awardItems, pendingTransactionsAfterDeletingProcessedOnes, newAwardAmountTransaction, doc.getDocumentNumber());
@@ -290,7 +296,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      */
     private void createTransaction(TimeAndMoneyDocument doc, PendingTransaction pendingTransaction, AwardHierarchyNode sourceAwardNode
                 , AwardHierarchyNode destinationAwardNode, List<TransactionDetail> transactionDetailItems
-                , List<AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactionsAfterDeletingProcessedOnes, AwardAmountTransaction newAwardAmountTransaction) {
+                , Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactionsAfterDeletingProcessedOnes, AwardAmountTransaction newAwardAmountTransaction) {
         
         String commonParent = findCommonParent(doc, sourceAwardNode.getRootAwardNumber(), sourceAwardNode.getParentAwardNumber(), destinationAwardNode.getAwardNumber());
         
@@ -313,7 +319,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * @param pendingTransactionsToBeDeleted
      */
     protected void createTransaction(TimeAndMoneyDocument doc,
-            PendingTransaction pendingTransaction, String commonParent, String parentAwardNumber, String awardNumber, boolean direction, List<TransactionDetail> transactionDetailItems, List<AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactionsAfterDeletingProcessedOnes, String parentOfCommonParent, AwardAmountTransaction newAwardAmountTransaction) {
+            PendingTransaction pendingTransaction, String commonParent, String parentAwardNumber, String awardNumber, boolean direction, List<TransactionDetail> transactionDetailItems, Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactionsAfterDeletingProcessedOnes, String parentOfCommonParent, AwardAmountTransaction newAwardAmountTransaction) {
         
         String sourceAwardNumber;
         String destinationAwardNumber;
@@ -381,7 +387,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * @param awardListDestination
      */
     private void handleSingleTransaction(boolean updateAmounts, boolean addOrSubtract,
-            PendingTransaction pendingTransaction, String awardNumber, String timeAndMoneyDocumentNumber, List<AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactions, AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
+            PendingTransaction pendingTransaction, String awardNumber, String timeAndMoneyDocumentNumber, Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactions, AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
         
         Award award = getActiveAwardVersion(awardNumber);
         AwardAmountInfo awardAmountInfo = fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
@@ -459,7 +465,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * @return
      */
     private AwardAmountInfo getNewAwardAmountInfoEntry(boolean updateAmounts, boolean addOrSubtract, PendingTransaction pendingTransaction
-            , AwardAmountInfo awardAmountInfo, String timeAndMoneyDocumentNumber, List<AwardAmountTransaction> awardAmountTransactionItems, AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
+            , AwardAmountInfo awardAmountInfo, String timeAndMoneyDocumentNumber, Map<String, AwardAmountTransaction> awardAmountTransactionItems, AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
         AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
         newAwardAmountInfo.setAwardNumber(awardAmountInfo.getAwardNumber());
         newAwardAmountInfo.setSequenceNumber(awardAmountInfo.getSequenceNumber());
@@ -493,14 +499,16 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         return newAwardAmountInfo;
     }
     
-    private void addAwardAmountTransaction(String awardNumber, List<AwardAmountTransaction> awardAmountTransactionItems, AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
-        AwardAmountTransaction newAwardAmountTransaction1 = new AwardAmountTransaction(); 
-        newAwardAmountTransaction1.setAwardNumber(awardNumber);
-        newAwardAmountTransaction1.setDocumentNumber(documentNumber);
-        newAwardAmountTransaction1.setTransactionTypeCode(newAwardAmountTransaction.getTransactionTypeCode());
-        newAwardAmountTransaction1.setComments(newAwardAmountTransaction.getComments());
-        newAwardAmountTransaction1.setNoticeDate(newAwardAmountTransaction.getNoticeDate());
-        awardAmountTransactionItems.add(newAwardAmountTransaction1);        
+    private void addAwardAmountTransaction(String awardNumber, Map<String, AwardAmountTransaction> awardAmountTransactionItems, AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
+        if(!awardAmountTransactionItems.containsKey(awardNumber)){
+            AwardAmountTransaction newAwardAmountTransaction1 = new AwardAmountTransaction(); 
+            newAwardAmountTransaction1.setAwardNumber(awardNumber);
+            newAwardAmountTransaction1.setDocumentNumber(documentNumber);
+            newAwardAmountTransaction1.setTransactionTypeCode(newAwardAmountTransaction.getTransactionTypeCode());
+            newAwardAmountTransaction1.setComments(newAwardAmountTransaction.getComments());
+            newAwardAmountTransaction1.setNoticeDate(newAwardAmountTransaction.getNoticeDate());
+            awardAmountTransactionItems.put(awardNumber, newAwardAmountTransaction1);    
+        }       
     }
 
     protected KualiDecimal processAmounts(KualiDecimal value1, KualiDecimal value2, boolean addOrSubtract, boolean updateAmounts){
