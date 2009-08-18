@@ -27,9 +27,8 @@ public class CreateAmendmentAuthorizer extends ProtocolAuthorizer {
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String username, ProtocolTask task) {
-        return true;
-      //  return !isAmendmentOrRenewal(task.getProtocol()) &&
-       //        canExecuteAction(task.getProtocol(), ProtocolActionType.AMENDMENT_CREATED) &&
-      //         hasPermission(username, task.getProtocol(), PermissionConstants.CREATE_AMMENDMENT);
+        return !isAmendmentOrRenewal(task.getProtocol()) &&
+               canExecuteAction(task.getProtocol(), ProtocolActionType.AMENDMENT_CREATED) &&
+               hasPermission(username, task.getProtocol(), PermissionConstants.CREATE_AMMENDMENT);
     }
 }
