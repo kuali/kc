@@ -110,7 +110,7 @@ public class ED524BudgetV1_0GeneratorTest extends S2STestBase<ED524BudgetV1_0Gen
         BudgetDocumentVersion docVer = new BudgetDocumentVersion();
         docVer.setBudgetVersionOverviews(overviewList);
         docVerList.add(docVer);
-        document.getDevelopmentProposal().setBudgetDocumentVersions(docVerList);
+        document.setBudgetDocumentVersions(docVerList);
         KNSServiceLocator.getDocumentService().saveDocument(bdoc);
     }
 }

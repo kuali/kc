@@ -186,7 +186,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
 		updateProposalDocument(proposalDevelopmentForm);
         ActionForward forward = super.save(mapping, form, request, response);
 
-        proposalDevelopmentForm.setFinalBudgetVersion(getFinalBudgetVersion(doc.getDevelopmentProposal().getBudgetDocumentVersions()));
+        proposalDevelopmentForm.setFinalBudgetVersion(getFinalBudgetVersion(doc.getBudgetDocumentVersions()));
         setBudgetStatuses(doc);
 
         //if not on budget page
@@ -208,7 +208,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         if(StringUtils.isNotEmpty(pdForm.getActionName()) && !pdForm.getActionName().equalsIgnoreCase("ProposalDevelopmentBudgetVersionsAction" )) {
             if(updatedDocCopy != null && updatedDocCopy.getVersionNumber() > pdDocument.getVersionNumber()) {
                   //refresh the reference
-                pdDocument.getDevelopmentProposal().setBudgetDocumentVersions(updatedDocCopy.getDevelopmentProposal().getBudgetDocumentVersions());
+                pdDocument.setBudgetDocumentVersions(updatedDocCopy.getBudgetDocumentVersions());
                 pdDocument.getDevelopmentProposal().setBudgetStatus(updatedDocCopy.getDevelopmentProposal().getBudgetStatus());
                 try {
                     fixVersionNumbers(updatedDocCopy, pdDocument, new ArrayList<Object>());
@@ -361,7 +361,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         if(StringUtils.isEmpty(headerTabCall)) {
             pdForm.getDocument().refreshPessimisticLocks();
         }        
-        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getDocument().getDevelopmentProposal().getBudgetDocumentVersions()));
+        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getDocument().getBudgetDocumentVersions()));
         setBudgetStatuses(pdForm.getDocument());
         
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);

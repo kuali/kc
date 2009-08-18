@@ -30,11 +30,11 @@
   	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Budget Versions" /></div>
   	
   	<kra-b:budgetVersions 
-  		budgetDocumentVersions="${KualiForm.document.developmentProposalList[0].budgetDocumentVersions}" 
-  		pathToVersions="document.developmentProposalList[0]"
+  		budgetDocumentVersions="${KualiForm.document.budgetDocumentVersions}" 
+  		pathToVersions="document"
   		errorKey="document.developmentProposalList[0].budgetVersion*,document.developmentProposalList[0].finalVersionFlag"
-  		requestedStartDateInitial="${KualiForm.document.developmentProposalList[0].requestedStartDateInitial}"
-		requestedEndDateInitial="${KualiForm.document.developmentProposalList[0].requestedEndDateInitial}"
+  		requestedStartDateInitial="${KualiForm.document.requestedStartDateInitial}"
+		requestedEndDateInitial="${KualiForm.document.requestedEndDateInitial}"
 		/>
   	
   	<kul:documentControls 

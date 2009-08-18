@@ -67,10 +67,6 @@ public class BudgetForm extends ProposalFormBase {
     private static final String KR_EXTERNALIZABLE_IMAGES_URI_KEY = "kr.externalizable.images.url";
     public static final String VERSION_NUMBER_KEY = "DataDictionary.Budget.attributes.budgetVersionNumber";
     public static final String BUDGET_NAME_KEY = "DataDictionary.KraAttributeReferenceDummy.attributes.budgetName";
-    private static final String RETURN_TO_AWARD_ALT_TEXT = "return to award";
-    private static final String RETURN_TO_AWARD_METHOD_TO_CALL = "methodToCall.returnToAward";
-    private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to award";
-    private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
     
     
     private String newBudgetPersons;
@@ -155,7 +151,8 @@ public class BudgetForm extends ProposalFormBase {
 
     public BudgetForm() {
         super();
-        this.setDocument(new BudgetDocument());
+        BudgetDocument budgetDocument = new BudgetDocument();
+        this.setDocument(budgetDocument);
         //Its actually calling from Action's docHandler. So, no need to call in here
 //        initialize();        
     }
@@ -187,16 +184,6 @@ public class BudgetForm extends ProposalFormBase {
         newSubAward = new BudgetSubAwards();
         this.getDocInfo().add(new HeaderField(BUDGET_NAME_KEY, Constants.EMPTY_STRING));
         this.getDocInfo().add(new HeaderField(VERSION_NUMBER_KEY, Constants.EMPTY_STRING));
-    }
-    private List<HeaderNavigation> getHeaderNavigationListForAward() {
-        List<HeaderNavigation> headerNavList = getBudgetHeaderNavigatorList();
-        List<HeaderNavigation> awardBudgetHeaderNavList = new ArrayList<HeaderNavigation>();
-        for (HeaderNavigation headerNavigation : headerNavList) {
-            if(!headerNavigation.getHeaderTabNavigateTo().equals("headerTabNavigateTo")){
-                awardBudgetHeaderNavList.add(headerNavigation);
-            }
-        }
-        return awardBudgetHeaderNavList;
     }
 
     public List<HeaderNavigation> getBudgetHeaderNavigatorList(){

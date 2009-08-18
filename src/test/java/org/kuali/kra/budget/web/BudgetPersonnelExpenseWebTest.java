@@ -85,7 +85,7 @@ public class BudgetPersonnelExpenseWebTest extends BudgetExpenseWebTest {
         
         ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
         assertNotNull(proposalDoc);
-        List<BudgetDocumentVersion> budgetVersions = proposalDoc.getDevelopmentProposal().getBudgetDocumentVersions();
+        List<BudgetDocumentVersion> budgetVersions = proposalDoc.getBudgetDocumentVersions();
         assertNotNull(budgetVersions);
         assertEquals(1, budgetVersions.size());
         BudgetDocumentVersion firstVersion = budgetVersions.get(0);

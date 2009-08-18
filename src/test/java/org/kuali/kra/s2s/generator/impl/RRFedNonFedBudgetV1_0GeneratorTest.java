@@ -111,7 +111,7 @@ public class RRFedNonFedBudgetV1_0GeneratorTest extends S2STestBase<RRFedNonFedB
         BudgetDocumentVersion docVer = new BudgetDocumentVersion();
         docVer.setBudgetVersionOverviews(overviewList);
         docVerList.add(docVer);
-        document.getDevelopmentProposal().setBudgetDocumentVersions(docVerList);
+        document.setBudgetDocumentVersions(docVerList);
         KNSServiceLocator.getDocumentService().saveDocument(bdoc);
     }
 }

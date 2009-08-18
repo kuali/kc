@@ -657,7 +657,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * @return true if copying budget(s) is disabled; otherwise false.
      */
     public boolean getIsCopyBudgetDisabled() {
-        return !(this.getDocument().getDevelopmentProposal().getBudgetDocumentVersions().size() > 0);
+        return !(this.getDocument().getBudgetDocumentVersions().size() > 0);
     }
 
 
