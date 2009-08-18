@@ -257,8 +257,10 @@ public class CommitteeMembership extends CommitteeAssociate {
         }
         CommitteeMembership committeeMembership = (CommitteeMembership) obj;
         if (this.getCommitteeIdFk() != null && this.getCommitteeIdFk().equals(committeeMembership.getCommitteeIdFk())
-                && (this.getPersonId() != null && this.getPersonId().equals(committeeMembership.getPersonId()) 
-                        || this.getRolodexId() != null && this.getRolodexId().equals(committeeMembership.getRolodexId()))
+                && (
+                        (this.getPersonId() != null && this.getPersonId().equals(committeeMembership.getPersonId())) 
+                     || (this.getRolodexId() != null && this.getRolodexId().equals(committeeMembership.getRolodexId()))
+                    )
                 && (this.getTermStartDate() != null && this.getTermStartDate().equals(committeeMembership.getTermStartDate()))) {
             return true;
         }

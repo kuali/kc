@@ -259,7 +259,9 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
 
         for (int i=0; i < membershipIndex; i++) {
             CommitteeMembership tmpMember = committeeMemberships.get(i);
-            if (tmpMember.isSamePerson(committeeMembership)) {
+            if (tmpMember.isSamePerson(committeeMembership) 
+                    && committeeMembership.getTermStartDate() != null && committeeMembership.getTermEndDate() != null
+                    && tmpMember.getTermStartDate() != null && tmpMember.getTermEndDate() != null) {
                 if (isWithinPeriod(committeeMembership.getTermStartDate(), tmpMember.getTermStartDate(), tmpMember.getTermEndDate())) {
                     isValid = false;
                     reportError(String.format(PROPERTY_NAME_TERM_START_DATE, membershipIndex), KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE,
