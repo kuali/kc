@@ -83,9 +83,13 @@
                                 boClassName="org.kuali.kra.bo.Rolodex" 
                                 fieldConversions="rolodexId:${proposalSiteBoName}.rolodexId,organization:${proposalSiteBoName}.rolodex.organization,postalCode:${proposalSiteBoName}.rolodex.postalCode,addressLine1:${proposalSiteBoName}.rolodex.addressLine1,addressLine2:${proposalSiteBoName}.rolodex.addressLine2,addressLine3:${proposalSiteBoName}.rolodex.addressLine3,city:${proposalSiteBoName}.rolodex.city,state:${proposalSiteBoName}.rolodex.state"
                                 anchor="${currentTabIndex}" /> 
+
+                            <input
+                                type="hidden" name="${proposalSiteBoName}_rolodexId"
+                                value="${proposalSiteBo.rolodexId}" />
                             <kul:directInquiry
                                 boClassName="org.kuali.kra.bo.Rolodex"
-                                inquiryParameters="${proposalSiteBoName}.rolodexId:rolodexId"
+                                inquiryParameters="${proposalSiteBoName}_rolodexId:rolodexId"
                                 anchor="${currentTabIndex}" />
                             <br/>
                         </c:if>
@@ -121,10 +125,13 @@
                         <c:if test="${!empty clearSiteMethodToCall || !empty deleteSiteMethodToCall}">
                             <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
                                 fieldConversions="organizationId:${proposalSiteBoName}.organizationId,organizationName:${proposalSiteBoName}.organization.organizationName,address:${proposalSiteBoName}.organization.address"
-                                anchor="${currentTabIndex}" /> 
+                                anchor="${currentTabIndex}" />
+                            <input
+                                type="hidden" name="${proposalSiteBoName}_organizationId"
+                                value="${proposalSiteBo.organizationId}" />
                             <kul:directInquiry
                                 boClassName="org.kuali.kra.bo.Organization"
-                                inquiryParameters="${proposalSiteBoName}.organizationId:organizationId"
+                                inquiryParameters="${proposalSiteBoName}_organizationId:organizationId"
                                 anchor="${currentTabIndex}" />
                         </c:if>
                     </kra:section>
