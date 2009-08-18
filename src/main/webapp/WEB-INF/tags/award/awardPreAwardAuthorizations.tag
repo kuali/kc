@@ -19,7 +19,7 @@
 <c:set var="awardPreAwardAuthorizationCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 <c:set var="action" value="awardTimeAndMoney" />
 
-<kul:tab tabTitle="Preaward Authorizations" defaultOpen="false" tabErrorKey="document.awardList[0].preAwardAuthorizedAmount,document.awardList[0].preAwardEffectiveDate">
+<kul:tab tabTitle="Preaward Authorizations" defaultOpen="false" tabErrorKey="document.awardList[0].preAwardAuthorizedAmount,document.awardList[0].preAwardEffectiveDate,document.awardList[0].awardComments[3].comments">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Sponsor Authorization</span>
@@ -45,8 +45,8 @@
              	<th width="250" align="right" scope="row"><div align="right">Comments:</div></th>
         	 	<td class="infoline">
             	 	<div align="left">
-            	  	 	<kul:htmlControlAttribute property="document.awardList[0].awardPreAwardSponsorAuthorizationComment.comments" attributeEntry="${awardPreAwardAuthorizationCommentAttributes.comments}"/>
-            	  	 	 <kra:expandedTextArea textAreaFieldName="document.awardList[0].awardPreAwardSponsorAuthorizationComment.comments" action="${action}" textAreaLabel="${awardPreAwardAuthorizationCommentAttributes.comments.label}" />
+            	  	 	<kul:htmlControlAttribute property="document.awardList[0].awardComments[3].comments" attributeEntry="${awardPreAwardAuthorizationCommentAttributes.comments}"/>
+            	  	 	<kra:expandedTextArea textAreaFieldName="document.awardList[0].awardComments[3].comments" action="${action}" textAreaLabel="${awardPreAwardAuthorizationCommentAttributes.comments.label}" />
             	 	</div>
              	</td>
              </tr>
@@ -55,7 +55,7 @@
     
     <div class="tab-container" align="center">
         <div class="left-errmsg-tab">
-            <kul:errors keyMatch="document.awardList[0].preAwardInstitutionalAuthorizedAmount,document.awardList[0].preAwardInstitutionalEffectiveDate"/>
+            <kul:errors keyMatch="document.awardList[0].preAwardInstitutionalAuthorizedAmount,document.awardList[0].preAwardInstitutionalEffectiveDate,document.awardList[0].awardComments[4].comments"/>
             <br/>
         </div>
     	<h3>
@@ -82,8 +82,8 @@
              	<th width="250" align="right" scope="row"><div align="right">Comments:</div></th>
         	 	<td class="infoline">
             	 	<div align="left">
-            	  	 	<kul:htmlControlAttribute property="document.awardList[0].awardPreAwardInstitutionalAuthorizationComment.comments" attributeEntry="${awardPreAwardAuthorizationCommentAttributes.comments}"/>
-            	  	 	<kra:expandedTextArea textAreaFieldName="document.awardList[0].awardPreAwardInstitutionalAuthorizationComment.comments" action="${action}" textAreaLabel="${awardPreAwardAuthorizationCommentAttributes.comments.label}" />
+            	  	 	<kul:htmlControlAttribute property="document.awardList[0].awardComments[4].comments" attributeEntry="${awardPreAwardAuthorizationCommentAttributes.comments}"/>
+            	  	 	<kra:expandedTextArea textAreaFieldName="document.awardList[0].awardComments[4].comments" action="${action}" textAreaLabel="${awardPreAwardAuthorizationCommentAttributes.comments.label}" />
             	 	</div>
              	</td>
              </tr>
