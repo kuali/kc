@@ -628,7 +628,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param newLeadUnitNumber the new lead unit number
      */
     private void fixBudgetVersions(ProposalDevelopmentDocument doc) {
-        if (doc.getDevelopmentProposal().getBudgetDocumentVersions().size() > 0) {
+        if (doc.getBudgetDocumentVersions().size() > 0) {
             String budgetStatusIncompleteCode = kualiConfigurationService.getParameterValue(
                     Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
             
@@ -970,13 +970,13 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     private void copyBudget(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest, String budgetVersions) throws Exception {
         if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_FINAL_VERSION)) {
-            BudgetVersionOverview finalBudgetVersion = src.getDevelopmentProposal().getFinalBudgetVersion().getBudgetVersionOverview();
+            BudgetVersionOverview finalBudgetVersion = src.getFinalBudgetVersion().getBudgetVersionOverview();
             if (finalBudgetVersion != null) {
                 copyAndFinalizeBudgetVersion(finalBudgetVersion.getDocumentNumber(), dest, 1);
             }
         } else if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_ALL_VERSIONS)) {
             int i = 1;
-            for (BudgetDocumentVersion budgetDocumentVersion: src.getDevelopmentProposal().getBudgetDocumentVersions()) {
+            for (BudgetDocumentVersion budgetDocumentVersion: src.getBudgetDocumentVersions()) {
                 BudgetVersionOverview budgetVersionOverview = budgetDocumentVersion.getBudgetVersionOverview(); 
                 
                 copyAndFinalizeBudgetVersion(budgetVersionOverview.getDocumentNumber(), dest, i++);

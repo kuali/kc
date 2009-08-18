@@ -146,8 +146,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument implements
 
         KraServiceLocator.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
 
-        if (getDevelopmentProposal().getBudgetDocumentVersions() != null) {
-            updateDocumentDescriptions(getDevelopmentProposal().getBudgetDocumentVersions());
+        if (getBudgetDocumentVersions() != null) {
+            updateDocumentDescriptions(getBudgetDocumentVersions());
         }
     }
 
@@ -346,6 +346,5 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument implements
     private KualiConfigurationService lookupKualiConfigurationService() {
         return KraServiceLocator.getService(KualiConfigurationService.class);
     }
-    
 
 }

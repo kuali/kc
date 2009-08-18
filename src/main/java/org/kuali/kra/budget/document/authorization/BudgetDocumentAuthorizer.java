@@ -24,6 +24,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
@@ -133,7 +134,11 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteBudgetTask(String username, BudgetDocument budgetDocument, String taskName) {
-        BudgetTask task = new BudgetTask(taskName, budgetDocument);       
+        String taskGroupName = TaskGroupName.PROPOSAL_BUDGET;
+        if(budgetDocument.getParentDocument()!=null){
+            taskGroupName = budgetDocument.getParentDocument().getTaskGroupName();
+        }
+        BudgetTask task = new BudgetTask(taskGroupName,taskName, budgetDocument);       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(username, task);
     }

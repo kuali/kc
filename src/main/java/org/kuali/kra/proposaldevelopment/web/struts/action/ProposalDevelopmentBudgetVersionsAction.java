@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.rates.BudgetProposalRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.rates.RateClass;
@@ -53,7 +54,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
- * Struts Action class for the Propsoal Development Budget Versions page
+ * Struts Action class for the Proposal Development Budget Versions page
  */
 public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopmentAction {
     private static final String TOGGLE_TAB = "toggleTab";
@@ -124,20 +125,25 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         }
         
         ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
-        BudgetDocumentVersion budgetDocumentToOpen = pdDoc.getDevelopmentProposal().getBudgetDocumentVersion(getSelectedLine(request));
+        BudgetDocumentVersion budgetDocumentToOpen = pdDoc.getBudgetDocumentVersion(getSelectedLine(request));
         BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
         Collection<BudgetProposalRate> allPropRates = budgetService.getSavedProposalRates(budgetToOpen);
         if (budgetService.checkActivityTypeChange(allPropRates, pdDoc.getDevelopmentProposal().getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
-        } else if(CollectionUtils.isEmpty(allPropRates)) {
+        } 
+        else if(CollectionUtils.isEmpty(allPropRates)) {
             //Throw Empty Rates message
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_NO_RATES_ATTEMPT_SYNCH), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
-        } else {
+        }else {
             DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
             BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
             Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+            BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
+            if(parentDocument==null){
+                budgetDocument.refreshReferenceObject("parentDocument");
+            }
             Budget budget = budgetDocument.getBudget();
             if (!budget.getActivityTypeCode().equals(pdDoc.getDevelopmentProposal().getActivityTypeCode())) {
                 budget.setActivityTypeCode(pdDoc.getDevelopmentProposal().getActivityTypeCode());
@@ -146,6 +152,9 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             if (pdForm.isAuditActivated()) {
                 forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetParameters.do?auditActivated=true&");
             }
+//            forward = "http://localhost:8080/kra-dev/en/DocHandler.do?command=displayDocSearchView&docId="+routeHeaderId;
+//            response.sendRedirect(forward);
+            
             return new ActionForward(forward, true);
         }
     }
@@ -162,7 +171,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     private ActionForward synchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean confirm) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
-        BudgetDocumentVersion budgetDocumentToOpen = pdDoc.getDevelopmentProposal().getBudgetDocumentVersion(getSelectedLine(request));
+        BudgetDocumentVersion budgetDocumentToOpen = pdDoc.getBudgetDocumentVersion(getSelectedLine(request));
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocumentToOpen.getDocumentNumber());
         Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
@@ -220,7 +229,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         
         if (pdForm.isSaveAfterCopy()) {
             final List<BudgetDocumentVersion> overviews
-                = pdForm.getDocument().getDevelopmentProposal().getBudgetDocumentVersions();
+                = pdForm.getDocument().getBudgetDocumentVersions();
             final BudgetDocumentVersion copiedDocumentOverview = overviews.get(overviews.size() - 1);
             BudgetVersionOverview copiedOverview = copiedDocumentOverview.getBudgetVersionOverview();
             final String copiedName = copiedOverview.getDocumentDescription();
@@ -240,7 +249,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
                 // set up error message to go to validate panel
                 final int errorBudgetVersion = this.getTentativeFinalBudgetVersion(pdForm);
                 if(errorBudgetVersion != -1) {
-                    GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].budgetVersionOverview["
+                    GlobalVariables.getErrorMap().putError("document.budgetDocumentVersion[0].budgetVersionOverview["
                         + (errorBudgetVersion-1) +"].budgetStatus",
                         KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
                 }
@@ -266,8 +275,8 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         }
         
         ProposalDevelopmentDocument document = pdForm.getDocument();
-        if(document != null && CollectionUtils.isNotEmpty(document.getDevelopmentProposal().getBudgetDocumentVersions())) {
-            for(BudgetDocumentVersion budgetDocumentVersion : document.getDevelopmentProposal().getBudgetDocumentVersions()) {
+        if(document != null && CollectionUtils.isNotEmpty(document.getBudgetDocumentVersions())) {
+            for(BudgetDocumentVersion budgetDocumentVersion : document.getBudgetDocumentVersions()) {
                 BudgetVersionOverview budget = budgetDocumentVersion.getBudgetVersionOverview();
                 if(budget.isFinalVersionFlag()) {
                     return budget.getBudgetVersionNumber().intValue();
@@ -288,7 +297,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
 
         if(updatedDocCopy != null && updatedDocCopy.getVersionNumber().longValue() > pdDocument.getVersionNumber().longValue()) {
               //refresh the reference
-            updatedDocCopy.getDevelopmentProposal().setBudgetDocumentVersions(pdDocument.getBudgetDocumentVersions());
+            updatedDocCopy.setBudgetDocumentVersions(pdDocument.getBudgetDocumentVersions());
             updatedDocCopy.getDocumentHeader().setWorkflowDocument(workflowDoc);
             pdForm.setDocument(updatedDocCopy);
         }
@@ -332,7 +341,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     }
     
     private BudgetVersionOverview getSelectedVersion(ProposalDevelopmentForm proposalDevelopmentForm, HttpServletRequest request) {
-        return proposalDevelopmentForm.getDocument().getDevelopmentProposal().getBudgetDocumentVersion(getSelectedLine(request)).getBudgetVersionOverview();
+        return proposalDevelopmentForm.getDocument().getBudgetDocumentVersion(getSelectedLine(request)).getBudgetVersionOverview();
     }
     
     private void copyBudget(ActionForm form, HttpServletRequest request, boolean copyPeriodOneOnly) throws WorkflowException {

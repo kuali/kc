@@ -118,7 +118,7 @@ public class S2SServiceTest extends KraTestBase{
             budgetOverview.setEndDate(pd.getDevelopmentProposal().getRequestedEndDateInitial());
             budgetOverview.setTotalCost(new BudgetDecimal(10000));
             budgetOverview.setDocumentNumber(budgetDoc.getDocumentNumber());
-            pd.getDevelopmentProposal().getBudgetDocumentVersions().add(budgetDocumentVersion);
+            pd.getBudgetDocumentVersions().add(budgetDocumentVersion);
 
             Budget budget = budgetDoc.getBudget();
 
