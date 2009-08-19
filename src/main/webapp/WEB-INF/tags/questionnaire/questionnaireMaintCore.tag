@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="readOnly" value="false"  scope="request"/>
+<c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/>
 <c:set var="questionnaireAttributes" value="${DataDictionary.Questionnaire.attributes}" />
 
 <div class="tab-container" align="center">
@@ -20,7 +20,14 @@
                                           attributeEntry="${questionnaireAttributes.name}" />
             </td>
             <td align="left" valign="middle">
-                Version V1.00 ?
+              <c:choose>
+               <c:when test = "${KualiForm.document.newMaintainableObject.maintenanceAction eq 'Edit' and KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus eq 'I'}">
+                    Version ${KualiForm.document.newMaintainableObject.businessObject.sequenceNumber+1}
+                </c:when>
+                <c:otherwise>
+                    Version ${KualiForm.document.newMaintainableObject.businessObject.sequenceNumber}
+                </c:otherwise>
+                </c:choose>
             </td>
             <th align="right" valign="middle" width="115">
                 <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.isFinal}" />

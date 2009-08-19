@@ -28,8 +28,20 @@
 		name="newQuestionTypeId" value="${QuestionLookupForm.newQuestionTypeId}"/>
 	<input type="hidden" id="newQuestionId"
 		name="newQuestionId" value="${QuestionLookupForm.newQuestionId}"/>
+    <input type="hidden" id="newLookupClass"
+        name="newLookupClass" value="${QuestionLookupForm.newLookupClass}"/>
+    <input type="hidden" id="newLookupReturn"
+        name="newLookupReturn" value="${QuestionLookupForm.newLookupReturn}"/>
+    <input type="hidden" id="newDisplayedAnswers"
+        name="newDisplayedAnswers" value="${QuestionLookupForm.newDisplayedAnswers}"/>
+    <input type="hidden" id="newMaxAnswers"
+        name="newMaxAnswers" value="${QuestionLookupForm.newMaxAnswers}"/>
+    <input type="hidden" id="newAnswerMaxLength"
+        name="newAnswerMaxLength" value="${QuestionLookupForm.newAnswerMaxLength}"/>
+    <input type="hidden" id="newQuestionSequence"
+        name="newQuestionSequence" value="${QuestionLookupForm.newQuestionSequence}"/>
 	<input type="hidden" id="anchor"
-		name="newQuestionId" value="${QuestionLookupForm.anchor}"/>
+		name="anchor" value="${QuestionLookupForm.anchor}"/>
 
 
  		<!--  <label>Sponsor Code Search</label> -->
@@ -38,7 +50,7 @@
    			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionRefId:newQuestionId,question:newQuestion))).((%true%)).anchor" id = "lookupBtn" 
 	   src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on " title="Multiple Value Search on " />
 	    --%>
-    			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionRefId:newQuestionId,questionTypeId:newQuestionTypeId,question:newQuestion))).((%false%)).anchor" id = "lookupBtn" 
+    			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionRefId:newQuestionId,questionTypeId:newQuestionTypeId,question:newQuestion,answerMaxLength:newAnswerMaxLength,maxAnswers:newMaxAnswers,displayedAnswers:newDisplayedAnswers,lookupReturn:newLookupReturn,lookupClass:newLookupClass,sequenceNumber:newQuestionSequence))).((%false%)).anchor" id = "lookupBtn" 
 	   src="kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on " title="Multiple Value Search on " />
    		
          	</label><br>
@@ -57,9 +69,24 @@
           	            var newQuestionTypeId = document.getElementById("newQuestionTypeId").value
           	            var newQuestion = document.getElementById("newQuestion").value
           	            var nodeIndex = document.getElementById("nodeIndex").value
+                        var newQuestionSequence = document.getElementById("newQuestionSequence").value;
+          	            // retString = question.getDisplayedAnswers()+"#f#"+question.getMaxAnswers()+"#f#"+question.getAnswerMaxLength();
+          	            var  displayedAnswers ;
+                        var maxAnswers = document.getElementById("newMaxAnswers").value;
+                        var answerMaxLength ;    
+                        if (newQuestionTypeId == '6') {
+                        	displayedAnswers = document.getElementById("newLookupClass").value;
+                            var patt1 = new RegExp(".", "g");
+                            patt1.test(str);
+                            displayAnswers.substring(patt1.lastIndex+1);
+                            answerMaxLength = document.getElementById("newLookupReturn").value;
+                        } else {
+                            displayedAnswers = document.getElementById("newDisplayedAnswers").value;
+                            answerMaxLength = document.getElementById("newAnswerMaxLength").value;
+                        }             
           	            //var mapKey = document.getElementById("mapKey").value
           	            //alert(newQuestionId+"-"+newQuestionTypeId+"-"+newQuestion+"-")
-          	         	window.opener.returnQuestion(newQuestionId, newQuestion,newQuestionTypeId,nodeIndex);
+          	         	window.opener.returnQuestion(newQuestionId, newQuestion,newQuestionTypeId,newQuestionSequence,displayedAnswers,maxAnswers,answerMaxLength,nodeIndex);
           	     
           	     }
                  var lookupBtn=document.getElementById("lookupBtn");
