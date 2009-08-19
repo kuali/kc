@@ -92,6 +92,10 @@
             <inverse-foreignkey field-ref="awardId"/>
         </collection-descriptor>
         
+        <collection-descriptor name="fundingProposals" element-class-ref="org.kuali.kra.award.home.fundingproposal.AwardFundingProposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="awardId"/>
+		</collection-descriptor>
+        
         <collection-descriptor name="projectPersons" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>
         </collection-descriptor>
@@ -1199,4 +1203,26 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.award.home.fundingproposal.AwardFundingProposal" table="AWARD_FUNDING_PROPOSALS">
+        <field-descriptor name="awardFundingProposalId" column="AWARD_FUNDING_PROPOSAL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
+        
+        <!-- OJB Hacks -->
+        <field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" nullable="false" />
+        <field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT" nullable="false" />
+        
+        <!-- common -->
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+    	<reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="awardId" />
+		</reference-descriptor>
+		
+		<reference-descriptor name="proposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="proposalId"/> 
+		</reference-descriptor>
+    </class-descriptor>
 </descriptor-repository>
