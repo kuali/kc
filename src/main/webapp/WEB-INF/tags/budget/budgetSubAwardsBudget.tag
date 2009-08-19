@@ -20,10 +20,7 @@
 
 <kul:tab tabTitle="Sub Award Budget" defaultOpen="false" tabErrorKey="budgetSubAwards.*,newSubAward.*">
  <div class="tab-container" align="center">
-     <div class="h2-container">
-         <span class="subhead-left"><h2>Sub Award Budget</h2></span>
-         <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards" altText="help"/></span>
-     </div>
+     <h3>Sub Award Budget</h3>
      <div align="center">
      	<table border="0" cellpadding=0 cellspacing=0 summary="">
           	<tr>
