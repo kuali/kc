@@ -51,4 +51,13 @@
         scope="prototype" parent="lookupableHelperService">
     </bean>
     
+    <bean id="institutionalProposalVersioningService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalVersioningServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="versioningService">
+            <ref bean="versioningService" />
+        </property>
+    </bean>
+    
 </beans>

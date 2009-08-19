@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,7 +28,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
+import org.kuali.kra.bo.versioning.VersionHistory;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
@@ -37,6 +41,10 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyw
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.KeywordsService;
+import org.kuali.kra.service.VersionException;
+import org.kuali.kra.service.VersioningService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -200,6 +208,79 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         
         }
       return mapping.findForward("basic");
+    }
+    
+    /**
+     * This method is used to handle the edit button action on an ACTIVE Award. If no Pending version exists for the same
+     * awardNumber, a new Award version is created. If a Pending version exists, the user is prompted as to whether she would
+     * like to edit the Pending version. Answering Yes results in that Pending version AwardDocument to be opened. Answering No 
+     * simply returns the user to the ACTIVE document screen 
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward editOrVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                        HttpServletResponse response) throws Exception {
+        
+        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+        InstitutionalProposalDocument institutionalProposalDocument = institutionalProposalForm.getInstitutionalProposalDocument();
+        InstitutionalProposal institutionalProposal = institutionalProposalDocument.getInstitutionalProposal();
+        //VersionHistory foundPending = findPendingVersion(award);
+        
+        ActionForward forward;
+//        if(foundPending != null) {
+//            Object question = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+//            forward = question == null ? showPromptForEditingPendingVersion(mapping, form, request, response) :
+//                                         processPromptForEditingPendingVersionResponse(mapping, request, response, awardForm, foundPending);
+//        } else {
+            forward = createAndSaveNewAwardVersion(response, institutionalProposalForm, institutionalProposalDocument, institutionalProposal);
+        //}
+        return forward;
+    }
+
+    private ActionForward createAndSaveNewAwardVersion(HttpServletResponse response, InstitutionalProposalForm institutionalProposalForm,
+            InstitutionalProposalDocument institutionalProposalDocument, InstitutionalProposal institutionalProposal) throws VersionException, 
+                                                                                                         WorkflowException, 
+                                                                                                         IOException {
+        InstitutionalProposal newVersion = getVersioningService().createNewVersion(institutionalProposal);
+        newVersion.setProposalSequenceStatus(VersionStatus.PENDING.toString());
+        InstitutionalProposalDocument newInstitutionalProposalDocument = 
+            (InstitutionalProposalDocument) getDocumentService().getNewDocument(InstitutionalProposalDocument.class);
+        newInstitutionalProposalDocument.getDocumentHeader().setDocumentDescription(institutionalProposalDocument.getDocumentHeader().getDocumentDescription());
+        newInstitutionalProposalDocument.setInstitutionalProposal(newVersion);
+        getDocumentService().saveDocument(newInstitutionalProposalDocument);
+        //getVersionHistoryService().createVersionHistory(newVersion, VersionStatus.PENDING, GlobalVariables.getUserSession().getPrincipalName());
+        reinitializeForm(institutionalProposalForm, newInstitutionalProposalDocument);
+        response.sendRedirect(makeDocumentOpenUrl(newInstitutionalProposalDocument));
+        return null;
+    }
+    
+    /**
+     * This method prepares the AwardForm with the document found via the Award lookup
+     * Because the helper beans may have preserved a different AwardForm, we need to reset these too
+     * @param awardForm
+     * @param document
+     */
+    private void reinitializeForm(InstitutionalProposalForm institutionalProposalForm, InstitutionalProposalDocument document) throws WorkflowException {
+        institutionalProposalForm.populateHeaderFields(document.getDocumentHeader().getWorkflowDocument());
+        institutionalProposalForm.setDocument(document);
+        //document.setDocumentSaveAfterAwardLookupEditOrVersion(true);
+        institutionalProposalForm.initialize();
+    }
+    
+    private String makeDocumentOpenUrl(InstitutionalProposalDocument newInstitutionalProposalDocument) {
+        String workflowUrl = getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY);
+        String url = String.format("%s/DocHandler.do?command=displayDocSearchView&docId=%s", 
+                workflowUrl, newInstitutionalProposalDocument.getDocumentNumber());
+        return url;
+    }
+    
+    protected VersioningService getVersioningService() {
+        return KraServiceLocator.getService(VersioningService.class);
     }
     
 }

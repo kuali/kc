@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ValuableItem;
@@ -36,9 +38,11 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
@@ -48,6 +52,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class InstitutionalProposal extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<InstitutionalProposalSpecialReview>,
                                                                                             KeywordsManager<InstitutionalProposalScienceKeyword>,
@@ -104,6 +109,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private String opportunity; 
     private Integer awardTypeCode; 
     private String newDescription;
+    private String proposalSequenceStatus;
     private NoticeOfOpportunity noticeOfOpportunity; 
     private ProposalType proposalType; 
     private Rolodex rolodex; 
@@ -120,6 +126,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private InstitutionalProposalUnitAdministrator institutionalProposalUnitAdministrator; 
     private InstitutionalProposalComments proposalComments; 
     private IntellectualPropertyReview intellectualPropertyReview;
+    private List<ProposalIpReviewJoin> proposalIpReviewJoins; 
     
     private List<InstitutionalProposalCustomData> institutionalProposalCustomDataList;
     private List<InstitutionalProposalNotepad> institutionalProposalNotepads;
@@ -134,7 +141,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         super();
         initializeInstitutionalProposalWithDefaultValues();
         initializeCollections();
-        initializeTemporaryUnitAdministrators();// temporary 
+        //initializeTemporaryUnitAdministrators();// temporary 
     } 
     
     /**
@@ -154,18 +161,19 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         Calendar cl = Calendar.getInstance();
         setCreateTimeStamp(new Date(cl.getTime().getTime()));
         setInitialContractAdmin("Bruno");
-        setProposalNumber(String.valueOf(System.currentTimeMillis() % 99999999));
+        //setProposalNumber("1");
         setTotalDirectCostInitial(new KualiDecimal(0));
         setTotalDirectCostTotal(new KualiDecimal(0));
         setTotalIndirectCostInitial(new KualiDecimal(0));
         setTotalIndirectCostTotal(new KualiDecimal(0));
         newDescription = getDefaultNewDescription();
+        setProposalSequenceStatus(VersionStatus.PENDING.toString());
     }
     
     /**
      * This method is temporary until we get the rest of the contacts page funtionality set up.
      */
-    private void initializeTemporaryUnitAdministrators() {
+    public void initializeTemporaryUnitAdministrators() {
         InstitutionalProposalUnitAdministrator ipua1 = new InstitutionalProposalUnitAdministrator();
         InstitutionalProposalUnitAdministrator ipua2 = new InstitutionalProposalUnitAdministrator();
         InstitutionalProposalUnitAdministrator ipua3 = new InstitutionalProposalUnitAdministrator();
@@ -412,7 +420,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         institutionalProposalScienceKeywords = new ArrayList<InstitutionalProposalScienceKeyword>();
         institutionalProposalCostShares = new ArrayList<InstitutionalProposalCostShare>();
         institutionalProposalUnrecoveredFandAs = new ArrayList<InstitutionalProposalUnrecoveredFandA>();
-        awardFundingProposals = new ArrayList<AwardFundingProposal>();
+        proposalIpReviewJoins = new ArrayList<ProposalIpReviewJoin>();
+        proposalIpReviewJoins.add(new ProposalIpReviewJoin());
     }
     
     public Long getProposalId() {
@@ -952,7 +961,24 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.intellectualPropertyReview = intellectualPropertyReview;
     }
     
+    public List<ProposalIpReviewJoin> getProposalIpReviewJoins() {
+        return proposalIpReviewJoins;
+    }
+
+    public void setProposalIpReviewJoins(List<ProposalIpReviewJoin> proposalIpReviewJoins) {
+        this.proposalIpReviewJoins = proposalIpReviewJoins;
+    }
+
+    public ProposalIpReviewJoin getProposalIpReviewJoin() {
+        if (ObjectUtils.isNotNull(this.proposalIpReviewJoins != null)) {
+            return this.proposalIpReviewJoins.get(0);
+        }
+        return null;
+    }
     
+    public void setProposalIpReviewJoin(ProposalIpReviewJoin proposalIpReviewJoin) {
+        this.proposalIpReviewJoins.add(0, proposalIpReviewJoin);
+    }
     
     /**
      * Gets the institutionalProposalCostShares attribute. 
@@ -1027,6 +1053,14 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     //public void setUpdateUser(String updateUser) {
         //super.setUpdateUser(updateUser);
     //}
+
+    public String getProposalSequenceStatus() {
+        return proposalSequenceStatus;
+    }
+
+    public void setProposalSequenceStatus(String proposalSequenceStatus) {
+        this.proposalSequenceStatus = proposalSequenceStatus;
+    }
 
     /** {@inheritDoc} */
     @Override 
@@ -1174,6 +1208,53 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
     
     /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
+     */
+    @Override
+    public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.afterInsert(persistenceBroker);
+        updateProposalIpReviewJoin();
+    }
+    
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup()
+     */
+    @Override
+    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.afterLookup(persistenceBroker);
+        filterProposalIpReviewJoins();
+    }
+    
+    // Make sure the active IP Review is first
+    private void filterProposalIpReviewJoins() {
+        for (ProposalIpReviewJoin proposalIpReviewJoin: this.getProposalIpReviewJoins()) {
+            proposalIpReviewJoin.refreshReferenceObject("intellectualPropertyReview");
+            if (proposalIpReviewJoin.getIntellectualPropertyReview() != null && 
+                    proposalIpReviewJoin.getIntellectualPropertyReview().getIpReviewSequenceStatus().equals(VersionStatus.ACTIVE.toString())) {
+                this.setProposalIpReviewJoin(proposalIpReviewJoin);
+            }
+        }
+    }
+    
+    protected void updateProposalIpReviewJoin() {
+        ProposalIpReviewJoin proposalIpReviewJoin = this.getProposalIpReviewJoin();
+        if (ObjectUtils.isNotNull(proposalIpReviewJoin.getProposalIpReviewJoinId())) {
+            proposalIpReviewJoin.setProposalIpReviewJoinId(null);
+        } else {
+            IntellectualPropertyReview ipReview = new IntellectualPropertyReview();
+            ipReview.setSequenceNumber(0);
+            ipReview.setProposalNumber(this.getProposalNumber());
+            ipReview.setIpReviewSequenceStatus(VersionStatus.ACTIVE.toString());
+            getBusinessObjectService().save(ipReview);
+            proposalIpReviewJoin = new ProposalIpReviewJoin();
+            proposalIpReviewJoin.setIpReviewId(ipReview.getIpReviewId());
+        }
+        proposalIpReviewJoin.setProposalId(this.getProposalId());
+        getBusinessObjectService().save(proposalIpReviewJoin);
+        this.setProposalIpReviewJoin(proposalIpReviewJoin);
+    }
+    
+    /**
      * This method lazy inits ActivityType
      * @return
      */
@@ -1210,4 +1291,5 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private void updateFundingStatus() {
         setStatusCode(awardFundingProposals.size() > 0 ? PROPOSAL_FUNDED_STATUS_CODE : PROPOSAL_PENDING_STATUS_CODE);
     }
+    
 }

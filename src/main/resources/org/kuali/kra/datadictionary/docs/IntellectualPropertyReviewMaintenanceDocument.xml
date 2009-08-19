@@ -4,7 +4,7 @@
 
   <bean id="IntellectualPropertyReviewMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview"/>
-    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+    <property name="maintainableClass" value="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
         <ref bean="IntellectualPropertyReviewMaintenanceDocument-EditReviewData"/>
@@ -13,7 +13,7 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>proposalId</value>
+        <value>proposalNumber</value>
       </list>
     </property>
     
@@ -38,6 +38,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="generalComments" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="reviewerComments" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalNumber"/>
       </list>
     </property>
   </bean>

@@ -19,14 +19,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.service.InstitutionalProposalCustomAttributeService;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.util.KEWConstants;
 
 /**
  * 
@@ -38,6 +43,7 @@ import org.kuali.kra.service.InstitutionalProposalCustomAttributeService;
  * InstitutionalProposal and InstitutionalProposalDocument can have a 1:1 relationship.
  */
 public class InstitutionalProposalDocument extends ResearchDocumentBase {
+    private static final Log LOG = LogFactory.getLog(InstitutionalProposalDocument.class);
     
     /**
      * Comment for <code>DOCUMENT_TYPE_CODE</code>
@@ -144,5 +150,32 @@ public class InstitutionalProposalDocument extends ResearchDocumentBase {
         Map<String, CustomAttributeDocument> customAttributeDocuments = institutionalProposalCustomAttributeService.getDefaultInstitutionalProposalCustomAttributeDocuments();
         setCustomAttributeDocuments(customAttributeDocuments);
     }
-
+    
+    /**
+     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     */
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) throws Exception {
+        super.doRouteStatusChange(statusChangeEvent);
+        
+        String newStatus = statusChangeEvent.getNewRouteStatus();
+        
+        if(LOG.isDebugEnabled()) {
+            LOG.debug(String.format("********************* Status Change: from %s to %s", statusChangeEvent.getOldRouteStatus(), newStatus));
+        }
+        
+        if(KEWConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equalsIgnoreCase(newStatus)) {
+            getInstitutionalProposalVersioningService().updateInstitutionalProposalVersionStatus(this.getInstitutionalProposal(), VersionStatus.ACTIVE);
+            //getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
+        }
+        if(newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+            getInstitutionalProposalVersioningService().updateInstitutionalProposalVersionStatus(this.getInstitutionalProposal(), VersionStatus.CANCELED);
+            //getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
+        }
+    }
+    
+    private InstitutionalProposalVersioningService getInstitutionalProposalVersioningService() {
+        return KraServiceLocator.getService(InstitutionalProposalVersioningService.class);
+    }
+    
 }

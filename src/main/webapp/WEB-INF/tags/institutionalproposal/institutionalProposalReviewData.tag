@@ -33,19 +33,19 @@
 <table cellpadding="0" cellspacing="0">
     <tr>
         <th align="right"><kul:htmlAttributeLabel attributeEntry="${intellectualPropertyReviewAttributes.reviewSubmissionDate}" /></th>
-        <td><kul:htmlControlAttribute property="document.institutionalProposal.intellectualPropertyReview.reviewSubmissionDate" attributeEntry="${intellectualPropertyReviewAttributes.reviewSubmissionDate}" readOnly="true" /></td>
+        <td><kul:htmlControlAttribute property="document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.reviewSubmissionDate" attributeEntry="${intellectualPropertyReviewAttributes.reviewSubmissionDate}" readOnly="true" /></td>
         <th align="right"><kul:htmlAttributeLabel attributeEntry="${intellectualPropertyReviewAttributes.ipReviewRequirementTypeCode}" /></th>
-        <td><c:out value="${KualiForm.document.institutionalProposal.intellectualPropertyReview.ipReviewRequirementType.description}" /></td>
+        <td><c:out value="${KualiForm.document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.ipReviewRequirementType.description}" /></td>
     </tr>
     <tr>
         <th align="right"><kul:htmlAttributeLabel attributeEntry="${intellectualPropertyReviewAttributes.reviewReceiveDate}" /></th>
-        <td><kul:htmlControlAttribute property="document.institutionalProposal.intellectualPropertyReview.reviewReceiveDate" attributeEntry="${intellectualPropertyReviewAttributes.reviewReceiveDate}" readOnly="true" /></td>
+        <td><kul:htmlControlAttribute property="document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.reviewReceiveDate" attributeEntry="${intellectualPropertyReviewAttributes.reviewReceiveDate}" readOnly="true" /></td>
         <th align="right"><kul:htmlAttributeLabel attributeEntry="${intellectualPropertyReviewAttributes.reviewResultCode}" /></th>
-        <td><c:out value="${KualiForm.document.institutionalProposal.intellectualPropertyReview.reviewResult.description}" /></td>
+        <td><c:out value="${KualiForm.document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.reviewResult.description}" /></td>
     </tr>
     <tr>
         <th align="right"><kul:htmlAttributeLabel attributeEntry="${intellectualPropertyReviewAttributes.ipReviewer}" /></th>
-        <td><c:out value="${KualiForm.document.institutionalProposal.intellectualPropertyReview.person.fullName}" /></td>
+        <td><c:out value="${KualiForm.document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.person.fullName}" /></td>
         <th align="right">&nbsp;</th>
         <td>&nbsp;</td>
     </tr>
@@ -54,7 +54,7 @@
         <td>
             <table style="border:none; width:100%;" cellpadding=0 cellspacing=0>
                 <tr>
-                    <td style="border:none;"><c:out value="${KualiForm.document.institutionalProposal.intellectualPropertyReview.generalComments}" /></td>
+                    <td style="border:none;"><c:out value="${KualiForm.document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.generalComments}" /></td>
                     <td style="border:none; width:20px; vertical-align:bottom;">
                         <kra:expandedTextArea textAreaFieldName="document.institutionalProposal.intellectualPropertyReview.generalComments" action="institutionalProposalHome" textAreaLabel="General Comments" viewOnly="true" />
                     </td>
@@ -65,7 +65,7 @@
         <td>
             <table style="border:none; width:100%;" cellpadding=0 cellspacing=0>
                 <tr>
-                    <td style="border:none;"><c:out value="${KualiForm.document.institutionalProposal.intellectualPropertyReview.reviewerComments}" /></td>
+                    <td style="border:none;"><c:out value="${KualiForm.document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.reviewerComments}" /></td>
                     <td style="border:none; width:20px; vertical-align:bottom;">
                         <kra:expandedTextArea textAreaFieldName="document.institutionalProposal.intellectualPropertyReview.reviewerComments" action="institutionalProposalHome" textAreaLabel="Reviewer Comments" viewOnly="true" />
                     </td>
