@@ -17,7 +17,6 @@ package org.kuali.kra.questionnaire;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +30,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -41,6 +41,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;
+import org.springframework.transaction.annotation.Transactional;
 
 public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocumentAction {
     // TODO : big mess is that questionquestions and usages can't be included in xmldoccontent
@@ -75,6 +76,31 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             // if (StringUtils.isNotBlank(qnForm.getSqlScripts())) {
             saveQn(qnForm);
             // }
+//            Questionnaire questionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+//                    .getNewMaintainableObject().getBusinessObject();
+//            if (questionnaire.getSequenceNumber() == null) {
+//                // TODO : create new first time
+//                questionnaire.setSequenceNumber(1);
+//            }
+//            // questionnaire.refreshReferenceObject("questionnaireQuestions");
+//            // ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().setBusinessObject(questionnaire);
+//            String questions = assembleQuestions(qnForm);
+//            String usages = assembleUsages((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+//                    .getNewMaintainableObject().getBusinessObject());
+//            qnForm.setEditData(questions + "#;#" + usages);
+//            if (((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
+//                    KNSConstants.MAINTENANCE_EDIT_ACTION)) {
+//                // TODO : force it to have the same key, so it can be approve later.
+//                // rice maintenance framework - 'edit' is expecting old & new have the same pk
+//                ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getOldMaintainableObject().getBusinessObject())
+//                        .setQuestionnaireRefId(((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+//                                .getNewMaintainableObject().getBusinessObject()).getQuestionnaireRefId());
+//            }
+        }
+        ActionForward forward = super.save(mapping, form, request, response);
+        if (!((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
+                KNSConstants.MAINTENANCE_COPY_ACTION)) {
+            // there is lots of issues if the following is executed before super.save()
             Questionnaire questionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
                     .getNewMaintainableObject().getBusinessObject();
             if (questionnaire.getSequenceNumber() == null) {
@@ -96,7 +122,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                                 .getNewMaintainableObject().getBusinessObject()).getQuestionnaireRefId());
             }
         }
-        return super.save(mapping, form, request, response);
+        
+        return forward;
     }
 
     @Override
@@ -187,7 +214,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                         + question.getQuestionSeqNumber() + "#f#" + desc + "#f#" + question.getQuestion().getQuestionTypeId()
                         + "#f#" + question.getQuestionNumber() + "#f#" + question.getCondition() + "#f#"
                         + question.getConditionValue() + "#f#" + question.getParentQuestionNumber() + "#f#"
-                        + question.getQuestion().getSequenceNumber();
+                        + question.getQuestion().getSequenceNumber()+ "#f#"+getQeustionResponse(question.getQuestion());
                 String childrenResult = getChildren(question, remainQuestions);
                 if (StringUtils.isNotBlank(childrenResult)) {
                     result = result + childrenResult;
@@ -214,6 +241,19 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
 
     }
 
+    private String getQeustionResponse(Question question) {
+        String retString = "";
+        if (question.getQuestionTypeId().equals(new Integer(6))) {
+            String className = question.getLookupClass();
+            className = className.substring(className.lastIndexOf(".")+1);
+            retString = className+"#f#"+question.getMaxAnswers()+"#f#"+question.getLookupReturn();
+            
+        } else {
+            retString = question.getDisplayedAnswers()+"#f#"+question.getMaxAnswers()+"#f#"+question.getAnswerMaxLength();
+        }
+        return retString;
+    }
+    
     private String getChildren(QuestionnaireQuestion questionnaireQuestion, List<QuestionnaireQuestion> questionnaireQuestions) {
         String result = "";
         List<QuestionnaireQuestion> remainQuestions = new ArrayList<QuestionnaireQuestion>();
@@ -226,7 +266,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                 result = result + "#q#" + question.getQuestionnaireQuestionsId() + "#f#" + question.getQuestionRefIdFk() + "#f#"
                         + question.getQuestionSeqNumber() + "#f#" + desc + "#f#" + question.getQuestion().getQuestionTypeId()
                         + "#f#" + question.getQuestionNumber() + "#f#" + question.getCondition() + "#f#"
-                        + question.getConditionValue() + "#f#" + question.getParentQuestionNumber();
+                        + question.getConditionValue() + "#f#" + question.getParentQuestionNumber()+ "#f#"+question.getQuestion().getSequenceNumber()+ "#f#"+getQeustionResponse(question.getQuestion());
                 // TODO : not efficient. should only check the questions that have not checked
                 // remainQuestions = ObjectUtils.deepCopy(questionnaireQuestions);
                 String childrenResult = getChildren(question, questionnaireQuestions);
@@ -315,70 +355,22 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         // TODO Auto-generated method stub
+        preReoute(form);
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
-        Questionnaire oldBo = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getOldMaintainableObject()
-                .getBusinessObject();
-        Questionnaire newBo = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
-                .getBusinessObject();
-        if (((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
-                KNSConstants.MAINTENANCE_COPY_ACTION)) {
-            // newBo.setName(qnForm.getNewQuestionnaire().getName());
-            // newBo.setDescription(qnForm.getNewQuestionnaire().getDescription());
-            // newBo.setIsFinal(qnForm.getNewQuestionnaire().getIsFinal());
-            newBo.setSequenceNumber(1);
-            newBo.setDocumentNumber(qnForm.getDocument().getDocumentNumber());
-            if (oldBo.getQuestionnaireId().equals(newBo.getQuestionnaireId())) {
-                Integer questionnaireId = Integer.parseInt(KraServiceLocator.getService(SequenceAccessorService.class)
-                        .getNextAvailableSequenceNumber("SEQ_QUESTIONNAIRE_ID").toString());
-                newBo.setQuestionnaireId(questionnaireId);
-
-            }
-        }
-        else {
-            saveQn(qnForm);
-            // newBo.setName(qnForm.getNewQuestionnaire().getName());
-            // newBo.setDescription(qnForm.getNewQuestionnaire().getDescription());
-            // newBo.setIsFinal(qnForm.getNewQuestionnaire().getIsFinal());
-            // newBo.setSequenceNumber(qnForm.getNewQuestionnaire().getSequenceNumber());
-            // newBo.setVersionNumber(qnForm.getNewQuestionnaire().getVersionNumber());
-            // ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
-            // .setBusinessObject(qnForm.getNewQuestionnaire());
-            if (StringUtils.isNotBlank(qnForm.getSqlScripts())) {
-                String questions = assembleQuestions(qnForm);
-                String usages = assembleUsages(((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
-                        .getNewMaintainableObject().getBusinessObject()));
-                qnForm.setEditData(questions + "#;#" + usages);
-            }
-        }
         Long questionnaireRefId = null;
         Long oldQuestionnaireRefId = null;
         if (((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
                 KNSConstants.MAINTENANCE_NEW_ACTION)) {
-            questionnaireRefId = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber(
-                    "SEQ_QUESTIONNAIRE_ID");
+            questionnaireRefId = ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+            .getNewMaintainableObject().getBusinessObject()).getQuestionnaireRefId();
             oldQuestionnaireRefId = ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
                     .getBusinessObject()).getQuestionnaireRefId();
-            Questionnaire newQuestionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
-                    .getNewMaintainableObject().getBusinessObject();
-            newQuestionnaire.setQuestionnaireRefId(questionnaireRefId);
-
         }
-        if (((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
-                KNSConstants.MAINTENANCE_EDIT_ACTION)) {
-            Map fieldValues = new HashMap<String, Object>();
-            fieldValues.put("questionnaireRefId", ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
-                    .getNewMaintainableObject().getBusinessObject()).getQuestionnaireRefId());
-            Questionnaire oldQuestionnaire = (Questionnaire) KraServiceLocator.getService(BusinessObjectService.class)
-                    .findByPrimaryKey(Questionnaire.class, fieldValues);
-            Questionnaire newQuestionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
-                    .getNewMaintainableObject().getBusinessObject();
-            ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getOldMaintainableObject().getBusinessObject())
-                    .setQuestionnaireRefId(newQuestionnaire.getQuestionnaireRefId());
-            newQuestionnaire.setDocumentNumber(qnForm.getDocument().getDocumentNumber());
-            newQuestionnaire.setVersionNumber(oldQuestionnaire.getVersionNumber());
-        }
-        ActionForward forward = null;
+            ActionForward forward = null;
         try {
+            // TODO : need super.save, so the run sql will be kind of committed to db
+            // This will be confusing to developer, so need to find something else
+            super.save(mapping, form, request, response);
             forward = super.route(mapping, form, request, response);
         }
         catch (Exception e) {
@@ -414,9 +406,9 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             newQuestionnaire.setQuestionnaireUsages(copyQuestionnaire.getQuestionnaireUsages());
             // newQuestionnaire.setVersionNumber(1L);
             newQuestionnaire.setDocumentNumber(qnForm.getDocument().getDocumentNumber());
-            fieldValues.put("questionnaireId", "2");
-            Collection anaires = KraServiceLocator.getService(BusinessObjectService.class).findMatching(Questionnaire.class,
-                    fieldValues);
+            //fieldValues.put("questionnaireId", "2");
+            //Collection anaires = KraServiceLocator.getService(BusinessObjectService.class).findMatching(Questionnaire.class,
+            //        fieldValues);
             // for (QuestionnaireQuestion question : newQuestionnaire.getQuestionnaireQuestions()) {
             // question.setQuestionnaireRefIdFk(null);
             // question.setQuestionnaireQuestionsId(null);
@@ -473,11 +465,73 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                 KraServiceLocator.getService(QuestionnaireService.class).copyQuestionnaire(oldQuestionnaire, questionnaire);
             }
 
+        } else {
+            String questions = assembleQuestions(qnForm);
+            String usages = assembleUsages(((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+                    .getNewMaintainableObject().getBusinessObject()));
+            qnForm.setEditData(questions + "#;#" + usages);
+            
         }
         return forward;
 
     }
 
+    private void preReoute(ActionForm form) {
+        QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
+        Questionnaire oldBo = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getOldMaintainableObject()
+                .getBusinessObject();
+        Questionnaire newBo = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
+                .getBusinessObject();
+        if (((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
+                KNSConstants.MAINTENANCE_COPY_ACTION)) {
+            newBo.setSequenceNumber(1);
+            newBo.setDocumentNumber(qnForm.getDocument().getDocumentNumber());
+            if (oldBo.getQuestionnaireId().equals(newBo.getQuestionnaireId())) {
+                Integer questionnaireId = Integer.parseInt(KraServiceLocator.getService(SequenceAccessorService.class)
+                        .getNextAvailableSequenceNumber("SEQ_QUESTIONNAIRE_ID").toString());
+                newBo.setQuestionnaireId(questionnaireId);
+
+            }
+        }
+        else {
+            saveQn(qnForm);
+//            if (StringUtils.isNotBlank(qnForm.getSqlScripts())) {
+//                String questions = assembleQuestions(qnForm);
+//                String usages = assembleUsages(((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+//                        .getNewMaintainableObject().getBusinessObject()));
+//                qnForm.setEditData(questions + "#;#" + usages);
+//            }
+        }
+       // Long questionnaireRefId = null;
+       // Long oldQuestionnaireRefId = null;
+        if (((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
+                KNSConstants.MAINTENANCE_NEW_ACTION)) {
+          Long  questionnaireRefId = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber(
+                    "SEQ_QUESTIONNAIRE_ID");
+          //  oldQuestionnaireRefId = ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
+          //          .getBusinessObject()).getQuestionnaireRefId();
+            Questionnaire newQuestionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+                    .getNewMaintainableObject().getBusinessObject();
+            newQuestionnaire.setQuestionnaireRefId(questionnaireRefId);
+
+        }
+        if (((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
+                KNSConstants.MAINTENANCE_EDIT_ACTION)) {
+            Map fieldValues = new HashMap<String, Object>();
+            fieldValues.put("questionnaireRefId", ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+                    .getNewMaintainableObject().getBusinessObject()).getQuestionnaireRefId());
+            Questionnaire oldQuestionnaire = (Questionnaire) KraServiceLocator.getService(BusinessObjectService.class)
+                    .findByPrimaryKey(Questionnaire.class, fieldValues);
+            Questionnaire newQuestionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+                    .getNewMaintainableObject().getBusinessObject();
+            ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getOldMaintainableObject().getBusinessObject())
+                    .setQuestionnaireRefId(newQuestionnaire.getQuestionnaireRefId());
+            newQuestionnaire.setDocumentNumber(qnForm.getDocument().getDocumentNumber());
+            newQuestionnaire.setVersionNumber(oldQuestionnaire.getVersionNumber());
+        }
+        
+    }
+    
     @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -504,33 +558,21 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         if (questionnaire.getQuestionnaireRefId() != null) {
             Map pkMap = new HashMap();
             pkMap.put("questionnaireRefId", questionnaire.getQuestionnaireRefId());
-            Questionnaire oldQuestionnair = (Questionnaire) KraServiceLocator.getService(BusinessObjectService.class)
+            Questionnaire oldQuestionnaire = (Questionnaire) KraServiceLocator.getService(BusinessObjectService.class)
                     .findByPrimaryKey(Questionnaire.class, pkMap);
             // if (questionnaire.getQuestionnaireId().equals(0)) {
             if (questionnaire.getQuestionnaireId() != null
                     && qnForm.getMaintenanceAction().equals(KNSConstants.MAINTENANCE_EDIT_ACTION)
                     && qnForm.getDocStatus().equals(KEWConstants.ROUTE_HEADER_INITIATED_CD)) {
-                try {
-                    VersioningService versionService = new VersioningServiceImpl();
-                    // questionnaire = (Questionnaire) versionService.createNewVersion(oldQuestionnair);
-                    Questionnaire newQuestionnaire = (Questionnaire) versionService.createNewVersion(oldQuestionnair);
-                    questionnaire.setQuestionnaireRefId(null);
-                    questionnaire.setSequenceNumber(newQuestionnaire.getSequenceNumber());
-                    questionnaire.setQuestionnaireQuestions(newQuestionnaire.getQuestionnaireQuestions());
-                    questionnaire.setQuestionnaireUsages(newQuestionnaire.getQuestionnaireUsages());
-                }
-                catch (Exception e) {
-
-                }
-
+                 versionQuestionnaire(questionnaire, oldQuestionnaire);
             }
             else {
-                if (oldQuestionnair != null) {
+                if (oldQuestionnaire != null) {
                     // cretae new : 1st try failed, then try again, oldquestionnaire is null
                     // not sure why the newmainobj.busobject at this point has qnquestions & usages
-                    questionnaire.setVersionNumber(oldQuestionnair.getVersionNumber());
-                    questionnaire.setSequenceNumber(oldQuestionnair.getSequenceNumber());
-                    questionnaire.setQuestionnaireId(oldQuestionnair.getQuestionnaireId());
+                    questionnaire.setVersionNumber(oldQuestionnaire.getVersionNumber());
+                    questionnaire.setSequenceNumber(oldQuestionnaire.getSequenceNumber());
+                    questionnaire.setQuestionnaireId(oldQuestionnaire.getQuestionnaireId());
                 }
             }
         }
@@ -549,11 +591,33 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         // qnForm.getNewQuestionnaire().setSequenceNumber(questionnaire.getSequenceNumber());
         if (StringUtils.isNotBlank(qnForm.getSqlScripts())) {
             runSql(qnForm);
+//            Map pkMap = new HashMap();
+//            pkMap.put("questionnaireRefId", questionnaire.getQuestionnaireRefId());
+//            Questionnaire oldQuestionnaire = (Questionnaire) KraServiceLocator.getService(BusinessObjectService.class)
+//                    .findByPrimaryKey(Questionnaire.class, pkMap);
+//            KraServiceLocator.getService(BusinessObjectService.class).save(oldQuestionnaire);
         }
 
 
     }
 
+    private void versionQuestionnaire(Questionnaire questionnaire, Questionnaire oldQuestionnaire) {
+        try {
+            VersioningService versionService = new VersioningServiceImpl();
+            // questionnaire = (Questionnaire) versionService.createNewVersion(oldQuestionnair);
+            Questionnaire newQuestionnaire = (Questionnaire) versionService.createNewVersion(oldQuestionnaire);
+            questionnaire.setQuestionnaireRefId(null);
+            questionnaire.setSequenceNumber(newQuestionnaire.getSequenceNumber());
+            questionnaire.setQuestionnaireQuestions(newQuestionnaire.getQuestionnaireQuestions());
+            questionnaire.setQuestionnaireUsages(newQuestionnaire.getQuestionnaireUsages());
+            questionnaire.setDocumentNumber("");
+        }
+        catch (Exception e) {
+
+        }
+        
+    }
+    
     private void runSql(ActionForm form) {
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         Questionnaire questionnaire = new Questionnaire();
@@ -583,34 +647,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
                     .setSequenceNumber(1);
         }
-        return forward;
-    }
-
-    /**
-     * TODO : view method, WIP
-     * This method...
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        // 'document' is null at this point
-        ActionForward forward = super.edit(mapping, form, request, response);
-        // Integer questionnaireId = Integer.parseInt(request.getParameter("questionnaireId"));
-        QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
-        ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
-                .setQuestionnaireRefId(Long.parseLong(request.getParameter("questionnaireRefId")));
-
-        String questions = assembleQuestions(qnForm);
-        String usages = assembleUsages(((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
-                .getBusinessObject()));
-        qnForm.setEditData(questions + "#;#" + usages);
-        // TODO : hack for 1st save to version
-        // qnForm.getNewQuestionnaire().setQuestionnaireId(0);
         return forward;
     }
 

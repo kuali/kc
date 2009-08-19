@@ -8,7 +8,6 @@
 Content </span> <span class="subhead-right"> <kul:help
     businessObjectClassName="org.kuali.kra.questionnaire.Questionnaire"
     altText="help" /> </span></h3>
-
 <div id="questionpanelcontent">
 
 <table id="question-table" width="100%" cellpadding="0" cellspacing="0"
@@ -47,6 +46,7 @@ Content </span> <span class="subhead-right"> <kul:help
                     style="border: none;" alt="Back" type="image" /></td>
                 <td class="content_grey" style="text-align: right;">Add
                 Question(s):</td>
+                <c:if test="${!KualiForm.readOnly}">
                 <td class="content_white" style="text-align: center;"><input
                     type="hidden" type="text" id="newqdesc0" name="newqdesc0"
                     size="50" value="" /> <input type="hidden" id="newqid0"
@@ -56,6 +56,7 @@ Content </span> <span class="subhead-right"> <kul:help
                     src="static/images/searchicon.gif" align="top" alt="search "
                     title="Search " style="border: none;" type="image" /> <%--<input name="addRootQn" id="addRootQn" src="kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" /> --%>
                 </td>
+                </c:if>
             </tr>
         </table>
 

@@ -63,6 +63,7 @@
 </kul:tab>
     <input type="hidden" id="maintAction" name="maintAction" value = "${KualiForm.document.newMaintainableObject.maintenanceAction}"/>
      <input type="hidden" id="docStatus" name="docStatus" value="${KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus }"  />   
+     <input type="hidden" id="readOnly" name="docStatus" value="${KualiForm.readOnly}"  />   
 <%-- 
     <div id="globalbuttons" class="globalbuttons"><input
         type="image" id="save"
@@ -190,7 +191,11 @@ if (dataarray.length > 1) {
                             return false;
                         });
         tdtmp = $('<td align="left" valign="middle">');
+        if ($("#readOnly").attr("value") != 'true') {
         $('<div align="center">').html(inputtmp).appendTo(tdtmp);
+        } else {
+            $('<div align="center">').appendTo(tdtmp);
+        }    
         tdtmp.appendTo(trtmp);
         ucount++;
         trtmp.appendTo($("#usage-table"));
@@ -252,7 +257,7 @@ function loadQuestion() {
                 ischild = 'true';
             }
             nodecount++;
-            var listitem = getQuestionNew(field[3], field[4], "V1.01", ischild);
+            var listitem = getQuestionNew(field[3], field[4], field[9], field[10], field[11], field[12], ischild);
             var ultag = $('<ul></ul>');
             ultag.appendTo(listitem);
             var idx = listitem.attr("id").substring(8);
@@ -287,6 +292,7 @@ function loadQuestion() {
                 }
             }
 
+           // alert ("parent "+parentnum+"-"+field[1]+"-"+field[6]);
             if (parentnum > 0 && field[6] != 'null') {
                 // alert ("add req for parent
                 // "+$("#addrequirement"+i).parents('tr:eq(0)').size());
@@ -312,6 +318,9 @@ function loadQuestion() {
             $("#qdesc" + idx).attr("value", field[3]);
             $("#qtypeid" + idx).attr("value", field[4]);
             $("#qvers" + idx).attr("value", field[9]);
+            $("#qdispans" + idx).attr("value", field[10]);
+            $("#qansmax" + idx).attr("value", field[11]);
+            $("#qmaxlength" + idx).attr("value", field[12]);
 
         } // end if-then-else
     } // end for to set up questions
