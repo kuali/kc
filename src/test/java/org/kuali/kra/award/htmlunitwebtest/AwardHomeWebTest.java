@@ -42,7 +42,7 @@ public class AwardHomeWebTest extends AwardWebTestBase {
     private static final String SAVE_METHOD = "methodToCall.save";
     private static final String RESET_METHOD = "methodToCall.reload";
     private static final String ADD_TRANSFERRING_SPONSOR_METHOD = "methodToCall.addAwardTransferringSponsor.anchorDetailsDates";
-    private static final String DELETE_TRANSFERRING_SPONSOR_METHOD = "methodToCall.deleteAwardTransferringSponsor.line0.anchor1";
+    private static final String DELETE_TRANSFERRING_SPONSOR_METHOD = "methodToCall.deleteAwardTransferringSponsor.line0.anchor2";
     private static final String TRANSFERRING_SPONSOR_TABLE = "sponsor-funding-transferred-table";
     private static final int TRANSFERRING_SPONSOR_TABLE_ROWS_AFTER_ADDING = 3;
     private static final int TRANSFERRING_SPONSOR_TABLE_ROWS_AFTER_DELETING = 2;

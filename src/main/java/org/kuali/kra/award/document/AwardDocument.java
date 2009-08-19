@@ -190,6 +190,8 @@ public class AwardDocument extends BudgetParentDocument implements  Copyable, Se
         }
         managedLists.add(recipients);
         managedLists.add(reportTerms);
+        
+        managedLists.add(award.getFundingProposals());
 
         managedLists.add(awardList);
         
