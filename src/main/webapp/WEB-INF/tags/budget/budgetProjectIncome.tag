@@ -20,10 +20,7 @@
 
 <kul:tab tabTitle="Project Income" tabItemCount="${KualiForm.document.budget.budgetProjectIncomeCount}" defaultOpen="false" tabErrorKey="newBudgetProjectIncome.*,document.budgetProjectIncome*">
 	<div class="tab-container" align="center">
-		<div class="h2-container">
-	    	<span class="subhead-left"><h2>Income Details</h2></span>
-	    	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.distributionincome.BudgetProjectIncome" altText="help"/></span>
-		</div>
+		<h3>Income Details</h3>
 		<div align="center">
 			<table id="budget-proj-income-table" cellpadding="0" cellspacing="0" summary="Budget Period Incomes">
 				<tr>
@@ -83,9 +80,7 @@
 	        </table>
 		</div>			
     
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Income Summary</h2></span>		    		
-    	</div>
+    	<h3>Income Summary</h3>
     
     	<div align="center">
 	    	<table id="budget-proj-income-summary-table" cellpadding="0" cellspacing="0" summary="Budget Period Income Totals">

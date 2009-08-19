@@ -28,10 +28,7 @@
 	<div class="tab-container" align="center">
 		<c:choose>
 			<c:when test="${KualiForm.unrecoveredFandAEditFormVisible}">
-				<div class="h2-container">
-					<span class="subhead-left"><h2>Unrecovered F&A Distribution List</h2></span>
-					<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA" altText="help"/></span>
-				</div>
+				<h3>Unrecovered F&A Distribution List</h3>
 			
 				<div align="center">
 					<table id="budget-unrecovered-fna-table" cellpadding="0" cellspacing="0" summary="Budget Unrecovered F & A">
@@ -149,9 +146,7 @@
 			        </table>
 				</div>			
 				    
-				<div class="h2-container">
-					<span class="subhead-left"><h2>Unrecovered F & A Summary</h2></span>		    		
-				</div>
+				<h3>Unrecovered F&A Summary</h3>
 				
 				<div align="center">
 			    	<table id="budget-unrecovered-fna-summary-table" cellpadding="0" cellspacing="0" summary="Unrecovered F & A Amounts to be Allocated">

@@ -34,9 +34,7 @@
 
 <kul:tabTop tabTitle="Modular Budget Overview (${periodLabel})" defaultOpen="true" tabErrorKey="document.modularBudget">
 	<div class="tab-container" align="center">
-   		<div class="h2-container">
-   			<span class="subhead-left"><h2>Modular Budget Overview (${periodLabel})</h2></span>
-       	</div>
+   		<h3>Modular Budget Overview (${periodLabel})</h3>
         <table cellpadding="0" cellspacing="0" summary="Overview Breakdown">
             <tr>
               	<th width="35%"><div align="right">${periodLabel} Start Date:</div></th>
@@ -92,10 +90,7 @@
 
 <kul:tab tabTitle="Direct Cost" defaultOpen="false" tabErrorKey="document.budget.budgetPeriod[${periodNum - 1}].budgetModular.directCostLessConsortiumFna,document.budget.budgetPeriod[${periodNum - 1}].budgetModular.consortiumFna">
 	<div class="tab-container" align="center">
-   		<div class="h2-container">
-   			<span class="subhead-left"><h2>Direct Cost</h2></span>
-   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular" altText="help"/></span>
-       	</div>
+   		<h3>Direct Cost</h3>
 		<table cellpadding=0 cellspacing="0" summary="Direct Cost Breakdown">
             <tr>
               	<th width="35%"><div align="right">Direct Cost Less Consortium F&amp;A: </div></th>
@@ -142,10 +137,7 @@
 
 <kul:tab tabTitle="F&A" defaultOpen="false" tabErrorKey="document.budget.budgetPeriod[${periodNum - 1}].budgetModular.budgetModularIdc*,newBudgetModularIdc*">
 	<div class="tab-container" align="center">
-   		<div class="h2-container">
-   			<span class="subhead-left"><h2>F&A</h2></span>
-   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc" altText="help"/></span>
-       	</div>
+   		<h3>F&A</h3>
 		<table align="center" border="0" cellpadding="2" cellspacing="0" width="98%">
         	<tbody>
              	<tr align="center" valign="top">
