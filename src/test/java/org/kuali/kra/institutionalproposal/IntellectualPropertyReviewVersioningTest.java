@@ -33,7 +33,7 @@ public class IntellectualPropertyReviewVersioningTest {
     public void testVersionInstitutionalProposal() throws VersionException, WorkflowException {
         
         IntellectualPropertyReview ipReview = new IntellectualPropertyReview();
-        ipReview.setProposalId(new Long(1));
+        ipReview.setIpReviewId(new Long(1));
         ipReview.setProposalNumber("1");
         ipReview.setSequenceNumber(1);
         
@@ -46,7 +46,7 @@ public class IntellectualPropertyReviewVersioningTest {
         
         IntellectualPropertyReview newIpReviewVersion = getVersioningService().createNewVersion(ipReview);
         
-        Assert.assertNull(newIpReviewVersion.getProposalId());
+        Assert.assertNull(newIpReviewVersion.getIpReviewId());
         Assert.assertTrue(newIpReviewVersion.getSequenceNumber().equals(2));
         
         Assert.assertNull(newIpReviewVersion.getIpReviewActivities().get(0).getProposalIpReviewActivityId());
