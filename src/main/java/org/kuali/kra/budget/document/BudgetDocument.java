@@ -75,8 +75,8 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         /*****BEGIN BLOCK *****/
         if(propNextValue==1){
             BusinessObjectService bos = getService(BusinessObjectService.class);
-            Map<String, String> pkMap = new HashMap<String,String>();
-            pkMap.put("documentKey", ((ProposalDevelopmentDocument)getParentDocument()).getDevelopmentProposal().getProposalNumber());
+            Map<String, Object> pkMap = new HashMap<String,Object>();
+            pkMap.put("documentKey", getBudget().getBudgetId());
             pkMap.put("propertyName", propertyName);
             DocumentNextvalue documentNextvalue = (DocumentNextvalue)bos.findByPrimaryKey(DocumentNextvalue.class, pkMap);
             if(documentNextvalue!=null) {
