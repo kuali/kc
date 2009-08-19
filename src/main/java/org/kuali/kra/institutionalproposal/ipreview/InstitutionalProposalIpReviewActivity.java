@@ -21,14 +21,13 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
 public class InstitutionalProposalIpReviewActivity extends KraPersistableBusinessObjectBase implements SequenceAssociate { 
     
     private static final long serialVersionUID = 1L;
 
     private Long proposalIpReviewActivityId; 
-    private Long proposalId;
+    private Long ipReviewId;
     private String proposalNumber; 
     private Integer sequenceNumber; 
     private Integer activityNumber; 
@@ -50,12 +49,12 @@ public class InstitutionalProposalIpReviewActivity extends KraPersistableBusines
         this.proposalIpReviewActivityId = proposalIpReviewActivityId;
     }
     
-    public Long getProposalId() {
-        return proposalId;
+    public Long getIpReviewId() {
+        return ipReviewId;
     }
 
-    public void setProposalId(Long proposalId) {
-        this.proposalId = proposalId;
+    public void setIpReviewId(Long ipReviewId) {
+        this.ipReviewId = ipReviewId;
     }
 
     public String getProposalNumber() {
@@ -172,7 +171,7 @@ public class InstitutionalProposalIpReviewActivity extends KraPersistableBusines
         result = prime * result + ((activityNumber == null) ? 0 : activityNumber.hashCode());
         result = prime * result + ((comments == null) ? 0 : comments.hashCode());
         result = prime * result + ((ipReviewActivityTypeCode == null) ? 0 : ipReviewActivityTypeCode.hashCode());
-        result = prime * result + ((proposalId == null) ? 0 : proposalId.hashCode());
+        result = prime * result + ((ipReviewId == null) ? 0 : ipReviewId.hashCode());
         result = prime * result + ((proposalIpReviewActivityId == null) ? 0 : proposalIpReviewActivityId.hashCode());
         result = prime * result + ((proposalNumber == null) ? 0 : proposalNumber.hashCode());
         result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
@@ -219,11 +218,11 @@ public class InstitutionalProposalIpReviewActivity extends KraPersistableBusines
         } else if (!ipReviewActivityTypeCode.equals(other.ipReviewActivityTypeCode)) {
             return false;
         }
-        if (proposalId == null) {
-            if (other.proposalId != null) {
+        if (ipReviewId == null) {
+            if (other.ipReviewId != null) {
                 return false;
             }
-        } else if (!proposalId.equals(other.proposalId)) {
+        } else if (!ipReviewId.equals(other.ipReviewId)) {
             return false;
         }
         if (proposalIpReviewActivityId == null) {

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -37,8 +38,8 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         
         suppressCustomActionUrls = suppressCustomActionUrls(fieldValues);
         
-        //fieldValues.remove("statusCode");
-        //fieldValues.put("statusCode", "2");  //TODO system parm
+        fieldValues.remove("proposalSequenceStatus");
+        fieldValues.put("proposalSequenceStatus", VersionStatus.ACTIVE.toString()); // Constant
         return super.getSearchResults(fieldValues);
     }
 

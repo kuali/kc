@@ -22,7 +22,7 @@
     <bean id="IntellectualPropertyReview" parent="IntellectualPropertyReview-parentBean" />
     <bean id="IntellectualPropertyReview-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview" />
-        <property name="titleAttribute" value="proposalId" />
+        <property name="titleAttribute" value="ipReviewId" />
         <property name="attributes" >
             <list>
                 <ref bean="IntellectualPropertyReview-ipReviewRequirementTypeCode" />
@@ -33,6 +33,7 @@
                 <ref bean="IntellectualPropertyReview-generalComments" />
                 <ref bean="IntellectualPropertyReview-reviewerComments" />
                 <ref bean="IntellectualPropertyReview-versionNumber" />
+                <ref bean="IntellectualPropertyReview-proposalNumber" />
             </list>
         </property>
     </bean>
@@ -161,5 +162,22 @@
     
     <bean id="IntellectualPropertyReview-versionNumber" parent="IntellectualPropertyReview-versionNumber-parentBean" />
     <bean id="IntellectualPropertyReview-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+    
+    <bean id="IntellectualPropertyReview-proposalNumber" parent="IntellectualPropertyReview-proposalNumber-parentBean" />
+    <bean id="IntellectualPropertyReview-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="proposalNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Proposal Number" />
+        <property name="shortLabel" value="Proposal Number" />
+        <property name="maxLength" value="8" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control">
+            <bean parent="HiddenControlDefinition" />
+        </property>
+        <property name="summary" value="Institutional Proposal Number" />
+        <property name="description" value="Institutional Proposal Number" />
+    </bean>
         
 </beans>

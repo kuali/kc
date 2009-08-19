@@ -36,7 +36,7 @@
             <th><kul:htmlAttributeLabel attributeEntry="${ipReviewActivityAttributes.activityDate}" /></th>
             <th><kul:htmlAttributeLabel attributeEntry="${ipReviewActivityAttributes.comments}" /></th>
         </tr>
-        <c:forEach var="activity" items="${KualiForm.document.institutionalProposal.intellectualPropertyReview.ipReviewActivities}" varStatus="status"> 
+        <c:forEach var="activity" items="${KualiForm.document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.ipReviewActivities}" varStatus="status"> 
         <tr>
             <th><c:out value="${activity.activityNumber}" /></td>
             <td><c:out value="${activity.ipReviewActivityType.description}" /></td>
