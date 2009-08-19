@@ -59,10 +59,7 @@
 		<div align="left">
     	&nbsp;&nbsp;&nbsp;Changes made in the Project Personnel panel must be saved before the corresponding results are reflected in the Personnel Details panel.<br/><br/>
     	</div>  
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Project Personnel (All Periods)</h2></span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.personnel.BudgetPerson" altText="help"/></span>
-        </div>
+    	<h3>Project Personnel (All Periods)</h3>
         <table id="budget-personnel-table" cellpadding=0 cellspacing="0" summary="">
         	<tr>
 	        	<th>&nbsp;</th>
