@@ -41,10 +41,7 @@
 			</ul>
 		</c:forEach>
 
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Budget Versions</h2></span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.BudgetStatus" altText="help"/></span>
-        </div>
+    	<h3>Budget Versions</h3>
         <table id="budget-versions-table" cellpadding="0" cellspacing="0" summary="Budget Versions">
 			<tr>
 				<th scope="row">&nbsp;</th>
@@ -101,7 +98,7 @@
 					<c:set var="displayStyle" value="display: none;"/>
 				</c:if>
           		<tr>
-           			<td align="right" class="tab-subhead1" scope="row">
+           			<td align="right" class="tab-subhead" scope="row">
            				<div align="center">
            					<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
                  				<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
@@ -111,19 +108,19 @@
                				</c:if>
            				</div>
            			</td>
-           			<td class="tab-subhead1"><kul:htmlControlAttribute property="${version}.documentDescription" attributeEntry="${budgetVersionOverviewAttributes.documentDescription}" readOnly="${descriptionUpdatable != 'Yes'}"/></td>
-	            	<td class="tab-subhead1"><div align="center">${budgetVersion.budgetVersionOverview.budgetVersionNumber}</div></td>
-		            <td class="tab-subhead1"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalDirectCost" attributeEntry="${budgetVersionOverviewAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/></div></td>
-		            <td class="tab-subhead1"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalIndirectCost" attributeEntry="${budgetVersionOverviewAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
-		            <td class="tab-subhead1"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalCost" attributeEntry="${budgetVersionOverviewAttributes.totalCost}" styleClass="amount" readOnly="true"/></div></td>
-		            <td class="tab-subhead1">
+           			<td class="tab-subhead"><kul:htmlControlAttribute property="${version}.documentDescription" attributeEntry="${budgetVersionOverviewAttributes.documentDescription}" readOnly="${descriptionUpdatable != 'Yes'}"/></td>
+	            	<td class="tab-subhead"><div align="center">${budgetVersion.budgetVersionOverview.budgetVersionNumber}</div></td>
+		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalDirectCost" attributeEntry="${budgetVersionOverviewAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/></div></td>
+		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalIndirectCost" attributeEntry="${budgetVersionOverviewAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
+		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalCost" attributeEntry="${budgetVersionOverviewAttributes.totalCost}" styleClass="amount" readOnly="true"/></div></td>
+		            <td class="tab-subhead">
 		            	<div align="center">
 		            		<!--  This field is to hold select status if it's disabled by javascript -->
 		            		<html:hidden name="KualiForm" property="${version}.budgetStatus" disabled="true" />
 		            		<kul:htmlControlAttribute property="${version}.budgetStatus" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" onchange="javascript: toggleFinalCheckboxes(document)" disabled="${readonly}"/>
 		            	</div>
             		</td>
-	            	<td class="tab-subhead1">
+	            	<td class="tab-subhead">
 	            		<div align="center">
 	            			<kul:htmlControlAttribute property="${version}.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: enableBudgetStatus(document, '${status.index}')" disabled="${readonly}"/>
 	            			<!--  This field is to hold checkbox status if it's disabled by javascript -->
@@ -131,7 +128,7 @@
 	            		</div>
 	            	</td>
 	            	<kra:section permission="openBudgets">
-	           			<td nowrap class="tab-subhead1">
+	           			<td nowrap class="tab-subhead">
 	           				<div align=center>
 	           					<html:image property="methodToCall.openBudgetVersion.line${status.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-open.gif' alt="open budget" />
 	           					<kra:section permission="addBudget">
