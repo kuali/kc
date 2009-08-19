@@ -27,7 +27,7 @@ import org.kuali.kra.award.home.AwardComment;
  * This class tests methods in Award.java class
  */
 public class AwardCommentTest { 
-    private static final int AWARD_COMMENT_ATTRIBUTES_COUNT = 6;
+    private static final int AWARD_COMMENT_ATTRIBUTES_COUNT = 4;
     
     private AwardComment awardCommentBo;
     private Award award = new Award();

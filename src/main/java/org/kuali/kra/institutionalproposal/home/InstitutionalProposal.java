@@ -18,20 +18,24 @@ package org.kuali.kra.institutionalproposal.home;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ValuableItem;
+import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
+import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -51,7 +55,9 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     
     
     private static final long serialVersionUID = 1L;
-
+    private static final Integer PROPOSAL_PENDING_STATUS_CODE = 1;
+    private static final Integer PROPOSAL_FUNDED_STATUS_CODE = 2;
+    
     private InstitutionalProposalDocument institutionalProposalDocument;
     private Long proposalId; 
     private String proposalNumber; 
@@ -122,6 +128,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private List<InstitutionalProposalScienceKeyword> institutionalProposalScienceKeywords;
     private List<InstitutionalProposalCostShare> institutionalProposalCostShares;
     private List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs;
+    private List<AwardFundingProposal> awardFundingProposals;
 
     public InstitutionalProposal() { 
         super();
@@ -147,7 +154,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         Calendar cl = Calendar.getInstance();
         setCreateTimeStamp(new Date(cl.getTime().getTime()));
         setInitialContractAdmin("Bruno");
-        setProposalNumber("1");
+        setProposalNumber(String.valueOf(System.currentTimeMillis() % 99999999));
         setTotalDirectCostInitial(new KualiDecimal(0));
         setTotalDirectCostTotal(new KualiDecimal(0));
         setTotalIndirectCostInitial(new KualiDecimal(0));
@@ -214,6 +221,19 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      */
     public void setInstitutionalProposalDocument(InstitutionalProposalDocument institutionalProposalDocument) {
         this.institutionalProposalDocument = institutionalProposalDocument;
+    }
+    
+    /**
+     * Add an AwardFundingProposal
+     * 
+     * The Award "owns" the relationship, so this method should not be called directly. Instead, this method will be called 
+     * when an InstitutionalProposal is linked to an Award from Award maintenance.  
+     * 
+     * @param afp
+     */
+    public void add(AwardFundingProposal afp) {
+        awardFundingProposals.add(afp);
+        updateFundingStatus();
     }
     
     /**
@@ -392,6 +412,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         institutionalProposalScienceKeywords = new ArrayList<InstitutionalProposalScienceKeyword>();
         institutionalProposalCostShares = new ArrayList<InstitutionalProposalCostShare>();
         institutionalProposalUnrecoveredFandAs = new ArrayList<InstitutionalProposalUnrecoveredFandA>();
+        awardFundingProposals = new ArrayList<AwardFundingProposal>();
     }
     
     public Long getProposalId() {
@@ -610,6 +631,14 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.mailType = mailType;
     }
 
+    // Temp implementation until IP Contacts completed
+    public Unit getLeadUnit() {
+        Unit unit = new Unit();
+        unit.setUnitNumber("000001");
+        unit.setUnitName("University");
+        return unit;
+    }
+    
     public String getMailAccountNumber() {
         return mailAccountNumber;
     }
@@ -807,6 +836,17 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setPrimeSponsor(Sponsor primeSponsor) {
         this.primeSponsor = primeSponsor;
     }
+
+    // Temporary implementation until IP contacts are completed
+    public Contactable getPrincipalInvestigator() {
+        return new Person() {
+            @Override
+            public String getFullName() {
+                return "Jane Doe";
+            }
+            
+        };
+    }
     
     public String getSponsorName() {
         Sponsor tempSponsor = getSponsor();
@@ -827,11 +867,25 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public AwardType getAwardType() {
         return awardType;
     }
+    
+    /** 
+     * @return Returns the awards.
+     */
+    public List<AwardFundingProposal> getAwardFundingProposals() {
+        return awardFundingProposals;
+    }
 
     public void setAwardType(AwardType awardType) {
         this.awardType = awardType;
     }
 
+    /**
+     * @param awards The awards to set.
+     */
+    public void setAwardFundingProposals(List<AwardFundingProposal> awardFundingProposals) {
+        this.awardFundingProposals = awardFundingProposals;
+    }
+    
     public InstitutionalProposalScienceKeyword getProposalScienceKeyword() {
         return proposalScienceKeyword;
     }
@@ -1094,6 +1148,18 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     /**
+     * This method removes an AwardFundingProposal
+     * 
+     * Since Award "owns" the relationship, this method should not be called except from Award
+     * 
+     * @param afp
+     */
+    public void remove(AwardFundingProposal afp) {
+        awardFundingProposals.remove(afp);
+        updateFundingStatus();
+    }
+
+    /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
@@ -1107,4 +1173,41 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         return "proposalNumber";
     }
     
+    /**
+     * This method lazy inits ActivityType
+     * @return
+     */
+    public ActivityType getActivityTypeFromCode() {
+        if(activityType == null) {
+            if (activityTypeCode != null) {
+                Map<String, Object> identifiers = new HashMap<String, Object>();
+                identifiers.put("activityTypeCode", activityTypeCode);
+                activityType = (ActivityType) getBusinessObjectService().findByPrimaryKey(ActivityType.class, identifiers);
+            }            
+        }
+        return activityType;
+    }
+    
+    /**
+     * This method lazy inits ProposalType
+     * @return
+     */
+    public ProposalType getProposalTypeFromCode() {
+        if(proposalType == null) {
+            if (proposalTypeCode != null) {
+                Map<String, Object> identifiers = new HashMap<String, Object>();
+                identifiers.put("proposalTypeCode", proposalTypeCode);
+                proposalType = (ProposalType) getBusinessObjectService().findByPrimaryKey(ProposalType.class, identifiers);
+            }            
+        }
+        return proposalType;
+    } 
+    
+    protected BusinessObjectService getBusinessObjectService() {
+        return (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class);
+    }
+    
+    private void updateFundingStatus() {
+        setStatusCode(awardFundingProposals.size() > 0 ? PROPOSAL_FUNDED_STATUS_CODE : PROPOSAL_PENDING_STATUS_CODE);
+    }
 }

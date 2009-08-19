@@ -40,7 +40,6 @@ import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -61,6 +60,13 @@ public class AwardHomeAction extends AwardAction {
         approvedSubawardActionHelper = new ApprovedSubawardActionHelper();
     }
 
+    public ActionForward addFundingProposal(ActionMapping mapping, ActionForm form, 
+                                            HttpServletRequest request,
+                                            HttpServletResponse response) throws Exception {
+        ((AwardForm) form).getFundingProposalBean().addFundingProposal();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     /**
      * This method is used to add a new Award Cost Share
      * 
@@ -340,6 +346,20 @@ public class AwardHomeAction extends AwardAction {
     public ActionForward deleteAwardTransferringSponsor(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ((AwardForm) form).getDetailsAndDatesFormHelper().deleteAwardTransferringSponsor(getLineToDelete(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * This method deletes a Funding proposal
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteAwardFundingProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ((AwardForm) form).getFundingProposalBean().deleteAwardFundingProposal(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
