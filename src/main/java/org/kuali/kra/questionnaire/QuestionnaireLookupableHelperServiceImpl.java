@@ -112,12 +112,11 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
         htmlData.setHref(htmlData.getHref().replace("maintenance", "../maintenanceQn"));
         if (!questionnaire.getQuestionnaireRefId().equals(((Questionnaire)businessObject).getQuestionnaireRefId())) {
-            htmlData.setHref(htmlData.getHref().replace("=edit", "=view"));
+            htmlData.setHref("../en/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+((Questionnaire)businessObject).getDocumentNumber());
             htmlData.setDisplayText("view");
         } else {
             AnchorHtmlData htmlData2 = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-            htmlData2.setHref(htmlData.getHref().replace("maintenance", "../maintenanceQn"));
-            htmlData2.setHref(htmlData.getHref().replace("=edit", "=view"));
+            htmlData2.setHref("../en/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+((Questionnaire)businessObject).getDocumentNumber());
             htmlData2.setDisplayText("view");
             htmlDataList.add(htmlData2);
         }

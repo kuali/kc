@@ -23,6 +23,7 @@
             
             </tr>     
             
+           <c:if test="${!KualiForm.readOnly}">
              <tr>
                 <th class="infoline">
                     <c:out value="Add:" />
@@ -44,39 +45,15 @@
                         ${vers}
                 </div>
                 </td>
+                
+                
                 <td class="infoline">
                     <div align=center>&nbsp;
                         <input type="image" id="addUsage" name="addUsage" src="static/images/tinybutton-add1.gif" class="tinybutton">
                     </div>
                 </td>
             </tr>
-            <%-- use js to display for editing 
-            <c:forEach var="questionnaireUsage" items="${QuestionnaireForm.newQuestionnaire.questionnaireUsages}" varStatus="status">
-                 <tr>
-                    <th class="infoline">
-                        <c:out value="${status.index+1}" />
-                    </th>
-                    <td align="left" valign="middle">
-                        <div align="center"> <kul:htmlControlAttribute property="newQuestionnaire.questionnaireUsages[${status.index}].moduleItemCode" attributeEntry="${questionnaireUsageAttributes.moduleItemCode}"/>
-                    </div>
-                    </td>
-                    <td>
-                    <div align="center"> <kul:htmlControlAttribute property="newQuestionnaire.questionnaireUsages[${status.index}].questionnaireLabel"  attributeEntry="${questionnaireUsageAttributes.questionnaireLabel}" />
-                    </div>
-                    </td>
-                    <td>     
-                    <div align="center">            
-                        ${questionnaireUsage.questionnaireSequenceNumber}
-                    </div>
-                    </td>
-                    <td>
-                    <div align=center>&nbsp;
-                        <input type="image" id="deleteUsage" name="deleteUsage" src="static/images/tinybutton-delete1.gif" class="tinybutton">
-                    </div>
-                    </td>
-                </tr>
-            </c:forEach>        
-           --%>
+          </c:if>
             
         </table>
     </div>
