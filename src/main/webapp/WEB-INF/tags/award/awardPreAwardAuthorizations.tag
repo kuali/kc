@@ -33,6 +33,7 @@
             	 	</div>
             	</td>
             </tr>
+            <%--
             <tr>
             	<th width="250" align="right" scope="row"><div align="right">Effective Date:</div></th>
             	<td>
@@ -41,12 +42,13 @@
             	 	</div>
             	</td>
              </tr>
+             --%>
              <tr>
              	<th width="250" align="right" scope="row"><div align="right">Comments:</div></th>
         	 	<td class="infoline">
             	 	<div align="left">
-            	  	 	<kul:htmlControlAttribute property="document.awardList[0].awardComments[3].comments" attributeEntry="${awardPreAwardAuthorizationCommentAttributes.comments}"/>
-            	  	 	<kra:expandedTextArea textAreaFieldName="document.awardList[0].awardComments[3].comments" action="${action}" textAreaLabel="${awardPreAwardAuthorizationCommentAttributes.comments.label}" />
+            	  	 	<kul:htmlControlAttribute property="document.awardList[0].awardPreAwardSponsorAuthorizationComment.comments" attributeEntry="${awardPreAwardAuthorizationCommentAttributes.comments}"/>
+            	  	 	 <kra:expandedTextArea textAreaFieldName="document.awardList[0].awardPreAwardSponsorAuthorizationComment.comments" action="${action}" textAreaLabel="${awardPreAwardAuthorizationCommentAttributes.comments.label}" />
             	 	</div>
              	</td>
              </tr>
@@ -82,8 +84,8 @@
              	<th width="250" align="right" scope="row"><div align="right">Comments:</div></th>
         	 	<td class="infoline">
             	 	<div align="left">
-            	  	 	<kul:htmlControlAttribute property="document.awardList[0].awardComments[4].comments" attributeEntry="${awardPreAwardAuthorizationCommentAttributes.comments}"/>
-            	  	 	<kra:expandedTextArea textAreaFieldName="document.awardList[0].awardComments[4].comments" action="${action}" textAreaLabel="${awardPreAwardAuthorizationCommentAttributes.comments.label}" />
+            	  	 	<kul:htmlControlAttribute property="document.awardList[0].awardPreAwardInstitutionalAuthorizationComment.comments" attributeEntry="${awardPreAwardAuthorizationCommentAttributes.comments}"/>
+            	  	 	<kra:expandedTextArea textAreaFieldName="document.awardList[0].awardPreAwardInstitutionalAuthorizationComment.comments" action="${action}" textAreaLabel="${awardPreAwardAuthorizationCommentAttributes.comments.label}" />
             	 	</div>
              	</td>
              </tr>
