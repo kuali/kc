@@ -2,8 +2,9 @@
  * This is the main function to create all the html for a question
  * each question is associated with 'li' tag which is jquery's node
  */
-function getQuestionNew(description, qtypeid, vers, childNode) {
+function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, childNode) {
 
+	//alert (" set up "+vers+"-"+dispans+"-"+ansmax+"-"+maxlength)
 	var qnaireid = "qnaireid" + i
 	var question = $('<li class="closed"></li>').attr("id", qnaireid);
 	var divId = "listcontent" + i;
@@ -32,6 +33,10 @@ function getQuestionNew(description, qtypeid, vers, childNode) {
 	sethiddenfields();
 	$("#qdesc" + i).attr("value", description);
 	$("#qtypeid" + i).attr("value", qtypeid);
+    $("#qvers" + i).attr("value", vers);
+    $("#qdispans" + i).attr("value", dispans);
+    $("#qansmax" + i).attr("value", ansmax);
+    $("#qmaxlength" + i).attr("value", maxlength);
 
 	// if (i < 4) {
 	// alert(i+"-"+$("#qdesc" + i).attr("value")+"-"+$("#qtypeid" +
@@ -53,6 +58,15 @@ function sethiddenfields() {
 	qntag.appendTo(hidtd);
 	qntag = $('<input type="hidden" id = "qvers" name = "qvers" />').attr("id",
 			"qvers" + i).attr("name", "qvers" + i);
+	qntag.appendTo(hidtd);
+	qntag = $('<input type="hidden" id = "qansmax" name = "qansmax" />').attr("id",
+			"qansmax" + i).attr("name", "qansmax" + i);
+	qntag.appendTo(hidtd);
+	qntag = $('<input type="hidden" id = "qdispans" name = "qdispans" />').attr("id",
+			"qdispans" + i).attr("name", "qdispans" + i);
+	qntag.appendTo(hidtd);
+	qntag = $('<input type="hidden" id = "qmaxlength" name = "qmaxlength" />').attr("id",
+			"qmaxlength" + i).attr("name", "qmaxlength" + i);
 	qntag.appendTo(hidtd);
 	// qntag = $('<input type="hidden" id = "newqtypeid" name = "newqtypeid"
 	// />')
@@ -95,7 +109,9 @@ function getMaintTable(idx, childNode) {
 	var tr1 = $('<tr></tr>');
 	var td1 = $('<td class="subelementcontent"></td>');
 
+	if ($("#readOnly").attr("value") != 'true') {
 	getQuestionActionSubTable(qnaireid).appendTo(td1);
+	}
 	getRequirementDisplayTable(idx).appendTo(td1);
 
 	var div192 = $('<div></div>').attr("id", "HSReqdiv" + idx);
@@ -109,7 +125,15 @@ function getMaintTable(idx, childNode) {
 					value, idx);
 			newResponse.appendTo(tbl196);
 		} else {
+			if ($("#readOnly").attr("value") != 'true') {
+				alert($("#readOnly").attr("value"))
 			getAddRequirementRow(idx).appendTo(tbl196);
+			} else {
+				var divtmp = $('<div></div>').html("No Requirements for Display on this question. ");
+                var tdtmp = $('<td/>').html(divtmp);
+                var trtmp = $('<tr/>').html(tdtmp);
+                trtmp.appendTo(tbl196);
+			}	
 
 		}
 		tbl196.appendTo(div192);
@@ -176,7 +200,7 @@ function getMaintTable(idx, childNode) {
 
 	// tdtmp = $('<td class="content_white" style="text-align:left;">');
 	tdtmp = $('<td>').attr("style",contentwhite+"text-align:left;");
-	getQnTypeDesc(qtypeid).appendTo(tdtmp);
+	getQnTypeDesc(qtypeid,idx).appendTo(tdtmp);
 	tdtmp.appendTo(trtmp);
 	trtmp.appendTo(tbl362);
 	tbl362.appendTo(div360);
@@ -421,64 +445,64 @@ function getQuestionActionSubTable(qnaireid) {
 
 }
 
-function pasteCopyNode(nodeid) {
-	var parentNode = $("#" + nodeid);
-	var ulTag = parentNode.children('ul');
-
-	startnode = $("#" + copyNode);
-	// alert("copy node " + $(startnode).attr("id").substring(8));
-	qdesc = $('#qdesc' + $(startnode).attr("id").substring(8)).attr("value");
-	qtypeid = $('#qtypeid' + $(startnode).attr("id").substring(8))
-			.attr("value");
-	i++;
-	var listitem = getQuestionNew(qdesc, qtypeid, "V1.01", "true");
-	var ultag = $('<ul></ul>');
-	ultag.appendTo(listitem);
-	var idx = listitem.attr("id").substring(8);
-	$("#movedn" + idx).hide();
-	if (listitem.prev().size() > 0) {
-		$("#movedn" + listitem.prev().attr("id").substring(8)).show();
-	}
-
-	// alert("node " + nodeid + "-" + parentNode.children('ul').size());
-	listitem.appendTo(ulTag);
-	// also need this to show 'folder' icon
-	$('#example').treeview( {
-		add : listitem
-	});
-
-	$("#qnum" + idx).attr("value", $("#questionNumber").attr("value"));
-	var qid = $("#qid" + $(startnode).attr("id").substring(8)).attr("value");
-	$("#qid" + idx).attr("value", qid);
-	var seqnum = Number($(listitem).siblings().size()) + 1;
-	$("#qseq" + idx).attr("value", seqnum);
-
-	var liId = "li#" + nodeid;
-	// var seqnum = Number($(liId).children('li').size())+1;
-	var qid = $("#qid" + idx).attr("value");
-	var qnum = $("#questionNumber").attr("value");
-	var parentNum = $("#qnum" + $(liId).attr("id").substring(8)).attr("value");
-	var insertValues = "insert into Q" + qid + "," + qnum + "," + parentNum
-			+ ",'N','',''," + seqnum + ",user,sysdate)"
-	addSqlScripts(insertValues);
-	// alert("paste copy node " + sqlScripts);
-	$("#questionNumber").attr("value",
-			Number($("#questionNumber").attr("value")) + 1)
-
-	// alert("copy li c size " + $("#" + copyNode).attr("id") + "-"
-	// + $("#" + copyNode).children('ul.eq(0)').children('li').size());
-	if ($("#" + copyNode).children('ul.eq(0)').children('li').size() > 0) {
-
-		$("#" + copyNode).children('ul.eq(0)').children('li').each(
-				function() {
-					// alert("child copy node"
-					// + $("deletereq" + $(this).attr("id").substring(8))
-					// .size());
-					pasteChild($(listitem).attr("id"), $(this).attr("id"));
-				});
-	}
-
-}
+//function pasteCopyNode(nodeid) {
+//	var parentNode = $("#" + nodeid);
+//	var ulTag = parentNode.children('ul');
+//
+//	startnode = $("#" + copyNode);
+//	// alert("copy node " + $(startnode).attr("id").substring(8));
+//	qdesc = $('#qdesc' + $(startnode).attr("id").substring(8)).attr("value");
+//	qtypeid = $('#qtypeid' + $(startnode).attr("id").substring(8))
+//			.attr("value");
+//	i++;
+//	var listitem = getQuestionNew(qdesc, qtypeid, "V1.01", "true");
+//	var ultag = $('<ul></ul>');
+//	ultag.appendTo(listitem);
+//	var idx = listitem.attr("id").substring(8);
+//	$("#movedn" + idx).hide();
+//	if (listitem.prev().size() > 0) {
+//		$("#movedn" + listitem.prev().attr("id").substring(8)).show();
+//	}
+//
+//	// alert("node " + nodeid + "-" + parentNode.children('ul').size());
+//	listitem.appendTo(ulTag);
+//	// also need this to show 'folder' icon
+//	$('#example').treeview( {
+//		add : listitem
+//	});
+//
+//	$("#qnum" + idx).attr("value", $("#questionNumber").attr("value"));
+//	var qid = $("#qid" + $(startnode).attr("id").substring(8)).attr("value");
+//	$("#qid" + idx).attr("value", qid);
+//	var seqnum = Number($(listitem).siblings().size()) + 1;
+//	$("#qseq" + idx).attr("value", seqnum);
+//
+//	var liId = "li#" + nodeid;
+//	// var seqnum = Number($(liId).children('li').size())+1;
+//	var qid = $("#qid" + idx).attr("value");
+//	var qnum = $("#questionNumber").attr("value");
+//	var parentNum = $("#qnum" + $(liId).attr("id").substring(8)).attr("value");
+//	var insertValues = "insert into Q" + qid + "," + qnum + "," + parentNum
+//			+ ",'N','',''," + seqnum + ",user,sysdate)"
+//	addSqlScripts(insertValues);
+//	// alert("paste copy node " + sqlScripts);
+//	$("#questionNumber").attr("value",
+//			Number($("#questionNumber").attr("value")) + 1)
+//
+//	// alert("copy li c size " + $("#" + copyNode).attr("id") + "-"
+//	// + $("#" + copyNode).children('ul.eq(0)').children('li').size());
+//	if ($("#" + copyNode).children('ul.eq(0)').children('li').size() > 0) {
+//
+//		$("#" + copyNode).children('ul.eq(0)').children('li').each(
+//				function() {
+//					// alert("child copy node"
+//					// + $("deletereq" + $(this).attr("id").substring(8))
+//					// .size());
+//					pasteChild($(listitem).attr("id"), $(this).attr("id"));
+//				});
+//	}
+//
+//}
 
 /*
  * traverse thru the node to copy this node tree need to clone copy node,
@@ -490,11 +514,16 @@ function pasteChild(parentid, startnode) {
 
 	// startnode = $("#"+childid);
 	// alert("copy node "+$(startnode).attr("id").substring(8));
-	qdesc = $('#qdesc' + $(startnode).attr("id").substring(8)).attr("value");
-	qtypeid = $('#qtypeid' + $(startnode).attr("id").substring(8))
-			.attr("value");
+	var stidx = $(startnode).attr("id").substring(8);
+	var qdesc = $('#qdesc' + stidx).attr("value");
+	var qtypeid = $('#qtypeid' + stidx).attr("value");
+    var qvers= $("#qvers" + stidx).attr("value");
+    var qdispans= $("#qdispans" + stidx).attr("value");
+    var qansmax= $("#qansmax" + stidx).attr("value");
+    var qmaxlength= $("#qmaxlength" + stidx).attr("value");
+
 	i++;
-	var listitem = getQuestionNew(qdesc, qtypeid, "V1.01", "true");
+	var listitem = getQuestionNew(qdesc, qtypeid, qvers,qdispans,qansmax,qmaxlength, "true");
 	var ultag = $('<ul></ul>');
 	ultag.appendTo(listitem);
 	var idx = listitem.attr("id").substring(8);
@@ -779,9 +808,20 @@ function getAddQuestionRow(curidx) {
 			.attr("id", "newqid" + curidx).attr("name", "newqid" + curidx);
 	qntag.appendTo(tdtmp);
 	qntag = $('<input type="hidden" id = "newqtypeid" name = "newqtypeid" />')
-			.attr("id", "newqtypeid" + curidx).attr("name",
-					"newqtypeid" + curidx);
+			.attr("id", "newqtypeid" + curidx).attr("name","newqtypeid" + curidx);
 	qntag.appendTo(tdtmp);
+	qntag = $('<input type="hidden" id = "newqvers" name = "newqvers" />')
+	    .attr("id", "newqvers" + curidx).attr("name","newqvers" + curidx);
+    qntag.appendTo(tdtmp);
+    qntag = $('<input type="hidden" id = "newqdispans" name = "newqdispans" />')
+        .attr("id", "newqdispans" + curidx).attr("name","newqdispans" + curidx);
+    qntag.appendTo(tdtmp);
+    qntag = $('<input type="hidden" id = "newqmaxans" name = "newqmaxans" />')
+       .attr("id", "newqmaxans" + curidx).attr("name","newqmaxans" + curidx);
+    qntag.appendTo(tdtmp);
+    qntag = $('<input type="hidden" id = "newqmaxlength" name = "newqmaxlength" />')
+       .attr("id", "newqmaxlength" + curidx).attr("name","newqmaxlength" + curidx);
+    qntag.appendTo(tdtmp);
 
 	var image = $(
 			'<img src="static/images/searchicon.gif" id="searchQ" name="searchQ" border="0" class="tinybutton"  alt="Search Question" title="Search Question">')
@@ -810,7 +850,7 @@ function getAddQuestionRow(curidx) {
 			.attr("id", "addQn" + curidx)
 			.click(function() {
 				var idx = $(this).attr("id").substring(5);
-				// alert($("#newqdesc"+idx).attr("value")+"-"+$("#newqtypeid"+idx).attr("value"))
+				 alert($("#newqdesc"+idx).attr("value")+"-"+$("#newqdispans"+idx).attr("value"))
 					if ($("#newqdesc" + idx).attr("value") == ''
 							|| $("#newqtypeid" + idx).attr("value") == '') {
 						alert("Please select a question to add");
@@ -829,11 +869,12 @@ function getAddQuestionRow(curidx) {
 						var listitem = getQuestionNew($(
 								"#newqdesc" + $(this).attr("id").substring(5))
 								.attr("value"),
-								$(
-										"#newqtypeid"
-												+ $(this).attr("id").substring(
-														5)).attr("value"),
-								"V1.01", childNode);
+								$("#newqtypeid"+ $(this).attr("id").substring(5)).attr("value"),
+								$("#newqvers"+ $(this).attr("id").substring(5)).attr("value"),
+								$("#newqdispans"+ $(this).attr("id").substring(5)).attr("value"),
+								$("#newqmaxans"+ $(this).attr("id").substring(5)).attr("value"),
+								$("#newqmaxlength"+ $(this).attr("id").substring(5)).attr("value"),
+								childNode);
 						var ultag = $('<ul></ul>');
 						ultag.appendTo(listitem);
 						var idx = listitem.attr("id").substring(8);
@@ -1129,7 +1170,9 @@ function getRequirementDeleteRow(response, value, curidx) {
 						$(this).parents('tr:eq(0)').remove();
 						return false;
 					});
+	if ($("#readOnly").attr("value") != 'true') {
 	image.appendTo(tdtmp);
+	}
 	tdtmp.appendTo(trtmp);
 	return trtmp;
 
@@ -1164,15 +1207,19 @@ function checkToAddQn(nodeIndex) {
 /*
  * This is called by pop window, it returns the selected question.
  */
-function returnQuestion(newQuestionId, newQuestion, newQuestionTypeId,
-		nodeIndex) {
-	// alert("return QNID "+ newQuestionId+newQuestionTypeId);
+function returnQuestion(newQuestionId, newQuestion, newQuestionTypeId,newQuestionSequence,displayedAnswers,maxAnswers,answerMaxLength
+		,nodeIndex) {
+	 alert("return QNID "+ newQuestionSequence+"-"+displayedAnswers+"-"+maxAnswers+"-"+answerMaxLength);
 	// TODO : these need to be defined in 'input' tag, otherwise, the value set
 	// will not stuck.
 	// questionid, description, and typeid returned from question lookup.
 	$("#newqid" + nodeIndex).attr("value", newQuestionId);
 	$("#newqdesc" + nodeIndex).attr("value", newQuestion);
 	$("#newqtypeid" + nodeIndex).attr("value", newQuestionTypeId);
+	$("#newqvers" + nodeIndex).attr("value", newQuestionSequence);
+	$("#newqdispans" + nodeIndex).attr("value", displayedAnswers);
+	$("#newqmaxans" + nodeIndex).attr("value", maxAnswers);
+	$("#newqmaxlength" + nodeIndex).attr("value", answerMaxLength);
 	// alert("qid "+ nodeIndex+$("#qid"+nodeIndex).attr("value"));
 }
 
@@ -1199,7 +1246,7 @@ function returnQuestionList(questionList) {
 		i++;
 		var parenturl = $('#example');
 		// alert(questions[k]);
-		var listitem = getQuestionNew(field[1], field[2], field[3], 'false');
+		var listitem = getQuestionNew(field[1], field[2], field[3], field[4], field[5], field[6],'false');
 		var ultag = $('<ul></ul>');
 		ultag.appendTo(listitem);
 		var idx = listitem.attr("id").substring(8);
@@ -1242,6 +1289,9 @@ function returnQuestionList(questionList) {
 				field[2]);
 		$("#qvers" + $(listitem).attr("id").substring(8)).attr("value",
 				field[3]);
+        $("#qdispans" + idx).attr("value", field[4]);
+        $("#qansmax" + idx).attr("value", field[5]);
+        $("#qmaxlength" + idx).attr("value", field[6]);
 		var seqnum = Number($(listitem).siblings().size()) + 1;
 		$("#qseq" + $(listitem).attr("id").substring(8)).attr("value", seqnum);
 		var qnum = $("#questionNumber").attr("value");
@@ -1287,8 +1337,12 @@ function returnQuestionList(questionList) {
 	// alert(sqlScripts);
 }// end returnquestionlist
 
-function getQnTypeDesc(qtypeid) {
+function getQnTypeDesc(qtypeid, idx) {
 	// alert("gettypedesc "+qtypeid);
+    var qdispans= $("#qdispans" + idx).attr("value");
+    var qansmax= $("#qansmax" + idx).attr("value");
+    var qmaxlength= $("#qmaxlength" + idx).attr("value");
+
 	var divtmp = null;
 	switch (Number(qtypeid)) {
 	// has to use Number(qtypeid)
@@ -1305,34 +1359,34 @@ function getQnTypeDesc(qtypeid) {
 	case 3:
 		divtmp = $('<div id="responsetypeNumber1b" class="responsetypediv1b">')
 				.html(
-						$('<p>The user will be presented with 1 text box.<br />The entered value will be validated requiring a number only.<br />The maximum length of the number in characters is 5.<br />The number of possible answers is 1. </p>'));
+						$('<p>The user will be presented with '+qdispans+' text box.<br />The entered value will be validated requiring a number only.<br />The maximum length of the number in characters is '+qmaxlength+'.<br />The number of possible answers is '+qansmax+'. </p>'));
 		break;
 	case 4:
 		divtmp = $('<div id="responsetypeDate1b" class="responsetypediv1b">')
 				.html(
-						$('<p>The user will be presented with 2 text boxes.<br />The entered value will be validated for a date in MM/DD/YYYY format.<br />A response is required for each text box.</p>'));
+						$('<p>The user will be presented with '+qdispans+' text boxes.<br />The entered value will be validated for a date in MM/DD/YYYY format.<br />A response is required for each text box.</p>'));
 		break;
 	case 5:
 		divtmp = $('<div id="responsetypeText1b" class="responsetypediv1b">')
 				.html(
-						$('<p>The user will be presented with 2 text areas.<br />The number of possible answers is 2.<br />Maximum length of each response in characters: 256.</p>'));
+						$('<p>The user will be presented with '+qdispans+' text areas.<br />The number of possible answers is '+qansmax+'.<br />Maximum length of each response in characters: '+qmaxlength+'.</p>'));
 		break;
+//	case 6:
+//		divtmp = $(
+//				'<div id="responsetypeDropdown1b" class="responsetypediv1b">')
+//				.html(
+//						$('<p>The user will be presented with a dropdown of options.<br />Only one selection is possible.<br />A selection is required.</p> Possible answers are:<br />1. One Fish<br />2. Two Fish<br />3. Red Fish<br />4. Blue Fish'));
+//		break;
+//	case 7:
+//		divtmp = $(
+//				'<div id="responsetypeCheckbox1b" class="responsetypediv1b">')
+//				.html(
+//						$('<p>The user will be presented with 4 checkboxes.<br />At least one selection is required.<br />Up to 4 selections are allowed.</p>Possible answers are:<br />1. One Byte<br />2. Two Bites<br />3. Red Light<br />4. Green lights'));
+//		break;
 	case 6:
-		divtmp = $(
-				'<div id="responsetypeDropdown1b" class="responsetypediv1b">')
-				.html(
-						$('<p>The user will be presented with a dropdown of options.<br />Only one selection is possible.<br />A selection is required.</p> Possible answers are:<br />1. One Fish<br />2. Two Fish<br />3. Red Fish<br />4. Blue Fish'));
-		break;
-	case 7:
-		divtmp = $(
-				'<div id="responsetypeCheckbox1b" class="responsetypediv1b">')
-				.html(
-						$('<p>The user will be presented with 4 checkboxes.<br />At least one selection is required.<br />Up to 4 selections are allowed.</p>Possible answers are:<br />1. One Byte<br />2. Two Bites<br />3. Red Light<br />4. Green lights'));
-		break;
-	case 8:
 		divtmp = $('<div id="responsetypeSearch1b" class="responsetypediv1b">')
 				.html(
-						$('<p>The user will be presented with the ability to search for: Person.<br />The field to return is: Name.<br />The number of possible returns is 2.</p>'));
+						$('<p>The user will be presented with the ability to search for: '+qdispans+'.<br />The field to return is: '+qmaxlength+'.<br />The number of possible returns is '+qansmax+'.</p>'));
 		break;
 	default:
 		divtmp = $('<div id="responsetypeSearch1b" class="responsetypediv1b">')
@@ -1924,14 +1978,13 @@ $(document).ready(function() {
 	}); // #save
   
   $("#route").click(function() {
-		var qname = $('#newQuestionnaire\\.name').attr("value");
-		var qnaireid = $('#newQuestionnaire\\.questionnaireRefId').attr("value");
-		var qid = $('#newQuestionnaire\\.questionnaireId').attr("value");
+		var qname = $('#document\\.newMaintainableObject\\.businessObject\\.name').attr("value");
+		var qnaireid = $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value");
+		var qid = $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireId').attr("value");
 		var docstatus = $('#docStatus').attr("value");
-		var qdescription = $('#newQuestionnaire\\.description').attr("value");
-		var qisfinal = $('#newQuestionnaire\\.isFinal').attr("checked");
+		var qdescription = $('#document\\.newMaintainableObject\\.businessObject\\.description').attr("value");
+		var qisfinal = $('#document\\.newMaintainableObject\\.businessObject\\.isFinal').attr("checked");
 		var retval = false;
-		var saveok = 'false';
 			if (qname == '') {
 				alert("Questionnaire Name is required");
 			} else if (qdescription == '') {
@@ -1940,7 +1993,7 @@ $(document).ready(function() {
 				alert("No question is added");	
 			} else {
 				
-				saveok = 'true';
+				var saveok = 'true';
 				// check if name exist
 				var isexist='true';
 				// TODO : FF seems to have trouble with "#;#"
@@ -1959,9 +2012,8 @@ $(document).ready(function() {
 				for ( var k = 0; k < sqls.length; k++) {
 					sqlScripts = sqls[k];
 					sqlScripts = sqlScripts.replace(/#;#/g, ";;;");
-					qnaireid = $('#newQuestionnaire\\.questionnaireRefId').attr(
-							"value");
-					
+					qnaireid = $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr(
+					"value");					
 				if (sqls[k] != '') {	
 					if (sqlstring == '') {
 						sqlstring = sqls[k];
@@ -1982,7 +2034,7 @@ $(document).ready(function() {
 			//document.getElementById("newQuestionnaire.questionnaireRefId").value = $('#newQuestionnaire\\.questionnaireRefId').attr("value");
 	        // Note : hidden value "newQuestionnaire.questionnaireRefId" is still null in 'save' method.  although it shows value here before sent
 			// to 'save'.  not sure why
-			alert("return "+retval+"-"+document.getElementById("newQuestionnaire.questionnaireRefId").value)
+			alert("return "+retval+"-"+document.getElementById("document.newMaintainableObject.businessObject.questionnaireRefId").value)
 			return retval;  // comment for rice maint
 		}); // #route
 

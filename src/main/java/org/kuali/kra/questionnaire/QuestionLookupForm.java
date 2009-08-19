@@ -31,6 +31,12 @@ public class QuestionLookupForm extends KualiForm  {
     private String lookupResultsBOClassName;
     private String lookedUpCollectionName;
     private String selectedQuestions;
+    private String newLookupClass; 
+    private String newLookupReturn; 
+    private Integer newDisplayedAnswers;
+    private Integer newMaxAnswers;
+    private Integer newAnswerMaxLength; 
+    private Integer newQuestionSequence; 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
      */
@@ -110,6 +116,54 @@ public class QuestionLookupForm extends KualiForm  {
 
     public void setSelectedQuestions(String selectedQuestions) {
         this.selectedQuestions = selectedQuestions;
+    }
+
+    public String getNewLookupClass() {
+        return newLookupClass;
+    }
+
+    public void setNewLookupClass(String newLookupClass) {
+        this.newLookupClass = newLookupClass;
+    }
+
+    public String getNewLookupReturn() {
+        return newLookupReturn;
+    }
+
+    public void setNewLookupReturn(String newLookupReturn) {
+        this.newLookupReturn = newLookupReturn;
+    }
+
+    public Integer getNewDisplayedAnswers() {
+        return newDisplayedAnswers;
+    }
+
+    public void setNewDisplayedAnswers(Integer newDisplayedAnswers) {
+        this.newDisplayedAnswers = newDisplayedAnswers;
+    }
+
+    public Integer getNewMaxAnswers() {
+        return newMaxAnswers;
+    }
+
+    public void setNewMaxAnswers(Integer newMaxAnswers) {
+        this.newMaxAnswers = newMaxAnswers;
+    }
+
+    public Integer getNewAnswerMaxLength() {
+        return newAnswerMaxLength;
+    }
+
+    public void setNewAnswerMaxLength(Integer newAnswerMaxLength) {
+        this.newAnswerMaxLength = newAnswerMaxLength;
+    }
+
+    public Integer getNewQuestionSequence() {
+        return newQuestionSequence;
+    }
+
+    public void setNewQuestionSequence(Integer newQuestionSequence) {
+        this.newQuestionSequence = newQuestionSequence;
     }
 
 }

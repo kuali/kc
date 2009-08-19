@@ -24,18 +24,20 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     private QuestionnaireDao questionnaireDao;
     private BusinessObjectService businessObjectService;
 
+    @Transactional
     public void saveQuestionnaire(String sqlScripts, Questionnaire questionnaire) {
-        if (questionnaire.getQuestionnaireRefId() != null) {
-            Map pkMap = new HashMap();
-            pkMap.put("questionnaireRefId", questionnaire.getQuestionnaireRefId());
-            questionnaire = (Questionnaire) businessObjectService.findByPrimaryKey(Questionnaire.class, pkMap);
-        }
+//        if (questionnaire.getQuestionnaireRefId() != null) {
+//            Map pkMap = new HashMap();
+//            pkMap.put("questionnaireRefId", questionnaire.getQuestionnaireRefId());
+//            questionnaire = (Questionnaire) businessObjectService.findByPrimaryKey(Questionnaire.class, pkMap);
+//        }
         questionnaireDao.runScripts(sqlScripts.split(";;;"), questionnaire.getQuestionnaireRefId());
 
     }

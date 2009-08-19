@@ -25,6 +25,7 @@ import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.OjbCollectionAware;
+import org.springframework.transaction.annotation.Transactional;
 import org.springmodules.orm.ojb.PersistenceBrokerCallback;
 
 public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, QuestionnaireDao {

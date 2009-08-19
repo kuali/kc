@@ -77,6 +77,7 @@ public class QuestionLookupAction extends KualiAction {
                             questions = questions + "#q#" +question.getQuestionRefId()+"#f#"+desc+"#f#"+question.getQuestionTypeId()+"#f#"+question.getSequenceNumber();
                             
                         }
+                        questions = questions +"#f#"+ getQeustionResponse(question);
                     }
             questionLookupForm.setLookupResultsSequenceNumber(null);
         }
@@ -90,6 +91,19 @@ public class QuestionLookupAction extends KualiAction {
         }
         return forward;
 
+    }
+
+    private String getQeustionResponse(Question question) {
+        String retString = "";
+        if (question.getQuestionTypeId().equals(new Integer(6))) {
+            String className = question.getLookupClass();
+            className = className.substring(className.lastIndexOf(".")+1);
+            retString = className+"#f#"+question.getMaxAnswers()+"#f#"+question.getLookupReturn();
+            
+        } else {
+            retString = question.getDisplayedAnswers()+"#f#"+question.getMaxAnswers()+"#f#"+question.getAnswerMaxLength();
+        }
+        return retString;
     }
 
     @Override
