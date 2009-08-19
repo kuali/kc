@@ -41,6 +41,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     private TransactionBean transactionBean;
     private String goToAwardNumber;
     private List<String> order;
+    private List<Integer> columnSpan;
     
     public TimeAndMoneyForm() {
         super();        
@@ -52,6 +53,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         initializeHeaderNavigationTabs();
         transactionBean = new TransactionBean(this);
         order = new ArrayList<String>();
+        columnSpan = new ArrayList<Integer>();
     }
     
     /**
@@ -161,5 +163,21 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      */
     public void setOrder(List<String> order) {
         this.order = order;
+    }
+
+    /**
+     * Gets the columnSpan attribute. 
+     * @return Returns the columnSpan.
+     */
+    public List<Integer> getColumnSpan() {
+        return columnSpan;
+    }
+
+    /**
+     * Sets the columnSpan attribute value.
+     * @param columnSpan The columnSpan to set.
+     */
+    public void setColumnSpan(List<Integer> columnSpan) {
+        this.columnSpan = columnSpan;
     }
 }

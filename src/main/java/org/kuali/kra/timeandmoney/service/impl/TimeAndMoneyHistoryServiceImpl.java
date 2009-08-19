@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.timeandmoney.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
     
     BusinessObjectService businessObjectService; 
 
-    public void getTimeAndMoneyHistory(String awardNumber, Map<Object, Object> timeAndMoneyHistory) {
+    public void getTimeAndMoneyHistory(String awardNumber, Map<Object, Object> timeAndMoneyHistory, List<Integer> columnSpan) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         Map<String, Object> fieldValues1 = new HashMap<String, Object>();
         Map<String, Object> fieldValues2 = new HashMap<String, Object>();
@@ -67,11 +68,14 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                         fieldValues3.put("sequenceNumber", awardAmountInfo.getSequenceNumber());
                         fieldValues3.put("transactionId", awardAmountInfo.getTransactionId());
                         fieldValues3.put("timeAndMoneyDocumentNumber", awardAmountInfo.getTimeAndMoneyDocumentNumber());
-                        List<TransactionDetail> transactionDetails = ((List<TransactionDetail>)businessObjectService.findMatching(TransactionDetail.class, fieldValues3));
+                        List<TransactionDetail> transactionDetails = ((List<TransactionDetail>)businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues3, "sourceAwardNumber", true));
+                        int i = 0;
                         for(TransactionDetail transactionDetail : transactionDetails){
                             timeAndMoneyHistory.put(key, transactionDetail);
                             key++;
+                            i++;
                         }
+                        columnSpan.add(i);
                     }
                 }
             }
