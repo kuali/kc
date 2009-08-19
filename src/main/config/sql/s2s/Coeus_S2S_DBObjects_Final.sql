@@ -1,15 +1,3 @@
-@tables/EPS_PROPOSAL_STATUS.sql
-@tables/OSP$BUD_PER_SAL_DET_PRN_TMP.sql
-@tables/OSP$EPS_PROP_PERSON_BIO_SOURCE.sql
-@tables/OSP$PROPOSAL.sql
-@tables/OSP$PROPOSAL_ADMIN_DETAILS.sql
-@tables/OSP$SPONSOR_HIERARCHY.sql
-@tables/OSP$SCHOOL_CODE.sql
-@tables/OSP$PARAMETER.sql
-
-@data/load_SPONSOR_HIERARCHY.sql
-@data/load_OSP$PARAMETER.sql
-
 @views/OSP$ABSTRACT_TYPE.sql
 @views/OSP$ACTIVITY_TYPE.sql
 @views/OSP$BUDGET_JUSTIFICATION.sql
