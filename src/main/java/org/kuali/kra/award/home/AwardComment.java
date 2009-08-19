@@ -16,13 +16,12 @@
 package org.kuali.kra.award.home;
 
 import java.util.LinkedHashMap;
-
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.bo.CommentType;
+
 /**
  * This class is business object representation of an Award Comment
  */
-
 public class AwardComment extends AwardAssociate {
     
     /**
@@ -47,6 +46,13 @@ public class AwardComment extends AwardAssociate {
         super();
     }
     
+    public AwardComment(CommentType commentType, String comments) {
+        this();
+        setCommentType(commentType);
+        setComments(comments);
+        setChecklistPrintFlag(Boolean.FALSE);
+    }
+
     /**
      * This method...
      * @return
@@ -62,23 +68,7 @@ public class AwardComment extends AwardAssociate {
     public void setAwardCommentId(Long awardCommentId) {
         this.awardCommentId = awardCommentId;
     }
-    
-    /**
-     * This method...
-     * @return
-     */
-//    public String getAwardNumber() {
-//        return awardNumber;
-//     }
-    
-//    /**
-//     * This method...
-//     * @param awardNumber
-//     */
-//    public void setAwardNumber(String awardNumber) {
-//        //do nothing
-//     }
-
+ 
     /**
      * This method...
      * @return
@@ -86,50 +76,7 @@ public class AwardComment extends AwardAssociate {
     public Award getAward() {
         return award;
     }
-    
-    
 
-    /**
-     * This method...
-     * @param award
-     */
-    public void setAward(Award award) {
-        this.award = award;
-//        if(award == null) {
-//            sequenceNumber = null;
-//            awardNumber = null;
-//        } else {
-//            sequenceNumber = (award.getSequenceNumber());
-//            awardNumber = (award.getAwardNumber());
-//        }
-    }
-
-
-
-
-//    /**
-//     * This method...
-//     * @return
-//     */
-//    public int getSequenceNumber() {
-//        return sequenceNumber;//temp
-//     }
-//
-//
-//
-//
-//
-//    /**
-//     * This method...
-//     * @param sequenceNumber
-//     */
-//    public void setSequenceNumber(Integer sequenceNumber) {
-//       //do nothing
-//    }
-//
-//
-//
-//
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -151,8 +98,6 @@ public class AwardComment extends AwardAssociate {
         int result = super.hashCode();
         result = prime * result + ((award == null) ? 0 : award.hashCode());
         result = prime * result + ((awardCommentId == null) ? 0 : awardCommentId.hashCode());
-//        result = prime * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
-//        result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
         return result;
     }
 
@@ -180,18 +125,6 @@ public class AwardComment extends AwardAssociate {
         }
         else if (!awardCommentId.equals(other.awardCommentId))
             return false;
-//        if (awardNumber == null) {
-//            if (other.awardNumber != null)
-//                return false;
-//        }
-//        else if (!awardNumber.equals(other.awardNumber))
-//            return false;
-//        if (sequenceNumber == null) {
-//            if (other.sequenceNumber != null)
-//                return false;
-//        }
-//        else if (!sequenceNumber.equals(other.sequenceNumber))
-//            return false;
         return true;
     }
 
@@ -257,6 +190,7 @@ public class AwardComment extends AwardAssociate {
      */
     public void setCommentType(CommentType commentType) {
         this.commentType = commentType;
+        this.commentTypeCode = commentType != null ? commentType.getCommentTypeCode() : null;
     }
 
     public void resetPersistenceState() {

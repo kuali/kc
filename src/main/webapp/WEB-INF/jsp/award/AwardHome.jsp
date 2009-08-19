@@ -29,7 +29,7 @@ This is the Award Home Page - Under Construction
 
 <div align="right"><kul:help documentTypeName="AwardDocument" pageName="Award" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
-<%-- <kra-a:awardFundingProposals /> --%>
+<kra-a:awardFundingProposals />
 <kra-a:awardDetailsDates />
 <kra-a:awardSubaward />
 <kra-a:awardSponsorTemplate />

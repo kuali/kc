@@ -33,6 +33,7 @@ import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
+import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
@@ -52,6 +53,7 @@ import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -164,6 +166,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardTransferringSponsor> awardTransferringSponsors;
     private List<AwardAmountInfo> awardAmountInfos;
     private List<AwardCloseout> awardCloseoutItems;
+    
+    private List<AwardFundingProposal> fundingProposals;
     
     // Additional fields for lookup
     private String leadUnitName;
@@ -538,7 +542,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.costSharingIndicator = costSharingIndicator;
     }
 
-
+    /**
+     * @return
+     */
+    public List<AwardFundingProposal> getFundingProposals() {
+        return fundingProposals;
+    }
+    
+    
     /**
      * 
      * For ease of use in JSP and tag files; the getter method uses acronym instead of full meaning.
@@ -1589,6 +1600,21 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     /**
+     * Creates an AwardFundingProposal and adds it to the collection
+     * 
+     * It also adds the AwardFundingProposal to the InstitutionalProposal
+     * 
+     * @param institutionalProposal
+     */
+    public void add(InstitutionalProposal institutionalProposal) {
+        if(institutionalProposal != null) {
+            AwardFundingProposal afp = new AwardFundingProposal(this, institutionalProposal);
+            fundingProposals.add(afp);
+            institutionalProposal.add(afp);
+        }
+    }
+    
+    /**
      * @param awardSponsorContact
      */
     public void addSponsorContact(AwardSponsorContact awardSponsorContact) {
@@ -1644,8 +1670,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardAmountInfo awardAmountInfo = new AwardAmountInfo();
         awardAmountInfo.setAward(this);        
         awardAmountInfos.add(awardAmountInfo);
-        
-        //customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
+
+        fundingProposals = new ArrayList<AwardFundingProposal>();
     }
 
     /**
@@ -2419,5 +2445,38 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
      */
     public void setActivityType(ActivityType activityType) {
         this.activityType = activityType;
+    }
+
+    /**
+     * This method removes Funding Proposal for specified index from list
+     * 
+     * It also removes the AwardFundingProposal from the InstitutionalProposal 
+     * 
+     * @param index
+     */
+    public AwardFundingProposal removeFundingProposal(int index) {
+        AwardFundingProposal afp = (index >= 0) ? fundingProposals.remove(index) : null;
+        if(afp != null) {
+            afp.getProposal().remove(afp);
+        }
+        return afp;
+    }
+    
+    /**
+     * Given an AwardComment as a template, try to find an existing AwardComment of that type
+     * @param award
+     * @param template
+     * @return The found awardComment of a specific type. If an existing comment is not found, return null
+     */
+    public AwardComment findCommentOfSpecifiedType(AwardComment template) {
+        AwardComment comment = null;
+        for(AwardComment ac: getAwardComments()) {
+            if(ac.getCommentTypeCode().equals(template.getCommentTypeCode())) {
+                comment = ac;
+                break;
+            }
+        }
+        
+        return comment;
     }
 }

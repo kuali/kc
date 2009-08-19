@@ -36,6 +36,7 @@ import org.kuali.kra.award.detailsdates.DetailsAndDatesFormHelper;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.approvedsubawards.ApprovedSubawardFormHelper;
+import org.kuali.kra.award.home.fundingproposal.AwardFundingProposalBean;
 import org.kuali.kra.award.notesandattachments.comments.AwardCommentBean;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportsBean;
@@ -55,7 +56,6 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.Auditable;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
@@ -123,7 +123,7 @@ public class AwardForm extends ProposalFormBase
     private Map<String, AwardHierarchy> awardHierarchyNodes;
     private String awardNumberInputTemp;//This is temporary till the GUI mock is ready for award hierarchy
     private List<String> order;
-    
+    private AwardFundingProposalBean fundingProposalBean;
     /**
      * 
      * Constructs a AwardForm.
@@ -172,6 +172,7 @@ public class AwardForm extends ProposalFormBase
         awardCommentBean = new AwardCommentBean(this);
         awardCloseoutBean = new AwardCloseoutBean(this);
         awardHierarchyNodes = new TreeMap<String, AwardHierarchy>();
+        fundingProposalBean = new AwardFundingProposalBean(this);
         order = new ArrayList<String>();
     }
     
@@ -629,6 +630,13 @@ public class AwardForm extends ProposalFormBase
         return KraServiceLocator.getService(KualiConfigurationService.class);
     }
 
+    /**
+     * @return
+     */
+    public AwardFundingProposalBean getFundingProposalBean() {
+        return fundingProposalBean;
+    }
+    
     /**
      * Gets the awardHierarchyNodes attribute. 
      * @return Returns the awardHierarchyNodes.
