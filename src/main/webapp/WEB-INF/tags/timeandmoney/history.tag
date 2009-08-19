@@ -32,6 +32,9 @@
           		<kul:htmlAttributeHeaderCell literalLabel="Description" scope="col" colspan="9"/>
           	</tr>
           	
+          	<c:set var="displayedOnce" value="false" />
+          	<c:set var="rowSpanIndex" value="0" />
+          	
           	<c:forEach var="timeAndMoneyHistory" items="${KualiForm.document.timeAndMoneyHistory}" varStatus="status">
           		<c:choose>
 					<c:when test="${timeAndMoneyHistory.key.class.name == 'java.lang.String'}">
@@ -50,9 +53,14 @@
 					</c:when>
 					<c:otherwise>						
 						<c:choose>							
-							<c:when test="${timeAndMoneyHistory.value.class.name == 'org.kuali.kra.award.home.AwardAmountInfo'}">								
+							<c:when test="${timeAndMoneyHistory.value.class.name == 'org.kuali.kra.award.home.AwardAmountInfo'}">
+							<c:set var="displayedOnce" value="false" />
+							<c:set var="displayedOnceForThis" value="false" />								
 							<tr>
-							<td align="left" valign="middle" class="infoline" rowspan="4">
+							<c:out value="rowspan is: ${3 + KualiForm.columnSpan[rowSpanIndex]}" />
+							<td align="left" valign="middle" class="infoline" rowspan="${3 + KualiForm.columnSpan[rowSpanIndex]}">
+								<c:set var="rowSpanForOther" value="${KualiForm.columnSpan[rowSpanIndex]}" />
+								<c:set var="rowSpanIndex" value="${rowSpanIndex+1}" />							
 			                	<div align="center">			                	
 			                		<c:out value="${timeAndMoneyHistory.key}" />
 			                	</div>                	
@@ -116,8 +124,10 @@
 			        		</tr>	
 							</c:when>
 							<c:otherwise>
+							<c:if test="${displayedOnce!=true}" >
+								<c:set var="displayedOnce" value="true" />
 							<tr>
-								<th colspan="5">									
+								<th colspan="5" >									
 									<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.comments}" readOnly="true" noColon="true" /></div>
 			        			</th>
 			        			<th>
@@ -133,10 +143,15 @@
 									<div align="center"><kul:htmlAttributeLabel attributeEntry="${transactionDetailAttributes.anticipatedAmount}" readOnly="true" noColon="true" /></div>
 			        			</th>			        			
 			        		</tr>
+			        		</c:if>
 			        		<tr>
-			        			<td align="center" valign="middle" colspan="5">				        		
+			        			<c:if test="${displayedOnceForThis!=true}" >
+								<c:set var="displayedOnceForThis" value="true" />
+			        			<td align="center" valign="middle" colspan="5" rowspan="${rowSpanForOther}" >
+			        				<c:set var="displayedOnceForThis" value="true" />				        		
 				        			<c:out value="${timeAndMoneyHistory.value.comments}" />
 				        		</td>
+				        		</c:if>
 				        		<td align="center" valign="middle">
 				        			<c:choose>
 				        				<c:when test="${timeAndMoneyHistory.value.sourceAwardNumber == '000000-00000'}">
@@ -158,9 +173,9 @@
 				        		</td>				        						        		
 			        		</tr>
 							</c:otherwise>
-						</c:choose>						
+						</c:choose>												
 					</c:otherwise>					
-				</c:choose>          	
+				</c:choose>	          	
           	</c:forEach>
           	
         </table>  	

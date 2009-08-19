@@ -15,10 +15,11 @@
  */
 package org.kuali.kra.timeandmoney.service;
 
+import java.util.List;
 import java.util.Map;
 
 public interface TimeAndMoneyHistoryService {
     
-    void  getTimeAndMoneyHistory(String awardNumber, Map<Object, Object> timeAndMoneyHistory);
+    void  getTimeAndMoneyHistory(String awardNumber, Map<Object, Object> timeAndMoneyHistory, List<Integer> columnSpan);
 
 }
