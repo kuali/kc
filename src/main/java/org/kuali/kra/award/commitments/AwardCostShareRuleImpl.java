@@ -16,8 +16,10 @@
 package org.kuali.kra.award.commitments;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -39,9 +41,10 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
      * @see org.kuali.kra.award.commitments.AwardCostShareRule#processCostShareBusinessRules
      * (org.kuali.kra.award.commitments.AwardCostShareRuleEvent)
      */
-    public boolean processCostShareBusinessRules(AwardCostShareRuleEvent awardCostShareRuleEvent) {
+    public boolean processCostShareBusinessRules(AwardCostShareRuleEvent awardCostShareRuleEvent, int i) {
         this.awardCostShare = awardCostShareRuleEvent.getCostShareForValidation();
-        return processCommonValidations(awardCostShare);
+        return processCommonValidations(awardCostShare)&&
+                validateCostShareDoesNotViolateUniqueConstraintOnSave(awardCostShareRuleEvent,awardCostShare, i);
     }
     
     /**
@@ -66,6 +69,9 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
         // test if cost share met is valid
         isValid &= validateCostShareMet(awardCostShare.getCostShareMet());
         
+        // test if cost share is unique
+        isValid &= validateCostShareDoesNotViolateUniqueConstraintOnAdd(awardCostShareRuleEvent, awardCostShare);
+        
         return isValid;
     }
     
@@ -80,6 +86,87 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
         
         return validSourceAndDestination && validFiscalYearRange;
     }
+    
+    /**
+     * This method tests that Cost Share does not violate unique constraint on Database table.
+     * @param awardCostShareRuleEvent
+     * @param awardCostShare
+     * @return
+     */
+    public boolean validateCostShareDoesNotViolateUniqueConstraintOnAdd (AwardCostShareRuleEvent awardCostShareRuleEvent,
+                                                                     AwardCostShare awardCostShare) {
+        AwardDocument awardDocument = (AwardDocument) awardCostShareRuleEvent.getDocument(); 
+        boolean valid = true;
+        for (AwardCostShare existingCostShare : awardDocument.getAward().getAwardCostShares()) {
+            if(  awardCostShare.getFiscalYear().equals(existingCostShare.getFiscalYear()) &&
+                    awardCostShare.getCostShareTypeCode().equals(existingCostShare.getCostShareTypeCode()) &&
+                        awardCostShare.getSource().equals(existingCostShare.getSource()) &&
+                            awardCostShare.getDestination().equals(existingCostShare.getDestination())) {
+                valid = false;
+                reportError(NEW_AWARD_COST_SHARE+".duplicateEntry", 
+                        KeyConstants.ERROR_DUPLICATE_ENTRY);
+            }
+        }
+        return valid;
+    }
+    
+    /**
+     * This method tests that Cost Share does not violate unique constraint on Database table.
+     * @param awardCostShareRuleEvent
+     * @param awardCostShare
+     * @return
+     */
+    public boolean validateCostShareDoesNotViolateUniqueConstraintOnSave(AwardCostShareRuleEvent awardCostShareRuleEvent,
+                                                                        AwardCostShare awardCostShare, int i) {
+        AwardDocument awardDocument = (AwardDocument) awardCostShareRuleEvent.getDocument(); 
+        boolean valid = true;
+        int index = 0;
+        for (AwardCostShare testCostShare : awardDocument.getAward().getAwardCostShares()) {
+            if(index != i){
+                if(testCostShare.getAwardNumber().equals(awardCostShare.getAwardNumber()) &&
+                        testCostShare.getSequenceNumber().equals(awardCostShare.getSequenceNumber()) &&
+                        testCostShare.getFiscalYear().equals(awardCostShare.getFiscalYear()) &&
+                        testCostShare.getCostShareTypeCode().equals(awardCostShare.getCostShareTypeCode()) &&
+                        testCostShare.getSource().equals(awardCostShare.getSource()) &&
+                        testCostShare.getDestination().equals(awardCostShare.getDestination())) {
+                    valid = false;
+                    reportError(NEW_AWARD_COST_SHARE+".duplicateEntry", 
+                            KeyConstants.ERROR_DUPLICATE_ENTRY);
+                    break;
+                }
+            }
+            index++;
+        }
+        return valid;
+    }
+    
+//    /**
+//     * This method...
+//     * @param testCostShare
+//     * @param awardCostShares
+//     * @param valid
+//     * @return
+//     */
+//    public boolean testCostShareForUniqueness(AwardCostShare testCostShare, List<AwardCostShare> awardCostShares, boolean valid, int index) {
+//        int thisIndex = 1;
+//        for (AwardCostShare compareCostShare : awardCostShares) {
+//          if(thisIndex != index){
+//              if(testCostShare.getAwardNumber().equals(compareCostShare.getAwardNumber()) &&
+//                      testCostShare.getSequenceNumber().equals(compareCostShare.getSequenceNumber()) &&
+//                      testCostShare.getFiscalYear().equals(compareCostShare.getFiscalYear()) &&
+//                      testCostShare.getCostShareTypeCode().equals(compareCostShare.getCostShareTypeCode()) &&
+//                      testCostShare.getSource().equals(compareCostShare.getSource()) &&
+//                      testCostShare.getDestination().equals(compareCostShare.getDestination())) {
+//                  valid = false;
+//                  reportError(NEW_AWARD_COST_SHARE+".duplicateEntry", 
+//                          KeyConstants.ERROR_DUPLICATE_ENTRY);
+//                  break;
+//              }
+//          }
+//          thisIndex++;
+//      }
+//        return valid;
+//    }
     
     /**
     *
