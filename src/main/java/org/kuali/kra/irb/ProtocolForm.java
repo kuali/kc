@@ -339,14 +339,4 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
         return true;
     }
-
-    /**
-     * TODO : rice upgrade hack : this is to get fundingsource lookup work.
-     * @see org.kuali.rice.kns.web.struts.pojo.PojoFormBase#isPropertyEditable(java.lang.String)
-     */
-    @Override
-    public boolean isPropertyEditable(String propertyName) {
-        // TODO Auto-generated method stub
-        return true;
-    }
 }
