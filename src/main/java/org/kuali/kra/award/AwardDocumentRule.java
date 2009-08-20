@@ -351,7 +351,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
             AwardCostShareRuleEvent event = new AwardCostShareRuleEvent(errorPath, 
                                                                         awardDocument, 
                                                                         awardCostShare);
-            valid &= new AwardCostShareRuleImpl().processCostShareBusinessRules(event);
+            valid &= new AwardCostShareRuleImpl().processCostShareBusinessRules(event, i);
             errorMap.removeFromErrorPath(errorPath);
             i++;
         }

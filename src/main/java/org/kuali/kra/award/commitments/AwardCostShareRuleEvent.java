@@ -72,7 +72,7 @@ public class AwardCostShareRuleEvent extends KraDocumentEventBase {
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AwardCostShareRule)rule).processCostShareBusinessRules(this);
+        return ((AwardCostShareRule)rule).processCostShareBusinessRules(this, 0);
     }
 
 }

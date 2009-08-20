@@ -23,5 +23,5 @@ import org.kuali.rice.kns.rule.BusinessRule;
 public interface AwardCostShareRule extends BusinessRule {
 
     public boolean processCostShareBusinessRules(AwardCostShareRuleEvent 
-            awardCostShareRuleEvent);
+            awardCostShareRuleEvent, int i);
 }
