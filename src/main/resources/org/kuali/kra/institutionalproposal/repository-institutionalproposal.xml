@@ -97,7 +97,7 @@
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
 		
-        <collection-descriptor name="proposalIpReviewJoins" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.ProposalIpReviewJoin" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <collection-descriptor name="proposalIpReviewJoins" proxy="true" orderby="proposalIpReviewJoinId" sort="DESC" element-class-ref="org.kuali.kra.institutionalproposal.ProposalIpReviewJoin" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
             <inverse-foreignkey field-ref="proposalId"/>
         </collection-descriptor>
         <!--

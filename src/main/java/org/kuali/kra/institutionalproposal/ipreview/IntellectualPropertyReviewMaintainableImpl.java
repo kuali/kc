@@ -16,11 +16,13 @@
 package org.kuali.kra.institutionalproposal.ipreview;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.service.VersionException;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 
 public class IntellectualPropertyReviewMaintainableImpl extends KraMaintainableImpl implements Maintainable, Serializable {
@@ -44,6 +46,17 @@ public class IntellectualPropertyReviewMaintainableImpl extends KraMaintainableI
                 throw new RuntimeException("Caught exception versioning intellectual property review: " + ve);
             }
         }
+    }
+   
+   /**
+     * Set the new collection records back to true so they can be deleted (copy should act like new)
+     * 
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterCopy()
+     */
+    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.processAfterCopy(document, parameters);
+        String proposalIdToLink = parameters.get("proposalId")[0];
+        ((IntellectualPropertyReview) this.getBusinessObject()).setProposalIdToLink(Long.parseLong(proposalIdToLink));
     }
 
     private InstitutionalProposalVersioningService getInstitutionalProposalVersioningService() {
