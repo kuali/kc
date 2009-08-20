@@ -64,6 +64,7 @@
     <input type="hidden" id="maintAction" name="maintAction" value = "${KualiForm.document.newMaintainableObject.maintenanceAction}"/>
      <input type="hidden" id="docStatus" name="docStatus" value="${KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus }"  />   
      <input type="hidden" id="readOnly" name="docStatus" value="${KualiForm.readOnly}"  />   
+     <input type="hidden" id="numOfQuestions" name="numOfQuestions" value="${KualiForm.numOfQuestions}"  />   
 <%-- 
     <div id="globalbuttons" class="globalbuttons"><input
         type="image" id="save"
@@ -112,6 +113,7 @@ $(document).ready(function() {
 //load question if there are
 var firstidx = -1;
 var loadcount = 0;
+var initucount = 0;
 
 var editdata = document.getElementById("editData").value;
 // alert(editdata);
@@ -141,10 +143,14 @@ $(".group1").hide();
 $(".group2").hide();
 jumpToAnchor('topOfForm');
 
+// TODO : remove it later
+//  $("#"+jqprefix + "2\\]\\.questionSeqNumber").attr("value",2);
+//  $("#"+jqprefix + "3\\]\\.questionSeqNumber").attr("value",1);
+//alert($("#"+jqprefix + "2\\]\\.questionSeqNumber").attr("value"))
 
 // load usage
 // TODO : need to load 'questionnaire version too because it will be part of the uniqueness check
-// quid/modulecode/label/vers
+// quid/modulecode/label/qver/subitem/rule/ver
 
 if (dataarray.length > 1) {
     var usages = dataarray[1].split("#u#");
@@ -176,6 +182,9 @@ if (dataarray.length > 1) {
                                             +";"+ $(this).parents('tr:eq(0)').children(
 											'td:eq(2)').html());
                                                         // alert(sqlScripts);
+								$("#utr"+$(this).attr("id").substring(11)).remove();
+								ucount--;
+								alert(ucount)
                             curnode = $(this).parents('tr:eq(0)');
                             // alert("size "+curnode.next().size());
                             while (curnode.next().size() > 0) {
@@ -197,10 +206,55 @@ if (dataarray.length > 1) {
             $('<div align="center">').appendTo(tdtmp);
         }    
         tdtmp.appendTo(trtmp);
-        ucount++;
         trtmp.appendTo($("#usage-table"));
 
+        // usage hidden fields
+		var hidtr = $('<tr id = "utr" name = "utr"/>').attr("id","utr"+ucount).attr("name", "utr"+ucount);
+        var hidtd = $('<td colspan="2"/>');
+        // question id for this node
+        var qntag = $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
+        		uprefix + ucount+"].questionnaireUsageId").attr("name", uprefix + ucount+"].questionnaireUsageId")
+                .attr("value",field[0]);
+        qntag.appendTo(hidtd);
+        qntag = $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
+                uprefix + ucount+"].moduleItemCode").attr("name", uprefix + ucount+"].moduleItemCode")
+                .attr("value",field[1]);
+        qntag.appendTo(hidtd);
+        
+        qntag = $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
+                uprefix + ucount+"].moduleSubItemCode").attr("name", uprefix + ucount+"].moduleSubItemCode")
+                .attr("value",field[4]);
+        qntag.appendTo(hidtd);
+        qntag = $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
+                uprefix + ucount+"].questionnaireLabel").attr("name", uprefix + ucount+"].questionnaireLabel")
+                .attr("value",field[2]);
+        qntag.appendTo(hidtd);
+        qntag = $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
+                uprefix + ucount+"].questionnaireSequenceNumber").attr("name", uprefix + ucount+"].questionnaireSequenceNumber")
+                .attr("value",field[3]);
+        qntag.appendTo(hidtd);
+        qntag = $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
+                uprefix + ucount+"].ruleId").attr("name", uprefix + ucount+"].ruleId")
+                .attr("value",field[5]);
+        qntag.appendTo(hidtd);
+        qntag = $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
+                uprefix + ucount+"].versionNumber").attr("name", uprefix + ucount+"].versionNumber")
+                .attr("value",field[6]);
+        qntag.appendTo(hidtd);
+        qntag = $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
+                uprefix + ucount+"].questionnaireRefIdFk").attr("name", uprefix + ucount+"].questionnaireRefIdFk")
+                .attr("value",$('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value"));
+        qntag.appendTo(hidtd);
+        
+        hidtd.appendTo(hidtr);
+        hidtr.hide(); // FF rendering issue. If not hided, then 'line' will be
+        // drawn at the bottom of the table for each Q hidden row
+        hidtr.appendTo($("#usage-table"));
+        ucount++;
+
+        
     }
+    initucount = ucount-1 ;
     // end for load usages
 } // check dataarray.length
 
@@ -321,7 +375,21 @@ function loadQuestion() {
             $("#qdispans" + idx).attr("value", field[10]);
             $("#qansmax" + idx).attr("value", field[11]);
             $("#qmaxlength" + idx).attr("value", field[12]);
-
+            //alert("set to 123 :"+idx)
+            // qqid/qid/seq/desc/qtypeid/qnum/cond/condvalue/parentqnum/questionseqnum
+            $("#"+jqprefix + idx+"\\]\\.questionnaireQuestionsId").attr("value",field[0]);
+            $("#"+jqprefix + idx+"\\]\\.questionnaireRefIdFk").attr("value",$('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value"));
+            $("#"+jqprefix + idx+"\\]\\.questionRefIdFk").attr("value",field[1]);
+            $("#"+jqprefix + idx+"\\]\\.questionNumber").attr("value",field[5]);
+            $("#"+jqprefix + idx+"\\]\\.parentQuestionNumber").attr("value",field[8]);
+            $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value",field[14]);
+            $("#"+jqprefix + idx+"\\]\\.condition").attr("value",field[6]);
+            $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value",field[7]);
+            $("#"+jqprefix + idx+"\\]\\.questionSeqNumber").attr("value",field[2]);
+            $("#"+jqprefix + idx+"\\]\\.versionNumber").attr("value",field[13]);
+            $("#"+jqprefix + idx+"\\]\\.deleted").attr("value","N");
+            //alert($("#document\\.newMaintainableObject\\.businessObject\\.questionnaireQuestions\\[" + idx+"\\]\\.questionnaireQuestionsId").attr("value"));
+            
         } // end if-then-else
     } // end for to set up questions
 
@@ -337,6 +405,8 @@ function loadQuestion() {
         $("#nextGroup").show();
     }   
 
+    loadcount=i-2;  // will be used to add qq to questionnairequestions list
+    //alert ("load count " +loadcount);
 } // loadquestion
 
 

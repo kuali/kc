@@ -25,12 +25,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.questionnaire.question.Question;
 
 @Entity 
@@ -69,6 +68,9 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase impl
     private Questionnaire questionnaire;
         
     private Questionnaire sequenceOwner;
+
+    //transient
+    private String deleted;
 
     public QuestionnaireQuestion() { 
 
@@ -194,5 +196,14 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase impl
     public Integer getSequenceNumber() {
         return this.sequenceOwner.getSequenceNumber();
     }
+
+    public String getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(String deleted) {
+        this.deleted = deleted;
+    }
+
     
 }

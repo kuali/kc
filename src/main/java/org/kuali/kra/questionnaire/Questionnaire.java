@@ -34,6 +34,7 @@ import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.AwardTemplateContact;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -118,7 +119,13 @@ public class Questionnaire extends KraPersistableBusinessObjectBase implements C
         this.questionnaireQuestions = questionnaireQuestions;
     }
 
-    
+    public QuestionnaireQuestion getQuestionnaireQuestion(int index) {
+        while (getQuestionnaireQuestions().size() <= index) {
+            getQuestionnaireQuestions().add(new QuestionnaireQuestion());
+        }
+        return getQuestionnaireQuestions().get(index);
+    }
+
     
     public List<QuestionnaireUsage> getQuestionnaireUsages() {
         return questionnaireUsages;
