@@ -139,11 +139,5 @@
         	</c:forEach>
         	<%-- Existing data --%>
         </table>
-        <br></br>
-        <div align='center' >
-	            	<html:image property="methodToCall.approveTransactions.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-approve.gif' styleClass="tinybutton" alt="Approve"/>
-		</div> 
-
     </div>
 </kul:tab>
