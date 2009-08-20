@@ -21,7 +21,7 @@
 <kul:tab tabTitle="Action Summary (${KualiForm.document.awardNumber})" defaultOpen="false" tabErrorKey="">
 	<div class="tab-container" align="center">
     	<h3>
-    		<span class="subhead-left"> History</span>
+    		<span class="subhead-left"> Action Summary</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.timeandmoney.transactions.PendingTransaction" altText="help"/></span>
         </h3>
         
