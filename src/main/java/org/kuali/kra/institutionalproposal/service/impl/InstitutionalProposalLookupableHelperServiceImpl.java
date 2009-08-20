@@ -51,24 +51,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         if (!suppressCustomActionUrls) {
-        //if(getProtocolAuthorizationService().hasPermission(getUserName(), (Protocol) businessObject, PermissionConstants.MODIFY_PROTOCOL)) {
-            //htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
-            // Chnage "edit" to edit same document, NOT initializing a new Doc
-            AnchorHtmlData editHtmlData = getViewLink(((InstitutionalProposal) businessObject).getInstitutionalProposalDocument());
-            String href = editHtmlData.getHref();
-            href = href.replace("viewDocument=true", "viewDocument=false");
-            editHtmlData.setHref(href);
-            editHtmlData.setDisplayText("edit");
-            htmlDataList.add(editHtmlData);
-            //AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
-            //InstitutionalProposalDocument document = ((InstitutionalProposal) businessObject).getInstitutionalProposalDocument();
-            //htmlData.setHref("../DocCopyHandler.do?docId=" + document.getDocumentNumber()
-            //        + "&command=displayDocSearchView&documentTypeName=" + getDocumentTypeName());
-            //htmlDataList.add(htmlData);
-        //}
-        //if(getProtocolAuthorizationService().hasPermission(getUserName(), (Protocol) businessObject, PermissionConstants.VIEW_PROTOCOL)) {
             htmlDataList.add(getViewLink(((InstitutionalProposal) businessObject).getInstitutionalProposalDocument()));
-        //}
         }
         return htmlDataList;
     }
