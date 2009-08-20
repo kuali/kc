@@ -26,12 +26,12 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     private QuestionnaireDao questionnaireDao;
     private BusinessObjectService businessObjectService;
 
-    @Transactional
     public void saveQuestionnaire(String sqlScripts, Questionnaire questionnaire) {
 //        if (questionnaire.getQuestionnaireRefId() != null) {
 //            Map pkMap = new HashMap();
@@ -96,6 +96,8 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         dest.setQuestionnaireQuestions(src.getQuestionnaireQuestions());
         dest.setQuestionnaireUsages(src.getQuestionnaireUsages());
         for (QuestionnaireQuestion question : dest.getQuestionnaireQuestions()) {
+        //for (Object obj : dest.getQuestionnaireQuestions()) {
+        //    QuestionnaireQuestion question = (QuestionnaireQuestion)obj;
             question.setQuestionnaireRefIdFk(null);
             question.setQuestionnaireQuestionsId(null);
             question.setVersionNumber(new Long(1));
