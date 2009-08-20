@@ -422,6 +422,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         institutionalProposalUnrecoveredFandAs = new ArrayList<InstitutionalProposalUnrecoveredFandA>();
         proposalIpReviewJoins = new ArrayList<ProposalIpReviewJoin>();
         proposalIpReviewJoins.add(new ProposalIpReviewJoin());
+        awardFundingProposals = new ArrayList<AwardFundingProposal>();
     }
     
     public Long getProposalId() {
