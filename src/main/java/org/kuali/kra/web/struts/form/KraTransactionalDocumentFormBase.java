@@ -239,4 +239,17 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
         super.setDocument(document);
         ((ResearchDocumentBase)document).setViewOnly(isViewOnly());
     }
+    
+    /**
+     * rice upgrade hack : without this, many popup windows can cause original page to break
+     * as original editable items in PojoFormBase were removed by loading the popup typically leaving 
+     * the editable properties empty or with incorrect items causing failure when submitting
+     * original form. This was originally added and copied from @see org.kuali.kra.irb.ProtocolForm
+     * but seems to be needed on all KC forms right now
+     * @see org.kuali.rice.kns.web.struts.pojo.PojoFormBase#isPropertyEditable(java.lang.String)
+     */
+    @Override
+    public boolean isPropertyEditable(String propertyName) {
+        return true;
+    }    
 }
