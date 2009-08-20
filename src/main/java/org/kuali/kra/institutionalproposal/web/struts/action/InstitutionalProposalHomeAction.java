@@ -16,8 +16,6 @@
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +27,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
@@ -38,19 +35,21 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class...
  */
 public class InstitutionalProposalHomeAction extends InstitutionalProposalAction {
+    
+    private static final String VERSION_EDITPENDING_PROMPT_KEY = "message.award.version.editpending.prompt";
 
     private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;
     
@@ -229,17 +228,21 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument institutionalProposalDocument = institutionalProposalForm.getInstitutionalProposalDocument();
         InstitutionalProposal institutionalProposal = institutionalProposalDocument.getInstitutionalProposal();
-        //VersionHistory foundPending = findPendingVersion(award);
+        InstitutionalProposal pendingProposal = findPendingVersion(institutionalProposal.getProposalNumber());
         
         ActionForward forward;
-//        if(foundPending != null) {
-//            Object question = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-//            forward = question == null ? showPromptForEditingPendingVersion(mapping, form, request, response) :
-//                                         processPromptForEditingPendingVersionResponse(mapping, request, response, awardForm, foundPending);
-//        } else {
+        if(pendingProposal != null) {
+            Object question = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            forward = question == null ? showPromptForEditingPendingVersion(mapping, institutionalProposalForm, request, response) :
+                                         processPromptForEditingPendingVersionResponse(mapping, request, response, institutionalProposalForm, pendingProposal);
+        } else {
             forward = createAndSaveNewAwardVersion(response, institutionalProposalForm, institutionalProposalDocument, institutionalProposal);
-        //}
+        }
         return forward;
+    }
+    
+    private InstitutionalProposal findPendingVersion(String proposalNumber) {
+        return getInstitutionalProposalVersioningService().getPendingInstitutionalProposalVersion(proposalNumber);
     }
 
     private ActionForward createAndSaveNewAwardVersion(HttpServletResponse response, InstitutionalProposalForm institutionalProposalForm,
@@ -279,8 +282,45 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         return url;
     }
     
+    private ActionForward showPromptForEditingPendingVersion(ActionMapping mapping, InstitutionalProposalForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return this.performQuestionWithoutInput(mapping, form, request, response, "EDIT_OR_VERSION_QUESTION_ID", getResources(
+                request).getMessage(VERSION_EDITPENDING_PROMPT_KEY), KNSConstants.CONFIRMATION_QUESTION,
+                KNSConstants.MAPPING_CANCEL, "");
+    }
+
+    private ActionForward processPromptForEditingPendingVersionResponse(ActionMapping mapping, HttpServletRequest request,
+            HttpServletResponse response, InstitutionalProposalForm institutionalProposalForm, InstitutionalProposal institutionalProposal) throws WorkflowException, IOException {
+        ActionForward forward;
+        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        if (ConfirmationQuestion.NO.equals(buttonClicked)) {
+            forward = mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        else {
+            initializeFormWithInstutitionalProposal(institutionalProposalForm, institutionalProposal);
+            response.sendRedirect(makeDocumentOpenUrl(institutionalProposalForm.getInstitutionalProposalDocument()));
+            forward = null;
+        }
+        return forward;
+    }
+    
+    private void initializeFormWithInstutitionalProposal(InstitutionalProposalForm institutionalProposalForm, InstitutionalProposal institutionalProposal) throws WorkflowException {
+        reinitializeForm(institutionalProposalForm, findDocumentForInstitutionalProposal(institutionalProposal));
+    }
+
+    private InstitutionalProposalDocument findDocumentForInstitutionalProposal(InstitutionalProposal institutionalProposal) throws WorkflowException {
+        InstitutionalProposalDocument document = (InstitutionalProposalDocument) getDocumentService().getByDocumentHeaderId(
+                institutionalProposal.getInstitutionalProposalDocument().getDocumentNumber());
+        document.setInstitutionalProposal(institutionalProposal);
+        return document;
+    }
+    
     protected VersioningService getVersioningService() {
         return KraServiceLocator.getService(VersioningService.class);
+    }
+    
+    protected InstitutionalProposalVersioningService getInstitutionalProposalVersioningService() {
+        return KraServiceLocator.getService(InstitutionalProposalVersioningService.class);
     }
     
 }

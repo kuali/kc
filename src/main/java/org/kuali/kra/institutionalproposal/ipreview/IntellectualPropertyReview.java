@@ -254,7 +254,9 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     @Override
     public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.afterInsert(persistenceBroker);
-        updateProposalIpReviewJoin();
+        if (ObjectUtils.isNotNull(this.getProposalIdToLink())) {
+            updateProposalIpReviewJoin();
+        }
     }
     
     protected void updateProposalIpReviewJoin() {

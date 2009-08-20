@@ -27,4 +27,6 @@ public interface InstitutionalProposalVersioningService {
     public IntellectualPropertyReview createNewIntellectualPropertyReviewVersion(IntellectualPropertyReview intellectualPropertyReview) throws VersionException;
 
     public void updateInstitutionalProposalVersionStatus(InstitutionalProposal proposalToUpdate, VersionStatus versionStatus);
+    
+    public InstitutionalProposal getPendingInstitutionalProposalVersion(String proposalNumber);
 }

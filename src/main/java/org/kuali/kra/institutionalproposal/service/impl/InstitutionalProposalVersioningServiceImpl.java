@@ -52,19 +52,33 @@ public class InstitutionalProposalVersioningServiceImpl implements Institutional
         businessObjectService.save(proposalToUpdate);
     }
     
-    @SuppressWarnings("unchecked")
+    public InstitutionalProposal getPendingInstitutionalProposalVersion(String proposalNumber) {
+        List<InstitutionalProposal> results = findProposalsByStatus(proposalNumber, VersionStatus.PENDING);
+        if (!results.isEmpty()) {
+            // There should only be one pending version at a time
+            return results.get(0);
+        }
+        return null;
+    }
+    
     protected void archiveCurrentActiveProposal(String proposalNumber) {
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("proposalNumber", proposalNumber);
-        criteria.put("proposalSequenceStatus", VersionStatus.ACTIVE.toString());
-        List<InstitutionalProposal> results = new ArrayList<InstitutionalProposal>(
-                businessObjectService.findMatching(InstitutionalProposal.class, criteria));
+        List<InstitutionalProposal> results = findProposalsByStatus(proposalNumber, VersionStatus.ACTIVE);
         if (!results.isEmpty()) {
             // There should only be one active version at a time
             InstitutionalProposal proposalToArchive = results.get(0);
             proposalToArchive.setProposalSequenceStatus(VersionStatus.ARCHIVED.toString());
             businessObjectService.save(proposalToArchive);
         }
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected List<InstitutionalProposal> findProposalsByStatus(String proposalNumber, VersionStatus versionStatus) {
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("proposalNumber", proposalNumber);
+        criteria.put("proposalSequenceStatus", versionStatus.toString());
+        List<InstitutionalProposal> results = new ArrayList<InstitutionalProposal>(
+                businessObjectService.findMatching(InstitutionalProposal.class, criteria));
+        return results;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
