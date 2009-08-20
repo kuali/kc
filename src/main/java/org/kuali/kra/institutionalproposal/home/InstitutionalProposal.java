@@ -1222,7 +1222,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     @Override
     public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.afterLookup(persistenceBroker);
-        filterProposalIpReviewJoins();
+        //filterProposalIpReviewJoins();
     }
     
     // Make sure the active IP Review is first
