@@ -27,6 +27,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
+import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
@@ -45,6 +46,8 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private String lookupResultsBOClassName;
     private String action;
     private String docStatus;
+    private Integer numOfQuestions;
+    private Integer numOfUsages;
 
     public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
@@ -74,6 +77,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         questionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
         // TODO : if it is newquestionnaire, then set questionnumber to 1
         questionNumber = 1;
+        numOfQuestions=0;
 
     }
 
@@ -148,7 +152,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
                         pkMap.put("questionnaireRefId", questionnaire.getQuestionnaireRefId());
                         Questionnaire oldQuestionnair = (Questionnaire) KraServiceLocator.getService(BusinessObjectService.class)
                                 .findByPrimaryKey(Questionnaire.class, pkMap);
-                        //if (questionnaire.getQuestionnaireId().equals(0)) {
+                        // if (questionnaire.getQuestionnaireId().equals(0)) {
                         if (questionnaire.getQuestionnaireId() != null && getDocStatus().equals("I")) {
                             try {
                                 VersioningService versionService = new VersioningServiceImpl();
@@ -286,6 +290,42 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
 
     public void setDocStatus(String docStatus) {
         this.docStatus = docStatus;
+    }
+
+    @Override
+    public void populate(HttpServletRequest request) {
+        // TODO Auto-generated method stub
+        if (this.getDocument() != null) {
+            Questionnaire qn = (Questionnaire) ((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject()
+                    .getBusinessObject();
+            if (qn != null) {
+                int num = (Integer)GlobalVariables.getUserSession().retrieveObject("numOfQuestions");
+                for (int i = 0; i < num; i++) {
+                    qn.getQuestionnaireQuestions().add(new QuestionnaireQuestion());
+                }
+                num = (Integer)GlobalVariables.getUserSession().retrieveObject("numOfUsages");
+                for (int i = 0; i < num; i++) {
+                    qn.getQuestionnaireUsages().add(new QuestionnaireUsage());
+                }
+            }
+        }
+        super.populate(request);
+    }
+
+    public Integer getNumOfQuestions() {
+        return numOfQuestions;
+    }
+
+    public void setNumOfQuestions(Integer numOfQuestions) {
+        this.numOfQuestions = numOfQuestions;
+    }
+
+    public Integer getNumOfUsages() {
+        return numOfUsages;
+    }
+
+    public void setNumOfUsages(Integer numOfUsages) {
+        this.numOfUsages = numOfUsages;
     }
 
     // @Override

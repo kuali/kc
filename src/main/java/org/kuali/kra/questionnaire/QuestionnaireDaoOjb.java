@@ -15,17 +15,21 @@
  */
 package org.kuali.kra.questionnaire;
 
+import java.sql.Connection;
 import java.sql.Statement;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.OjbCollectionAware;
-import org.springframework.transaction.annotation.Transactional;
 import org.springmodules.orm.ojb.PersistenceBrokerCallback;
 
 public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, QuestionnaireDao {
@@ -40,7 +44,15 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
          this.getPersistenceBrokerTemplate().execute(new PersistenceBrokerCallback() {
             public Object doInPersistenceBroker(PersistenceBroker pb) {
                 Statement stmt = null;
+//                Map pkMap = new HashMap();
+//                pkMap.put("questionnaireRefId", questionnaireRefId);
+//                 Criteria criteria = buildCriteria(pkMap);
+//
+//                 Questionnaire obj = (Questionnaire)pb.getObjectByQuery(QueryFactory.newQuery(Questionnaire.class, criteria));
+//                 pb.store(obj);
+//                 LOG.error("exception error " +obj);
                 try {
+                    //Connection conn = pb.serviceConnectionManager().getConnection();
                     stmt = pb.serviceConnectionManager().getConnection().createStatement();
                     String userName = new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUserIdentifier();
                     for (int i = 0; i < sqls.length; i++) {
@@ -142,6 +154,25 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
             }
         });
 
+    }
+
+    
+    private Criteria buildCriteria(Map fieldValues) {
+        Criteria criteria = new Criteria();
+        for (Iterator i = fieldValues.entrySet().iterator(); i.hasNext();) {
+            Map.Entry e = (Map.Entry) i.next();
+
+            String key = (String) e.getKey();
+            Object value = e.getValue();
+            if (value instanceof Collection) {
+                criteria.addIn(key, (Collection) value);
+            }
+            else {
+                criteria.addEqualTo(key, value);
+            }
+        }
+
+        return criteria;
     }
 
 }
