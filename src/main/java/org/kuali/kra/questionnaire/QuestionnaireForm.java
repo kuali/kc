@@ -45,6 +45,8 @@ public class QuestionnaireForm extends KualiForm {
     private String lookupResultsBOClassName;
     private String action;
     private String docStatus;
+    private Integer numOfQuestions;
+    private Integer numOfUsages;
 
     public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
@@ -199,6 +201,10 @@ public class QuestionnaireForm extends KualiForm {
                     retData = "<h3>false</h3>";
                 }
             }
+            else if (action.equals("setnumq")) {
+                GlobalVariables.getUserSession().addObject("numOfQuestions", getNumOfQuestions());
+                GlobalVariables.getUserSession().addObject("numOfUsages", getNumOfUsages());
+            }
             else {
                 Questionnaire questionnaire = new Questionnaire();
                 questionnaire = getNewQuestionnaire();
@@ -276,6 +282,22 @@ public class QuestionnaireForm extends KualiForm {
 
     public void setDocStatus(String docStatus) {
         this.docStatus = docStatus;
+    }
+
+    public Integer getNumOfQuestions() {
+        return numOfQuestions;
+    }
+
+    public void setNumOfQuestions(Integer numOfQuestions) {
+        this.numOfQuestions = numOfQuestions;
+    }
+
+    public Integer getNumOfUsages() {
+        return numOfUsages;
+    }
+
+    public void setNumOfUsages(Integer numOfUsages) {
+        this.numOfUsages = numOfUsages;
     }
 
 }
