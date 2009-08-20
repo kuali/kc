@@ -33,7 +33,6 @@
             	 	</div>
             	</td>
             </tr>
-            <%--
             <tr>
             	<th width="250" align="right" scope="row"><div align="right">Effective Date:</div></th>
             	<td>
@@ -42,7 +41,6 @@
             	 	</div>
             	</td>
              </tr>
-             --%>
              <tr>
              	<th width="250" align="right" scope="row"><div align="right">Comments:</div></th>
         	 	<td class="infoline">
