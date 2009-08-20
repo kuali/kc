@@ -48,7 +48,8 @@ public class InstitutionalProposalIntellectualPropertyReviewAction extends Insti
         
         if (ObjectUtils.isNotNull(institutionalProposalDocument.getInstitutionalProposal().getProposalIpReviewJoin().getIntellectualPropertyReview())) {
             response.sendRedirect("kr/maintenance.do?businessObjectClassName=org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview&methodToCall=copy&ipReviewId=" 
-                    + institutionalProposalDocument.getInstitutionalProposal().getProposalIpReviewJoin().getIntellectualPropertyReview().getIpReviewId());
+                    + institutionalProposalDocument.getInstitutionalProposal().getProposalIpReviewJoin().getIntellectualPropertyReview().getIpReviewId()
+                    + "&proposalId=" + institutionalProposalDocument.getInstitutionalProposal().getProposalId());
         }
         
         return null;

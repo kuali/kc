@@ -59,6 +59,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     private String reviewerComments;
     private List<ProposalIpReviewJoin> proposalIpReviewJoins; 
     private String ipReviewSequenceStatus;
+    private Long proposalIdToLink;
     
     private transient KualiConfigurationService kualiConfigurationService;
     private transient String generalCommentCode;
@@ -195,6 +196,14 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     public void setIpReviewSequenceStatus(String ipReviewSequenceStatus) {
         this.ipReviewSequenceStatus = ipReviewSequenceStatus;
     }
+    
+    public Long getProposalIdToLink() {
+        return proposalIdToLink;
+    }
+
+    public void setProposalIdToLink(Long proposalIdToLink) {
+        this.proposalIdToLink = proposalIdToLink;
+    }
 
     public ProposalIpReviewJoin getProposalIpReviewJoin() {
         if (!this.proposalIpReviewJoins.isEmpty()) {
@@ -245,15 +254,18 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     @Override
     public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.afterInsert(persistenceBroker);
-        //updateProposalIpReviewJoin();
+        updateProposalIpReviewJoin();
     }
     
     protected void updateProposalIpReviewJoin() {
         ProposalIpReviewJoin proposalIpReviewJoin = this.getProposalIpReviewJoin();
-        if (ObjectUtils.isNotNull(proposalIpReviewJoin.getProposalIpReviewJoinId())) {
+        if (ObjectUtils.isNull(proposalIpReviewJoin)) {
+            proposalIpReviewJoin = new ProposalIpReviewJoin();
+        } else if (ObjectUtils.isNotNull(proposalIpReviewJoin.getProposalIpReviewJoinId())) {
             proposalIpReviewJoin.setProposalIpReviewJoinId(null);
-        }
+        } 
         proposalIpReviewJoin.setIpReviewId(this.getIpReviewId());
+        proposalIpReviewJoin.setProposalId(this.getProposalIdToLink());
         getBusinessObjectService().save(proposalIpReviewJoin);
         this.setProposalIpReviewJoin(proposalIpReviewJoin);
     }
