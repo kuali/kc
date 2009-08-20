@@ -313,7 +313,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) form).getDocument();
             
             LOG.info("Running delete '" + deleteMethodName + "' on " + document + " for " + getLineToDelete(request));
-            document.getClass().getMethod(deleteMethodName, int.class).invoke(document, getLineToDelete(request));
+            document.getDevelopmentProposal().getClass().getMethod(deleteMethodName, int.class).invoke(document.getDevelopmentProposal(), getLineToDelete(request));
         }
         
         return mapping.findForward(MAPPING_BASIC);
