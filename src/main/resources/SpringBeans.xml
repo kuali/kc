@@ -1834,6 +1834,10 @@
     <bean id="questionLookupableHelperService" class="org.kuali.kra.questionnaire.question.QuestionLookupableHelperServiceImpl" 
          scope="prototype" parent="lookupableHelperService">
     </bean>
+    
+    <bean id="questionService" class="org.kuali.kra.questionnaire.question.QuestionServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
 	
 	<bean id="versionHistoryService" class="org.kuali.kra.service.impl.VersionHistoryServiceImpl">
 		<property name="businessObjectService">
