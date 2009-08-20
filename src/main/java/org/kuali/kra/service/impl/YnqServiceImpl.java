@@ -253,7 +253,7 @@ public class YnqServiceImpl implements YnqService {
         document.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
         if(!wfd.stateIsInitiated()) {
             if(!wfd.stateIsSaved() ||
-                    (document.getDevelopmentProposal().getS2sAppSubmission() != null || !document.getDevelopmentProposal().getS2sAppSubmission().isEmpty())) {
+                    (document.getDevelopmentProposal().getS2sAppSubmission() != null && !document.getDevelopmentProposal().getS2sAppSubmission().isEmpty())) {
                 submitted = true;
             }
         }
