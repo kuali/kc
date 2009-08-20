@@ -54,8 +54,9 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         List<Award> awardItems = new ArrayList<Award>();
         
         for(PendingTransaction pendingTransaction: doc.getPendingTransactions()){
-            AwardHierarchyNode sourceAwardNode = doc.getAwardHierarchyNodes().get(pendingTransaction.getSourceAwardNumber());
-            AwardHierarchyNode destinationAwardNode = doc.getAwardHierarchyNodes().get(pendingTransaction.getDestinationAwardNumber());
+            Map<String, AwardHierarchyNode> awardHierarchyNodes = doc.getAwardHierarchyNodes();
+            AwardHierarchyNode sourceAwardNode = awardHierarchyNodes.get(pendingTransaction.getSourceAwardNumber());
+            AwardHierarchyNode destinationAwardNode = awardHierarchyNodes.get(pendingTransaction.getDestinationAwardNumber());
 
             if(StringUtils.equalsIgnoreCase(pendingTransaction.getSourceAwardNumber(),PARENT_OF_ROOT)){                
                 
@@ -64,7 +65,9 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
                     
                     addTransactionDetails(PARENT_OF_ROOT,destinationAwardNode.getAwardNumber(),doc.getAward().getSequenceNumber(), pendingTransaction, doc.getAwardNumber(), doc.getDocumentNumber(), transactionDetailItems);    
                 }else{
-                    createIntermediateTransactions(doc, awardAmountTransactionItems, awardItems, pendingTransaction, doc.getAwardHierarchyNodes().get(destinationAwardNode.getAwardNumber()).getParentAwardNumber(), transactionDetailItems, pendingTransactionsAfterDeletingProcessedOnes, newAwardAmountTransaction);
+                    createIntermediateTransactionsWhenParentIsExternalprotected(doc, awardAmountTransactionItems, awardItems, pendingTransaction, destinationAwardNode.getAwardNumber()
+                            , awardHierarchyNodes.get(destinationAwardNode.getAwardNumber()).getParentAwardNumber(), PARENT_OF_ROOT, true
+                            , transactionDetailItems, pendingTransactionsAfterDeletingProcessedOnes, newAwardAmountTransaction);
                     
                     handleSingleTransaction(true, true, pendingTransaction, destinationAwardNode.getAwardNumber(), doc.getDocumentNumber(), awardAmountTransactionItems, awardItems, pendingTransactionsAfterDeletingProcessedOnes, newAwardAmountTransaction, doc.getDocumentNumber());                    
                 }
@@ -89,22 +92,22 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
                 addTransactionDetails(sourceAwardNode.getAwardNumber(),sourceAwardNode.getParentAwardNumber(),doc.getAward().getSequenceNumber(), pendingTransaction, doc.getAwardNumber(), doc.getDocumentNumber(), transactionDetailItems);
                 addTransactionDetails(sourceAwardNode.getParentAwardNumber(),destinationAwardNode.getAwardNumber(),doc.getAward().getSequenceNumber(), pendingTransaction, doc.getAwardNumber(), doc.getDocumentNumber(), transactionDetailItems);
 
-            }else if(indirectParentChildRelationshipExistsBetween(sourceAwardNode.getAwardNumber(), destinationAwardNode.getAwardNumber(), doc.getAwardHierarchyNodes())){
+            }else if(indirectParentChildRelationshipExistsBetween(sourceAwardNode.getAwardNumber(), destinationAwardNode.getAwardNumber(), awardHierarchyNodes)){
                 handleSingleTransaction(true, false, pendingTransaction, sourceAwardNode.getAwardNumber(), doc.getDocumentNumber(), awardAmountTransactionItems, awardItems, pendingTransactionsAfterDeletingProcessedOnes, newAwardAmountTransaction, doc.getDocumentNumber());
                 
                 createIntermediateTransactions(doc, awardAmountTransactionItems, awardItems, pendingTransaction, destinationAwardNode.getAwardNumber()
-                        , doc.getAwardHierarchyNodes().get(destinationAwardNode.getAwardNumber()).getParentAwardNumber()
-                        , doc.getAwardHierarchyNodes().get(sourceAwardNode.getAwardNumber()).getParentAwardNumber(), true, transactionDetailItems
+                        , awardHierarchyNodes.get(destinationAwardNode.getAwardNumber()).getParentAwardNumber()
+                        , awardHierarchyNodes.get(sourceAwardNode.getAwardNumber()).getParentAwardNumber(), true, transactionDetailItems
                         , pendingTransactionsAfterDeletingProcessedOnes, newAwardAmountTransaction);
                 
                 handleSingleTransaction(true, true, pendingTransaction, destinationAwardNode.getAwardNumber(), doc.getDocumentNumber(), awardAmountTransactionItems, awardItems, pendingTransactionsAfterDeletingProcessedOnes, newAwardAmountTransaction, doc.getDocumentNumber());
                 
-            }else if(indirectParentChildRelationshipExistsBetween(destinationAwardNode.getAwardNumber(), sourceAwardNode.getAwardNumber(), doc.getAwardHierarchyNodes())){
+            }else if(indirectParentChildRelationshipExistsBetween(destinationAwardNode.getAwardNumber(), sourceAwardNode.getAwardNumber(), awardHierarchyNodes)){
                 handleSingleTransaction(true, false, pendingTransaction, sourceAwardNode.getAwardNumber(), doc.getDocumentNumber(), awardAmountTransactionItems, awardItems, pendingTransactionsAfterDeletingProcessedOnes, newAwardAmountTransaction, doc.getDocumentNumber());
                 
                 createIntermediateTransactions(doc, awardAmountTransactionItems, awardItems, pendingTransaction, sourceAwardNode.getAwardNumber()
-                        , doc.getAwardHierarchyNodes().get(sourceAwardNode.getAwardNumber()).getParentAwardNumber()
-                        , doc.getAwardHierarchyNodes().get(destinationAwardNode.getAwardNumber()).getParentAwardNumber(), false, transactionDetailItems
+                        , awardHierarchyNodes.get(sourceAwardNode.getAwardNumber()).getParentAwardNumber()
+                        , awardHierarchyNodes.get(destinationAwardNode.getAwardNumber()).getParentAwardNumber(), false, transactionDetailItems
                         , pendingTransactionsAfterDeletingProcessedOnes, newAwardAmountTransaction);
                 
                 handleSingleTransaction(true, true, pendingTransaction, destinationAwardNode.getAwardNumber(), doc.getDocumentNumber(), awardAmountTransactionItems, awardItems, pendingTransactionsAfterDeletingProcessedOnes, newAwardAmountTransaction, doc.getDocumentNumber());
@@ -219,22 +222,13 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         businessObjectService.save(awardItems);
     }
 */
-    /**
-     * This method...
-     * @param doc
-     * @param awardAmountTransactionItems
-     * @param awardItems
-     * @param pendingTransaction
-     * @param parentAwardNumber
-     * @param pendingTransactionsAfterDeletingProcessedOnes TODO
-     * @param newAwardAmountTransaction TODO
-     */
-    private void createIntermediateTransactions(TimeAndMoneyDocument doc, Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems
+  
+    protected void createIntermediateTransactions(TimeAndMoneyDocument doc, Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems
             , PendingTransaction pendingTransaction, String awardNumber, String parentAwardNumber, String parentOfParentAwardNumber, boolean direction
             , List<TransactionDetail> transactionDetailItems, List<PendingTransaction> pendingTransactionsAfterDeletingProcessedOnes
             , AwardAmountTransaction newAwardAmountTransaction) {
         
-        String sourceAwardNumber = null;
+        String sourceAwardNumber;
         String destinationAwardNumber;
         
         while(!StringUtils.equalsIgnoreCase(parentAwardNumber, parentOfParentAwardNumber)){
@@ -258,11 +252,23 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         }
     }
     
-    private void createIntermediateTransactions(TimeAndMoneyDocument doc, Map<String, AwardAmountTransaction> awardAmountTransactionItems,
-            List<Award> awardItems, PendingTransaction pendingTransaction, String parentAwardNumber, List<TransactionDetail> transactionDetailItems, List<PendingTransaction> pendingTransactionsAfterDeletingProcessedOnes, AwardAmountTransaction newAwardAmountTransaction) {
-        while(!StringUtils.equalsIgnoreCase(parentAwardNumber, PARENT_OF_ROOT)){
-            handleSingleTransaction(false, false, pendingTransaction, parentAwardNumber, doc.getDocumentNumber(), awardAmountTransactionItems, awardItems, pendingTransactionsAfterDeletingProcessedOnes, newAwardAmountTransaction, doc.getDocumentNumber());
-            parentAwardNumber = doc.getAwardHierarchyNodes().get(parentAwardNumber).getParentAwardNumber();
+    private void createIntermediateTransactionsWhenParentIsExternalprotected(TimeAndMoneyDocument doc, Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems
+            , PendingTransaction pendingTransaction, String awardNumber, String parentAwardNumber, String parentOfParentAwardNumber, boolean direction
+            , List<TransactionDetail> transactionDetailItems, List<PendingTransaction> pendingTransactionsAfterDeletingProcessedOnes
+            , AwardAmountTransaction newAwardAmountTransaction) {
+        
+        String sourceAwardNumber = null;
+        String destinationAwardNumber;
+                
+        while(!StringUtils.equalsIgnoreCase(sourceAwardNumber, PARENT_OF_ROOT)){    
+            sourceAwardNumber = parentAwardNumber;
+            destinationAwardNumber = awardNumber;
+            addTransactionDetails(sourceAwardNumber,destinationAwardNumber,doc.getAward().getSequenceNumber(), pendingTransaction, doc.getAwardNumber(), doc.getDocumentNumber(), transactionDetailItems);
+            if(!StringUtils.equalsIgnoreCase(parentAwardNumber, PARENT_OF_ROOT)){
+                handleSingleTransaction(false, false, pendingTransaction, parentAwardNumber, doc.getDocumentNumber(), awardAmountTransactionItems, awardItems, pendingTransactionsAfterDeletingProcessedOnes, newAwardAmountTransaction, doc.getDocumentNumber());
+                awardNumber = parentAwardNumber;
+                parentAwardNumber = doc.getAwardHierarchyNodes().get(parentAwardNumber).getParentAwardNumber();
+            }
         }
     }
 
@@ -474,7 +480,11 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         newAwardAmountInfo.setObliDistributableAmount(processAmounts(awardAmountInfo.getObliDistributableAmount(), pendingTransaction.getObligatedAmount(),addOrSubtract, updateAmounts));            
         newAwardAmountInfo.setAntDistributableAmount(processAmounts(awardAmountInfo.getAntDistributableAmount(), pendingTransaction.getAnticipatedAmount(),addOrSubtract, updateAmounts));
         
-        if(addOrSubtract){            
+        if(StringUtils.equalsIgnoreCase(pendingTransaction.getSourceAwardNumber(), PARENT_OF_ROOT)){
+            newAwardAmountInfo.setAnticipatedTotalAmount(processAmounts(awardAmountInfo.getAnticipatedTotalAmount(), pendingTransaction.getAnticipatedAmount(),true, true));
+            newAwardAmountInfo.setAmountObligatedToDate(processAmounts(awardAmountInfo.getAmountObligatedToDate(), pendingTransaction.getObligatedAmount(),true, true));
+        }
+        else if(addOrSubtract){            
             newAwardAmountInfo.setAnticipatedTotalAmount(processAmounts(awardAmountInfo.getAnticipatedTotalAmount(), pendingTransaction.getAnticipatedAmount(),addOrSubtract, updateAmounts));
             newAwardAmountInfo.setAmountObligatedToDate(processAmounts(awardAmountInfo.getAmountObligatedToDate(), pendingTransaction.getObligatedAmount(),addOrSubtract, updateAmounts));
         }else{            

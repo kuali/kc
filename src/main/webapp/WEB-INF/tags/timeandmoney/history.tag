@@ -57,7 +57,6 @@
 							<c:set var="displayedOnce" value="false" />
 							<c:set var="displayedOnceForThis" value="false" />								
 							<tr>
-							<c:out value="rowspan is: ${3 + KualiForm.columnSpan[rowSpanIndex]}" />
 							<td align="left" valign="middle" class="infoline" rowspan="${3 + KualiForm.columnSpan[rowSpanIndex]}">
 								<c:set var="rowSpanForOther" value="${KualiForm.columnSpan[rowSpanIndex]}" />
 								<c:set var="rowSpanIndex" value="${rowSpanIndex+1}" />							
