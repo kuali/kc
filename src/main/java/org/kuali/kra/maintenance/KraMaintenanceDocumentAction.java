@@ -18,16 +18,25 @@ package org.kuali.kra.maintenance;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.kra.questionnaire.question.QuestionService;
+import org.kuali.kra.service.VersioningService;
+import org.kuali.kra.service.impl.VersioningServiceImpl;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
 public class KraMaintenanceDocumentAction extends KualiMaintenanceDocumentAction{
+    private static final String QUESTION_REF_ID = "questionRefId";
+
     /**
      * 
      * This method gets called upon clicking the refresh button to display the newly selected
@@ -66,4 +75,65 @@ public class KraMaintenanceDocumentAction extends KualiMaintenanceDocumentAction
 
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
+    
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+                if (form instanceof KraMaintenanceForm) {
+                    KraMaintenanceForm kraMaintenanceForm = (KraMaintenanceForm) form;
+                    if (kraMaintenanceForm.getBusinessObjectClassName().equals(Question.class.getName())
+                            && kraMaintenanceForm.getMethodToCall().equals("edit")) {
+
+                        // Get most recent approved Question from DB
+                        Question approvedQuestion = getQuestionService().getQuestionByRefId(request.getParameter(QUESTION_REF_ID));
+
+                        // Create new version of Question
+                        VersioningService versioningService = new VersioningServiceImpl();
+                        Question versionedQuestion = (Question) versioningService.createNewVersion(approvedQuestion);
+
+                        // Get access to old and new questions
+                        MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) kraMaintenanceForm.getDocument();
+                        QuestionMaintainableImpl oldMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase.getOldMaintainableObject();
+                        Question oldQuestion = (Question) oldMaintainableObject.getBusinessObject();
+                        QuestionMaintainableImpl newMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase.getNewMaintainableObject();
+                        Question newQuestion = (Question) newMaintainableObject.getBusinessObject();
+                        
+//                        // First Try:
+//                        //   Populate new question with versionedQuestion
+//                        //   -> "The key(s) for this Maintenance Document (Question Ref Id) have changed from the Old version to the New. This is not allowed when editing an existing object."
+//                        newMaintainableObject.setBusinessObject(versionedQuestion);
+                        
+                        
+//                        // Second Try:
+//                        //   Populate old and new question with versionedQuestion
+//                        //   -> "The key(s) for this Maintenance Document (Question Ref Id) have changed from the Old version to the New. This is not allowed when editing an existing object."
+//                        oldMaintainableObject.setBusinessObject(versionedQuestion);
+//                        newMaintainableObject.setBusinessObject(versionedQuestion);
+                        
+//                        // Third Try:
+//                        //   Null old question
+//                        //   Populate new question with versionedQuestion
+//                        //   -> "The key(s) for this Maintenance Document (Question Ref Id) have changed from the Old version to the New. This is not allowed when editing an existing object."
+//                        oldMaintainableObject.setBusinessObject(null);
+//                        newMaintainableObject.setBusinessObject(versionedQuestion);
+
+                          // Fourth Try:
+//                        //   Populate new question with versionedQuestion
+//                        //   Generate new questionRefId and populate new and old question with it
+                          Long questionRefId = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_QUESTIONNAIRE_ID");
+                          versionedQuestion.setQuestionRefId(questionRefId);
+                          oldQuestion.setQuestionRefId(questionRefId);
+                          newMaintainableObject.setBusinessObject(versionedQuestion);
+
+                          System.out.println(">> Versioning");
+                    }
+                }
+                
+        return actionForward;
+    }
+    
+    private QuestionService getQuestionService() {
+        return (QuestionService) KraServiceLocator.getService(QuestionService.class);
+    }
+
 }
