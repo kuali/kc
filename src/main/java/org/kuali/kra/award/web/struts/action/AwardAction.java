@@ -224,7 +224,7 @@ public class AwardAction extends BudgetParentActionBase {
         if(prevAwardNumber!=null){
             awardHierarchy.setParentAwardNumber(prevAwardNumber);
         }else{
-            awardHierarchy.setParentAwardNumber("000000-00000");    
+            awardHierarchy.setParentAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);    
         }
         
         if(prevRootAwardNumber!=null){

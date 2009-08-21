@@ -563,7 +563,11 @@ public final class KeyConstants {
     public static final String ERROR_QUESTION_LOOKUP_CLASS_NOT_SPECIFIED = "error.question.lookup.class.not.specified";
     public static final String ERROR_QUESTION_LOOKUP_RETURN_NOT_SPECIFIED = "error.question.lookup.return.not.specified";
     public static final String ERROR_QUESTIONNAIRE_NAME_EXIST = "error.questionnaire.name.exist";
-
+    
+    
+    //Time And Money
+    public static final String ERROR_TRANSACTION_TYPE_CODE_REQUIRED = "error.transaction.type.code.required";
+    
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
