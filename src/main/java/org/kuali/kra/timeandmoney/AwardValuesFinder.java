@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -30,7 +31,7 @@ public class AwardValuesFinder extends KeyValuesBase{
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select:"));
-        keyValues.add(new KeyLabelPair("000000-00000", "External"));
+        keyValues.add(new KeyLabelPair(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, "External"));
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) GlobalVariables.getKualiForm();        
         TimeAndMoneyDocument document = timeAndMoneyForm.getTimeAndMoneyDocument();
         if(document.getAwardHierarchyItems()!=null && document.getAwardHierarchyItems().size()!=0){

@@ -504,4 +504,7 @@ public interface Constants {
     public static final String GRADUATE_STUDENT_PANEL_ANCHOR = "GraduateStudent";
     public static final String GRADUATE_STUDENT_PANEL_NAME = "GraduateStudent";
     public static final String GRADUATE_STUDENT_AUDIT_RULES_ERROR_KEY = "document.graduateStudentAuditRules";
+    
+    //Award Hierarchy - Time And Money Constants
+    public static final String AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT = "000000-00000";
 }

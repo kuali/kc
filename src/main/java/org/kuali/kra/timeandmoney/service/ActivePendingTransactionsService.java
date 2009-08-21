@@ -24,9 +24,20 @@ import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 
 public interface ActivePendingTransactionsService {
     
+    /**
+     * 
+     * This method will approve all pending transactions and accordingly update the awardAmountInfo numbers for all awards.
+     * @param document
+     * @param newAwardAmountTransaction
+     */
     void approveTransactions(TimeAndMoneyDocument document, AwardAmountTransaction newAwardAmountTransaction);
-    //void approveTransactions();
     
+    /**
+     * 
+     * This method should return the awardAmountInfo object having highest transaction id.
+     * @param awardAmountInfos
+     * @return
+     */
     AwardAmountInfo fetchAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos);
     
     Award getActiveAwardVersion(String awardNumber);
