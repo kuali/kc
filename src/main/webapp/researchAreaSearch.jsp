@@ -29,7 +29,7 @@
  		<!--  <label>Sponsor Code Search</label> -->
    		<label>
    			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.bo.ResearchArea!!).(((researchAreaCode:researchAreaCode))).((%false%)).anchor" id = "lookupBtn" 
-	   src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search on " title="Search on " />
+	   src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search on " title="Search on " />
    		
          	</label><br>
          	
