@@ -442,7 +442,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber())
                 && !(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber().matches(regExpr))
                 && GlobalVariables.getErrorMap().getMessages("document.developmentProposalList[0].cfdaNumber") == null) {
-            errorMap.putError("cfdaNumber", RiceKeyConstants.ERROR_INVALID_FORMAT, new String[] {
+            errorMap.putError("developmentProposalList[0].cfdaNumber", RiceKeyConstants.ERROR_INVALID_FORMAT, new String[] {
                     dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "cfdaNumber"),
                     proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber() });
             valid = false;
