@@ -404,6 +404,8 @@ public interface Constants {
     public static final String TERMS_AUDIT_RULES_ERROR_KEY = "document.termsAuditRules";
     public static final String PAYMENT_AND_INVOICES_AUDIT_RULES_ERROR_KEY = "document.paymentsAuditRules";
     public static final String AWARD_PAGE = "award";
+    public static final String FANDA_RATES_PANEL_ANCHOR = "Rates";
+    public static final String FANDA_RATES_PANEL_NAME = "Rates";
     public static final String REPORTS_PANEL_ANCHOR = "Reports";
     public static final String REPORTS_PANEL_NAME = "Reports";
     public static final String TERMS_PANEL_ANCHOR = "Terms";

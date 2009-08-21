@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -26,7 +25,7 @@ import org.kuali.kra.award.commitments.AwardBenefitsRatesRuleImpl;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
 import org.kuali.kra.award.commitments.AwardCostShareRuleImpl;
-import org.kuali.kra.award.commitments.AwardFandaRate;
+import org.kuali.kra.award.commitments.AwardFandARateAuditRule;
 import org.kuali.kra.award.commitments.AwardFandaRateRule;
 import org.kuali.kra.award.contacts.AwardCreditSplitBean;
 import org.kuali.kra.award.contacts.AwardPersonCreditSplitRule;
@@ -276,7 +275,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         
         AwardDocument awardDocument = (AwardDocument) document;
         
-        retval &= processAwardFandaRateBusinessRules(document);
         retval &= processCostShareBusinessRules(document);
         retval &= processBenefitsRatesBusinessRules(document);
         retval &= processApprovedSubawardBusinessRules(document);
@@ -479,6 +477,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= new AwardTermsAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardCustomDataAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardPaymentAndInvoicesAuditRule().processRunAuditBusinessRules(document);
+        retval &= new AwardFandARateAuditRule().processRunAuditBusinessRules(document);
         
         return retval;
         
@@ -495,26 +494,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
             addAwardFandaRateEvent) {        
         return new AwardFandaRateRule().processAddFandaRateBusinessRules(
                 addAwardFandaRateEvent);            
-    }    
-    
-    /**
-     * 
-     * This method evaluates the business rules for <code>AwardFandaRate</code>
-     * business object.
-     * @param document
-     * @return
-     */
-    protected boolean processAwardFandaRateBusinessRules(Document document) {
-        boolean retval = true;
-        AwardDocument awardDocument = (AwardDocument) document;
-        if(StringUtils.equalsIgnoreCase(
-                getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD, 
-                        Constants.PARAMETER_COMPONENT_DOCUMENT,
-                        KeyConstants.MIT_IDC_VALIDATION_ENABLED).getParameterValue(),
-                        KeyConstants.MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON)){
-            retval = isFandaRateInputInPairs(awardDocument.getAward().getAwardFandaRate());
-        }        
-        return retval;
     }
     
     protected boolean processAwardReportTermBusinessRules(Document document) {
@@ -726,71 +705,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      */
     protected KualiConfigurationService getKualiConfigurationService(){
         return KraServiceLocator.getService(KualiConfigurationService.class);
-    }
-    
-    /**
-     * 
-     * This method takes as the input a list of <code>AwardFandaRate</code>,
-     * iterates through it twice to find out whether both on campus and off campus entries
-     * are present for every indirectRateTypeCode. 
-     * Returns true if they both are present.
-     * @param awardFandaRateList
-     * @return
-     */
-    protected boolean isFandaRateInputInPairs(List<AwardFandaRate> awardFandaRateList){
-        
-        HashMap<Integer,String> a1 = new HashMap<Integer,String>();
-        HashMap<Integer,String> b1 = new HashMap<Integer,String>();
-        
-        createHashMapsForRuleEvaluation(awardFandaRateList,a1,b1);
-        return evaluateRuleAndReportErrorIfAny(awardFandaRateList,a1,b1);                
-    }
-    
-    /**
-     * 
-     * This method iterates through the awardFandaRateList and creates two hashmaps;
-     * one with on campus values and other with off campus values in it.
-     * @param awardFandaRateList
-     * @param a1
-     * @param b1
-     */
-    protected void createHashMapsForRuleEvaluation(List<AwardFandaRate> awardFandaRateList,
-            HashMap<Integer,String> a1, HashMap<Integer,String> b1){
-        
-        for(AwardFandaRate awardFandaRate : awardFandaRateList){
-            if(StringUtils.equalsIgnoreCase(awardFandaRate.getOnCampusFlag(),"N")){
-                a1.put(awardFandaRate.getFandaRateTypeCode(), awardFandaRate.getOnCampusFlag());
-            }else if(StringUtils.equalsIgnoreCase(awardFandaRate.getOnCampusFlag(),"F")){
-                b1.put(awardFandaRate.getFandaRateTypeCode(), awardFandaRate.getOnCampusFlag());
-            }
-        }
-        
-    }
-    
-    protected boolean evaluateRuleAndReportErrorIfAny(List<AwardFandaRate> awardFandaRateList,
-            HashMap<Integer,String> a1, HashMap<Integer,String> b1){
-        int i=0;
-        boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        
-        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
-        errorMap.addToErrorPath(AWARD_ERROR_PATH);
-        
-        for(AwardFandaRate awardFandaRate : awardFandaRateList){            
-            if((a1.containsKey(awardFandaRate.getFandaRateTypeCode()) 
-                    && !b1.containsKey(awardFandaRate.getFandaRateTypeCode()))
-                    ||(b1.containsKey(awardFandaRate.getFandaRateTypeCode()) 
-                            && !a1.containsKey(awardFandaRate.getFandaRateTypeCode()))){                
-                errorMap.putError("awardFandaRate[" + i + "].fandaRateTypeCode"
-                        , KeyConstants.INDIRECT_COST_RATE_NOT_IN_PAIR);
-                valid = false;
-            }
-            i++;
-        }
-        
-        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
-        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
-        return valid;
     }
 
     /**

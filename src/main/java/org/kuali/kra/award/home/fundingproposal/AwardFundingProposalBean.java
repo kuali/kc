@@ -106,7 +106,7 @@ public class AwardFundingProposalBean implements Serializable {
         new DatesDataFeedCommand(award, proposal).performDataFeed();
         new SpecialReviewDataFeedCommand(award, proposal).performDataFeed();
         new CostSharingDataFeedCommand(award, proposal).performDataFeed();
-//        new FandARatesDataFeedCommand(award, proposal).performDataFeed();
+        new FandARatesDataFeedCommand(award, proposal).performDataFeed();
         new KeywordsDataFeedCommand(award, proposal).performDataFeed();
     }
 

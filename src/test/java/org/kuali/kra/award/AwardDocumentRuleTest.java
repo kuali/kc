@@ -78,22 +78,6 @@ public class AwardDocumentRuleTest extends AwardDocumentRule{
         awardFandaRate1 = null;
         awardFandaRate2 = null;
     }
-
-    @Test
-    public final void testIsFandaRateInputInPairs() {
-        awardFandaRateList.add(new AwardFandaRate());
-        awardFandaRateList.add(new AwardFandaRate());
-        awardFandaRateList.get(2).setFandaRateTypeCode(6);
-        awardFandaRateList.get(2).setOnCampusFlag("F");
-        awardFandaRateList.get(3).setFandaRateTypeCode(6);        
-        awardFandaRateList.get(3).setOnCampusFlag("N");        
-        Assert.assertTrue(awardDocumentRule.isFandaRateInputInPairs(awardFandaRateList));
-        awardFandaRateList.get(0).setOnCampusFlag("F");
-        awardFandaRateList.get(1).setOnCampusFlag("F");
-        awardFandaRateList.get(2).setOnCampusFlag("F");        
-        awardFandaRateList.get(3).setOnCampusFlag("F");
-        Assert.assertFalse(awardDocumentRule.isFandaRateInputInPairs(awardFandaRateList));
-    }
     
     
     @Test
