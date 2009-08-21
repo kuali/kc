@@ -23,10 +23,11 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="home">
+  	headerTabActive="timeAndMoney">
 
 <div align="right"><kul:help documentTypeName="TimeAndMoneyDocument" pageName="Time and Money" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+
 <kra-timeandmoney:awardHierarchyTimeAndMoney />
 <kra-timeandmoney:transactions />
 <kra-timeandmoney:summary />
