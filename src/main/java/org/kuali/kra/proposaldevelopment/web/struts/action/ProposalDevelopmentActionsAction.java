@@ -50,6 +50,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
@@ -64,6 +65,7 @@ import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.kra.web.struts.form.ProposalFormBase;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.NetworkIdDTO;
@@ -110,6 +112,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private static final int ERROR = 2;
     
     private KIMService kimService;
+    
+    private ProposalHierarcyActionHelper hierarchyHelper;
     
     /**
      * Struts mapping for the Proposal web page.  
@@ -244,6 +248,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
         kimService = KraServiceLocator.getService(KIMService.class);
         return kimService;
+    }
+    
+    private ProposalHierarcyActionHelper getHierarchyHelper() {
+        if (hierarchyHelper == null) {
+            hierarchyHelper = new ProposalHierarcyActionHelper();
+        }
+        return hierarchyHelper;
     }
     
     /**
@@ -1037,6 +1048,50 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
     }
 
+    public ActionForward linkChildToHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
+        String hierarchyProposalNumber = pdForm.getDocument().getDevelopmentProposal().getProposalNumber();
+        String newChildProposalNumber = pdForm.getNewHierarchyChildProposal().getProposalNumber();
+        getHierarchyHelper().linkChildToHierarchy(hierarchyProposalNumber, newChildProposalNumber);
+        return reload(mapping, form, request, response);
+    }
+    
+    public ActionForward syncAllHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
+        String hierarchyProposalNumber = pdForm.getDocument().getDevelopmentProposal().getProposalNumber();;
+        getHierarchyHelper().syncAllHierarchy(hierarchyProposalNumber);
+        return reload(mapping, form, request, response);
+    }
+    
+    public ActionForward removeFromHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
+        String childProposalNumber = pdForm.getDocument().getDevelopmentProposal().getProposalNumber();
+        getHierarchyHelper().removeFromHierarchy(childProposalNumber);
+        return reload(mapping, form, request, response);
+    }
+    
+    public ActionForward syncToHierarchyParent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
+        String childProposalNumber = pdForm.getDocument().getDevelopmentProposal().getProposalNumber();
+        getHierarchyHelper().syncToHierarchyParent(childProposalNumber);
+        return reload(mapping, form, request, response);
+    }
+    
+    public ActionForward createHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
+        String initialChildProposalNumber = pdForm.getDocument().getDevelopmentProposal().getProposalNumber();
+        getHierarchyHelper().createHierarchy(initialChildProposalNumber);
+        return reload(mapping, form, request, response);
+    }
+    
+    public ActionForward linkToHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
+        String hierarchyProposalNumber = pdForm.getNewHierarchyProposal().getProposalNumber();
+        String newChildProposalNumber = pdForm.getDocument().getDevelopmentProposal().getProposalNumber();
+        getHierarchyHelper().linkToHierarchy(hierarchyProposalNumber, newChildProposalNumber);
+        return reload(mapping, form, request, response);
+    }
+    
 }
     
     
