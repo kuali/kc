@@ -17,15 +17,22 @@ package org.kuali.kra.irb.actions.delete;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * The ProtocolDeleteService implementation.
  */
 public class ProtocolDeleteServiceImpl implements ProtocolDeleteService {
 
+    private DocumentService documentService;
     private BusinessObjectService businessObjectService;
 
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+    
     /**
      * Set the business object service.
      * @param businessObjectService the business object service
@@ -37,10 +44,17 @@ public class ProtocolDeleteServiceImpl implements ProtocolDeleteService {
     /**
      * We never delete documents from the database.  Rather, we simply mark
      * it as deleted.
+     * @throws WorkflowException 
      * @see org.kuali.kra.irb.actions.delete.ProtocolDeleteService#delete(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.delete.ProtocolDeleteBean)
      */
-    public void delete(Protocol protocol, ProtocolDeleteBean deleteBean) {
+    public void delete(Protocol protocol, ProtocolDeleteBean deleteBean) throws WorkflowException {
         protocol.setProtocolStatusCode(ProtocolStatus.DELETED);
         businessObjectService.save(protocol.getProtocolDocument());
+        
+        /*
+         * By marking the protocol document as canceled, the protocol
+         * is removed from the user's action list.
+         */
+        documentService.cancelDocument(protocol.getProtocolDocument(), null);
     }
 }
