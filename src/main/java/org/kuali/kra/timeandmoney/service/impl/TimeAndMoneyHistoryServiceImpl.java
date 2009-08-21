@@ -27,6 +27,7 @@ import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryService {
@@ -48,7 +49,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         
         for(Award award : awards){
             award.refreshReferenceObject("awardDocument");
-            timeAndMoneyHistory.put(award.getAwardDocument().getDocumentNumber(), "url for award document");
+            timeAndMoneyHistory.put(buildDocumentUrl(award.getAwardDocument().getDocumentNumber()), "url for award document");
             fieldValues1.put("rootAwardNumber", award.getAwardNumber());
             
             docs = (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, "documentNumber", true);
@@ -58,7 +59,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                 List<AwardAmountTransaction> awardAmountTransactions = ((List<AwardAmountTransaction>)businessObjectService.findMatching(AwardAmountTransaction.class, fieldValues2));
                 if(awardAmountTransactions.size()>0){
                     awardAmountTransaction = awardAmountTransactions.get(0);
-                    timeAndMoneyHistory.put(doc.getDocumentNumber(), awardAmountTransaction.getComments());
+                    timeAndMoneyHistory.put(buildDocumentUrl(doc.getDocumentNumber()), awardAmountTransaction.getComments());
                 }    
                 
                 for(AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()){
@@ -82,6 +83,26 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
             
             
         }        
+    }
+    
+    private String buildDocumentUrl(String documentNumber){
+        StringBuilder sb = new StringBuilder();
+        sb.append("<a href=\"");
+        sb.append("en/");
+        sb.append(KEWConstants.DOC_HANDLER_REDIRECT_PAGE);
+        sb.append("?");
+        sb.append(KEWConstants.COMMAND_PARAMETER);
+        sb.append("=");
+        sb.append(KEWConstants.DOCSEARCH_COMMAND);
+        sb.append("&");
+        sb.append(KEWConstants.ROUTEHEADER_ID_PARAMETER);
+        sb.append("=");
+        sb.append(documentNumber);
+        sb.append("\"");
+        sb.append(">");
+        sb.append(documentNumber);
+        sb.append("</a>");
+        return sb.toString();
     }
 
     /**
