@@ -476,6 +476,7 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_UNIT_INVALID = "error.protocolUnit.invalid";
     public static final String ERROR_PROTOCOL_UNIT_DUPLICATE = "error.protocolUnit.duplicate";
     public static final String ERROR_PROTOCOL_INVESTIGATOR_INVALID = "error.protocol.investigator.invalid";
+    public static final String QUESTION_DELETE_PROTOCOL_CONFIRMATION = "document.question.deleteProtocol.text";
     
     //IRB Protocol Note And Attachment Validation Messages
     public static final String ERROR_PROTOCOL_ATTACHMENT_MISSING_TYPE = "error.protocolAttachment.missing.type";
