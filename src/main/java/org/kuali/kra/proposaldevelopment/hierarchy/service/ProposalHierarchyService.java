@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.service;
 
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
-import org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchy;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchyChild;
 
 /**
@@ -24,24 +24,6 @@ import org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchyChild;
  */
 
 public interface ProposalHierarchyService {
-
-    /**
-     * This method determines if the proposal indicated by the proposalNumber is a Hierarchy parent
-     * 
-     * @param proposalNumber The number of the proposal in question
-     * @return true if the proposal indicated by proposalNumber is a Hiearchy parent, false otherwise.
-     * @throws ProposalHierarchyException is proposalNumber does not exist
-     */
-    public boolean isParent(String proposalNumber) throws ProposalHierarchyException;
-
-    /**
-     * This method determines if the proposal indicated by the proposalNumber is a Hierarchy child
-     * 
-     * @param proposalNumber The number of the proposal in question
-     * @return true if the proposal indicated by proposalNumber is a Hiearchy child, false otherwise.
-     * @throws ProposalHierarchyException if proposalNumber does not exist
-     */
-    public boolean isChild(String proposalNumber) throws ProposalHierarchyException;
 
     /**
      * This method takes the proposal indicated by initialChildProposalNumber, creates a Hierarchy
@@ -102,6 +84,6 @@ public interface ProposalHierarchyService {
      */
     public void aggregateHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException;
 
-    public ProposalHierarchy getHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException;
+    public DevelopmentProposal getHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException;
     public ProposalHierarchyChild getHierarchyChild(String childProposalNumber) throws ProposalHierarchyException;
 }

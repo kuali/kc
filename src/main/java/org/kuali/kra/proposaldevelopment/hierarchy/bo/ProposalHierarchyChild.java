@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.hierarchy.bo;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -35,14 +36,20 @@ public class ProposalHierarchyChild extends KraPersistableBusinessObjectBase {
 
     private String proposalNumber;
     private String hierarchyProposalNumber;
-    private int proposalChildHashCode;
+    private int proposalHashCode;
     private Timestamp proposalUpdateTimestamp;
     private List<PropScienceKeyword> propScienceKeywords;
     private List<ProposalPerson> proposalPersons;
     private List<ProposalSpecialReview> propSpecialReviews;
     private List<Narrative> narratives;
 
-
+    public ProposalHierarchyChild() {
+        propScienceKeywords = new ArrayList<PropScienceKeyword>();
+        proposalPersons = new ArrayList<ProposalPerson>();
+        propSpecialReviews = new ArrayList<ProposalSpecialReview>();
+        narratives = new ArrayList<Narrative>();
+    }
+    
     /**
      * Gets the proposalNumber attribute.
      * 
@@ -79,25 +86,23 @@ public class ProposalHierarchyChild extends KraPersistableBusinessObjectBase {
     public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
-
+    
 
     /**
-     * Gets the proposalChildHashCode attribute.
-     * 
-     * @return Returns the proposalChildHashCode.
+     * Gets the proposalHashCode attribute. 
+     * @return Returns the proposalHashCode.
      */
-    public int getProposalChildHashCode() {
-        return proposalChildHashCode;
+    public int getProposalHashCode() {
+        return proposalHashCode;
     }
 
 
     /**
-     * Sets the proposalChildHashCode attribute value.
-     * 
-     * @param proposalChildHashCode The proposalChildHashCode to set.
+     * Sets the proposalHashCode attribute value.
+     * @param proposalHashCode The proposalHashCode to set.
      */
-    public void setProposalChildHashCode(int proposalChildHashCode) {
-        this.proposalChildHashCode = proposalChildHashCode;
+    public void setProposalHashCode(int proposalHashCode) {
+        this.proposalHashCode = proposalHashCode;
     }
 
 

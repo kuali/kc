@@ -14,17 +14,83 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="proposalNumber" value="${KualiForm.document.developmentProposalList[0].proposalNumber}" />
+<c:set var="documentNumber" value="${KualiForm.document.documentNumber}" />
+<c:set var="hierarchyStatus" value="${KualiForm.document.developmentProposalList[0].hierarchyStatus}" />
+<c:set var="hierarchyParentStatus" value="${KualiForm.hierarchyParentStatus}"/>
+<c:set var="hierarchyChildStatus" value="${KualiForm.hierarchyChildStatus}"/>
+<c:set var="hierarchyNoneStatus" value="${KualiForm.hierarchyNoneStatus}"/>
 
 
-<kul:tab tabTitle="Hierarchy" defaultOpen="false"  
-            tabErrorKey="document.fillme*">
+<kul:tab tabTitle="Proposal Hierarchy" defaultOpen="false"  
+            tabErrorKey="newHierarchyChildProposal.*, newHierarchyProposal.*">
          
 	<div class="tab-container" align="center">
     	<h3>
-    		<span class="subhead-left">Hierarchy</span>
+    		<span class="subhead-left">Proposal Hierarchy</span>
         </h3>
-        
-               To Be Developed
-	
+		<table cellpadding="0" cellspacing="0" summary="">
+			<tr>
+				<td>
+					<div class="floaters">
+						You are currently viewing <b>Proposal #${proposalNumber} (Document #${documentNumber})</b>, which is 
+						<c:choose>
+							<c:when test="${hierarchyStatus == hierarchyParentStatus}" >
+								a Parent Document.
+							</c:when>
+							<c:when test="${hierarchyStatus == hierarchyChildStatus}" >
+								a Child Document. 
+							</c:when>
+							<c:otherwise>
+								currently unlinked to a proposal hierarchy. 
+							</c:otherwise>
+						</c:choose>
+						The following actions are available:
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="infoline" align="center">
+					<div align="center">
+						<c:choose>
+							<c:when test="${hierarchyStatus == hierarchyParentStatus}" >
+							    <kul:htmlAttributeLabel attributeEntry="${DataDictionary.DevelopmentProposal.attributes.proposalNumber}" />
+							    <kul:htmlControlAttribute property="newHierarchyChildProposal.proposalNumber" attributeEntry="${DataDictionary.DevelopmentProposal.attributes.proposalNumber}" />
+			                	<kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" 
+			                	            fieldConversions="proposalNumber:newHierarchyChildProposal.proposalNumber" 
+			                	            lookupParameters="hierarchyNoneStatus:hierarchyStatus"
+			                	            anchor="${tabKey}" />
+								<html:image property="methodToCall.linkChildToHierarchy.anchor${tabKey}"
+						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-linkchildprop.gif' styleClass="tinybutton"/>
+						        - or -
+								<html:image property="methodToCall.syncAllHierarchy.anchor${tabKey}"
+						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-syncall.gif' styleClass="tinybutton"/>
+							</c:when>
+							<c:when test="${hierarchyStatus == hierarchyChildStatus}" >
+								<html:image property="methodToCall.removeFromHierarchy.anchor${tabKey}"
+						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-remhierarchy.gif' styleClass="tinybutton"/>
+								<html:image property="methodToCall.syncToHierarchyParent.anchor${tabKey}"
+						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctoparent.gif' styleClass="tinybutton"/>
+							</c:when>
+							<c:otherwise>
+								<html:image property="methodToCall.createHierarchy.anchor${tabKey}"
+						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-createhierarchy.gif' styleClass="tinybutton"/>
+							    - or -
+							    <kul:htmlAttributeLabel attributeEntry="${DataDictionary.DevelopmentProposal.attributes.proposalNumber}" />
+							    <kul:htmlControlAttribute property="newHierarchyProposal.proposalNumber" 
+							    		attributeEntry="${DataDictionary.DevelopmentProposal.attributes.proposalNumber}" 
+							    		onblur="" />
+			                	<kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" 
+			                	            fieldConversions="proposalNumber:newHierarchyProposal.proposalNumber" 
+			                	            lookupParameters="hierarchyParentStatus:hierarchyStatus"
+			                	            anchor="${tabKey}" />
+								<html:image property="methodToCall.linkToHierarchy.anchor${tabKey}"
+						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-linktohierarchy.gif' styleClass="tinybutton"/>
+							</c:otherwise>
+						</c:choose>
+					</div>
+                </td>
+			</tr>
+		</table>
     </div> 
 </kul:tab>
