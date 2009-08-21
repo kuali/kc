@@ -28,10 +28,10 @@
 		<property name="inquiryDefinition" >
 			<ref bean="DevelopmentProposal-inquiryDefinition" />
 		</property>
+		-->
 		<property name="lookupDefinition" >
 			<ref bean="DevelopmentProposal-lookupDefinition" />
 		</property>
-		-->
 		<property name="titleAttribute" value="proposalNumber" />
 
 
@@ -69,6 +69,9 @@
 	        <ref bean="DevelopmentProposal-budgetStatus"/>
 	        <ref bean="DevelopmentProposal-postSubmissionStatusCode"/>
 	        <ref bean="DevelopmentProposal-versionNumber"/>
+	        <ref bean="DevelopmentProposal-hierarchyStatus"/>
+	        <ref bean="DevelopmentProposal-hierarchyStatusName"/>
+	        <ref bean="DevelopmentProposal-proposalDocument.documentNumber" />
 	      </list>
 	    </property>
 	</bean>
@@ -87,9 +90,11 @@
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="true"/>
+    <!--<property name="required" value="true"/>-->
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+<!--      <bean parent="HiddenControlDefinition"/> -->
     </property>
     <property name="summary" value="Proposal Number"/>
     <property name="description" value="The unique proposal number identifying a proposal. This is a system generated, sequential number."/>
@@ -575,4 +580,92 @@
 
   <bean id="DevelopmentProposal-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
   </bean>
+  
+  <bean id="DevelopmentProposal-hierarchyStatus" parent="DevelopmentProposal-hierarchyStatus-parentBean"/>
+
+  <bean id="DevelopmentProposal-hierarchyStatus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="hierarchyStatus"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Hierarchy Status"/>
+    <property name="shortLabel" value="Hierarchy Status"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="summary" value="Hierarchy Status Code"/>
+    <property name="description" value="The status of the proposal in a hierarchy."/>
+  </bean>	
+
+  <bean id="DevelopmentProposal-proposalDocument.documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="name" value="proposalDocument.documentNumber" />
+  	<property name="label" value="Proposal Document Number" />
+  	<property name="shortLabel" value="Doc Number" />
+  </bean>
+  
+  <bean id="DevelopmentProposal-proposalDocument.documentNumber" parent="DevelopmentProposal-proposalDocument.documentNumber-parentBean" />
+
+	<bean id="DevelopmentProposal-hierarchyStatusName" parent="DevelopmentProposal-hierarchyStatusName-parentBean"/>
+	<bean id="DevelopmentProposal-hierarchyStatusName-parentBean" parent="AttributeDefinition">
+	    <property name="name" value="hierarchyStatusName"/>
+	    <property name="label" value="Hierarchy Status"/>
+	    <property name="shortLabel" value="Hierarchy Status"/>	
+	    <property name="forceUppercase" value="false"/>
+	    <property name="maxLength" value="20"/>
+	    <property name="required" value="false"/>
+	    <property name="control">
+	      <bean parent="HiddenControlDefinition"/>
+	    </property>
+	    <property name="summary" value="Hierarchy Status"/>
+	    <property name="description" value="Hierarchy Status"/>
+	</bean>
+
+  <!-- Business Object Lookup Definition -->
+  <bean id="DevelopmentProposal-lookupDefinition" parent="DevelopmentProposal-lookupDefinition-parentBean" />
+  <bean id="DevelopmentProposal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Development Proposal Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Development Proposal" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber"
+              p:forceLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="title" />
+        <bean parent="FieldDefinition"
+              p:attributeName="sponsorCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="ownedByUnitNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="hierarchyStatus" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalDocument.documentNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="title" />
+        <bean parent="FieldDefinition"
+              p:attributeName="sponsorCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="ownedByUnitNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="hierarchyStatusName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalDocument.documentNumber" />
+      </list>
+    </property>
+  </bean>
 </beans>
+  

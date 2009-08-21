@@ -50,6 +50,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.kim.service.KIMService;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
@@ -66,6 +67,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
+import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
@@ -147,6 +150,9 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private CongressionalDistrictHelper performingOrganizationHelper;
     private List<CongressionalDistrictHelper> performanceSiteHelpers;
     private List<CongressionalDistrictHelper> otherOrganizationHelpers;
+    private DevelopmentProposal newHierarchyProposal;
+    private DevelopmentProposal newHierarchyChildProposal;
+   
 
     private String proposalFormTabTitle = "Print Sponsor Form Packages ";
 
@@ -191,7 +197,9 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         proposalDevelopmentParameters = new HashMap<String, Parameter>();
         newProposalPersonRoleRendered = false;
         setNewProposalChangedData(new ProposalChangedData());
-        versionNumberForS2sOpportunity = null;     
+        versionNumberForS2sOpportunity = null;
+        setNewHierarchyChildProposal(new DevelopmentProposal());
+        setNewHierarchyProposal(new DevelopmentProposal());
     }
     
     //  TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
@@ -1411,6 +1419,48 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
 //            return super.shouldPropertyBePopulatedInForm(requestParameterName, request);
 //        }
         return true;
+    }
+    
+    /**
+     * Gets the newHierarchyProposal attribute. 
+     * @return Returns the newHierarchyProposal.
+     */
+    public DevelopmentProposal getNewHierarchyProposal() {
+        return newHierarchyProposal;
+    }
+
+    /**
+     * Sets the newHierarchyProposal attribute value.
+     * @param newHierarchyProposal The newHierarchyProposal to set.
+     */
+    public void setNewHierarchyProposal(DevelopmentProposal newHierarchyProposal) {
+        this.newHierarchyProposal = newHierarchyProposal;
+    }
+
+    /**
+     * Gets the newHierarchyChildProposal attribute. 
+     * @return Returns the newHierarchyChildProposal.
+     */
+    public DevelopmentProposal getNewHierarchyChildProposal() {
+        return newHierarchyChildProposal;
+    }
+
+    /**
+     * Sets the newHierarchyChildProposal attribute value.
+     * @param newHierarchyChildProposal The newHierarchyChildProposal to set.
+     */
+    public void setNewHierarchyChildProposal(DevelopmentProposal newHierarchyChildProposal) {
+        this.newHierarchyChildProposal = newHierarchyChildProposal;
+    }
+    
+    public String getHierarchyParentStatus() {
+        return HierarchyStatusConstants.Parent.code();
+    }
+    public String getHierarchyNoneStatus() {
+        return HierarchyStatusConstants.None.code();
+    }
+    public String getHierarchyChildStatus() {
+        return HierarchyStatusConstants.Child.code();
     }
 
 }
