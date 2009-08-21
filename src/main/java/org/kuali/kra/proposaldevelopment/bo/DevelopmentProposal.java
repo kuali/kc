@@ -40,6 +40,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyChildComparable;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
+import org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchyChild;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
@@ -137,23 +139,54 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private Boolean submitFlag = Boolean.FALSE;
 
     private ProposalDevelopmentDocument proposalDocument;
-    private boolean hierarchy;
+    private String hierarchyStatus;
+    private String hierarchyStatusName;
 
-
+    // Items specific to a hierarchy proposal:
+    private List<ProposalHierarchyChild> children;
+    private List<PropScienceKeyword> hierarchyPropScienceKeywords;
+    private List<ProposalSpecialReview> hierarchySpecialReviews;
+    private List<Narrative> hierarchyNarratives;
+    
     /**
      * Gets the hierarchy attribute. 
      * @return Returns the hierarchy.
      */
-    public boolean isHierarchy() {
-        return hierarchy;
+    public String getHierarchyStatus() {
+        return hierarchyStatus;
     }
 
     /**
      * Sets the hierarchy attribute value.
      * @param hierarchy The hierarchy to set.
      */
-    public void setHierarchy(boolean hierarchy) {
-        this.hierarchy = hierarchy;
+    public void setHierarchyStatus(String hierarchyStatus) {
+        this.hierarchyStatus = hierarchyStatus;
+ 
+    }
+    
+    public boolean isParent() {
+        return HierarchyStatusConstants.Parent.code().equals(hierarchyStatus);
+    }
+    
+    public boolean isChild()  {
+        return HierarchyStatusConstants.Child.code().equals(hierarchyStatus);
+    }
+    
+    public boolean isInHierarchy() {
+        return !HierarchyStatusConstants.None.code().equals(hierarchyStatus);
+    }
+    
+    public String getHierarchyStatusName() {
+        String retval = HierarchyStatusConstants.None.description();
+        for (HierarchyStatusConstants status : HierarchyStatusConstants.values()) {
+            if (status.code().equals(getHierarchyStatus())) retval = status.description();
+        }
+        return retval;
+    }
+
+    public void setHierarchyStatusName(String hierarchyStatusName) {
+        this.hierarchyStatusName = hierarchyStatusName;
     }
 
     @SuppressWarnings("unchecked")
@@ -177,6 +210,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         s2sSubmissionHistory = new ArrayList<S2sSubmissionHistory>();
         proposalChangedDataList = new TypedArrayList(ProposalChangedData.class);
         proposalChangeHistory = new TreeMap<String, List<ProposalChangedData>>();
+        hierarchyStatus = HierarchyStatusConstants.None.code();
+        hierarchyStatusName = HierarchyStatusConstants.None.description();
+        hierarchyNarratives = new ArrayList<Narrative>();
+        hierarchyPropScienceKeywords = new ArrayList<PropScienceKeyword>();
+        hierarchySpecialReviews = new ArrayList<ProposalSpecialReview>();
+        children = new ArrayList<ProposalHierarchyChild>();
         initProposalSites();
     }
 
@@ -923,6 +962,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
             managedLists.add(new ArrayList<S2sOppForms>());
         }
         managedLists.add(opportunities);
+        
+        managedLists.add(getChildren());
+        managedLists.add(getHierarchyNarratives());
+        managedLists.add(getHierarchyPropScienceKeywords());
+        managedLists.add(getHierarchySpecialReviews());
+
         return managedLists;
     }
 
@@ -1720,5 +1765,64 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return result;
     }
 
-
+    /**
+     * Gets the children attribute. 
+     * @return Returns the children.
+     */
+    public List<ProposalHierarchyChild> getChildren() {
+        return children;
+    }
+    /**
+     * Sets the children attribute value.
+     * @param children The children to set.
+     */
+    public void setChildren(List<ProposalHierarchyChild> children) {
+        this.children = children;
+    }
+        
+    /**
+     * Gets the hierarchyPropScienceKeywords attribute. 
+     * @return Returns the hierarchyPropScienceKeywords.
+     */
+    public List<PropScienceKeyword> getHierarchyPropScienceKeywords() {
+        return hierarchyPropScienceKeywords;
+    }
+    
+    /**
+     * Sets the hierarchyPropScienceKeywords attribute value.
+     * @param hierarchyPropScienceKeywords The hierarchyPropScienceKeywords to set.
+     */
+    public void setHierarchyPropScienceKeywords(List<PropScienceKeyword> hierarchyPropScienceKeywords) {
+        this.hierarchyPropScienceKeywords = hierarchyPropScienceKeywords;
+    }
+    
+    /**
+     * Gets the hierarchySpecialReviews attribute. 
+     * @return Returns the hierarchySpecialReviews.
+     */
+    public List<ProposalSpecialReview> getHierarchySpecialReviews() {
+        return hierarchySpecialReviews;
+    }
+    /**
+     * Sets the hierarchySpecialReviews attribute value.
+     * @param hierarchySpecialReviews The hierarchySpecialReviews to set.
+     */
+    public void setHierarchySpecialReviews(List<ProposalSpecialReview> hierarchySpecialReviews) {
+        this.hierarchySpecialReviews = hierarchySpecialReviews;
+    }
+    /**
+     * Gets the hierarchyNarratives attribute. 
+     * @return Returns the hierarchyNarratives.
+     */
+    public List<Narrative> getHierarchyNarratives() {
+        return hierarchyNarratives;
+    }
+    /**
+     * Sets the hierarchyNarratives attribute value.
+     * @param hierarchyNarratives The hierarchyNarratives to set.
+     */
+    public void setHierarchyNarratives(List<Narrative> hierarchyNarratives) {
+        this.hierarchyNarratives = hierarchyNarratives;
+    }
+ 
 }

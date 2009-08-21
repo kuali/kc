@@ -1845,4 +1845,17 @@
 		</property>		
 	</bean>
 	
+	
+	<bean id="proposalHierarchyService" class="org.kuali.kra.proposaldevelopment.hierarchy.service.impl.ProposalHierarchyServiceImpl">
+		<property name="businessObjectService">
+					<ref bean="businessObjectService" />
+		</property>		
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+		<property name="proposalAuthorizationService">
+					<ref bean="proposalAuthorizationService" />
+		</property>		
+	</bean>
+	
 </beans>
