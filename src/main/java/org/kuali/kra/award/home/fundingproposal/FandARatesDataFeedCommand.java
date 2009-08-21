@@ -15,12 +15,18 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardCommentFactory;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     private static final String FANDA_COMMENT_PATTERN = "Added Unrecovered F & A from Proposal Number %s";
@@ -34,6 +40,14 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
         super(award, proposal);
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rules.DocumentRuleBase#getKualiConfigurationService()
+     */
+    protected KualiConfigurationService getKualiConfigurationService(){
+        return KraServiceLocator.getService(KualiConfigurationService.class);
+    }
+    
     /**
      * @see org.kuali.kra.award.home.fundingproposal.ProposalDataFeedCommandBase#performDataFeed()
      */
@@ -63,13 +77,43 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
         appendComments(findOrCreateCommentOfSpecifiedType(new AwardCommentFactory().createFandaRateComment()), newComment);
     }
     
-    private boolean isIdentical(AwardFandaRate awardFandA, InstitutionalProposalUnrecoveredFandA ipFandA) {
-        return awardFandA.getFandaRateTypeCode().equals(ipFandA.getIndirectcostRateTypeCode()) &&
-                awardFandA.getApplicableFandaRate().equals(ipFandA.getApplicableIndirectcostRate()) &&
-                awardFandA.getFiscalYear().equals(ipFandA.getFiscalYear()) &&
-                awardFandA.getOnCampusFlag().equals(ipFandA.getOnCampusFlag());
+    private void assignDates(AwardFandaRate awardFandA, Calendar calendar) {
+        awardFandA.setStartDate(new Date(calendar.getTimeInMillis()));
+        awardFandA.setEndDate(calculateLastDayOfYear(calendar));
     }
-    
+
+    private void calculateDates(AwardFandaRate awardFandA) {
+        String fiscalYearStartDate = readFiscalYearStartDate();
+        if(fiscalYearStartDate != null) {
+            calculateDatesFromSystemParam(awardFandA, fiscalYearStartDate);
+        } else {
+            calculateDatesForCalendarYear(awardFandA);
+        }
+    }
+
+    private void calculateDatesForCalendarYear(AwardFandaRate awardFandA) {
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.set(getFiscalYear(awardFandA), Calendar.JANUARY, 1);
+        assignDates(awardFandA, calendar);
+    }
+
+    private void calculateDatesFromSystemParam(AwardFandaRate awardFandA, String fiscalYearStartDate) {
+        Calendar calendar = GregorianCalendar.getInstance();
+        String[] tokens = fiscalYearStartDate.split("/");
+        calendar.set(getFiscalYear(awardFandA), Integer.valueOf(tokens[0]) - 1, Integer.valueOf(tokens[1]));
+        assignDates(awardFandA, calendar);
+    }
+
+    private Date calculateLastDayOfYear(Calendar calendar) {
+        calendar.add(Calendar.YEAR, 1);
+        calendar.add(Calendar.DATE, -1);
+        return new Date(calendar.getTimeInMillis());
+    }
+
+    private String convertOnCampusBooleanToString(boolean onCampusFlag) {
+        return onCampusFlag ? Constants.ON_CAMUS_FLAG : Constants.OFF_CAMUS_FLAG;
+    }
+
     /**
      * Copies an InstitutionalProposalUnrecoveredFandA to an AwardFandaRate
      * @param ipUnrecoveredFandA
@@ -83,11 +127,30 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
         awardFandA.setOnCampusFlag(convertOnCampusBooleanToString(ipUnrecoveredFandA.getOnCampusFlag()));
         awardFandA.setSourceAccount(ipUnrecoveredFandA.getSourceAccount());
         awardFandA.setUnderrecoveryOfIndirectCost(ipUnrecoveredFandA.getAmount());
-        
+        calculateDates(awardFandA);
         return awardFandA;
     }
+
+    private Integer getFiscalYear(AwardFandaRate awardFandA) {
+        return Integer.valueOf(awardFandA.getFiscalYear());
+    }
+
+    private boolean isIdentical(AwardFandaRate awardFandA, InstitutionalProposalUnrecoveredFandA ipFandA) {
+        return awardFandA.getFandaRateTypeCode().equals(ipFandA.getIndirectcostRateTypeCode()) &&
+                awardFandA.getApplicableFandaRate().equals(ipFandA.getApplicableIndirectcostRate()) &&
+                awardFandA.getFiscalYear().equals(ipFandA.getFiscalYear()) &&
+                awardFandA.getOnCampusFlag().equals(ipFandA.getOnCampusFlag());
+    }
     
-    private String convertOnCampusBooleanToString(boolean onCampusFlag) {
-        return onCampusFlag ? Constants.ON_CAMUS_FLAG : Constants.OFF_CAMUS_FLAG;
+    private String readFiscalYearStartDate() {
+        String fiscalYearStartDate;
+        try {
+            fiscalYearStartDate = getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_BUDGET,
+                                                            Constants.PARAMETER_COMPONENT_DOCUMENT, 
+                                                            Constants.BUDGET_CURRENT_FISCAL_YEAR).getParameterValue();
+        } catch(IllegalArgumentException e) {
+            fiscalYearStartDate = null;
+        }
+        return fiscalYearStartDate;
     }
 }
