@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.delete;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * Protocol Delete Service.
@@ -26,6 +27,7 @@ public interface ProtocolDeleteService {
      * Delete a protocol/amendment/renewal.
      * @param protocol the protocol/amendment/renewal
      * @param deleteBean the required data for performing a withdrawal
+     * @throws WorkflowException 
      */
-    public void delete(Protocol protocol, ProtocolDeleteBean deleteBean);
+    public void delete(Protocol protocol, ProtocolDeleteBean deleteBean) throws WorkflowException;
 }

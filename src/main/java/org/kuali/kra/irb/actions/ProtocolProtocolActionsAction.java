@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_ABSTRACT_CONFIRMATION;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.ProtocolAction;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.amendrenew.CreateAmendmentEvent;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
@@ -44,6 +46,8 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -57,6 +61,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private static final String PROTOCOL_TAB = "protocol";
     private static final String CONFIRM_SUBMIT_FOR_REVIEW_KEY = "confirmSubmitForReview";
     
+    private static final String CONFIRM_DELETE_PROTOCOL_KEY = "confirmDeleteProtocol";
+   
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -498,9 +504,44 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE, protocolForm.getProtocolDocument().getProtocol());
         if (isAuthorized(task)) {
-           getProtocolDeleteService().delete(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolDeleteBean());
+           return confirm(buildDeleteProtocolConfirmationQuestion(mapping, form, request, response), CONFIRM_DELETE_PROTOCOL_KEY, "");
+           
         }
         return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    /**
+     * If the user confirms the deletion, then delete the protocol.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmDeleteProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+        if (CONFIRM_DELETE_PROTOCOL_KEY.equals(question)) { 
+            ProtocolForm protocolForm = (ProtocolForm) form;
+            getProtocolDeleteService().delete(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolDeleteBean());
+        }
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    /**
+     * Build the question to ask the user.  Ask if they really 
+     * want to delete the protocol.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    private StrutsConfirmation buildDeleteProtocolConfirmationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolDocument doc = ((ProtocolForm) form).getDocument();
+        String protocolNumber = doc.getProtocol().getProtocolNumber();
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_PROTOCOL_KEY, KeyConstants.QUESTION_DELETE_PROTOCOL_CONFIRMATION, protocolNumber);
     }
     
     private ProtocolDeleteService getProtocolDeleteService() {
