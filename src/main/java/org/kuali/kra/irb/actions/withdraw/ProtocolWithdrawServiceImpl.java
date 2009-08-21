@@ -26,16 +26,28 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * The ProtocolWithdrawService implementation.
  */
 public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
 
+    private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private ProtocolActionService protocolActionService;
 
+    /**
+     * Set the document service.
+     * @param documentService
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+    
     /**
      * Set the business object service.
      * @param businessObjectService the business object service
@@ -53,9 +65,10 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     }
 
     /**
+     * @throws WorkflowException 
      * @see org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService#withdraw(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean)
      */
-    public void withdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) {
+    public void withdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws WorkflowException {
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.WITHDRAWN);
         protocolAction.setComments(withdrawBean.getReason());
         protocol.getProtocolActions().add(protocolAction);
@@ -67,8 +80,20 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
             submission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
             submission.setSubmissionStatusCode(ProtocolSubmissionStatus.WITHDRAWN);
         }
-        
         businessObjectService.save(protocol.getProtocolDocument());
+        
+        cancelWorkflow(protocol);
+    }
+
+    /**
+     * By canceling the protocol in workflow, we are preventing it from being
+     * reviewed by the IRB office.  A user will then be able to continue editing
+     * the protocol in order to submit it again at a later time.
+     * @param protocol
+     * @throws WorkflowException
+     */
+    private void cancelWorkflow(Protocol protocol) throws WorkflowException {
+        documentService.cancelDocument(protocol.getProtocolDocument(), null);
     }
 
     /**
