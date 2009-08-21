@@ -41,7 +41,7 @@
 						<tr>
 						<td align="left" valign="middle" class="infoline" rowspan="1">
 		                	<div align="center">
-		                		<c:out value="${timeAndMoneyHistory.key}" />
+		                		${timeAndMoneyHistory.key}
 		                	</div>                	
 						</td>
 						<td align="left" valign="middle" class="infoline" colspan="9" >
