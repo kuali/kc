@@ -51,7 +51,7 @@
     <br />--%> 
      
     <c:choose>
-      <c:when test = "${KualiForm.document.newMaintainableObject.maintenanceAction eq 'Copy'}">
+      <c:when test = "${KualiForm.document.newMaintainableObject.maintenanceAction eq 'Copy' and !(KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus eq 'F')}">
         <kra-questionnaire:questionnaireMaintCopy />      
       </c:when>
       <c:otherwise>
@@ -249,7 +249,8 @@ if (dataarray.length > 1) {
         hidtd.appendTo(hidtr);
         hidtr.hide(); // FF rendering issue. If not hided, then 'line' will be
         // drawn at the bottom of the table for each Q hidden row
-        hidtr.appendTo($("#usage-table"));
+        hidtr.appendTo($("#qhiddiv"));
+        //hidtr.appendTo($("#usage-table"));
         ucount++;
 
         
@@ -265,6 +266,7 @@ function loadQuestion() {
     var rootidx;
     var pnum0 = 0;
     var nodecount = 0;
+    var refid = $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value");
     for ( var k = 0; k < qlen; k++) {
         var curq = questions[k];
         // alert("parent 0 "+k+"-"+curq+pnum0+"-"+nodecount+"-"+qlen);
@@ -377,8 +379,11 @@ function loadQuestion() {
             $("#qmaxlength" + idx).attr("value", field[12]);
             //alert("set to 123 :"+idx)
             // qqid/qid/seq/desc/qtypeid/qnum/cond/condvalue/parentqnum/questionseqnum
+            if (field[0] == '' || field[0] == null) {
+                alert("qqid is null "+questions[k]);
+            }    
             $("#"+jqprefix + idx+"\\]\\.questionnaireQuestionsId").attr("value",field[0]);
-            $("#"+jqprefix + idx+"\\]\\.questionnaireRefIdFk").attr("value",$('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value"));
+            $("#"+jqprefix + idx+"\\]\\.questionnaireRefIdFk").attr("value",refid);
             $("#"+jqprefix + idx+"\\]\\.questionRefIdFk").attr("value",field[1]);
             $("#"+jqprefix + idx+"\\]\\.questionNumber").attr("value",field[5]);
             $("#"+jqprefix + idx+"\\]\\.parentQuestionNumber").attr("value",field[8]);

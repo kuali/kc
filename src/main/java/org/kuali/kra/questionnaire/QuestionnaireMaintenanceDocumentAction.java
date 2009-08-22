@@ -26,9 +26,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.budget.distributionincome.AddBudgetCostShareEvent;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AbstractType;
 import org.kuali.kra.questionnaire.question.Question;
@@ -44,6 +47,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;
 
 public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocumentAction {
+    private static final Log LOG = LogFactory.getLog(QuestionnaireMaintenanceDocumentAction.class);
     // TODO : big mess is that questionquestions and usages can't be included in xmldoccontent
     // because maintframework - questions & usages are not defined in 'maintsections'
     // then it will not be in xmldoccontent
@@ -113,6 +117,20 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         if (((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
                 KNSConstants.MAINTENANCE_COPY_ACTION)) {
+            // view copied document
+            if (qnForm.getDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
+                Map<String, Object> fieldValues = new HashMap<String, Object>();
+                fieldValues.put("documentNumber", qnForm.getDocument().getDocumentNumber());
+                // use findbypk is little stretched. But is is actually doing findmatching has nothing to do with pk
+                Questionnaire questionnaire = (Questionnaire) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(
+                        Questionnaire.class, fieldValues);
+                ((Questionnaire)((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject()).setQuestionnaireRefId(questionnaire.getQuestionnaireRefId());
+                String questions = assembleQuestions(qnForm);
+                String usages = assembleUsages((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+                        .getNewMaintainableObject().getBusinessObject());
+                qnForm.setEditData(questions + "#;#" + usages);
+                
+            }
             // qnForm.setFromQuestionnaire((Questionnaire) ((MaintenanceDocumentBase)
             // qnForm.getDocument()).getOldMaintainableObject()
             // .getBusinessObject());
@@ -207,15 +225,15 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         // result = result.substring(0,result.length()-3);
         // }
         // TODO : test versioning
-        Questionnaire qnaire = null;
-        try {
-            VersioningService versionService = new VersioningServiceImpl();
-            qnaire = (Questionnaire) versionService.createNewVersion(questionnaire);
-        }
-        catch (Exception e) {
-
-        }
-        qnaire.getQuestionnaireId();
+//        Questionnaire qnaire = null;
+//        try {
+//            VersioningService versionService = new VersioningServiceImpl();
+//            qnaire = (Questionnaire) versionService.createNewVersion(questionnaire);
+//        }
+//        catch (Exception e) {
+//
+//        }
+//        qnaire.getQuestionnaireId();
         return result;
 
 
@@ -546,7 +564,9 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         List<QuestionnaireQuestion> dropList = new ArrayList<QuestionnaireQuestion>();
         List<QuestionnaireQuestion> deleteList = new ArrayList<QuestionnaireQuestion>();
 //        Map qMap = new HashMap();
+        int i = 0;
         for (QuestionnaireQuestion question : questionnaire.getQuestionnaireQuestions()) {
+            System.out.println("qnquestion "+(i++)+question.toStringMapper());
             if ("Y".equals(question.getDeleted())) {
                 if (question.getQuestionnaireQuestionsId() == null) {
                     dropList.add(question);
@@ -562,6 +582,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                 dropList.add(question);                
             }
         }
+        System.out.println("qnquestion "+qnForm.getEditData());
         questionnaire.getQuestionnaireQuestions().removeAll(dropList);
         if (questionnaire.getSequenceNumber() == null) {
             questionnaire.setSequenceNumber(1);
@@ -683,7 +704,16 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             Questionnaire newQuestionnaire = (Questionnaire) versionService.createNewVersion(oldQuestionnaire);
             questionnaire.setQuestionnaireRefId(null);
             questionnaire.setSequenceNumber(newQuestionnaire.getSequenceNumber());
-            // both collections are populated from form
+            // both collections are populated from form, so can't use the old one
+            // so versioning is kind like set new seq 
+            for (QuestionnaireQuestion qnaireQuestion : questionnaire.getQuestionnaireQuestions()) {
+                qnaireQuestion.setQuestionnaireRefIdFk(null);                
+                qnaireQuestion.setQuestionnaireQuestionsId(null);                
+            }
+            for (QuestionnaireUsage qnaireUsage : questionnaire.getQuestionnaireUsages()) {
+                qnaireUsage.setQuestionnaireUsageId(null);                
+                qnaireUsage.setQuestionnaireRefIdFk(null);                
+            }
             //questionnaire.setQuestionnaireQuestions(newQuestionnaire.getQuestionnaireQuestions());
             //questionnaire.setQuestionnaireUsages(newQuestionnaire.getQuestionnaireUsages());
             questionnaire.setDocumentNumber("");

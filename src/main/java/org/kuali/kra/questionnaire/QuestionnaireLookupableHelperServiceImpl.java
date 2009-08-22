@@ -38,24 +38,24 @@ import edu.emory.mathcs.backport.java.util.Collections;
 public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private DocumentService documentService;
 
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
-        List<Questionnaire> activeQuestionnaires = new ArrayList<Questionnaire>();
-        List<Integer> questionnaireIds = new ArrayList<Integer>();
-        if (CollectionUtils.isNotEmpty(searchResults)) {
-            Collections.sort((List<Questionnaire>) searchResults);
-            Collections.reverse((List<Questionnaire>) searchResults);
-            // Collections.sort((List<Questionnaire>) searchResults, Collections.reverseOrder());
-            for (Questionnaire questionnaire : (List<Questionnaire>) searchResults) {
-                if (!questionnaireIds.contains(questionnaire.getQuestionnaireId()) && isFinal(questionnaire)) {
-                    activeQuestionnaires.add(questionnaire);
-                    questionnaireIds.add(questionnaire.getQuestionnaireId());
-                }
-            }
-        }
-        return activeQuestionnaires;
-    }
+//    @Override
+//    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+//        List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
+//        List<Questionnaire> activeQuestionnaires = new ArrayList<Questionnaire>();
+//        List<Integer> questionnaireIds = new ArrayList<Integer>();
+//        if (CollectionUtils.isNotEmpty(searchResults)) {
+//            Collections.sort((List<Questionnaire>) searchResults);
+//            Collections.reverse((List<Questionnaire>) searchResults);
+//            // Collections.sort((List<Questionnaire>) searchResults, Collections.reverseOrder());
+//            for (Questionnaire questionnaire : (List<Questionnaire>) searchResults) {
+//                if (!questionnaireIds.contains(questionnaire.getQuestionnaireId()) && isFinal(questionnaire)) {
+//                    activeQuestionnaires.add(questionnaire);
+//                    questionnaireIds.add(questionnaire.getQuestionnaireId());
+//                }
+//            }
+//        }
+//        return activeQuestionnaires;
+//    }
 
     private boolean isFinal(Questionnaire questionnaire) {
         boolean isFinal = true;
@@ -89,21 +89,6 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         return questionnaire;
     }
 
-    // @Override
-    // public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-    // List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-    // AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-    // Questionnaire questionnaire = ((Questionnaire) businessObject);
-    // htmlData.setHref("../questionnaireMaint.do?questionnaireRefId=" + questionnaire.getQuestionnaireRefId()
-    // + "&command=edit");
-    // htmlDataList.add(htmlData);
-    // AnchorHtmlData htmlData1 = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
-    // Questionnaire questionnaire1 = ((Questionnaire) businessObject);
-    // htmlData1.setHref("../questionnaireMaint.do?questionnaireRefId=" + questionnaire1.getQuestionnaireRefId()
-    // + "&command=copy");
-    // htmlDataList.add(htmlData1);
-    // return htmlDataList;
-    // }
 
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {

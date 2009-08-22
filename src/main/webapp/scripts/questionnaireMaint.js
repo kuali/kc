@@ -143,6 +143,8 @@ function sethiddenfields() {
 	hidtd.appendTo(hidtr);
 	hidtr.hide(); // FF rendering issue. If not hided, then 'line' will be
 	// drawn at the bottom of the table for each Q hidden row
+	
+	//hidtr.appendTo($("#hiddiv"));
 	hidtr.appendTo($("#question-table"));
 
 }
@@ -1085,7 +1087,7 @@ function getAddQuestionRow(curidx) {
 					    $("#"+jqprefix + idx+"\\]\\.questionnaireQuestionsId").attr("value","");
 			            $("#"+jqprefix + idx+"\\]\\.questionnaireRefIdFk").attr("value",$('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value"));
 			            $("#"+jqprefix + idx+"\\]\\.questionRefIdFk").attr("value",qid);
-			            $("#"+jqprefix + idx+"\\]\\.questionNumber").attr("value",$("#questionNumber").attr("value"));
+			            $("#"+jqprefix + idx+"\\]\\.questionNumber").attr("value",qnum);
 			            $("#"+jqprefix + idx+"\\]\\.parentQuestionNumber").attr("value",parentNum);
 			            $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value","N");
 			            $("#"+jqprefix + idx+"\\]\\.condition").attr("value","");
@@ -1950,6 +1952,29 @@ $(document).ready(function() {
 		} else if ($("#example").children('li').size() == 0) {
 			alert("No question is added");	
 		} else {
+			
+			var retstr="";
+			for (var l=2; l<i; l++) {
+				retstr = retstr +"#q#" +
+			    $("#"+jqprefix + l+"\\]\\.questionnaireQuestionsId").attr("value")+"#f#"+
+	            $("#"+jqprefix + l+"\\]\\.questionnaireRefIdFk").attr("value")+"#f#"+
+	            $("#"+jqprefix + l+"\\]\\.questionRefIdFk").attr("value")+"#f#"+
+	            $("#"+jqprefix + l+"\\]\\.questionNumber").attr("value")+"#f#"+
+	            $("#"+jqprefix + l+"\\]\\.parentQuestionNumber").attr("value")+"#f#"+
+	            $("#"+jqprefix + l+"\\]\\.conditionFlag").attr("value")+"#f#"+
+	            $("#"+jqprefix + l+"\\]\\.condition").attr("value")+"#f#"+
+	            $("#"+jqprefix + l+"\\]\\.conditionValue").attr("value")+"#f#"+
+	            $("#"+jqprefix + l+"\\]\\.questionSeqNumber").attr("value")+"#f#"+
+	            $("#"+jqprefix + l+"\\]\\.versionNumber").attr("value")+"#f#"+
+	            $("#"+jqprefix + l+"\\]\\.deleted").attr("value");
+
+				
+				if ($("#"+jqprefix + l +"\\]\\.questionNumber").attr("value") == '75') {
+					alert ($("#"+jqprefix + l +"\\]\\.questionnaireQuestionsId").attr("value")+"-"+l+" is null");
+				}	
+			}
+			document.getElementById("editData").value=retstr;
+			$("#hiddiv").remove();  // TODO : remove unneeded hidden fields.
 			
 			var saveok = 'true';
 			// check if name exist
