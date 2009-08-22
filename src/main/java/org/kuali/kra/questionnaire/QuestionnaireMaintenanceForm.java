@@ -17,6 +17,7 @@ package org.kuali.kra.questionnaire;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +49,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private String docStatus;
     private Integer numOfQuestions;
     private Integer numOfUsages;
-
+    private List<String> qnaireQuestions;
     public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
     }
@@ -75,6 +76,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         newQuestionnaire = new Questionnaire();
         fromQuestionnaire = new Questionnaire();
         questionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
+        qnaireQuestions = new ArrayList<String>();
         // TODO : if it is newquestionnaire, then set questionnumber to 1
         questionNumber = 1;
         numOfQuestions=0;
@@ -298,7 +300,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         if (this.getDocument() != null) {
             Questionnaire qn = (Questionnaire) ((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject()
                     .getBusinessObject();
-            if (qn != null) {
+            if (qn != null && !((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals("Copy")) {
                 int num = (Integer)GlobalVariables.getUserSession().retrieveObject("numOfQuestions");
                 for (int i = 0; i < num; i++) {
                     qn.getQuestionnaireQuestions().add(new QuestionnaireQuestion());
@@ -307,6 +309,13 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
                 for (int i = 0; i < num; i++) {
                     qn.getQuestionnaireUsages().add(new QuestionnaireUsage());
                 }
+            }
+        }
+        for (Iterator iter = request.getParameterMap().keySet().iterator(); iter.hasNext();) {
+            String keypath = (String) iter.next();
+            if (keypath.contains("questionnaireQuestionsId") || keypath.contains("parentQuestionNumber") || keypath.contains("questionNumber") || keypath.contains("questionnaireRefId")) {
+                System.out.println(">> " + keypath+" - "+((String[])request.getParameterMap().get(keypath))[0]);
+                //Object param = request.getParameterMap().get(keypath);
             }
         }
         super.populate(request);
@@ -326,6 +335,14 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
 
     public void setNumOfUsages(Integer numOfUsages) {
         this.numOfUsages = numOfUsages;
+    }
+
+    public List<String> getQnaireQuestions() {
+        return qnaireQuestions;
+    }
+
+    public void setQnaireQuestions(List<String> qnaireQuestions) {
+        this.qnaireQuestions = qnaireQuestions;
     }
 
     // @Override

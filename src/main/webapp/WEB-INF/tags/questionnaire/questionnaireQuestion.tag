@@ -72,6 +72,11 @@ Content </span> <span class="subhead-right"> <kul:help
         </td>
     </tr>
 
+   <div id="qhiddiv">
+   </div>
+
+   <div id="hiddiv">
+   </div>
     <%--
   <tr> 
   <td colspan="2">     
