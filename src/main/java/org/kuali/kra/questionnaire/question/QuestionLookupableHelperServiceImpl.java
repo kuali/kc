@@ -38,13 +38,11 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
      * 
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
-//    // TODO: cniesen - Code has been temporarily disabled as it does not work correctly.  Until we actually
-//    //       version the Question the default getSearchResults() works fine.
-//    @Override
-//    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-//        
-//        return getActiveQuestions(super.getSearchResults(fieldValues));
-//    }
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        
+        return getActiveQuestions(super.getSearchResults(fieldValues));
+    }
     
     @SuppressWarnings("unchecked")
     private List<? extends BusinessObject> getActiveQuestions(List<? extends BusinessObject> searchResults) {
