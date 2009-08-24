@@ -56,7 +56,7 @@
                 <tr>
                     <td style="border:none;"><c:out value="${KualiForm.document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.generalComments}" /></td>
                     <td style="border:none; width:20px; vertical-align:bottom;">
-                        <kra:expandedTextArea textAreaFieldName="document.institutionalProposal.intellectualPropertyReview.generalComments" action="institutionalProposalHome" textAreaLabel="General Comments" viewOnly="true" />
+                        <kra:expandedTextArea textAreaFieldName="document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.generalComments" action="institutionalProposalHome" textAreaLabel="General Comments" viewOnly="true" />
                     </td>
                 </tr>
             </table>
@@ -67,7 +67,7 @@
                 <tr>
                     <td style="border:none;"><c:out value="${KualiForm.document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.reviewerComments}" /></td>
                     <td style="border:none; width:20px; vertical-align:bottom;">
-                        <kra:expandedTextArea textAreaFieldName="document.institutionalProposal.intellectualPropertyReview.reviewerComments" action="institutionalProposalHome" textAreaLabel="Reviewer Comments" viewOnly="true" />
+                        <kra:expandedTextArea textAreaFieldName="document.institutionalProposal.proposalIpReviewJoin.intellectualPropertyReview.reviewerComments" action="institutionalProposalHome" textAreaLabel="Reviewer Comments" viewOnly="true" />
                     </td>
                 </tr>
             </table>
