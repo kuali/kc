@@ -120,7 +120,9 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     
 
     private boolean validateQuestionId(Question question) {
-        if (getQuestionService().getQuestionById(question.getQuestionId()) == null) {
+        Question existingQuestion = getQuestionService().getQuestionById(question.getQuestionId());
+        
+        if ((existingQuestion == null) || (existingQuestion.getSequenceNumber() < question.getSequenceNumber())) {
             return true;
         } else {
             GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_QUESTION_ID,
