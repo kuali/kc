@@ -511,6 +511,7 @@
   <bean id="Award-primeSponsorCode" parent="Award-sponsorCode-parentBean">
   	<property name="name" value="primeSponsorCode" />
   	<property name="label" value="Prime Sponsor" />
+  	<property name="required" value="false" />
   </bean>
   <bean id="Award-templateCode" parent="Award-templateCode-parentBean"/>
   <bean id="Award-templateCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -585,7 +586,7 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="12" />
@@ -605,7 +606,7 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="12" />
@@ -641,7 +642,7 @@
     <property name="name" value="beginDate" />
     <property name="label" value="Project Start Date" />
     <property name="shortLabel" value="Project Start Date" />
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="summary" value="The Start Date of the Project" />
     <property name="description" value="The date the project period will begin." />
   </bean>
@@ -661,9 +662,9 @@
   
   <bean id="Award-awardEffectiveDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="awardEffectiveDate" />
-    <property name="label" value="Budget Start Date" />
-    <property name="shortLabel" value="Start Dt" />
-    <property name="required" value="true" />
+    <property name="label" value="Obligation Start Date" />
+    <property name="shortLabel" value="Start Date" />
+    <property name="required" value="false" />
     <property name="summary" value="The Start Date of the Budget" />
     <property name="description" value="The date the budget period will begin." />
   </bean>
@@ -672,9 +673,9 @@
 
   <bean id="Award-awardExecutionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="awardExecutionDate" />
-    <property name="label" value="Award Execution Date" />
-    <property name="shortLabel" value="Award Execution Date" />
-    <property name="required" value="true" />
+    <property name="label" value="Execution Date" />
+    <property name="shortLabel" value="Execution Date" />
+    <property name="required" value="false" />
     <property name="summary" value="The Execution Date of the Budget" />
     <property name="description" value="The Execution Date of the Budget" />
   </bean>
