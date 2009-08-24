@@ -30,4 +30,11 @@ public interface QuestionService {
      */
     public Question getQuestionByRefId(String questionRefId);
 
+    /**
+     * Retrieve a question from the database based upon its questionId.
+     * @param questionId of the question
+     * @return the most recent active question or null if not found
+     */
+    public Question getQuestionById(Integer questionId);
+
 }
