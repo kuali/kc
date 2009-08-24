@@ -25,6 +25,7 @@ import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitContactType;
 
 /**
@@ -130,14 +131,14 @@ public class AwardUnitContactsBean extends AwardContactsBean {
     /*
      * Add lead unit contacts
      */
-    private void addLeadUnitContacts(List<AwardUnitContact> existingUnitContacts, List<Person> allLeadUnitPersonnel) {
+    private void addLeadUnitContacts(List<AwardUnitContact> existingUnitContacts, List<UnitAdministrator> allLeadUnitPersonnel) {
         List<String> existingUnitContactPersonnel = new ArrayList<String>();
         for(AwardUnitContact contact: existingUnitContacts) {
             existingUnitContactPersonnel.add(contact.getPerson().getPersonId());
         }
         
         List<AwardUnitContact> adds = new ArrayList<AwardUnitContact>();
-        for(Person person: allLeadUnitPersonnel) {
+        for(UnitAdministrator person: allLeadUnitPersonnel) {
             if(!existingUnitContactPersonnel.contains(person.getPersonId())) {
                 adds.add(createAwardContactForPerson(person));
             }
@@ -148,12 +149,12 @@ public class AwardUnitContactsBean extends AwardContactsBean {
     /*
      * create an AwardUnitContact from a person
      */
-    private AwardUnitContact createAwardContactForPerson(Person person) {
+    private AwardUnitContact createAwardContactForPerson(UnitAdministrator unitAdministrator) {
         AwardUnitContact awardUnitContact = new AwardUnitContact();
         awardUnitContact.setAward(getAward());
-        awardUnitContact.setPersonId(person.getPersonId());
-        awardUnitContact.setFullName(person.getFullName());
-        awardUnitContact.setPerson(person);
+        awardUnitContact.setPersonId(unitAdministrator.getPerson().getPersonId());
+        awardUnitContact.setFullName(unitAdministrator.getPerson().getFullName());
+        awardUnitContact.setPerson(unitAdministrator.getPerson());
         awardUnitContact.setUnitContactType(UnitContactType.CONTACT);
         return awardUnitContact;
     }
@@ -172,21 +173,22 @@ public class AwardUnitContactsBean extends AwardContactsBean {
         return existingLeadUnitContacts;
     }
 
-    private List<Person> findAllLeadUnitPersons(String unitNumber) {
+    private List<UnitAdministrator> findAllLeadUnitPersons(String unitNumber) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("homeUnit", unitNumber);
-        @SuppressWarnings("unchecked") List<Person> unitPeople = (List<Person>) getBusinessObjectService().findMatching(Person.class, fieldValues);
+        fieldValues.put("unitNumber", unitNumber);
+        fieldValues.put("unitAdministratorTypeCode", 2);
+        @SuppressWarnings("unchecked") List<UnitAdministrator> unitPeople = (List<UnitAdministrator>) getBusinessObjectService().findMatching(UnitAdministrator.class, fieldValues);
         return unitPeople;
     }
 
     /*
      * Remove lead unit contacts
      */
-    private void removeLeadUnitContacts(List<AwardUnitContact> existingUnitContacts, List<Person> allLeadUnitPersonnel) {
+    private void removeLeadUnitContacts(List<AwardUnitContact> existingUnitContacts, List<UnitAdministrator> allLeadUnitPersonnel) {
         List<AwardUnitContact> removals = new ArrayList<AwardUnitContact>();
         for(AwardUnitContact existingContact: existingUnitContacts) {
             boolean found = false;
-            for(Person p: allLeadUnitPersonnel) {
+            for(UnitAdministrator p: allLeadUnitPersonnel) {
                 found = p.getPersonId().equals(existingContact.getPersonId());
                 if(found) {
                     break;
@@ -206,7 +208,7 @@ public class AwardUnitContactsBean extends AwardContactsBean {
      */
     private void updateExistingLeadUnitContactsFromAward(Unit leadUnit) {
         List<AwardUnitContact> existingLeadUnitContacts = findAwardUnitContactsFromLeadUnit(leadUnit);
-        List<Person> allLeadUnitPersonnel = findAllLeadUnitPersons(leadUnit.getUnitNumber());
+        List<UnitAdministrator> allLeadUnitPersonnel = findAllLeadUnitPersons(leadUnit.getUnitNumber());
         removeLeadUnitContacts(existingLeadUnitContacts, allLeadUnitPersonnel);
         addLeadUnitContacts(getAward().getAwardUnitContacts(), allLeadUnitPersonnel);        
         
