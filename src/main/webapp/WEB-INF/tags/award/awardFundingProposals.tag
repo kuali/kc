@@ -58,7 +58,7 @@
 		<table id="currentFundingProposalsTable" cellpadding="0" cellspacing="0" summary="Current Funding Proposals">
 			<tr>
 		    	<th align="center" scope="row">
-		    		<div align="center">Award Sequence #</div>
+		    		<div align="center">Award Version</div>
 		    	</th>
 		    	<th align="center" scope="row">
 		    		<div align="center">Principal Investigator</div>
