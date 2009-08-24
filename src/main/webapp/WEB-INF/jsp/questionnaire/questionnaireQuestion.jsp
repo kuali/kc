@@ -382,17 +382,23 @@ function loadQuestion() {
             if (field[0] == '' || field[0] == null) {
                 alert("qqid is null "+questions[k]);
             }    
-            $("#"+jqprefix + idx+"\\]\\.questionnaireQuestionsId").attr("value",field[0]);
-            $("#"+jqprefix + idx+"\\]\\.questionnaireRefIdFk").attr("value",refid);
-            $("#"+jqprefix + idx+"\\]\\.questionRefIdFk").attr("value",field[1]);
-            $("#"+jqprefix + idx+"\\]\\.questionNumber").attr("value",field[5]);
-            $("#"+jqprefix + idx+"\\]\\.parentQuestionNumber").attr("value",field[8]);
-            $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value",field[14]);
-            $("#"+jqprefix + idx+"\\]\\.condition").attr("value",field[6]);
-            $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value",field[7]);
-            $("#"+jqprefix + idx+"\\]\\.questionSeqNumber").attr("value",field[2]);
-            $("#"+jqprefix + idx+"\\]\\.versionNumber").attr("value",field[13]);
-            $("#"+jqprefix + idx+"\\]\\.deleted").attr("value","N");
+
+            var tmpstr = field[0] +"#f#" +refid
+            +"#f#" +field[1] +"#f#" +field[5] +"#f#" +field[8] +"#f#" +field[14] +"#f#" +field[6] +"#f#" +
+            field[7] +"#f#" +field[2] +"#f#" +field[13] +"#f#" +"N" ;
+    $("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+
+//            $("#"+jqprefix + idx+"\\]\\.questionnaireQuestionsId").attr("value",field[0]);
+//            $("#"+jqprefix + idx+"\\]\\.questionnaireRefIdFk").attr("value",refid);
+//            $("#"+jqprefix + idx+"\\]\\.questionRefIdFk").attr("value",field[1]);
+//            $("#"+jqprefix + idx+"\\]\\.questionNumber").attr("value",field[5]);
+//            $("#"+jqprefix + idx+"\\]\\.parentQuestionNumber").attr("value",field[8]);
+//            $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value",field[14]);
+//            $("#"+jqprefix + idx+"\\]\\.condition").attr("value",field[6]);
+//            $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value",field[7]);
+//            $("#"+jqprefix + idx+"\\]\\.questionSeqNumber").attr("value",field[2]);
+//            $("#"+jqprefix + idx+"\\]\\.versionNumber").attr("value",field[13]);
+//            $("#"+jqprefix + idx+"\\]\\.deleted").attr("value","N");
             //alert($("#document\\.newMaintainableObject\\.businessObject\\.questionnaireQuestions\\[" + idx+"\\]\\.questionnaireQuestionsId").attr("value"));
             
         } // end if-then-else
