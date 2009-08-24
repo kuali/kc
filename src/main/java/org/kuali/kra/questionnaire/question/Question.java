@@ -285,7 +285,7 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("questionRefId", this.getQuestionRefId());
         hashMap.put("questionId", this.getQuestionId());
-        hashMap.put("questionId", this.getSequenceNumber());
+        hashMap.put("sequenceNumber", this.getSequenceNumber());
         hashMap.put("question", this.getQuestion());
         hashMap.put("status", this.getStatus());
         hashMap.put("categoryTypeCode", this.getCategoryTypeCode());
