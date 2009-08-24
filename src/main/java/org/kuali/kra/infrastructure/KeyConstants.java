@@ -21,6 +21,10 @@ package org.kuali.kra.infrastructure;
  */
 public final class KeyConstants {
     
+    // Generic error messages
+    public static final String ERROR_MINLENGTH = "error.minLength";
+    public static final String ERROR_MAXLENGTH = "error.maxLength";
+    
     public static final String ERROR_INVALID_FORMAT_WITH_FORMAT = "error.invalidFormat.withFormat";
     public static final String ERROR_REQUIRED = "error.required";
     
@@ -73,7 +77,6 @@ public final class KeyConstants {
     public static final String ERROR_SELECT_UNIT="error.select.unit";
     public static final String ERROR_ONE_UNIT="error.one.unit";
     public static final String ERROR_PERCENTAGE="error.percentage";
-    public static final String ERROR_MINLENGTH="error.minlength";
     
     public static final String ERROR_REQUIRED_FOR_FILE_NAME="error.required.for.fileName";
     public static final String ERROR_ABSTRACT_TYPE_NOT_SELECTED = "error.abstractType.notselected";
