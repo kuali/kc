@@ -288,8 +288,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     }
     
     protected void transformDataBeforePersistence() {
-        this.refreshReferenceObject("proposalIpReviewJoins");
-        if (this.getProposalIpReviewJoin() != null) {
+        if (this.getProposalIdToLink() != null) {
             loadProposalComments();
             if (this.getGeneralComments() != null) {
                 addOrModifyComments(getGeneralCommentCode(), getGeneralComments());
@@ -328,7 +327,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
         } else {
             ProposalComment proposalComment = new ProposalComment();
             proposalComment.setCommentTypeCode(commentTypeCode);
-            proposalComment.setProposalId(this.getProposalIpReviewJoin().getProposalId());
+            proposalComment.setProposalId(this.getProposalIdToLink());
             proposalComment.setProposalNumber(this.getProposalNumber());
             proposalComment.setSequenceNumber(this.getSequenceNumber());
             proposalComment.setComments(comment);
@@ -345,13 +344,14 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
         return null;
     }
     
+    @SuppressWarnings("unchecked")
     private void loadProposalComments() {
         Map<Object, Object> fieldValues = new HashMap<Object, Object>();
-        if (this.getProposalIpReviewJoins().isEmpty()) {
-            this.refreshReferenceObject("proposalIpReviewJoins");
-        }
-        if (this.getProposalIpReviewJoin() != null) {
+        if (!this.getProposalIpReviewJoins().isEmpty() && ObjectUtils.isNotNull(this.getProposalIpReviewJoin().getProposalId())) {
             fieldValues.put("proposalId", this.getProposalIpReviewJoin().getProposalId());
+            this.setComments(new ArrayList<ProposalComment>(getBusinessObjectService().findMatching(ProposalComment.class, fieldValues)));
+        } else if (this.getProposalIdToLink() != null) {
+            fieldValues.put("proposalId", this.getProposalIdToLink());
             this.setComments(new ArrayList<ProposalComment>(getBusinessObjectService().findMatching(ProposalComment.class, fieldValues)));
         }
     }
