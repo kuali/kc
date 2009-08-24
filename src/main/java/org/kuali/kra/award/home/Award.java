@@ -2472,14 +2472,22 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
     
     /**
      * Given an AwardComment as a template, try to find an existing AwardComment of that type
-     * @param award
      * @param template
      * @return The found awardComment of a specific type. If an existing comment is not found, return null
      */
     public AwardComment findCommentOfSpecifiedType(AwardComment template) {
+        return findCommentOfSpecifiedType(template.getCommentTypeCode());
+    }
+
+    /**
+     * For a given type code, this method returns the award comment, or null if none exists.
+     * @param commentTypeCode One of the ..._COMMENT_TYPE_CODE values in org.kuali.kra.infrastructure.Constants
+     * @return
+     */
+    public AwardComment findCommentOfSpecifiedType(String commentTypeCode) {
         AwardComment comment = null;
         for(AwardComment ac: getAwardComments()) {
-            if(ac.getCommentTypeCode().equals(template.getCommentTypeCode())) {
+            if(ac.getCommentTypeCode().equals(commentTypeCode)) {
                 comment = ac;
                 break;
             }
