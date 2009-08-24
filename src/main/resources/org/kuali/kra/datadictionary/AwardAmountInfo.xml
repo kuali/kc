@@ -203,10 +203,10 @@
     <bean id="AwardAmountInfo-obligationExpirationDate" parent="AwardAmountInfo-obligationExpirationDate-parentBean" />
     <bean id="AwardAmountInfo-obligationExpirationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="obligationExpirationDate" />
-        <property name="label" value="Obligation End" />
-        <property name="shortLabel" value="Obligation End" />
-        <property name="summary" value="Obligation End" />
-        <property name="description" value="Obligation End" />
+        <property name="label" value="Obligation End Date" />
+        <property name="shortLabel" value="Obligation End Date" />
+        <property name="summary" value="Obligation End Date" />
+        <property name="description" value="Obligation End Date" />
     </bean>
 
     <bean id="AwardAmountInfo-transactionId" parent="AwardAmountInfo-transactionId-parentBean" />
