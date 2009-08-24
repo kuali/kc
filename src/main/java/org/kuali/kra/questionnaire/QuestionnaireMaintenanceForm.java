@@ -17,7 +17,6 @@ package org.kuali.kra.questionnaire;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +48,8 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private String docStatus;
     private Integer numOfQuestions;
     private Integer numOfUsages;
-    private List<String> qnaireQuestions;
+    private List qnaireQuestions;
+
     public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
     }
@@ -79,7 +79,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         qnaireQuestions = new ArrayList<String>();
         // TODO : if it is newquestionnaire, then set questionnumber to 1
         questionNumber = 1;
-        numOfQuestions=0;
+        numOfQuestions = 0;
 
     }
 
@@ -300,25 +300,72 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         if (this.getDocument() != null) {
             Questionnaire qn = (Questionnaire) ((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject()
                     .getBusinessObject();
-            if (qn != null && !((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals("Copy")) {
-                int num = (Integer)GlobalVariables.getUserSession().retrieveObject("numOfQuestions");
+            if (qn != null
+                    && !((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
+                            "Copy")) {
+                int num = (Integer) GlobalVariables.getUserSession().retrieveObject("numOfQuestions");
                 for (int i = 0; i < num; i++) {
-                    qn.getQuestionnaireQuestions().add(new QuestionnaireQuestion());
+                    // qn.getQuestionnaireQuestions().add(new QuestionnaireQuestion());
+                    getQnaireQuestions().add("");
                 }
-                num = (Integer)GlobalVariables.getUserSession().retrieveObject("numOfUsages");
+                num = (Integer) GlobalVariables.getUserSession().retrieveObject("numOfUsages");
                 for (int i = 0; i < num; i++) {
                     qn.getQuestionnaireUsages().add(new QuestionnaireUsage());
                 }
             }
         }
-        for (Iterator iter = request.getParameterMap().keySet().iterator(); iter.hasNext();) {
-            String keypath = (String) iter.next();
-            if (keypath.contains("questionnaireQuestionsId") || keypath.contains("parentQuestionNumber") || keypath.contains("questionNumber") || keypath.contains("questionnaireRefId")) {
-                System.out.println(">> " + keypath+" - "+((String[])request.getParameterMap().get(keypath))[0]);
-                //Object param = request.getParameterMap().get(keypath);
+        // for (Iterator iter = request.getParameterMap().keySet().iterator(); iter.hasNext();) {
+        // String keypath = (String) iter.next();
+        // if (keypath.contains("questionnaireQuestionsId") || keypath.contains("parentQuestionNumber") ||
+        // keypath.contains("questionNumber") || keypath.contains("questionnaireRefId")) {
+        // System.out.println(">> " + keypath+" - "+((String[])request.getParameterMap().get(keypath))[0]);
+        // //Object param = request.getParameterMap().get(keypath);
+        // }
+        // }
+        super.populate(request);
+
+        // $("#"+jqprefix + idx+"\\]\\.questionnaireQuestionsId").attr("value",field[0]);
+        // $("#"+jqprefix + idx+"\\]\\.questionnaireRefIdFk").attr("value",refid);
+        // $("#"+jqprefix + idx+"\\]\\.questionRefIdFk").attr("value",field[1]);
+        // $("#"+jqprefix + idx+"\\]\\.questionNumber").attr("value",field[5]);
+        // $("#"+jqprefix + idx+"\\]\\.parentQuestionNumber").attr("value",field[8]);
+        // $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value",field[14]);
+        // $("#"+jqprefix + idx+"\\]\\.condition").attr("value",field[6]);
+        // $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value",field[7]);
+        // $("#"+jqprefix + idx+"\\]\\.questionSeqNumber").attr("value",field[2]);
+        // $("#"+jqprefix + idx+"\\]\\.versionNumber").attr("value",field[13]);
+        // $("#"+jqprefix + idx+"\\]\\.deleted").attr("value","N");
+
+        List<QuestionnaireQuestion> qList = new ArrayList<QuestionnaireQuestion>();
+        for (Object qstr : getQnaireQuestions()) {
+            if (qstr instanceof String[]) {
+                String[] splitstr = ((String[])qstr)[0].split("#f#");
+                if (splitstr.length == 11) {
+                QuestionnaireQuestion question = new QuestionnaireQuestion();
+                if (StringUtils.isNotBlank(splitstr[0])) {
+                question.setQuestionnaireQuestionsId(Long.parseLong(splitstr[0]));
+                }
+                if (StringUtils.isNotBlank(splitstr[1])) {
+                question.setQuestionnaireRefIdFk(Long.parseLong(splitstr[1]));
+                }
+                question.setQuestionRefIdFk(Long.parseLong(splitstr[2]));
+                question.setQuestionNumber(Integer.parseInt(splitstr[3]));
+                question.setParentQuestionNumber(Integer.parseInt(splitstr[4]));
+                question.setConditionFlag("Y".equals(splitstr[5]));
+                question.setCondition(splitstr[6]);
+                question.setConditionValue(splitstr[7]);
+                question.setQuestionSeqNumber(Integer.parseInt(splitstr[8]));
+                question.setVersionNumber(Long.parseLong(splitstr[9]));
+                question.setDeleted(splitstr[10]);
+                qList.add(question);
+                }
             }
         }
-        super.populate(request);
+        if (!qList.isEmpty()) {
+            QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) this;
+            ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+            .getNewMaintainableObject().getBusinessObject()).setQuestionnaireQuestions(qList);
+        }
     }
 
     public Integer getNumOfQuestions() {
@@ -337,11 +384,11 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         this.numOfUsages = numOfUsages;
     }
 
-    public List<String> getQnaireQuestions() {
+    public List getQnaireQuestions() {
         return qnaireQuestions;
     }
 
-    public void setQnaireQuestions(List<String> qnaireQuestions) {
+    public void setQnaireQuestions(List qnaireQuestions) {
         this.qnaireQuestions = qnaireQuestions;
     }
 
