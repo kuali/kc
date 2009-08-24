@@ -20,7 +20,7 @@
 <c:set var="awardPaymentAndInvoiceRequirementsCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 <c:set var="action" value="awardPaymentReportsAndTerms" />
 
-<kul:tabTop tabTitle="Payment & Invoices" defaultOpen="false" tabErrorKey="" auditCluster="paymentAndInvoicesAuditErrors" tabAuditKey="document.paymentsAuditRules*">
+<kul:tabTop tabTitle="Payment & Invoices" defaultOpen="false" tabErrorKey="document.awardList[0].awardPaymentAndInvoiceRequirementsComments.comments" auditCluster="paymentAndInvoicesAuditErrors" tabAuditKey="document.paymentsAuditRules*">
 	<div class="tab-container" align="right">
 		<kra-a:awardPaymentAndInvoicesTopPanel />	
 		<kra-a:awardReportClasses index="5" reportClassKey="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode}" 
@@ -30,8 +30,8 @@
        	    <th width="100" align="right" scope="row"><div align="center">Invoice Instructions:</div></th>
        			<td class="infoline" colspan="10">
            	 		<div align="left">
-           	  	 		<kul:htmlControlAttribute property="document.award.awardPaymentAndInvoiceRequirementsComments.comments" attributeEntry="${awardPaymentAndInvoiceRequirementsCommentAttributes.comments}"/>
-           	  	 		<kra:expandedTextArea textAreaFieldName="document.award.awardPaymentAndInvoiceRequirementsComments.comments" action="${action}" textAreaLabel="${awardPaymentAndInvoiceRequirementsCommentAttributes.comments.label}" />
+           	  	 		<kul:htmlControlAttribute property="document.awardList[0].awardPaymentAndInvoiceRequirementsComments.comments" attributeEntry="${awardPaymentAndInvoiceRequirementsCommentAttributes.comments}"/>
+           	  	 		<kra:expandedTextArea textAreaFieldName="document.awardList[0].awardPaymentAndInvoiceRequirementsComments.comments" action="${action}" textAreaLabel="${awardPaymentAndInvoiceRequirementsCommentAttributes.comments.label}" />
            	 		</div>
            		</td>            
        		</tr>

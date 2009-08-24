@@ -210,7 +210,7 @@
 	    </div>
     </kul:innerTab>
     
-    <kul:innerTab tabTitle="Benefits Rates" parentTab="Rates" defaultOpen="false" tabErrorKey="document.awardList[0].specialEbRateOnCampus,document.awardList[0].specialEbRateOffCampus,document.awardList[0].benefitsRates*">
+    <kul:innerTab tabTitle="Benefits Rates" parentTab="Rates" defaultOpen="false" tabErrorKey="document.awardList[0].specialEbRateOnCampus,document.awardList[0].specialEbRateOffCampus,document.awardList[0].benefitsRates*,document.awardList[0].awardBenefitsRateComment.comments">
 		<div class="tab-container" align="right">
 			<h3>
 				<span class="subhead-left"> Benefits Rates</span>

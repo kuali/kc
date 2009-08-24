@@ -76,6 +76,9 @@ import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApp
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleEvent;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleImpl;
 import org.kuali.kra.award.permissions.AwardPermissionsRule;
+import org.kuali.kra.award.rule.AwardCommentsRule;
+import org.kuali.kra.award.rule.AwardCommentsRuleImpl;
+import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRule;
@@ -121,7 +124,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                             AwardReportTermRecipientRule,
                                                                             AwardDirectFandADistributionRule,
                                                                             AwardCloseoutRule,
-                                                                            AwardTemplateSyncRule{
+                                                                            AwardTemplateSyncRule,
+                                                                            AwardCommentsRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
@@ -285,7 +289,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processSaveAwardProjectPersonsBusinessRules(errorMap, awardDocument);
         retval &= processAwardPersonCreditSplitBusinessRules(awardDocument);
         retval &= processAwardPersonUnitCreditSplitBusinessRules(awardDocument);
-        retval &= processSaveAwardCustomDataBusinessRules(document);
+        retval &= processSaveAwardCustomDataBusinessRules(awardDocument);
+        retval &= processAwardCommentsBusinessRules(awardDocument);
         
         return retval;
     }    
@@ -383,7 +388,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return valid;
     }
-    
+
     /**
     *
     * process save Custom Data Business Rules.
@@ -405,6 +410,20 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return valid;
+    }
+    
+    /**
+     * This method checks the comments on an award
+     * @param awardDocument
+     * @return
+     */
+    private boolean processAwardCommentsBusinessRules(AwardDocument awardDocument) {
+        AwardCommentsRuleEvent ruleEvent = new AwardCommentsRuleEvent(DOCUMENT_ERROR_PATH + "." + AWARD_ERROR_PATH, awardDocument);
+        return processAwardCommentsBusinessRules(ruleEvent);
+    }
+
+    public boolean processAwardCommentsBusinessRules(AwardCommentsRuleEvent ruleEvent) {
+        return new AwardCommentsRuleImpl().processAwardCommentsBusinessRules(ruleEvent);
     }
     
     private boolean processBenefitsRatesBusinessRules(Document document) {
