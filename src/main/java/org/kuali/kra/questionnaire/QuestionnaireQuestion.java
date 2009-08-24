@@ -177,6 +177,7 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase impl
         hashMap.put("condition", this.getCondition());
         hashMap.put("conditionValue", this.getConditionValue());
         hashMap.put("questionSeqNumber", this.getQuestionSeqNumber());
+        hashMap.put("versionNumber", this.getVersionNumber());
         return hashMap;
     }
 
