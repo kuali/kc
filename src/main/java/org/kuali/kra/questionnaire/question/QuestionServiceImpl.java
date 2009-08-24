@@ -21,12 +21,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class QuestionServiceImpl implements QuestionService {
 
     private static final String QUESTION_REF_ID = "questionRefId";
+    private static final String QUESTION_ID = "questionId";
 
     private BusinessObjectService businessObjectService;
 
@@ -41,7 +41,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     /**
      * 
-     * @see org.kuali.kra.questionnaire.question.QuestionService#getQuestionById(java.lang.String)
+     * @see org.kuali.kra.questionnaire.question.QuestionService#getQuestionByRefId(java.lang.String)
      */
     @SuppressWarnings("unchecked")
     public Question getQuestionByRefId(String questionRefId) {
@@ -61,4 +61,25 @@ public class QuestionServiceImpl implements QuestionService {
         return question;
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.questionnaire.question.QuestionService#getQuestionById(java.lang.String)
+     */
+    @SuppressWarnings("unchecked")
+    public Question getQuestionById(Integer questionId) {
+        Question question = null;
+        if (questionId != null) {
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put(QUESTION_ID, questionId);
+            Collection<Question> questions = businessObjectService.findMatching(Question.class, fieldValues);
+            if (questions.size() > 0) {
+                /*
+                 * Return the most recent approved question (i.e. the question version with the highest 
+                 * sequence number that is approved/in the database).
+                 */
+                question = (Question) Collections.max(questions);
+            }
+        }
+        return question;
+    }
 }

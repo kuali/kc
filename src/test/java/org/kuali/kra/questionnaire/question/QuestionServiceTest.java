@@ -36,10 +36,11 @@ public class QuestionServiceTest {
         private Mockery context = new JUnit4Mockery();
 
         /**
-         * Verify that the correct committee is returned if it is found.
+         * Verify that the correct question is returned if it is found 
+         * for lookups by questionRefId.
          */
         @Test
-        public void testGetQuestionByIdFound() {
+        public void testGetQuestionByRefIdFound() {
             QuestionServiceImpl questionService = new QuestionServiceImpl();
             
             /*
@@ -50,7 +51,7 @@ public class QuestionServiceTest {
              * found.
              */
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("questionId", "999");
+            fieldValues.put("questionRefId", "999");
             
             final Collection<Question> questions = new ArrayList<Question>();
             Question question = new Question();
@@ -66,7 +67,68 @@ public class QuestionServiceTest {
         }
         
         /**
-         * Verify that null is returned if the committee is not found.
+         * Verify that null is returned if the question is not found
+         * for lookups by questionRefId.
+         */
+        @Test
+        public void testGetQuestionByRefIdNotFound() {
+            QuestionServiceImpl questionService = new QuestionServiceImpl();
+            
+            /*
+             * The QuestionServiceImpl will use the Business Object Service
+             * to query the database.  Since we "know" the internals to the
+             * QuestionServiceImpl, we know data to be sent to the Business
+             * Object Service and we know that an empty list of questions
+             * is returned if the question is not in the database.
+             */
+            final Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("questionRefId", "999");
+            
+            final Collection<Question> questions = new ArrayList<Question>();
+            
+            final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+            context.checking(new Expectations() {{
+                one(businessObjectService).findMatching(Question.class, fieldValues); will(returnValue(questions));
+            }});
+            questionService.setBusinessObjectService(businessObjectService);
+            
+            assertEquals(null, questionService.getQuestionByRefId("999"));
+        }
+
+        /**
+         * Verify that the correct question is returned if it is found 
+         * for lookups by questionId.
+         */
+        @Test
+        public void testGetQuestionByIdFound() {
+            QuestionServiceImpl questionService = new QuestionServiceImpl();
+            
+            /*
+             * The QuestionServiceImpl will use the Business Object Service
+             * to query the database.  Since we "know" the internals to the
+             * QuestionServiceImpl, we know data to be sent to the Business
+             * Object Service and what will be returned if the question is
+             * found.
+             */
+            final Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("questionId", 999);
+            
+            final Collection<Question> questions = new ArrayList<Question>();
+            Question question = new Question();
+            questions.add(question);
+            
+            final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+            context.checking(new Expectations() {{
+                one(businessObjectService).findMatching(Question.class, fieldValues); will(returnValue(questions));
+            }});
+            questionService.setBusinessObjectService(businessObjectService);
+            
+            assertEquals(question, questionService.getQuestionById(999));
+        }
+        
+        /**
+         * Verify that null is returned if the question is not found
+         * for lookups by questionId.
          */
         @Test
         public void testGetQuestionByIdNotFound() {
@@ -80,7 +142,7 @@ public class QuestionServiceTest {
              * is returned if the question is not in the database.
              */
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("questionId", "999");
+            fieldValues.put("questionId", 999);
             
             final Collection<Question> questions = new ArrayList<Question>();
             
@@ -90,7 +152,7 @@ public class QuestionServiceTest {
             }});
             questionService.setBusinessObjectService(businessObjectService);
             
-            assertEquals(null, questionService.getQuestionByRefId("999"));
+            assertEquals(null, questionService.getQuestionById(999));
         }
 
     }

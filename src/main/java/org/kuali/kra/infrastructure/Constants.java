@@ -489,6 +489,7 @@ public interface Constants {
     public static final int QUESTION_RESPONSE_TYPE_TEXT = 5;
     public static final int QUESTION_RESPONSE_TYPE_LOOKUP = 6;
     
+    public static final String QUESTION_DOCUMENT_FIELD_QUESTION_ID = "document.newMaintainableObject.businessObject.questionId";
     public static final String QUESTION_DOCUMENT_FIELD_QUESTION_TYPE_ID = "document.newMaintainableObject.businessObject.questionTypeId";
     public static final String QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS = "document.newMaintainableObject.businessObject.displayedAnswers";
     public static final String QUESTION_DOCUMENT_FIELD_ANSWER_MAX_LENGTH = "document.newMaintainableObject.businessObject.answerMaxLength";

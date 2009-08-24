@@ -17,6 +17,7 @@ package org.kuali.kra.questionnaire.question;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -111,11 +112,26 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     private boolean validateUserInput(Question question) {
         boolean isValid = true;
 
+        isValid &= validateQuestionId(question);
         isValid &= validateQuestionResponseType(question);
 
         return isValid;
     }
     
+
+    private boolean validateQuestionId(Question question) {
+        if (getQuestionService().getQuestionById(question.getQuestionId()) == null) {
+            return true;
+        } else {
+            GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_QUESTION_ID,
+            KeyConstants.ERROR_QUESTION_ID_DUPLICATE);
+            return false;
+        }
+    }
+
+    private QuestionService getQuestionService() {
+        return (QuestionService) KraServiceLocator.getService(QuestionService.class);
+    }
 
     /**
      * This method validates the question response type and any additional properties related to the response type.
