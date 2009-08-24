@@ -558,8 +558,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         Questionnaire questionnaire = ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
                 .getBusinessObject());
 
-        questionnaire.getQuestionnaireQuestions().remove(0);    
-        questionnaire.getQuestionnaireQuestions().remove(0);    
+//        questionnaire.getQuestionnaireQuestions().remove(0);    
+//        questionnaire.getQuestionnaireQuestions().remove(0);    
         questionnaire.getQuestionnaireUsages().remove(0);    
         List<QuestionnaireQuestion> dropList = new ArrayList<QuestionnaireQuestion>();
         List<QuestionnaireQuestion> deleteList = new ArrayList<QuestionnaireQuestion>();
@@ -578,7 +578,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
 //                            .findByPrimaryKey(QuestionnaireQuestion.class, qMap);
 //                    deleteList.add(oldQuestion);
                 }
-            } else if (questionnaire.getQuestionnaireRefId() != null && question.getQuestionnaireRefIdFk() == null){
+            } else if (question.getQuestionnaireQuestionsId() != null && questionnaire.getQuestionnaireRefId() != null && question.getQuestionnaireRefIdFk() == null){
                 dropList.add(question);                
             }
         }
@@ -613,6 +613,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                 }
             }
         }
+        // not sure if we set doc# here
+        questionnaire.setDocumentNumber(qnForm.getDocument().getDocumentNumber());
         // TODO : this makes newquestionnaire hooked to bo saved in db but not yet committed yet
         Questionnaire copyQuestionnaire = (Questionnaire) ObjectUtils.deepCopy(questionnaire);
         if (deleteList.size() > 0) {

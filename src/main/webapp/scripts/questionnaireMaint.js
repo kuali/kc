@@ -6,7 +6,7 @@ var jqprefix = "document\\.newMaintainableObject\\.businessObject\\.questionnair
 var uprefix = "document.newMaintainableObject.businessObject.questionnaireUsages[";
 //for jquery 
 var juprefix = "document\\.newMaintainableObject\\.businessObject\\.questionnaireUsages\\[";
- 
+var isCopy = 'false'; 
 /*
  * This is the main function to create all the html for a question
  * each question is associated with 'li' tag which is jquery's node
@@ -97,48 +97,52 @@ function sethiddenfields() {
 			.attr("id", "condvalue" + i).attr("name", "condvalue" + i);
 	qntag.appendTo(hidtd);
 	
+	
 	qntag = $('<input type="hidden" id = "question" name = "question" />')
-	.attr("id", qprefix + i+"].questionnaireQuestionsId").attr("name", qprefix + i+"].questionnaireQuestionsId");
+	.attr("id", "qnaireQuestions[" + i+"]").attr("name", "qnaireQuestions[" + i+"]");
     qntag.appendTo(hidtd);
-    
-	qntag = $('<input type="hidden" id = "question" name = "question" />')
-	.attr("id", qprefix + i+"].questionnaireRefIdFk").attr("name", qprefix + i+"].questionnaireRefIdFk");
-    qntag.appendTo(hidtd);
-
-    qntag = $('<input type="hidden" id = "question" name = "question" />')
-	.attr("id", qprefix + i+"].questionRefIdFk").attr("name", qprefix + i+"].questionRefIdFk");
-    qntag.appendTo(hidtd);
-
-    qntag = $('<input type="hidden" id = "question" name = "question" />')
-	.attr("id", qprefix + i+"].questionNumber").attr("name", qprefix + i+"].questionNumber");
-    qntag.appendTo(hidtd);
-
-    qntag = $('<input type="hidden" id = "question" name = "question" />')
-	.attr("id", qprefix + i+"].parentQuestionNumber").attr("name", qprefix + i+"].parentQuestionNumber");
-    qntag.appendTo(hidtd);
-	qntag = $('<input type="hidden" id = "question" name = "question" />')
-	.attr("id", qprefix + i+"].conditionFlag").attr("name", qprefix + i+"].conditionFlag");
-    qntag.appendTo(hidtd);
-	qntag = $('<input type="hidden" id = "question" name = "question" />')
-	.attr("id", qprefix + i+"].condition").attr("name", qprefix + i+"].condition");
-    qntag.appendTo(hidtd);
-	qntag = $('<input type="hidden" id = "question" name = "question" />')
-	.attr("id", qprefix + i+"].conditionValue").attr("name", qprefix + i+"].conditionValue");
-    qntag.appendTo(hidtd);
-
+//	qntag = $('<input type="hidden" id = "question" name = "question" />')
+//	.attr("id", qprefix + i+"].questionnaireQuestionsId").attr("name", qprefix + i+"].questionnaireQuestionsId");
+//    qntag.appendTo(hidtd);
+//    
+//	qntag = $('<input type="hidden" id = "question" name = "question" />')
+//	.attr("id", qprefix + i+"].questionnaireRefIdFk").attr("name", qprefix + i+"].questionnaireRefIdFk");
+//    qntag.appendTo(hidtd);
+//
+//    qntag = $('<input type="hidden" id = "question" name = "question" />')
+//	.attr("id", qprefix + i+"].questionRefIdFk").attr("name", qprefix + i+"].questionRefIdFk");
+//    qntag.appendTo(hidtd);
+//
+//    qntag = $('<input type="hidden" id = "question" name = "question" />')
+//	.attr("id", qprefix + i+"].questionNumber").attr("name", qprefix + i+"].questionNumber");
+//    qntag.appendTo(hidtd);
+//
+//    qntag = $('<input type="hidden" id = "question" name = "question" />')
+//	.attr("id", qprefix + i+"].parentQuestionNumber").attr("name", qprefix + i+"].parentQuestionNumber");
+//    qntag.appendTo(hidtd);
+//	qntag = $('<input type="hidden" id = "question" name = "question" />')
+//	.attr("id", qprefix + i+"].conditionFlag").attr("name", qprefix + i+"].conditionFlag");
+//    qntag.appendTo(hidtd);
+//	qntag = $('<input type="hidden" id = "question" name = "question" />')
+//	.attr("id", qprefix + i+"].condition").attr("name", qprefix + i+"].condition");
+//    qntag.appendTo(hidtd);
+//	qntag = $('<input type="hidden" id = "question" name = "question" />')
+//	.attr("id", qprefix + i+"].conditionValue").attr("name", qprefix + i+"].conditionValue");
+//    qntag.appendTo(hidtd);
+//
+////    qntag = $('<input type="hidden" id = "question" name = "question" />')
+////	.attr("id", qprefix + i+"].questionSeqNumber").attr("name", qprefix + i+"].questionSeqNumber");
+////    qntag.appendTo(hidtd);
+//
 //    qntag = $('<input type="hidden" id = "question" name = "question" />')
 //	.attr("id", qprefix + i+"].questionSeqNumber").attr("name", qprefix + i+"].questionSeqNumber");
 //    qntag.appendTo(hidtd);
-
-    qntag = $('<input type="hidden" id = "question" name = "question" />')
-	.attr("id", qprefix + i+"].questionSeqNumber").attr("name", qprefix + i+"].questionSeqNumber");
-    qntag.appendTo(hidtd);
-	qntag = $('<input type="hidden" id = "question" name = "question" />')
-	.attr("id", qprefix + i+"].versionNumber").attr("name", qprefix + i+"].versionNumber");
-    qntag.appendTo(hidtd);
-	qntag = $('<input type="hidden" id = "question" name = "question" />')
-	.attr("id", qprefix + i+"].deleted").attr("name", qprefix + i+"].deleted");
-    qntag.appendTo(hidtd);
+//	qntag = $('<input type="hidden" id = "question" name = "question" />')
+//	.attr("id", qprefix + i+"].versionNumber").attr("name", qprefix + i+"].versionNumber");
+//    qntag.appendTo(hidtd);
+//	qntag = $('<input type="hidden" id = "question" name = "question" />')
+//	.attr("id", qprefix + i+"].deleted").attr("name", qprefix + i+"].deleted");
+//    qntag.appendTo(hidtd);
 	
 	hidtd.appendTo(hidtr);
 	hidtr.hide(); // FF rendering issue. If not hided, then 'line' will be
@@ -616,18 +620,25 @@ function pasteChild(parentid, startnode) {
 	$("#questionNumber").attr("value",
 			Number($("#questionNumber").attr("value")) + 1)
 
-
-					    $("#"+jqprefix + idx+"\\]\\.questionnaireQuestionsId").attr("value","");
-			            $("#"+jqprefix + idx+"\\]\\.questionnaireRefIdFk").attr("value",$('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value"));
-			            $("#"+jqprefix + idx+"\\]\\.questionRefIdFk").attr("value",qid);
-			            $("#"+jqprefix + idx+"\\]\\.questionNumber").attr("value",qnum);
-			            $("#"+jqprefix + idx+"\\]\\.parentQuestionNumber").attr("value",parentNum);
-			            $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value","N");
-			            $("#"+jqprefix + idx+"\\]\\.condition").attr("value","");
-			            $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value","");
-			            $("#"+jqprefix + idx+"\\]\\.questionSeqNumber").attr("value",seqnum);
-			            $("#"+jqprefix + idx+"\\]\\.versionNumber").attr("value","1");
-			            $("#"+jqprefix + idx+"\\]\\.deleted").attr("value","N");
+	// questionnaireQuestionsId/questionnaireRefIdFk/questionRefIdFk/questionNumber/parentQuestionNumber		
+    //conditionFlag/condition/conditionValue/questionSeqNumber/versionNumber/deleted
+	var tmpstr = "" +"#f#" +$('#document\\.n/ewMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+          +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
+          "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" ;
+	$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+    	
+			
+//					    $("#"+jqprefix + idx+"\\]\\.questionnaireQuestionsId").attr("value","");
+//			            $("#"+jqprefix + idx+"\\]\\.questionnaireRefIdFk").attr("value",$('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value"));
+//			            $("#"+jqprefix + idx+"\\]\\.questionRefIdFk").attr("value",qid);
+//			            $("#"+jqprefix + idx+"\\]\\.questionNumber").attr("value",qnum);
+//			            $("#"+jqprefix + idx+"\\]\\.parentQuestionNumber").attr("value",parentNum);
+//			            $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value","N");
+//			            $("#"+jqprefix + idx+"\\]\\.condition").attr("value","");
+//			            $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value","");
+//			            $("#"+jqprefix + idx+"\\]\\.questionSeqNumber").attr("value",seqnum);
+//			            $("#"+jqprefix + idx+"\\]\\.versionNumber").attr("value","1");
+//			            $("#"+jqprefix + idx+"\\]\\.deleted").attr("value","N");
 			
 	// alert("child copy node"
 	// + $("#cond" + $(startnode).attr("id").substring(8)).attr("value"));
@@ -646,9 +657,17 @@ function pasteChild(parentid, startnode) {
 		addSqlScripts("update QCond;'Y';'" + cond + "';'" + value + "';"
 				+ $("#qid" + idx).attr("value") + ";"
 				+ $("#qnum" + idx).attr("value"));
-        $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value","Y");
-        $("#"+jqprefix + idx+"\\]\\.condition").attr("value",cond);
-        $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value",value);
+		
+		var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"Y" +"#f#" +cond +"#f#" +
+        value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+	$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+		
+		
+//        $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value","Y");
+//        $("#"+jqprefix + idx+"\\]\\.condition").attr("value",cond);
+//        $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value",value);
 		// alert(sqlScripts);
 	}
 
@@ -677,7 +696,28 @@ function deleteChild(parentNum, childid) {
 	var childrenli = $("#" + childid).children('ul.eq(0)').children('li');
 	addSqlScripts("delete Q;" + $("#qid" + idx).attr("value") + ";" + qnum
 			+ ";" + parentNum + ";" + $("#qseq" + idx).attr("value"));
-    $("#"+jqprefix + idx+"\\]\\.deleted").attr("value","Y");
+	var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+    +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
+    splitq[7] +"#f#" +splitq[8]  +"#f#" +splitq[9] +"#f#" +"Y" ;
+$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+//    $("#"+jqprefix + idx+"\\]\\.deleted").attr("value","Y");
+
+var nextseq = splitq[8];
+
+var nextitem = $("#" + childid).next();
+// update seq for the siblings after the new node
+while (nextitem.size() > 0) {
+	var splitq = $("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
+    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+    +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
+    splitq[7] +"#f#" +(nextseq++) +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+$("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",tmpstr);
+//    $("#"+jqprefix + nextitem.attr("id").substring(8) + "\\]\\.questionSeqNumber").attr("value",nextseq);
+//	$("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
+	nextitem = nextitem.next();
+}	
+
 
 	if (childrenli.size() > 0) {
 
@@ -747,7 +787,14 @@ function getMoveDownLink(curidx) {
 						addSqlScripts("update QMove;" + seq + ";"
 								+ $("#qid" + idx).attr("value") + ";"
 								+ $("#qnum" + idx).attr("value"));
-					    $("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
+
+						var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+					    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+				        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
+				        splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+					$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+						
+						//$("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 
 						//alert(idx)
 						$("#moveup" + curNode.attr("id").substring(8)).show();
@@ -768,7 +815,12 @@ function getMoveDownLink(curidx) {
 						addSqlScripts("update QMove;" + seq + ";"
 								+ $("#qid" + idx).attr("value") + ";"
 								+ $("#qnum" + idx).attr("value"));
-					    $("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
+						var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+					    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+				        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
+				        splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+					$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+//					    $("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 						// TODO : trying to group
 						swapGroupId(curNode, nextNode);
 
@@ -821,7 +873,12 @@ function getMoveUpLink(curidx) {
 					addSqlScripts("update QMove;" + seq + ";"
 							+ $("#qid" + idx).attr("value") + ";"
 							+ $("#qnum" + idx).attr("value"));
-				    $("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
+					var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+				    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+			        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
+			        splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+				$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+//				    $("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 
 					$("#movedn" + curNode.attr("id").substring(8)).show();
 					$("#moveup" + nextNode.attr("id").substring(8)).show();
@@ -837,8 +894,13 @@ function getMoveUpLink(curidx) {
 					addSqlScripts("update QMove;" + seq + ";"
 							+ $("#qid" + idx).attr("value") + ";"
 							+ $("#qnum" + idx).attr("value"));
+					var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+				    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+			        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
+			        splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+				$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 					// TODO : trying to group
-				    $("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
+//				    $("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 					swapGroupId(curNode, nextNode);
 				});
 	image.attr("src", "static/images/jquery/arrow-up.gif");
@@ -1068,7 +1130,12 @@ function getAddQuestionRow(curidx) {
 										+ parentNum );
 						    }	
 						    while (nextitem.size() > 0) {
-							    $("#"+jqprefix + nextitem.attr("id").substring(8) + "\\]\\.questionSeqNumber").attr("value",nextseq);
+								var splitq = $("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
+							    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+						        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
+						        splitq[7] +"#f#" +nextseq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+							$("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",tmpstr);
+//							    $("#"+jqprefix + nextitem.attr("id").substring(8) + "\\]\\.questionSeqNumber").attr("value",nextseq);
 						    	$("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
 						    	nextitem = nextitem.next();
 						    }	
@@ -1082,19 +1149,25 @@ function getAddQuestionRow(curidx) {
 						$("#qseq" + $(listitem).attr("id").substring(8)).attr("value", seqnum);
 						$("#questionNumber").attr("value",
 								Number($("#questionNumber").attr("value")) + 1)
+
+								idx = $(listitem).attr("id").substring(8);		
+    var tmpstr = "" +"#f#" +$('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+          +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
+          "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" ;
+	$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+
 								
-						idx = $(listitem).attr("id").substring(8);		
-					    $("#"+jqprefix + idx+"\\]\\.questionnaireQuestionsId").attr("value","");
-			            $("#"+jqprefix + idx+"\\]\\.questionnaireRefIdFk").attr("value",$('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value"));
-			            $("#"+jqprefix + idx+"\\]\\.questionRefIdFk").attr("value",qid);
-			            $("#"+jqprefix + idx+"\\]\\.questionNumber").attr("value",qnum);
-			            $("#"+jqprefix + idx+"\\]\\.parentQuestionNumber").attr("value",parentNum);
-			            $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value","N");
-			            $("#"+jqprefix + idx+"\\]\\.condition").attr("value","");
-			            $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value","");
-			            $("#"+jqprefix + idx+"\\]\\.questionSeqNumber").attr("value",seqnum);
-			            $("#"+jqprefix + idx+"\\]\\.versionNumber").attr("value","1");
-			            $("#"+jqprefix + idx+"\\]\\.deleted").attr("value","N");
+//					    $("#"+jqprefix + idx+"\\]\\.questionnaireQuestionsId").attr("value","");
+//			            $("#"+jqprefix + idx+"\\]\\.questionnaireRefIdFk").attr("value",$('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value"));
+//			            $("#"+jqprefix + idx+"\\]\\.questionRefIdFk").attr("value",qid);
+//			            $("#"+jqprefix + idx+"\\]\\.questionNumber").attr("value",qnum);
+//			            $("#"+jqprefix + idx+"\\]\\.parentQuestionNumber").attr("value",parentNum);
+//			            $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value","N");
+//			            $("#"+jqprefix + idx+"\\]\\.condition").attr("value","");
+//			            $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value","");
+//			            $("#"+jqprefix + idx+"\\]\\.questionSeqNumber").attr("value",seqnum);
+//			            $("#"+jqprefix + idx+"\\]\\.versionNumber").attr("value","1");
+//			            $("#"+jqprefix + idx+"\\]\\.deleted").attr("value","N");
 								
 					}
 					return false;
@@ -1200,9 +1273,15 @@ function getAddRequirementRow(curidx) {
 									+ "';'" + value + "';"
 									+ $("#qid" + idx).attr("value") + ";"
 									+ $("#qnum" + idx).attr("value"));
-				            $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value","Y");
-				            $("#"+jqprefix + idx+"\\]\\.condition").attr("value",response);
-				            $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value",value);
+							var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+						    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+					        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"Y" +"#f#" +response +"#f#" +
+					        value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+						$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+
+//							$("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value","Y");
+//				            $("#"+jqprefix + idx+"\\]\\.condition").attr("value",response);
+//				            $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value",value);
 							
 							// alert(sqlScripts);
 							$(this).parents('tr:eq(0)').remove();
@@ -1259,9 +1338,16 @@ function getRequirementDeleteRow(response, value, curidx) {
 						addSqlScripts("update QCond;'N';'';'';"
 								+ $("#qid" + idx).attr("value") + ";"
 								+ $("#qnum" + idx).attr("value"));
-			            $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value","N");
-			            $("#"+jqprefix + idx+"\\]\\.condition").attr("value","");
-			            $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value","");
+						var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+					    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+				        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"N" +"#f#" +"" +"#f#" +
+				        "" +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+					$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+						
+			
+//						$("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value","N");
+//			            $("#"+jqprefix + idx+"\\]\\.condition").attr("value","");
+//			            $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value","");
 						getAddRequirementRow(idx).appendTo(
 								$(this).parents('tr:eq(0)').parents(
 										'tbody:eq(0)'));
@@ -1400,17 +1486,22 @@ function returnQuestionList(questionList) {
 		$("#questionNumber").attr("value",
 				Number($("#questionNumber").attr("value")) + 1)
 
-					    $("#"+jqprefix + idx+"\\]\\.questionnaireQuestionsId").attr("value","");
-			            $("#"+jqprefix + idx+"\\]\\.questionnaireRefIdFk").attr("value",$('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value"));
-			            $("#"+jqprefix + idx+"\\]\\.questionRefIdFk").attr("value",field[0]);
-			            $("#"+jqprefix + idx+"\\]\\.questionNumber").attr("value",qnum);
-			            $("#"+jqprefix + idx+"\\]\\.parentQuestionNumber").attr("value",parentnum);
-			            $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value","N");
-			            $("#"+jqprefix + idx+"\\]\\.condition").attr("value","");
-			            $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value","");
-			            $("#"+jqprefix + idx+"\\]\\.questionSeqNumber").attr("value",seqnum);
-			            $("#"+jqprefix + idx+"\\]\\.versionNumber").attr("value","1");
-			            $("#"+jqprefix + idx+"\\]\\.deleted").attr("value","N");
+    var tmpstr = "" +"#f#" +$('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+          +"#f#" +field[0]+"#f#" +qnum +"#f#" +parentnum +"#f#" +"N" +"#f#" +"" +"#f#" +
+          "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" ;
+	$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+				
+//					    $("#"+jqprefix + idx+"\\]\\.questionnaireQuestionsId").attr("value","");
+//			            $("#"+jqprefix + idx+"\\]\\.questionnaireRefIdFk").attr("value",$('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value"));
+//			            $("#"+jqprefix + idx+"\\]\\.questionRefIdFk").attr("value",field[0]);
+//			            $("#"+jqprefix + idx+"\\]\\.questionNumber").attr("value",qnum);
+//			            $("#"+jqprefix + idx+"\\]\\.parentQuestionNumber").attr("value",parentnum);
+//			            $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value","N");
+//			            $("#"+jqprefix + idx+"\\]\\.condition").attr("value","");
+//			            $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value","");
+//			            $("#"+jqprefix + idx+"\\]\\.questionSeqNumber").attr("value",seqnum);
+//			            $("#"+jqprefix + idx+"\\]\\.versionNumber").attr("value","1");
+//			            $("#"+jqprefix + idx+"\\]\\.deleted").attr("value","N");
 
 				
 		// TODO : try grouping
@@ -1954,26 +2045,26 @@ $(document).ready(function() {
 		} else {
 			
 			var retstr="";
-			for (var l=2; l<i; l++) {
-				retstr = retstr +"#q#" +
-			    $("#"+jqprefix + l+"\\]\\.questionnaireQuestionsId").attr("value")+"#f#"+
-	            $("#"+jqprefix + l+"\\]\\.questionnaireRefIdFk").attr("value")+"#f#"+
-	            $("#"+jqprefix + l+"\\]\\.questionRefIdFk").attr("value")+"#f#"+
-	            $("#"+jqprefix + l+"\\]\\.questionNumber").attr("value")+"#f#"+
-	            $("#"+jqprefix + l+"\\]\\.parentQuestionNumber").attr("value")+"#f#"+
-	            $("#"+jqprefix + l+"\\]\\.conditionFlag").attr("value")+"#f#"+
-	            $("#"+jqprefix + l+"\\]\\.condition").attr("value")+"#f#"+
-	            $("#"+jqprefix + l+"\\]\\.conditionValue").attr("value")+"#f#"+
-	            $("#"+jqprefix + l+"\\]\\.questionSeqNumber").attr("value")+"#f#"+
-	            $("#"+jqprefix + l+"\\]\\.versionNumber").attr("value")+"#f#"+
-	            $("#"+jqprefix + l+"\\]\\.deleted").attr("value");
-
-				
-				if ($("#"+jqprefix + l +"\\]\\.questionNumber").attr("value") == '75') {
-					alert ($("#"+jqprefix + l +"\\]\\.questionnaireQuestionsId").attr("value")+"-"+l+" is null");
-				}	
-			}
-			document.getElementById("editData").value=retstr;
+//			for (var l=2; l<i; l++) {
+//				retstr = retstr +"#q#" +
+//			    $("#"+jqprefix + l+"\\]\\.questionnaireQuestionsId").attr("value")+"#f#"+
+//	            $("#"+jqprefix + l+"\\]\\.questionnaireRefIdFk").attr("value")+"#f#"+
+//	            $("#"+jqprefix + l+"\\]\\.questionRefIdFk").attr("value")+"#f#"+
+//	            $("#"+jqprefix + l+"\\]\\.questionNumber").attr("value")+"#f#"+
+//	            $("#"+jqprefix + l+"\\]\\.parentQuestionNumber").attr("value")+"#f#"+
+//	            $("#"+jqprefix + l+"\\]\\.conditionFlag").attr("value")+"#f#"+
+//	            $("#"+jqprefix + l+"\\]\\.condition").attr("value")+"#f#"+
+//	            $("#"+jqprefix + l+"\\]\\.conditionValue").attr("value")+"#f#"+
+//	            $("#"+jqprefix + l+"\\]\\.questionSeqNumber").attr("value")+"#f#"+
+//	            $("#"+jqprefix + l+"\\]\\.versionNumber").attr("value")+"#f#"+
+//	            $("#"+jqprefix + l+"\\]\\.deleted").attr("value");
+//
+//				
+//				if ($("#"+jqprefix + l +"\\]\\.questionNumber").attr("value") == '75') {
+//					alert ($("#"+jqprefix + l +"\\]\\.questionnaireQuestionsId").attr("value")+"-"+l+" is null");
+//				}	
+//			}
+//			document.getElementById("editData").value=retstr;
 			$("#hiddiv").remove();  // TODO : remove unneeded hidden fields.
 			
 			var saveok = 'true';
@@ -1985,7 +2076,8 @@ $(document).ready(function() {
 			type : 'GET',
 			dataType : 'html',
 			cache : false,
-			data : 'action=setnumq&numOfQuestions=' + (i-loadcount)+
+			//data : 'action=setnumq&numOfQuestions=' + (i-loadcount)+
+			data : 'action=setnumq&numOfQuestions=' + (i+1) +
 			       '&numOfUsages='+(ucount-initucount),
 			async : false,
 			timeout : 1000,
@@ -2209,7 +2301,7 @@ $(document).ready(function() {
 					type : 'GET',
 					dataType : 'html',
 					cache : false,
-					data : 'action=setnumq&numOfQuestions=' + (i-loadcount)+
+					data : 'action=setnumq&numOfQuestions=' + (i+1) +
 				       '&numOfUsages='+(ucount-initucount),
 					async : false,
 					timeout : 1000,
