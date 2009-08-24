@@ -98,6 +98,7 @@ Content </span> <span class="subhead-right"> <kul:help
    --%>
 
     <%-- Test: add new question, when it return question lookup, the dynamically qn are still ok--%>
+    <%--
     <c:set var="index" value="0" />
     <c:if test="${fn:length(QuestionnaireForm.questionnaireQuestions) > 0}">
         <c:forEach var="question" items="${KualiForm.questionnaireQuestions}"
@@ -112,6 +113,7 @@ Content </span> <span class="subhead-right"> <kul:help
 
         </c:forEach>
     </c:if>
+     --%>
     <input type="hidden" id="qncount" value="${index}" />
 </table>
 </div>

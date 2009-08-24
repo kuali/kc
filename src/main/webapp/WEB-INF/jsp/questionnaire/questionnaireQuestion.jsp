@@ -84,8 +84,18 @@ var qnversion=1;
 $(document).ready(function() {
 	  //alert($("#globalbuttons").children('input:eq(1)').attr("name"));
       if ($("#maintAction").attr("value") != 'Copy') {
-      $("#globalbuttons").children('input:eq(1)').attr("id","save");
-      $("#globalbuttons").children('input:eq(0)').attr("id","route");
+          $("#globalbuttons").find('input').each(function() {
+               // alert($(this).attr("name"));
+                if ($(this).attr("name") == 'methodToCall.route') {
+                    $(this).attr("id","route");
+                } else if ($(this).attr("name") == 'methodToCall.save') {
+                    $(this).attr("id","save");
+                } else if ($(this).attr("name") == 'methodToCall.blanketApprove') {
+                    $(this).attr("id","blanketApprove");
+                }   
+            });
+//      $("#globalbuttons").children('input:eq(1)').attr("id","save");
+//      $("#globalbuttons").children('input:eq(0)').attr("id","route");
       }
       if ($("#maintAction").attr("value") == 'Edit') {
           if ($("#docStatus").attr("value") == 'I') {
@@ -249,8 +259,8 @@ if (dataarray.length > 1) {
         hidtd.appendTo(hidtr);
         hidtr.hide(); // FF rendering issue. If not hided, then 'line' will be
         // drawn at the bottom of the table for each Q hidden row
-        hidtr.appendTo($("#qhiddiv"));
-        //hidtr.appendTo($("#usage-table"));
+        //hidtr.appendTo($("#qhiddiv"));
+        hidtr.appendTo($("#usage-table"));
         ucount++;
 
         
@@ -356,8 +366,8 @@ function loadQuestion() {
                         responseArray[field[6]], field[7]);
                 newResponse.appendTo($("#addrequirement" + i).parents(
                         'div:eq(0)').children('table:eq(0)').children('tbody'));
-                $("#cond" + i).attr("value", field[6]);
-                $("#condvalue" + i).attr("value", field[7]);
+//                $("#cond" + i).attr("value", field[6]);
+//                $("#condvalue" + i).attr("value", field[7]);
                 $("#addrequirement" + i).parents('tr:eq(0)').remove();
             }
             // TODO : set up for insert
