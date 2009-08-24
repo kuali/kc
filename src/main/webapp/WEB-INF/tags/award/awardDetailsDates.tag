@@ -32,7 +32,7 @@
 <table cellpAdding="0" cellspacing="0" summary="">
   	<tr>
     	<th><div align="right">*Award ID:</div></th>
-    	<td>${KualiForm.awardDocument.award.awardId}&nbsp;</td>
+    	<td>${KualiForm.awardDocument.award.awardNumber}&nbsp;</td>
     	<th>
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountTypeCode}" /></div>
 		</th>
@@ -237,7 +237,7 @@
 
 <!-- Dates -->
 <h3>
-	<span class="subhead-left">Dates</span>
+	<span class="subhead-left">Time & Money</span>
 </h3>
 <table cellpAdding="0" cellspacing="0" summary="">
 	<tr>
@@ -262,10 +262,38 @@
         	<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[0].finalExpirationDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" datePicker="true" />
         </td>
         <th>
-        	<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardExecutionDate}" /></div>
+        	<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" /></div>
+        </th>
+        <td align="left" valign="middle">
+            <kul:htmlControlAttribute property="document.awardList[0].obligationExpirationDate" attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" datePicker="true" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardExecutionDate}" /></div>
         </th>
         <td align="left" valign="middle">
             <kul:htmlControlAttribute property="document.awardList[0].awardExecutionDate" attributeEntry="${awardAttributes.awardExecutionDate}" datePicker="true" />
+        </td>
+        <th>
+            &nbsp;
+        </th>
+        <td align="left" valign="middle">
+            &nbsp;
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <div align="right">Anticipated Amount:</div>
+        </th>
+        <td align="left" valign="middle">
+            <fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.award.anticipatedTotal}"/>
+        </td>
+        <th>
+            <div align="right">Obligated Amount:</div>
+        </th>
+        <td align="left" valign="middle">
+            <fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.award.obligatedTotal}"/>
         </td>
     </tr>
 </table>
