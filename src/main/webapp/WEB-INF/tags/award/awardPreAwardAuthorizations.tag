@@ -19,7 +19,7 @@
 <c:set var="awardPreAwardAuthorizationCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 <c:set var="action" value="awardTimeAndMoney" />
 
-<kul:tab tabTitle="Preaward Authorizations" defaultOpen="false" tabErrorKey="document.awardList[0].preAwardAuthorizedAmount,document.awardList[0].preAwardEffectiveDate,document.awardList[0].awardComments[3].comments">
+<kul:tab tabTitle="Preaward Authorizations" defaultOpen="false" tabErrorKey="document.awardList[0].preAwardAuthorizedAmount,document.awardList[0].preAwardEffectiveDate,document.awardList[0].awardPreAwardSponsorAuthorizationComment.comments">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Sponsor Authorization</span>
@@ -55,7 +55,7 @@
     
     <div class="tab-container" align="center">
         <div class="left-errmsg-tab">
-            <kul:errors keyMatch="document.awardList[0].preAwardInstitutionalAuthorizedAmount,document.awardList[0].preAwardInstitutionalEffectiveDate,document.awardList[0].awardComments[4].comments"/>
+            <kul:errors keyMatch="document.awardList[0].preAwardInstitutionalAuthorizedAmount,document.awardList[0].preAwardInstitutionalEffectiveDate,document.awardList[0].awardPreAwardInstitutionalAuthorizationComment.comments"/>
             <br/>
         </div>
     	<h3>
