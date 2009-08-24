@@ -90,12 +90,12 @@ function sethiddenfields() {
 	qntag = $('<input type="hidden" id = "qtypeid" name = "qtypeid" />').attr(
 			"id", "qtypeid" + i).attr("name", "qtypeid" + i);
 	qntag.appendTo(hidtd);
-	qntag = $('<input type="hidden" id = "cond" name = "cond" />').attr("id",
-			"cond" + i).attr("name", "cond" + i);
-	qntag.appendTo(hidtd);
-	qntag = $('<input type="hidden" id = "condvalue" name = "condvalue" />')
-			.attr("id", "condvalue" + i).attr("name", "condvalue" + i);
-	qntag.appendTo(hidtd);
+//	qntag = $('<input type="hidden" id = "cond" name = "cond" />').attr("id",
+//			"cond" + i).attr("name", "cond" + i);
+//	qntag.appendTo(hidtd);
+//	qntag = $('<input type="hidden" id = "condvalue" name = "condvalue" />')
+//			.attr("id", "condvalue" + i).attr("name", "condvalue" + i);
+//	qntag.appendTo(hidtd);
 	
 	
 	qntag = $('<input type="hidden" id = "question" name = "question" />')
@@ -176,8 +176,11 @@ function getMaintTable(idx, childNode) {
 	var div192 = $('<div></div>').attr("id", "HSReqdiv" + idx);
 	if (childNode == 'true') {
 		var tbl196 = $('<table cellpadding="0" cellspacing="0" class="elementtable" style="width:100%; border-top:none;"></table>');
-		var response = $("#cond" + idx).attr("value");
-		var value = $("#condvalue" + idx).attr("value");
+		var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+		var response = splitq[6];
+		var value = splitq[7];
+//		var response = $("#cond" + idx).attr("value");
+//		var value = $("#condvalue" + idx).attr("value");
 		if (value != '') {
 			// alert ("resp value "+response+"-"+value);
 			var newResponse = getRequirementDeleteRow(responseArray[response],
@@ -335,6 +338,12 @@ function getQuestionActionSubTable(qnaireid) {
 					if ($(liId).parents('ul:eq(0)').parents('li:eq(0)').size() == 0) {
 						parentNum = 0;
 						var idx1 = $(liId).attr("class").indexOf(" ");
+						if (idx1 < 0) {
+							//alert ("idx1 is not a number ")
+							// TODO weird problem, initial from return list, class is in 'li'
+							// when it is loaded , then class is included in 'div' ?
+							idx1 = $(liId).attr("class").length;
+						}	
 						adjustGroup($(liId).attr("class").substring(5, idx1)); // class
 						// is
 						// "group0
@@ -439,6 +448,9 @@ function getQuestionActionSubTable(qnaireid) {
 								    var idx1 = $(cutNode).attr("class").indexOf(" ");
 								// alert ("idx
 								// "+qnaireid.substring(8)+"-"+$(cutNode).attr("id").substring(8)+"-"+idx1);
+									if (idx1 < 0) {
+										idx1 = $(cutNode).attr("class").length;
+									}	
 								    adjustGroup($(cutNode).attr("class").substring(
 										5, idx1)); // class is "group0
 													// expandable"
@@ -622,7 +634,7 @@ function pasteChild(parentid, startnode) {
 
 	// questionnaireQuestionsId/questionnaireRefIdFk/questionRefIdFk/questionNumber/parentQuestionNumber		
     //conditionFlag/condition/conditionValue/questionSeqNumber/versionNumber/deleted
-	var tmpstr = "" +"#f#" +$('#document\\.n/ewMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+	var tmpstr = "" +"#f#" +$('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
           +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
           "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" ;
 	$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
@@ -644,26 +656,29 @@ function pasteChild(parentid, startnode) {
 	// + $("#cond" + $(startnode).attr("id").substring(8)).attr("value"));
 	cidx = $(startnode).attr("id").substring(8);
 
-	cond = $("#cond" + cidx).attr("value");
-	value = $("#condvalue" + cidx).attr("value");
+	var splitq = $("#qnaireQuestions\\["+ cidx+"\\]").attr("value").split("#f#");
+	cond = splitq[6];
+	value = splitq[7];
+//	cond = $("#cond" + cidx).attr("value");
+//	value = $("#condvalue" + cidx).attr("value");
 	if (cond != '') {
 		var newResponse = getRequirementDeleteRow(responseArray[cond], value,
 				idx);
 		newResponse.appendTo($("#addrequirement" + idx).parents('div:eq(0)')
 				.children('table:eq(0)').children('tbody'));
-		$("#cond" + idx).attr("value", cond);
-		$("#condvalue" + idx).attr("value", value);
+//		$("#cond" + idx).attr("value", cond);
+//		$("#condvalue" + idx).attr("value", value);
 		$("#addrequirement" + idx).parents('tr:eq(0)').remove();
 		addSqlScripts("update QCond;'Y';'" + cond + "';'" + value + "';"
 				+ $("#qid" + idx).attr("value") + ";"
 				+ $("#qnum" + idx).attr("value"));
 		
-		var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+		splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
         +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"Y" +"#f#" +cond +"#f#" +
         value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] ;
 	$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
-		
+		//alert(tempstr);
 		
 //        $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value","Y");
 //        $("#"+jqprefix + idx+"\\]\\.condition").attr("value",cond);
@@ -1267,8 +1282,8 @@ function getAddRequirementRow(curidx) {
 									.children('table:eq(0)').children('tbody'));
 							var idx = $(this).parents('li:eq(0)').attr("id")
 									.substring(8);
-							$("#cond" + idx).attr("value", response);
-							$("#condvalue" + idx).attr("value", value);
+//							$("#cond" + idx).attr("value", response);
+//							$("#condvalue" + idx).attr("value", value);
 							addSqlScripts("update QCond;'Y';'" + response
 									+ "';'" + value + "';"
 									+ $("#qid" + idx).attr("value") + ";"
@@ -1278,6 +1293,7 @@ function getAddRequirementRow(curidx) {
 					        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"Y" +"#f#" +response +"#f#" +
 					        value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] ;
 						$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+						//alert(tempstr);
 
 //							$("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value","Y");
 //				            $("#"+jqprefix + idx+"\\]\\.condition").attr("value",response);
@@ -1445,6 +1461,8 @@ function returnQuestionList(questionList) {
 		$('#example').treeview( {
 			add : listitem
 		});
+		// TODO : try grouping
+		addToGroup(listitem);
 
 		// alert($(listitem).parents('ul:eq(0)').size());
 		if ($(listitem).parents('ul:eq(0)').children('li').size() == 1) {
@@ -1504,8 +1522,6 @@ function returnQuestionList(questionList) {
 //			            $("#"+jqprefix + idx+"\\]\\.deleted").attr("value","N");
 
 				
-		// TODO : try grouping
-		addToGroup(listitem);
 
 	} // end for to set up questions
 	// alert(curgroup + "-" + initgroup + "-" + firstidx + "-" + groupid)
@@ -1653,6 +1669,7 @@ function swapGroupId(curNode, nextNode) {
 }
 
 function adjustGroup(idx) {
+	alert(idx + "-" + groupid + "-" + curgroup )
 	while (idx < groupid) {
 		idx1 = Number(idx) + 1;
 		node = $(".group" + idx1 + ":eq(0)");
@@ -2023,6 +2040,22 @@ $("#backToTop").click(function() {
 
 $(document).ready(function() {
   $("#save").click(function() {
+		return checkBeforeSubmit();
+	}); // #save
+  
+  $("#route").click(function() {
+		return checkBeforeSubmit();
+	}); // #route
+
+  $("#blanketApprove").click(function() {
+			return checkBeforeSubmit();
+	}); // #route
+  
+  
+}); // document.ready
+
+
+function checkBeforeSubmit() {
 	var numOfQuestions =  $('#numOfQuestions').attr("value",i);
 	var qname = $('#document\\.newMaintainableObject\\.businessObject\\.name').attr("value");
 	var qnaireid = $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value");
@@ -2065,7 +2098,7 @@ $(document).ready(function() {
 //				}	
 //			}
 //			document.getElementById("editData").value=retstr;
-			$("#hiddiv").remove();  // TODO : remove unneeded hidden fields.
+			//$("#hiddiv").remove();  // TODO : remove unneeded hidden fields.
 			
 			var saveok = 'true';
 			// check if name exist
@@ -2274,97 +2307,8 @@ $(document).ready(function() {
 		// to 'save'.  not sure why
 		alert("return "+retval+"-"+document.getElementById("document.newMaintainableObject.businessObject.questionnaireRefId").value)
 		return retval;  // comment for rice maint
-	}); // #save
-  
-  $("#route").click(function() {
-		var qname = $('#document\\.newMaintainableObject\\.businessObject\\.name').attr("value");
-		var qnaireid = $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value");
-		var qid = $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireId').attr("value");
-		var docstatus = $('#docStatus').attr("value");
-		var qdescription = $('#document\\.newMaintainableObject\\.businessObject\\.description').attr("value");
-		var qisfinal = $('#document\\.newMaintainableObject\\.businessObject\\.isFinal').attr("checked");
-		var retval = false;
-			if (qname == '') {
-				alert("Questionnaire Name is required");
-			} else if (qdescription == '') {
-				alert("Questionnaire description is required");
-			} else if ($("#example").children('li').size() == 0) {
-				alert("No question is added");	
-			} else {
-				
-				var saveok = 'true';
-				// check if name exist
-				var isexist='true';
-
-			$.ajax( {
-					url : 'questionnaireAjax.do',
-					type : 'GET',
-					dataType : 'html',
-					cache : false,
-					data : 'action=setnumq&numOfQuestions=' + (i+1) +
-				       '&numOfUsages='+(ucount-initucount),
-					async : false,
-					timeout : 1000,
-				error : function() {
-						 alert('Error loading XML document');
-					saveok = 'false';
-				},
-				success : function(xml) {
-					// sqlScripts="createnew";
-					$(xml).find('h3').each(function() {
-						// var item_text = $(this).text();
-							//$('#newQuestionnaire\\.questionnaireRefId').attr(
-							//		"value", $(this).text().substring(9));
-						});
-				}
-				});// .ajax
-
-				
-				// TODO : FF seems to have trouble with "#;#"
-
-				alert(sqlScripts);
-				if (sqlScripts.indexOf("#;#") > 1) {
-					// if current sqlScripts is not in array yet
-					// 10 should be fine to use as check
-					sqls[sqlidx++] = sqlScripts;
-				}
-				// TODO : problem with '&' in string will in name or description
-			if (saveok == 'true')	 {
-				retval = true;
-	            var retmsg="";
-	            var sqlstring ="";
-				for ( var k = 0; k < sqls.length; k++) {
-					sqlScripts = sqls[k];
-					sqlScripts = sqlScripts.replace(/#;#/g, ";;;");
-					qnaireid = $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr(
-					"value");					
-				if (sqls[k] != '') {	
-					if (sqlstring == '') {
-						sqlstring = sqls[k];
-					} else {	
-					sqlstring = sqlstring+"#S#"+sqls[k];
-					}
-				} // end if sqlk!=''
-					if (retmsg != '') {
-						break;
-					}	
-				} // end for
-			}// saveok=true
-				sqlidx = 0;
-				sqlstring = sqlstring.replace(/#;#/g, ";;;");
-				$('#sqlScripts').attr("value",sqlstring);
-			// } // if-else isexisat
-			}	// if-then-else
-			//document.getElementById("newQuestionnaire.questionnaireRefId").value = $('#newQuestionnaire\\.questionnaireRefId').attr("value");
-	        // Note : hidden value "newQuestionnaire.questionnaireRefId" is still null in 'save' method.  although it shows value here before sent
-			// to 'save'.  not sure why
-			alert("return "+retval+"-"+document.getElementById("document.newMaintainableObject.businessObject.questionnaireRefId").value)
-			return retval;  // comment for rice maint
-		}); // #route
-
-  
-  
-}); // document.ready
+	
+}
 
 /*
  * This method is to check whether the new coeus module is already exist. For
