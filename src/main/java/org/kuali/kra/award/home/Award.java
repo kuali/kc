@@ -516,6 +516,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setProjectEndDate(Date date) {
         this.awardAmountInfos.get(0).setFinalExpirationDate(date);
     }
+    
+    public Date getObligationExpirationDate() {
+        return awardAmountInfos.get(0).getObligationExpirationDate();
+    }
+    
+    public void setObligationExpirationDate(Date date) {
+        this.awardAmountInfos.get(0).setObligationExpirationDate(date);
+    }
 
     /**
      *
