@@ -1851,8 +1851,12 @@
 		</property>		
 	</bean>
 	
-    <bean id="proposalHierarchyDao" parent="platformAwareDao" class="org.kuali.kra.proposaldevelopment.hierarchy.dao.ojb.ProposalHierarchyDaoOjb" />
-	
+    <bean id="proposalHierarchyDao" parent="platformAwareDao" class="org.kuali.kra.proposaldevelopment.hierarchy.dao.ojb.ProposalHierarchyDaoOjb">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>		
+    </bean>
+    	
 	<bean id="proposalHierarchyService" class="org.kuali.kra.proposaldevelopment.hierarchy.service.impl.ProposalHierarchyServiceImpl">
 		<property name="businessObjectService">
 					<ref bean="businessObjectService" />

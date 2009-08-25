@@ -49,17 +49,13 @@ public class HierarchyProposalSummary implements Serializable {
     private String agencyDivisionCode;
     private String programAnnouncementTitle;
 
-    private String noticeOfOpportunityCode;
+    private String noticeOfOpportunityName;
     private String cfdaNumber;
     private String programAnnouncementNumber;
     private String sponsorProposalNumber;
     private Boolean subcontracts;
     private String agencyProgramCode;
 
-    
-    private String principalInvestigatorName;
-    private String investigatorsNameList;
-    private String units;
     /**
      * Gets the proposalNumber attribute. 
      * @return Returns the proposalNumber.
@@ -299,18 +295,18 @@ public class HierarchyProposalSummary implements Serializable {
         this.programAnnouncementTitle = programAnnouncementTitle;
     }
     /**
-     * Gets the noticeOfOpportunityCode attribute. 
-     * @return Returns the noticeOfOpportunityCode.
+     * Sets the noticeOfOpportunityName attribute value.
+     * @param noticeOfOpportunityName The noticeOfOpportunityName to set.
      */
-    public String getNoticeOfOpportunityCode() {
-        return noticeOfOpportunityCode;
+    public void setNoticeOfOpportunityName(String noticeOfOpportunityName) {
+        this.noticeOfOpportunityName = noticeOfOpportunityName;
     }
     /**
-     * Sets the noticeOfOpportunityCode attribute value.
-     * @param noticeOfOpportunityCode The noticeOfOpportunityCode to set.
+     * Gets the noticeOfOpportunityName attribute. 
+     * @return Returns the noticeOfOpportunityName.
      */
-    public void setNoticeOfOpportunityCode(String noticeOfOpportunityCode) {
-        this.noticeOfOpportunityCode = noticeOfOpportunityCode;
+    public String getNoticeOfOpportunityName() {
+        return noticeOfOpportunityName;
     }
     /**
      * Gets the cfdaNumber attribute. 
@@ -382,48 +378,5 @@ public class HierarchyProposalSummary implements Serializable {
     public void setAgencyProgramCode(String agencyProgramCode) {
         this.agencyProgramCode = agencyProgramCode;
     }
-    /**
-     * Gets the principalInvestigatorName attribute. 
-     * @return Returns the principalInvestigatorName.
-     */
-    public String getPrincipalInvestigatorName() {
-        return principalInvestigatorName;
-    }
-    /**
-     * Sets the principalInvestigatorName attribute value.
-     * @param principalInvestigatorName The principalInvestigatorName to set.
-     */
-    public void setPrincipalInvestigatorName(String principalInvestigatorName) {
-        this.principalInvestigatorName = principalInvestigatorName;
-    }
-    /**
-     * Gets the investigatorsNameList attribute. 
-     * @return Returns the investigatorsNameList.
-     */
-    public String getInvestigatorsNameList() {
-        return investigatorsNameList;
-    }
-    /**
-     * Sets the investigatorsNameList attribute value.
-     * @param investigatorsNameList The investigatorsNameList to set.
-     */
-    public void setInvestigatorsNameList(String investigatorsNameList) {
-        this.investigatorsNameList = investigatorsNameList;
-    }
-    /**
-     * Gets the units attribute. 
-     * @return Returns the units.
-     */
-    public String getUnits() {
-        return units;
-    }
-    /**
-     * Sets the units attribute value.
-     * @param units The units to set.
-     */
-    public void setUnits(String units) {
-        this.units = units;
-    }
-    
     
 }

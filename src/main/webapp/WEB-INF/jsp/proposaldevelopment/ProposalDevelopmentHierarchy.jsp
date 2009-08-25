@@ -30,6 +30,7 @@ http://www.osedu.org/licenses/ECL-2.0
 	headerTabActive="hierarchy">
 							
 <div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Proposal Hierarchy" /></div>
+
 <c:forEach var="summary" items="${hierarchySummaries}" varStatus="status">
 	<c:choose>
 		<c:when test="${status.index eq 0}">

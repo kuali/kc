@@ -217,18 +217,14 @@
 			<foreignkey field-ref="proposalTypeCode"/>
 		</reference-descriptor>
 
-
     	<field-descriptor name="hierarchyStatus" column="IS_HIERARCHY" jdbc-type="CHAR" />
-    	<collection-descriptor name="propScienceKeywords" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+    	<collection-descriptor name="hierarchyPropScienceKeywords" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="hierarchyProposalNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="proposalPersons" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="hierarchySpecialReviews" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="hierarchyProposalNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="propSpecialReviews" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="hierarchyProposalNumber"/>
-		</collection-descriptor>
-		<collection-descriptor name="narratives" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Narrative" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="hierarchyNarratives" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Narrative" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="hierarchyProposalNumber"/>
 		</collection-descriptor>
 		<collection-descriptor name="children" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchyChild" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
