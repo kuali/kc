@@ -35,8 +35,6 @@
 <c:set var="organizationAttributes" value="${DataDictionary.Organization.attributes}" />
 <c:set var="congressionalDistrictAttributes" value="${DataDictionary.CongressionalDistrict.attributes}" /> 
 
-<%-- TODO fix help buttons --%>
-
 <c:set var="proposalSiteAttributes" value="${DataDictionary.ProposalSite.attributes}" />
 
 <c:set var="canEdit" value="false" />
