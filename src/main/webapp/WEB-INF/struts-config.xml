@@ -98,6 +98,7 @@
           <forward name="budgetVersions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentBudgetVersions.jsp" />
           <forward name="keyPersonnel" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentKeyPersonnel.jsp" />
           <forward name="questions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentQuestions.jsp" />
+          <forward name="hierarchy" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentHierarchy.jsp" />
           <forward name="proposal" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentProposal.jsp" />
           <forward name="specialReview" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentSpecialReview.jsp" />
           <forward name="abstractsAttachments" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentAbstractsAttachments.jsp" />

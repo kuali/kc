@@ -113,8 +113,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     
     private KIMService kimService;
     
-    private ProposalHierarcyActionHelper hierarchyHelper;
-    
     /**
      * Struts mapping for the Proposal web page.  
      */
@@ -248,13 +246,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
         kimService = KraServiceLocator.getService(KIMService.class);
         return kimService;
-    }
-    
-    private ProposalHierarcyActionHelper getHierarchyHelper() {
-        if (hierarchyHelper == null) {
-            hierarchyHelper = new ProposalHierarcyActionHelper();
-        }
-        return hierarchyHelper;
     }
     
     /**
