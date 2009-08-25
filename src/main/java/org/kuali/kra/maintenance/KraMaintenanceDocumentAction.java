@@ -18,6 +18,7 @@ package org.kuali.kra.maintenance;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -83,7 +84,7 @@ public class KraMaintenanceDocumentAction extends KualiMaintenanceDocumentAction
             KraMaintenanceForm kraMaintenanceForm = (KraMaintenanceForm) form;
             MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) kraMaintenanceForm.getDocument();
             if (maintenanceDocumentBase.getNewMaintainableObject().getBusinessObject() instanceof Question 
-                    && kraMaintenanceForm.getMethodToCall().equals("edit")) { 
+                    && StringUtils.equals(kraMaintenanceForm.getMethodToCall(), "edit")) { 
                 // Get most recent approved Question from DB
                 Question approvedQuestion = getQuestionService().getQuestionByRefId(request.getParameter(QUESTION_REF_ID));
 
