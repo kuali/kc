@@ -20,8 +20,6 @@ import java.util.LinkedHashMap;
 import javax.persistence.Column;
 import javax.persistence.Id;
 
-import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ResearchArea;
 
 /**
@@ -29,7 +27,7 @@ import org.kuali.kra.bo.ResearchArea;
  * This class implements the committee membership expertise business object.
  * 
  */
-public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBase implements SequenceAssociate<Committee> { 
+public class CommitteeMembershipExpertise extends CommitteeSequenceAssociate { 
     
     private static final long serialVersionUID = 4926007164018659270L;
 
@@ -44,8 +42,6 @@ public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBa
     private String researchAreaCode; 
     
     private ResearchArea researchArea;
-    
-    private Committee sequenceOwner;
     
     public CommitteeMembershipExpertise() { 
         setResearchArea(new ResearchArea());
@@ -121,18 +117,6 @@ public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBa
         return hashMap;
     }
     
-    public Committee getSequenceOwner() {
-        return this.sequenceOwner;
-    }
-
-    public void setSequenceOwner(Committee newOwner) {
-        this.sequenceOwner = newOwner;
-    }
-
-    public Integer getSequenceNumber() {
-        return this.sequenceOwner.getSequenceNumber();
-    }
-
     public void resetPersistenceState() {
         setCommitteeMembershipExpertiseId(null);
     }
