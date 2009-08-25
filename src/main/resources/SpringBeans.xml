@@ -1804,6 +1804,9 @@
 		<property name="lookupableHelperService">
 			<ref bean="questionnaireLookupableHelperService" />
 		</property>
+        <property name="questionnaireAuthorizationService">
+            <ref bean="questionnaireAuthorizationService" />
+        </property>
 	</bean>
 
 	<bean id="questionnaireService" class="org.kuali.kra.questionnaire.QuestionnaireServiceImpl">
@@ -1822,6 +1825,9 @@
  	    scope="prototype" parent="lookupableHelperService">
         <property name="documentService">
             <ref bean="documentService" />
+        </property>
+        <property name="questionnaireAuthorizationService">
+            <ref bean="questionnaireAuthorizationService" />
         </property>
   	</bean>
 	
@@ -1861,5 +1867,9 @@
 			<ref bean="proposalHierarchyDao" />
 		</property>	
 	</bean>
+
+    <bean id="questionnaireAuthorizationService" class="org.kuali.kra.questionnaire.QuestionnaireAuthorizationServiceImpl">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+    </bean>
 	
 </beans>

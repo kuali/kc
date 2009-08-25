@@ -24,11 +24,15 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.UnitAclEntry;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.service.impl.PersonServiceImpl;
+import org.kuali.kra.service.PersonService;
+import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.kra.kim.service.impl.PersonServiceImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -43,6 +47,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
 
 public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private DocumentService documentService;
+    private QuestionnaireAuthorizationService questionnaireAuthorizationService;
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -113,10 +118,11 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
         htmlData.setHref(htmlData.getHref().replace("maintenance", "../maintenanceQn"));
         // this method does not work because kim_roles_persons_t is empty
-        // boolean hadIrbAdminRole = ((PersonServiceImpl)KraServiceLocator.getService("kimPersonService")).hasRole(getUserName(),
+        Person person = KraServiceLocator.getService(PersonService.class).getPersonByName(getUserName());       
+        boolean hasPermission = questionnaireAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE);
         // RoleConstants.IRB_ADMINISTRATOR);
-        boolean hadIrbAdminRole = hasRole(RoleConstants.IRB_ADMINISTRATOR);
-        if (!hadIrbAdminRole
+        //boolean hadIrbAdminRole = hasRole(RoleConstants.IRB_ADMINISTRATOR);
+        if (!hasPermission
                 || !questionnaire.getQuestionnaireRefId().equals(((Questionnaire) businessObject).getQuestionnaireRefId())) {
             // if (!questionnaire.getQuestionnaireRefId().equals(((Questionnaire) businessObject).getQuestionnaireRefId())) {
             htmlData.setHref("../en/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="
@@ -132,7 +138,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
             htmlData2.setDisplayText("view");
             htmlDataList.add(htmlData2);
         }
-        if (hadIrbAdminRole) {
+        if (hasPermission) {
             AnchorHtmlData htmlData1 = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
             htmlData1.setHref(htmlData1.getHref().replace("maintenance", "../maintenanceQn"));
             htmlDataList.add(htmlData1);
@@ -149,26 +155,30 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         return user.getPersonUserIdentifier();
     }
 
-    private boolean hasRole(String roleName) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("name", roleName);
-        KimRole role = (KimRole) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(KimRole.class,
-                fieldValues);
+//    private boolean hasRole(String roleName) {
+//        Map<String, Object> fieldValues = new HashMap<String, Object>();
+//        fieldValues.put("name", roleName);
+//        KimRole role = (KimRole) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(KimRole.class,
+//                fieldValues);
+//
+//        Person person = ((PersonServiceImpl) KraServiceLocator.getService("personService")).getPersonByName(getUserName());
+//        String personId = person.getPersonId();
+//
+//        fieldValues = new HashMap<String, Object>();
+//        fieldValues.put("personId", personId);
+//        fieldValues.put("active", true);
+//        Collection<UnitAclEntry> aclList = KraServiceLocator.getService(BusinessObjectService.class).findMatching(
+//                UnitAclEntry.class, fieldValues);
+//        for (UnitAclEntry acl : aclList) {
+//            if (acl.getRoleId().equals(role.getId())) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
-        Person person = ((PersonServiceImpl) KraServiceLocator.getService("personService")).getPersonByName(getUserName());
-        String personId = person.getPersonId();
-
-        fieldValues = new HashMap<String, Object>();
-        fieldValues.put("personId", personId);
-        fieldValues.put("active", true);
-        Collection<UnitAclEntry> aclList = KraServiceLocator.getService(BusinessObjectService.class).findMatching(
-                UnitAclEntry.class, fieldValues);
-        for (UnitAclEntry acl : aclList) {
-            if (acl.getRoleId().equals(role.getId())) {
-                return true;
-            }
-        }
-        return false;
+    public void setQuestionnaireAuthorizationService(QuestionnaireAuthorizationService questionnaireAuthorizationService) {
+        this.questionnaireAuthorizationService = questionnaireAuthorizationService;
     }
 
 }

@@ -94,7 +94,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         questionNumber = 1;
         sqlScripts = "";
         retData = "";
-        editData = "";
+        //editData = "";
         action = "";
 
     }
