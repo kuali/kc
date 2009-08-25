@@ -84,6 +84,13 @@
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KRA-PD" p:parameterName="proposalDevelopmentHierarchyHelp" p:parameterDetailType="D"/>
+          </property>
+          <property name="headerTabDisplayName" value="Proposal Hierarchy"/>
+          <property name="headerTabNavigateTo" value="hierarchy"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
             <bean parent="HelpDefinition" p:parameterNamespace="KRA-PD" p:parameterName="proposalDevelopmentActionsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Proposal Actions"/>

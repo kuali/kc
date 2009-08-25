@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy;
 
+import java.util.List;
+
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -69,6 +72,17 @@ public class ProposalHierarcyActionHelper {
         catch (Exception e) {
             GlobalVariables.getErrorMap().putError("newHierarchyChildProposal.proposalNumber", "error.hierarchy.linkFailure", e.getMessage());
         }
+    }
+    
+    public List<HierarchyProposalSummary> getHierarchySummaries(String proposalNumber) {
+        List<HierarchyProposalSummary> retval = null;
+        try {
+            retval = getProposalHierarchyService().getProposalSummaries(proposalNumber);
+        }
+        catch (Exception e) {
+            GlobalVariables.getMessageList().add("error.hierarchy.displayFailure", e.getMessage());
+        }
+        return retval;
     }
 
     

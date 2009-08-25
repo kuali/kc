@@ -15,8 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.service;
 
+import java.util.List;
+
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
+import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchyChild;
 
 /**
@@ -83,6 +86,8 @@ public interface ProposalHierarchyService {
      * @throws ProposalHierarchyException if hierarchyProposalNumber is not a valid Hierarchy or does not exist
      */
     public void aggregateHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException;
+    
+    public List<HierarchyProposalSummary> getProposalSummaries(String proposalNumber) throws ProposalHierarchyException;
 
     public DevelopmentProposal getHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException;
     public ProposalHierarchyChild getHierarchyChild(String childProposalNumber) throws ProposalHierarchyException;
