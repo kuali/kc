@@ -25,7 +25,9 @@
                 Version:
             </th>
             <td align="left" valign="middle">
-                not yet implemented
+                <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.sequenceNumber" 
+                                          attributeEntry="${DataDictionary.Question.attributes.sequenceNumber}"
+                                          readOnly="true" />
             </td>
             <th align="right" valign="middle">
                 <kul:htmlAttributeLabel attributeEntry="${DataDictionary.Question.attributes.status}" />
