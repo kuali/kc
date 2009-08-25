@@ -20,6 +20,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,10 +37,13 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyChildComparable;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
+import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchyChild;
+import org.kuali.kra.proposaldevelopment.hierarchy.dao.ProposalHierarchyDao;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.rice.shim.UniversalUser;
@@ -58,6 +62,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private ProposalAuthorizationService proposalAuthorizationService;
+    private ProposalHierarchyDao proposalHierarchyDao;
 
     /**
      * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#createHierarchy(java.lang.String)
@@ -80,14 +85,13 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         newDoc.getDocumentHeader().setDocumentDescription(docDescription);
         UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
-        proposalAuthorizationService.addRole(username, RoleConstants.AGGREGATOR, newDoc);
         try {
             documentService.saveDocument(newDoc);
         }
         catch (WorkflowException x) {
             throw new ProposalHierarchyException("Error saving new document: " + x);
         }
-
+        proposalAuthorizationService.addRole(username, RoleConstants.AGGREGATOR, newDoc);
         linkToHierarchy(hierarchy.getProposalNumber(), initialChildProposalNumber);
 
         return hierarchy.getProposalNumber();
@@ -105,7 +109,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      *      java.lang.String)
      */
     public void linkToHierarchy(String hierarchyProposalNumber, String newChildProposalNumber) throws ProposalHierarchyException {
-        //DevelopmentProposal hierarchyProposal = getHierarchy(hierarchyProposalNumber);
+        DevelopmentProposal hierarchyProposal = getHierarchy(hierarchyProposalNumber);
         DevelopmentProposal newChildProposal = getDevelopmentProposal(newChildProposalNumber);
         if (newChildProposal.isInHierarchy()) {
             throw new ProposalHierarchyException("Proposal " + newChildProposalNumber + " is already a member of a hierarchy");
@@ -114,8 +118,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         ProposalHierarchyChild childBO = new ProposalHierarchyChild();
         childBO.setProposalNumber(newChildProposalNumber);
         childBO.setHierarchyProposalNumber(hierarchyProposalNumber);
+        hierarchyProposal.getChildren().add(childBO);
         businessObjectService.save(childBO);
         businessObjectService.save(newChildProposal);
+        businessObjectService.save(hierarchyProposal);
         synchronizeChild(newChildProposalNumber);
     }
 
@@ -396,6 +402,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         this.proposalAuthorizationService = proposalAuthorizationService;
     }
 
+    public void setProposalHierarchyDao(ProposalHierarchyDao proposalHierarchyDao) {
+        this.proposalHierarchyDao = proposalHierarchyDao;
+    }
+    
     /**
      * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getHierarchy(java.lang.String)
      */
@@ -417,6 +427,38 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if (child == null)
             throw new ProposalHierarchyException("Proposal " + childProposalNumber + " not found or not a child in a hierarchy");
         return child;
+    }
+
+    /**
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getProposalSummaries(java.lang.String)
+     */
+    public List<HierarchyProposalSummary> getProposalSummaries(String proposalNumber) throws ProposalHierarchyException {
+        List<HierarchyProposalSummary> summaries = new ArrayList<HierarchyProposalSummary>();
+        DevelopmentProposal hierarchy = null;
+        try {
+            hierarchy = getHierarchy(proposalNumber);
+        }
+        catch (ProposalHierarchyException x) {
+            try {
+                ProposalHierarchyChild child = getHierarchyChild(proposalNumber);
+                hierarchy = getHierarchy(child.getHierarchyProposalNumber());
+            }
+            catch (ProposalHierarchyException phx) {
+                throw new ProposalHierarchyException("Proposal " + proposalNumber + " is not a member of a hierarchy.");
+            }
+        }
+        List<String> proposalNumbers = new ArrayList<String>();
+        proposalNumbers.add(hierarchy.getProposalNumber());
+        List<ProposalHierarchyChild> children = hierarchy.getChildren();
+        for (ProposalHierarchyChild child : children) {
+            proposalNumbers.add(child.getProposalNumber());
+        }
+        
+        for (String number : proposalNumbers) {
+            summaries.add(proposalHierarchyDao.getProposalSummary(number));
+        }
+        
+        return summaries;
     }
 
     private DevelopmentProposal getDevelopmentProposal(String proposalNumber) {

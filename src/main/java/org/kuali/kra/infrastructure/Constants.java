@@ -109,6 +109,7 @@ public interface Constants {
     public static final String QUESTIONS_PAGE = "questions";
     public static final String PERMISSIONS_PAGE = "permissions";
     public static final String PROPOSAL_ACTIONS_PAGE = "actions";
+    public static final String HIERARCHY_PAGE = "hierarchy";
     public static final String ATTACHMENTS_PAGE = "abstractsAttachments";
     public static final String SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR = "SponsorProgramInformation";
     public static final String SPONSOR_PROGRAM_INFORMATION_PANEL_NAME = "Sponsor & Program Information";

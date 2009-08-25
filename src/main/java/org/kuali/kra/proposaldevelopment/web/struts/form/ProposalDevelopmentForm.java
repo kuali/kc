@@ -68,6 +68,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
+import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
@@ -152,6 +153,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private List<CongressionalDistrictHelper> otherOrganizationHelpers;
     private DevelopmentProposal newHierarchyProposal;
     private DevelopmentProposal newHierarchyChildProposal;
+    private List<HierarchyProposalSummary> hierarchyProposalSummaries;
    
 
     private String proposalFormTabTitle = "Print Sponsor Form Packages ";
@@ -200,6 +202,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         versionNumberForS2sOpportunity = null;
         setNewHierarchyChildProposal(new DevelopmentProposal());
         setNewHierarchyProposal(new DevelopmentProposal());
+        setHierarchyProposalSummaries(new ArrayList<HierarchyProposalSummary>());
     }
     
     //  TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
@@ -1463,4 +1466,48 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         return HierarchyStatusConstants.Child.code();
     }
 
+    /**
+     * Sets the hierarchyProposalSummaries attribute value.
+     * @param hierarchyProposalSummaries The hierarchyProposalSummaries to set.
+     */
+    public void setHierarchyProposalSummaries(List<HierarchyProposalSummary> hierarchyProposalSummaries) {
+        this.hierarchyProposalSummaries = hierarchyProposalSummaries;
+    }
+
+    /**
+     * Gets the hierarchyProposalSummaries attribute. 
+     * @return Returns the hierarchyProposalSummaries.
+     */
+    public List<HierarchyProposalSummary> getHierarchyProposalSummaries() {
+        return hierarchyProposalSummaries;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
+     */
+    @Override
+    public HeaderNavigation[] getHeaderNavigationTabs() {
+        HeaderNavigation[] tabs = super.getHeaderNavigationTabs();
+        List<HeaderNavigation> newTabs = new ArrayList<HeaderNavigation>();
+        if (!getDocument().getDevelopmentProposal().isInHierarchy()) {
+            for (HeaderNavigation tab : tabs) {
+                if (!tab.getHeaderTabNavigateTo().equals("hierarchy")) {
+                    newTabs.add(tab);
+                }
+            }
+            tabs = newTabs.toArray(new HeaderNavigation[newTabs.size()]);
+        }
+        return tabs;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#setHeaderNavigationTabs(org.kuali.rice.kns.datadictionary.HeaderNavigation[])
+     */
+    @Override
+    public void setHeaderNavigationTabs(HeaderNavigation[] headerNavigationTabs) {
+        // TODO Auto-generated method stub
+        super.setHeaderNavigationTabs(headerNavigationTabs);
+    }
+
+    
 }
