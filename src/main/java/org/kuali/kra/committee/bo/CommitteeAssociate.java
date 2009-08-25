@@ -19,22 +19,17 @@ import java.util.LinkedHashMap;
 
 import javax.persistence.Column;
 
-import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-
 /**
  * 
  * This class is to maintain repetitive coeus legacy code, committeeNumber & sequenceNumber, for Committee Bos.
  */
-public abstract class CommitteeAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<Committee> {
+public abstract class CommitteeAssociate extends CommitteeSequenceAssociate {
 
     private static final long serialVersionUID = -6350020738083606018L;
 
     @Column(name = "COMMITTEE_ID_FK")
     private Long committeeIdFk;
     
-    private Committee sequenceOwner;
-
     public Long getCommitteeIdFk() {
         return committeeIdFk;
     }
@@ -43,29 +38,11 @@ public abstract class CommitteeAssociate extends KraPersistableBusinessObjectBas
         this.committeeIdFk = committeeIdFk;
     }
 
-    public abstract boolean equals(Object obj);
-    
-    public abstract int hashCode();
-    
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
         map.put("committeeIdFk", this.getCommitteeIdFk());
         return map;
     }
-
-    public Committee getSequenceOwner() {
-        return this.sequenceOwner;
-    }
-
-    public void setSequenceOwner(Committee newOwner) {
-        this.sequenceOwner = newOwner;
-    }
-
-    public Integer getSequenceNumber() {
-        return this.sequenceOwner.getSequenceNumber();
-    }
-
-    public abstract void resetPersistenceState();
 
 }
