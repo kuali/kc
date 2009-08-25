@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.awardhierarchy;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -32,11 +33,35 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         businessObjectService.save(awardHierarchy);
     }
     
+    /**
+     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#persistAwardHierarchy(org.kuali.kra.award.awardhierarchy.AwardHierarchy, boolean)
+     */
+    public void persistAwardHierarchy(AwardHierarchy awardHierarchy, boolean recurse){
+        businessObjectService.save(awardHierarchy);
+        if(recurse && awardHierarchy.hasChildren()) {
+            for(AwardHierarchy childNode: awardHierarchy.getChildren()) {
+                persistAwardHierarchy(childNode, RECURSE_HIERARCHY);
+            }
+        }
+    }
+    
     public void createBasicHierarchy(String awardNumber){
         AwardHierarchy awardHierarchy = new AwardHierarchy();
         awardHierarchy.setRootAwardNumber(awardNumber);
         awardHierarchy.setAwardNumber(awardNumber);
         awardHierarchy.setParentAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
+    }
+    
+    public AwardHierarchy getAwardHierarchy(String awardNumber) {
+        return getAwardHierarchy(awardNumber, false);
+    }
+
+    public AwardHierarchy getAwardHierarchy(String awardNumber, boolean recurse) {
+        AwardHierarchy branchNode = findSingleAwardHierarchyNode(awardNumber);
+        if(recurse) {
+            recurseTree(branchNode);
+        }
+        return branchNode;
     }
     
     public Map<String, AwardHierarchy> getAwardHierarchy(String awardNumber, List<String> listForAwardHierarchySort){
@@ -102,6 +127,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      * 
      * Both awardHierarchy and mapOfChildren are being updated in same for loop so its not possible to have two separate methods for them.
      */
+    @SuppressWarnings("unchecked")
     private void createAwardHierarchyAndPrepareCollectionForSort(String awardNumber, Map<String, AwardHierarchy> awardHierarchies,
             Map<String, Collection<AwardHierarchy>> mapOfChildren, AwardHierarchy awardHierarchyRootNode) {
         
@@ -196,4 +222,21 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         this.businessObjectService = businessObjectService;
     }
 
+    AwardHierarchy findSingleAwardHierarchyNode(String awardNumber) {
+        Map<String, Object> identifiers = new HashMap<String, Object>();
+        identifiers.put("awardNumber", awardNumber);
+        return (AwardHierarchy) businessObjectService.findByPrimaryKey(AwardHierarchy.class, identifiers);
+    }
+    
+    @SuppressWarnings("unchecked")
+    void recurseTree(AwardHierarchy branchNode) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("parentAwardNumber", branchNode.getAwardNumber());
+        branchNode.setChildren(new ArrayList<AwardHierarchy>(businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, "awardNumber", true)));
+        if(branchNode.hasChildren()) {
+            for(AwardHierarchy childNode: branchNode.getChildren()) {
+                recurseTree(childNode);
+            }
+        }
+    }
 }
