@@ -52,8 +52,17 @@ import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.service.BusinessObjectServiceAdapter;
 import org.kuali.rice.kns.util.DateUtils;
 
+/**
+ * This test is broken and has been for some time.
+ * 
+ * Since the Budget object has been refactored out of the BudgetDocument, and the DevelopmentProposal has been refactored from the 
+ * ProposalDevelopmentDocument, the BudgetRatesService should be refactored to use those objects instead of the xxxDocument objects. 
+ * However, so many other classes depend on that service, we should tread carefully, adding to the BudgetRatesService instead of 
+ * changing the API. JF 
+ */
 public class BudgetRatesServiceTest {
     private static final String TRACK_AFFECTED_PERIOD_1 = "|1|";
     private static final String TRACK_AFFECTED_PERIOD_2 = "|2|";
@@ -394,6 +403,7 @@ public class BudgetRatesServiceTest {
         }
     }
     
+    @SuppressWarnings("unchecked")
     private void setRates(List rateList) {
         List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) rateList;         
         for(AbstractBudgetRate budgetRate: abstractBudgetRates) {
