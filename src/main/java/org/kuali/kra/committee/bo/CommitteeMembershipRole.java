@@ -22,16 +22,13 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
  * This class implements the committee membership role business object.
  * 
  */
-public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase
-                                     implements SequenceAssociate<Committee> {
+public class CommitteeMembershipRole extends CommitteeSequenceAssociate {
 
     private static final long serialVersionUID = 6048477313137155626L;
 
@@ -53,8 +50,6 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase
     
     private MembershipRole membershipRole;
     
-    private Committee sequenceOwner;
-
     public CommitteeMembershipRole() {
     }
 
@@ -148,18 +143,6 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase
         return hashMap;
     }
     
-    public Committee getSequenceOwner() {
-        return this.sequenceOwner;
-    }
-
-    public void setSequenceOwner(Committee newOwner) {
-        this.sequenceOwner = newOwner;
-    }
-
-    public Integer getSequenceNumber() {
-        return this.sequenceOwner.getSequenceNumber();
-    }
-
     public void resetPersistenceState() {
         setCommitteeMembershipRoleId(null);
     }
