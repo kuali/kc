@@ -134,6 +134,7 @@
 	<bean id="AwardReportTerm-frequencyCode" parent="AwardReportTerm-frequencyCode-parentBean" />
 	<bean id="AwardReportTerm-frequencyCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="frequencyCode" />
+		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Frequency" />
 		<property name="shortLabel" value="Frequency" />
@@ -157,6 +158,7 @@
 	<bean id="AwardReportTerm-frequencyBaseCode" parent="AwardReportTerm-frequencyBaseCode-parentBean" />
 	<bean id="AwardReportTerm-frequencyBaseCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="frequencyBaseCode" />
+		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Frequency Base" />
 		<property name="shortLabel" value="Frequency Base" />
@@ -208,7 +210,11 @@
 		<property name="shortLabel" value="Due Date" />
 		<property name="summary" value="Due Date" />
 		<property name="description" value="Due Date" />
-		<property name="required" value="false" />
+		<property name="required" value="true" />
+		<property name="validationPattern" >
+			<bean parent="DateValidationPattern" />
+		</property>
+		
 	</bean>
 
 	<bean id="AwardReportTerm-numberOfCopies" parent="AwardReportTerm-numberOfCopies-parentBean" />
