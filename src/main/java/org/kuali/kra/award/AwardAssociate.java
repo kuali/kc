@@ -89,7 +89,6 @@ public abstract class AwardAssociate extends KraPersistableBusinessObjectBase im
         LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
         map.put("awardNumber", awardNumber);
         map.put("sequenceNumber", sequenceNumber);
-        map.put("award", award);
         return map;
     }
 
