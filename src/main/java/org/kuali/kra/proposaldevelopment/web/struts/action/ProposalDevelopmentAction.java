@@ -49,6 +49,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
@@ -78,7 +79,8 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class ProposalDevelopmentAction extends ProposalActionBase {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAction.class);
-
+    private ProposalHierarcyActionHelper hierarchyHelper;
+    
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -108,7 +110,15 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         
         return forward;
     }
+
+    protected ProposalHierarcyActionHelper getHierarchyHelper() {
+        if (hierarchyHelper == null) {
+            hierarchyHelper = new ProposalHierarcyActionHelper();
+        }
+        return hierarchyHelper;
+    }
     
+
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
@@ -349,6 +359,12 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     
     public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward(Constants.PERMISSIONS_PAGE);
+    }
+    
+    public ActionForward hierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
+        pdForm.setHierarchyProposalSummaries(getHierarchyHelper().getHierarchySummaries(pdForm.getDocument().getDevelopmentProposal().getProposalNumber()));
+        return mapping.findForward(Constants.HIERARCHY_PAGE);
     }
     
     public ActionForward grantsGov(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

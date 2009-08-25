@@ -68,6 +68,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     private String proposalNumber;
     private String proposalTypeCode;
+    private ProposalType proposalType;
     private String continuedFrom;
     private String sponsorCode;
     private String activityTypeCode;
@@ -1747,6 +1748,22 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         hashMap.put("proposalNumber", getProposalNumber());
         hashMap.put("proposalTypeCode", getProposalTypeCode());
         return hashMap;
+    }
+
+    /**
+     * Sets the proposalType attribute value.
+     * @param proposalType The proposalType to set.
+     */
+    public void setProposalType(ProposalType proposalType) {
+        this.proposalType = proposalType;
+    }
+
+    /**
+     * Gets the proposalType attribute. 
+     * @return Returns the proposalType.
+     */
+    public ProposalType getProposalType() {
+        return proposalType;
     }
 
     /**
