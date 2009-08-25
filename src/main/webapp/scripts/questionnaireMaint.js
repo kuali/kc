@@ -2048,8 +2048,11 @@ $(document).ready(function() {
 	}); // #route
 
   $("#blanketApprove").click(function() {
-			return checkBeforeSubmit();
-	}); // #route
+		return checkBeforeSubmit();
+  }); // #route
+  $("#close").click(function() {
+		return checkBeforeSubmit();
+  }); // #close
   
   
 }); // document.ready
