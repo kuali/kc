@@ -19,12 +19,29 @@ import java.util.List;
 import java.util.Map;
 
 public interface AwardHierarchyService {
-
+    static boolean RECURSE_HIERARCHY = true;
+    static boolean DONT_RECURSE_HIERARCHY = false;
+    
     void persistAwardHierarchy(AwardHierarchy awardHierarchy);
+    
+    /**
+     * This method saves an awardHierarchy. If recurse is true, then all children are also saved; otherwise, just that node is saved
+     * @param awardHierarchy
+     * @param recurse
+     */
+    void persistAwardHierarchy(AwardHierarchy awardHierarchy, boolean recurse);
     
     Map<String, AwardHierarchy> getAwardHierarchy(String awardNumber, List<String> order);
     
-    void createBasicHierarchy(String awardNumber);
+    AwardHierarchy getAwardHierarchy(String awardNumber);
+    
+    /**
+     * This method loads the AwardHierarchy and recurses through all children (if any)
+     * @param rootAwardNumber
+     * @param recurse
+     * @return The AwardHierarchy tree branch starting with the node at awardNumber 
+     */
+    AwardHierarchy getAwardHierarchy(String awardNumber, boolean recurse);
     
     void createNewChildAward(String newAwardNumber, String parentAwardNumber, String rootAwardNumber);
     

@@ -104,7 +104,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     }
     
     public ActionForward copyAwardAsAChildInCurrentHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+        getLineToDelete(request);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
