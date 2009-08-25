@@ -25,6 +25,7 @@ import org.kuali.kra.rice.shim.KNSTestCase;
 import org.kuali.rice.core.config.spring.ConfigFactoryBean;
 import org.kuali.rice.core.lifecycle.Lifecycle;
 import org.kuali.rice.core.util.OrmUtils;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -59,6 +60,7 @@ public abstract class KcraNoDataTestBase extends KNSTestCase {
         super.setUp();
         documentService = getService(DocumentService.class);
         GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
         transactionalLifecycle = new TransactionalLifecycle();
         transactionalLifecycle.setTransactionManager(KNSServiceLocator.getTransactionManager());
         transactionalLifecycle.start();
@@ -70,6 +72,7 @@ public abstract class KcraNoDataTestBase extends KNSTestCase {
             transactionalLifecycle.stop();
         }
         GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setUserSession(null);
         super.tearDown();
         documentService = null;
     }
