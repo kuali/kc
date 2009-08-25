@@ -92,6 +92,8 @@ $(document).ready(function() {
                     $(this).attr("id","save");
                 } else if ($(this).attr("name") == 'methodToCall.blanketApprove') {
                     $(this).attr("id","blanketApprove");
+                } else if ($(this).attr("name") == 'methodToCall.close') {
+                    $(this).attr("id","close");
                 }   
             });
 //      $("#globalbuttons").children('input:eq(1)').attr("id","save");

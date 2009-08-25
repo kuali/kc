@@ -71,5 +71,9 @@ public interface PermissionConstants {
     public static final String MAINTAIN_MINUTES = "MAINTAIN_MINUTES";
     public static final String GENERATE_AGENDA = "GENERATE_AGENDA";
     
-    
+    /*
+     * Questionnaire Permissions
+     */
+    public static final String VIEW_QUESTIONNAIRE = "VIEW_QUESTIONNAIRE";
+    public static final String MODIFY_QUESTIONNAIRE = "MODIFY_QUESTIONNAIRE";
 }

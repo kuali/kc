@@ -15,22 +15,41 @@
  */
 package org.kuali.kra.questionnaire;
 
+import org.kuali.kra.bo.Person;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.kim.service.impl.PersonServiceImpl;
+import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.PersonService;
+import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class QuestionnaireLookupableImpl extends KualiLookupableImpl {
 
-//    @Override
-//    public String getCreateNewUrl() {
-//        // TODO Auto-generated method stub
-//        String url =  super.getCreateNewUrl();
-//        String appContext = ConfigContext.getCurrentContextConfig().getProperty(Constants.APP_CONTEXT_KEY);
-//        url = url.replace(url.substring(0, url.indexOf("<img")), "<a href=\"/"+appContext+"/questionnaireNew.do\">");
-//        return url;
-//    }
+    private QuestionnaireAuthorizationService questionnaireAuthorizationService;
+    // @Override
+    // public String getCreateNewUrl() {
+    // // TODO Auto-generated method stub
+    // String url = super.getCreateNewUrl();
+    // String appContext = ConfigContext.getCurrentContextConfig().getProperty(Constants.APP_CONTEXT_KEY);
+    // url = url.replace(url.substring(0, url.indexOf("<img")), "<a href=\"/"+appContext+"/questionnaireNew.do\">");
+    // return url;
+    // }
+    
+    @Override
     public String getCreateNewUrl() {
-        String url =  super.getCreateNewUrl();
-        url = url.replace("maintenance","../maintenanceQn");
+        String url = "";
+        if (questionnaireAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE)) {
+            url = super.getCreateNewUrl();
+            url = url.replace("maintenance", "../maintenanceQn");
+        }
         return url;
+    }
+
+    public void setQuestionnaireAuthorizationService(QuestionnaireAuthorizationService questionnaireAuthorizationService) {
+        this.questionnaireAuthorizationService = questionnaireAuthorizationService;
     }
 
 }
