@@ -16,6 +16,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="summaryIndex" required="true" %>
 <c:set var="proposalNumber" value="${KualiForm.hierarchyProposalSummaries[summaryIndex].proposalNumber}"/>
-<kul:tab tabTitle="Child (${proposalNumber})" defaultOpen="false" >
-	<kra-ph:proposalSummaryBody summaryIndex="${summaryIndex}" parentTabTitle="Child (${proposalNumber})" />
+<kul:tab tabTitle="Child (Proposal # ${proposalNumber})" defaultOpen="false" >
+	<kra-ph:proposalSummaryBody summaryIndex="${summaryIndex}" parentTabTitle="Child (Proposal # ${proposalNumber})" />
 </kul:tab>
