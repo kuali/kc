@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -71,24 +70,11 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * This method returns the locationName field, unless it is null, in which case
-     * the name of the organization or rolodex entity is returned, depending which one exists.
-     * @return The name of the Proposal Site
+     * This method returns the name of the Proposal Site
+     * @return 
      */
     public String getLocationName() {
-        String returnValue = null;
-        if (StringUtils.isEmpty(locationName)) {
-            if (organization != null) {
-                returnValue = organization.getOrganizationName();
-            }
-            else if (rolodex != null) {
-                returnValue = rolodex.getOrganization();
-            }
-        }
-        else
-            returnValue = locationName;
-        
-        return returnValue;
+        return locationName;
     }
 
     public void setLocationTypeCode(int locationTypeCode) {
