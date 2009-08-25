@@ -31,11 +31,13 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
     private static final String AWARD_REPORT_TERM_FREQUENCY_CODE_PROPERTY = "frequencyCode";
     private static final String AWARD_REPORT_TERM_FREQUENCY_BASE_CODE_PROPERTY = "frequencyBaseCode";
     private static final String AWARD_REPORT_TERM_DISTRIBUTION_PROPERTY = "ospDistributionCode";
+    private static final String AWARD_REPORT_TERM_DUE_DATE_PROPERTY = "dueDate";
     
     private static final String REPORT_CODE_ERROR_PARM = "Type (Type)";
     private static final String FREQUENCY_CODE_ERROR_PARM = "Frequency (Frequency)";
     private static final String FREQUENCY_BASE_CODE_ERROR_PARM = "Frequency Base (Frequency Base)";
     private static final String DISTRIBUTION_ERROR_PARM = "OSP File Copy  (OSP File Copy )";
+    private static final String DUE_DATE_ERROR_PARM = "Due Date (Due Date)";
 
     /**
      * 
@@ -100,7 +102,8 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         
         itemValid &= isFrequencyCodeFieldComplete(awardReportTermItem);
         itemValid &= isFrequencyBaseCodeFieldComplete(awardReportTermItem);
-        itemValid &= isDistributionFieldComplete(awardReportTermItem);        
+        itemValid &= isDistributionFieldComplete(awardReportTermItem);
+        itemValid &= isDueDateFieldComplete(awardReportTermItem);
         
         return itemValid;
     }
@@ -150,6 +153,16 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         
         if(!itemValid) {            
             reportError(AWARD_REPORT_TERM_DISTRIBUTION_PROPERTY, KeyConstants.ERROR_REQUIRED, DISTRIBUTION_ERROR_PARM);
+        }
+        
+        return itemValid;
+    }
+    
+    protected boolean isDueDateFieldComplete(AwardReportTerm awardReportTermItem) {
+        boolean itemValid = awardReportTermItem.getDueDate() != null;
+        
+        if (!itemValid) {
+            reportError(AWARD_REPORT_TERM_DUE_DATE_PROPERTY, KeyConstants.ERROR_REQUIRED, DUE_DATE_ERROR_PARM);
         }
         
         return itemValid;
