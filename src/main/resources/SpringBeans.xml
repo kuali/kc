@@ -1815,6 +1815,9 @@
         <property name="questionnaireDao">
             <ref bean="questionnaireDao" />
         </property>
+        <property name="questionnaireAuthorizationService">
+            <ref bean="questionnaireAuthorizationService" />
+        </property>
 	</bean>
 
     <bean id="questionnaireDao" parent="platformAwareDao" class="org.kuali.kra.questionnaire.QuestionnaireDaoOjb">
@@ -1873,6 +1876,7 @@
 
     <bean id="questionnaireAuthorizationService" class="org.kuali.kra.questionnaire.QuestionnaireAuthorizationServiceImpl">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="personService" ref="personService" />
     </bean>
 	
 </beans>

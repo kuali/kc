@@ -60,9 +60,9 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
             // Collections.sort((List<Questionnaire>) searchResults, Collections.reverseOrder());
             for (Questionnaire questionnaire : (List<Questionnaire>) searchResults) {
                 if (isFinal(questionnaire)) {
-                    //if (!questionnaireIds.contains(questionnaire.getQuestionnaireId()) && isFinal(questionnaire)) {
+                    // if (!questionnaireIds.contains(questionnaire.getQuestionnaireId()) && isFinal(questionnaire)) {
                     activeQuestionnaires.add(questionnaire);
-                    //questionnaireIds.add(questionnaire.getQuestionnaireId());
+                    // questionnaireIds.add(questionnaire.getQuestionnaireId());
                 }
             }
         }
@@ -95,17 +95,17 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
             // TODO : inject businessobjectservice
             Collection<Questionnaire> questionnaires = KraServiceLocator.getService(BusinessObjectService.class).findMatching(
                     Questionnaire.class, fieldValues);
-             if (questionnaires.size() > 0) {
-             qnaire = (Questionnaire) Collections.max(questionnaires);
-             }
-//            Collections.sort((List<Questionnaire>) questionnaires);
-//            Collections.reverse((List<Questionnaire>) questionnaires);
-//            for (Questionnaire questionnaire : (List<Questionnaire>) questionnaires) {
-//                if (isFinal(questionnaire)) {
-//                    qnaire = questionnaire;
-//                    break;
-//                }
-//            }
+            if (questionnaires.size() > 0) {
+                qnaire = (Questionnaire) Collections.max(questionnaires);
+            }
+            // Collections.sort((List<Questionnaire>) questionnaires);
+            // Collections.reverse((List<Questionnaire>) questionnaires);
+            // for (Questionnaire questionnaire : (List<Questionnaire>) questionnaires) {
+            // if (isFinal(questionnaire)) {
+            // qnaire = questionnaire;
+            // break;
+            // }
+            // }
         }
         return qnaire;
     }
@@ -118,17 +118,18 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
         htmlData.setHref(htmlData.getHref().replace("maintenance", "../maintenanceQn"));
         // this method does not work because kim_roles_persons_t is empty
-        Person person = KraServiceLocator.getService(PersonService.class).getPersonByName(getUserName());       
         boolean hasPermission = questionnaireAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE);
         // RoleConstants.IRB_ADMINISTRATOR);
-        //boolean hadIrbAdminRole = hasRole(RoleConstants.IRB_ADMINISTRATOR);
+        // boolean hadIrbAdminRole = hasRole(RoleConstants.IRB_ADMINISTRATOR);
         if (!hasPermission
                 || !questionnaire.getQuestionnaireRefId().equals(((Questionnaire) businessObject).getQuestionnaireRefId())) {
             // if (!questionnaire.getQuestionnaireRefId().equals(((Questionnaire) businessObject).getQuestionnaireRefId())) {
-            htmlData.setHref("../en/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="
-                    + ((Questionnaire) businessObject).getDocumentNumber());
-            htmlData.setDisplayText("view");
-            htmlDataList.add(htmlData);
+            if (questionnaireAuthorizationService.hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE)) {
+                htmlData.setHref("../en/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="
+                        + ((Questionnaire) businessObject).getDocumentNumber());
+                htmlData.setDisplayText("view");
+                htmlDataList.add(htmlData);
+            }
         }
         else {
             htmlDataList.add(htmlData);
@@ -155,27 +156,27 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         return user.getPersonUserIdentifier();
     }
 
-//    private boolean hasRole(String roleName) {
-//        Map<String, Object> fieldValues = new HashMap<String, Object>();
-//        fieldValues.put("name", roleName);
-//        KimRole role = (KimRole) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(KimRole.class,
-//                fieldValues);
-//
-//        Person person = ((PersonServiceImpl) KraServiceLocator.getService("personService")).getPersonByName(getUserName());
-//        String personId = person.getPersonId();
-//
-//        fieldValues = new HashMap<String, Object>();
-//        fieldValues.put("personId", personId);
-//        fieldValues.put("active", true);
-//        Collection<UnitAclEntry> aclList = KraServiceLocator.getService(BusinessObjectService.class).findMatching(
-//                UnitAclEntry.class, fieldValues);
-//        for (UnitAclEntry acl : aclList) {
-//            if (acl.getRoleId().equals(role.getId())) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+    // private boolean hasRole(String roleName) {
+    // Map<String, Object> fieldValues = new HashMap<String, Object>();
+    // fieldValues.put("name", roleName);
+    // KimRole role = (KimRole) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(KimRole.class,
+    // fieldValues);
+    //
+    // Person person = ((PersonServiceImpl) KraServiceLocator.getService("personService")).getPersonByName(getUserName());
+    // String personId = person.getPersonId();
+    //
+    // fieldValues = new HashMap<String, Object>();
+    // fieldValues.put("personId", personId);
+    // fieldValues.put("active", true);
+    // Collection<UnitAclEntry> aclList = KraServiceLocator.getService(BusinessObjectService.class).findMatching(
+    // UnitAclEntry.class, fieldValues);
+    // for (UnitAclEntry acl : aclList) {
+    // if (acl.getRoleId().equals(role.getId())) {
+    // return true;
+    // }
+    // }
+    // return false;
+    // }
 
     public void setQuestionnaireAuthorizationService(QuestionnaireAuthorizationService questionnaireAuthorizationService) {
         this.questionnaireAuthorizationService = questionnaireAuthorizationService;
