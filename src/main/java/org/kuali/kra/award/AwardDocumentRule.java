@@ -122,7 +122,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                             PermissionsRule,
                                                                             AwardReportTermRule,
                                                                             AwardReportTermRecipientRule,
-                                                                            AwardDirectFandADistributionRule,
                                                                             AwardCloseoutRule,
                                                                             AwardTemplateSyncRule,
                                                                             AwardCommentsRule {
@@ -179,14 +178,14 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return new AwardDetailsAndDatesRuleImpl().processAddAwardTransferringSponsorEvent(addAwardTransferringSponsorEvent);
     }
     
-    /**
-     * @see org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule#processAddAwardTransferringSponsorEvent
-     * (org.kuali.kra.award.rule.event.AddAwardTransferringSponsorEvent)
-     */
-    public boolean processAddAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent 
-                                                                                        awardDirectFandADistributionRuleEvent) {
-        return new AwardDirectFandADistributionRuleImpl().processAddAwardDirectFandADistributionBusinessRules(awardDirectFandADistributionRuleEvent);
-    }
+//    /**
+//     * @see org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule#processAddAwardTransferringSponsorEvent
+//     * (org.kuali.kra.award.rule.event.AddAwardTransferringSponsorEvent)
+//     */
+//    public boolean processAddAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent 
+//                                                                                        awardDirectFandADistributionRuleEvent) {
+//        return new AwardDirectFandADistributionRuleImpl().processAddAwardDirectFandADistributionBusinessRules(awardDirectFandADistributionRuleEvent);
+//    }
     
     /**
      * 
@@ -204,11 +203,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      */
     public boolean processAwardCloseoutBusinessRules(AwardCloseoutRuleEvent awardCloseoutRuleEvent) {
         return new AwardCloseoutRuleImpl().processAwardCloseoutBusinessRules(awardCloseoutRuleEvent);
-    }
-
-    public boolean processAwardDirectFandADistributionBusinessRules(
-            AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
-        return new AwardDirectFandADistributionRuleImpl().processAwardDirectFandADistributionBusinessRules(awardDirectFandADistributionRuleEvent);
     }
     
     /**
@@ -285,7 +279,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processApprovedEquipmentBusinessRules(errorMap, awardDocument);
         retval &= processApprovedForeignTravelBusinessRules(errorMap, awardDocument);
         retval &= processAwardReportTermBusinessRules(document);
-        retval &= processAwardDirectFandADistributionBusinessRules(document);
         retval &= processSaveAwardProjectPersonsBusinessRules(errorMap, awardDocument);
         retval &= processAwardPersonCreditSplitBusinessRules(awardDocument);
         retval &= processAwardPersonUnitCreditSplitBusinessRules(awardDocument);
@@ -363,31 +356,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return valid;
     }
     
-    /**
-    *
-    * process Direct F and A Distribution business rules.
-    * @param awardDocument
-    * @return
-    */
-    private boolean processAwardDirectFandADistributionBusinessRules(Document document) {
-        boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        AwardDocument awardDocument = (AwardDocument) document;
-        int i = 0;
-        List<AwardDirectFandADistribution> awardDirectFandADistributions = awardDocument.getAward().getAwardDirectFandADistributions();
-        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
-        errorMap.addToErrorPath(AWARD_ERROR_PATH);
-        String errorPath = "awardDirectFandADistribution[" + i + Constants.RIGHT_SQUARE_BRACKET;
-        errorMap.addToErrorPath(errorPath);
-        AwardDirectFandADistributionRuleEvent event = new AwardDirectFandADistributionRuleEvent(errorPath, 
-                                                               awardDocument, 
-                                                                   awardDirectFandADistributions);
-        valid &= new AwardDirectFandADistributionRuleImpl().processAwardDirectFandADistributionBusinessRules(event);
-        errorMap.removeFromErrorPath(errorPath);
-        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
-        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
-        return valid;
-    }
 
     /**
     *

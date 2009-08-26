@@ -1673,7 +1673,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         projectPersons = new ArrayList<AwardPerson>();
         awardUnitContacts = new ArrayList<AwardUnitContact>();
         sponsorContacts = new ArrayList<AwardSponsorContact>();
-        awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
         awardAmountInfos = new ArrayList<AwardAmountInfo>();
         AwardAmountInfo awardAmountInfo = new AwardAmountInfo();
         awardAmountInfo.setAward(this);        

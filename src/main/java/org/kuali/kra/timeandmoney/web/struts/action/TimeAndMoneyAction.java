@@ -29,13 +29,16 @@ import org.apache.ojb.broker.accesslayer.LookupException;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionBean;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
@@ -52,6 +55,26 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
+    
+    BusinessObjectService businessObjectService;
+    private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
+    
+    public TimeAndMoneyAction(){
+        awardDirectFandADistributionBean = new AwardDirectFandADistributionBean();
+    }
+    
+    /**
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+        forward = super.save(mapping, form, request, response);
+        getBusinessObjectService().save(timeAndMoneyForm.getTimeAndMoneyDocument().getAward());
+        return forward;
+    }
     
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -168,10 +191,16 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     private void populateOtherPanels(AwardAmountTransaction newAwardAmountTransaction, TimeAndMoneyForm timeAndMoneyForm, String goToAwardNumber)
             throws LookupException, SQLException {
         Award award = getActiveAwardVersion(goToAwardNumber);
-        
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
         timeAndMoneyDocument.setAwardNumber(award.getAwardNumber());
         timeAndMoneyDocument.setAward(award);
+        if(isNewAward(timeAndMoneyForm)){
+            AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
+            timeAndMoneyForm.getTimeAndMoneyDocument().getAward().setAwardDirectFandADistributions
+                                (awardDirectFandADistributionService.
+                                        generateDefaultAwardDirectFandADistributionPeriods(timeAndMoneyForm.getTimeAndMoneyDocument().getAward()));
+        }
+        
         
         TimeAndMoneyHistoryService tamhs = KraServiceLocator.getService(TimeAndMoneyHistoryService.class);
         
@@ -181,6 +210,24 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         tamass.populateActionSummary(timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems(), timeAndMoneyDocument.getAwardNumber());
         
         timeAndMoneyDocument.setNewAwardAmountTransaction(newAwardAmountTransaction);
+    }
+    
+    /**
+     * This method tests if the award is new by checking the size of AwardDirectFandADistributions on the Award.
+     * @param awardForm
+     * @return
+     */
+    public boolean isNewAward(TimeAndMoneyForm timeAndMoneyForm) {
+        return timeAndMoneyForm.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions().size() == 0;
+    }
+    
+    /**
+     * 
+     * This method is a helper method to retrieve AwardSponsorTermService.
+     * @return
+     */
+    protected AwardDirectFandADistributionService getAwardDirectFandADistributionService() {
+        return KraServiceLocator.getService(AwardDirectFandADistributionService.class);
     }
 
     /**
@@ -240,6 +287,65 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     
     public ActionForward submit(){
         return null;
+    }
+    
+    /**
+     * 
+     * This method adds a new AwardDirectFandADistribution to the list.  
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addAwardDirectFandADistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        awardDirectFandADistributionBean.addAwardDirectFandADistribution(((TimeAndMoneyForm) form).getAwardDirectFandADistributionBean());    
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method removes an AwardDirectFandADistribution from the list. 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteAwardDirectFandADistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+        timeAndMoneyForm.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions().remove(getLineToDelete(request));
+        awardDirectFandADistributionBean.updateBudgetPeriodsAfterDelete(timeAndMoneyForm.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * This method is used to recalculate the Total amounts in the Direct F and A Distribution panel.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward recalculateDirectFandADistributionTotals(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+       
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Gets the businessObjectService attribute. 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        return businessObjectService;
     }
 
 }
