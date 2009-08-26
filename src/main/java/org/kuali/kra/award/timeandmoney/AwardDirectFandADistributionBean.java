@@ -20,9 +20,10 @@ import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kns.service.KualiRuleService;
 
 /**
@@ -34,14 +35,14 @@ public class AwardDirectFandADistributionBean implements Serializable{
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 6274443203617122440L;
-    private AwardForm parent;
+    private TimeAndMoneyForm parent;
     private AwardDirectFandADistribution newAwardDirectFandADistribution;
     
     /**
      * Constructs a DirectFandADistributionFormHelper
      * @param parent
      */
-    public AwardDirectFandADistributionBean(AwardForm parent) {
+    public AwardDirectFandADistributionBean(TimeAndMoneyForm parent) {
         this.parent = parent;
         setNewAwardDirectFandADistribution (new AwardDirectFandADistribution());
     }
@@ -64,7 +65,7 @@ public class AwardDirectFandADistributionBean implements Serializable{
      * Gets the parent attribute. 
      * @return Returns the parent.
      */
-    public AwardForm getParent() {
+    public TimeAndMoneyForm getParent() {
         return parent;
     }
     
@@ -72,7 +73,7 @@ public class AwardDirectFandADistributionBean implements Serializable{
      * Sets the parent attribute value.
      * @param parent The parent to set.
      */
-    public void setParent(AwardForm parent) {
+    public void setParent(TimeAndMoneyForm parent) {
         this.parent = parent;
     }
     
@@ -81,8 +82,8 @@ public class AwardDirectFandADistributionBean implements Serializable{
      * This method returns the AwardDocument.
      * @return
      */
-    public AwardDocument getAwardDocument() {
-        return parent.getAwardDocument();
+    public TimeAndMoneyDocument getTimeAndMoneyDocument() {
+        return parent.getTimeAndMoneyDocument();
     }
 
     /**
@@ -108,9 +109,9 @@ public class AwardDirectFandADistributionBean implements Serializable{
      * @throws Exception
      */
     public boolean addAwardDirectFandADistribution(AwardDirectFandADistributionBean awardDirectFandADistributionBean) throws Exception {
-        AwardForm awardForm = awardDirectFandADistributionBean.getParent();
+        TimeAndMoneyForm timeAndMoneyForm = awardDirectFandADistributionBean.getParent();
         AwardDirectFandADistribution thisNewAwardDirectFandADistribution = awardDirectFandADistributionBean.getNewAwardDirectFandADistribution();
-            if (applyAddRulesToTarget(awardForm, thisNewAwardDirectFandADistribution)) {
+            if (applyAddRulesToTarget(timeAndMoneyForm, thisNewAwardDirectFandADistribution)) {
                 findIndexAndAddTarget(awardDirectFandADistributionBean);
             }
                 return true;
@@ -122,9 +123,9 @@ public class AwardDirectFandADistributionBean implements Serializable{
      * @param directFandADistributionFormHelper
      */
     private void findIndexAndAddTarget(AwardDirectFandADistributionBean awardDirectFandADistributionBean){
-        Award award = awardDirectFandADistributionBean.getAwardDocument().getAward();
+        Award award = awardDirectFandADistributionBean.getTimeAndMoneyDocument().getAward();
         List<AwardDirectFandADistribution> awardDirectFandADistributions = 
-                                            awardDirectFandADistributionBean.getAwardDocument().getAward().getAwardDirectFandADistributions();
+                                            awardDirectFandADistributionBean.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions();
         AwardDirectFandADistribution thisNewAwardDirectFandADistribution = awardDirectFandADistributionBean.getNewAwardDirectFandADistribution();
         int index = 0;
       //this logic for case where the target date range falls into a valid period between the last element of the list and project end date.
@@ -171,8 +172,8 @@ public class AwardDirectFandADistributionBean implements Serializable{
      * @param newAwardDirectFandADistribution
      * @return
      */
-    private boolean applyAddRulesToTarget(AwardForm awardForm, AwardDirectFandADistribution thisNewAwardDirectFandADistribution) {
-        return getKualiRuleService().applyRules(new AwardDirectFandADistributionRuleEvent("", awardForm.getAwardDocument(), 
+    private boolean applyAddRulesToTarget(TimeAndMoneyForm timeAndMoneyForm, AwardDirectFandADistribution thisNewAwardDirectFandADistribution) {
+        return getKualiRuleService().applyRules(new AwardDirectFandADistributionRuleEvent("", timeAndMoneyForm.getTimeAndMoneyDocument(), 
                                                                                             thisNewAwardDirectFandADistribution));
     }
     

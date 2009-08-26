@@ -68,7 +68,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
         
         this.awardDirectFandADistribution = awardDirectFandADistributionRuleEvent.getAwardDirectFandADistributionForValidation();
         List<AwardDirectFandADistribution> thisAwardDirectFandADistributions = 
-                                                awardDirectFandADistributionRuleEvent.getAwardDocument().getAward().getAwardDirectFandADistributions();
+                                                awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions();
         
         boolean isValid = true;
         
@@ -270,7 +270,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      */
     boolean isTargetStartAfterProjectStartDate(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         Date targetStartDate = awardDirectFandADistribution.getStartDate();
-        Date projectStartDate = awardDirectFandADistributionRuleEvent.getAwardDocument().getAward().getBeginDate();
+        Date projectStartDate = awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getAward().getBeginDate();
         boolean valid = true;
         if (projectStartDate.after(targetStartDate)) {
             valid = false;
@@ -287,7 +287,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      */
     boolean isTargetEndDatePriorToProjectEndDate(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         Date targetEndDate = awardDirectFandADistribution.getEndDate();
-        Date projectEndDate = awardDirectFandADistributionRuleEvent.getAwardDocument().getAward().getProjectEndDate();
+        Date projectEndDate = awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getAward().getProjectEndDate();
         boolean valid = true;
         if (projectEndDate.before(targetEndDate)) {
             valid = false;
