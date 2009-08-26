@@ -17,11 +17,10 @@
 
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 <c:set var="awardDirectFandADistributionAttributes" value="${DataDictionary.AwardDirectFandADistribution.attributes}" />
-<c:set var="action" value="awardTimeAndMoney" />
+<c:set var="action" value="timeAndMoney" />
 
 
-
-<kul:tab tabTitle="Direct/F&A Funds Distribution" defaultOpen="false" tabErrorKey="newAwardDirectFandADistribution.*,document.awardList[0].awardDirectFandADistribution*">
+<kul:tab tabItemCount="${KualiForm.document.awardNumber}" tabTitle="Direct/F&A Funds Distribution" defaultOpen="false" tabErrorKey="newAwardDirectFandADistribution.*,document.award.awardDirectFandADistribution*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Direct/F&A Funds Distribution</span>
@@ -29,22 +28,22 @@
         <table id="Direct-FandA-Funds-Distribution-table" cellpadding="0" cellspacing="0" summary="Direct F and A Distribution">
 			<tr>
 				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.beginDate}" useShortLabel="true" noColon="false" /></th>
-				<td  width="20%">          	  
-            	  	 ${KualiForm.document.awardList[0].beginDate}           	 
+				<td  width="20%" align="left">          	  
+        			<kul:htmlControlAttribute property="document.award.beginDate" attributeEntry="${awardAttributes.beginDate}" readOnly="true" />   	 
             	</td>
 				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.projectEndDate}" useShortLabel="true" noColon="false" /></th>
-				<td width="20%">
-            	  	${KualiForm.document.awardList[0].projectEndDate}
+				<td  width="20%" align="left">          	  
+        			<kul:htmlControlAttribute property="document.award.projectEndDate" attributeEntry="${awardAttributes.projectEndDate}" readOnly="true" />   	 
             	</td>
 			</tr>
 			<tr>
 				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.obligatedTotal}" useShortLabel="true" noColon="false" /></th>
 				<td width="20%">            	  	
-            	  	 $<fmt:formatNumber value="${KualiForm.document.awardList[0].obligatedTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />           	 
+            	  	 $<fmt:formatNumber value="${KualiForm.document.award.obligatedTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />           	 
             	</td>
 				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.anticipatedTotal}" useShortLabel="true" noColon="false" /></th>
 				<td width="20%">
-            	  	 $<fmt:formatNumber value="${KualiForm.document.awardList[0].anticipatedTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />
+            	  	 $<fmt:formatNumber value="${KualiForm.document.award.anticipatedTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />
             	</td>
 			</tr>
 			</table>
@@ -86,29 +85,29 @@
 					</div>
 	            </td>
 	         </tr>
-	          <c:forEach var="awardDirectFandADistribution" items="${KualiForm.document.awardList[0].awardDirectFandADistributions}" varStatus="status">
+	          <c:forEach var="awardDirectFandADistribution" items="${KualiForm.document.award.awardDirectFandADistributions}" varStatus="status">
 	             <tr>
 					<th width="6%" class="infoline">
 						<c:out value="${awardDirectFandADistribution.budgetPeriod}" />
 					</th>
 					<td width="17%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardDirectFandADistributions[${status.index}].startDate" attributeEntry="${awardDirectFandADistributionAttributes.startDate}" datePicker="true"/>
+                		<kul:htmlControlAttribute property="document.award.awardDirectFandADistributions[${status.index}].startDate" attributeEntry="${awardDirectFandADistributionAttributes.startDate}" datePicker="true"/>
 					</div>
 					</td>
 	                <td width="17%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardDirectFandADistributions[${status.index}].endDate" attributeEntry="${awardDirectFandADistributionAttributes.endDate}" datePicker="true"/>
+                		<kul:htmlControlAttribute property="document.award.awardDirectFandADistributions[${status.index}].endDate" attributeEntry="${awardDirectFandADistributionAttributes.endDate}" datePicker="true"/>
 					</div>
 	                </td>
 	                <td width="20%" valign="right">                	
 					<div align="right">
-                  		<kul:htmlControlAttribute property="document.awardList[0].awardDirectFandADistributions[${status.index}].directCost" attributeEntry="${awardDirectFandADistributionAttributes.directCost}"/> 
+                  		<kul:htmlControlAttribute property="document.award.awardDirectFandADistributions[${status.index}].directCost" attributeEntry="${awardDirectFandADistributionAttributes.directCost}"/> 
 					</div>
 					</td>
 	                <td width="20%" valign="right">                	
 					<div align="right">
-                  		<kul:htmlControlAttribute property="document.awardList[0].awardDirectFandADistributions[${status.index}].indirectCost" attributeEntry="${awardDirectFandADistributionAttributes.indirectCost}"/> 
+                  		<kul:htmlControlAttribute property="document.award.awardDirectFandADistributions[${status.index}].indirectCost" attributeEntry="${awardDirectFandADistributionAttributes.indirectCost}"/> 
 					</div>
 					</td>
 					<td width="10%">
@@ -123,12 +122,12 @@
           		<th align="right" colspan="3" scope="row"><div>Total:</div></th>
           		<th align="right">
           			<div align="right">  		                		
-	                	$<fmt:formatNumber value="${KualiForm.document.awardList[0].totalDirectFandADistributionDirectCostAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
+	                	$<fmt:formatNumber value="${KualiForm.document.award.totalDirectFandADistributionDirectCostAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
 	                </div>
 	         	</th>
 	         	<th align="right">
           			<div align="right">  		                		
-	                	$<fmt:formatNumber value="${KualiForm.document.awardList[0].totalDirectFandADistributionIndirectCostAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
+	                	$<fmt:formatNumber value="${KualiForm.document.award.totalDirectFandADistributionIndirectCostAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
 	                </div>
 	         	</th>
 	         	<th align="center" rowspan="2">
@@ -140,7 +139,7 @@
           		<th align="right" colspan="3" scope="row"><div>Total Anticipated(Direct + F&A):</div></th>
           		<th align="right" colspan="2">
           			<div align="right">  		                		
-	                	$<fmt:formatNumber value="${KualiForm.document.awardList[0].totalDirectFandADistributionAnticipatedCostAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
+	                	$<fmt:formatNumber value="${KualiForm.document.award.totalDirectFandADistributionAnticipatedCostAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
 	                </div>
 	         	</th>
 		</table>

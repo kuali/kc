@@ -20,6 +20,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
@@ -41,8 +42,8 @@ public class AwardDirectFandADistributionRuleEvent extends KraDocumentEventBase 
      * @param awardDirectFandADistribution
      */
     public AwardDirectFandADistributionRuleEvent(String errorPathPrefix, 
-                                                        AwardDocument awardDocument, AwardDirectFandADistribution awardDirectFandADistribution) {
-            super(DIRECT_FNA_DISTRIBUTION, errorPathPrefix, awardDocument);
+                                                        TimeAndMoneyDocument timeAndMoneyDocument, AwardDirectFandADistribution awardDirectFandADistribution) {
+            super(DIRECT_FNA_DISTRIBUTION, errorPathPrefix, timeAndMoneyDocument);
             this.awardDirectFandADistribution = awardDirectFandADistribution;
     }
     
@@ -53,9 +54,9 @@ public class AwardDirectFandADistributionRuleEvent extends KraDocumentEventBase 
      * @param awardDirectFandADistributions
      */
     public AwardDirectFandADistributionRuleEvent(String errorPathPrefix, 
-                                                        AwardDocument awardDocument, 
+                                                        TimeAndMoneyDocument timeAndMoneyDocument, 
                                                             List<AwardDirectFandADistribution> awardDirectFandADistributions) {
-            super(DIRECT_FNA_DISTRIBUTION, errorPathPrefix, awardDocument);
+            super(DIRECT_FNA_DISTRIBUTION, errorPathPrefix, timeAndMoneyDocument);
             this.awardDirectFandADistributions = awardDirectFandADistributions;
     }
     
@@ -63,8 +64,8 @@ public class AwardDirectFandADistributionRuleEvent extends KraDocumentEventBase 
      * Convenience method to return an AwardDocument
      * @return
      */
-    public AwardDocument getAwardDocument() {
-        return (AwardDocument) getDocument();
+    public TimeAndMoneyDocument getTimeAndMoneyDocument() {
+        return (TimeAndMoneyDocument) getDocument();
     }
     
     /**
