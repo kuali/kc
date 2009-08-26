@@ -243,7 +243,8 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
       
         Client client = ClientProxy.getClient(applicantWebService); 
         HTTPClientPolicy httpClientPolicy = new HTTPClientPolicy();
-        httpClientPolicy.setConnectionTimeout(3*60*1000);
+        httpClientPolicy.setConnectionTimeout(0);
+        httpClientPolicy.setReceiveTimeout(0);
 //        httpClientPolicy.setConnection(ConnectionType.KEEP_ALIVE);
         httpClientPolicy.setAllowChunking(false);
         HTTPConduit conduit = (HTTPConduit) client.getConduit();
