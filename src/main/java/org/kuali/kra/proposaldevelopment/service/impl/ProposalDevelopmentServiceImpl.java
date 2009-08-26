@@ -39,6 +39,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
@@ -74,26 +75,32 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     private BudgetVersionRule budgetVersionRule;
     
     /**
-     * This method...
+     * This method gets called from the "save" action. It initializes the applicant org. on the first save;
+     * it also sets the performing org. if the user didn't make a selection.
      * 
      * @param proposalDevelopmentDocument
-     * @param proposalOrganization
      */
     public void initializeUnitOrganzationLocation(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         Organization proposalOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getApplicantOrganization().getOrganization();
+        DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
 
-        // Unit number chosen, set Organzation, etc...
-        if (proposalDevelopmentDocument.getDevelopmentProposal().getOwnedByUnitNumber() != null && proposalOrganization == null) {
+        // Unit number chosen, set Applicant Organization
+        if (developmentProposal.getOwnedByUnitNumber() != null && proposalOrganization == null) {
             // get Lead Unit details
-            proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("ownedByUnit");
-            String organizationId = proposalDevelopmentDocument.getDevelopmentProposal().getOwnedByUnit().getOrganizationId();
+            developmentProposal.refreshReferenceObject("ownedByUnit");
+            String applicantOrganizationId = developmentProposal.getOwnedByUnit().getOrganizationId();
 
-            // get Organzation assoc. w/ Lead Unit, set applicant org and performing org
-            ProposalSite applicantOrganization = createProposalSite(organizationId, getNextSiteNumber(proposalDevelopmentDocument));
-            proposalDevelopmentDocument.getDevelopmentProposal().setApplicantOrganization(applicantOrganization);
+            // get Organzation assoc. w/ Lead Unit, set applicant org
+            ProposalSite applicantOrganization = createProposalSite(applicantOrganizationId, getNextSiteNumber(proposalDevelopmentDocument));
+            developmentProposal.setApplicantOrganization(applicantOrganization);
+        }
 
-            ProposalSite performingOrganization = createProposalSite(organizationId, getNextSiteNumber(proposalDevelopmentDocument));
-            proposalDevelopmentDocument.getDevelopmentProposal().setPerformingOrganization(performingOrganization);
+        // Set Performing Organization if not selected
+        ProposalSite performingOrganization = developmentProposal.getPerformingOrganization();
+        if (performingOrganization.getOrganization()==null && performingOrganization.getRolodex()==null) {
+            String applicantOrganizationId = developmentProposal.getOwnedByUnit().getOrganizationId();
+            performingOrganization = createProposalSite(applicantOrganizationId, getNextSiteNumber(proposalDevelopmentDocument));
+            developmentProposal.setPerformingOrganization(performingOrganization);
         }
     }
 
