@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.questionnaire;
 
+import java.util.List;
+
 public interface QuestionnaireService {
     void saveQuestionnaire(String sqlScripts, Questionnaire questionnaire);
     public void copyQuestionnaire(Questionnaire src, Questionnaire dest);
     public boolean isQuestionnaireNameExist(Integer questionnaireId, String name);
     public void copyQuestionnaireLists(Questionnaire src, Questionnaire dest);
+    public  List<String>  getAssociateModules();
 
 }

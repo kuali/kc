@@ -20,7 +20,7 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 
 	var div62 = $('<div/>');
 	var linktmp = $('<a style="margin-left:2px;"></a>').attr("id",
-			"listcontrol" + i).html(description);
+			"listcontrol" + i).attr("name","listcontrol" + i).html(description);
 	linktmp.click(function() {
 		var idx = $(this).attr("id").substring(11);
 		$(".hierarchydetail:not(#listcontent" + idx + ")").slideUp(300);
@@ -188,7 +188,7 @@ function getMaintTable(idx, childNode) {
 			newResponse.appendTo(tbl196);
 		} else {
 			if ($("#readOnly").attr("value") != 'true') {
-				alert($("#readOnly").attr("value"))
+				//alert($("#readOnly").attr("value"))
 			getAddRequirementRow(idx).appendTo(tbl196);
 			} else {
 				var divtmp = $('<div></div>').html("No Requirements for Display on this question. ");
@@ -516,64 +516,6 @@ function getQuestionActionSubTable(qnaireid) {
 
 }
 
-//function pasteCopyNode(nodeid) {
-//	var parentNode = $("#" + nodeid);
-//	var ulTag = parentNode.children('ul');
-//
-//	startnode = $("#" + copyNode);
-//	// alert("copy node " + $(startnode).attr("id").substring(8));
-//	qdesc = $('#qdesc' + $(startnode).attr("id").substring(8)).attr("value");
-//	qtypeid = $('#qtypeid' + $(startnode).attr("id").substring(8))
-//			.attr("value");
-//	i++;
-//	var listitem = getQuestionNew(qdesc, qtypeid, "V1.01", "true");
-//	var ultag = $('<ul></ul>');
-//	ultag.appendTo(listitem);
-//	var idx = listitem.attr("id").substring(8);
-//	$("#movedn" + idx).hide();
-//	if (listitem.prev().size() > 0) {
-//		$("#movedn" + listitem.prev().attr("id").substring(8)).show();
-//	}
-//
-//	// alert("node " + nodeid + "-" + parentNode.children('ul').size());
-//	listitem.appendTo(ulTag);
-//	// also need this to show 'folder' icon
-//	$('#example').treeview( {
-//		add : listitem
-//	});
-//
-//	$("#qnum" + idx).attr("value", $("#questionNumber").attr("value"));
-//	var qid = $("#qid" + $(startnode).attr("id").substring(8)).attr("value");
-//	$("#qid" + idx).attr("value", qid);
-//	var seqnum = Number($(listitem).siblings().size()) + 1;
-//	$("#qseq" + idx).attr("value", seqnum);
-//
-//	var liId = "li#" + nodeid;
-//	// var seqnum = Number($(liId).children('li').size())+1;
-//	var qid = $("#qid" + idx).attr("value");
-//	var qnum = $("#questionNumber").attr("value");
-//	var parentNum = $("#qnum" + $(liId).attr("id").substring(8)).attr("value");
-//	var insertValues = "insert into Q" + qid + "," + qnum + "," + parentNum
-//			+ ",'N','',''," + seqnum + ",user,sysdate)"
-//	addSqlScripts(insertValues);
-//	// alert("paste copy node " + sqlScripts);
-//	$("#questionNumber").attr("value",
-//			Number($("#questionNumber").attr("value")) + 1)
-//
-//	// alert("copy li c size " + $("#" + copyNode).attr("id") + "-"
-//	// + $("#" + copyNode).children('ul.eq(0)').children('li').size());
-//	if ($("#" + copyNode).children('ul.eq(0)').children('li').size() > 0) {
-//
-//		$("#" + copyNode).children('ul.eq(0)').children('li').each(
-//				function() {
-//					// alert("child copy node"
-//					// + $("deletereq" + $(this).attr("id").substring(8))
-//					// .size());
-//					pasteChild($(listitem).attr("id"), $(this).attr("id"));
-//				});
-//	}
-//
-//}
 
 /*
  * traverse thru the node to copy this node tree need to clone copy node,
@@ -917,6 +859,10 @@ function getMoveUpLink(curidx) {
 					// TODO : trying to group
 //				    $("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 					swapGroupId(curNode, nextNode);
+					//$("#listcontrol" + idx).click();
+					document.location.hash = 'listcontrol'+idx;
+					alert (document.location.hash);
+					//jumpToAnchor('listcontrol'+idx);
 				});
 	image.attr("src", "static/images/jquery/arrow-up.gif");
 	atag.html(image);
@@ -1989,7 +1935,7 @@ $("#nextGroup").click(function() {
 				"#listcontrol"
 						+ $(".group" + curgroup + ":eq(0)").attr("id")
 								.substring(8)).click();
-		jumpToAnchor('topOfForm');
+//		jumpToAnchor('topOfForm');
 	}
 	return false;
 
@@ -2014,7 +1960,7 @@ $("#prevGroup").click(function() {
 				"#listcontrol"
 						+ $(".group" + curgroup + ":eq(0)").attr("id")
 								.substring(8)).click();
-		jumpToAnchor('topOfForm');
+//		jumpToAnchor('topOfForm');
 	}
 	return false;
 

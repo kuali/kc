@@ -121,7 +121,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             }
             else {
                 if (!qnForm.isReadOnly()) {
-                    throw new RuntimeException("Don't have permission to view Questionnaire");
+                    //throw new RuntimeException("Don't have permission to view Questionnaire");
+                    qnForm.setReadOnly(true);
 
                 }
             }
@@ -196,6 +197,73 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         // ((MaintenanceDocumentBase) questionnaireForm.getDocument()).getNewMaintainableObject().setBusinessObject(questionnaire);
         ((MaintenanceDocumentBase) questionnaireForm.getDocument()).getNewMaintainableObject().setBusinessObject(copyQuestionnaire);
         // questionnaire.refreshReferenceObject("questionnaireQuestions");
+        questionnaireForm.setQuestionNumber(0);
+        Collections.sort(questionnaire.getQuestionnaireQuestions(), new QuestionnaireQuestionComparator());
+        String result = "parent-0";
+        Integer parentNumber = 0;
+        List<QuestionnaireQuestion> remainQuestions = new ArrayList<QuestionnaireQuestion>();
+        for (QuestionnaireQuestion question : questionnaire.getQuestionnaireQuestions()) {
+            if (!question.getParentQuestionNumber().equals(0)) {
+                remainQuestions.add((QuestionnaireQuestion) ObjectUtils.deepCopy(question));
+            }
+        }
+        for (QuestionnaireQuestion question : questionnaire.getQuestionnaireQuestions()) {
+            if (question.getQuestionNumber() > questionnaireForm.getQuestionNumber()) {
+                questionnaireForm.setQuestionNumber(question.getQuestionNumber());
+            }
+            // TODO : for now just load the 1st level question for editing
+            if (question.getParentQuestionNumber().equals(0)) {
+                // if (question.getParentQuestionNumber().compareTo(parentNumber) > 0) {
+                // parentNumber = question.getParentQuestionNumber();
+                // result = result + "#q#parent-" + parentNumber;
+                // }
+                // qqid/qid/seq/desc/qtypeid/qnum/cond/condvalue/parentqnum/questionseqnum
+                if (question.getQuestion() == null
+                        || !question.getQuestionRefIdFk().equals(question.getQuestion().getQuestionRefId())) {
+                    question.refreshReferenceObject("question");
+                }
+                String desc = question.getQuestion().getQuestion();
+                // TODO : : need to deal with '"' in questio's description
+                // also see QuestionLookupAction
+                if (desc.indexOf("\"") > 0) {
+                    desc = desc.replace("\"", "&#034;");
+                }
+                result = result + "#q#" + question.getQuestionnaireQuestionsId() + "#f#" + question.getQuestionRefIdFk() + "#f#"
+                        + question.getQuestionSeqNumber() + "#f#" + desc + "#f#" + question.getQuestion().getQuestionTypeId()
+                        + "#f#" + question.getQuestionNumber() + "#f#" + question.getCondition() + "#f#"
+                        + question.getConditionValue() + "#f#" + question.getParentQuestionNumber() + "#f#"
+                        + question.getQuestion().getSequenceNumber() + "#f#" + getQeustionResponse(question.getQuestion()) + "#f#"
+                        + question.getVersionNumber() + "#f#" + question.getConditionFlag();
+                String childrenResult = getChildren(question, remainQuestions);
+                if (StringUtils.isNotBlank(childrenResult)) {
+                    result = result + childrenResult;
+                }
+
+            }
+        }
+        questionnaireForm.setQuestionNumber(questionnaireForm.getQuestionNumber() + 1);
+        // if (StringUtils.isNotBlank(result)) {
+        // result = result.substring(0,result.length()-3);
+        // }
+        // TODO : test versioning
+        // Questionnaire qnaire = null;
+        // try {
+        // VersioningService versionService = new VersioningServiceImpl();
+        // qnaire = (Questionnaire) versionService.createNewVersion(questionnaire);
+        // }
+        // catch (Exception e) {
+        //
+        // }
+        // qnaire.getQuestionnaireId();
+        return result;
+
+
+    }
+    private String assembleQuestionsBeforeSave(QuestionnaireMaintenanceForm questionnaireForm) {
+
+        Questionnaire questionnaire = (Questionnaire) ((MaintenanceDocumentBase) questionnaireForm.getDocument())
+        // Questionnaire questionnaire = (Questionnaire) ((MaintenanceDocumentBase) questionnaireForm.getDocument())
+                .getNewMaintainableObject().getBusinessObject();
         questionnaireForm.setQuestionNumber(0);
         Collections.sort(questionnaire.getQuestionnaireQuestions(), new QuestionnaireQuestionComparator());
         String result = "parent-0";
@@ -400,22 +468,49 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             forward = super.route(mapping, form, request, response);
         }
         catch (Exception e) {
-            if (((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
-                    KNSConstants.MAINTENANCE_NEW_ACTION)
-                    && questionnaireRefId != null) {
-                // this is only for new action
-                // for edit, oldqrefid is null, so should not set here
-                ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
-                        .setQuestionnaireRefId(oldQuestionnaireRefId);
-            }
+            routeExceptionHandling(form, questionnaireRefId, oldQuestionnaireRefId);
+//            if (((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
+//                    KNSConstants.MAINTENANCE_NEW_ACTION)
+//                    && questionnaireRefId != null) {
+//                // this is only for new action
+//                // for edit, oldqrefid is null, so should not set here
+//                ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
+//                        .setQuestionnaireRefId(oldQuestionnaireRefId);
+//            }
+//            if (!((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
+//                    KNSConstants.MAINTENANCE_COPY_ACTION)) {
+//                // recover data
+//                qnForm.setEditData(qnForm.getRetData());
+//                qnForm.setRetData("");
+//            }
             throw e;
         }
         // if there is rule violation, then it will be redirected directly to jsp page. the following script will not be executed.
+        qnForm.setRetData("");
         postRoute(form);
         return forward;
 
     }
 
+    private void routeExceptionHandling(ActionForm form, Long questionnaireRefId, Long oldQuestionnaireRefId) {
+        QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
+        if (((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
+                KNSConstants.MAINTENANCE_NEW_ACTION)
+                && questionnaireRefId != null) {
+            // this is only for new action
+            // for edit, oldqrefid is null, so should not set here
+            ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
+                    .setQuestionnaireRefId(oldQuestionnaireRefId);
+        }
+        if (!((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
+                KNSConstants.MAINTENANCE_COPY_ACTION)) {
+            // recover data
+            qnForm.setEditData(qnForm.getRetData());
+            qnForm.setRetData("");
+        }
+       
+    }
+    
     private void preRoute(ActionForm form) {
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         Questionnaire oldBo = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getOldMaintainableObject()
@@ -434,10 +529,16 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             }
         }
         else {
+            // TODO need this before save to recover in case route failed
+            String questions = assembleQuestionsBeforeSave(qnForm);
+            String usages = assembleUsages(((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+                    .getNewMaintainableObject().getBusinessObject()));
+            qnForm.setRetData(questions + "#;#" + usages);
+
             saveQn(qnForm);
             // if (StringUtils.isNotBlank(qnForm.getSqlScripts())) {
-            String questions = assembleQuestions(qnForm);
-            String usages = assembleUsages(((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+            questions = assembleQuestions(qnForm);
+            usages = assembleUsages(((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
                     .getNewMaintainableObject().getBusinessObject()));
             qnForm.setEditData(questions + "#;#" + usages);
             // }
@@ -501,14 +602,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             forward = super.blanketApprove(mapping, form, request, response);
         }
         catch (Exception e) {
-            if (((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
-                    KNSConstants.MAINTENANCE_NEW_ACTION)
-                    && questionnaireRefId != null) {
-                // this is only for new action
-                // for edit, oldqrefid is null, so should not set here
-                ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
-                        .setQuestionnaireRefId(oldQuestionnaireRefId);
-            }
+            routeExceptionHandling(form, questionnaireRefId, oldQuestionnaireRefId);
             throw e;
         }
         postRoute(form);

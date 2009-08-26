@@ -16,11 +16,15 @@
 package org.kuali.kra.questionnaire;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.rice.kew.engine.node.KeyValuePair;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -31,7 +35,24 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     private QuestionnaireDao questionnaireDao;
     private BusinessObjectService businessObjectService;
-
+    private QuestionnaireAuthorizationService questionnaireAuthorizationService;
+    private Map <String, String> permissionModuleMap ;
+    private  static final String[] MODIFY_MODULES_PERMISSIONS = {PermissionConstants.MODIFY_PROPOSAL, PermissionConstants.MODIFY_PROTOCOL};
+    public QuestionnaireServiceImpl() {
+        super();
+        // TODO : (kcirb-378)this is a temporary to get questionnaire modules association list based on permission
+        
+        permissionModuleMap = new HashMap<String, String>();
+        //permissionModuleMap.put(PermissionConstants.MODIFY_AWARD,"1");
+//        permissionModuleMap.put(PermissionConstants.MODIFY_PROPOSAL,"2");
+        permissionModuleMap.put(PermissionConstants.MODIFY_PROPOSAL,"3");
+        //permissionModuleMap.put(PermissionConstants.MODIFY_PROTOCOL,"4");
+        //permissionModuleMap.put(PermissionConstants.MODIFY_PROTOCOL,"5");
+        //permissionModuleMap.put(PermissionConstants.MODIFY_PROTOCOL,"6");
+        permissionModuleMap.put(PermissionConstants.MODIFY_PROTOCOL,"7");
+        //permissionModuleMap.put(PermissionConstants.MODIFY_PROTOCOL,"8");
+    }
+    
     public void saveQuestionnaire(String sqlScripts, Questionnaire questionnaire) {
 //        if (questionnaire.getQuestionnaireRefId() != null) {
 //            Map pkMap = new HashMap();
@@ -117,4 +138,17 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         return obj;
     }
 
+    public List<String> getAssociateModules() {
+        List<String> modules = new ArrayList<String>();
+        for (String permission : MODIFY_MODULES_PERMISSIONS) {
+            if (questionnaireAuthorizationService.hasPermission(permission)) {
+                modules.add(permissionModuleMap.get(permission));
+            }
+        }
+        return modules;
+    }
+
+    public void setQuestionnaireAuthorizationService(QuestionnaireAuthorizationService questionnaireAuthorizationService) {
+        this.questionnaireAuthorizationService = questionnaireAuthorizationService;
+    }
 }
