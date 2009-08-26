@@ -37,7 +37,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyChildComparable;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
@@ -68,8 +67,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#createHierarchy(java.lang.String)
      */
     public String createHierarchy(String initialChildProposalNumber) throws ProposalHierarchyException {
+        DevelopmentProposal initialChild= getDevelopmentProposal(initialChildProposalNumber);
+        if (initialChild.isInHierarchy()) {
+            throw new ProposalHierarchyException("Cannot create hierarchy: proposal " + initialChildProposalNumber + " is already a member of a hierarchy.");
+        }
+        
         ProposalDevelopmentDocument newDoc;
-        DevelopmentProposal initialChild;
         DevelopmentProposal hierarchy;
         try {
             newDoc = (ProposalDevelopmentDocument) documentService.getNewDocument(ProposalDevelopmentDocument.class);
@@ -77,7 +80,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         catch (WorkflowException x) {
             throw new ProposalHierarchyException("Error creating new document: " + x);
         }
-        initialChild = getDevelopmentProposal(initialChildProposalNumber);
         hierarchy = newDoc.getDevelopmentProposal();
         copyInitialData(hierarchy, initialChild);
         hierarchy.setHierarchyStatus(HierarchyStatusConstants.Parent.code());
@@ -92,7 +94,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             throw new ProposalHierarchyException("Error saving new document: " + x);
         }
         proposalAuthorizationService.addRole(username, RoleConstants.AGGREGATOR, newDoc);
-        linkToHierarchy(hierarchy.getProposalNumber(), initialChildProposalNumber);
+        linkToHierarchy(hierarchy, initialChild);
 
         return hierarchy.getProposalNumber();
     }
@@ -111,18 +113,22 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     public void linkToHierarchy(String hierarchyProposalNumber, String newChildProposalNumber) throws ProposalHierarchyException {
         DevelopmentProposal hierarchyProposal = getHierarchy(hierarchyProposalNumber);
         DevelopmentProposal newChildProposal = getDevelopmentProposal(newChildProposalNumber);
+        linkToHierarchy(hierarchyProposal, newChildProposal);
+    }
+    
+    private void linkToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal) throws ProposalHierarchyException {
         if (newChildProposal.isInHierarchy()) {
-            throw new ProposalHierarchyException("Proposal " + newChildProposalNumber + " is already a member of a hierarchy");
+            throw new ProposalHierarchyException("Proposal " + newChildProposal.getProposalNumber() + " is already a member of a hierarchy");
         }
         newChildProposal.setHierarchyStatus(HierarchyStatusConstants.Child.code());
         ProposalHierarchyChild childBO = new ProposalHierarchyChild();
-        childBO.setProposalNumber(newChildProposalNumber);
-        childBO.setHierarchyProposalNumber(hierarchyProposalNumber);
+        childBO.setProposalNumber(newChildProposal.getProposalNumber());
+        childBO.setHierarchyProposalNumber(hierarchyProposal.getProposalNumber());
         hierarchyProposal.getChildren().add(childBO);
         businessObjectService.save(childBO);
         businessObjectService.save(newChildProposal);
         businessObjectService.save(hierarchyProposal);
-        synchronizeChild(newChildProposalNumber);
+        synchronizeChild(newChildProposal.getProposalNumber());        
     }
 
     private void copyInitialData(DevelopmentProposal hierarchyProposal, DevelopmentProposal srcProposal) throws ProposalHierarchyException {        
