@@ -512,20 +512,12 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward clearApplicantOrganization(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
-        proposalDevelopmentDocument.getDevelopmentProposal().setApplicantOrganization((ProposalSite)null);
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
     public ActionForward clearPerformingOrganization(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
-        proposalDevelopmentDocument.getDevelopmentProposal().setApplicantOrganization((ProposalSite)null);
+        
+        proposalDevelopmentDocument.getDevelopmentProposal().setPerformingOrganization(new ProposalSite());
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
