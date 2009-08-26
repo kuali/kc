@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -39,6 +40,7 @@ import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * 
@@ -59,6 +61,7 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     private List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems;
     private Award award;
     private AwardAmountTransaction newAwardAmountTransaction;
+    private List<AwardDirectFandADistribution> awardDirectFandADistributions;
     
     /**
      * Constructs a AwardDocument object
@@ -90,7 +93,8 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
         pendingTransactions = new ArrayList<PendingTransaction>();
         awardAmountTransactions = new ArrayList<AwardAmountTransaction>();
         timeAndMoneyHistory = new LinkedHashMap<Object, Object>();
-        timeAndMoneyActionSummaryItems = new ArrayList<TimeAndMoneyActionSummary>();        
+        timeAndMoneyActionSummaryItems = new ArrayList<TimeAndMoneyActionSummary>(); 
+        awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
     }
     
     @Override
@@ -302,4 +306,5 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     public void setRootAwardNumber(String rootAwardNumber) {
         this.rootAwardNumber = rootAwardNumber;
     }
+    
 }

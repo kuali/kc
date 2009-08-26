@@ -15,6 +15,14 @@
  */
 package org.kuali.kra.timeandmoney;
 
+import java.util.List;
+
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRule;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleEvent;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleImpl;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.AddTransactionRuleEvent;
@@ -30,11 +38,12 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * Responsible for delegating rules to independent rule classes.
  *
  */
-public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implements TransactionRule {
+public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implements TransactionRule, AwardDirectFandADistributionRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final boolean VALIDATION_REQUIRED = true;
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
+    public static final String AWARD_ERROR_PATH = "award";
 
 
     /**
@@ -55,9 +64,35 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
                 document, getMaxDictionaryValidationDepth(),
                 VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
-        
+        retval &= processAwardDirectFandADistributionBusinessRules(document);
         return retval;
-    }    
+    }
+    
+    /**
+    *
+    * process Direct F and A Distribution business rules.
+    * @param awardDocument
+    * @return
+    */
+    private boolean processAwardDirectFandADistributionBusinessRules(Document document) {
+        boolean valid = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) document;
+        int i = 0;
+        List<AwardDirectFandADistribution> awardDirectFandADistributions = timeAndMoneyDocument.getAward().getAwardDirectFandADistributions();
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        String errorPath = "awardDirectFandADistribution[" + i + Constants.RIGHT_SQUARE_BRACKET;
+        errorMap.addToErrorPath(errorPath);
+        AwardDirectFandADistributionRuleEvent event = new AwardDirectFandADistributionRuleEvent(errorPath, 
+                                                            timeAndMoneyDocument, 
+                                                                   awardDirectFandADistributions);
+        valid &= new AwardDirectFandADistributionRuleImpl().processAwardDirectFandADistributionBusinessRules(event);
+        errorMap.removeFromErrorPath(errorPath);
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        return valid;
+    }
 
 
     /**
@@ -81,6 +116,20 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
 
     public boolean processPendingTransactionBusinessRules(TransactionRuleEvent event) {
         return new TransactionRuleImpl().processPendingTransactionBusinessRules(event);
+    }
+
+    /**
+     * @see org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule#processAddAwardTransferringSponsorEvent
+     * (org.kuali.kra.award.rule.event.AddAwardTransferringSponsorEvent)
+     */
+    public boolean processAddAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent 
+                                                                                        awardDirectFandADistributionRuleEvent) {
+        return new AwardDirectFandADistributionRuleImpl().processAddAwardDirectFandADistributionBusinessRules(awardDirectFandADistributionRuleEvent);
+    }
+
+    public boolean processAwardDirectFandADistributionBusinessRules(
+            AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
+        return new AwardDirectFandADistributionRuleImpl().processAwardDirectFandADistributionBusinessRules(awardDirectFandADistributionRuleEvent);
     }
     
 }

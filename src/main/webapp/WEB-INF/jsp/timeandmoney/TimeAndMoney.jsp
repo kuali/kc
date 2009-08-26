@@ -30,6 +30,7 @@
 
 <kra-timeandmoney:awardHierarchyTimeAndMoney />
 <kra-timeandmoney:transactions />
+<kra-a:awardDirectFnAFundsDistribution />
 <kra-timeandmoney:summary />
 <kra-timeandmoney:actionSummary />
 <kra-timeandmoney:history />

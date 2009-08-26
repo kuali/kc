@@ -22,6 +22,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -39,6 +40,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      */
     private static final long serialVersionUID = 2737159069734793860L;
     private TransactionBean transactionBean;
+    private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
     private String goToAwardNumber;
     private List<String> order;
     private List<Integer> columnSpan;
@@ -52,6 +54,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     public void initialize() {
         initializeHeaderNavigationTabs();
         transactionBean = new TransactionBean(this);
+        awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         order = new ArrayList<String>();
         columnSpan = new ArrayList<Integer>();
     }
@@ -180,4 +183,21 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     public void setColumnSpan(List<Integer> columnSpan) {
         this.columnSpan = columnSpan;
     }
+    
+    /**
+     * Gets the awardDirectFandADistributionBean attribute. 
+     * @return Returns the awardDirectFandADistributionBean.
+     */
+    public AwardDirectFandADistributionBean getAwardDirectFandADistributionBean() {
+        return awardDirectFandADistributionBean;
+    }
+
+    /**
+     * Sets the awardDirectFandADistributionBean attribute value.
+     * @param awardDirectFandADistributionBean The awardDirectFandADistributionBean to set.
+     */
+    public void setAwardDirectFandADistributionBean(AwardDirectFandADistributionBean awardDirectFandADistributionBean) {
+        this.awardDirectFandADistributionBean = awardDirectFandADistributionBean;
+    }
+
 }

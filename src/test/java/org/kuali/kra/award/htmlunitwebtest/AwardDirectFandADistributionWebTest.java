@@ -26,7 +26,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  */
 public class AwardDirectFandADistributionWebTest extends AwardTimeAndMoneyWebTest {
     
-    private static final String NEW_AWARD_DIRECT_DISTRIBUTION_FIELD = "directFandADistributionFormHelper.newAwardDirectFandADistribution.";
+    private static final String NEW_AWARD_DIRECT_DISTRIBUTION_FIELD = "awardDirectFandADistributionBean.newAwardDirectFandADistribution.";
     private static final String START_DATE = "startDate";
     private static final String END_DATE = "endDate";
     private static final String DIRECT_COST = "directCost";
@@ -37,9 +37,9 @@ public class AwardDirectFandADistributionWebTest extends AwardTimeAndMoneyWebTes
     private static final String RESET_END_DATE = "03/28/2010";
     private static final String TEN_THOUSAND = "10000";
     private static final String TWENTY_FIVE_THOUSAND = "25000";
-    private static final String ADD_METHOD = "methodToCall.addAwardDirectFandADistribution.anchorDirectFAFundsDistribution";
+    private String ADD_METHOD = "methodToCall.addAwardDirectFandADistribution.anchorDirectFAFundsDistribution";
     private static final String SAVE_METHOD = "methodToCall.save";
-    private static final String END_DATE_FIELD_STRING = "document.awardList[0].awardDirectFandADistributions[0].endDate";
+    private static final String END_DATE_FIELD_STRING = "document.award.awardDirectFandADistributions[0].endDate";
     
     
 

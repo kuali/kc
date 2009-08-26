@@ -31,59 +31,59 @@ import org.kuali.kra.infrastructure.Constants;
  */
 public class AwardTimeAndMoneyAction extends AwardAction {    
   
-    private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
-    
-    public AwardTimeAndMoneyAction(){
-        awardDirectFandADistributionBean = new AwardDirectFandADistributionBean();
-    }
-    
-    /**
-     * 
-     * This method adds a new AwardDirectFandADistribution to the list.  
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward addAwardDirectFandADistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        awardDirectFandADistributionBean.addAwardDirectFandADistribution(((AwardForm) form).getAwardDirectFandADistributionBean());    
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * 
-     * This method removes an AwardDirectFandADistribution from the list. 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward deleteAwardDirectFandADistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm) form;
-        awardForm.getAwardDocument().getAward().getAwardDirectFandADistributions().remove(getLineToDelete(request));
-        awardDirectFandADistributionBean.updateBudgetPeriodsAfterDelete(awardForm.getAwardDocument().getAward().getAwardDirectFandADistributions());
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
-     * This method is used to recalculate the Total amounts in the Direct F and A Distribution panel.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return mapping forward
-     * @throws Exception
-     */
-    public ActionForward recalculateDirectFandADistributionTotals(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-       
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
+//    private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
+//    
+//    public AwardTimeAndMoneyAction(){
+//        awardDirectFandADistributionBean = new AwardDirectFandADistributionBean();
+//    }
+//    
+//    /**
+//     * 
+//     * This method adds a new AwardDirectFandADistribution to the list.  
+//     * @param mapping
+//     * @param form
+//     * @param request
+//     * @param response
+//     * @return
+//     * @throws Exception
+//     */
+//    public ActionForward addAwardDirectFandADistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+//            HttpServletResponse response) throws Exception {
+//        awardDirectFandADistributionBean.addAwardDirectFandADistribution(((AwardForm) form).getAwardDirectFandADistributionBean());    
+//        return mapping.findForward(Constants.MAPPING_BASIC);
+//    }
+//    
+//    /**
+//     * 
+//     * This method removes an AwardDirectFandADistribution from the list. 
+//     * @param mapping
+//     * @param form
+//     * @param request
+//     * @param response
+//     * @return
+//     * @throws Exception
+//     */
+//    public ActionForward deleteAwardDirectFandADistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+//            HttpServletResponse response) throws Exception {
+//        AwardForm awardForm = (AwardForm) form;
+//        awardForm.getAwardDocument().getAward().getAwardDirectFandADistributions().remove(getLineToDelete(request));
+//        awardDirectFandADistributionBean.updateBudgetPeriodsAfterDelete(awardForm.getAwardDocument().getAward().getAwardDirectFandADistributions());
+//        return mapping.findForward(Constants.MAPPING_BASIC);
+//    }
+//    
+//    /**
+//     * This method is used to recalculate the Total amounts in the Direct F and A Distribution panel.
+//     * 
+//     * @param mapping
+//     * @param form
+//     * @param request
+//     * @param response
+//     * @return mapping forward
+//     * @throws Exception
+//     */
+//    public ActionForward recalculateDirectFandADistributionTotals(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+//            HttpServletResponse response) throws Exception {
+//       
+//        return mapping.findForward(Constants.MAPPING_BASIC);
+//    }
 }

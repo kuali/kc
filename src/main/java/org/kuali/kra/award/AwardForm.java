@@ -106,7 +106,7 @@ public class AwardForm extends ProposalFormBase
     private SponsorTermFormHelper sponsorTermFormHelper;
     private ApprovedSubawardFormHelper approvedSubawardFormHelper;
     private DetailsAndDatesFormHelper detailsAndDatesFormHelper;
-    private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
+    //private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
     private AwardCloseoutBean awardCloseoutBean;
     
     private ReportClass reportClassForPaymentsAndInvoices;
@@ -164,7 +164,7 @@ public class AwardForm extends ProposalFormBase
         detailsAndDatesFormHelper = new DetailsAndDatesFormHelper(this);
         awardReportsBean = new AwardReportsBean(this);
         //directFandADistributionFormHelper = new DirectFandADistributionFormHelper(this);
-        awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
+        //awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         setPermissionsHelper(new PermissionsHelper(this));
         //sponsorTermTypes = new ArrayList<KeyLabelPair>();
         awardCreditSplitBean = new AwardCreditSplitBean(this);
@@ -543,21 +543,21 @@ public class AwardForm extends ProposalFormBase
         return awardCreditSplitBean;
     }
     
-    /**
-     * Gets the awardDirectFandADistributionBean attribute. 
-     * @return Returns the awardDirectFandADistributionBean.
-     */
-    public AwardDirectFandADistributionBean getAwardDirectFandADistributionBean() {
-        return awardDirectFandADistributionBean;
-    }
-
-    /**
-     * Sets the awardDirectFandADistributionBean attribute value.
-     * @param awardDirectFandADistributionBean The awardDirectFandADistributionBean to set.
-     */
-    public void setAwardDirectFandADistributionBean(AwardDirectFandADistributionBean awardDirectFandADistributionBean) {
-        this.awardDirectFandADistributionBean = awardDirectFandADistributionBean;
-    }
+//    /**
+//     * Gets the awardDirectFandADistributionBean attribute. 
+//     * @return Returns the awardDirectFandADistributionBean.
+//     */
+//    public AwardDirectFandADistributionBean getAwardDirectFandADistributionBean() {
+//        return awardDirectFandADistributionBean;
+//    }
+//
+//    /**
+//     * Sets the awardDirectFandADistributionBean attribute value.
+//     * @param awardDirectFandADistributionBean The awardDirectFandADistributionBean to set.
+//     */
+//    public void setAwardDirectFandADistributionBean(AwardDirectFandADistributionBean awardDirectFandADistributionBean) {
+//        this.awardDirectFandADistributionBean = awardDirectFandADistributionBean;
+//    }
 
     /**
      * @param awardCreditSplitBean
