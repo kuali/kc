@@ -34,7 +34,6 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyChildComparable;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchyChild;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
@@ -57,7 +56,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * This class...
  */
-public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements HierarchyChildComparable {
+public class DevelopmentProposal extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -9211313487776934111L;
 
@@ -1762,7 +1761,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.HierarchyChildComparable#hierarchyChildHashCode()
+     * Creates a hash of the data pertinent to a hierarchy for comparison during hierarchy syncing
      */
     public int hierarchyChildHashCode() {
         final int prime = 31;
