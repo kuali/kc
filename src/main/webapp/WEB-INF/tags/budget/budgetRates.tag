@@ -103,5 +103,8 @@
     </div>    
 </kul:tab>
 </c:forEach>
-<kul:panelFooter />
+
+<c:if test="${!empty KualiForm.document.budget.rateClassTypes}">
+    <kul:panelFooter />
+</c:if>
 </div>
