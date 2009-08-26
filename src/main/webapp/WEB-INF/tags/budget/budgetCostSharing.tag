@@ -29,12 +29,7 @@
 		<c:choose>
 			<c:when test="${KualiForm.costSharingEditFormVisible}">
 			<div id="costSharingAvailable">
-				<div class="h2-container">
-			    	<div class="h2-container">
-			    		<span class="subhead-left"><h2>Cost Sharing Distribution List</h2></span>
-			    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.distributionincome.BudgetCostShare" altText="help"/></span>
-			        </div>
-			    </div>
+		    	<h3><span class="subhead-left">Cost Sharing Distribution List</span></h3>
 				<div align="center">
 					<table id="budget-cost-sharing-table" cellpadding="0" cellspacing="0" summary="Budget Cost Shares">
 		
@@ -120,9 +115,7 @@
 			        </table>
 				</div>			
 			    
-				<div class="h2-container">
-					<span class="subhead-left"><h2>Cost Sharing Summary</h2></span>		    		
-				</div>
+				<h3>Cost Sharing Summary</h3>
 			
 				<div align="center">
 					<table id="budget-cost-sharing-summary-table" cellpadding="0" cellspacing="0" summary="Cost Sharing Amounts to be Allocated">

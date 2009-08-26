@@ -86,10 +86,7 @@
 			</c:forEach>
         </div><br/>
 		
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Add Details</h2></span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.personnel.BudgetPersonnelDetails" altText="help"/></span>
-        </div>
+   		<h3>Add Details</h3>
         <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 		<c:set target="${paramMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCodeKey}" />
         <table border="0" cellpadding=0 cellspacing=0 summary="">
