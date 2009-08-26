@@ -76,9 +76,11 @@
                         var answerMaxLength ;    
                         if (newQuestionTypeId == '6') {
                         	displayedAnswers = document.getElementById("newLookupClass").value;
-                            var patt1 = new RegExp(".", "g");
-                            patt1.test(str);
-                            displayAnswers.substring(patt1.lastIndex+1);
+                            if (displayedAnswers.indexOf(".") > 0) {
+                                var patt1 = new RegExp(".", "g");
+                                patt1.test(str);
+                                displayAnswers.substring(patt1.lastIndex+1);
+                            }
                             answerMaxLength = document.getElementById("newLookupReturn").value;
                         } else {
                             displayedAnswers = document.getElementById("newDisplayedAnswers").value;
@@ -94,7 +96,7 @@
                  if (document.getElementById("methodToCall").value != "refresh") {
                  	lookupBtn.click();
                  } else {
-                     //alert(document.getElementById("methodToCall").value);
+                   //  alert("else "+document.getElementById("methodToCall").value);
                  	returnQuestion();
                  	window.close();
                  }

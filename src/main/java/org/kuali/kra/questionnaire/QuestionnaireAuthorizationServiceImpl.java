@@ -16,9 +16,6 @@
 package org.kuali.kra.questionnaire;
 
 import org.kuali.kra.bo.Person;
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitAuthorizationService;
@@ -27,9 +24,9 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class QuestionnaireAuthorizationServiceImpl implements QuestionnaireAuthorizationService {
     
     private UnitAuthorizationService unitAuthorizationService;
-    
+    private PersonService personService;
     public boolean hasPermission(String permissionName){
-        Person person = KraServiceLocator.getService(PersonService.class).getPersonByName(getUserName());       
+        Person person = personService.getPersonByName(getUserName());       
         return unitAuthorizationService.hasPermission(getUserName(), person.getUnit().getUnitNumber(), permissionName);
 
     }
@@ -40,6 +37,10 @@ public class QuestionnaireAuthorizationServiceImpl implements QuestionnaireAutho
     
     public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
         this.unitAuthorizationService = unitAuthorizationService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 
 }

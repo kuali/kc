@@ -342,7 +342,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
                 String[] splitstr = ((String[])qstr)[0].split("#f#");
                 if (splitstr.length == 11) {
                 QuestionnaireQuestion question = new QuestionnaireQuestion();
-                if (StringUtils.isNotBlank(splitstr[0])) {
+                if (StringUtils.isNotBlank(splitstr[0]) && !splitstr[0].equals("null")) { // "null" is coming between js and java code
                 question.setQuestionnaireQuestionsId(Long.parseLong(splitstr[0]));
                 }
                 if (StringUtils.isNotBlank(splitstr[1])) {

@@ -16,8 +16,10 @@
 package org.kuali.kra.questionnaire;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.hibernate.validator.AssertFalse;
@@ -25,6 +27,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class QuestionnaireServiceTest {
@@ -32,6 +35,27 @@ public class QuestionnaireServiceTest {
         private Mockery context = new JUnit4Mockery();
 
 
+        @Test
+        public void testValidCodes() {
+
+            final QuestionnaireAuthorizationService questionnaireAuthorizationService = context.mock(QuestionnaireAuthorizationService.class);
+            final QuestionnaireServiceImpl questionnaireService = new QuestionnaireServiceImpl();
+            questionnaireService.setQuestionnaireAuthorizationService(questionnaireAuthorizationService);
+            context.checking(new Expectations() {{
+                one(questionnaireAuthorizationService).hasPermission(PermissionConstants.MODIFY_PROPOSAL);
+                will(returnValue(false));
+                one(questionnaireAuthorizationService).hasPermission(PermissionConstants.MODIFY_PROTOCOL);
+                will(returnValue(true));
+            }});
+
+            List<String> modules = questionnaireService.getAssociateModules();
+            assertTrue(modules.size() == 1);
+            assertEquals(modules.get(0), "7");
+
+            context.assertIsSatisfied();
+                        
+        }
+        
         @Test
         public void testIsQuestionnaireNameExistTrue() {
 
