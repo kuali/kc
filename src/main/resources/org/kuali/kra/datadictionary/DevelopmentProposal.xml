@@ -637,6 +637,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="title" />
         <bean parent="FieldDefinition"
+              p:attributeName="deadlineDate" />
+        <bean parent="FieldDefinition"
               p:attributeName="sponsorCode" />
         <bean parent="FieldDefinition"
               p:attributeName="ownedByUnitNumber" />
@@ -657,6 +659,8 @@
               p:attributeName="sponsorCode" />
         <bean parent="FieldDefinition"
               p:attributeName="ownedByUnitNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="deadlineDate" />
         <bean parent="FieldDefinition"
               p:attributeName="hierarchyStatusName" />
         <bean parent="FieldDefinition"

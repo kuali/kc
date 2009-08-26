@@ -851,9 +851,8 @@
                     <property name="permission" value="PRINT_PROPOSAL" />
                 </bean>
                 
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.SubmitToSponsorAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="submitToSponsor" />
-                    <property name="permission" value="SUBMIT_TO_SPONSOR" />
                 </bean>
                 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.SubmitToWorkflowAuthorizer" parent="parentProposalAuthorizer">

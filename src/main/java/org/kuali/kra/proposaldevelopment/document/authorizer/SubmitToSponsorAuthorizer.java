@@ -20,21 +20,19 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 
 /**
- * The Submit to Workflow Authorizer determines if the user can
- * submit a proposal to workflow.  This is only allowed if the
- * proposal is not already in workflow and the person has the
- * necessary permission and the proposal is not a child in a 
- * hierarchy.
+ * The Submit to Sponsor Authorizer determines if the user can
+ * submit a proposal to Sponsor.  This is only allowed if the
+ * person has the necessary permission and is not a child in a
+ * hierarchy
  */
-public class SubmitToWorkflowAuthorizer extends ProposalAuthorizer {
+public class SubmitToSponsorAuthorizer extends ProposalAuthorizer {
 
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
     public boolean isAuthorized(String username, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
-        return !kraWorkflowService.isInWorkflow(doc) &&
-               hasProposalPermission(username, doc, PermissionConstants.SUBMIT_PROPOSAL) &&
+        return hasProposalPermission(username, doc, PermissionConstants.SUBMIT_TO_SPONSOR) &&
                !doc.getDevelopmentProposal().isChild();
     }
 }

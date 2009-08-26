@@ -18,12 +18,10 @@ package org.kuali.kra.proposaldevelopment.hierarchy.dao.ojb;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.bo.Sponsor;
@@ -98,7 +96,7 @@ public class ProposalHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements 
         
         retval.setDeadlineDate((Date)result[11]);
         retval.setDeadlineType(lookupSponsorDeadlineTypeDescription(result[12]));
-        retval.setSponsorName((String)result[13]);
+        retval.setSponsorName(lookupSponsorName(result[13]));
         retval.setPrimeSponsorCode(lookupSponsorName(result[14]));
         retval.setNsfCode(lookupNsfCodeDescription(result[15]));
         retval.setAgencyDivisionCode((String)result[16]);
