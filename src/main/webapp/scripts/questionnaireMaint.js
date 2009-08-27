@@ -1,7 +1,7 @@
 
-var qprefix = "document.newMaintainableObject.businessObject.questionnaireQuestions[";
+//var qprefix = "document.newMaintainableObject.businessObject.questionnaireQuestions[";
 // for jquery 
-var jqprefix = "document\\.newMaintainableObject\\.businessObject\\.questionnaireQuestions\\[";
+//var jqprefix = "document\\.newMaintainableObject\\.businessObject\\.questionnaireQuestions\\[";
 
 var uprefix = "document.newMaintainableObject.businessObject.questionnaireUsages[";
 //for jquery 
@@ -26,7 +26,7 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 		$(".hierarchydetail:not(#listcontent" + idx + ")").slideUp(300);
 		if ($(this).parents('div:eq(0)').children('div:eq(0)').size() == 0) {
 			// var idx = $(this).attr("id").substring(11);
-			var vers = "1.00";
+			//var vers = "1.00";
 			// alert("set up table "+idx);
 			var divtmp = getMaintTable(idx, childNode);
 			divtmp.appendTo($(this).parents('div:eq(0)'));
@@ -47,10 +47,6 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
     $("#qansmax" + i).attr("value", ansmax);
     $("#qmaxlength" + i).attr("value", maxlength);
 
-	// if (i < 4) {
-	// alert(i+"-"+$("#qdesc" + i).attr("value")+"-"+$("#qtypeid" +
-	// i).attr("value"));
-	// }
 	return question;
 
 } // end addQuestion
@@ -77,10 +73,7 @@ function sethiddenfields() {
 	qntag = $('<input type="hidden" id = "qmaxlength" name = "qmaxlength" />').attr("id",
 			"qmaxlength" + i).attr("name", "qmaxlength" + i);
 	qntag.appendTo(hidtd);
-	// qntag = $('<input type="hidden" id = "newqtypeid" name = "newqtypeid"
-	// />')
-	// .attr("id", "newqtypeid" + i).attr("name", "newqtypeid" + i);
-	// qntag.appendTo(tdtmp);
+
 	qntag = $('<input type="hidden" id = "qnum" name = "qnum" />').attr("id",
 			"qnum" + i).attr("name", "qnum" + i);
 	qntag.appendTo(hidtd);
@@ -90,59 +83,10 @@ function sethiddenfields() {
 	qntag = $('<input type="hidden" id = "qtypeid" name = "qtypeid" />').attr(
 			"id", "qtypeid" + i).attr("name", "qtypeid" + i);
 	qntag.appendTo(hidtd);
-//	qntag = $('<input type="hidden" id = "cond" name = "cond" />').attr("id",
-//			"cond" + i).attr("name", "cond" + i);
-//	qntag.appendTo(hidtd);
-//	qntag = $('<input type="hidden" id = "condvalue" name = "condvalue" />')
-//			.attr("id", "condvalue" + i).attr("name", "condvalue" + i);
-//	qntag.appendTo(hidtd);
-	
-	
+		
 	qntag = $('<input type="hidden" id = "question" name = "question" />')
 	.attr("id", "qnaireQuestions[" + i+"]").attr("name", "qnaireQuestions[" + i+"]");
     qntag.appendTo(hidtd);
-//	qntag = $('<input type="hidden" id = "question" name = "question" />')
-//	.attr("id", qprefix + i+"].questionnaireQuestionsId").attr("name", qprefix + i+"].questionnaireQuestionsId");
-//    qntag.appendTo(hidtd);
-//    
-//	qntag = $('<input type="hidden" id = "question" name = "question" />')
-//	.attr("id", qprefix + i+"].questionnaireRefIdFk").attr("name", qprefix + i+"].questionnaireRefIdFk");
-//    qntag.appendTo(hidtd);
-//
-//    qntag = $('<input type="hidden" id = "question" name = "question" />')
-//	.attr("id", qprefix + i+"].questionRefIdFk").attr("name", qprefix + i+"].questionRefIdFk");
-//    qntag.appendTo(hidtd);
-//
-//    qntag = $('<input type="hidden" id = "question" name = "question" />')
-//	.attr("id", qprefix + i+"].questionNumber").attr("name", qprefix + i+"].questionNumber");
-//    qntag.appendTo(hidtd);
-//
-//    qntag = $('<input type="hidden" id = "question" name = "question" />')
-//	.attr("id", qprefix + i+"].parentQuestionNumber").attr("name", qprefix + i+"].parentQuestionNumber");
-//    qntag.appendTo(hidtd);
-//	qntag = $('<input type="hidden" id = "question" name = "question" />')
-//	.attr("id", qprefix + i+"].conditionFlag").attr("name", qprefix + i+"].conditionFlag");
-//    qntag.appendTo(hidtd);
-//	qntag = $('<input type="hidden" id = "question" name = "question" />')
-//	.attr("id", qprefix + i+"].condition").attr("name", qprefix + i+"].condition");
-//    qntag.appendTo(hidtd);
-//	qntag = $('<input type="hidden" id = "question" name = "question" />')
-//	.attr("id", qprefix + i+"].conditionValue").attr("name", qprefix + i+"].conditionValue");
-//    qntag.appendTo(hidtd);
-//
-////    qntag = $('<input type="hidden" id = "question" name = "question" />')
-////	.attr("id", qprefix + i+"].questionSeqNumber").attr("name", qprefix + i+"].questionSeqNumber");
-////    qntag.appendTo(hidtd);
-//
-//    qntag = $('<input type="hidden" id = "question" name = "question" />')
-//	.attr("id", qprefix + i+"].questionSeqNumber").attr("name", qprefix + i+"].questionSeqNumber");
-//    qntag.appendTo(hidtd);
-//	qntag = $('<input type="hidden" id = "question" name = "question" />')
-//	.attr("id", qprefix + i+"].versionNumber").attr("name", qprefix + i+"].versionNumber");
-//    qntag.appendTo(hidtd);
-//	qntag = $('<input type="hidden" id = "question" name = "question" />')
-//	.attr("id", qprefix + i+"].deleted").attr("name", qprefix + i+"].deleted");
-//    qntag.appendTo(hidtd);
 	
 	hidtd.appendTo(hidtr);
 	hidtr.hide(); // FF rendering issue. If not hided, then 'line' will be
@@ -861,7 +805,7 @@ function getMoveUpLink(curidx) {
 					swapGroupId(curNode, nextNode);
 					//$("#listcontrol" + idx).click();
 					document.location.hash = 'listcontrol'+idx;
-					alert (document.location.hash);
+					//alert (document.location.hash);
 					//jumpToAnchor('listcontrol'+idx);
 				});
 	image.attr("src", "static/images/jquery/arrow-up.gif");
@@ -949,7 +893,7 @@ function getAddQuestionRow(curidx) {
 			.attr("id", "addQn" + curidx)
 			.click(function() {
 				var idx = $(this).attr("id").substring(5);
-				 alert($("#newqdesc"+idx).attr("value")+"-"+$("#newqdispans"+idx).attr("value"))
+				 //alert($("#newqdesc"+idx).attr("value")+"-"+$("#newqdispans"+idx).attr("value"))
 					if ($("#newqdesc" + idx).attr("value") == ''
 							|| $("#newqtypeid" + idx).attr("value") == '') {
 						alert("Please select a question to add");
@@ -1355,7 +1299,7 @@ function checkToAddQn(nodeIndex) {
  */
 function returnQuestion(newQuestionId, newQuestion, newQuestionTypeId,newQuestionSequence,displayedAnswers,maxAnswers,answerMaxLength
 		,nodeIndex) {
-	 alert("return QNID "+ newQuestionSequence+"-"+displayedAnswers+"-"+maxAnswers+"-"+answerMaxLength);
+	 //alert("return QNID "+ newQuestionSequence+"-"+displayedAnswers+"-"+maxAnswers+"-"+answerMaxLength);
 	// TODO : these need to be defined in 'input' tag, otherwise, the value set
 	// will not stuck.
 	// questionid, description, and typeid returned from question lookup.
@@ -1615,7 +1559,7 @@ function swapGroupId(curNode, nextNode) {
 }
 
 function adjustGroup(idx) {
-	alert(idx + "-" + groupid + "-" + curgroup )
+	//alert(idx + "-" + groupid + "-" + curgroup )
 	while (idx < groupid) {
 		idx1 = Number(idx) + 1;
 		node = $(".group" + idx1 + ":eq(0)");
@@ -1794,7 +1738,7 @@ $("#addUsage")
 				//ucount = $("#usage-table").children('tbody:eq(0)').children(
 				//		'tr').size() - 1;
 				//ucount = ($("#usage-table").children('tbody:eq(0)').children('tr').size() - 2)/2 + 1;
-				alert(ucount)
+				//alert(ucount)
 				trtmp = $('<tr/>').attr("id", "usage" + ucount);
 				thtmp = $('<th class="infoline"/>').html(ucount);
 				thtmp.appendTo(trtmp);
@@ -1829,7 +1773,7 @@ $("#addUsage")
 												'td:eq(2)').html());
 								$("#utr"+$(this).attr("id").substring(11)).remove();
 								ucount--;
-								alert(ucount)
+								//alert(ucount)
 								//alert($(this).parents('tr:eq(0)').children('td:eq(2)').html())
 								// TODO : delete usage also need to update 'item
 								// number' in the first column
@@ -2079,7 +2023,7 @@ function checkBeforeSubmit() {
 
 			// TODO : FF seems to have trouble with "#;#"
 
-			alert(sqlScripts);
+			//alert(sqlScripts);
 			if (sqlScripts.indexOf("#;#") > 1) {
 				// if current sqlScripts is not in array yet
 				// 10 should be fine to use as check
@@ -2254,7 +2198,7 @@ function checkBeforeSubmit() {
 		//document.getElementById("newQuestionnaire.questionnaireRefId").value = $('#newQuestionnaire\\.questionnaireRefId').attr("value");
         // Note : hidden value "newQuestionnaire.questionnaireRefId" is still null in 'save' method.  although it shows value here before sent
 		// to 'save'.  not sure why
-		alert("return "+retval+"-"+document.getElementById("document.newMaintainableObject.businessObject.questionnaireRefId").value)
+		//alert("return "+retval+"-"+document.getElementById("document.newMaintainableObject.businessObject.questionnaireRefId").value)
 		return retval;  // comment for rice maint
 	
 }
