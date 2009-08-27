@@ -35,6 +35,7 @@ import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
@@ -62,7 +63,8 @@ public class ProtocolAmendRenewServiceTest extends KraTestBase {
     private static final String SUMMARY = "my test summary";
     
     private ProtocolAmendRenewServiceImpl protocolAmendRenewService;
-    private BusinessObjectService businessObjectService;   
+    private BusinessObjectService businessObjectService;
+    private DocumentService documentService;   
     
     @Before
     public void setUp() throws Exception {
@@ -70,8 +72,9 @@ public class ProtocolAmendRenewServiceTest extends KraTestBase {
         GlobalVariables.setUserSession(new UserSession("superuser"));
         protocolAmendRenewService = new ProtocolAmendRenewServiceImpl();
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        documentService = KraServiceLocator.getService(DocumentService.class);
         ProtocolCopyService copyService = KraServiceLocator.getService(ProtocolCopyService.class);
-        protocolAmendRenewService.setBusinessObjectService(businessObjectService);
+        protocolAmendRenewService.setDocumentService(documentService);
         protocolAmendRenewService.setProtocolCopyService(copyService);
         protocolAmendRenewService.setKraLookupDao(KraServiceLocator.getService(KraLookupDao.class));
     }
