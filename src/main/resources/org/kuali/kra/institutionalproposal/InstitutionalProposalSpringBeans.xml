@@ -59,5 +59,8 @@
             <ref bean="versioningService" />
         </property>
     </bean>
+    <bean id="institutionalProposalLockService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalLockServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
     
 </beans>

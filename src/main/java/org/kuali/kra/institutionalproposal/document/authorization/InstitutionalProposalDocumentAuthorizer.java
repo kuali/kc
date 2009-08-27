@@ -19,9 +19,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.service.KraWorkflowService;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class is the Institutional Proposal Document Authorizer.  It determines the edit modes and
@@ -34,10 +39,11 @@ public class InstitutionalProposalDocumentAuthorizer extends KcTransactionalDocu
      */
     public Set<String> getEditModes(Document document, Person user, Set<String> oldEditModes) {
         Set<String> editModes = new HashSet<String>();
-        if (super.canEdit(document)) {
-            editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-        } else {
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
+        if (getKraWorkflowService().isInWorkflow(institutionalProposalDocument) || institutionalProposalDocument.isViewOnly()) {
             editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
+        } else {
+            editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
         }
         return editModes;
     }
@@ -55,4 +61,12 @@ public class InstitutionalProposalDocumentAuthorizer extends KcTransactionalDocu
     public boolean canOpen(Document document, Person user) {
         return true;
     }
+    
+    /**
+     * @return
+     */
+    protected KraWorkflowService getKraWorkflowService() {
+        return KraServiceLocator.getService(KraWorkflowService.class);
+    }
+    
 }
