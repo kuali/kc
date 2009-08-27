@@ -21,22 +21,22 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * Handles the processing of submitting a protocol to the IRB office for review.
  */
 public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionService {
 
-    private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
     private ProtocolActionService protocolActionService;
     
     /**
-     * Set the business object service.
-     * @param businessObjectService the business office service
+     * Set the Document Service.
+     * @param documentService
      */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
     
     /**
@@ -54,10 +54,11 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * 
      * Also, for a submission, a Submission BO must be created.  It contains all of the relevant
      * data for a submission: type, checklists, reviewers, etc.
+     * @throws Exception 
      * 
      * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#submitToIrbForReview(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.submit.ProtocolSubmitAction)
      */
-    public void submitToIrbForReview(Protocol protocol, ProtocolSubmitAction submitAction) {
+    public void submitToIrbForReview(Protocol protocol, ProtocolSubmitAction submitAction) throws Exception {
         
         /*
          * The submission is saved first so that its new primary key can be added
@@ -76,7 +77,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         
-        businessObjectService.save(protocol.getProtocolDocument());
+        documentService.saveDocument(protocol.getProtocolDocument());
     }
     
     /**

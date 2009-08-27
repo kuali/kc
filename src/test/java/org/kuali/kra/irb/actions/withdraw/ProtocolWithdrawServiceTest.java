@@ -85,7 +85,7 @@ public class ProtocolWithdrawServiceTest extends KraTestBase {
     }
     
     @Test
-    public void testWithdrawal() throws WorkflowException {
+    public void testWithdrawal() throws Exception {
         ProtocolWithdrawBean withdrawBean = new ProtocolWithdrawBean();
         withdrawBean.setReason(REASON);
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();

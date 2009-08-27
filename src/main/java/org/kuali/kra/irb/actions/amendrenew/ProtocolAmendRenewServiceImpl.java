@@ -31,7 +31,8 @@ import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -50,16 +51,16 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     private static final String CREATED = "created";
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     
-    private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
     private ProtocolCopyService protocolCopyService;
     private KraLookupDao kraLookupDao;
     
     /**
-     * Set the Business Object Service.
-     * @param businessObjectService
+     * Set the Document Service.
+     * @param documentService
      */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
     
     /**
@@ -108,8 +109,8 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
         ProtocolAmendRenewal protocolAmendRenewal = createAmendmentRenewal(protocolDocument, renewProtocolDocument, null);
         renewProtocolDocument.getProtocol().setProtocolAmendRenewal(protocolAmendRenewal);
         
-        businessObjectService.save(protocolDocument);
-        businessObjectService.save(renewProtocolDocument);
+        documentService.saveDocument(protocolDocument);
+        documentService.saveDocument(renewProtocolDocument);
         
         return renewProtocolDocument.getDocumentNumber();
     }
@@ -136,16 +137,17 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * @param amendProtocolDocument the amended protocol document
      * @param amendmentBean the amendment bean info
      * @return
+     * @throws WorkflowException 
      */
     private String createAmendment(ProtocolDocument protocolDocument, ProtocolDocument amendProtocolDocument,
-                                   ProtocolAmendmentBean amendmentBean) {
+                                   ProtocolAmendmentBean amendmentBean) throws WorkflowException {
 
         ProtocolAmendRenewal protocolAmendRenewal = createAmendmentRenewal(protocolDocument, amendProtocolDocument, amendmentBean.getSummary());
         addModules(protocolAmendRenewal, amendmentBean);
         amendProtocolDocument.getProtocol().setProtocolAmendRenewal(protocolAmendRenewal);
         
-        businessObjectService.save(protocolDocument);
-        businessObjectService.save(amendProtocolDocument);
+        documentService.saveDocument(protocolDocument);
+        documentService.saveDocument(amendProtocolDocument);
         
         return amendProtocolDocument.getDocumentNumber();
     }
@@ -328,9 +330,12 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
         List<Protocol> protocols = getAmendmentAndRenewals(protocolNumber);
         for (Protocol protocol : protocols) {
             if (!isAmendmentCompleted(protocol)) {
-                List<ProtocolAmendRenewModule> modules = protocol.getProtocolAmendRenewal().getModules();
-                for (ProtocolAmendRenewModule module : modules) {
-                    moduleTypeCodes.remove(module.getProtocolModuleTypeCode());
+                ProtocolAmendRenewal amendRenewal = protocol.getProtocolAmendRenewal();
+                if (amendRenewal != null) {
+                    List<ProtocolAmendRenewModule> modules = amendRenewal.getModules();
+                    for (ProtocolAmendRenewModule module : modules) {
+                        moduleTypeCodes.remove(module.getProtocolModuleTypeCode());
+                    }
                 }
             }
         }
