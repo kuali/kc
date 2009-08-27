@@ -17,13 +17,16 @@ package org.kuali.kra.award.home.fundingproposal;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AwardFundingProposalBean implements Serializable {
     private static final long serialVersionUID = 7278945841002454778L;
@@ -36,6 +39,9 @@ public class AwardFundingProposalBean implements Serializable {
         createNewFundingProposal();
     }
 
+    /**
+     * This method adds a Funding Proposal
+     */
     public void addFundingProposal() {
         if(getNewFundingProposal() != null) {
             if(validateForAdd()) {
@@ -61,7 +67,7 @@ public class AwardFundingProposalBean implements Serializable {
      * @return Returns the newFundingProposal.
      */
     public InstitutionalProposal getNewFundingProposal() {
-        lazilyLoadFundingProposal(newFundingProposal.getProposalId());
+        lazilyLoadFundingProposal();
         return newFundingProposal;
     }
 
@@ -92,14 +98,40 @@ public class AwardFundingProposalBean implements Serializable {
         return awardForm.getAwardDocument().getAward();
     }
     
-    private void lazilyLoadFundingProposal(Long proposalId) {
-        if(proposalId != null && newFundingProposal.getProposalNumber() == null) {
-            Map<String, Object> identifiers = new HashMap<String, Object>();
-            identifiers.put("proposalId", proposalId);
-            newFundingProposal = (InstitutionalProposal) getBusinessObjectService().findByPrimaryKey(InstitutionalProposal.class, identifiers);
+    private void lazilyLoadFundingProposal() {
+        Long proposalId = newFundingProposal.getProposalId();
+        String proposalNumber = newFundingProposal.getProposalNumber();
+        InstitutionalProposal foundProposal = null;
+        if(proposalId != null && proposalNumber == null) {
+            foundProposal = findProposalById(proposalId);
+        } else if(proposalNumber != null && proposalId == null) {
+            foundProposal = findProposalByProposalNumber(proposalNumber);
+        }
+        if(foundProposal != null) {
+            newFundingProposal = foundProposal; 
         }
     }
+
+    private InstitutionalProposal findProposalById(Long proposalId) {
+        Map<String, Object> identifiers = new HashMap<String, Object>();
+        identifiers.put("proposalId", proposalId);
+        return (InstitutionalProposal) getBusinessObjectService().findByPrimaryKey(InstitutionalProposal.class, identifiers);
+    }
     
+    private InstitutionalProposal findProposalByProposalNumber(String proposalNumber) {
+        LookupableHelperService service = getInstitutionalProposalLookupService();
+        service.setBusinessObjectClass(InstitutionalProposal.class);
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("proposalNumber", proposalNumber);
+        @SuppressWarnings("unchecked") List foundProposals = service.getSearchResults(criteria);        
+        InstitutionalProposal proposal = foundProposals.size() == 1 ? (InstitutionalProposal) foundProposals.toArray()[0] : null;
+        return proposal;
+    }
+    
+    private LookupableHelperService getInstitutionalProposalLookupService() {
+        return KraServiceLocator.getService("institutionalProposalLookupableHelperService");
+    }
+
     private void performDataFeeds(Award award, InstitutionalProposal proposal) {
         new CommentsDataFeedCommand(award, proposal).performDataFeed();
         new SponsorDataFeedCommand(award, proposal).performDataFeed();
@@ -111,6 +143,14 @@ public class AwardFundingProposalBean implements Serializable {
     }
 
     private boolean validateForAdd() {
-        return newFundingProposal.getProposalNumber() != null;
+        boolean valid =  newFundingProposal.getProposalId() != null;
+        if(!valid) {
+            String msgArg = newFundingProposal.getProposalNumber();
+            if(msgArg == null) {
+                msgArg = "(empty)";
+            }
+            GlobalVariables.getErrorMap().putError("fundingProposalBean.newFundingProposal", "error.fundingproposal.not.found", msgArg);
+        }
+        return valid;
     }
 }
