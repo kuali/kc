@@ -15,21 +15,19 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalLockService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.rice.kns.service.PessimisticLockService;
 
 /**
  * This class...
@@ -185,6 +183,11 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
         ActionForward forward = super.docHandler(mapping, form, request, response);
         institutionalProposalForm.getInstitutionalProposalDocument().populateCustomAttributes();
         return forward;
+    }
+    
+    @Override
+    protected PessimisticLockService getPessimisticLockService() {
+        return KraServiceLocator.getService(InstitutionalProposalLockService.class);
     }
   
     
