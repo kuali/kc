@@ -22,7 +22,7 @@
 <c:set var="sponsorAttributes" value="${DataDictionary.Sponsor.attributes}" />
 <c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
 
-<kul:tab tabTitle="Funding Proposals" defaultOpen="false" tabErrorKey="document.award.fundingProposals*">
+<kul:tab tabTitle="Funding Proposals" defaultOpen="false" tabErrorKey="document.awardList[0].fundingProposals*,fundingProposalBean.newFundingProposal">
 	<div class="tab-container" align="right">
 		<h3><span class="subhead-left">Add Funding Proposals</span></h3>
 	
