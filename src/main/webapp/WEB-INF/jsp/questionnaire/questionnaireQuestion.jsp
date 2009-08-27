@@ -395,6 +395,12 @@ function loadQuestion() {
                 alert("qqid is null "+questions[k]);
             }    
 
+            if (field[6] == 'null') {
+                field[6] = ''
+            }        
+            if (field[7] == 'null') {
+                field[7] = ''
+            }        
             var tmpstr = field[0] +"#f#" +refid
             +"#f#" +field[1] +"#f#" +field[5] +"#f#" +field[8] +"#f#" +field[14] +"#f#" +field[6] +"#f#" +
             field[7] +"#f#" +field[2] +"#f#" +field[13] +"#f#" +"N" ;
