@@ -33,6 +33,7 @@ import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 
 /**
@@ -47,6 +48,8 @@ import org.kuali.rice.kns.service.DocumentService;
 public class ProtocolDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
 	
     private static final String DOCUMENT_TYPE_CODE = "PROT";
+    private static final String FINAL_STATE = "F";
+    private static final String DISAPPROVED_STATE = "D";
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -76,6 +79,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * @return
      */
     public Protocol getProtocol() {
+        if (protocolList.size() == 0) return null;
         return protocolList.get(0);
     }
 
@@ -117,7 +121,9 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.addAll(getProtocol().buildListOfDeletionAwareLists());
+        if (getProtocol() != null) {
+            managedLists.addAll(getProtocol().buildListOfDeletionAwareLists());
+        }
         managedLists.add(protocolList);
         return managedLists;
     }
@@ -192,27 +198,43 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * @throws Exception
      */
     private void mergeAmendment(String protocolStatusCode) throws Exception {
-        ProtocolFinderDao protocolFinder = KraServiceLocator.getService(ProtocolFinderDao.class);
-        Protocol currentProtocol = protocolFinder.findCurrentProtocolByNumber(getOriginalProtocolNumber());
+        Protocol currentProtocol = getProtocolFinder().findCurrentProtocolByNumber(getOriginalProtocolNumber());
         ProtocolDocument newProtocolDocument = createVersion(currentProtocol.getProtocolDocument());
         newProtocolDocument.getProtocol().merge(getProtocol());
         getProtocol().setProtocolStatusCode(protocolStatusCode);
         
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        documentService.saveDocument(this);
-        documentService.saveDocument(newProtocolDocument);
+        getDocumentService().saveDocument(newProtocolDocument);
+        
+        /*
+         * TODO: We have to route the new protocol document here so
+         * that it goes to the final state.
+         */
+     
+        getBusinessObjectService().save(this);
     }
     
+    private ProtocolFinderDao getProtocolFinder() {
+        return KraServiceLocator.getService(ProtocolFinderDao.class);
+    }
+    
+    private DocumentService getDocumentService() {
+        return KraServiceLocator.getService(DocumentService.class);
+    }
+    
+    private BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+
     private String getOriginalProtocolNumber() {
         return getProtocol().getProtocolNumber().substring(0, 10);
     }
 
     private boolean isFinal(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        return StringUtils.equals("F", statusChangeEvent.getNewRouteStatus());
+        return StringUtils.equals(FINAL_STATE, statusChangeEvent.getNewRouteStatus());
     }
     
     private boolean isDisapproved(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        return StringUtils.equals("D", statusChangeEvent.getNewRouteStatus());
+        return StringUtils.equals(DISAPPROVED_STATE, statusChangeEvent.getNewRouteStatus());
     }
     
     private boolean isRenewal() {
@@ -231,14 +253,26 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         VersioningService versioningService = KraServiceLocator.getService(VersioningService.class);
         Protocol newVersion = versioningService.createNewVersion(oldDoc.getProtocol());
         
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getNewDocument(ProtocolDocument.class);
+        ProtocolDocument protocolDocument = (ProtocolDocument) getDocumentService().getNewDocument(ProtocolDocument.class);
         protocolDocument.getDocumentHeader().setDocumentDescription(oldDoc.getDocumentHeader().getDocumentDescription());
-        protocolDocument.setDocumentNextvalues(new ArrayList<DocumentNextvalue>());
+      
+        fixNextValues(oldDoc, protocolDocument);
         protocolDocument.setProtocol(newVersion);
-            
-        documentService.saveDocument(protocolDocument);
+        newVersion.setProtocolDocument(protocolDocument);
         
         return protocolDocument;
+    }
+
+    private void fixNextValues(ProtocolDocument oldDoc, ProtocolDocument newDoc) {
+        List<DocumentNextvalue> newNextValues = new ArrayList<DocumentNextvalue>();
+        List<DocumentNextvalue> oldNextValues = oldDoc.getDocumentNextvalues();
+        for (DocumentNextvalue oldNextValue : oldNextValues) {
+            DocumentNextvalue newNextValue = new DocumentNextvalue();
+            newNextValue.setPropertyName(oldNextValue.getPropertyName());
+            newNextValue.setNextValue(oldNextValue.getNextValue());
+            newNextValue.setDocumentKey(newDoc.getDocumentNumber());
+            newNextValues.add(newNextValue);
+        }
+        newDoc.setDocumentNextvalues(newNextValues);
     }
 }

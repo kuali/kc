@@ -27,13 +27,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 
 @Entity 
 @Table(name="PROTOCOL_ACTIONS")
-public class ProtocolAction extends KraPersistableBusinessObjectBase { 
+public class ProtocolAction extends ProtocolAssociate { 
 
     private static final long serialVersionUID = -2148599171919464303L;
     
@@ -45,18 +45,9 @@ public class ProtocolAction extends KraPersistableBusinessObjectBase {
     
     @Column(name="ACTION_ID")
     private Integer actionId; 
-
-    @Column(name="PROTOCOL_NUMBER")
-    private String protocolNumber; 
-
-    @Column(name="SEQUENCE_NUMBER")
-    private Integer sequenceNumber;
     
     @Column(name = "SUBMISSION_NUMBER")
     private Integer submissionNumber;
-    
-    @Column(name = "PROTOCOL_ID")
-    private Long protocolId;
     
     @Column(name = "SUBMISSION_ID_FK")
     private Long submissionIdFk;
@@ -69,10 +60,6 @@ public class ProtocolAction extends KraPersistableBusinessObjectBase {
 
     @Column(name="ACTION_DATE")
     private Timestamp actionDate;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="PROTOCOL_ID", insertable=false, updatable=false)
-    private Protocol protocol;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="SUBMISSION_ID_FK", insertable=false, updatable=false)
@@ -123,36 +110,12 @@ public class ProtocolAction extends KraPersistableBusinessObjectBase {
         this.protocolActionTypeCode = protocolActionTypeCode;
     }
 
-    public String getProtocolNumber() {
-        return protocolNumber;
-    }
-
-    public void setProtocolNumber(String protocolNumber) {
-        this.protocolNumber = protocolNumber;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-    
     public void setSubmissionNumber(Integer submissionNumber) {
         this.submissionNumber = submissionNumber;
     }
 
     public Integer getSubmissionNumber() {
         return submissionNumber;
-    }
-    
-    public Long getProtocolId() {
-        return protocolId;
-    }
-
-    public void setProtocolId(Long protocolId) {
-        this.protocolId = protocolId;
     }
 
     public Long getSubmissionIdFk() {
@@ -177,14 +140,6 @@ public class ProtocolAction extends KraPersistableBusinessObjectBase {
 
     public void setActionDate(Timestamp actionDate) {
         this.actionDate = actionDate;
-    }
-
-    public Protocol getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
     }
 
     public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
@@ -217,6 +172,11 @@ public class ProtocolAction extends KraPersistableBusinessObjectBase {
         hashMap.put("comments", this.getComments());
         hashMap.put("actionDate", this.getActionDate());
         return hashMap;
+    }
+
+    public void resetPersistenceState() {
+        protocolActionId = null;
+        submissionIdFk = null;
     }
 
 }
