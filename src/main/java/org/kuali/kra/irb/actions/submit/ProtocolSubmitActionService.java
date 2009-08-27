@@ -26,6 +26,7 @@ public interface ProtocolSubmitActionService {
      * Submit a protocol to the IRB office for review.
      * @param protocol the protocol
      * @param submitAction the submission data
+     * @throws Exception 
      */
-    public void submitToIrbForReview(Protocol protocol, ProtocolSubmitAction submitAction);
+    public void submitToIrbForReview(Protocol protocol, ProtocolSubmitAction submitAction) throws Exception;
 }

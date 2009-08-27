@@ -16,7 +16,6 @@
 package org.kuali.kra.irb.actions;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_ABSTRACT_CONFIRMATION;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,8 +45,6 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.ProtocolTask;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -88,6 +85,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     public ActionForward copyProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
          
+       
         ProtocolForm protocolForm = (ProtocolForm) form;
        
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL);
@@ -100,9 +98,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             
             protocolForm.setDocId(newDocId);
             loadDocument(protocolForm);
+            protocolForm.getProtocolHelper().prepareView();
         
             return mapping.findForward(PROTOCOL_TAB);
         }
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -405,7 +405,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                                                      protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
                 return mapping.findForward(MAPPING_BASIC);
             }
-                
+                  
             String newDocId = getProtocolAmendRenewService().createAmendment(protocolForm.getProtocolDocument(), 
                                                                              protocolForm.getActionHelper().getProtocolAmendmentBean());
             // Switch over to the new protocol document and
@@ -546,25 +546,5 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     private ProtocolDeleteService getProtocolDeleteService() {
         return KraServiceLocator.getService(ProtocolDeleteService.class);
-    }
-
-    
-    /**
-     * Get the line number.
-     * 
-     * @param request the HTTP request
-     * @return the line number
-     */
-    private int getLineNum(HttpServletRequest request) {
-        
-        // If JavaScript is enabled, the line is returned to the web server
-        // as an HTTP parameter.  If not, it is embedded within the "methodToCall" syntax.
-        
-        String lineNumStr = request.getParameter("line");
-        try {
-            return Integer.parseInt(lineNumStr);
-        } catch (Exception ex) {
-            return this.getLineToDelete(request);
-        }
     }
 }

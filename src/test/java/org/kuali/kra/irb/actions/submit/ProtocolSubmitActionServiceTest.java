@@ -53,6 +53,7 @@ import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
@@ -95,6 +96,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
     private ProtocolSubmitActionServiceImpl protocolSubmitActionService;
     private BusinessObjectService businessObjectService;   
     private ProtocolActionService protocolActionService;
+    private DocumentService documentService;
     
     @SuppressWarnings("unchecked")
     @Before
@@ -105,8 +107,9 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         GlobalVariables.setAuditErrorMap(new HashMap());
         protocolSubmitActionService = new ProtocolSubmitActionServiceImpl();
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        documentService = KraServiceLocator.getService(DocumentService.class);
         protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
-        protocolSubmitActionService.setBusinessObjectService(businessObjectService);
+        protocolSubmitActionService.setDocumentService(documentService);
         protocolSubmitActionService.setProtocolActionService(protocolActionService);
     }
 
@@ -123,7 +126,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
      * and thus no errors should occur.
      */
     @Test
-    public void testSubmissionWithNoCommittee() throws WorkflowException {
+    public void testSubmissionWithNoCommittee() throws Exception {
         runTest("", "", VALID_REVIEW_TYPE, null, null, null);
     }
     
@@ -132,7 +135,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
      * and thus no errors should occur.
      */
     @Test
-    public void testSubmissionWithNoSchedule() throws WorkflowException {
+    public void testSubmissionWithNoSchedule() throws Exception {
         runTest("666", "", VALID_REVIEW_TYPE, null, null, null);
     }
    
@@ -141,7 +144,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
      * and thus no errors should occur.
      */
     @Test
-    public void testSubmissionWithNoReviewers() throws WorkflowException {
+    public void testSubmissionWithNoReviewers() throws Exception {
         runTest("667", "1", VALID_REVIEW_TYPE, null, null, null);
     }
     
@@ -150,7 +153,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
      * Only that selected reviewer will be added to the database.
      */
     @Test
-    public void testSubmissionWithReviewers() throws WorkflowException {
+    public void testSubmissionWithReviewers() throws Exception {
         runTest("668", "1", VALID_REVIEW_TYPE, getReviewers(), null, null);
     }
    
@@ -160,7 +163,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
      * one should appear in the database. 
      */
     @Test
-    public void testExemptCheckList() throws WorkflowException {
+    public void testExemptCheckList() throws Exception {
         runTest("669", "1", ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE, null, getExemptCheckList(), null);
     }
     
@@ -170,7 +173,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
      * one should appear in the database.  
      */
     @Test
-    public void testExpeditedCheckList() throws WorkflowException {
+    public void testExpeditedCheckList() throws Exception {
         runTest("670", "1", ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE, null, null, getExpeditedCheckList());
     }
     
@@ -180,7 +183,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
     private void runTest(String committeeId, String scheduleId, String protocolReviewTypeCode, 
                          List<ProtocolReviewerBean> reviewers,
                          List<ExemptStudiesCheckListItem> exemptStudiesCheckList,
-                         List<ExpeditedReviewCheckListItem> expeditedReviewCheckList) throws WorkflowException {
+                         List<ExpeditedReviewCheckListItem> expeditedReviewCheckList) throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         ProtocolSubmitAction submitAction = createSubmitAction(committeeId, scheduleId, protocolReviewTypeCode);
         if (reviewers != null) {
@@ -195,7 +198,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         if (!StringUtils.isBlank(committeeId)) {
             createCommittee(committeeId);
         }
-        protocolSubmitActionService.setBusinessObjectService(businessObjectService);
+        protocolSubmitActionService.setDocumentService(documentService);
         
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
     

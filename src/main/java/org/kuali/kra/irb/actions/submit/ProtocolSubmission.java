@@ -29,26 +29,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolAssociate;
 
 @Entity 
 @Table(name="PROTOCOL_SUBMISSION")
-public class ProtocolSubmission extends KraPersistableBusinessObjectBase { 
+public class ProtocolSubmission extends ProtocolAssociate { 
 
     private static final long serialVersionUID = -5443313755174483591L;
 
     @Id 
     @Column(name = "SUBMISSION_ID")
     private Long submissionId;
-    
-    @Column(name="PROTOCOL_NUMBER")
-    private String protocolNumber; 
-
-    @Column(name="SEQUENCE_NUMBER")
-    private Integer sequenceNumber; 
     
     @Column(name="SUBMISSION_NUMBER")
     private Integer submissionNumber; 
@@ -59,9 +53,6 @@ public class ProtocolSubmission extends KraPersistableBusinessObjectBase {
     @Column(name="COMMITTEE_ID")
     private String committeeId; 
 
-    @Column(name = "PROTOCOL_ID")
-    private Long protocolId;
-    
     @Column(name = "COMITTEE_ID_FK")
     private Long committeeIdFk;
     
@@ -111,18 +102,16 @@ public class ProtocolSubmission extends KraPersistableBusinessObjectBase {
     @JoinColumn(name="SUBMISSION_TYPE_QUAL_CODE", insertable=false, updatable=false)
     private ProtocolSubmissionQualifierType protocolSubmissionQualifierType;
     
+    @SkipVersioning
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="SCHEDULE_ID_FK", insertable=false, updatable=false)
     private CommitteeSchedule committeeSchedule;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="PROTOCOL_ID", insertable=false, updatable=false)
-    private Protocol protocol;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="PROTOCOL_REVIEW_TYPE_CODE", insertable=false, updatable=false)
     private ProtocolReviewType protocolReviewType;
     
+    @SkipVersioning
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="COMMITTEE_ID_FK", insertable=false, updatable=false)
     private Committee committee;
@@ -151,22 +140,6 @@ public class ProtocolSubmission extends KraPersistableBusinessObjectBase {
         this.submissionNumber = submissionNumber;
     }
 
-    public String getProtocolNumber() {
-        return protocolNumber;
-    }
-
-    public void setProtocolNumber(String protocolNumber) {
-        this.protocolNumber = protocolNumber;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-
     public String getScheduleId() {
         return scheduleId;
     }
@@ -181,14 +154,6 @@ public class ProtocolSubmission extends KraPersistableBusinessObjectBase {
     
     public void setCommitteeId(String committeeId) {
         this.committeeId = committeeId;
-    }
-    
-    public Long getProtocolId() {
-        return protocolId;
-    }
-    
-    public void setProtocolId(Long protocolId) {
-        this.protocolId = protocolId;
     }
     
     public Long getCommitteeIdFk() {
@@ -311,14 +276,6 @@ public class ProtocolSubmission extends KraPersistableBusinessObjectBase {
         return protocolReviewers;
     }
 
-    public Protocol getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
-    }
-
     public ProtocolReviewType getProtocolReviewType() {
         return protocolReviewType;
     }
@@ -393,5 +350,11 @@ public class ProtocolSubmission extends KraPersistableBusinessObjectBase {
         hashMap.put("exemptStudiesCheckList", getExemptStudiesCheckList());
         hashMap.put("expeditedReviewCheckList", getExpeditedReviewCheckList());
         return hashMap;
+    }
+
+    public void resetPersistenceState() {
+        submissionId = null;
+        committeeIdFk = null;
+        scheduleIdFk = null;
     }
 }
