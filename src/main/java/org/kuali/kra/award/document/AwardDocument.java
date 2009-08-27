@@ -422,7 +422,7 @@ public class AwardDocument extends BudgetParentDocument implements  Copyable, Se
     public ExtraButton configureReturnToParentTopButton() {
         ExtraButton returnToProposalButton = new ExtraButton();
         returnToProposalButton.setExtraButtonProperty(RETURN_TO_AWARD_METHOD_TO_CALL);
-        returnToProposalButton.setExtraButtonSource(buildExtraButtonSourceURI("tinybutton-retprop.gif"));
+        returnToProposalButton.setExtraButtonSource(buildExtraButtonSourceURI("tinybutton-returntoaward.gif"));
         returnToProposalButton.setExtraButtonAltText(RETURN_TO_AWARD_ALT_TEXT);
         
         return returnToProposalButton;
