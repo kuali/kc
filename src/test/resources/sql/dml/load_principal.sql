@@ -39,4 +39,19 @@ insert into KRIM_GRP_MBR_T(GRP_MBR_ID,GRP_ID,MBR_ID,MBR_TYP_CD,LAST_UPDT_DT,OBJ_
 insert into KRIM_GRP_MBR_T(GRP_MBR_ID,GRP_ID,MBR_ID,MBR_TYP_CD,LAST_UPDT_DT,OBJ_ID,VER_NBR) 
   VALUES ('1501','2','quickstart','P', sysdate,sys_guid(),1)
   ;
+  
+--  for questionnaire  
+
+INSERT INTO KRIM_ENTITY_T (ACTV_IND,ENTITY_ID,LAST_UPDT_DT,OBJ_ID,VER_NBR)
+  VALUES ('Y','1204',sysdate,sys_guid(),1)
+;
+
+INSERT INTO KRIM_PRNCPL_T (ACTV_IND,ENTITY_ID,LAST_UPDT_DT,OBJ_ID,PRNCPL_ID,PRNCPL_NM,VER_NBR)
+  VALUES ('Y','1204',sysdate,sys_guid(),'jtester','jtester',1)
+;
+
+insert into KRIM_ENTITY_ENT_TYP_T (OBJ_ID,VER_NBR,ENT_TYP_CD,ENTITY_ID,ACTV_IND,LAST_UPDT_DT)
+ values(sys_guid(),1,'PERSON','1204','Y', sysdate)
+;
+
 commit;
