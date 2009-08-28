@@ -18,7 +18,7 @@
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 <c:set var="action" value="institutionalProposalHome" />
 
-<kul:tab tabTitle="Sponsor & Program Information" defaultOpen="false" tabErrorKey="document.institutionalProposal.noticeOfOpportunityCode,document.developmentProposalList[0].cfdaNumber,document.institutionalProposal.programAnnouncementNumber,document.institutionalProposal.sponsorProposalNumber,document.institutionalProposal.nsfCode" auditCluster="sponsorProgramInformationAuditErrors,sponsorProgramInformationAuditWarnings" tabAuditKey="document.institutionalProposal.cfdaNumber,document.institutionalProposal.sponsorProposalNumber" useRiceAuditMode="true">
+<kul:tab tabTitle="Sponsor & Program Information" defaultOpen="false" tabErrorKey="document.institutionalProposal.noticeOfOpportunityCode,document.institutionalProposal.programAnnouncementNumber,document.institutionalProposal.sponsorProposalNumber,document.institutionalProposal.nsfCode,document.institutionalProposalList[0].cfdaNumber" auditCluster="sponsorProgramInformationAuditErrors,sponsorProgramInformationAuditWarnings" tabAuditKey="document.institutionalProposalList[0].cfdaNumber,document.institutionalProposal.sponsorProposalNumber" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Sponsor & Program Information</span>
@@ -81,7 +81,7 @@
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.cfdaNumber}" /></div></th>
                 <td>
-                	<kra:kraControlAttribute property="document.institutionalProposal.cfdaNumber" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.cfdaNumber}" styleClass="fixed-size-200-select"/>
+                	<kra:kraControlAttribute property="document.institutionalProposalList[0].cfdaNumber" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.cfdaNumber}" styleClass="fixed-size-200-select"/>
                 </td>
            		<th><div align="right">&nbsp;</div></th>
            		<td>
