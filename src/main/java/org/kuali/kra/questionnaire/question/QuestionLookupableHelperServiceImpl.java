@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -33,6 +34,10 @@ import edu.emory.mathcs.backport.java.util.Collections;
 public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = 7936563894902841571L;
+
+    private static final String VIEW = "view";
+    
+    private QuestionAuthorizationService questionAuthorizationService;
 
     /**
      * Since Question is being versioned, the lookup should only return active versions of the question
@@ -93,17 +98,34 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
         }
         return trimedResult;
     }
-     
+    
+    /**
+     * Only display edit, copy and view links for the Questions if proper permission is given.
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-        htmlData.setHref(htmlData.getHref().replace("maintenance","../maintenance"));
-        htmlDataList.add(htmlData);
-        AnchorHtmlData htmlData1 = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
-        htmlData1.setHref(htmlData1.getHref().replace("maintenance","../maintenance"));
-        htmlDataList.add(htmlData1);
+        if(questionAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESITON)) {
+            AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+            htmlData.setHref(htmlData.getHref().replace("maintenance", "../maintenance"));
+            htmlDataList.add(htmlData);
+            AnchorHtmlData htmlData1 = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
+            htmlData1.setHref(htmlData1.getHref().replace("maintenance", "../maintenance"));
+            htmlDataList.add(htmlData1);
+        } 
+        if (questionAuthorizationService.hasPermission(PermissionConstants.VIEW_QUESTION)) {
+            AnchorHtmlData htmlData = new AnchorHtmlData();
+            htmlData.setDisplayText(VIEW);
+            // TODO: cniesen - populate the URL
+            htmlData.setHref("http://www.kuali.org/");
+            htmlDataList.add(htmlData);
+        }
         return htmlDataList;
+    }
+
+    public void setQuestionAuthorizationService(QuestionAuthorizationService questionAuthorizationService) {
+        this.questionAuthorizationService = questionAuthorizationService;
     }
 
 

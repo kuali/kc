@@ -1837,10 +1837,16 @@
     	<property name="lookupableHelperService">
         	<ref bean="questionLookupableHelperService" />
         </property>
+        <property name="questionAuthorizationService">
+            <ref bean="questionAuthorizationService" />
+        </property>
     </bean>
     
     <bean id="questionLookupableHelperService" class="org.kuali.kra.questionnaire.question.QuestionLookupableHelperServiceImpl" 
          scope="prototype" parent="lookupableHelperService">
+        <property name="questionAuthorizationService">
+            <ref bean="questionAuthorizationService" />
+        </property>
     </bean>
     
     <bean id="questionService" class="org.kuali.kra.questionnaire.question.QuestionServiceImpl">
@@ -1875,6 +1881,11 @@
 	</bean>
 
     <bean id="questionnaireAuthorizationService" class="org.kuali.kra.questionnaire.QuestionnaireAuthorizationServiceImpl">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="personService" ref="personService" />
+    </bean>
+
+    <bean id="questionAuthorizationService" class="org.kuali.kra.questionnaire.question.QuestionAuthorizationServiceImpl">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="personService" ref="personService" />
     </bean>
