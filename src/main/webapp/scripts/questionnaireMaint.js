@@ -7,6 +7,12 @@ var uprefix = "document.newMaintainableObject.businessObject.questionnaireUsages
 //for jquery 
 var juprefix = "document\\.newMaintainableObject\\.businessObject\\.questionnaireUsages\\[";
 var isCopy = 'false'; 
+var qnversion=1;
+var firstidx = -1;
+var loadcount = 0;
+var initucount = 0;
+
+
 /*
  * This is the main function to create all the html for a question
  * each question is associated with 'li' tag which is jquery's node
@@ -28,7 +34,7 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 			// var idx = $(this).attr("id").substring(11);
 			//var vers = "1.00";
 			// alert("set up table "+idx);
-			var divtmp = getMaintTable(idx, childNode);
+			var divtmp = getMaintTable(description, qtypeid, idx, childNode);
 			divtmp.appendTo($(this).parents('div:eq(0)'));
 			$("#listcontent" + idx).slideToggle(300);
 		}
@@ -40,12 +46,14 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 
 	// set up qdesc & qtypeid
 	sethiddenfields();
-	$("#qdesc" + i).attr("value", description);
-	$("#qtypeid" + i).attr("value", qtypeid);
-    $("#qvers" + i).attr("value", vers);
-    $("#qdispans" + i).attr("value", dispans);
-    $("#qansmax" + i).attr("value", ansmax);
-    $("#qmaxlength" + i).attr("value", maxlength);
+//	$("#qdesc" + i).attr("value", description);
+//	$("#qtypeid" + i).attr("value", qtypeid);
+//    $("#qvers" + i).attr("value", vers);
+//    $("#qdispans" + i).attr("value", dispans);
+//    $("#qansmax" + i).attr("value", ansmax);
+//    $("#qmaxlength" + i).attr("value", maxlength);
+
+    $("#question"+ i).attr("value",description+"#f#" +qtypeid+"#f#"+vers+"#f#" +dispans+"#f#"+ansmax+"#f#" +maxlength);
 
 	return question;
 
@@ -61,29 +69,33 @@ function sethiddenfields() {
 	qntag = $('<input type="hidden" id = "qseq" name = "qseq" />').attr("id",
 			"qseq" + i).attr("name", "qseq" + i);
 	qntag.appendTo(hidtd);
-	qntag = $('<input type="hidden" id = "qvers" name = "qvers" />').attr("id",
-			"qvers" + i).attr("name", "qvers" + i);
-	qntag.appendTo(hidtd);
-	qntag = $('<input type="hidden" id = "qansmax" name = "qansmax" />').attr("id",
-			"qansmax" + i).attr("name", "qansmax" + i);
-	qntag.appendTo(hidtd);
-	qntag = $('<input type="hidden" id = "qdispans" name = "qdispans" />').attr("id",
-			"qdispans" + i).attr("name", "qdispans" + i);
-	qntag.appendTo(hidtd);
-	qntag = $('<input type="hidden" id = "qmaxlength" name = "qmaxlength" />').attr("id",
-			"qmaxlength" + i).attr("name", "qmaxlength" + i);
-	qntag.appendTo(hidtd);
+//	qntag = $('<input type="hidden" id = "qvers" name = "qvers" />').attr("id",
+//			"qvers" + i).attr("name", "qvers" + i);
+//	qntag.appendTo(hidtd);
+//	qntag = $('<input type="hidden" id = "qansmax" name = "qansmax" />').attr("id",
+//			"qansmax" + i).attr("name", "qansmax" + i);
+//	qntag.appendTo(hidtd);
+//	qntag = $('<input type="hidden" id = "qdispans" name = "qdispans" />').attr("id",
+//			"qdispans" + i).attr("name", "qdispans" + i);
+//	qntag.appendTo(hidtd);
+//	qntag = $('<input type="hidden" id = "qmaxlength" name = "qmaxlength" />').attr("id",
+//			"qmaxlength" + i).attr("name", "qmaxlength" + i);
+//	qntag.appendTo(hidtd);
 
 	qntag = $('<input type="hidden" id = "qnum" name = "qnum" />').attr("id",
 			"qnum" + i).attr("name", "qnum" + i);
 	qntag.appendTo(hidtd);
-	qntag = $('<input type="hidden" id = "qdesc" name = "qdesc" />').attr("id",
-			"qdesc" + i).attr("name", "qdesc" + i);
-	qntag.appendTo(hidtd);
-	qntag = $('<input type="hidden" id = "qtypeid" name = "qtypeid" />').attr(
-			"id", "qtypeid" + i).attr("name", "qtypeid" + i);
-	qntag.appendTo(hidtd);
+//	qntag = $('<input type="hidden" id = "qdesc" name = "qdesc" />').attr("id",
+//			"qdesc" + i).attr("name", "qdesc" + i);
+//	qntag.appendTo(hidtd);
+//	qntag = $('<input type="hidden" id = "qtypeid" name = "qtypeid" />').attr(
+//			"id", "qtypeid" + i).attr("name", "qtypeid" + i);
+//	qntag.appendTo(hidtd);
 		
+	qntag = $('<input type="hidden" id = "question" name = "question" />')
+	.attr("id", "question" + i).attr("name", "question" + i);
+    qntag.appendTo(hidtd);
+    
 	qntag = $('<input type="hidden" id = "question" name = "question" />')
 	.attr("id", "qnaireQuestions[" + i+"]").attr("name", "qnaireQuestions[" + i+"]");
     qntag.appendTo(hidtd);
@@ -97,9 +109,9 @@ function sethiddenfields() {
 
 }
 
-function getMaintTable(idx, childNode) {
-	var description = $("#qdesc" + idx).attr("value");
-	var qtypeid = $("#qtypeid" + idx).attr("value");
+function getMaintTable(description, qtypeid, idx, childNode) {
+//	var description = $("#qdesc" + idx).attr("value");
+//	var qtypeid = $("#qtypeid" + idx).attr("value");
 	var qnaireid = "qnaireid" + idx;
 	var divId = "listcontent" + idx;
 	 // alert(idx+"-"+vers+"-"+$("#qvers" + idx).attr("value"));
@@ -481,12 +493,19 @@ function pasteChild(parentid, startnode) {
 	// startnode = $("#"+childid);
 	// alert("copy node "+$(startnode).attr("id").substring(8));
 	var stidx = $(startnode).attr("id").substring(8);
-	var qdesc = $('#qdesc' + stidx).attr("value");
-	var qtypeid = $('#qtypeid' + stidx).attr("value");
-    var qvers= $("#qvers" + stidx).attr("value");
-    var qdispans= $("#qdispans" + stidx).attr("value");
-    var qansmax= $("#qansmax" + stidx).attr("value");
-    var qmaxlength= $("#qmaxlength" + stidx).attr("value");
+	var splitq = $("#question"+stidx).attr("value").split("#f#");
+	var qdesc = splitq[0];
+	var qtypeid = splitq[1];
+    var qvers= splitq[2];
+    var qdispans= splitq[3];
+    var qansmax= splitq[4];
+    var qmaxlength= splitq[5];
+//	var qdesc = $('#qdesc' + stidx).attr("value");
+//	var qtypeid = $('#qtypeid' + stidx).attr("value");
+//    var qvers= $("#qvers" + stidx).attr("value");
+//    var qdispans= $("#qdispans" + stidx).attr("value");
+//    var qansmax= $("#qansmax" + stidx).attr("value");
+//    var qmaxlength= $("#qmaxlength" + stidx).attr("value");
 
 	i++;
 	var listitem = getQuestionNew(qdesc, qtypeid, qvers,qdispans,qansmax,qmaxlength, "true");
@@ -686,7 +705,8 @@ function getMoveDownLink(curidx) {
 							if ($(nextNode).parents('ul:eq(0)').attr("id") == 'example') {
 								childNode = 'false';
 							}
-							var divtmp = getMaintTable(nextidx, childNode);
+							var splitq = $("#question"+nextidx).attr("value").split("#f#");
+							var divtmp = getMaintTable(splitq[0], splitq[1], nextidx, childNode);
 							divtmp.appendTo($(nextNode).children('div:eq(1)'));
 						}
 
@@ -770,7 +790,9 @@ function getMoveUpLink(curidx) {
 						if ($(nextNode).parents('ul:eq(0)').attr("id") == 'example') {
 							childNode = 'false';
 						}
-						var divtmp = getMaintTable(nextidx, childNode);
+						var splitq = $("#question"+nextidx).attr("value").split("#f#");
+
+						var divtmp = getMaintTable(splitq[0], splitq[1], nextidx, childNode);
 						divtmp.appendTo($(nextNode).children('div:eq(1)'));
 					}
 
@@ -1384,15 +1406,17 @@ function returnQuestionList(questionList) {
 		// alert("questionnairenumber "+$("#questionNumber").attr("value")+" qid
 		// "+$("#qid"+$(this).attr("id").substring(5)).attr("value"));
 		$("#qid" + $(listitem).attr("id").substring(8)).attr("value", field[0]);
-		$("#qdesc" + $(listitem).attr("id").substring(8)).attr("value",
-				field[1]);
-		$("#qtypeid" + $(listitem).attr("id").substring(8)).attr("value",
-				field[2]);
-		$("#qvers" + $(listitem).attr("id").substring(8)).attr("value",
-				field[3]);
-        $("#qdispans" + idx).attr("value", field[4]);
-        $("#qansmax" + idx).attr("value", field[5]);
-        $("#qmaxlength" + idx).attr("value", field[6]);
+//		$("#qdesc" + $(listitem).attr("id").substring(8)).attr("value",
+//				field[1]);
+//		$("#qtypeid" + $(listitem).attr("id").substring(8)).attr("value",
+//				field[2]);
+//		$("#qvers" + $(listitem).attr("id").substring(8)).attr("value",
+//				field[3]);
+//        $("#qdispans" + idx).attr("value", field[4]);
+//        $("#qansmax" + idx).attr("value", field[5]);
+//        $("#qmaxlength" + idx).attr("value", field[6]);
+       // $("#question"+ idx).attr("value",field[1]+"#f#" +field[2]+"#f#"+field[3]+"#f#" +field[4]+"#f#"+field[5]+"#f#" +field[6]);
+
 		var seqnum = Number($(listitem).siblings().size()) + 1;
 		$("#qseq" + $(listitem).attr("id").substring(8)).attr("value", seqnum);
 		var qnum = $("#questionNumber").attr("value");
@@ -1455,10 +1479,14 @@ function returnQuestionList(questionList) {
 }// end returnquestionlist
 
 function getQnTypeDesc(qtypeid, idx) {
-	// alert("gettypedesc "+qtypeid);
-    var qdispans= $("#qdispans" + idx).attr("value");
-    var qansmax= $("#qansmax" + idx).attr("value");
-    var qmaxlength= $("#qmaxlength" + idx).attr("value");
+	 //alert("gettypedesc "+qtypeid);
+	var splitq = $("#question"+ idx).attr("value").split("#f#");
+    var qdispans= splitq[3];
+    var qansmax= splitq[4];
+    var qmaxlength= splitq[5];
+//    var qdispans= $("#qdispans" + idx).attr("value");
+//    var qansmax= $("#qansmax" + idx).attr("value");
+//    var qmaxlength= $("#qmaxlength" + idx).attr("value");
 
 	var divtmp = null;
 	switch (Number(qtypeid)) {
@@ -1939,6 +1967,7 @@ $("#backToTop").click(function() {
 
 $(document).ready(function() {
   $("#save").click(function() {
+	  //alert("save");
 		return checkBeforeSubmit();
 	}); // #save
   
@@ -1958,6 +1987,7 @@ $(document).ready(function() {
 
 
 function checkBeforeSubmit() {
+	alert("in checkbeforesubmit")
 	var numOfQuestions =  $('#numOfQuestions').attr("value",i);
 	var qname = $('#document\\.newMaintainableObject\\.businessObject\\.name').attr("value");
 	var qnaireid = $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value");
@@ -2231,3 +2261,159 @@ function isDuplicateUsage(moduleitemcode, vers) {
 	
 }
 // -- end should be shared
+
+
+function loadQuestion() {
+    var qlen = questions.length;
+    var rootidx;
+    var pnum0 = 0;
+    var nodecount = 0;
+    var refid = $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value");
+    for ( var k = 0; k < qlen; k++) {
+        var curq = questions[k];
+        // alert("parent 0 "+k+"-"+curq+pnum0+"-"+nodecount+"-"+qlen);
+        if (curq.indexOf("parent-") == 0) {
+            // parentnum = curq.substring(7);
+            // for (var l = 1 ; l <= k+1; l++) {
+            // if ($("#qnum"+l).attr("value")) {
+            // if ($("#qnum"+l).attr("value") == parentnum) {
+            // parentidx = l;
+            // }
+            // }
+            // }
+        } else {
+
+            var field = curq.split("#f#");
+            var parentnum = field[8];
+            i++;
+            var parenturl;
+            var ischild = 'false';
+            if (parentnum == 0) {
+                // if ((pnum0 == 20 && loadcount != 0) || (loadcount == 0 &&
+                // pnum0 == 40)) {
+                // //alert("break");
+                // break;
+                // }
+                parenturl = $('#example');
+                pnum0++;
+                rootidx = i;
+                // alert("parent 0 "+pnum0+"-"+nodecount);
+
+            } else {
+                if (field[2] == 1) { // the first children
+                    parentidx = i - 1;
+                } else {
+                    for ( var l = rootidx; l <= i - 1; l++) {
+                        if ($("#qnum" + l).attr("value")) {
+                            if ($("#qnum" + l).attr("value") == parentnum) {
+                                parentidx = l;
+                            }
+                        }
+                    }
+                }
+                parenturl = $("#qnaireid" + parentidx).children('ul:eq(0)');
+                ischild = 'true';
+            }
+            nodecount++;
+            var listitem = getQuestionNew(field[3], field[4], field[9], field[10], field[11], field[12], ischild);
+            var ultag = $('<ul></ul>');
+            ultag.appendTo(listitem);
+            var idx = listitem.attr("id").substring(8);
+            // listitem.appendTo('ul#example');
+            // last one no 'move dn'
+            if (firstidx == -1) {
+                firstidx = idx;
+            }
+
+            listitem.appendTo($(parenturl));
+            // also need this to show 'folder' icon
+            $('#example').treeview( {
+                add : listitem
+            });
+
+            // TODO : test idea of display page by page with hide().
+            if (parentnum == 0) {
+                addToGroup(listitem);
+                if (groupid > 0) {
+                    $(listitem).hide();
+                }
+            }
+
+            if ($(listitem).parents('ul:eq(0)').children('li').size() == 1) {
+                $("#moveup" + idx).hide();
+                $("#movedn" + idx).hide();
+            } else {
+                $("#movedn" + idx).hide();
+                if (listitem.prev().size() > 0) {
+                    $("#movedn" + listitem.prev().attr("id").substring(8))
+                            .show();
+                }
+            }
+
+           // alert ("parent "+parentnum+"-"+field[1]+"-"+field[6]);
+            if (parentnum > 0 && field[6] != 'null') {
+                // alert ("add req for parent
+                // "+$("#addrequirement"+i).parents('tr:eq(0)').size());
+                var newResponse = getRequirementDeleteRow(
+                        responseArray[field[6]], field[7]);
+                newResponse.appendTo($("#addrequirement" + i).parents(
+                        'div:eq(0)').children('table:eq(0)').children('tbody'));
+                $("#addrequirement" + i).parents('tr:eq(0)').remove();
+            }
+            // TODO : set up for insert
+            /*
+             * questionnairenumber from #questionnairenumber questionId from
+             * #qid sequenceNumber from
+             * $(this).parents('li:eq(0)').siblings().size() ?
+             */
+
+            $("#qnum" + idx).attr("value", field[5]);
+            $("#qid" + idx).attr("value", field[1]);
+            $("#qseq" + idx).attr("value", field[2]);
+            // set up qdesc & qtypeid
+//            $("#qdesc" + idx).attr("value", field[3]);
+//            $("#qtypeid" + idx).attr("value", field[4]);
+//            $("#qvers" + idx).attr("value", field[9]);
+//            $("#qdispans" + idx).attr("value", field[10]);
+//            $("#qansmax" + idx).attr("value", field[11]);
+//            $("#qmaxlength" + idx).attr("value", field[12]);
+
+            //$("#question"+ idx).attr("value",field[3]+"#f#" +field[4]+"#f#"+field[9]+"#f#" +field[10]+"#f#"+field[11]+"#f#" +field[12]);
+
+            
+            //alert("set to 123 :"+idx)
+            // qqid/qid/seq/desc/qtypeid/qnum/cond/condvalue/parentqnum/questionseqnum
+            if (field[0] == '' || field[0] == null) {
+                alert("qqid is null "+questions[k]);
+            }    
+
+            if (field[6] == 'null') {
+                field[6] = ''
+            }        
+            if (field[7] == 'null') {
+                field[7] = ''
+            }        
+            var tmpstr = field[0] +"#f#" +refid
+            +"#f#" +field[1] +"#f#" +field[5] +"#f#" +field[8] +"#f#" +field[14] +"#f#" +field[6] +"#f#" +
+            field[7] +"#f#" +field[2] +"#f#" +field[13] +"#f#" +"N" ;
+    $("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+            
+        } // end if-then-else
+    } // end for to set up questions
+
+    //alert(groupid+"-grp "+curgroup);
+    if (groupid == 0) {
+        $("#nextGroup").hide();
+        $("#prevGroup").hide();
+    }   
+    if (curgroup == 0) {
+        $("#prevGroup").hide();
+    }   
+    if (groupid > curgroup ) {
+        $("#nextGroup").show();
+    }   
+
+    loadcount=i-2;  // will be used to add qq to questionnairequestions list
+    //alert ("load count " +loadcount);
+} // loadquestion
+

@@ -16,19 +16,13 @@
 package org.kuali.kra.questionnaire;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.VersioningService;
-import org.kuali.kra.service.impl.VersioningServiceImpl;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
@@ -37,6 +31,15 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private Questionnaire fromQuestionnaire;
     private QuestionnaireUsage newQuestionnaireUsage;
     private List<QuestionnaireQuestion> questionnaireQuestions;
+    private List<QuestionnaireUsage> questionnaireUsages;
+    public List<QuestionnaireUsage> getQuestionnaireUsages() {
+        return questionnaireUsages;
+    }
+
+    public void setQuestionnaireUsages(List<QuestionnaireUsage> questionnaireUsages) {
+        this.questionnaireUsages = questionnaireUsages;
+    }
+
     private Integer newQuestionId;
     private String sqlScripts;
     private String retData;
@@ -76,6 +79,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         newQuestionnaire = new Questionnaire();
         fromQuestionnaire = new Questionnaire();
         questionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
+        questionnaireUsages = new ArrayList<QuestionnaireUsage>();
         qnaireQuestions = new ArrayList<String>();
         // TODO : if it is newquestionnaire, then set questionnumber to 1
         questionNumber = 1;
@@ -94,7 +98,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         questionNumber = 1;
         sqlScripts = "";
         retData = "";
-        //editData = "";
+        // editData = "";
         action = "";
 
     }
@@ -132,96 +136,10 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     }
 
     public String getRetData() {
-        if (StringUtils.isNotBlank(action)) {
-            if (action.equals("savebo")) {
-                // only pass questionnaire data
-                Questionnaire questionnaire = getNewQuestionnaire();
-
-                if (KraServiceLocator.getService(QuestionnaireService.class).isQuestionnaireNameExist(
-                        questionnaire.getQuestionnaireId(), questionnaire.getName())) {
-                    retData = "<h3>true</h3>";
-                }
-                else {
-
-                    String desc = questionnaire.getDescription();
-                    if (desc.indexOf(";amp") > 0) {
-                        desc = desc.replace(";amp", "&");
-                        questionnaire.setDescription(desc);
-                    }
-
-                    if (questionnaire.getQuestionnaireRefId() != null) {
-                        Map pkMap = new HashMap();
-                        pkMap.put("questionnaireRefId", questionnaire.getQuestionnaireRefId());
-                        Questionnaire oldQuestionnair = (Questionnaire) KraServiceLocator.getService(BusinessObjectService.class)
-                                .findByPrimaryKey(Questionnaire.class, pkMap);
-                        // if (questionnaire.getQuestionnaireId().equals(0)) {
-                        if (questionnaire.getQuestionnaireId() != null && getDocStatus().equals("I")) {
-                            try {
-                                VersioningService versionService = new VersioningServiceImpl();
-                                questionnaire = (Questionnaire) versionService.createNewVersion(oldQuestionnair);
-                                questionnaire.setQuestionnaireRefId(null);
-                            }
-                            catch (Exception e) {
-
-                            }
-
-                        }
-                        else {
-                            questionnaire.setVersionNumber(oldQuestionnair.getVersionNumber());
-                            questionnaire.setSequenceNumber(oldQuestionnair.getSequenceNumber());
-                            questionnaire.setQuestionnaireId(oldQuestionnair.getQuestionnaireId());
-                        }
-                    }
-                    KraServiceLocator.getService(BusinessObjectService.class).save(questionnaire);
-                    retData = "<h3>qnaireID=" + questionnaire.getQuestionnaireRefId() + ";" + questionnaire.getQuestionnaireId()
-                            + ";" + questionnaire.getSequenceNumber() + "</h3>";
-                }
-            }
-            else if (action.equals("savebo1")) {
-                // 2nd half of the description
-                Questionnaire questionnaire = getNewQuestionnaire();
-                String desc = questionnaire.getDescription();
-                if (desc.indexOf(";amp") > 0) {
-                    desc = desc.replace(";amp", "&");
-                    questionnaire.setDescription(desc);
-                }
-                if (questionnaire.getQuestionnaireRefId() != null) {
-                    Map pkMap = new HashMap();
-                    pkMap.put("questionnaireRefId", questionnaire.getQuestionnaireRefId());
-                    Questionnaire oldQuestionnair = (Questionnaire) KraServiceLocator.getService(BusinessObjectService.class)
-                            .findByPrimaryKey(Questionnaire.class, pkMap);
-                    questionnaire.setVersionNumber(oldQuestionnair.getVersionNumber());
-                    questionnaire.setDescription(oldQuestionnair.getDescription() + questionnaire.getDescription());
-                }
-                KraServiceLocator.getService(BusinessObjectService.class).save(questionnaire);
-                retData = "<h3>qnaireID=" + questionnaire.getQuestionnaireRefId() + ";" + questionnaire.getQuestionnaireId() + ";"
-                        + questionnaire.getSequenceNumber() + "</h3>";
-            }
-            else if (action.equals("checkname")) {
-                Questionnaire questionnaire = getNewQuestionnaire();
-                if (KraServiceLocator.getService(QuestionnaireService.class).isQuestionnaireNameExist(
-                        questionnaire.getQuestionnaireId(), questionnaire.getName())) {
-                    retData = "<h3>true</h3>";
-                }
-                else {
-                    retData = "<h3>false</h3>";
-                }
-            }
-            else {
-                Questionnaire questionnaire = new Questionnaire();
-                questionnaire = getNewQuestionnaire();
-                KraServiceLocator.getService(QuestionnaireService.class).saveQuestionnaire(sqlScripts, questionnaire);
-                String error = (String) GlobalVariables.getUserSession().retrieveObject("qnError");
-                if (StringUtils.isNotBlank(error)) {
-                    retData = "<h3>" + error + "</h3>";
-                    GlobalVariables.getUserSession().addObject("qnError", (Object) null);
-                }
-                else {
-                    retData = "<h3>qnaireID=" + questionnaire.getQuestionnaireRefId() + ";" + questionnaire.getQuestionnaireId()
-                            + ";" + questionnaire.getSequenceNumber() + "</h3>";
-                }
-            }
-            action = "";
+        // This is from ajax before post page
+        if (StringUtils.isNotBlank(action) && action.equals("setnumq")) {
+            GlobalVariables.getUserSession().addObject("numOfQuestions", getNumOfQuestions());
+            GlobalVariables.getUserSession().addObject("numOfUsages", getNumOfUsages());
         }
         return retData;
     }
@@ -339,32 +257,33 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         List<QuestionnaireQuestion> qList = new ArrayList<QuestionnaireQuestion>();
         for (Object qstr : getQnaireQuestions()) {
             if (qstr instanceof String[]) {
-                String[] splitstr = ((String[])qstr)[0].split("#f#");
+                String[] splitstr = ((String[]) qstr)[0].split("#f#");
                 if (splitstr.length == 11) {
-                QuestionnaireQuestion question = new QuestionnaireQuestion();
-                if (StringUtils.isNotBlank(splitstr[0]) && !splitstr[0].equals("null")) { // "null" is coming between js and java code
-                question.setQuestionnaireQuestionsId(Long.parseLong(splitstr[0]));
-                }
-                if (StringUtils.isNotBlank(splitstr[1])) {
-                question.setQuestionnaireRefIdFk(Long.parseLong(splitstr[1]));
-                }
-                question.setQuestionRefIdFk(Long.parseLong(splitstr[2]));
-                question.setQuestionNumber(Integer.parseInt(splitstr[3]));
-                question.setParentQuestionNumber(Integer.parseInt(splitstr[4]));
-                question.setConditionFlag("Y".equals(splitstr[5]));
-                question.setCondition(splitstr[6]);
-                question.setConditionValue(splitstr[7]);
-                question.setQuestionSeqNumber(Integer.parseInt(splitstr[8]));
-                question.setVersionNumber(Long.parseLong(splitstr[9]));
-                question.setDeleted(splitstr[10]);
-                qList.add(question);
+                    QuestionnaireQuestion question = new QuestionnaireQuestion();
+                    if (StringUtils.isNotBlank(splitstr[0]) && !splitstr[0].equals("null")) { // "null" is coming between js and
+                                                                                              // java code
+                        question.setQuestionnaireQuestionsId(Long.parseLong(splitstr[0]));
+                    }
+                    if (StringUtils.isNotBlank(splitstr[1])) {
+                        question.setQuestionnaireRefIdFk(Long.parseLong(splitstr[1]));
+                    }
+                    question.setQuestionRefIdFk(Long.parseLong(splitstr[2]));
+                    question.setQuestionNumber(Integer.parseInt(splitstr[3]));
+                    question.setParentQuestionNumber(Integer.parseInt(splitstr[4]));
+                    question.setConditionFlag("Y".equals(splitstr[5]));
+                    question.setCondition(splitstr[6]);
+                    question.setConditionValue(splitstr[7]);
+                    question.setQuestionSeqNumber(Integer.parseInt(splitstr[8]));
+                    question.setVersionNumber(Long.parseLong(splitstr[9]));
+                    question.setDeleted(splitstr[10]);
+                    qList.add(question);
                 }
             }
         }
         if (!qList.isEmpty()) {
             QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) this;
-            ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
-            .getNewMaintainableObject().getBusinessObject()).setQuestionnaireQuestions(qList);
+            ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
+                    .setQuestionnaireQuestions(qList);
         }
     }
 
