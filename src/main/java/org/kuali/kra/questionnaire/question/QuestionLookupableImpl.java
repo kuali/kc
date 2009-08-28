@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
@@ -31,10 +32,19 @@ public class QuestionLookupableImpl extends KualiLookupableImpl {
 
     private static final long serialVersionUID = -5431630475561370731L;
 
+    private QuestionAuthorizationService questionAuthorizationService;
+    
+    /**
+     * Only create the URL to create a new Question when proper permission is given.
+     * @see org.kuali.rice.kns.lookup.KualiLookupableImpl#getCreateNewUrl()
+     */
     @Override
     public String getCreateNewUrl() {
-        String url =  super.getCreateNewUrl();
-        url = url.replace("maintenance","../maintenance");
+        String url = "";
+        if (questionAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESITON)) {
+            url =  super.getCreateNewUrl();
+            url = url.replace("maintenance","../maintenance");
+        }
         return url;
     }
     
@@ -70,6 +80,10 @@ public class QuestionLookupableImpl extends KualiLookupableImpl {
 
         }
         return super.checkForAdditionalFields(fieldValues);
+    }
+
+    public void setQuestionAuthorizationService(QuestionAuthorizationService questionAuthorizationService) {
+        this.questionAuthorizationService = questionAuthorizationService;
     }
 
 }
