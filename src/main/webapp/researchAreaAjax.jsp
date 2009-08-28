@@ -43,7 +43,7 @@ body {
 
 <body class=" yui-skin-sam">
 <html:form styleId="kualiForm" method="post"
-    action="/researchAreas.do" enctype=""
+    action="/researchAreaAjax.do" enctype=""
     onsubmit="return hasFormAlreadyBeenSubmitted();"> 
 
 <!--  initial data here -->
