@@ -50,6 +50,8 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     private static final String DOCUMENT_TYPE_CODE = "PROT";
     private static final String FINAL_STATE = "F";
     private static final String DISAPPROVED_STATE = "D";
+    private static final String AMENDMENT_KEY = "A";
+    private static final String RENEWAL_KEY = "R";
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -225,30 +227,63 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
+    /**
+     * Amendments/Renewals have a protocol number with a 4 character suffix.
+     * The first 10 characters is the protocol number of the original protocol.
+     * @return
+     */
     private String getOriginalProtocolNumber() {
         return getProtocol().getProtocolNumber().substring(0, 10);
     }
 
+    /**
+     * Has the document entered the final state in workflow?
+     * @param statusChangeEvent
+     * @return
+     */
     private boolean isFinal(DocumentRouteStatusChangeDTO statusChangeEvent) {
         return StringUtils.equals(FINAL_STATE, statusChangeEvent.getNewRouteStatus());
     }
     
+    /**
+     * Has the document entered the disapproval state in workflow?
+     * @param statusChangeEvent
+     * @return
+     */
     private boolean isDisapproved(DocumentRouteStatusChangeDTO statusChangeEvent) {
         return StringUtils.equals(DISAPPROVED_STATE, statusChangeEvent.getNewRouteStatus());
     }
     
+    /**
+     * Is this a renewal protocol document?
+     * @return
+     */
     private boolean isRenewal() {
-        return getProtocol().getProtocolNumber().contains("R");
+        return getProtocol().getProtocolNumber().contains(RENEWAL_KEY);
     }
 
+    /**
+     * Is this an amendment protocol document?
+     * @return
+     */
     public boolean isAmendment() {
-        return getProtocol().getProtocolNumber().contains("A");
+        return getProtocol().getProtocolNumber().contains(AMENDMENT_KEY);
     }
     
+    /**
+     * Is this a normal protocol document?
+     * @return
+     */
     public boolean isNormal() {
         return !isAmendment() && !isRenewal();
     }
     
+    /**
+     * Version a protocol document.
+     * @param oldDoc the old protocol document to version
+     * @return the new protocol document version
+     * @throws Exception
+     */
     private ProtocolDocument createVersion(ProtocolDocument oldDoc) throws Exception {
         VersioningService versioningService = KraServiceLocator.getService(VersioningService.class);
         Protocol newVersion = versioningService.createNewVersion(oldDoc.getProtocol());
@@ -263,6 +298,13 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         return protocolDocument;
     }
 
+    /**
+     * The document next values must be the same in the new version as in
+     * the old document.  Note that the next document values must be assigned
+     * the document number of the new version.
+     * @param oldDoc
+     * @param newDoc
+     */
     private void fixNextValues(ProtocolDocument oldDoc, ProtocolDocument newDoc) {
         List<DocumentNextvalue> newNextValues = new ArrayList<DocumentNextvalue>();
         List<DocumentNextvalue> oldNextValues = oldDoc.getDocumentNextvalues();
