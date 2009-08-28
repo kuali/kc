@@ -1483,31 +1483,29 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
 
     /**
+     * This method makes sure that the Hierarchy tab is not displayed for proposals
+     * not in a hierarchy and that the Grants.gov tab is not displayed for children
+     * in a hierarchy.
+     * 
+     * @return Returns the headerNavigationTabs filtered based on hierarchy status.
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
      */
     @Override
     public HeaderNavigation[] getHeaderNavigationTabs() {
         HeaderNavigation[] tabs = super.getHeaderNavigationTabs();
         List<HeaderNavigation> newTabs = new ArrayList<HeaderNavigation>();
-        if (!getDocument().getDevelopmentProposal().isInHierarchy()) {
-            for (HeaderNavigation tab : tabs) {
-                if (!tab.getHeaderTabNavigateTo().equals("hierarchy")) {
-                    newTabs.add(tab);
+        boolean showHierarchy = getDocument().getDevelopmentProposal().isInHierarchy();
+        boolean disableGrantsGov = getDocument().getDevelopmentProposal().isChild();
+        
+        for (HeaderNavigation tab : tabs) {
+            if(showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy")) {
+                if (tab.getHeaderTabNavigateTo().equals("grantsGov")) {
+                    tab.setDisabled(disableGrantsGov);
                 }
+                newTabs.add(tab);
             }
-            tabs = newTabs.toArray(new HeaderNavigation[newTabs.size()]);
         }
+        tabs = newTabs.toArray(new HeaderNavigation[newTabs.size()]);
         return tabs;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.web.struts.form.KualiForm#setHeaderNavigationTabs(org.kuali.rice.kns.datadictionary.HeaderNavigation[])
-     */
-    @Override
-    public void setHeaderNavigationTabs(HeaderNavigation[] headerNavigationTabs) {
-        // TODO Auto-generated method stub
-        super.setHeaderNavigationTabs(headerNavigationTabs);
-    }
-
-    
+    }    
 }

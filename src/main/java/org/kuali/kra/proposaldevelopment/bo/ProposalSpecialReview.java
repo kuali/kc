@@ -270,6 +270,52 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase impl
         this.hiddenInHierarchy = hiddenInHierarchy;
     }
     
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((proposalNumber == null) ? 0 : proposalNumber.hashCode());
+        result = prime * result + ((specialReviewCode == null) ? 0 : specialReviewCode.hashCode());
+        result = prime * result + ((specialReviewNumber == null) ? 0 : specialReviewNumber.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ProposalSpecialReview other = (ProposalSpecialReview) obj;
+        if (proposalNumber == null) {
+            if (other.proposalNumber != null)
+                return false;
+        }
+        else if (!proposalNumber.equals(other.proposalNumber))
+            return false;
+        if (specialReviewCode == null) {
+            if (other.specialReviewCode != null)
+                return false;
+        }
+        else if (!specialReviewCode.equals(other.specialReviewCode))
+            return false;
+        if (specialReviewNumber == null) {
+            if (other.specialReviewNumber != null)
+                return false;
+        }
+        else if (!specialReviewNumber.equals(other.specialReviewNumber))
+            return false;
+        return true;
+    }
+
     
 }
 
