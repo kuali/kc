@@ -74,6 +74,8 @@ public interface PermissionConstants {
     /*
      * Questionnaire Permissions
      */
+    public static final String VIEW_QUESTION = "VIEW_QUESTION";
+    public static final String MODIFY_QUESITON = "MODIFY_QUESTION";
     public static final String VIEW_QUESTIONNAIRE = "VIEW_QUESTIONNAIRE";
     public static final String MODIFY_QUESTIONNAIRE = "MODIFY_QUESTIONNAIRE";
 }
