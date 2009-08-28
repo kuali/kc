@@ -401,16 +401,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                 + org.kuali.rice.core.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp());
     }
 
-    @Override
-    protected boolean exitingDocument() {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(
-                KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        Boolean activeLockRegionChangedInd = (Boolean) GlobalVariables.getUserSession().retrieveObject(
-                KraAuthorizationConstants.LOCK_REGION_CHANGE_IND);
-        
-        return super.exitingDocument() || StringUtils.isEmpty(activeLockRegion) || (activeLockRegionChangedInd != null && activeLockRegionChangedInd.booleanValue());
-    }
-
     private List<PessimisticLock> findMatchingLocksWithGivenDescriptor(String lockDescriptor) {
         BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
         Map fieldValues = new HashMap();
