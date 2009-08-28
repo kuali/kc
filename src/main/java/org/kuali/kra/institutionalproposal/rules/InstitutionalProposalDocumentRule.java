@@ -17,19 +17,24 @@ package org.kuali.kra.institutionalproposal.rules;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
 import org.kuali.kra.award.commitments.AwardCostShareRuleImpl;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalCustomDataAuditRule;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalGraduateStudentAuditRule;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataRuleImpl;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalSaveCustomDataRuleEvent;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 
 /**
  * This class...
@@ -65,6 +70,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         
         retval &= processSaveInstitutionalProposalCustomDataBusinessRules(document);
         retval &= processUnrecoveredFandABusinessRules(document);
+        retval &= processSponsorProgramBusinessRule(document);
         
         return retval;
     }    
@@ -137,6 +143,29 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         
         
     }
+    
+    /**
+     * Validate Sponsor/program Information rule. Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
+     * @param proposalDevelopmentDocument
+     * @return
+    */
+    private boolean processSponsorProgramBusinessRule(Document document) {
+        
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
+        boolean valid = true;
+        String regExpr = "(\\d{2})(\\.)(\\d{3})[a-zA-z]?";
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        if (StringUtils.isNotBlank(institutionalProposalDocument.getInstitutionalProposal().getCfdaNumber())
+                && !(institutionalProposalDocument.getInstitutionalProposal().getCfdaNumber().matches(regExpr))
+                && GlobalVariables.getErrorMap().getMessages(DOCUMENT_ERROR_PATH + "." + INSTITUTIONAL_PROPOSAL_ERROR_PATH + ".cfdaNumber") == null) {
+            errorMap.putError(DOCUMENT_ERROR_PATH + "." + INSTITUTIONAL_PROPOSAL_ERROR_PATH + ".cfdaNumber", RiceKeyConstants.ERROR_INVALID_FORMAT, new String[] {
+                    dataDictionaryService.getAttributeErrorLabel(InstitutionalProposal.class, "cfdaNumber"),
+                    institutionalProposalDocument.getInstitutionalProposal().getCfdaNumber() });
+            valid = false;
+         }
+        return valid;
+    }    
     
 
 }
