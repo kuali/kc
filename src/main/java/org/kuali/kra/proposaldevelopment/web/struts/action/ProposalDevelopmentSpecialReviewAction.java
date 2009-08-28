@@ -25,6 +25,7 @@ import org.kuali.kra.bo.ExemptionType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.kns.service.KualiRuleService;
@@ -47,6 +48,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
      */
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
         ProposalSpecialReview newProposalSpecialReview = pdForm.getNewPropSpecialReview();
 
         KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
@@ -54,7 +56,10 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         if (ruleService.applyRules(new AddProposalSpecialReviewEvent(Constants.EMPTY_STRING, pdForm.getDocument(), newProposalSpecialReview))){
             
             newProposalSpecialReview.setSpecialReviewNumber(pdForm.getDocument().getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
-            pdForm.getDocument().getDevelopmentProposal().getPropSpecialReviews().add(newProposalSpecialReview);
+            pdDoc.getDevelopmentProposal().getPropSpecialReviews().add(newProposalSpecialReview);
+            if (pdDoc.getDevelopmentProposal().isParent()) {
+                pdDoc.getDevelopmentProposal().getHierarchySpecialReviews().add(newProposalSpecialReview);
+            }
 
             pdForm.setNewPropSpecialReview(new ProposalSpecialReview());
         }
@@ -74,7 +79,10 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
     public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.getDocument().getDevelopmentProposal().getPropSpecialReviews().remove(getLineToDelete(request));
+        ProposalDevelopmentDocument pdDoc = proposalDevelopmentForm.getDocument();
+        ProposalSpecialReview delProposalSpecialReview = pdDoc.getDevelopmentProposal().getPropSpecialReviews().get(getLineToDelete(request));
+        pdDoc.getDevelopmentProposal().getHierarchySpecialReviews().remove(delProposalSpecialReview);
+        pdDoc.getDevelopmentProposal().getPropSpecialReviews().remove(delProposalSpecialReview);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
