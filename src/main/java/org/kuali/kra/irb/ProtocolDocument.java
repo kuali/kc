@@ -151,10 +151,10 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         super.doRouteStatusChange(statusChangeEvent);
         if (isFinal(statusChangeEvent)) {
             if (isAmendment()) {
-                mergeAmendment(ProtocolStatus.AMENDMENT_MERGED);
+                mergeAmendment(ProtocolStatus.AMENDMENT_MERGED, "Amendment");
             }
             else if (isRenewal()) {
-                mergeAmendment(ProtocolStatus.RENEWAL_MERGED);
+                mergeAmendment(ProtocolStatus.RENEWAL_MERGED, "Renewal");
             }
             else {
                 approveProtocol();
@@ -199,11 +199,15 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * @param protocolStatusCode
      * @throws Exception
      */
-    private void mergeAmendment(String protocolStatusCode) throws Exception {
+    private void mergeAmendment(String protocolStatusCode, String type) throws Exception {
         Protocol currentProtocol = getProtocolFinder().findCurrentProtocolByNumber(getOriginalProtocolNumber());
         ProtocolDocument newProtocolDocument = createVersion(currentProtocol.getProtocolDocument());
         newProtocolDocument.getProtocol().merge(getProtocol());
         getProtocol().setProtocolStatusCode(protocolStatusCode);
+        
+        ProtocolAction action = new ProtocolAction(newProtocolDocument.getProtocol(), null, ProtocolActionType.APPROVED);
+        action.setComments(type + "-" + getProtocolNumberIndex());
+        newProtocolDocument.getProtocol().getProtocolActions().add(action);
         
         getDocumentService().saveDocument(newProtocolDocument);
         
@@ -215,6 +219,10 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         getBusinessObjectService().save(this);
     }
     
+    private String getProtocolNumberIndex() {
+        return this.getProtocol().getProtocolNumber().substring(11);
+    }
+
     private ProtocolFinderDao getProtocolFinder() {
         return KraServiceLocator.getService(ProtocolFinderDao.class);
     }
