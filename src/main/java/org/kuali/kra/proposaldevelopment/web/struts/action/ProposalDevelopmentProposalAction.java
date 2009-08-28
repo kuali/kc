@@ -246,11 +246,15 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getDevelopmentProposal().getPropScienceKeywords();
+        List<PropScienceKeyword> hierarchyKeywords = proposalDevelopmentDocument.getDevelopmentProposal().getPropScienceKeywords();
         List<PropScienceKeyword> newKeywords = new ArrayList<PropScienceKeyword>();
         for (Iterator<PropScienceKeyword> iter = keywords.iterator(); iter.hasNext();) {
             PropScienceKeyword propScienceKeyword = iter.next();
             if (!propScienceKeyword.getSelectKeyword()) {
                 newKeywords.add(propScienceKeyword);
+            }
+            else {
+                hierarchyKeywords.remove(propScienceKeyword);
             }
         }
         proposalDevelopmentDocument.getDevelopmentProposal().setPropScienceKeywords(newKeywords);
@@ -566,6 +570,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
                         if (!isDuplicateKeyword(propScienceKeyword.getScienceKeywordCode(), proposalDevelopmentDocument
                                 .getDevelopmentProposal().getPropScienceKeywords())) {
                             proposalDevelopmentDocument.getDevelopmentProposal().addPropScienceKeyword(propScienceKeyword);
+                            proposalDevelopmentDocument.getDevelopmentProposal().getHierarchyPropScienceKeywords().add(propScienceKeyword);
                         }
                     }
                 }

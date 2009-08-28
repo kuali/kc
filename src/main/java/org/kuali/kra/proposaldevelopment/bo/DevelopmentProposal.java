@@ -173,11 +173,11 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase {
     }
     
     public String getHierarchyStatusName() {
-        String retval = HierarchyStatusConstants.None.description();
+        hierarchyStatusName = HierarchyStatusConstants.None.description();
         for (HierarchyStatusConstants status : HierarchyStatusConstants.values()) {
-            if (status.code().equals(getHierarchyStatus())) retval = status.description();
+            if (status.code().equals(getHierarchyStatus())) hierarchyStatusName = status.description();
         }
-        return retval;
+        return hierarchyStatusName;
     }
 
     public void setHierarchyStatusName(String hierarchyStatusName) {
