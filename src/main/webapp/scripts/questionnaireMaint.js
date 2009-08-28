@@ -338,6 +338,8 @@ function getQuestionActionSubTable(qnaireid) {
 					cutNode = null;
 					cutNodeParentCode = null;
 					maxCopyNodeIdx = 0;
+					//$(this).focus();
+					//alert("focused ");
 				});
 	image.appendTo(thtmp);
 	image = $(
@@ -427,6 +429,13 @@ function getQuestionActionSubTable(qnaireid) {
 							    $("li#" + liId).remove();
 							   // alert(cutNode.attr("id"));
 							}    
+							if ($("#"+qnaireid).prev().size() == 0) {
+								$("#moveup" + qnaireid.substring(8)).hide();
+							}
+							if ($("#"+qnaireid).next().size() == 0) {
+								$("#movedn" + qnaireid.substring(8)).hide();
+							}
+
 							//cutNode = null;
 						   } // not paste to itself or its children
 						  }	
@@ -804,7 +813,7 @@ function getMoveUpLink(curidx) {
 //				    $("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 					swapGroupId(curNode, nextNode);
 					//$("#listcontrol" + idx).click();
-					document.location.hash = 'listcontrol'+idx;
+					//document.location.hash = '#listcontrol'+idx;
 					//alert (document.location.hash);
 					//jumpToAnchor('listcontrol'+idx);
 				});
