@@ -487,7 +487,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         retval &= new ProposalSpecialReviewAuditRule().processRunAuditBusinessRules(document);        
         
-        retval &= new ProposalDevelopmentGrantsGovAuditRule().processRunAuditBusinessRules(document);
+        if (!proposalDevelopmentDocument.getDevelopmentProposal().isChild()) {
+            retval &= new ProposalDevelopmentGrantsGovAuditRule().processRunAuditBusinessRules(document);
+        }
+        
         // audit check for budgetversion with final status
         try {
             retval &= KraServiceLocator.getService(ProposalDevelopmentService.class).validateBudgetAuditRule((ProposalDevelopmentDocument)document);

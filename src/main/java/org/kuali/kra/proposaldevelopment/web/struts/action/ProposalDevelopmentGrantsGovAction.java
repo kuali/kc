@@ -38,6 +38,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
@@ -60,6 +61,9 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
             HttpServletResponse response)throws Exception{                
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        
+        // In a Hierarchy Child, the G.g tab is disabled, so this exception should only happen if the app is being hacked.
+        if (proposalDevelopmentDocument.getDevelopmentProposal().isInHierarchy()) throw new ProposalHierarchyException("Cannot perform Grants.gov tasks on a Proposal Hierarchy child");
         
         if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity()!=null){
             if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getProposalNumber()==null){
