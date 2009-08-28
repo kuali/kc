@@ -118,13 +118,14 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
         htmlData.setHref(htmlData.getHref().replace("maintenance", "../maintenanceQn"));
         // this method does not work because kim_roles_persons_t is empty
-        boolean hasPermission = questionnaireAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE);
+        boolean hasModifyPermission = questionnaireAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE);
+        boolean hasViewPermission = hasModifyPermission
+                || questionnaireAuthorizationService.hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE);
         // RoleConstants.IRB_ADMINISTRATOR);
         // boolean hadIrbAdminRole = hasRole(RoleConstants.IRB_ADMINISTRATOR);
-        if (!hasPermission
-                || !questionnaire.getQuestionnaireRefId().equals(((Questionnaire) businessObject).getQuestionnaireRefId())) {
+        if (!questionnaire.getQuestionnaireRefId().equals(((Questionnaire) businessObject).getQuestionnaireRefId())) {
             // if (!questionnaire.getQuestionnaireRefId().equals(((Questionnaire) businessObject).getQuestionnaireRefId())) {
-            if (questionnaireAuthorizationService.hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE)) {
+            if (hasViewPermission) {
                 htmlData.setHref("../en/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="
                         + ((Questionnaire) businessObject).getDocumentNumber());
                 htmlData.setDisplayText("view");
@@ -132,14 +133,18 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
             }
         }
         else {
-            htmlDataList.add(htmlData);
-            AnchorHtmlData htmlData2 = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-            htmlData2.setHref("../en/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="
-                    + ((Questionnaire) businessObject).getDocumentNumber());
-            htmlData2.setDisplayText("view");
-            htmlDataList.add(htmlData2);
+            if (hasModifyPermission) {
+                htmlDataList.add(htmlData);
+            }
+            if (hasViewPermission) {
+                AnchorHtmlData htmlData2 = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+                htmlData2.setHref("../en/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="
+                        + ((Questionnaire) businessObject).getDocumentNumber());
+                htmlData2.setDisplayText("view");
+                htmlDataList.add(htmlData2);
+            }
         }
-        if (hasPermission) {
+        if (hasModifyPermission) {
             AnchorHtmlData htmlData1 = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
             htmlData1.setHref(htmlData1.getHref().replace("maintenance", "../maintenanceQn"));
             htmlDataList.add(htmlData1);
