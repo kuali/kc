@@ -60,7 +60,9 @@
           	  
           	     function returnQuestion() {
           	            var questions = document.getElementById("selectedQuestions").value;
+          	            if (questions != '') {
           	         	window.opener.returnQuestionList(questions);
+          	            }
           	     
           	     }
                  var lookupBtn=document.getElementById("lookupBtn");

@@ -683,10 +683,11 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         // Map qMap = new HashMap();
         int i = 0;
         for (QuestionnaireQuestion question : questionnaire.getQuestionnaireQuestions()) {
-            //System.out.println("qnquestion " + (i++) + question.toStringMapper());
+            System.out.println("qnquestion " + (i++) + question.toStringMapper());
             if ("Y".equals(question.getDeleted())) {
                 if (question.getQuestionnaireQuestionsId() == null) {
                     dropList.add(question);
+                    System.out.println("drop qnquestion " + (i++) + question.toStringMapper());
                 }
                 else {
                     dropList.add(question);

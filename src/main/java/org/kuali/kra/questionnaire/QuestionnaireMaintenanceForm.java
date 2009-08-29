@@ -32,14 +32,6 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private QuestionnaireUsage newQuestionnaireUsage;
     private List<QuestionnaireQuestion> questionnaireQuestions;
     private List<QuestionnaireUsage> questionnaireUsages;
-    public List<QuestionnaireUsage> getQuestionnaireUsages() {
-        return questionnaireUsages;
-    }
-
-    public void setQuestionnaireUsages(List<QuestionnaireUsage> questionnaireUsages) {
-        this.questionnaireUsages = questionnaireUsages;
-    }
-
     private Integer newQuestionId;
     private String sqlScripts;
     private String retData;
@@ -95,6 +87,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         newQuestionnaire = new Questionnaire();
         fromQuestionnaire = new Questionnaire();
         questionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
+        qnaireQuestions = new ArrayList<String>();
         questionNumber = 1;
         sqlScripts = "";
         retData = "";
@@ -137,10 +130,10 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
 
     public String getRetData() {
         // This is from ajax before post page
-        if (StringUtils.isNotBlank(action) && action.equals("setnumq")) {
-            GlobalVariables.getUserSession().addObject("numOfQuestions", getNumOfQuestions());
-            GlobalVariables.getUserSession().addObject("numOfUsages", getNumOfUsages());
-        }
+//        if (StringUtils.isNotBlank(action) && action.equals("setnumq")) {
+//            GlobalVariables.getUserSession().addObject("numOfQuestions", getNumOfQuestions());
+//            GlobalVariables.getUserSession().addObject("numOfUsages", getNumOfUsages());
+//        }
         return retData;
     }
 
@@ -232,28 +225,24 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
                 }
             }
         }
-        // for (Iterator iter = request.getParameterMap().keySet().iterator(); iter.hasNext();) {
-        // String keypath = (String) iter.next();
-        // if (keypath.contains("questionnaireQuestionsId") || keypath.contains("parentQuestionNumber") ||
-        // keypath.contains("questionNumber") || keypath.contains("questionnaireRefId")) {
-        // System.out.println(">> " + keypath+" - "+((String[])request.getParameterMap().get(keypath))[0]);
-        // //Object param = request.getParameterMap().get(keypath);
-        // }
-        // }
         super.populate(request);
 
-        // $("#"+jqprefix + idx+"\\]\\.questionnaireQuestionsId").attr("value",field[0]);
-        // $("#"+jqprefix + idx+"\\]\\.questionnaireRefIdFk").attr("value",refid);
-        // $("#"+jqprefix + idx+"\\]\\.questionRefIdFk").attr("value",field[1]);
-        // $("#"+jqprefix + idx+"\\]\\.questionNumber").attr("value",field[5]);
-        // $("#"+jqprefix + idx+"\\]\\.parentQuestionNumber").attr("value",field[8]);
-        // $("#"+jqprefix + idx+"\\]\\.conditionFlag").attr("value",field[14]);
-        // $("#"+jqprefix + idx+"\\]\\.condition").attr("value",field[6]);
-        // $("#"+jqprefix + idx+"\\]\\.conditionValue").attr("value",field[7]);
-        // $("#"+jqprefix + idx+"\\]\\.questionSeqNumber").attr("value",field[2]);
-        // $("#"+jqprefix + idx+"\\]\\.versionNumber").attr("value",field[13]);
-        // $("#"+jqprefix + idx+"\\]\\.deleted").attr("value","N");
 
+        List<QuestionnaireQuestion> qList = populateQuestionnaireQuestions();
+        if (!qList.isEmpty()) {
+            QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) this;
+            ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
+                    .setQuestionnaireQuestions(qList);
+        }
+    }
+
+    /*
+     * questionnairequestions properties are concatenated to a string
+     * 1. tried hidden fields for each property of Qnairequestion, but there seem
+     * to have problem with "request" object occassionally,i.e., sometimes, a property value will become null for no reason (when there are large amount of questions)
+     * 2. also populated each property of questions as hidden fields affect the performance,ie, slows page load if the number of questions is large
+     */
+    private List<QuestionnaireQuestion> populateQuestionnaireQuestions() {
         List<QuestionnaireQuestion> qList = new ArrayList<QuestionnaireQuestion>();
         for (Object qstr : getQnaireQuestions()) {
             if (qstr instanceof String[]) {
@@ -280,13 +269,9 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
                 }
             }
         }
-        if (!qList.isEmpty()) {
-            QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) this;
-            ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
-                    .setQuestionnaireQuestions(qList);
-        }
+        return qList;
     }
-
+    
     public Integer getNumOfQuestions() {
         return numOfQuestions;
     }
@@ -311,11 +296,13 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         this.qnaireQuestions = qnaireQuestions;
     }
 
-    // @Override
-    // public String getDocTypeName() {
-    // // TODO Auto-generated method stub
-    // return "QuestionMaintenanceDocument";
-    // //return super.getDocTypeName();
-    // }
+    public List<QuestionnaireUsage> getQuestionnaireUsages() {
+        return questionnaireUsages;
+    }
+
+    public void setQuestionnaireUsages(List<QuestionnaireUsage> questionnaireUsages) {
+        this.questionnaireUsages = questionnaireUsages;
+    }
+
 
 }
