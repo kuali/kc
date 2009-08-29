@@ -66,6 +66,7 @@
           	  
           	     function returnQuestion() {
           	            var newQuestionId = document.getElementById("newQuestionId").value
+          	            if (newQuestionId != '') {
           	            var newQuestionTypeId = document.getElementById("newQuestionTypeId").value
           	            var newQuestion = document.getElementById("newQuestion").value
           	            var nodeIndex = document.getElementById("nodeIndex").value
@@ -89,6 +90,7 @@
           	            //var mapKey = document.getElementById("mapKey").value
           	            //alert(newQuestionId+"-"+newQuestionTypeId+"-"+newQuestion+"-")
           	         	window.opener.returnQuestion(newQuestionId, newQuestion,newQuestionTypeId,newQuestionSequence,displayedAnswers,maxAnswers,answerMaxLength,nodeIndex);
+          	            }
           	     
           	     }
                  var lookupBtn=document.getElementById("lookupBtn");
@@ -96,7 +98,7 @@
                  if (document.getElementById("methodToCall").value != "refresh") {
                  	lookupBtn.click();
                  } else {
-                   //  alert("else "+document.getElementById("methodToCall").value);
+                  // alert("else "+document.getElementById("methodToCall").value);
                  	returnQuestion();
                  	window.close();
                  }
