@@ -1768,7 +1768,11 @@ $('<option value="9">After date</option>').appendTo(responseOptions);
 $("#addUsage")
 		.click(function() {
 			// TODO : 1 header and one 'add' row, so has 2 more
-			if (isDuplicateUsage($("#newQuestionnaireUsage\\.moduleItemCode").attr("value"), qnversion)) {
+			if ($("#newQuestionnaireUsage\\.moduleItemCode").attr("value") == '') {
+				alert("Please select a module");
+			} else if ($("#newQuestionnaireUsage\\.questionnaireLabel").attr("value") == '') {
+				alert("Please enter Label");
+			} else  if (isDuplicateUsage($("#newQuestionnaireUsage\\.moduleItemCode").attr("value"), qnversion)) {
 				alert("Module is already added");
 			} else {	
 
@@ -1808,8 +1812,9 @@ $("#addUsage")
 												'input:eq(0)').attr("value") 
 										+";"+ $(this).parents('tr:eq(0)').children(
 												'td:eq(2)').html());
-								$("#utr"+$(this).attr("id").substring(11)).remove();
+								shiftUsage($(this).attr("id").substring(11));
 								ucount--;
+								$("#utr"+ucount).remove();
 								//alert(ucount)
 								//alert($(this).parents('tr:eq(0)').children('td:eq(2)').html())
 								// TODO : delete usage also need to update 'item
@@ -1897,6 +1902,22 @@ $("#rootSearch").click(function() {
 		checkToAddQn(0);
 		return false;
 	});
+
+function shiftUsage(uidx) {
+	var k = uidx;
+	alert(ucount+"-"+uidx)
+	while (k < (ucount -1)) {
+		$("#"+juprefix+ k+"].questionnaireUsageId").attr("value",$("#"+juprefix+ (k+1)+"].questionnaireUsageId").attr("value"));
+		$("#"+juprefix+ k+"].moduleItemCode").attr("value",$("#"+juprefix+ (k+1)+"].moduleItemCode").attr("value"));
+		$("#"+juprefix+ k+"].moduleSubItemCode").attr("value",$("#"+juprefix+ (k+1)+"].moduleSubItemCode").attr("value"));
+		$("#"+juprefix+ k+"].questionnaireLabel").attr("value",$("#"+juprefix+ (k+1)+"].questionnaireLabel").attr("value"));
+		$("#"+juprefix+ k+"].questionnaireSequenceNumber").attr("value",$("#"+juprefix+ (k+1)+"].questionnaireSequenceNumber").attr("value"));
+		$("#"+juprefix+ k+"].ruleId").attr("value",$("#"+juprefix+ (k+1)+"].ruleId").attr("value"));
+		$("#"+juprefix+ k+"].versionNumber").attr("value",$("#"+juprefix+ (k+1)+"].versionNumber").attr("value"));
+		$("#"+juprefix+ k+"].questionnaireRefIdFk").attr("value",$("#"+juprefix+ (k+1)+"].questionnaireRefIdFk").attr("value"));
+	}	
+}
+
 
 /*
  * function when 'next' button is clicked. Move to next page of 20 questions
@@ -1987,7 +2008,7 @@ $(document).ready(function() {
 
 
 function checkBeforeSubmit() {
-	alert("in checkbeforesubmit")
+	//alert("in checkbeforesubmit")
 	var numOfQuestions =  $('#numOfQuestions').attr("value",i);
 	var qname = $('#document\\.newMaintainableObject\\.businessObject\\.name').attr("value");
 	var qnaireid = $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value");
@@ -2383,9 +2404,9 @@ function loadQuestion() {
             
             //alert("set to 123 :"+idx)
             // qqid/qid/seq/desc/qtypeid/qnum/cond/condvalue/parentqnum/questionseqnum
-            if (field[0] == '' || field[0] == null) {
-                alert("qqid is null "+questions[k]);
-            }    
+//            if (field[0] == '' || field[0] == null) {
+//                alert("qqid is null "+questions[k]);
+//            }    
 
             if (field[6] == 'null') {
                 field[6] = ''
