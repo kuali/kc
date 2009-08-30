@@ -400,6 +400,10 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         // if there is rule violation, then it will be redirected directly to jsp page. the following code will not be executed.
         qnForm.setRetData("");
         postRoute(form);
+        if (((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
+                KNSConstants.MAINTENANCE_COPY_ACTION)) {
+            setUpDataForCopy(form);
+        }
         return forward;
 
     }

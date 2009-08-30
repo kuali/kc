@@ -16,39 +16,17 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
-
-<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
-
-<script language="JavaScript" type="text/javascript"
-    src="dwr/interface/CustomAttributeService.js"></script>
-
-<script language="JavaScript" type="text/javascript"
-    src="dwr/interface/SponsorService.js"></script>
-
 
 <script src="scripts/jquery/jquery.js"></script>
 <link rel="stylesheet" href="css/jquery/screen.css" type="text/css" />
 <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
 <link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
 <link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
-<%-- link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/treeview/jquery.treeview.css" type="text/css" /--%>
 <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
 
 
-
-<%--  
-
-    <div align="center" style="margin: 10px">
-    <div id="headermsg" align="left"></div>
-    <br />
---%>
 <kul:tab defaultOpen="true" tabTitle="Questionnaire Details, Content & Use "
     tabErrorKey="document.newMaintainableObject.businessObject*">
-   <%-- 
-        <div align="center" style="margin: 10px">
-    <div id="headermsg" align="left"></div>
-    <br />--%> 
      
     <c:choose>
       <c:when test = "${KualiForm.document.newMaintainableObject.maintenanceAction eq 'Copy' and !(KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus eq 'F')}">
@@ -65,17 +43,6 @@
      <input type="hidden" id="docStatus" name="docStatus" value="${KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus }"  />   
      <input type="hidden" id="readOnly" name="docStatus" value="${KualiForm.readOnly}"  />   
      <input type="hidden" id="numOfQuestions" name="numOfQuestions" value="${KualiForm.numOfQuestions}"  />   
-<%-- 
-    <div id="globalbuttons" class="globalbuttons"><input
-        type="image" id="save"
-        src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" />
-    <a
-        href='portal.do?methodToCall=refresh&amp;docFormKey=88888888&amp;anchor=&amp;docNum='
-        title="cancel"> <img
-        src="kr/static/images/buttonsmall_cancel.gif" class="tinybutton"
-        alt="cancel" title="cancel" border="0" /> </a></div>
-    </div>
---%>
 
 <script type="text/javascript" src="scripts/questionnaireNew.js"></script>
 
@@ -96,8 +63,6 @@ $(document).ready(function() {
                   $(this).attr("id","close");
               }   
           });
-//    $("#globalbuttons").children('input:eq(1)').attr("id","save");
-//    $("#globalbuttons").children('input:eq(0)').attr("id","route");
     }
     if ($("#maintAction").attr("value") == 'Edit') {
         if ($("#docStatus").attr("value") == 'I') {
