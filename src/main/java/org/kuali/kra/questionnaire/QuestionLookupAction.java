@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.questionnaire;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,12 +34,14 @@ import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
+/*
+ * This class is used for question look in Questionnaire maintenance
+ */
 public class QuestionLookupAction extends KualiAction {
 
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        // TODO Auto-generated method stub
         ActionForward forward = super.refresh(mapping, form, request, response);
         QuestionLookupForm questionLookupForm = (QuestionLookupForm) form;
         String questions = Constants.EMPTY_STRING; 
@@ -84,7 +84,6 @@ public class QuestionLookupAction extends KualiAction {
         
         questionLookupForm.setSelectedQuestions(questions);
         if (questionLookupForm.getNodeIndex() > 0) {
-            //if (StringUtils.isBlank(questions) && StringUtils.isNotBlank(questionLookupForm.getNewQuestion())) {
             // when single lookup return, this refresh will be called too
            forward =  mapping.findForward("singleLookup"); 
         } else {
@@ -110,7 +109,6 @@ public class QuestionLookupAction extends KualiAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        // TODO Auto-generated method stub
         ActionForward forward = super.execute(mapping, form, request, response);
         String lookupType = request.getParameter("lookupType");
         if (StringUtils.isNotBlank(lookupType)) {

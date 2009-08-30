@@ -19,9 +19,26 @@ import java.util.List;
 
 public interface QuestionnaireService {
     void saveQuestionnaire(String sqlScripts, Questionnaire questionnaire);
+    /**
+     * 
+     * This method is called to copy the source questionnaire to target questionnaire and save to DB
+     * @param src : source questionnaire
+     * @param dest : target questionnaire
+     */
     public void copyQuestionnaire(Questionnaire src, Questionnaire dest);
+    /**
+     * 
+     * This method is to check whether questionnaire name has been used
+     * @param questionnaireId
+     * @param name
+     * @return
+     */
     public boolean isQuestionnaireNameExist(Integer questionnaireId, String name);
-    public void copyQuestionnaireLists(Questionnaire src, Questionnaire dest);
+    /**
+     * 
+     * This method the modules code that the user has permission to associate to questionnaire
+     * @return
+     */
     public  List<String>  getAssociateModules();
 
 }
