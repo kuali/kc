@@ -15,34 +15,33 @@
  */
 package org.kuali.kra.questionnaire;
 
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * 
  * This class is used for questionnaire maintenance to do question lookup.
  */
-public class QuestionLookupForm extends KualiForm  {
+public class QuestionLookupForm extends KualiForm {
     private static final long serialVersionUID = 6262867553384550677L;
-    private Integer newQuestionId; 
-    private Integer newQuestionTypeId; 
+    private Integer newQuestionId;
+    private Integer newQuestionTypeId;
     private String newQuestion;
-    private Integer nodeIndex; 
+    private Integer nodeIndex;
     private String lookupResultsBOClassName;
     private String lookedUpCollectionName;
     private String selectedQuestions;
-    private String newLookupClass; 
-    private String newLookupReturn; 
+    private String newLookupClass;
+    private String newLookupReturn;
     private Integer newDisplayedAnswers;
     private Integer newMaxAnswers;
-    private Integer newAnswerMaxLength; 
-    private Integer newQuestionSequence; 
+    private Integer newAnswerMaxLength;
+    private Integer newQuestionSequence;
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
      */
     private String lookupResultsSequenceNumber;
 
-    
+
     public QuestionLookupForm() {
         super();
     }
@@ -50,12 +49,15 @@ public class QuestionLookupForm extends KualiForm  {
     public Integer getNewQuestionId() {
         return newQuestionId;
     }
+
     public void setNewQuestionId(Integer newQuestionId) {
         this.newQuestionId = newQuestionId;
     }
+
     public String getNewQuestion() {
         return newQuestion;
     }
+
     public void setNewQuestion(String newQuestion) {
         this.newQuestion = newQuestion;
     }
@@ -75,6 +77,7 @@ public class QuestionLookupForm extends KualiForm  {
     public void setNewQuestionTypeId(Integer newQuestionTypeId) {
         this.newQuestionTypeId = newQuestionTypeId;
     }
+
     public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
     }
@@ -91,16 +94,6 @@ public class QuestionLookupForm extends KualiForm  {
         this.lookedUpCollectionName = lookedUpCollectionName;
     }
 
-
-//    @Override
-//    public String getAnchor() {
-//    // TODO : not sure why question multiple value lookup has problem to populate anchor
-//    // hack for now.    
-//        if (super.getAnchor() == null) {
-//            setAnchor(KNSConstants.ANCHOR_TOP_OF_FORM);
-//        }
-//        return super.getAnchor();
-//    }
 
     public String getLookupResultsSequenceNumber() {
         return lookupResultsSequenceNumber;

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.questionnaire;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.validator.AssertFalse;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -65,11 +65,13 @@ public class QuestionnaireServiceTest {
             final Questionnaire questionnaire = new Questionnaire();
             questionnaire.setQuestionnaireId(1);
             questionnaire.setName("exist name");
+            final List<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
+            questionnaires.add(questionnaire);
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("name", "exist name");
             context.checking(new Expectations() {{
-                one(businessObjectService).findByPrimaryKey(Questionnaire.class, fieldValues);
-                will(returnValue(questionnaire));
+                one(businessObjectService).findMatching(Questionnaire.class, fieldValues);
+                will(returnValue(questionnaires));
             }});
 
             assertTrue(questionnaireService.isQuestionnaireNameExist(null, "exist name"));
@@ -87,11 +89,13 @@ public class QuestionnaireServiceTest {
             final Questionnaire questionnaire = new Questionnaire();
             questionnaire.setQuestionnaireId(1);
             questionnaire.setName("exist name");
+            final List<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
+            questionnaires.add(questionnaire);
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("name", "exist name");
             context.checking(new Expectations() {{
-                one(businessObjectService).findByPrimaryKey(Questionnaire.class, fieldValues);
-                will(returnValue(questionnaire));
+                one(businessObjectService).findMatching(Questionnaire.class, fieldValues);
+                will(returnValue(questionnaires));
             }});
 
             assertTrue(!questionnaireService.isQuestionnaireNameExist(1, "exist name"));
@@ -108,9 +112,10 @@ public class QuestionnaireServiceTest {
             questionnaireService.setBusinessObjectService(businessObjectService);
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("name", "not exist name");
+            final List<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
             context.checking(new Expectations() {{
-                one(businessObjectService).findByPrimaryKey(Questionnaire.class, fieldValues);
-                will(returnValue(null));
+                one(businessObjectService).findMatching(Questionnaire.class, fieldValues);
+                will(returnValue(questionnaires));
             }});
 
             assertTrue(!questionnaireService.isQuestionnaireNameExist(1, "not exist name"));

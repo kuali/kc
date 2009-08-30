@@ -15,19 +15,13 @@
  */
 package org.kuali.kra.questionnaire;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.rice.kew.engine.node.KeyValuePair;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -82,22 +76,6 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         return isExist;
     }
 
-    private boolean isFinal(Questionnaire questionnaire) {
-        boolean isFinal = true;
-        if (questionnaire.getDocumentNumber() == null) {
-            isFinal = false;
-        } else {
-            // TODO : inject documentservice
-            try {
-            isFinal = KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(questionnaire.getDocumentNumber())
-              .getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F");
-            } catch (Exception e) {
-                
-            }
-        }
-        return isFinal;
-    }
-
     public void copyQuestionnaire(Questionnaire src, Questionnaire dest) {
         copyQuestionnaireLists(src, dest);
         businessObjectService.save(dest);
@@ -113,12 +91,10 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     }
 
     @SuppressWarnings("unchecked")
-    public void copyQuestionnaireLists(Questionnaire src, Questionnaire dest) {
+    private void copyQuestionnaireLists(Questionnaire src, Questionnaire dest) {
         dest.setQuestionnaireQuestions(src.getQuestionnaireQuestions());
         dest.setQuestionnaireUsages(src.getQuestionnaireUsages());
         for (QuestionnaireQuestion question : dest.getQuestionnaireQuestions()) {
-        //for (Object obj : dest.getQuestionnaireQuestions()) {
-        //    QuestionnaireQuestion question = (QuestionnaireQuestion)obj;
             question.setQuestionnaireRefIdFk(null);
             question.setQuestionnaireQuestionsId(null);
             question.setVersionNumber(new Long(1));
@@ -129,13 +105,6 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
             usage.setVersionNumber(new Long(1));
         }
 
-    }
-
-    private Object deepCopy(Object obj) {
-        if (obj instanceof Serializable) {
-            return ObjectUtils.deepCopy((Serializable) obj);
-        }
-        return obj;
     }
 
     public List<String> getAssociateModules() {
