@@ -1589,17 +1589,3 @@ INSERT INTO VALID_RATES (VALID_RATES_ID, ON_CAMPUS_RATE, OFF_CAMPUS_RATE, RATE_C
 VALUES (79, 51, 26, 'O', '039991', sysdate, 'user' );
 commit;
 
-insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG) 
-values (39, '000000003', 9, '000001', 'Y', 'Y'); 
-insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG) 
-values (40, '000000003', 12, '000001', 'Y', 'Y'); 
-insert into UNIT_ACL (ID, PERSON_ID, ROLE_ID, UNIT_NUMBER, SUBUNITS, ACTIVE_FLAG)
-values (41, '000000003', 18, '000001', 'Y', 'Y');
-commit;
-
-INSERT INTO SCHEDULE_STATUS (schedule_status_code,description,UPDATE_TIMESTAMP,UPDATE_USER) VALUES (1,'Scheduled',sysdate,user);
-INSERT INTO SCHEDULE_STATUS (schedule_status_code,description,UPDATE_TIMESTAMP,UPDATE_USER) VALUES (2,'Cancelled',sysdate,user);
-INSERT INTO SCHEDULE_STATUS (schedule_status_code,description,UPDATE_TIMESTAMP,UPDATE_USER) VALUES (3,'Agenda Closed',sysdate,user);
-INSERT INTO SCHEDULE_STATUS (schedule_status_code,description,UPDATE_TIMESTAMP,UPDATE_USER) VALUES (4,'Committee has met',sysdate,user);
-
-commit;
