@@ -583,14 +583,6 @@ CREATE TABLE SPONSOR_TERM_TYPE (
 	UPDATE_TIMESTAMP DATE NOT NULL, 
 	UPDATE_USER VARCHAR2(60) NOT NULL);
 	
-create table schedule_status (
-  schedule_status_code  number (3)    not null,
-  description           varchar2 (200)  not null,
-  UPDATE_TIMESTAMP DATE NOT NULL, 
-  UPDATE_USER VARCHAR2(60) NOT NULL,
-  VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
-  OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
-
 create table submission_status (
   submission_status_code  varchar2 (3)    not null,
   description             varchar2 (200)  not null,

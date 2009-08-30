@@ -222,10 +222,6 @@ ALTER TABLE SPONSOR_TERM
 ADD CONSTRAINT PK_SPONSOR_TERM 
 PRIMARY KEY (SPONSOR_TERM_ID);
 
-alter table schedule_status
-  add constraint pk_schedule_status_code
-  primary key ( schedule_status_code );
-
 ALTER TABLE submission_status 
 ADD CONSTRAINT pk_ss_submission_status_code
 PRIMARY KEY (submission_status_code);
