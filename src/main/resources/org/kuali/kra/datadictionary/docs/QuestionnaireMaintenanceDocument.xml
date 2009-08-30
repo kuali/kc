@@ -12,7 +12,7 @@
         <property name="documentTypeName" value="QuestionnaireMaintenanceDocument" />
         <property name="businessRulesClass" value="org.kuali.kra.questionnaire.QuestionnaireMaintenanceDocumentRule" />
         <property name="documentAuthorizerClass" value="org.kuali.kra.questionnaire.QuestionnaireMaintenanceDocumentAuthorizer" />
-        <property name="additionalSectionsFile" value="/WEB-INF/jsp/questionnaire/questionnaireQuestion.jsp"></property>
+        <property name="additionalSectionsFile" value="/WEB-INF/jsp/questionnaire/questionnaireEditor.jsp"></property>
     </bean>
 
 </beans>
