@@ -27,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class QuestionnaireServiceImpl implements QuestionnaireService {
 
-    private QuestionnaireDao questionnaireDao;
     private BusinessObjectService businessObjectService;
     private QuestionnaireAuthorizationService questionnaireAuthorizationService;
     private Map <String, String> permissionModuleMap ;
@@ -47,17 +46,6 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         //permissionModuleMap.put(PermissionConstants.MODIFY_PROTOCOL,"8");
     }
     
-    public void saveQuestionnaire(String sqlScripts, Questionnaire questionnaire) {
-//        if (questionnaire.getQuestionnaireRefId() != null) {
-//            Map pkMap = new HashMap();
-//            pkMap.put("questionnaireRefId", questionnaire.getQuestionnaireRefId());
-//            questionnaire = (Questionnaire) businessObjectService.findByPrimaryKey(Questionnaire.class, pkMap);
-//        }
-        questionnaireDao.runScripts(sqlScripts.split(";;;"), questionnaire.getQuestionnaireRefId());
-
-    }
-
-
     public boolean isQuestionnaireNameExist(Integer questionnaireId, String name) {
         // TODO : maybe should check questionnaireid. because it should be ok that they have the same name for different version ?
         // only check if the questionnaire is final ?  then should we check before approve to make sure name is unique ?
@@ -80,10 +68,6 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         copyQuestionnaireLists(src, dest);
         businessObjectService.save(dest);
 
-    }
-
-    public void setQuestionnaireDao(QuestionnaireDao questionnaireDao) {
-        this.questionnaireDao = questionnaireDao;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
