@@ -302,4 +302,8 @@
 	
 	<bean id="protocolFinderDao" class="org.kuali.kra.irb.ProtocolFinderDaoOjb" parent="platformAwareDao" />
 	
+	<bean id="protocolVersionService" class="org.kuali.kra.irb.ProtocolVersionServiceImpl">
+	    <property name="documentService" ref="documentService" />
+	    <property name="versioningService" ref="versioningService" />
+	</bean>
 </beans>
