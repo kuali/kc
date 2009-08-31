@@ -158,17 +158,6 @@
             <forward name="singleLookup" path="/WEB-INF/jsp/questionnaire/questionLookup.jsp" />
             <forward name="multiLookup" path="/WEB-INF/jsp/questionnaire/questionMultiLookup.jsp" />
         </action>
- 		<action path="/questionnaireNew" name="QuestionnaireForm" input="/questionnaireNew.jsp" type="org.kuali.kra.questionnaire.QuestionnaireAction">
-            <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionnaireNew.jsp" />
-        </action>
- 		<action path="/questionnaireMaint" name="QuestionnaireForm" input="/questionnaireMaint.jsp" type="org.kuali.kra.questionnaire.QuestionnaireAction">
-            <forward name="copy" path="/WEB-INF/jsp/questionnaire/questionnaireCopy.jsp" />
-            <forward name="edit" path="/WEB-INF/jsp/questionnaire/questionnaireEdit.jsp" />
-            <forward name="new" path="/WEB-INF/jsp/questionnaire/questionnaireNew.jsp" />
-        </action>
- 		<action path="/questionnaireAjax" name="QuestionnaireForm" input="/questionnaireNew.jsp" type="org.kuali.kra.questionnaire.QuestionnaireAction">
-            <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionnaireAjax.jsp" />
-        </action>
 
       <!--  Budget -->
       <action path="/budget*" name="BudgetForm" input="/WEB-INF/jsp/budget/Budget{1}.jsp" type="org.kuali.kra.budget.web.struts.action.Budget{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">

@@ -32,7 +32,7 @@ public class QuestionnaireMaintenanceDocumentRuleTest extends MaintenanceRuleTes
     public void setUp() throws Exception {
         super.setUp();
         rule = new QuestionnaireMaintenanceDocumentRule();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
+        GlobalVariables.setUserSession(new UserSession("superuser"));
     }
 
     @After
@@ -44,7 +44,6 @@ public class QuestionnaireMaintenanceDocumentRuleTest extends MaintenanceRuleTes
     @Test
     public void testQuestionnaireRule() throws Exception {
 
-        QuestionnaireRule questionnaireRule = new QuestionnaireRule();
         Questionnaire questionnaire = new Questionnaire();
         MaintenanceDocument questionnaireMaintenanceDocument = newMaintDoc(questionnaire);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionnaireMaintenanceDocument));

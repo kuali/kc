@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
 public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
@@ -87,7 +88,12 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         newQuestionnaire = new Questionnaire();
         fromQuestionnaire = new Questionnaire();
         questionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
-        qnaireQuestions = new ArrayList<String>();
+        qnaireQuestions = new TypedArrayList(String.class);
+        if (this.getDocument() != null) {
+            Questionnaire qn = (Questionnaire) ((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject()
+                    .getBusinessObject();
+            qn.setQuestionnaireUsages(new TypedArrayList(QuestionnaireUsage.class));
+        }
         questionNumber = 1;
         sqlScripts = "";
         retData = "";
@@ -208,23 +214,23 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     @Override
     public void populate(HttpServletRequest request) {
         // TODO Auto-generated method stub
-        if (this.getDocument() != null) {
-            Questionnaire qn = (Questionnaire) ((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject()
-                    .getBusinessObject();
-            if (qn != null
-                    && !((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
-                            "Copy")) {
-                int num = (Integer) GlobalVariables.getUserSession().retrieveObject("numOfQuestions");
-                for (int i = 0; i < num; i++) {
-                    // qn.getQuestionnaireQuestions().add(new QuestionnaireQuestion());
-                    getQnaireQuestions().add("");
-                }
-                num = (Integer) GlobalVariables.getUserSession().retrieveObject("numOfUsages");
-                for (int i = 0; i < num; i++) {
-                    qn.getQuestionnaireUsages().add(new QuestionnaireUsage());
-                }
-            }
-        }
+//        if (this.getDocument() != null) {
+//            Questionnaire qn = (Questionnaire) ((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject()
+//                    .getBusinessObject();
+//            if (qn != null
+//                    && !((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
+//                            "Copy")) {
+//                int num = (Integer) GlobalVariables.getUserSession().retrieveObject("numOfQuestions");
+////                for (int i = 0; i < num; i++) {
+////                    // qn.getQuestionnaireQuestions().add(new QuestionnaireQuestion());
+////                    getQnaireQuestions().add("");
+////                }
+//                num = (Integer) GlobalVariables.getUserSession().retrieveObject("numOfUsages");
+//                for (int i = 0; i < num; i++) {
+//                    qn.getQuestionnaireUsages().add(new QuestionnaireUsage());
+//                }
+//            }
+//        }
         super.populate(request);
 
 

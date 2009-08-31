@@ -18,7 +18,7 @@ package org.kuali.kra.questionnaire;
 import java.util.List;
 
 public interface QuestionnaireService {
-    void saveQuestionnaire(String sqlScripts, Questionnaire questionnaire);
+
     /**
      * 
      * This method is called to copy the source questionnaire to target questionnaire and save to DB
