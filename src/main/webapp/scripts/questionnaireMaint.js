@@ -670,6 +670,16 @@ function getMoveDownLink(curidx) {
 							divtmp.appendTo($(nextNode).children('div:eq(1)'));
 						}
 
+						var cloneNode = null;
+						if (nextNode.next().size() == 0) {
+							//alert("clone ")
+						var cloneNode = nextNode.clone(true);
+						cloneNode.appendTo($(nextNode).parents('ul:eq(0)'));
+						$('#example').treeview( {
+							add : cloneNode
+						});
+						}
+
 						curNode.insertAfter(nextNode);
 						var idx = $(curNode).attr("id").substring(8);
 						var seq = Number($("#qseq" + idx).attr("value")) + 1;
@@ -713,6 +723,11 @@ function getMoveDownLink(curidx) {
 //					    $("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 						// TODO : trying to group
 						swapGroupId(curNode, nextNode);
+	                    if (cloneNode) {
+	                    	//alert("remove clone")
+						cloneNode.remove();
+	                    }
+	    				return false;	
 
 					});
 	image.attr("src", "static/images/jquery/arrow-down.gif");
@@ -743,7 +758,7 @@ function getMoveUpLink(curidx) {
 					if ($(nextNode).children('div:eq(1)').children('div:eq(0)')
 							.size() == 0) {
 						var nextidx = $(nextNode).attr("id").substring(8);
-						var vers = "1.00";
+						//var vers = "1.00";
 						// alert("set up table
 						// "+nextidx+"-"+$(nextNode).children('div:eq(1)').children('a:eq(0)').attr("id"));
 						var childNode = 'true';
@@ -758,6 +773,25 @@ function getMoveUpLink(curidx) {
 
 					
 					// $(this).parents('li:eq(0)').remove();
+					
+					/*
+					 * TODO : Following clone code is just a hack
+					 * the last one does not have the "+" icon displayed.  so use this
+					 * to add the last one twice, then remove the clone one.  so, the last one looks like OK.
+					 * Should look into 'class' property to fix this hack
+					 */
+
+					var cloneNode = null;
+					if (curNode.next().size() == 0) {
+						//alert("clone ")
+					var cloneNode = curNode.clone(true);
+					cloneNode.appendTo($(nextNode).parents('ul:eq(0)'));
+					$('#example').treeview( {
+						add : cloneNode
+					});
+					}
+
+					
 					curNode.insertBefore(nextNode);
 					var idx = $(curNode).attr("id").substring(8);
 					var seq = Number($("#qseq" + idx).attr("value")) - 1;
@@ -794,6 +828,12 @@ function getMoveUpLink(curidx) {
 					// TODO : trying to group
 //				    $("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 					swapGroupId(curNode, nextNode);
+					
+                    if (cloneNode) {
+                    	//alert("remove clone")
+					cloneNode.remove();
+                    }
+				return false;	
 				});
 	image.attr("src", "static/images/jquery/arrow-up.gif");
 	atag.html(image);
@@ -1348,7 +1388,7 @@ function returnQuestionList(questionList) {
 	var cloneNode = $("#qnaireid"+i).clone(true);
 	cloneNode.appendTo($('#example'));
 	$('#example').treeview( {
-		add : listitem
+		add : cloneNode
 	});
 	cloneNode.remove();
 	
@@ -1475,7 +1515,7 @@ function addToGroup(listitem) {
  * in the case of move up/down; node may be moved to different group (page)
  */
 function swapGroupId(curNode, nextNode) {
-	// class mya like "group0 expandable ..", the last item has one more item
+	// class may like "group0 expandable ..", the last item has one more item
 	var curclass = $(curNode).attr("class");
 	var nextclass = $(nextNode).attr("class");
 	$(curNode).attr("class", nextclass);
@@ -1485,10 +1525,10 @@ function swapGroupId(curNode, nextNode) {
 		$(curNode).hide();
 		$(nextNode).show();
 	}
-	if (curclass != nextclass) {
-		$(curNode).attr("class", nextclass);
-		$(nextNode).attr("class", curclass);
-	}
+//	if (curclass != nextclass) {
+//		$(curNode).attr("class", nextclass);
+//		$(nextNode).attr("class", curclass);
+//	}
 }
 
 /*
@@ -2265,9 +2305,11 @@ function loadUsages(usages) {
                                             +";"+ $(this).parents('tr:eq(0)').children(
 											'td:eq(2)').html());
                                                         // alert(sqlScripts);
-								$("#utr"+$(this).attr("id").substring(11)).remove();
+							    shiftUsage($(this).attr("id").substring(11));
+								//$("#utr"+$(this).attr("id").substring(11)).remove();
 								ucount--;
-								alert(ucount)
+								$("#utr"+ucount).remove();
+								//alert(ucount)
                             curnode = $(this).parents('tr:eq(0)');
                             // alert("size "+curnode.next().size());
                             while (curnode.next().size() > 0) {
