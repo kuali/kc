@@ -23,11 +23,11 @@
     <li><portal:portalLink displayTitle="true" title="Award Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.AwardType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
     <li>Basis of Payment</li>
     <li>Calculated Cost Elements</li>
-    <li><portal:portalLink displayTitle="true" title="Contact Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.bo.ContactType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-    <li><portal:portalLink displayTitle="true" title="Distribution" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.bo.Distribution&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    <li><portal:portalLink displayTitle="true" title="Contact Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.ContactType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    <li><portal:portalLink displayTitle="true" title="Distribution" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.Distribution&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Equipment Approval</li>
-    <li><portal:portalLink displayTitle="true" title="Frequency" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.bo.Frequency&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-    <li><portal:portalLink displayTitle="true" title="Frequency Base" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.bo.FrequencyBase&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    <li><portal:portalLink displayTitle="true" title="Frequency" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.paymentreports.Frequency&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    <li><portal:portalLink displayTitle="true" title="Frequency Base" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.paymentreports.FrequencyBase&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="IP Review Activity Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivityType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="IP Review Requirement Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewRequirementType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="IP Review Result Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewResultType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
@@ -37,8 +37,8 @@
     <li>Property</li>
     <li>Publication</li>
     <li>Referenced Document</li>
-    <li><portal:portalLink displayTitle="true" title="Report" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.bo.Report&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>    
-    <li><portal:portalLink displayTitle="true" title="Report Class" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.bo.ReportClass&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    <li><portal:portalLink displayTitle="true" title="Report" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.paymentreports.Report&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>    
+    <li><portal:portalLink displayTitle="true" title="Report Class" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.paymentreports.ReportClass&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Report Status</li>
     <li>Rights to Data</li>
     <li>Sub-Contract Approval</li>
