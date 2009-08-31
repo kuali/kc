@@ -15,9 +15,15 @@
  */
 package org.kuali.kra.questionnaire.question;
 
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -29,6 +35,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * This class contains the business rules that are specific to Question.
  */
 public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
+
+    private static final Log LOG = LogFactory.getLog(QuestionMaintenanceDocumentRule.class);
 
     /**
      * Constructs a QuestionMaintenanceDocumentRule.
@@ -351,12 +359,45 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
      */
     private boolean validateLookupReturn(Question question) {
         if (question.getLookupReturn() != null) {
-            return true;
+            return validateLookupReturnBasedOnLookupClass(question);
         } else {
             GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_LOOKUP_RETURN,
                     KeyConstants.ERROR_QUESTION_LOOKUP_RETURN_NOT_SPECIFIED);
             return false;
         }
+    }
+
+    /**
+     * This method validates the lookupReturn with the specified lookupClass of the question.
+     * (The lookupReturn may be different if JavaScript is disabled and thus the automatic population
+     *  of the lookupReturn drop down list has not occurred after the lookupClass has changed.) 
+     * @param question - the question to be validated
+     * @return true if validation has passed, false otherwise
+     */
+    @SuppressWarnings("unchecked")
+    private boolean validateLookupReturnBasedOnLookupClass(Question question) {
+        if (question.getLookupClass() != null) {
+            try {
+                List<String> lookupReturnClasses = getCustomAttributeService().getLookupReturns(question.getLookupClass());
+                for (String lookupReturnClass : lookupReturnClasses) {
+                    if (StringUtils.equals(lookupReturnClass, question.getLookupReturn())) {
+                        return true;
+                    }
+                }
+                GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_LOOKUP_RETURN,
+                        KeyConstants.ERROR_QUESTION_LOOKUP_RETURN_INVALID);
+                return false;
+            }
+            catch (Exception e) {
+                LOG.info(e.getMessage());
+                throw new RuntimeException("QuestionMaintenanceDocumentRule encountered exception", e);
+            }
+        }
+        return true;
+    }
+    
+    private CustomAttributeService getCustomAttributeService() {
+        return KraServiceLocator.getService(CustomAttributeService.class);
     }
 
 }
