@@ -1812,16 +1812,10 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-        <property name="questionnaireDao">
-            <ref bean="questionnaireDao" />
-        </property>
         <property name="questionnaireAuthorizationService">
             <ref bean="questionnaireAuthorizationService" />
         </property>
 	</bean>
-
-    <bean id="questionnaireDao" parent="platformAwareDao" class="org.kuali.kra.questionnaire.QuestionnaireDaoOjb">
-	</bean>	
 
 	<bean id="questionnaireLookupableHelperService" class="org.kuali.kra.questionnaire.QuestionnaireLookupableHelperServiceImpl" 
  	    scope="prototype" parent="lookupableHelperService">
