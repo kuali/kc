@@ -16,12 +16,14 @@
 package org.kuali.kra.irb.actions.withdraw;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
@@ -29,7 +31,6 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * The ProtocolWithdrawService implementation.
@@ -39,6 +40,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private ProtocolActionService protocolActionService;
+    private ProtocolVersionService protocolVersionService;
 
     /**
      * Set the document service.
@@ -63,12 +65,19 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
     }
+    
+    /**
+     * Inject Protocol Version Service
+     * @param protocolVersionService
+     */
+    public void setProtocolVersionService(ProtocolVersionService protocolVersionService) {
+        this.protocolVersionService = protocolVersionService;
+    }
 
     /**
-     * @throws WorkflowException 
      * @see org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService#withdraw(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean)
      */
-    public void withdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws WorkflowException {
+    public ProtocolDocument withdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws Exception {
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.WITHDRAWN);
         protocolAction.setComments(withdrawBean.getReason());
         protocol.getProtocolActions().add(protocolAction);
@@ -82,7 +91,21 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
         }
         businessObjectService.save(protocol.getProtocolDocument());
         
+        /*
+         * Cancelling the workflow document is how we withdraw it.
+         */
         cancelWorkflow(protocol);
+        
+        /*
+         * Create a new protocol document for the user to edit so they can re-submit at 
+         * a later time.
+         */
+        ProtocolDocument newProtocolDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
+        newProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.WITHDRAWN);
+        newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
+        documentService.saveDocument(newProtocolDocument);
+        
+        return newProtocolDocument;
     }
 
     /**

@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.actions.withdraw;
 
 import org.kuali.kra.irb.Protocol;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.kra.irb.ProtocolDocument;
 
 /**
  * Protocol Withdraw Service.
@@ -24,10 +24,12 @@ import org.kuali.rice.kew.exception.WorkflowException;
 public interface ProtocolWithdrawService {
 
     /**
-     * Perform the task of withdrawing a protocol.
+     * Perform the task of withdrawing a protocol.  A new protocol document will be created
+     * so that it can be re-submitted into workflow at a later time.
      * @param protocol the protocol
      * @param withdrawBean the required data for performing a withdrawal
-     * @throws WorkflowException 
+     * @return new protocol document 
+     * @throws Exception 
      */
-    public void withdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws WorkflowException;
+    public ProtocolDocument withdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws Exception;
 }
