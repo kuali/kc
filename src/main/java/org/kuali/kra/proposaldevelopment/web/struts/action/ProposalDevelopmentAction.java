@@ -92,12 +92,9 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         String command = proposalDevelopmentForm.getCommand();
         
         if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
-             String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-             Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
-             proposalDevelopmentForm.setDocument(retrievedDocument);
-             request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
-             forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
-             forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
+            loadDocumentInForm(request, proposalDevelopmentForm);
+            forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
+            forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + request.getParameter(KNSConstants.PARAMETER_DOC_ID));  
         } else {
              forward = super.docHandler(mapping, form, request, response);
         }
@@ -446,8 +443,13 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         return mapping.findForward(Constants.CUSTOM_ATTRIBUTES_PAGE);
     }
 
-    public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        if (proposalDevelopmentForm.getDocument().getDocumentNumber() == null) {
+            // If entering this action from copy link on doc search
+            loadDocumentInForm(request, proposalDevelopmentForm);
+        }
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         PrintService printService = KraServiceLocator.getService(PrintService.class);
         printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
@@ -530,6 +532,14 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         String name = getClass().getSimpleName();
         int endIndex = name.lastIndexOf("Action");
         return name.substring(19, endIndex);
+    }
+    
+    protected void loadDocumentInForm(HttpServletRequest request, ProposalDevelopmentForm proposalDevelopmentForm)
+    throws WorkflowException {
+        String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
+        Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+        proposalDevelopmentForm.setDocument(retrievedDocument);
+        request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
     }
     
     /**
