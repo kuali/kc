@@ -26,13 +26,12 @@ import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -61,21 +60,17 @@ public class ProtocolWithdrawServiceTest extends KraTestBase {
     private static final String VALID_SUBMISSION_TYPE = "100";
     private static final String VALID_REVIEW_TYPE = "1";
     
-    private ProtocolWithdrawServiceImpl protocolWithdrawService;
+    private ProtocolWithdrawService protocolWithdrawService;
     private ProtocolSubmitActionService protocolSubmitActionService;
     private BusinessObjectService businessObjectService;  
-    private ProtocolActionService protocolActionService;
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("superuser"));
-        protocolWithdrawService = new ProtocolWithdrawServiceImpl();
+        protocolWithdrawService = KraServiceLocator.getService(ProtocolWithdrawService.class);
         protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        protocolWithdrawService.setBusinessObjectService(businessObjectService);
-        protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
-        protocolWithdrawService.setProtocolActionService(protocolActionService);
     }
 
     @After
@@ -93,8 +88,11 @@ public class ProtocolWithdrawServiceTest extends KraTestBase {
         ProtocolSubmitAction submitAction = createSubmitAction("668", "1", VALID_REVIEW_TYPE);
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
         
-        protocolWithdrawService.withdraw(protocolDocument.getProtocol(), withdrawBean);
+        ProtocolDocument newProtocolDocument = protocolWithdrawService.withdraw(protocolDocument.getProtocol(), withdrawBean);
     
+        assertTrue(protocolDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled());
+        assertEquals(ProtocolStatus.WITHDRAWN, newProtocolDocument.getProtocol().getProtocolStatusCode());
+        
         ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
         assertNotNull(protocolAction);
         assertEquals(REASON, protocolAction.getComments());
