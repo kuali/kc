@@ -194,8 +194,7 @@ public class AwardComment extends AwardAssociate {
     }
 
     public void resetPersistenceState() {
-        // TODO Auto-generated method stub
-        
+        awardCommentId = null;
+        versionNumber = null;
     }
-
 }
