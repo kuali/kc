@@ -77,7 +77,7 @@ public class QuestionLookupAction extends KualiAction {
                             questions = questions + "#q#" +question.getQuestionRefId()+"#f#"+desc+"#f#"+question.getQuestionTypeId()+"#f#"+question.getSequenceNumber();
                             
                         }
-                        questions = questions +"#f#"+ getQeustionResponse(question);
+                        questions = questions +"#f#"+ getQuestionResponse(question);
                     }
             questionLookupForm.setLookupResultsSequenceNumber(null);
         }
@@ -93,7 +93,7 @@ public class QuestionLookupAction extends KualiAction {
 
     }
 
-    private String getQeustionResponse(Question question) {
+    private String getQuestionResponse(Question question) {
         String retString = "";
         if (question.getQuestionTypeId().equals(new Integer(6))) {
             String className = question.getLookupClass();
