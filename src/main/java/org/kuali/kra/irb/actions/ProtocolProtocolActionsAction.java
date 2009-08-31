@@ -228,7 +228,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW, protocolForm.getProtocolDocument().getProtocol());
         if (isAuthorized(task)) {
-            getProtocolWithdrawService().withdraw(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolWithdrawBean());
+            ProtocolDocument pd = getProtocolWithdrawService().withdraw(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getProtocolWithdrawBean());
+        
+            protocolForm.setDocId(pd.getDocumentNumber());
+            loadDocument(protocolForm);
+            protocolForm.getProtocolHelper().prepareView();
+        
+            return mapping.findForward(PROTOCOL_TAB);
         }
         
         return mapping.findForward(MAPPING_BASIC);
