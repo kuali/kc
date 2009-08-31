@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.plexus.util.StringUtils;
-import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -29,7 +28,6 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
-import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
@@ -201,7 +199,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      */
     private void mergeAmendment(String protocolStatusCode, String type) throws Exception {
         Protocol currentProtocol = getProtocolFinder().findCurrentProtocolByNumber(getOriginalProtocolNumber());
-        ProtocolDocument newProtocolDocument = createVersion(currentProtocol.getProtocolDocument());
+        ProtocolDocument newProtocolDocument = getProtocolVersionService().versionProtocolDocument(currentProtocol.getProtocolDocument());
         newProtocolDocument.getProtocol().merge(getProtocol());
         getProtocol().setProtocolStatusCode(protocolStatusCode);
         
@@ -219,6 +217,10 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         getBusinessObjectService().save(this);
     }
     
+    private ProtocolVersionService getProtocolVersionService() {
+        return KraServiceLocator.getService(ProtocolVersionService.class);
+    }
+
     private String getProtocolNumberIndex() {
         return this.getProtocol().getProtocolNumber().substring(11);
     }
@@ -284,45 +286,5 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      */
     public boolean isNormal() {
         return !isAmendment() && !isRenewal();
-    }
-    
-    /**
-     * Version a protocol document.
-     * @param oldDoc the old protocol document to version
-     * @return the new protocol document version
-     * @throws Exception
-     */
-    private ProtocolDocument createVersion(ProtocolDocument oldDoc) throws Exception {
-        VersioningService versioningService = KraServiceLocator.getService(VersioningService.class);
-        Protocol newVersion = versioningService.createNewVersion(oldDoc.getProtocol());
-        
-        ProtocolDocument protocolDocument = (ProtocolDocument) getDocumentService().getNewDocument(ProtocolDocument.class);
-        protocolDocument.getDocumentHeader().setDocumentDescription(oldDoc.getDocumentHeader().getDocumentDescription());
-      
-        fixNextValues(oldDoc, protocolDocument);
-        protocolDocument.setProtocol(newVersion);
-        newVersion.setProtocolDocument(protocolDocument);
-        
-        return protocolDocument;
-    }
-
-    /**
-     * The document next values must be the same in the new version as in
-     * the old document.  Note that the next document values must be assigned
-     * the document number of the new version.
-     * @param oldDoc
-     * @param newDoc
-     */
-    private void fixNextValues(ProtocolDocument oldDoc, ProtocolDocument newDoc) {
-        List<DocumentNextvalue> newNextValues = new ArrayList<DocumentNextvalue>();
-        List<DocumentNextvalue> oldNextValues = oldDoc.getDocumentNextvalues();
-        for (DocumentNextvalue oldNextValue : oldNextValues) {
-            DocumentNextvalue newNextValue = new DocumentNextvalue();
-            newNextValue.setPropertyName(oldNextValue.getPropertyName());
-            newNextValue.setNextValue(oldNextValue.getNextValue());
-            newNextValue.setDocumentKey(newDoc.getDocumentNumber());
-            newNextValues.add(newNextValue);
-        }
-        newDoc.setDocumentNextvalues(newNextValues);
     }
 }
