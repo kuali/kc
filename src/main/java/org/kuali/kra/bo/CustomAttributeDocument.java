@@ -32,6 +32,7 @@ public class CustomAttributeDocument extends KraPersistableBusinessObjectBase {
 
     private CustomAttribute customAttribute;
     private DocumentType documentType;
+
     private boolean active;
 
 	public CustomAttributeDocument(){
@@ -111,5 +112,21 @@ public class CustomAttributeDocument extends KraPersistableBusinessObjectBase {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+    
+    /**
+     * Gets the documentType attribute. 
+     * @return Returns the documentType.
+     */
+    public DocumentType getDocumentType() {
+        return documentType;
+    }
+
+    /**
+     * Sets the documentType attribute value.
+     * @param documentType The documentType to set.
+     */
+    public void setDocumentType(DocumentType documentType) {
+        this.documentType = documentType;
     }
 }
