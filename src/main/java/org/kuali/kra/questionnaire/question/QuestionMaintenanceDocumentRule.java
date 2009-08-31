@@ -17,6 +17,7 @@ package org.kuali.kra.questionnaire.question;
 
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.plexus.util.StringUtils;
@@ -107,35 +108,35 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument maintenanceDocument) {
-        Question question = (Question) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
-
-        return validateUserInput(question);
-    }
-
-    /**
-     * This method validates the question.
-     * @param question - the question to be validated
-     * @return true if all validation has passed, false otherwise
-     */
-    private boolean validateUserInput(Question question) {
         boolean isValid = true;
 
-        isValid &= validateQuestionId(question);
-        isValid &= validateQuestionResponseType(question);
+        isValid &= validateQuestionId(maintenanceDocument);
+        isValid &= validateQuestionResponseType(maintenanceDocument);
 
         return isValid;
     }
-    
 
-    private boolean validateQuestionId(Question question) {
-        Question existingQuestion = getQuestionService().getQuestionById(question.getQuestionId());
+    /**
+     * 
+     * This method validates the question id to ensure it remains unique within the versioning schema.
+     * @param maintenanceDocument - the maintenance document of the question to be validated
+     * @return true if valid, false otherwise
+     */
+    private boolean validateQuestionId(MaintenanceDocument maintenanceDocument) {
+        Question oldQuestion = (Question) maintenanceDocument.getOldMaintainableObject().getBusinessObject();
+        Question newQuestion = (Question) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
         
-        if ((existingQuestion == null) || (existingQuestion.getSequenceNumber() < question.getSequenceNumber())) {
+        if (ObjectUtils.equals(oldQuestion.getQuestionId(), newQuestion.getQuestionId())) {
             return true;
         } else {
-            GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_QUESTION_ID,
-            KeyConstants.ERROR_QUESTION_ID_DUPLICATE);
-            return false;
+            Question existingQuestion = getQuestionService().getQuestionById(newQuestion.getQuestionId());
+            if (existingQuestion == null) {
+                return true;
+            } else {
+                GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_QUESTION_ID,
+                        KeyConstants.ERROR_QUESTION_ID_DUPLICATE);
+                return false;
+            }
         }
     }
 
@@ -145,11 +146,13 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 
     /**
      * This method validates the question response type and any additional properties related to the response type.
-     * @param question - the question to be validated
+     * @param maintenanceDocument - the maintenance document of the question to be validated
      * @return true if all validation has passed, false otherwise
      */
-    private boolean validateQuestionResponseType(Question question) {
+    private boolean validateQuestionResponseType(MaintenanceDocument maintenanceDocument) {
         boolean isValid = true;
+
+        Question question = (Question) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
 
         if (question.getQuestionTypeId() == null) {
             isValid &= false;
