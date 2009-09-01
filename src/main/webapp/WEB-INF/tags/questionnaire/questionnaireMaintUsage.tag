@@ -2,7 +2,7 @@
 <c:set var="readOnly" value="false"  scope="request"/>
 <c:set var="questionnaireUsageAttributes" value="${DataDictionary.QuestionnaireUsage.attributes}" />
 <c:set var="vers" value="${KualiForm.document.newMaintainableObject.businessObject.sequenceNumber}" />
-<c:if test="${KualiForm.document.newMaintainableObject.maintenanceAction == 'Edit' and KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus == 'I'}">
+<c:if test="${KualiForm.document.newMaintainableObject.maintenanceAction == 'Edit' and KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus == 'I' and !KualiForm.versioned}">
    <c:set var="vers" value="${KualiForm.document.newMaintainableObject.businessObject.sequenceNumber+1}" />
 </c:if>
 <div class="tab-container" align="center">

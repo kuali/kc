@@ -1943,7 +1943,7 @@ $(document).ready(function() {
           });
     }
     if ($("#maintAction").attr("value") == 'Edit') {
-        if ($("#docStatus").attr("value") == 'I') {
+        if ($("#docStatus").attr("value") == 'I' && $("#versioned").attr("value") == 'false') {
   	    qnversion = Number($("#document\\.newMaintainableObject\\.businessObject\\.sequenceNumber").attr("value"))+1;
         } else {
             qnversion = $("#document\\.newMaintainableObject\\.businessObject\\.sequenceNumber").attr("value");
