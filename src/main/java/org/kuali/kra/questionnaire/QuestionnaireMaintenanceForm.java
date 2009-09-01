@@ -32,6 +32,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private Questionnaire fromQuestionnaire;
     private QuestionnaireUsage newQuestionnaireUsage;
     private List<QuestionnaireQuestion> questionnaireQuestions;
+    private List<QuestionnaireQuestion> removedQuestionnaireQuestions;
     private List<QuestionnaireUsage> questionnaireUsages;
     private Integer newQuestionId;
     private String sqlScripts;
@@ -45,6 +46,15 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private Integer numOfQuestions;
     private Integer numOfUsages;
     private List qnaireQuestions;
+    private boolean versioned;
+    
+    public boolean isVersioned() {
+        return versioned;
+    }
+
+    public void setVersioned(boolean versioned) {
+        this.versioned = versioned;
+    }
 
     public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
@@ -72,11 +82,13 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         newQuestionnaire = new Questionnaire();
         fromQuestionnaire = new Questionnaire();
         questionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
+        removedQuestionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
         questionnaireUsages = new ArrayList<QuestionnaireUsage>();
         qnaireQuestions = new ArrayList<String>();
         // TODO : if it is newquestionnaire, then set questionnumber to 1
         questionNumber = 1;
         numOfQuestions = 0;
+        
 
     }
 
@@ -99,7 +111,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         retData = "";
         // editData = "";
         action = "";
-
+        //versioned=false;
     }
 
     public Questionnaire getNewQuestionnaire() {
@@ -308,6 +320,14 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
 
     public void setQuestionnaireUsages(List<QuestionnaireUsage> questionnaireUsages) {
         this.questionnaireUsages = questionnaireUsages;
+    }
+
+    public List<QuestionnaireQuestion> getRemovedQuestionnaireQuestions() {
+        return removedQuestionnaireQuestions;
+    }
+
+    public void setRemovedQuestionnaireQuestions(List<QuestionnaireQuestion> removedQuestionnaireQuestions) {
+        this.removedQuestionnaireQuestions = removedQuestionnaireQuestions;
     }
 
 
