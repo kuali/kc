@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.dao.KraLookupDao;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -28,11 +27,11 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -309,12 +308,34 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     
     @SuppressWarnings("unchecked")
     private Collection<Protocol> getAmendments(String protocolNumber) {
-        return (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + AMEND_ID + "%", true);
+        List<Protocol> amendments = new ArrayList<Protocol>();
+        Collection<Protocol> protocols = (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + AMEND_ID + "%", true);
+        for (Protocol protocol : protocols) {
+            try {
+                ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
+                amendments.add(protocolDocument.getProtocol());
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return amendments;
     }
 
     @SuppressWarnings("unchecked")
     private Collection<Protocol> getRenewals(String protocolNumber) {
-        return (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + RENEW_ID + "%", true);
+        List<Protocol> renewals = new ArrayList<Protocol>();
+        Collection<Protocol> protocols = (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + RENEW_ID + "%", true);
+        for (Protocol protocol : protocols) {
+            try {
+                ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
+                renewals.add(protocolDocument.getProtocol());
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return renewals;
     }
   
     /**
@@ -368,35 +389,35 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * @return
      */
     private boolean isAmendmentCompleted(Protocol protocol) {
-        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
-            if (isAmendmentSubmission(submission) && isSubmissionCompleted(submission)) {
-                return true;
-            }
+        KualiWorkflowDocument workflowDocument = getWorkflowDocument(protocol.getProtocolDocument());
+        if (workflowDocument != null) {
+            return workflowDocument.stateIsApproved() ||
+                   workflowDocument.stateIsFinal() ||
+                   workflowDocument.stateIsDisapproved() ||
+                   workflowDocument.stateIsCanceled() ||
+                   workflowDocument.stateIsException();
         }
         return false;
     }
     
     /**
-     * Has a submission for an amendment completed?
-     * @param submission
-     * @return
+     * Get the corresponding workflow document.  
+     * @param doc the document
+     * @return the workflow document or null if there is none
      */
-    private boolean isSubmissionCompleted(ProtocolSubmission submission) {
-        return StringUtils.equals(ProtocolSubmissionStatus.COMPLETE, submission.getSubmissionStatusCode()) ||
-               StringUtils.equals(ProtocolSubmissionStatus.APPROVED, submission.getSubmissionStatusCode()) ||
-               StringUtils.equals(ProtocolSubmissionStatus.EXEMPT, submission.getSubmissionStatusCode()) ||
-               StringUtils.equals(ProtocolSubmissionStatus.DISAPPROVED, submission.getSubmissionStatusCode()) ||
-               StringUtils.equals(ProtocolSubmissionStatus.CLOSED, submission.getSubmissionStatusCode()) ||
-               StringUtils.equals(ProtocolSubmissionStatus.TERMINATED, submission.getSubmissionStatusCode());
-    }
-
-    /**
-     * Is this an amendment submission?
-     * @param submission
-     * @return
-     */
-    private boolean isAmendmentSubmission(ProtocolSubmission submission) {
-        return StringUtils.equals(ProtocolSubmissionType.AMENDMENT, submission.getSubmissionTypeCode()) ||
-               StringUtils.equals(ProtocolSubmissionType.CONTINUATION_WITH_AMENDMENT, submission.getSubmissionTypeCode());
+    private KualiWorkflowDocument getWorkflowDocument(Document doc) {
+        KualiWorkflowDocument workflowDocument = null;
+        if (doc != null) {
+            DocumentHeader header = doc.getDocumentHeader();
+            if (header != null) {
+                try {
+                    workflowDocument = header.getWorkflowDocument();
+                } 
+                catch (RuntimeException ex) {
+                    // do nothing; there is no workflow document
+                }
+            }
+        }
+        return workflowDocument;
     }
 }
