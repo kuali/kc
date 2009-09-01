@@ -21,7 +21,7 @@
             </td>
             <td align="left" valign="middle">
               <c:choose>
-               <c:when test = "${KualiForm.document.newMaintainableObject.maintenanceAction eq 'Edit' and KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus eq 'I'}">
+               <c:when test = "${KualiForm.document.newMaintainableObject.maintenanceAction eq 'Edit' and KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus eq 'I' and !KualiForm.versioned}">
                     Version ${KualiForm.document.newMaintainableObject.businessObject.sequenceNumber+1}
                 </c:when>
                 <c:otherwise>
@@ -63,4 +63,5 @@
     <input type="hidden" id="document.newMaintainableObject.businessObject.sequenceNumber" name="document.newMaintainableObject.businessObject.sequenceNumber" value = "${KualiForm.document.newMaintainableObject.businessObject.sequenceNumber}"/>
 	<input type="hidden" id="retData" name="retData" value = "${KualiForm.retData}"/>
 	<input type="hidden" id="editData" name="editData" value = "${KualiForm.editData}"/>
+	<input type="hidden" id="versioned" name="versioned" value = "${KualiForm.versioned}"/>
 </div>
