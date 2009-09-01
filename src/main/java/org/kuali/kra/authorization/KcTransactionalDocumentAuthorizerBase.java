@@ -568,4 +568,9 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
     protected final TaskAuthorizationService getTaskAuthorizationService(){
         return (TaskAuthorizationService) KraServiceLocator.getService(TaskAuthorizationService.class);        
     }
+    
+    /** {@inheritDoc} */
+    public boolean canSendAdHocRequests(Document arg0, String arg1, Person arg2) {
+        return true;
+    }
 }

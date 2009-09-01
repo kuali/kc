@@ -69,7 +69,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
-import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
@@ -82,7 +81,7 @@ import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.util.PerformanceLogger;
-import org.kuali.rice.kim.bo.group.KimGroup;
+import org.kuali.rice.kim.bo.group.dto.GroupInfo;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -1213,8 +1212,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         boolean canModify = proposalAuthService.hasPermission(principalId, this.getDocument(), PermissionConstants.MODIFY_PROPOSAL);
         KIMService kimService = KraServiceLocator.getService(KIMService.class);
         if (canModify) { return false; }
-        List<? extends KimGroup> groups = kimService.getGroupsForPrincipal(principalId);
-        for (KimGroup group: groups) {
+        List<? extends GroupInfo> groups = kimService.getGroupsForPrincipal(principalId);
+        for (GroupInfo group: groups) {
             if (group.getGroupName().equals("OSP")) {
                 return false;
             }

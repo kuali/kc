@@ -98,7 +98,7 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     }
     
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) throws Exception {
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         
         AwardAmountTransaction newAwardAmountTransaction = this.getNewAwardAmountTransaction();
         super.doRouteStatusChange(statusChangeEvent);

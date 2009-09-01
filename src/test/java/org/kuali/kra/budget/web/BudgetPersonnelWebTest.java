@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.test.lifecycles.TransactionalLifecycle;
+import org.kuali.rice.test.TransactionalLifecycle;
 
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;

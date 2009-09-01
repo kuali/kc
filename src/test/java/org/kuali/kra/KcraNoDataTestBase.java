@@ -32,7 +32,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.test.lifecycles.TransactionalLifecycle;
+import org.kuali.rice.test.TransactionalLifecycle;
 import org.kuali.rice.test.web.HtmlUnitUtil;
 
 /**

@@ -76,10 +76,10 @@
 	</function>
 	<function>
     	<description>Get Display Mask Value</description>
-    	<name>getDisplayMaskValue</name>
+    	<name>getFullyMaskedValue</name>
 	    <function-class>org.kuali.rice.kns.util.WebUtils</function-class>
-	    <function-signature>java.lang.String getDisplayMaskValue(java.lang.String, java.lang.String,, java.lang.Object, java.lang.String)</function-signature>
-	    <example>${kfunc:getDisplayMaskValue(className, fieldName, kualiForm, propertyName)}</example>
+	    <function-signature>java.lang.String getFullyMaskedValue(java.lang.String, java.lang.String,, java.lang.Object, java.lang.String)</function-signature>
+	    <example>${kfunc:getFullyMaskedValue(className, fieldName, kualiForm, propertyName)}</example>
 	</function>
 	<function>
     	<description>Check Add Note Permission</description>
