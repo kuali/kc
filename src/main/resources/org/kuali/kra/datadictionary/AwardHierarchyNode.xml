@@ -93,8 +93,8 @@
     <bean id="AwardHierarchyNode-currentFundEffectiveDate" parent="AwardHierarchyNode-currentFundEffectiveDate-parentBean" />
     <bean id="AwardHierarchyNode-currentFundEffectiveDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
     	<property name="name" value="currentFundEffectiveDate" />
-        <property name="label" value="currentFundEffectiveDate" />
-        <property name="shortLabel" value="currentFundEffectiveDate" />
+        <property name="label" value="Oblg. Start" />
+        <property name="shortLabel" value="Oblg. Start" />
         <property name="required" value="false" />
         <property name="summary" value="currentFundEffectiveDate" />
         <property name="description" value="currentFundEffectiveDate" />
@@ -103,8 +103,8 @@
     <bean id="AwardHierarchyNode-obligationExpirationDate" parent="AwardHierarchyNode-obligationExpirationDate-parentBean" />
     <bean id="AwardHierarchyNode-obligationExpirationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
     	<property name="name" value="obligationExpirationDate" />
-        <property name="label" value="obligationExpirationDate" />
-        <property name="shortLabel" value="obligationExpirationDate" />
+        <property name="label" value="Oblg. End" />
+        <property name="shortLabel" value="Oblg. End" />
         <property name="required" value="false" />
         <property name="summary" value="obligationExpirationDate" />
         <property name="description" value="obligationExpirationDate" />
