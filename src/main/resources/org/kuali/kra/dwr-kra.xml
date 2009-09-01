@@ -76,6 +76,11 @@
 			<include method="getSubResearchAreasForTreeView" />
 			<include method="getAscendantList" />			
 		</create>
+		<create creator="spring" javascript="AwardHierarchyUIService">
+			<param name="beanName" value="awardHierarchyUIService" />
+			<include method="getSubAwardHierarchiesForTreeView" />
+			<include method="getRootAwardNode" />								
+		</create>
 		<create creator="spring" javascript="AwardFandaRateService">
 			<param name="beanName" value="awardFandaRateService" />			
 			<include method="getStartAndEndDatesBasedOnFiscalYear" />

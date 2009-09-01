@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.timeandmoney.web.struts.action;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,9 +87,17 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         timeAndMoneyForm.getTimeAndMoneyDocument().setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(rootAwardNumber, order));
         timeAndMoneyForm.getTimeAndMoneyDocument().setAwardNumber(rootAwardNumber);
         timeAndMoneyForm.setOrder(order);
-        setupHierachyNodes(timeAndMoneyForm.getTimeAndMoneyDocument());
+        setupHierachyNodes(timeAndMoneyForm.getTimeAndMoneyDocument());        
         populateOtherPanels(timeAndMoneyForm.getTransactionBean().getNewAwardAmountTransaction(), timeAndMoneyForm, rootAwardNumber);
         return forward;
+    }
+    
+    private String convertToString(Date date){
+        if(date!=null){
+            return date.toString();
+        }else{
+            return null;
+        }
     }
     
     public AwardHierarchyService getAwardHierarchyService(){        

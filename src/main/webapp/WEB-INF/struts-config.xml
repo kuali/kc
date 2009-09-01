@@ -208,6 +208,10 @@
           <forward name="basic" path="/WEB-INF/jsp/timeandmoney/TimeAndMoney{1}.jsp" />
       </action>
       
+      <action path="/awardHierarchyAjax" name="TimeAndMoneyForm" type="org.kuali.kra.award.web.struts.action.AwardHierarchyAction">
+          <forward name="basic" path="/awardHierarchyAjax.jsp" />
+      </action>
+      
       <!-- Time And Money -->
       
        <!--  Institutional Proposal -->      
