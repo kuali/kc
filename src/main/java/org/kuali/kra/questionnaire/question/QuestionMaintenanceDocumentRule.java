@@ -346,6 +346,12 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
      * @return true if all validation has passed, false otherwise
      */
     private boolean validateLookupClass(Question question) {
+        // Force a reload the lookupReturn dropdown list when the lookupClass changes 
+        String prevLookupClass = (String) GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_CLASS_NAME);
+        if (ObjectUtils.equals(question.getLookupClass(), prevLookupClass)) {
+            GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_RETURN_FIELDS);
+        }
+        
         if (question.getLookupClass() != null) {
             return true;
         } else {
