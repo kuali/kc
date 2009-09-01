@@ -66,11 +66,6 @@ public abstract class KNSTestCase extends RiceTestCase {
 	}
 
 	@Override
-	protected String getDerbySQLFileLocation() {
-		return "classpath:db/derby/kns.sql";
-	}
-
-	@Override
 	protected String getModuleName() {
 		return "kns";
 	}
