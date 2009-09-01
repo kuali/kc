@@ -79,6 +79,7 @@ import org.kuali.kra.award.permissions.AwardPermissionsRule;
 import org.kuali.kra.award.rule.AwardCommentsRule;
 import org.kuali.kra.award.rule.AwardCommentsRuleImpl;
 import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
+import org.kuali.kra.award.contacts.AwardProjectPersonsAuditRule;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRule;
@@ -465,6 +466,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= new AwardCustomDataAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardPaymentAndInvoicesAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardFandARateAuditRule().processRunAuditBusinessRules(document);
+        retval &= new AwardProjectPersonsAuditRule().processRunAuditBusinessRules(document);
         
         return retval;
         
