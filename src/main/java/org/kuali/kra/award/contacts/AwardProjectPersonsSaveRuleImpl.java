@@ -40,22 +40,9 @@ public class AwardProjectPersonsSaveRuleImpl implements AwardProjectPersonsSaveR
             return true;
         }
         
-        boolean valid = checkForAPrincipalInvestigator(projectPersons);
-        valid &= checkForUnitDetails(projectPersons);
-        valid &= checkForLeadUnit(projectPersons);
-        valid &= checkForDuplicateUnits(projectPersons);
+        boolean valid = checkForDuplicateUnits(projectPersons);
         
-        return valid;
-    }
-
-    boolean checkForAPrincipalInvestigator(List<AwardPerson> projectPersons) {
-        int piCount = 0;
-        for(AwardPerson p: projectPersons) {
-            if(p.isPrincipalInvestigator()) {
-                piCount++; 
-            }
-        }
-        return handlePiCount(piCount); 
+        return true;
     }
     
     boolean checkForDuplicateUnits(List<AwardPerson> projectPersons) {
@@ -88,55 +75,4 @@ public class AwardProjectPersonsSaveRuleImpl implements AwardProjectPersonsSaveR
         return valid;
     }
     
-    boolean checkForLeadUnit(List<AwardPerson> projectPersons) {
-        boolean valid = true;
-OUTER:  for(AwardPerson p: projectPersons) {
-            if(p.isPrincipalInvestigator() ) {
-                valid = false;
-                for(AwardPersonUnit apu: p.getUnits()) {
-                    if(apu.isLeadUnit()) {
-                        valid = true;
-                        break OUTER;
-                    }
-                }
-                if(!valid) {
-                    GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, 
-                                                            ERROR_AWARD_PROJECT_PERSON_LEAD_UNIT_REQUIRED);
-                }
-                break OUTER;
-            }
-        }
-        return valid; 
-    }
-    
-    boolean checkForUnitDetails(List<AwardPerson> projectPersons) {
-        boolean valid = true;
-        for(AwardPerson p: projectPersons) {
-            if(p.isPrincipalInvestigator() || p.isCoInvestigator()) {
-                valid = p.getUnits().size() > 0;
-                if(!valid) {
-                    GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, 
-                                                            ERROR_AWARD_PROJECT_PERSON_UNIT_DETAILS_REQUIRED, p.getFullName());
-                }
-            }
-        }
-        return valid; 
-    }
-
-    private boolean handlePiCount(int piCount) {
-        boolean valid;
-        switch(piCount) {
-            case 0:
-                GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_AWARD_PROJECT_PERSON_NO_PI);
-                valid = false;
-                break;
-            case 1:
-                valid = true;
-                break;
-            default:
-                GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_AWARD_PROJECT_PERSON_MULTIPLE_PI_EXISTS);
-                valid = false;
-        }
-        return valid;
-    }
 }
