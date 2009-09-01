@@ -401,6 +401,7 @@ public interface Constants {
     public static final String REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL = "reportClassForPaymentsAndInvoicesPanel";
     
     //Award Audit Rules
+    public static final String CONTACT_AUDIT_RULES_ERROR_KEY = "document.contactAuditRules";
     public static final String REPORT_TERMS_AUDIT_RULES_ERROR_KEY = "document.reportTermsAuditRules";
     public static final String TERMS_AUDIT_RULES_ERROR_KEY = "document.termsAuditRules";
     public static final String PAYMENT_AND_INVOICES_AUDIT_RULES_ERROR_KEY = "document.paymentsAuditRules";
@@ -409,6 +410,8 @@ public interface Constants {
     public static final String FANDA_RATES_PANEL_NAME = "Rates";
     public static final String REPORTS_PANEL_ANCHOR = "Reports";
     public static final String REPORTS_PANEL_NAME = "Reports";
+    public static final String CONTACTS_PANEL_NAME = "Contacts";
+    public static final String CONTACTS_PANEL_ANCHOR = "Contacts";
     public static final String TERMS_PANEL_ANCHOR = "Terms";
     public static final String TERMS_PANEL_NAME = "Terms";
     public static final String PAYMENT_AND_INVOICES_PANEL_ANCHOR = "Payments";
