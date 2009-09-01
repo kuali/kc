@@ -19,13 +19,7 @@
 <c:set var="awardAmountTransactionAttributes" value="${DataDictionary.AwardAmountTransaction.attributes}" />
 
 <kul:tab tabTitle="Award Hierarchy" defaultOpen="true" tabErrorKey="" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
-	<div class="tab-container" align="right">
-    	<h3>
-    		<span class="subhead-left">Hierarchy</span>
-    		<span class="subhead-right">
-    			<kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardFandaRate" altText="help"/>
-			</span>
-        </h3>        
+	<div class="tab-container" align="right">    	        
     <table cellpadding="0" cellspacing="0" summary="">
     	<tr>
     		<kul:htmlAttributeHeaderCell attributeEntry="${awardAmountTransactionAttributes.transactionTypeCode}" scope="col" /></div></th>
@@ -72,7 +66,7 @@
     		
     	</tr>
     </table>
-    
+    <div>
     <table cellpadding="0" cellspacing="0" summary="">	
 		<tr>
 			<th>
@@ -81,10 +75,69 @@
 					<html:text property="goToAwardNumber" size="12" maxlength="12" />
 					<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-go.gif" styleClass="globalbuttons" alt="Go" property="methodToCall.switchAward" />
 				</div>
-			</th>			
+			</th>
+			<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 170px;">
+				<input class="nobord" type="radio" checked="checked" value="0" name="when01"/>
+					current
+				<input class="nobord" type="radio" value="1" name="when01"/>
+					pending
+			</td>
+			<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 185px;">
+				<select id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" >
+					<option value="0">Dates Only</option>
+					<option value="1">Distributed/Distributable</option>
+					<option value="2">Totals</option>
+				</select>
+			</td>
+			<td style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">
+				<input class="tinybutton" type="image" alt="refresh" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" name="x"/>
+			</td>			
 		</tr>
 	</table>
-	
+	</div>    
+    <div class="divAHT"><div style="padding-right: 47px;">
+	<table style="border: medium none ; width: 100%; border-collapse: collapse;">
+	<tbody><tr>
+		<td style="border: medium none ; border-collapse: collapse; background-color: rgb(234, 233, 234);">
+		<span style="display: inline;" id="treecontrol">
+		20 Nodes: 
+		<a href="#" title="Collapse the entire tree below"><img src="../BFN/images/minus.gif"/> Collapse All</a>
+		<a href="#" title="Expand the entire tree below"><img src="../BFN/images/plus.gif"/> Expand All</a>
+		</span>
+		</td>
+		<td style="border: 1px solid rgb(153, 153, 153); padding: 1px; text-align: center; width: 108px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+		Oblg. Start
+		</td>
+		<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 108px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+		Oblg. End
+		</td>
+		<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 108px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+		Project End
+		</td>
+		<td style="border: 1px solid rgb(153, 153, 153); text-align: right; width: 100px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+		Obligated
+		</td>
+		<td style="border: 1px solid rgb(153, 153, 153); text-align: right; width: 101px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+		Anticipated
+		</td>
+	</tr>
+	</tbody></table></div>
+	</div>
+    <div align="left">    
+                                            <%-- <div id="treecontrol" style="display:inline;">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;<a title="Collapse the entire tree below" href="#"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;<a title="Expand the entire tree below" href="#"><img src="static/images/jquery/plus.gif" /> Expand All</a>
+                                            </div> --%>
+                                            
+	${TimeAndMoneyForm.awardHierarchy}
+     <div style = "background:#e4e4e4" >     
+  <ul id="awardhierarchy" class="filetree stripeli treeview"  >
+        <%-- <li><span class="folder">00000</span>
+        </li> --%>
+    </ul>
+   </div> 
+    </div>
+    
 	<table cellpadding="0" cellspacing="0" summary="">
     	<%-- Header --%>
     	
@@ -117,18 +170,18 @@
 			</div>
 		  </td>
           <td align="left" valign="middle">
-			<div align="center">
-              		<c:out value ="${KualiForm.document.awardHierarchyNodes[order].currentFundEffectiveDate}" />
+			<div align="center">              	
+              	<kul:htmlControlAttribute property="obligationStartDates[${status.index}]" attributeEntry="${awardHierarchyNodeAttributes.currentFundEffectiveDate}" datePicker="true" />
 			</div>
 		  </td>
 		  <td align="left" valign="middle">
-			<div align="center">
-              		<c:out value ="${KualiForm.document.awardHierarchyNodes[order].obligationExpirationDate}" />
+			<div align="center">            	
+            	<kul:htmlControlAttribute property="obligationExpirationDates[${status.index}]" attributeEntry="${awardHierarchyNodeAttributes.obligationExpirationDate}" datePicker="true" />
 			</div>
   		  </td>
   		  <td align="left" valign="middle">
-			<div align="center">
-              		<c:out value ="${KualiForm.document.awardHierarchyNodes[order].finalExpirationDate}" />
+			<div align="center">              	
+              	<kul:htmlControlAttribute property="finalExpirationDates[${status.index}]" attributeEntry="${awardHierarchyNodeAttributes.obligationExpirationDate}" datePicker="true" />              	
 			</div>
   		  </td>
   		  <td align="left" valign="middle">
@@ -143,7 +196,7 @@
   		  </td>
   		  <td align="left" valign="middle">
 			<div align="center">
-              		<c:out value ="${KualiForm.document.awardHierarchyNodes[order].anticipatedTotalAmount}" />
+              		<c:out value ="${KualiForm.document.awardHierarchyNodes[order].anticipatedTotalAmount}" />              		
 			</div>
   		  </td>
   		  <td align="left" valign="middle">
@@ -157,4 +210,3 @@
     
     </div>
 </kul:tab>
-
