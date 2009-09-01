@@ -35,6 +35,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
+import org.kuali.kra.award.notesandattachments.notes.AwardNotepad;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
@@ -54,6 +55,7 @@ import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -166,7 +168,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardTransferringSponsor> awardTransferringSponsors;
     private List<AwardAmountInfo> awardAmountInfos;
     private List<AwardCloseout> awardCloseoutItems;
-    
+    private List<AwardNotepad> awardNotepads;
+
     private List<AwardFundingProposal> fundingProposals;
     
     // Additional fields for lookup
@@ -1669,6 +1672,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
         awardCustomDataList = new ArrayList<AwardCustomData>();
         awardCloseoutItems = new ArrayList<AwardCloseout>();
+        awardNotepads = new ArrayList<AwardNotepad>();
         
         projectPersons = new ArrayList<AwardPerson>();
         awardUnitContacts = new ArrayList<AwardUnitContact>();
@@ -1806,6 +1810,17 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         awardDirectFandADistribution.setAward(this);
         awardDirectFandADistribution.setBudgetPeriod(index + 1);
         updateDirectFandADistributionBudgetPeriods(index + 1);
+    }
+    
+    /**
+     * This method...
+     * @param institutionaProposalNotepad
+     */
+    public void add(AwardNotepad awardNotepad) {
+        awardNotepad.setEntryNumber(awardNotepads.size() + 1);
+        awardNotepad.setAwardNumber(this.getAwardNumber());
+        awardNotepads.add(awardNotepad);
+        awardNotepad.setAward(this);
     }
     
     /**
@@ -1973,6 +1988,22 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
             awardDirectFandADistribution.setAward(this);
         }
         this.awardDirectFandADistributions = awardDirectFandADistributions;
+    }
+    
+    /**
+     * Gets the awardNotepads attribute. 
+     * @return Returns the awardNotepads.
+     */
+    public List<AwardNotepad> getAwardNotepads() {
+        return awardNotepads;
+    }
+
+    /**
+     * Sets the awardNotepads attribute value.
+     * @param awardNotepads The awardNotepads to set.
+     */
+    public void setAwardNotepads(List<AwardNotepad> awardNotepads) {
+        this.awardNotepads = awardNotepads;
     }
 
     /**

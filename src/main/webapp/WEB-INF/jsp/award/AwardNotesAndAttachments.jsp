@@ -26,6 +26,7 @@
   	
 <kra-a:awardComments/>
 <kra-a:awardCommentTemplate/>
+<kra-a:awardNotes/>
 
 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
