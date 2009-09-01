@@ -134,12 +134,16 @@
         <property name="minIdle" value="2"/>
     </bean>
 
-  <bean id="dbPlatformFactory" class="org.kuali.rice.kns.dbplatform.ConfigurableKualiDBPlatformFactory">
+  <bean id="dbPlatform" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dbPlatform" />
+  </bean>
+  
+   <!--<bean id="dbPlatformFactory" class="org.kuali.rice.kns.dbplatform.ConfigurableKualiDBPlatformFactory">
     <property name="ojbPlatform" value="${datasource.ojb.platform}" />
     <property name="dataSource" ref="dataSource" />
   </bean>
-
-  <bean id="dbPlatform" factory-bean="dbPlatformFactory" factory-method="getPlatform" />
+  
+  <bean id="dbPlatform" factory-bean="dbPlatformFactory" factory-method="getPlatform" />-->
   
   <bean id="platformAwareDaoJdbc" abstract="true" class="org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBasejDBC">
     <property name="dataSource" ref="dataSource" />
