@@ -38,6 +38,7 @@ import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.approvedsubawards.ApprovedSubawardFormHelper;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposalBean;
 import org.kuali.kra.award.notesandattachments.comments.AwardCommentBean;
+import org.kuali.kra.award.notesandattachments.notes.AwardNotepadBean;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportsBean;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReportingBean;
@@ -48,7 +49,6 @@ import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.Approved
 import org.kuali.kra.award.permissions.PermissionsHelper;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
-import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionBean;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
@@ -115,6 +115,7 @@ public class AwardForm extends ProposalFormBase
     private AwardReportsBean awardReportsBean;
     private AwardReportingBean awardReportingBean;
     private AwardCommentBean awardCommentBean;
+    private AwardNotepadBean awardNotepadBean;
     
     private boolean auditActivated;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
@@ -163,6 +164,7 @@ public class AwardForm extends ProposalFormBase
         sponsorContactsBean = new AwardSponsorContactsBean(this);
         detailsAndDatesFormHelper = new DetailsAndDatesFormHelper(this);
         awardReportsBean = new AwardReportsBean(this);
+        awardNotepadBean = new AwardNotepadBean(this);
         //directFandADistributionFormHelper = new DirectFandADistributionFormHelper(this);
         //awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         setPermissionsHelper(new PermissionsHelper(this));
@@ -621,6 +623,24 @@ public class AwardForm extends ProposalFormBase
         this.awardCloseoutBean = awardCloseoutBean;
     }
     
+    
+    
+    /**
+     * Gets the awardNotepadBean attribute. 
+     * @return Returns the awardNotepadBean.
+     */
+    public AwardNotepadBean getAwardNotepadBean() {
+        return awardNotepadBean;
+    }
+
+    /**
+     * Sets the awardNotepadBean attribute value.
+     * @param awardNotepadBean The awardNotepadBean to set.
+     */
+    public void setAwardNotepadBean(AwardNotepadBean awardNotepadBean) {
+        this.awardNotepadBean = awardNotepadBean;
+    }
+
     /**
      * 
      * This method...
