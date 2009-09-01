@@ -22,12 +22,24 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.notesandattachments.notes.AwardNotepadBean;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 
 /**
  * 
  * This class represents the Struts Action for Notes & Attachments page(AwardNotesAndAttachments.jsp)
  */
 public class AwardNotesAndAttachmentsAction extends AwardAction {    
+    
+private AwardNotepadBean awardNotepadBean;
+    
+    /**
+     * Constructs a InstitutionalProposalHomeAction.java.
+     */
+    public AwardNotesAndAttachmentsAction() {
+        awardNotepadBean = new AwardNotepadBean();
+    }
     
     /**
      * 
@@ -46,5 +58,37 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
         awardForm.getAwardCommentBean().setAwardCommentScreenDisplayTypesOnForm();
         
         return actionForward;        
+    }
+    
+    /**
+     * This method is used to add a new Award Notes
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        awardNotepadBean.addNote(((AwardForm) form).getAwardNotepadBean());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * This method is used to update notedPad values
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward updateNotes(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+       
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 }
