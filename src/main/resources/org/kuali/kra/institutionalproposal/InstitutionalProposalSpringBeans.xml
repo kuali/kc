@@ -28,11 +28,17 @@
     <bean id="institutionalProposalModuleConfiguration" parent="institutionalProposalModuleConfiguration-parentBean" />
 	
     <bean id="institutionalProposalModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+		<property name="initializeDataDictionary" value="true" />
 		<property name="databaseRepositoryFilePaths">
 			<list>
 				<value>org/kuali/kra/institutionalproposal/repository-institutionalproposal.xml</value>
 			</list>
 		</property>
+		<property name="dataDictionaryPackages">
+            <list>
+                <value>org/kuali/kra/institutionalproposal/proposallog</value>
+            </list>
+        </property>
 	</bean>
 	
 	<bean id="institutionalProposalCustomAttributeService" class="org.kuali.kra.service.impl.InstitutionalProposalCustomAttributeServiceImpl">
