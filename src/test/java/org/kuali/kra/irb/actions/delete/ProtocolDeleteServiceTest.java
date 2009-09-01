@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.actions.delete;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +24,9 @@ import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
@@ -44,22 +49,27 @@ import org.kuali.rice.test.data.UnitTestFile;
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ACTION_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_MODULES.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";")
 }))
 public class ProtocolDeleteServiceTest extends KraTestBase {
 
     private static final String REASON = "my test reason";
+    private static final String SUMMARY = "summary";
     
-    private ProtocolDeleteServiceImpl protocolDeleteService;
-    private BusinessObjectService businessObjectService;  
+    private ProtocolDeleteService protocolDeleteService;
+    private BusinessObjectService businessObjectService;
+    private ProtocolAmendRenewService protocolAmendRenewService;  
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("superuser"));
-        protocolDeleteService = new ProtocolDeleteServiceImpl();
+        protocolDeleteService = KraServiceLocator.getService(ProtocolDeleteService.class);
+        protocolAmendRenewService = KraServiceLocator.getService(ProtocolAmendRenewService.class);
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        protocolDeleteService.setBusinessObjectService(businessObjectService);
+        //protocolDeleteService.setBusinessObjectService(businessObjectService);
     }
 
     @After
@@ -77,5 +87,29 @@ public class ProtocolDeleteServiceTest extends KraTestBase {
         protocolDeleteService.delete(protocolDocument.getProtocol(), deleteBean);
     
         assertEquals(ProtocolStatus.DELETED, protocolDocument.getProtocol().getProtocolStatusCode());
+    }
+    
+    @Test
+    public void testDeleteAmendment() throws Exception {
+       
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
+        amendmentBean.setAddModifyAttachments(true);
+        amendmentBean.setProtocolOrganizations(true);
+        amendmentBean.setSummary(SUMMARY);
+        
+        String docNbr = protocolAmendRenewService.createAmendment(protocolDocument, amendmentBean);
+        ProtocolDocument amendmentDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(docNbr);
+        
+        List<String> modules = protocolAmendRenewService.getAvailableModules(protocolDocument.getProtocol().getProtocolNumber());
+        assertEquals(8, modules.size());
+        
+        ProtocolDeleteBean deleteBean = new ProtocolDeleteBean();
+        deleteBean.setReason(REASON);
+        protocolDeleteService.delete(amendmentDocument.getProtocol(), deleteBean);
+        
+        modules = protocolAmendRenewService.getAvailableModules(protocolDocument.getProtocol().getProtocolNumber());
+        assertEquals(10, modules.size());
     }
 }

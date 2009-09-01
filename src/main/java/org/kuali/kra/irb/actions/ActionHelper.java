@@ -84,6 +84,7 @@ public class ActionHelper implements Serializable {
     /**
      * Constructs an ActionHelper.
      * @param form the protocol form
+     * @throws  
      */
     public ActionHelper(ProtocolForm form) {
         this.form = form;
