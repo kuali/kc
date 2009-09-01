@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.notesandattachments.notes.AwardNotepad;
 
 /**
  * This class tests methods in AwardNotepad.java
