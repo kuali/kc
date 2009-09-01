@@ -38,8 +38,8 @@ public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearc
     private static final String DOC_COPY_HANDLER_ACTION = "DocCopyHandler.do";
     
     @Override
-    public List<Column> constructColumnList(DocSearchCriteriaDTO criteria) {
-        List<Column> proposalSearchResultColumns = super.constructColumnList(criteria);
+    public List<Column> constructColumnList(DocSearchCriteriaDTO criteria, List<DocSearchDTO> dtos) {
+        List<Column> proposalSearchResultColumns = super.constructColumnList(criteria, dtos);
         this.addColumnUsingKey(proposalSearchResultColumns, new HashMap<String,String>(), PROPERTY_NAME_COPY_DOCUMENT, "Copy Document");
         
         return proposalSearchResultColumns;

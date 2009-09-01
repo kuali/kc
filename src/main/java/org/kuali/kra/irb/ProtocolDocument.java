@@ -29,6 +29,7 @@ import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -145,7 +146,8 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
      */
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) throws Exception {
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         if (isFinal(statusChangeEvent)) {
             if (isAmendment()) {
@@ -197,18 +199,26 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * @param protocolStatusCode
      * @throws Exception
      */
-    private void mergeAmendment(String protocolStatusCode, String type) throws Exception {
+    private void mergeAmendment(String protocolStatusCode, String type) {
         Protocol currentProtocol = getProtocolFinder().findCurrentProtocolByNumber(getOriginalProtocolNumber());
-        ProtocolDocument newProtocolDocument = getProtocolVersionService().versionProtocolDocument(currentProtocol.getProtocolDocument());
+        final ProtocolDocument newProtocolDocument;
+        try {
+            newProtocolDocument = getProtocolVersionService().versionProtocolDocument(currentProtocol.getProtocolDocument());
+        } catch (Exception e) {
+            throw new ProtocolMergeException(e);
+        }
+        
         newProtocolDocument.getProtocol().merge(getProtocol());
         getProtocol().setProtocolStatusCode(protocolStatusCode);
         
         ProtocolAction action = new ProtocolAction(newProtocolDocument.getProtocol(), null, ProtocolActionType.APPROVED);
         action.setComments(type + "-" + getProtocolNumberIndex());
         newProtocolDocument.getProtocol().getProtocolActions().add(action);
-        
-        getDocumentService().saveDocument(newProtocolDocument);
-        
+        try {
+            getDocumentService().saveDocument(newProtocolDocument);
+        } catch (WorkflowException e) {
+            throw new ProtocolMergeException(e);
+        }
         /*
          * TODO: We have to route the new protocol document here so
          * that it goes to the final state.
@@ -286,5 +296,11 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      */
     public boolean isNormal() {
         return !isAmendment() && !isRenewal();
+    }
+    
+    private static class ProtocolMergeException extends RuntimeException {
+        ProtocolMergeException(Throwable t) {
+            super(t);
+        }
     }
 }

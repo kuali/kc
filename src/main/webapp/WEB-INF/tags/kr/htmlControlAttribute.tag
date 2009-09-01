@@ -53,7 +53,7 @@
 	<c:set var="fieldName" value ="${attributeEntry.name}" />
 	<c:set var="readOnly" value="${kfunc:canFullyUnmaskField(className, fieldName)? 'false' : 'true'}" />
 	<c:set var="displayMask" value="${kfunc:canFullyUnmaskField(className, fieldName)? 'false' : 'true'}" />
-	<c:set var="displayMaskValue" value="${kfunc:getDisplayMaskValue(className, fieldName, KualiForm, property)}" />
+	<c:set var="displayMaskValue" value="${kfunc:getFullyMaskedValue(className, fieldName, KualiForm, property)}" />
 </c:if>
  
 <c:if test="${!empty attributeEntry.attributeSecurityPartialMask && attributeEntry.attributeSecurityPartialMask == true  }">
@@ -61,7 +61,7 @@
 	<c:set var="fieldName" value ="${attributeEntry.name}" />
 	<c:set var="readOnly" value="${kfunc:canPartiallyUnmaskField(attributeEntry.fullClassName, attributeEntry.name) ? 'false' : 'true'}"/>
     <c:set var="displayMask" value="${kfunc:canFullyUnmaskField(className, fieldName)? 'false' : 'true'}" />
-	<c:set var="displayMaskValue" value="${kfunc:getDisplayMaskValue(className, fieldName, KualiForm, property)}" />
+	<c:set var="displayMaskValue" value="${kfunc:getFullyMaskedValue(className, fieldName, KualiForm, property)}" />
 </c:if>
 
 <%-- Define variable that will hold the Title of the html control --%>

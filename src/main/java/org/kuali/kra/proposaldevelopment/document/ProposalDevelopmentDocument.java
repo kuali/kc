@@ -42,6 +42,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -95,8 +96,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument implements
     }
 
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO dto) {
+        super.doRouteStatusChange(dto);
 
         ProposalStateService proposalStateService = KraServiceLocator.getService(ProposalStateService.class);
         getDevelopmentProposal().setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(this, true));
