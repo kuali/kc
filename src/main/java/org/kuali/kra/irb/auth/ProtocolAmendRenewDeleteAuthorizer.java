@@ -17,6 +17,7 @@ package org.kuali.kra.irb.auth;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 
 /**
@@ -29,7 +30,13 @@ public class ProtocolAmendRenewDeleteAuthorizer extends ProtocolAuthorizer {
      */
     public boolean isAuthorized(String username, ProtocolTask task) {
         return !task.getProtocol().getProtocolDocument().isViewOnly() &&
-               StringUtils.equals(task.getProtocol().getProtocolStatusCode(), ProtocolStatus.IN_PROGRESS) &&
+               inProgress(task.getProtocol()) &&
                hasPermission(username, task.getProtocol(), PermissionConstants.MODIFY_PROTOCOL);
+    }
+    
+    private boolean inProgress(Protocol protocol) {
+        return StringUtils.equals(protocol.getProtocolStatusCode(), ProtocolStatus.IN_PROGRESS) ||
+               StringUtils.equals(protocol.getProtocolStatusCode(), ProtocolStatus.AMENDMENT_IN_PROGRESS) ||
+               StringUtils.equals(protocol.getProtocolStatusCode(), ProtocolStatus.RENEWAL_IN_PROGRESS);
     }
 }
