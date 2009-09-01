@@ -71,7 +71,7 @@ public class AwardProjectPersonsSaveRuleImplTest {
         award = null;
     }
     
-    @Test
+    /*@Test
     public void testCheckForExistingPI_DuplicateFound() {
         AwardPerson newPerson = new AwardPerson(new Person(), ContactRoleFixtureFactory.MOCK_PI);
         award.add(newPerson);
@@ -102,7 +102,7 @@ public class AwardProjectPersonsSaveRuleImplTest {
         award.getProjectPersons().get(0).setContactRole(ContactRoleFixtureFactory.MOCK_KEY_PERSON);
         award.getProjectPersons().get(1).setContactRole(ContactRoleFixtureFactory.MOCK_KEY_PERSON);
         Assert.assertTrue("Unit details are not required for key person", rule.checkForUnitDetails(award.getProjectPersons()));
-    }
+    }*/
     
     @Test
     public void testCheckForDuplicateUnits_NoneFound() {
@@ -123,14 +123,14 @@ public class AwardProjectPersonsSaveRuleImplTest {
         Assert.assertFalse("Duplicate should have been found", rule.checkForDuplicateUnits(award.getProjectPersons()));
     }
     
-    @Test
+    /*@Test
     public void testCheckForLeadUnit_NoneFound() {
         AwardPerson p = award.getProjectPersons().get(0);
         p.add(new AwardPersonUnit(p, unitA, false));
         p.add(new AwardPersonUnit(p, unitB, false));
         
         Assert.assertFalse("No lead unit should have been identifed", rule.checkForLeadUnit(award.getProjectPersons()));
-    }
+    }*/
     
     @Test
     public void testCheckForLeadUnit_OneFound() {
