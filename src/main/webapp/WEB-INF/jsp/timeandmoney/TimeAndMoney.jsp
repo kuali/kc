@@ -25,10 +25,37 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="timeAndMoney">
 
+	<script language="JavaScript" type="text/javascript"
+		src="dwr/engine.js"></script>
+
+	<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
+
+	<script language="JavaScript" type="text/javascript"
+		src="dwr/interface/CustomAttributeService.js"></script>
+
+	<script language="JavaScript" type="text/javascript"
+		src="dwr/interface/SponsorService.js"></script>
+		
+	<script language="JavaScript" type="text/javascript"
+		src="dwr/interface/AwardHierarchyUIService.js"></script>	
+
+
+	<script src="scripts/jquery/jquery.js"></script>
+	<link rel="stylesheet" href="css/jquery/screen.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css"
+		type="text/css" />
+	<link rel="stylesheet" href="css/jquery/jquery.treeview.css"
+		type="text/css" />
+	<%-- link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/treeview/jquery.treeview.css" type="text/css" /--%>
+	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
+	<script type="text/javascript" src="scripts/awardHierarchy.js"></script>
+	
 <div align="right"><kul:help documentTypeName="TimeAndMoneyDocument" pageName="Time and Money" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
 <kra-timeandmoney:awardHierarchyTimeAndMoney />
+
 <kra-timeandmoney:transactions />
 <kra-a:awardDirectFnAFundsDistribution />
 <kra-timeandmoney:summary />
