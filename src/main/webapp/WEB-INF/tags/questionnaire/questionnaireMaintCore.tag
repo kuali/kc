@@ -20,14 +20,15 @@
                                           attributeEntry="${questionnaireAttributes.name}" />
             </td>
             <td align="left" valign="middle">
-              <c:choose>
+           <%--    <c:choose>
                <c:when test = "${KualiForm.document.newMaintainableObject.maintenanceAction eq 'Edit' and KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus eq 'I' and !KualiForm.versioned}">
                     Version ${KualiForm.document.newMaintainableObject.businessObject.sequenceNumber+1}
                 </c:when>
                 <c:otherwise>
                     Version ${KualiForm.document.newMaintainableObject.businessObject.sequenceNumber}
                 </c:otherwise>
-                </c:choose>
+                </c:choose> --%>
+                    Version ${KualiForm.document.newMaintainableObject.businessObject.sequenceNumber}
             </td>
             <th align="right" valign="middle" width="115">
                 <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.isFinal}" />

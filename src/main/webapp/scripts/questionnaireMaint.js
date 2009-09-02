@@ -522,9 +522,9 @@ function pasteChild(parentid, startnode) {
 	var qid = $("#qid" + idx).attr("value");
 	var qnum = $("#questionNumber").attr("value");
 	var parentNum = $("#qnum" + $(liId).attr("id").substring(8)).attr("value");
-	var insertValues = "insert into Q" + qid + "," + qnum + "," + parentNum
-			+ ",'N','',''," + seqnum + ",user,sysdate)"
-	addSqlScripts(insertValues);
+//	var insertValues = "insert into Q" + qid + "," + qnum + "," + parentNum
+//			+ ",'N','',''," + seqnum + ",user,sysdate)"
+//	addSqlScripts(insertValues);
 	$("#questionNumber").attr("value",
 			Number($("#questionNumber").attr("value")) + 1)
 
@@ -549,9 +549,9 @@ function pasteChild(parentid, startnode) {
 		newResponse.appendTo($("#addrequirement" + idx).parents('div:eq(0)')
 				.children('table:eq(0)').children('tbody'));
 		$("#addrequirement" + idx).parents('tr:eq(0)').remove();
-		addSqlScripts("update QCond;'Y';'" + cond + "';'" + value + "';"
-				+ $("#qid" + idx).attr("value") + ";"
-				+ $("#qnum" + idx).attr("value"));
+//		addSqlScripts("update QCond;'Y';'" + cond + "';'" + value + "';"
+//				+ $("#qid" + idx).attr("value") + ";"
+//				+ $("#qnum" + idx).attr("value"));
 		
 		splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
@@ -583,8 +583,8 @@ function deleteChild(parentNum, childid) {
 	var idx = $("#" + childid).attr("id").substring(8);
 	var qnum = $("#qnum" + idx).attr("value");
 	var childrenli = $("#" + childid).children('ul.eq(0)').children('li');
-	addSqlScripts("delete Q;" + $("#qid" + idx).attr("value") + ";" + qnum
-			+ ";" + parentNum + ";" + $("#qseq" + idx).attr("value"));
+//	addSqlScripts("delete Q;" + $("#qid" + idx).attr("value") + ";" + qnum
+//			+ ";" + parentNum + ";" + $("#qseq" + idx).attr("value"));
 	var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
@@ -684,9 +684,9 @@ function getMoveDownLink(curidx) {
 						var idx = $(curNode).attr("id").substring(8);
 						var seq = Number($("#qseq" + idx).attr("value")) + 1;
 						$("#qseq" + idx).attr("value", seq);
-						addSqlScripts("update QMove;" + seq + ";"
-								+ $("#qid" + idx).attr("value") + ";"
-								+ $("#qnum" + idx).attr("value"));
+//						addSqlScripts("update QMove;" + seq + ";"
+//								+ $("#qid" + idx).attr("value") + ";"
+//								+ $("#qnum" + idx).attr("value"));
 
 						var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 					    var tmpstr = splitq[0] +"#f#" +splitq[1] 
@@ -704,7 +704,8 @@ function getMoveDownLink(curidx) {
 							$("#moveup" + nextNode.attr("id").substring(8))
 									.hide();
 						}
-						if (curNode.next().size() == 0) {
+						if (curNode.next().size() == 0 || curNode.next().attr("id") == nextNode.attr("id")) {
+							// see note from getmoveuplink for this weird condition check
 							// alert ("move dn no next node ");
 							$("#movedn" + curNode.attr("id").substring(8))
 									.hide();
@@ -712,9 +713,9 @@ function getMoveDownLink(curidx) {
 						var idx = $(nextNode).attr("id").substring(8);
 						seq = Number($("#qseq" + idx).attr("value")) - 1;
 						$("#qseq" + idx).attr("value", seq);
-						addSqlScripts("update QMove;" + seq + ";"
-								+ $("#qid" + idx).attr("value") + ";"
-								+ $("#qnum" + idx).attr("value"));
+//						addSqlScripts("update QMove;" + seq + ";"
+//								+ $("#qid" + idx).attr("value") + ";"
+//								+ $("#qnum" + idx).attr("value"));
 						var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 					    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 				        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
@@ -791,14 +792,15 @@ function getMoveUpLink(curidx) {
 					});
 					}
 
-					
+
+
 					curNode.insertBefore(nextNode);
 					var idx = $(curNode).attr("id").substring(8);
 					var seq = Number($("#qseq" + idx).attr("value")) - 1;
 					$("#qseq" + idx).attr("value", seq);
-					addSqlScripts("update QMove;" + seq + ";"
-							+ $("#qid" + idx).attr("value") + ";"
-							+ $("#qnum" + idx).attr("value"));
+//					addSqlScripts("update QMove;" + seq + ";"
+//							+ $("#qid" + idx).attr("value") + ";"
+//							+ $("#qnum" + idx).attr("value"));
 					var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 				    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 			        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
@@ -806,20 +808,25 @@ function getMoveUpLink(curidx) {
 				$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 //				    $("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 
-					$("#movedn" + curNode.attr("id").substring(8)).show();
-					$("#moveup" + nextNode.attr("id").substring(8)).show();
-					if (curNode.prev().size() == 0) {
-						$("#moveup" + curNode.attr("id").substring(8)).hide();
-					}
-					if (nextNode.next().size() == 0) {
-						$("#movedn" + nextNode.attr("id").substring(8)).hide();
-					}
+				$("#movedn" + curNode.attr("id").substring(8)).show();
+				$("#moveup" + nextNode.attr("id").substring(8)).show();
+				//alert ("cp nn size "+curNode.next().attr("id")+"-"+nextNode.prev().size())
+				if (curNode.prev().size() == 0) {
+					$("#moveup" + curNode.attr("id").substring(8)).hide();
+				}
+				if (nextNode.next().size() == 0 || nextNode.next().attr("id") == curNode.attr("id")) {
+					// not sure why this one is = 1 if it is moved to the last one, still has curnode as 'next'
+					// so, move this manipulation before insert
+					// this is probably caused by the clonenode added after the last node, then removed it.
+					// FF's inspect element did not see it, not sure why jquery still thinks it exists.
+					$("#movedn" + nextNode.attr("id").substring(8)).hide();
+				}
 					idx = $(nextNode).attr("id").substring(8);
 					seq = Number($("#qseq" + idx).attr("value")) + 1;
 					$("#qseq" + idx).attr("value", seq);
-					addSqlScripts("update QMove;" + seq + ";"
-							+ $("#qid" + idx).attr("value") + ";"
-							+ $("#qnum" + idx).attr("value"));
+//					addSqlScripts("update QMove;" + seq + ";"
+//							+ $("#qid" + idx).attr("value") + ";"
+//							+ $("#qnum" + idx).attr("value"));
 					var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 				    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 			        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
@@ -1049,10 +1056,10 @@ function getAddQuestionRow(curidx) {
 						    var nextseq = seqnum +1;
 						    var nextitem = $(listitem).next();
 						    // update seq for the siblings after the new node
-						    if (nextitem.size() > 0) {
-								addSqlScripts("update QSeq;" + seqnum + ";"
-										+ parentNum );
-						    }	
+//						    if (nextitem.size() > 0) {
+//								addSqlScripts("update QSeq;" + seqnum + ";"
+//										+ parentNum );
+//						    }	
 						    while (nextitem.size() > 0) {
 								var splitq = $("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
 							    var tmpstr = splitq[0] +"#f#" +splitq[1] 
@@ -1066,10 +1073,10 @@ function getAddQuestionRow(curidx) {
 						}    
 						
 						var qnum = $("#questionNumber").attr("value");
-						var insertValues = "insert into Q" + qid + "," + qnum
-								+ "," + parentNum + ",'N','',''," + seqnum
-								+ ",user,sysdate)"
-						addSqlScripts(insertValues);
+//						var insertValues = "insert into Q" + qid + "," + qnum
+//								+ "," + parentNum + ",'N','',''," + seqnum
+//								+ ",user,sysdate)"
+//						addSqlScripts(insertValues);
 						$("#qseq" + $(listitem).attr("id").substring(8)).attr("value", seqnum);
 						$("#questionNumber").attr("value",
 								Number($("#questionNumber").attr("value")) + 1)
@@ -1172,10 +1179,10 @@ function getAddRequirementRow(curidx) {
 									.children('table:eq(0)').children('tbody'));
 							var idx = $(this).parents('li:eq(0)').attr("id")
 									.substring(8);
-							addSqlScripts("update QCond;'Y';'" + response
-									+ "';'" + value + "';"
-									+ $("#qid" + idx).attr("value") + ";"
-									+ $("#qnum" + idx).attr("value"));
+//							addSqlScripts("update QCond;'Y';'" + response
+//									+ "';'" + value + "';"
+//									+ $("#qid" + idx).attr("value") + ";"
+//									+ $("#qnum" + idx).attr("value"));
 							var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 						    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 					        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"Y" +"#f#" +response +"#f#" +
@@ -1232,9 +1239,9 @@ function getRequirementDeleteRow(response, value, curidx) {
 						// + $(this).parents('tr:eq(0)').next().size());
 						var idx = $(this).parents('li:eq(0)').attr("id")
 								.substring(8);
-						addSqlScripts("update QCond;'N';'';'';"
-								+ $("#qid" + idx).attr("value") + ";"
-								+ $("#qnum" + idx).attr("value"));
+//						addSqlScripts("update QCond;'N';'';'';"
+//								+ $("#qid" + idx).attr("value") + ";"
+//								+ $("#qnum" + idx).attr("value"));
 						var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 					    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 				        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"N" +"#f#" +"" +"#f#" +
@@ -1365,9 +1372,9 @@ function returnQuestionList(questionList) {
 		$("#qseq" + $(listitem).attr("id").substring(8)).attr("value", seqnum);
 		var qnum = $("#questionNumber").attr("value");
 		$("#qnum" + $(listitem).attr("id").substring(8)).attr("value", qnum);
-		var insertValues = "insert into Q" + field[0] + "," + qnum + ","
-				+ parentnum + ",'N','',''," + seqnum + ",user,sysdate)"
-		addSqlScripts(insertValues);
+//		var insertValues = "insert into Q" + field[0] + "," + qnum + ","
+//				+ parentnum + ",'N','',''," + seqnum + ",user,sysdate)"
+//		addSqlScripts(insertValues);
 		$("#questionNumber").attr("value",
 				Number($("#questionNumber").attr("value")) + 1)
 
@@ -1483,16 +1490,16 @@ function getQnTypeDesc(qtypeid, idx) {
 }
 
 
-function addSqlScripts(sqlcommand) {
-	sqlScripts = sqlScripts + "#;#" + sqlcommand;
-	if (sqlScripts.length > 1900) {
-		// right now the query string also contains newquestionnaire data, so
-		// limit to 1700 for test now.
-		sqls[sqlidx++] = sqlScripts;
-		sqlScripts = "sqls";
-		// alert(sqlidx);
-	}
-}
+//function addSqlScripts(sqlcommand) {
+//	sqlScripts = sqlScripts + "#;#" + sqlcommand;
+//	if (sqlScripts.length > 1900) {
+//		// right now the query string also contains newquestionnaire data, so
+//		// limit to 1700 for test now.
+//		sqls[sqlidx++] = sqlScripts;
+//		sqlScripts = "sqls";
+//		// alert(sqlidx);
+//	}
+//}
 
 /*
  * add list item to group for paging
@@ -1748,12 +1755,12 @@ $("#addUsage")
 							// alert("delete
 								// "+$(this).parents('tr:eq(0)').attr("id"))
 
-								addSqlScripts("delete U;"
-										+ $(this).parents('tr:eq(0)').children(
-												'td:eq(0)').children(
-												'input:eq(0)').attr("value") 
-										+";"+ $(this).parents('tr:eq(0)').children(
-												'td:eq(2)').html());
+//								addSqlScripts("delete U;"
+//										+ $(this).parents('tr:eq(0)').children(
+//												'td:eq(0)').children(
+//												'input:eq(0)').attr("value") 
+//										+";"+ $(this).parents('tr:eq(0)').children(
+//												'td:eq(2)').html());
 								shiftUsage($(this).attr("id").substring(11));
 								ucount--;
 								$("#utr"+ucount).remove();
@@ -1776,12 +1783,12 @@ $("#addUsage")
 				$('<div align="center">').html(inputtmp).appendTo(tdtmp);
 				tdtmp.appendTo(trtmp);
 				trtmp.appendTo($("#usage-table"));
-				addSqlScripts("insert U;"
-						+ $("#newQuestionnaireUsage\\.moduleItemCode").attr(
-								"value")
-						+ ";"+qnversion+ ";"
-						+ $("#newQuestionnaireUsage\\.questionnaireLabel")
-								.attr("value"));
+//				addSqlScripts("insert U;"
+//						+ $("#newQuestionnaireUsage\\.moduleItemCode").attr(
+//								"value")
+//						+ ";"+qnversion+ ";"
+//						+ $("#newQuestionnaireUsage\\.questionnaireLabel")
+//								.attr("value"));
 		        // usage hidden fields
 		        var hidtr = $('<tr id = "utr" name = "utr"/>').attr("id","utr"+ucount).attr("name", "utr"+ucount);
 		        var hidtd = $('<td colspan="2"/>');
@@ -1920,11 +1927,11 @@ $(document).ready(function() {
           });
     }
     if ($("#maintAction").attr("value") == 'Edit') {
-        if ($("#docStatus").attr("value") == 'I' && $("#versioned").attr("value") == 'false') {
-  	    qnversion = Number($("#document\\.newMaintainableObject\\.businessObject\\.sequenceNumber").attr("value"))+1;
-        } else {
+//        if ($("#docStatus").attr("value") == 'I' && $("#versioned").attr("value") == 'false') {
+//  	    qnversion = Number($("#document\\.newMaintainableObject\\.businessObject\\.sequenceNumber").attr("value"))+1;
+//        } else {
             qnversion = $("#document\\.newMaintainableObject\\.businessObject\\.sequenceNumber").attr("value");
-        }      
+//        }      
     } else if ($("#maintAction").attr("value") == 'New') {
   	  qnversion = $("#document\\.newMaintainableObject\\.businessObject\\.sequenceNumber").attr("value");
     }
@@ -2014,44 +2021,44 @@ function checkBeforeSubmit() {
 			// TODO : FF seems to have trouble with "#;#"
 
 			//alert(sqlScripts);
-			if (sqlScripts.indexOf("#;#") > 1) {
-				// if current sqlScripts is not in array yet
-				// 10 should be fine to use as check
-				sqls[sqlidx++] = sqlScripts;
-			}
+//			if (sqlScripts.indexOf("#;#") > 1) {
+//				// if current sqlScripts is not in array yet
+//				// 10 should be fine to use as check
+//				sqls[sqlidx++] = sqlScripts;
+//			}
 			// TODO : problem with '&' in string will in name or description
 		if (saveok == 'true')	 {
 			retval = true;
             var retmsg="";
             var sqlstring ="";
-			for ( var k = 0; k < sqls.length; k++) {
-				sqlScripts = sqls[k];
-				sqlScripts = sqlScripts.replace(/#;#/g, ";;;");
-				qnaireid = $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr(
-						"value");
-				// alert(sqls.length+"-"+k)
-				// TODO : should consider to send newquestionnaire itself to
-				// save.
-				// need to resend newquestionnaire because it might be changed.
-				// also need to deal with 'description' which is varchar2(2000)
-				// we can not assume that is is not over 2000, so need to think
-				// about it.
-				
-			if (sqls[k] != '') {	
-				if (sqlstring == '') {
-					sqlstring = sqls[k];
-				} else {	
-				sqlstring = sqlstring+"#S#"+sqls[k];
-				}
-			} // end if sqlk!=''
-				if (retmsg != '') {
-					break;
-				}	
-			} // end for
+//			for ( var k = 0; k < sqls.length; k++) {
+////				sqlScripts = sqls[k];
+////				sqlScripts = sqlScripts.replace(/#;#/g, ";;;");
+//				qnaireid = $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr(
+//						"value");
+//				// alert(sqls.length+"-"+k)
+//				// TODO : should consider to send newquestionnaire itself to
+//				// save.
+//				// need to resend newquestionnaire because it might be changed.
+//				// also need to deal with 'description' which is varchar2(2000)
+//				// we can not assume that is is not over 2000, so need to think
+//				// about it.
+//				
+////			if (sqls[k] != '') {	
+////				if (sqlstring == '') {
+////					sqlstring = sqls[k];
+////				} else {	
+////				sqlstring = sqlstring+"#S#"+sqls[k];
+////				}
+////			} // end if sqlk!=''
+//				if (retmsg != '') {
+//					break;
+//				}	
+//			} // end for
 		}// saveok=true
-			sqlidx = 0;
-			sqlstring = sqlstring.replace(/#;#/g, ";;;");
-			$('#sqlScripts').attr("value",sqlstring);
+//			sqlidx = 0;
+//			sqlstring = sqlstring.replace(/#;#/g, ";;;");
+//			$('#sqlScripts').attr("value",sqlstring);
 		// } // if-else isexisat
 		}	// if-then-else
 		//document.getElementById("newQuestionnaire.questionnaireRefId").value = $('#newQuestionnaire\\.questionnaireRefId').attr("value");
@@ -2280,12 +2287,12 @@ function loadUsages(usages) {
                 '<input type="image" id="deleteUsage" name="deleteUsage" src="static/images/tinybutton-delete1.gif" class="tinybutton">')
                 .attr("id", "deleteUsage" + ucount).click(
                         function() {
-                            addSqlScripts("delete U;"
-                                    + $(this).parents('tr:eq(0)').children(
-                                            'td:eq(0)').children('input:eq(0)')
-                                            .attr("value")
-                                            +";"+ $(this).parents('tr:eq(0)').children(
-											'td:eq(2)').html());
+//                            addSqlScripts("delete U;"
+//                                    + $(this).parents('tr:eq(0)').children(
+//                                            'td:eq(0)').children('input:eq(0)')
+//                                            .attr("value")
+//                                            +";"+ $(this).parents('tr:eq(0)').children(
+//											'td:eq(2)').html());
                                                         // alert(sqlScripts);
 							    shiftUsage($(this).attr("id").substring(11));
 								//$("#utr"+$(this).attr("id").substring(11)).remove();
