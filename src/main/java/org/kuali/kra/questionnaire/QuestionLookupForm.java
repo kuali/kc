@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.questionnaire;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -157,6 +159,11 @@ public class QuestionLookupForm extends KualiForm {
 
     public void setNewQuestionSequence(Integer newQuestionSequence) {
         this.newQuestionSequence = newQuestionSequence;
+    }
+
+    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
+        //return super.shouldPropertyBePopulatedInForm(requestParameterName, request);
+        return true;
     }
 
 }
