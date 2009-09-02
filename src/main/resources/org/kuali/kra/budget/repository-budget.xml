@@ -817,7 +817,7 @@
 			<inverse-foreignkey field-ref="personNumber"/>
 		</collection-descriptor>
 		<reference-descriptor name="budgetPerson" class-ref="org.kuali.kra.budget.personnel.BudgetPerson" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="budgetPeriodId"/>
+			<foreignkey field-ref="budgetId"/>
 			<foreignkey field-ref="personSequenceNumber"/> 
 		</reference-descriptor>
 		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
