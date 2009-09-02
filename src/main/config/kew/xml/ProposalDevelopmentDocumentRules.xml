@@ -6,7 +6,7 @@ resource:WorkflowData">
       <documentType>ProposalDevelopmentDocument</documentType>
       <ruleTemplate>OSPInitialApproval</ruleTemplate>
       <description>OSP Initial Approval</description>
-      <ignorePrevious>true</ignorePrevious>
+<!--      <ignorePrevious>true</ignorePrevious>-->
       <responsibilities>
         <responsibility>
           <workgroup>KC:OSP</workgroup>
@@ -19,7 +19,7 @@ resource:WorkflowData">
       <documentType>ProposalDevelopmentDocument</documentType>
       <ruleTemplate>OSPOfficeApproval</ruleTemplate>
       <description>OSP Office Approval</description>
-      <ignorePrevious>false</ignorePrevious>
+<!--      <ignorePrevious>false</ignorePrevious>-->
       <responsibilities>
         <responsibility>
           <workgroup>KC:OSP</workgroup>
@@ -33,7 +33,7 @@ resource:WorkflowData">
       <documentType>ProposalDevelopmentDocument</documentType>
       <ruleTemplate>ProposalPersonsApproval</ruleTemplate>
       <description>ProposalPersons Approval</description>
-      <ignorePrevious>true</ignorePrevious>
+<!--      <ignorePrevious>true</ignorePrevious>-->
       <responsibilities>
         <responsibility>
           <role>org.kuali.kra.workflow.ProposalPersonRoleAttribute!COINVESTIGATOR</role>
@@ -47,7 +47,7 @@ resource:WorkflowData">
       <documentType>ProposalDevelopmentDocument</documentType>
       <ruleTemplate>ProposalPersonsApproval</ruleTemplate>
       <description>ProposalPersons Approval</description>
-      <ignorePrevious>true</ignorePrevious>
+<!--      <ignorePrevious>true</ignorePrevious>-->
       <responsibilities>
         <responsibility>
           <role>org.kuali.kra.workflow.ProposalPersonRoleAttribute!PRINCIPALINVESTIGATOR</role>
@@ -61,7 +61,7 @@ resource:WorkflowData">
       <documentType>ProposalDevelopmentDocument</documentType>
       <ruleTemplate>ProposalPersonsApproval</ruleTemplate>
       <description>ProposalPersons Approval</description>
-      <ignorePrevious>true</ignorePrevious>
+<!--      <ignorePrevious>true</ignorePrevious>-->
       <responsibilities>
         <responsibility>
           <role>org.kuali.kra.workflow.ProposalPersonRoleAttribute!KEYPERSON</role>
@@ -75,7 +75,7 @@ resource:WorkflowData">
       <documentType>ProposalDevelopmentDocument</documentType>
       <ruleTemplate>CustomApproval</ruleTemplate>
       <description>Custom approval routing</description>
-      <ignorePrevious>true</ignorePrevious>
+<!--      <ignorePrevious>true</ignorePrevious>-->
          <ruleExtensions>
         <ruleExtension>
           <attribute>CustomDataAttribute</attribute>
@@ -101,7 +101,7 @@ resource:WorkflowData">
       <documentType>ProposalDevelopmentDocument</documentType>
       <ruleTemplate>DepartmentalApproval</ruleTemplate>
       <description>Departmental Approval Routing Rule for BL-IIDC</description>
-      <ignorePrevious>false</ignorePrevious>
+<!--      <ignorePrevious>false</ignorePrevious>-->
       <ruleExtensions>
         <ruleExtension>
           <attribute>DepartmentalApprovalAttribute</attribute>

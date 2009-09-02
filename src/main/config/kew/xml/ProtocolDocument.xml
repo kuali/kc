@@ -148,7 +148,7 @@
             <documentType>ProtocolDocument</documentType>
             <ruleTemplate>IRBReceipt</ruleTemplate>
             <description>IRBReceipt Routing</description>
-            <ignorePrevious>true</ignorePrevious>
+<!--            <ignorePrevious>true</ignorePrevious>-->
             <responsibilities>
                 <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
             </responsibilities>
@@ -159,7 +159,7 @@
             <documentType>ProtocolDocument</documentType>
             <ruleTemplate>IRBApproved</ruleTemplate>
             <description>IRBApproved Routing</description>
-            <ignorePrevious>true</ignorePrevious>
+<!--            <ignorePrevious>true</ignorePrevious>-->
             <responsibilities>
                 <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
             </responsibilities>
@@ -169,7 +169,7 @@
             <documentType>ProtocolDocument</documentType>
             <ruleTemplate>AssignedToCommittee</ruleTemplate>
             <description>AssignedToCommittee Routing</description>
-            <ignorePrevious>true</ignorePrevious>
+<!--            <ignorePrevious>true</ignorePrevious>-->
             <responsibilities>
                 <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
             </responsibilities>
@@ -179,7 +179,7 @@
             <documentType>ProtocolDocument</documentType>
             <ruleTemplate>AssignedToAgenda</ruleTemplate>
             <description>AssignedToAgenda Routing</description>
-            <ignorePrevious>true</ignorePrevious>
+<!--            <ignorePrevious>true</ignorePrevious>-->
             <responsibilities>
                 <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
             </responsibilities>
@@ -189,7 +189,7 @@
             <documentType>ProtocolDocument</documentType>
             <ruleTemplate>IRBReviewComplete</ruleTemplate>
             <description>IRBReviewComplete Routing</description>
-            <ignorePrevious>true</ignorePrevious>
+<!--            <ignorePrevious>true</ignorePrevious>-->
             <responsibilities>
                 <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
             </responsibilities>
