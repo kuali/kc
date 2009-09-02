@@ -2218,6 +2218,11 @@ function loadQuestion() {
 
 
 // ok now the load questions & usages if this is editing
+if ($("#maintAction").attr("value") != 'Copy') {
+$("#nextGroup").hide();
+$("#prevGroup").hide();
+}
+
 
 var editdata = document.getElementById("editData").value;
 // new/edit or when 'copy' is approved, then questions/usage should be displayed
