@@ -13,6 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+<script src="scripts/jquery/jquery.js"></script>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ page import="java.util.HashMap" %>
 
@@ -36,7 +37,7 @@
 
 <c:set var="viewOnly" value="${not KualiForm.editingMode['modifyProposal']}" />
 <kra:section permission="modifyProposal">
-    <kra:uncollapsable tabTitle="Add Key Personnel" tabErrorKey="newProposalPerson.*" auditCluster="keyPersonnelAuditErrors" tabAuditKey="newProposalPerson*">
+    <kra:uncollapsable tabTitle="Add Key Personnel" tabErrorKey="newProposalPerson*" auditCluster="keyPersonnelAuditErrors" tabAuditKey="newProposalPerson*">
           <div align="center">
             <table  cellpadding="0" cellspacing="0" class="grid" summary="">
               <tr>
@@ -62,8 +63,28 @@
 <c:if test="${KualiForm.document.developmentProposalList[0].sponsor.acronym == 'NIH'}">
   <c:set var="roleIdAttribute" value="${proposalPersonAttributes.nonNihProposalPersonRoleId}" />
 </c:if>
-                  <kul:htmlControlAttribute property="newProposalPerson.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" />
+                  <kul:htmlControlAttribute property="newProposalPerson.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" 
+                    onchange="proposalRoleChange(this);"/>
                 </td>
+                <th class="grid" id="projectRoleHeader"><div align="right">*Key Person Role<div id="projectRoleRequiredDesc">(Only for Key Persons)</div>:</div></th>
+                <td class="grid" id="projectRoleField">
+                  <kul:htmlControlAttribute property="newProposalPerson.projectRole" attributeEntry="${proposalPersonAttributes.projectRole}"/>
+                </td>
+                <script type="text/javascript">
+                  function proposalRoleChange(formItem) {
+                      if ( $(formItem).val() == 'KP' ) {
+                          $('#projectRoleHeader').show();
+                          $('#projectRoleField').show();
+                      } else {
+                          $('#projectRoleHeader').hide();
+                          $('#projectRoleField').hide();
+                      }
+                  }
+                  $(document).ready(function() {
+                      proposalRoleChange('#newProposalPerson\\.proposalPersonRoleId');
+                      $('#projectRoleRequiredDesc').hide();
+                  });
+                </script>
               </tr>
             </table>
            
