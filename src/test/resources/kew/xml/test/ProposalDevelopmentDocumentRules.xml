@@ -5,7 +5,7 @@
             <documentType>ProposalDevelopmentDocument</documentType>
             <ruleTemplate>FirstApprovalRouting</ruleTemplate>
             <description>First Approval Routing Rule Template</description>
-            <ignorePrevious>true</ignorePrevious>
+<!--            <ignorePrevious>true</ignorePrevious>-->
             <responsibilities>
                 <responsibility>
 	            	<user>jtester</user>
@@ -19,7 +19,7 @@
             <documentType>ProposalDevelopmentDocument</documentType>
             <ruleTemplate>SecondApprovalRouting</ruleTemplate>
             <description>Second Approval Routing Rule Template</description> 
-            <ignorePrevious>true</ignorePrevious>
+<!--            <ignorePrevious>true</ignorePrevious>-->
             <responsibilities>
                 <responsibility>
 	            	<user>quickstart</user> 
@@ -33,7 +33,7 @@
             <documentType>ProposalDevelopmentDocument</documentType>
             <ruleTemplate>FinalApprovalRouting</ruleTemplate>
             <description>Final Approval Routing Rule Template</description>
-            <ignorePrevious>true</ignorePrevious>
+<!--            <ignorePrevious>true</ignorePrevious>-->
             <responsibilities>
                 <responsibility>
 	            	<workgroup>WorkflowAdmin</workgroup> 
