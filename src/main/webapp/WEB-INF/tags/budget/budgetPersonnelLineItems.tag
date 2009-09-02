@@ -156,7 +156,7 @@
 						</kra:section> 
 							 
 						<html:image styleId="personnelDetailsPopup"  property="methodToCall.personnelDetails.anchor${currentTabIndex}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-details.gif"  
-						 onclick="javascript: personnelDetailsPopup('${budgetPeriod}', '${budgetLineItemNumber}', '${status.index}', ${KualiForm.formKey}, '${KualiForm.document.budget.sessionDocument}');return false"/>
+						 onclick="javascript: personnelDetailsPopup('${budgetPeriod}', '${budgetLineItemNumber}', '${status.index}', ${KualiForm.formKey}, '${KualiForm.document.sessionDocument}');return false"/>
 						
 						<kra:section permission="modifyBudgets">	 
 							 <html:image property="methodToCall.deleteBudgetPersonnelDetails.line${budgetLineItemNumber}.personnel${status.index}.anchor${currentTabIndex}"

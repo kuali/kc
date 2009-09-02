@@ -2017,7 +2017,7 @@ var documentWebScope
 
 var personnelDetailsWindow;
 function personnelDetailsPopup(budgetPeriod, lineNumber, personNumber, docFormKey, sessionDocument){
-var documentWebScope
+var documentWebScope;
   if (sessionDocument == "true") {
       documentWebScope="session";
   }

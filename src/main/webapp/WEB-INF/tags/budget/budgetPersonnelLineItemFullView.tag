@@ -128,7 +128,7 @@
 												<kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].calculatedCost" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCost}" readOnly="true" />
 												
 												<html:image styleId="personnelRatesPopup"  property="methodToCall.personnelRates.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}book_open.png" styleClass="tinybutton"   
-												onclick="javascript: personnelRatesPopup('${budgetPeriod}', '${budgetLineItemNumber}', '${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[status.index].rateClassCode}', '${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[status.index].rateTypeCode}', ${KualiForm.formKey}, '${KualiForm.document.budget.sessionDocument}');return false"/>
+												onclick="javascript: personnelRatesPopup('${budgetPeriod}', '${budgetLineItemNumber}', '${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[status.index].rateClassCode}', '${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[status.index].rateTypeCode}', ${KualiForm.formKey}, '${KualiForm.document.sessionDocument}');return false"/>
 											
 											</div></td>
 											<td>
@@ -136,7 +136,7 @@
 													<kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].calculatedCostSharing" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCostSharing}" readOnly="true" />
 												
 													<html:image styleId="personnelRateCostSharingPopup"  property="methodToCall.personnelRates.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}book_open.png" styleClass="tinybutton"   
-													onclick="javascript: personnelRateCostSharingPopup('rateCostSharing', '${budgetPeriod}', '${budgetLineItemNumber}', '${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[status.index].rateClassCode}', '${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[status.index].rateTypeCode}', ${KualiForm.formKey}, '${KualiForm.document.budget.sessionDocument}');return false"/>
+													onclick="javascript: personnelRateCostSharingPopup('rateCostSharing', '${budgetPeriod}', '${budgetLineItemNumber}', '${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[status.index].rateClassCode}', '${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[status.index].rateTypeCode}', ${KualiForm.formKey}, '${KualiForm.document.sessionDocument}');return false"/>
 												</div>
 											</td>
 										</tr>
@@ -161,7 +161,7 @@
 												<kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${overHeadRateIndex}].calculatedCost" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCost}" readOnly="true" />
 
 												<html:image styleId="personnelRatesPopup"  property="methodToCall.personnelRates.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}book_open.png" styleClass="tinybutton"   
-												onclick="javascript: personnelRatesPopup('${budgetPeriod}', '${budgetLineItemNumber}', '${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[overHeadRateIndex].rateClassCode}', '${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[overHeadRateIndex].rateTypeCode}', ${KualiForm.formKey}, '${KualiForm.document.budget.sessionDocument}');return false"/>
+												onclick="javascript: personnelRatesPopup('${budgetPeriod}', '${budgetLineItemNumber}', '${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[overHeadRateIndex].rateClassCode}', '${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[overHeadRateIndex].rateTypeCode}', ${KualiForm.formKey}, '${KualiForm.document.sessionDocument}');return false"/>
 
 											</div>
 										</td>
@@ -170,7 +170,7 @@
 												<kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${overHeadRateIndex}].calculatedCostSharing" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCostSharing}" readOnly="true" />
 												
 												<html:image styleId="personnelRateCostSharingPopup"  property="methodToCall.personnelRates.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}book_open.png" styleClass="tinybutton"   
-												onclick="javascript: personnelRateCostSharingPopup('rateCostSharing', '${budgetPeriod}', '${budgetLineItemNumber}', '${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[overHeadRateIndex].rateClassCode}', '${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[overHeadRateIndex].rateTypeCode}', ${KualiForm.formKey}, '${KualiForm.document.budget.sessionDocument}');return false"/>
+												onclick="javascript: personnelRateCostSharingPopup('rateCostSharing', '${budgetPeriod}', '${budgetLineItemNumber}', '${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[overHeadRateIndex].rateClassCode}', '${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[overHeadRateIndex].rateTypeCode}', ${KualiForm.formKey}, '${KualiForm.document.sessionDocument}');return false"/>
 											</div>
 										</td>
 									</tr>
