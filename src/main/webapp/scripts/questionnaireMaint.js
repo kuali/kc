@@ -1786,39 +1786,15 @@ $("#addUsage")
 		        var hidtr = $('<tr id = "utr" name = "utr"/>').attr("id","utr"+ucount).attr("name", "utr"+ucount);
 		        var hidtd = $('<td colspan="2"/>');
 		        // question id for this node
-		        var qntag = $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
-		        		uprefix + ucount+"].questionnaireUsageId").attr("name", uprefix + ucount+"].questionnaireUsageId")
-		                .attr("value","");
-		        qntag.appendTo(hidtd);
-		        qntag = $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
-		                uprefix + ucount+"].moduleItemCode").attr("name", uprefix + ucount+"].moduleItemCode")
-		                .attr("value",$("#newQuestionnaireUsage\\.moduleItemCode").attr("value"));
-		        qntag.appendTo(hidtd);
 		        
-		        qntag = $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
-		                uprefix + ucount+"].moduleSubItemCode").attr("name", uprefix + ucount+"].moduleSubItemCode")
-		                .attr("value","0");
-		        qntag.appendTo(hidtd);
-		        qntag = $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
-		                uprefix + ucount+"].questionnaireLabel").attr("name", uprefix + ucount+"].questionnaireLabel")
-		                .attr("value",$("#newQuestionnaireUsage\\.questionnaireLabel").attr("value"));
-		        qntag.appendTo(hidtd);
-		        qntag = $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
-		                uprefix + ucount+"].questionnaireSequenceNumber").attr("name", uprefix + ucount+"].questionnaireSequenceNumber")
-		                .attr("value",qnversion);
-		        qntag.appendTo(hidtd);
-		        qntag = $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
-		                uprefix + ucount+"].ruleId").attr("name", uprefix + ucount+"].ruleId")
-		                .attr("value","0");
-		        qntag.appendTo(hidtd);
-		        qntag = $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
-		                uprefix + ucount+"].versionNumber").attr("name", uprefix + ucount+"].versionNumber")
-		                .attr("value","1");
-		        qntag.appendTo(hidtd);
-		        qntag = $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
-		                uprefix + ucount+"].questionnaireRefIdFk").attr("name", uprefix + ucount+"].questionnaireRefIdFk")
-		                .attr("value",$('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value"));
-		        qntag.appendTo(hidtd);
+		        getUsageHidden("questionnaireUsageId", "").appendTo(hidtd);
+		        getUsageHidden("moduleItemCode", $("#newQuestionnaireUsage\\.moduleItemCode").attr("value")).appendTo(hidtd);
+		        getUsageHidden("moduleSubItemCode", "0").appendTo(hidtd);
+		        getUsageHidden("questionnaireLabel", $("#newQuestionnaireUsage\\.questionnaireLabel").attr("value")).appendTo(hidtd);
+		        getUsageHidden("questionnaireSequenceNumber", qnversion).appendTo(hidtd);
+		        getUsageHidden("ruleId", "0").appendTo(hidtd);
+		        getUsageHidden("versionNumber", "1").appendTo(hidtd);
+		        getUsageHidden("questionnaireRefIdFk", $('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value")).appendTo(hidtd);
 		        
 		        hidtd.appendTo(hidtr);
 		        hidtr.hide(); // FF rendering issue. If not hided, then 'line' will be
@@ -1846,16 +1822,17 @@ $("#rootSearch").click(function() {
 
 function shiftUsage(uidx) {
 	var k = uidx;
-	//alert(ucount+"-"+uidx)
 	while (k < (ucount -1)) {
-		$("#"+juprefix+ k+"].questionnaireUsageId").attr("value",$("#"+juprefix+ (k+1)+"].questionnaireUsageId").attr("value"));
-		$("#"+juprefix+ k+"].moduleItemCode").attr("value",$("#"+juprefix+ (k+1)+"].moduleItemCode").attr("value"));
-		$("#"+juprefix+ k+"].moduleSubItemCode").attr("value",$("#"+juprefix+ (k+1)+"].moduleSubItemCode").attr("value"));
-		$("#"+juprefix+ k+"].questionnaireLabel").attr("value",$("#"+juprefix+ (k+1)+"].questionnaireLabel").attr("value"));
-		$("#"+juprefix+ k+"].questionnaireSequenceNumber").attr("value",$("#"+juprefix+ (k+1)+"].questionnaireSequenceNumber").attr("value"));
-		$("#"+juprefix+ k+"].ruleId").attr("value",$("#"+juprefix+ (k+1)+"].ruleId").attr("value"));
-		$("#"+juprefix+ k+"].versionNumber").attr("value",$("#"+juprefix+ (k+1)+"].versionNumber").attr("value"));
-		$("#"+juprefix+ k+"].questionnaireRefIdFk").attr("value",$("#"+juprefix+ (k+1)+"].questionnaireRefIdFk").attr("value"));
+		//alert(ucount+"-"+(k-1))
+		$("#"+juprefix+ (k-1)+"\\]\\.questionnaireUsageId").attr("value",$("#"+juprefix+k+"\\]\\.questionnaireUsageId").attr("value"));
+		$("#"+juprefix+ (k-1)+"\\]\\.moduleItemCode").attr("value",$("#"+juprefix+k+"\\]\\.moduleItemCode").attr("value"));
+		$("#"+juprefix+ (k-1)+"\\]\\.moduleSubItemCode").attr("value",$("#"+juprefix+k+"\\]\\.moduleSubItemCode").attr("value"));
+		$("#"+juprefix+ (k-1)+"\\]\\.questionnaireLabel").attr("value",$("#"+juprefix+k+"\\]\\.questionnaireLabel").attr("value"));
+		$("#"+juprefix+ (k-1)+"\\]\\.questionnaireSequenceNumber").attr("value",$("#"+juprefix+k+"\\]\\.questionnaireSequenceNumber").attr("value"));
+		$("#"+juprefix+ (k-1)+"\\]\\.ruleId").attr("value",$("#"+juprefix+k+"\\]\\.ruleId").attr("value"));
+		$("#"+juprefix+ (k-1)+"\\]\\.versionNumber").attr("value",$("#"+juprefix+k+"\\]\\.versionNumber").attr("value"));
+		$("#"+juprefix+ (k-1)+"\\]\\.questionnaireRefIdFk").attr("value",$("#"+juprefix+k+"\\]\\.questionnaireRefIdFk").attr("value"));
+		k++;
 	}	
 }
 
@@ -2363,6 +2340,6 @@ function loadUsages(usages) {
 
 function getUsageHidden(name, value) {
 	return $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
-    		uprefix + ucount+"]."+name).attr("name", uprefix + ucount+"]."+name)
+    		uprefix + (ucount-1)+"]."+name).attr("name", uprefix + (ucount-1)+"]."+name)
             .attr("value",value);	
 }
