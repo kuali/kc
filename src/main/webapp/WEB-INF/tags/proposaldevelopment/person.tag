@@ -222,7 +222,7 @@
      <c:if test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonRoleId == keypersonrole}">
     
                   <tr>
-                  <th align="left" nowrap="nowrap" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.projectRole}"  /></div></th>
+                  <th align="left" nowrap="nowrap" width="15%"> <div align="right">*<kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.projectRole}"  /></div></th>
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.projectRole" 
                                                                      attributeEntry="${proposalPersonAttributes.projectRole}" 
                                                                        readOnly="${!personEditableFields['projectRole'] }" />
