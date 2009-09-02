@@ -716,7 +716,7 @@
 			<documentType>EDENSERVICE-DOCS</documentType>
 			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
 			<description>workflowdocumenttemplate description</description>
-			<ignorePrevious>false</ignorePrevious>
+<!--			<ignorePrevious>false</ignorePrevious>-->
 			<responsibilities>
 				<responsibility>
 					<user>quickstart</user>
@@ -729,7 +729,7 @@
 			<documentType>EDENSERVICE-DOCS.WKGRPREQ</documentType>
 			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
 			<description>Workgroup Approval Rule</description>
-			<ignorePrevious>false</ignorePrevious>
+<!--			<ignorePrevious>false</ignorePrevious>-->
 			<responsibilities>
 				<responsibility>
 					<workgroup>WorkflowAdmin</workgroup>

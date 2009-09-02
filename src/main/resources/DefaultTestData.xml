@@ -537,7 +537,7 @@
 			<documentType>TestDocumentType</documentType>
             <ruleTemplate>TestRuleTemplate</ruleTemplate>
 			<description>TestRule1</description>
-			<ignorePrevious>false</ignorePrevious>
+<!--			<ignorePrevious>false</ignorePrevious>-->
 			<responsibilities>
 				<responsibility>
 					<role>org.kuali.rice.kew.rule.TestRuleAttribute!TestRole</role>
