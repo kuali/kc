@@ -655,9 +655,9 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
 
         // questionnaire.getQuestionnaireQuestions().remove(0);
         // questionnaire.getQuestionnaireQuestions().remove(0);
-        if (!questionnaire.getQuestionnaireUsages().isEmpty()) {
-            questionnaire.getQuestionnaireUsages().remove(0);
-        }
+//        if (!questionnaire.getQuestionnaireUsages().isEmpty()) {
+//            questionnaire.getQuestionnaireUsages().remove(0);
+//        }
         List<QuestionnaireQuestion> deleteList = cleanupQuestionnaireQuestions(questionnaire);
         if (questionnaire.getSequenceNumber() == null) {
             questionnaire.setSequenceNumber(1);
@@ -852,17 +852,17 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                 Questionnaire questionnaire = ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
                         .getBusinessObject());
                 questionnaire.setQuestionnaireUsages(qnForm.getQuestionnaireUsages());
-                QuestionnaireUsage usage = null;
-                if (!questionnaire.getQuestionnaireUsages().isEmpty()) {
-                    usage = questionnaire.getQuestionnaireUsages().get(0);
-                    questionnaire.getQuestionnaireUsages().remove(0);
-                }
+//                QuestionnaireUsage usage = null;
+//                if (!questionnaire.getQuestionnaireUsages().isEmpty()) {
+//                    usage = questionnaire.getQuestionnaireUsages().get(0);
+//                    questionnaire.getQuestionnaireUsages().remove(0);
+//                }
                 deleteList = cleanupQuestionnaireQuestions(questionnaire);
                 saveRollBackData(qnForm);
-                if (usage != null) {
-                    // if successful, then saveQn will do it again, so need to add it back
-                    questionnaire.getQuestionnaireUsages().add(0, usage);
-                }
+//                if (usage != null) {
+//                    // if successful, then saveQn will do it again, so need to add it back
+//                    questionnaire.getQuestionnaireUsages().add(0, usage);
+//                }
 //                if (qnForm.getRemovedQuestionnaireQuestions().size() > 0) {
 //                    deleteList.addAll(qnForm.getRemovedQuestionnaireQuestions());
 //                    qnForm.setRemovedQuestionnaireQuestions(deleteList);
