@@ -254,6 +254,12 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
                 retval = false;
             }
         }
+        
+        if(isKeyPerson(person) && isBlank(person.getProjectRole())) {
+            reportError("newProposalPerson", RiceKeyConstants.ERROR_REQUIRED,"Key Person Role");
+            retval = false;
+        }
+        
         return retval;
     }
             
