@@ -55,7 +55,6 @@ import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -68,7 +67,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
                                                                         SpecialReviewHandler<AwardSpecialReview>, 
                                                                         Permissionable, SequenceOwner<Award> {
     public static final String AWARD_NAMESPACE_CODE = "KC-AWARD";
-    public static final String DEFAULT_AWARD_NUMBER = "1";
+    public static final String DEFAULT_AWARD_NUMBER = "000000-00000";
     
     private static final String YES_FLAG = "Y";
     private static final int TOTAL_STATIC_REPORTS = 4;
@@ -922,6 +921,18 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public String getProposalNumber() {
         return proposalNumber;
+    }
+    
+    /**
+     * This method calculates the total cost of all funding proposals
+     * @return
+     */
+    public KualiDecimal getTotalCostOfFundingProposals() {
+        KualiDecimal total = new KualiDecimal(0.00);
+        for(AwardFundingProposal afp: fundingProposals) {
+            total = total.add(new KualiDecimal(afp.getProposal().getTotalCost().doubleValue()));
+        }
+        return total;
     }
 
     /**
@@ -2524,5 +2535,13 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
         }
         
         return comment;
+    }
+
+    /**
+     * This method indicates if the Awrd has been persisted
+     * @return True if persisted
+     */
+    public boolean isPersisted() {
+        return awardId != null;
     }
 }
