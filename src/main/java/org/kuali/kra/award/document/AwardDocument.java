@@ -35,29 +35,29 @@ import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
-import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.service.AwardCustomAttributeService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * 
@@ -374,6 +374,15 @@ public class AwardDocument extends BudgetParentDocument implements  Copyable, Se
     @Override
     public boolean isNih() {
         return false;
+    }
+    
+    /**
+     * This method specifies if this document may be edited; i.e. it's only initiated or saved
+     * @return
+     */
+    public boolean isEditable() {
+        KualiWorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
+        return workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved(); 
     }
 
     @Override

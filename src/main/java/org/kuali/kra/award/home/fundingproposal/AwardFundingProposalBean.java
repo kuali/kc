@@ -18,10 +18,12 @@ package org.kuali.kra.award.home.fundingproposal;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
@@ -34,18 +36,24 @@ public class AwardFundingProposalBean implements Serializable {
     private AwardForm awardForm;
     private InstitutionalProposal newFundingProposal;
     
+    private List<Award> allAwardsForAwardNumber;
+    
     public AwardFundingProposalBean(AwardForm awardForm) {
         this.awardForm = awardForm;
         createNewFundingProposal();
     }
 
+    AwardFundingProposalBean() {
+        
+    }
+    
     /**
      * This method adds a Funding Proposal
      */
     public void addFundingProposal() {
         if(getNewFundingProposal() != null) {
             if(validateForAdd()) {
-                getAward().add(newFundingProposal);
+                getAward().add(newFundingProposal);                
                 performDataFeeds(getAward(), newFundingProposal);
                 createNewFundingProposal();
             }
@@ -61,7 +69,45 @@ public class AwardFundingProposalBean implements Serializable {
             getAward().removeFundingProposal(index);
         }
     }
+
+    /**
+     * This method returns all Award versions for the awardNumber of the Award associated found from the AwardDocument on the associated AwardForm.
+     * @return
+     */
+    public List<Award> getAllAwardsForAwardNumber() {
+        if(allAwardsForAwardNumber == null) {
+            Award thisAward = getAward();
+            allAwardsForAwardNumber = getAwardService().findAwardsForAwardNumber(thisAward.getAwardNumber());
+            if(thisAward.isPersisted()) {
+                replaceThisAwardInListOfFoundAwards(thisAward);
+            } else {
+                addUnsavedAwardToListOfAwards(thisAward);
+            }
+        }
+        return allAwardsForAwardNumber;
+    }
+
+    private void replaceThisAwardInListOfFoundAwards(Award thisAward) {
+        int lastIndex = allAwardsForAwardNumber.size() - 1; 
+        if(lastIndex >= 0 && allAwardsForAwardNumber.get(lastIndex).getAwardId().equals(thisAward.getAwardId())) {
+            allAwardsForAwardNumber.set(lastIndex, thisAward);
+        }
+    }
+
+    private void addUnsavedAwardToListOfAwards(Award thisAward) {
+        if(thisAward.getAwardId() == null) {
+            allAwardsForAwardNumber.add(thisAward);
+        }
+    }
     
+    /**
+     * This method returns the size of the allAwardsForAwardNumber collection 
+     * @return
+     */
+    public int getAllAwardsForAwardNumberSize() {
+        return getAllAwardsForAwardNumber().size();
+    }
+
     /**
      * Gets the newFundingProposal attribute. 
      * @return Returns the newFundingProposal.
@@ -78,12 +124,16 @@ public class AwardFundingProposalBean implements Serializable {
     public void setNewFundingProposal(InstitutionalProposal newFundingProposal) {
         this.newFundingProposal = newFundingProposal;
     }
-
+    
     /**
      * @return
      */
-    protected BusinessObjectService getBusinessObjectService() {
+    BusinessObjectService getBusinessObjectService() {
         return (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class);
+    }
+    
+    AwardService getAwardService() {
+        return (AwardService) KraServiceLocator.getService(AwardService.class);
     }
     
     private void createNewFundingProposal() {
@@ -94,7 +144,7 @@ public class AwardFundingProposalBean implements Serializable {
     /**
      * @return
      */
-    private Award getAward() {
+    Award getAward() {
         return awardForm.getAwardDocument().getAward();
     }
     
