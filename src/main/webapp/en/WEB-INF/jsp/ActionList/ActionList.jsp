@@ -21,7 +21,7 @@
 
 </head>
 <body>
-<html-el:form action="ActionListOld">
+<html-el:form action="ActionList">
 <html-el:hidden property="methodToCall" value="" />
 <html-el:hidden property="cssFile"/>
 <html-el:hidden property="logoAlign"/>
@@ -36,13 +36,13 @@
     <td align="left">
 		&nbsp;<html-el:link page="/Preferences.do?returnMapping=viewActionList">Preferences</html-el:link>&nbsp;&nbsp;
 		<a href="
-			<c:url value="ActionListOld.do">
+			<c:url value="ActionList.do">
 				<c:param name="methodToCall" value="start" />
 			</c:url>">Refresh <bean-el:message key="actionList.ActionList.title"/></a>&nbsp;&nbsp;
 		<html-el:link action="ActionListFilterOld">Filter</html-el:link>&nbsp;&nbsp;
 		<c:if test="${kewUserSession.actionListFilter != null && kewUserSession.actionListFilter.filterOn}">
 			<a href="
-			<c:url value="ActionListOld.do">
+			<c:url value="ActionList.do">
 				<c:param name="methodToCall" value="clearFilter" />
 				<c:param name="key" value="${key}"/>
 			</c:url>">Clear Filter</a>&nbsp;&nbsp;
@@ -52,7 +52,7 @@
             <html-el:image src="images/tinybutton-hlpdesk.gif" align="absmiddle" property="methodToCall.helpDeskActionListLogin" />
 			<c:if test="${kewUserSession.helpDeskActionListPerson != null}">
 				<a href="
-					<c:url value="ActionListOld.do">
+					<c:url value="ActionList.do">
 						<c:param name="methodToCall" value="clearHelpDeskActionListUser" />
 					</c:url>">Clear <c:out value="${kewUserSession.helpDeskActionListPerson.name}"/>'s List</a>
 			</c:if>&nbsp;&nbsp;
@@ -97,7 +97,7 @@
           <td>
             <c:choose>
 	            <c:when test="${ActionListForm.viewOutbox && ActionListForm.showOutbox}">
-		            <a href="<c:url value="ActionListOld.do?viewOutbox=false" />"><bean-el:message key="actionList.ActionList.title"/></a>
+		            <a href="<c:url value="ActionList.do?viewOutbox=false" />"><bean-el:message key="actionList.ActionList.title"/></a>
 		            | <strong><bean-el:message key="actionList.Outbox.title"/></strong>
 		             <c:if test="${! ActionListForm.outBoxEmpty }">
 			            <td align="right">
@@ -108,7 +108,7 @@
 	            <c:otherwise>
 	                <strong><bean-el:message key="actionList.ActionList.title"/></strong>
 	                <c:if test="${ActionListForm.showOutbox }">
-		            	| <a href="<c:url value="ActionListOld.do?viewOutbox=true" />"><bean-el:message key="actionList.Outbox.title"/></a>
+		            	| <a href="<c:url value="ActionList.do?viewOutbox=true" />"><bean-el:message key="actionList.Outbox.title"/></a>
 	            	</c:if>
 	            	<c:if test="${kewUserSession.helpDeskActionListPerson == null && ! empty actionList && ! empty ActionListForm.defaultActions}">
 			            <td align="right">
@@ -151,7 +151,7 @@
 	<td></td>
   	<td>
 
-  <c:url var="actionListURI" value="ActionListOld.do">
+  <c:url var="actionListURI" value="ActionList.do">
     <c:param name="methodToCall" value="start"/>
     <c:param name="currentPage" value="${ActionListForm.currentPage}"/>
     <c:param name="currentSort" value="${ActionListForm.currentSort}"/>
