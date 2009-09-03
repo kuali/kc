@@ -42,7 +42,7 @@
         </property>
         <property name="documentTypeName" value="QuestionMaintenanceDocument" />
         <property name="businessRulesClass" value="org.kuali.kra.questionnaire.question.QuestionMaintenanceDocumentRule" />
-        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
+        <property name="documentAuthorizerClass" value="org.kuali.kra.questionnaire.question.QuestionMaintenanceDocumentAuthorizer" />
         <property name="additionalSectionsFile" value="/WEB-INF/jsp/questionnaire/questionManager.jsp" />
         <property name="webScriptFiles">
             <list>
