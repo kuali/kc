@@ -129,7 +129,7 @@
                                                 &nbsp;&nbsp;&nbsp;&nbsp;<a title="Expand the entire tree below" href="#"><img src="static/images/jquery/plus.gif" /> Expand All</a>
                                             </div> --%>
                                             
-	${TimeAndMoneyForm.awardHierarchy}
+	
      <div style = "background:#e4e4e4" >     
   <ul id="awardhierarchy" class="filetree stripeli treeview"  >
         <%-- <li><span class="folder">00000</span>
