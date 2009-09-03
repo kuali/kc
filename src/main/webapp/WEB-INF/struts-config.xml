@@ -14,6 +14,7 @@
 		<form-bean name="BudgetForm" type="org.kuali.kra.budget.web.struts.form.BudgetForm" />
 		<form-bean name="AwardForm" type="org.kuali.kra.award.AwardForm" />
 		<form-bean name="TimeAndMoneyForm" type="org.kuali.kra.timeandmoney.TimeAndMoneyForm" />
+		<form-bean name="AwardHierarchyForm" type="org.kuali.kra.award.AwardHierarchyForm" />
 		<form-bean name="DocHandlerForm" type="org.kuali.rice.kew.routing.web.DocHandlerForm" />
 		<form-bean name="ChangePasswordForm" type="org.kuali.kra.web.struts.form.ChangePasswordForm" />
 		<form-bean name="UnitHierarchyForm" type="org.kuali.kra.web.struts.form.UnitHierarchyForm" />
@@ -205,10 +206,10 @@
       </action>
       
       <action path="/timeAndMoney*" name="TimeAndMoneyForm" input="/WEB-INF/jsp/timeandmoney/TimeAndMoney{1}.jsp" type="org.kuali.kra.timeandmoney.web.struts.action.TimeAndMoney{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-          <forward name="basic" path="/WEB-INF/jsp/timeandmoney/TimeAndMoney{1}.jsp" />
+          <forward name="basic" path="/WEB-INF/jsp/timeandmoney/TimeAndMoney{1}.jsp" />          
       </action>
       
-      <action path="/awardHierarchyAjax" name="TimeAndMoneyForm" type="org.kuali.kra.award.web.struts.action.AwardHierarchyAction">
+      <action path="/awardHierarchyAjax" name="AwardHierarchyForm" type="org.kuali.kra.award.web.struts.action.AwardHierarchyAction" >
           <forward name="basic" path="/awardHierarchyAjax.jsp" />
       </action>
       
