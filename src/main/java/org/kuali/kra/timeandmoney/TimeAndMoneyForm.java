@@ -21,7 +21,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionBean;
 import org.kuali.kra.infrastructure.Constants;
@@ -34,7 +33,6 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
 
@@ -47,10 +45,11 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     private String goToAwardNumber;
     private List<String> order;
     private List<Integer> columnSpan;
-    private String[] obligationStartDates;
-    private String[] obligationExpirationDates;
-    private String[] finalExpirationDates;
-    private String awardHierarchy;
+    private List<String> obligationStartDates;
+    private List<String> obligationExpirationDates;
+    private List<String> finalExpirationDates;
+    private List<AwardHierarchyNode> awardHierarchyNodeItems;
+
     private String awardNumber;
     private String addRA;    
     private String deletedRas;
@@ -68,9 +67,16 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         order = new ArrayList<String>();
         columnSpan = new ArrayList<Integer>();
-        obligationStartDates = new String[100];
-        obligationExpirationDates = new String[100];
-        finalExpirationDates = new String[100];
+        obligationStartDates = new ArrayList<String>();        
+        obligationExpirationDates = new ArrayList<String>();
+        finalExpirationDates = new ArrayList<String>();
+        awardHierarchyNodeItems = new ArrayList<AwardHierarchyNode>();
+        for(int i=0;i<100;i++){
+            obligationStartDates.add(null);
+            obligationExpirationDates.add(null);
+            finalExpirationDates.add(null);
+            awardHierarchyNodeItems.add(new AwardHierarchyNode());
+        }
     }
     
     /**
@@ -198,31 +204,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         this.columnSpan = columnSpan;
     }    
     
-    public String getAwardHierarchy() {
-        awardHierarchy = "";
-        if (StringUtils.isNotBlank(addRA) && addRA.equals("Y")) {
-            if (getAwardHierarchyUIService().doesAwardHierarchyExist(awardNumber, deletedRas)) {
-                setAwardHierarchy("<h3>true</h3>");
-            }else {
-                setAwardHierarchy("<h3>false</h3>");
-            }
-        } else if (StringUtils.isNotBlank(addRA) && addRA.equals("S")) {
-            //KraServiceLocator.getService(AwardHierarchyUIService.class).saveResearchAreas(sqlScripts);
-            String error = (String) GlobalVariables.getUserSession().retrieveObject("raError");
-            if (StringUtils.isNotBlank(error)) {
-                setAwardHierarchy("<h3>" + error + "</h3>");
-                GlobalVariables.getUserSession().addObject("raError", (Object) null);
-            } else {
-                setAwardHierarchy("<h3>Success</h3>");
-            }
-        } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
-            setAwardHierarchy(getAwardHierarchyUIService().getSubAwardHierarchiesForTreeView(awardNumber));
-        } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("N")){
-            setAwardHierarchy(getAwardHierarchyUIService().getRootAwardNode(awardNumber));
-        }
-        return awardHierarchy;
-    }
-
+    
     /**
      * This method...
      * @return
@@ -277,15 +259,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      */
     public void setDeletedRas(String deletedRas) {
         this.deletedRas = deletedRas;
-    }
-
-    /**
-     * Sets the awardHierarchy attribute value.
-     * @param awardHierarchy The awardHierarchy to set.
-     */
-    public void setAwardHierarchy(String awardHierarchy) {
-        this.awardHierarchy = awardHierarchy;
-    }
+    }    
     
     /**
      * Gets the awardDirectFandADistributionBean attribute. 
@@ -323,7 +297,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      * Gets the obligationStartDates attribute. 
      * @return Returns the obligationStartDates.
      */
-    public String[] getObligationStartDates() {
+    public List<String> getObligationStartDates() {
         return obligationStartDates;
     }
 
@@ -331,7 +305,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      * Sets the obligationStartDates attribute value.
      * @param obligationStartDates The obligationStartDates to set.
      */
-    public void setObligationStartDates(String[] obligationStartDates) {
+    public void setObligationStartDates(List<String> obligationStartDates) {
         this.obligationStartDates = obligationStartDates;
     }
 
@@ -339,7 +313,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      * Gets the obligationExpirationDates attribute. 
      * @return Returns the obligationExpirationDates.
      */
-    public String[] getObligationExpirationDates() {
+    public List<String> getObligationExpirationDates() {
         return obligationExpirationDates;
     }
 
@@ -347,7 +321,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      * Sets the obligationExpirationDates attribute value.
      * @param obligationExpirationDates The obligationExpirationDates to set.
      */
-    public void setObligationExpirationDates(String[] obligationExpirationDates) {
+    public void setObligationExpirationDates(List<String> obligationExpirationDates) {
         this.obligationExpirationDates = obligationExpirationDates;
     }
 
@@ -355,7 +329,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      * Gets the finalExpirationDates attribute. 
      * @return Returns the finalExpirationDates.
      */
-    public String[] getFinalExpirationDates() {
+    public List<String> getFinalExpirationDates() {
         return finalExpirationDates;
     }
 
@@ -363,8 +337,25 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      * Sets the finalExpirationDates attribute value.
      * @param finalExpirationDates The finalExpirationDates to set.
      */
-    public void setFinalExpirationDates(String[] finalExpirationDates) {
+    public void setFinalExpirationDates(List<String> finalExpirationDates) {
         this.finalExpirationDates = finalExpirationDates;
     }
+
+    /**
+     * Gets the awardHierarchyNodeItems attribute. 
+     * @return Returns the awardHierarchyNodeItems.
+     */
+    public List<AwardHierarchyNode> getAwardHierarchyNodeItems() {
+        return awardHierarchyNodeItems;
+    }
+
+    /**
+     * Sets the awardHierarchyNodeItems attribute value.
+     * @param awardHierarchyNodeItems The awardHierarchyNodeItems to set.
+     */
+    public void setAwardHierarchyNodeItems(List<AwardHierarchyNode> awardHierarchyNodeItems) {
+        this.awardHierarchyNodeItems = awardHierarchyNodeItems;
+    }
+    
 
 }

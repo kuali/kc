@@ -42,16 +42,13 @@ body {
 </head>
 
 <body class=" yui-skin-sam">
-<html:form styleId="kualiForm" method="post"
-    action="/timeAndMoney.do" enctype=""
-    onsubmit="return hasFormAlreadyBeenSubmitted();"> 
 
 <!--  initial data here -->
 <%-- <input type="text" id = "researchAreas" name="researchAreas"   value="${ResearchAreasForm.researchAreas}"/> --%>
 
-<div id="treeDiv1"></div>
-
-<kra-timeandmoney:awardHierarchyTimeAndMoney />
+<div id="treeDiv1">
+${AwardHierarchyForm.awardHierarchy}
+</div>
 
 <script type="text/javascript">
 
@@ -60,7 +57,5 @@ alert ("in researchareaload ");
 
 
 <!--END SOURCE CODE =============================== -->
-
-</html:form>
 </body>
 </html>

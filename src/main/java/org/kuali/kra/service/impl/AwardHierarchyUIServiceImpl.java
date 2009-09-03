@@ -19,13 +19,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
+import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -39,8 +45,12 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     private BusinessObjectService businessObjectService;
     private Map<String, AwardHierarchyNode> awardHierarchyNodes;
     
+    AwardHierarchyUIServiceImpl(){
+        awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();    
+    }
+    
     public String getRootAwardNode(String awardNumber){
-        AwardHierarchyNode aNode = getAwardHierarchyNodes().get(awardNumber);        
+        AwardHierarchyNode aNode = getAwardHierarchyNodes(awardNumber).get(awardNumber);        
         return "<h3>" + buildCompleteRecord(awardNumber, aNode) + "</h3>"; 
     }
 
@@ -69,7 +79,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     public String getSubAwardHierarchiesForTreeView(String awardNumber) {
         String awardHierarchy = "<h3>";        
         for (AwardHierarchy ah : getSubResearchAreas(awardNumber)) {
-            AwardHierarchyNode aNode = getAwardHierarchyNodes().get(ah.getAwardNumber());
+            AwardHierarchyNode aNode = getAwardHierarchyNodes(awardNumber).get(ah.getAwardNumber());
             awardHierarchy = awardHierarchy + buildCompleteRecord(ah.getAwardNumber(), aNode) + "</h3><h3>";
         }
         awardHierarchy = awardHierarchy.substring(0, awardHierarchy.length() - 4);        
@@ -92,11 +102,36 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         return awardHierarchyList;
     }
     
-    private Map<String, AwardHierarchyNode> getAwardHierarchyNodes(){
+    private Map<String, AwardHierarchyNode> getAwardHierarchyNodes(String awardNumber){
         if(awardHierarchyNodes==null || awardHierarchyNodes.size()==0){
-            awardHierarchyNodes = ((TimeAndMoneyForm)GlobalVariables.getKualiForm()).getTimeAndMoneyDocument().getAwardHierarchyNodes();    
+            List<String> order = new ArrayList<String>();
+            Map<String, AwardHierarchy> awardHierarchyItems = getAwardHierarchyService().getAwardHierarchy(awardNumber, order );
+            AwardHierarchyNode awardHierarchyNode = new AwardHierarchyNode();
+            ActivePendingTransactionsService aptService = KraServiceLocator.getService(ActivePendingTransactionsService.class);
+            
+            for(Entry<String, AwardHierarchy> awardHierarchy:awardHierarchyItems.entrySet()){                
+                awardHierarchyNode.setAwardNumber(awardHierarchy.getValue().getAwardNumber());
+                awardHierarchyNode.setParentAwardNumber(awardHierarchy.getValue().getParentAwardNumber());
+                awardHierarchyNode.setRootAwardNumber(awardHierarchy.getValue().getRootAwardNumber());
+                
+                Award award = aptService.getActiveAwardVersion(awardHierarchy.getValue().getAwardNumber());
+                AwardAmountInfo awardAmountInfo = aptService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());            
+                
+                awardHierarchyNode.setFinalExpirationDate(award.getProjectEndDate());
+                awardHierarchyNode.setLeadUnitName(award.getUnitName());
+                awardHierarchyNode.setPrincipalInvestigatorName(award.getPrincipalInvestigatorName());
+                awardHierarchyNode.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
+                awardHierarchyNode.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
+                awardHierarchyNode.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
+                awardHierarchyNode.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
+                awardHierarchyNodes.put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
+            }   
         } 
         return awardHierarchyNodes;
+    }
+    
+    public AwardHierarchyService getAwardHierarchyService(){        
+        return (AwardHierarchyService) KraServiceLocator.getService(AwardHierarchyService.class);
     }
     
     private Map<String, AwardHierarchy> getAwardHierarchies(){
