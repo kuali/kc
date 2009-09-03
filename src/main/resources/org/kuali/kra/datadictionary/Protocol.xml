@@ -37,6 +37,7 @@
 				<ref bean="Protocol-protocolId" />
 				<ref bean="Protocol-protocolNumber" />
 				<ref bean="Protocol-sequenceNumber" />
+				<ref bean="Protocol-active" />
 				<ref bean="Protocol-protocolTypeCode" />
 				<ref bean="Protocol-protocolStatusCode" />
 				<ref bean="Protocol-leadUnitNumber" />
@@ -150,6 +151,23 @@
 		</property>
 		<property name="summary" value="Sequence Number" />
 		<property name="description" value="Sequence Number" />
+	</bean>
+	
+	<bean id="Protocol-active" parent="Protocol-active-parentBean" />
+	<bean id="Protocol-active-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="active" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Active" />
+		<property name="shortLabel" value="Active" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="summary" value="Active" />
+		<property name="description" value="Active" />
 	</bean>
 
 	<bean id="Protocol-protocolTypeCode" parent="Protocol-protocolTypeCode-parentBean" />
@@ -727,6 +745,8 @@
 					p:attributeName="fundingSource" />
 				<bean parent="FieldDefinition"
 					p:attributeName="performingOrganizationId" />
+				<bean parent="FieldDefinition"
+				    p:attributeName="active"  p:defaultValue="Y" />
 				<!-- bean parent="FieldDefinition"
 					p:attributeName="sequenceNumber" />
 				<bean parent="FieldDefinition"
@@ -780,6 +800,8 @@
 					p:attributeName="leadUnitNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="leadUnitName" />
+				<bean parent="FieldDefinition"
+					p:attributeName="active" />
 					
 				<!-- <bean parent="FieldDefinition"
 					p:attributeName="approvalDate" />

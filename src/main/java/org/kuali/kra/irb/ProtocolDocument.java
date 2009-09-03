@@ -164,6 +164,10 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
             if (isNormal()){
                 disapproveProtocol();
             }
+            else {
+                this.getProtocol().setActive(false);
+                getBusinessObjectService().save(this);
+            }
         }
     }
     
@@ -219,6 +223,9 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         } catch (WorkflowException e) {
             throw new ProtocolMergeException(e);
         }
+        
+        this.getProtocol().setActive(false);
+        
         /*
          * TODO: We have to route the new protocol document here so
          * that it goes to the final state.
