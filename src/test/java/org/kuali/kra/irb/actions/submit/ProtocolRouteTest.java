@@ -122,6 +122,8 @@ public class ProtocolRouteTest extends KraTestBase {
         assertTrue(getWorkflowDocument(protocolDocument).stateIsFinal());
         assertEquals(protocolDocument.getProtocol().getProtocolStatusCode(), ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
         
+        assertTrue(protocolDocument.getProtocol().isActive());
+        
         verifyProtocolAction(protocolDocument.getProtocol().getProtocolId(), ProtocolActionType.APPROVED);
     }
     
@@ -141,6 +143,8 @@ public class ProtocolRouteTest extends KraTestBase {
         
         assertTrue(getWorkflowDocument(protocolDocument).stateIsDisapproved());
         assertEquals(protocolDocument.getProtocol().getProtocolStatusCode(), ProtocolStatus.DISAPPROVED);
+        
+        assertTrue(protocolDocument.getProtocol().isActive());
         
         verifyProtocolAction(protocolDocument.getProtocol().getProtocolId(), ProtocolActionType.DISAPPROVED);
     }
@@ -177,6 +181,10 @@ public class ProtocolRouteTest extends KraTestBase {
         
         Protocol newProtocol = protocolFinder.findCurrentProtocolByNumber(protocolDocument.getProtocol().getProtocolNumber());
         assertTrue(newProtocol.getSequenceNumber() == protocolDocument.getProtocol().getSequenceNumber() + 1);
+        
+        assertFalse(protocolDocument.getProtocol().isActive());
+        assertFalse(amendmentDocument.getProtocol().isActive());
+        assertTrue(newProtocol.isActive());
         
         // TODO: This test can be re-added once we can route the new protocol through workflow.
         //assertEquals(getWorkflowDocument(newProtocol.getProtocolDocument).isFinal());
