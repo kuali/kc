@@ -16,7 +16,10 @@
 
 <%@ include file="/WEB-INF/jsp/award/awardTldHeader.jsp" %>
 
+<%@ attribute name="awardRowIndex" required="true" %>
 <%@ attribute name="fundingProposalRowIndex" required="true" %>
+
+<c:set var="proposalExpr" value="fundingProposalBean.allAwardsForAwardNumber[${awardRowIndex}].fundingProposals[${fundingProposalRowIndex}]" />
 
 <c:set var="activityTypeAttributes" value="${DataDictionary.ActivityType.attributes}" />
 <c:set var="fundingProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
@@ -33,7 +36,7 @@
 				<div align="right"><kul:htmlAttributeLabel attributeEntry="${fundingProposalAttributes.proposalNumber}" skipHelpUrl="true" /></div>										
 				</th>
 				<td>
-				<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowIndex}].proposal.proposalNumber" 
+				<kul:htmlControlAttribute property="${proposalExpr}.proposal.proposalNumber" 
 					  attributeEntry="${fundingProposalAttributes.proposalNumber}" readOnly="true" />
 				</td>
 		</tr>							
@@ -42,7 +45,7 @@
 				<div align="right"><kul:htmlAttributeLabel attributeEntry="${fundingProposalAttributes.sequenceNumber}"  skipHelpUrl="true" /></div>										
  				</th>
  				<td>
-				<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowIndex}].proposal.sequenceNumber" 
+				<kul:htmlControlAttribute property="${proposalExpr}.proposal.sequenceNumber" 
 						  attributeEntry="${fundingProposalAttributes.sequenceNumber}" readOnly="true" />
  				</td>
 		</tr>
@@ -55,7 +58,7 @@
  					<c:if test="${proposalType == null}">
  						<c:set var="proposalType" value="${formAward.fundingProposals[fundingProposalRowIndex].proposal.proposalTypeFromCode}" />
  					</c:if>
-				<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowIndex}].proposal.proposalType.description" 
+				<kul:htmlControlAttribute property="${proposalExpr}.proposal.proposalType.description" 
 						  attributeEntry="${proposalTypeAttributes.description}" readOnly="true" />
 							  
  				</td>
@@ -69,7 +72,7 @@
  					<c:if test="${proposalType == null}">
  						<c:set var="proposalType" value="${formAward.fundingProposals[fundingProposalRowIndex].proposal.activityTypeFromCode}" />
  					</c:if>
-				<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowIndex}].proposal.activityType.description" 
+				<kul:htmlControlAttribute property="${proposalExpr}.proposal.activityType.description" 
 										  attributeEntry="${activityTypeAttributes.description}" readOnly="true" />
  				</td>
 		</tr>
@@ -78,7 +81,7 @@
 				<div align="right">Proposal Title:</div>										
  				</th>
  				<td>
-				<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowIndex}].proposal.title" 
+				<kul:htmlControlAttribute property="${proposalExpr}.proposal.title" 
 										  attributeEntry="${fundingProposalAttributes.title}" readOnly="true" />
  				</td>
 		</tr>

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.home;
 
-
+import java.util.List;
 
 /**
  * 
@@ -29,7 +29,24 @@ public interface AwardService {
      * 
      * @param awardId the Award's unique id number
      * @return the Award or null if not found.
+     * 
+     * @deprecated The identifier for Award is a Long, but this method expects a String
      */
     public Award getAward(String awardId);
 
+    /**
+     * Get the Award based upon its unique id number.
+     * 
+     * @param awardId
+     * @return
+     */
+    public Award getAward(Long awardId);
+    
+    /**
+     * This method finds all Awards for the specified awardNumber
+     * @param awardId
+     * @return The list of Awards
+     */
+    public List<Award> findAwardsForAwardNumber(String awardNumber);
+    
 }

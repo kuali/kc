@@ -82,63 +82,96 @@
 		    		<div align="center">Actions</div>
 		    	</th>
 		    </tr>
-
-		    <c:forEach var="fundingProposal" items="${formAward.fundingProposals}" varStatus="fundingProposalRowStatus">
-		    	<tr>
-					<td class="infoline">
-						<kul:htmlControlAttribute property="${docAward}.sequenceNumber" 
-											  attributeEntry="${awardAttributes.sequenceNumber}" readOnly="true" />    		
-			    	</td>
-			    	<td class="infoline">
-						<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowStatus.index}].proposal.principalInvestigator.fullName" 
-												  attributeEntry="${fundingProposalAttributes.initialContractAdmin}" readOnly="true" />
-			    	</td>
-			    	<td class="infoline">
-						<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowStatus.index}].proposal.leadUnit.unitNumber" 
-															attributeEntry="${unitAttributes.unitNumber}" readOnly="true" />
-						&nbsp;-&nbsp;
-						<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowStatus.index}].proposal.leadUnit.unitName" 
-															attributeEntry="${unitAttributes.unitName}" readOnly="true" />															     		
-			    	</td>
-			    	<td class="infoline">
-						<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowStatus.index}].proposal.sponsorCode" 
-															attributeEntry="${sponsorAttributes.sponsorNumber}" readOnly="true" />
-						&nbsp;
-						<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowStatus.index}].proposal.sponsorName" 
-															attributeEntry="${sponsorAttributes.sponsorName}" readOnly="true" />
-			    	</td>
-			    	<td class="infoline">
-			    		<div align="center">
-							<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowStatus.index}].proposal.requestedStartDateTotal" 
-															attributeEntry="${fundingProposalAttributes.requestedStartDateTotal}" readOnly="true" />
-						</div>															    		
-			    	</td>
-			    	<td class="infoline">
-			    		<div align="center">
-							<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowStatus.index}].proposal.requestedEndDateTotal" 
-																attributeEntry="${fundingProposalAttributes.requestedEndDateTotal}" readOnly="true" />
-						</div>    		
-			    	</td>
-			    	<td class="infoline">
-			    		<div align="right">
-			    			$<fmt:formatNumber value="${formAward.fundingProposals[fundingProposalRowStatus.index].proposal.totalCost}" type="currency" currencySymbol="" maxFractionDigits="2" />
-			    		</div>    		
-			    	</td>
-			        <td class="infoline">
-			        	<div align="center">
-								<html:image property="methodToCall.deleteAwardFundingProposal.line${fundingProposalRowStatus.index}.anchor${currentTabIndex}"
-								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+<%--
+1) Make out loop items reference a fundingProposalBean collection of all Award versions for the awardNumber.
+2) For each award version, loop
+3) For each funding proposal referenced by the  bean Award element reference the funding proposal;
+   i.e. kul:htmlControlAttribute property="${fundingProposalBean.awardVersions[awardRrowStatus.index]}.fundingProposals[proosalRowStatus.index].sequenceNumber}"
+4) Add total of funding proposals for each version 
+ --%>
+ 			<c:forEach var="award" items="${KualiForm.fundingProposalBean.allAwardsForAwardNumber}" varStatus="awardRowStatus">
+ 				<c:set var="isLastAward" value="${awardRowStatus.index == (KualiForm.fundingProposalBean.allAwardsForAwardNumberSize - 1)}" />
+ 				<tr>
+ 					<th class="infoline">
+ 						<div align="center">${award.sequenceNumber}</div> 						
+ 					</th>
+ 					<td colspan="7" class="infoline">&nbsp;</td>
+ 				</tr>
+ 				<c:forEach var="fundingProposal" items="${award.fundingProposals}" varStatus="fundingProposalRowStatus">
+			    	<c:set var="awardExpr" value="fundingProposalBean.allAwardsForAwardNumber[${awardRowStatus.index}]" />
+			    	<tr>
+						<td class="infoline">
+							&nbsp;    		
+				    	</td>
+				    	<td class="infoline">
+				    		<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.principalInvestigator.fullName" 
+													  attributeEntry="${fundingProposalAttributes.initialContractAdmin}" readOnly="true" />							 
+				    	</td>
+				    	<td class="infoline">
+				    		<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.leadUnit.unitNumber" 
+																attributeEntry="${unitAttributes.unitNumber}" readOnly="true" />
+							&nbsp;-&nbsp;
+							<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.leadUnit.unitName" 
+																attributeEntry="${unitAttributes.unitName}" readOnly="true" />
+				    	</td>
+				    	<td class="infoline">
+				    		<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.sponsorCode" 
+																attributeEntry="${sponsorAttributes.sponsorNumber}" readOnly="true" />
+							&nbsp;
+							<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.sponsorName" 
+																attributeEntry="${sponsorAttributes.sponsorName}" readOnly="true" />
+				    	</td>
+				    	<td class="infoline">
+				    		<div align="center">
+								<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.requestedStartDateTotal" 
+																attributeEntry="${fundingProposalAttributes.requestedStartDateTotal}" readOnly="true" />
+							</div>															    		
+				    	</td>
+				    	<td class="infoline">
+				    		<div align="center">
+								<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.requestedEndDateTotal" 
+																	attributeEntry="${fundingProposalAttributes.requestedEndDateTotal}" readOnly="true" />
+							</div>    		
+				    	</td>
+				    	<td class="infoline">
+				    		<div align="right">
+				    			$<fmt:formatNumber value="${award.fundingProposals[fundingProposalRowStatus.index].proposal.totalCost}" type="currency" currencySymbol="" maxFractionDigits="2" />
+				    		</div>   		
+				    	</td>
+				        <td class="infoline">
+				        	<div align="center">
+				        		<c:set var="deleteEnabled" value ="${isLastAward && KualiForm.document.editable}" />
+				        		<c:if test="${ deleteEnabled }">
+									<html:image property="methodToCall.deleteAwardFundingProposal.line${fundingProposalRowStatus.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+								</c:if>
+								<c:if test="${ !deleteEnabled }">
+									&nbsp;
+								</c:if>
 							</div>
-			        </td>
-	      		</tr>
-	      		<tr>
-	      			<td colspan="8" class="infoline">
-	      				<kul:innerTab tabTitle="Details" parentTab="${fundingProposal}" defaultOpen="false" tabErrorKey="document.award.projectPersons*">
-	      					<kra-a:awardFundingProposalDetails fundingProposalRowIndex="${fundingProposalRowStatus.index}"/>
-	      					<kra-a:awardFundingProposalBudgetDetails fundingProposalRowIndex="${fundingProposalRowStatus.index}"/>
-	      				</kul:innerTab>
-	      			</td>
-	      		</tr>
+				        </td>
+		      		</tr>
+		      		<tr>
+		      			<td colspan="8" class="infoline">
+		      				<kul:innerTab tabTitle="Details" parentTab="${fundingProposal}" defaultOpen="false" tabErrorKey="document.award.fundingProposals*">
+		      					<kra-a:awardFundingProposalDetails awardRowIndex="${awardRowStatus.index}" fundingProposalRowIndex="${fundingProposalRowStatus.index}" />
+		      					<kra-a:awardFundingProposalBudgetDetails awardRowIndex="${awardRowStatus.index}" fundingProposalRowIndex="${fundingProposalRowStatus.index}"/>
+		      				</kul:innerTab>
+		      			</td>
+		      		</tr>
+				</c:forEach>
+				<c:if test="${isLastAward}">
+					<tr>
+		      			<th colspan="7" class="infoline">
+		      				<div align="right">
+		      					Total:
+		      				</div>
+		      			</th>
+		      			<th>
+		      				$<fmt:formatNumber value="${award.totalCostOfFundingProposals}" type="currency" currencySymbol="" maxFractionDigits="2" />
+		      			</th>
+		      		</tr>
+	      		</c:if>
 			</c:forEach>
 	  	</table>
 	</div>

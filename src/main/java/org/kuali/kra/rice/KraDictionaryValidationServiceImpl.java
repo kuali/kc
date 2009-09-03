@@ -126,37 +126,36 @@ public class KraDictionaryValidationServiceImpl extends DictionaryValidationServ
         Map<String, Class> collections = persistenceStructureService.listCollectionObjectTypes(businessObject.getClass());
         for (String collectionName : collections.keySet()) {
             if (persistenceStructureService.isCollectionUpdatable(businessObject.getClass(), collectionName)) {
-            Object listObj = ObjectUtils.getPropertyValue(businessObject, collectionName);
-            
-            if (ObjectUtils.isNull(listObj)) {
-                continue;
-            }
-            
-            if (!(listObj instanceof List)) {
-                LOG.error("The reference named " + collectionName + " of BO class " + businessObject.getClass().getName() + " should be of type java.util.List to be validated properly.");
-                continue;
-            }
-            
-            List list = (List) listObj;
-            for (int i = 0; i < list.size(); i++) {
-                if (ObjectUtils.isNotNull(list.get(i)) && list.get(i) instanceof PersistableBusinessObject) {
-                String errorPathAddition;
-                if (chompLastLetterSFromCollectionName) {
-                    errorPathAddition = StringUtils.chomp(collectionName, "s") + "[" + Integer.toString(i) + "]";
-                }
-                else {
-                    errorPathAddition = collectionName + "[" + Integer.toString(i) + "]";
-                }
-                BusinessObject element = (BusinessObject) list.get(i);
+                Object listObj = ObjectUtils.getPropertyValue(businessObject, collectionName);
                 
-                GlobalVariables.getErrorMap().addToErrorPath(errorPathAddition);
-                validateBusinessObject(element, validateRequired);
-                if (maxDepth > 0) {
-                    validateUpdatabableReferencesRecursively(element, maxDepth - 1, validateRequired, chompLastLetterSFromCollectionName, processedBOs);
+                if (ObjectUtils.isNull(listObj)) {
+                    continue;
                 }
-                GlobalVariables.getErrorMap().removeFromErrorPath(errorPathAddition);
+                
+                if (!(listObj instanceof List)) {
+                    LOG.error("The reference named " + collectionName + " of BO class " + businessObject.getClass().getName() + " should be of type java.util.List to be validated properly.");
+                    continue;
                 }
-            }
+                
+                List list = (List) listObj;
+                for (int i = 0; i < list.size(); i++) {
+                    if (ObjectUtils.isNotNull(list.get(i)) && list.get(i) instanceof PersistableBusinessObject) {
+                        String errorPathAddition;
+                        if (chompLastLetterSFromCollectionName) {
+                            errorPathAddition = StringUtils.chomp(collectionName, "s") + "[" + Integer.toString(i) + "]";
+                        } else {
+                            errorPathAddition = collectionName + "[" + Integer.toString(i) + "]";
+                        }
+                        BusinessObject element = (BusinessObject) list.get(i);
+                        
+                        GlobalVariables.getErrorMap().addToErrorPath(errorPathAddition);
+                        validateBusinessObject(element, validateRequired);
+                        if (maxDepth > 0) {
+                            validateUpdatabableReferencesRecursively(element, maxDepth - 1, validateRequired, chompLastLetterSFromCollectionName, processedBOs);
+                        }
+                        GlobalVariables.getErrorMap().removeFromErrorPath(errorPathAddition);
+                    }
+                }
             }
         }
     }
@@ -172,5 +171,23 @@ public class KraDictionaryValidationServiceImpl extends DictionaryValidationServ
         
         //setting the super classes
         super.setPersistenceStructureService(persistenceStructureService);
+    }
+
+    /**
+     * This method is overriden to catch any RuntimeException that occurs when validating the BO. The exception and 
+     * the BO class name is logged, then the exception is rethrown.
+     * 
+     * Note: Rice should be changed to handle this in its validateBusinessObject method.
+     * 
+     * @see org.kuali.rice.kns.service.impl.DictionaryValidationServiceImpl#validateBusinessObject(org.kuali.rice.kns.bo.BusinessObject, boolean)
+     */
+    @Override
+    public void validateBusinessObject(BusinessObject businessObject, boolean validateRequired) {
+        try {
+            super.validateBusinessObject(businessObject, validateRequired);
+        } catch(RuntimeException e) {
+            LOG.error(String.format("Exception while validating %s", businessObject.getClass().getName()), e);
+            throw e;
+        }
     }
 }
