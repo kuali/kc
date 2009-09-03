@@ -99,7 +99,7 @@
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
 	            p:includeBlankRow="false"
-	            p:keyAttribute="contactTypeCode"
+	            p:keyAttribute="roleCode"
 	            p:labelAttribute="description" />
 	    </property>
 		<property name="summary" value="Contact Type Code" />
@@ -145,7 +145,7 @@
 							<!--<bean parent="FieldDefinition"
 								p:attributeName="templateCode" />-->
 							<bean parent="FieldDefinition"
-								p:attributeName="contactTypeCode" />
+								p:attributeName="roleCode" />
 							<bean parent="FieldDefinition"
 								p:attributeName="rolodexId" />
 						</list>
@@ -173,7 +173,7 @@
 				<!--<bean parent="FieldDefinition"
 					p:attributeName="templateCode" />-->
 				<bean parent="FieldDefinition"
-					p:attributeName="contactTypeCode" />
+					p:attributeName="roleCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="rolodexId" />
 			</list>
@@ -186,7 +186,7 @@
 				<!--<bean parent="FieldDefinition"
 					p:attributeName="templateCode" />-->
 				<bean parent="FieldDefinition"
-					p:attributeName="contactTypeCode" />
+					p:attributeName="roleCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="rolodexId" />
 			</list>
