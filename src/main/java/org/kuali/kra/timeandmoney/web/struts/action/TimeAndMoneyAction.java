@@ -17,6 +17,7 @@ package org.kuali.kra.timeandmoney.web.struts.action;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,11 +27,11 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.accesslayer.LookupException;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
@@ -72,9 +73,27 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
 
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+        TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
         forward = super.save(mapping, form, request, response);
-        getBusinessObjectService().save(timeAndMoneyForm.getTimeAndMoneyDocument().getAward());
+        
+        getBusinessObjectService().save(timeAndMoneyDocument.getAward());
+        for(Entry<String, AwardHierarchyNode> awardHierarchyNode:timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
+            String index = StringUtils.reverse(awardHierarchyNode.getValue().getAwardNumber());
+            String[] str = new String[1];
+            str[0] = "0";
+            int i = StringUtils.indexOfAny(index, str);
+            int dateFieldIndex = Integer.parseInt(StringUtils.substring(index, 0, i));
+            String date = timeAndMoneyForm.getFinalExpirationDates().get(dateFieldIndex);
+            DateFormat df = DateFormat.getDateInstance();
+            
+            awardHierarchyNode.getValue().setFinalExpirationDate(new Date(df.parse(date).getTime()));
+        }
+        
         return forward;
+    }
+    
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return super.execute(mapping, form, request, response);
     }
     
     @Override

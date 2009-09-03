@@ -1,5 +1,6 @@
     var node;
     var i = 1;
+    var j = 1;
     var removedNode=null;
     var cutNode;
     var sqlScripts = "";
@@ -216,10 +217,16 @@
           item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
           var text6 = item_text.substring(0,item_text.indexOf("%3A")).trim();
           
+          var racodereverse = revString(racode);
+          var index = racodereverse.indexOf("0");
+          var i2 = 12 - index;
+          var racode2 = racode.substring(i2,12);
+          
+          
           var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+text1+"</td><td width: 108px>"
-			+"<input type=\"text\" name=\"document.awardHierarchyNodes[" + racode + "].currentFundEffectiveDate\""+ " value=" +text2 + " style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-			+"<input type=\"text\" name=\"document.awardHierarchyNodes[" + racode + "].obligationExpirationDate\""+ " value=" +text3 + " style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-			+"<input type=\"text\" name=\"document.awardHierarchyNodes[" + racode + "].finalExpirationDate\""+ " value=" +text4 + " style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
+			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=" +text2 + " style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
+			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=" +text3 + " style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
+			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=" +text4 + " style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
 			+text5+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
 			+text6+"</td></tr></tbody></table>";
           
@@ -268,6 +275,14 @@
        });  
       // return false;
     }  // generate
+    
+    function revString(str) { 
+    	   var retStr = "";    	   
+    	   for (j=str.length - j ; j > - 1 ; j--){ 
+    	      retStr += str.substr(j,1); 
+    	   } 
+    	   return retStr; 
+    }
     
     /*
 	 * set up the area of research detail table tag. This is loading on demand.
@@ -705,12 +720,18 @@
               item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
               var text6 = item_text.substring(0,item_text.indexOf("%3A")).trim();
               
+              var racodereverse = revString(racode);
+              var index = racodereverse.indexOf("0");
+              var i2 = 12 - index;
+              var racode2 = racode.substring(i2,12);
+              
               var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+text1+"</td><td width: 108px>"
-				  			+"<input type=\"text\" name=\"document.awardHierarchyNodes[" + racode + "].currentFundEffectiveDate\""+ " value=" +text2 + " style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-				  			+"<input type=\"text\" name=\"document.awardHierarchyNodes[" + racode + "].obligationExpirationDate\""+ " value=" +text3 + " style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-				  			+"<input type=\"text\" name=\"document.awardHierarchyNodes[" + racode + "].finalExpirationDate\""+ " value=" +text4 + " style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
+				  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=" +text2 + " style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
+				  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=" +text3 + " style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
+				  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=" +text4 + " style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
 				  			+text5+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
 				  			+text6+"</td></tr></tbody></table>";
+							
               
               
              // if (i == 1) {

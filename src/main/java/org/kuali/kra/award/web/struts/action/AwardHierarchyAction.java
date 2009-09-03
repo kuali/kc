@@ -26,10 +26,8 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
 public class AwardHierarchyAction extends KualiAction{
 
     @Override
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        super.refresh(mapping, form, request, response);
-        
-            return mapping.findForward("lookup");            
+        return super.execute(mapping, form, request, response);            
     }
 }
