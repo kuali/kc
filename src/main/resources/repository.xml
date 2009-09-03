@@ -601,7 +601,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
-		<collection-descriptor name="proposalPersonDegrees" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="proposalPersonDegrees" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="proposalPersonNumber"/>
 		</collection-descriptor>
