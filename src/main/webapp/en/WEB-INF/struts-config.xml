@@ -4,7 +4,7 @@
     <!-- ========== form bean definitions ================================== -->
     <form-beans>
     <form-bean name="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" />
-      <form-bean name="ActionListForm" type="org.kuali.rice.kew.actionlist.web.ActionListFormOld" />
+      <form-bean name="ActionListForm" type="org.kuali.rice.kew.actionlist.web.ActionListForm" />
       <form-bean name="PreferencesForm" type="org.kuali.rice.kew.preferences.web.PreferencesForm" />
       <form-bean name="ActionListFilterForm" type="org.kuali.rice.kew.actionlist.web.ActionListFilterForm" />
       <form-bean name="BackdoorForm" type="org.kuali.rice.kew.web.backdoor.BackdoorForm" />
@@ -37,7 +37,6 @@
    	    <forward name="DeleteRouteHeaderConfirmation" path="/WEB-INF/jsp/DeleteRouteHeaderConfirmation.jsp" />
    	    <forward name="NotAuthorized" path="/WEB-INF/jsp/NotAuthorized.jsp" />
    	    <!-- <forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp"/>-->
-   	    <forward name="ActionListNew" contextRelative="true" path="/kew/ActionList.do" redirect="true"/>
     </global-forwards>
 
     <!--  ========== action mapping definitions ============================= -->
@@ -54,31 +53,30 @@
             parameter="/kew/RoutingReport.do"/>
 	  <action path="/DocumentSearch" scope="request" validate="false" type="org.apache.struts.actions.ForwardAction"
 	  		parameter="/kr/lookup.do?businessObjectClassName=org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO"/>
-      <action path="/ActionList" scope="request" validate="false" type="org.apache.struts.actions.ForwardAction"
-     		parameter="/kew/ActionList.do"/>
-      <action path="/ActionListFilter" scope="request" validate="false" type="org.apache.struts.actions.ForwardAction"
-     		parameter="/kew/ActionListFilter.do"/>
       <action path="/RouteLog" scope="request" validate="false"
             type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
      		parameter="/kew/RouteLog.do"/>
-      <action path="/ActionListOld" scope="request" validate="false" parameter="methodToCall"
-        type="org.kuali.rice.kew.actionlist.web.ActionListActionOld" name="ActionListForm"
+      <!-- end temporary mappings -->
+ 
+      <action path="/ActionList" scope="request" validate="false" parameter="methodToCall"
+        type="org.kuali.rice.kew.actionlist.web.ActionListAction" name="ActionListForm"
         input="/WEB-INF/jsp/ActionList/ActionList.jsp" >
+        <forward name="basic" path="/WEB-INF/jsp/ActionList/ActionList.jsp"/>
         <forward name="viewActionList" path="/WEB-INF/jsp/ActionList/ActionList.jsp"/>
         <forward name="count" path="/WEB-INF/jsp/ActionList/ActionListCount.jsp"/>
         <forward name="requiredStateError" path="/WEB-INF/jsp/ActionList/ActionList.jsp"/>
         <forward name="finalStateError" path="/WEB-INF/jsp/ActionList/ActionList.jsp"/>
       </action>
-      <action path="/ActionListFilterOld" scope="request" validate="false" name="ActionListFilterForm"
+
+      <action path="/ActionListFilter" scope="request" validate="false" name="ActionListFilterForm"
         input="/WEB-INF/jsp/ActionList/ActionListFilter.jsp"
-        type="org.kuali.rice.kew.actionlist.web.ActionListFilterActionOld" parameter="methodToCall">
+        type="org.kuali.rice.kew.actionlist.web.ActionListFilterAction" parameter="methodToCall">
+        <forward name="basic" path="/WEB-INF/jsp/ActionList/ActionListFilter.jsp"/>
         <forward name="viewFilter" path="/WEB-INF/jsp/ActionList/ActionListFilter.jsp" />
-        <forward name="viewActionList" path="/ActionListOld.do?methodToCall=start" redirect="true" />
+        <forward name="viewActionList" path="/ActionList.do?methodToCall=start" redirect="true" />
         <forward name="requiredStateError" path="/WEB-INF/jsp/ActionList/ActionListFilter.jsp"/>
         <forward name="finalStateError" path="/WEB-INF/jsp/ActionList/ActionListFilter.jsp"/>
       </action>
-
-      <!-- end temporary mappings -->
 
       <action path="/SuperUser" type="org.kuali.rice.kew.superuser.web.SuperUserAction" input="/WEB-INF/jsp/superuser/SuperUser.jsp" name="SuperUserForm" scope="request" parameter="methodToCall">
 		 <forward name="basic" path="/WEB-INF/jsp/superuser/SuperUser.jsp" />
