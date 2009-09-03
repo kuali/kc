@@ -52,10 +52,10 @@
 				<start name="Initiated">
 					<activationType>S</activationType>
 				</start>
-				<requests name="IRBReceipt">
-					<activationType>S</activationType>
-					<ruleTemplate>IRBReceipt</ruleTemplate>
-				</requests>
+                <requests name="IRBReceipt">
+                    <activationType>S</activationType>
+                    <ruleTemplate>IRBReceipt</ruleTemplate>
+                </requests>
 				<requests name="IRBApproved">
 					<activationType>S</activationType>
 					<ruleTemplate>IRBApproved</ruleTemplate>
@@ -78,16 +78,30 @@
 
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
 		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-		<ruleAttribute>
-			<name>RuleRoutingAttribute</name>
-			<className>org.kuali.rice.kew.rule.RuleRoutingAttribute
-			</className>
-			<label>foo</label>
-			<description>foo</description>
-			<type>RuleAttribute</type>
-		</ruleAttribute>
-	</ruleAttributes>
-
+	
+	    <ruleAttribute>
+            <name>ProtocolWorkflowTypeAttribute</name>
+            <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
+            <label>ProtocolWorkflowTypeAttribute</label>
+            <description>ProtocolWorkflowTypeAttribute</description>
+            <type>RuleXmlAttribute</type>
+            <routingConfig>
+                <fieldDef name="protocolWorkflowType" title="protocolWorkflowType" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true  -->
+                        <xpathexpression>
+                        wf:xstreamsafe('//document/protocolWorkflowType') = wf:ruledata('protocolWorkflowType')
+                        </xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </routingConfig>
+        </ruleAttribute>
+    </ruleAttributes>
+    
 	<ruleTemplates xmlns="ns:workflow/RuleTemplate"
 		xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
 		<ruleTemplate allowOverwrite="true">
@@ -95,9 +109,9 @@
 			<description>IRB-Submission Rule Template</description>
 			<attributes>
 				<attribute>
-					<name>RuleRoutingAttribute</name>
-					<required>false</required>
-				</attribute>
+                    <name>ProtocolWorkflowTypeAttribute</name>
+                    <required>true</required>
+                </attribute>
 			</attributes>
 		</ruleTemplate>
 		<ruleTemplate allowOverwrite="true">
@@ -105,9 +119,9 @@
 			<description>IRB Approval Routing</description>
 			<attributes>
 				<attribute>
-					<name>RuleRoutingAttribute</name>
-					<required>false</required>
-				</attribute>
+                    <name>ProtocolWorkflowTypeAttribute</name>
+                    <required>false</required>
+                </attribute>
 			</attributes>
 		</ruleTemplate>
 		<ruleTemplate allowOverwrite="true">
@@ -115,7 +129,7 @@
             <description>IRB AssignedToCommittee Routing</description>
             <attributes>
                 <attribute>
-                    <name>RuleRoutingAttribute</name>
+                    <name>ProtocolWorkflowTypeAttribute</name>
                     <required>false</required>
                 </attribute>
             </attributes>
@@ -125,7 +139,7 @@
             <description>IRB AssignedToAgenda Routing</description>
             <attributes>
                 <attribute>
-                    <name>RuleRoutingAttribute</name>
+                    <name>ProtocolWorkflowTypeAttribute</name>
                     <required>false</required>
                 </attribute>
             </attributes>
@@ -134,12 +148,13 @@
             <name>IRBReviewComplete</name>
             <description>IRB IRBReviewComplete Routing</description>
             <attributes>
-                <attribute>
-                    <name>RuleRoutingAttribute</name>
+            <attribute>
+                <name>ProtocolWorkflowTypeAttribute</name>
                     <required>false</required>
                 </attribute>
             </attributes>
         </ruleTemplate>
+        
 	</ruleTemplates>
 	
 	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
@@ -148,18 +163,41 @@
             <documentType>ProtocolDocument</documentType>
             <ruleTemplate>IRBReceipt</ruleTemplate>
             <description>IRBReceipt Routing</description>
-<!--            <ignorePrevious>true</ignorePrevious>-->
+            <forceAction>true</forceAction>
+            <ruleExtensions>
+            <ruleExtension>            
+              <attribute>ProtocolWorkflowTypeAttribute</attribute>
+              <ruleTemplate>IRBReceipt</ruleTemplate>
+              <ruleExtensionValues>
+                <ruleExtensionValue>
+                  <key>protocolWorkflowType</key>
+                  <value>Normal</value>
+                </ruleExtensionValue>
+              </ruleExtensionValues>
+              </ruleExtension>            
+            </ruleExtensions>
             <responsibilities>
                 <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
             </responsibilities>
-
         </rule>
         <rule>
             <name>IRBApprovedRule</name>
             <documentType>ProtocolDocument</documentType>
             <ruleTemplate>IRBApproved</ruleTemplate>
             <description>IRBApproved Routing</description>
-<!--            <ignorePrevious>true</ignorePrevious>-->
+            <forceAction>true</forceAction>
+            <ruleExtensions>
+            <ruleExtension>            
+              <attribute>ProtocolWorkflowTypeAttribute</attribute>
+              <ruleTemplate>IRBApproved</ruleTemplate>
+              <ruleExtensionValues>
+                <ruleExtensionValue>
+                  <key>protocolWorkflowType</key>
+                  <value>Normal</value>
+                </ruleExtensionValue>
+              </ruleExtensionValues>
+              </ruleExtension>            
+            </ruleExtensions>
             <responsibilities>
                 <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
             </responsibilities>
@@ -169,7 +207,19 @@
             <documentType>ProtocolDocument</documentType>
             <ruleTemplate>AssignedToCommittee</ruleTemplate>
             <description>AssignedToCommittee Routing</description>
-<!--            <ignorePrevious>true</ignorePrevious>-->
+            <forceAction>true</forceAction>
+            <ruleExtensions>
+            <ruleExtension>            
+              <attribute>ProtocolWorkflowTypeAttribute</attribute>
+              <ruleTemplate>AssignedToCommittee</ruleTemplate>
+              <ruleExtensionValues>
+                <ruleExtensionValue>
+                  <key>protocolWorkflowType</key>
+                  <value>Normal</value>
+                </ruleExtensionValue>
+              </ruleExtensionValues>
+              </ruleExtension>            
+            </ruleExtensions>
             <responsibilities>
                 <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
             </responsibilities>
@@ -179,7 +229,19 @@
             <documentType>ProtocolDocument</documentType>
             <ruleTemplate>AssignedToAgenda</ruleTemplate>
             <description>AssignedToAgenda Routing</description>
-<!--            <ignorePrevious>true</ignorePrevious>-->
+            <forceAction>true</forceAction>
+            <ruleExtensions>
+            <ruleExtension>            
+              <attribute>ProtocolWorkflowTypeAttribute</attribute>
+              <ruleTemplate>AssignedToAgenda</ruleTemplate>
+              <ruleExtensionValues>
+                <ruleExtensionValue>
+                  <key>protocolWorkflowType</key>
+                  <value>Normal</value>
+                </ruleExtensionValue>
+              </ruleExtensionValues>
+              </ruleExtension>            
+            </ruleExtensions>
             <responsibilities>
                 <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
             </responsibilities>
@@ -189,10 +251,22 @@
             <documentType>ProtocolDocument</documentType>
             <ruleTemplate>IRBReviewComplete</ruleTemplate>
             <description>IRBReviewComplete Routing</description>
-<!--            <ignorePrevious>true</ignorePrevious>-->
+            <forceAction>true</forceAction>
+            <ruleExtensions>
+            <ruleExtension>            
+              <attribute>ProtocolWorkflowTypeAttribute</attribute>
+              <ruleTemplate>IRBReviewComplete</ruleTemplate>
+              <ruleExtensionValues>
+                <ruleExtensionValue>
+                  <key>protocolWorkflowType</key>
+                  <value>Normal</value>
+                </ruleExtensionValue>
+              </ruleExtensionValues>
+              </ruleExtension>            
+            </ruleExtensions>
             <responsibilities>
                 <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
             </responsibilities>
-        </rule>
+        </rule>       
     </rules>
 </data>

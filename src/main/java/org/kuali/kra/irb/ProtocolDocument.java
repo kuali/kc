@@ -57,6 +57,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      */
     private static final long serialVersionUID = 803158468103165087L;
     private List<Protocol> protocolList;
+    private String protocolWorkflowType;
 	
     /**
      * Constructs a ProtocolDocument object
@@ -67,6 +68,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         Protocol newProtocol = new Protocol();
         newProtocol.setProtocolDocument(this);
         protocolList.add(newProtocol);
+        setProtocolWorkflowType(ProtocolWorkflowType.NORMAL);
 	} 
 	
     public void initialize() {
@@ -142,6 +144,14 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
+    
+    public String getProtocolWorkflowType() {
+		return protocolWorkflowType;
+	}
+
+	public void setProtocolWorkflowType(ProtocolWorkflowType protocolWorkflowType) {
+		this.protocolWorkflowType = protocolWorkflowType.getName();
+	}
     
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
@@ -308,6 +318,40 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     private static class ProtocolMergeException extends RuntimeException {
         ProtocolMergeException(Throwable t) {
             super(t);
+        }
+    }
+    
+    /**
+     * Contains all the property names in this class.
+     */
+    public static enum ProtocolWorkflowType {
+        NORMAL("Normal"), APPROVED_AMENDMENT("ApprovedAmendment");
+        
+        private final String name;
+        
+        /**
+         * Sets the enum properties.
+         * @param name the name.
+         */
+        ProtocolWorkflowType(final String name) {
+            this.name = name;
+        }
+        
+        /**
+         * Gets the ProtocolWorkflowType name.
+         * @return the the ProtocolWorkflowType name.
+         */
+        public String getName() {
+            return this.name;
+        }
+        
+        /**
+         * Gets the {@link #getName() }.
+         * @return {@link #getName() }
+         */
+        @Override
+        public String toString() {
+            return this.name;
         }
     }
 }
