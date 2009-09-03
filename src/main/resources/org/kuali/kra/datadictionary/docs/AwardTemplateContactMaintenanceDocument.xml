@@ -45,7 +45,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="templateContactId" p:required="true"/>
 				<!--<bean parent="MaintainableFieldDefinition" p:name="templateCode"
 					p:required="true" />-->
-				<bean parent="MaintainableFieldDefinition" p:name="contactTypeCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="roleCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="rolodexId" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
@@ -75,7 +75,7 @@
 					<property name="summaryTitle" value="Award Template Contacts"/>
 					<property name="summaryFields">
 					<list>
-		             <bean parent="MaintainableFieldDefinition" p:name="contactTypeCode"/>
+		             <bean parent="MaintainableFieldDefinition" p:name="roleCode"/>
 		             <bean parent="MaintainableFieldDefinition" p:name="rolodexId"/>
                    </list>
 					</property>
@@ -83,7 +83,7 @@
 					<property name="duplicateIdentificationFields">
 						<list>
 							<!--<bean parent="MaintainableFieldDefinition" p:name="templateCode" />-->
-							<bean parent="MaintainableFieldDefinition" p:name="contactTypeCode"/>
+							<bean parent="MaintainableFieldDefinition" p:name="roleCode"/>
 							<bean parent="MaintainableFieldDefinition" p:name="rolodexId"/>
 						</list>
 					</property>
@@ -93,7 +93,7 @@
 								p:required="true" />-->
 							<!--<bean parent="MaintainableFieldDefinition" p:name="templateCode"
 								p:required="true" />-->
-							<bean parent="MaintainableFieldDefinition" p:name="contactTypeCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="roleCode" p:required="true"/>
 							<bean parent="MaintainableFieldDefinition" p:name="rolodexId" p:required="true"/>
 							<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 						</list>
