@@ -106,7 +106,7 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        if(questionAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESITON)) {
+        if(questionAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTION)) {
             AnchorHtmlData htmlData = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
             htmlData.setHref(htmlData.getHref().replace("maintenance", "../maintenance"));
             htmlDataList.add(htmlData);

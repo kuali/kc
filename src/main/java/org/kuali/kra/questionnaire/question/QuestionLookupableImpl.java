@@ -41,7 +41,7 @@ public class QuestionLookupableImpl extends KualiLookupableImpl {
     @Override
     public String getCreateNewUrl() {
         String url = "";
-        if (questionAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESITON)) {
+        if (questionAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTION)) {
             url =  super.getCreateNewUrl();
             url = url.replace("maintenance","../maintenance");
         }
