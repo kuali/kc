@@ -16,7 +16,11 @@
 
 <%@ include file="/WEB-INF/jsp/award/awardTldHeader.jsp" %>
 
+<%@ attribute name="awardRowIndex" required="true" %>
 <%@ attribute name="fundingProposalRowIndex" required="true" %>
+
+<c:set var="proposalExpr" value="fundingProposalBean.allAwardsForAwardNumber[${awardRowIndex}].fundingProposals[${fundingProposalRowIndex}]" />
+<c:set var="formProposalExpr" value="${KualiForm.fundingProposalBean.allAwardsForAwardNumber[awardRowIndex].fundingProposals[fundingProposalRowIndex].proposal}" />
 
 <c:set var="activityTypeAttributes" value="${DataDictionary.ActivityType.attributes}" />
 <c:set var="fundingProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
@@ -37,17 +41,17 @@
 		</tr>
 		<tr>
 			<th class="infoline">
-				<div align="right"><kul:htmlAttributeLabel attributeEntry="${fundingProposalAttributes.requestedStartDateInitial}" skipHelpUrl="true" /></div>										
+				<div align="right">Proposed Start Date:</div>										
 			</th>
 			<td>
 				<div align="right">
-					<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowIndex}].proposal.requestedStartDateInitial" 
+					<kul:htmlControlAttribute property="${proposalExpr}.proposal.requestedStartDateInitial" 
 											  attributeEntry="${fundingProposalAttributes.requestedStartDateInitial}" readOnly="true" />
 				</div>
 			</td>
 			<td>
 				<div align="right">
-					<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowIndex}].proposal.requestedStartDateTotal" 
+					<kul:htmlControlAttribute property="${proposalExpr}.proposal.requestedStartDateTotal" 
 											  attributeEntry="${fundingProposalAttributes.requestedStartDateTotal}" readOnly="true" />
 				</div>
 			</td>
@@ -55,17 +59,17 @@
 		</tr>							
 		<tr>
 			<th class="infoline">
-				<div align="right"><kul:htmlAttributeLabel attributeEntry="${fundingProposalAttributes.requestedEndDateInitial}" skipHelpUrl="true" /></div>										
+				<div align="right">Proposed End Date:</div>										
 			</th>
 			<td>
 				<div align="right">
-					<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowIndex}].proposal.requestedEndDateInitial" 
+					<kul:htmlControlAttribute property="${proposalExpr}.proposal.requestedEndDateInitial" 
 											  attributeEntry="${fundingProposalAttributes.requestedEndDateInitial}" readOnly="true" />
 				</div>
 			</td>
 			<td>
 				<div align="right">
-					<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowIndex}].proposal.requestedEndDateTotal" 
+					<kul:htmlControlAttribute property="${proposalExpr}.proposal.requestedEndDateTotal" 
 											  attributeEntry="${fundingProposalAttributes.requestedEndDateTotal}" readOnly="true" />
 				</div>
 			</td>
@@ -73,17 +77,17 @@
 		</tr>
 		<tr>
 			<th class="infoline">
-				<div align="right"><kul:htmlAttributeLabel attributeEntry="${fundingProposalAttributes.totalDirectCostInitial}" skipHelpUrl="true" /></div>										
+				<div align="right">Proposed Direct Cost:</div>										
 			</th>
 			<td>
 				<div align="right">
-					<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowIndex}].proposal.totalDirectCostInitial" 
+					<kul:htmlControlAttribute property="${proposalExpr}.proposal.totalDirectCostInitial" 
 											  attributeEntry="${fundingProposalAttributes.totalDirectCostInitial}" readOnly="true" />
 				</div>
 			</td>
 			<td>
 				<div align="right">
-					<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowIndex}].proposal.totalDirectCostTotal" 
+					<kul:htmlControlAttribute property="${proposalExpr}.proposal.totalDirectCostTotal" 
 											  attributeEntry="${fundingProposalAttributes.totalDirectCostTotal}" readOnly="true" />
 				</div>
 			</td>
@@ -91,17 +95,17 @@
 		</tr>
 		<tr>
 			<th class="infoline">
-				<div align="right"><kul:htmlAttributeLabel attributeEntry="${fundingProposalAttributes.totalIndirectCostInitial}" skipHelpUrl="true" /></div>										
+				<div align="right">Proposed F&amp;A Cost:</div>										
 			</th>
 			<td>
 				<div align="right">
-					<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowIndex}].proposal.totalIndirectCostInitial" 
+					<kul:htmlControlAttribute property="${proposalExpr}.proposal.totalIndirectCostInitial" 
 											  attributeEntry="${fundingProposalAttributes.totalIndirectCostInitial}" readOnly="true" />
 				</div>
 			</td>
 			<td>
 				<div align="right">
-					<kul:htmlControlAttribute property="${docAward}.fundingProposals[${fundingProposalRowIndex}].proposal.totalIndirectCostTotal" 
+					<kul:htmlControlAttribute property="${proposalExpr}.proposal.totalIndirectCostTotal" 
 											  attributeEntry="${fundingProposalAttributes.totalIndirectCostTotal}" readOnly="true" />
 				</div>
 			</td>
@@ -109,16 +113,16 @@
 		</tr>
 		<tr>
 			<th class="infoline">
-				<div align="right">Total Cost:</div>										
+				<div align="right">Proposed Total Cost:</div>										
 			</th>
 			<td>
 				<div align="right">
-					$<fmt:formatNumber value="${formAward.fundingProposals[fundingProposalRowIndex].proposal.totalInitialCost}" type="currency" currencySymbol="" maxFractionDigits="2" />
+					<strong>$<fmt:formatNumber value="${formProposalExpr.totalInitialCost}" type="currency" currencySymbol="" maxFractionDigits="2" /></strong>
 				</div>
 			</td>
 			<td>
 				<div align="right">
-					$<fmt:formatNumber value="${formAward.fundingProposals[fundingProposalRowIndex].proposal.totalCost}" type="currency" currencySymbol="" maxFractionDigits="2" />
+					<strong>$<fmt:formatNumber value="${formProposalExpr.totalCost}" type="currency" currencySymbol="" maxFractionDigits="2" /></strong>
 				</div>
 			</td>
  			<td>&nbsp;</td>

@@ -17,11 +17,12 @@ package org.kuali.kra.award.home.fundingproposal;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
-public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
+public class AwardFundingProposal extends KraPersistableBusinessObjectBase implements SequenceAssociate<Award> {
     private static final long serialVersionUID = -8135146676358083314L;
     
     private Long awardFundingProposalId;
@@ -158,6 +159,35 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
     public void setProposalId(Long proposalId) {
         this.proposalId = proposalId;
     }
+    
+    /**
+     * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
+     */
+    public Award getSequenceOwner() {
+        return award;
+    }
+    
+    /**
+     * @param newlyVersionedOwner
+     */
+    public void setSequenceOwner(Award newlyVersionedOwner) {
+        this.award = newlyVersionedOwner;
+    }
+    
+    /**
+     * @see org.kuali.kra.Sequenceable#getSequenceNumber()
+     */
+    public Integer getSequenceNumber() {
+        return award.getSequenceNumber();
+    }
+    
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        awardFundingProposalId = null;
+        versionNumber = null;
+    }
 
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
@@ -172,5 +202,4 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
         
         return map;
     }
-
 }
