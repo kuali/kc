@@ -74,6 +74,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     private Long protocolId; 
     private String protocolNumber; 
     private Integer sequenceNumber; 
+    private boolean active = true;
     private String protocolTypeCode; 
     private String protocolStatusCode; 
     private String title; 
@@ -201,6 +202,14 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         this.sequenceNumber = sequenceNumber;
     }
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
+    public boolean isActive() {
+        return active;
+    }
+    
     public String getProtocolTypeCode() {
         return protocolTypeCode;
     }
@@ -375,6 +384,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         hashMap.put("protocolId", getProtocolId());
         hashMap.put("protocolNumber", getProtocolNumber());
         hashMap.put("sequenceNumber", getSequenceNumber());
+        hashMap.put("active", isActive());
         hashMap.put("protocolTypeCode", getProtocolTypeCode());
         hashMap.put("protocolStatusCode", getProtocolStatusCode());
         hashMap.put("title", getTitle());
