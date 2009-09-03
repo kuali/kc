@@ -21,10 +21,9 @@ package org.kuali.kra.irb;
 public interface ProtocolVersionService {
 
     /**
-     * Create a new version of a protocol document.  Does not save the document to
-     * the database.
+     * Create a new version of a protocol document. 
      * @param protocolDocument the protocol document to version
-     * @return the new versioned protocol document (unsaved)
+     * @return the new versioned protocol document
      * @throws Exception
      */
     public ProtocolDocument versionProtocolDocument(ProtocolDocument protocolDocument) throws Exception;

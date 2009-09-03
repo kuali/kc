@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.service.VersioningService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 
 /**
@@ -28,6 +29,7 @@ import org.kuali.rice.kns.service.DocumentService;
 public class ProtocolVersionServiceImpl implements ProtocolVersionService {
     
     private DocumentService documentService;
+    private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
 
     /**
@@ -36,6 +38,10 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
     
     /**
@@ -59,6 +65,11 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         fixNextValues(protocolDocument, newProtocolDocument);
         newProtocolDocument.setProtocol(newProtocol);
         newProtocol.setProtocolDocument(newProtocolDocument);
+        
+        protocolDocument.getProtocol().setActive(false);
+        
+        businessObjectService.save(protocolDocument.getProtocol());
+        documentService.saveDocument(newProtocolDocument);
         
         return newProtocolDocument;
     }

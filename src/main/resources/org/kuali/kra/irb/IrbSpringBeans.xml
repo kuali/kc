@@ -305,6 +305,7 @@
 	
 	<bean id="protocolVersionService" class="org.kuali.kra.irb.ProtocolVersionServiceImpl">
 	    <property name="documentService" ref="documentService" />
+	    <property name="businessObjectService" ref="businessObjectService" />
 	    <property name="versioningService" ref="versioningService" />
 	</bean>
 </beans>
