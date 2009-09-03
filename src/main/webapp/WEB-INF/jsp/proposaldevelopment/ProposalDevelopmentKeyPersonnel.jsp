@@ -53,7 +53,7 @@
                                 fieldConversions="rolodexId:newRolodexId" /></label></td>
   </c:when>
   <c:otherwise>
-                  <label><kul:htmlControlAttribute property="newProposalPerson.fullName" attributeEntry="${proposalPersonAttributes.fullName}" readOnly="true"/></label><br/>
+                  <td nowrap class="grid"><label><kul:htmlControlAttribute property="newProposalPerson.fullName" attributeEntry="${proposalPersonAttributes.fullName}" readOnly="true"/></label><br/></td>
   </c:otherwise>
 </c:choose>
                 </td>
