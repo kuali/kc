@@ -26,11 +26,9 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
-import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
@@ -59,7 +57,6 @@ public class ProtocolDeleteServiceTest extends KraTestBase {
     private static final String SUMMARY = "summary";
     
     private ProtocolDeleteService protocolDeleteService;
-    private BusinessObjectService businessObjectService;
     private ProtocolAmendRenewService protocolAmendRenewService;  
     
     @Before
@@ -68,8 +65,6 @@ public class ProtocolDeleteServiceTest extends KraTestBase {
         GlobalVariables.setUserSession(new UserSession("superuser"));
         protocolDeleteService = KraServiceLocator.getService(ProtocolDeleteService.class);
         protocolAmendRenewService = KraServiceLocator.getService(ProtocolAmendRenewService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        //protocolDeleteService.setBusinessObjectService(businessObjectService);
     }
 
     @After
@@ -86,6 +81,7 @@ public class ProtocolDeleteServiceTest extends KraTestBase {
          
         protocolDeleteService.delete(protocolDocument.getProtocol(), deleteBean);
     
+        assertFalse(protocolDocument.getProtocol().isActive());
         assertEquals(ProtocolStatus.DELETED, protocolDocument.getProtocol().getProtocolStatusCode());
     }
     
