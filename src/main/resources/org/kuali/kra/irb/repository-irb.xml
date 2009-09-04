@@ -540,18 +540,6 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile" table="PROTOCOL_ATTACHMENT_FILE">
-		<field-descriptor name="id" column="PA_FILE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="name" column="FILE_NAME" jdbc-type="VARCHAR" />
-		<field-descriptor name="type" column="CONTENT_TYPE" jdbc-type="VARCHAR" />
-		<field-descriptor name="data" column="FILE_DATA" jdbc-type="BLOB" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	</class-descriptor>
-	
 	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeGroup" table="PROTOCOL_ATTACHMENT_TYPE_GROUP">
 		<field-descriptor name="id" column="TYPE_GROUP_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
 		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR"/>
@@ -597,7 +585,7 @@
 			<foreignkey field-ref="typeCode"/>
 		</reference-descriptor>
 		
-		<reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true"> 
+		<reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true"> 
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
 		
@@ -630,7 +618,7 @@
 			<foreignkey field-ref="typeCode"/>
 		</reference-descriptor>
 		
-		<reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true"> 
+		<reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true"> 
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
 		
