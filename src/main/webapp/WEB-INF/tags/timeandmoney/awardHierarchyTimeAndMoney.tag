@@ -90,7 +90,7 @@
 				</select>
 			</td>
 			<td style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">
-				<input class="tinybutton" type="image" alt="refresh" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" name="x"/>
+				<input class="tinybutton" type="image" alt="refresh" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" name="x" methodToCall="refresh" />
 			</td>			
 		</tr>
 	</table>
@@ -100,7 +100,7 @@
 	<tbody><tr>
 		<td style="border: medium none ; border-collapse: collapse; background-color: rgb(234, 233, 234);">
 		<span style="display: inline;" id="treecontrol">
-		20 Nodes: 
+		${fn:length(KualiForm.order)} Nodes: 
 		<a href="#" title="Collapse the entire tree below"><img src="../BFN/images/minus.gif"/> Collapse All</a>
 		<a href="#" title="Expand the entire tree below"><img src="../BFN/images/plus.gif"/> Expand All</a>
 		</span>
@@ -128,7 +128,6 @@
                                                 &nbsp;&nbsp;&nbsp;&nbsp;<a title="Collapse the entire tree below" href="#"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
                                                 &nbsp;&nbsp;&nbsp;&nbsp;<a title="Expand the entire tree below" href="#"><img src="static/images/jquery/plus.gif" /> Expand All</a>
                                             </div> --%>
-                                            
 	
      <div style = "background:#e4e4e4" >     
   <ul id="awardhierarchy" class="filetree stripeli treeview"  >
@@ -137,6 +136,8 @@
     </ul>
    </div> 
     </div>
+    
+    <input type="hidden" id = "document.rootAwardNumber" name="document.rootAwardNumber" value="${KualiForm.document.rootAwardNumber}">
     
 	<table cellpadding="0" cellspacing="0" summary="">
     	<%-- Header --%>
@@ -170,18 +171,19 @@
 			</div>
 		  </td>
           <td align="left" valign="middle">
-			<div align="center">              	
-              	<kul:htmlControlAttribute property="obligationStartDates[${status.index}]" attributeEntry="${awardHierarchyNodeAttributes.currentFundEffectiveDate}" datePicker="true" />
+			<div align="center">
+				<c:out value ="${KualiForm.document.awardHierarchyNodes[order].currentFundEffectiveDate}" />              	
+              	
 			</div>
 		  </td>
 		  <td align="left" valign="middle">
-			<div align="center">            	
-            	<kul:htmlControlAttribute property="obligationExpirationDates[${status.index}]" attributeEntry="${awardHierarchyNodeAttributes.obligationExpirationDate}" datePicker="true" />
+			<div align="center">
+				<c:out value ="${KualiForm.document.awardHierarchyNodes[order].obligationExpirationDate}" />
 			</div>
   		  </td>
   		  <td align="left" valign="middle">
 			<div align="center">              	
-              	<kul:htmlControlAttribute property="finalExpirationDates[${status.index}]" attributeEntry="${awardHierarchyNodeAttributes.obligationExpirationDate}" datePicker="true" />              	
+				<c:out value ="${KualiForm.document.awardHierarchyNodes[order].finalExpirationDate}" />              	              	
 			</div>
   		  </td>
   		  <td align="left" valign="middle">
@@ -206,7 +208,7 @@
   		  </td>		  
            </tr>
       	</c:forEach>    
-      </table>	
-    
+
+	</table>
     </div>
 </kul:tab>

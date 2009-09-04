@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,16 +33,16 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
-import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.springframework.util.StringUtils;
+
+import com.ibm.icu.text.DateFormat;
 
 public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     
-    private static final String SPACES = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-    private static final String SPACES2 = "&nbsp;&nbsp;";
     private static final String COLUMN_CODE = "%3A";
     
     private BusinessObjectService businessObjectService;
@@ -49,7 +52,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();    
     }
     
-    public String getRootAwardNode(String awardNumber){
+    public String getRootAwardNode(String awardNumber) throws ParseException{
         AwardHierarchyNode aNode = getAwardHierarchyNodes(awardNumber).get(awardNumber);        
         return "<h3>" + buildCompleteRecord(awardNumber, aNode) + "</h3>"; 
     }
@@ -59,16 +62,18 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
      * @param awardNumber
      * @param aNode
      * @return
+     * @throws ParseException 
      */
-    private String buildCompleteRecord(String awardNumber, AwardHierarchyNode aNode) {
+    private String buildCompleteRecord(String awardNumber, AwardHierarchyNode aNode) throws ParseException {
         StringBuilder sb = new StringBuilder();
+        
         if(aNode!=null){
             sb.append(awardNumber); 
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE+KNSConstants.BLANK_SPACE).append(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
             sb.append(KNSConstants.BLANK_SPACE).append(aNode.getLeadUnitName());
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getCurrentFundEffectiveDate());
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getObligationExpirationDate());
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getFinalExpirationDate());
+            appendDate(aNode.getCurrentFundEffectiveDate(), sb);
+            appendDate(aNode.getObligationExpirationDate(), sb);
+            appendDate(aNode.getFinalExpirationDate(), sb);
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAmountObligatedToDate());
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAnticipatedTotalAmount());
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE);    
@@ -76,7 +81,23 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         return sb.toString();
     }
 
-    public String getSubAwardHierarchiesForTreeView(String awardNumber) {
+    /**
+     * This method...
+     * @param aNode
+     * @param sb
+     * @param df
+     */
+    private void appendDate(Date date, StringBuilder sb) {
+        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE);
+        if(date!=null){
+            sb.append(df.format(date));
+        }else{
+            sb.append("&nbsp;");
+        }
+    }
+
+    public String getSubAwardHierarchiesForTreeView(String awardNumber) throws ParseException {
         String awardHierarchy = "<h3>";        
         for (AwardHierarchy ah : getSubResearchAreas(awardNumber)) {
             AwardHierarchyNode aNode = getAwardHierarchyNodes(awardNumber).get(ah.getAwardNumber());
@@ -103,13 +124,14 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     }
     
     private Map<String, AwardHierarchyNode> getAwardHierarchyNodes(String awardNumber){
-        if(awardHierarchyNodes==null || awardHierarchyNodes.size()==0){
+        if(awardHierarchyNodes==null || awardHierarchyNodes.size()==0 || StringUtils.endsWithIgnoreCase("00001", awardNumber.substring(8))){
             List<String> order = new ArrayList<String>();
             Map<String, AwardHierarchy> awardHierarchyItems = getAwardHierarchyService().getAwardHierarchy(awardNumber, order );
             AwardHierarchyNode awardHierarchyNode = new AwardHierarchyNode();
             ActivePendingTransactionsService aptService = KraServiceLocator.getService(ActivePendingTransactionsService.class);
             
-            for(Entry<String, AwardHierarchy> awardHierarchy:awardHierarchyItems.entrySet()){                
+            for(Entry<String, AwardHierarchy> awardHierarchy:awardHierarchyItems.entrySet()){
+                awardHierarchyNode = new AwardHierarchyNode();
                 awardHierarchyNode.setAwardNumber(awardHierarchy.getValue().getAwardNumber());
                 awardHierarchyNode.setParentAwardNumber(awardHierarchy.getValue().getParentAwardNumber());
                 awardHierarchyNode.setRootAwardNumber(awardHierarchy.getValue().getRootAwardNumber());

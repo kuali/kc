@@ -75,25 +75,30 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
         forward = super.save(mapping, form, request, response);
+        ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
+        List<AwardAmountInfo> awardAmountInfoObjects = new ArrayList<AwardAmountInfo>();
+        for(Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
+            Award award = aptService.getActiveAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
+            AwardAmountInfo aai = aptService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
+            String reverseAwardNumber = StringUtils.reverse(awardHierarchyNode.getValue().getAwardNumber());
+            String i= StringUtils.substring(reverseAwardNumber, 0, StringUtils.indexOf(reverseAwardNumber, "0"));
+            int index = Integer.parseInt(StringUtils.reverse(i));
+            aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+            aai.setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
+            aai.setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());            
+        }
         
         getBusinessObjectService().save(timeAndMoneyDocument.getAward());
-        for(Entry<String, AwardHierarchyNode> awardHierarchyNode:timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
-            String index = StringUtils.reverse(awardHierarchyNode.getValue().getAwardNumber());
-            String[] str = new String[1];
-            str[0] = "0";
-            int i = StringUtils.indexOfAny(index, str);
-            int dateFieldIndex = Integer.parseInt(StringUtils.substring(index, 0, i));
-            String date = timeAndMoneyForm.getFinalExpirationDates().get(dateFieldIndex);
-            DateFormat df = DateFormat.getDateInstance();
-            
-            awardHierarchyNode.getValue().setFinalExpirationDate(new Date(df.parse(date).getTime()));
-        }
         
         return forward;
     }
     
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return super.execute(mapping, form, request, response);
+    }
+    
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
     @Override
@@ -125,7 +130,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     
     protected void setupHierachyNodes(TimeAndMoneyDocument timeAndMoneyDocument){
         AwardHierarchyNode awardHierarchyNode;
-        ActivePendingTransactionsService aptService = KraServiceLocator.getService(ActivePendingTransactionsService.class);
+        ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
         
         for(Entry<String, AwardHierarchy> awardHierarchy:timeAndMoneyDocument.getAwardHierarchyItems().entrySet()){
             awardHierarchyNode = new AwardHierarchyNode();
