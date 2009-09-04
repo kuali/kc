@@ -7,7 +7,7 @@
 		<documentType>
 			<name>ProtocolDocument</name>
 			<description>Create a KC Protocol Document</description>
-			<label>KC Protocol</label>
+			<label>Protocol Document</label>
 			<postProcessorName>
 				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor
 			</postProcessorName>
