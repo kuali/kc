@@ -32,7 +32,7 @@
                 collapsed: true,
                 control: "#treecontrol"
                     
-                 
+            
               });
      // $("#browser").treeview();
       // $("div#foo").append("Hello World!").css("color","red");
@@ -58,6 +58,8 @@
          $("#loading").hide();
          // return false;
        });
+      
+
     }); // $(document).ready
       
       
@@ -316,6 +318,7 @@
                         $(liId).remove();
                         //alert (sqlScripts);
                         cutNode=null;
+                        return false; // eliminate page jumping
                       }); 
     tag.html(image);
     image = $('<a href="#"><img src="static/images/tinybutton-cutnode.gif" width="79" height="15" border="0" alt="Cut Node" title="Cut this node and its child roups/sponsors.  (Node will not be removed until you paste it.)"></a>&nbsp').attr("id","cut"+idx).click(function() {
@@ -324,6 +327,7 @@
                         cutNode = $(liId).clone(true);
                         removedNode=null; // remove & cutNode should not
 											// co-exist
+                        return false; // eliminate page jumping
                       }); 
     image.appendTo(tag);                  
     image = $('<a href="#"><img src="static/images/tinybutton-pastenode.gif" width="79" height="15" border="0" alt="Paste Node" title="Paste your previously cut node structure under this node"></a>').attr("id","paste"+idx).click(function() {
@@ -344,6 +348,14 @@
                             removedNode = null;
                         } else {
                             var liId = cutNode.attr("id");
+                            // cutNode.parents() is not working but $("li#"+liId).parents() is fine.
+                          //alert ("check ultags "+id+"-"+ $("li#"+liId).parents('li:eq(0)').attr("id")+"-"+$("li#"+liId).attr("id"));
+                          if (id == $("li#"+liId).parents('li:eq(0)').attr("id")) {
+                        	alert("can't paste to the parent node");
+                          } else if (id == liId) {
+                        	alert("can't paste to the same node");
+                          } else{	
+                            var liId = cutNode.attr("id");
                             var parentRACode;
                             // NOTE : $(cutNode).parents('li:eq(0)') is not
 							// working
@@ -361,8 +373,11 @@
                             cutNode.appendTo(ulTag);
                             addSqlScripts(getInsertClause(getResearchAreaCode(cutNode), getResearchAreaCode($("#"+id)), getResearchAreaDescription(getResearchAreaCode($("#"+id)),cutNode.children('a:eq(0)').text())));
                             cutNode = null;
+                            ulTag.appendTo(parentNode);
+                          } // if then else if not paste back to parent node  
                         }
-                        ulTag.appendTo(parentNode);
+                       // right now is only doing for cutnode  
+                       // ulTag.appendTo(parentNode);
                         
                         // alert("Remove node
 						// "+removedNode.children('a:eq(0)').text());
@@ -370,6 +385,7 @@
                         
                         
                      }// if removednode
+                  return false; // eliminate page jumping
                   }); 
                       
                       
@@ -413,14 +429,13 @@
       tdTag1.appendTo(trTag1);
       tdTag1 = $('<td></td>').html(getResearchAreaCode($("#"+id)));
       tdTag1.appendTo(trTag1);
-      tdTag1 = $('<td></td>').html($('<input type="text" name="m3" style="width:100%;" readonly="true"/>').attr("id","cdesc"+i).attr("value",getResearchAreaDescription(getResearchAreaCode($("#"+id)), name)));
+      tdTag1 = $('<td></td>').html($('<input type="text" name="m3" style="width:100%;" readonly="true"/>').attr("id","cdesc"+idx).attr("value",getResearchAreaDescription(getResearchAreaCode($("#"+id)), name)));
       tdTag1.appendTo(trTag1);
       tag1 = $('<th class="infoline" style="text-align:center;"></th>');
-      var editlink = $('<a href="#"><img src="static/images/tinybutton-edit1.gif" width="40" height="15" border="0" title="update"></a>').attr("id","editRA"+i).click(function() {
+      var editlink = $('<a href="#"><img src="static/images/tinybutton-edit1.gif" width="40" height="15" border="0" title="update"></a>').attr("id","editRA"+idx).click(function() {
             var header = $("#raHeader"+$(this).attr("id").substring(6));
             // $("#raHeader"+i) will not work because "i" is evaluated when this
 			// function is called; not when this function is created
-            //alert ($(this).attr("id").substring(6));
             var desc = editResearchArea($(this).attr("id").substring(6));
             
             if (desc.length == 0) {
@@ -431,12 +446,14 @@
             header.html(newdesc);
             $("#itemText"+$(this).attr("id").substring(6)).html(newdesc);
             addSqlScripts(getUpdateClause(getResearchAreaCode($("#item"+$(this).attr("id").substring(6))), desc));
+            //alert ($(this).attr("id").substring(6) +"-" +desc+"-"+newdesc);
             // lots of trouble to update the description on item, so add
 			// additional 'div' tag for this purposes.
             // tried many different ways, include 'replace', but it did not
 			// work. So, finally decide on this approach.
             //alert(sqlScripts);
             }
+            return false; // eliminate page jumping
             });  // end editlink click
                   
       tag1.html(editlink);
@@ -449,12 +466,12 @@
       var tdTag2 = $('<td></td>').html(getResearchAreaCode($("#"+id)));
       trTag2.html(tag2);
       tdTag2.appendTo(trTag2);
-      tdTag2 = $('<td></td>').html($('<input type="text" name="m2" value="" style="width:100%;" maxlength="8" size="8"/>').attr("id","researchCode"+i));
+      tdTag2 = $('<td></td>').html($('<input type="text" name="m2" value="" style="width:100%;" maxlength="8" size="8"/>').attr("id","researchCode"+idx));
       tdTag2.appendTo(trTag2);
-      tdTag2 = $('<td></td>').html($('<input type="text" name="m3" value="" style="width:100%;" />').attr("id","desc"+i));
+      tdTag2 = $('<td></td>').html($('<input type="text" name="m3" value="" style="width:100%;" />').attr("id","desc"+idx));
       tdTag2.appendTo(trTag2);
       tag2 = $('<th class="infoline" style="text-align:center;"></th>');
-      var addlink = $('<a href="#"><img src="static/images/tinybutton-add1.gif" width="40" height="15" border="0" title="Add this Sub-group"></a>').attr("id","addRA"+i).click(function() {
+      var addlink = $('<a href="#"><img src="static/images/tinybutton-add1.gif" width="40" height="15" border="0" title="Add this Sub-group"></a>').attr("id","addRA"+idx).click(function() {
                            
             // alert("add
 			// node"+$(this).parents('tr:eq(0)').children('th').size());
@@ -497,7 +514,7 @@
                  var ulTag = parentNode.children('ul');
                  if (parentNode.children('ul').size() == 0) {
                     i++;
-                    ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+i);
+                    ulTag = $('<ul class="filetree"></ul>').attr("id","ul"+id.substring(4));
                  }
               
                  ulTag.appendTo(parentNode); 
@@ -506,11 +523,11 @@
                  var listitem = setupListItem(trNode.children('td:eq(1)').children('input:eq(0)').attr("value") ,trNode.children('td:eq(2)').children('input:eq(0)').attr("value"));
                  // alert(listitem.html());
               // need this ultag to force to display folder.
-              var childUlTag = $('<ul></ul>').attr("id","ul"+i);
+              var childUlTag = $('<ul></ul>').attr("id","ul"+$(this).attr("id").substring(5));
               childUlTag.appendTo(listitem);
               
               // this is new nodes, so it is same as already loaded from DB
-              var loadedId = "loaded"+i;
+              var loadedId = "loaded"+idx;
               var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
               inputtag.appendTo(childUlTag);
               
@@ -534,6 +551,7 @@
                    alert ("Research Area Code already exist");
               }
              }                                
+           return false; // eliminate page jumping
            });  // end addlink click
                   
       tag2.html(addlink);
@@ -844,6 +862,11 @@
 	  //for (var k = 0; k<3;k++) {
 		  // performance test
       loadFirstLevel();
+      $("#listcontent00").show();
+//      //$("#listcontent00").slideToggle(300);
+//      $("#listcontrol00").show();
+//      alert("3")
+//      $("#listcontrol00").show();
       loadedidx=i;
 	  //}
       // $("#listcontrol00").show();
@@ -914,6 +937,69 @@
           sqlidx = 0;
           loadedidx=i;
         return false;
+   }); 
+
+  $("#close").click(function(){    
+      if (sqlScripts.indexOf("#;#") > -1) {
+           // if current sqlScripts is not in array yet
+           // 10 should be fine to use as check
+           sqls[sqlidx++] = sqlScripts;
+       }
+       //alert ("save"+sqls.length+sqlScripts); 
+      if(sqls.length > 0 && confirm('Do you want to save changes to Research Area Hierarchy?'))  {       
+     for ( var k = 0; k < sqls.length; k++) {
+      if (sqls[k] != '') {	 
+       sqlScripts = sqls[k];
+       sqlScripts = sqlScripts.replace(/#;#/g, ";;;");
+       $("#headermsg").html(""); // clear error message
+       var retmsg;
+       $.ajax({
+        url: 'researchAreaAjax.do',
+        type: 'GET',
+        dataType: 'html',
+        cache: false,
+        data:'sqlScripts='+sqlScripts+'&addRA=S',
+        async:false,
+        timeout: 1000,
+        error: function(){
+           // alert('Error loading XML document');
+           // jumpToAnchor('topOfForm');
+           $('<span id="msg"/>').css("color", "red").html(
+                   "Error when save Areas of Research").appendTo(
+                   $("#headermsg"))
+           $('<br/>').appendTo($("#headermsg"));
+           
+        },
+        success: function(xml){
+            $(xml).find('h3').each(function(){
+                retmsg = $(this).text();
+             // alert(raExist);
+ 
+              });
+            if (retmsg == 'Success') {
+           sqlScripts = "";
+           sqls[k]="";
+               $('<span id="msg"/>').css("color", "black").html(
+                       "Areas of Research saved successfully").appendTo(
+                       $("#headermsg"));
+               $('<br/>').appendTo($("#headermsg"));
+              // jumpToAnchor('topOfForm');
+           // alert("success"+xml);
+            } else {
+            	// alert (retmsg);
+                $('<span id="msg"/>').css("color", "red").html(
+                "Error when save Areas of Research <br/>"+retmsg).appendTo(
+                $("#headermsg"))
+               $('<br/>').appendTo($("#headermsg"));
+            }	
+        }
+       });
+     } 
+    } // end for
+      } // end confirm  
+          sqlidx = 0;
+          loadedidx=i;
+       // return false;
    }); 
 
   /*
