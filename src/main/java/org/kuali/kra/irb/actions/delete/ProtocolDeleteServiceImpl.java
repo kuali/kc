@@ -49,6 +49,7 @@ public class ProtocolDeleteServiceImpl implements ProtocolDeleteService {
      */
     public void delete(Protocol protocol, ProtocolDeleteBean deleteBean) throws WorkflowException {
         protocol.setProtocolStatusCode(ProtocolStatus.DELETED);
+        protocol.setActive(false);
         businessObjectService.save(protocol.getProtocolDocument());
         
         /*
