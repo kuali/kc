@@ -37,6 +37,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.approvedsubawards.ApprovedSubawardFormHelper;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposalBean;
+import org.kuali.kra.award.notesandattachments.attachments.AwardAttachmentFormBean;
 import org.kuali.kra.award.notesandattachments.comments.AwardCommentBean;
 import org.kuali.kra.award.notesandattachments.notes.AwardNotepadBean;
 import org.kuali.kra.award.paymentreports.ReportClass;
@@ -116,6 +117,7 @@ public class AwardForm extends ProposalFormBase
     private AwardReportingBean awardReportingBean;
     private AwardCommentBean awardCommentBean;
     private AwardNotepadBean awardNotepadBean;
+    private AwardAttachmentFormBean awardAttachmentFormBean;
     
     private boolean auditActivated;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
@@ -165,6 +167,7 @@ public class AwardForm extends ProposalFormBase
         detailsAndDatesFormHelper = new DetailsAndDatesFormHelper(this);
         awardReportsBean = new AwardReportsBean(this);
         awardNotepadBean = new AwardNotepadBean(this);
+        awardAttachmentFormBean = new AwardAttachmentFormBean(this);
         //directFandADistributionFormHelper = new DirectFandADistributionFormHelper(this);
         //awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         setPermissionsHelper(new PermissionsHelper(this));
@@ -639,6 +642,24 @@ public class AwardForm extends ProposalFormBase
      */
     public void setAwardNotepadBean(AwardNotepadBean awardNotepadBean) {
         this.awardNotepadBean = awardNotepadBean;
+    }
+    
+    
+
+    /**
+     * Gets the awardAttachmentFormBean attribute. 
+     * @return Returns the awardAttachmentFormBean.
+     */
+    public AwardAttachmentFormBean getAwardAttachmentFormBean() {
+        return awardAttachmentFormBean;
+    }
+
+    /**
+     * Sets the awardAttachmentFormBean attribute value.
+     * @param awardAttachmentFormBean The awardAttachmentFormBean to set.
+     */
+    public void setAwardAttachmentFormBean(AwardAttachmentFormBean awardAttachmentFormBean) {
+        this.awardAttachmentFormBean = awardAttachmentFormBean;
     }
 
     /**

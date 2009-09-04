@@ -19,29 +19,29 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="ProtocolAttachmentFile" parent="ProtocolAttachmentFile-parentBean" />
-    <bean id="ProtocolAttachmentFile-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile" />
+    <bean id="AttachmentFile" parent="AttachmentFile-parentBean" />
+    <bean id="AttachmentFile-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.AttachmentFile" />
         <property name="inquiryDefinition" >
-            <ref bean="ProtocolAttachmentFile-inquiryDefinition" />
+            <ref bean="AttachmentFile-inquiryDefinition" />
         </property>
         <property name="lookupDefinition" >
-            <ref bean="ProtocolAttachmentFile-lookupDefinition" />
+            <ref bean="AttachmentFile-lookupDefinition" />
         </property>
         <property name="titleAttribute" value="id" />
         <property name="attributes" >
             <list>
-            	<ref bean="ProtocolAttachmentFile-id" />
-                <ref bean="ProtocolAttachmentFile-name" />
-                <ref bean="ProtocolAttachmentFile-type" />
-                <ref bean="ProtocolAttachmentFile-versionNumber" />
+            	<ref bean="AttachmentFile-id" />
+                <ref bean="AttachmentFile-name" />
+                <ref bean="AttachmentFile-type" />
+                <ref bean="AttachmentFile-versionNumber" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
-    <bean id="ProtocolAttachmentFile-id" parent="ProtocolAttachmentFile-id-parentBean" />
-    <bean id="ProtocolAttachmentFile-id-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="AttachmentFile-id" parent="AttachmentFile-id-parentBean" />
+    <bean id="AttachmentFile-id-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="id" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Id" />
@@ -58,8 +58,8 @@
         <property name="description" value="Id" />
     </bean>
     
-    <bean id="ProtocolAttachmentFile-name" parent="ProtocolAttachmentFile-name-parentBean" />
-    <bean id="ProtocolAttachmentFile-name-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="AttachmentFile-name" parent="AttachmentFile-name-parentBean" />
+    <bean id="AttachmentFile-name-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="name" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="File Name" />
@@ -78,8 +78,8 @@
         <property name="description" value="File Name" />
     </bean>
     
-    <bean id="ProtocolAttachmentFile-type" parent="ProtocolAttachmentFile-type-parentBean" />
-    <bean id="ProtocolAttachmentFile-type-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="AttachmentFile-type" parent="AttachmentFile-type-parentBean" />
+    <bean id="AttachmentFile-type-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="type" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Type" />
@@ -97,12 +97,12 @@
         <property name="description" value="Type" />
     </bean>
 
-    <bean id="ProtocolAttachmentFile-versionNumber" parent="ProtocolAttachmentFile-versionNumber-parentBean" />
-    <bean id="ProtocolAttachmentFile-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+    <bean id="AttachmentFile-versionNumber" parent="AttachmentFile-versionNumber-parentBean" />
+    <bean id="AttachmentFile-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 
     <!-- Business Object Inquiry Definition -->
-    <bean id="ProtocolAttachmentFile-inquiryDefinition" parent="ProtocolAttachmentFile-inquiryDefinition-parentBean" />
-    <bean id="ProtocolAttachmentFile-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <bean id="AttachmentFile-inquiryDefinition" parent="AttachmentFile-inquiryDefinition-parentBean" />
+    <bean id="AttachmentFile-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Code" />
         <property name="inquirySections" >
             <list>
@@ -126,11 +126,11 @@
     </bean>
 
     <!-- Business Object Lookup Definition -->
-    <bean id="ProtocolAttachmentFile-lookupDefinition" parent="ProtocolAttachmentFile-lookupDefinition-parentBean" />
-    <bean id="ProtocolAttachmentFile-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Protocol Attachment File Lookup" />
+    <bean id="AttachmentFile-lookupDefinition" parent="AttachmentFile-lookupDefinition-parentBean" />
+    <bean id="AttachmentFile-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Attachment File Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Protocol Attachment File" />
+        <property name="instructions" value="Look up a Attachment File" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>

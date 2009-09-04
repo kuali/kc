@@ -1311,6 +1311,18 @@
 			<foreignkey field-ref="sponsorCode"/> 
 		</reference-descriptor>
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.bo.AttachmentFile" table="ATTACHMENT_FILE">
+		<field-descriptor name="id" column="FILE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_ATTACHMENT_ID" autoincrement="true"/>
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="name" column="FILE_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="type" column="CONTENT_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="data" column="FILE_DATA" jdbc-type="BLOB" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
 
 
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview" table="EPS_PROP_SPECIAL_REVIEW">

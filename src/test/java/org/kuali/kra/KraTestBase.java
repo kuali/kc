@@ -123,6 +123,7 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_PROPOSAL_STATUS.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_AWARD_TRANSACTION_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_LOCATION_TYPE.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_AWARD_ATTACHMENT_TYPE.sql", delimiter = ";")
             }
         )
     )

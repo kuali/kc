@@ -174,6 +174,9 @@
         <collection-descriptor name="awardNotepads" proxy="true" element-class-ref="org.kuali.kra.award.notesandattachments.notes.AwardNotepad" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="awardId"/>
 		</collection-descriptor>
+		<collection-descriptor name="awardAttachments" proxy="true" element-class-ref="org.kuali.kra.award.notesandattachments.attachments.AwardAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="awardId"/>
+		</collection-descriptor>
         <reference-descriptor name="awardTemplate" class-ref="org.kuali.kra.award.home.AwardTemplate" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="templateCode" />
         </reference-descriptor>
@@ -1223,6 +1226,43 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.award.notesandattachments.attachments.AwardAttachmentType" table="AWARD_ATTACHMENT_TYPE">
+		<field-descriptor name="typeCode" column="TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.award.notesandattachments.attachments.AwardAttachment" table="AWARD_ATTACHMENT">
+		<field-descriptor name="awardAttachmentId" column="AWARD_ATTACHMENT_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_AWARD_ATTACHMENT_ID" autoincrement="true"/>
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="typeCode" column="TYPE_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+
+		<reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="awardId"/>
+		</reference-descriptor>
+
+		<reference-descriptor name="type" class-ref="org.kuali.kra.award.notesandattachments.attachments.AwardAttachmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="typeCode"/>
+		</reference-descriptor>
+		
+		<reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true"> 
+			<foreignkey field-ref="fileId"/>
+		</reference-descriptor>
+		
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.award.home.fundingproposal.AwardFundingProposal" table="AWARD_FUNDING_PROPOSALS">
