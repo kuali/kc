@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
@@ -460,7 +461,7 @@ public class ProtocolAttachmentHelper {
         
         for (final ProtocolAttachmentBase attachment : attachments) {
             if (ProtocolAttachmentHelper.doesNewFileExist(attachment)) {
-                final ProtocolAttachmentFile newFile = ProtocolAttachmentFile.createFromFormFile(attachment.getNewFile());
+                final AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
                 //setting the sequence number to the old file sequence number
                 if (attachment.getFile() != null) {
                     newFile.setSequenceNumber(attachment.getFile().getSequenceNumber());

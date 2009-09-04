@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -301,7 +302,7 @@ public class ProtocolAttachmentVersioningUtility {
      * @param persistedFile the persisted attachment file with same id
      * @return true if should be versioned false if not.
      */
-    private static boolean hasChanged(final ProtocolAttachmentFile localFile, final ProtocolAttachmentFile persistedFile) {
+    private static boolean hasChanged(final AttachmentFile localFile, final AttachmentFile persistedFile) {
         
         if (persistedFile == null || localFile == null) {
             return false;
@@ -361,7 +362,7 @@ public class ProtocolAttachmentVersioningUtility {
     private <T extends ProtocolAttachmentBase> T createFileVersionOnAttachment(final T attachment) {
         assert attachment != null : "the attachment was null";
         
-        final ProtocolAttachmentFile newVersion;
+        final AttachmentFile newVersion;
         
         try {
             newVersion = this.versionService.versionAssociate(attachment.getFile());

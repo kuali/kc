@@ -25,10 +25,11 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile.CreateException;
+import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.kra.bo.AttachmentFile.CreateException;
 
 /**
- * Tests for {@link ProtocolAttachmentFile ProtocolAttachmentFile}.
+ * Tests for {@link AttachmentFile ProtocolAttachmentFile}.
  */
 public class ProtocolAttachmentFileTest {
 
@@ -46,7 +47,7 @@ public class ProtocolAttachmentFileTest {
         final byte[] data = new byte[] {1,};
         
         FormFile formFile = createMockFormFileWithExpectations(fileName, fileType, data);
-        ProtocolAttachmentFile file = ProtocolAttachmentFile.createFromFormFile(formFile);
+        AttachmentFile file = AttachmentFile.createFromFormFile(formFile);
         
         this.context.assertIsSatisfied();
         
@@ -60,7 +61,7 @@ public class ProtocolAttachmentFileTest {
      */
     @Test(expected=IllegalArgumentException.class)
     public void createFromFormFileNullFormFile() {
-        ProtocolAttachmentFile.createFromFormFile(null);
+        AttachmentFile.createFromFormFile(null);
     }
     
     /**
@@ -74,11 +75,11 @@ public class ProtocolAttachmentFileTest {
         final byte[] data = new byte[] {1,};
         
         FormFile formFile = createMockFormFileWithExpectations(fileName, fileType, data);
-        ProtocolAttachmentFile file = ProtocolAttachmentFile.createFromFormFile(formFile);
+        AttachmentFile file = AttachmentFile.createFromFormFile(formFile);
         
         this.context.assertIsSatisfied();
         
-        Assert.assertThat(file.getName(), is(fileName.substring(fileName.length() - ProtocolAttachmentFile.MAX_FILE_NAME_LENGTH)));
+        Assert.assertThat(file.getName(), is(fileName.substring(fileName.length() - AttachmentFile.MAX_FILE_NAME_LENGTH)));
         Assert.assertThat(file.getType(), is(fileType));
         Assert.assertThat(file.getData(), is(data));
     }
@@ -94,12 +95,12 @@ public class ProtocolAttachmentFileTest {
         final byte[] data = new byte[] {1,};
         
         FormFile formFile = createMockFormFileWithExpectations(fileName, fileType, data);
-        ProtocolAttachmentFile file = ProtocolAttachmentFile.createFromFormFile(formFile);
+        AttachmentFile file = AttachmentFile.createFromFormFile(formFile);
         
         this.context.assertIsSatisfied();
         
         Assert.assertThat(file.getName(), is(fileName));
-        Assert.assertThat(file.getType(), is(fileType.substring(fileType.length() - ProtocolAttachmentFile.MAX_FILE_TYPE_LENGTH)));
+        Assert.assertThat(file.getType(), is(fileType.substring(fileType.length() - AttachmentFile.MAX_FILE_TYPE_LENGTH)));
         Assert.assertThat(file.getData(), is(data));
     }
     
@@ -124,7 +125,7 @@ public class ProtocolAttachmentFileTest {
             will(throwException(new IOException()));
         }});
         
-        ProtocolAttachmentFile.createFromFormFile(formFile);
+        AttachmentFile.createFromFormFile(formFile);
         this.context.assertIsSatisfied();
     }
     

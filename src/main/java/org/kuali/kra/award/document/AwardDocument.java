@@ -175,6 +175,7 @@ public class AwardDocument extends BudgetParentDocument implements  Copyable, Se
         managedLists.add(award.getAwardDirectFandADistributions());
         managedLists.add(award.getAwardApprovedSubawards());
         managedLists.add(award.getAwardCloseoutItems());
+        managedLists.add(award.getAwardAttachments());
                 
         for (AwardSpecialReview awardSpecialReview : getAward().getSpecialReviews()) {
             awardSpecialReviewExemptions.addAll(awardSpecialReview.getSpecialReviewExemptions());            
