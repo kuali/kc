@@ -33,8 +33,7 @@
             <list>
                 <ref bean="AwardHierarchyNode-rootAwardNumber" />
                 <ref bean="AwardHierarchyNode-awardNumber" />
-                <ref bean="AwardHierarchyNode-parentAwardNumber" />
-                
+                <ref bean="AwardHierarchyNode-parentAwardNumber" />                
                 <ref bean="AwardHierarchyNode-currentFundEffectiveDate" />
                 <ref bean="AwardHierarchyNode-obligationExpirationDate" />
                 <ref bean="AwardHierarchyNode-finalExpirationDate" />

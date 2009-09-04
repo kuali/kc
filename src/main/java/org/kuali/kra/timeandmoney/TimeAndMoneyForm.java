@@ -15,12 +15,14 @@
  */
 package org.kuali.kra.timeandmoney;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionBean;
 import org.kuali.kra.infrastructure.Constants;
@@ -33,6 +35,7 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
 
@@ -49,7 +52,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     private List<String> obligationExpirationDates;
     private List<String> finalExpirationDates;
     private List<AwardHierarchyNode> awardHierarchyNodeItems;
-
+    private String awardHierarchy;
     private String awardNumber;
     private String addRA;    
     private String deletedRas;
@@ -355,6 +358,38 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      */
     public void setAwardHierarchyNodeItems(List<AwardHierarchyNode> awardHierarchyNodeItems) {
         this.awardHierarchyNodeItems = awardHierarchyNodeItems;
+    }
+    
+    public String getAwardHierarchy() throws ParseException {
+        awardHierarchy = "";
+        if(StringUtils.isBlank(awardNumber)){
+            awardNumber = this.getTimeAndMoneyDocument().getRootAwardNumber();
+        }
+        if (StringUtils.isNotBlank(addRA) && addRA.equals("Y")) {
+            if (getAwardHierarchyUIService().doesAwardHierarchyExist(awardNumber, deletedRas)) {
+                setAwardHierarchy("<h3>true</h3>");
+            }else {
+                setAwardHierarchy("<h3>false</h3>");
+            }
+        } else if (StringUtils.isNotBlank(addRA) && addRA.equals("S")) {
+            //KraServiceLocator.getService(AwardHierarchyUIService.class).saveResearchAreas(sqlScripts);
+            String error = (String) GlobalVariables.getUserSession().retrieveObject("raError");
+            if (StringUtils.isNotBlank(error)) {
+                setAwardHierarchy("<h3>" + error + "</h3>");
+                GlobalVariables.getUserSession().addObject("raError", (Object) null);
+            } else {
+                setAwardHierarchy("<h3>Success</h3>");
+            }
+        } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
+            setAwardHierarchy(getAwardHierarchyUIService().getSubAwardHierarchiesForTreeView(awardNumber));
+        } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("N")){
+            setAwardHierarchy(getAwardHierarchyUIService().getRootAwardNode(awardNumber));
+        }
+        return awardHierarchy;
+    }
+    
+    public void setAwardHierarchy(String awardHierarchy) {
+        this.awardHierarchy = awardHierarchy;
     }
     
 

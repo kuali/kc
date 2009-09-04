@@ -107,6 +107,9 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @return Returns the anticipatedTotalAmount.
      */
     public KualiDecimal getAnticipatedTotalAmount() {
+        if(anticipatedTotalAmount == null){
+            setAnticipatedTotalAmount(new KualiDecimal(0));
+        }
         return anticipatedTotalAmount;
     }
 
@@ -123,6 +126,9 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @return Returns the antDistributableAmount.
      */
     public KualiDecimal getAntDistributableAmount() {
+        if(antDistributableAmount == null){
+            setAntDistributableAmount(new KualiDecimal(0));
+        }
         return antDistributableAmount;
     }
 
@@ -139,6 +145,9 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @return Returns the amountObligatedToDate.
      */
     public KualiDecimal getAmountObligatedToDate() {
+        if(amountObligatedToDate == null){
+            setAmountObligatedToDate(new KualiDecimal(0));
+        }
         return amountObligatedToDate;
     }
 
@@ -155,6 +164,9 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @return Returns the obliDistributableAmount.
      */
     public KualiDecimal getObliDistributableAmount() {
+        if(obliDistributableAmount == null){
+            setObliDistributableAmount(new KualiDecimal(0));
+        }
         return obliDistributableAmount;
     }
 
