@@ -3,19 +3,21 @@
 <c:set var="readOnly" value="false"  scope="request"/>
 <c:set var="questionnaireAttributes" value="${DataDictionary.Questionnaire.attributes}" />
 
-<div class="tab-container" align="left">
+<div class="tab-container" align="left" >
+   <div style = "border: 1px solid #BDBDBD; margin-left : 10px; margin-right : 10px" >
     <h3>
         <span class="subhead-left"> Research Areas Hierarchy </span>
         <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.bo.ResearchArea" altText="help"/> </span>
     </h3>
-    
-        
+     <br/>
+                                          <div align="left" style = " margin-left : 20px">
                                             <img src="static/images/jquery/hierarchy-root.png" width="14" height="14" border="0"> <a id="listcontrol00" style="margin-left:2px;">000001 : All Research Areas</a>
+                                           </div> 
                                             <%-- <div id="treecontrol" style="display:inline;">
                                                 &nbsp;&nbsp;&nbsp;&nbsp;<a title="Collapse the entire tree below" href="#"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
                                                 &nbsp;&nbsp;&nbsp;&nbsp;<a title="Expand the entire tree below" href="#"><img src="static/images/jquery/plus.gif" /> Expand All</a>
                                             </div> --%>
-                                            <div class="hierarchydetail" id="listcontent00" style="margin-top:2px;text-align:left;">
+                                            <div class="hierarchydetail" id="listcontent00" style="margin-top:2px;margin-left:30px;text-align:left;">
                                                 
                                                 <table width="100%" cellpadding="0" cellspacing="0" class="subelement">
                                                     <thead>
@@ -92,10 +94,13 @@
 
 <%-- 0000001 --%>
 
-  <div style = "background:#e4e4e4" >
+  <div style = "background:#EAEAEA; margin-left : 20px" >
   <ul id="researcharea" class="filetree"  >
         <%-- <li><span class="folder">00000</span>
         </li> --%>
     </ul>
    </div> 
+   
+  </div> 
+  
 </div>
