@@ -39,8 +39,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.springframework.util.StringUtils;
 
-import com.ibm.icu.text.DateFormat;
-
 public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     
     private static final String COLUMN_CODE = "%3A";
