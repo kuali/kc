@@ -182,6 +182,11 @@ public class ProtocolRouteTest extends KraTestBase {
         Protocol newProtocol = protocolFinder.findCurrentProtocolByNumber(protocolDocument.getProtocol().getProtocolNumber());
         assertTrue(newProtocol.getSequenceNumber() == protocolDocument.getProtocol().getSequenceNumber() + 1);
         
+        /*
+         * Must read the protocol document again in order to obtain the most recent changes.
+         */
+        protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocolDocument.getDocumentNumber());
+       
         assertFalse(protocolDocument.getProtocol().isActive());
         assertFalse(amendmentDocument.getProtocol().isActive());
         assertTrue(newProtocol.isActive());

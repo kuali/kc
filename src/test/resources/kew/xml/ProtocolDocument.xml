@@ -1,62 +1,272 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-      <documentType>
-          <name>ProtocolDocument</name>
-          <description>Create a Protocol</description>
-          <label>Protocol Document</label>
-          <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-          <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
-          <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-          <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-          <docHandler>${kuali.docHandler.url.prefix}/protocolProtocol.do?methodToCall=docHandler</docHandler>
-          <active>true</active>
-          <routingVersion>2</routingVersion>
-          <routePaths>
-             <routePath>
-                <start name="Initiated" />
-             </routePath>
-          </routePaths>
-          <routeNodes>
-             <start name="Initiated">
-                <activationType>P</activationType>
-                <mandatoryRoute>false</mandatoryRoute>
-                <finalApproval>false</finalApproval>
-             </start>
-         </routeNodes>
-      </documentType>
-   </documentTypes>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="ns:workflow resource:WorkflowData">
 
-   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-       <ruleAttribute>
-            <name>IRBCustomDataAttribute</name>
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>ProtocolDocument</name>
+			<description>Create a KC Protocol Document</description>
+			<label>KC Protocol</label>
+			<postProcessorName>
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor
+			</postProcessorName>
+			<superUserWorkgroupName>WorkflowAdmin
+			</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>WorkflowAdmin
+			</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>WorkflowAdmin
+			</defaultExceptionWorkgroupName>
+			<docHandler>
+				${kuali.docHandler.url.prefix}/protocolProtocol.do?methodToCall=docHandler
+			</docHandler>
+			<active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+					<!--
+						this should be false in a production scenario
+					-->
+				</policy>
+				<policy>
+                    <name>LOOK_FUTURE</name>
+                    <value>true</value>
+                </policy>
+				
+			</policies>
+
+
+			<routingVersion>2</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" nextNode="IRBReceipt" />
+                    <requests name="IRBReceipt" nextNode="IRBApproved" />
+                    <requests name="IRBApproved" nextNode="AssignedToCommittee" />
+                    <requests name="AssignedToCommittee" nextNode="AssignedToAgenda" />
+                    <requests name="AssignedToAgenda" nextNode="IRBReviewComplete" />
+					<requests name="IRBReviewComplete" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>S</activationType>
+				</start>
+                <requests name="IRBReceipt">
+                    <activationType>S</activationType>
+                    <ruleTemplate>IRBReceipt</ruleTemplate>
+                </requests>
+				<requests name="IRBApproved">
+					<activationType>S</activationType>
+					<ruleTemplate>IRBApproved</ruleTemplate>
+				</requests>
+                <requests name="AssignedToCommittee">
+                    <activationType>S</activationType>
+                    <ruleTemplate>AssignedToCommittee</ruleTemplate>
+                </requests>
+                <requests name="AssignedToAgenda">
+                    <activationType>S</activationType>
+                    <ruleTemplate>AssignedToAgenda</ruleTemplate>
+                </requests>
+                <requests name="IRBReviewComplete">
+                    <activationType>S</activationType>
+                    <ruleTemplate>IRBReviewComplete</ruleTemplate>
+                </requests>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
+		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+	
+	    <ruleAttribute>
+            <name>ProtocolWorkflowTypeAttribute</name>
             <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
-            <label>IRBCustomDataAttribute</label>
-            <description>IRBCustomDataAttribute</description>
+            <label>ProtocolWorkflowTypeAttribute</label>
+            <description>ProtocolWorkflowTypeAttribute</description>
             <type>RuleXmlAttribute</type>
             <routingConfig>
-                <!-- work in progress -->
-                <fieldDef name="instructorName" title="Instructor Name" workflowType="RULE">
+                <fieldDef name="protocolWorkflowType" title="protocolWorkflowType" workflowType="RULE">
                     <display>
                         <type>text</type>
                     </display>
                     <validation required="false" />
                     <fieldEvaluation>
-                        <!-- expectation: this is run and evaluates to true -->
-                        <xpathexpression>string(//xmlRouting/field[@name='instructorName']/value) = wf:ruledata('instructorName')</xpathexpression>
-                    </fieldEvaluation>
-                </fieldDef>
-                <fieldDef name="courseName" title="Course Name" workflowType="RULE">
-                    <display>
-                        <type>text</type>
-                    </display>
-                    <validation required="false" />
-                    <fieldEvaluation>
-                        <!-- expectation: this is run and evaluates to true -->
-                        <xpathexpression>string(//xmlRouting/field[@name='courseName']/value) = wf:ruledata('courseName')</xpathexpression>
+                        <!-- expectation: this is run and evaluates to true  -->
+                        <xpathexpression>
+                        wf:xstreamsafe('//document/protocolWorkflowType') = wf:ruledata('protocolWorkflowType')
+                        </xpathexpression>
                     </fieldEvaluation>
                 </fieldDef>
             </routingConfig>
         </ruleAttribute>
     </ruleAttributes>
+    
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate"
+		xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate allowOverwrite="true">
+			<name>IRBReceipt</name>
+			<description>IRB-Submission Rule Template</description>
+			<attributes>
+				<attribute>
+                    <name>ProtocolWorkflowTypeAttribute</name>
+                    <required>true</required>
+                </attribute>
+			</attributes>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>IRBApproved</name>
+			<description>IRB Approval Routing</description>
+			<attributes>
+				<attribute>
+                    <name>ProtocolWorkflowTypeAttribute</name>
+                    <required>false</required>
+                </attribute>
+			</attributes>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+            <name>AssignedToCommittee</name>
+            <description>IRB AssignedToCommittee Routing</description>
+            <attributes>
+                <attribute>
+                    <name>ProtocolWorkflowTypeAttribute</name>
+                    <required>false</required>
+                </attribute>
+            </attributes>
+        </ruleTemplate>
+        <ruleTemplate allowOverwrite="true">
+            <name>AssignedToAgenda</name>
+            <description>IRB AssignedToAgenda Routing</description>
+            <attributes>
+                <attribute>
+                    <name>ProtocolWorkflowTypeAttribute</name>
+                    <required>false</required>
+                </attribute>
+            </attributes>
+        </ruleTemplate>
+        <ruleTemplate allowOverwrite="true">
+            <name>IRBReviewComplete</name>
+            <description>IRB IRBReviewComplete Routing</description>
+            <attributes>
+            <attribute>
+                <name>ProtocolWorkflowTypeAttribute</name>
+                    <required>false</required>
+                </attribute>
+            </attributes>
+        </ruleTemplate>
+        
+	</ruleTemplates>
+	
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+        <rule>
+            <name>IRBReceiptRule</name>
+            <documentType>ProtocolDocument</documentType>
+            <ruleTemplate>IRBReceipt</ruleTemplate>
+            <description>IRBReceipt Routing</description>
+            <forceAction>true</forceAction>
+            <ruleExtensions>
+            <ruleExtension>            
+              <attribute>ProtocolWorkflowTypeAttribute</attribute>
+              <ruleTemplate>IRBReceipt</ruleTemplate>
+              <ruleExtensionValues>
+                <ruleExtensionValue>
+                  <key>protocolWorkflowType</key>
+                  <value>Normal</value>
+                </ruleExtensionValue>
+              </ruleExtensionValues>
+              </ruleExtension>            
+            </ruleExtensions>
+            <responsibilities>
+                <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>IRBApprovedRule</name>
+            <documentType>ProtocolDocument</documentType>
+            <ruleTemplate>IRBApproved</ruleTemplate>
+            <description>IRBApproved Routing</description>
+            <forceAction>true</forceAction>
+            <ruleExtensions>
+            <ruleExtension>            
+              <attribute>ProtocolWorkflowTypeAttribute</attribute>
+              <ruleTemplate>IRBApproved</ruleTemplate>
+              <ruleExtensionValues>
+                <ruleExtensionValue>
+                  <key>protocolWorkflowType</key>
+                  <value>Normal</value>
+                </ruleExtensionValue>
+              </ruleExtensionValues>
+              </ruleExtension>            
+            </ruleExtensions>
+            <responsibilities>
+                <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>AssignedToCommitteeRule</name>
+            <documentType>ProtocolDocument</documentType>
+            <ruleTemplate>AssignedToCommittee</ruleTemplate>
+            <description>AssignedToCommittee Routing</description>
+            <forceAction>true</forceAction>
+            <ruleExtensions>
+            <ruleExtension>            
+              <attribute>ProtocolWorkflowTypeAttribute</attribute>
+              <ruleTemplate>AssignedToCommittee</ruleTemplate>
+              <ruleExtensionValues>
+                <ruleExtensionValue>
+                  <key>protocolWorkflowType</key>
+                  <value>Normal</value>
+                </ruleExtensionValue>
+              </ruleExtensionValues>
+              </ruleExtension>            
+            </ruleExtensions>
+            <responsibilities>
+                <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>AssignedToAgendaRule</name>
+            <documentType>ProtocolDocument</documentType>
+            <ruleTemplate>AssignedToAgenda</ruleTemplate>
+            <description>AssignedToAgenda Routing</description>
+            <forceAction>true</forceAction>
+            <ruleExtensions>
+            <ruleExtension>            
+              <attribute>ProtocolWorkflowTypeAttribute</attribute>
+              <ruleTemplate>AssignedToAgenda</ruleTemplate>
+              <ruleExtensionValues>
+                <ruleExtensionValue>
+                  <key>protocolWorkflowType</key>
+                  <value>Normal</value>
+                </ruleExtensionValue>
+              </ruleExtensionValues>
+              </ruleExtension>            
+            </ruleExtensions>
+            <responsibilities>
+                <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>IRBReviewCompleteRule</name>
+            <documentType>ProtocolDocument</documentType>
+            <ruleTemplate>IRBReviewComplete</ruleTemplate>
+            <description>IRBReviewComplete Routing</description>
+            <forceAction>true</forceAction>
+            <ruleExtensions>
+            <ruleExtension>            
+              <attribute>ProtocolWorkflowTypeAttribute</attribute>
+              <ruleTemplate>IRBReviewComplete</ruleTemplate>
+              <ruleExtensionValues>
+                <ruleExtensionValue>
+                  <key>protocolWorkflowType</key>
+                  <value>Normal</value>
+                </ruleExtensionValue>
+              </ruleExtensionValues>
+              </ruleExtension>            
+            </ruleExtensions>
+            <responsibilities>
+                <responsibility><workgroup>WorkflowAdmin</workgroup></responsibility>
+            </responsibilities>
+        </rule>       
+    </rules>
 </data>
