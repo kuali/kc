@@ -27,9 +27,10 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.SeparateAssociate;
 import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.test.ProtocolFactory;
@@ -170,8 +171,8 @@ public class ProtocolVersioningTest extends KraTestBase {
         
         ProtocolDocument ver2 = createAndSaveVersion(ver1);
         assertIsVersioned(ver1, ver2);
-        ProtocolAttachmentFile oldVersion = attachment1.getFile();
-        ProtocolAttachmentFile newVersion = versioningService.versionAssociate(oldVersion);
+        AttachmentFile oldVersion = attachment1.getFile();
+        AttachmentFile newVersion = versioningService.versionAssociate(oldVersion);
         attachment1.setFile(newVersion);
         
         Assert.assertThat(ver2.getProtocol().getAttachmentProtocols().size(), is(1));
@@ -182,7 +183,7 @@ public class ProtocolVersioningTest extends KraTestBase {
         ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol(ver1.getProtocol());
         attachment.setTypeCode("1");
         attachment.setDocumentId(1);
-        attachment.setFile(new ProtocolAttachmentFile("junk.txt", "txt", new byte[]{0, 1, 2, 3, 4, 5}));
+        attachment.setFile(new AttachmentFile("junk.txt", "txt", new byte[]{0, 1, 2, 3, 4, 5}));
         return attachment;
     }
     
@@ -190,7 +191,7 @@ public class ProtocolVersioningTest extends KraTestBase {
         ProtocolAttachmentProtocol attachment2 = new ProtocolAttachmentProtocol(ver1.getProtocol());
         attachment2.setTypeCode("2");
         attachment2.setDocumentId(1);      
-        attachment2.setFile(new ProtocolAttachmentFile("more_junk.java", "java", new byte[]{0}));
+        attachment2.setFile(new AttachmentFile("more_junk.java", "java", new byte[]{0}));
         return attachment2;
     }
     
@@ -251,7 +252,7 @@ public class ProtocolVersioningTest extends KraTestBase {
      * @param ver1 the first version
      * @param ver2 the second version
      */
-    private <T extends ProtocolSeparateAssociate> void assertIsVersioned(T ver1, T ver2) {
+    private <T extends SeparateAssociate> void assertIsVersioned(T ver1, T ver2) {
         Assert.assertThat(ver2.getSequenceNumber(), is(ver1.getSequenceNumber() + 1));
         Assert.assertThat(ver2.getId(), not(equalTo(ver1.getId())));
     }
@@ -261,7 +262,7 @@ public class ProtocolVersioningTest extends KraTestBase {
      * @param ver1 the first version
      * @param ver2 the second version
      */
-    private <T extends ProtocolSeparateAssociate> void assertNotVersioned(T ver1, T ver2) {
+    private <T extends SeparateAssociate> void assertNotVersioned(T ver1, T ver2) {
         Assert.assertThat(ver2.getSequenceNumber(), is(ver1.getSequenceNumber()));
         Assert.assertThat(ver2.getId(), equalTo(ver1.getId()));
     }

@@ -35,6 +35,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
+import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.award.notesandattachments.notes.AwardNotepad;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
@@ -55,6 +56,8 @@ import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -168,6 +171,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardAmountInfo> awardAmountInfos;
     private List<AwardCloseout> awardCloseoutItems;
     private List<AwardNotepad> awardNotepads;
+    private List<AwardAttachment> awardAttachments;
 
     private List<AwardFundingProposal> fundingProposals;
     
@@ -1081,6 +1085,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         hashMap.put("awardComments", getAwardComments());
         hashMap.put("archiveLocation", this.getArchiveLocation());
         hashMap.put("closeoutDate", this.getCloseoutDate());
+        hashMap.put("attachments", getAwardAttachments());
         return hashMap;
     }    
 
@@ -2536,6 +2541,53 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
         
         return comment;
     }
+    
+    /**
+     * Gets the attachmentsw. Cannot return {@code null}.
+     * @return the attachments
+     */
+    public List<AwardAttachment> getAwardAttachments() {
+        if (this.awardAttachments == null) {
+            this.awardAttachments = new ArrayList<AwardAttachment>();
+        }
+        
+        return this.awardAttachments;
+    }
+    
+    /**
+     * This method...
+     * @param attachments
+     */
+    public void setAttachments(List<AwardAttachment> attachments) {
+        this.awardAttachments = attachments;
+    }
+    
+    /**
+     * Gets an attachment.
+     * @param index the index
+     * @return an attachment personnel
+     */
+    public AwardAttachment getAwardAttachment(int index) {
+        return this.awardAttachments.get(index);
+    }
+    
+    /**
+     * add an attachment.
+     * @param attachment the attachment
+     * @throws IllegalArgumentException if attachment is null
+     */
+    public void addAttachment(AwardAttachment attachment) {
+         this.getAwardAttachments().add(attachment);
+         attachment.setAward(this);
+    }
+
+    /**
+     * remove an attachment personnel.
+     * @param attachmentPersonnel the attachment personnel
+     * @throws IllegalArgumentException if attachmentPersonnel is null
+     */
+    private void removeAttachment(AwardAttachment attachment) {
+        this.getAwardAttachments().remove(attachment);    }
 
     /**
      * This method indicates if the Awrd has been persisted

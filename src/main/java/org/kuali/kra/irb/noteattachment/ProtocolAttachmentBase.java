@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 
@@ -33,7 +34,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
     private Long id;
     private Long fileId;
 
-    private ProtocolAttachmentFile file;
+    private AttachmentFile file;
     private transient FormFile newFile;
     
     /**
@@ -60,7 +61,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
      * Gets the Protocol Attachment Base File.
      * @return the Protocol Attachment Base File
      */
-    public ProtocolAttachmentFile getFile() {
+    public AttachmentFile getFile() {
         return this.file;
     }
     
@@ -68,7 +69,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
      * Sets the Protocol Attachment Base File.
      * @param file the Protocol Attachment Base File
      */
-    public void setFile(ProtocolAttachmentFile file) {
+    public void setFile(AttachmentFile file) {
         this.file = file;
     }
     

@@ -82,7 +82,7 @@
 	</bean>
 	
 	<bean id="ProtocolAttachmentBase-fileId" parent="ProtocolAttachmentBase-fileId-parentBean" />
-	<bean id="ProtocolAttachmentBase-fileId-parentBean" abstract="true" parent="ProtocolAttachmentFile-id">
+	<bean id="ProtocolAttachmentBase-fileId-parentBean" abstract="true" parent="AttachmentFile-id">
 		<property name="name" value="fileId" />
 		<property name="label" value="File Name" />
 		<property name="shortLabel" value="File Name" />

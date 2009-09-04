@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolAction;
@@ -273,7 +274,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
-        final ProtocolAttachmentFile file = attachment.getFile();
+        final AttachmentFile file = attachment.getFile();
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
         
         return RESPONSE_ALREADY_HANDLED;

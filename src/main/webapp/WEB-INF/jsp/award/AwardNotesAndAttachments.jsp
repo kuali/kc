@@ -18,7 +18,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="awardNotesAndAttachments"
 	documentTypeName="AwardDocument"
-	renderMultipart="false"
+	renderMultipart="true"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
@@ -27,6 +27,7 @@
 <kra-a:awardComments/>
 <kra-a:awardCommentTemplate/>
 <kra-a:awardNotes/>
+<kra-a:awardAttachments/>
 
 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />

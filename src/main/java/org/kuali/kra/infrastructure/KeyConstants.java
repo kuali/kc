@@ -357,6 +357,9 @@ public final class KeyConstants {
     //Award Cost Share Confirmation Questions
     public static final String QUESTION_DELETE_COST_SHARE = "document.question.deleteCostShare.text";
     
+    //Award Attachment Confirmation Question
+    public static final String QUESTION_DELETE_ATTACHMENT = "document.question.deleteAttachment.text";
+    
     //Award Direc F and A Distribution
     public static final String ERROR_AWARD_FANDA_DISTRIB_START_DATE_REQUIRED = "error.awardDirectFandADistribution.start.date.required";
     public static final String ERROR_AWARD_FANDA_DISTRIB_END_DATE_REQUIRED = "error.awardDirectFandADistribution.end.date.required";

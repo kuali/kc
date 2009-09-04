@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.noteattachment;
+package org.kuali.kra.bo;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.kra.irb.ProtocolSeparateAssociate;
+import org.kuali.kra.SeparateAssociate;
 
 /**
  * Represents a Protocol Attachment File.
  */
-public class ProtocolAttachmentFile extends ProtocolSeparateAssociate {
+public class AttachmentFile extends SeparateAssociate {
     
     /** the max file name length. length={@value}*/
     public static final int MAX_FILE_NAME_LENGTH = 150;
@@ -42,7 +42,7 @@ public class ProtocolAttachmentFile extends ProtocolSeparateAssociate {
     /**
      * empty ctor to satisfy JavaBean convention.
      */
-    public ProtocolAttachmentFile() {
+    public AttachmentFile() {
         super();
     }
     
@@ -57,7 +57,7 @@ public class ProtocolAttachmentFile extends ProtocolSeparateAssociate {
      * @param type the type.
      * @param data the data.
      */
-    public ProtocolAttachmentFile(String name, String type, byte[] data) {
+    public AttachmentFile(String name, String type, byte[] data) {
         this.setName(name);
         this.setType(type);
         this.setData(data);
@@ -79,7 +79,7 @@ public class ProtocolAttachmentFile extends ProtocolSeparateAssociate {
      * @throws IllegalArgumentException if the formfile is null.
      * @throws CreateException if unable to create from FormFile.
      */
-    public static final ProtocolAttachmentFile createFromFormFile(FormFile formFile) {
+    public static final AttachmentFile createFromFormFile(FormFile formFile) {
         
         if (formFile == null) {
             throw new IllegalArgumentException("the formFile is null");
@@ -89,7 +89,7 @@ public class ProtocolAttachmentFile extends ProtocolSeparateAssociate {
         final String fType = removeFrontForLength(formFile.getContentType(), MAX_FILE_TYPE_LENGTH);
         
         try {
-            return new ProtocolAttachmentFile(fName, fType, formFile.getFileData());
+            return new AttachmentFile(fName, fType, formFile.getFileData());
         } catch (IOException e) {
             throw new CreateException(e);
         }
@@ -193,7 +193,7 @@ public class ProtocolAttachmentFile extends ProtocolSeparateAssociate {
         if (this.getClass() != obj.getClass()) {
             return false;
         }
-        ProtocolAttachmentFile other = (ProtocolAttachmentFile) obj;
+        AttachmentFile other = (AttachmentFile) obj;
         if (!Arrays.equals(this.getData(), other.getData())) {
             return false;
         }

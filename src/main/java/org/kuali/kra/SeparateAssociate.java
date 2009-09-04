@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb;
+package org.kuali.kra;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -26,7 +25,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * Eventually, this class should become more generic since it is not Protocol specific in any way other than name.
  */
-public abstract class ProtocolSeparateAssociate extends KraPersistableBusinessObjectBase implements SeparatelySequenceableAssociate {
+public abstract class SeparateAssociate extends KraPersistableBusinessObjectBase implements SeparatelySequenceableAssociate {
     private static final long serialVersionUID = -8385115657304261423L;
     private static final Integer INITIAL_VERSION = Integer.valueOf(0);
     
@@ -105,7 +104,7 @@ public abstract class ProtocolSeparateAssociate extends KraPersistableBusinessOb
         if (this.getClass() != obj.getClass()) {
             return false;
         }
-        ProtocolSeparateAssociate other = (ProtocolSeparateAssociate) obj;
+        SeparateAssociate other = (SeparateAssociate) obj;
         if (this.id == null) {
             if (other.id != null) {
                 return false;
