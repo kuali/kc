@@ -47,7 +47,7 @@ body {
 <%-- <input type="text" id = "researchAreas" name="researchAreas"   value="${ResearchAreasForm.researchAreas}"/> --%>
 
 <div id="treeDiv1">
-${AwardHierarchyForm.awardHierarchy}
+${TimeAndMoneyForm.awardHierarchy}
 </div>
 
 <script type="text/javascript">

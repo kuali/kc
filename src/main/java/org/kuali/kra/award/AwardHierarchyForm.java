@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award;
 
+import java.text.ParseException;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;
@@ -34,7 +36,7 @@ public class AwardHierarchyForm extends KualiForm {
     private String controlForAwardHierarchyView;
     
     
-    public String getAwardHierarchy() {
+    public String getAwardHierarchy() throws ParseException {
         awardHierarchy = "";
         if (StringUtils.isNotBlank(addRA) && addRA.equals("Y")) {
             if (getAwardHierarchyUIService().doesAwardHierarchyExist(awardNumber, deletedRas)) {
