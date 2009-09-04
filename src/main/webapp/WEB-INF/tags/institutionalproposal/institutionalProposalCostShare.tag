@@ -53,7 +53,7 @@
 	            </td>
 	            <td class="infoline">
 	            	<div align="center">
-            	    	<kul:htmlControlAttribute property="institutionalProposalCostShareBean.newInstitutionalProposalCostShare.costSharePercentage" attributeEntry="${institutionalProposalCostShareAttributes.costSharePercentage}"/>
+            	    	<kul:htmlControlAttribute property="institutionalProposalCostShareBean.newInstitutionalProposalCostShare.costSharePercentage" attributeEntry="${institutionalProposalCostShareAttributes.costSharePercentage}" styleClass="amount"/>
             	  	</div>
 	            </td>
 	            <td class="infoline">
@@ -63,7 +63,7 @@
 	            </td>
 	            <td class="infoline">
 	            	<div align="center">
-            	   	 	<kul:htmlControlAttribute property="institutionalProposalCostShareBean.newInstitutionalProposalCostShare.amount" attributeEntry="${institutionalProposalCostShareAttributes.amount}"/>
+            	   	 	<kul:htmlControlAttribute property="institutionalProposalCostShareBean.newInstitutionalProposalCostShare.amount" attributeEntry="${institutionalProposalCostShareAttributes.amount}" styleClass="amount"/>
             	  	</div>
 	            </td>
 	            <td class="infoline">
@@ -91,7 +91,7 @@
 	                </td>
 	                <td width="15%" valign="middle">                	
 					<div align="center">
-                  		<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalCostShares[${status.index}].costSharePercentage" attributeEntry="${institutionalProposalCostShareAttributes.costSharePercentage}"/> 
+                  		<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalCostShares[${status.index}].costSharePercentage" attributeEntry="${institutionalProposalCostShareAttributes.costSharePercentage}" styleClass="amount"/> 
 					</div>
 					</td>
 	                <td width="15%" valign="middle">                	
@@ -101,7 +101,7 @@
 					</td>
 	                <td width="15%" valign="middle">
 					<div align="center">
-	                	<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalCostShares[${status.index}].amount" attributeEntry="${institutionalProposalCostShareAttributes.amount}"/>
+	                	<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalCostShares[${status.index}].amount" attributeEntry="${institutionalProposalCostShareAttributes.amount}" styleClass="amount"/>
 					</div>
 	                </td>
 					<td width="10%">
