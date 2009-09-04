@@ -27,7 +27,6 @@
 
 <kul:tab defaultOpen="true" tabTitle="Questionnaire Details, Content & Use "
     tabErrorKey="document.newMaintainableObject.businessObject*">
-     
     <c:choose>
       <c:when test = "${KualiForm.document.newMaintainableObject.maintenanceAction eq 'Copy' and !(KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus eq 'F')}">
         <kra-questionnaire:questionnaireMaintCopy />      
