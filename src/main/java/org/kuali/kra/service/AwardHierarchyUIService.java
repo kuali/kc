@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.service;
 
+import java.text.ParseException;
+
 
 public interface AwardHierarchyUIService {
     /**
@@ -24,7 +26,7 @@ public interface AwardHierarchyUIService {
      * @param researchAreaCode
      * @return
      */
-    public String getSubAwardHierarchiesForTreeView(String awardNumber);
+    public String getSubAwardHierarchiesForTreeView(String awardNumber) throws ParseException;
 
     /**
      * 
@@ -35,7 +37,7 @@ public interface AwardHierarchyUIService {
      */
     public boolean doesAwardHierarchyExist(String researchAreaCode, String researchAreas);
     
-    public String getRootAwardNode(String awardNumber);
+    public String getRootAwardNode(String awardNumber) throws ParseException;
 
 
 }
