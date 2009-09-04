@@ -16,7 +16,7 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="readOnly" value="{KualiForm.readOnly}"  scope="request"/>
+<c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/>
 
 <kul:tab tabTitle="Question Manager" 
          defaultOpen="true" 
