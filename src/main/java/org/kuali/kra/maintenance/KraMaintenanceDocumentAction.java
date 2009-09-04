@@ -18,13 +18,16 @@ package org.kuali.kra.maintenance;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.kra.questionnaire.question.QuestionAuthorizationService;
 import org.kuali.kra.questionnaire.question.QuestionService;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
@@ -83,27 +86,38 @@ public class KraMaintenanceDocumentAction extends KualiMaintenanceDocumentAction
         if (form instanceof KraMaintenanceForm) {
             KraMaintenanceForm kraMaintenanceForm = (KraMaintenanceForm) form;
             MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) kraMaintenanceForm.getDocument();
+            
+            // Get most recent approved Question from DB
+            Question approvedQuestion = getQuestionService().getQuestionByRefId(request.getParameter(QUESTION_REF_ID));
+
             if (maintenanceDocumentBase.getNewMaintainableObject().getBusinessObject() instanceof Question 
-                    && StringUtils.equals(kraMaintenanceForm.getMethodToCall(), "edit")) { 
-                // Get most recent approved Question from DB
-                Question approvedQuestion = getQuestionService().getQuestionByRefId(request.getParameter(QUESTION_REF_ID));
+                    && StringUtils.equals(kraMaintenanceForm.getMethodToCall(), "edit")) {
+                if (!KraServiceLocator.getService(QuestionAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTION)
+                        || (ObjectUtils.equals(request.getParameter("readOnly"), "true"))) {
+                    // Set read only mode
+                    kraMaintenanceForm.setReadOnly(true);
+                } else {
+                    // Create new version of Question
+                    VersioningService versioningService = new VersioningServiceImpl();
+                    Question versionedQuestion = (Question) versioningService.createNewVersion(approvedQuestion);
 
-                // Create new version of Question
-                VersioningService versioningService = new VersioningServiceImpl();
-                Question versionedQuestion = (Question) versioningService.createNewVersion(approvedQuestion);
+                    // Generate new questionRefId
+                    Long questionRefId = KraServiceLocator.getService(SequenceAccessorService.class)
+                            .getNextAvailableSequenceNumber("SEQ_QUESTION_ID");
 
-                // Generate new questionRefId
-                Long questionRefId = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_QUESTION_ID");
-                        
-                // Set old question to new questionRefId (needed so Rice doesn't complain that the key changed between the old and new version)
-                QuestionMaintainableImpl oldMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase.getOldMaintainableObject();
-                Question oldQuestion = (Question) oldMaintainableObject.getBusinessObject();
-                oldQuestion.setQuestionRefId(questionRefId);
-                    
-                // Set new question to versionedQuestion along with the new questionRefId
-                QuestionMaintainableImpl newMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase.getNewMaintainableObject();
-                versionedQuestion.setQuestionRefId(questionRefId);
-                newMaintainableObject.setBusinessObject(versionedQuestion);
+                    // Set old question to new questionRefId (needed so Rice doesn't complain that the key changed between the old
+                    // and new version)
+                    QuestionMaintainableImpl oldMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
+                            .getOldMaintainableObject();
+                    Question oldQuestion = (Question) oldMaintainableObject.getBusinessObject();
+                    oldQuestion.setQuestionRefId(questionRefId);
+
+                    // Set new question to versionedQuestion along with the new questionRefId
+                    QuestionMaintainableImpl newMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
+                            .getNewMaintainableObject();
+                    versionedQuestion.setQuestionRefId(questionRefId);
+                    newMaintainableObject.setBusinessObject(versionedQuestion);
+                }
             }
         }
                 

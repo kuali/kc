@@ -35,7 +35,7 @@ public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAu
 
     protected Set<String> getDocumentActions(Document document) {
         Set<String> documentActions = new HashSet<String>();
-        
+
         if (KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTION)
                 && (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("I") 
                      || document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("S"))) {
@@ -45,10 +45,14 @@ public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAu
                documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
                documentActions.add(KNSConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
                documentActions.add(KNSConstants.KUALI_ACTION_CAN_ROUTE);
-           } else {
-               documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
+               if (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("S")) {
+                   documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
+               }
                documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
-               
+           } else if (KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.VIEW_QUESTION)) {
+               documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
+           } else {
+               throw new RuntimeException("Don't have permission to edit/view Questionnaire");
            }
         
         return documentActions;
