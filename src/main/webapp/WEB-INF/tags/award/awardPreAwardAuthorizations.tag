@@ -29,7 +29,7 @@
             	<th width="250" align="right" scope="row"><div align="right">Authorized Amount:</div></th>
             	<td>
             	  	<div align="left">
-            	  	 	<kul:htmlControlAttribute property="document.awardList[0].preAwardAuthorizedAmount" attributeEntry="${awardAttributes.preAwardAuthorizedAmount}"/>
+            	  	 	<kul:htmlControlAttribute property="document.awardList[0].preAwardAuthorizedAmount" attributeEntry="${awardAttributes.preAwardAuthorizedAmount}" styleClass="amount"/>
             	 	</div>
             	</td>
             </tr>
@@ -66,7 +66,7 @@
             	<th width="250" align="right" scope="row"><div align="right">Authorized Amount:</div></th>
             	<td>
             	  	<div align="left">
-            	  	 	<kul:htmlControlAttribute property="document.awardList[0].preAwardInstitutionalAuthorizedAmount" attributeEntry="${awardAttributes.preAwardInstitutionalAuthorizedAmount}"/>
+            	  	 	<kul:htmlControlAttribute property="document.awardList[0].preAwardInstitutionalAuthorizedAmount" attributeEntry="${awardAttributes.preAwardInstitutionalAuthorizedAmount}" styleClass="amount"/>
             	 	</div>
             	</td>
             </tr>
