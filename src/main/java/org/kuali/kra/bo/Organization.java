@@ -31,6 +31,7 @@ public class Organization extends KraPersistableBusinessObjectBase {
 	private String cableAddress;
 	private String cageNumber;
 	private Integer cognizantAuditor;
+	private Rolodex cognizantAuditorRolodex;
 	private String comGovEntityCode;
 	private String congressionalDistrict;
 	private Integer contactAddressId;
@@ -49,6 +50,7 @@ public class Organization extends KraPersistableBusinessObjectBase {
 	private String nsfInstitutionalCode;
 	private Integer numberOfEmployees;
 	private Integer onrResidentRep;
+	private Rolodex onrResidentRepRolodex;
 	private String organizationName;
 	private String phsAccount;
 	private Date scienceMisconductComplDate;
@@ -430,6 +432,27 @@ public class Organization extends KraPersistableBusinessObjectBase {
     public void setFedralEmployerId(String federalEmployerId) {
         this.federalEmployerId = federalEmployerId;        
     }
+
+
+    public Rolodex getCognizantAuditorRolodex() {
+        return cognizantAuditorRolodex;
+    }
+
+
+    public void setCognizantAuditorRolodex(Rolodex cognizantAuditorRolodex) {
+        this.cognizantAuditorRolodex = cognizantAuditorRolodex;
+    }
+
+
+    public Rolodex getOnrResidentRepRolodex() {
+        return onrResidentRepRolodex;
+    }
+
+
+    public void setOnrResidentRepRolodex(Rolodex onrResidentRepRolodex) {
+        this.onrResidentRepRolodex = onrResidentRepRolodex;
+    }
+
 
 
 }
