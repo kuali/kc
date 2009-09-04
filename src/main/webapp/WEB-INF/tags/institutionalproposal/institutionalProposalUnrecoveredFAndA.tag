@@ -54,7 +54,7 @@
 	            </td>
 	            <td class="infoline">
 	            	<div align="center">
-            	    	<kul:htmlControlAttribute property="institutionalProposalUnrecoveredFandABean.newInstitutionalProposalUnrecoveredFandA.applicableIndirectcostRate" attributeEntry="${institutionalProposalUnrecoveredFandAAttributes.applicableIndirectcostRate}"/>
+            	    	<kul:htmlControlAttribute property="institutionalProposalUnrecoveredFandABean.newInstitutionalProposalUnrecoveredFandA.applicableIndirectcostRate" attributeEntry="${institutionalProposalUnrecoveredFandAAttributes.applicableIndirectcostRate}" styleClass="amount"/>
             	  	</div>
 	            </td>
 	            <td class="infoline">
@@ -69,7 +69,7 @@
 	            </td>
 	            <td class="infoline">
 	            	<div align="center">
-            	   	 	<kul:htmlControlAttribute property="institutionalProposalUnrecoveredFandABean.newInstitutionalProposalUnrecoveredFandA.underrecoveryOfIndirectcost" attributeEntry="${institutionalProposalUnrecoveredFandAAttributes.underrecoveryOfIndirectcost}"/>
+            	   	 	<kul:htmlControlAttribute property="institutionalProposalUnrecoveredFandABean.newInstitutionalProposalUnrecoveredFandA.underrecoveryOfIndirectcost" attributeEntry="${institutionalProposalUnrecoveredFandAAttributes.underrecoveryOfIndirectcost}" styleClass="amount"/>
             	  	</div>
 	            </td>
 	            <td class="infoline">
@@ -96,7 +96,7 @@
 	                </td>
 	                <td width="15%" valign="middle">                	
 					<div align="center">
-                  		<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalUnrecoveredFandAs[${status.index}].applicableIndirectcostRate" attributeEntry="${institutionalProposalUnrecoveredFandAAttributes.applicableIndirectcostRate}"/> 
+                  		<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalUnrecoveredFandAs[${status.index}].applicableIndirectcostRate" attributeEntry="${institutionalProposalUnrecoveredFandAAttributes.applicableIndirectcostRate}" styleClass="amount"/> 
 					</div>
 					</td>
 	                <td width="15%" valign="middle">                	
@@ -111,7 +111,7 @@
 	                </td>
 	                <td width="15%" valign="middle">
 					<div align="center">
-	                	<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalUnrecoveredFandAs[${status.index}].underrecoveryOfIndirectcost" attributeEntry="${institutionalProposalUnrecoveredFandAAttributes.underrecoveryOfIndirectcost}"/>
+	                	<kul:htmlControlAttribute property="document.institutionalProposal.institutionalProposalUnrecoveredFandAs[${status.index}].underrecoveryOfIndirectcost" attributeEntry="${institutionalProposalUnrecoveredFandAAttributes.underrecoveryOfIndirectcost}" styleClass="amount"/>
 					</div>
 	                </td>
 					<td width="10%">
