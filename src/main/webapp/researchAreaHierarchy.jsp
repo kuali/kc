@@ -19,17 +19,6 @@
 	htmlFormAction="researchAreas" transactionalDocument="false"
 	headerTitle="Area Of Research" auditCount="0">
 
-	<script language="JavaScript" type="text/javascript"
-		src="dwr/engine.js"></script>
-
-	<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
-
-	<script language="JavaScript" type="text/javascript"
-		src="dwr/interface/CustomAttributeService.js"></script>
-
-	<script language="JavaScript" type="text/javascript"
-		src="dwr/interface/SponsorService.js"></script>
-
 
 	<script src="scripts/jquery/jquery.js"></script>
 	<link rel="stylesheet" href="css/jquery/screen.css" type="text/css" />
@@ -59,11 +48,14 @@
 
         <div id="globalbuttons" class="globalbuttons">
     <%-- <input type="submit" id="generate" value="Generate!" /> --%>
-    <input type="image" id="save" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" /> 
-    <a
+    <input type="image" id="save" src="kr/static/images/buttonsmall_save.gif" /> 
+	<input type="image" name="methodToCall.reload" id = "refresh" src="kr/static/images/buttonsmall_refresh.gif" class="globalbuttons" title="refresh" alt="refresh">
+	<input type="image" name="methodToCall.close" id = "close" src="kr/static/images/buttonsmall_close.gif" class="globalbuttons" title="close" alt="close">
+	<input type="image" name="methodToCall.cancel" id = "cancel" src="kr/static/images/buttonsmall_cancel.gif" class="globalbuttons" title="cancel" alt="cancel">
+  <%--  <a
                             href='portal.do?methodToCall=refresh&amp;docFormKey=88888888&amp;anchor=&amp;docNum='  title="cancel"><img
                             src="kr/static/images/buttonsmall_cancel.gif" class="tinybutton" alt="cancel" title="cancel"
-                            border="0" /></a>           
+                            border="0" /></a>  --%> 
                             <!--  still posted -->
           <%--   <input type="submit" name="save" id="generate" 
                 src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif"
@@ -73,7 +65,12 @@
         </div>
 
     <script type="text/javascript" src="scripts/researchArea.js"></script> 
+<script type="text/javascript">
+  $(document).ready(function(){
 
+      $("#listcontent00").show();
+  })
+</script>
 </kul:page>
     
  
