@@ -70,12 +70,12 @@
 	            </td>
 	            <td class="infoline">
 	            	<div align="right">
-            	    	<kul:htmlControlAttribute property="awardDirectFandADistributionBean.newAwardDirectFandADistribution.directCost" attributeEntry="${awardDirectFandADistributionAttributes.directCost}"/>
+            	    	<kul:htmlControlAttribute property="awardDirectFandADistributionBean.newAwardDirectFandADistribution.directCost" attributeEntry="${awardDirectFandADistributionAttributes.directCost}" styleClass="amount"/>
             	  	</div>
 	            </td>
 	            <td class="infoline">
 	            	<div align="right">
-            	    	<kul:htmlControlAttribute property="awardDirectFandADistributionBean.newAwardDirectFandADistribution.indirectCost" attributeEntry="${awardDirectFandADistributionAttributes.indirectCost}"/>
+            	    	<kul:htmlControlAttribute property="awardDirectFandADistributionBean.newAwardDirectFandADistribution.indirectCost" attributeEntry="${awardDirectFandADistributionAttributes.indirectCost}" styleClass="amount"/>
             	  	</div>
 	            </td>
 	           <td class="infoline">
@@ -102,12 +102,12 @@
 	                </td>
 	                <td width="20%" valign="right">                	
 					<div align="right">
-                  		<kul:htmlControlAttribute property="document.award.awardDirectFandADistributions[${status.index}].directCost" attributeEntry="${awardDirectFandADistributionAttributes.directCost}"/> 
+                  		<kul:htmlControlAttribute property="document.award.awardDirectFandADistributions[${status.index}].directCost" attributeEntry="${awardDirectFandADistributionAttributes.directCost}" styleClass="amount"/> 
 					</div>
 					</td>
 	                <td width="20%" valign="right">                	
 					<div align="right">
-                  		<kul:htmlControlAttribute property="document.award.awardDirectFandADistributions[${status.index}].indirectCost" attributeEntry="${awardDirectFandADistributionAttributes.indirectCost}"/> 
+                  		<kul:htmlControlAttribute property="document.award.awardDirectFandADistributions[${status.index}].indirectCost" attributeEntry="${awardDirectFandADistributionAttributes.indirectCost}" styleClass="amount"/> 
 					</div>
 					</td>
 					<td width="10%">

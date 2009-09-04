@@ -44,7 +44,7 @@
             	<th width="50" align="center" scope="row"><div align="right">Add:</div></th>
             	<td class="infoline">
             	  	<div align="center">
-            	  	 	<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.costSharePercentage" attributeEntry="${awardCostShareAttributes.costSharePercentage}"/>
+            	  	 	<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.costSharePercentage" attributeEntry="${awardCostShareAttributes.costSharePercentage}" styleClass="amount"/>
             	 	</div>
             	</td>
 	            <td class="infoline">
@@ -97,7 +97,7 @@
 					</th>
 	                <td width="10%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardCostShares[${status.index}].costSharePercentage" attributeEntry="${awardCostShareAttributes.costSharePercentage}"/>
+                		<kul:htmlControlAttribute property="document.awardList[0].awardCostShares[${status.index}].costSharePercentage" attributeEntry="${awardCostShareAttributes.costSharePercentage}" styleClass="amount"/>
 					</div>
 					</td>
 	                <td width="20%" valign="middle">
