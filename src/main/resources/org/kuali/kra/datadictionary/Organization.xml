@@ -30,6 +30,7 @@
         <ref bean="Organization-cableAddress" />
         <ref bean="Organization-cageNumber" />
         <ref bean="Organization-cognizantAuditor" />
+        <ref bean="Organization-cognizantAuditorRolodex.fullName"/>
         <ref bean="Organization-comGovEntityCode" />
         <ref bean="Organization-congressionalDistrict" />
         <ref bean="Organization-contactAddressId" />
@@ -50,6 +51,7 @@
         <ref bean="Organization-nsfInstitutionalCode" />
         <ref bean="Organization-numberOfEmployees" />
         <ref bean="Organization-onrResidentRep" />
+        <ref bean="Organization-onrResidentRepRolodex.fullName"/>
         <ref bean="Organization-organizationName" />
         <ref bean="Organization-phsAccount" />
         <ref bean="Organization-scienceMisconductComplDate" />
@@ -94,6 +96,42 @@
             </list>
           </property>
         </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="cognizantAuditorRolodex" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="cognizantAuditor"
+                    p:targetName="rolodexId" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="cognizantAuditorRolodex.fullName"
+                    p:targetName="fullName" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="onrResidentRepRolodex" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="onrResidentRep"
+                    p:targetName="rolodexId" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="onrResidentRepRolodex.fullName"
+                    p:targetName="fullName" />
+            </list>
+          </property>
+        </bean>        
       </list>
     </property>
   </bean>
@@ -228,6 +266,14 @@
     <property name="summary" value="Cognizant Auditor" />
     <property name="description" value="Cognizant Auditor" />
   </bean>
+  <bean id="Organization-cognizantAuditorRolodex.fullName" parent="Organization-cognizantAuditorRolodex.fullName-parentBean" />
+
+  <bean id="Organization-cognizantAuditorRolodex.fullName-parentBean" abstract="true" parent="Rolodex-fullName">
+    <property name="name" value="cognizantAuditorRolodex.fullName" />
+    <property name="label" value="Cognizant Auditor Full Name" />
+    <property name="shortLabel" value="Cognizant Auditor Full Name" />
+  </bean>
+  
   <bean id="Organization-comGovEntityCode" parent="Organization-comGovEntityCode-parentBean" />
 
   <bean id="Organization-comGovEntityCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -568,6 +614,14 @@
     <property name="summary" value="ONR Resident Rep" />
     <property name="description" value="ONR Resident Rep" />
   </bean>
+  <bean id="Organization-onrResidentRepRolodex.fullName" parent="Organization-onrResidentRepRolodex.fullName-parentBean" />
+
+  <bean id="Organization-onrResidentRepRolodex.fullName-parentBean" abstract="true" parent="Rolodex-fullName">
+    <property name="name" value="onrResidentRepRolodex.fullName" />
+    <property name="label" value="ONR Resident Rep Full Name" />
+    <property name="shortLabel" value="ONR Resident Rep Full Name" />
+  </bean>
+  
   <bean id="Organization-organizationName" parent="Organization-organizationName-parentBean" />
 
   <bean id="Organization-organizationName-parentBean" abstract="true" parent="AttributeDefinition">

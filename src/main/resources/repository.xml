@@ -1110,6 +1110,13 @@
 		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="contactAddressId"/>
 		</reference-descriptor>
+		<reference-descriptor name="cognizantAuditorRolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="cognizantAuditor"/>
+		</reference-descriptor>
+		<reference-descriptor name="onrResidentRepRolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="onrResidentRep"/>
+		</reference-descriptor>
+		
 
 <!--  temporary comment out
 		<collection-descriptor name="Proposal" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Proposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
