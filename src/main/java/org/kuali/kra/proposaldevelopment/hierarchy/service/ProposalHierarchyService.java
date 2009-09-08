@@ -20,7 +20,6 @@ import java.util.List;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
-import org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchyChild;
 
 /**
  * This class...
@@ -36,7 +35,7 @@ public interface ProposalHierarchyService {
      * @return the proposal number of the new hierarchy
      * @throws ProposalHierarchyException if the proposal is already a member of a hierarchy or does not exist
      */
-    public String createHierarchy(String initialChildProposalNumber) throws ProposalHierarchyException;
+    public String createHierarchy(DevelopmentProposal initialChild) throws ProposalHierarchyException;
 
     /**
      * This method links the proposal represented by newChildProposalNumber to the Hierarchy
@@ -58,15 +57,6 @@ public interface ProposalHierarchyService {
     public void removeFromHierarchy(String childProposalNumber) throws ProposalHierarchyException;
 
     /**
-     * This method returns the proposal number of the hierarchy to which childProposalNumber belongs
-     * 
-     * @param childProposalNumber the child proposal in question
-     * @return the proposal number of the hierarchy to which childProposalNumber belongs
-     * @throws ProposalHierarchyException if childProposalNumber is not a member of a hierarchy or does not exist
-     */
-    public String getHierarchyParent(String childProposalNumber) throws ProposalHierarchyException;
-
-    /**
      * This method synchronizes the contents of one child into its hierarchy.  If the child has changed since its last synchronization, the parent is reaggregated.
      * @param childProposalNumber the child proposal in question
      * @throws ProposalHierarchyException if childProposalNumber is not a member of a hierarchy or does not exist
@@ -79,16 +69,7 @@ public interface ProposalHierarchyService {
      * @throws ProposalHierarchyException if hierarchyProposalNumber is not a valid Hierarchy or does not exist
      */
     public void synchronizeAllChildren(String hierarchyProposalNumber) throws ProposalHierarchyException;
-    
-    /**
-     * This method aggregated the contents of the "parent" and children of the hierarchy into a single proposal
-     * @param hierarchyProposalNumber the hierarchy in question
-     * @throws ProposalHierarchyException if hierarchyProposalNumber is not a valid Hierarchy or does not exist
-     */
-    public void aggregateHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException;
-    
+
     public List<HierarchyProposalSummary> getProposalSummaries(String proposalNumber) throws ProposalHierarchyException;
 
-    public DevelopmentProposal getHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException;
-    public ProposalHierarchyChild getHierarchyChild(String childProposalNumber) throws ProposalHierarchyException;
 }

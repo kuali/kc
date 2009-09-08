@@ -20,6 +20,7 @@
 <c:set var="hierarchyParentStatus" value="${KualiForm.hierarchyParentStatus}"/>
 <c:set var="hierarchyChildStatus" value="${KualiForm.hierarchyChildStatus}"/>
 <c:set var="hierarchyNoneStatus" value="${KualiForm.hierarchyNoneStatus}"/>
+<c:set var="maintainProposalHierarchy" value="maintainProposalHierarchy" />
 
 
 <kul:tab tabTitle="Proposal Hierarchy" defaultOpen="false"  
@@ -29,6 +30,8 @@
     	<h3>
     		<span class="subhead-left">Proposal Hierarchy</span>
         </h3>
+
+		
 		<table cellpadding="0" cellspacing="0" summary="">
 			<tr>
 				<td>
@@ -49,7 +52,7 @@
 					</div>
 				</td>
 			</tr>
-			<tr>
+			<kra:section permission="${maintainProposalHierarchy}"><tr>
 				<td class="infoline" align="center">
 					<div align="center">
 						<c:choose>
@@ -90,7 +93,13 @@
 						</c:choose>
 					</div>
                 </td>
+			</tr></kra:section>
+			<c:if test="${not KualiForm.editingMode[maintainProposalHierarchy]}"><tr>
+				<td class="infoline" align="center">
+					<div align="center">You do not have permission to perform Proposal Hierarchy actions.</div>
+				</td>
 			</tr>
+			</c:if>
 		</table>
     </div> 
 </kul:tab>

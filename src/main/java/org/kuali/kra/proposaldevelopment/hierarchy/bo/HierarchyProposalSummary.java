@@ -55,6 +55,8 @@ public class HierarchyProposalSummary implements Serializable {
     private String sponsorProposalNumber;
     private Boolean subcontracts;
     private String agencyProgramCode;
+    
+    private Boolean synced;
 
     /**
      * Gets the proposalNumber attribute. 
@@ -377,6 +379,20 @@ public class HierarchyProposalSummary implements Serializable {
      */
     public void setAgencyProgramCode(String agencyProgramCode) {
         this.agencyProgramCode = agencyProgramCode;
+    }
+    /**
+     * Sets the synced attribute value.
+     * @param synced The synced to set.
+     */
+    public void setSynced(Boolean synced) {
+        this.synced = synced;
+    }
+    /**
+     * Gets the synced attribute. 
+     * @return Returns the synced.
+     */
+    public Boolean getSynced() {
+        return synced;
     }
     
 }
