@@ -90,8 +90,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private Date deadlineDate; 
     private Date createTimeStamp;
     private boolean deadlineType; 
-    private boolean mailBy; 
-    private boolean mailType; 
+    private String mailBy; 
+    private String mailType; 
     private String mailAccountNumber; 
     private String mailDescription;
     private Boolean subcontractFlag; 
@@ -626,19 +626,19 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.deadlineType = deadlineType;
     }
 
-    public boolean getMailBy() {
+    public String getMailBy() {
         return mailBy;
     }
 
-    public void setMailBy(boolean mailBy) {
+    public void setMailBy(String mailBy) {
         this.mailBy = mailBy;
     }
 
-    public boolean getMailType() {
+    public String getMailType() {
         return mailType;
     }
 
-    public void setMailType(boolean mailType) {
+    public void setMailType(String mailType) {
         this.mailType = mailType;
     }
 
