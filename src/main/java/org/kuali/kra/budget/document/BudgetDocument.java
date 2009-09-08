@@ -125,6 +125,9 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     @SuppressWarnings("unchecked")
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
+        for ( Budget curBudget : budgets ) {
+            managedLists.addAll(curBudget.buildListOfDeletionAwareLists());
+        }
         return managedLists;
     }
 
