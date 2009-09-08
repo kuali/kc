@@ -1766,6 +1766,19 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase {
     public int hierarchyChildHashCode() {
         final int prime = 31;
         int result = 1;
+        for (ProposalPerson person : proposalPersons) {
+            result = prime * result + person.hashCode();
+        }
+        for (Narrative narrative : narratives) {
+            result = prime * result + narrative.hierarchyHashCode();
+        }
+        for (PropScienceKeyword keyword : propScienceKeywords) {
+            result = prime * result + keyword.getScienceKeywordCode().hashCode();
+        }
+        for (ProposalSpecialReview review : propSpecialReviews) {
+            result = prime * result + review.hierarchyHashCode();
+        }
+        /*
         result = prime * result + ((investigators == null) ? 0 : investigators.hashCode());
         result = prime * result + ((narratives == null) ? 0 : narratives.hashCode());
         result = prime * result + ((principalInvestigator == null) ? 0 : principalInvestigator.hashCode());
@@ -1773,6 +1786,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase {
         result = prime * result + ((propSpecialReviews == null) ? 0 : propSpecialReviews.hashCode());
         result = prime * result + ((proposalNumber == null) ? 0 : proposalNumber.hashCode());
         result = prime * result + ((proposalPersons == null) ? 0 : proposalPersons.hashCode());
+        */
         return result;
     }
 
