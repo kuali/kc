@@ -22,18 +22,19 @@
     <bean id="ProposalLogMaintenanceDocument" parent="ProposalLogMaintenanceDocument-parentBean" />
     <bean id="ProposalLogMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
-        <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
+        <property name="maintainableClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMaintainableImpl" />
         <property name="maintainableSections" >
             <list>
                 <ref bean="ProposalLogMaintenanceDocument-EditProposalLog" />
             </list>
         </property>
-        <property name="lockingKeys" >
+        <property name="lockingKeys">
             <list>
                 <value>proposalNumber</value>
             </list>
         </property>
         
+        <property name="businessRulesClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMaintenanceDocumentRules" />
         <property name="documentTypeName" value="ProposalLogMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
     </bean>
@@ -51,6 +52,20 @@
                     p:name="proposalNumber"
                     p:required="false" />
                 <bean parent="MaintainableFieldDefinition"
+                    p:unconditionallyReadOnly="true"
+                    p:name="fiscalMonth"
+                    p:required="false" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:unconditionallyReadOnly="true"
+                    p:name="fiscalYear"
+                    p:required="false" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="proposalLogTypeCode"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="logStatus"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
                     p:name="proposalTypeCode"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
@@ -67,11 +82,6 @@
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="sponsorCode" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="sponsorName" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="logStatus"
-                    p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="comments" />
                 <bean parent="MaintainableFieldDefinition"

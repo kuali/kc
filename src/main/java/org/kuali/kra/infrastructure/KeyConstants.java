@@ -543,6 +543,8 @@ public final class KeyConstants {
     public static final String ERROR_PROPOSAL_UFNA_FISCAL_YEAR_FORMAT = "error.institutionalProposalUnrecoveredFandA.fiscalYear.IncorrectFormat";
     public static final String ERROR_PROPOSAL_UFNA_APPLICABLE_RATE_INVALID = "error.institutionalProposalUnrecoveredFandA.percentage.range";
 
+    // Institutional Proposal - Proposal Log
+    public static final String ERROR_MULTIPLE_PRINCIPAL_INVESTIGATORS = "error.proposalLog.multiplePi";
     
     //CommitteeSchedule Messages
     public static final String ERROR_COMMITTEESCHEDULE_STARTANDENDDATE_EQUAL = "error.committeeSchedule.start.and.endDate.equal";
