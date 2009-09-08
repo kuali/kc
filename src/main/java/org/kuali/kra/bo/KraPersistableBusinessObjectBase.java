@@ -41,6 +41,7 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
     @Override
     public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.beforeInsert(persistenceBroker);
+        this.setVersionNumber(new Long(0));
         setUpdateFields();
     }
 
