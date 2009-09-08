@@ -100,6 +100,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         fromQuestionnaire = new Questionnaire();
         questionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
         qnaireQuestions = new TypedArrayList(String.class);
+        // to prevent indexoutofbound exception when populate
         if (this.getDocument() != null) {
             Questionnaire qn = (Questionnaire) ((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject()
                     .getBusinessObject();
