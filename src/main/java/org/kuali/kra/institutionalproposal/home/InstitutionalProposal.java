@@ -168,6 +168,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         setTotalIndirectCostTotal(new KualiDecimal(0));
         newDescription = getDefaultNewDescription();
         setProposalSequenceStatus(VersionStatus.PENDING.toString());
+        setStatusCode(1);//default value for all IP's
     }
     
     /**
