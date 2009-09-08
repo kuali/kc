@@ -33,10 +33,18 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.OjbCollectionAware;
 import org.springmodules.orm.ojb.PersistenceBrokerCallback;
 
+/**
+ * 
+ * This class is to run the sql scripts to update research areas table.
+ */
 public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, ResearchAreaDao {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
             .getLog(ResearchAreaDaoOjb.class);
 
+    /**
+     * 
+     * @see org.kuali.kra.dao.ResearchAreaDao#runScripts(java.lang.String[])
+     */
     public void runScripts(final String[] sqls) {
 
         this.getPersistenceBrokerTemplate().execute(new PersistenceBrokerCallback() {
@@ -44,47 +52,20 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
                 Statement stmt = null;
                 try {
                     stmt = pb.serviceConnectionManager().getConnection().createStatement();
-                    String columns = "(RESEARCH_AREA_CODE,PARENT_RESEARCH_AREA_CODE,HAS_CHILDREN_FLAG, DESCRIPTION, update_timestamp, update_user)";
                     String userName = new UniversalUser(GlobalVariables.getUserSession().getPerson()).getPersonUserIdentifier();
                     for (int i = 0; i < sqls.length; i++) {
                         if (StringUtils.isNotBlank(sqls[i])) {
                             if (sqls[i].startsWith("remove((")) {
-                                String[] codes = StringUtils.substringBetween(sqls[i], "((", "))").split(";");
-                                String deleteStmt = "delete from research_areas where RESEARCH_AREA_CODE = '" + codes[0]
-                                        + "'";
-                                LOG.info("Save run scripts " + deleteStmt);
-                                stmt.addBatch(deleteStmt);
-                                String updateStmt = "update research_areas set HAS_CHILDREN_FLAG = 'N', UPDATE_USER = '" + userName+ "', UPDATE_TIMESTAMP = sysdate where RESEARCH_AREA_CODE = '" + codes[1]+"' and (select count(*) from research_areas where PARENT_RESEARCH_AREA_CODE = '" + codes[1]+"') = 0";
-                                LOG.info("Save run scripts " + updateStmt);
-                                stmt.addBatch(updateStmt);
-                                getNodesToDelete(codes[0], stmt);
+                                removeResearchAreas(stmt, sqls[i], userName);
                             }
                             else if (sqls[i].startsWith("insert R")) {
-                                String insertStmt = sqls[i].replace("insert R", "insert into research_areas " + columns);
-                                insertStmt = insertStmt.replace(", user)", ", '"
-                                        + userName + "')");
-                                LOG.info("Save run scripts " + insertStmt);
-                                stmt.addBatch(insertStmt);
-                                String data[] = sqls[i].split(",");
-                                String updateStmt = "update research_areas set HAS_CHILDREN_FLAG = 'Y', UPDATE_USER = '" + userName+ "', UPDATE_TIMESTAMP = sysdate  where RESEARCH_AREA_CODE = " + data[1];
-                                LOG.info("Save run scripts " + updateStmt);
-                                stmt.addBatch(updateStmt);
-                                
-                            }
-                            else if (sqls[i].startsWith("delete R")) {
-                                String parentCode = StringUtils.substringBetween(sqls[i], "RESEARCH_AREA_CODE = '","'");
-                                String deleteStmt = sqls[i].replace("delete R",
-                                        "delete from research_areas where RESEARCH_AREA_CODE = ");
-                                LOG.info("Save run scripts " + deleteStmt);
-                                stmt.addBatch(deleteStmt);
-                                String updateStmt = "update research_areas set HAS_CHILDREN_FLAG = 'N', UPDATE_USER = '" + userName+ "', UPDATE_TIMESTAMP = sysdate  where RESEARCH_AREA_CODE = '" + parentCode+"' and (select count(*) from research_areas where PARENT_RESEARCH_AREA_CODE = '" + parentCode+"') = 0";
-                                LOG.info("Save run scripts " + updateStmt);
-                                stmt.addBatch(updateStmt);
+                                insertResearchAreas(stmt, sqls[i], userName);
                             }
                             else if (sqls[i].startsWith("update R")) {
-                                String updateStmt = sqls[i].replace("update R", "update research_areas set UPDATE_USER = '" + userName+ "', UPDATE_TIMESTAMP = sysdate, DESCRIPTION =");
-                                LOG.info("Save run scripts " + updateStmt);
-                                stmt.addBatch(updateStmt);
+                                updateResearchAreas(stmt, sqls[i], userName);
+                            }                            
+                            else if (sqls[i].startsWith("delete R")) {
+                                deleteResearchAreas(stmt, sqls[i], userName);
                             }
                             else {
                                 LOG.info("unknown scripts " + i + sqls[i]);
@@ -92,8 +73,8 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
                         }
                     }
                     int[] updCnt = stmt.executeBatch();
-                     for (int i = 0; i < updCnt.length ; i++) {
-                    // // do we need to do check
+                    for (int i = 0; i < updCnt.length; i++) {
+                        // do we need to do check
                     }
                 }
                 catch (Exception e) {
@@ -116,6 +97,89 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
             }
         });
 
+    }
+
+    /*
+     * create proper sql scripts to delete research areas and its descendant nodes.
+     * Also check to update parent's has_children flag if needed. 
+     * This script is for 'remove' node.
+     */
+    private void removeResearchAreas(Statement stmt, String sql, String userName) {
+        try {
+            String[] codes = StringUtils.substringBetween(sql, "((", "))").split(";");
+            String deleteStmt = "delete from research_areas where RESEARCH_AREA_CODE = '" + codes[0] + "'";
+            LOG.info("Save run scripts " + deleteStmt);
+            stmt.addBatch(deleteStmt);
+            String updateStmt = "update research_areas set HAS_CHILDREN_FLAG = 'N', UPDATE_USER = '" + userName
+                    + "', UPDATE_TIMESTAMP = sysdate where RESEARCH_AREA_CODE = '" + codes[1]
+                    + "' and (select count(*) from research_areas where PARENT_RESEARCH_AREA_CODE = '" + codes[1] + "') = 0";
+            LOG.info("Save run scripts " + updateStmt);
+            stmt.addBatch(updateStmt);
+            getNodesToDelete(codes[0], stmt);
+        }
+        catch (Exception e) {
+            LOG.error("Exception " + e.getStackTrace());
+            GlobalVariables.getUserSession().addObject("raError", (Object) ("error delete nodes " + e.getMessage()));
+        }
+    }
+    
+    /*
+     * delete one research area but not its descendants.  This is used for cut/paste.
+     * The cut node will be deleted.
+     */
+    private void deleteResearchAreas(Statement stmt, String sql, String userName) {
+        try {
+            String parentCode = StringUtils.substringBetween(sql, "RESEARCH_AREA_CODE = '","'");
+            String deleteStmt = sql.replace("delete R",
+                    "delete from research_areas where RESEARCH_AREA_CODE = ");
+            LOG.info("Save run scripts " + deleteStmt);
+            stmt.addBatch(deleteStmt);
+            String updateStmt = "update research_areas set HAS_CHILDREN_FLAG = 'N', UPDATE_USER = '" + userName+ "', UPDATE_TIMESTAMP = sysdate  where RESEARCH_AREA_CODE = '" + parentCode+"' and (select count(*) from research_areas where PARENT_RESEARCH_AREA_CODE = '" + parentCode+"') = 0";
+            LOG.info("Save run scripts " + updateStmt);
+            stmt.addBatch(updateStmt);
+        }
+        catch (Exception e) {
+            LOG.error("Exception " + e.getStackTrace());
+            GlobalVariables.getUserSession().addObject("raError", (Object) ("error delete nodes " + e.getMessage()));
+        }
+    }
+
+    /*
+     * create insert research area statement based on data send in.
+     */
+    private void insertResearchAreas(Statement stmt, String sql, String userName) {
+        try {
+            String columns = "(RESEARCH_AREA_CODE,PARENT_RESEARCH_AREA_CODE,HAS_CHILDREN_FLAG, DESCRIPTION, update_timestamp, update_user)";
+            String insertStmt = sql.replace("insert R", "insert into research_areas " + columns);
+            insertStmt = insertStmt.replace(", user)", ", '" + userName + "')");
+            LOG.info("Save run scripts " + insertStmt);
+            stmt.addBatch(insertStmt);
+            String data[] = sql.split(",");
+            String updateStmt = "update research_areas set HAS_CHILDREN_FLAG = 'Y', UPDATE_USER = '" + userName
+                    + "', UPDATE_TIMESTAMP = sysdate  where RESEARCH_AREA_CODE = " + data[1];
+            LOG.info("Save run scripts " + updateStmt);
+            stmt.addBatch(updateStmt);
+        }
+        catch (Exception e) {
+            LOG.error("Exception " + e.getStackTrace());
+            GlobalVariables.getUserSession().addObject("raError", (Object) ("error insert nodes " + e.getMessage()));
+        }
+    }
+
+    /*
+     * create sql script to update 'description' of research areas.
+     */
+    private void updateResearchAreas(Statement stmt, String sql, String userName) {
+        try {
+            String updateStmt = sql.replace("update R", "update research_areas set UPDATE_USER = '" + userName
+                    + "', UPDATE_TIMESTAMP = sysdate, DESCRIPTION =");
+            LOG.info("Save run scripts " + updateStmt);
+            stmt.addBatch(updateStmt);
+        }
+        catch (Exception e) {
+            LOG.error("Exception " + e.getStackTrace());
+            GlobalVariables.getUserSession().addObject("raError", (Object) ("error update nodes " + e.getMessage()));
+        }
     }
 
     private void getNodesToDelete(String researchAreaCode, Statement stmt) {

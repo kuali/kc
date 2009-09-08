@@ -17,6 +17,12 @@ package org.kuali.kra.dao;
 
 public interface ResearchAreaDao {
 
+    /**
+     * 
+     * This method is used to run the sql scripts to update research areas table.
+     * This is called when 'save' or 'close' and confirm save is clicked in research area hierarchy maintenance.
+     * @param sqls
+     */
     public void runScripts(final String[] sqls);
 
 }
