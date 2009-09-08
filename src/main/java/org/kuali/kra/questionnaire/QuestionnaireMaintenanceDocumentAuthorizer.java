@@ -22,6 +22,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -32,31 +33,66 @@ public class QuestionnaireMaintenanceDocumentAuthorizer extends MaintenanceDocum
         super.getDocumentActions(document, user, documentActions);
         return getDocumentActions(document);
     }
+
     protected Set<String> getDocumentActions(Document document) {
         Set<String> documentActions = new HashSet<String>();
-        boolean hasModifyPermission = KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE);
+        boolean hasModifyPermission = KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(
+                PermissionConstants.MODIFY_QUESTIONNAIRE);
         boolean hasViewPermission = hasModifyPermission
-                || KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE);
-        
-        if (hasModifyPermission
-             && (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("I") 
-                  || document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("S"))) {
+                || KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(
+                        PermissionConstants.VIEW_QUESTIONNAIRE);
+        if (hasModifyPermission) {
+            documentActions = getDocumentActionsWithModifyPermission(document);
+        }
+        else if (hasViewPermission) {
+            documentActions = getDocumentActionsWithViewPermission(document);
+        }
+        else {
+            throw new RuntimeException("Don't have permission to edit/view Questionnaire");
+        }
+        return documentActions;
+    }
+
+    private Set<String> getDocumentActionsWithModifyPermission(Document document) {
+        Set<String> documentActions = new HashSet<String>();
+        if (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("I")
+                || document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("S")) {
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_EDIT);
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_ROUTE);
-        } else if (hasModifyPermission || hasViewPermission) {
+        }
+        else {
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
-            
-        } else {
-            throw new RuntimeException("Don't have permission to edit/view Questionnaire");            
         }
         return documentActions;
+
     }
-    
-    
-    
+
+    private Set<String> getDocumentActionsWithViewPermission(Document document) {
+        Set<String> documentActions = new HashSet<String>();
+        String maintAction = ((MaintenanceDocumentBase) document).getNewMaintainableObject().getMaintenanceAction();
+        if (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("I")) {
+            if (maintAction.equals(KNSConstants.MAINTENANCE_COPY_ACTION)) {
+                throw new RuntimeException("Don't have permission to Copy Questionnaire");
+            }
+            else if (maintAction.equals(KNSConstants.MAINTENANCE_NEW_ACTION)) {
+                throw new RuntimeException("Don't have permission to Create Questionnaire");
+            }
+            else {
+                documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
+                documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
+            }
+        }
+        else {
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
+        }
+        return documentActions;
+
+    }
+
 }
