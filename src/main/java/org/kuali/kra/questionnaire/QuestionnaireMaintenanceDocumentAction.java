@@ -320,7 +320,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
      */
     private String getChildren(QuestionnaireQuestion questionnaireQuestion, List<QuestionnaireQuestion> questionnaireQuestions) {
         String result = "";
-        List<QuestionnaireQuestion> remainQuestions = new ArrayList<QuestionnaireQuestion>();
         for (QuestionnaireQuestion question : questionnaireQuestions) {
             if (question.getParentQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())) {
                 result = result + "#q#" + getQnReturnfields(question);
