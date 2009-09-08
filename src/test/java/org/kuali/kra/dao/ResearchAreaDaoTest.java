@@ -100,7 +100,7 @@ public class ResearchAreaDaoTest extends KraTestBase {
         keyMap.put("researchAreaCode", "001.1");
         researchAreas = (List<ResearchArea>) bos.findMatching(ResearchArea.class, keyMap);
         assertTrue(researchAreas.size() == 1);
-        qScripts[0] = "remove((001))";
+        qScripts[0] = "remove((001;000001))";
         qScripts[1] = "";
         raDao.runScripts(qScripts);
         keyMap = new HashMap<String, String>();
