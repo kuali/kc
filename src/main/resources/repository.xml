@@ -2282,4 +2282,18 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />	
 	</class-descriptor>
+	
+	<!-- override kualimaintenancedocument primarily for questionnaire maintenance -->
+<class-descriptor class="org.kuali.kra.maintenance.KraMaintenanceDocument" table="KRNS_MAINT_DOC_T">
+    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="xmlDocumentContents" column="DOC_CNTNT" jdbc-type="CLOB"
+         conversion="org.kuali.rice.kns.util.OjbKualiEncryptDecryptFieldConversion" />
+	<reference-descriptor name="attachment" class-ref="org.kuali.rice.kns.bo.DocumentAttachment" auto-retrieve="true" auto-update="object"
+		auto-delete="object" proxy="true">
+		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
+</class-descriptor>
+	
 </descriptor-repository>
