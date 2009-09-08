@@ -24,18 +24,13 @@
                      //if (idstr <= loadedidx) {  // TODO : if this is not a new node
                      loadChildrenRA($("#itemText"+idstr).text(), tagId);
                      //}
-                    // var subul=this.getElementsByTagName("ul")[0]
-                    // if (subul.style.display=="block")
                     // alert("You've opened this Folder!" + idstr)
                     },
                 animated: "fast",
                 collapsed: true,
-                control: "#treecontrol"
-                    
+                control: "#treecontrol"                    
             
               });
-     // $("#browser").treeview();
-      // $("div#foo").append("Hello World!").css("color","red");
   /*
 	 * $.ajaxStart(function() { $("div#foo").text("Loading..."); });
 	 * $.ajaxComplete(function() { $("div#foo").text(""); });
@@ -65,18 +60,14 @@
       
     /*
 	 * A function to add sql statement to collection of sqlscripts, which will
-	 * be sent to server when 'save' is clicked'. 1900 lenth limit for query
+	 * be sent to server when 'save' is clicked'. 1900 length limit for query
 	 * string in ajax request.
 	 */
       function addSqlScripts(sqlcommand) {
           // alert("add "+sqlcommand+"-"+sqlScripts)
           if ((sqlScripts.length+sqlcommand.length) > 1900) {
-              // right now the query string also contains newquestionnaire
-				// data, so
-              // limit to 1700 for test now.
               sqls[sqlidx++] = sqlScripts;
               sqlScripts = "";
-              // alert(sqlidx);
           }
           sqlScripts = sqlScripts + "#;#" + sqlcommand;
      }
@@ -89,10 +80,7 @@
 		 */
        $("#add0").click(function(){    
        // click 'add' for 000001
-            //alert ("top add");
-         
-         
-                   var trNode = $(this).parents('tr:eq(0)');
+             var trNode = $(this).parents('tr:eq(0)');
             // alert(trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+"-"+trNode.children('td:eq(2)').children('input:eq(0)').attr("value"));
 
            if (trNode.children('td:eq(1)').children('input:eq(0)').attr("value") == "") {
@@ -532,21 +520,13 @@
               inputtag.appendTo(childUlTag);
               
                  listitem.appendTo(ulTag);
-                 //alert("ultagid "+ulTag.attr("id").substring(2));
                  // force to display folder icon
                  $("#researcharea").treeview({
                      add: listitem
-                 // toggle: function() {
-                 // var subul=this.getElementsByTagName("ul")[0]
-                 // if (subul.style.display=="block")
-                 // alert("You've opened this Folder!")
-                 // }
                  });
                 	 newNodes=newNodes+trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+";";
           
-                 // apend to sqlScripts
                  addSqlScripts(getInsertClause(trNode.children('td:eq(1)').children('input:eq(0)').attr("value"), getResearchAreaCode($("#"+id)), trNode.children('td:eq(2)').children('input:eq(0)').attr("value")));
-                 // alert("sqlScripts = "+sqlScripts);
               }  else {
                    alert ("Research Area Code already exist");
               }
@@ -562,11 +542,8 @@
     trTag1.appendTo(tblTag);
     trTag2.appendTo(tblTag);
     tag = $('<td class="subelementcontent"></td>').html(tblTag);
-    // alert("1"+tag.html());
     tag = $('<tr></tr>').html(tag);
-    // alert(tag.html());
     tag = $('<tbody></tbody>').html(tag);
-    // alert(tag.html());
     return tag;
   }
 
@@ -590,7 +567,6 @@
 	 */
   function setupListItem(code, name) {
               i++;
-              //alert(code+"-"+name);
               var id1 = "item"+i;
               var tagId = "listcontrol"+i;
               var divId = "listcontent"+i;
@@ -622,8 +598,6 @@
                               var idx = $(this).attr("id").substring(11);
                               tableTag(code +" : "+name, "item"+idx).appendTo($("#listcontent"+idx));
                               if ($("#"+divId).is(":hidden")) {
-                                  // alert(divId + " hidden");
-                                  // $("#listcontent"+idx).slideToggle(300);
                                   $("#listcontent"+idx).show();
                               }
                           } else {   
@@ -655,15 +629,9 @@
       var liNode = parentNode.parents('li:eq(0)');
       var ulNode = liNode.children('ul:eq(0)');
       var inputNodev;
-// alert (ulNode);
-// if (liNode.children('ul').size() > 0 ) {
-// inputNodev = ulNode.children('input:eq(0)');
-// }
-      
       
       // if (liNode.children('ul').size() == 0 ) {
       if (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 ) {
-          // alert(liNode.children('ul').size());
           $.ajax({
            url: 'researchAreaAjax.do',
            type: 'GET',
@@ -701,7 +669,6 @@
               var tagId = "listcontrol"+i;
               var divId = "listcontent"+i;
               
-             // if (i == 1) {
           var idDiv;
           if ( jQuery.browser.msie ) { 
                idDiv = $('<div></div>').attr("id","itemText"+i).html(item_text); // for
