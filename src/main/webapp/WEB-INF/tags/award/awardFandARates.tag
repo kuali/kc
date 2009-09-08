@@ -56,7 +56,7 @@
 	                
 	                <td width="9%" valign="middle" class="infoline">
 	                	<div align="center">
-	                	<kul:htmlControlAttribute property="newAwardFandaRate.applicableFandaRate" attributeEntry="${awardFandaRateAttributes.applicableFandaRate}" styleClass="amount"/>&nbsp;%
+	                	<kul:htmlControlAttribute property="newAwardFandaRate.applicableFandaRate" attributeEntry="${awardFandaRateAttributes.applicableFandaRate}" styleClass="amount"/>%
 	                	</div>
 					</td>
 	                <td width="9%" valign="middle" class="infoline">

@@ -41,7 +41,7 @@
 			</th>
 			<td>
 				<kul:htmlControlAttribute property="document.awardList[0].projectPersons[${awardContactRowStatusIndex}].academicYearEffort" 
-											attributeEntry="${awardPersonAttributes.academicYearEffort}" />
+											attributeEntry="${awardPersonAttributes.academicYearEffort}" styleClass="amount"/>
 			</td>
 		</tr>
 		<tr>
@@ -52,7 +52,7 @@
 			</th>
 			<td>
 				<kul:htmlControlAttribute property="document.awardList[0].projectPersons[${awardContactRowStatusIndex}].totalEffort" 
-											attributeEntry="${awardPersonAttributes.totalEffort}" />
+											attributeEntry="${awardPersonAttributes.totalEffort}" styleClass="amount"/>
 			</td>
 			<th class="infoline">
 				<div align="right">
@@ -61,7 +61,7 @@
 			</th>
 			<td>
 				<kul:htmlControlAttribute property="document.awardList[0].projectPersons[${awardContactRowStatusIndex}].summerEffort" 
-											attributeEntry="${awardPersonAttributes.summerEffort}" />
+											attributeEntry="${awardPersonAttributes.summerEffort}" styleClass="amount"/>
 			</td>
 		</tr>
 		<tr>
@@ -74,7 +74,7 @@
 			</th>
 			<td>
 				<kul:htmlControlAttribute property="document.awardList[0].projectPersons[${awardContactRowStatusIndex}].calendarYearEffort" 
-											attributeEntry="${awardPersonAttributes.calendarYearEffort}" />
+											attributeEntry="${awardPersonAttributes.calendarYearEffort}" styleClass="amount"/>
 			</td>
 		</tr>	            				
 	</table>
