@@ -150,20 +150,12 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
      * @return
     */
     private boolean processSponsorProgramBusinessRule(Document document) {
-        
-        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
         boolean valid = true;
-        String regExpr = "(\\d{2})(\\.)(\\d{3})[a-zA-z]?";
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
-        if (StringUtils.isNotBlank(institutionalProposalDocument.getInstitutionalProposal().getCfdaNumber())
-                && !(institutionalProposalDocument.getInstitutionalProposal().getCfdaNumber().matches(regExpr))
-                && GlobalVariables.getErrorMap().getMessages(DOCUMENT_ERROR_PATH + "." + INSTITUTIONAL_PROPOSAL_ERROR_PATH + ".cfdaNumber") == null) {
-            errorMap.putError(DOCUMENT_ERROR_PATH + "." + INSTITUTIONAL_PROPOSAL_ERROR_PATH + ".cfdaNumber", RiceKeyConstants.ERROR_INVALID_FORMAT, new String[] {
-                    dataDictionaryService.getAttributeErrorLabel(InstitutionalProposal.class, "cfdaNumber"),
-                    institutionalProposalDocument.getInstitutionalProposal().getCfdaNumber() });
-            valid = false;
-         }
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
+        String errorPath = "institutionalSponsorAndProgram";
+        InstitutionalProposalSponsorAndProgramRuleEvent event = new InstitutionalProposalSponsorAndProgramRuleEvent(errorPath, 
+                                                               institutionalProposalDocument, institutionalProposalDocument.getInstitutionalProposal());
+        valid &= new InstitutionalProposalSponsorAndProgramRuleImpl().processInstitutionalProposalSponsorAndProgramRules(event);
         return valid;
     }    
     
