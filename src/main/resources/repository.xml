@@ -2264,7 +2264,6 @@
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="proposalHashCode" column="PROPOSAL_HASH_CODE" jdbc-type="INTEGER" />
-		<field-descriptor name="proposalUpdateTimestamp" column="PROPOSAL_UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<collection-descriptor name="propScienceKeywords" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="hierarchyProposalNumber"/>
 		</collection-descriptor>

@@ -46,6 +46,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.service.KIMService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
@@ -1071,7 +1072,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward createHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
         String initialChildProposalNumber = pdForm.getDocument().getDevelopmentProposal().getProposalNumber();
-        getHierarchyHelper().createHierarchy(initialChildProposalNumber);
+        DevelopmentProposal initialChildProposal = pdForm.getDocument().getDevelopmentProposal();
+        getHierarchyHelper().createHierarchy(initialChildProposal);
+        //loadDocument(pdForm);
         return reload(mapping, form, request, response);
     }
     

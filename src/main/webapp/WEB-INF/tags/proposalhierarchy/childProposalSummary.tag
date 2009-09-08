@@ -15,7 +15,15 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="summaryIndex" required="true" %>
+<c:choose>
+	<c:when test="${KualiForm.hierarchyProposalSummaries[summaryIndex].synced}">
+		<c:set var="syncLabel" value="Synced" />
+	</c:when>
+	<c:otherwise>
+		<c:set var="syncLabel" value="Not synced" />
+	</c:otherwise>
+</c:choose>	
 <c:set var="proposalNumber" value="${KualiForm.hierarchyProposalSummaries[summaryIndex].proposalNumber}"/>
-<kul:tab tabTitle="Child (Proposal # ${proposalNumber})" defaultOpen="false" >
+<kul:tab tabTitle="Child (Proposal # ${proposalNumber})" tabDescription="${syncLabel}" defaultOpen="false" >
 	<kra-ph:proposalSummaryBody summaryIndex="${summaryIndex}" parentTabTitle="Child (Proposal # ${proposalNumber})" />
 </kul:tab>
