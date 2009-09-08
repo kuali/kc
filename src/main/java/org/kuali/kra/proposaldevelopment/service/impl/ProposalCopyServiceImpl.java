@@ -240,15 +240,24 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param destDoc
      */
     private void copyRequiredProperties(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument destDoc) {
+        DevelopmentProposal srcDevelopmentProposal = srcDoc.getDevelopmentProposal();
+        DevelopmentProposal destDevelopmentProposal = destDoc.getDevelopmentProposal();
+        
         destDoc.getDocumentHeader().setDocumentDescription(srcDoc.getDocumentHeader().getDocumentDescription());
-        destDoc.getDevelopmentProposal().setProposalTypeCode(srcDoc.getDevelopmentProposal().getProposalTypeCode());
-        destDoc.getDevelopmentProposal().setActivityTypeCode(srcDoc.getDevelopmentProposal().getActivityTypeCode());
-        destDoc.getDevelopmentProposal().setTitle(srcDoc.getDevelopmentProposal().getTitle());
-        destDoc.getDevelopmentProposal().setSponsorCode(srcDoc.getDevelopmentProposal().getSponsorCode());
-        destDoc.getDevelopmentProposal().setRequestedStartDateInitial(srcDoc.getDevelopmentProposal().getRequestedStartDateInitial());
-        destDoc.getDevelopmentProposal().setRequestedEndDateInitial(srcDoc.getDevelopmentProposal().getRequestedEndDateInitial());
-        if (isProposalTypeRenewalRevisionContinuation(srcDoc.getDevelopmentProposal().getProposalTypeCode())) {
-            destDoc.getDevelopmentProposal().setSponsorProposalNumber(srcDoc.getDevelopmentProposal().getSponsorProposalNumber());
+        destDevelopmentProposal.setProposalTypeCode(srcDevelopmentProposal.getProposalTypeCode());
+        destDevelopmentProposal.setActivityTypeCode(srcDevelopmentProposal.getActivityTypeCode());
+        destDevelopmentProposal.setTitle(srcDevelopmentProposal.getTitle());
+        destDevelopmentProposal.setSponsorCode(srcDevelopmentProposal.getSponsorCode());
+        destDevelopmentProposal.setRequestedStartDateInitial(srcDevelopmentProposal.getRequestedStartDateInitial());
+        destDevelopmentProposal.setRequestedEndDateInitial(srcDevelopmentProposal.getRequestedEndDateInitial());
+        
+        destDevelopmentProposal.getApplicantOrganization().setLocationName(srcDevelopmentProposal.getApplicantOrganization().getLocationName());
+        destDevelopmentProposal.getApplicantOrganization().setSiteNumber(srcDevelopmentProposal.getApplicantOrganization().getSiteNumber());
+        destDevelopmentProposal.getPerformingOrganization().setLocationName(srcDevelopmentProposal.getPerformingOrganization().getLocationName());
+        destDevelopmentProposal.getPerformingOrganization().setSiteNumber(srcDevelopmentProposal.getPerformingOrganization().getSiteNumber());
+        
+        if (isProposalTypeRenewalRevisionContinuation(srcDevelopmentProposal.getProposalTypeCode())) {
+            destDevelopmentProposal.setSponsorProposalNumber(srcDevelopmentProposal.getSponsorProposalNumber());
         }
     }
     
@@ -487,6 +496,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         // update applicant org Id, then refresh applicant org
         developmentProposal.setApplicantOrganizationId(developmentProposal.getOwnedByUnit().getOrganizationId());
         
+        developmentProposal.initializeOwnedByUnitNumber();
         // Remove the first Location because it's probably the old one.
         Integer firstProposalLocationSeqeunceNumber = null;
         ProposalSite firstSite = null;
