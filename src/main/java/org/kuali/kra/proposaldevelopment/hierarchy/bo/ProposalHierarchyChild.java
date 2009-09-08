@@ -36,7 +36,6 @@ public class ProposalHierarchyChild extends KraPersistableBusinessObjectBase {
     private String proposalNumber;
     private String hierarchyProposalNumber;
     private int proposalHashCode;
-    private Timestamp proposalUpdateTimestamp;
     private List<PropScienceKeyword> propScienceKeywords;
     private List<ProposalPerson> proposalPersons;
     private List<ProposalSpecialReview> propSpecialReviews;
@@ -103,27 +102,6 @@ public class ProposalHierarchyChild extends KraPersistableBusinessObjectBase {
     public void setProposalHashCode(int proposalHashCode) {
         this.proposalHashCode = proposalHashCode;
     }
-
-
-    /**
-     * Gets the proposalUpdateTimestamp attribute.
-     * 
-     * @return Returns the proposalUpdateTimestamp.
-     */
-    public Timestamp getProposalUpdateTimestamp() {
-        return proposalUpdateTimestamp;
-    }
-
-
-    /**
-     * Sets the proposalUpdateTimestamp attribute value.
-     * 
-     * @param proposalUpdateTimestamp The proposalUpdateTimestamp to set.
-     */
-    public void setProposalUpdateTimestamp(Timestamp proposalUpdateTimestamp) {
-        this.proposalUpdateTimestamp = proposalUpdateTimestamp;
-    }
-
 
     /**
      * Gets the propScienceKeywords attribute.

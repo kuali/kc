@@ -145,12 +145,12 @@
   
   <bean id="dbPlatform" factory-bean="dbPlatformFactory" factory-method="getPlatform" />-->
   
-  <bean id="platformAwareDaoJdbc" abstract="true" class="org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBasejDBC">
+  <bean id="platformAwareDaoJdbc" abstract="true" class="org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc">
     <property name="dataSource" ref="dataSource" />
     <property name="dbPlatform" ref="dbPlatform" />
   </bean>
 
-  <bean id="platformAwareDao" abstract="true" class="org.kuali.rice.kns.dao.ojb.PlatformAwareDaoBaseOjb">
+  <bean id="platformAwareDao" abstract="true" class="org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb">
     <property name="jcdAlias" value="knsApplicationDataSource" />
     <property name="dbPlatform" ref="dbPlatform" />
   </bean>
@@ -848,6 +848,11 @@
                 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ViewProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="viewProposal" />
+                </bean>
+                
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="maintainProposalHierarchy" />
+                    <property name="permission" value="MAINTAIN_PROPOSAL_HIERARCHY" />
                 </bean>
                 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
