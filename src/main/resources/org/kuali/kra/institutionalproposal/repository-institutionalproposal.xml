@@ -56,8 +56,8 @@
 		<field-descriptor name="numberOfCopies" column="NUMBER_OF_COPIES" jdbc-type="VARCHAR" />
 		<field-descriptor name="deadlineDate" column="DEADLINE_DATE" jdbc-type="DATE" />
 		<field-descriptor name="deadlineType" column="DEADLINE_TYPE" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-		<field-descriptor name="mailBy" column="MAIL_BY" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-		<field-descriptor name="mailType" column="MAIL_TYPE" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="mailBy" column="MAIL_BY" jdbc-type="VARCHAR" />
+		<field-descriptor name="mailType" column="MAIL_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="mailAccountNumber" column="MAIL_ACCOUNT_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="mailDescription" column="MAIL_DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="subcontractFlag" column="SUBCONTRACT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
