@@ -403,30 +403,140 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     }
     
     /**
-     * Determine if two Narratives have the same values.
-     * @see java.lang.Object#equals(java.lang.Object)
+     * @see java.lang.Object#hashCode()
      */
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj instanceof Narrative) {
-            Narrative other = (Narrative) obj;
-            return StringUtils.equals(this.proposalNumber, other.proposalNumber) &&
-                   this.moduleNumber.equals(other.moduleNumber) &&
-                   StringUtils.equals(this.comments, other.comments) &&
-                   StringUtils.equals(this.contactName, other.contactName) &&
-                   StringUtils.equals(this.emailAddress, other.emailAddress) &&
-                   this.moduleSequenceNumber.equals(other.moduleSequenceNumber) &&
-                   StringUtils.equals(this.moduleStatusCode, other.moduleStatusCode) &&
-                   StringUtils.equals(this.moduleTitle, other.moduleTitle) &&
-                   StringUtils.equals(this.narrativeTypeCode, other.narrativeTypeCode) &&
-                   StringUtils.equals(this.phoneNumber, other.phoneNumber) &&
-                   this.narrativeType.equals(other.narrativeType) &&
-                   this.narrativeStatus.equals(other.narrativeStatus) &&
-                   StringUtils.equals(this.fileName, other.fileName);
-        }
-        return false;
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((comments == null) ? 0 : comments.hashCode());
+        result = prime * result + ((contactName == null) ? 0 : contactName.hashCode());
+        result = prime * result + ((emailAddress == null) ? 0 : emailAddress.hashCode());
+        result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
+        result = prime * result + ((moduleNumber == null) ? 0 : moduleNumber.hashCode());
+        result = prime * result + ((moduleSequenceNumber == null) ? 0 : moduleSequenceNumber.hashCode());
+        result = prime * result + ((moduleStatusCode == null) ? 0 : moduleStatusCode.hashCode());
+        result = prime * result + ((moduleTitle == null) ? 0 : moduleTitle.hashCode());
+        result = prime * result + ((narrativeStatus == null) ? 0 : narrativeStatus.hashCode());
+        result = prime * result + ((narrativeType == null) ? 0 : narrativeType.hashCode());
+        result = prime * result + ((narrativeTypeCode == null) ? 0 : narrativeTypeCode.hashCode());
+        result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
+        result = prime * result + ((proposalNumber == null) ? 0 : proposalNumber.hashCode());
+        return result;
     }
 
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Narrative other = (Narrative) obj;
+        if (comments == null) {
+            if (other.comments != null)
+                return false;
+        }
+        else if (!comments.equals(other.comments))
+            return false;
+        if (contactName == null) {
+            if (other.contactName != null)
+                return false;
+        }
+        else if (!contactName.equals(other.contactName))
+            return false;
+        if (emailAddress == null) {
+            if (other.emailAddress != null)
+                return false;
+        }
+        else if (!emailAddress.equals(other.emailAddress))
+            return false;
+        if (fileName == null) {
+            if (other.fileName != null)
+                return false;
+        }
+        else if (!fileName.equals(other.fileName))
+            return false;
+        if (moduleNumber == null) {
+            if (other.moduleNumber != null)
+                return false;
+        }
+        else if (!moduleNumber.equals(other.moduleNumber))
+            return false;
+        if (moduleSequenceNumber == null) {
+            if (other.moduleSequenceNumber != null)
+                return false;
+        }
+        else if (!moduleSequenceNumber.equals(other.moduleSequenceNumber))
+            return false;
+        if (moduleStatusCode == null) {
+            if (other.moduleStatusCode != null)
+                return false;
+        }
+        else if (!moduleStatusCode.equals(other.moduleStatusCode))
+            return false;
+        if (moduleTitle == null) {
+            if (other.moduleTitle != null)
+                return false;
+        }
+        else if (!moduleTitle.equals(other.moduleTitle))
+            return false;
+        if (narrativeStatus == null) {
+            if (other.narrativeStatus != null)
+                return false;
+        }
+        else if (!narrativeStatus.equals(other.narrativeStatus))
+            return false;
+        if (narrativeType == null) {
+            if (other.narrativeType != null)
+                return false;
+        }
+        else if (!narrativeType.equals(other.narrativeType))
+            return false;
+        if (narrativeTypeCode == null) {
+            if (other.narrativeTypeCode != null)
+                return false;
+        }
+        else if (!narrativeTypeCode.equals(other.narrativeTypeCode))
+            return false;
+        if (phoneNumber == null) {
+            if (other.phoneNumber != null)
+                return false;
+        }
+        else if (!phoneNumber.equals(other.phoneNumber))
+            return false;
+        if (proposalNumber == null) {
+            if (other.proposalNumber != null)
+                return false;
+        }
+        else if (!proposalNumber.equals(other.proposalNumber))
+            return false;
+        return true;
+    }
+
+    public int hierarchyHashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((comments == null) ? 0 : comments.hashCode());
+        result = prime * result + ((contactName == null) ? 0 : contactName.hashCode());
+        result = prime * result + ((emailAddress == null) ? 0 : emailAddress.hashCode());
+        result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
+        result = prime * result + ((moduleNumber == null) ? 0 : moduleNumber.hashCode());
+        result = prime * result + ((moduleSequenceNumber == null) ? 0 : moduleSequenceNumber.hashCode());
+        result = prime * result + ((moduleStatusCode == null) ? 0 : moduleStatusCode.hashCode());
+        result = prime * result + ((moduleTitle == null) ? 0 : moduleTitle.hashCode());
+        result = prime * result + ((narrativeStatus == null) ? 0 : narrativeStatus.hashCode());
+        result = prime * result + ((narrativeType == null) ? 0 : narrativeType.hashCode());
+        result = prime * result + ((narrativeTypeCode == null) ? 0 : narrativeTypeCode.hashCode());
+        result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
+        return result;
+    }
+
+    
     public Timestamp getTimestampDisplay() {
         return timestampDisplay;
     }

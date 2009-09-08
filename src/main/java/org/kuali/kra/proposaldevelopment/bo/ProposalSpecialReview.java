@@ -270,6 +270,14 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase impl
         this.hiddenInHierarchy = hiddenInHierarchy;
     }
     
+    public int hierarchyHashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((specialReviewCode == null) ? 0 : specialReviewCode.hashCode());
+        result = prime * result + ((specialReviewNumber == null) ? 0 : specialReviewNumber.hashCode());
+        return result;
+    }
+
     /**
      * @see java.lang.Object#hashCode()
      */
