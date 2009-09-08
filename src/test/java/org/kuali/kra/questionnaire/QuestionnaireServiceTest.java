@@ -26,6 +26,7 @@ import java.util.Map;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -34,7 +35,67 @@ public class QuestionnaireServiceTest {
     
         private Mockery context = new JUnit4Mockery();
 
+        @Test
+        public void testCopyQuestionnaire() {
 
+            final QuestionnaireServiceImpl questionnaireService = new QuestionnaireServiceImpl();
+            Questionnaire srcQuestionnaire = setupSourceQuestionnaire();
+            Questionnaire destQuestionnaire = new Questionnaire();
+            questionnaireService.copyQuestionnaire(srcQuestionnaire, destQuestionnaire);
+            List<QuestionnaireQuestion> questionnaireQuestions = destQuestionnaire.getQuestionnaireQuestions();
+            List<QuestionnaireUsage> questionnaireUsages = destQuestionnaire.getQuestionnaireUsages();
+            assertTrue(questionnaireQuestions.size() == 2);
+            Assert.assertNull(questionnaireQuestions.get(0).getQuestionnaireRefIdFk());            
+            Assert.assertNull(questionnaireQuestions.get(1).getQuestionnaireRefIdFk());            
+            Assert.assertNull(questionnaireQuestions.get(0).getQuestionnaireQuestionsId());            
+            Assert.assertNull(questionnaireQuestions.get(1).getQuestionnaireQuestionsId());            
+            assertEquals(questionnaireQuestions.get(0).getQuestionRefIdFk(), (Object)1000L);
+
+            
+            assertTrue(questionnaireUsages.size() == 2);
+            assertEquals(questionnaireUsages.get(0).getQuestionnaireLabel(), "test 1");
+            assertEquals(questionnaireUsages.get(1).getQuestionnaireLabel(), "test 2");
+            Assert.assertNull(questionnaireUsages.get(0).getQuestionnaireRefIdFk());            
+            Assert.assertNull(questionnaireUsages.get(1).getQuestionnaireRefIdFk());            
+            Assert.assertNull(questionnaireUsages.get(0).getQuestionnaireUsageId());            
+            Assert.assertNull(questionnaireUsages.get(1).getQuestionnaireUsageId());            
+        }
+
+        private Questionnaire setupSourceQuestionnaire() {
+            Questionnaire questionnaire = new Questionnaire();
+            questionnaire.setQuestionnaireRefId(1L);
+            
+            QuestionnaireQuestion questionnaireQuestion = new QuestionnaireQuestion();
+            questionnaireQuestion.setQuestionnaireRefIdFk(1L);
+            questionnaireQuestion.setQuestionRefIdFk(1L);
+            questionnaireQuestion.setQuestionnaireQuestionsId(1L);
+            questionnaireQuestion.setQuestionRefIdFk(1000L);
+            questionnaire.getQuestionnaireQuestions().add(questionnaireQuestion);
+            
+            questionnaireQuestion = new QuestionnaireQuestion();
+            questionnaireQuestion.setQuestionnaireRefIdFk(1L);
+            questionnaireQuestion.setQuestionRefIdFk(2L);
+            questionnaireQuestion.setQuestionnaireQuestionsId(2L);
+            questionnaireQuestion.setQuestionRefIdFk(1001L);
+            questionnaire.getQuestionnaireQuestions().add(questionnaireQuestion);
+            
+            QuestionnaireUsage questionnaireUsage = new QuestionnaireUsage();
+            questionnaireUsage.setQuestionnaireRefIdFk(1L);
+            questionnaireUsage.setQuestionnaireLabel("test 1");
+            questionnaireUsage.setQuestionnaireUsageId(1L);
+            questionnaire.getQuestionnaireUsages().add(questionnaireUsage);
+            
+            questionnaireUsage = new QuestionnaireUsage();
+            questionnaireUsage.setQuestionnaireRefIdFk(1L);
+            questionnaireUsage.setQuestionnaireLabel("test 2");
+            questionnaireUsage.setQuestionnaireUsageId(2L);
+            questionnaire.getQuestionnaireUsages().add(questionnaireUsage);
+            
+            
+            return questionnaire;
+            
+        }
+        
         @Test
         public void testValidCodes() {
 

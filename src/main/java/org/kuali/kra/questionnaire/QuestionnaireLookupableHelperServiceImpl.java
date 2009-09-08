@@ -22,24 +22,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.bo.Person;
-import org.kuali.kra.bo.UnitAclEntry;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.service.PersonService;
-import org.kuali.kra.service.UnitAuthorizationService;
-import org.kuali.kra.kim.service.impl.PersonServiceImpl;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.LookupService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -48,9 +44,11 @@ import edu.emory.mathcs.backport.java.util.Collections;
 public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private DocumentService documentService;
     private QuestionnaireAuthorizationService questionnaireAuthorizationService;
+    private List<Integer> qnMaintDocs;
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        qnMaintDocs = getQuestionnaireDocs();
         List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
         List<Questionnaire> activeQuestionnaires = new ArrayList<Questionnaire>();
         List<Integer> questionnaireIds = new ArrayList<Integer>();
@@ -133,7 +131,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
             }
         }
         else {
-            if (hasModifyPermission) {
+            if (hasModifyPermission && !isQuestionnaireBeingEdited(questionnaire)) {
                 htmlDataList.add(htmlData);
             }
             if (hasViewPermission) {
@@ -161,27 +159,51 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         return user.getPersonUserIdentifier();
     }
 
-    // private boolean hasRole(String roleName) {
-    // Map<String, Object> fieldValues = new HashMap<String, Object>();
-    // fieldValues.put("name", roleName);
-    // KimRole role = (KimRole) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(KimRole.class,
-    // fieldValues);
-    //
-    // Person person = ((PersonServiceImpl) KraServiceLocator.getService("personService")).getPersonByName(getUserName());
-    // String personId = person.getPersonId();
-    //
-    // fieldValues = new HashMap<String, Object>();
-    // fieldValues.put("personId", personId);
-    // fieldValues.put("active", true);
-    // Collection<UnitAclEntry> aclList = KraServiceLocator.getService(BusinessObjectService.class).findMatching(
-    // UnitAclEntry.class, fieldValues);
-    // for (UnitAclEntry acl : aclList) {
-    // if (acl.getRoleId().equals(role.getId())) {
-    // return true;
-    // }
-    // }
-    // return false;
-    // }
+    /*
+     * This method is to get questionnaire doc that are saved but not approved yet list.
+     * If questionnaire is being edited, then it should not allow 'edit' until this is approved or cancelled 
+     * Call this method one time for each search because this list maybe changed from search to search.
+     */
+    private List<Integer> getQuestionnaireDocs() {
+        List<Integer> questionnaireDocs = new ArrayList<Integer>();
+        Map fieldValues = new HashMap();
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+
+        //fieldValues.put("name", "QuestionnaireMaintenanceDocument");
+        fieldValues.put("name", getMaintenanceDocumentDictionaryService().getDocumentTypeName(Questionnaire.class));
+        DocumentType docType = ((List<DocumentType>) getBusinessObjectService().findMatching(DocumentType.class, fieldValues))
+                .get(0);
+        fieldValues.clear();
+        fieldValues.put("documentTypeId", docType.getDocumentTypeId());
+        fieldValues.put("docRouteStatus", KEWConstants.ROUTE_HEADER_SAVED_CD);
+        List<DocumentRouteHeaderValue> docHeaders = (List<DocumentRouteHeaderValue>) getBusinessObjectService().findMatching(
+                DocumentRouteHeaderValue.class, fieldValues);
+        try {
+            for (DocumentRouteHeaderValue docHeader : docHeaders) {
+                MaintenanceDocumentBase doc = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(docHeader
+                        .getRouteHeaderId().toString());
+                questionnaireDocs.add(((Questionnaire) doc.getNewMaintainableObject().getBusinessObject()).getQuestionnaireId());
+            }
+        }
+        catch (Exception e) {
+
+        }
+        return questionnaireDocs;
+    }
+
+    /*
+     * check if the active questionnaire is being edited.
+     */
+    private boolean isQuestionnaireBeingEdited(Questionnaire questionnaire) {
+        boolean isEditing = false;
+        for (Integer questionnaireId : qnMaintDocs) {
+            if (questionnaireId.equals(questionnaire.getQuestionnaireId())) {
+                isEditing = true;
+                break;
+            }
+        }
+        return isEditing;
+    }
 
     public void setQuestionnaireAuthorizationService(QuestionnaireAuthorizationService questionnaireAuthorizationService) {
         this.questionnaireAuthorizationService = questionnaireAuthorizationService;
