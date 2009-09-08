@@ -18,6 +18,8 @@ package org.kuali.kra.web.struts.action;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.replace;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.logging.BufferedLogger.debug;
+import static org.kuali.kra.logging.BufferedLogger.error;
 import static org.kuali.rice.kns.util.KNSConstants.CONFIRMATION_QUESTION;
 import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
@@ -72,7 +74,6 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -90,8 +91,6 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-import static org.kuali.kra.logging.BufferedLogger.*;
 
 // TODO : should move this class to org.kuali.kra.web.struts.action
 public class KraTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
@@ -550,12 +549,12 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     private ActionForward saveCommitteeDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {    
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        //get any possible changes to to adHocWorkgroups
+        //get any possible changes to adHocWorkgroups
         refreshAdHocRoutingWorkgroupLookups(request, kualiDocumentFormBase);
         Document document = kualiDocumentFormBase.getDocument();
 
         // save in workflow
-        ((KraDocumentServiceImpl)KraServiceLocator.getService("kraDocumentService")).saveDocument(document);
+        getKraDocumentService().saveDocument(document);
 
         GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
         kualiDocumentFormBase.setAnnotation("");
@@ -688,7 +687,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         }
         KualiWorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
         
-        // re-retrieve the document using the current user's session - remove the system user from the WorkflowDcument object
         if ( workflowDocument != doc.getDocumentHeader().getWorkflowDocument() ) {
             LOG.warn( "Workflow document changed via canOpen check" );
             doc.getDocumentHeader().setWorkflowDocument(workflowDocument);
@@ -696,13 +694,11 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         kualiDocumentFormBase.setDocument(doc);
         KualiWorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
         kualiDocumentFormBase.setDocTypeName(workflowDoc.getDocumentType());
-        // KualiDocumentFormBase.populate() needs this updated in the session
         String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(workflowDoc.getRouteHeaderId()).getDocumentContent();
         if (doc instanceof CommitteeDocument && !workflowDoc.getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
             Committee committee = (Committee)populateCommitteeFromXmlDocumentContents(content);
             ((CommitteeDocument)doc).getCommitteeList().add(committee);
             committee.setCommitteeDocument((CommitteeDocument) doc);
-            //populateCommitteeFromXmlDocumentContents(content);
         }
         if (!getDocumentHelperService().getDocumentAuthorizer(doc).canOpen(doc, GlobalVariables.getUserSession().getPerson())) {
             throw buildAuthorizationException("open", doc);
@@ -710,7 +706,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
     }
 
-    
+    /*
+     * Add a hook to route committee
+     */
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -737,19 +735,19 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
 
         Document document = kualiDocumentFormBase.getDocument();
 
-        ((KraDocumentServiceImpl)KraServiceLocator.getService("kraDocumentService")).routeDocument(document, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+        getKraDocumentService().routeDocument(document, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
         GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL);
         kualiDocumentFormBase.setAnnotation("");
 
-//        GlobalVariables.getUserSession().addObject(DocumentAuthorizerBase.USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY,Boolean.TRUE);
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
 
-    
+    /*
+     * This is pretty much a copy from MaintenanceDocumentBase's populateMaintainablesFromXmlDocumentContents.
+     * Since committee is not persisted in DB util it is approved, so we need this to populate
+     * Committee and its collection from xmldoccontent
+     */
     private PersistableBusinessObject populateCommitteeFromXmlDocumentContents(String xmlDocumentContents) {
-        // get a hold of the parsed xml document, then read the classname,
-        // then instantiate one to two instances depending on content
-        // then populate those instances
         PersistableBusinessObject bo = null;
         if (!StringUtils.isEmpty(xmlDocumentContents)) {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -788,5 +786,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         return businessObject;
     }
 
+    private KraDocumentServiceImpl getKraDocumentService() {
+        return ((KraDocumentServiceImpl)KraServiceLocator.getService("kraDocumentService"));
+               
+    }
     
 }
