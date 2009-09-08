@@ -17,24 +17,17 @@ package org.kuali.kra.institutionalproposal.rules;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
-import org.kuali.kra.award.commitments.AwardCostShareRuleImpl;
+
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalCustomDataAuditRule;
-import org.kuali.kra.institutionalproposal.InstitutionalProposalGraduateStudentAuditRule;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataRuleImpl;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalSaveCustomDataRuleEvent;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
 
 /**
  * This class...
@@ -137,8 +130,6 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         
         //retval &= super.processRunAuditBusinessRules(document);
         retval &= new InstitutionalProposalCustomDataAuditRule().processRunAuditBusinessRules(document);
-        retval &= new InstitutionalProposalGraduateStudentAuditRule().processRunAuditBusinessRules(document);
-
         return retval;
         
         
