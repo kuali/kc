@@ -31,11 +31,14 @@ import org.kuali.kra.committee.service.CommitteeAuthorizationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -61,7 +64,14 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 
-        return getUniqueList(super.getSearchResults(setupCritMaps(fieldValues)));
+        List<Committee> activeCommittees =  (List<Committee>)getUniqueList(super.getSearchResults(setupCritMaps(fieldValues)));
+        Long matchingResultsCount = new Long(activeCommittees.size());
+        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Question.class);
+        if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
+            return new CollectionIncomplete(activeCommittees, new Long(0));
+        } else {
+            return new CollectionIncomplete(trimResult(activeCommittees, searchResultsLimit), matchingResultsCount);
+        }
     }
 
     /*
@@ -151,8 +161,6 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     }
 
     private boolean isCommitteeBeingEdited(Committee committee) {
-        // TODO : inject businessobjectservice
-        // this is a tedious way to find whether a committee is beiing edited.
         boolean isEdited = false;
         for (CommitteeDocument doc : getCommitteeDocuments()) {
             try {
@@ -204,6 +212,22 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     private String getUserName() {
         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
          return user.getPersonUserIdentifier();
+    }
+
+    /**
+     * This method trims the search result.
+     * @param result, the result set to be trimmed
+     * @param trimSize, the maximum size of the trimmed result set
+     * @return the trimmed result set
+     */
+    private List<Committee> trimResult(List<Committee> result, Integer trimSize) {
+        List<Committee> trimedResult = new ArrayList<Committee>();
+        for (Committee committee : result) {
+            if (trimedResult.size()< trimSize) {
+                trimedResult.add(committee); 
+            }
+        }
+        return trimedResult;
     }
 
 }
