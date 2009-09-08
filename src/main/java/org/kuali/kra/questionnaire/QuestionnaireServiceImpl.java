@@ -66,7 +66,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     public void copyQuestionnaire(Questionnaire src, Questionnaire dest) {
         copyQuestionnaireLists(src, dest);
-        businessObjectService.save(dest);
+        //businessObjectService.save(dest);
 
     }
 
@@ -78,6 +78,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     private void copyQuestionnaireLists(Questionnaire src, Questionnaire dest) {
         dest.setQuestionnaireQuestions(src.getQuestionnaireQuestions());
         dest.setQuestionnaireUsages(src.getQuestionnaireUsages());
+        dest.setQuestionnaireId(null);
         for (QuestionnaireQuestion question : dest.getQuestionnaireQuestions()) {
             question.setQuestionnaireRefIdFk(null);
             question.setQuestionnaireQuestionsId(null);

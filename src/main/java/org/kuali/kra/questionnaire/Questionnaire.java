@@ -134,6 +134,12 @@ public class Questionnaire extends KraPersistableBusinessObjectBase implements C
     public void setQuestionnaireUsages(List<QuestionnaireUsage> questionnaireUsages) {
         this.questionnaireUsages = questionnaireUsages;
     }
+    public QuestionnaireUsage getQuestionnaireUsage(int index) {
+        while (getQuestionnaireUsages().size() <= index) {
+            getQuestionnaireUsages().add(new QuestionnaireUsage());
+        }
+        return getQuestionnaireUsages().get(index);
+    }
 
     /** {@inheritDoc} */
     @Override 
