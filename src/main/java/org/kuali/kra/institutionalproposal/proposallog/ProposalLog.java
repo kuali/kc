@@ -18,10 +18,13 @@ package org.kuali.kra.institutionalproposal.proposallog;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 
 public class ProposalLog extends KraPersistableBusinessObjectBase { 
@@ -29,7 +32,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = 1L;
 
     private String proposalNumber; 
-    private Integer proposalTypeCode; 
+    private String proposalTypeCode; 
     private String title; 
     private String piId; 
     private Integer rolodexId;
@@ -37,14 +40,20 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
     private String leadUnit; 
     private String sponsorCode; 
     private String sponsorName; 
-    private boolean logStatus; 
+    private String logStatus; 
     private String comments; 
     private Date deadlineDate; 
+    private String proposalLogTypeCode;
+    private Integer fiscalMonth;
+    private Integer fiscalYear;
     
     private ProposalType proposalType;
     private Person person;
     private Rolodex rolodex;
     private Sponsor sponsor;
+    private ProposalLogStatus proposalLogStatus;
+    private Unit unit;
+    private ProposalLogType proposalLogType;
     
     public ProposalLog() { 
 
@@ -58,11 +67,11 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
         this.proposalNumber = proposalNumber;
     }
 
-    public Integer getProposalTypeCode() {
+    public String getProposalTypeCode() {
         return proposalTypeCode;
     }
 
-    public void setProposalTypeCode(Integer proposalTypeCode) {
+    public void setProposalTypeCode(String proposalTypeCode) {
         this.proposalTypeCode = proposalTypeCode;
     }
 
@@ -122,11 +131,11 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
         this.sponsorName = sponsorName;
     }
 
-    public boolean getLogStatus() {
+    public String getLogStatus() {
         return logStatus;
     }
 
-    public void setLogStatus(boolean logStatus) {
+    public void setLogStatus(String logStatus) {
         this.logStatus = logStatus;
     }
 
@@ -144,6 +153,14 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
 
     public void setDeadlineDate(Date deadlineDate) {
         this.deadlineDate = deadlineDate;
+    }
+    
+    public String getProposalLogTypeCode() {
+        return proposalLogTypeCode;
+    }
+
+    public void setProposalLogTypeCode(String proposalLogTypeCode) {
+        this.proposalLogTypeCode = proposalLogTypeCode;
     }
     
     public ProposalType getProposalType() {
@@ -177,6 +194,81 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
     public void setSponsor(Sponsor sponsor) {
         this.sponsor = sponsor;
     }
+    
+    public ProposalLogStatus getProposalLogStatus() {
+        return proposalLogStatus;
+    }
+
+    public void setProposalLogStatus(ProposalLogStatus proposalLogStatus) {
+        this.proposalLogStatus = proposalLogStatus;
+    }
+    
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+    
+    public ProposalLogType getProposalLogType() {
+        return proposalLogType;
+    }
+
+    public void setProposalLogType(ProposalLogType proposalLogType) {
+        this.proposalLogType = proposalLogType;
+    }
+    
+    public Integer getFiscalMonth() {
+        return fiscalMonth;
+    }
+
+    public void setFiscalMonth(Integer fiscalMonth) {
+        this.fiscalMonth = fiscalMonth;
+    }
+
+    public Integer getFiscalYear() {
+        return fiscalYear;
+    }
+
+    public void setFiscalYear(Integer fiscalYear) {
+        this.fiscalYear = fiscalYear;
+    }
+    
+    /* These methods are for manipulating data before object persistence. */
+    
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
+     */
+    @Override
+    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.beforeInsert(persistenceBroker);
+        setSponsorName();
+    }
+
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
+     */
+    @Override
+    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.beforeUpdate(persistenceBroker);
+        setSponsorName();
+    }
+    
+    /*
+     * This method will set the Sponsor name field from the Sponsor.
+     * We need to denormalize this data before persistence for Coeus database compatibility.
+     */
+    private void setSponsorName() {
+        if (this.getSponsorCode() != null) {
+            this.refreshReferenceObject("sponsor");
+            if (this.getSponsor() != null) {
+                this.setSponsorName(this.getSponsor().getSponsorName());
+            }
+        }
+    }
+    
+    /* End data persistence methods. */
 
     /** {@inheritDoc} */
     @Override 
@@ -184,6 +276,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("proposalNumber", this.getProposalNumber());
         hashMap.put("proposalTypeCode", this.getProposalTypeCode());
+        hashMap.put("proposalLogTypeCode", this.getProposalLogTypeCode());
         hashMap.put("title", this.getTitle());
         hashMap.put("piId", this.getPiId());
         hashMap.put("piName", this.getPiName());
