@@ -18,9 +18,10 @@ package org.kuali.kra.baseline;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import org.kuali.kra.award.htmlunitwebtest.AwardDirectFandADistributionWebTest;
 import org.kuali.kra.award.htmlunitwebtest.AwardHomeWebTest;
-import org.kuali.kra.budget.web.BudgetSummaryWebTest;
 import org.kuali.kra.committee.web.CommitteeWebTest;
+import org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalInstitutionalProposalWebTest;
 import org.kuali.kra.irb.web.ProtocolRequiredFieldsWebTest;
 import org.kuali.kra.test.OjbRepositoryMappingTest;
 
@@ -38,7 +39,9 @@ import org.kuali.kra.test.OjbRepositoryMappingTest;
 //                BudgetSummaryWebTest.class,
                 CommitteeWebTest.class,
                 OjbRepositoryMappingTest.class,
-                ProtocolRequiredFieldsWebTest.class
+                ProtocolRequiredFieldsWebTest.class,
+                InstitutionalProposalInstitutionalProposalWebTest.class
+                //AwardDirectFandADistributionWebTest.class//Tests for Time & Money Document
                 }
              )
 public class PrecommitTestSuite {
