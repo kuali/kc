@@ -77,7 +77,7 @@
 				</td>				
                 <td align="left" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="paymentScheduleBean.newAwardPaymentSchedule.amount" attributeEntry="${awardPaymentScheduleAttributes.amount}" />
+                	<kul:htmlControlAttribute property="paymentScheduleBean.newAwardPaymentSchedule.amount" attributeEntry="${awardPaymentScheduleAttributes.amount}" styleClass="amount"/>
                 	</div>
 				</td>
 				<td class="infoline">
@@ -127,7 +127,7 @@
 				  </td>
                   <td align="left" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].paymentScheduleItems[${status.index}].amount" attributeEntry="${awardPaymentScheduleAttributes.amount}" />
+                		<kul:htmlControlAttribute property="document.awardList[0].paymentScheduleItems[${status.index}].amount" attributeEntry="${awardPaymentScheduleAttributes.amount}" styleClass="amount"/>
 					</div>
 				  </td>
 				  
