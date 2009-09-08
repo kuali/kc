@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.document;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,8 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioni
 import org.kuali.kra.service.InstitutionalProposalCustomAttributeService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.FormatException;
 
 /**
  * 
@@ -176,6 +179,14 @@ public class InstitutionalProposalDocument extends ResearchDocumentBase {
     
     private InstitutionalProposalVersioningService getInstitutionalProposalVersioningService() {
         return KraServiceLocator.getService(InstitutionalProposalVersioningService.class);
+    }
+    
+    @Override
+    public void prepareForSave() {
+        super.prepareForSave();
+        if (ObjectUtils.isNull(this.getVersionNumber())) {
+            this.setVersionNumber(new Long(0));
+        }
     }
     
 }
