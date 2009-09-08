@@ -521,6 +521,7 @@ public final class KeyConstants {
     
     //Institutional Proposal Validation
     public static final String ERROR_EMPTY_GRADUATE_STUDENT_DATA = "error.empty.graduate.student.data";
+    public static final String ERROR_INVALID_SPONSOR_CODE = "error.invalid.sponsorCode";
     
     //Institutional Proposal Cost Share
     public static final String ERROR_IP_FISCAL_YEAR_RANGE = "error.institutionalProposalCostShare.fiscalYear.range";
