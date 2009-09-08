@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.hierarchy;
 import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.rice.kns.util.ErrorMessage;
@@ -30,21 +31,56 @@ public class ProposalHierarcyActionHelper {
     ProposalHierarchyService hierarchyService;
     
     public void syncAllHierarchy(String hierarchyProposalNumber) {
-        GlobalVariables.getMessageList().add("message.hierarchy.notImplemented");
+        // TODO rules
+        try {
+            getProposalHierarchyService().synchronizeAllChildren(hierarchyProposalNumber);
+            GlobalVariables.getMessageList().add("message.hierarchy.syncSuccessful");
+
+        }
+        catch (Exception e) {
+            GlobalVariables.getMessageList().add("message.hierarchy.syncFailed", e.getMessage());
+        }
     }
     
     public void removeFromHierarchy(String childProposalNumber) {
-        GlobalVariables.getMessageList().add("message.hierarchy.notImplemented");
+        // TODO rules
+        try {
+            getProposalHierarchyService().removeFromHierarchy(childProposalNumber);
+            GlobalVariables.getMessageList().add("message.hierarchy.removeSuccessful");
+
+        }
+        catch (Exception e) {
+            GlobalVariables.getMessageList().add("message.hierarchy.removeFailed", e.getMessage());
+        }
     }
     
     public void syncToHierarchyParent(String childProposalNumber) {
-        GlobalVariables.getMessageList().add("message.hierarchy.notImplemented");
+        // TODO rules
+        try {
+            getProposalHierarchyService().synchronizeChild(childProposalNumber);
+            GlobalVariables.getMessageList().add("message.hierarchy.syncSuccessful");
+
+        }
+        catch (Exception e) {
+            GlobalVariables.getMessageList().add("message.hierarchy.syncFailed", e.getMessage());
+        }
     }
-    
+/*    
     public void createHierarchy(String initialChildProposalNumber) {
         // TODO rules
         try {
             String parentProposalNumber = getProposalHierarchyService().createHierarchy(initialChildProposalNumber);
+            GlobalVariables.getMessageList().add("message.hierarchy.createSuccessful", parentProposalNumber);
+        }
+        catch (Exception e) {
+            GlobalVariables.getMessageList().add(new ErrorMessage("error.hierarchy.createFailure", e.getMessage()));
+        }
+    }
+*/    
+    public void createHierarchy(DevelopmentProposal initialChildProposal) {
+        // TODO rules
+        try {
+            String parentProposalNumber = getProposalHierarchyService().createHierarchy(initialChildProposal);
             GlobalVariables.getMessageList().add("message.hierarchy.createSuccessful", parentProposalNumber);
         }
         catch (Exception e) {
