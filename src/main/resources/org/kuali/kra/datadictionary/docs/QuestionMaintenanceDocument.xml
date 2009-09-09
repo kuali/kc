@@ -62,11 +62,9 @@
                 <bean parent="MaintainableFieldDefinition"
                     p:name="questionRefId" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="questionId"
-                    p:required="true" />
+                    p:name="questionId" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="sequenceNumber"
-                    p:required="true" />
+                    p:name="sequenceNumber" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="question"
                     p:required="true" />

@@ -25,7 +25,7 @@ public class QuestionExplanation extends KraPersistableBusinessObjectBase implem
     
     private static final long serialVersionUID = 1L;
 
-    private Integer questionExplanationId; 
+    private Long questionExplanationId; 
     private Long questionRefIdFk; 
     private String explanationType; 
     private String explanation; 
@@ -36,11 +36,11 @@ public class QuestionExplanation extends KraPersistableBusinessObjectBase implem
 
     } 
     
-    public Integer getQuestionExplanationId() {
+    public Long getQuestionExplanationId() {
         return questionExplanationId;
     }
 
-    public void setQuestionExplanationId(Integer questionExplanationId) {
+    public void setQuestionExplanationId(Long questionExplanationId) {
         this.questionExplanationId = questionExplanationId;
     }
 
