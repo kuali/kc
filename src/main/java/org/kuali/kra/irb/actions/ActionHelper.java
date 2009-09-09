@@ -81,6 +81,11 @@ public class ActionHelper implements Serializable {
     private ProtocolAmendmentBean protocolRenewAmendmentBean;
     private ProtocolDeleteBean protocolDeleteBean;
     
+    /*
+     * Identifies the protocol "document" to print.
+     */
+    private String printTag;
+    
     /**
      * Constructs an ActionHelper.
      * @param form the protocol form
@@ -366,5 +371,13 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanDeleteProtocolAmendRenew() {
         return canDeleteProtocolAmendRenew;
+    }
+    
+    public void setPrintTag(String printTag) {
+        this.printTag = printTag;
+    }
+    
+    public String getPrintTag() {
+        return printTag;
     }
 }
