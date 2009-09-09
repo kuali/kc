@@ -52,7 +52,8 @@
 					</div>
 				</td>
 			</tr>
-			<kra:section permission="${maintainProposalHierarchy}"><tr>
+			<%--kra:section permission="${maintainProposalHierarchy}"--%>
+			<tr>
 				<td class="infoline" align="center">
 					<div align="center">
 						<c:choose>
@@ -93,13 +94,14 @@
 						</c:choose>
 					</div>
                 </td>
-			</tr></kra:section>
+			</tr>
+			<%--/kra:section>
 			<c:if test="${not KualiForm.editingMode[maintainProposalHierarchy]}"><tr>
 				<td class="infoline" align="center">
 					<div align="center">You do not have permission to perform Proposal Hierarchy actions.</div>
 				</td>
 			</tr>
-			</c:if>
+			</c:if--%>
 		</table>
     </div> 
 </kul:tab>
