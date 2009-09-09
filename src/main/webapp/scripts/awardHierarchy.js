@@ -175,7 +175,7 @@
         type: 'GET',
         dataType: 'html',
         cache: false,
-        data:'awardNumber=&addRA=N&document.rootAwardNumber=' + $("#document\\.rootAwardNumber").attr("value") + '&controlForAwardHierarchyView=' + $("#controlForAwardHierarchyView").attr("value"),
+        data:'awardNumber=&addRA=N&document.rootAwardNumber=' + $("#document\\.rootAwardNumber").attr("value"),
         async:false,
         timeout: 1000,
         error: function(){
@@ -200,45 +200,15 @@
 			// separate lines. IE7 is fine
           // But 'IE7 has problem with 'span'
           
-          var original_item_text = item_text; 
-          var text1 = item_text.substring(0,item_text.indexOf("%3A")).trim();
-          item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
-          var text2 = item_text.substring(0,item_text.indexOf("%3A")).trim();
-          
-          item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
-          var text3 = item_text.substring(0,item_text.indexOf("%3A")).trim();
-          
-          item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
-          var text4 = item_text.substring(0,item_text.indexOf("%3A")).trim();
-          
-          item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
-          var text5 = item_text.substring(0,item_text.indexOf("%3A")).trim();
-          
-          item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
-          var text6 = item_text.substring(0,item_text.indexOf("%3A")).trim();
-          
-          var racodereverse = revString(racode);
-          var index = racodereverse.indexOf("0");
-          var i2 = 12 - index;
-          var racode2 = racode.substring(i2,12);
-          
-          
-          var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+text1+"</td><td width: 108px>"
-			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-			+text5+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-			+text6+"</td></tr></tbody></table>";
-          
           var idDiv;
           if ( jQuery.browser.msie ) { 
-               idDiv = $('<div></div>').attr("id","itemText"+i).html(abc); // for
+               idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
 																					// later
 																					// change
 																					// RA
 																					// description
           } else {
-               idDiv = $('<span>').attr("id","itemText"+i).html(abc); // for
+               idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
 																			// later
 																			// change
 																			// RA
@@ -282,6 +252,76 @@
     	      retStr += str.substr(j,1); 
     	   } 
     	   return retStr; 
+    }
+    
+    function builduUi(item_text, racode) { 
+    	var original_item_text = item_text; 
+        var text1 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text2 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text3 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text4 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text5 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text6 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text7 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text8 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text9 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text10 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        
+        var racodereverse = revString(racode);
+        var index = racodereverse.indexOf("0");
+        var i2 = 12 - index;
+        var racode2 = racode.substring(i2,12);
+        
+        if($("#controlForAwardHierarchyView").attr("value") == 0){
+      	  var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
+	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
+	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
+	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"
+	  			+"</td></tr></tbody></table>";
+        }
+        if($("#controlForAwardHierarchyView").attr("value") == 1){
+        	var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td rowspan=\"3\" style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+text1+"</td>"
+        		+"<td rowspan=\"2\" style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
+	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/></td>"
+	  			+"<td  rowspan=\"2\" style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"	  			
+	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td  rowspan=\"2\" style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
+	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: right; width: 100px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);\">  Distributed: </td>" 
+	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">" +text9 + "</td>"
+	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">" +text10 + "</td></tr><tr>"
+	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: right; width: 100px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);\">  Distributable: </td>"
+	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">" +text7 + "</td>"
+	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">" +text8 + "</td></tr><tr>"
+	  			+"<td >&nbsp;</td><td >&nbsp;</td><td >&nbsp;</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: right; width: 100px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);\">  Total: </td>"
+	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">" +text5 + "</td>"
+	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">" +text6 + "</td>"
+	  			+"</tr></tbody></table>";
+        }
+        if($("#controlForAwardHierarchyView").attr("value") == 2){
+      	var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
+	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
+	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
+	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
+	  			+text5+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
+	  			+text6+"</td></tr></tbody></table>";
+        } 
+ 	   return abc; 
     }
     
     /*
@@ -701,49 +741,17 @@
               var id = "item"+i;
               var tagId = "listcontrol"+i;
               var divId = "listcontent"+i;
-
-              
-              var original_item_text = item_text; 
-              var text1 = item_text.substring(0,item_text.indexOf("%3A")).trim();
-              item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
-              var text2 = item_text.substring(0,item_text.indexOf("%3A")).trim();
-              
-              item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
-              var text3 = item_text.substring(0,item_text.indexOf("%3A")).trim();
-              
-              item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
-              var text4 = item_text.substring(0,item_text.indexOf("%3A")).trim();
-              
-              item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
-              var text5 = item_text.substring(0,item_text.indexOf("%3A")).trim();
-              
-              item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
-              var text6 = item_text.substring(0,item_text.indexOf("%3A")).trim();
-              
-              var racodereverse = revString(racode);
-              var index = racodereverse.indexOf("0");
-              var i2 = 12 - index;
-              var racode2 = racode.substring(i2,12);
-              
-              var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+text1+"</td><td width: 108px>"
-				  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=" +text2 + " style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-				  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=" +text3 + " style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-				  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=" +text4 + " style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-				  			+text5+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-				  			+text6+"</td></tr></tbody></table>";
-							
-              
               
              // if (i == 1) {
           var idDiv;
           if ( jQuery.browser.msie ) { 
-               idDiv = $('<div></div>').attr("id","itemText"+i).html(abc); // for
+               idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
 																					// later
 																					// change
 																					// RA
 																					// description
           } else {    
-               idDiv = $('<span>').attr("id","itemText"+i).html(abc); // for
+               idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
 																			// later
 																			// change
 																			// RA
@@ -754,26 +762,7 @@
          	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
               			"racode" + i).attr("name", "racode" + i).attr("value",racode);
                  	   hidracode.appendTo(detDiv);
-              tag.click(
-                      function()
-                      {
-                          // alert ("click "+tagId);
-                          $(".hierarchydetail:not(#"+divId+")").slideUp(300);
-                          var idx = $(this).attr("id").substring(11);
-                          if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
-                              tableTag(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                              if ($("#listcontent"+idx).is(":hidden")) {
-                              // alert(divId + " hidden0");
-                                   $("#listcontent"+idx).show();
-                               // $("#listcontent"+idx).slideToggle(300);
-                              }
-                          } else {
-                              $("#listcontent"+idx).slideToggle(300);
-                          }   
-
-                          loadChildrenRA(item_text, tagId);
-                      }
-                  );
+                 	   
               var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
               // tag.appendTo(listitem);
               // listitem.appendTo('ul#file31');

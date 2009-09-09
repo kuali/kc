@@ -32,6 +32,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
     private KualiDecimal obliDistributableAmount;
     private String leadUnitName;
     private String principalInvestigatorName;
+    private String accountNumber;
     
     public AwardHierarchyNode() {
         anticipatedTotalAmount = new KualiDecimal("0");
@@ -208,6 +209,22 @@ public class AwardHierarchyNode extends AwardHierarchy {
      */
     public void setPrincipalInvestigatorName(String principalInvestigatorName) {
         this.principalInvestigatorName = principalInvestigatorName;
+    }
+
+    /**
+     * Gets the accountNumber attribute. 
+     * @return Returns the accountNumber.
+     */
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    /**
+     * Sets the accountNumber attribute value.
+     * @param accountNumber The accountNumber to set.
+     */
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
     
 }
