@@ -75,7 +75,7 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends ResearchDocu
             BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);       
             List<Sponsor> sponsors = (List<Sponsor>)businessObjectService.findMatching(Sponsor.class, fieldValues);
             if(sponsors.size() == 0) {
-                this.reportError("document.institutionalProposal.sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
+                this.reportError("document.institutionalProposalList[0].sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
                 valid = false;
             }
         }
