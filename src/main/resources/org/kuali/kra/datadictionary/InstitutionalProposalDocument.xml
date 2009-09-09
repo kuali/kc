@@ -24,7 +24,7 @@
             <bean parent="HelpDefinition" p:parameterNamespace="x" p:parameterName="x" p:parameterDetailType="x"/>
           </property>
           
-          <property name="headerTabDisplayName" value="Institute Proposal"/>
+          <property name="headerTabDisplayName" value="Institutional Proposal"/>
           <property name="headerTabNavigateTo" value="home"/>
         </bean>
         <bean parent="HeaderNavigation">
