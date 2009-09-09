@@ -44,6 +44,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -158,7 +159,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#removeFromHierarchy(java.lang.String)
      */
     public void removeFromHierarchy(DevelopmentProposal childProposal) throws ProposalHierarchyException {
-        // TODO Revamp
         ProposalHierarchyChild hierarchyChild = getHierarchyChild(childProposal.getProposalNumber());
         String hierarchyProposalNumber = hierarchyChild.getHierarchyProposalNumber();
         DevelopmentProposal hierarchyProposal = getHierarchy(hierarchyProposalNumber);
@@ -170,16 +170,17 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
         if (hierarchyProposal.getChildren().size() == 0) {
             try {
-                documentService.cancelDocument(hierarchyProposal.getProposalDocument(), "Removed last child from Proposal Hierarchy");
+                Document doc = documentService.getByDocumentHeaderId(hierarchyProposal.getProposalDocument().getDocumentNumber());
+                documentService.cancelDocument(doc, "Removed last child from Proposal Hierarchy");
             }
             catch (WorkflowException e) {
                 throw new ProposalHierarchyException("Error cancelling empty parent proposal");
             }
         }
         else {
-            businessObjectService.save(hierarchyProposal);
             synchronizeAllChildren(hierarchyProposal);
         }
+        businessObjectService.save(childProposal);
     }
 
     /**
