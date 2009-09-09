@@ -127,7 +127,7 @@
         <property name="name" value="indirectcostRateTypeCode" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Idc Rate Type Code" />
-        <property name="shortLabel" value="FNA Rate Type" />
+        <property name="shortLabel" value="F&amp;A Rate Type" />
         <property name="maxLength" value="3" />
     	<property name="validationPattern" >
       		<bean parent="NumericValidationPattern" />
