@@ -22,8 +22,8 @@
 <c:forEach var="institutionalProposalCostShare" items="${KualiForm.document.institutionalProposal.institutionalProposalCostShares}" varStatus="status">               
         <c:set var="tabItemCount" value="${tabItemCount+1}" />
 </c:forEach>
-
-<kul:tabTop tabTitle="Cost Sharing (${tabItemCount})" defaultOpen="false" tabErrorKey="newInstitutionalProposalCostShare.*">
+<div id="workarea">
+<kul:tab tabItemCount="${tabItemCount}" tabTitle="Cost Sharing" defaultOpen="false" transparentBackground="true" tabErrorKey="newInstitutionalProposalCostShare.*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Cost Share</span>
@@ -128,4 +128,5 @@
 		<html:image property="methodToCall.recalculateCostShareTotal.anchor${tabKey}"
 		src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
    </div>           
-</kul:tabTop>
+</kul:tab>
+
