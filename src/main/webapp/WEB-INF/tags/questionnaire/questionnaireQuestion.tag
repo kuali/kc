@@ -77,52 +77,10 @@ Content </span> <span class="subhead-right"> <kul:help
 
    <div id="hiddiv">
    </div>
-    <%--
-  <tr> 
-  <td colspan="2">     
-      <input name="nextGroup" id="nextGroup" src="static/images/tinybutton-next.gif" style="border:none;" alt="Continue" type="image" /> 
-      <input name="backToTop" id="backToTop" src="static/images/tinybutton-back.gif" style="border:none;" alt="Back" type="image" /> 
-    </td>
-   </tr>
-   
-   <tr>
-       <input name="aq01sc" type="radio" checked="checked" />as sibling&nbsp;&nbsp;&nbsp;
-       <input name="aq01sc" type="radio" />as child
-       <input type="image" tabindex="1000009" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionId:questionnaireQuestions[0].questionId,))).((#questionnaireQuestions[0].questionId:questionId,#)).((<>)).(([])).((**)).((^^)).((&&)).((/questionId/)).((~~)).anchor1"
-   src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search Question" title="Search Question" />
-       
-       <kul:multipleValueLookup boClassName="org.kuali.kra.questionnaire.question.Question" 
-                                                                 lookedUpCollectionName="questionnaireQuestions"
-                                                                 anchor="${currentTabIndex}.qnIndex${memberIndex}"/>      
-   </tr>
-   --%>
-
-    <%-- Test: add new question, when it return question lookup, the dynamically qn are still ok--%>
-    <%--
-    <c:set var="index" value="0" />
-    <c:if test="${fn:length(QuestionnaireForm.questionnaireQuestions) > 0}">
-        <c:forEach var="question" items="${KualiForm.questionnaireQuestions}"
-            varStatus="status">
-            <tr>
-                <td><input type="text"
-                    id="questionnaireQuestions[${status.index}].questionId"
-                    name="questionnaireQuestions[${status.index}].questionId"
-                    value="${question.questionId}" /> <c:set var="index"
-                    value="${index+1}" /></td>
-            </tr>
-
-        </c:forEach>
-    </c:if>
-     --%>
     <input type="hidden" id="qncount" value="${index}" />
 </table>
 </div>
-<%-- 
-<ul>
-<c:forEach var="i" begin="1" end="100" step="1" varStatus ="status">
-</c:forEach>
-</ul>
---%></div>
+</div>
 
 
 <script>
