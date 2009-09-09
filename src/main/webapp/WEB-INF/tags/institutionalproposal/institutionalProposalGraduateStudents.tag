@@ -25,13 +25,17 @@
         </h3>
         <table id="Graduate-Students" cellpadding="0" cellspacing="0" summary="Graduate Students">
         	<tr>
-            	<th width="200" align="right"><div align="right">Head Count:</div></th>
+        		<th width="300" align="right">
+        		<div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.gradStudHeadcount}" /></div>
+            	</th>
             	<td>
             	  	<div align="left">
             	  	 	<kul:htmlControlAttribute property="document.institutionalProposal.gradStudHeadcount" attributeEntry="${institutionalProposalAttributes.gradStudHeadcount}"/>
             	 	</div>
             	</td>
-            	<th width="200" align="right" scope="row"><div align="right">Person Months:</div></th>
+            	<th width="300" align="right" scope="row">
+				     <div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.gradStudPersonMonths}" /></div>
+				</th>
             	<td>
             	  	<div align="left">
             	  	 	<kul:htmlControlAttribute property="document.institutionalProposal.gradStudPersonMonths" attributeEntry="${institutionalProposalAttributes.gradStudPersonMonths}"/>
