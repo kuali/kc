@@ -931,7 +931,9 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         if (new BudgetExpenseRule().processCheckLineItemDates(budgetDocument)) {
             updatePersonnelBudgetRate(selectedBudgetLineItem);
             BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
-            budgetCalculationService.calculateBudgetLineItem(budget, selectedBudgetLineItem);
+            budgetCalculationService.calculateBudgetLineItem(budget, selectedBudgetLineItem); 
+            budgetCalculationService.calculateBudgetPeriod(budget, budget.getBudgetPeriod(selectedBudgetPeriodIndex));
+            budgetCalculationService.populateCalculatedAmount(budget, selectedBudgetLineItem);
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
