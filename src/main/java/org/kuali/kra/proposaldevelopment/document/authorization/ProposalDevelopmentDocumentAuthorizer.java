@@ -150,11 +150,11 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         if (canExecuteTask(username, doc, TaskName.SUBMIT_TO_SPONSOR)) {
             editModes.add("submitToSponsor");
         }
-                
+        /* TODO       
         if (canExecuteTask(username, doc, TaskName.MAINTAIN_PROPOSAL_HIERARCHY)) {
             editModes.add("maintainProposalHierarchy");
         }
-                
+        */        
         setNarrativePermissions(username, doc, editModes);
     } 
     
