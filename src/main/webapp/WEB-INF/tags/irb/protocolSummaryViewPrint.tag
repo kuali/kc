@@ -9,13 +9,12 @@
 <c:set var="protocolResearchAreaAttributes" value="${DataDictionary.ProtocolResearchArea.attributes}" />
 <c:set var="researchAreaAttributes" value="${DataDictionary.ResearchArea.attributes}" />
 
-<kul:tab tabTitle="Summary, History, & Print" defaultOpen="true" tabErrorKey="">
+<kul:tab tabTitle="Summary & History" defaultOpen="true" tabErrorKey="">
 
 	<div class="tab-container" align="left">
 		
 		<kra-irb:protocolSummary/>
 		<kra-irb:protocolViewNotes/>
 		<kra-irb:protocolViewHistory/>
-		<kra-irb:protocolPrint/>
     </div>	    
 </kul:tab>
