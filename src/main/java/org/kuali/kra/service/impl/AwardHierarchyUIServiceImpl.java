@@ -66,17 +66,35 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         StringBuilder sb = new StringBuilder();
         
         if(aNode!=null){
-            sb.append(awardNumber); 
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE+KNSConstants.BLANK_SPACE).append(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
-            sb.append(KNSConstants.BLANK_SPACE).append(aNode.getLeadUnitName());
+            sb.append(awardNumber);
+            appendString(aNode.getAccountNumber(), sb, COLUMN_CODE);
+            appendString(aNode.getPrincipalInvestigatorName(), sb, ":");
+            appendString(aNode.getLeadUnitName(), sb, ":");
             appendDate(aNode.getCurrentFundEffectiveDate(), sb);
             appendDate(aNode.getObligationExpirationDate(), sb);
             appendDate(aNode.getFinalExpirationDate(), sb);
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAmountObligatedToDate());
-            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAnticipatedTotalAmount());
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAnticipatedTotalAmount());            
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getObliDistributableAmount());
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAntDistributableAmount());
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAmountObligatedToDate().subtract(aNode.getObliDistributableAmount()));
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAnticipatedTotalAmount().subtract(aNode.getAntDistributableAmount()));
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE);    
         }
         return sb.toString();
+    }
+
+    /**
+     * This method...
+     * @param aNode
+     * @param sb
+     */
+    private void appendString(String str, StringBuilder sb, String delimiter) {
+        if(str!=null){
+            sb.append(KNSConstants.BLANK_SPACE).append(delimiter).append(KNSConstants.BLANK_SPACE).append(str);
+        }else{
+            sb.append(KNSConstants.BLANK_SPACE).append(delimiter).append(KNSConstants.BLANK_SPACE).append("");
+        }
     }
 
     /**
@@ -140,10 +158,13 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
                 awardHierarchyNode.setFinalExpirationDate(award.getProjectEndDate());
                 awardHierarchyNode.setLeadUnitName(award.getUnitName());
                 awardHierarchyNode.setPrincipalInvestigatorName(award.getPrincipalInvestigatorName());
+                awardHierarchyNode.setAccountNumber(award.getAccountNumber());
                 awardHierarchyNode.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
                 awardHierarchyNode.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
                 awardHierarchyNode.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
                 awardHierarchyNode.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
+                awardHierarchyNode.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
+                awardHierarchyNode.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());                
                 awardHierarchyNodes.put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
             }   
         } 
