@@ -849,12 +849,12 @@
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ViewProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="viewProposal" />
                 </bean>
-                
+                <!-- 
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="maintainProposalHierarchy" />
                     <property name="permission" value="MAINTAIN_PROPOSAL_HIERARCHY" />
                 </bean>
-                
+                -->
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="printProposal" />
                     <property name="permission" value="PRINT_PROPOSAL" />
