@@ -19,8 +19,8 @@
 <descriptor-repository version="1.0">
 
     <class-descriptor class="org.kuali.kra.questionnaire.question.Question" table="QUESTION">
-        <field-descriptor name="questionRefId" column="QUESTION_REF_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTION_ID" autoincrement="true"/>
-        <field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="questionRefId" column="QUESTION_REF_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
+        <field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_QUESTION_ID" autoincrement="true" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="question" column="QUESTION" jdbc-type="VARCHAR" />
         <field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR" />
@@ -47,7 +47,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.questionnaire.question.QuestionExplanation" table="QUESTION_EXPLANATION">
-        <field-descriptor name="questionExplanationId" column="QUESTION_EXPLANATION_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_QUESTION_ID" autoincrement="true" />
+        <field-descriptor name="questionExplanationId" column="QUESTION_EXPLANATION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
         <field-descriptor name="questionRefIdFk" column="QUESTION_REF_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="explanationType" column="EXPLANATION_TYPE" jdbc-type="VARCHAR" />
         <field-descriptor name="explanation" column="EXPLANATION" jdbc-type="VARCHAR" />
@@ -87,7 +87,7 @@
     </class-descriptor>
         
     <class-descriptor class="org.kuali.kra.questionnaire.answer.AnswerHeader" table="QUESTIONNAIRE_ANSWER_HEADER">
-		<field-descriptor name="answerHeaderId" column="QUESTIONNAIRE_ANSWER_HEADER_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTION_ID" autoincrement="true"/>
+		<field-descriptor name="answerHeaderId" column="QUESTIONNAIRE_ANSWER_HEADER_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
 		<field-descriptor name="moduleItemCode" column="MODULE_ITEM_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="moduleItemKey" column="MODULE_ITEM_KEY" jdbc-type="VARCHAR" />
 		<field-descriptor name="moduleSubItemCode" column="MODULE_SUB_ITEM_CODE" jdbc-type="INTEGER" />
@@ -107,7 +107,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.questionnaire.answer.Answer" table="QUESTIONNAIRE_ANSWER">
-		<field-descriptor name="answerId" column="QUESTIONNAIRE_ANSWER_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTION_ID" autoincrement="true" />
+		<field-descriptor name="answerId" column="QUESTIONNAIRE_ANSWER_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
 		<field-descriptor name="answerHeaderId" column="QUESTIONNAIRE_AH_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="questionRefIdFk" column="QUESTION_REF_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="questionNumber" column="QUESTION_NUMBER" jdbc-type="INTEGER" />
@@ -178,8 +178,8 @@
         -->
     </class-descriptor>
     <class-descriptor class="org.kuali.kra.questionnaire.Questionnaire" table="QUESTIONNAIRE">
-        <field-descriptor name="questionnaireRefId" column="QUESTIONNAIRE_REF_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_ID" autoincrement="true"/>
-        <field-descriptor name="questionnaireId" column="QUESTIONNAIRE_ID" jdbc-type="INTEGER" sequence-name="SEQ_QUESTIONNAIRE_ID" autoincrement="true"/>
+        <field-descriptor name="questionnaireRefId" column="QUESTIONNAIRE_REF_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
+        <field-descriptor name="questionnaireId" column="QUESTIONNAIRE_ID" jdbc-type="INTEGER" sequence-name="SEQ_QUESTIONNAIRE_ID" autoincrement="true" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
@@ -199,7 +199,7 @@
         </collection-descriptor>
     </class-descriptor> 
     <class-descriptor class="org.kuali.kra.questionnaire.QuestionnaireQuestion" table="QUESTIONNAIRE_QUESTIONS">
-        <field-descriptor name="questionnaireQuestionsId" column="QUESTIONNAIRE_QUESTIONS_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_ID" autoincrement="true"/>
+        <field-descriptor name="questionnaireQuestionsId" column="QUESTIONNAIRE_QUESTIONS_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
         <field-descriptor name="questionnaireRefIdFk" column="QUESTIONNAIRE_REF_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="questionRefIdFk" column="QUESTION_REF_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="questionNumber" column="QUESTION_NUMBER" jdbc-type="INTEGER" />
@@ -220,7 +220,7 @@
         </reference-descriptor>
     </class-descriptor> 
     <class-descriptor class="org.kuali.kra.questionnaire.QuestionnaireUsage" table="QUESTIONNAIRE_USAGE">
-        <field-descriptor name="questionnaireUsageId" column="QUESTIONNAIRE_USAGE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_ID" autoincrement="true"/>
+        <field-descriptor name="questionnaireUsageId" column="QUESTIONNAIRE_USAGE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
         <field-descriptor name="moduleItemCode" column="MODULE_ITEM_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="moduleSubItemCode" column="MODULE_SUB_ITEM_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="questionnaireSequenceNumber" column="QUESTIONNAIRE_SEQUENCE_NUMBER" jdbc-type="INTEGER" />
