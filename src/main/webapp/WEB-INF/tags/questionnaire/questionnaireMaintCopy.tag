@@ -72,5 +72,4 @@
     </table>
     
     <input type="hidden" id="document.oldMaintainableObject.businessObject.questionnaireRefId" name="document.oldMaintainableObject.businessObject.questionnaireRefId" value = "${KualiForm.document.oldMaintainableObject.businessObject.questionnaireRefId}"/>
-    <input type="hidden" id="retData" name="retData" value = "${KualiForm.retData}"/>
 </div>

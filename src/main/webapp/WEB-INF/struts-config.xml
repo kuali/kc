@@ -26,7 +26,7 @@
 	    <form-bean name="KraMaintenanceForm" type="org.kuali.kra.maintenance.KraMaintenanceForm" />
         <form-bean name="KualiMaintenanceForm" type="org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm" />
         <form-bean name="QuestionLookupForm" type="org.kuali.kra.questionnaire.QuestionLookupForm" />
-	    <form-bean name="QuestionnaireForm" type="org.kuali.kra.questionnaire.QuestionnaireForm" />
+	    <!--  <form-bean name="QuestionnaireForm" type="org.kuali.kra.questionnaire.QuestionnaireForm" />-->
         <form-bean name="QuestionnaireMaintenanceForm" type="org.kuali.kra.questionnaire.QuestionnaireMaintenanceForm" />
     </form-beans>
 

@@ -27,33 +27,14 @@ import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
 public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
-    private Questionnaire newQuestionnaire;
-    private Questionnaire fromQuestionnaire;
     private QuestionnaireUsage newQuestionnaireUsage;
-    private List<QuestionnaireQuestion> questionnaireQuestions;
-    private List<QuestionnaireQuestion> removedQuestionnaireQuestions;
     private List<QuestionnaireUsage> questionnaireUsages;
-    private Integer newQuestionId;
-    private String sqlScripts;
-    private String retData;
     private String editData;
     private Integer questionNumber;
-    private Long questionnaireQuestionsId;
     private String lookupResultsBOClassName;
-    private String action;
     private String docStatus;
-    private Integer numOfQuestions;
-    private Integer numOfUsages;
-    private List qnaireQuestions;
-    private boolean versioned;
+    private List<String> qnaireQuestions;
     
-    public boolean isVersioned() {
-        return versioned;
-    }
-
-    public void setVersioned(boolean versioned) {
-        this.versioned = versioned;
-    }
 
     public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
@@ -78,15 +59,9 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
      */
     public QuestionnaireMaintenanceForm() {
         super();
-        newQuestionnaire = new Questionnaire();
-        fromQuestionnaire = new Questionnaire();
-        questionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
-        removedQuestionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
         questionnaireUsages = new ArrayList<QuestionnaireUsage>();
         qnaireQuestions = new ArrayList<String>();
-        // TODO : if it is newquestionnaire, then set questionnumber to 1
         questionNumber = 1;
-        numOfQuestions = 0;
         
 
     }
@@ -96,9 +71,6 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         // need to investigate this.
         this.setMethodToCall("");
         // TODO : if do lookup again to edit, 'form' is not initialized ? initialized here ?
-        newQuestionnaire = new Questionnaire();
-        fromQuestionnaire = new Questionnaire();
-        questionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
         qnaireQuestions = new TypedArrayList(String.class);
         // to prevent indexoutofbound exception when populate
         if (this.getDocument() != null) {
@@ -107,56 +79,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
             qn.setQuestionnaireUsages(new TypedArrayList(QuestionnaireUsage.class));
         }
         questionNumber = 1;
-        sqlScripts = "";
-        retData = "";
         // editData = "";
-        action = "";
-        //versioned=false;
-    }
-
-    public Questionnaire getNewQuestionnaire() {
-        return newQuestionnaire;
-    }
-
-    public void setNewQuestionnaire(Questionnaire newQuestionnaire) {
-        this.newQuestionnaire = newQuestionnaire;
-    }
-
-    public List<QuestionnaireQuestion> getQuestionnaireQuestions() {
-        return questionnaireQuestions;
-    }
-
-    public void setQuestionnaireQuestions(List<QuestionnaireQuestion> questionnaireQuestions) {
-        this.questionnaireQuestions = questionnaireQuestions;
-    }
-
-    public Integer getNewQuestionId() {
-        return newQuestionId;
-    }
-
-    public void setNewQuestionId(Integer newQuestionId) {
-        this.newQuestionId = newQuestionId;
-    }
-
-    public String getSqlScripts() {
-        return sqlScripts;
-    }
-
-    public void setSqlScripts(String sqlScripts) {
-        this.sqlScripts = sqlScripts;
-    }
-
-    public String getRetData() {
-        // This is from ajax before post page
-//        if (StringUtils.isNotBlank(action) && action.equals("setnumq")) {
-//            GlobalVariables.getUserSession().addObject("numOfQuestions", getNumOfQuestions());
-//            GlobalVariables.getUserSession().addObject("numOfUsages", getNumOfUsages());
-//        }
-        return retData;
-    }
-
-    public void setRetData(String retData) {
-        this.retData = retData;
     }
 
     public Integer getQuestionNumber() {
@@ -175,22 +98,6 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         this.newQuestionnaireUsage = newQuestionnaireUsage;
     }
 
-    public Long getQuestionnaireQuestionsId() {
-        return questionnaireQuestionsId;
-    }
-
-    public void setQuestionnaireQuestionsId(Long questionnaireQuestionsId) {
-        this.questionnaireQuestionsId = questionnaireQuestionsId;
-    }
-
-    public Questionnaire getFromQuestionnaire() {
-        return fromQuestionnaire;
-    }
-
-    public void setFromQuestionnaire(Questionnaire fromQuestionnaire) {
-        this.fromQuestionnaire = fromQuestionnaire;
-    }
-
     public String getEditData() {
         return editData;
     }
@@ -199,17 +106,8 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         this.editData = editData;
     }
 
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
     @Override
     public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-        // TODO Auto-generated method stub
         // fromquestionnaire is return false for some reason ??
         // return super.shouldPropertyBePopulatedInForm(requestParameterName, request);
         return true;
@@ -225,24 +123,6 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
 
     @Override
     public void populate(HttpServletRequest request) {
-        // TODO Auto-generated method stub
-//        if (this.getDocument() != null) {
-//            Questionnaire qn = (Questionnaire) ((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject()
-//                    .getBusinessObject();
-//            if (qn != null
-//                    && !((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject().getMaintenanceAction().equals(
-//                            "Copy")) {
-//                int num = (Integer) GlobalVariables.getUserSession().retrieveObject("numOfQuestions");
-////                for (int i = 0; i < num; i++) {
-////                    // qn.getQuestionnaireQuestions().add(new QuestionnaireQuestion());
-////                    getQnaireQuestions().add("");
-////                }
-//                num = (Integer) GlobalVariables.getUserSession().retrieveObject("numOfUsages");
-//                for (int i = 0; i < num; i++) {
-//                    qn.getQuestionnaireUsages().add(new QuestionnaireUsage());
-//                }
-//            }
-//        }
         super.populate(request);
 
 
@@ -265,10 +145,10 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         for (Object qstr : getQnaireQuestions()) {
             if (qstr instanceof String[]) {
                 String[] splitstr = ((String[]) qstr)[0].split("#f#");
-                if (splitstr.length == 11) {
+                if (splitstr.length == 11 && !("Y").equals(splitstr[10])) {
                     QuestionnaireQuestion question = new QuestionnaireQuestion();
-                    if (StringUtils.isNotBlank(splitstr[0]) && !splitstr[0].equals("null")) { // "null" is coming between js and
-                                                                                              // java code
+                    // "null" is coming between js and java code
+                    if (StringUtils.isNotBlank(splitstr[0]) && !splitstr[0].equals("null")) { 
                         question.setQuestionnaireQuestionsId(Long.parseLong(splitstr[0]));
                     }
                     if (StringUtils.isNotBlank(splitstr[1])) {
@@ -290,27 +170,11 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         return qList;
     }
     
-    public Integer getNumOfQuestions() {
-        return numOfQuestions;
-    }
-
-    public void setNumOfQuestions(Integer numOfQuestions) {
-        this.numOfQuestions = numOfQuestions;
-    }
-
-    public Integer getNumOfUsages() {
-        return numOfUsages;
-    }
-
-    public void setNumOfUsages(Integer numOfUsages) {
-        this.numOfUsages = numOfUsages;
-    }
-
-    public List getQnaireQuestions() {
+    public List<String> getQnaireQuestions() {
         return qnaireQuestions;
     }
 
-    public void setQnaireQuestions(List qnaireQuestions) {
+    public void setQnaireQuestions(List<String> qnaireQuestions) {
         this.qnaireQuestions = qnaireQuestions;
     }
 
@@ -320,14 +184,6 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
 
     public void setQuestionnaireUsages(List<QuestionnaireUsage> questionnaireUsages) {
         this.questionnaireUsages = questionnaireUsages;
-    }
-
-    public List<QuestionnaireQuestion> getRemovedQuestionnaireQuestions() {
-        return removedQuestionnaireQuestions;
-    }
-
-    public void setRemovedQuestionnaireQuestions(List<QuestionnaireQuestion> removedQuestionnaireQuestions) {
-        this.removedQuestionnaireQuestions = removedQuestionnaireQuestions;
     }
 
 
