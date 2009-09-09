@@ -61,6 +61,8 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends ResearchDocu
         
         boolean validSponsorCode = validateSponsorCodeExists(institutionalProposal.getSponsorCode());
         
+        boolean validPrimeSponsorId = validatePrimeSponsorIdExists(institutionalProposal.getPrimeSponsorCode());
+        
         return validCfdaNumber && validSponsorCode;
     }
     
@@ -74,6 +76,23 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends ResearchDocu
         if(sponsors.size() == 0) {
             this.reportError("document.institutionalProposal.sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
             valid = false;
+        }
+       return valid;
+        
+    }
+    
+    @SuppressWarnings("unchecked")
+    private boolean validatePrimeSponsorIdExists(String primeSponsorId) {
+        boolean valid = true;
+        if(!primeSponsorId.equals(null)) {
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("sponsorCode", primeSponsorId);
+            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);       
+            List<Sponsor> sponsors = (List<Sponsor>)businessObjectService.findMatching(Sponsor.class, fieldValues);
+            if(sponsors.size() == 0) {
+                this.reportError("document.institutionalProposal.primeSponsorCode", KeyConstants.ERROR_INVALID_PRIME_SPONSOR_CODE);
+                valid = false;
+            }
         }
        return valid;
         
