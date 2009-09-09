@@ -110,38 +110,9 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument maintenanceDocument) {
         boolean isValid = true;
 
-        isValid &= validateQuestionId(maintenanceDocument);
         isValid &= validateQuestionResponseType(maintenanceDocument);
 
         return isValid;
-    }
-
-    /**
-     * 
-     * This method validates the question id to ensure it remains unique within the versioning schema.
-     * @param maintenanceDocument - the maintenance document of the question to be validated
-     * @return true if valid, false otherwise
-     */
-    private boolean validateQuestionId(MaintenanceDocument maintenanceDocument) {
-        Question oldQuestion = (Question) maintenanceDocument.getOldMaintainableObject().getBusinessObject();
-        Question newQuestion = (Question) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
-        
-        if (ObjectUtils.equals(oldQuestion.getQuestionId(), newQuestion.getQuestionId())) {
-            return true;
-        } else {
-            Question existingQuestion = getQuestionService().getQuestionById(newQuestion.getQuestionId());
-            if (existingQuestion == null) {
-                return true;
-            } else {
-                GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_QUESTION_ID,
-                        KeyConstants.ERROR_QUESTION_ID_DUPLICATE);
-                return false;
-            }
-        }
-    }
-
-    private QuestionService getQuestionService() {
-        return (QuestionService) KraServiceLocator.getService(QuestionService.class);
     }
 
     /**
