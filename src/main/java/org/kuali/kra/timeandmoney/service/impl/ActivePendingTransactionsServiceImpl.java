@@ -635,6 +635,8 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         newAwardAmountInfo.setAwardNumber(awardAmountInfo.getAwardNumber());
         newAwardAmountInfo.setSequenceNumber(awardAmountInfo.getSequenceNumber());
         newAwardAmountInfo.setFinalExpirationDate(awardAmountInfo.getFinalExpirationDate());
+        newAwardAmountInfo.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
+        newAwardAmountInfo.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
         newAwardAmountInfo.setTimeAndMoneyDocumentNumber(documentNumber);
         newAwardAmountInfo.setTransactionId(pendingTransaction.getTransactionId());
         

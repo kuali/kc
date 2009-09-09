@@ -84,9 +84,9 @@
 			</td>
 			<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 185px;">
 				<select id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" >
-					<option value="0">Dates Only</option>
-					<option value="1">Distributed/Distributable</option>
-					<option value="2">Totals</option>
+					<option ${KualiForm.controlForAwardHierarchyView eq 0 ? 'selected="selected"' : ''} value="0">Dates Only</option>
+					<option ${KualiForm.controlForAwardHierarchyView eq 1 ? 'selected="selected"' : ''} value="1">Distributed/Distributable</option>
+					<option ${KualiForm.controlForAwardHierarchyView eq 2 ? 'selected="selected"' : ''} value="2">Totals</option>
 				</select>
 			</td>
 			<td style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">
@@ -101,8 +101,8 @@
 		<td style="border: medium none ; border-collapse: collapse; background-color: rgb(234, 233, 234);">
 		<span style="display: inline;" id="treecontrol">
 		${fn:length(KualiForm.order)} Nodes: 
-		<a href="#" title="Collapse the entire tree below"><img src="../BFN/images/minus.gif"/> Collapse All</a>
-		<a href="#" title="Expand the entire tree below"><img src="../BFN/images/plus.gif"/> Expand All</a>
+		<a href="#" title="Collapse the entire tree below"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
+		<a href="#" title="Expand the entire tree below"><img src="static/images/jquery/plus.gif" /> Expand All</a>
 		</span>
 		</td>
 		<td style="border: 1px solid rgb(153, 153, 153); padding: 1px; text-align: center; width: 108px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
@@ -114,12 +114,19 @@
 		<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 108px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 		Project End
 		</td>
+		<c:if test="${KualiForm.controlForAwardHierarchyView == 1}" >		
+		<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 108px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+		&nbsp;
+		</td>
+		</c:if>
+		<c:if test="${KualiForm.controlForAwardHierarchyView != 0}" >
 		<td style="border: 1px solid rgb(153, 153, 153); text-align: right; width: 100px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 		Obligated
 		</td>
 		<td style="border: 1px solid rgb(153, 153, 153); text-align: right; width: 101px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 		Anticipated
 		</td>
+		</c:if>
 	</tr>
 	</tbody></table></div>
 	</div>
@@ -138,77 +145,6 @@
     </div>
     
     <input type="hidden" id = "document.rootAwardNumber" name="document.rootAwardNumber" value="${KualiForm.document.rootAwardNumber}">
-    
-	<table cellpadding="0" cellspacing="0" summary="">
-    	<%-- Header --%>
-    	
-  		<tr>
-       		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
-       		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.awardNumber}" scope="col" /></div></th>
-       		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.parentAwardNumber}" scope="col" /></div></th>
-       		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.currentFundEffectiveDate}" scope="col" /></div></th>
-       		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.obligationExpirationDate}" scope="col" /></div></th>
-       		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.finalExpirationDate}" scope="col" /></div></th>
-       		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.amountObligatedToDate}" scope="col" /></div></th>
-       		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.obliDistributableAmount}" scope="col" /></div></th>
-       		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.anticipatedTotalAmount}" scope="col" /></div></th>
-       		<kul:htmlAttributeHeaderCell attributeEntry="${awardHierarchyNodeAttributes.antDistributableAmount}" scope="col" /></div></th>       		
-       	</tr>
-       	
-		<c:forEach var="order" items="${KualiForm.order}" varStatus="status">
-          <tr>
-			<th class="infoline">
-				<c:out value="${status.index+1}" />
-			</th>            
-          <td align="left" valign="middle">
-			<div align="center">
-              	<c:out value ="${KualiForm.document.awardHierarchyNodes[order].awardNumber}" /> : <c:out value ="${KualiForm.document.awardHierarchyNodes[order].leadUnitName}" /> : <c:out value ="${KualiForm.document.awardHierarchyNodes[order].principalInvestigatorName}" />
-			</div>
-		  </td>
-		  <td align="left" valign="middle">
-			<div align="center">
-              	<c:out value ="${KualiForm.document.awardHierarchyNodes[order].parentAwardNumber}" />
-			</div>
-		  </td>
-          <td align="left" valign="middle">
-			<div align="center">
-				<c:out value ="${KualiForm.document.awardHierarchyNodes[order].currentFundEffectiveDate}" />              	
-              	
-			</div>
-		  </td>
-		  <td align="left" valign="middle">
-			<div align="center">
-				<c:out value ="${KualiForm.document.awardHierarchyNodes[order].obligationExpirationDate}" />
-			</div>
-  		  </td>
-  		  <td align="left" valign="middle">
-			<div align="center">              	
-				<c:out value ="${KualiForm.document.awardHierarchyNodes[order].finalExpirationDate}" />              	              	
-			</div>
-  		  </td>
-  		  <td align="left" valign="middle">
-			<div align="center">
-              		<c:out value ="${KualiForm.document.awardHierarchyNodes[order].amountObligatedToDate}" />
-			</div>
-  		  </td>
-  		  <td align="left" valign="middle">
-			<div align="center">
-              		<c:out value ="${KualiForm.document.awardHierarchyNodes[order].obliDistributableAmount}" />
-			</div>
-  		  </td>
-  		  <td align="left" valign="middle">
-			<div align="center">
-              		<c:out value ="${KualiForm.document.awardHierarchyNodes[order].anticipatedTotalAmount}" />              		
-			</div>
-  		  </td>
-  		  <td align="left" valign="middle">
-			<div align="center">
-              		<c:out value ="${KualiForm.document.awardHierarchyNodes[order].antDistributableAmount}" />
-			</div>
-  		  </td>		  
-           </tr>
-      	</c:forEach>    
-
-	</table>
+	
     </div>
 </kul:tab>
