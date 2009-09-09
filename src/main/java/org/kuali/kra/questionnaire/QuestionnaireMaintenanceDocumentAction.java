@@ -42,6 +42,15 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;
 
+/*
+ * Big issue is that questionnairequestions and usages can't be included in xmldoccontent because maintframework - questions &
+ * usages are not defined in maint DD's 'maintsections'. Current work around is using KraMaintenanceDocument to make rice
+ * maintenance framework to think that QnQuestions & QnUsages are defined in maintenance section. So, they will be saved in
+ * xmldoccontent.
+ * 
+ * The hierarchical nature of data and heavily depending on js also needs some manipulation, so make these a little
+ * complicated..
+ */
 public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocumentAction {
     private static final Log LOG = LogFactory.getLog(QuestionnaireMaintenanceDocumentAction.class);
     private static final String PCP = "#;#";
@@ -49,15 +58,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private static final String PUP = "#u#";
     private static final String PFP = "#f#";
 
-    /*
-     * Big issue is that questionnairequestions and usages can't be included in xmldoccontent because maintframework - questions &
-     * usages are not defined in maint DD's 'maintsections'. Current work around is using KraMaintenanceDocument to make rice
-     * maintenance framework to think that QnQuestions & QnUsages are defined in maintenance section. So, they will be saved in
-     * xmldoccontent.
-     * 
-     * The hierarchical nature of data and heavily depending on js also needs some manipulation, so make these a little
-     * complicated..
-     */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -76,13 +76,12 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
 
 
     /*
-     * set up question and usage data for JS to parse
+     * set up question and usage data for JS to parse and create QnQuestion tree nodes and usage list items
      */
     private void setupQuestionAndUsage(ActionForm form) {
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         Questionnaire questionnaire = ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
                 .getBusinessObject());
-        cleanupQuestionnaireQuestions(questionnaire);
         String questions = assembleQuestions(qnForm);
         String usages = assembleUsages(questionnaire);
         qnForm.setEditData(questions + PCP + usages);
@@ -93,7 +92,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         permissionCheckForDocHandler(form);
         ActionForward forward = super.docHandler(mapping, form, request, response);
         setupQuestionAndUsage(form);
@@ -112,7 +110,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             else {
                 if (!qnForm.isReadOnly()) {
                     // if user only has VIEW_QUESTIONNAIRE permission
-                    // throw new RuntimeException("Don't have permission to view Questionnaire");
                     qnForm.setReadOnly(true);
 
                 }
@@ -124,7 +121,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     /*
      * loop thru qnquestion and assemble results. Also find the max questionnumber.
      */
-    private String getQuestionRetureResult(QuestionnaireMaintenanceForm questionnaireForm, Questionnaire questionnaire) {
+    private String getQuestionReturnResult(QuestionnaireMaintenanceForm questionnaireForm, Questionnaire questionnaire) {
         Collections.sort(questionnaire.getQuestionnaireQuestions(), new QuestionnaireQuestionComparator());
         String result = "parent-0";
         List<QuestionnaireQuestion> remainQuestions = new ArrayList<QuestionnaireQuestion>();
@@ -139,7 +136,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             }
             if (question.getParentQuestionNumber().equals(0)) {
                 result = result + PQP + getQnReturnfields(question);
-                String childrenResult = getChildren(question, remainQuestions);
+                String childrenResult = getChildrenQuestions(question, remainQuestions);
                 if (StringUtils.isNotBlank(childrenResult)) {
                     result = result + childrenResult;
                 }
@@ -159,7 +156,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         Questionnaire questionnaire = (Questionnaire) ((MaintenanceDocumentBase) questionnaireForm.getDocument())
                 .getNewMaintainableObject().getBusinessObject();
         questionnaireForm.setQuestionNumber(0);
-        return getQuestionRetureResult(questionnaireForm, questionnaire);
+        return getQuestionReturnResult(questionnaireForm, questionnaire);
 
 
     }
@@ -184,13 +181,13 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     /*
      * get the children questions data
      */
-    private String getChildren(QuestionnaireQuestion questionnaireQuestion, List<QuestionnaireQuestion> questionnaireQuestions) {
+    private String getChildrenQuestions(QuestionnaireQuestion questionnaireQuestion, List<QuestionnaireQuestion> questionnaireQuestions) {
         String result = "";
         List<QuestionnaireQuestion> remainQuestions = new ArrayList<QuestionnaireQuestion>();
         for (QuestionnaireQuestion question : questionnaireQuestions) {
             if (question.getParentQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())) {
                 result = result + PQP + getQnReturnfields(question);
-                String childrenResult = getChildren(question, questionnaireQuestions);
+                String childrenResult = getChildrenQuestions(question, questionnaireQuestions);
                 if (StringUtils.isNotBlank(childrenResult)) {
                     result = result + childrenResult;
                 }
@@ -226,7 +223,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private String assembleUsages(Questionnaire questionnaire) {
         String result = "";
         for (QuestionnaireUsage questionnaireUsage : questionnaire.getQuestionnaireUsages()) {
-            // quid/modulecode/label
             result = result + questionnaireUsage.getQuestionnaireUsageId() + PFP + questionnaireUsage.getModuleItemCode() + PFP
                     + questionnaireUsage.getQuestionnaireLabel() + PFP + questionnaireUsage.getQuestionnaireSequenceNumber() + PFP
                     + questionnaireUsage.getModuleSubItemCode() + PFP + questionnaireUsage.getRuleId() + PFP
@@ -240,13 +236,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     }
 
     @Override
-    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        ActionForward forward = super.copy(mapping, form, request, response);
-        return forward;
-    }
-
-    @Override
     public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward forward = super.edit(mapping, form, request, response);
@@ -257,8 +246,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                 .getOldMaintainableObject().getBusinessObject();
         versionQuestionnaire(questionnaire, oldQuestionnaire);
         Long questionnaireRefId = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber(
-                "SEQ_QUESTIONNAIRE_ID");
-        qnForm.setVersioned(true);
+                "SEQ_QUESTIONNAIRE_REF_ID");
         questionnaire.setQuestionnaireRefId(questionnaireRefId);
         oldQuestionnaire.setQuestionnaireRefId(questionnaireRefId);
         String questions = assembleQuestions(qnForm);
@@ -317,23 +305,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     }
 
     /*
-     * This is to just get rid of 'Deleted' Questionnaire
-     */
-    private void cleanupQuestionnaireQuestions(Questionnaire questionnaire) {
-        List<QuestionnaireQuestion> dropList = new ArrayList<QuestionnaireQuestion>();
-        for (QuestionnaireQuestion question : questionnaire.getQuestionnaireQuestions()) {
-            if ("Y".equals(question.getDeleted())) {
-                dropList.add(question);
-            }
-            else if (question.getQuestionnaireQuestionsId() != null && questionnaire.getQuestionnaireRefId() != null
-                    && question.getQuestionnaireRefIdFk() == null) {
-                dropList.add(question);
-            }
-        }
-        questionnaire.getQuestionnaireQuestions().removeAll(dropList);
-    }
-
-    /*
      * Create new version of questionnaire
      */
     private void versionQuestionnaire(Questionnaire questionnaire, Questionnaire oldQuestionnaire) {
@@ -342,8 +313,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             Questionnaire newQuestionnaire = (Questionnaire) versionService.createNewVersion(oldQuestionnaire);
             questionnaire.setQuestionnaireRefId(null);
             questionnaire.setSequenceNumber(newQuestionnaire.getSequenceNumber());
-            // both collections are populated from form, so can't use the old one
-            // so versioning is kind like set new seq
             for (QuestionnaireQuestion qnaireQuestion : questionnaire.getQuestionnaireQuestions()) {
                 qnaireQuestion.setQuestionnaireRefIdFk(null);
                 qnaireQuestion.setQuestionnaireQuestionsId(null);
