@@ -20,14 +20,6 @@
                                           attributeEntry="${questionnaireAttributes.name}" />
             </td>
             <td align="left" valign="middle">
-           <%--    <c:choose>
-               <c:when test = "${KualiForm.document.newMaintainableObject.maintenanceAction eq 'Edit' and KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus eq 'I' and !KualiForm.versioned}">
-                    Version ${KualiForm.document.newMaintainableObject.businessObject.sequenceNumber+1}
-                </c:when>
-                <c:otherwise>
-                    Version ${KualiForm.document.newMaintainableObject.businessObject.sequenceNumber}
-                </c:otherwise>
-                </c:choose> --%>
                     Version ${KualiForm.document.newMaintainableObject.businessObject.sequenceNumber}
             </td>
             <th align="right" valign="middle" width="115">
@@ -58,11 +50,11 @@
         </tr>
     </table>
 	<input type="hidden" id="questionNumber" name="questionNumber" value = "${KualiForm.questionNumber}"/>
-    <input type="hidden" id="sqlScripts" name="sqlScripts" value = "${KualiForm.sqlScripts}"/>
+    <%--  <input type="hidden" id="sqlScripts" name="sqlScripts" value = "${KualiForm.sqlScripts}"/> --%>
 	<input type="hidden" id="document.newMaintainableObject.businessObject.questionnaireRefId" name="document.newMaintainableObject.businessObject.questionnaireRefId" value = "${KualiForm.document.newMaintainableObject.businessObject.questionnaireRefId}"/>
     <input type="hidden" id="document.newMaintainableObject.businessObject.questionnaireId" name="document.newMaintainableObject.businessObject.questionnaireId" value = "${KualiForm.document.newMaintainableObject.businessObject.questionnaireId}"/>
     <input type="hidden" id="document.newMaintainableObject.businessObject.sequenceNumber" name="document.newMaintainableObject.businessObject.sequenceNumber" value = "${KualiForm.document.newMaintainableObject.businessObject.sequenceNumber}"/>
-	<input type="hidden" id="retData" name="retData" value = "${KualiForm.retData}"/>
+	<%--  <input type="hidden" id="retData" name="retData" value = "${KualiForm.retData}"/> --%>
 	<input type="hidden" id="editData" name="editData" value = "${KualiForm.editData}"/>
-	<input type="hidden" id="versioned" name="versioned" value = "${KualiForm.versioned}"/>
+	<%--  <input type="hidden" id="versioned" name="versioned" value = "${KualiForm.versioned}"/>--%>
 </div>
