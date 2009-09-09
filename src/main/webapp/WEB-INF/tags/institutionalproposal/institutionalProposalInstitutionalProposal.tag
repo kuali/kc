@@ -18,7 +18,7 @@
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 
 
-<kul:tab tabTitle="Institutional Proposal" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Institutional Proposal" defaultOpen="false" tabErrorKey="document.institutionalProposalList[0].statusCode,document.institutionalProposalList[0].activityTypeCode,document.institutionalProposalList[0].proposalTypeCode,document.institutionalProposalList[0].title">
 	<!-- Institution -->
 <div class="tab-container" align="center">
 
@@ -63,13 +63,13 @@
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.proposalTypeCode}" /></div>
     	</th>
     	<td>
-    		<kul:htmlControlAttribute property="document.institutionalProposal.proposalTypeCode" attributeEntry="${institutionalProposalAttributes.proposalTypeCode}" />
+    		<kul:htmlControlAttribute property="document.institutionalProposalList[0].proposalTypeCode" attributeEntry="${institutionalProposalAttributes.proposalTypeCode}" />
 		</td>
     	<th>
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.activityTypeCode}" /></div>
     	</th>
     	<td>
-    		<kul:htmlControlAttribute property="document.institutionalProposal.activityTypeCode" attributeEntry="${institutionalProposalAttributes.activityTypeCode}" />
+    		<kul:htmlControlAttribute property="document.institutionalProposalList[0].activityTypeCode" attributeEntry="${institutionalProposalAttributes.activityTypeCode}" />
 		</td>
   	</tr>
   	<tr>
@@ -110,7 +110,7 @@
         	<table style="border:none; width:100%;">
         		<tr>
             		<td style="border:none; width:100%;">
-            			<kul:htmlControlAttribute property="document.institutionalProposal.title" attributeEntry="${institutionalProposalAttributes.title}" />
+            			<kul:htmlControlAttribute property="document.institutionalProposalList[0].title" attributeEntry="${institutionalProposalAttributes.title}" />
                     	<kra:expandedTextArea textAreaFieldName="document.institutionalProposal.title" action="institutionalProposalHome" textAreaLabel="${institutionalProposalAttributes.title.label}" />
         			</td>
             	</tr>

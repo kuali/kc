@@ -69,13 +69,15 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends ResearchDocu
     @SuppressWarnings("unchecked")
     private boolean validateSponsorCodeExists(String sponsorCode) {
         boolean valid = true;
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("sponsorCode", sponsorCode);
-        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);       
-        List<Sponsor> sponsors = (List<Sponsor>)businessObjectService.findMatching(Sponsor.class, fieldValues);
-        if(sponsors.size() == 0) {
-            this.reportError("document.institutionalProposal.sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
-            valid = false;
+        if(!(sponsorCode == null)) {
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("sponsorCode", sponsorCode);
+            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);       
+            List<Sponsor> sponsors = (List<Sponsor>)businessObjectService.findMatching(Sponsor.class, fieldValues);
+            if(sponsors.size() == 0) {
+                this.reportError("document.institutionalProposal.sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
+                valid = false;
+            }
         }
        return valid;
         
@@ -84,7 +86,7 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends ResearchDocu
     @SuppressWarnings("unchecked")
     private boolean validatePrimeSponsorIdExists(String primeSponsorId) {
         boolean valid = true;
-        if(!primeSponsorId.equals(null)) {
+        if (!(primeSponsorId == null)) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("sponsorCode", primeSponsorId);
             BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);       

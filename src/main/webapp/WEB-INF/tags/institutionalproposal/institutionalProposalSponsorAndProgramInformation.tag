@@ -18,7 +18,7 @@
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 <c:set var="action" value="institutionalProposalHome" />
 
-<kul:tab tabTitle="Sponsor & Program Information" defaultOpen="false" tabErrorKey="document.institutionalProposal.noticeOfOpportunityCode,document.institutionalProposal.programAnnouncementNumber,document.institutionalProposal.sponsorProposalNumber,document.institutionalProposal.nsfCode,document.institutionalProposal.cfdaNumber,document.institutionalProposal.sponsorCode,document.institutionalProposal.primeSponsorCode" auditCluster="sponsorProgramInformationAuditErrors,sponsorProgramInformationAuditWarnings" tabAuditKey="document.institutionalProposal.cfdaNumber,document.institutionalProposal.sponsorProposalNumber" useRiceAuditMode="true">
+<kul:tab tabTitle="Sponsor & Program Information" defaultOpen="false" tabErrorKey="document.institutionalProposal.noticeOfOpportunityCode,document.institutionalProposal.programAnnouncementNumber,document.institutionalProposal.sponsorProposalNumber,document.institutionalProposal.nsfCode,document.institutionalProposal.cfdaNumber,document.institutionalProposal.sponsorCode,document.institutionalProposalList[0].sponsorCode,document.institutionalProposal.primeSponsorCode" auditCluster="sponsorProgramInformationAuditErrors,sponsorProgramInformationAuditWarnings" tabAuditKey="document.institutionalProposal.cfdaNumber,document.institutionalProposal.sponsorProposalNumber" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Sponsor & Program Information</span>
@@ -29,12 +29,12 @@
         	<tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.sponsorCode}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.institutionalProposal.sponsorCode" attributeEntry="${institutionalProposalAttributes.sponsorCode}" onblur="loadSponsorName('document.institutionalProposal.sponsorCode', 'sponsorName');" />
-                	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.institutionalProposal.sponsorCode,sponsorName:document.institutionalProposal.sponsor.sponsorName" anchor="${tabKey}"/>
-                	<kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.institutionalProposal.sponsorCode:sponsorCode" anchor="${tabKey}"/>
+                	<kul:htmlControlAttribute property="document.institutionalProposalList[0].sponsorCode" attributeEntry="${institutionalProposalAttributes.sponsorCode}" onblur="loadSponsorName('document.institutionalProposalList[0].sponsorCode', 'sponsorName');" />
+                	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.institutionalProposalList[0].sponsorCode,sponsorName:document.institutionalProposalList[0].sponsor.sponsorName" anchor="${tabKey}"/>
+                	<kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.institutionalProposalList[0].sponsorCode:sponsorCode" anchor="${tabKey}"/>
                 	<br />
                 	<div id="sponsorName.div" class="fineprint">
-                		${KualiForm.document.institutionalProposal.sponsor.sponsorName}&nbsp;
+                		${KualiForm.document.institutionalProposalList[0].sponsor.sponsorName}&nbsp;
 					</div>
                 </td>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.sponsorProposalNumber}" /></div></th>
