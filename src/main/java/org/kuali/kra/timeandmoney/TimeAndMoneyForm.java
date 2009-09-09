@@ -80,6 +80,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
             finalExpirationDates.add(null);
             awardHierarchyNodeItems.add(new AwardHierarchyNode());
         }
+        setControlForAwardHierarchyView("0");
     }
     
     /**
