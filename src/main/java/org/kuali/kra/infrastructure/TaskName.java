@@ -43,7 +43,7 @@ public interface TaskName {
     public static final String ALTER_PROPOSAL_DATA = "alterProposalData";
     public static final String SHOW_ALTER_PROPOSAL_DATA = "showAlterProposalData";
     public static final String SUBMIT_TO_WORKFLOW = "submitToWorkflow";
-    // public static final String MAINTAIN_PROPOSAL_HIERARCHY = "maintainProposalHierarchy";
+    public static final String MAINTAIN_PROPOSAL_HIERARCHY = "maintainProposalHierarchy";
     
     /*
      * Narrative Tasks.
