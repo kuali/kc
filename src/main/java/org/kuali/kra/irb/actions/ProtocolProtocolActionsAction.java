@@ -553,4 +553,21 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private ProtocolDeleteService getProtocolDeleteService() {
         return KraServiceLocator.getService(ProtocolDeleteService.class);
     }
+    
+    /**
+     * Print one of the various protocol "documents".  
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printProtocolDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        System.out.println("Print Tag: " + protocolForm.getActionHelper().getPrintTag());
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
 }
