@@ -43,7 +43,8 @@
             </th>
             <td align="left" valign="middle">
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.questionId" 
-                                          attributeEntry="${DataDictionary.Question.attributes.questionId}" />
+                                          attributeEntry="${DataDictionary.Question.attributes.questionId}" 
+                                          readOnly="true" />
             </td>
             <th align="right" valign="middle">
                 <kul:htmlAttributeLabel attributeEntry="${DataDictionary.Question.attributes.categoryTypeCode}" />

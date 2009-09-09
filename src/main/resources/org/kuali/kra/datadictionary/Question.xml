@@ -77,7 +77,6 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Question Id" />
         <property name="shortLabel" value="Question Id" />
-        <property name="required" value="true" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
