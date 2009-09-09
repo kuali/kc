@@ -1489,7 +1489,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * @return Returns the headerNavigationTabs filtered based on hierarchy status.
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
      */
-    @Override
     public HeaderNavigation[] getHeaderNavigationTabs() {
         HeaderNavigation[] tabs = super.getHeaderNavigationTabs();
         List<HeaderNavigation> newTabs = new ArrayList<HeaderNavigation>();
@@ -1497,10 +1496,10 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         boolean disableGrantsGov = getDocument().getDevelopmentProposal().isChild();
         
         for (HeaderNavigation tab : tabs) {
+            if (tab.getHeaderTabNavigateTo().equals("grantsGov")) {
+                tab.setDisabled(disableGrantsGov);
+            }
             if(showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy")) {
-                if (tab.getHeaderTabNavigateTo().equals("grantsGov")) {
-                    tab.setDisabled(disableGrantsGov);
-                }
                 newTabs.add(tab);
             }
         }
