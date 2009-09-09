@@ -38,7 +38,7 @@ public class ProposalHierarcyActionHelper {
 
         }
         catch (Exception e) {
-            GlobalVariables.getMessageList().add("message.hierarchy.syncFailed", e.getMessage());
+            GlobalVariables.getMessageList().add("error.hierarchy.syncFailure", e.getMessage());
         }
     }
     
@@ -50,7 +50,7 @@ public class ProposalHierarcyActionHelper {
 
         }
         catch (Exception e) {
-            GlobalVariables.getMessageList().add("message.hierarchy.removeFailed", e.getMessage());
+            GlobalVariables.getMessageList().add("error.hierarchy.removeFailure", e.getMessage());
         }
     }
     
@@ -62,7 +62,7 @@ public class ProposalHierarcyActionHelper {
 
         }
         catch (Exception e) {
-            GlobalVariables.getMessageList().add("message.hierarchy.syncFailed", e.getMessage());
+            GlobalVariables.getMessageList().add("error.hierarchy.syncFailure", e.getMessage());
         }
     }
 
