@@ -33,9 +33,13 @@ import org.kuali.rice.kns.util.KNSConstants;
         
 public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectAction {
 
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return start(mapping, form, request, response);
+    }
+    
     @Override
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward returnForward = super.start(mapping, form, request, response);
+        ActionForward returnForward = super.execute(mapping, form, request, response);
         
         String docHandler = returnForward.getPath();
         if (("ProposalDevelopmentDocument").equals(request.getParameter("documentTypeName"))) {
