@@ -511,4 +511,9 @@ public interface Constants {
     
     //Award Hierarchy - Time And Money Constants
     public static final String AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT = "000000-00000";
+    
+    // Questionnaire
+    public static final String PARAMETER_MODULE_QUESTIONNAIRE = "KC-QUESTIONNAIRE";
+    public static final String PARAMETER_COMPONENT_PERMISSION = "P";
+
 }
