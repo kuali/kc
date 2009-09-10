@@ -32,6 +32,7 @@ import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -88,7 +89,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
             }
         }
         else {
-            if (hasModifyPermission && !questionnaireMaintenanceDocs.contains(questionnaire.getQuestionnaireId())) {
+            if (hasModifyPermission && (CollectionUtils.isEmpty(questionnaireMaintenanceDocs) || !questionnaireMaintenanceDocs.contains(questionnaire.getQuestionnaireId()))) {
                 htmlDataList.add(getHtmlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
             }
             if (hasViewPermission) {
