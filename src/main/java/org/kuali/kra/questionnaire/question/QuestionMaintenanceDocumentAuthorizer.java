@@ -21,6 +21,7 @@ import java.util.Set;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.questionnaire.QuestionnaireAuthorizationService;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
@@ -35,21 +36,34 @@ public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAu
 
     protected Set<String> getDocumentActions(Document document) {
         Set<String> documentActions = new HashSet<String>();
-
+// TODO: cniesen - submit doesn't work ... clean up
         if (KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTION)
-                && (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("I") 
-                     || document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("S"))) {
+                && (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_INITIATED_CD) 
+                     || document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_SAVED_CD))) {
                documentActions.add(KNSConstants.KUALI_ACTION_CAN_EDIT);
                documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
                documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
                documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
                documentActions.add(KNSConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
+               documentActions.add(KNSConstants.KUALI_ACTION_CAN_APPROVE);
+               documentActions.add(KNSConstants.KUALI_ACTION_CAN_DISAPPROVE);
+               documentActions.add(KNSConstants.KUALI_ACTION_CAN_FYI);
+               documentActions.add(KNSConstants.KUALI_ACTION_CAN_ACKNOWLEDGE);
                documentActions.add(KNSConstants.KUALI_ACTION_CAN_ROUTE);
-               if (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("S")) {
+               if (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_SAVED_CD)) {
                    documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
                }
                documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
-           } else if (KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.VIEW_QUESTION)) {
+           } else if (KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTION)
+                       && (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_FINAL_CD))) {
+               documentActions.add(KNSConstants.KUALI_ACTION_CAN_AD_HOC_ROUTE);
+               documentActions.add(KNSConstants.KUALI_ACTION_CAN_APPROVE);
+               documentActions.add(KNSConstants.KUALI_ACTION_CAN_DISAPPROVE);
+               documentActions.add(KNSConstants.KUALI_ACTION_CAN_FYI);
+               documentActions.add(KNSConstants.KUALI_ACTION_CAN_ACKNOWLEDGE);
+               documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
+           } else if (KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.VIEW_QUESTION)
+                   || KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTION)) {
                documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
            } else {
                throw new RuntimeException("Don't have permission to edit/view Questionnaire");

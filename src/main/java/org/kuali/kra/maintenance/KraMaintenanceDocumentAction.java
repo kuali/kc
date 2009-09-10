@@ -116,6 +116,7 @@ public class KraMaintenanceDocumentAction extends KualiMaintenanceDocumentAction
                     QuestionMaintainableImpl newMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
                             .getNewMaintainableObject();
                     versionedQuestion.setQuestionRefId(questionRefId);
+                    versionedQuestion.setVersionNumber(oldQuestion.getVersionNumber());
                     newMaintainableObject.setBusinessObject(versionedQuestion);
                 }
             }
