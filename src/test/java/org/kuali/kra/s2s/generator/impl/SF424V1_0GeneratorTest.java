@@ -97,12 +97,12 @@ public class SF424V1_0GeneratorTest extends S2STestBase<SF424V1_0Generator> {
         document.getDevelopmentProposal().setTitle("SF424");
         document.getDevelopmentProposal().setRequestedStartDateInitial(new Date(0));
         document.getDevelopmentProposal().setRequestedEndDateInitial(new Date(0));
-        document.getDevelopmentProposal().setPerformingOrganization(performingOrganization);
-        document.getDevelopmentProposal().setApplicantOrganization(organization);
+        document.getDevelopmentProposal().setPerformingOrgFromOrganization(performingOrganization);
+        document.getDevelopmentProposal().setApplicantOrgFromOrganization(organization);
         document.getDevelopmentProposal().setRolodex(rolodex);
         document.getDevelopmentProposal().setSponsor(sponsor);
         document.getDevelopmentProposal().setOwnedByUnit(unit);
         document.getDevelopmentProposal().getOwnedByUnit().setParentUnit(unit2);
-        document.getDevelopmentProposal().setApplicantOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrgFromOrganization(organization);
     }
 }

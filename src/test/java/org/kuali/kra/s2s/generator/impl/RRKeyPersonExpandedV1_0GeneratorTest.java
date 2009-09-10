@@ -147,7 +147,7 @@ public class RRKeyPersonExpandedV1_0GeneratorTest extends S2STestBase<RRKeyPerso
         proposalPersonList.add(proposalPerson);
         proposalPersonList.add(keyPerson);
         document.getDevelopmentProposal().setProposalPersons(proposalPersonList);
-        document.getDevelopmentProposal().setApplicantOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrgFromOrganization(organization);
         document.getDevelopmentProposal().setOwnedByUnit(unit);
         document.getDevelopmentProposal().getOwnedByUnit().setParentUnit(unit2);
         document.getDevelopmentProposal().setNarratives(naList);

@@ -48,7 +48,7 @@ public class SF424AV1_0GeneratorTest extends S2STestBase<SF424AV1_0Generator> {
         Organization organization = new Organization();
         organization.setDunsNumber("122");
         organization.setOrganizationName("MIT");
-        pdDoc.getDevelopmentProposal().setApplicantOrganization(organization);
+        pdDoc.getDevelopmentProposal().setApplicantOrgFromOrganization(organization);
 
         S2sSubmissionType submissionType = new S2sSubmissionType();
         submissionType.setS2sSubmissionTypeCode("1");

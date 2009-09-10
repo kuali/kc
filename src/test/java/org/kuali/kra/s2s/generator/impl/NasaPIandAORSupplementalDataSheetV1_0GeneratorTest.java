@@ -65,6 +65,6 @@ public class NasaPIandAORSupplementalDataSheetV1_0GeneratorTest extends S2STestB
         proposalYnq.setAnswer("N");
         proArrayList.add(proposalYnq);
         document.getDevelopmentProposal().setProposalYnqs(proArrayList);
-        document.getDevelopmentProposal().setApplicantOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrgFromOrganization(organization);
     }
 }
