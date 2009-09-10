@@ -103,7 +103,6 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         itemValid &= isFrequencyCodeFieldComplete(awardReportTermItem);
         itemValid &= isFrequencyBaseCodeFieldComplete(awardReportTermItem);
         itemValid &= isDistributionFieldComplete(awardReportTermItem);
-        itemValid &= isDueDateFieldComplete(awardReportTermItem);
         
         return itemValid;
     }
@@ -153,16 +152,6 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
         
         if(!itemValid) {            
             reportError(AWARD_REPORT_TERM_DISTRIBUTION_PROPERTY, KeyConstants.ERROR_REQUIRED, DISTRIBUTION_ERROR_PARM);
-        }
-        
-        return itemValid;
-    }
-    
-    protected boolean isDueDateFieldComplete(AwardReportTerm awardReportTermItem) {
-        boolean itemValid = awardReportTermItem.getDueDate() != null;
-        
-        if (!itemValid) {
-            reportError(AWARD_REPORT_TERM_DUE_DATE_PROPERTY, KeyConstants.ERROR_REQUIRED, DUE_DATE_ERROR_PARM);
         }
         
         return itemValid;

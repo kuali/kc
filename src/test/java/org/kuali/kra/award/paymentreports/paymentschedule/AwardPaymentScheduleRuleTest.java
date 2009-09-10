@@ -59,31 +59,6 @@ public class AwardPaymentScheduleRuleTest {
     }
     
     @Test
-    public void testRequiredFieldPresent() {
-        AwardPaymentSchedule paymentScheduleItem = createPaymentScheduleItem(new Date(calendar.getTimeInMillis()), 
-                                                        award.getAwardNumber(), award.getSequenceNumber());
-        Assert.assertTrue(awardPaymentScheduleRule.areRequiredFieldsComplete(paymentScheduleItem));
-        
-        paymentScheduleItem.setAmount(null);
-        Assert.assertTrue(awardPaymentScheduleRule.areRequiredFieldsComplete(paymentScheduleItem));
-        
-        paymentScheduleItem.setStatus(null);
-        Assert.assertTrue(awardPaymentScheduleRule.areRequiredFieldsComplete(paymentScheduleItem));
-        
-        paymentScheduleItem.setStatusDescription(null);
-        Assert.assertTrue(awardPaymentScheduleRule.areRequiredFieldsComplete(paymentScheduleItem));
-        
-        paymentScheduleItem.setSubmitDate(null);
-        Assert.assertTrue(awardPaymentScheduleRule.areRequiredFieldsComplete(paymentScheduleItem));
-        
-        paymentScheduleItem.setSubmittedBy(null);
-        Assert.assertTrue(awardPaymentScheduleRule.areRequiredFieldsComplete(paymentScheduleItem));
-        
-        paymentScheduleItem.setDueDate(null);
-        Assert.assertFalse(awardPaymentScheduleRule.areRequiredFieldsComplete(paymentScheduleItem));
-    }
-    
-    @Test
     public void testIsUnique() {
         AwardPaymentSchedule paymentScheduleItem1 = createPaymentScheduleItem(new Date(calendar.getTimeInMillis()), 
                                                         award.getAwardNumber(), award.getSequenceNumber());

@@ -93,7 +93,7 @@
 		<property name="name" value="dueDate" />
 		<property name="label" value="Due Date" />
 		<property name="shortLabel" value="Due Date" />
-		<property name="required" value="true" />
+		<property name="required" value="false" />
 		<property name="summary" value="Due Date" />
 		<property name="description" value="Due Date" />
 	</bean>
