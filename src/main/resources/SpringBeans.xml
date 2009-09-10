@@ -1822,6 +1822,9 @@
         <property name="questionnaireAuthorizationService">
             <ref bean="questionnaireAuthorizationService" />
         </property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
 	</bean>
 
 	<bean id="questionnaireLookupableHelperService" class="org.kuali.kra.questionnaire.QuestionnaireLookupableHelperServiceImpl" 
