@@ -21,7 +21,8 @@
 <div id="lookup_class_html_control" style="${htmlControlDivStyle}">
     <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.lookupClass" 
                               attributeEntry="${DataDictionary.Question.attributes.lookupClass}"
-                              onchange="updateLookupReturn(this, updateLookupReturn_Callback)" />
+                              onchange="updateLookupReturn(this, updateLookupReturn_Callback)" 
+                              readOnlyAlternateDisplay="${KualiForm.document.newMaintainableObject.businessObject.lookupClassDescription}" />
 </div>
 <div id="lookup_class_post_message" style="display: inline">
     ${postMessage}
