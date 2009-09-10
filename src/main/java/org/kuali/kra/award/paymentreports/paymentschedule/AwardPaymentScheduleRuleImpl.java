@@ -46,7 +46,7 @@ public class AwardPaymentScheduleRuleImpl extends ResearchDocumentRuleBase
      * @return
      */
     public boolean processAddAwardPaymentScheduleBusinessRules(AddAwardPaymentScheduleRuleEvent event) {
-        return areRequiredFieldsComplete(event.getPaymentScheduleItemForValidation()) && processCommonValidations(event);        
+        return processCommonValidations(event);        
     }
     
     private boolean processCommonValidations(AwardPaymentScheduleRuleEvent event) {
@@ -81,22 +81,6 @@ public class AwardPaymentScheduleRuleImpl extends ResearchDocumentRuleBase
             }
         }
         return !duplicateFound;
-    }
-
-    /**
-     * Validate required fields present
-     * @param equipmentItem
-     * @return
-     */
-    boolean areRequiredFieldsComplete(AwardPaymentSchedule paymentScheduleItem) {        
-        boolean itemValid = paymentScheduleItem.getDueDate() != null;
-        
-        if(!itemValid) {
-            reportError(PAYMENT_SCHEDULE_DUE_DATE_PROPERTY, 
-                            KeyConstants.ERROR_AWARD_PAYMENT_SCHEDULE_DUE_DATE_REQUIRED, DUE_DATE_ERROR_PARM);
-        }        
-        
-        return itemValid;
     }
     
     private boolean hasDuplicateErrorBeenReported() {
