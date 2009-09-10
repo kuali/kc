@@ -20,7 +20,8 @@
 </div>
 <div id="lookup_return_html_control" style="${htmlControlDivStyle}">
     <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.lookupReturn" 
-                              attributeEntry="${DataDictionary.Question.attributes.lookupReturn}" />
+                              attributeEntry="${DataDictionary.Question.attributes.lookupReturn}" 
+                              readOnlyAlternateDisplay="${KualiForm.document.newMaintainableObject.businessObject.lookupReturnDescription}" />
 </div>
 <div id="lookup_return_post_message" style="display: inline">
     ${postMessage}
