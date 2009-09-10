@@ -25,8 +25,6 @@
   	headerTabActive="questions">
 
 
-This is the Award Questions - Under Construction
-
 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 

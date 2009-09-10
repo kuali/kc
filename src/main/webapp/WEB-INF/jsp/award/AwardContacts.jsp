@@ -25,7 +25,6 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="contacts">
 
-This is the Award Contacts - Under Construction
 
 <%-- modeled after ProposalDevelopmentKeyPersonnel.jsp --%>
 <div align="right"><kul:help documentTypeName="AwardDocument" pageName="Award Contacts" /></div>

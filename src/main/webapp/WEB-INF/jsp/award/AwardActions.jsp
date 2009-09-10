@@ -25,7 +25,6 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="awardActions">
   	
-This is the Award Actions - Under Construction
 <kra-a:awardDataValidation />
 <%--<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>--%>
 <kra-a:awardHierarchy />
