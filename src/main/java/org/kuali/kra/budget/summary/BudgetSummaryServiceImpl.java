@@ -105,6 +105,9 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                     /* add line items for following periods */
                     for(BudgetLineItem periodLineItem: budgetLineItems) {
                         BudgetLineItem budgetLineItem = (BudgetLineItem)ObjectUtils.deepCopy(periodLineItem);
+                        //required to avoid deep copying multiple versions of the budget. With only a few line items 
+                        //this would cause deep copy to hang and possibly crash the server.
+                        budgetLineItem.setBudget(budget);
                         budgetLineItem.getBudgetCalculatedAmounts().clear();
                         budgetLineItem.setBudgetPeriod(budPeriod);
                         budgetLineItem.setBudgetPeriodId(budgetPeriodId);
