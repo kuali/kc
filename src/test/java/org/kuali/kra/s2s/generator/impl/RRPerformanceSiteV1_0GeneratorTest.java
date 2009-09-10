@@ -57,7 +57,7 @@ public class RRPerformanceSiteV1_0GeneratorTest extends S2STestBase<RRPerformanc
         rolodex.setState("AL");
         rolodex.setCountryCode("USA");
         performOrganization.setRolodex(rolodex);
-        document.getDevelopmentProposal().setPerformingOrganization(performOrganization);
+        document.getDevelopmentProposal().setPerformingOrgFromOrganization(performOrganization);
 
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();

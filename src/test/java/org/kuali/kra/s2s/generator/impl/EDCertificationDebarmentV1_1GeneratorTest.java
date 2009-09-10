@@ -49,6 +49,6 @@ public class EDCertificationDebarmentV1_1GeneratorTest extends S2STestBase<EDCer
         rolodex.setState("AL");
         rolodex.setRolodexId(12345);
         organization.setRolodex(rolodex);
-        document.getDevelopmentProposal().setApplicantOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrgFromOrganization(organization);
     }
 }
