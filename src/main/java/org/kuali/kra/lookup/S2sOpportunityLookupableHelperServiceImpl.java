@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.lookup;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -33,6 +35,9 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.kns.web.format.TimestampAMPMFormatter;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
@@ -121,5 +126,26 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
             }
         }
         return displayList;
+    }
+    /**
+     * As a workaround to format timestamp objects, overriding this method to handle timestamp formating.
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getParameters(org.kuali.rice.kns.bo.BusinessObject, java.util.Map, java.lang.String, java.util.List)
+     */
+    protected Properties getParameters(BusinessObject bo, Map fieldConversions, String lookupImpl, List returnKeys) {
+        Properties parameters = super.getParameters(bo, fieldConversions, lookupImpl, returnKeys);
+        Iterator returnKeysIt = getReturnKeys().iterator();
+        while (returnKeysIt.hasNext()) {
+            String fieldNm = (String) returnKeysIt.next();
+            Object fieldVal = ObjectUtils.getPropertyValue(bo, fieldNm);
+            if (fieldVal instanceof Timestamp) {
+                Formatter timestampFormatter = new TimestampAMPMFormatter();
+                fieldVal = timestampFormatter.format(fieldVal); 
+                if (fieldConversions.containsKey(fieldNm)) {
+                    fieldNm = (String) fieldConversions.get(fieldNm);
+                }
+                parameters.setProperty(fieldNm, fieldVal.toString());
+            }
+        }
+        return parameters;
     }
 }
