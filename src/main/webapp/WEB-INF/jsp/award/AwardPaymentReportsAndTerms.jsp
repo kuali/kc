@@ -24,8 +24,6 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="paymentReportsAndTerms">
  	
-  	
-This is the Award Payments, Reports & Terms - Under Construction
 
 <div align="right"><kul:help documentTypeName="AwardDocument" pageName="PaymentReportsAndTerms" /></div>
 
