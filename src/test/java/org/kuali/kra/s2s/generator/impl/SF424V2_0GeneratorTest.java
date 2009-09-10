@@ -134,11 +134,11 @@ public class SF424V2_0GeneratorTest extends S2STestBase<SF424V2_0Generator> {
         orgList.add(orgYnq);
         organization.setOrganizationYnqs(orgList);
 
-        document.getDevelopmentProposal().setPerformingOrganization(perforOrganization);
+        document.getDevelopmentProposal().setPerformingOrgFromOrganization(perforOrganization);
         document.getDevelopmentProposal().setRolodex(rolodex);
         document.getDevelopmentProposal().setOwnedByUnit(unit);
         document.getDevelopmentProposal().getOwnedByUnit().setParentUnit(unit2);
-        document.getDevelopmentProposal().setApplicantOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrgFromOrganization(organization);
         document.getDevelopmentProposal().setSponsor(sponsor);
         document.getDevelopmentProposal().setProposalTypeCode("1");
         document.getDevelopmentProposal().setCfdaNumber("0125");

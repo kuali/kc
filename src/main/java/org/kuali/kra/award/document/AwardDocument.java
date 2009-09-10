@@ -50,7 +50,6 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;

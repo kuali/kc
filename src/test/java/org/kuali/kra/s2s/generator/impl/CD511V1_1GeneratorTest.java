@@ -44,6 +44,6 @@ public class CD511V1_1GeneratorTest extends S2STestBase<CD511V1_1Generator> {
         rolodex.setMiddleName("C.");
         rolodex.setRolodexId(1234);
         organization.setRolodex(rolodex);
-        document.getDevelopmentProposal().setApplicantOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrgFromOrganization(organization);
     }
 }

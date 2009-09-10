@@ -57,7 +57,7 @@ public class PHS398CoverPageSupplementV1_0GeneratorTest extends S2STestBase<PHS3
         rolodex.setRolodexId(123);
         Organization organization = new Organization();
         organization.setRolodex(rolodex);
-        document.getDevelopmentProposal().setApplicantOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrgFromOrganization(organization);
         document.getDevelopmentProposal().setRolodex(rolodex);
 
         ProposalPerson person = new ProposalPerson();
