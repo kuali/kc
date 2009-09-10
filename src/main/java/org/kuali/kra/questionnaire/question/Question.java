@@ -18,11 +18,16 @@ package org.kuali.kra.questionnaire.question;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 public class Question extends KraPersistableBusinessObjectBase implements Comparable<Question>, SequenceOwner<Question> { 
     
@@ -114,6 +119,12 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     public void setLookupClass(String lookupClass) {
         this.lookupClass = lookupClass;
     }
+    
+    public String getLookupClassDescription() {
+        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        Map<String, BusinessObjectEntry> businessObjectEntries = dataDictionaryService.getDataDictionary().getBusinessObjectEntries();
+        return StringUtils.removeEnd(businessObjectEntries.get(this.lookupClass).getLookupDefinition().getTitle().trim()," Lookup");
+    }
 
     public String getLookupReturn() {
         return lookupReturn;
@@ -121,6 +132,11 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
 
     public void setLookupReturn(String lookupReturn) {
         this.lookupReturn = lookupReturn;
+    }
+    
+    public String getLookupReturnDescription() {
+        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        return dataDictionaryService.getAttributeLabel(this.lookupClass,this.lookupReturn);
     }
 
     public Integer getDisplayedAnswers() {
