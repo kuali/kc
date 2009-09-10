@@ -338,7 +338,7 @@ public class AwardAction extends BudgetParentActionBase {
         populateAwardHierarchy(form);
         
         Award award = awardForm.getAwardDocument().getAward();
-        if(isNewAward(awardForm)){
+        if(isNewAward(awardForm) && !(award.getBeginDate() == null)){
             AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
             awardForm.getAwardDocument().getAward().setAwardDirectFandADistributions
                                 (awardDirectFandADistributionService.
