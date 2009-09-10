@@ -50,7 +50,7 @@ public class SFLLLV1_1GeneratorTest extends S2STestBase<SFLLLV1_1Generator> {
         rolodex.setPostalCode("465456546");
         rolodex.setRolodexId(1234);
         organization.setRolodex(rolodex);
-        document.getDevelopmentProposal().setApplicantOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrgFromOrganization(organization);
         Rolodex rolodex1 = new Rolodex();
         rolodex1.setAddressLine1("#272/B");
         rolodex1.setAddressLine2("15 th Main");

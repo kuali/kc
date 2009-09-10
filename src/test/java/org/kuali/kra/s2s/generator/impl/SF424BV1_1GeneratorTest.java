@@ -37,6 +37,6 @@ public class SF424BV1_1GeneratorTest extends S2STestBase<SF424BV1_1Generator> {
         organization.setOrganizationName("MIT");
         Rolodex rolodex = new Rolodex();
         rolodex.setTitle("Principal Investigator");
-        document.getDevelopmentProposal().setApplicantOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrgFromOrganization(organization);
     }
 }

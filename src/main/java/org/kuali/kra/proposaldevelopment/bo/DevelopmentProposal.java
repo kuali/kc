@@ -118,8 +118,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase {
     transient private ProposalPersonBiographyService proposalPersonBiographyService;
     private ActivityType activityType;
 
-    private transient Boolean allowsNoteAttachments;
-
     private List<ProposalYnq> proposalYnqs;
     private List<YnqGroupName> ynqGroupNames;
 //    private List<BudgetDocumentVersion> budgetDocumentVersions;
@@ -641,8 +639,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase {
     /**
      * This method sets the Applicant Organization based on a Organization object.
      * @param organization
+     * @see setApplicantOrganization(ProposalSite)
      */
-    public void setApplicantOrganization(Organization organization) {
+    public void setApplicantOrgFromOrganization(Organization organization) {
         if (organization == null) {
             setApplicantOrganization((ProposalSite)null);
         }
@@ -664,8 +663,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase {
     /**
      * This method sets the Performing Organization based on a Organization object.
      * @param organization
+     * @see setPerformingOrgFromOrganization(ProposalSite)
      */
-    public void setPerformingOrganization(Organization organization) {
+    public void setPerformingOrgFromOrganization(Organization organization) {
         if (organization == null) {
             setPerformingOrganization((ProposalSite)null);
         }
@@ -1534,20 +1534,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase {
 //        }
 //        return null;
 //    }
-
-    public Boolean getAllowsNoteAttachments() {
-        if (allowsNoteAttachments == null) {
-            DataDictionary dataDictionary = KNSServiceLocator.getDataDictionaryService().getDataDictionary();
-            DocumentEntry entry = dataDictionary.getDocumentEntry(getClass().getName());
-            allowsNoteAttachments = entry.getAllowsNoteAttachments();
-        }
-
-        return allowsNoteAttachments;
-    }
-
-    public void setAllowsNoteAttachments(boolean allowsNoteAttachments) {
-        this.allowsNoteAttachments = allowsNoteAttachments;
-    }
 
 //    public void addNewBudgetVersion(BudgetDocument budgetDocument, String name, boolean isDescriptionUpdatable) {
 //        BudgetDocumentVersion budgetDocumentVersion = new BudgetDocumentVersion();

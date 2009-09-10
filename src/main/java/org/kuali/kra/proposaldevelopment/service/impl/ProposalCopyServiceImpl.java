@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
@@ -39,6 +40,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
@@ -139,7 +141,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                                                    "BudgetVersionOverviews",
                                                    "SubmitFlag",
                                                    "ProposalStateTypeCode",
-                                                   "ProposalState" };
+                                                   "ProposalState",
+                                                   "ProposalDocument" };
     
     private static String forceCopyProperty = "documentNextvalues";
     
@@ -291,19 +294,34 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         List<DocProperty> properties = getCopyableProperties();
         
         //We need to copy DocumentNextValues to properly handle copied collections
-        String capitalizedPropertyName = StringUtils.capitalize(forceCopyProperty);
-        Method getDocumentNextValues = getGetter(capitalizedPropertyName, ProposalDevelopmentDocument.class.getSuperclass().getDeclaredMethods());
-        Method setDocumentNextValues = getSetter(capitalizedPropertyName, ProposalDevelopmentDocument.class.getSuperclass().getDeclaredMethods());
-        DocProperty documentNextValues = new DocProperty(getDocumentNextValues, setDocumentNextValues);
-        properties.add(documentNextValues);
+        fixNextValues(src, dest);
         
-        copyProperties(src, dest, properties);
+        copyProperties(src.getDevelopmentProposal(), dest.getDevelopmentProposal(), properties);
     }
-
+    
+    /**
+     * The document next values must be the same in the new version as in
+     * the old document.  Note that the next document values must be assigned
+     * the document number of the new version.
+     * @param oldDoc
+     * @param newDoc
+     */
+    private void fixNextValues(ProposalDevelopmentDocument oldDoc, ProposalDevelopmentDocument newDoc) {
+        List<DocumentNextvalue> newNextValues = new ArrayList<DocumentNextvalue>();
+        List<DocumentNextvalue> oldNextValues = oldDoc.getDocumentNextvalues();
+        for (DocumentNextvalue oldNextValue : oldNextValues) {
+            DocumentNextvalue newNextValue = new DocumentNextvalue();
+            newNextValue.setPropertyName(oldNextValue.getPropertyName());
+            newNextValue.setNextValue(oldNextValue.getNextValue());
+            newNextValue.setDocumentKey(newDoc.getDocumentNumber());
+            newNextValues.add(newNextValue);
+        }
+        newDoc.setDocumentNextvalues(newNextValues);
+    }
     
     //Or I could use an anonymous filter class???
             
-    private void copyProperties(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest, List<DocProperty> properties) throws Exception {
+    private void copyProperties(DevelopmentProposal src, DevelopmentProposal dest, List<DocProperty> properties) throws Exception {
         for (DocProperty property : properties) {
             Object value = property.getter.invoke(src);
             if (value instanceof Serializable) {
@@ -346,10 +364,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     }
     
     /**
-     * Get the list of Proposal Development Document properties that can be copied.
+     * Get the list of DevelopmentProposal properties that can be copied.
      * A property can only be copied if it meets the following criteria.
      * <ul>
-     * <li>It was declared in the <b>ProposalDevelopmentDocument</b> class.</li>
+     * <li>It was declared in the <b>DevelopmentProposal</b> class.</li>
      * <li>It has a setter and a getter method.</li>
      * <li>It is not a filtered property.</li>
      * </ul>
@@ -359,7 +377,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private List<DocProperty> getCopyableProperties() {
         List<DocProperty> list = new ArrayList<DocProperty>();
         
-        Method[] methods = ProposalDevelopmentDocument.class.getDeclaredMethods();
+        Method[] methods = DevelopmentProposal.class.getDeclaredMethods();
         for (Method method : methods) {
             if (method.getName().startsWith("set")) {      
                 String name = getPropertyName(method);

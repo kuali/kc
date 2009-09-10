@@ -95,8 +95,8 @@ public class RRSF424V1_0GeneratorTest extends S2STestBase<RRSF424V1_0Generator> 
         organization.setCongressionalDistrict("Alaska");
         organization.setOrganizationTypes(organizationTypes);
         organization.setRolodex(rolodex);
-        document.getDevelopmentProposal().setApplicantOrganization(organization);
-        document.getDevelopmentProposal().setPerformingOrganization(organization);
+        document.getDevelopmentProposal().setApplicantOrgFromOrganization(organization);
+        document.getDevelopmentProposal().setPerformingOrgFromOrganization(organization);
         document.getDevelopmentProposal().setRolodex(rolodex);
 
         Unit unit = new Unit();
@@ -190,7 +190,7 @@ public class RRSF424V1_0GeneratorTest extends S2STestBase<RRSF424V1_0Generator> 
         document.getDevelopmentProposal().setRequestedStartDateInitial(new Date(0));
         document.getDevelopmentProposal().setRequestedEndDateInitial(new Date(0));
         document.getDevelopmentProposal().setNarratives(naList);
-        document.getDevelopmentProposal().setPerformingOrganization(performingOrganization);
+        document.getDevelopmentProposal().setPerformingOrgFromOrganization(performingOrganization);
         document.getDevelopmentProposal().setSponsor(sponsor);
         document.getDevelopmentProposal().setProposalPersons(personList);
 

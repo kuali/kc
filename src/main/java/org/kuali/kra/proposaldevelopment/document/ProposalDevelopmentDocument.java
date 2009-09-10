@@ -43,8 +43,11 @@ import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.workflow.DocumentInitiator;
@@ -55,13 +58,14 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument implements
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
 
     public static final String DOCUMENT_TYPE_CODE = "PRDV";
+    private static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
+    private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to proposal";
+    private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
 
     private static final long serialVersionUID = 2958631745964610527L;
     private List<DevelopmentProposal> developmentProposalList;
     private List<BudgetDocumentVersion> budgetDocumentVersions;
-    private static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
-    private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to proposal";
-    private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
+    private transient Boolean allowsNoteAttachments;
 
     public ProposalDevelopmentDocument() {
         super();
@@ -160,10 +164,19 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument implements
         getDevelopmentProposal().updateProposalChangeHistory();
     }
 
-    public void setAllowsNoteAttachments(boolean allowsNoteAttachments) {
-        getDevelopmentProposal().setAllowsNoteAttachments(allowsNoteAttachments);
+    public Boolean getAllowsNoteAttachments() {
+        if (allowsNoteAttachments == null) {
+            DataDictionary dataDictionary = KNSServiceLocator.getDataDictionaryService().getDataDictionary();
+            DocumentEntry entry = dataDictionary.getDocumentEntry(getClass().getName());
+            allowsNoteAttachments = entry.getAllowsNoteAttachments();
+        }
+
+        return allowsNoteAttachments;
     }
-    
+
+    public void setAllowsNoteAttachments(boolean allowsNoteAttachments) {
+        this.allowsNoteAttachments = allowsNoteAttachments;
+    }
 
     /**
      * 
