@@ -452,23 +452,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     }
     
     /**
-     * Gets the setter method for a property.
-     * 
-     * @param name the name of the property.
-     * @param methods the list of methods to look in for the getter method.
-     * @return the getter method or null if not found.
-     */
-    private Method getSetter(String name, Method[] methods) {
-        String setter = "set" + name;
-        for (Method method : methods) {
-            if (setter.equals(method.getName())) {
-                return method;
-            }
-        }
-        return null;
-    }
-        
-    /**
      * Set the lead unit for the new proposal.
      * @param doc the new proposal development document
      * @param newLeadUnitNumber the new lead unit number
@@ -576,7 +559,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     /**
      * Recurse through all of the BOs and reset all of the Version Number
      * properties to null.  Note that the version number for the top-level
-     * document must be left as is.
+     * document (ProposalDevelopmentDocument) and the DevelopmentProposal
+     * must be left as is.
      * @param object the object
      */
     @SuppressWarnings("unchecked")
@@ -588,7 +572,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             Method[] methods = object.getClass().getMethods();
             for (Method method : methods) {
                 if (method.getName().equals("setVersionNumber")) {
-                    if (!(object instanceof ProposalDevelopmentDocument)) {
+                    if (!(object instanceof ProposalDevelopmentDocument) &&
+                            !(object instanceof DevelopmentProposal)) {
                         method.invoke(object, (Long) null);
                     }
                     break;

@@ -63,9 +63,11 @@ public class CopyBudgetVersionsValuesFinder extends KeyValuesBase {
     boolean finalVersionPresent() {
         
         final ProposalDevelopmentDocument document = this.getDocument();
-        for (final BudgetDocumentVersion overview : document.getBudgetDocumentVersions()) {
-            if (overview.getBudgetVersionOverview().isFinalVersionFlag()) {
-                return true;
+        if (document != null) {
+            for (final BudgetDocumentVersion overview : document.getBudgetDocumentVersions()) {
+                if (overview.getBudgetVersionOverview().isFinalVersionFlag()) {
+                    return true;
+                }
             }
         }
         return false;
@@ -80,6 +82,9 @@ public class CopyBudgetVersionsValuesFinder extends KeyValuesBase {
      */
     ProposalDevelopmentDocument getDocument() {
         final ProposalDevelopmentForm form = (ProposalDevelopmentForm) GlobalVariables.getKualiForm();
+        if (form == null) {
+            return null;
+        }
         return form.getDocument();
     }
 }
