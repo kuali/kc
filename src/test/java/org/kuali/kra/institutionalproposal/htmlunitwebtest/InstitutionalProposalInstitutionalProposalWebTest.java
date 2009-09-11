@@ -51,10 +51,10 @@ private static final String SAVE_METHOD = "methodToCall.save";
      */
     @Test
     public void testInstitutionalProposalInstitutionalProposalAddRequiredDataAndSave() throws Exception {
-        setFieldValue(proposalHomePage, "document.institutionalProposal.activityTypeCode", "1");
-        setFieldValue(proposalHomePage, "document.institutionalProposal.proposalTypeCode", "1");
+        setFieldValue(proposalHomePage, "document.institutionalProposalList[0].activityTypeCode", "1");
+        setFieldValue(proposalHomePage, "document.institutionalProposalList[0].proposalTypeCode", "1");
         setFieldValue(proposalHomePage, "document.institutionalProposal.statusCode", "1");
-        setFieldValue(proposalHomePage, "document.institutionalProposal.title", "Test Project");
+        setFieldValue(proposalHomePage, "document.institutionalProposalList[0].title", "Test Project");
         proposalHomePage = clickOn(proposalHomePage, SAVE_METHOD);
         assertContains(proposalHomePage, SAVE_SUCCESS_MESSAGE);
     }
