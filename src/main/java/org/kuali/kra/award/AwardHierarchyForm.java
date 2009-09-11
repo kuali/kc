@@ -34,28 +34,32 @@ public class AwardHierarchyForm extends KualiForm {
     private String addRA;    
     private String deletedRas;
     private String controlForAwardHierarchyView;
+    private String rootAwardNumber;
     
     
     public String getAwardHierarchy() throws ParseException {
         awardHierarchy = "";
-        if (StringUtils.isNotBlank(addRA) && addRA.equals("Y")) {
+        if(StringUtils.isBlank(awardNumber)){
+            awardNumber = getRootAwardNumber();
+        }
+        if(StringUtils.isNotBlank(addRA) && addRA.equals("Y")) {
             if (getAwardHierarchyUIService().doesAwardHierarchyExist(awardNumber, deletedRas)) {
                 setAwardHierarchy("<h3>true</h3>");
             }else {
                 setAwardHierarchy("<h3>false</h3>");
             }
-        } else if (StringUtils.isNotBlank(addRA) && addRA.equals("S")) {
+        }else if (StringUtils.isNotBlank(addRA) && addRA.equals("S")) {
             //KraServiceLocator.getService(AwardHierarchyUIService.class).saveResearchAreas(sqlScripts);
             String error = (String) GlobalVariables.getUserSession().retrieveObject("raError");
-            if (StringUtils.isNotBlank(error)) {
+            if(StringUtils.isNotBlank(error)){
                 setAwardHierarchy("<h3>" + error + "</h3>");
                 GlobalVariables.getUserSession().addObject("raError", (Object) null);
-            } else {
+            }else{
                 setAwardHierarchy("<h3>Success</h3>");
             }
-        } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
+        }else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
             setAwardHierarchy(getAwardHierarchyUIService().getSubAwardHierarchiesForTreeView(awardNumber));
-        } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("N")){
+        }else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("N")){
             setAwardHierarchy(getAwardHierarchyUIService().getRootAwardNode(awardNumber));
         }
         return awardHierarchy;
@@ -139,6 +143,22 @@ public class AwardHierarchyForm extends KualiForm {
      */
     public void setAwardHierarchy(String awardHierarchy) {
         this.awardHierarchy = awardHierarchy;
+    }
+
+    /**
+     * Gets the rootAwardNumber attribute. 
+     * @return Returns the rootAwardNumber.
+     */
+    public String getRootAwardNumber() {
+        return rootAwardNumber;
+    }
+
+    /**
+     * Sets the rootAwardNumber attribute value.
+     * @param rootAwardNumber The rootAwardNumber to set.
+     */
+    public void setRootAwardNumber(String rootAwardNumber) {
+        this.rootAwardNumber = rootAwardNumber;
     }
     
 }

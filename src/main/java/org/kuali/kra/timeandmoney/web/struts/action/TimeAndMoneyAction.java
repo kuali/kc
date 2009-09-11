@@ -89,7 +89,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             awardAmountInfoObjects.add(aai);
         }
         getBusinessObjectService().save(awardAmountInfoObjects);
-        getBusinessObjectService().save(timeAndMoneyDocument.getAward());        
+        //getBusinessObjectService().save(timeAndMoneyDocument.getAward());        
         
         return forward;
     }

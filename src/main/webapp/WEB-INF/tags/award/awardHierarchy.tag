@@ -27,6 +27,25 @@
 			</span>
         </h3>        
     
+	<table style="border: medium none ; width: 100%; border-collapse: collapse;">
+	<tbody><tr>
+		<td style="border: medium none ; border-collapse: collapse; background-color: rgb(234, 233, 234);">
+		<span style="display: inline;" id="treecontrol">
+		${fn:length(KualiForm.order)} Nodes: 
+		<a href="#" title="Collapse the entire tree below"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
+		<a href="#" title="Expand the entire tree below"><img src="static/images/jquery/plus.gif" /> Expand All</a>
+		</span>
+		</td>
+	</tr>
+	</tbody></table>
+	     
+     <div style = "background:#e4e4e4" >     
+  <ul id="awardhierarchy" class="filetree stripeli treeview"  >
+        <%-- <li><span class="folder">00000</span>
+        </li> --%>
+    </ul>
+   </div>
+       
 	<table cellpadding="0" cellspacing="0" summary="">
     	<%-- Header --%>
     	<tr>
@@ -105,4 +124,6 @@
       </table>	
     
     </div>
+    
+    <input type="hidden" id = "rootAwardNumber" name="rootAwardNumber" value="${KualiForm.rootAwardNumber}">
 </kul:tab>

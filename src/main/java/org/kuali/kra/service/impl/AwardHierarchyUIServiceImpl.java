@@ -79,6 +79,9 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAntDistributableAmount());
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAmountObligatedToDate().subtract(aNode.getObliDistributableAmount()));
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAnticipatedTotalAmount().subtract(aNode.getAntDistributableAmount()));
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getAwardStatusCode());            
+            appendDate(aNode.getProjectStartDate(), sb);
+            sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE).append(aNode.getTitle());
             sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE);    
         }
         return sb.toString();
@@ -159,12 +162,16 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
                 awardHierarchyNode.setLeadUnitName(award.getUnitName());
                 awardHierarchyNode.setPrincipalInvestigatorName(award.getPrincipalInvestigatorName());
                 awardHierarchyNode.setAccountNumber(award.getAccountNumber());
+                awardHierarchyNode.setAwardStatusCode(award.getStatusCode());
                 awardHierarchyNode.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
                 awardHierarchyNode.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
                 awardHierarchyNode.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
                 awardHierarchyNode.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
                 awardHierarchyNode.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
-                awardHierarchyNode.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());                
+                awardHierarchyNode.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
+                awardHierarchyNode.setProjectStartDate(award.getBeginDate());
+                awardHierarchyNode.setTitle(award.getTitle());
+                
                 awardHierarchyNodes.put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
             }   
         } 
