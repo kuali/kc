@@ -55,6 +55,8 @@
                 <ref bean="InstitutionalProposal-requestedStartDateTotal" />
                 <ref bean="InstitutionalProposal-requestedEndDateInitial" />
                 <ref bean="InstitutionalProposal-requestedEndDateTotal" />
+                <ref bean="InstitutionalProposal-fiscalMonth" />
+                <ref bean="InstitutionalProposal-fiscalYear" />
                 <ref bean="InstitutionalProposal-totalDirectCostInitial" />
                 <ref bean="InstitutionalProposal-totalDirectCostTotal" />
                 <ref bean="InstitutionalProposal-totalIndirectCostInitial" />
@@ -102,6 +104,42 @@
         </property>
         <property name="summary" value="InstitutionalProposal Id" />
         <property name="description" value="InstitutionalProposal Id" />
+    </bean>
+    
+    <bean id="InstitutionalProposal-fiscalMonth" parent="InstitutionalProposal-fiscalMonth-parentBean" />
+    <bean id="InstitutionalProposal-fiscalMonth-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="fiscalMonth" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Fiscal Month" />
+        <property name="shortLabel" value="Fiscal Month" />
+        <property name="maxLength" value="2" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Fiscal Month" />
+        <property name="description" value="Fiscal Month" />
+    </bean>
+    
+    <bean id="InstitutionalProposal-fiscalYear" parent="InstitutionalProposal-fiscalYear-parentBean" />
+    <bean id="InstitutionalProposal-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="fiscalYear" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Fiscal Year" />
+        <property name="shortLabel" value="Fiscal Year" />
+        <property name="maxLength" value="4" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="5" />
+        </property>
+        <property name="summary" value="Fiscal Year" />
+        <property name="description" value="Fiscal Year" />
     </bean>
 
     <bean id="InstitutionalProposal-proposalNumber" parent="InstitutionalProposal-proposalNumber-parentBean" />
