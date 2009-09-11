@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.maintenance;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,10 +32,12 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.questionnaire.question.QuestionAuthorizationService;
 import org.kuali.kra.questionnaire.question.QuestionService;
+import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
@@ -51,14 +56,14 @@ public class KraMaintenanceDocumentAction extends KualiMaintenanceDocumentAction
      * @throws Exception
      */
     public ActionForward loadQuestionResponse(ActionMapping mapping, ActionForm form,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+            HttpServletRequest request, HttpServletResponse response) {
 
         KualiMaintenanceForm maintenanceForm = (KualiMaintenanceForm) form;
         MaintenanceDocumentBase maintenanceDocument = (MaintenanceDocumentBase) maintenanceForm.getDocument();
         Question question = (Question) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
         question.refreshReferenceObject("questionType");
 
-        return mapping.findForward(Constants.MAPPING_BASIC );
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }  
 
     /**
@@ -75,7 +80,7 @@ public class KraMaintenanceDocumentAction extends KualiMaintenanceDocumentAction
     public ActionForward refreshPulldownOptions(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        return mapping.findForward(Constants.MAPPING_BASIC );
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     @Override
@@ -87,46 +92,106 @@ public class KraMaintenanceDocumentAction extends KualiMaintenanceDocumentAction
             KraMaintenanceForm kraMaintenanceForm = (KraMaintenanceForm) form;
             MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) kraMaintenanceForm.getDocument();
             
-            // Get most recent approved Question from DB
-            Question approvedQuestion = getQuestionService().getQuestionByRefId(request.getParameter(QUESTION_REF_ID));
-
-            if (maintenanceDocumentBase.getNewMaintainableObject().getBusinessObject() instanceof Question 
-                    && StringUtils.equals(kraMaintenanceForm.getMethodToCall(), "edit")) {
-                if (!KraServiceLocator.getService(QuestionAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTION)
-                        || (ObjectUtils.equals(request.getParameter("readOnly"), "true"))) {
-                    // Set read only mode
-                    kraMaintenanceForm.setReadOnly(true);
-                } else {
-                    // Create new version of Question
-                    VersioningService versioningService = new VersioningServiceImpl();
-                    Question versionedQuestion = (Question) versioningService.createNewVersion(approvedQuestion);
-
-                    // Generate new questionRefId
-                    Long questionRefId = KraServiceLocator.getService(SequenceAccessorService.class)
-                            .getNextAvailableSequenceNumber("SEQ_QUESTION_ID");
-
-                    // Set old question to new questionRefId (needed so Rice doesn't complain that the key changed between the old
-                    // and new version)
-                    QuestionMaintainableImpl oldMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
-                            .getOldMaintainableObject();
-                    Question oldQuestion = (Question) oldMaintainableObject.getBusinessObject();
-                    oldQuestion.setQuestionRefId(questionRefId);
-
-                    // Set new question to versionedQuestion along with the new questionRefId
-                    QuestionMaintainableImpl newMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
-                            .getNewMaintainableObject();
-                    versionedQuestion.setQuestionRefId(questionRefId);
-                    versionedQuestion.setVersionNumber(oldQuestion.getVersionNumber());
-                    newMaintainableObject.setBusinessObject(versionedQuestion);
-                }
+            if (maintenanceDocumentBase.getNewMaintainableObject().getBusinessObject() instanceof Question) {
+                specialHandlingOfQuestion(kraMaintenanceForm, request);
             }
         }
                 
         return actionForward;
     }
     
+    /**
+     * 
+     * This method implements special behaviors for Question.
+     * @param kraMaintenanceForm
+     * @param request
+     * @throws VersionException 
+     */
+    private void specialHandlingOfQuestion(KraMaintenanceForm kraMaintenanceForm, HttpServletRequest request) throws VersionException {
+        MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) kraMaintenanceForm.getDocument();
+
+        boolean readOnly = !KraServiceLocator.getService(QuestionAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTION)
+                || ObjectUtils.equals(request.getParameter("readOnly"), "true");
+                
+        if (StringUtils.equals(kraMaintenanceForm.getMethodToCall(), "edit")) {
+            if (readOnly) {
+                setReadOnlyMode(kraMaintenanceForm);
+            } else {
+                createNewQuestionVersion(maintenanceDocumentBase, request.getParameter(QUESTION_REF_ID));
+            }
+        } else if (StringUtils.equals(kraMaintenanceForm.getMethodToCall(), "copy")) {
+            initCopiedQuestion(maintenanceDocumentBase);
+        }
+    }
+    
+    /**
+     * 
+     * This method sets the form for read only mode by setting the readOnly form indicator and enabling only the close action.
+     * @param kraMaintenanceForm
+     */
+    private void setReadOnlyMode(KraMaintenanceForm kraMaintenanceForm) {
+        kraMaintenanceForm.setReadOnly(true);
+
+        Map<String, String> documentActions = new HashMap<String, String>();
+        documentActions.put(KNSConstants.KUALI_ACTION_CAN_CLOSE, "TRUE");
+        kraMaintenanceForm.setDocumentActions(documentActions);
+    }
+
+    /**
+     * 
+     * This method creates a new version of the question.
+     * @param maintenanceDocumentBase
+     * @param request
+     * @throws VersionException
+     */
+    private void createNewQuestionVersion(MaintenanceDocumentBase maintenanceDocumentBase, String oldQuestionRefId) throws VersionException {
+        // Get most recent approved Question from DB
+        Question approvedQuestion = getQuestionService().getQuestionByRefId(oldQuestionRefId);
+
+        // Create new version of Question
+        VersioningService versioningService = new VersioningServiceImpl();
+        Question versionedQuestion = (Question) versioningService.createNewVersion(approvedQuestion);
+
+        // Generate new questionRefId
+        Long newQuestionRefId = KraServiceLocator.getService(SequenceAccessorService.class)
+                .getNextAvailableSequenceNumber("SEQ_QUESTION_ID");
+
+        // Set old question to new questionRefId (needed so Rice doesn't complain that the key changed between the old
+        // and new version)
+        QuestionMaintainableImpl oldMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
+                .getOldMaintainableObject();
+        Question oldQuestion = (Question) oldMaintainableObject.getBusinessObject();
+        oldQuestion.setQuestionRefId(newQuestionRefId);
+
+        // Set new question to versionedQuestion along with the new questionRefId
+        QuestionMaintainableImpl newMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
+                .getNewMaintainableObject();
+        versionedQuestion.setQuestionRefId(newQuestionRefId);
+        versionedQuestion.setVersionNumber(oldQuestion.getVersionNumber());
+        newMaintainableObject.setBusinessObject(versionedQuestion);
+    }
+    
     private QuestionService getQuestionService() {
         return (QuestionService) KraServiceLocator.getService(QuestionService.class);
+    }
+
+    /**
+     * 
+     * This method nulls out the questionId and sequenceNumber so new ones are created for the copied question
+     * @param maintenanceDocumentBase
+     */
+    private void initCopiedQuestion(MaintenanceDocumentBase maintenanceDocumentBase) {
+        QuestionMaintainableImpl oldMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
+        .getOldMaintainableObject();
+        Question oldQuestion = (Question) oldMaintainableObject.getBusinessObject();
+        oldQuestion.setQuestionId(null);
+        oldQuestion.setSequenceNumber(null);
+
+        QuestionMaintainableImpl newMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
+        .getNewMaintainableObject();
+        Question newQuestion = (Question) newMaintainableObject.getBusinessObject();
+        newQuestion.setQuestionId(null);
+        newQuestion.setSequenceNumber(null);
     }
 
 }
