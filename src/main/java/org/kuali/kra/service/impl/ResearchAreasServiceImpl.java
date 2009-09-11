@@ -85,7 +85,7 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
 
     /*
      * This method is a recursive call to check whether the new 'researchAreaCode' matched
-     * raCode's decendants' code
+     * raCode's Descendants' code
      */
     private boolean isExistInDeletedChildren(String researchAreaCode, String raCode) {
         boolean isExist = false;

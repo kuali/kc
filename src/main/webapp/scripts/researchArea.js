@@ -111,6 +111,9 @@
                     }
                  });   // end ajax
            
+               if (raExist == 'false' && newNodes != ";" && newNodes.indexOf(";"+trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+";") > -1) {
+              	 raExist = 'true';
+               }   
            
              if (raExist == 'false') {
                  var ulTag = $("#researcharea");
@@ -139,6 +142,7 @@
                  // }
                  });
                  
+            	 newNodes=newNodes+trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+";";
                  // apend to sqlScripts
                  addSqlScripts(getInsertClause(trNode.children('td:eq(1)').children('input:eq(0)').attr("value"), '000001', trNode.children('td:eq(2)').children('input:eq(0)').attr("value")));
                  // alert("sqlScripts = "+sqlScripts);
@@ -771,6 +775,7 @@
        
           var columns="RESEARCH_AREA_CODE,PARENT_RESEARCH_AREA_CODE,HAS_CHILDREN_FLAG, DESCRIPTION, update_timestamp, update_user";
           description = description.replace(/'/g, "''");
+          description = description.replace(/&/g, ";amp");
 
           var values="'"+code+"','"+parentCode+"', 'N', '"+description+"', sysdate, user";
           return "insert R values("+values+")";
@@ -789,6 +794,7 @@
 		 */
      function getUpdateClause(code, newDesc) {
     	 newDesc = newDesc.replace(/'/g, "''");
+    	 newDesc = newDesc.replace(/&/g, ";amp");
            return "update R'"+newDesc+ "' where RESEARCH_AREA_CODE = '" + code +"'";   
      }
 
@@ -800,16 +806,16 @@
      }
 
 
-              <!-- initial state -->
+             // <!-- initial state -->
                   $(".hierarchydetail").hide();
-              <!-- hidedetail -->
+            //  <!-- hidedetail -->
                   $(".hidedetail").toggle(
                       function()
                       {
                           $(".hierarchydetail").slideUp(300);
                       }
                   );
-              <!-- listcontent00 -->
+            //  <!-- listcontent00 -->
                   $("#listcontrol00").click(
                       function()
                       {

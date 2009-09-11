@@ -40,6 +40,7 @@ import org.springmodules.orm.ojb.PersistenceBrokerCallback;
 public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, ResearchAreaDao {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
             .getLog(ResearchAreaDaoOjb.class);
+    private BusinessObjectService businessObjectService;
 
     /**
      * 
@@ -150,6 +151,7 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
     private void insertResearchAreas(Statement stmt, String sql, String userName) {
         try {
             String columns = "(RESEARCH_AREA_CODE,PARENT_RESEARCH_AREA_CODE,HAS_CHILDREN_FLAG, DESCRIPTION, update_timestamp, update_user)";
+            sql = sql.replace(";amp", "&");
             String insertStmt = sql.replace("insert R", "insert into research_areas " + columns);
             insertStmt = insertStmt.replace(", user)", ", '" + userName + "')");
             LOG.info("Save run scripts " + insertStmt);
@@ -171,6 +173,7 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
      */
     private void updateResearchAreas(Statement stmt, String sql, String userName) {
         try {
+            sql = sql.replace(";amp", "&");
             String updateStmt = sql.replace("update R", "update research_areas set UPDATE_USER = '" + userName
                     + "', UPDATE_TIMESTAMP = sysdate, DESCRIPTION =");
             LOG.info("Save run scripts " + updateStmt);
@@ -202,9 +205,12 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
         List<ResearchArea> researchAreasList = new ArrayList<ResearchArea>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("parentResearchAreaCode", researchAreaCode);
-        researchAreasList.addAll(KraServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(ResearchArea.class,
-                fieldValues, "researchAreaCode", true));
+        researchAreasList.addAll(businessObjectService.findMatching(ResearchArea.class, fieldValues));
         return researchAreasList;
     }
 
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
 }

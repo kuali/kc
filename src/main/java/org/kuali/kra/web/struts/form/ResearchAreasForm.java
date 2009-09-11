@@ -18,8 +18,6 @@ package org.kuali.kra.web.struts.form;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ResearchAreasService;
@@ -28,6 +26,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class ResearchAreasForm extends KualiForm {
 
+    private static final long serialVersionUID = 5924974293486200804L;
     private String researchAreas;
     private String searchResults;
     private String lookupResultsBOClassName;
@@ -36,7 +35,6 @@ public class ResearchAreasForm extends KualiForm {
     private String sqlScripts;
     private String deletedRas;
 
-    private static final Log LOG = LogFactory.getLog(ResearchAreasForm.class);
 
     /**
      * Constructs a ResearchAreasForm.
@@ -45,14 +43,16 @@ public class ResearchAreasForm extends KualiForm {
         super();
     }
 
-    public void reset(ActionMapping mapping, HttpServletRequest request) {
-        // FIXME : just a temporary soln. it always get the methodtocall='refresh' after it started properly the first time.
-        // need to investigate this.
-        this.setMethodToCall("");
-        addRA = "";
-        deletedRas = "";
-    }
-
+    /**
+     * 
+     * This method is a hook to research area hierarchy ajax call.  Based on the data come with jquery
+     * ajax call, it then check if research area is duplicate, save changes made to research area
+     * hierarchy, or retrieve the child research areas.
+     * The return data are wrapped in <h3> tag and saved in researchAreas property.  The form
+     * data is returned to jquery ajax call, and it then process the data wrapped in <h3> tag.
+     * 
+     * @return
+     */
     public String getResearchAreas() {
         if (StringUtils.isNotBlank(addRA) && addRA.equals("Y")) {
             if (KraServiceLocator.getService(ResearchAreasService.class).isResearchAreaExist(researchAreaCode, deletedRas)) {
@@ -80,12 +80,20 @@ public class ResearchAreasForm extends KualiForm {
         this.researchAreas = researchAreas;
     }
 
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+        // FIXME : just a temporary soln. it always get the methodtocall='refresh' after it started properly the first time.
+        // need to investigate this.
+        this.setMethodToCall("");
+        addRA = "";
+        deletedRas = "";
+    }
+
+
     @Override
     public void populate(HttpServletRequest request) {
-        // TODO Auto-generated method stub
         super.populate(request);
         this.setResearchAreas("");
-        this.getResearchAreaCode();
+       // this.getResearchAreaCode();
     }
 
     public String getSearchResults() {
@@ -138,7 +146,6 @@ public class ResearchAreasForm extends KualiForm {
 
     @Override
     public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-       // return super.shouldPropertyBePopulatedInForm(requestParameterName, request);
         return true;
     }
 

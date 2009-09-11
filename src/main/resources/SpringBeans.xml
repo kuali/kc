@@ -1437,6 +1437,9 @@
 	</bean>
 
     <bean id="researchAreaDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.ResearchAreaDaoOjb">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
 	</bean>	
 
     <!--  the following are called by irb for now.  move to irb -->
