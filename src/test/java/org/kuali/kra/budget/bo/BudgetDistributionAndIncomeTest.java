@@ -110,7 +110,15 @@ public abstract class BudgetDistributionAndIncomeTest {
         }        
     }
     
-    public class BudgetDocument_CostShareAndUnrecoveredFandAApplicable extends Budget {
+    public class Budget_TestRoot extends Budget {
+        //removes dependence on BudgetDocument
+        private Integer nextVal = 1;
+        public Integer getHackedDocumentNextValue(String key) {
+            return nextVal++;
+        }
+    }
+    
+    public class BudgetDocument_CostShareAndUnrecoveredFandAApplicable extends Budget_TestRoot {
         private static final long serialVersionUID = 1L;
                 
         @Override
@@ -133,7 +141,7 @@ public abstract class BudgetDistributionAndIncomeTest {
         }
     }
     
-    public class BudgetDocument_CostShareAndUnrecoveredFandANotApplicable extends Budget {
+    public class BudgetDocument_CostShareAndUnrecoveredFandANotApplicable extends Budget_TestRoot {
         private static final long serialVersionUID = 1L;
                 
         @Override
