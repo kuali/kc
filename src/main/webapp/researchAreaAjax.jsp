@@ -18,51 +18,20 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>Unit Hierarchy</title>
-
-<style type="text/css">
-/*margin and padding on body element
-  can introduce errors in determining
-  element position and are not recommended;
-  we turn them off as a foundation for YUI
-  CSS treatments. */
-body {
-    margin:0;
-    padding:0;
-}
-</style>
-
-<script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
-<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
-<script language="javascript" src="dwr/interface/ResearchAreasService.js" ></script>
-<script language="JavaScript" type="text/javascript" src="scripts/kuali_application.js"></script>
-<script type="text/javascript" src="scripts/researchareas_yui.js" ></script>
-
+<title>Research Area Hierarchy Ajax</title>
 
 </head>
 
-<body class=" yui-skin-sam">
+<body>
 <html:form styleId="kualiForm" method="post"
     action="/researchAreaAjax.do" enctype=""
     onsubmit="return hasFormAlreadyBeenSubmitted();"> 
 
-<!--  initial data here -->
-<%-- <input type="text" id = "researchAreas" name="researchAreas"   value="${ResearchAreasForm.researchAreas}"/> --%>
 <input type="text" id = "researchAreaCode" name="researchAreaCode"   value="${ResearchAreasForm.researchAreaCode}"/>
 <input type="text" id = "addRA" name="addRA"   value="${ResearchAreasForm.addRA}"/>
-<researchAreas>
 ${ResearchAreasForm.researchAreas}
-</researchAreas>
-<div id="treeDiv1"></div>
 
 
-<script type="text/javascript">
-
-//alert ("in researchareaload ");
-</script>
-
-
-<!--END SOURCE CODE =============================== -->
 
 </html:form>
 </body>
