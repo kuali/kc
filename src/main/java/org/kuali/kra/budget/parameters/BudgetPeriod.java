@@ -34,8 +34,7 @@ import org.kuali.rice.kns.util.DateUtils;
 
 public class BudgetPeriod extends BudgetAssociate {
     private static final long serialVersionUID = -7318331486891820078L;
-    private Long budgetPeriodId;
-    private Budget budget;
+    private long budgetPeriodId;
     
     private Integer budgetPeriod;
 	private String comments;
@@ -386,21 +385,5 @@ public class BudgetPeriod extends BudgetAssociate {
 
         return this.getSumDirectCostAmountFromLineItems().add(
             this.getSumIndirectCostAmountFromLineItems());
-    }
-
-    /**
-     * Gets the budget attribute. 
-     * @return Returns the budget.
-     */
-    public Budget getBudget() {
-        return budget;
-    }
-
-    /**
-     * Sets the budget attribute value.
-     * @param budget The budget to set.
-     */
-    public void setBudget(Budget budget) {
-        this.budget = budget;
     }
 }
