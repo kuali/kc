@@ -308,34 +308,12 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     
     @SuppressWarnings("unchecked")
     private Collection<Protocol> getAmendments(String protocolNumber) {
-        List<Protocol> amendments = new ArrayList<Protocol>();
-        Collection<Protocol> protocols = (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + AMEND_ID + "%", true);
-        for (Protocol protocol : protocols) {
-            try {
-                ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
-                amendments.add(protocolDocument.getProtocol());
-            }
-            catch (WorkflowException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return amendments;
+        return (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + AMEND_ID + "%", true);
     }
 
     @SuppressWarnings("unchecked")
     private Collection<Protocol> getRenewals(String protocolNumber) {
-        List<Protocol> renewals = new ArrayList<Protocol>();
-        Collection<Protocol> protocols = (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + RENEW_ID + "%", true);
-        for (Protocol protocol : protocols) {
-            try {
-                ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
-                renewals.add(protocolDocument.getProtocol());
-            }
-            catch (WorkflowException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return renewals;
+        return (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + RENEW_ID + "%", true);
     }
   
     /**
