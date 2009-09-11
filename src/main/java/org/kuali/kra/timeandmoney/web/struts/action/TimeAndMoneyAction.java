@@ -83,13 +83,19 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             String reverseAwardNumber = StringUtils.reverse(awardHierarchyNode.getValue().getAwardNumber());
             String i= StringUtils.substring(reverseAwardNumber, 0, StringUtils.indexOf(reverseAwardNumber, "0"));
             int index = Integer.parseInt(StringUtils.reverse(i));
-            aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
-            aai.setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
-            aai.setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
+            if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate()!=null){
+                aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());    
+            }
+            if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()!=null){
+                aai.setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());    
+            }
+            if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate()!=null){
+                aai.setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());    
+            }
             awardAmountInfoObjects.add(aai);
         }
         getBusinessObjectService().save(awardAmountInfoObjects);
-        //getBusinessObjectService().save(timeAndMoneyDocument.getAward());        
+        getBusinessObjectService().save(timeAndMoneyDocument.getAward());        
         
         return forward;
     }
