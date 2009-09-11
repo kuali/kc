@@ -162,7 +162,6 @@ public class QuestionLookupForm extends KualiForm {
     }
 
     public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-        //return super.shouldPropertyBePopulatedInForm(requestParameterName, request);
         return true;
     }
 

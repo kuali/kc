@@ -38,10 +38,12 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     public QuestionnaireServiceImpl() {
         super();
-        // TODO : (kcirb-378)this is a temporary to get questionnaire modules association list based on permission
+        /*
+         * TODO : permissionModuleMap is probably for initial release 2.  See more comments on getAssociateModules method.
+         */
         permissionModuleMap = new HashMap<String, String>();
         permissionModuleMap.put(AwardPermissionConstants.MODIFY_AWARD.getAwardPermission(),"1");
-        permissionModuleMap.put(PermissionConstants.MODIFY_PROPOSAL,"2");
+        //permissionModuleMap.put(PermissionConstants.MODIFY_INSTITUTE_PROPOSAL,"2");
         permissionModuleMap.put(PermissionConstants.MODIFY_PROPOSAL,"3");
         //permissionModuleMap.put(PermissionConstants.SUBCONTRACT,"4");
         //permissionModuleMap.put(PermissionConstants.NEGOTIATION,"5");
@@ -105,6 +107,11 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
      * @see org.kuali.kra.questionnaire.QuestionnaireService#getAssociateModules()
      */
     public List<String> getAssociateModules() {
+        /* TODO : (kcirb-378)this is a temporary (for release 2) to get questionnaire modules association list based on permission
+         *   When integrated with KIM, this should be able to utilize KIM permission and permission attributes
+         *   to accomplish this task.  The permission attributes could be a combination of module doce & coeus permission right
+         */
+
         List<String> modules = new ArrayList<String>();
         for (String permission : kualiConfigurationService.getParameterValues(Constants.PARAMETER_MODULE_QUESTIONNAIRE,
                 Constants.PARAMETER_COMPONENT_PERMISSION, PARAM_NAME)) {

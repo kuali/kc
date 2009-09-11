@@ -16,16 +16,18 @@
 package org.kuali.kra.questionnaire;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 
+/**
+ * 
+ * This class is to provide rule validation when questionnaire is to be approved.
+ */
 public class QuestionnaireMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
 
     /**
@@ -40,11 +42,7 @@ public class QuestionnaireMaintenanceDocumentRule extends MaintenanceDocumentRul
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */ 
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-       // if (document.getNewMaintainableObject().getMaintenanceAction().equals("Copy")) {
-            return checkCopyRule(document);
-       // } else {
-       //     return true;
-       // }
+            return validateQuestionnaire(document);
     }
     
     /**
@@ -53,11 +51,7 @@ public class QuestionnaireMaintenanceDocumentRule extends MaintenanceDocumentRul
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-       // if (document.getNewMaintainableObject().getMaintenanceAction().equals("Copy")) {
-            return checkCopyRule(document);
-        //} else {
-        //    return true;
-        //}
+            return validateQuestionnaire(document);
     }
 
     /**
@@ -66,12 +60,12 @@ public class QuestionnaireMaintenanceDocumentRule extends MaintenanceDocumentRul
      * @param maintenanceDocument
      * @return
      */
-    private boolean checkCopyRule(MaintenanceDocument maintenanceDocument) {
+    private boolean validateQuestionnaire(MaintenanceDocument maintenanceDocument) {
 
 
         boolean valid = true;
         Questionnaire newQuestionnaire = (Questionnaire)maintenanceDocument.getNewMaintainableObject().getBusinessObject();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getErrorMap();
         if (StringUtils.isBlank(newQuestionnaire.getName())) {
             errorMap.putError("document.newMaintainableObject.businessObject.name", RiceKeyConstants.ERROR_REQUIRED, "Questionnaire Name");
             valid = false;
