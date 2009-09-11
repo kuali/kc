@@ -42,3 +42,18 @@
 
 </kul:documentPage>
 
+
+	<script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
+
+	<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
+		
+	<script language="JavaScript" type="text/javascript" src="dwr/interface/AwardHierarchyUIService.js"></script>	
+
+	<script src="scripts/jquery/jquery.js"></script>
+	<link rel="stylesheet" href="css/jquery/screen.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
+
+	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
+	<script type="text/javascript" src="scripts/awardHierarchy.js"></script>
