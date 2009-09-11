@@ -36,10 +36,10 @@ public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
     
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
     protected static final String DOCUMENT_STATUS_CODE = "document.institutionalProposal.statusCode";
-    protected static final String DEFAULT_ACTIVITY_TYPE_CODE = "document.institutionalProposal.activityTypeCode";
-    protected static final String DOCUMENT_PROPOSAL_TYPE_CODE = "document.institutionalProposal.proposalTypeCode";
-    protected static final String DOCUMENT_PROJECT_TITLE = "document.institutionalProposal.title";
-    protected static final String DOCUMENT_SPONSOR_CODE = "document.institutionalProposal.sponsorCode";
+    protected static final String DEFAULT_ACTIVITY_TYPE_CODE = "document.institutionalProposalList[0].activityTypeCode";
+    protected static final String DOCUMENT_PROPOSAL_TYPE_CODE = "document.institutionalProposalList[0].proposalTypeCode";
+    protected static final String DOCUMENT_PROJECT_TITLE = "document.institutionalProposalList[0].title";
+    protected static final String DOCUMENT_SPONSOR_CODE = "document.institutionalProposalList[0].sponsorCode";
     
 
     
@@ -80,8 +80,9 @@ public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
      * @throws IOException
      */
     protected final HtmlPage buildProposalDocumentPage() throws Exception {
-        HtmlPage createProposalPage = clickOn(getPortalPage(), "Create Institutional Proposal", "Kuali Portal Index");
-        createProposalPage = getInnerPages(createProposalPage).get(0);
+        HtmlPage centralAdminPage = clickOn(getPortalPage(), "Central Admin");
+        HtmlPage tempProposalPage = clickOn(centralAdminPage, "Institutional Proposal");
+        HtmlPage createProposalPage = getInnerPages(tempProposalPage).get(0);
         assertTrue("Kuali :: KC Institutional Proposal".equals(createProposalPage.getTitleText()));
         setDefaultRequiredFields(createProposalPage);
         return createProposalPage;
