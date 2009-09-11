@@ -82,6 +82,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private Date requestedStartDateTotal; 
     private Date requestedEndDateInitial; 
     private Date requestedEndDateTotal; 
+    private String fiscalMonth;
+    private String fiscalYear;
     private KualiDecimal totalDirectCostInitial; 
     private KualiDecimal totalDirectCostTotal; 
     private KualiDecimal totalIndirectCostInitial; 
@@ -141,6 +143,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         super();
         initializeInstitutionalProposalWithDefaultValues();
         initializeCollections();
+        calculateFiscalMonthAndYearFields();
         //initializeTemporaryUnitAdministrators();// temporary 
     } 
     
@@ -202,6 +205,21 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         institutionalProposalUnitAdministrators.add(ipua1);
         institutionalProposalUnitAdministrators.add(ipua2);
         institutionalProposalUnitAdministrators.add(ipua3);
+
+    }
+    
+    /**
+     * This method calculates fiscal Month and fiscal Year fields.  It also adds leading 0 to Month if needed.
+     */
+    private void calculateFiscalMonthAndYearFields() {
+        Calendar cl = Calendar.getInstance();
+        cl.add(Calendar.MONTH, 6);
+        String monthString = Integer.toString(cl.get(Calendar.MONTH) + 1);
+        if (monthString.length() == 1) {
+            monthString = "0" + monthString;
+        }
+        setFiscalMonth(monthString);
+        setFiscalYear(Integer.toString(cl.get(Calendar.YEAR)));
 
     }
     
@@ -888,6 +906,40 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     public void setAwardType(AwardType awardType) {
         this.awardType = awardType;
+    }
+    
+    
+
+    /**
+     * Gets the fiscalMonth attribute. 
+     * @return Returns the fiscalMonth.
+     */
+    public String getFiscalMonth() {
+        return fiscalMonth;
+    }
+
+    /**
+     * Sets the fiscalMonth attribute value.
+     * @param fiscalMonth The fiscalMonth to set.
+     */
+    public void setFiscalMonth(String fiscalMonth) {
+        this.fiscalMonth = fiscalMonth;
+    }
+
+    /**
+     * Gets the fiscalYear attribute. 
+     * @return Returns the fiscalYear.
+     */
+    public String getFiscalYear() {
+        return fiscalYear;
+    }
+
+    /**
+     * Sets the fiscalYear attribute value.
+     * @param fiscalYear The fiscalYear to set.
+     */
+    public void setFiscalYear(String fiscalYear) {
+        this.fiscalYear = fiscalYear;
     }
 
     /**

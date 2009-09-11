@@ -42,6 +42,14 @@
 		</td>
   	</tr>
   	<tr>
+    	<th width="400">
+    		<div align="right">Fiscal Month/Year:</div>
+    	</th>
+    	<td colspan="3">
+    		${KualiForm.institutionalProposalDocument.institutionalProposal.fiscalMonth}/${KualiForm.institutionalProposalDocument.institutionalProposal.fiscalYear}&nbsp;
+    	</td>
+  	</tr>
+  	<tr>
     	<th>
     		<div align="right">Award ID:</div>
       	</th>
