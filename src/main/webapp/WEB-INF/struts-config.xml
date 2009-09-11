@@ -131,14 +131,14 @@
         </action>
  		<action path="/researchAreas" name="ResearchAreasForm" type="org.kuali.kra.web.struts.action.ResearchAreasAction">
             <forward name="basic" path="/researchAreaHierarchy.jsp" />
-            <forward name="lookup" path="/researchAreaSearch.jsp" />
+            <!-- <forward name="lookup" path="/researchAreaSearch.jsp" /> -->
         </action>
  		<action path="/researchAreaAjax" name="ResearchAreasForm" type="org.kuali.kra.web.struts.action.ResearchAreasAction">
             <forward name="basic" path="/researchAreaAjax.jsp" />
         </action>
-        <action path="/researchAreaSearch" name="ResearchAreasForm" type="org.kuali.kra.web.struts.action.ResearchAreasAction">
+        <!-- <action path="/researchAreaSearch" name="ResearchAreasForm" type="org.kuali.kra.web.struts.action.ResearchAreasAction">
             <forward name="basic" path="/researchAreaSearch.jsp" />
-        </action>
+        </action> -->
         
  		<!-- action path="/sponsorHierarchy*" name="SponsorHierarchyForm" input="/SponsorHierarchy{1}.jsp" type="org.kuali.kra.web.struts.action.SponsorHierarchyAction" scope="request" -->
  		<action path="/sponsorHierarchy" name="SponsorHierarchyForm" input="/SponsorHierarchyInit.jsp" type="org.kuali.kra.web.struts.action.SponsorHierarchyAction">

@@ -21,20 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.web.struts.form.ResearchAreasForm;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class ResearchAreasAction extends KualiAction {
 
-    @Override
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        super.refresh(mapping, form, request, response);
-        ResearchAreasForm researchAreasForm = (ResearchAreasForm) form;
-
-        return mapping.findForward("lookup");
-    }
 
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
