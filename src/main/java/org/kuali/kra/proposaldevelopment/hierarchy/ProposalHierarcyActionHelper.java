@@ -17,8 +17,11 @@ package org.kuali.kra.proposaldevelopment.hierarchy;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.rice.kns.util.ErrorMessage;
@@ -67,35 +70,42 @@ public class ProposalHierarcyActionHelper {
     }
 
     public void createHierarchy(DevelopmentProposal initialChildProposal) {
-        // TODO rules
-        try {
-            String parentProposalNumber = getProposalHierarchyService().createHierarchy(initialChildProposal);
-            GlobalVariables.getMessageList().add("message.hierarchy.createSuccessful", parentProposalNumber);
-        }
-        catch (Exception e) {
-            GlobalVariables.getMessageList().add(new ErrorMessage("error.hierarchy.createFailure", e.getMessage()));
+        if (validateInitialChildCandidate(initialChildProposal)) {
+            try {
+                String parentProposalNumber = getProposalHierarchyService().createHierarchy(initialChildProposal);
+                GlobalVariables.getMessageList().add("message.hierarchy.create.success", parentProposalNumber);
+            }
+            catch (Exception e) {
+                GlobalVariables.getMessageList().add(new ErrorMessage("error.hierarchy.createFailure", e.getMessage()));
+            }
         }
     }
     
     public void linkToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal) {
-        // TODO rules
-        try {
-            getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal);
-            GlobalVariables.getMessageList().add("message.hierarchy.linkSuccessful", newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
-        }
-        catch (Exception e) {
-            GlobalVariables.getErrorMap().putError("newHierarchyProposal.proposalNumber", "error.hierarchy.linkFailure", e.getMessage());
+        boolean valid = validateChildCandidate(newChildProposal);
+        valid &= validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal);
+        if (valid) {
+            try {
+                getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal);
+                GlobalVariables.getMessageList().add("message.hierarchy.link.success", newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
+            }
+            catch (Exception e) {
+                GlobalVariables.getErrorMap().putError("newHierarchyProposal.proposalNumber", "error.hierarchy.linkFailure", e.getMessage());
+            }
         }
     }
 
     public void linkChildToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal) {
-        // TODO rules
-        try {
-            getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal);
-            GlobalVariables.getMessageList().add("message.hierarchy.linkSuccessful", newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
-        }
-        catch (Exception e) {
-            GlobalVariables.getErrorMap().putError("newHierarchyChildProposal.proposalNumber", "error.hierarchy.linkFailure", e.getMessage());
+        boolean valid = validateChildCandidate(newChildProposal);
+        valid &= validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal);
+        if (valid) {
+            try {
+                getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal);
+                GlobalVariables.getMessageList().add("message.hierarchy.link.success", newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
+            }
+            catch (Exception e) {
+                GlobalVariables.getErrorMap().putError("newHierarchyChildProposal.proposalNumber", "error.hierarchy.linkFailure", e.getMessage());
+            }
         }
     }
     
@@ -116,5 +126,57 @@ public class ProposalHierarcyActionHelper {
             hierarchyService = KraServiceLocator.getService(ProposalHierarchyService.class);
         }
         return hierarchyService;
+    }
+    
+    private boolean validateChildCandidate(DevelopmentProposal proposal) {
+        boolean valid = true;
+        proposal.getProposalDocument().refreshReferenceObject("budgetDocumentVersions");
+        if (proposal.getProposalDocument().getBudgetDocumentVersions().isEmpty()) {
+            GlobalVariables.getErrorMap().putError("newHierarchyChildProposal.proposalNumber", "error.hierarchy.link.noBudgetVersion", new String[0]);
+            //GlobalVariables.getMessageList().add(new ErrorMessage("error.hierarchy.link.noBudgetVersion", new String[0]));
+            valid = false;
+        }
+        else {
+            boolean isFinalVersion = false;
+            for (BudgetDocumentVersion version : proposal.getProposalDocument().getBudgetDocumentVersions()) {
+                if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
+                    isFinalVersion = true;
+                    break;
+                }
+            }
+            if (!isFinalVersion) {
+                GlobalVariables.getErrorMap().putWarning("newHierarchyChildProposal.proposalNumber", "message.hierarchy.link.noFinalBudget", new String[] {proposal.getProposalNumber()});
+            }
+        }
+        boolean principleInvestigatorPresent = false;
+        for (ProposalPerson person : proposal.getProposalPersons()) {
+           if (StringUtils.equalsIgnoreCase(person.getProposalPersonRoleId(), "PI")) {
+               principleInvestigatorPresent = true;
+               break;
+           }
+        }
+        if (!principleInvestigatorPresent) {
+            GlobalVariables.getErrorMap().putError("newHierarchyChildProposal.proposalNumber", "error.hierarchy.link.noPrincipleInvestigator", new String[0]);
+            valid = false;
+        }
+        return valid;
+    }
+    
+    private boolean validateInitialChildCandidate(DevelopmentProposal proposal) {
+        boolean valid = validateChildCandidate(proposal);
+        if (proposal.getOwnedByUnit() == null) {
+            // TODO error message
+            valid = false;
+        }
+        return valid;
+    }
+    
+    private boolean validateChildCandidateForHierarchy(DevelopmentProposal hierarchy, DevelopmentProposal child) {
+        boolean valid = true;
+        if (!StringUtils.equalsIgnoreCase(hierarchy.getSponsorCode(), child.getSponsorCode())) {
+            GlobalVariables.getErrorMap().putWarning("newHierarchyChildProposal.proposalNumber", "message.hierarchy.link.differentSponsor", new String[0]);
+        }
+        
+        return valid;
     }
 }
