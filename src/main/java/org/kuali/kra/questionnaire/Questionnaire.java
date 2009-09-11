@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.questionnaire;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -31,20 +30,14 @@ import javax.persistence.Table;
 import org.apache.commons.lang.ObjectUtils;
 import org.hibernate.annotations.Type;
 import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.award.home.AwardTemplateContact;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
-import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
-import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 @Entity 
-@Table(name="QUESTIONNAIRE")
-public class Questionnaire extends KraPersistableBusinessObjectBase implements Comparable<Questionnaire>,SequenceOwner<Questionnaire>{ 
+@Table(name = "QUESTIONNAIRE")
+public class Questionnaire extends KraPersistableBusinessObjectBase implements Comparable<Questionnaire>,SequenceOwner<Questionnaire> { 
     
-    private static final long serialVersionUID = 1L;
-
+    private static final long serialVersionUID = 8679896046435777084L;
     @Id
     @Column(name = "QUESTIONNAIRE_REF_ID")
     private Long questionnaireRefId;

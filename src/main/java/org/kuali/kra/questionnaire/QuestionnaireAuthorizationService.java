@@ -16,6 +16,12 @@
 package org.kuali.kra.questionnaire;
 
 public interface QuestionnaireAuthorizationService {
+    /**
+     * 
+     * This method is to check if the user has the permission "permissionName".
+     * @param permissionName
+     * @return
+     */
     public boolean hasPermission(String permissionName);
 
 }

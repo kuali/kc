@@ -32,12 +32,16 @@ import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
+/**
+ * 
+ * This class is mainly to override edit/copy action urls and create 'view' url.
+ * Also, sort search results.
+ */
 public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static final String VIEW = "view";
     private static final String DOCHANDLER_VIEW_LINK = "../en/DocHandler.do?command=displayDocSearchView&readOnly=true&docId=";
@@ -76,6 +80,10 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
     }
 
 
+    /**
+     * override edit/copy link and new 'view' link based on permission.
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();

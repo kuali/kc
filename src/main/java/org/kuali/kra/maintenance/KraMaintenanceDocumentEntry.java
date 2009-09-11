@@ -22,6 +22,11 @@ import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
 import org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry;
 import org.kuali.rice.kns.document.Document;
 
+/**
+ * 
+ * This class provides a hook to KraMaintenanceDocument instead the default MaintenanceDocumentBase.
+ * DD bean is in KraDataDictionaryBaseTypes.xml
+ */
 public class KraMaintenanceDocumentEntry extends MaintenanceDocumentEntry {
     public Class<? extends Document> getStandardDocumentBaseClass() {
             return KraMaintenanceDocument.class;
@@ -37,26 +42,14 @@ public class KraMaintenanceDocumentEntry extends MaintenanceDocumentEntry {
             }
             super.setDocumentClass(documentClass);
         }
-    
-        @Override
-        public List<MaintainableSectionDefinition> getMaintainableSections() {
-            // TODO Auto-generated method stub
-    //        if (Questionnaire.class.isAssignableFrom(getBusinessObjectClass())) {
-    //            // this will not work because lots of places expect maintainablesections not null
-    //            return null;
-    //        }
-            return super.getMaintainableSections();
-        }
-    
+
         @Override
         public void setMaintainableSections(List<MaintainableSectionDefinition> maintainableSections) {
           if (Questionnaire.class.isAssignableFrom(getBusinessObjectClass())) {
-          // this will not work because lots of places expect maintainablesections not null
              super.maintainableSections = maintainableSections;
           } else {
             super.setMaintainableSections(maintainableSections);
           }
         }
-
 
 }
