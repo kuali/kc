@@ -120,10 +120,19 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
         this.lookupClass = lookupClass;
     }
     
+    /**
+     * 
+     * This method returns the descriptive text of the lookupClass
+     * @return descriptive text
+     */
     public String getLookupClassDescription() {
-        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
-        Map<String, BusinessObjectEntry> businessObjectEntries = dataDictionaryService.getDataDictionary().getBusinessObjectEntries();
-        return StringUtils.removeEnd(businessObjectEntries.get(this.lookupClass).getLookupDefinition().getTitle().trim()," Lookup");
+        if (this.lookupClass != null) {
+            DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+            Map<String, BusinessObjectEntry> businessObjectEntries = dataDictionaryService.getDataDictionary().getBusinessObjectEntries();
+            return StringUtils.removeEnd(businessObjectEntries.get(this.lookupClass).getLookupDefinition().getTitle().trim()," Lookup");
+        } else {
+            return "";
+        }
     }
 
     public String getLookupReturn() {
@@ -134,9 +143,18 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
         this.lookupReturn = lookupReturn;
     }
     
+    /**
+     * 
+     * This method returns the descriptive text of the lookupReturn
+     * @return descriptive text
+     */
     public String getLookupReturnDescription() {
-        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
-        return dataDictionaryService.getAttributeLabel(this.lookupClass,this.lookupReturn);
+        if ((this.lookupClass != null) && (this.lookupReturn != null)) {
+            DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+            return dataDictionaryService.getAttributeLabel(this.lookupClass,this.lookupReturn);
+        } else {
+            return "";
+        }
     }
 
     public Integer getDisplayedAnswers() {
