@@ -31,13 +31,15 @@ import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeServic
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 
+
 public class BudgetDistributionAndIncomeServiceTest extends BudgetDistributionAndIncomeTest {
+    private static final String finalStatusParameterValue = "1";
     private BudgetDistributionAndIncomeService bdiService;
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        bdiService = new BudgetDistributionAndIncomeServiceImpl();        
+        bdiService = new BudgetDistributionAndIncomeServiceImpl();
         addBudgetPeriods();
     }
 
@@ -82,6 +84,17 @@ public class BudgetDistributionAndIncomeServiceTest extends BudgetDistributionAn
         
         Assert.assertEquals(1, budgetDocument.getBudgetUnrecoveredFandAs().size());
         Assert.assertEquals(budgetUnrecoveredFandA.getAmount(), budgetDocument.getBudgetUnrecoveredFandAs().get(0).getAmount());
+    }
+    
+    @Test
+    public void testInitializingCollectionDefaults_FinalAndCompleteBudget() {
+        budgetDocument.setFinalVersionFlag(true);
+        budgetDocument.setBudgetStatus(finalStatusParameterValue);
+        Assert.assertEquals(0, budgetDocument.getBudgetCostShares().size());
+        
+        bdiService.initializeCollectionDefaults(budgetDocument);
+        Assert.assertEquals(0, budgetDocument.getBudgetCostShares().size());
+        Assert.assertEquals(0, budgetDocument.getBudgetUnrecoveredFandAs().size());
     }
     
     @Test
