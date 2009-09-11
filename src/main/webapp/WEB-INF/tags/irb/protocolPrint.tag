@@ -7,7 +7,7 @@
 <c:set var="protocolAttachmentTypeAttributes" value="${DataDictionary.ProtocolAttachmentType.attributes}" />
 <c:set var="protocolAttachmentStatusAttributes" value="${DataDictionary.ProtocolAttachmentStatus.attributes}" />
 
-<kul:tab tabTitle="Print" defaultOpen="true" tabErrorKey="">
+<kul:tab tabTitle="Print" defaultOpen="false" tabErrorKey="">
     <div class="tab-container" align="left">
         <h3>
             <span class="subhead-left">Print</span>
