@@ -154,18 +154,10 @@
 	</bean>
 	
 	<bean id="Protocol-active" parent="Protocol-active-parentBean" />
-	<bean id="Protocol-active-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="Protocol-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 		<property name="name" value="active" />
-		<property name="forceUppercase" value="false" />
 		<property name="label" value="Active" />
 		<property name="shortLabel" value="Active" />
-		<property name="maxLength" value="12" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="CheckboxControlDefinition" />
-		</property>
 		<property name="summary" value="Active" />
 		<property name="description" value="Active" />
 	</bean>
