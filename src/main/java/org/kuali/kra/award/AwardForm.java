@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.commitments.AwardFandaRate;
@@ -56,6 +58,7 @@ import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
@@ -65,6 +68,7 @@ import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
@@ -127,6 +131,12 @@ public class AwardForm extends ProposalFormBase
     private String awardNumberInputTemp;//This is temporary till the GUI mock is ready for award hierarchy
     private List<String> order;
     private AwardFundingProposalBean fundingProposalBean;
+    private String awardHierarchy;
+    private String awardNumber;
+    private String addRA;    
+    private String deletedRas;
+    private String rootAwardNumber;
+    
     /**
      * 
      * Constructs a AwardForm.
@@ -756,5 +766,109 @@ public class AwardForm extends ProposalFormBase
      */
     public void setOrder(List<String> order) {
         this.order = order;
+    }
+    
+    public String getAwardHierarchy() throws ParseException {
+        awardHierarchy = "";
+        if(StringUtils.isBlank(awardNumber)){
+            awardNumber = this.getRootAwardNumber();
+        }
+        if (StringUtils.isNotBlank(addRA) && addRA.equals("Y")) {
+            if (getAwardHierarchyUIService().doesAwardHierarchyExist(awardNumber, deletedRas)) {
+                setAwardHierarchy("<h3>true</h3>");
+            }else {
+                setAwardHierarchy("<h3>false</h3>");
+            }
+        } else if (StringUtils.isNotBlank(addRA) && addRA.equals("S")) {
+            //KraServiceLocator.getService(AwardHierarchyUIService.class).saveResearchAreas(sqlScripts);
+            String error = (String) GlobalVariables.getUserSession().retrieveObject("raError");
+            if (StringUtils.isNotBlank(error)) {
+                setAwardHierarchy("<h3>" + error + "</h3>");
+                GlobalVariables.getUserSession().addObject("raError", (Object) null);
+            } else {
+                setAwardHierarchy("<h3>Success</h3>");
+            }
+        } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
+            setAwardHierarchy(getAwardHierarchyUIService().getSubAwardHierarchiesForTreeView(awardNumber));
+        } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("N")){
+            setAwardHierarchy(getAwardHierarchyUIService().getRootAwardNode(awardNumber));
+        }
+        return awardHierarchy;
+    }
+    
+    public void setAwardHierarchy(String awardHierarchy) {
+        this.awardHierarchy = awardHierarchy;
+    }
+
+    /**
+     * Gets the awardNumber attribute. 
+     * @return Returns the awardNumber.
+     */
+    public String getAwardNumber() {
+        return awardNumber;
+    }
+
+    /**
+     * Sets the awardNumber attribute value.
+     * @param awardNumber The awardNumber to set.
+     */
+    public void setAwardNumber(String awardNumber) {
+        this.awardNumber = awardNumber;
+    }
+
+    /**
+     * Gets the addRA attribute. 
+     * @return Returns the addRA.
+     */
+    public String getAddRA() {
+        return addRA;
+    }
+
+    /**
+     * Sets the addRA attribute value.
+     * @param addRA The addRA to set.
+     */
+    public void setAddRA(String addRA) {
+        this.addRA = addRA;
+    }
+
+    /**
+     * Gets the deletedRas attribute. 
+     * @return Returns the deletedRas.
+     */
+    public String getDeletedRas() {
+        return deletedRas;
+    }
+
+    /**
+     * Sets the deletedRas attribute value.
+     * @param deletedRas The deletedRas to set.
+     */
+    public void setDeletedRas(String deletedRas) {
+        this.deletedRas = deletedRas;
+    }
+    
+    /**
+     * This method...
+     * @return
+     */
+    private AwardHierarchyUIService getAwardHierarchyUIService() {
+        return KraServiceLocator.getService(AwardHierarchyUIService.class);
+    }
+
+    /**
+     * Gets the rootAwardNumber attribute. 
+     * @return Returns the rootAwardNumber.
+     */
+    public String getRootAwardNumber() {
+        return rootAwardNumber;
+    }
+
+    /**
+     * Sets the rootAwardNumber attribute value.
+     * @param rootAwardNumber The rootAwardNumber to set.
+     */
+    public void setRootAwardNumber(String rootAwardNumber) {
+        this.rootAwardNumber = rootAwardNumber;
     }
 }

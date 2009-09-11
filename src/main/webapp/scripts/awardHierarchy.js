@@ -1,7 +1,14 @@
-    
+    var node;
     var i = 1;
     var j = 1;
+    var removedNode=null;
+    var cutNode;
+    var sqlScripts = "";
     var ulTagId;
+    var sqls = [];
+    var sqlidx = 0;
+    var deletedNodes="";
+    var newNodes=";";
     var loadedidx=0;
       
     $(document).ready(function(){
@@ -53,6 +60,82 @@
          // return false;
        });
     }); // $(document).ready
+    
+    /*
+	 * top level to add research area
+	 */
+   $("#add0").click(function(){    
+   // click 'add' for 000001
+         var trNode = $(this).parents('tr:eq(0)');
+        // alert(trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+"-"+trNode.children('td:eq(2)').children('input:eq(0)').attr("value"));
+
+       if (trNode.children('td:eq(1)').children('input:eq(0)').attr("value") == "") {
+         alert("must enter research area code");
+       } else if (trNode.children('td:eq(2)').children('input:eq(0)').attr("value") == "") {
+         alert("must enter research area");
+       } else {
+       
+       // check if code exists
+           var raExist
+           $.ajax({
+               url: 'researchAreaAjax.do',
+               type: 'GET',
+               dataType: 'html',
+               data:'researchAreaCode='+trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+'&addRA=Y',
+               cache: false,
+               async: false,
+               timeout: 1000,
+               error: function(){
+                  alert('Error loading XML document');
+               },
+               success: function(xml){
+                  $(xml).find('h3').each(function(){
+                     raExist = $(this).text();
+                  // alert(raExist);
+      
+                   });
+                }
+             });   // end ajax
+       
+       
+         if (raExist == 'false') {
+             var ulTag = $("#researcharea");
+                                                        
+             var item_text = trNode.children('td:eq(1)').children('input:eq(0)').attr("value") +" : "+trNode.children('td:eq(2)').children('input:eq(0)').attr("value");
+             var listitem = setupListItem(trNode.children('td:eq(1)').children('input:eq(0)').attr("value") , trNode.children('td:eq(2)').children('input:eq(0)').attr("value"));
+             // alert(listitem.html());
+          // need this ultag to force to display folder.
+          var childUlTag = $('<ul></ul>').attr("id","ul"+i);
+          childUlTag.appendTo(listitem);
+          
+          // this is new nodes, so it is same as already loaded from DB
+          var loadedId = "loaded"+i;
+          var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
+          inputtag.appendTo(childUlTag);
+          
+             listitem.appendTo(ulTag);
+             // alert("ultagid "+ulTag.attr("id").substring(2));
+             // force to display folder icon
+             $("#researcharea").treeview({
+                 add: listitem
+             // toggle: function() {
+             // var subul=this.getElementsByTagName("ul")[0]
+             // if (subul.style.display=="block")
+             // alert("You've opened this Folder!")
+             // }
+             });
+             
+             // apend to sqlScripts
+             addSqlScripts(getInsertClause(trNode.children('td:eq(1)').children('input:eq(0)').attr("value"), '000001', trNode.children('td:eq(2)').children('input:eq(0)').attr("value")));
+             // alert("sqlScripts = "+sqlScripts);
+          }  else {
+               alert ("Research Area Code already exist");
+          }
+         };                                
+     
+      
+     return false;
+    }); // add0    
      
 
     /*
@@ -61,11 +144,11 @@
     function loadFirstLevel(){ 
       
       $.ajax({
-        url: 'awardHierarchyAjax.do',
+        url: 'awardHierarchyAwardActionsAjax.do',
         type: 'GET',
         dataType: 'html',
         cache: false,
-        data:'awardNumber=&addRA=N&document.rootAwardNumber=' + $("#document\\.rootAwardNumber").attr("value"),
+        data:'awardNumber=&addRA=N&rootAwardNumber=' + $("#rootAwardNumber").attr("value"),
         async:false,
         timeout: 1000,
         error: function(){
@@ -110,7 +193,31 @@
        	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
     			"racode" + i).attr("name", "racode" + i).attr("value",racode);
        	   hidracode.appendTo(div);
-                   
+       	   
+           // $(document).ready(function () {
+           tag.click(
+                  function()
+                  {
+                      // alert ("sibling
+						// "+$(this).siblings('div:eq(0)').attr("id"));
+                      $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                      var idx = $(this).attr("id").substring(11);
+                      if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
+                          tableTag(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                          if ($("#"+divId).is(":hidden")) {
+                              // alert(divId + " hidden0");
+                               $("#listcontent"+idx).show();
+                               // $("#listcontent"+idx).slideToggle(300);
+                          }
+                      } else {
+                          $("#listcontent"+idx).slideToggle(300);
+                      }   
+                      
+                      loadChildrenRA(item_text, tagId);
+                  }
+              );
+          // });
+       	
            var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
            
            // tag.appendTo(listitem);
@@ -174,47 +281,197 @@
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
         var text10 = item_text.substring(0,item_text.indexOf("%3A")).trim();
         
+        item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
+        var text11 = item_text.substring(0,item_text.indexOf("%3A")).trim();
+        
+        if(text11 == 1){
+        	var txtImage = "<img src=\"static/images/award_active.gif\" />";
+        }else if(text11 == 2 || text11 == 4 || text11 == 5){
+        	var txtImage = "<img src=\"static/images/award_inactive.gif\" />";
+        }else if(text11 == 3 || text11 == 6){
+        	var txtImage = "<img src=\"static/images/award_pending.gif\" />";
+        }
         var racodereverse = revString(racode);
         var index = racodereverse.indexOf("0");
         var i2 = 12 - index;
         var racode2 = racode.substring(i2,12);
         
-        if($("#controlForAwardHierarchyView").attr("value") == 0){
-      	  var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"
-	  			+"</td></tr></tbody></table>";
-        }
-        if($("#controlForAwardHierarchyView").attr("value") == 1){
-        	var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td rowspan=\"3\" style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+text1+"</td>"
-        		+"<td rowspan=\"2\" style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/></td>"
-	  			+"<td  rowspan=\"2\" style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"	  			
-	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td  rowspan=\"2\" style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: right; width: 100px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);\">  Distributed: </td>" 
-	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">" +text9 + "</td>"
-	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">" +text10 + "</td></tr><tr>"
-	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: right; width: 100px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);\">  Distributable: </td>"
-	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">" +text7 + "</td>"
-	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">" +text8 + "</td></tr><tr>"
-	  			+"<td >&nbsp;</td><td >&nbsp;</td><td >&nbsp;</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: right; width: 100px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);\">  Total: </td>"
-	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">" +text5 + "</td>"
-	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">" +text6 + "</td>"
-	  			+"</tr></tbody></table>";
-        }
-        if($("#controlForAwardHierarchyView").attr("value") == 2){
-      	var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-	  			+text5+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse;\">"
-	  			+text6+"</td></tr></tbody></table>";
-        } 
- 	   return abc; 
+        
+      	var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1 
+      				+"</td></tr></tbody></table>";
+        
+      	return abc; 
     }
-  
+    
+    /*
+	 * set up the area of research detail table tag. This is loading on demand.
+	 * Only when area of research link is clicked the first time, then it will
+	 * be loaded.
+	 */
+  function tableTag(name, id) {         
+         // var tag = $('<th class="subelementheader"
+			// align="left"></th>').attr("id","raHeader"+i).html(name);
+         var text1 = name.substring(0,name.indexOf("%3A")).trim();
+         name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+         
+         var tag = $('<th  style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" align="left"></th>').attr("id","raHeader"+id.substring(4)).html("Detail: " + text1);
+         
+         tag = $('<tr></tr>').html(tag);
+         tag = $('<thead></thead>').html(tag);
+         tag = $('<table width="100%" cellpadding="0" cellspacing="0" class="subelement"> </table>').html(tag);
+         tbodyTag(name, id).appendTo(tag);
+         return tag;
+  }
 
+  function tbodyTag(name, id) {
+	  
+	  var text2 = name.substring(0,name.indexOf("%3A")).trim();
+      
+	  name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text3 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text4 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text5 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text6 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text7 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text8 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text9 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text10 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text11 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text12 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text13 = name.substring(0,name.indexOf("%3A")).trim();
+      
+
+    var idx = id.substring(4);  
+    var tblTag = $('<table cellpadding="0" cellspacing="0" class="elementtable" width="100%"></table>')
+
+    
+    // 1st tr
+    var trTag = $('<tr></tr>');
+    var thTag1=$('<th style="text-align:right;width:160px;"></th>').html('<b>Project Start Date</b>');
+    trTag.html(thTag1);
+    var tdTag1=$('<td></td>').html(text12);
+    tdTag1.appendTo(trTag);
+    var thTag2=$('<th style="text-align:right;width:160px;"></th>').html('<b>Obligation Start Date</b>');
+    thTag2.appendTo(trTag);    
+    var tdTag2=$('<td></td>').html(text2);
+    tdTag2.appendTo(trTag);
+    
+    // 2nd tr
+    var trTag1 = $('<tr></tr>');
+    var thTag3=$('<th style="text-align:right;width:160px;"></th>').html('<b>Project End Date</b>');
+    trTag1.html(thTag3);
+    var tdTag3=$('<td ></td>').html(text4);
+    tdTag3.appendTo(trTag1);
+    var thTag4=$('<th style="text-align:right;width:160px;"></th>').html('<b>Obligation End Date</b>');
+    thTag4.appendTo(trTag1);    
+    var tdTag4=$('<td ></td>').html(text3);
+    tdTag4.appendTo(trTag1);
+    
+    // 3rd tr
+    var trTag2 = $('<tr></tr>');
+    var thTag5=$('<th style="text-align:right;width:160px;"></th>').html('<b>Anticipated Amount</b>');
+    trTag2.html(thTag5);
+    var tdTag5=$('<td ></td>').html("$" + text5);
+    tdTag5.appendTo(trTag2);
+    var thTag6=$('<th style="text-align:right;width:160px;"></th>').html('<b>Obligated Amount</b>');
+    thTag6.appendTo(trTag2);    
+    var tdTag6=$('<td ></td>').html("$" + text6);
+    tdTag6.appendTo(trTag2);
+    
+    // 4th tr
+    var trTag3 = $('<tr></tr>');
+    var thTag7=$('<th style="text-align:right;width:160px;"></th>').html('<b>Title</b>');
+    trTag3.html(thTag7);
+    var tdTag7=$('<td colspan="3" ></td>').html(text13);
+    tdTag7.appendTo(trTag3);
+      
+    trTag.appendTo(tblTag);
+    trTag1.appendTo(tblTag);
+    trTag2.appendTo(tblTag);
+    trTag3.appendTo(tblTag);
+    tag = $('<td class="subelementcontent"></td>').html(tblTag);
+    tag = $('<tr></tr>').html(tag);
+    tag = $('<tbody></tbody>').html(tag);
+    return tag;
+  }    
+  
+  /*
+	 * set up area of resear list tag. the main table detail is not set up
+	 * initially.
+	 */
+  function setupListItem(code, name) {
+            i++;
+            var id1 = "item"+i;
+            var tagId = "listcontrol"+i;
+            var divId = "listcontent"+i;
+            var idDiv;
+            if ( jQuery.browser.msie ) { 
+                idDiv = $('<div></div>').attr("id","itemText"+i).html(code +" : "+name); // for
+																				// later
+																				// change
+																				// RA
+																				// description
+            } else {
+                idDiv = $('<span>').attr("id","itemText"+i).html(code +" : "+name); // for
+																			// later
+																			// change
+																			// RA
+																			// description
+            }
+            var tag = $('<a style = "margin-left:2px;" ></a>').attr("id",tagId).html(idDiv);
+            var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; "></div>').attr("id",divId);
+        	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
+         			"racode" + i).attr("name", "racode" + i).attr("value",code);
+            	   hidracode.appendTo(detDiv);
+       // $(document).ready(function () {
+            $(tag).click(
+                    function()
+                    {
+                        $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                        if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
+                            var idx = $(this).attr("id").substring(11);
+                            tableTag(code +" : "+name, "item"+idx).appendTo($("#listcontent"+idx));
+                            if ($("#"+divId).is(":hidden")) {
+                                $("#listcontent"+idx).show();
+                            }
+                        } else {   
+
+                       // $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                            $("#"+divId).slideToggle(300);
+                            // $("#"+divId).show();;
+                        }  
+                        // TODO : this is a new item, so should not need to loadchildren ?
+                     //   loadChildrenRA(code +" : "+name, tagId);
+                    }
+                );
+        // });
+            // alert(tag.html());
+            var listitem = $('<li class="closed"></li>').attr("id",id1).html(tag);
+            // tableTag(name, id1).appendTo(detDiv)
+            detDiv.appendTo(listitem);
+            // alert(listitem.html());
+            return listitem;
+	}
  
 
   /*
@@ -237,7 +494,7 @@
       if (liNode.children('ul').size() == 0 || ulNode.children('input').size() == 0 ) {
           // alert(liNode.children('ul').size());
           $.ajax({
-           url: 'awardHierarchyAjax.do',
+           url: 'awardHierarchyAwardActionsAjax.do',
            type: 'GET',
            dataType: 'html',
            data:'awardNumber='+getAwardNumber(liNode)+'&addRA=E',
@@ -292,7 +549,28 @@
          	   var hidracode = $('<input type="hidden" id = "racode" name = "racode" />').attr("id",
               			"racode" + i).attr("name", "racode" + i).attr("value",racode);
                  	   hidracode.appendTo(detDiv);
-                 	   
+                 	  
+                 	   tag.click(
+                              function()
+                              {
+                                  // alert ("click "+tagId);
+                                  $(".hierarchydetail:not(#"+divId+")").slideUp(300);
+                                  var idx = $(this).attr("id").substring(11);
+                                  if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
+                                      tableTag(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                                      if ($("#listcontent"+idx).is(":hidden")) {
+                                      // alert(divId + " hidden0");
+                                           $("#listcontent"+idx).show();
+                                       // $("#listcontent"+idx).slideToggle(300);
+                                      }
+                                  } else {
+                                      $("#listcontent"+idx).slideToggle(300);
+                                  }   
+
+                                  loadChildrenRA(item_text, tagId);
+                              }
+                          );
+                 	  
               var listitem = $('<li class="closed"></li>').attr("id",id).html(tag);
               // tag.appendTo(listitem);
               // listitem.appendTo('ul#file31');
@@ -337,6 +615,24 @@
        return $("#racode"+node.attr("id").substring(4)).attr("value");
   }
   
+  <!-- initial state -->
+  $(".hierarchydetail").hide();
+<!-- hidedetail -->
+  $(".hidedetail").toggle(
+      function()
+      {
+          $(".hierarchydetail").slideUp(300);
+      }
+  );
+<!-- listcontent00 -->
+  $("#listcontrol00").click(
+      function()
+      {
+          $(".hierarchydetail:not(#listcontent00)").slideUp(300);
+          $("#listcontent00").slideToggle(300);
+      }
+  );  
+  
   function hasFormAlreadyBeenSubmitted() {
       // return false;
   }
@@ -346,9 +642,10 @@
 	  //for (var k = 0; k<3;k++) {
 		  // performance test
       loadFirstLevel();
+      $("#listcontent00").show();
       loadedidx=i;
 	  //}
       // $("#listcontrol00").show();
       // $("#listcontent00").slideToggle(300);
   })
-
+  $("#loading").hide();

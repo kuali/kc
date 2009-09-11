@@ -64,4 +64,4 @@ var kualiElements = kualiForm.elements;
 	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
 
 	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
-	<script type="text/javascript" src="scripts/awardHierarchy.js"></script>
+	<script type="text/javascript" src="scripts/awardHierarchyTimeAndMoney.js"></script>
