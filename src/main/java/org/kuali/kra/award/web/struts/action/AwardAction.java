@@ -112,9 +112,10 @@ public class AwardAction extends BudgetParentActionBase {
         Award award = awardForm.getAwardDocument().getAward();
         List<String> order = new ArrayList<String>();
         
-        Map<String, AwardHierarchy> awardHierarchyNodes = getAwardHierarchyService().getAwardHierarchy(award.getAwardNumber(), order);
-        
+        Map<String, AwardHierarchy> awardHierarchyNodes = getAwardHierarchyService().getAwardHierarchy(award.getAwardNumber(), order);        
         awardForm.setAwardHierarchyNodes(awardHierarchyNodes);
+        awardForm.setRootAwardNumber(StringUtils.substringBefore(award.getAwardNumber(),"-") + "-00001");
+        
         awardForm.setOrder(order);
     }
     

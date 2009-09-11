@@ -26,6 +26,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
     private Date currentFundEffectiveDate;
     private Date obligationExpirationDate;
     private Date finalExpirationDate;
+    private Date projectStartDate;
     private KualiDecimal anticipatedTotalAmount; 
     private KualiDecimal antDistributableAmount;
     private KualiDecimal amountObligatedToDate; 
@@ -33,6 +34,8 @@ public class AwardHierarchyNode extends AwardHierarchy {
     private String leadUnitName;
     private String principalInvestigatorName;
     private String accountNumber;
+    private Integer awardStatusCode;
+    private String title;
     
     public AwardHierarchyNode() {
         anticipatedTotalAmount = new KualiDecimal("0");
@@ -225,6 +228,54 @@ public class AwardHierarchyNode extends AwardHierarchy {
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    /**
+     * Gets the awardStatusCode attribute. 
+     * @return Returns the awardStatusCode.
+     */
+    public Integer getAwardStatusCode() {
+        return awardStatusCode;
+    }
+
+    /**
+     * Sets the awardStatusCode attribute value.
+     * @param awardStatusCode The awardStatusCode to set.
+     */
+    public void setAwardStatusCode(Integer awardStatusCode) {
+        this.awardStatusCode = awardStatusCode;
+    }
+
+    /**
+     * Gets the projectStartDate attribute. 
+     * @return Returns the projectStartDate.
+     */
+    public Date getProjectStartDate() {
+        return projectStartDate;
+    }
+
+    /**
+     * Sets the projectStartDate attribute value.
+     * @param projectStartDate The projectStartDate to set.
+     */
+    public void setProjectStartDate(Date projectStartDate) {
+        this.projectStartDate = projectStartDate;
+    }
+
+    /**
+     * Gets the title attribute. 
+     * @return Returns the title.
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Sets the title attribute value.
+     * @param title The title to set.
+     */
+    public void setTitle(String title) {
+        this.title = title;
     }
     
 }
