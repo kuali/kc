@@ -21,10 +21,19 @@ import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
+/**
+ * 
+ * This class provides a call to validate whether user has certain permission.
+ */
 public class QuestionnaireAuthorizationServiceImpl implements QuestionnaireAuthorizationService {
     
     private UnitAuthorizationService unitAuthorizationService;
     private PersonService personService;
+    
+    /**
+     * 
+     * @see org.kuali.kra.questionnaire.QuestionnaireAuthorizationService#hasPermission(java.lang.String)
+     */
     public boolean hasPermission(String permissionName){
         Person person = personService.getPersonByName(getUserName());       
         return unitAuthorizationService.hasPermission(getUserName(), person.getUnit().getUnitNumber(), permissionName);
@@ -35,10 +44,20 @@ public class QuestionnaireAuthorizationServiceImpl implements QuestionnaireAutho
         return user.getPersonUserIdentifier();
     }
     
+    /**
+     * 
+     * This method inject UnitAuthorizationService
+     * @param unitAuthorizationService
+     */
     public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
         this.unitAuthorizationService = unitAuthorizationService;
     }
 
+    /**
+     * 
+     * This method inject PersonService
+     * @param personService
+     */
     public void setPersonService(PersonService personService) {
         this.personService = personService;
     }

@@ -25,7 +25,16 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 
+/**
+ * 
+ * This class is primarily for Questionnaire maintenance, so that QuestionnaireQuestions & QuestionnaireUsages
+ * can be include in xmldocumentcontent.
+ * It has a classdescriptor in repository.xml
+ */
 public class KraMaintenanceDocument extends MaintenanceDocumentBase {
+
+    private static final long serialVersionUID = -730971565265598319L;
+
 
     public KraMaintenanceDocument() {
         super();

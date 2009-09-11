@@ -15,29 +15,21 @@
  */
 package org.kuali.kra.questionnaire;
 
-import org.kuali.kra.bo.Person;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.kim.service.impl.PersonServiceImpl;
-import org.kuali.kra.rice.shim.UniversalUser;
-import org.kuali.kra.service.PersonService;
-import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
-import org.kuali.rice.kns.util.GlobalVariables;
 
+/**
+ * 
+ * This class is to override 'create new' url.  MODIFY_QUESTIONNAIRE permission is need for this url. 
+ */
 public class QuestionnaireLookupableImpl extends KualiLookupableImpl {
 
     private QuestionnaireAuthorizationService questionnaireAuthorizationService;
-    // @Override
-    // public String getCreateNewUrl() {
-    // // TODO Auto-generated method stub
-    // String url = super.getCreateNewUrl();
-    // String appContext = ConfigContext.getCurrentContextConfig().getProperty(Constants.APP_CONTEXT_KEY);
-    // url = url.replace(url.substring(0, url.indexOf("<img")), "<a href=\"/"+appContext+"/questionnaireNew.do\">");
-    // return url;
-    // }
     
+    /**
+     * new url is redirect to "maintenanceQn", and also need to have MODIFY_QUESTIONNAIRE permission. 
+     * @see org.kuali.rice.kns.lookup.KualiLookupableImpl#getCreateNewUrl()
+     */
     @Override
     public String getCreateNewUrl() {
         String url = "";
