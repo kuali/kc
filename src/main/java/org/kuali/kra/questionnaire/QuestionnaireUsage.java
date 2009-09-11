@@ -34,8 +34,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 @Table(name="QUESTIONNAIRE_USAGE")
 public class QuestionnaireUsage extends KraPersistableBusinessObjectBase implements SequenceAssociate<Questionnaire> { 
     
-    private static final long serialVersionUID = 1L;
-
+    private static final long serialVersionUID = -5676341963373665440L;
     @Id 
     @Column(name="QUESTIONNAIRE_USAGE_ID")
     private Long questionnaireUsageId; 

@@ -26,6 +26,10 @@ import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
+/**
+ * 
+ * This is a form class for questionnaire maintenance.
+ */
 public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private QuestionnaireUsage newQuestionnaireUsage;
     private List<QuestionnaireUsage> questionnaireUsages;
@@ -34,7 +38,20 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private String lookupResultsBOClassName;
     private String docStatus;
     private List<String> qnaireQuestions;
-    
+    private String lookedUpCollectionName;
+
+    /**
+     * Constructs a ResearchAreasForm.
+     */
+    public QuestionnaireMaintenanceForm() {
+        super();
+        questionnaireUsages = new ArrayList<QuestionnaireUsage>();
+        qnaireQuestions = new ArrayList<String>();
+        questionNumber = 1;
+        
+
+    }
+
 
     public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
@@ -52,25 +69,12 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         this.lookedUpCollectionName = lookedUpCollectionName;
     }
 
-    private String lookedUpCollectionName;
 
-    /**
-     * Constructs a ResearchAreasForm.
-     */
-    public QuestionnaireMaintenanceForm() {
-        super();
-        questionnaireUsages = new ArrayList<QuestionnaireUsage>();
-        qnaireQuestions = new ArrayList<String>();
-        questionNumber = 1;
-        
-
-    }
 
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         // FIXME : just a temporary soln. it always get the methodtocall='refresh' after it started properly the first time.
         // need to investigate this.
         this.setMethodToCall("");
-        // TODO : if do lookup again to edit, 'form' is not initialized ? initialized here ?
         qnaireQuestions = new TypedArrayList(String.class);
         // to prevent indexoutofbound exception when populate
         if (this.getDocument() != null) {
@@ -79,7 +83,6 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
             qn.setQuestionnaireUsages(new TypedArrayList(QuestionnaireUsage.class));
         }
         questionNumber = 1;
-        // editData = "";
     }
 
     public Integer getQuestionNumber() {
@@ -108,8 +111,6 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
 
     @Override
     public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-        // fromquestionnaire is return false for some reason ??
-        // return super.shouldPropertyBePopulatedInForm(requestParameterName, request);
         return true;
     }
 

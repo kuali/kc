@@ -78,10 +78,9 @@
                         if (newQuestionTypeId == '6') {
                         	displayedAnswers = document.getElementById("newLookupClass").value;
                             if (displayedAnswers.indexOf(".") > 0) {
-                                var patt1 = new RegExp(".", "g");
-                                patt1.test(str);
-                                displayAnswers.substring(patt1.lastIndex+1);
+                                displayedAnswers = displayedAnswers.substring(displayedAnswers.lastIndexOf(".")+1);
                             }
+                            //alert(displayedAnswers)
                             answerMaxLength = document.getElementById("newLookupReturn").value;
                         } else {
                             displayedAnswers = document.getElementById("newDisplayedAnswers").value;

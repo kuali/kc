@@ -51,6 +51,9 @@ import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;
  * The hierarchical nature of data and heavily depending on js also needs some manipulation, so make these a little
  * complicated..
  */
+/**
+ * This is the maintenance action class is for questionnaire.
+ */
 public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocumentAction {
     private static final Log LOG = LogFactory.getLog(QuestionnaireMaintenanceDocumentAction.class);
     private static final String PCP = "#;#";

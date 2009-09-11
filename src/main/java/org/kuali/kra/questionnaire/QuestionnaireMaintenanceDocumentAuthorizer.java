@@ -26,6 +26,11 @@ import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.kns.util.KNSConstants;
 
+/**
+ * 
+ * This the document authorizer class of questionnaire maintenance.
+ * Based on user permission and document routing status; the documentactions set is created.
+ */
 public class QuestionnaireMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
     @Override
