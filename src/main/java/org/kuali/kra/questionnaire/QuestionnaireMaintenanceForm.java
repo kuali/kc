@@ -75,7 +75,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         // FIXME : just a temporary soln. it always get the methodtocall='refresh' after it started properly the first time.
         // need to investigate this.
         this.setMethodToCall("");
-        qnaireQuestions = new TypedArrayList(String.class);
+        qnaireQuestions = new TypedArrayList(Object.class);
         // to prevent indexoutofbound exception when populate
         if (this.getDocument() != null) {
             Questionnaire qn = (Questionnaire) ((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject()
