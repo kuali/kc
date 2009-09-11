@@ -46,23 +46,13 @@
 	</kul:tabTop>
      <kul:panelFooter />
 
-        <div id="globalbuttons" class="globalbuttons">
+  <div id="globalbuttons" class="globalbuttons">
     <%-- <input type="submit" id="generate" value="Generate!" /> --%>
     <input type="image" id="save" src="kr/static/images/buttonsmall_save.gif" /> 
 	<input type="image" name="methodToCall.reload" id = "refresh" src="kr/static/images/buttonsmall_refresh.gif" class="globalbuttons" title="refresh" alt="refresh">
 	<input type="image" name="methodToCall.close" id = "close" src="kr/static/images/buttonsmall_close.gif" class="globalbuttons" title="close" alt="close">
 	<input type="image" name="methodToCall.cancel" id = "cancel" src="kr/static/images/buttonsmall_cancel.gif" class="globalbuttons" title="cancel" alt="cancel">
-  <%--  <a
-                            href='portal.do?methodToCall=refresh&amp;docFormKey=88888888&amp;anchor=&amp;docNum='  title="cancel"><img
-                            src="kr/static/images/buttonsmall_cancel.gif" class="tinybutton" alt="cancel" title="cancel"
-                            border="0" /></a>  --%> 
-                            <!--  still posted -->
-          <%--   <input type="submit" name="save" id="generate" 
-                src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif"
-                class="globalbuttons" title="save" alt="save"> --%>
-            <%-- <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.saveSponsorHierarchy" title="save" alt="save" onclick="return okToSave();return false;" />    
-            <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" property="methodToCall.cancelResearchAreas" title="cancel" alt="cancel" /> --%>  
-        </div>
+   </div>
 
     <script type="text/javascript" src="scripts/researchArea.js"></script> 
 <script type="text/javascript">
