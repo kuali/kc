@@ -1,7 +1,7 @@
 // copied from questionnairenew.js
 
 var node;
-var i = 1;
+var i = -1;
 var ucount = 1;
 var removedNode;
 var maxCopyNodeIdx = 0;
