@@ -37,7 +37,8 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private Integer questionNumber;
     private String lookupResultsBOClassName;
     private String docStatus;
-    private List<String> qnaireQuestions;
+   // private List<String> qnaireQuestions;
+    private List qnaireQuestions;
     private String lookedUpCollectionName;
 
     /**
@@ -171,11 +172,13 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         return qList;
     }
     
-    public List<String> getQnaireQuestions() {
+    public List getQnaireQuestions() {
+    //public List<String> getQnaireQuestions() {
         return qnaireQuestions;
     }
 
-    public void setQnaireQuestions(List<String> qnaireQuestions) {
+    public void setQnaireQuestions(List qnaireQuestions) {
+    //public void setQnaireQuestions(List<String> qnaireQuestions) {
         this.qnaireQuestions = qnaireQuestions;
     }
 
