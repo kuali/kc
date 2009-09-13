@@ -18,6 +18,7 @@ package org.kuali.kra.institutionalproposal.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -25,18 +26,22 @@ import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.UrlFactory;
 
 public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = 1L;
-    private boolean suppressCustomActionUrls;
+    
+    private boolean includeMainSearchCustomActionUrls;
+    private boolean includeMergeCustomActionUrls;
 
     @Override
     // Overriding this to only return the currently Active version of a proposal
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocationDocFormKey(fieldValues);
         
-        suppressCustomActionUrls = suppressCustomActionUrls(fieldValues);
+        configureCustomActions(fieldValues);
         
         fieldValues.remove("proposalSequenceStatus");
         fieldValues.put("proposalSequenceStatus", VersionStatus.ACTIVE.toString()); // Constant
@@ -47,11 +52,14 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
      * add 'copy' link to actions list
      * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        if (!suppressCustomActionUrls) {
+        if (includeMainSearchCustomActionUrls) {
             htmlDataList.add(getViewLink(((InstitutionalProposal) businessObject).getInstitutionalProposalDocument()));
+        } if (includeMergeCustomActionUrls) {
+            htmlDataList.add(getSelectLink((InstitutionalProposal) businessObject));
         }
         return htmlDataList;
     }
@@ -72,9 +80,29 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     }
     
     // Determine whether lookup is being called from a location that shouldn't include the custom action links
-    protected boolean suppressCustomActionUrls(Map<String, String> fieldValues) {
+    protected void configureCustomActions(Map<String, String> fieldValues) {
         String returnLocation = fieldValues.get("backLocation");
-        return returnLocation != null && returnLocation.contains("awardHome.do");
+        if (returnLocation.contains("awardHome.do")) {
+            includeMainSearchCustomActionUrls = false;
+            includeMergeCustomActionUrls = false;
+        } else if (returnLocation.contains("mergeProposalLog.do")) {
+            includeMainSearchCustomActionUrls = false;
+            includeMergeCustomActionUrls = true;
+        } else {
+            includeMainSearchCustomActionUrls = true;
+            includeMergeCustomActionUrls = false;
+        }
+    }
+    
+    protected AnchorHtmlData getSelectLink(InstitutionalProposal institutionalProposal) {
+        AnchorHtmlData htmlData = new AnchorHtmlData();
+        htmlData.setDisplayText("select");
+        Properties parameters = new Properties();
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "mergeToInstitutionalProposal");
+        parameters.put("institutionalProposalNumber", institutionalProposal.getProposalNumber());
+        String href  = UrlFactory.parameterizeUrl("../" + "mergeProposalLog.do", parameters);
+        htmlData.setHref(href);
+        return htmlData;
     }
 
 }

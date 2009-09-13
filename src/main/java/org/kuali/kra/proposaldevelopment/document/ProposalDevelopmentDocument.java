@@ -22,18 +22,15 @@ import java.util.Map;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -45,6 +42,9 @@ import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kew.dto.ActionTakenDTO;
+import org.kuali.rice.kew.dto.ActionTakenEventDTO;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -105,6 +105,25 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument implements
 
         ProposalStateService proposalStateService = KraServiceLocator.getService(ProposalStateService.class);
         getDevelopmentProposal().setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(this, true));
+    }
+    
+    /**
+     * @see org.kuali.rice.kns.document.Document#doActionTaken(org.kuali.rice.kew.dto.ActionTakenEventDTO)
+     */
+    @Override
+    public void doActionTaken(ActionTakenEventDTO event) {
+        super.doActionTaken(event);
+        if (isLastSubmitterApprovalAction(event.getActionTaken())) {
+            // And IP config param is 'active'
+            InstitutionalProposalService institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
+            String proposalNumber = institutionalProposalService.createInstitutionalProposal(this.getDevelopmentProposal());
+            // Display proposal number
+        }
+    }
+    
+    private boolean isLastSubmitterApprovalAction(ActionTakenDTO actionTaken) {
+        return actionTaken.getActionTaken().equals(KEWConstants.ACTION_TAKEN_APPROVED_CD);
+        // also check person is last submitter
     }
 
 

@@ -30,16 +30,37 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        boolean retval = true;
+        boolean valid = true;
         
         ProposalLog proposalLog = (ProposalLog) document.getNewMaintainableObject().getBusinessObject();
         
-        if (ObjectUtils.isNotNull(proposalLog.getPiId()) && ObjectUtils.isNotNull(proposalLog.getRolodexId())) {
-            GlobalVariables.getErrorMap().putError("document.newMaintainableObject.rolodexId", KeyConstants.ERROR_MULTIPLE_PRINCIPAL_INVESTIGATORS, "");
-            retval = false;
+        if (!isProposalStatusChangeValid(document)) {
+            GlobalVariables.getErrorMap().putError(
+                    "document.newMaintainableObject.logStatus", 
+                    KeyConstants.ERROR_INVALID_STATUS_CHANGE, 
+                    proposalLog.getProposalLogStatus().getDescription());
+            valid = false;
         }
         
-        return retval;
+        if (ObjectUtils.isNotNull(proposalLog.getPiId()) && ObjectUtils.isNotNull(proposalLog.getRolodexId())) {
+            GlobalVariables.getErrorMap().putError("document.newMaintainableObject.rolodexId", KeyConstants.ERROR_MULTIPLE_PRINCIPAL_INVESTIGATORS, "");
+            valid = false;
+        }
+        
+        return valid;
     }
-
+    
+    private boolean isProposalStatusChangeValid(MaintenanceDocument document) {
+        
+        ProposalLog oldProposalLog = (ProposalLog) document.getOldMaintainableObject().getBusinessObject();
+        ProposalLog newProposalLog = (ProposalLog) document.getNewMaintainableObject().getBusinessObject();
+        if (oldProposalLog.getProposalNumber() != null
+                && oldProposalLog.getLogStatus() != newProposalLog.getLogStatus() 
+                && !ProposalLogUtils.getProposalLogVoidStatusCode().equals(newProposalLog.getLogStatus())) {
+            return false;
+        }
+        
+        return true;
+    }
+    
 }

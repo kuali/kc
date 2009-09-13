@@ -36,6 +36,7 @@
         
         <property name="businessRulesClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMaintenanceDocumentRules" />
         <property name="documentTypeName" value="ProposalLogMaintenanceDocument" />
+        <property name="documentPresentationControllerClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLogDocumentPresentationController" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
     </bean>
 
@@ -53,10 +54,12 @@
                     p:required="false" />
                 <bean parent="MaintainableFieldDefinition"
                     p:unconditionallyReadOnly="true"
+                    p:name="fiscalMonthYear"
+                    p:required="false" />
+                <bean parent="MaintainableFieldDefinition"
                     p:name="fiscalMonth"
                     p:required="false" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:unconditionallyReadOnly="true"
                     p:name="fiscalYear"
                     p:required="false" />
                 <bean parent="MaintainableFieldDefinition"
