@@ -26,7 +26,6 @@
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
                            
     <bean id="institutionalProposalModuleConfiguration" parent="institutionalProposalModuleConfiguration-parentBean" />
-	
     <bean id="institutionalProposalModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
 		<property name="initializeDataDictionary" value="true" />
 		<property name="databaseRepositoryFilePaths">
@@ -65,8 +64,27 @@
             <ref bean="versioningService" />
         </property>
     </bean>
+    
     <bean id="institutionalProposalLockService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalLockServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+	
+	<bean id="institutionalProposalService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalServiceImpl">
+        <property name="documentService" ref="documentService" />
+    </bean>
+    
+    <bean id="proposalLogLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="proposalLogLookupableHelperService" />
+        </property>         
+    </bean> 
+
+    <bean id="proposalLogLookupableHelperService" class="org.kuali.kra.institutionalproposal.proposallog.ProposalLogLookupableHelperServiceImpl" 
+        scope="prototype" parent="lookupableHelperService">
+    </bean>
+    
+    <bean id="proposalLogService" class="org.kuali.kra.institutionalproposal.proposallog.service.impl.ProposalLogServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
     
 </beans>

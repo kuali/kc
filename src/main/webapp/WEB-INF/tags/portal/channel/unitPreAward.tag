@@ -33,11 +33,10 @@
     </td>
   </tr>
   <tr>
-    <td nowrap class="disabled-text">Proposal Log</td>
+    <td nowrap class="">Proposal Log</td>
     <td>
-      <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
-      <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
-      
+        <portal:portalLink displayTitle="false" title="Proposal Log" url="kr/maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.kra.institutionalproposal.proposallog.ProposalLog"><img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
+        <portal:portalLink displayTitle="false" title="Proposal Log" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.institutionalproposal.proposallog.ProposalLog&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"><img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle"></portal:portalLink>
     </td>
   </tr>
 

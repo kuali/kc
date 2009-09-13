@@ -32,6 +32,7 @@
         <property name="attributes" >
             <list>
                 <ref bean="ProposalLog-proposalNumber" />
+                <ref bean="ProposalLog-fiscalMonthYear" />
                 <ref bean="ProposalLog-fiscalMonth" />
                 <ref bean="ProposalLog-fiscalYear" />
                 <ref bean="ProposalLog-proposalLogTypeCode" />
@@ -70,6 +71,25 @@
         <property name="description" value="Proposal Number" />
     </bean>
     
+    <bean id="ProposalLog-fiscalMonthYear" parent="ProposalLog-fiscalMonthYear-parentBean" />
+    <bean id="ProposalLog-fiscalMonthYear-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="fiscalMonthYear" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Fiscal Month / Year" />
+        <property name="shortLabel" value="Fiscal Month / Year" />
+        <property name="maxLength" value="9" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Fiscal Month / Year" />
+        <property name="description" value="Fiscal Month / Year" />
+    </bean>
+    
     <bean id="ProposalLog-fiscalMonth" parent="ProposalLog-fiscalMonth-parentBean" />
     <bean id="ProposalLog-fiscalMonth-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="fiscalMonth" />
@@ -81,8 +101,7 @@
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+            <bean parent="HiddenControlDefinition" />
         </property>
         <property name="summary" value="Fiscal Month" />
         <property name="description" value="Fiscal Month" />
@@ -99,8 +118,7 @@
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+            <bean parent="HiddenControlDefinition" />
         </property>
         <property name="summary" value="Fiscal Year" />
         <property name="description" value="Fiscal Year" />
@@ -119,7 +137,7 @@
         <property name="control" >
             <bean parent="SelectControlDefinition"
                 p:businessObjectClass="org.kuali.kra.institutionalproposal.proposallog.ProposalLogType"
-                p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
                 p:includeKeyInLabel="false"
                 p:includeBlankRow="false"
                 p:keyAttribute="proposalLogTypeCode"
@@ -141,7 +159,7 @@
         <property name="control" >
             <bean parent="SelectControlDefinition"
                 p:businessObjectClass="org.kuali.kra.institutionalproposal.proposallog.ProposalLogStatus"
-                p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
                 p:includeKeyInLabel="false"
                 p:includeBlankRow="false"
                 p:keyAttribute="proposalLogStatusCode"
@@ -350,6 +368,7 @@
     <bean id="ProposalLog-lookupDefinition" parent="ProposalLog-lookupDefinition-parentBean" />
     <bean id="ProposalLog-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Proposal Log Lookup" />
+        <property name="lookupableID" value="proposalLogLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="instructions" value="Look up a Proposal Log" />
         <property name="defaultSort" >

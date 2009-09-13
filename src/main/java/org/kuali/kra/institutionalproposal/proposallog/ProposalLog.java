@@ -235,6 +235,13 @@ public class ProposalLog extends KraPersistableBusinessObjectBase {
         this.fiscalYear = fiscalYear;
     }
     
+    public String getFiscalMonthYear() {
+        if (this.getFiscalMonth() != null && this.getFiscalYear() != null) {
+            return this.getFiscalMonth().toString() + " / " + this.getFiscalYear().toString();
+        }
+        return "";
+    }
+    
     /* These methods are for manipulating data before object persistence. */
     
     /**

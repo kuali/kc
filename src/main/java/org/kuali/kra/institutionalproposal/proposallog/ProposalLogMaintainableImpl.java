@@ -18,6 +18,7 @@ package org.kuali.kra.institutionalproposal.proposallog;
 import java.util.Calendar;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -29,7 +30,7 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
 
     private static final long serialVersionUID = 4690638717398206040L;
     private static final String PERSON_OBJECT_REFERENCE = "person";
-    private static final int FISCAL_YEAR_START_MONTH = 7;
+    private static final int FISCAL_YEAR_OFFSET = 6;
     
     private DateTimeService dateTimeService;
     
@@ -51,6 +52,15 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         }
     }
     
+    @Override
+    public void processAfterNew(MaintenanceDocument document, Map<String,String[]> parameters) {
+        ProposalLog proposalLog = (ProposalLog) document.getDocumentBusinessObject();
+        if (StringUtils.isBlank(proposalLog.getProposalNumber())) {
+            // New record; set default values.
+            setupDefaultValues(proposalLog);
+        }
+    }
+    
     /**
      * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)
      */
@@ -59,29 +69,25 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         super.prepareForSave();
         // If this is the initial save, we need to set the fiscal year and month.
         ProposalLog proposalLog = (ProposalLog) this.getBusinessObject();
-        proposalLog.setFiscalMonth(getFiscalMonth());
-        proposalLog.setFiscalYear(getFiscalYear());
+        if (StringUtils.isBlank(proposalLog.getProposalNumber())) {
+            proposalLog.setFiscalMonth(getFiscalCalendarValue(Calendar.MONTH));
+            proposalLog.setFiscalYear(getFiscalCalendarValue(Calendar.YEAR));
+        }
     }
     
-    // The fiscal month starts in July.
-    private int getFiscalMonth() {
-        int month = this.getDateTimeService().getCurrentCalendar().get(Calendar.MONTH);
-        if (month >= FISCAL_YEAR_START_MONTH) {
-            month = month - 6;
-        } else {
-            month = month + 6;
+    private void setupDefaultValues(ProposalLog proposalLog) {
+        if (StringUtils.isBlank(proposalLog.getLogStatus())) {
+            proposalLog.setLogStatus(ProposalLogUtils.getProposalLogPendingStatusCode());
         }
-        return month;
+        if (StringUtils.isBlank(proposalLog.getProposalLogTypeCode())) {
+            proposalLog.setProposalLogTypeCode(ProposalLogUtils.getProposalLogPermanentTypeCode());
+        }
     }
     
-    // The fiscal year is based on the fiscal month, which starts in July.
-    private int getFiscalYear() {
-        int year = this.getDateTimeService().getCurrentCalendar().get(Calendar.YEAR);
-        int month = this.getDateTimeService().getCurrentCalendar().get(Calendar.MONTH);
-        if (month >= FISCAL_YEAR_START_MONTH) {
-            year = year + 1;
-        }
-        return year;
+    private int getFiscalCalendarValue(int dateType) {
+        Calendar calendar = this.getDateTimeService().getCurrentCalendar();
+        calendar.add(Calendar.MONTH, FISCAL_YEAR_OFFSET);
+        return calendar.get(dateType);
     }
     
     private DateTimeService getDateTimeService() {
