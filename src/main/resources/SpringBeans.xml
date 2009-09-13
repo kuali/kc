@@ -188,6 +188,7 @@
 				<value>questionLookupable</value>
 				<value>dictionaryValidationService</value>
 				<value>institutionalProposalLookupable</value>
+				<value>proposalLogLookupable</value>
 			</set>
 		</property>
 	</bean>	
