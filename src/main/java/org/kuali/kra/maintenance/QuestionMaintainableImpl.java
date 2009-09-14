@@ -93,38 +93,40 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
     private void clearUnusedFieldValues() {
         if (businessObject instanceof Question) {
             Question question = (Question) businessObject;
-            switch (question.getQuestionTypeId()) {
-                case Constants.QUESTION_RESPONSE_TYPE_YES_NO: 
-                    question.setLookupClass(null);
-                    question.setLookupReturn(null);
-                    question.setDisplayedAnswers(null);
-                    question.setMaxAnswers(null);
-                    question.setAnswerMaxLength(null);
-                    break;
-                case Constants.QUESTION_RESPONSE_TYPE_YES_NO_NA: 
-                    question.setLookupClass(null);
-                    question.setLookupReturn(null);
-                    question.setDisplayedAnswers(null);
-                    question.setMaxAnswers(null);
-                    question.setAnswerMaxLength(null);
-                    break;
-                case Constants.QUESTION_RESPONSE_TYPE_NUMBER: 
-                    question.setLookupClass(null);
-                    question.setLookupReturn(null);
-                    break;
-                case Constants.QUESTION_RESPONSE_TYPE_DATE: 
-                    question.setLookupClass(null);
-                    question.setLookupReturn(null);
-                    question.setAnswerMaxLength(null);
-                    break;
-                case Constants.QUESTION_RESPONSE_TYPE_TEXT: 
-                    question.setLookupClass(null);
-                    question.setLookupReturn(null);
-                    break;
-                case Constants.QUESTION_RESPONSE_TYPE_LOOKUP:
-                    question.setDisplayedAnswers(null);
-                    question.setAnswerMaxLength(null);
-                    break;
+            if (question.getQuestionType() != null) {
+                switch (question.getQuestionTypeId()) {
+                    case Constants.QUESTION_RESPONSE_TYPE_YES_NO:
+                        question.setLookupClass(null);
+                        question.setLookupReturn(null);
+                        question.setDisplayedAnswers(null);
+                        question.setMaxAnswers(null);
+                        question.setAnswerMaxLength(null);
+                        break;
+                    case Constants.QUESTION_RESPONSE_TYPE_YES_NO_NA:
+                        question.setLookupClass(null);
+                        question.setLookupReturn(null);
+                        question.setDisplayedAnswers(null);
+                        question.setMaxAnswers(null);
+                        question.setAnswerMaxLength(null);
+                        break;
+                    case Constants.QUESTION_RESPONSE_TYPE_NUMBER:
+                        question.setLookupClass(null);
+                        question.setLookupReturn(null);
+                        break;
+                    case Constants.QUESTION_RESPONSE_TYPE_DATE:
+                        question.setLookupClass(null);
+                        question.setLookupReturn(null);
+                        question.setAnswerMaxLength(null);
+                        break;
+                    case Constants.QUESTION_RESPONSE_TYPE_TEXT:
+                        question.setLookupClass(null);
+                        question.setLookupReturn(null);
+                        break;
+                    case Constants.QUESTION_RESPONSE_TYPE_LOOKUP:
+                        question.setDisplayedAnswers(null);
+                        question.setAnswerMaxLength(null);
+                        break;
+                }
             }
         }
     }
