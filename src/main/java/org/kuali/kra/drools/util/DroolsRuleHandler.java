@@ -27,21 +27,34 @@ import org.drools.rule.Package;
 import org.drools.rule.builder.dialect.java.JavaDialectConfiguration;
 import org.kuali.kra.drools.brms.FactBean;
 
+/**
+ * 
+ * This class is to compile rule and execute rule.
+ */
 public class DroolsRuleHandler {
    
     private RuleBase rules;
     
+    /**
+     * This method is to get get rule from rule file.  
+     * So, this is the rule engine class.
+     * Constructs a DroolsRuleHandler.java.
+     * @param ruleFile
+     */
     public DroolsRuleHandler(String ruleFile) {
         this.rules = getRuleBase(ruleFile);
     }
     
+    /*
+     * This method is get rule from rule file and compile it.
+     */
     private RuleBase getRuleBase(String rulesFile) {
         //RuleBase rules = null;
         try {
             // Read in the rules source file
             Reader source = new InputStreamReader(this.getClass().getResourceAsStream("/" + rulesFile));
 
-            // to force it to use Janino compiler.  Ther is conflict of JDT compiler.
+            // to force it to use Janino compiler.  There is conflict of JDT compiler.
             PackageBuilderConfiguration pkgBuilderCfg = new PackageBuilderConfiguration();
             pkgBuilderCfg.setClassLoader( this.getClass().getClassLoader() );
             JavaDialectConfiguration javaConf = (JavaDialectConfiguration)
@@ -65,6 +78,11 @@ public class DroolsRuleHandler {
         return rules;
     }
 
+    /**
+     * this method executes the rules that were previously loaded in the class's constructor. 
+     * @param <T>
+     * @param fact
+     */
     public <T extends FactBean> void executeRules(T fact) { 
         WorkingMemory workingMemory = rules.newStatefulSession();
         workingMemory.insert(fact);
