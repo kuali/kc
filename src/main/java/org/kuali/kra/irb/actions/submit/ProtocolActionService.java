@@ -23,10 +23,31 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 
 public interface ProtocolActionService {
 
-    public abstract List<String> getActionsAllowed(Protocol protocol);
+    /**
+     * 
+     * This method is to get a list of protocol actions that can be performed based on 
+     * this protocol's status or submission status and user's permission
+     * @param protocol
+     * @return
+     */
+    public List<String> getActionsAllowed(Protocol protocol);
 
-    public abstract void updateProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol);
+    /**
+     * 
+     * This method is to update protocol status or submission status after the action is submitted.
+     * @param protocolActionBo
+     * @param protocol
+     */
+    public void updateProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol);
     
+    /**
+     * 
+     * This method is to check if this protocol action can be performed based on protocol status or submission status
+     * and also check if the user is authorized to perform this action.
+     * @param actionTypeCode
+     * @param protocol
+     * @return
+     */
     public boolean isActionAllowed(String actionTypeCode, Protocol protocol);
 
 }
