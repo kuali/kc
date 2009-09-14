@@ -21,11 +21,13 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.kns.web.ui.Section;
@@ -41,17 +43,24 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
     *
     * @see org.kuali.core.maintenance.Maintainable#prepareForSave()
     */
-   @Override
-   public void prepareForSave() {
-       super.prepareForSave();
+    @Override
+    public void prepareForSave() {
+        super.prepareForSave();
        
-       if ((businessObject != null) && (businessObject instanceof KraPersistableBusinessObjectBase)) {
+        if ((businessObject != null) && (businessObject instanceof KraPersistableBusinessObjectBase)) {
            // This is a solution to enable the lookreturn have a proper dropdown list
-           if (businessObject instanceof Question && StringUtils.isNotBlank(((Question)businessObject).getLookupClass())) {
-               GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object)((Question)businessObject).getLookupClass());
-           }
-       }
-   }
+            if (businessObject instanceof Question && StringUtils.isNotBlank(((Question) businessObject).getLookupClass())) {
+                GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object) ((Question) businessObject).getLookupClass());
+            }
+       
+            // In order for the questionId to be displayed after a submission of a new question we need to manually create it. 
+            if (businessObject instanceof Question && (((Question) businessObject).getQuestionId() == null)) {
+                Long newQuestionId = KraServiceLocator.getService(SequenceAccessorService.class)
+                       .getNextAvailableSequenceNumber("SEQ_QUESTION_ID");
+                ((Question) businessObject).setQuestionId(newQuestionId.intValue());
+            }
+        }
+    }
 
     /**
      * Normally the parent method builds the maintenance sections from the data dictionary.  But since
