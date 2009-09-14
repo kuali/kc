@@ -26,6 +26,10 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
+/*
+ * This class is for the condition attributes of of the protocol action.
+ * i.e., the condition of protocol status, submissionstatus, action type code etc.
+ */
 public class ProtocolActionMapping implements FactBean {
     
     private BusinessObjectService businessObjectService;

@@ -30,6 +30,12 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 
+/**
+ * 
+ * This class is to provide the 'protocol' action pre validation and post update.
+ * pre-validation include canperform and authorization check.
+ * post-update will update protocol status or submission status.
+ */
 public class ProtocolActionServiceImpl implements ProtocolActionService {
 
     static private final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
