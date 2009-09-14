@@ -214,7 +214,7 @@
           <forward name="basic" path="/WEB-INF/jsp/timeandmoney/awardHierarchyTimeAndMoneyAjax.jsp" />
       </action>
       
-      <action path="/awardHierarchyAwardActionsAjax" name="AwardForm" type="org.kuali.kra.award.web.struts.action.AwardAction"  >
+      <action path="/awardHierarchyAwardActionsAjax" name="AwardForm" type="org.kuali.kra.award.web.struts.action.AwardActionsAction"  >
           <forward name="basic" path="/WEB-INF/jsp/award/awardHierarchyAwardActionsAjax.jsp" />
       </action>
       

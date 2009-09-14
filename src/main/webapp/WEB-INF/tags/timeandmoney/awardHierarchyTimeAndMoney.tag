@@ -145,6 +145,12 @@
     </div>
     
     <input type="hidden" id = "document.rootAwardNumber" name="document.rootAwardNumber" value="${KualiForm.document.rootAwardNumber}">
+    
+    <input type="hidden" id = "document.rootAwardNumber" name="document.rootAwardNumber" value="${KualiForm.document.rootAwardNumber}">
+    <input type="hidden" id = "document.rootAwardNumber" name="document.rootAwardNumber" value="${KualiForm.document.rootAwardNumber}">
+    <input type="hidden" id = "document.rootAwardNumber" name="document.rootAwardNumber" value="${KualiForm.document.rootAwardNumber}">
 	
     </div>
+    
+    <html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-abc.gif" styleClass="globalbuttons" alt="Get Pending Numbers" property="methodToCall.processTransactions" />
 </kul:tab>
