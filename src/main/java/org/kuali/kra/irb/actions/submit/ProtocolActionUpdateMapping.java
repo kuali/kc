@@ -18,6 +18,9 @@ package org.kuali.kra.irb.actions.submit;
 import org.kuali.kra.drools.brms.FactBean;
 import org.kuali.kra.irb.Protocol;
 
+/*
+ * This is the post condition attributes for a protocol action
+ */
 public class ProtocolActionUpdateMapping implements FactBean {
     
     String actionTypeCode;
