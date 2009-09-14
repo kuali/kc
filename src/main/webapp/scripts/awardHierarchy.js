@@ -203,9 +203,9 @@
                       $(".hierarchydetail:not(#"+divId+")").slideUp(300);
                       var idx = $(this).attr("id").substring(11);
                       if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {                    	  
-                          tableTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                          tableTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                          tableTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                    	  tbodyTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                          tbodyTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                          tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
                           if ($("#"+divId).is(":hidden")) {
                               // alert(divId + " hidden0");
                                $("#listcontent"+idx).show();
@@ -304,33 +304,12 @@
         
       	return abc; 
     }
-    
-
   
-  function tableTag1(name, id) {
-	  var text1 = name.substring(0,name.indexOf("%3A")).trim();
-      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
-      
-      return tbodyTag1(name, id, text1);
-  }
-  
-  function tableTag2(name, id) {
+  function tbodyTag2(name, id) {
 	  var text1 = name.substring(0,name.indexOf("%3A")).trim();
       name = name.substring(name.indexOf("%3A")+3, name.length).trim();
       text1 = text1.substr(0,12);
       
-      return tbodyTag2(name, id, text1);
-  }
-
-  function tableTag3(name, id) {
-	  var text1 = name.substring(0,name.indexOf("%3A")).trim();
-      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
-      text1 = text1.substr(0,12);
-      
-      return tbodyTag3(name, id, text1);      
-  }
-  
-  function tbodyTag2(name, id, text1) {
 	  var tblTag = $('<table id="tbody2_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; width: 97%; border-collapse: collapse;"></table>')
 	    
 	  	var trTag0 = $('<tr></tr>');
@@ -381,14 +360,15 @@
 	    tdTag3.appendTo(trTag);	    
 	    trTag.appendTo(tblTag);
 	    
-	    //tag = $('<td class="subelementcontent"></td>').html(tblTag);    
-	    //tag = $('<tr></tr>').html(tag);    
-	    //tag = $('<tbody></tbody>').html(tag);
-	    
 	    return tblTag;
   }
   
-  function tbodyTag3(name, id, text1) {
+  function tbodyTag3(name, id) {
+	  
+	  var text1 = name.substring(0,name.indexOf("%3A")).trim();
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      text1 = text1.substr(0,12);
+      
 	  var tblTag = $('<table id="tbody3_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; width: 97%; border-collapse: collapse;"></table>')
 
 	    var trTag0 = $('<tr></tr>');
@@ -440,16 +420,15 @@
 	    tdTag2.appendTo(trTag);
 	    
 	    trTag.appendTo(tblTag);
-	    //tag = $('<td class="subelementcontent"></td>').html(tblTag);    
-	    //tag = $('<tr></tr>').html(tag);    
-	    //tag = $('<tbody></tbody>').html(tag);
-	    
 	    
 	    return tblTag;
   }
 
-  function tbodyTag1(name, id, text1) {
+  function tbodyTag1(name, id) {
 	  
+	  var text1 = name.substring(0,name.indexOf("%3A")).trim();
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      
 	  var text2 = name.substring(0,name.indexOf("%3A")).trim();
       
 	  name = name.substring(name.indexOf("%3A")+3, name.length).trim();
@@ -578,9 +557,9 @@
                         $(".hierarchydetail:not(#"+divId+")").slideUp(300);
                         if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
                             var idx = $(this).attr("id").substring(11);
-                            tableTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                            tableTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                            tableTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                            tbodyTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                            tbodyTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                            tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
                             if ($("#"+divId).is(":hidden")) {
                                 $("#listcontent"+idx).show();
                             }
@@ -687,9 +666,9 @@
                                   $(".hierarchydetail:not(#"+divId+")").slideUp(300);
                                   var idx = $(this).attr("id").substring(11);
                                   if ($(this).siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
-                                	  tableTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                                      tableTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-                                      tableTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                                	  tbodyTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                                      tbodyTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+                                      tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
                                       if ($("#listcontent"+idx).is(":hidden")) {
                                       // alert(divId + " hidden0");
                                            $("#listcontent"+idx).show();
