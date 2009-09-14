@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.drools.brms;
 
+/*
+ * This is used for "bean" which basically defines the attributes of the rule conditions
+ */
 public interface FactBean {
 
 }
