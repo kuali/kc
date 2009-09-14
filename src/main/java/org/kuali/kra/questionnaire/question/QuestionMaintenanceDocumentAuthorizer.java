@@ -41,29 +41,20 @@ public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAu
                         KEWConstants.ROUTE_HEADER_INITIATED_CD) || document.getDocumentHeader().getWorkflowDocument()
                         .getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_SAVED_CD))) {
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_EDIT);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_APPROVE);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_DISAPPROVE);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_FYI);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ACKNOWLEDGE);
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_ROUTE);
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
             if (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(
                     KEWConstants.ROUTE_HEADER_SAVED_CD)) {
                 documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
             }
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
         } else if (KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(
                 PermissionConstants.MODIFY_QUESTION)
                 && (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()
                         .equals(KEWConstants.ROUTE_HEADER_FINAL_CD))) {
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_AD_HOC_ROUTE);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_APPROVE);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_DISAPPROVE);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_FYI);
-            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ACKNOWLEDGE);
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
         } else if (KraServiceLocator.getService(QuestionnaireAuthorizationService.class).hasPermission(
                 PermissionConstants.VIEW_QUESTION)
