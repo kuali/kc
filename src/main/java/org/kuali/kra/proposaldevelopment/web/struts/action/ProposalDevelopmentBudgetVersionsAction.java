@@ -152,7 +152,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             if (pdForm.isAuditActivated()) {
                 forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetParameters.do?auditActivated=true&");
             }
-//            forward = "http://localhost:8080/kra-dev/en/DocHandler.do?command=displayDocSearchView&docId="+routeHeaderId;
+//            forward = "http://localhost:8080/kra-dev/kew/DocHandler.do?command=displayDocSearchView&docId="+routeHeaderId;
 //            response.sendRedirect(forward);
             
             return new ActionForward(forward, true);

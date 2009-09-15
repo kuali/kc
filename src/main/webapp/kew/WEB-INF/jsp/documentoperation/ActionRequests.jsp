@@ -144,8 +144,8 @@
 		    <td width="66%" class="datacell"><html-el:text property="routeHeader.docActionRequest[${ctr}].actionTakenId" /></td>
 		  </tr>
 		  <tr>
-		    <td width="33%" align=right class="thnormal">Ignore Previous Action: </td>
-		    <td width="66%" class="datacell"><html-el:text property="routeHeader.docActionRequest[${ctr}].ignorePrevAction" /></td>
+		    <td width="33%" align=right class="thnormal">Force Action: </td>
+		    <td width="66%" class="datacell"><html-el:text property="routeHeader.docActionRequest[${ctr}].forceAction" /></td>
 		  </tr>
 		  <tr>
 		    <td width="33%" align=right class="thnormal">Approve Policy: </td>

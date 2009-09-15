@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2006 The Kuali Foundation.
 
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@
 <%@ attribute name="tabTitle" required="true" %>
 <%@ attribute name="defaultOpen" required="true" %>
 <%@ attribute name="tabErrorKey" required="false" %>
-<!-- KC MODIFICATION -->
+<%-- KC MODIFICATION --%>
 <%@ attribute name="auditCluster" required="false" %>
 <%@ attribute name="tabAuditKey" required="false" %>
-<!-- END KC MODIFICATIN -->
+<%-- END KC MODIFICATIN --%>
 <%@ attribute name="boClassName" required="false" %>
 <%@ attribute name="keyValues" required="false" %>
 
@@ -36,13 +36,13 @@
         <c:set var="isOpen" value="${(currentTab == 'OPEN')}" />
     </c:when>
 </c:choose>
-<!-- if the section has errors, override and set isOpen to true -->
-<!-- KC MODIFICATION -->
+<%-- if the section has errors, override and set isOpen to true --%>
+<%-- KC MODIFICATION --%>
 <c:if test="${!empty tabErrorKey or not empty tabAuditKey}">
 <%-- ORIGINAL 
 <c:if test="${!empty tabErrorKey}">
 --%>
-<!-- END KC MODIFICATIN -->
+<%-- END KC MODIFICATIN --%>
   <kul:checkErrors keyMatch="${tabErrorKey}" auditMatch="${tabAuditKey}"/>
   <c:set var="isOpen" value="${hasErrors ? true : isOpen}"/>
 </c:if>
@@ -82,13 +82,8 @@
 
 <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}"><div style="display: block;" id="tab-${tabKey}-div"></c:if>
 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}"><div style="display: none;" id="tab-${tabKey}-div"></c:if>
- 
-		<c:if test="${! (empty tabErrorKey)}">
-        <!-- display errors for this tab -->
-        <div class="tab-container-error"><div class="left-errmsg-tab"><kul:errors keyMatch="${tabErrorKey}" errorTitle="Errors Found in Document:" /></div></div>
-		</c:if>        
 
-        <!-- KC MODIFICATION -->
+        <%-- KC MODIFICATION --%>
         <c:if test="${! (empty tabAuditKey)}">
         	<div class="tab-container-error"><div class="left-errmsg-tab">
 				<c:forEach items="${fn:split(auditCluster,',')}" var="cluster">
@@ -96,7 +91,7 @@
 				</c:forEach>
         	</div></div>
       	</c:if>
-      	<!-- END KC MODIFICATION -->
+      	<%-- END KC MODIFICATION --%>
       	
         <!-- Before the jsp:doBody of the kul:tab tag -->            
         <jsp:doBody/>            

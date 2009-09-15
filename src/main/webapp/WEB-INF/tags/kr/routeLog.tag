@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2007 The Kuali Foundation.
 
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -14,12 +14,11 @@
  limitations under the License.
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-
 <kul:tab tabTitle="Route Log" defaultOpen="false">
 <div class="tab-container" align=center>
 	<c:if test="${ConfigProperties.test.mode ne 'true'}">
-	  <iframe onload="setRouteLogIframeDimensions();" name="routeLogIFrame" id="routeLogIFrame" src="${ConfigProperties.workflow.url}/RouteLog.do?routeHeaderId=${KualiForm.workflowDocument.routeHeaderId}" height="500" width="95%" hspace='0' vspace='0' frameborder='0' title='Workflow Route Log for document id: ${KualiForm.workflowDocument.routeHeaderId}'>
+	  <iframe onload="setRouteLogIframeDimensions();" name="routeLogIFrame" id="routeLogIFrame" src="${ConfigProperties.kew.url}/RouteLog.do?routeHeaderId=${KualiForm.workflowDocument.routeHeaderId}" height="500" width="95%" hspace='0' vspace='0' frameborder='0' title='Workflow Route Log for document id: ${KualiForm.workflowDocument.routeHeaderId}'>
 	  </iframe>
 	</c:if>
-</kul:tab>
 </div>
+</kul:tab>

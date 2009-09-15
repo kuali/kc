@@ -89,8 +89,8 @@
 		    <td width="66%" class="datacell"><c:out value="${actionRequest.actionTakenId}" />&nbsp;</td>
 		  </tr>
 		  <tr>
-		    <td width="33%" align=right class="thnormal">Ignore Previous Action: </td>
-		    <td width="66%" class="datacell"><c:out value="${actionRequest.ignorePrevAction}" />&nbsp;</td>
+		    <td width="33%" align=right class="thnormal">Force Action: </td>
+		    <td width="66%" class="datacell"><c:out value="${actionRequest.forceAction}" />&nbsp;</td>
 		  </tr>
 		  <tr>
 		    <td width="33%" align=right class="thnormal">Approve Policy: </td>

@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 <c:set var="docTitle" value="${kualiInquirable.title}" />
 <c:set var="htmlFormAction" value="inquiry" />
 <c:set var="renderMultipart" value="" />
-<c:set var="showTabButtons" value="" />
+<c:set var="showTabButtons" value="true" />
 <c:set var="defaultMethodToCall" value="" />
 <c:set var="additionalScriptFiles" value="" />
 <c:set var="lookup" value="true" />
@@ -59,7 +59,7 @@
 		  <%-- call helper tag to look ahead through fields for old to new changes, and highlight tab if so --%>
           <kul:checkTabHighlight rows="${section.rows}" addHighlighting="false" />
 		  
-		  <kul:tab tabTitle="${section.sectionTitle}" defaultOpen="true" tabErrorKey="${section.errorKey}" highlightTab="${tabHighlight}" transparentBackground="${firstTab}" extraButtonSource="${section.extraButtonSource}"> 
+		  <kul:tab tabTitle="${section.sectionTitle}" defaultOpen="${section.defaultOpen}" tabErrorKey="${section.errorKey}" highlightTab="${tabHighlight}" transparentBackground="${firstTab}" extraButtonSource="${section.extraButtonSource}"> 
 		    <div class="tab-container" align="center">
 		      <table width="100%" cellpadding=0 cellspacing=0 class="datatable">
 			     <kul:rowDisplay rows="${section.rows}" numberOfColumns="${section.numberOfColumns}" />

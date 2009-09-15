@@ -880,7 +880,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
      */
     private static String getFileName(String filename) {
         String userDir = System.getProperty("user.dir");
-        String path = userDir + "/src/main/webapp/en/";
+        String path = userDir + "/src/main/webapp/kew/";
         //return path+"workflow-workspace.html";
         return path+filename;
             }

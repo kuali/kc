@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -82,7 +82,7 @@
 												<c:forEach items="${row.columns}" var="column">
 							<td class="infocell" title="${column.propertyValue}">
 								<c:if test="${!empty column.columnAnchor.href}">
-									<a href="<c:out value="${column.columnAnchor.href}"/>" title="${column.columnAnchor.title}" target="blank">
+									<a href="<c:out value="${column.columnAnchor.href}"/>" title="${column.columnAnchor.title}" target="_blank">
 								</c:if>
 								<c:out value="${fn:substring(column.propertyValue, 0, column.maxLength)}"/><c:if test="${column.maxLength gt 0 && fn:length(column.propertyValue) gt column.maxLength}">...</c:if><c:if test="${!empty column.columnAnchor.href}"></a></c:if>
 								&nbsp;

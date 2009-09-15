@@ -5,40 +5,71 @@
     <data-sources />
   
     <form-beans >
-    	<!--
-	    <form-bean name="TravelDocumentForm2" type="edu.sampleu.travel.web.form.TravelDocumentForm2" />
-	    -->
+		<!-- Begin required KNS forms -->
+		<form-bean name="KualiForm"
+			type="org.kuali.rice.kns.web.struts.form.KualiForm" />
+		<!-- End required KNS forms -->
 	    <form-bean name="IdentityManagementPersonDocumentForm" type="org.kuali.rice.kim.web.struts.form.IdentityManagementPersonDocumentForm" />
-	    	    <form-bean name="IdentityManagementRoleDocumentForm" type="org.kuali.rice.kim.web.struts.form.IdentityManagementRoleDocumentForm" />
+		<form-bean name="IdentityManagementRoleDocumentForm" type="org.kuali.rice.kim.web.struts.form.IdentityManagementRoleDocumentForm" />
+		<form-bean name="IdentityManagementGroupDocumentForm" type="org.kuali.rice.kim.web.struts.form.IdentityManagementGroupDocumentForm" />
     </form-beans>
 
-    <global-exceptions />
-  
-    <global-forwards >
-        <forward name="save" path="/index.html" redirect="true" />
-        <forward name="cancel" path="/index.html" redirect="true" />
-        <forward name="close" path="/index.html" redirect="true" />
-        <forward name="portal" path="/index.html" redirect="true" />
-        <forward name="route_report" path="/kr/WEB-INF/jsp/RoutingReportForward.jsp"/>
-        <forward name="error" path="/kr/WEB-INF/jsp/KualiError.jsp" />
-    </global-forwards>
+	<global-exceptions>
+		<!-- Begin required KNS exceptions -->
+		<exception type="java.lang.Throwable"
+			handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
+			key="meaningless" />
+		<!-- End required KNS exceptions -->
+	</global-exceptions>
 
-    <action-mappings>
-        <!--
-		<action path="/travelDocument2" name="TravelDocumentForm2" input="/WEB-INF/jsp/travelDocument2.jsp" type="edu.sampleu.travel.web.action.TravelDocumentAction2"
-			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-			<forward name="basic" path="/WEB-INF/jsp/travelDocument2.jsp" />
+	<global-forwards>
+		<!-- Begin required KNS forwards -->
+		<forward name="save" path="/index.jsp" redirect="true" />
+		<forward name="cancel" path="/index.jsp" redirect="true" />
+		<forward name="close" path="/index.jsp" redirect="true" />
+		<forward name="portal" path="/index.jsp" redirect="true" />
+		<forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp" />
+        <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do" contextRelative="true"/>
+		<!-- End required KNS forwards -->
+	</global-forwards>
+
+	<action-mappings>
+		<!--  Required KNS Action Mappings -->
+		<action path="/portal" name="KualiForm"
+			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+			<forward name="basic" path="/portal.jsp" />
 		</action>
-		-->
+
+		<action path="/index" name="KualiForm"
+			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+			<forward name="basic" path="/portal.jsp" />
+		</action>
+		<!--  End Required KNS Action Mappings -->
+
 		<action path="/identityManagementPersonDocument" name="IdentityManagementPersonDocumentForm" input="/kim/WEB-INF/jsp/identityManagementPersonDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementPersonDocumentAction"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<forward name="basic" path="/WEB-INF/jsp/identityManagementPersonDocument.jsp" />
-			<forward name="inquiry" path="/WEB-INF/jsp/personInquiry.jsp" />
+			<forward name="inquiry" path="/WEB-INF/jsp/identityManagementPersonDocument.jsp" />
+		</action>
+		<action path="/identityManagementPersonInquiry" name="IdentityManagementPersonDocumentForm" input="/kim/WEB-INF/jsp/identityManagementPersonDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementPersonInquiry"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<forward name="basic" path="/WEB-INF/jsp/identityManagementPersonDocument.jsp" />
 		</action>
 		<action path="/identityManagementRoleDocument" name="IdentityManagementRoleDocumentForm" input="/kim/WEB-INF/jsp/identityManagementPersonDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementRoleDocumentAction"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<forward name="basic" path="/WEB-INF/jsp/identityManagementRoleDocument.jsp" />
-			<forward name="inquiry" path="/WEB-INF/jsp/roleInquiry.jsp" />
+		</action>
+		<action path="/identityManagementGroupDocument" name="IdentityManagementGroupDocumentForm" input="/kim/WEB-INF/jsp/identityManagementGroupDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementGroupDocumentAction"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<forward name="basic" path="/WEB-INF/jsp/identityManagementGroupDocument.jsp" />
+		</action>
+		<action path="/identityManagementRoleInquiry" name="IdentityManagementRoleDocumentForm" input="/kim/WEB-INF/jsp/identityManagementPersonDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementRoleInquiry"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<forward name="basic" path="/WEB-INF/jsp/identityManagementRoleDocument.jsp" />
+		</action>
+		<action path="/identityManagementGroupInquiry" name="IdentityManagementGroupDocumentForm" input="/kim/WEB-INF/jsp/identityManagementGroupDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementGroupInquiry"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<forward name="basic" path="/WEB-INF/jsp/identityManagementGroupDocument.jsp" />
 		</action>
 
     </action-mappings>

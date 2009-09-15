@@ -191,7 +191,7 @@
 		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Service<br />Name</div>" >
 		    	<c:out value="${result.serviceName}"/>&nbsp;
 		    </display-el:column>
-		    <display-el:column style="text-align:center;vertical-align:middle;"  class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Message<br />Entity</div>" >
+		    <display-el:column style="text-align:center;vertical-align:middle;"  class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Service<br />Namespace</div>" >
 		    	<c:out value="${result.serviceNamespace}"/>&nbsp;
 		    </display-el:column>
 		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>IP Number</div>" >

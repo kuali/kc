@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@
 
 <c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
 <c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
-<c:set var="sessionDocument" value="${documentEntry.sessionDocument}" />
-
 
 <%-- set default values --%>
 <c:if test="${empty includeDocumentHeaderFields}">
@@ -33,26 +31,8 @@
 <html:hidden property="docId" />
 <html:hidden property="document.documentNumber" />
 
-<c:choose>
-	<c:when test="${KualiForm.document.sessionDocument || sessionDocument}">
-		</c:when>
-		<c:otherwise>
-			<html:hidden property="docTypeName" />
-			<html:hidden property="document.versionNumber" />
-			<html:hidden property="document.objectId" />
-        </c:otherwise>
-</c:choose>
 <c:if test="${includeDocumentHeaderFields}">
   <html:hidden property="document.documentHeader.documentNumber" />  
-  <c:choose>
-	<c:when test="${KualiForm.document.sessionDocument || sessionDocument}">
-		</c:when>
-		<c:otherwise>
-			<html:hidden property="document.documentHeader.versionNumber" />
-    		<html:hidden property="document.documentHeader.objectId" />
-    		<html:hidden property="document.documentHeader.documentTemplateNumber" />
-        </c:otherwise>
-	</c:choose>
 </c:if>
 <c:if test="${includeEditMode}">
     <c:forEach items="${KualiForm.editingMode}" var="mode">

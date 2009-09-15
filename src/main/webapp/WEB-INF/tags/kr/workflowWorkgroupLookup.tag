@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2006 The Kuali Foundation.
 
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 <%@ attribute name="tabKey" required="false" %>
 
 <%--<input type="image" tabindex="-1" name="methodToCall.performWorkgroupLookup.(((${fieldConversions})))" title="Search Workgroup" alt="Search Workgroup" src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" border="0" class="tinybutton" />--%>
-<kul:lookup boClassName="org.kuali.rice.kim.bo.group.impl.KimGroupImpl"
+<kul:lookup boClassName="org.kuali.rice.kim.bo.impl.GroupImpl"
     fieldConversions="${fieldConversions}"
     lookupParameters="${lookupParameters}"
     anchor="${tabKey}"

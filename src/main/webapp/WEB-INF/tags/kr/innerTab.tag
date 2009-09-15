@@ -27,7 +27,7 @@
 <%@ attribute name="useCurrentTabIndexAsKey" required="false" %>
 <%@ attribute name="overrideToggleTabMethodString" required="false" %>
 
-
+<%-- THIS TAG IS NOT A STANDARD PART OF RICE.  THIS IS A KC EXTENSION --%>
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
 <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
 

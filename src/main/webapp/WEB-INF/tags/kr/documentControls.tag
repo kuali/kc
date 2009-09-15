@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@
 
 <c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
 <c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
-<c:set var="sessionDocument" value="${documentEntry.sessionDocument}" />
         <c:set var="saveButtonValue" value="save" />
         <c:if test="${not empty saveButtonOverride}"><c:set var="saveButtonValue" value="${saveButtonOverride}" /></c:if>
 		
@@ -44,8 +43,7 @@
 				    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_routereport.gif" styleClass="globalbuttons" property="methodToCall.performRouteReport" title="Perform Route Report" alt="Perform Route Report" />
 	            </c:if>
 	            <c:if test="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS] and not suppressRoutingControls}">
-	            	<!--  remove .x when converting to an image submit -->
-	                <html:submit property="methodToCall.sendAdHocRequests.x" value="Send AdHoc Requests (image to be created later)" />
+	                <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_sendadhocreq.gif" styleClass="globalbuttons" property="methodToCall.sendAdHocRequests" title="Send AdHoc Requests" alt="Send AdHoc Requests"/>
 	            </c:if>
 	            <c:if test="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_ROUTE] and not suppressRoutingControls}">
 	                <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="globalbuttons" property="methodToCall.route" title="submit" alt="submit"/>
@@ -64,9 +62,6 @@
 	            </c:if>
 	            <c:if test="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_DISAPPROVE] and not suppressRoutingControls}">
 	                <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_disapprove.gif" styleClass="globalbuttons" property="methodToCall.disapprove" title="disapprove" alt="disapprove"/>
-	            </c:if>
-	            <c:if test="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_DISAPPROVE] and not suppressRoutingControls}">
-	                <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_reject.gif" styleClass="globalbuttons" property="methodToCall.reject" title="reject" alt="reject"/>
 	            </c:if>
 	            <c:if test="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_FYI] and not suppressRoutingControls}">
 	                <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_fyi.gif" styleClass="globalbuttons" property="methodToCall.fyi" title="fyi" alt="fyi"/>
