@@ -20,24 +20,19 @@ $(document).ready(function() {
 
 			$(".hierarchydetail:not(#" + divId + ")").slideUp(300);
 			$("#" + divId).slideToggle(300);
-			// alert(idstr +"-"+ loadedidx)
-		// if (idstr <= loadedidx) { // TODO : if this is not a new node
 		loadChildrenRA($("#itemText" + idstr).text(), tagId);
-		// }
-		// alert("You've opened this Folder!" + idstr)
 	},
 	animated : "fast",
 	collapsed : true,
 	control : "#treecontrol"
 
 	});
+
 	/*
 	 * $.ajaxStart(function() { $("div#foo").text("Loading..."); });
 	 * $.ajaxComplete(function() { $("div#foo").text(""); });
 	 */
 
-	// $("body").append('<div id="loading"></div>');
-		// $("#loading").css("color","red");
 		$(document).ajaxStart(function() {
 			// this is weird, it will not show if the alert is not included??
 				// return false;
@@ -73,12 +68,9 @@ function addSqlScripts(sqlcommand) {
 /*
  * top level to add research area
  */
-$("#add0")
-		.click(function() {
+$("#add0").click(function() {
 			// click 'add' for 000001
 				var trNode = $(this).parents('tr:eq(0)');
-				// alert(trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+"-"+trNode.children('td:eq(2)').children('input:eq(0)').attr("value"));
-
 				if (trNode.children('td:eq(1)').children('input:eq(0)').attr(
 						"value") == "") {
 					alert("must enter research area code");
@@ -86,8 +78,6 @@ $("#add0")
 						.attr("value") == "") {
 					alert("must enter research area");
 				} else {
-
-					// check if code exists
 					var raExist
 					$.ajax( {
 						url : 'researchAreaAjax.do',
@@ -131,7 +121,6 @@ $("#add0")
 								.children('td:eq(1)').children('input:eq(0)')
 								.attr("value"), trNode.children('td:eq(2)')
 								.children('input:eq(0)').attr("value"));
-						// alert(listitem.html());
 						// need this ultag to force to display folder.
 						var childUlTag = $('<ul></ul>').attr("id", "ul" + i);
 						childUlTag.appendTo(listitem);
@@ -144,7 +133,6 @@ $("#add0")
 						inputtag.appendTo(childUlTag);
 
 						listitem.appendTo(ulTag);
-						// alert("ultagid "+ulTag.attr("id").substring(2));
 						// force to display folder icon
 						$("#researcharea").treeview( {
 							add : listitem
@@ -163,7 +151,6 @@ $("#add0")
 								'td:eq(1)').children('input:eq(0)').attr(
 								"value"), '000001', trNode.children('td:eq(2)')
 								.children('input:eq(0)').attr("value")));
-						// alert("sqlScripts = "+sqlScripts);
 					} else {
 						alert("Research Area Code already exist");
 					}
@@ -173,15 +160,13 @@ $("#add0")
 				return false;
 			}); // add0
 
-// }); // $(document).ready
 
 /*
  * Load first level area of research when page is initially loaded
  */
 function loadFirstLevel() {
 
-	$
-			.ajax( {
+	$.ajax( {
 				url : 'researchAreaAjax.do',
 				type : 'GET',
 				dataType : 'html',
@@ -193,11 +178,7 @@ function loadFirstLevel() {
 					alert('Error loading XML document');
 				},
 				success : function(xml) {
-					// alert("success"+xml);
-					// for (var k=0; k< 10; k++) {
-					$(xml)
-							.find('h3')
-							.each(
+					$(xml).find('h3').each(
 									function() {
 										var item_text = $(this).text();
 										i++;
@@ -206,9 +187,6 @@ function loadFirstLevel() {
 												.trim();
 										item_text = item_text.replace("%3A",
 												":");
-										// if (i < 4 ) {
-										// alert(item_text+"-"+racode);
-										// }
 										var id = "item" + i;
 										var tagId = "listcontrol" + i;
 										var divId = "listcontent" + i;
@@ -239,10 +217,7 @@ function loadFirstLevel() {
 														"name", "racode" + i)
 												.attr("value", racode);
 										hidracode.appendTo(div);
-										// $(document).ready(function () {
 										tag.click(function() {
-											// alert ("sibling
-												// "+$(this).siblings('div:eq(0)').attr("id"));
 												$(".hierarchydetail:not(#"+ divId + ")").slideUp(300);
 												var idx = $(this).attr("id")
 														.substring(11);
@@ -264,14 +239,10 @@ function loadFirstLevel() {
 
 												loadChildrenRA(item_text, tagId);
 											});
-										// });
 										var listitem = $(
 												'<li class="closed"></li>')
 												.attr("id", id).html(tag);
-										// tag.appendTo(listitem);
-										// listitem.appendTo('ul#file31');
-										ulTagId = "browser";
-										// tableTag(item_text, id).appendTo(div)
+										ulTagId = "researcharea";
 										div.appendTo(listitem);
 										// need this ultag to force to display
 										// folder.
@@ -284,14 +255,10 @@ function loadFirstLevel() {
 											add : listitem
 
 										});
-										// setupListItem(item_text).appendTo('ul#browser');
-
 									});
-					// } // end test loop 'for'
 				}
 			});
-	// return false;
-} // generate
+} // load first level RA
 
 /*
  * set up the area of research detail table tag. This is loading on demand. Only
@@ -300,8 +267,6 @@ function loadFirstLevel() {
 function tableTag(name, id) {
 
 	var link = $('<a href="#" class="hidedetail"><img src="kr/static/images/tinybutton-hide.gif" align="absmiddle" border="0" width="45" height="15"></a>');
-	// var tag = $('<th class="subelementheader"
-	// align="left"></th>').attr("id","raHeader"+i).html(name);
 	var tag = $(
 			'<th  style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" align="left"></th>')
 			.attr("id", "raHeader" + id.substring(4)).html(name);
@@ -324,10 +289,6 @@ function tbodyTag(name, id) {
 			'<a href="#"><img src="static/images/tinybutton-removenode.gif" width="79" height="15" border="0" alt="Remove Node" title="Remove this node and its child groups/sponsors"></a>&nbsp')
 			.attr("id", "remove" + idx).click(function() {
 				var liId = "li#" + id;
-				// removedNode = $(liId).clone(true);
-					// removedNode = $(liId); // this will not work because
-					// event also lost
-					// alert("Remove node "+removedNode.attr("id"));
 					var parentRACode;
 					if ($(liId).parents('li:eq(0)').size() == 0) {
 						parentRACode = '000001';
@@ -335,7 +296,6 @@ function tbodyTag(name, id) {
 						parentRACode = getResearchAreaCode($(liId).parents(
 								'li:eq(0)'));
 					}
-					// alert (parentRACode);
 					addSqlScripts("remove((" + getResearchAreaCode($(liId))
 							+ ";" + parentRACode + "))");
 					if (deletedNodes == '') {
@@ -344,16 +304,8 @@ function tbodyTag(name, id) {
 						deletedNodes = deletedNodes + ";"
 								+ getResearchAreaCode($(liId));
 					}
-					// if (newNodes != ";" &&
-					// newNodes.indexOf(";"+getResearchAreaCode($(liId))+";") >
-					// -1) {
-					// newNodes =
-					// newNodes.replace(";"+getResearchAreaCode($(liId))+";",";");
-					// //alert("newnodes "+newNodes);
-					// }
 					deleteChild(id);
 					$(liId).remove();
-					// alert (sqlScripts);
 					cutNode = null;
 					return false; // eliminate page jumping
 				});
@@ -361,11 +313,8 @@ function tbodyTag(name, id) {
 	image = $(
 			'<a href="#"><img src="static/images/tinybutton-cutnode.gif" width="79" height="15" border="0" alt="Cut Node" title="Cut this node and its child roups/sponsors.  (Node will not be removed until you paste it.)"></a>&nbsp')
 			.attr("id", "cut" + idx).click(function() {
-				// alert("Cut node");
 					var liId = "li#" + id;
 					cutNode = $(liId).clone(true);
-					removedNode = null; // remove & cutNode should not
-					// co-exist
 					return false; // eliminate page jumping
 				});
 	image.appendTo(tag);
@@ -373,15 +322,15 @@ function tbodyTag(name, id) {
 			'<a href="#"><img src="static/images/tinybutton-pastenode.gif" width="79" height="15" border="0" alt="Paste Node" title="Paste your previously cut node structure under this node"></a>')
 			.attr("id", "paste" + idx).click(function() {
 
-				if (removedNode || cutNode) {
-					var parentNode = $("#" + id);
-					var ulTag = parentNode.children('ul');
-					if (ulTag.size() > 0) {
+		if (removedNode || cutNode) {
+				var parentNode = $("#" + id);
+				var ulTag = parentNode.children('ul');
+				if (ulTag.size() > 0) {
 						// alert(ulTag.attr("id"));
 				} else {
-					alert("not found")
-					i++;
-					ulTag = $('<ul class="filetree"></ul>')
+					    alert("not found")
+					    i++;
+					    ulTag = $('<ul class="filetree"></ul>')
 							.attr("id", "ul" + i);
 				}
 				if (removedNode) {
@@ -395,10 +344,6 @@ function tbodyTag(name, id) {
 					removedNode = null;
 				} else {
 					var liId = cutNode.attr("id");
-					// cutNode.parents() is not working but
-					// $("li#"+liId).parents() is fine.
-					// alert ("check ultags "+id+"-"+
-					// $("li#"+liId).parents('li:eq(0)').attr("id")+"-"+$("li#"+liId).attr("id"));
 					if (id == $("li#" + liId).parents('li:eq(0)').attr("id")) {
 						alert("can't paste to the parent node");
 					} else if (id == liId) {
@@ -406,11 +351,8 @@ function tbodyTag(name, id) {
 					} else {
 						var liId = cutNode.attr("id");
 						var parentRACode;
-						// NOTE : $(cutNode).parents('li:eq(0)') is not
-						// working
-						// cutNode.parents('li:eq(0)') is not working
+						// NOTE : cutNode.parents('li:eq(0)') is not working
 						// $("li#"+liId).parents('li:eq(0)')is ok
-						// alert(liId+"-"+$("li#"+liId).parents().size())
 						if ($("li#" + liId).parents('li:eq(0)').size() == 0) {
 							parentRACode = '000001';
 						} else {
@@ -436,9 +378,6 @@ function tbodyTag(name, id) {
 				// right now is only doing for cutnode
 				// ulTag.appendTo(parentNode);
 
-				// alert("Remove node
-				// "+removedNode.children('a:eq(0)').text());
-				// alert (sqlScripts);
 
 			}// if removednode
 			return false; // eliminate page jumping
@@ -471,16 +410,14 @@ function tbodyTag(name, id) {
 	var trTag1 = $('<tr></tr>');
 	var tag1 = $('<th style="text-align:right;"></th>').html('Edit:');
 	var tdTag1;
-	// if (i < 6) {
-	// alert(id +"-"+$("ul#"+ulTagId).parents('li:eq(0)').size());
-	// }
+	ulTagId = $("li#"+id).parents('ul:eq(0)').attr("id");
+	//if (i < 5) {
+	//	alert(id+"-"+ulTagId+"-"+$("ul#" + ulTagId).parents('li:eq(0)').size())
+	//}
 	if ($("ul#" + ulTagId).parents('li:eq(0)').size() == 0) {
 		// TODO : this is the second level, the children of '000001'
 		tdTag1 = $('<td></td>').attr("id","pcode"+idx).html("000001");
-		// tdTag1 = $('<td></td>').html(getResearchAreaCode(name));
-		// alert(getResearchAreaDescription(name));
 	} else {
-		// alert($("ul#"+ulTagId).parents('li:eq(0)').children('a:eq(0)').size());
 		tdTag1 = $('<td></td>').attr("id","pcode"+idx).html(
 				getResearchAreaCode($("ul#" + ulTagId).parents('li:eq(0)')));
 	}
@@ -505,8 +442,7 @@ function tbodyTag(name, id) {
 			.click(function() {
 				var header = $("#raHeader" + $(this).attr("id").substring(6));
 				// $("#raHeader"+i) will not work because "i" is evaluated when
-				// this
-					// function is called; not when this function is created
+				// this function is called; not when this function is created
 					var desc = editResearchArea($(this).attr("id").substring(6));
 
 					if (desc.length == 0) {
@@ -525,8 +461,6 @@ function tbodyTag(name, id) {
 								getResearchAreaCode($("#item"
 										+ $(this).attr("id").substring(6))),
 								desc));
-						// alert ($(this).attr("id").substring(6) +"-"
-						// +desc+"-"+newdesc);
 						// lots of trouble to update the description on item, so
 						// add
 						// additional 'div' tag for this purposes.
@@ -561,12 +495,7 @@ function tbodyTag(name, id) {
 	var addlink = $(
 			'<a href="#"><img src="static/images/tinybutton-add1.gif" width="40" height="15" border="0" title="Add this Sub-group"></a>')
 			.attr("id", "addRA" + idx).click(function() {
-
-				// alert("add
-					// node"+$(this).parents('tr:eq(0)').children('th').size());
 					var trNode = $(this).parents('tr:eq(0)');
-					// alert(trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+"-"+trNode.children('td:eq(2)').children('input:eq(0)').attr("value"));
-
 					if (trNode.children('td:eq(1)').children('input:eq(0)')
 							.attr("value") == "") {
 						alert("must enter research area code");
@@ -574,8 +503,6 @@ function tbodyTag(name, id) {
 							'input:eq(0)').attr("value") == "") {
 						alert("must enter research area");
 					} else {
-
-						// check if code exists
 						var raExist
 						$.ajax( {
 							url : 'researchAreaAjax.do',
@@ -595,8 +522,6 @@ function tbodyTag(name, id) {
 							success : function(xml) {
 								$(xml).find('h3').each(function() {
 									raExist = $(this).text();
-									// alert(raExist);
-
 									});
 							}
 						}); // end ajax
@@ -629,12 +554,9 @@ function tbodyTag(name, id) {
 									'td:eq(1)').children('input:eq(0)').attr(
 									"value"), trNode.children('td:eq(2)')
 									.children('input:eq(0)').attr("value"));
-							// alert(listitem.html());
-							// need this ultag to force to display folder.
 							var childUlTag = $('<ul></ul>').attr("id",
 									"ul" + $(this).attr("id").substring(5));
 							childUlTag.appendTo(listitem);
-
 							// this is new nodes, so it is same as already
 							// loaded from DB
 							var loadedId = "loaded" + idx;
@@ -716,7 +638,6 @@ function setupListItem(code, name) {
 			.attr("id", "racode" + i).attr("name", "racode" + i).attr("value",
 					code);
 	hidracode.appendTo(detDiv);
-	// $(document).ready(function () {
 	$(tag).click(
 			function() {
 				$(".hierarchydetail:not(#" + divId + ")").slideUp(300);
@@ -734,16 +655,10 @@ function setupListItem(code, name) {
 					$("#" + divId).slideToggle(300);
 					// $("#"+divId).show();;
 				}
-				// TODO : this is a new item, so should not need to loadchildren
-				// ?
-				// loadChildrenRA(code +" : "+name, tagId);
+				// this is a new item, so should not need to loadchildren
 			});
-	// });
-	// alert(tag.html());
 	var listitem = $('<li class="closed"></li>').attr("id", id1).html(tag);
-	// tableTag(name, id1).appendTo(detDiv)
 	detDiv.appendTo(listitem);
-	// alert(listitem.html());
 	return listitem;
 }
 
@@ -752,13 +667,10 @@ function setupListItem(code, name) {
  */
 function loadChildrenRA(nodeName, tagId) {
 	var parentNode = $("#" + tagId);
-	// alert ("load subnodes for
-	// "+nodeName+"-"+parentNode.parents('li:eq(0)').attr("id")+"-" );
 	var liNode = parentNode.parents('li:eq(0)');
 	var ulNode = liNode.children('ul:eq(0)');
 	var inputNodev;
 
-	// if (liNode.children('ul').size() == 0 ) {
 	if (liNode.children('ul').size() == 0
 			|| ulNode.children('input').size() == 0) {
 		$
@@ -774,8 +686,6 @@ function loadChildrenRA(nodeName, tagId) {
 						alert('Error loading XML document');
 					},
 					success : function(xml) {
-						// alert("success"+xml);
-						// i++;
 						var ulTag;
 						if (liNode.children('ul').size() == 0) {
 							ulTag = $('<ul class="filetree"></ul>').attr("id",
@@ -784,9 +694,6 @@ function loadChildrenRA(nodeName, tagId) {
 							ulTag = ulNode;
 						}
 
-						// alert(ulTag.html());
-
-						// ulTag.appendTo(parentNode);
 						ulTag.appendTo(liNode);
 						var loadedId = "loaded" + i;
 						var inputtag = $('<input type="hidden"></input>').attr(
@@ -811,19 +718,11 @@ function loadChildrenRA(nodeName, tagId) {
 											if (jQuery.browser.msie) {
 												idDiv = $('<div></div>').attr(
 														"id", "itemText" + i)
-														.html(item_text); // for
-												// later
-												// change
-												// RA
-												// description
+														.html(item_text); 
 											} else {
 												idDiv = $('<span>').attr("id",
 														"itemText" + i).html(
-														item_text); // for
-												// later
-												// change
-												// RA
-												// description
+														item_text); 
 											}
 											var tag = $(
 													'<a style = "margin-left:2px;" ></a>')
@@ -839,7 +738,6 @@ function loadChildrenRA(nodeName, tagId) {
 													.attr("value", racode);
 											hidracode.appendTo(detDiv);
 											tag.click(function() {
-												// alert ("click "+tagId);
 													$(
 															".hierarchydetail:not(#"
 																	+ divId
@@ -863,13 +761,10 @@ function loadChildrenRA(nodeName, tagId) {
 																"#listcontent"
 																		+ idx)
 																.is(":hidden")) {
-															// alert(divId + "
-															// hidden0");
 															$(
 																	"#listcontent"
 																			+ idx)
 																	.show();
-															// $("#listcontent"+idx).slideToggle(300);
 														}
 													} else {
 														$("#listcontent" + idx)
@@ -883,15 +778,8 @@ function loadChildrenRA(nodeName, tagId) {
 											var listitem = $(
 													'<li class="closed"></li>')
 													.attr("id", id).html(tag);
-											// tag.appendTo(listitem);
-											// listitem.appendTo('ul#file31');
 											ulTagId = ulTag.attr("id");
-											// tableTag(item_text,
-											// id).appendTo(detDiv)
 											detDiv.appendTo(listitem);
-											// listitem.appendTo('ul#file31');
-											// need this ultag to force to
-											// display folder.
 											var childUlTag = $('<ul></ul>')
 													.attr("id", "ul" + i);
 											childUlTag.appendTo(listitem);
@@ -899,14 +787,6 @@ function loadChildrenRA(nodeName, tagId) {
 											// force to display folder icon
 											$("#researcharea").treeview( {
 												add : listitem
-											// toggle: function() {
-													// var
-													// subul=this.getElementsByTagName("ul")[0]
-													// if
-													// (subul.style.display=="block")
-													// alert("You've opened this
-													// Folder!")
-													// }
 													});
 
 											if (i == 1) {
@@ -925,10 +805,6 @@ function loadChildrenRA(nodeName, tagId) {
  * refined because if code contains ':', then this is not working correctly.
  */
 function getResearchAreaCode(node) {
-	// TODO : this maybe problemmatic because it makes the assumption that
-	// areacode does not contain ":"
-	// var endIdx = nodeName.indexOf(":");
-	// return nodeName.substring(0, endIdx - 1);
 	return $("#racode" + node.attr("id").substring(4)).attr("value");
 }
 
@@ -947,7 +823,6 @@ function getResearchAreaDescription(code, nodeName) {
  * create insert sql statement
  */
 function getInsertClause(code, parentCode, description) {
-	// TODO need to rework on real update_user
 
 	var columns = "RESEARCH_AREA_CODE,PARENT_RESEARCH_AREA_CODE,HAS_CHILDREN_FLAG, DESCRIPTION, update_timestamp, update_user";
 	description = description.replace(/'/g, "''");
@@ -1002,18 +877,12 @@ function hasFormAlreadyBeenSubmitted() {
 
 $(document).ready(function() {
 
-	// for (var k = 0; k<3;k++) {
 		// performance test
 		loadFirstLevel();
 		$("#listcontent00").show();
 		// //$("#listcontent00").slideToggle(300);
 		// $("#listcontrol00").show();
-		// alert("3")
-		// $("#listcontrol00").show();
 		loadedidx = i;
-		// }
-		// $("#listcontrol00").show();
-		// $("#listcontent00").slideToggle(300);
 	})
 $("#loading").hide();
 
@@ -1206,7 +1075,6 @@ function deleteChild(childid) {
 					+ ";") > -1) {
 		newNodes = newNodes.replace(";" + getResearchAreaCode($("#" + childid))
 				+ ";", ";");
-		// alert("newnodes "+newNodes);
 	}
 
 	if (childrenli.size() > 0) {
