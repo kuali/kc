@@ -6,7 +6,7 @@
 <link href="css/notification.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
- 
+
 <%@ include file="Header.jsp" %>
 
 <div id="pagebody">
@@ -15,7 +15,7 @@
 	<td colspan="2">
 
 		<%@ include file="LogoutForm.jsp" %>
-		
+
 	</td>
 </tr>
 <tr>
@@ -26,7 +26,9 @@
 <!-- Include the top half of the Work Area -->
 <%@ include file="WorkAreaTop.jsp" %>
 
-<iframe name="iframe_51148" id="iframe_51148" src="../en/DocumentSearch.do?methodToCall=doDocSearch&docTypeFullName=SendNotificationRequest&criteria.initiator=${userId}" frameborder="0" scrolling="auto" width="100%" height="100%">
+<iframe name="iframe_51148" id="iframe_51148" src="../kr/lookup.do?methodToCall=search&backLocation=&formKey=2&businessObjectClassName=org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO&hideReturnLink=Yes&suppressActions=Yes&hasReturnableRow=No&showMaintenanceLinks=No&docTypeFullName=SendNotificationRequest&initiator=${userId}" frameborder="0" scrolling="auto" width="100%" height="100%">
+<%--src="../kew/DocumentSearch.do?methodToCall=doDocSearch&docTypeFullName=SendNotificationRequest&criteria.initiator=${userId}"--%>
+
 </iframe>
 
 <!-- Include the bottom half of the Work Area -->

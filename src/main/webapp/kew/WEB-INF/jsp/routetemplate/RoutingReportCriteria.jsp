@@ -3,7 +3,7 @@
 <kul:page headerTitle="Routing Report" transactionalDocument="false"
   showDocumentInfo="false" htmlFormAction="RoutingReport" docTitle="Routing Report">
 
-  <html-el:form action="RoutingReport.do">
+  <%--<html-el:form action="RoutingReport.do">--%>
     <html-el:hidden name="KualiForm" property="methodToCall" value="" />
     <script language="javaScript" src="scripts/en-common.js"></script>
 
@@ -11,16 +11,19 @@
       <html-el:hidden property="reportType" />
     </c:if>
 
-    <table width="95%" align="center" >
+
+    <%--
       <tr>
         <td><jsp:include page="../WorkflowMessages.jsp" flush="true" /></td>
       </tr>
-      <c:if test="${KualiForm.displayCloseButton}">
+    --%>
+    <c:if test="${KualiForm.displayCloseButton}">
+      <table width="95%" align="center" >
         <tr>
           <td align="center"><a href="#" onclick="javascript:window.close();"><img src="images/buttonsmall_close.gif" alt="Close This Window" /></a></td>
         </tr>
-      </c:if>
-    </table>
+      </table>
+    </c:if>
     <c:if test="${KualiForm.reportType == 'template'}">
       <table class="datatable-100" cellspacing="0" cellpadding="0" align="center">
         <tr>
@@ -81,7 +84,6 @@
 
           <c:set var="FieldRows" value="${KualiForm.ruleTemplateAttributes}" scope="request" />
           <c:set var="ActionName" value="RoutingReport.do" scope="request" />
-          <%--<jsp:include page="../RowDisplay.jsp" />--%>
           <kul:rowDisplay rows="${FieldRows}" skipTheOldNewBar="true" />
 
           <c:if test="${KualiForm.showViewResults}">
@@ -94,5 +96,5 @@
         </table>
       </c:if>
     </c:if>
-  </html-el:form>
+  <%--</html-el:form>--%>
 </kul:page>

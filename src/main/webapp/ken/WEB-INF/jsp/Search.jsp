@@ -7,7 +7,7 @@
 <link href="css/notification.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
- 
+
 <%@ include file="Header.jsp" %>
 
 <div id="pagebody">
@@ -16,7 +16,7 @@
 	<td colspan="2">
 
 		<%@ include file="LogoutForm.jsp" %>
-		
+
 	</td>
 </tr>
 <tr>
@@ -27,7 +27,7 @@
 <!-- Include the top half of the Work Area -->
 <%@ include file="WorkAreaTop.jsp" %>
 
-<iframe name="iframe_51148" id="iframe_51148" src="../en/DocumentSearch.do?methodToCall=refresh&docTypeFullName=KualiNotification" frameborder="0" scrolling="auto" width="100%" height="100%">
+<iframe name="iframe_51148" id="iframe_51148" src="../kew/DocumentSearch.do?&docTypeFullName=KualiNotification" frameborder="0" scrolling="auto" width="100%" height="100%">
 </iframe>
 
 <!-- Include the bottom half of the Work Area -->

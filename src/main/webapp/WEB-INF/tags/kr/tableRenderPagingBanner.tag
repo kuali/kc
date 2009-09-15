@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -35,29 +35,39 @@
 	<c:when test="${totalPages == 1}">
 		Viewing rows ${firstDisplayedRow + 1} to ${lastDisplayedRow + 1}
 	</c:when>
-	<c:otherwise>
+	<c:when test="${totalPages > 1}">
 		Currently viewing page ${pageNumber + 1} of ${totalPages} (rows ${firstDisplayedRow + 1} to ${lastDisplayedRow + 1}).
 		<br/><br/>
 		Goto page: 
-		<c:if test="${pageNumber != 0}">
+		<c:if test="${pageNumber > 0}">
 			<c:forEach var="pageBeforeCurrent" begin="0" end="${pageNumber - 1}">
-				<c:if test="${empty buttonExtraParams}">
-				    <input type="submit" name="methodToCall.switchToPage.<c:out value="${pageBeforeCurrent}"/>.x" value="<c:out value="${pageBeforeCurrent + 1}"/>"/>
+				<c:if test="${empty buttonExtraParams}">				
+					<c:set var="nextPageBeforeValue" value="${pageBeforeCurrent + 1}" />
+					<c:set var="pageButton" value="methodToCall.switchToPage.${pageBeforeCurrent}.x" />
+			  	   		${kfunc:registerEditableProperty(KualiForm, pageButton)}
+						<input type="submit" tabindex="${tabindex}" name="${pageButton}" value="<c:out value="${pageBeforeCurrent + 1}"/>"/>
 				</c:if>
 				<c:if test="${!empty buttonExtraParams}">
-				    <input type="submit" name="methodToCall.switchToPage.<c:out value="${pageBeforeCurrent}"/>${buttonExtraParams}.x" value="<c:out value="${pageBeforeCurrent + 1}"/>"/>
+					<c:set var="pageButton" value="methodToCall.switchToPage.${pageBeforeCurrent}${buttonExtraParams}.x" />
+			  	   		${kfunc:registerEditableProperty(KualiForm, pageButton)}
+						<input type="submit" tabindex="${tabindex}" name="${pageButton}" value="<c:out value="${pageBeforeCurrent + 1}"/>"/>
 				</c:if>
 			</c:forEach>
 		</c:if>
 		<c:out value="${pageNumber + 1}"/>
 		<c:forEach var="pageAfterCurrent" begin="${pageNumber + 1}" end="${totalPages - 1}">
 		    <c:if test="${empty buttonExtraParams}">
-			    <input type="submit" name="methodToCall.switchToPage.<c:out value="${pageAfterCurrent}"/>.x" value="<c:out value="${pageAfterCurrent + 1}"/>"/>
+				<c:set var="nextPageAfterValue" value="${pageAfterCurrent + 1}" />		    
+					<c:set var="pageButton" value="methodToCall.switchToPage.${pageAfterCurrent}.x" />
+			  	   		${kfunc:registerEditableProperty(KualiForm, pageButton)}
+						<input type="submit" tabindex="${tabindex}" name="${pageButton}" value="<c:out value="${pageAfterCurrent + 1}"/>"/>
 			</c:if>
 			<c:if test="${!empty buttonExtraParams}">
-			    <input type="submit" name="methodToCall.switchToPage.<c:out value="${pageAfterCurrent}"/>${buttonExtraParams}.x" value="<c:out value="${pageAfterCurrent + 1}"/>"/>
+					<c:set var="pageButton" value="methodToCall.switchToPage.${pageAfterCurrent}${buttonExtraParams}.x" />
+			  	   		${kfunc:registerEditableProperty(KualiForm, pageButton)}
+						<input type="submit" tabindex="${tabindex}" name="${pageButton}" value="<c:out value="${pageAfterCurrent + 1}"/>"/>
 			</c:if>
 		</c:forEach>
-	</c:otherwise>
+	</c:when>
 </c:choose>
 </p>

@@ -3,6 +3,14 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>KCRA Application</display-name>
 
+<!-- Rice content Start -->
+    <!-- Change this if you want to use a different Spring file -->
+    <context-param>
+      <param-name>kew.bootstrap.spring.file</param-name>
+      <param-value>SpringBeans.xml</param-value>
+    </context-param>
+<!-- Rice content End -->
+
 	<!-- ******************* CAS Context Parameters ********************* -->
 
     <!-- Authentication handler -->
@@ -74,63 +82,47 @@
 
     <!-- ******************* END CAS Context Parameters ********************* -->
 
+<!-- Rice content Start -->
 	<filter>
         <filter-name>HideWebInfFilter</filter-name>
         <filter-class>org.kuali.rice.kns.web.filter.HideWebInfFilter</filter-class>
     </filter>
-    <filter-mapping>
+
+	<filter>
+		<filter-name>BootstrapFilter</filter-name>
+		<filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
+	</filter>
+
+	<filter>
+		<filter-name>UserLoginFilter</filter-name>
+		<filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
         <filter-name>HideWebInfFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    
-	<!--
-    <description>Invokes any filters defined by the user in the institutional plugin</description>
- -->
-  <filter>
-    <filter-name>BootstrapFilter</filter-name>
 
-    <filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
-  </filter>
+    <filter-mapping>
+      <filter-name>BootstrapFilter</filter-name>
+      <servlet-name>action</servlet-name>
+    </filter-mapping>
 
-  <filter-mapping>
-    <filter-name>BootstrapFilter</filter-name>
-    <servlet-name>action</servlet-name>
-  </filter-mapping>
+    <filter-mapping>
+      <filter-name>BootstrapFilter</filter-name>
+      <servlet-name>notification</servlet-name>
+    </filter-mapping>
 
-  <filter>
-    <filter-name>SessionExpiredFilter</filter-name>
-    <filter-class>org.kuali.kra.web.filter.SessionExpiredFilter</filter-class>
-  </filter>
-  <filter-mapping> 
-    <filter-name>SessionExpiredFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping> 
-
-  <filter>
-    <filter-name>SessionFilter</filter-name>
-    <filter-class>org.kuali.rice.kns.web.filter.SessionFilter</filter-class>
-  </filter>
-
-  <filter-mapping>
-    <filter-name>SessionFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
-
-  <filter>
-    <filter-name>UserLoginFilter</filter-name>
-    <filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
-  </filter>
-
-  <filter-mapping>
-    <filter-name>UserLoginFilter</filter-name>
-    <servlet-name>action</servlet-name>
-  </filter-mapping>
-	
 	<filter-mapping>
+		<filter-name>UserLoginFilter</filter-name>
+		<servlet-name>action</servlet-name>
+	</filter-mapping>
+
+    <filter-mapping>
         <filter-name>UserLoginFilter</filter-name>
         <servlet-name>notification</servlet-name>
     </filter-mapping>
-    
+
     <!-- for KCB Spring Web MVC pages -->
     <filter-mapping>
         <filter-name>BootstrapFilter</filter-name>
@@ -140,7 +132,21 @@
         <filter-name>UserLoginFilter</filter-name>
         <servlet-name>kcb</servlet-name>
     </filter-mapping>
-    
+
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>edoclite</servlet-name>
+    </filter-mapping>
+<!-- Rice content End -->
+
+  <filter>
+    <filter-name>SessionExpiredFilter</filter-name>
+    <filter-class>org.kuali.kra.web.filter.SessionExpiredFilter</filter-class>
+  </filter>
+  <filter-mapping> 
+    <filter-name>SessionExpiredFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>     
 
   <filter>
     <filter-name>ResponseOverrideFilter</filter-name>
@@ -194,12 +200,22 @@
   </listener>
 
   <listener>
-    <listener-class>org.kuali.rice.kns.web.listener.JstlConstantsInitListener</listener-class>
-  </listener>
-
-  <listener>
     <listener-class>org.kuali.kra.web.listener.SessionLoggingListener</listener-class>
   </listener>
+  
+<!-- Rice content Start -->
+<!--    <listener>-->
+<!--      <listener-class>org.kuali.rice.core.web.listener.StandaloneInitializeListener</listener-class>-->
+<!--    </listener>-->
+
+	<listener>
+		<listener-class>org.kuali.rice.kns.web.listener.JstlConstantsInitListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.kuali.rice.kns.web.listener.KualiHttpSessionListener</listener-class>
+	</listener>
+<!-- Rice content End -->
 
   <!-- ******************* CAS Listeners ********************* -->
 
@@ -258,9 +274,17 @@
 			<param-value>/WEB-INF/struts-config.xml</param-value>
 		</init-param>
 		<init-param>
-			<param-name>config/en</param-name>
-			<param-value>/en/WEB-INF/struts-config.xml</param-value>
+			<param-name>config/ken</param-name>
+			<param-value>/ken/WEB-INF/struts-config.xml</param-value>
 		</init-param>
+		<init-param>
+          <param-name>config/kew</param-name>
+          <param-value>/kew/WEB-INF/struts-config.xml</param-value>
+        </init-param>
+        <init-param>
+          <param-name>config/kim</param-name>
+          <param-value>/kim/WEB-INF/struts-config.xml</param-value>
+        </init-param>
 		<init-param>
 			<param-name>config/kr</param-name>
 			<param-value>/kr/WEB-INF/struts-config.xml</param-value>
@@ -268,14 +292,6 @@
 		<init-param>
           <param-name>config/ksb</param-name>
           <param-value>/ksb/WEB-INF/struts-config.xml</param-value>
-        </init-param>
-		<init-param>
-          <param-name>config/kew</param-name>
-          <param-value>/kew/WEB-INF/struts-config.xml</param-value>
-        </init-param>
-		<init-param>
-          <param-name>config/kim</param-name>
-          <param-value>/kim/WEB-INF/struts-config.xml</param-value>
         </init-param>
 		<init-param>
 			<param-name>debug</param-name>
@@ -287,9 +303,11 @@
 		</init-param>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
-	
-	<!-- Notification system servlets -->
-    <!-- Notification System Spring MVC UI 
+
+<!-- Rice content Start -->
+    <!-- Notification system servlets -->
+    <!-- Notification System Spring MVC UI -->
+<!--
     <servlet>
         <servlet-name>notification</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -306,22 +324,25 @@
         </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>
-    -->
-
+-->
 	<servlet>
-  		<servlet-name>dwr-invoker</servlet-name>
-  		<servlet-class>org.kuali.kra.web.servlet.KraDWRServlet</servlet-class>
-  		<init-param>
-     		<param-name>debug</param-name>
-     		<param-value>true</param-value>
-  		</init-param>
-  		<init-param>
-  			<param-name>springpath</param-name>
-     		<param-value>true</param-value>
-  		</init-param>
+		<servlet-name>dwr-invoker</servlet-name>
+<!-- KC MODIFICATION START -->
+		<servlet-class>org.kuali.kra.web.servlet.KraDWRServlet</servlet-class>
+<!-- KC MODIFICATION END --> 
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>springpath</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 	
-	<!-- KCB servlets 
+    <!-- KCB servlets -->
+<!--
     <servlet>
         <servlet-name>kcb</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -338,8 +359,7 @@
         </init-param>
         <load-on-startup>2</load-on-startup>
 	</servlet>
-	-->
-
+-->
 	<servlet>
 		<servlet-name>remoting</servlet-name>
 		<servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
@@ -350,7 +370,7 @@
 		<servlet-name>export</servlet-name>
 		<servlet-class>org.kuali.rice.kew.export.web.ExportServlet</servlet-class>
 	</servlet>
-	
+
 	<servlet>
 		<servlet-name>exportsecurity</servlet-name>
 		<servlet-class>org.kuali.rice.ksb.security.admin.ExportServlet</servlet-class>
@@ -366,14 +386,6 @@
 		<servlet-class>org.kuali.rice.kew.edl.EDLServlet</servlet-class>
 	</servlet>
 
-<!-- Servlet entry for coeus s2s engine scheduler to start -->
-  <!-- <servlet>
-    <servlet-name>StartupServlet</servlet-name>
-    <servlet-class>org.kuali.kra.s2s.servlet.StartupServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
- -->
-
 	<servlet-mapping>
 		<servlet-name>remoting</servlet-name>
 		<url-pattern>/remoting/*</url-pattern>
@@ -383,24 +395,22 @@
 		<servlet-name>action</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
-	
-	<!-- 
-	<servlet-mapping>
+
+<!--
+    <servlet-mapping>
         <servlet-name>notification</servlet-name>
         <url-pattern>*.form</url-pattern>
     </servlet-mapping>
-    -->
-
-	<!-- 
+-->
+<!--
 	<servlet-mapping>
         <servlet-name>kcb</servlet-name>
         <url-pattern>*.kcb</url-pattern>
     </servlet-mapping>
-     -->
-
+-->
 	<servlet-mapping>
-  		<servlet-name>dwr-invoker</servlet-name>
-  		<url-pattern>/dwr/*</url-pattern>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
@@ -409,14 +419,20 @@
 	</servlet-mapping>
 
 	<servlet-mapping>
+		<servlet-name>exportsecurity</servlet-name>
+		<url-pattern>/exportsecurity/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
 		<servlet-name>attachment</servlet-name>
-		<url-pattern>/en/attachment/*</url-pattern>
+		<url-pattern>/kew/attachment/*</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>edoclite</servlet-name>
-		<url-pattern>/en/EDocLite</url-pattern>
+		<url-pattern>/kew/EDocLite</url-pattern>
 	</servlet-mapping>
+<!-- Rice content End -->
 
 	<!-- ******************* CAS Servlet Mappings ********************* -->
 
@@ -445,18 +461,16 @@
       <servlet-name>ProxyValidate</servlet-name>
       <url-pattern>/cas/proxyValidate</url-pattern>
     </servlet-mapping>
-    
+	<!-- ******************* END CAS Servlet Mappings ********************* -->
+
+<!-- Rice content Start -->
     <session-config>
     	<session-timeout>60</session-timeout> 
     </session-config>
-
-	<listener>
-		<listener-class>org.kuali.rice.kns.web.listener.KualiHttpSessionListener</listener-class>
-	</listener>
 	
-	<!-- ******************* END CAS Servlet Mappings ********************* -->
-
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+<!-- Rice content End -->
+
 </web-app>

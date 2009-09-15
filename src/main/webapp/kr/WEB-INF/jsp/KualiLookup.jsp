@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2007 The Kuali Foundation.
 
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,28 +17,24 @@
 
 <%--NOTE: DO NOT FORMAT THIS FILE, DISPLAY:COLUMN WILL NOT WORK CORRECTLY IF IT CONTAINS LINE BREAKS --%>
 <c:set var="headerMenu" value="" />
-<c:if test="${KualiForm.suppressActions!=true}">
+<c:if test="${KualiForm.suppressActions!=true and KualiForm.supplementalActionsEnabled!=true}">
     <c:set var="headerMenu" value="${KualiForm.lookupable.createNewUrl}   ${KualiForm.lookupable.htmlMenuBar}" />
 </c:if>
-<c:if test="${KualiForm.supplementalActionsEnabled==true}">
-    <c:set var="headerMenu" value="${headerMenu} ${KualiForm.lookupable.supplementalMenuBar}" />
-</c:if>
+
 <kul:page lookup="true" showDocumentInfo="false"
 	headerMenuBar="${headerMenu}"
 	headerTitle="Lookup" docTitle="" transactionalDocument="false"
-	htmlFormAction="lookup">
+	htmlFormAction="lookup" >
 
 	<SCRIPT type="text/javascript">
     var kualiForm = document.forms['KualiForm'];
     var kualiElements = kualiForm.elements;
   </SCRIPT>
 
-	<c:if test="${KualiForm.supplementalActionsEnabled==true}">
-		<div class="headerarea-small" id="headerarea-small">
-			<h1><c:out value="${KualiForm.lookupable.title}" /><kul:help
-				resourceKey="lookupHelpText" altText="lookup help" /></h1>
-		</div>
-	</c:if>
+	<div class="headerarea-small" id="headerarea-small">
+		<h1><c:out value="${KualiForm.lookupable.title}" /><kul:help
+			resourceKey="lookupHelpText" altText="lookup help" /></h1>
+	</div>
 	<kul:enterKey methodToCall="search" />
 
 	<html-el:hidden name="KualiForm" property="backLocation" />
@@ -56,10 +52,35 @@
 	<html-el:hidden name="KualiForm" property="docNum" />
 	<html-el:hidden name="KualiForm" property="showMaintenanceLinks" />
 
+
+
+
 	<c:forEach items="${KualiForm.extraButtons}" varStatus="status">
 		<html-el:hidden name="KualiForm" property="extraButtons[${status.index}].extraButtonSource" />
 		<html-el:hidden name="KualiForm" property="extraButtons[${status.index}].extraButtonParams" />
 	</c:forEach>
+		<c:if test="${KualiForm.supplementalActionsEnabled==true}" >
+		<div class="lookupcreatenew" title="Supplemental Search Actions" style="padding: 3px 30px 3px 300px;">
+			${KualiForm.lookupable.supplementalMenuBar} &nbsp;
+			<c:set var="extraField" value="${KualiForm.lookupable.extraField}"/>
+			<c:if test="${not empty extraField}">
+				<%--has to be a dropdown script for now--%>
+				<c:if test="${extraField.fieldType eq extraField.DROPDOWN_SCRIPT}">
+
+                            	${kfunc:registerEditableProperty(KualiForm, extraField.propertyName)}
+                                <select id='${extraField.propertyName}' name='${extraField.propertyName}'
+                                        onchange="${extraField.script}" style="">
+                                    <kul:fieldSelectValues field="${extraField}"/>
+                                </select>
+
+						&nbsp;
+
+							<kul:fieldShowIcons isReadOnly="${true}" field="${extraField}" addHighlighting="${true}" />
+
+				</c:if>
+			</c:if>
+		</div>
+	</c:if>
 	<div class="right">
 		<div class="excol">
 		* required field
@@ -107,10 +128,16 @@
 					<!-- Optional extra buttons -->
 					<c:forEach items="${KualiForm.extraButtons}" var="extraButton" varStatus="status">
 						<c:if test="${!empty extraButton.extraButtonSource && !empty extraButton.extraButtonParams}">
-							<a href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&refreshCaller=kualiLookupable&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}&docNum=${KualiForm.docNum}" /><c:out value="${extraButton.extraButtonParams}" />'><img
-							    src='<c:out value="${extraButton.extraButtonSource}" />'
-								class="tinybutton" border="0" /></a>
+							<c:if test="${not KualiForm.ddExtraButton}">
+								<a href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&refreshCaller=kualiLookupable&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}&docNum=${KualiForm.docNum}" /><c:out value="${extraButton.extraButtonParams}" />'><img
+							    	src='<c:out value="${extraButton.extraButtonSource}" />'
+									class="tinybutton" border="0" /></a>
+							</c:if>
+							<c:if test="${KualiForm.ddExtraButton}">
+								<html:image src="${extraButton.extraButtonSource}" styleClass="tinybutton" property="methodToCall.customLookupableMethodCall" alt="${extraButton.extraButtonAltText}" onclick="${extraButton.extraButtonOnclick}"/> &nbsp;&nbsp;
+							</c:if>
 						</c:if>
+
 					</c:forEach>
 					<c:if test="${KualiForm.multipleValues }">
 						<a
@@ -196,15 +223,27 @@
 								<c:choose>
 									<c:when	test="${column.multipleAnchors}">
 										<c:set var="numberOfColumnAnchors" value="${column.numberOfColumnAnchors}" />
-										<logic:iterate id="columnAnchor" name="column" property="columnAnchors" indexId="ctr">
-										<a href="<c:out value="${columnAnchor.href}"/>" target="blank" title="${columnAnchor.title}"><c:out
-											value="${fn:substring(columnAnchor.displayText, 0, column.maxLength)}" escapeXml="${column.escapeXMLValue}"
-											/><c:if test="${column.maxLength gt 0 && fn:length(columnAnchor.displayText) gt column.maxLength}">...</c:if></a>
-											<c:if test="${ctr lt numberOfColumnAnchors-1}">,</c:if>
-										</logic:iterate>
+                                        <c:choose>
+                                          <c:when test="${empty columnAnchor.target}">
+                                            <c:set var="anchorTarget" value="_blank" />
+                                          </c:when>
+                                          <c:otherwise>
+                                            <c:set var="anchorTarget" value="${columnAnchor.target}" />
+                                          </c:otherwise>
+                                        </c:choose>
+                                        <!-- Please don't change formatting of this logic:iterate block -->
+										<logic:iterate id="columnAnchor" name="column" property="columnAnchors" indexId="ctr"><a href="<c:out value="${columnAnchor.href}"/>" target='<c:out value="${columnAnchor.target}"/>' title="${columnAnchor.title}"><c:out value="${fn:substring(columnAnchor.displayText, 0, column.maxLength)}" escapeXml="${column.escapeXMLValue}"/><c:if test="${column.maxLength gt 0 && fn:length(columnAnchor.displayText) gt column.maxLength}">...</c:if></a><c:if test="${ctr lt numberOfColumnAnchors-1}">,&nbsp;</c:if></logic:iterate>
 									</c:when>
 									<c:otherwise>
-										<a href="<c:out value="${column.columnAnchor.href}"/>" target="blank" title="${column.columnAnchor.title}"><c:out
+                                        <c:choose>
+                                          <c:when test="${empty column.columnAnchor.target}">
+                                            <c:set var="anchorTarget" value="_blank" />
+                                          </c:when>
+                                          <c:otherwise>
+                                            <c:set var="anchorTarget" value="${column.columnAnchor.target}" />
+                                          </c:otherwise>
+                                        </c:choose>
+										<a href="<c:out value="${column.columnAnchor.href}"/>" target='<c:out value="${anchorTarget}"/>' title="${column.columnAnchor.title}"><c:out
 											value="${fn:substring(column.propertyValue, 0, column.maxLength)}" escapeXml="${column.escapeXMLValue}"
 											/><c:if test="${column.maxLength gt 0 && fn:length(column.propertyValue) gt column.maxLength}">...</c:if></a>
 			                        </c:otherwise>
