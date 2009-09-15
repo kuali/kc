@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2007 The Kuali Foundation.
 
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -55,19 +55,6 @@
 </c:if>
 
 <head>
-
-<%-- BEGIN textLimit function. This is temporary. Needs to go into Rice. --%>
-<%-- Not using ConfigProperties.javascript.files for this because HtmlControlAttribute depends on it --%>
-<script language="JavaScript" type="text/javascript">
-    function textLimit(maxlen, property) { 
-      var field=window.document.forms[0].elements[property]; 
-      if (field.value.length > maxlen) { 
-        field.value = field.value.substr(0, maxlen); 
-      } 
-    }; 
-</script>
-<%-- END textLimit function --%>
-
 	<script>var jsContextPath = "${pageContext.request.contextPath}";</script>
 	<title><bean:message key="app.title" /> :: ${headerTitle}</title>
 	<c:forEach items="${fn:split(ConfigProperties.css.files, ',')}"
@@ -103,6 +90,23 @@
 					}
 				  }
 			   }
+			  }
+			  <!-- allow for custom lookup calls -->
+			  function customLookupChanged() {
+				    
+				    methodToCallElement=document.createElement("input");
+				    methodToCallElement.setAttribute("type","hidden");
+				    methodToCallElement.setAttribute("name","methodToCall");
+				    methodToCallElement.setAttribute("value","refresh");
+				    document.forms[0].appendChild(methodToCallElement);
+				    
+				    refreshCallerElement=document.createElement("input");
+				    refreshCallerElement.setAttribute("type","hidden");
+				    refreshCallerElement.setAttribute("name","refreshCaller");
+				    refreshCallerElement.setAttribute("value","customLookupAction");
+				    document.forms[0].appendChild(refreshCallerElement);
+
+				    document.forms[0].submit();
 			  }
 			  </script>
 		</c:when>
@@ -350,7 +354,7 @@
 		 </div>
 		</c:if>
 	<%-- END KC MODIFICATION --%>
-		<%-- ORIGINAL
+	    <%-- ORIGINAL
 		<c:if test="${not empty KualiForm.headerNavigationTabs}">
 		  <div class="horz-links-bkgrnd" id="horz-links">
 			<c:choose>
@@ -381,7 +385,6 @@
 		  </div>
 		</c:if>
 		END ORIGINAL --%>
-		
 		<div class="msg-excol">
 		  <div class="left-errmsg">
 			 <kul:errorCount auditCount="${auditCount}"/>

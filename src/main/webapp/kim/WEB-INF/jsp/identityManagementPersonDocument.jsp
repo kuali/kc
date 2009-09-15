@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2006 The Kuali Foundation.
 
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -15,27 +15,49 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
+<c:set var="inquiry" scope="request" value="${KualiForm.inquiry}" />
+<c:set var="readOnly" scope="request" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] || inquiry}" />
+<c:set var="formAction" value="identityManagementPersonDocument" />
+<c:if test="${inquiry}">
+    <c:set var="formAction" value="identityManagementPersonInquiry" />
+</c:if>
 
 <kul:documentPage
-	showDocumentInfo="true"
-	htmlFormAction="identityManagementPersonDocument"
+    showDocumentInfo="${!inquiry}"
+    htmlFormAction="${formAction}"
 	documentTypeName="IdentityManagementPersonDocument"
-	renderMultipart="true"
+	renderMultipart="${inquiry}"
 	showTabButtons="true"
 	auditCount="0">
 
-	<c:set var="readOnly" value="${KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus == 'F' }" scope="request" /> 
- 	<kul:hiddenDocumentFields />
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+    <c:if test="${!inquiry}">
+ 	    <kul:hiddenDocumentFields />
+	    <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	</c:if>
+    <c:if test="${inquiry}">
+        <div id="workarea">
+    </c:if>
 	<kim:personOverview />
 	<kim:personContact />
 	<kim:personPrivacy />
 	<kim:personMembership />
-		
-	<kul:notes />
-	<kul:routeLog />
-	<kul:adHocRecipients />
+
+    <c:if test="${!inquiry}">    		
+		<kul:adHocRecipients />
+		<kul:routeLog />
+	</c:if>
 	<kul:panelFooter />
-	<kul:documentControls transactionalDocument="false" />
+    <c:if test="${inquiry}">
+        </div>
+    </c:if>
+    <c:choose>
+        <c:when test="${!inquiry}">
+            <kul:documentControls transactionalDocument="false" />
+        </c:when>
+        <c:otherwise>
+            <kul:inquiryControls />
+            <input type="hidden" name="principalId" value="${KualiForm.principalId}" />
+        </c:otherwise>
+    </c:choose>
 
 </kul:documentPage>

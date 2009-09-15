@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -55,7 +55,11 @@
 
 	<kul:errors errorTitle="Errors found in Search Criteria:" />
 	<kul:messages/>
-
+	<div class="right">
+		<div class="excol">
+		* required field
+		</div>
+	</div>
 	<table width="100%">
 		<tr>
 			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20"

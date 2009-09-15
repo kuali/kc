@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2007 The Kuali Foundation.
 
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -49,20 +49,22 @@
 <!-- Do not remove session check in this tag file since it is used by other type of files (not MD or TD) -->
 <c:set var="sessionDocument" value="${requestScope['sessionDoc']}" />
 <c:if test="${!empty attributeEntry.attributeSecurityMask && attributeEntry.attributeSecurityMask == true  }">
-	<c:set var="className" value ="${attributeEntry.fullClassName}" /> 
+	<c:set var="className" value ="${attributeEntry.fullClassName}" />
 	<c:set var="fieldName" value ="${attributeEntry.name}" />
 	<c:set var="readOnly" value="${kfunc:canFullyUnmaskField(className, fieldName)? 'false' : 'true'}" />
 	<c:set var="displayMask" value="${kfunc:canFullyUnmaskField(className, fieldName)? 'false' : 'true'}" />
 	<c:set var="displayMaskValue" value="${kfunc:getFullyMaskedValue(className, fieldName, KualiForm, property)}" />
 </c:if>
- 
-<c:if test="${!empty attributeEntry.attributeSecurityPartialMask && attributeEntry.attributeSecurityPartialMask == true  }">
-	<c:set var="className" value ="${attributeEntry.fullClassName}" /> 
+
+
+<c:if test="${!displayMask && !empty attributeEntry.attributeSecurityPartialMask && attributeEntry.attributeSecurityPartialMask == true  }">
+	<c:set var="className" value ="${attributeEntry.fullClassName}" />
 	<c:set var="fieldName" value ="${attributeEntry.name}" />
 	<c:set var="readOnly" value="${kfunc:canPartiallyUnmaskField(attributeEntry.fullClassName, attributeEntry.name) ? 'false' : 'true'}"/>
-    <c:set var="displayMask" value="${kfunc:canFullyUnmaskField(className, fieldName)? 'false' : 'true'}" />
-	<c:set var="displayMaskValue" value="${kfunc:getFullyMaskedValue(className, fieldName, KualiForm, property)}" />
+    <c:set var="displayMask" value="${kfunc:canPartiallyUnmaskField(className, fieldName)? 'false' : 'true'}" />
+	<c:set var="displayMaskValue" value="${kfunc:getPartiallyMaskedValue(className, fieldName, KualiForm, property)}" />
 </c:if>
+
 
 <%-- Define variable that will hold the Title of the html control --%>
 <c:set var="accessibleTitle" value="${attributeEntry.label}"/>
@@ -73,26 +75,15 @@
 <c:set var="accessibleTitle" value="${accessibleTitle} ${accessibilityHint}"/>
 </c:if>
 
+<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
 
+<%-- KC modification Start --%>
 <%--These multi-select attributes are control specific and really should be defined in the DataDictionary files as control attributes--%>
 <%@ attribute name="isMultiSelect" required="false" type="java.lang.Boolean"
 			  description="When (attributeEntry.control.select == true), this attribute specifies whether to use a multi-select style control."%>
 <%@ attribute name="multiSelectSize" required="false" type="java.lang.Integer"
 			  description="When (attributeEntry.control.select == true && isMultiSelect == true), this attribute specifies the size of the control and is required for multi-select types."%>
-
-<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
-<c:choose>
-  <%-- border color not supported for select controls, so make background highlighted instead --%>
-  <c:when test="${hasErrors==true && !attributeEntry.control.select}">
-    <c:set var="textStyle" value="border-color: red"/>
-  </c:when>
-  <c:when test="${hasErrors==true && attributeEntry.control.select}">
-    <c:set var="textStyle" value="background-color:#FFD5D5"/>
-  </c:when>
-  <c:when test="${readOnly && !hasErrors}">
-    <c:set var="textStyle" value="border-color: black"/>
-  </c:when>
-</c:choose>
+<%-- KC modification End --%>
 
 <c:set var="disableField" value="false" />
 <c:if test="${disabled}">
@@ -138,7 +129,7 @@
 		</c:when>
          <c:otherwise>
          <logic:empty name="KualiForm" property="${property}">
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         &nbsp;
          </logic:empty>
          <c:if test="${!empty extraReadOnlyProperty}">
 			<c:choose>
@@ -181,13 +172,16 @@
     </c:when>
 
     <%-- textarea --%>
-    <c:when test="${attributeEntry.control.textarea == true}"> 
-            <html:textarea property="${property}" style="${textStyle}" title="${accessibleTitle}" tabindex="${tabindex}" 
-                           rows="${attributeEntry.control.rows}" cols="${attributeEntry.control.cols}" 
-                           styleId="${property}" disabled="${disableField}" styleClass="${styleClass}" 
-                           onkeyup="textLimit(${attributeEntry.maxLength}, '${property}');" /> 
-    </c:when> 
+    <c:when test="${attributeEntry.control.textarea == true}">
+            <html:textarea property="${property}" style="${textStyle}" title="${accessibleTitle}" tabindex="${tabindex}"
+                           rows="${attributeEntry.control.rows}" cols="${attributeEntry.control.cols}"
+                           styleId="${property}" disabled="${disableField}" styleClass="${styleClass}"
+                           onkeyup="textLimit(this, ${attributeEntry.maxLength});" />
 
+    </c:when>
+
+
+<%-- KC Modification Start --%>
     <%-- select --%>
     <c:when test="${attributeEntry.control.select == true}">
             <c:set var="finderClass" value="${fn:replace(attributeEntry.control.valuesFinder,'.','|')}"/>
@@ -223,6 +217,7 @@
 				</c:otherwise>
 			</c:choose>
 	    </c:when>
+<%-- KC Modification End --%>
 
     <%-- radio --%>
     <c:when test="${attributeEntry.control.radio == true}">
@@ -255,7 +250,9 @@
             	onchange="${onchange}" onclick="${onclick}" styleId="${property}"
             	styleClass="${styleClass}"/>
             <c:if test="${disableField == false}">
+<%-- KC Modification Start --%>            
             	<input type="hidden" name="elementsToReset" value="${property}"/> </c:if>
+<%-- KC Modification End --%>
     </c:when>
 
     <%-- hidden --%>
@@ -277,7 +274,7 @@
   <c:if test="${hasErrors}">
 	 		<kul:fieldShowErrorIcon />
   </c:if>
-  <!-- datePicker icon -->			
+  <!-- datePicker icon -->
   	<c:if test="${attributeEntry.control.text == true && datePicker==true}">
         <img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="${property}_datepicker" style="cursor: pointer;"
              title="Date selector" alt="Date selector"

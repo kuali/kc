@@ -17,17 +17,11 @@
         <form-bean name="DisplayInactivationBlockersForm" type="org.kuali.rice.kns.web.struts.form.DisplayInactivationBlockersForm" />
     </form-beans>
 
-    <global-exceptions>
-        <!-- Moved to /kualiExceptionIncidentReport.do -->
-        <!--
-        <exception type="org.kuali.rice.kns.exception.AuthorizationException" key="meaningless" path="/authorizationException.do" />
-        <exception type="org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException" key="meaningless" path="/initiationAuthorizationException.do" />
-        <exception type="org.kuali.rice.kns.exception.UnknownDocumentIdException" key="error.document.noLongerExistsInKuali" path="/WEB-INF/jsp/Exception.jsp" />
-        <exception type="org.kuali.rice.kns.exception.FileUploadLimitExceededException" key="error.document.attachmentMaximumFileSizeExceeded" path="/WEB-INF/jsp/Exception.jsp" />
-        <exception type="java.lang.Throwable" handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler" key="na"/>
-        -->
-        <exception type="org.kuali.rice.kns.exception.KualiException" handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler" key="na"/>
-    </global-exceptions>  
+	<global-exceptions>
+		<exception type="java.lang.Throwable"
+			handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
+			key="meaningless" />
+	</global-exceptions>
     
     <global-forwards >
         <forward name="save" path="/index.jsp" redirect="true" />
@@ -35,10 +29,8 @@
         <forward name="close" path="/index.jsp" redirect="true" />
         <forward name="portal" path="/index.jsp" redirect="true" />
         <forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp"/>
-        <forward name="error" path="/WEB-INF/jsp/KualiError.jsp" />
-        <forward name="inquiryError" path="/WEB-INF/jsp/KualiInquiryError.jsp" />
-        <forward name="exceptionIncidentHandler" path="/kualiExceptionIncidentReport.do" />
         <forward name="updateTextArea" path="/WEB-INF/jsp/TextArea.jsp" />
+        <forward name="exceptionIncidentHandler" path="/kualiExceptionIncidentReport.do" />
     </global-forwards>
 
     <action-mappings>
@@ -48,15 +40,12 @@
         <action path="/index" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
             <forward name="basic" path="/index.jsp" />
         </action>
-        <action path="/Exception" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiExceptionAction">
-            <forward name="basic" path="/WEB-INF/jsp/Exception.jsp" />
+        <action path="/kualiExceptionIncidentReport"
+                name="KualiExceptionIncidentForm"
+                attribute="KualiForm"
+                type="org.kuali.rice.kns.web.struts.action.KualiExceptionHandlerAction">
+            <forward name="basic" path="/WEB-INF/jsp/KualiExceptionIncident.jsp" />
         </action>
-        <action path="/authorizationException" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiAuthorizationExceptionAction">
-            <forward name="basic" path="/WEB-INF/jsp/authorizationException.jsp" />
-        </action>        
-        <action path="/initiationAuthorizationException" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentInitiationAuthorizationExceptionAction">
-            <forward name="basic" path="/WEB-INF/jsp/authorizationException.jsp" />
-        </action>        
    	    <action path="/lookup" name="LookupForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.rice.kns.web.struts.action.KualiLookupAction">
 	        <forward name="basic" path="/WEB-INF/jsp/KualiLookup.jsp" />
 	    </action>	     
@@ -82,15 +71,6 @@
 	    <action path="/inactivationBlockers" name="DisplayInactivationBlockersForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.rice.kns.web.struts.action.DisplayInactivationBlockersAction">
 	        <forward name="basic" path="/WEB-INF/jsp/DisplayInactivationBlockers.jsp" />
 	    </action>
-	    
-        <action path="/kualiExceptionIncidentReport"
-                name="KualiExceptionIncidentForm"
-                attribute="KualiForm"
-                type="org.kuali.rice.kns.web.struts.action.KualiExceptionHandlerAction">
-            <forward name="basic" path="/WEB-INF/jsp/KualiExceptionIncident.jsp" />
-            <forward name="AuthorizationException" path="/authorizationException.do" />
-            <forward name="DocumentInitiationAuthorizationException" path="/initiationAuthorizationException.do" />
-        </action>        
         <action path="/updateTextArea" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase">
             <forward name="basic" path="/WEB-INF/jsp/TextArea.jsp" />
         </action>

@@ -67,6 +67,10 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_EDIT);
         }
         
+        if (canEdit(document, user)) {
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW);
+        }
+        
         if (canAnnotate(document, user)){
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_ANNOTATE);
         }

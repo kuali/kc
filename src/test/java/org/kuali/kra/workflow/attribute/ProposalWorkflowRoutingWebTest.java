@@ -160,7 +160,7 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         GlobalVariables.setUserSession(new UserSession("jtester"));
         final WebClient newWebClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
-        final HtmlPage pageAfterLogin = login(newWebClient, url, "en/ActionList.do", "jtester");
+        final HtmlPage pageAfterLogin = login(newWebClient, url, "kew/ActionList.do", "jtester");
         assertNotNull(pageAfterLogin);
 
         HtmlAnchor docLink = getAnchorFromPage(pageAfterLogin, "docId=" + documentNumber.getDefaultValue());
@@ -176,7 +176,7 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         GlobalVariables.setUserSession(new UserSession("tdurkin"));
         final WebClient newWebClient1 = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
         final URL url1 = new URL("http://localhost:" + getPort() + "/kra-dev/");
-        final HtmlPage pageAfterLogin1 = login(newWebClient1, url1, "en/ActionList.do", "tdurkin");
+        final HtmlPage pageAfterLogin1 = login(newWebClient1, url1, "kew/ActionList.do", "tdurkin");
         assertNotNull(pageAfterLogin1);
             
         

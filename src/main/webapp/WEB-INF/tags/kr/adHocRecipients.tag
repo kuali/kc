@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2007 The Kuali Foundation.
 
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 
-    <c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_AD_HOC_ROUTE] and not KualiForm.suppressAllButtons}">
+    <c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_ADD_ADHOC_REQUESTS] and not KualiForm.suppressAllButtons}">
         <kul:tab tabTitle="Ad Hoc Recipients" defaultOpen="false" tabErrorKey="${Constants.AD_HOC_ROUTE_ERRORS}">
 
         <div class="tab-container" align=center>
@@ -66,6 +66,9 @@
                           <html:options collection="actionRequestCodes" property="key" labelProperty="value"/>
                         </html:select></div>
                     </td>
+					
+					<kul:checkErrors keyMatch="newAdHocRoutePerson.id" />
+				
                     <td class="infoline" colspan="2" ><div align=center>
                         <kul:user userIdFieldName="newAdHocRoutePerson.id"
                               userId="${KualiForm.newAdHocRoutePerson.id}"
@@ -76,7 +79,8 @@
                               readOnly="${displayReadOnly}"
                               renderOtherFields="true"
                               fieldConversions="principalName:newAdHocRoutePerson.id,name:newAdHocRoutePerson.name"
-                              lookupParameters="newAdHocRoutePerson.id:principalName" />
+                              lookupParameters="newAdHocRoutePerson.id:principalName"
+                              hasErrors="${hasErrors}" />
                     </td>
                     <td class="infoline" ><div align=center>
                         <html:image property="methodToCall.insertAdHocRoutePerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Insert Additional Ad Hoc Person" alt="Insert Additional Ad Hoc Person" styleClass="tinybutton"/></div>
@@ -93,6 +97,7 @@
                     </html:select></div>
                       </td>
                       <td class="datacell center" colspan="2"><div align=center>
+						<kul:checkErrors keyMatch="adHocRoutePerson[${ctr}].id" />
                         <kul:user userIdFieldName="adHocRoutePerson[${ctr}].id"
                               userId="${KualiForm.document.adHocRoutePersons[ctr].id}"
                               universalIdFieldName=""
@@ -102,7 +107,8 @@
                               readOnly="${displayReadOnly}"
                               renderOtherFields="true"
                               fieldConversions="principalName:adHocRoutePerson[${ctr}].id,name:adHocRoutePerson[${ctr}].name"
-                              lookupParameters="adHocRoutePerson[${ctr}].id:principalName" />
+                              lookupParameters="adHocRoutePerson[${ctr}].id:principalName"
+							  hasErrors="${hasErrors}" />
                       </td>
                           <td class="datacell center" ><div align=center>
                             <html:image property="methodToCall.deleteAdHocRoutePerson.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Additional Ad Hoc Person" alt="Delete Additional Ad Hoc Person" styleClass="tinybutton"/></div>
@@ -118,7 +124,7 @@
             </tr>
         </kul:displayIfErrors>
           <tr>
-                <td colspan=4 class="tab-subhead">Ad Hoc Workgroup Requests:</td>
+                <td colspan=4 class="tab-subhead">Ad Hoc Group Requests:</td>
               </tr>
             <tr>
                   <kul:htmlAttributeHeaderCell

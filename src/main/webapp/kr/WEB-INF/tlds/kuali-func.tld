@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -75,11 +75,18 @@
 	    <example>${kfunc:canPartiallyUnmaskField(businessObjectClassName, fieldName)}</example>
 	</function>
 	<function>
-    	<description>Get Display Mask Value</description>
+    	<description>Get Fully Masked Value</description>
     	<name>getFullyMaskedValue</name>
 	    <function-class>org.kuali.rice.kns.util.WebUtils</function-class>
 	    <function-signature>java.lang.String getFullyMaskedValue(java.lang.String, java.lang.String,, java.lang.Object, java.lang.String)</function-signature>
 	    <example>${kfunc:getFullyMaskedValue(className, fieldName, kualiForm, propertyName)}</example>
+	</function>
+	<function>
+    	<description>Get Partially Masked Value</description>
+    	<name>getPartiallyMaskedValue</name>
+	    <function-class>org.kuali.rice.kns.util.WebUtils</function-class>
+	    <function-signature>java.lang.String getPartiallyMaskedValue(java.lang.String, java.lang.String,, java.lang.Object, java.lang.String)</function-signature>
+	    <example>${kfunc:getPartiallyMaskedValue(className, fieldName, kualiForm, propertyName)}</example>
 	</function>
 	<function>
     	<description>Check Add Note Permission</description>

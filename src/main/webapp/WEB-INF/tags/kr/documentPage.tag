@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2006 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -35,8 +35,9 @@
 <c:set var="additionalScriptFiles" value="${KualiForm.additionalScriptFiles}" />
 
 <!--  pass documentTypeName into htmlControlAttribute -->
+<!-- Do not remove session check here. Since it used by other pages (not MD or TD) -->
 <c:if test="${KualiForm.document.sessionDocument || sessionDocument}">
-<% request.setAttribute("sessionDoc", true); %>
+<% request.setAttribute("sessionDoc", Boolean.TRUE); %>
 </c:if>
 
 <c:if test="${not empty SESSION_TIMEOUT_WARNING_MILLISECONDS}">
@@ -46,11 +47,12 @@
 	// -->
 	</script>
 </c:if>
-
-<kul:page docTitle="${documentEntry.label}" transactionalDocument="${documentEntry.transactionalDocument}" sessionDocument="${documentEntry.sessionDocument}"
+<c:set var="renderRequiredFieldsLabel" value="${(KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]
+||KualiForm.documentActions[Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]) && (not KualiForm.suppressAllButtons)}" />
+<kul:page docTitle="${documentEntry.label}" transactionalDocument="${documentEntry.transactionalDocument}"
   headerMenuBar="${headerMenuBar}" showDocumentInfo="${showDocumentInfo}" headerTitle="${headerTitle}" 
   htmlFormAction="${htmlFormAction}" renderMultipart="${renderMultipart}" showTabButtons="${showTabButtons}" 
   extraTopButtons="${extraTopButtons}" headerDispatch="${headerDispatch}" headerTabActive="${headerTabActive}" 
-  feedbackKey="${feedbackKey}" auditCount="${auditCount}" additionalScriptFiles="${additionalScriptFiles}">
+  feedbackKey="${feedbackKey}" auditCount="${auditCount}" additionalScriptFiles="${additionalScriptFiles}" renderRequiredFieldsLabel="${renderRequiredFieldsLabel}">
     <jsp:doBody/>
 </kul:page>

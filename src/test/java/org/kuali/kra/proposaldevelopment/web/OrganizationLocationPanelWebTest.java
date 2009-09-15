@@ -214,8 +214,8 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
 //    HtmlPage page2 = clickOn(page1, "Main Menu", "Kuali Portal Index");
      HtmlPage page57 = clickOn(page56, "Action List", "Kuali Portal Index");     
 //     HtmlPage page4 = clickOn(page57, documentNumber, "Kuali :: Proposal Development Document");    
-//     http://localhost:8080/kra-dev/en/DocHandler.do?docId=2241&command=displayActionListView
-     String url = "http://localhost:" + getPort() + "/kra-dev/en/DocHandler.do?docId=" + documentNumber + "&command=displayActionListView";
+//     http://localhost:8080/kra-dev/kew/DocHandler.do?docId=2241&command=displayActionListView
+     String url = "http://localhost:" + getPort() + "/kra-dev/kew/DocHandler.do?docId=" + documentNumber + "&command=displayActionListView";
      HtmlPage page4 = buildPageFromUrl(url,"Kuali :: Proposal Development Document");
          // applicant org lookup
      HtmlPage page5 = lookup(page4, "document.organizationId", "organizationId", "000002");

@@ -88,7 +88,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
     private String buildDocumentUrl(String documentNumber){
         StringBuilder sb = new StringBuilder();
         sb.append("<a href=\"");
-        sb.append("en/");
+        sb.append("kew/");
         sb.append(KEWConstants.DOC_HANDLER_REDIRECT_PAGE);
         sb.append("?");
         sb.append(KEWConstants.COMMAND_PARAMETER);
