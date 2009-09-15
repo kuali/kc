@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
 import javax.persistence.CascadeType;
@@ -27,6 +28,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -38,6 +40,7 @@ public class ProtocolAction extends ProtocolAssociate {
     private static final long serialVersionUID = -2148599171919464303L;
     
     private static final String NEXT_ACTION_ID_KEY = "actionId";
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     
     @Id 
     @Column(name = "PROTOCOL_ACTION_ID")
@@ -58,7 +61,10 @@ public class ProtocolAction extends ProtocolAssociate {
     @Column(name="COMMENTS")
     private String comments; 
 
-    @Column(name="ACTION_DATE")
+    @Column(name = "ACTUAL_ACTION_DATE")
+    private Timestamp actualActionDate;
+    
+    @Column(name = "ACTION_DATE")
     private Timestamp actionDate;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
@@ -78,6 +84,7 @@ public class ProtocolAction extends ProtocolAssociate {
         setProtocolNumber(protocol.getProtocolNumber());
         setSequenceNumber(0);
         setActionId(protocol.getNextValue(NEXT_ACTION_ID_KEY));
+        setActualActionDate(new Timestamp(System.currentTimeMillis()));
         setActionDate(new Timestamp(System.currentTimeMillis()));
         setProtocolActionTypeCode(protocolActionTypeCode);
         if (protocolSubmission != null) {
@@ -108,6 +115,12 @@ public class ProtocolAction extends ProtocolAssociate {
 
     public void setProtocolActionTypeCode(String protocolActionTypeCode) {
         this.protocolActionTypeCode = protocolActionTypeCode;
+        if (StringUtils.isBlank(protocolActionTypeCode)) {
+            protocolActionType = null;
+        }
+        else {
+            this.refreshReferenceObject("protocolActionType");
+        }
     }
 
     public void setSubmissionNumber(Integer submissionNumber) {
@@ -124,6 +137,12 @@ public class ProtocolAction extends ProtocolAssociate {
 
     public void setSubmissionIdFk(Long submissionIdFk) {
         this.submissionIdFk = submissionIdFk;
+        if (submissionIdFk == null) {
+            protocolSubmission = null;
+        }
+        else {
+            this.refreshReferenceObject("protocolSubmission");
+        }
     }
 
     public String getComments() {
@@ -132,6 +151,14 @@ public class ProtocolAction extends ProtocolAssociate {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public Timestamp getActualActionDate() {
+        return actualActionDate;
+    }
+
+    public void setActualActionDate(Timestamp actualActionDate) {
+        this.actualActionDate = actualActionDate;
     }
 
     public Timestamp getActionDate() {
@@ -158,6 +185,33 @@ public class ProtocolAction extends ProtocolAssociate {
         return protocolActionType;
     }
     
+    public String getActualActionDateString() {
+        if (getActualActionDate() == null) {
+            return "";
+        }
+        return dateFormat.format(getActualActionDate());
+    }
+    
+    public String getActionDateString() {
+        if (getActionDate() == null) {
+            return "";
+        }
+        return dateFormat.format(getActionDate());
+    }
+    
+    public String getSubmissionStatusString() {
+        if (protocolSubmission == null) {
+            return "";
+        }
+        else if (protocolSubmission.getSubmissionStatus() == null) {
+            return "";
+        }
+        else if (protocolSubmission.getSubmissionStatus().getDescription() == null) {
+            return "";
+        }
+        return protocolSubmission.getSubmissionStatus().getDescription();
+    }
+    
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
@@ -170,6 +224,7 @@ public class ProtocolAction extends ProtocolAssociate {
         hashMap.put("protocolId", getProtocolId());
         hashMap.put("submissionIdFk", getSubmissionIdFk());
         hashMap.put("comments", this.getComments());
+        hashMap.put("actualActionDate", this.getActualActionDate());
         hashMap.put("actionDate", this.getActionDate());
         return hashMap;
     }
