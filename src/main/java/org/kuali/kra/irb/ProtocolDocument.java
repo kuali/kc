@@ -30,6 +30,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.auth.ProtocolAuthorizationService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -47,8 +48,6 @@ import org.kuali.rice.kns.service.DocumentService;
 public class ProtocolDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
 	
     private static final String DOCUMENT_TYPE_CODE = "PROT";
-    private static final String FINAL_STATE = "F";
-    private static final String DISAPPROVED_STATE = "D";
     private static final String AMENDMENT_KEY = "A";
     private static final String RENEWAL_KEY = "R";
     
@@ -282,7 +281,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * @return
      */
     private boolean isFinal(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        return StringUtils.equals(FINAL_STATE, statusChangeEvent.getNewRouteStatus());
+        return StringUtils.equals(KEWConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
     }
     
     /**
@@ -291,7 +290,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * @return
      */
     private boolean isDisapproved(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        return StringUtils.equals(DISAPPROVED_STATE, statusChangeEvent.getNewRouteStatus());
+        return StringUtils.equals(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD, statusChangeEvent.getNewRouteStatus());
     }
     
     /**

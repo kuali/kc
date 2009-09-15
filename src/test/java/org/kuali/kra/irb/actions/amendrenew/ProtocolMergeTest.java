@@ -64,9 +64,6 @@ public class ProtocolMergeTest extends KraTestBase {
     private static final String DESCRIPTION_1 = "another description 1";
     private static final String DESCRIPTION_2 = "another description 2";
     
-    private static final String COMMENT_1 = "comment 1";
-    private static final String COMMENT_2 = "comment 2";
-    
     @Test
     public void testGeneralInfoMerge() {
         Protocol protocol = createProtocol();
