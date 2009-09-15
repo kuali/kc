@@ -49,6 +49,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     private static final String RENEWAL = "Renewal";
     private static final String CREATED = "created";
     private static final String PROTOCOL_NUMBER = "protocolNumber";
+    private static final String PROTOCOL_STATUS = "protocolStatus";
     
     private DocumentService documentService;
     private ProtocolCopyService protocolCopyService;
@@ -84,7 +85,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     public String createAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
         ProtocolDocument amendProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolAmendmentNumber(protocolDocument));
         amendProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.AMENDMENT_IN_PROGRESS);
-        amendProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
+        amendProtocolDocument.getProtocol().refreshReferenceObject(PROTOCOL_STATUS);
         
         ProtocolAction protocolAction = createCreateAmendmentProtocolAction(protocolDocument.getProtocol(), 
                                                              amendProtocolDocument.getProtocol().getProtocolNumber());
@@ -99,7 +100,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     public String createRenewal(ProtocolDocument protocolDocument) throws Exception {
         ProtocolDocument renewProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolRenewalNumber(protocolDocument));
         renewProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.RENEWAL_IN_PROGRESS);
-        renewProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
+        renewProtocolDocument.getProtocol().refreshReferenceObject(PROTOCOL_STATUS);
         
         ProtocolAction protocolAction = createCreateRenewalProtocolAction(protocolDocument.getProtocol(),
                                                                           renewProtocolDocument.getProtocol().getProtocolNumber());
@@ -120,7 +121,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     public String createRenewalWithAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
         ProtocolDocument renewProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolRenewalNumber(protocolDocument));
         renewProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.RENEWAL_IN_PROGRESS);
-        renewProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
+        renewProtocolDocument.getProtocol().refreshReferenceObject(PROTOCOL_STATUS);
         
         ProtocolAction protocolAction = createCreateRenewalProtocolAction(protocolDocument.getProtocol(),
                                                                           renewProtocolDocument.getProtocol().getProtocolNumber());
