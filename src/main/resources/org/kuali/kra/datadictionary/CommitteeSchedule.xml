@@ -144,7 +144,7 @@
 		<property name="shortLabel" value="Place" />
 		<property name="maxLength" value="200" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" >
+			<bean parent="AnyCharacterValidationPattern" >
 				<property name="allowWhitespace" value="true" />
 			</bean>
 		</property>
