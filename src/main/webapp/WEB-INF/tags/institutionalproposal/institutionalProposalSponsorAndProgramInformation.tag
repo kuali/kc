@@ -18,7 +18,7 @@
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
 <c:set var="action" value="institutionalProposalHome" />
 
-<kul:tab tabTitle="Sponsor & Program Information" defaultOpen="false" tabErrorKey="document.institutionalProposal.noticeOfOpportunityCode,document.institutionalProposal.programAnnouncementNumber,document.institutionalProposal.sponsorProposalNumber,document.institutionalProposal.nsfCode,document.institutionalProposal.cfdaNumber,document.institutionalProposal.sponsorCode,document.institutionalProposalList[0].sponsorCode,document.institutionalProposal.primeSponsorCode" auditCluster="sponsorProgramInformationAuditErrors,sponsorProgramInformationAuditWarnings" tabAuditKey="document.institutionalProposal.cfdaNumber,document.institutionalProposal.sponsorProposalNumber" useRiceAuditMode="true">
+<kul:tab tabTitle="Sponsor & Program Information" defaultOpen="false" tabErrorKey="document.institutionalProposal.noticeOfOpportunityCode,document.institutionalProposal.programAnnouncementNumber,document.institutionalProposal.sponsorProposalNumber,document.institutionalProposal.nsfCode,document.institutionalProposal.cfdaNumber,document.institutionalProposal.sponsorCode,document.institutionalProposalList[0].sponsorCode,document.institutionalProposal.primeSponsorCode,document.institutionalProposalList[0].opportunity" auditCluster="sponsorProgramInformationAuditErrors,sponsorProgramInformationAuditWarnings" tabAuditKey="document.institutionalProposal.cfdaNumber,document.institutionalProposal.sponsorProposalNumber" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Sponsor & Program Information</span>
@@ -75,7 +75,7 @@
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.opportunity}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.institutionalProposal.opportunity" attributeEntry="${institutionalProposalAttributes.opportunity}" />
+           			<kul:htmlControlAttribute property="document.institutionalProposalList[0].opportunity" attributeEntry="${institutionalProposalAttributes.opportunity}" />
            		</td>
      		</tr>
         	<tr>
