@@ -257,7 +257,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         
         ProposalDevelopmentDocument pd = getDocument();
         ProposalState proposalState = (pd == null) ? null : pd.getDevelopmentProposal().getProposalState();
-        HeaderField docStatus = new HeaderField("DataDictionary.DocumentHeader.attributes.financialDocumentStatusCode", proposalState == null? "" : proposalState.getDescription());
+        HeaderField docStatus = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", proposalState == null? "" : proposalState.getDescription());
         
         getDocInfo().set(1, docStatus);
         
