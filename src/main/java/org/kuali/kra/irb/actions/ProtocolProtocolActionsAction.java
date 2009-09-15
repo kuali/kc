@@ -570,4 +570,36 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(MAPPING_BASIC);
     }
     
+    /**
+     * When the "filter" button is pressed in the History sub-panel, we only
+     * need to redraw the page.  The results will changed based upon the
+     * contents of the Data Range Filter.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward filterHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    /**
+     * Load a Protocol summary into the summary sub-panel.  The protocol summary to 
+     * load corresponds to the currently selected protocol action in the History sub-panel.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward loadProtocolSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        System.out.println("Selected History Item: " + protocolForm.getActionHelper().getSelectedHistoryItem());
+        return mapping.findForward(MAPPING_BASIC);
+    }
 }

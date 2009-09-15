@@ -21,9 +21,10 @@
 <%@ attribute name="displaySize" required="true" %>
 
 
-<table border="0" cellpadding="0" cellspacing="0" style="border:none">
-    <tr>
-        <td align="left" style="border:none">
+<table border="0" cellpadding="0" cellspacing="0" style="border:none; background-image: inherit; background-position: center bottom;">
+   <tbody style="background-image:inherit; background-position: center bottom;">
+    <tr style="background-image:inherit; background-position: center bottom;">
+        <td align="left" style="border:none; background-image: inherit; background-position: center bottom;">
             <c:choose>
 	            <c:when test="${fn:length(textValue) > displaySize}">
                 	  ${fn:substring(textValue,0,displaySize - 1)}...
@@ -33,14 +34,15 @@
                 </c:otherwise>
             </c:choose>
         </td>
-        <td style="border:none; vertical-align:bottom;">
-            <div align="right">
+        <td style="border:none; vertical-align:bottom; background-image: inherit; background-position: center bottom;">
+            <div align="right" style="background-image: inherit; background-position: center bottom;">
                 <c:if test="${fn:length(textValue) > displaySize}">
-                       <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${textAreaLabel}"  viewOnly="true" />
+                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${textAreaLabel}"  viewOnly="true" />
                 </c:if>
             </div>
         </td>
     </tr>
+    </tbody>
 </table>
 
 

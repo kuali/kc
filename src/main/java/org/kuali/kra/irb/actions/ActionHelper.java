@@ -18,6 +18,11 @@ package org.kuali.kra.irb.actions;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,6 +36,7 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
+import org.kuali.kra.irb.actions.history.DateRangeFilter;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
@@ -49,6 +55,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
 @SuppressWarnings("serial")
 public class ActionHelper implements Serializable {
 
+    private static final long ONE_DAY = 1000L * 60L * 60L * 24L;
+    
     /**
      * Each Helper must contain a reference to its document form
      * so that it can access the document.
@@ -85,6 +93,9 @@ public class ActionHelper implements Serializable {
      * Identifies the protocol "document" to print.
      */
     private String printTag;
+    
+    private String selectedHistoryItem;
+    private DateRangeFilter historyDateRangeFilter = new DateRangeFilter();
     
     /**
      * Constructs an ActionHelper.
@@ -379,5 +390,68 @@ public class ActionHelper implements Serializable {
     
     public String getPrintTag() {
         return printTag;
+    }
+    
+    public void setSelectedHistoryItem(String selectedHistoryItem) {
+        this.selectedHistoryItem = selectedHistoryItem;
+    }
+    
+    public String getSelectedHistoryItem() {
+        return selectedHistoryItem;
+    }
+
+    public void setHistoryDateRangeFilter(DateRangeFilter historyDateRangeFilter) {
+        this.historyDateRangeFilter = historyDateRangeFilter;
+    }
+
+    public DateRangeFilter getHistoryDateRangeFilter() {
+        return historyDateRangeFilter;
+    }
+    
+    /**
+     * Get the filtered list of protocol actions sorted by the Actual Action Date.
+     * The list is filtered based upon the current Date Range Filter.  Protocol actions
+     * that don't fall with the given range are not returned.
+     * @return the filtered list of protocol actions
+     */
+    public List<ProtocolAction> getFilteredProtocolActions() {
+        List<ProtocolAction> filteredProtocolActions = new ArrayList<ProtocolAction>();
+        List<ProtocolAction> protocolActions = form.getProtocolDocument().getProtocol().getProtocolActions();
+        for (ProtocolAction protocolAction : protocolActions) {
+            if (inDateRange(protocolAction)) {
+                filteredProtocolActions.add(protocolAction);
+            }
+        }
+        Collections.sort(filteredProtocolActions, new Comparator<ProtocolAction>() {
+            public int compare(ProtocolAction action1, ProtocolAction action2) {
+                int c = action2.getActualActionDate().compareTo(action1.getActualActionDate());
+                return c;
+            }
+        });
+     
+        return filteredProtocolActions;
+    }
+
+    /**
+     * Is the given Protocol Action within the range of the Date Range Filter?
+     * @param protocolAction the protocol action
+     * @return true if in the range; otherwise false
+     */
+    private boolean inDateRange(ProtocolAction protocolAction) {
+        Date beginningOn = historyDateRangeFilter.getBeginningOn();
+        if (beginningOn != null) {
+            Timestamp startTimestamp = new Timestamp(beginningOn.getTime());
+            if (protocolAction.getActionDate().before(startTimestamp)) {
+                return false;
+            }
+        }
+        Date endingOn = historyDateRangeFilter.getEndingOn();
+        if (endingOn != null) {
+            Timestamp endTimestamp = new Timestamp(endingOn.getTime() + ONE_DAY);
+            if (protocolAction.getActionDate().after(endTimestamp)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
