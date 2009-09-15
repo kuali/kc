@@ -29,6 +29,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -194,6 +195,12 @@ public class ProtocolSubmission extends ProtocolAssociate {
 
     public void setSubmissionStatusCode(String submissionStatusCode) {
         this.submissionStatusCode = submissionStatusCode;
+        if (StringUtils.isBlank(submissionStatusCode)) {
+            submissionStatus = null;
+        }
+        else {
+            refreshReferenceObject("submissionStatus");
+        }
     }
 
     public String getProtocolReviewTypeCode() {

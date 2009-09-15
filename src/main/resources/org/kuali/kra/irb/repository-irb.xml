@@ -660,15 +660,16 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="actionDate" column="ACTION_DATE" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="actualActionDate" column="ACTUAL_ACTION_DATE" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
-		<reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="submissionIdFk"/>
 		</reference-descriptor>
-		<reference-descriptor name="protocolActionType" class-ref="org.kuali.kra.irb.actions.ProtocolActionType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocolActionType" class-ref="org.kuali.kra.irb.actions.ProtocolActionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolActionTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -715,7 +716,7 @@
 		<reference-descriptor name="committee" class-ref="org.kuali.kra.committee.bo.Committee" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="comitteeIdFk"/>
 		</reference-descriptor>
-		<reference-descriptor name="submissionStatus" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="submissionStatus" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="submissionStatusCode"/>
 		</reference-descriptor>
 		<collection-descriptor name="exemptStudiesCheckList" element-class-ref="org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">

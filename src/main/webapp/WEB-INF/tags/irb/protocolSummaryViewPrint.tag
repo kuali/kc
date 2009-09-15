@@ -9,7 +9,7 @@
 <c:set var="protocolResearchAreaAttributes" value="${DataDictionary.ProtocolResearchArea.attributes}" />
 <c:set var="researchAreaAttributes" value="${DataDictionary.ResearchArea.attributes}" />
 
-<kul:tab tabTitle="Summary & History" defaultOpen="true" tabErrorKey="">
+<kul:tab tabTitle="Summary & History" defaultOpen="false" tabErrorKey="">
 
 	<div class="tab-container" align="left">
 		
