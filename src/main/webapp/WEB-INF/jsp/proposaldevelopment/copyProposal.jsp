@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<link href="en/css/kuali.css" rel="stylesheet" type="text/css">
+<link href="kew/css/kuali.css" rel="stylesheet" type="text/css">
 
 <%--
 	String target = ""; 

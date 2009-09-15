@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 <%@ attribute name="highlightTab" required="false" %>
 <%@ attribute name="boClassName" required="false" %>
 <%@ attribute name="lookedUpBODisplayName" required="false" description="this value is the human readable name of the BO being looked up" %>
-<%@ attribute name="lookedUpCollectionName" required="true" description="the name of the collection being looked up (perhaps on a document collection), this value will be returned to the calling document" %>
+<%@ attribute name="lookedUpCollectionName" required="false" description="the name of the collection being looked up (perhaps on a document collection), this value will be returned to the calling document" %>
 <%@ attribute name="useCurrentTabIndexAsKey" required="false" %>
 
 <table class="datatable" cellpadding="0" cellspacing="0" align="center"

@@ -19,5 +19,6 @@
 <configuration>
     <properties fileName="ApplicationResources.properties" />
     <properties fileName="KIM-ApplicationResources.properties" />
+    <properties fileName="KR-ApplicationResources.properties" />
 </configuration>
 

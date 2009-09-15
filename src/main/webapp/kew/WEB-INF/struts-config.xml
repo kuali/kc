@@ -17,6 +17,18 @@
 	    <form-bean name="ActionListFilterFormNew" type="org.kuali.rice.kew.actionlist.web.ActionListFilterForm" />
 	    <form-bean name="DocumentOperationForm" type="org.kuali.rice.kew.documentoperation.web.DocumentOperationForm" />
         <form-bean name="DocumentConfigurationViewForm" type="org.kuali.rice.kew.rule.web.DocumentConfigurationViewForm" />
+
+        <!-- converted from en module -->
+        <form-bean name="PreferencesForm" type="org.kuali.rice.kew.preferences.web.PreferencesForm" />
+        <form-bean name="BackdoorForm" type="org.kuali.rice.kew.web.backdoor.BackdoorForm" />
+        <form-bean name="DocHandlerForm" type="org.kuali.rice.kew.routing.web.DocHandlerForm" />
+        <form-bean name="SuperUserForm" type="org.kuali.rice.kew.superuser.web.SuperUserForm"/>
+        <form-bean name="QuickLinksForm" type="org.kuali.rice.kew.quicklinks.web.QuickLinksForm"/>
+        <form-bean name="StatsForm" type="org.kuali.rice.kew.stats.web.StatsForm" />
+        <form-bean name="HelpForm" type="org.kuali.rice.kew.help.web.HelpForm" />
+        <form-bean name="IngesterForm" type="org.kuali.rice.kew.batch.web.IngesterForm" />
+        <form-bean name="FeedbackForm" type="org.kuali.rice.kew.feedback.web.FeedbackForm"/>
+        <form-bean name="NoteForm" type="org.kuali.rice.kew.notes.web.NoteForm" />
     </form-beans>
 
 	<global-exceptions>
@@ -31,10 +43,12 @@
         <forward name="cancel" path="/index.html" redirect="true" />
         <forward name="close" path="/index.html" redirect="true" />
         <forward name="portal" path="/index.html" redirect="true" />
-        <forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp"/>
+        <forward name="route_report" path="/../kr/WEB-INF/jsp/RoutingReportForward.jsp"/>
         <forward name="updateTextArea" path="/../kr/WEB-INF/jsp/TextArea.jsp"/>
         <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do" contextRelative="true"/>
        	<!-- End required KNS forwards -->
+       	<forward name="NotAuthorized" path="/WEB-INF/jsp/NotAuthorized.jsp" />
+       	<forward name="WorkflowError" path="/WEB-INF/jsp/Error.jsp" />
     </global-forwards>
 
 
@@ -49,6 +63,8 @@
         <action path="/updateTextArea" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase">
             <forward name="basic" path="/../kr/WEB-INF/jsp/TextArea.jsp"/>
         </action>
+       	<action path="/DocumentSearch" scope="request" validate="false" type="org.apache.struts.actions.ForwardAction"
+	  		parameter="/kr/lookup.do?businessObjectClassName=org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO"/> 
        	<!-- End required KNS mappings -->
 
       <action path="/ActionList" scope="request" validate="false" parameter="methodToCall"
@@ -122,55 +138,98 @@
         <forward name="finalStateError" path="/WEB-INF/jsp/rule/DocumentConfigurationView.jsp"/>
       </action>
 
-      <!-- Mappings to handling forwarding over to the "en" module for the screens that haven't been moved over yet -->
+      <!-- Converted from EN module -->
+      <action path="/Preferences" name="PreferencesForm" input="/WEB-INF/jsp/Preferences/Preferences.jsp" type="org.kuali.rice.kew.preferences.web.PreferencesAction"
+          scope="request" parameter="methodToCall" validate="false" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/Preferences/Preferences.jsp"/>
+        <forward name="viewActionList" path="/ActionList.do?methodToCall=start" redirect="true"/>
+        <forward name="requiredStateError" path="/WEB-INF/jsp/Preferences/Preferences.jsp"/>
+        <forward name="finalStateError" path="/WEB-INF/jsp/Preferences/Preferences.jsp"/>
+      </action>
 
-      <action path="/SuperUser" scope="request" validate="false"
-            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
-     		parameter="/en/SuperUser.do"/>
+      <action path="/Backdoor" name="BackdoorForm" input="/WEB-INF/jsp/backdoor/Backdoor.jsp" type="org.kuali.rice.kew.web.backdoor.BackdoorAction"
+          scope="request" parameter="methodToCall" validate="false" >
+        <forward name="basic" path="/WEB-INF/jsp/backdoor/Backdoor.jsp"/>
+        <forward name="viewPortal" path="/WEB-INF/jsp/backdoor/index.jsp"/>
+        <forward name="requiredStateError" path="/WEB-INF/jsp/backdoor/Backdoor.jsp"/>
+        <forward name="finalStateError" path="/WEB-INF/jsp/backdoor/Backdoor.jsp"/>
+      </action>
 
-      <action path="/Preferences" scope="request" validate="false"
-            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
-     		parameter="/en/Preferences.do"/>
+      <action path="/Portal" name="BackdoorForm" scope="request" parameter="methodToCall"
+      	input="/WEB-INF/jsp/backdoor/index.jsp"
+      	type="org.kuali.rice.kew.web.backdoor.BackdoorAction">
+      	<forward name="viewPortal" path="/WEB-INF/jsp/backdoor/index.jsp"/>
+      	<forward name="portal" path="/../portal.jsp" redirect="true" />
+      </action>
 
-      <action path="/Backdoor" scope="request" validate="false"
-            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
-     		parameter="/en/Backdoor.do"/>
+      <action path="/Administration" name="BackdoorForm" scope="request" parameter="methodToCall"
+        type="org.kuali.rice.kew.web.backdoor.BackdoorAction">
+        <forward name="administration" path="/WEB-INF/jsp/backdoor/Admin.jsp"/>
+      </action>
 
-      <action path="/Portal" scope="request" validate="false"
-            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
-     		parameter="/en/Portal.do"/>
+      <action path="/DocHandler" name="DocHandlerForm" scope="request" parameter="methodToCall"
+        type="org.kuali.rice.kew.routing.web.ClientAppDocHandlerRedirectAction" >
+        <forward name="requiredStateError" path="/WEB-INF/jsp/DocumentLocked.jsp"/>
+        <forward name="finalStateError" path="/WEB-INF/jsp/DocumentLocked.jsp"/>
+      </action>
 
-      <action path="/Administration" scope="request" validate="false"
-            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
-     		parameter="/en/Administration.do"/>
+      <action path="/SuperUser" type="org.kuali.rice.kew.superuser.web.SuperUserAction" input="/WEB-INF/jsp/superuser/SuperUser.jsp" name="SuperUserForm" scope="request" parameter="methodToCall">
+		 <forward name="basic" path="/WEB-INF/jsp/superuser/SuperUser.jsp" />
+		 <forward name="actionTaken" path="/WEB-INF/jsp/DocHandlerActionTaken.jsp" />
+        <forward name="requiredStateError" path="/WEB-INF/jsp/superuser/SuperUser.jsp"/>
+        <forward name="finalStateError" path="/WEB-INF/jsp/superuser/SuperUser.jsp"/>
+      </action>
 
-      <action path="/Stats" scope="request" validate="false"
-            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
-     		parameter="/en/Stats.do"/>
+      <action path="/QuickLinks" name="QuickLinksForm" scope="request" validate="false" type="org.kuali.rice.kew.quicklinks.web.QuickLinksAction" parameter="methodToCall">
+	      <forward name="basic" path="/WEB-INF/jsp/quicklinks/QuickLinks.jsp"/>
+	      <forward name="requiredStateError" path="/WEB-INF/jsp/quicklinks/QuickLinks.jsp"/>
+          <forward name="finalStateError" path="/WEB-INF/jsp/quicklinks/QuickLinks.jsp"/>
+      </action>
 
-      <action path="/DocHandler" scope="request" validate="false"
-            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
-     		parameter="/en/DocHandler.do"/>
+      <action path="/Stats" name="StatsForm" type="org.kuali.rice.kew.stats.web.StatsAction" input="/WEB-INF/jsp/stats/StatsReport.jsp"
+          scope="request" validate="false" parameter="methodToCall">
+          <forward name="basic" path="/WEB-INF/jsp/stats/StatsReport.jsp"/>
+          <forward name="requiredStateError" path="/WEB-INF/jsp/stats/StatsReport.jsp"/>
+          <forward name="finalStateError" path="/WEB-INF/jsp/stats/StatsReport.jsp"/>
+      </action>
 
-      <action path="/Feedback" scope="request" validate="false"
-            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
-     		parameter="/en/Feedback.do"/>
+      <action path="/Help" name="HelpForm" type="org.kuali.rice.kew.help.web.HelpAction" input="/WEB-INF/jsp/help/HelpEntry.jsp"
+      	scope="request" validate="false" parameter="methodToCall">
+      	<forward name="basic" path="/WEB-INF/jsp/help/HelpEntry.jsp"/>
+      	<forward name="summary" path="/WEB-INF/jsp/help/HelpSummary.jsp"/>
+      	<forward name="getSearch" path="/WEB-INF/jsp/help/HelpSearch.jsp"/>
+ 		<forward name="report" path="/WEB-INF/jsp/help/HelpReport.jsp"/>
+		<forward name="popHelp" path="/WEB-INF/jsp/help/HelpPop.jsp"/>
+		<forward name="requiredStateError" path="/WEB-INF/jsp/help/HelpReport.jsp"/>
+        <forward name="finalStateError" path="/WEB-INF/jsp/help/HelpReport.jsp"/>
+        <forward name="delete" path="/WEB-INF/jsp/help/HelpDelete.jsp"/>
+      </action>
 
-      <action path="/QuickLinks" scope="request" validate="false"
-            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
-     		parameter="/en/QuickLinks.do"/>
+      <action path="/Ingester" name="IngesterForm" scope="request" validate="false"
+      	type="org.kuali.rice.kew.batch.web.IngesterAction">
+      	<forward name="view" path="/WEB-INF/jsp/batch/ingester.jsp"/>
+	  </action>
 
-      <action path="/Note" scope="request" validate="false"
-            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
-     		parameter="/en/Note.do"/>
+	  <action path="/Feedback"
+          type="org.kuali.rice.kew.feedback.web.FeedbackAction"
+          name="FeedbackForm"
+          validate="false"
+          parameter="methodToCall"
+          scope="request">
+          <forward name="start" path="/WEB-INF/jsp/Feedback.jsp" />
+          <forward name="sent" path="/WEB-INF/jsp/FeedbackSent.jsp" />
+          <forward name="requiredStateError" path="/WEB-INF/jsp/Feedback.jsp"/>
+          <forward name="finalStateError" path="/WEB-INF/jsp/Feedback.jsp"/>
+      </action>
 
-      <action path="/Help" scope="request" validate="false"
-            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
-     		parameter="/en/Help.do"/>
+      <action path="/Note" name="NoteForm" type="org.kuali.rice.kew.notes.web.NoteAction" input="/WEB-INF/jsp/notes/AllNotesReport.jsp"
+          scope="request" validate="false" parameter="methodToCall">
+          <forward name="basic" path="/WEB-INF/jsp/notes/AllNotesReport.jsp" />
+          <forward name="requiredStateError" path="/WEB-INF/jsp/notes/AllNotesReport.jsp"/>
+          <forward name="finalStateError" path="/WEB-INF/jsp/notes/AllNotesReport.jsp"/>
+      </action>
 
-      <action path="/Ingester" scope="request" validate="false"
-            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
-     		parameter="/en/Ingester.do"/>
+      <!-- End convert from EN module -->
 
     </action-mappings>
 

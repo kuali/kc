@@ -68,20 +68,20 @@
     <!-- Filter mappings -->
 
     <!-- Notification System filter mappings -->
-    <!-- Map CAS to all Notification System Spring MVC paths -->    
+    <!-- Map CAS to all Notification System Spring MVC paths -->
     <filter-mapping>
         <filter-name>CAS Authentication Filter</filter-name>
         <url-pattern>*.form</url-pattern>
     </filter-mapping>
-    <!-- Map CAS to all KEW Struts MVC paths -->    
+    <!-- Map CAS to all KEW Struts MVC paths -->
     <filter-mapping>
         <filter-name>CAS Authentication Filter</filter-name>
         <url-pattern>*.do</url-pattern>
     </filter-mapping>
-    <!-- Map CAS to KEW EDocLite path -->    
+    <!-- Map CAS to KEW EDocLite path -->
     <filter-mapping>
         <filter-name>CAS Authentication Filter</filter-name>
-        <url-pattern>/en/EDocLite</url-pattern>
+        <url-pattern>/kew/EDocLite</url-pattern>
     </filter-mapping>
     <!-- TODO: what about those other KEW paths? export, attachement? -->
     <!-- Map CAS to all Notification System Spring MVC paths -->
@@ -97,7 +97,7 @@
     <!-- Map CAS to KEW EDocLite path -->
     <filter-mapping>
         <filter-name>CAS Validation Filter</filter-name>
-        <url-pattern>/en/EDocLite</url-pattern>
+        <url-pattern>/kew/EDocLite</url-pattern>
     </filter-mapping>
     <!-- Map a CAS request wrapper to Notification System Spring MVC paths -->
     <filter-mapping>
@@ -112,7 +112,7 @@
     <!-- Map a CAS request wrapper to KEW EDocLite path -->
     <filter-mapping>
         <filter-name>CAS HttpServletRequestWrapperFilter</filter-name>
-        <url-pattern>/en/EDocLite</url-pattern>
+        <url-pattern>/kew/EDocLite</url-pattern>
     </filter-mapping>
 
     <!-- KEW filter mappings -->
@@ -229,12 +229,12 @@
     <!-- Embedded KEW attachment servlet -->
     <servlet-mapping>
         <servlet-name>attachment</servlet-name>
-        <url-pattern>/en/attachment/*</url-pattern>
+        <url-pattern>/kew/attachment/*</url-pattern>
     </servlet-mapping>
     <!-- Embedded KEW EDocLite servlet -->
     <servlet-mapping>
         <servlet-name>edoclite</servlet-name>
-        <url-pattern>/en/EDocLite</url-pattern>
+        <url-pattern>/kew/EDocLite</url-pattern>
     </servlet-mapping>
     <!-- Embedded KEW Struts MVC UI -->
     <servlet-mapping>

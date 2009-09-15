@@ -1,26 +1,49 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
 <struts-config>
-	<!-- ========== form bean definitions ================================== -->
-	<form-beans>
+    <form-beans >
+		<!-- Begin required KNS forms -->
+		<form-bean name="KualiForm"
+			type="org.kuali.rice.kns.web.struts.form.KualiForm" />
+		<!-- End required KNS forms -->
 		<form-bean name="MessageQueueForm" type="org.kuali.rice.ksb.messaging.web.MessageQueueForm" />
 		<form-bean name="ServiceRegistryForm" type="org.kuali.rice.ksb.messaging.web.ServiceRegistryForm" />
 		<form-bean name="ThreadPoolForm" type="org.kuali.rice.ksb.messaging.web.ThreadPoolForm" />
 		<form-bean name="QuartzForm" type="org.kuali.rice.ksb.messaging.web.QuartzQueueForm" />
 		<form-bean name="JavaSecurityManagementForm" type="org.kuali.rice.ksb.security.admin.web.JavaSecurityManagementForm" />
-	</form-beans>
+    </form-beans>
 
-    <global-exceptions>
-		  <exception handler="org.kuali.rice.kew.web.StrutsExceptionHandler" key="error.global.message"
-                 path="/WEB-INF/jsp/Error.jsp" scope="request" type="java.lang.Exception"/>
-    </global-exceptions>
+	<global-exceptions>
+		<!-- Begin required KNS exceptions -->
+		<exception type="java.lang.Throwable"
+			handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
+			key="meaningless" />
+		<!-- End required KNS exceptions -->
+	</global-exceptions>
 
-	<global-forwards type="org.apache.struts.action.ActionForward">
-		<forward name="NotAuthorized" path="/WEB-INF/jsp/NotAuthorized.jsp" />
+	<global-forwards>
+		<!-- Begin required KNS forwards -->
+		<forward name="save" path="/index.html" redirect="true" />
+		<forward name="cancel" path="/index.html" redirect="true" />
+		<forward name="close" path="/index.html" redirect="true" />
+		<forward name="portal" path="/index.html" redirect="true" />
+		<forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp" />
+        <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do" contextRelative="true"/>
+		<!-- End required KNS forwards -->
 	</global-forwards>
 
 	<action-mappings>
+		<!--  Required KNS Action Mappings -->
+		<action path="/portal" name="KualiForm"
+			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+			<forward name="basic" path="/portal.jsp" />
+		</action>
 
+		<action path="/index" name="KualiForm"
+			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+			<forward name="basic" path="/portal.jsp" />
+		</action>
+		<!--  End Required KNS Action Mappings -->
 		<action path="/MessageQueue" name="MessageQueueForm" scope="request" input="/WEB-INF/jsp/messagequeue/MessageEntry.jsp" validate="false"
 			type="org.kuali.rice.ksb.messaging.web.MessageQueueAction" parameter="methodToCall">
 			<forward name="report" path="/WEB-INF/jsp/messagequeue/MessageQueue.jsp" />
@@ -53,6 +76,6 @@
 
 	<controller processorClass="org.kuali.rice.ksb.messaging.web.KSBStrutsRequestProcessor" />
 
-	<message-resources parameter="org.kuali.rice.ksb.messaging.web.ApplicationResources" />
+	<message-resources parameter="org.kuali.rice.ksb.messaging.ApplicationResources" />
 
 </struts-config>

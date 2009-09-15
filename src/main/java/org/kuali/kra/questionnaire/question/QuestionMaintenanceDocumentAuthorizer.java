@@ -41,6 +41,7 @@ public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAu
                         KEWConstants.ROUTE_HEADER_INITIATED_CD) || document.getDocumentHeader().getWorkflowDocument()
                         .getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_SAVED_CD))) {
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_EDIT);
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW);
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_ROUTE);
             documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
             if (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(

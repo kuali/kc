@@ -2,8 +2,9 @@
 
 <link href="<c:out value="../kr/css/${ActionListFormNew.cssFile}"/>"
 	rel="stylesheet" type="text/css">
-<script language="JavaScript" src="../en/scripts/en-common.js"></script>
-<script language="JavaScript" src="../en/scripts/actionlist-common.js"></script>
+<script language="JavaScript" src="scripts/en-common.js"></script>
+<script language="JavaScript" src="scripts/actionlist-common.js"></script>
+
 
 <%-- Setup column labels based on ApplicationsResources --%>
 <bean:define id="documentIdLabel">
@@ -17,6 +18,9 @@
 </bean:define>
 <bean:define id="routeStatusLabel">
 	<bean-el:message key="actionList.ActionList.results.label.routeStatus" />
+</bean:define>
+<bean:define id="appDocStatusLabel">
+	<bean-el:message key="actionList.ActionList.results.label.appDocStatus" />
 </bean:define>
 <bean:define id="actionRequestedLabel">
 	<bean-el:message
@@ -62,29 +66,79 @@
 	headerMenuBar="${ActionListFormNew.menuBar}"
 	transactionalDocument="false" showDocumentInfo="false"
 	htmlFormAction="ActionList" docTitle="Action List">
+  <style type="text/css">
+  <!--
+    #row tr.odd { background-color: transparent; }
+    #row tr.even { background-color: transparent; }
+  -->
+  </style>
 	<%-- Since we are using the external paging and sorting features of the display tag now, if a new sortable column is added, remember to add it to the
        ActionItemComparator in the ActionListAction as well --%>
 	<div class="headerarea-small" id="headerarea-small">
-	<h1><c:out value="Action List" />
-	</h1>
-	<div align="right">
-	  <br/>
+	<div style="float:left"><h1><c:out value="Action List" /></h1></div><br />
+    <div style="clear:both">
+	<div style="float:right">
+	  <div style="float:left; width:75px">
 	  <a
-         href='<c:out value="../en/Preferences.do?returnMapping=viewActionList" />'  title="preferences"><img
+         href='<c:out value="Preferences.do?returnMapping=viewActionList" />'  title="preferences"><img
          src="../kr/images/tinybutton-preferences.gif" class="tinybutton" alt="preferences" title="preferences"
          border="0" /></a>
+      </div>
+      <div style="float:left; width:52px">
 	  <a
          href='<c:out value="ActionList.do?methodToCall=start" />'  title="refresh"><img
          src="../kr/images/tinybutton-refresh.gif" class="tinybutton" alt="refresh" title="refresh"
          border="0" /></a>
+       </div>
+       <div style="float:left; width:39px">
 	   <a
          href='<c:out value="ActionListFilter.do?methodToCall=start" />'  title="filter"><img
          src="../kr/images/tinybutton-filter.gif" class="tinybutton" alt="filter" title="filter"
          border="0" /></a>
+        </div>
+
+        <!-- Delegates selection lists -->
+
+		<c:if test="${! empty ActionListFormNew.delegators}">
+			<div style="float:left; width:226px; position: relative; top: -.5em;">
+	            <html-el:select property="delegationId" onchange="document.forms[0].methodToCall.value='start';document.forms[0].submit();">
+	              <html-el:option value="${Constants.DELEGATION_DEFAULT}"><c:out value="${Constants.DELEGATION_DEFAULT}" /></html-el:option>
+	              <html-el:option value="${Constants.ALL_CODE}"><c:out value="${Constants.ALL_CODE}" /></html-el:option>
+				  <c:forEach var="delegator" items="${ActionListFormNew.delegators}">
+					<html-el:option value="${delegator.recipientId}"><c:out value="${delegator.displayName}" /></html-el:option>
+				  </c:forEach>
+	            </html-el:select>
+    		</div>
+		</c:if>
+		<c:if test="${! empty ActionListFormNew.primaryDelegates}">
+			<div style="float:left; width:193px; position: relative; top: -.5em;">
+	            <html-el:select property="primaryDelegateId" onchange="document.forms[0].methodToCall.value='start';document.forms[0].submit();">
+	              <html-el:option value="${Constants.PRIMARY_DELEGATION_DEFAULT}"><c:out value="${Constants.PRIMARY_DELEGATION_DEFAULT}" /></html-el:option>
+	              <html-el:option value="${Constants.ALL_CODE}"><c:out value="${Constants.ALL_CODE}" /></html-el:option>
+				  <c:forEach var="delegatee" items="${ActionListFormNew.primaryDelegates}">
+					<html-el:option value="${delegatee.recipientId}"><c:out value="${delegatee.displayName}" /></html-el:option>
+				  </c:forEach>
+	            </html-el:select>
+            </div>
+		</c:if>
+
+		<c:if test="${kewUserSession.actionListFilter != null && kewUserSession.actionListFilter.filterOn}">
+		<div style="float:left; width:70px">
+	   <a
+         href='<c:out value="ActionList.do?methodToCall=clearFilter" />'  title="clearFilter"><img
+         src="../kr/images/tinybutton-clearfilter.gif" class="tinybutton" alt="clearFilter" title="clearFilter"
+         border="0" /></a>
+        </div>
+		</c:if>
 
          <c:if test="${helpDeskActionList != null}">
-			<html-el:text property="helpDeskActionListUserName" size="12" />&nbsp;
-            <html-el:image src="../kr/images/tinybutton-hlpdesk.gif" property="methodToCall.helpDeskActionListLogin" border="0"/>
+         	<!--<p> Testing is this shows up on the screen </p> -->
+            <div style="float:left">
+			<html-el:text property="helpDeskActionListUserName" size="12" style="position: relative; top: -.35em;" />&nbsp;
+            </div>
+            <div style="float:left">
+            <html-el:image src="../kr/images/tinybutton-hlpdesk.gif" property="methodToCall.helpDeskActionListLogin"/>
+            </div>
 			<c:if test="${kewUserSession.helpDeskActionListPerson != null}">
 				<a href="
 					<c:url value="ActionList.do">
@@ -92,6 +146,8 @@
 					</c:url>">Clear <c:out value="${kewUserSession.helpDeskActionListPerson.name}"/>'s List</a>
 			</c:if>&nbsp;&nbsp;
 		</c:if>
+
+    </div>
     </div>
 	</div>
 
@@ -102,7 +158,7 @@
               <c:set var="defaultActions" value="${ActionListFormNew.defaultActions}" scope="request" />
               <html-el:select styleId='defaultAction' property="defaultActionToTake">
                     <html-el:options collection="defaultActions" labelProperty="value" property="key" filter="false" />
-              </html-el:select>&nbsp;<html-el:img src="../en/images/tinybutton-applydflt.gif" align="absmiddle" onclick="setActions();" /><br>
+              </html-el:select>&nbsp;<html-el:img src="images/tinybutton-applydflt.gif" align="absmiddle" onclick="setActions();" /><br>
          </c:if>
     </div>
 	<c:if
@@ -115,14 +171,15 @@
 	<html-el:form action="ActionList">
 		<html-el:hidden property="methodToCall" value="" />
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<td width="20" height="30">&nbsp;</td>
-				<td><jsp:include page="../WorkflowMessages.jsp" flush="true" /></td>
-				<td width="20">&nbsp;</td>
-			</tr>
-			<tr>
+					<tr>
 				<td></td>
 				<td>
+                  <kul:errors errorTitle="Error loading action list : "/> <br/>
+				  <kul:messages/>
+                </td>
+			</tr>
+
+			<tr>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<td>
@@ -157,9 +214,16 @@
                         </div>
                         </td>
 					</tr>
-				</table>
-
-                </td>
+					</table>
+			<c:if
+				test="${kewUserSession.actionListFilter.filterLegend != null && kewUserSession.actionListFilter.filterLegend != ''}">
+				<br><tr>
+				 	<td></td>
+					<td><strong><c:out
+					value="${kewUserSession.actionListFilter.filterLegend}" /></strong></td>
+					<td></td>
+			 </c:if>
+                <td></td>
                 <td></td>
 			</tr>
             <tr>
@@ -181,13 +245,13 @@
 
                              <br>
                              <a id='A<c:out value="${result.actionItemIndex}"/>'
-                              href="<c:url value="../en/${Constants.DOC_HANDLER_REDIRECT_PAGE}" >
+                              href="<c:url value="${Constants.DOC_HANDLER_REDIRECT_PAGE}" >
                              <c:param name="docId" value="${result.routeHeaderId}"/>
                              <c:param name="command" value="displayActionListInlineView" />
                              </c:url>"
                              target='iframeAL_<c:out value="${result.actionItemIndex}"/>'
                              onclick="rend(this, false)"><img
-                             src="../en/images/tinybutton-show.gif" alt="show" width=45 height=15
+                             src="images/tinybutton-show.gif" alt="show" width=45 height=15
                              border=0 id='F<c:out value="${result.actionItemIndex}"/>'></a>
                              <br>
 
@@ -198,11 +262,11 @@
 						<c:choose>
 							<c:when test="${kewUserSession.helpDeskActionListPerson == null}">
 								<a
-									href="<c:url value="../en/${Constants.DOC_HANDLER_REDIRECT_PAGE}" >
+									href="<c:url value="${Constants.DOC_HANDLER_REDIRECT_PAGE}" >
                                      <c:param name="docId" value="${result.routeHeaderId}"/>
                                          <c:param name="command" value="displayActionListView" />
                                              </c:url>"
-									<c:if test="${ActionListForm.documentPopup == Constants.ACTION_LIST_DOCUMENT_POPUP_VALUE}"> target="_blank" </c:if>
+									<c:if test="${ActionListFormNew.documentPopup}"> target="_blank" </c:if>
 									class="showvisit"> <c:out value="${result.routeHeaderId}" />
 								</a>
 							</c:when>
@@ -212,7 +276,11 @@
 						</c:choose>
 					</display-el:column>
 
+
+
+
 					<c:if test="${preferences.showDocType == Constants.PREFERENCES_YES_VAL}">
+
 						<display-el:column property="docLabel" sortable="true"
 							title="${typeLabel}" />
 					</c:if>
@@ -226,13 +294,17 @@
 						<display-el:column property="routeHeader.docRouteStatusLabel"
 							sortable="true" title="${routeStatusLabel}" class="infocell" />
 					</c:if>
+					<c:if test="${preferences.showAppDocStatus == Constants.PREFERENCES_YES_VAL}">
+						<display-el:column property="routeHeader.appDocStatus"
+							sortable="true" title="${appDocStatusLabel}" class="infocell" />
+					</c:if>					
 					<c:if test="${preferences.showActionRequested == Constants.PREFERENCES_YES_VAL}">
 						<display-el:column property="actionRequestLabel" sortable="true"
 							title="${actionRequestedLabel}" class="infocell" />
 					</c:if>
 					<c:if test="${preferences.showInitiator == Constants.PREFERENCES_YES_VAL}">
 						<display-el:column sortable="true" title="${initiatorLabel}"
-							sortProperty="routeHeader.initiatorName" class="display-column">
+							sortProperty="routeHeader.initiatorName" class="infocell">
                             <kul:inquiry boClassName="org.kuali.rice.kim.bo.impl.PersonImpl"
                                 keyValues="principalId=${result.routeHeader.actionListInitiatorPrincipal.principalId}"
                                 render="true">
@@ -253,7 +325,7 @@
                                     </kul:inquiry>
 								</c:when>
 								<c:when test="${result.delegatorGroup != null}">
-                                    <kul:inquiry boClassName="org.kuali.rice.kim.bo.group.impl.KimGroupImpl" keyValues="groupId=${result.delegatorGroup.groupId}" render="true">
+                                    <kul:inquiry boClassName="org.kuali.rice.kim.bo.impl.GroupImpl" keyValues="groupId=${result.delegatorGroup.groupId}" render="true">
                                         <c:out value="${result.delegatorGroup.groupName}" />
                                     </kul:inquiry>
 								</c:when>
@@ -287,7 +359,7 @@
 							class="infocell">
 							<c:choose>
 								<c:when test="${result.groupId != null && result.groupId != 0}">
-                                    <kul:inquiry boClassName="org.kuali.rice.kim.bo.group.impl.KimGroupImpl" keyValues="groupId=${result.group.groupId}" render="true">
+                                    <kul:inquiry boClassName="org.kuali.rice.kim.bo.impl.GroupImpl" keyValues="groupId=${result.group.groupId}" render="true">
                                         <c:out value="${result.group.groupName}" />
                                     </kul:inquiry>
 								</c:when>
@@ -339,10 +411,10 @@
                     </display-e1:column>
 					<display-el:column title="${routeLogLabel}" class="infocell">
 						<div align="center"><a
-							href="<c:url value="../en/RouteLog.do"><c:param name="routeHeaderId" value="${result.routeHeaderId}"/></c:url>"
-							<c:if test="${ActionListForm.routeLogPopup == Constants.ACTION_LIST_ROUTE_LOG_POPUP_VALUE}">target="_blank"</c:if>>
+							href="<c:url value="RouteLog.do"><c:param name="routeHeaderId" value="${result.routeHeaderId}"/></c:url>"
+							<c:if test="${ActionListFormNew.routeLogPopup}">target="_blank"</c:if>>
 						<img alt="Route Log for Document"
-							src="../en/images/my_route_log.gif" /> </a></div>
+							src="images/my_route_log.gif" /> </a></div>
 					</display-el:column>
 				</display:table></div>
                 </div>
@@ -363,7 +435,7 @@
 					<td height="0" class="tinybutton">
 					<div align="center"><a id="takeMassActions"
 						href="javascript: setMethodToCallAndSubmit('takeMassActions')">
-					<img src="../en/images/buttonsmall_takeactions.gif" /> </a></div>
+					<img src="images/buttonsmall_takeactions.gif" /> </a></div>
 					</td>
 					<td></td>
 				</tr>

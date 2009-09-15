@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation.
+ * Copyright 2006-2007 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,17 +66,25 @@ function hideTab(doc, tabKey) {
 
 var formHasAlreadyBeenSubmitted = false;
 var excludeSubmitRestriction = false;
+
 function hasFormAlreadyBeenSubmitted() {
+//	alert( "submitting form" );
+	try {
+		// save the current scroll position
+		saveScrollPosition();
+	} catch ( ex ) {
+		// do nothing - don't want to stop submit
+	}
 
 	if ( document.getElementById( "formComplete" ) ) { 
-    if (formHasAlreadyBeenSubmitted && !excludeSubmitRestriction) {
-       alert("Page already being processed by the server.");
-       return false;
-    } else {
-       formHasAlreadyBeenSubmitted = true;
-       return true;
-    }
-    excludeSubmitRestriction = false;
+	    if (formHasAlreadyBeenSubmitted && !excludeSubmitRestriction) {
+	       alert("Page already being processed by the server.");
+	       return false;
+	    } else {
+	       formHasAlreadyBeenSubmitted = true;
+	       return true;
+	    }
+	    excludeSubmitRestriction = false;
     } else {
 	       alert("Page has not finished loading.");
 	       return false;
@@ -235,18 +243,17 @@ function resizeTheRouteLogFrame() {
 function textAreaPop(textAreaName,
                      htmlFormAction,
                      textAreaLabel,
-                     docFormKey,
-                     sessionDocument) {
+                     docFormKey) {
   var documentWebScope
-  if (sessionDocument == "true") {
-      documentWebScope="session"
-  }
+
+  documentWebScope="session"
+
   url=window.location.href
   pathname=window.location.pathname
   idx1=url.indexOf(pathname);
   idx2=url.indexOf("/",idx1+1);
   baseUrl=url.substr(0,idx2)
-  window.open(baseUrl+"/updateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope);
+  window.open(baseUrl+"/updateTextArea.do?textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope);
 }
 
 var textAreaFieldName;
@@ -260,6 +267,15 @@ function setTextArea() {
   document.getElementsByName(textAreaFieldName)[0].value = text;
   
 }
+
+function textLimit(taElement, maxlen) 
+{
+	var fieldValue = taElement.value;
+    if (fieldValue.length > maxlen) 
+    { 
+	    taElement.value = taElement.value.substr(0, maxlen); 
+    } 
+} 
 
 function postValueToParentWindow() {
   opener.document.getElementsByName(textAreaFieldName)[0].value = document.getElementsByName(textAreaFieldName)[0].value;

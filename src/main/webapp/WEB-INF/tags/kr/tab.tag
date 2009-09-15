@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2007 The Kuali Foundation.
 
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -19,8 +19,7 @@
 <%@ attribute name="spanForLongTabTitle" required="false" %>
 <%@ attribute name="tabDescription" required="false" %>
 <%@ attribute name="defaultOpen" required="true" %>
-<%@ attribute name="tabErrorKey" required="false" description="The error path for errors whose message should be displayed in this tab.  Errors will cause the tab to be opened. Path can be wildcarded with and asterisk.  Multiple paths must be separated with a comma and no white spaces." %>
-<%@ attribute name="innerTabErrorKey" required="false" description="The error path for errors whose message should not be displayed in this tab.  Errors will cause the tab to be opened. Path can be wildcarded with and asterisk.  Multiple paths must be separated with a comma and no white spaces." %>
+<%@ attribute name="tabErrorKey" required="false" %>
 <%@ attribute name="auditCluster" required="false" %>
 <%@ attribute name="tabAuditKey" required="false" %>
 <%@ attribute name="tabItemCount" required="false" %>
@@ -48,10 +47,10 @@
 
 <c:choose>
     <c:when test="${(useCurrentTabIndexAsKey)}">
-        <c:set var="tabKey" value="${currentTabIndex}"  scope="request"/>
+        <c:set var="tabKey" value="${currentTabIndex}"/>
     </c:when>
     <c:otherwise>
-        <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"  scope="request"/>
+        <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
     </c:otherwise>
 </c:choose>
 
@@ -69,13 +68,9 @@
 </c:choose>
 
 <!-- if the section has errors, override and set isOpen to true -->
-<c:if test="${!empty tabErrorKey or !empty tabAuditKey}">
-  <kul:checkErrors keyMatch="${tabErrorKey}" auditMatch="${tabAuditKey}" />
-  <c:set var="isOpen" value="${hasErrors ? true : isOpen}" />
-</c:if>
-<c:if test="${isOpen != 'true' and !empty innerTabErrorKey}">
-  <kul:checkErrors keyMatch="${innerTabErrorKey}" />
-  <c:set var="isOpen" value="${hasErrors ? true : isOpen}" />
+<c:if test="${!empty tabErrorKey or not empty tabAuditKey}">
+  <kul:checkErrors keyMatch="${tabErrorKey}" auditMatch="${tabAuditKey}"/>
+  <c:set var="isOpen" value="${hasErrors ? true : isOpen}"/>
 </c:if>
 
 <c:if test="${hidden}">
@@ -152,15 +147,15 @@
 
             <c:choose>
     		<c:when test="${empty midTabClassReplacement}">
-			<!-- KC MODIFICATION -->
+			<%-- KC MODIFICATION --%>
                <c:if test="${isOpen == 'true' || isOpen == 'TRUE' || alwaysOpen == 'TRUE'}">
-			<!-- END KC MODIFICATION -->
+			<%-- END KC MODIFICATION --%>
 			<%-- ORIGINAL
 				<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 			--%>
                  <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
                </c:if>
-               <c:if test="${isOpen != 'true' && isOpen != 'TRUE' && alwaysOpen != 'TRUE'}">
+               <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
                  <html:image  property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
                </c:if>
                </c:when>
@@ -168,7 +163,7 @@
                 	${midTabClassReplacement}
                 </c:otherwise>
                 </c:choose>
-            
+
             </td>
             <td class="${rightTabClass}"><img src="${rightTabImage}" alt="" width="12" height="29" align="middle" /></td>
           </tr>

@@ -14,16 +14,13 @@
  limitations under the License.
 --%>
 
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp" %>
+<%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp" %>
 
 <%-- 
 
 This is where application specific (kra) tag includes would go.
 
 --%>
-
-<%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal"%>
-<%@ taglib tagdir="/WEB-INF/tags/portal/channel" prefix="channel"%>
 <%@ taglib tagdir="/WEB-INF/tags/proposaldevelopment" prefix="kra-pd"%>
 <%@ taglib tagdir="/WEB-INF/tags/budget" prefix="kra-b"%>
 <%@ taglib tagdir="/WEB-INF/tags/award" prefix="kra-a"%>

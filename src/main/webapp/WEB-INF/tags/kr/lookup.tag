@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@
 <%@ attribute name="readOnlyFields" required="false" %>
 <%@ attribute name="referencesToRefresh" required="false" %>
 <%@ attribute name="autoSearch" required="false" %>
+<%@ attribute name="searchIconOverride" required="false" %>
 
 <c:choose>
   <c:when test="${!empty tabindexOverride}">
@@ -36,7 +37,16 @@
     <c:set var="tabindex" value="${KualiForm.nextArbitrarilyHighIndex}"/>
   </c:otherwise>
 </c:choose>
+<c:choose>
+  <c:when test="${!empty searchIconOverride}">
+    <c:set var="lookupicon" value="${searchIconOverride}"/>
+  </c:when>
+  <c:otherwise>
+    <c:set var="lookupicon" value="${ConfigProperties.kr.externalizable.images.url}searchicon.gif"/>
+  </c:otherwise>
+</c:choose>
+
 <c:set var="epMethodToCallAttribute" value="methodToCall.performLookup.(!!${boClassName}!!).(((${fieldConversions}))).((#${lookupParameters}#)).((<${hideReturnLink}>)).(([${extraButtonSource}])).((*${extraButtonParams}*)).((^${suppressActions}^)).((&${readOnlyFields}&)).((/${referencesToRefresh}/)).((~${autoSearch}~)).anchor${anchor}"/>
 ${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)} 
 <input type="image" tabindex="${tabindex}" name="${epMethodToCallAttribute}"
-   src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search ${fieldLabel}" title="Search ${fieldLabel}" />
+   src="${lookupicon}" border="0" class="tinybutton" valign="middle" alt="Search ${fieldLabel}" title="Search ${fieldLabel}" />

@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2006 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 <%@ page
 	import="org.kuali.rice.kns.web.struts.action.KualiAction,org.kuali.rice.core.util.RiceConstants,org.kuali.rice.kns.util.KNSConstants,java.util.Map"%>
 <%@ include file="tldHeader.jsp"%>
-<html>
+<html:html>
 
 <%
 String textAreaFieldLabel = request.getParameter(KualiAction.TEXT_AREA_FIELD_LABEL);
@@ -25,8 +25,11 @@ if (textAreaFieldLabel == null) {
 }
 %>
 
-<link href="kr/css/kuali.css" rel="stylesheet" type="text/css" />
-<script language="javascript" src="/kr-dev/kr/scripts/core.js"></script>
+<head>
+<link href="${pageContext.request.contextPath}/kr/css/kuali.css" rel="stylesheet" type="text/css" />
+<%--<script language="javascript" src="/kuali-dev/kr/scripts/core.js"></script>--%>
+<script language="javascript" src="${pageContext.request.contextPath}/kr/scripts/core.js"></script>
+</head>
 <body onload="setTextArea()">
 <div class="headerarea" id="headerarea-small">
 <h1><%=textAreaFieldLabel%></h1>
@@ -86,6 +89,7 @@ if (textAreaFieldLabel == null) {
 <html:form styleId="kualiForm" method="post"
 	action="/${htmlFormAction}.do" enctype=""
 	onsubmit="return hasFormAlreadyBeenSubmitted();">
+
 	<table>
 		<tr>
 			<td>
@@ -99,12 +103,11 @@ if (textAreaFieldLabel == null) {
 		<tr>
 			<td>
 			  <div id="globalbuttons" class="globalbuttons">
-			    <input
-				type="image"
-				name="methodToCall.postTextAreaToParent.anchor${textAreaFieldAnchor}"
-				onclick='javascript:postValueToParentWindow();return false'
-				src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_continue.gif"
-				class="globalbuttons" title="return" alt="return">
+				<html:image
+					property="methodToCall.postTextAreaToParent.anchor${textAreaFieldAnchor}"
+					onclick="javascript:postValueToParentWindow();return false"
+					src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_continue.gif"
+					styleClass="globalbuttons" title="return" alt="return" />
 			  </div>
 			</td>
 		</tr>
@@ -113,6 +116,7 @@ if (textAreaFieldLabel == null) {
 	<html:hidden property="documentWebScope" value="${documentWebScope}"/>
 	<html:hidden property="formKey" value="${formKey}"/>
 	<html:hidden property="docFormKey" value="${docFormKey}"/>
+	<html:hidden property="refreshCaller" value="TextAreaRefresh"/>
 
     <c:if test="${not empty parameters}">
       <c:forEach items="${parameters}" var="mapEntry" >
@@ -121,7 +125,8 @@ if (textAreaFieldLabel == null) {
         </c:if>
       </c:forEach>
 	</c:if>
+
 </html:form>
 </body>
 
-</html>
+</html:html>

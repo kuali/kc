@@ -1,63 +1,24 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 <c:set var="KualiForm" value="${ActionListFilterFormNew}" scope="request"/>
-<html>
-<head>
-<script language="javascript" src="../en/scripts/en-common.js"></script>
-<script language="javascript" src="../en/scripts/cal2.js">
-    /*
-    Xin's Popup calendar script-  Xin Yang (http://www.yxscripts.com/) Script
-    featured on/available at http://www.dynamicdrive.com/
-    This notice must stay intact for use */
-</script>
-<title>Action List Filter</title>
-<link href="<c:out value="../en/css/kuali.css"/>"
-    rel="stylesheet" type="text/css">
+<kul:page headerTitle="Action List Filter" lookup="false"
+  headerMenuBar="" transactionalDocument="false" showDocumentInfo="false"
+  htmlFormAction="ActionListFilter" docTitle="Action List Filter">
 
-
-<script language="JavaScript" src="../en/scripts/actionlist-common.js"></script>
-<script language="JavaScript" src="../en/scripts/cal_conf2.js"></script>
-<script>
-function setMethodToCallAndSubmit(methodToCallValue) {
-            alert('Method to call value: ' + methodToCallValue);
-            document.forms[0].elements['methodToCall'].value = methodToCallValue;
-            document.forms[0].submit();
-}
-</script>
-</head>
-<body>
-<html-el:form action="ActionListFilter">
-<div class="headerarea-small" id="headerarea-small">
-<table width="100%" >
-  <tr>
-    <td><h1>Action List Filter</h1></td>
-    <td width="60%"><html-el:link action="../kew/ActionList.do?methodToCall=start">Return to Action List</html-el:link></td>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="t3" summary="">
+  <tbody>
+    <tr>
+      <td><img src="images/pixel_clear.gif" alt="" width="12" height="12" class="tl3"></td>
+      <td align="right"><img src="images/pixel_clear.gif" alt="" width="12" height="12" class="tr3"></td>
     </tr>
+  </tbody>
 </table>
-</div>
-<br>
-<jsp:include page="../../en/WorkflowMessages.jsp" flush="true" />
-
-<br/>
-<br/>
-<table width="100%" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="column-left"><img height="20" width="20" alt="" src="../en/images/pixel_clear.gif"/></td>
-    <td><table width="100%" border="0" cellpadding="0" cellspacing="0" class="t3" summary="">
-        <tbody>
-          <tr>
-            <td><img src="../en/images/pixel_clear.gif" alt="" width="12" height="12" class="tl3"></td>
-            <td align="right"><img src="../en/images/pixel_clear.gif" alt="" width="12" height="12" class="tr3"></td>
-          </tr>
-        </tbody>
-      </table>
-
 <html-el:hidden property="lookupableImplServiceName" />
 <html-el:hidden property="lookupType" />
 <html-el:hidden property="docTypeFullName" />
 <%--<html-el:hidden property="methodToCall" />--%>
 <div id="workarea" >
 <div class="tab-container" align="center">
-<table class="datatable-80" style="align:center" cellspacing="0" align="center">
+  <table class="datatable-80" style="align:center" cellspacing="0" align="center">
     <tr>
       <td class="subhead" colspan="2"><bean-el:message key="actionList.ActionListFilter.filter.label.parametersTitle"/></td>
     </tr>
@@ -118,7 +79,7 @@ function setMethodToCallAndSubmit(methodToCallValue) {
 			&nbsp;<bean-el:message key="actionList.ActionListFilter.filter.label.exclude"/><html-el:checkbox property="filter.excludeActionRequestCd"/></td>
 	</tr>
 	<tr>
-		<th><div align="right"><span class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.actionRequestWorkgroup"/>: <bean-el:message key="general.help.actionRequestWorkgroup"/></span></div></th>
+		<th><div align="right"><span class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.actionRequestGroup"/>: <bean-el:message key="general.help.actionRequestWorkgroup"/></span></div></th>
 		<td class="datacell">
 		    <html-el:select name="ActionListFilterFormNew" property="filter.groupId">
               <html-el:optionsCollection property="userWorkgroups" label="value" value="key" filter="false"/>
@@ -127,7 +88,7 @@ function setMethodToCallAndSubmit(methodToCallValue) {
 	<tr>
 		<th><div align="right"><span class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.documentType"/>: <bean-el:message key="general.help.documentType"/></span></div></th>
 		<td class="datacell"><span id="docTypeElementId"><c:out value="${ActionListFilterFormNew.docTypeFullName}" /></span>
-		    <kul:lookup boClassName="org.kuali.rice.kew.doctype.bo.DocumentType" fieldConversions="label:docTypeFullName"/>
+		    <kul:lookup boClassName="org.kuali.rice.kew.doctype.bo.DocumentType" fieldConversions="name:docTypeFullName"/>
 			&nbsp;<bean-el:message key="actionList.ActionListFilter.filter.label.exclude"/><html-el:checkbox property="filter.excludeDocumentType"/>
 	    </td>
 	</tr>
@@ -141,15 +102,37 @@ function setMethodToCallAndSubmit(methodToCallValue) {
                   <tr>
                     <td class="neutral" style="text-align:right" nowrap><bean-el:message key="actionList.ActionListFilter.filter.label.from"/>:</td>
                     <td class="neutral" nowrap>
-                      <html-el:text property="createDateFrom" size="10"/>
-                      <a href="javascript:showCal('createDateFrom');"><img src="../en/images/cal.gif" width="16" height="16" border="0" alt="Click Here to pick up the from date created"></a>&nbsp;
+                      <html-el:text property="createDateFrom" styleId="createDateFrom" size="10"/>
+                      <img src="images/cal.gif" id="createDateFrom_trigger" alt="Click Here to pick up the from date created" height="16" width="16" border="0"/>
+                      <script type="text/javascript">
+                          Calendar.setup({
+                              inputField     :    "createDateFrom",     // id of the input field
+                              ifFormat       :    "%m/%d/%Y",     // format of the input field (even if hidden, this format will be honored)
+                              button         :    "createDateFrom_trigger", // the button or image that triggers this
+                              showsTime      :    false,            // will display a time selector
+                              daFormat       :    "%A, %B %d, %Y",// format of the displayed date
+                              singleClick    :    true,
+                              step           :    1
+                          });
+                      </script>&nbsp;
                     </td>
                   </tr>
                   <tr>
                     <td class="neutral" style="text-align:right" nowrap><bean-el:message key="actionList.ActionListFilter.filter.label.to"/>:</td>
                     <td class="neutral" nowrap>
-                      <html-el:text property="createDateTo" size="10"/>
-                      <a href="javascript:showCal('createDateTo');"><img src="../en/images/cal.gif" width="16" height="16" border="0" alt="Click Here to pick up the to date created"></a>&nbsp;
+                      <html-el:text property="createDateTo" styleId="createDateTo" size="10"/>
+                      <img src="images/cal.gif" id="createDateTo_trigger" alt="Click Here to pick up the to date created" height="16" width="16" border="0"/>
+                      <script type="text/javascript">
+                          Calendar.setup({
+                              inputField     :    "createDateTo",     // id of the input field
+                              ifFormat       :    "%m/%d/%Y",     // format of the input field (even if hidden, this format will be honored)
+                              button         :    "createDateTo_trigger", // the button or image that triggers this
+                              showsTime      :    false,            // will display a time selector
+                              daFormat       :    "%A, %B %d, %Y",// format of the displayed date
+                              singleClick    :    true,
+                              step           :    1
+                          });
+                      </script>&nbsp;
                     </td>
                   </tr>
                 </table>
@@ -175,15 +158,37 @@ function setMethodToCallAndSubmit(methodToCallValue) {
                   <tr>
                     <td class="neutral" style="text-align:right" nowrap><bean-el:message key="actionList.ActionListFilter.filter.label.from"/>:</td>
                     <td class="neutral"  nowrap>
-                      <html-el:text property="lastAssignedDateFrom" size="10" />
-                      <a href="javascript:showCal('lastAssignedDateFrom');"><img src="../en/images/cal.gif" width="16" height="16" border="0" alt="Click Here to pick up the from last assigned date"></a>&nbsp;
+                      <html-el:text property="lastAssignedDateFrom" styleId="lastAssignedDateFrom" size="10" />
+                      <img src="images/cal.gif" id="lastAssignedDateFrom_trigger" alt="Click Here to select the last assigned from date" height="16" width="16" border="0"/>
+                      <script type="text/javascript">
+                          Calendar.setup({
+                              inputField     :    "lastAssignedDateFrom",     // id of the input field
+                              ifFormat       :    "%m/%d/%Y",     // format of the input field (even if hidden, this format will be honored)
+                              button         :    "lastAssignedDateFrom_trigger", // the button or image that triggers this
+                              showsTime      :    false,            // will display a time selector
+                              daFormat       :    "%A, %B %d, %Y",// format of the displayed date
+                              singleClick    :    true,
+                              step           :    1
+                          });
+                      </script>&nbsp;
                     </td>
                   </tr>
                   <tr>
                     <td class="neutral" style="text-align:right" nowrap><bean-el:message key="actionList.ActionListFilter.filter.label.to"/>:</td>
                     <td class="neutral" nowrap>
-                      <html-el:text property="lastAssignedDateTo" size="10" />
-                      <a href="javascript:showCal('lastAssignedDateTo');"><img src="../en/images/cal.gif" width="16" height="16" border="0" alt="Click Here to pick up the to last assigned date"></a>&nbsp;
+                      <html-el:text property="lastAssignedDateTo" styleId="lastAssignedDateTo" size="10" />
+                      <img src="images/cal.gif" id="lastAssignedDateTo_trigger" alt="Click Here to select the last assigned to date" height="16" width="16" border="0"/>
+                      <script type="text/javascript">
+                          Calendar.setup({
+                              inputField     :    "lastAssignedDateTo",     // id of the input field
+                              ifFormat       :    "%m/%d/%Y",     // format of the input field (even if hidden, this format will be honored)
+                              button         :    "lastAssignedDateTo_trigger", // the button or image that triggers this
+                              showsTime      :    false,            // will display a time selector
+                              daFormat       :    "%A, %B %d, %Y",// format of the displayed date
+                              singleClick    :    true,
+                              step           :    1
+                          });
+                      </script>&nbsp;
                     </td>
                   </tr>
                 </table>
@@ -199,28 +204,20 @@ function setMethodToCallAndSubmit(methodToCallValue) {
           </table>
 		</td>
     </tr>
+  </table>
+</div><!-- end div tabcontainer -->
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
+  <tr>
+    <td align="left" class="footer"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
+    <td align="right" class="footer-right"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
+  </tr>
 </table>
-</div>
-        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
-          <tr>
-            <td align="left" class="footer"><img src="../en/images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
-            <td align="right" class="footer-right"><img src="../en/images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
-          </tr>
-        </table>
-</td>
-<td class="column-right"><img height="20" width="20" alt="" src="../en/images/pixel_clear.gif"/></td>
-</tr>
-</table>
-</div>
 <br />
 <div align="center">
-    <html-el:image property="methodToCall.filter" src="../en/images/buttonsmall_filter.gif" align="absmiddle" />&nbsp;&nbsp;
-    <html-el:image property="methodToCall.clear" src="../en/images/buttonsmall_clear.gif" align="absmiddle" />&nbsp;&nbsp;
-    <a href="javascript:document.forms[0].reset()"><img src="../en/images/buttonsmall_reset.gif" border=0 alt="reset" align="absmiddle"></a>
+    <html-el:image property="methodToCall.filter" style="border-width:0px" src="images/buttonsmall_filter.gif" align="absmiddle" />&nbsp;&nbsp;
+    <html-el:image property="methodToCall.clear" style="border-width:0px" src="images/buttonsmall_clear.gif" align="absmiddle" />&nbsp;&nbsp;
+    <a href="javascript:document.forms[0].reset()"><img src="images/buttonsmall_reset.gif" border=0 alt="reset" align="absmiddle"></a>
+    <a href="ActionList.do?methodToCall=start"><img src="images/buttonsmall_cancel.gif" border=0 alt="cancel" align="absmiddle"></a>
 </div>
-<br />
-<br />
-<jsp:include page="../BackdoorMessage.jsp" flush="true"/>
-</html-el:form>
-</body>
-</html>
+</div><!-- end div workarea -->
+</kul:page>

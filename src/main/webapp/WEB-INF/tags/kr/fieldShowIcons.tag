@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -21,7 +21,14 @@
               description="The field for which to show the lookup icon." %>
 <%@ attribute name="addHighlighting" required="false"
               description="boolean indicating if this field should be highlighted (to indicate old/new change)" %>            
-
+<%--
+				#######################################################
+				# If the field has errors, display error icon.
+				####################################################### --%>
+<kul:checkErrors keyMatch="${field.propertyName}" />
+<c:if test="${hasErrors}">
+	 <kul:fieldShowErrorIcon />
+</c:if>
 <kul:fieldShowLookupIcon isReadOnly="${isReadOnly}" field="${field}" anchor="${currentTabIndex}"/>
 <kul:fieldShowDirectInquiryIcon isReadOnly="${isReadOnly}" field="${field}" anchor="${currentTabIndex}"/>
 <c:if test="${field.fieldLevelHelpEnabled || (!field.fieldLevelHelpDisabled && KualiForm.fieldLevelHelpEnabled)}">
@@ -32,3 +39,4 @@
 <c:if test="${addHighlighting && field.highlightField && !isReadOnly}">
   <kul:fieldShowChangedIcon />
 </c:if>
+

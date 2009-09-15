@@ -1,12 +1,12 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation.
- * 
+ * Copyright 2005-2006 The Kuali Foundation.
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -206,6 +206,20 @@ table.grid
 	border-right-color: #999999;
 }
 
+.datatable-center
+{
+	/* center it */
+	margin-right: auto;
+	margin-left: auto;
+
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #999999;
+	border-right-color: #999999;
+	border-right-style: solid;
+	border-right-width: 1px;
+}
+
 .datatable-100
 {
 	width: 100%;
@@ -227,7 +241,32 @@ table.grid
 	border-right-style: solid;
 	border-right-width: 1px;
 }
+#workarea th.neutral
+{
+	background-color: #FFFFFF;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	background-image: none;
 
+}
+#workarea td.neutral
+{
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+
+}
+#workarea table.neutral
+{
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+
+}
 #workarea th
 {
 	background-color: #999999;
@@ -314,7 +353,7 @@ table.grid
 	color:#FFFFFF;
 	font-weight:bold;
 	height:18px;
-	padding:2px 6px; 
+	padding:2px 6px;
 }
 
 #globalactions div { text-align: center; }
@@ -375,20 +414,20 @@ a.fineprint:hover
 	width: 30%;
 }
 
-#workarea td.tabtable1-left-colspan 
-{ 
-background-image: url("../images/tab-back.gif"); 
-background-position: right; 
-font-weight: bold; 
-color: #666666; 
-height: 29px; 
-white-space: nowrap; 
-text-align: left; 
-border: none; 
-margin: 0px; 
-padding: 0px; 
-width: 50%; 
-} 
+#workarea td.tabtable1-left-colspan
+{
+background-image: url("../images/tab-back.gif");
+background-position: right;
+font-weight: bold;
+color: #666666;
+height: 29px;
+white-space: nowrap;
+text-align: left;
+border: none;
+margin: 0px;
+padding: 0px;
+width: 50%;
+}
 
 #workarea td.infoline
 {
@@ -531,8 +570,8 @@ img.helpicon
 
 #workarea h2
 {
-	display:inline; 
-	color: #666666; 
+	display:inline;
+	color: #666666;
 	padding-left:0px;
 	font-size: 100%;
 }
@@ -654,7 +693,6 @@ div.msg-excol
 	width: 100%;
 	padding-top: 8px;
 	padding-bottom: 8px;
-	height: 24px;
 }
 
 div.excol { padding-right: 22px; }

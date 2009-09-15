@@ -44,7 +44,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
  */
 public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static final String VIEW = "view";
-    private static final String DOCHANDLER_VIEW_LINK = "../en/DocHandler.do?command=displayDocSearchView&readOnly=true&docId=";
+    private static final String DOCHANDLER_VIEW_LINK = "../kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId=";
     private static final String MAINTENANCE = "maintenance";
     private static final String NEW_MAINTENANCE = "../maintenanceQn";
     private static final String DOC_ROUTE_STATUS = "docRouteStatus";

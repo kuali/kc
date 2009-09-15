@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -25,9 +25,7 @@
 <c:if test="${empty formKey}">
   <c:set var="formKey" value="88888888" />
 </c:if>
-<c:if test="${empty sessionDocument}">
-  <c:set var="sessionDocument" value="request" />
-</c:if>
+
 
   <c:choose>
     <c:when test="${disabled}">
@@ -38,7 +36,7 @@
     <c:otherwise>
        <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${textAreaLabel}#))"
                    src='${ConfigProperties.kr.externalizable.images.url}pencil_add.png'
-                   onclick="javascript: textAreaPop('${textAreaFieldName}','${action}','${textAreaLabel}',${formKey},'${sessionDocument}');return false"
+                   onclick="javascript: textAreaPop('${textAreaFieldName}','${action}','${textAreaLabel}',${formKey});return false"
                    styleClass="tinybutton"
                    title="${title}"
                    alt="Expanded Text Area"/>
