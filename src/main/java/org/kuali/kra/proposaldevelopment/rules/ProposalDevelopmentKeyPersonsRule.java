@@ -94,7 +94,6 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         int pi_cnt = 0;
         int personIndex = 0;
         List<ProposalPerson> investigators = document.getDevelopmentProposal().getInvestigators();
-        String reg="^(100(?:\\.0{1,2})?|0*?\\.\\d{1,2}|\\d{1,2}(?:\\.\\d{1,2})?)$"; 
        
                
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
@@ -143,41 +142,8 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             
             personIndex++;
         }
-        for (Iterator iter = investigators.iterator(); iter.hasNext();) {
-            ProposalPerson propPerson = (ProposalPerson) iter.next();
-            List<ProposalPersonCreditSplit> personCreditSplit=propPerson.getCreditSplits();
-            List<ProposalPersonUnit> propUnitCreditSplit=propPerson.getUnits();
-            int i=0;
-            for (ProposalPersonCreditSplit creditSplit : personCreditSplit) {
-                if(creditSplit.getCredit() !=null){
-
-                    String credit= String.valueOf( creditSplit.getCredit().intValue());
-                    if(!(credit.matches(reg))){
-                        GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].creditSplit", ERROR_PERCENTAGE,
-                                new String[] {"Credit Split" });
-                        retval=false;
-                    }
-                }
-                
-           }
-            for(ProposalPersonUnit personUnitSplit:propUnitCreditSplit){
-                List<ProposalUnitCreditSplit> unitcreditsplit=personUnitSplit.getCreditSplits();
-                for(Iterator it=unitcreditsplit.iterator();it.hasNext();){
-                    ProposalUnitCreditSplit unitsplit=(ProposalUnitCreditSplit)it.next();
-                    if(unitsplit.getCredit()!= null){
-                        String credit=String.valueOf(unitsplit.getCredit().intValue());
-                        if(!(credit.matches(reg))){
-                            GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].creditSplit", ERROR_PERCENTAGE,
-                                    new String[] {"Credit Split" });
-                            //GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].creditSplit", ERROR_PERCENTAGE);
-                            retval=false; 
-                        }
-                        
-                    }
-                }
-             }
-           i++;
-        }
+        
+        retval &= this.processCalculateCreditSplitBusinessRules(document);
         
         if(retval){
             boolean leadunit=false;
@@ -461,36 +427,32 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     
     public boolean processCalculateCreditSplitBusinessRules(ProposalDevelopmentDocument document) {
 
-        List<ProposalPerson> person = document.getDevelopmentProposal().getInvestigators();
-        String reg="^(100(?:\\.0{1,2})?|0*?\\.\\d{1,2}|\\d{1,2}(?:\\.\\d{1,2})?)$"; 
+        List<ProposalPerson> person = document.getDevelopmentProposal().getInvestigators(); 
         boolean retval=true;
    
 
-        for (Iterator iter = person.iterator(); iter.hasNext();) {
-            ProposalPerson propPerson = (ProposalPerson) iter.next();
+        for (int i = 0; i < person.size(); i++) {
+            ProposalPerson propPerson = (ProposalPerson)person.get(i);
             List<ProposalPersonCreditSplit> personCreditSplit=propPerson.getCreditSplits();
             List<ProposalPersonUnit> propUnitCreditSplit=propPerson.getUnits();
-            int i=0;
-            for (ProposalPersonCreditSplit creditSplit : personCreditSplit) {
+            for (int j = 0; j < personCreditSplit.size(); j++) {
+                ProposalPersonCreditSplit creditSplit = personCreditSplit.get(j);
                 if(creditSplit.getCredit() !=null){
-
-                    String credit= String.valueOf( creditSplit.getCredit().intValue());
-                    if(!(credit.matches(reg))){
-                        GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].creditSplit", ERROR_PERCENTAGE,
+                    if(creditSplit.getCredit().doubleValue() > 100.00 || creditSplit.getCredit().doubleValue() < 0.00){
+                        GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].investigator["+i+"].creditSplits["+j+"].credit", ERROR_PERCENTAGE,
                                 new String[] {"Credit Split" });
                         retval=false;
                     }
                 }
                 
            }
-            for(ProposalPersonUnit personUnitSplit:propUnitCreditSplit){
-                List<ProposalUnitCreditSplit> unitcreditsplit=personUnitSplit.getCreditSplits();
-                for(Iterator it=unitcreditsplit.iterator();it.hasNext();){
-                    ProposalUnitCreditSplit unitsplit=(ProposalUnitCreditSplit)it.next();
-                    if(unitsplit.getCredit()!= null){
-                        String credit=String.valueOf(unitsplit.getCredit().intValue());
-                        if(!(credit.matches(reg))){
-                            GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].creditSplit", ERROR_PERCENTAGE,
+            for(int j = 0; j < propUnitCreditSplit.size(); j++){
+                List<ProposalUnitCreditSplit> unitCreditSplit = propUnitCreditSplit.get(j).getCreditSplits();
+                for(int k = 0; k < unitCreditSplit.size(); k++){
+                    ProposalUnitCreditSplit unitSplit = unitCreditSplit.get(k);
+                    if(unitSplit.getCredit()!= null){
+                        if(unitSplit.getCredit().doubleValue() > 100.00 || unitSplit.getCredit().doubleValue() < 0.00){
+                            GlobalVariables.getErrorMap().putError("document.developmentProposalList[0].investigator["+i+"].units["+j+"].creditSplits["+k+"].credit", ERROR_PERCENTAGE,
                                     new String[] {"Credit Split" });
                             retval=false; 
                         }
