@@ -70,6 +70,8 @@ public class ProtocolVersionServiceTest extends KraTestBase {
         assertNotNull(newProtocolDocument);
         assertTrue(!StringUtils.equals(protocolDocument.getDocumentNumber(), newProtocolDocument.getDocumentNumber()));
         assertTrue((protocolDocument.getProtocol().getSequenceNumber() + 1 == newProtocolDocument.getProtocol().getSequenceNumber()));
+        assertFalse(protocolDocument.getProtocol().isActive());
+        assertTrue(newProtocolDocument.getProtocol().isActive());
         
         List<DocumentNextvalue> nextValues = newProtocolDocument.getDocumentNextvalues();
         for (DocumentNextvalue nextValue : nextValues) {
