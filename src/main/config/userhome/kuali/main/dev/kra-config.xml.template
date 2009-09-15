@@ -11,9 +11,11 @@
 
 	<param name="javascript.files">scripts/kuali_application.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js,dwr/interface/CustomAttributeService.js,dwr/interface/ProposalDevelopmentService.js,dwr/interface/BudgetService.js</param>
   	<param name="css.files">kr/css/kuali.css,css/kuali_application.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
-	<param name="portal.css.files">css/portal.css</param>
 	
-	<param name="kr.url">/${app.context.name}/kr</param>
+	<param name="portal.css.files">rice-portal/css/portal.css,css/kuali_overrides.css</param>
+	<param name="portal.javascript.files"></param>
+	
+	<param name="kr.url">${app.host}/${app.context.name}/kr</param>
 
 	<param name="attachments.pending.directory">${java.io.tmpdir}</param>
     <param name="attachments.directory">${java.io.tmpdir}</param>
@@ -33,9 +35,11 @@
 	<param name="log4j.reload.minutes">5</param>
 	<param name="log4j.settings.path">classpath:log4j.properties</param>
 
-	<param name="workflow.url">${app.host}/${app.context.name}/en</param>
+	<param name="workflow.url">${app.host}/${app.context.name}/kew</param>
 	<param name="application.url">${app.host}/${app.context.name}</param>
 	<param name="serviceServletUrl">${app.host}/${app.context.name}/remoting/</param>
+	
+	<param name="workflow.documentsearch.base.url">kew/DocumentSearch.do</param>
 
 	<param name="datasource.url">jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI</param>
 	<param name="datasource.username">KRADEV</param>
