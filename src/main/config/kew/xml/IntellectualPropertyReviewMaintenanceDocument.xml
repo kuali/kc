@@ -3,8 +3,8 @@
 <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 <documentType>
 <name>IntellectualPropertyReviewMaintenanceDocument</name>
-<description>Maintain Institutional Proposal Review</description>
-<label>Institutional Proposal Review</label>
+<description>Maintain Intellectual Property Review</description>
+<label>Intellectual Property Review</label>
 <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
