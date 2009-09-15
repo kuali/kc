@@ -203,8 +203,11 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         ProtocolAction protocolAction = new ProtocolAction(getProtocol(), null, actionTypeCode);
         getProtocol().getProtocolActions().add(protocolAction);
         
-        ProtocolActionService protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
-        protocolActionService.updateProtocolStatus(protocolAction, getProtocol());
+        getProtocolActionService().updateProtocolStatus(protocolAction, getProtocol());
+    }
+    
+    private ProtocolActionService getProtocolActionService() {
+        return KraServiceLocator.getService(ProtocolActionService.class);
     }
 
     /**

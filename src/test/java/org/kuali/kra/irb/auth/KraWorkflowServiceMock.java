@@ -31,22 +31,18 @@ public class KraWorkflowServiceMock implements KraWorkflowService {
     }
     
     public boolean hasWorkflowPermission(String username, Document doc) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     public boolean isClosed(Document doc) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     public boolean isEnRoute(Document doc) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     public boolean isInWorkflow(Document doc) {
         return inWorkflow;
     }
-
 }
