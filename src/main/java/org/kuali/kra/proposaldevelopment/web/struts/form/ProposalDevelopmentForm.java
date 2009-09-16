@@ -150,8 +150,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private CongressionalDistrictHelper performingOrganizationHelper;
     private List<CongressionalDistrictHelper> performanceSiteHelpers;
     private List<CongressionalDistrictHelper> otherOrganizationHelpers;
-    private DevelopmentProposal newHierarchyProposal;
-    private DevelopmentProposal newHierarchyChildProposal;
+    private String newHierarchyProposalNumber;
+    private String newHierarchyChildProposalNumber;
     private List<HierarchyProposalSummary> hierarchyProposalSummaries;
    
 
@@ -199,8 +199,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         newProposalPersonRoleRendered = false;
         setNewProposalChangedData(new ProposalChangedData());
         versionNumberForS2sOpportunity = null;
-        setNewHierarchyChildProposal(new DevelopmentProposal());
-        setNewHierarchyProposal(new DevelopmentProposal());
         setHierarchyProposalSummaries(new ArrayList<HierarchyProposalSummary>());
     }
     
@@ -1424,35 +1422,35 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
     
     /**
-     * Gets the newHierarchyProposal attribute. 
-     * @return Returns the newHierarchyProposal.
+     * Gets the newHierarchyProposalNumber attribute. 
+     * @return Returns the newHierarchyProposalNumber.
      */
-    public DevelopmentProposal getNewHierarchyProposal() {
-        return newHierarchyProposal;
+    public String getNewHierarchyProposalNumber() {
+        return newHierarchyProposalNumber;
     }
 
     /**
-     * Sets the newHierarchyProposal attribute value.
-     * @param newHierarchyProposal The newHierarchyProposal to set.
+     * Sets the newHierarchyProposalNumber attribute value.
+     * @param newHierarchyProposalNumber The newHierarchyProposalNumber to set.
      */
-    public void setNewHierarchyProposal(DevelopmentProposal newHierarchyProposal) {
-        this.newHierarchyProposal = newHierarchyProposal;
+    public void setNewHierarchyProposalNumber(String newHierarchyProposalNumber) {
+        this.newHierarchyProposalNumber = newHierarchyProposalNumber;
     }
 
     /**
-     * Gets the newHierarchyChildProposal attribute. 
-     * @return Returns the newHierarchyChildProposal.
+     * Gets the newHierarchyChildProposalNumber attribute. 
+     * @return Returns the newHierarchyChildProposalNumber.
      */
-    public DevelopmentProposal getNewHierarchyChildProposal() {
-        return newHierarchyChildProposal;
+    public String getNewHierarchyChildProposalNumber() {
+        return newHierarchyChildProposalNumber;
     }
 
     /**
-     * Sets the newHierarchyChildProposal attribute value.
-     * @param newHierarchyChildProposal The newHierarchyChildProposal to set.
+     * Sets the newHierarchyChildProposalNumber attribute value.
+     * @param newHierarchyChildProposalNumber The newHierarchyChildProposalNumber to set.
      */
-    public void setNewHierarchyChildProposal(DevelopmentProposal newHierarchyChildProposal) {
-        this.newHierarchyChildProposal = newHierarchyChildProposal;
+    public void setNewHierarchyChildProposalNumber(String newHierarchyChildProposalNumber) {
+        this.newHierarchyChildProposalNumber = newHierarchyChildProposalNumber;
     }
     
     public String getHierarchyParentStatus() {

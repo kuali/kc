@@ -24,36 +24,54 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
-import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class...
  */
 public class ProposalHierarcyActionHelper {
+    private static final String FIELD_GENERIC = "newHierarchyProposal.x";
+    private static final String FIELD_PARENT_NUMBER = "newHierarchyProposal.proposalNumber";
+    private static final String FIELD_CHILD_NUMBER = "newHierarchyChildProposal.proposalNumber";
+
+    private static final String MESSAGE_LINK_SUCCESS = "message.hierarchy.link.success";
+    private static final String MESSAGE_CREATE_SUCCESS = "message.hierarchy.create.success";
+    private static final String MESSAGE_SYNC_SUCCESS = "message.hierarchy.sync.success";
+    private static final String MESSAGE_REMOVE_SUCCESS = "message.hierarchy.remove.success";
+
+    private static final String WARNING_LINK_NO_FINAL_BUDGET = "warning.hierarchy.link.noFinalBudget";
+    private static final String WARNING_LINK_DIFFERENT_SPONSOR = "warning.hierarchy.link.differentSponsor";
+    
+    private static final String ERROR_LINK_NOT_PARENT = "error.hierarchy.link.notParent";
+    private static final String ERROR_LINK_NO_PRINCIPLE_INVESTIGATOR = "error.hierarchy.link.noPrincipleInvestigator";
+    private static final String ERROR_LINK_NO_BUDGET_VERSION = "error.hierarchy.link.noBudgetVersion";
+    private static final String ERROR_REMOVE_PARENT_BUDGET_COMPLETE = "error.hierarchy.remove.parentBudgetComplete";
+    private static final String ERROR_UNKNOWN = "error.hierarchy.unknown";
+
     ProposalHierarchyService hierarchyService;
     
     public void syncAllHierarchy(DevelopmentProposal hierarchyProposal) {
         // TODO rules
         try {
             getProposalHierarchyService().synchronizeAllChildren(hierarchyProposal);
-            GlobalVariables.getMessageList().add("message.hierarchy.syncSuccessful");
+            GlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);
 
         }
         catch (Exception e) {
-            GlobalVariables.getMessageList().add("error.hierarchy.syncFailure", e.getMessage());
+            GlobalVariables.getErrorMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
         }
     }
     
     public void removeFromHierarchy(DevelopmentProposal childProposal) {
-        // TODO rules
-        try {
-            getProposalHierarchyService().removeFromHierarchy(childProposal);
-            GlobalVariables.getMessageList().add("message.hierarchy.removeSuccessful");
-
-        }
-        catch (Exception e) {
-            GlobalVariables.getMessageList().add("error.hierarchy.removeFailure", e.getMessage());
+        if (validateChildForRemoval(childProposal)) {
+            try {
+                getProposalHierarchyService().removeFromHierarchy(childProposal);
+                GlobalVariables.getMessageList().add(MESSAGE_REMOVE_SUCCESS);
+    
+            }
+            catch (Exception e) {
+                GlobalVariables.getErrorMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+            }
         }
     }
     
@@ -61,65 +79,57 @@ public class ProposalHierarcyActionHelper {
         // TODO rules
         try {
             getProposalHierarchyService().synchronizeChild(childProposal);
-            GlobalVariables.getMessageList().add("message.hierarchy.syncSuccessful");
+            GlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);
 
         }
         catch (Exception e) {
-            GlobalVariables.getMessageList().add("error.hierarchy.syncFailure", e.getMessage());
+            GlobalVariables.getErrorMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
         }
     }
 
     public void createHierarchy(DevelopmentProposal initialChildProposal) {
-        if (validateInitialChildCandidate(initialChildProposal)) {
+        if (validateChildCandidate(initialChildProposal)) {
             try {
                 String parentProposalNumber = getProposalHierarchyService().createHierarchy(initialChildProposal);
-                GlobalVariables.getMessageList().add("message.hierarchy.create.success", parentProposalNumber);
+                GlobalVariables.getMessageList().add(MESSAGE_CREATE_SUCCESS, parentProposalNumber);
             }
             catch (Exception e) {
-                GlobalVariables.getMessageList().add(new ErrorMessage("error.hierarchy.createFailure", e.getMessage()));
+                GlobalVariables.getErrorMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
             }
         }
     }
     
     public void linkToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal) {
-        boolean valid = validateChildCandidate(newChildProposal);
-        valid &= validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal);
-        if (valid) {
-            try {
-                getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal);
-                GlobalVariables.getMessageList().add("message.hierarchy.link.success", newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
-            }
-            catch (Exception e) {
-                GlobalVariables.getErrorMap().putError("newHierarchyProposal.proposalNumber", "error.hierarchy.linkFailure", e.getMessage());
+        if (validateParent(hierarchyProposal)) {
+            boolean valid = true;
+            valid &= validateChildCandidate(newChildProposal);
+            valid &= validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal);
+            if (valid) {
+                try {
+                    getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal);
+                    GlobalVariables.getMessageList().add(MESSAGE_LINK_SUCCESS, newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
+                }
+                catch (Exception e) {
+                    GlobalVariables.getErrorMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+                }
             }
         }
     }
 
-    public void linkChildToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal newChildProposal) {
-        boolean valid = validateChildCandidate(newChildProposal);
-        valid &= validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal);
-        if (valid) {
-            try {
-                getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal);
-                GlobalVariables.getMessageList().add("message.hierarchy.link.success", newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
-            }
-            catch (Exception e) {
-                GlobalVariables.getErrorMap().putError("newHierarchyChildProposal.proposalNumber", "error.hierarchy.linkFailure", e.getMessage());
-            }
-        }
-    }
-    
     public List<HierarchyProposalSummary> getHierarchySummaries(String proposalNumber) {
         List<HierarchyProposalSummary> retval = null;
         try {
             retval = getProposalHierarchyService().getProposalSummaries(proposalNumber);
         }
         catch (Exception e) {
-            GlobalVariables.getMessageList().add("error.hierarchy.displayFailure", e.getMessage());
+            GlobalVariables.getErrorMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
         }
         return retval;
     }
 
+    public DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
+        return getProposalHierarchyService().getDevelopmentProposal(proposalNumber);
+    }
     
     private ProposalHierarchyService getProposalHierarchyService() {
         if (hierarchyService == null) {
@@ -128,24 +138,25 @@ public class ProposalHierarcyActionHelper {
         return hierarchyService;
     }
     
+    private boolean validateParent(DevelopmentProposal proposal) {
+        boolean valid = true;
+        if (!proposal.isParent()) {
+            GlobalVariables.getErrorMap().putError(FIELD_PARENT_NUMBER, ERROR_LINK_NOT_PARENT, new String[0]);
+            valid = false;
+        }
+        return valid;        
+    }
+    
     private boolean validateChildCandidate(DevelopmentProposal proposal) {
         boolean valid = true;
         proposal.getProposalDocument().refreshReferenceObject("budgetDocumentVersions");
         if (proposal.getProposalDocument().getBudgetDocumentVersions().isEmpty()) {
-            GlobalVariables.getErrorMap().putError("newHierarchyChildProposal.proposalNumber", "error.hierarchy.link.noBudgetVersion", new String[0]);
-            //GlobalVariables.getMessageList().add(new ErrorMessage("error.hierarchy.link.noBudgetVersion", new String[0]));
+            GlobalVariables.getErrorMap().putError(FIELD_CHILD_NUMBER, ERROR_LINK_NO_BUDGET_VERSION, new String[0]);
             valid = false;
         }
         else {
-            boolean isFinalVersion = false;
-            for (BudgetDocumentVersion version : proposal.getProposalDocument().getBudgetDocumentVersions()) {
-                if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
-                    isFinalVersion = true;
-                    break;
-                }
-            }
-            if (!isFinalVersion) {
-                GlobalVariables.getErrorMap().putWarning("newHierarchyChildProposal.proposalNumber", "message.hierarchy.link.noFinalBudget", new String[] {proposal.getProposalNumber()});
+            if (!hasFinalBudget(proposal)) {
+                GlobalVariables.getErrorMap().putWarning(FIELD_CHILD_NUMBER, WARNING_LINK_NO_FINAL_BUDGET, new String[] {proposal.getProposalNumber()});
             }
         }
         boolean principleInvestigatorPresent = false;
@@ -156,27 +167,58 @@ public class ProposalHierarcyActionHelper {
            }
         }
         if (!principleInvestigatorPresent) {
-            GlobalVariables.getErrorMap().putError("newHierarchyChildProposal.proposalNumber", "error.hierarchy.link.noPrincipleInvestigator", new String[0]);
+            GlobalVariables.getErrorMap().putError(FIELD_CHILD_NUMBER, ERROR_LINK_NO_PRINCIPLE_INVESTIGATOR, new String[0]);
             valid = false;
         }
         return valid;
     }
-    
-    private boolean validateInitialChildCandidate(DevelopmentProposal proposal) {
-        boolean valid = validateChildCandidate(proposal);
-        if (proposal.getOwnedByUnit() == null) {
-            // TODO error message
-            valid = false;
-        }
-        return valid;
-    }
-    
+
     private boolean validateChildCandidateForHierarchy(DevelopmentProposal hierarchy, DevelopmentProposal child) {
         boolean valid = true;
         if (!StringUtils.equalsIgnoreCase(hierarchy.getSponsorCode(), child.getSponsorCode())) {
-            GlobalVariables.getErrorMap().putWarning("newHierarchyChildProposal.proposalNumber", "message.hierarchy.link.differentSponsor", new String[0]);
+            GlobalVariables.getErrorMap().putWarning(FIELD_CHILD_NUMBER, WARNING_LINK_DIFFERENT_SPONSOR, new String[0]);
         }
-        
         return valid;
+    }
+    
+    private boolean validateChildForRemoval(DevelopmentProposal child) {
+        boolean valid = true;
+        try {
+            DevelopmentProposal hierarchy = getProposalHierarchyService().lookupParent(child);
+            if (hasCompleteBudget(hierarchy)) {
+                GlobalVariables.getErrorMap().putError(FIELD_GENERIC, ERROR_REMOVE_PARENT_BUDGET_COMPLETE, new String[0]);
+                valid = false;
+            }
+        
+        }
+        catch (Exception e) {
+            GlobalVariables.getErrorMap().putError(FIELD_GENERIC, ERROR_UNKNOWN, e.getMessage());
+            valid = false;
+        }
+        return valid;
+    }
+    
+    private boolean hasFinalBudget(DevelopmentProposal proposal) {
+        boolean retval = false;
+        for (BudgetDocumentVersion version : proposal.getProposalDocument().getBudgetDocumentVersions()) {
+            if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
+                retval = true;
+                break;
+            }
+        }
+        return retval;
+    }
+
+    private boolean hasCompleteBudget(DevelopmentProposal proposal) {
+        boolean retval = false;
+        for (BudgetDocumentVersion version : proposal.getProposalDocument().getBudgetDocumentVersions()) {
+            if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
+                if (StringUtils.equals(version.getBudgetVersionOverview().getBudgetStatus(), "1")) {
+                    retval = true;
+                }
+                break;
+            }
+        }
+        return retval;
     }
 }

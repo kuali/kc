@@ -24,7 +24,7 @@
 
 
 <kul:tab tabTitle="Proposal Hierarchy" defaultOpen="false"  
-            tabErrorKey="newHierarchyChildProposal.*, newHierarchyProposal.*">
+            tabErrorKey="newHierarchyChildProposal*,newHierarchyProposal*">
          
 	<div class="tab-container" align="center">
     	<h3>
@@ -59,9 +59,9 @@
 						<c:choose>
 							<c:when test="${hierarchyStatus == hierarchyParentStatus}" >
 							    <kul:htmlAttributeLabel attributeEntry="${DataDictionary.DevelopmentProposal.attributes.proposalNumber}" />
-							    <kul:htmlControlAttribute property="newHierarchyChildProposal.proposalNumber" attributeEntry="${DataDictionary.DevelopmentProposal.attributes.proposalNumber}" />
+							    <kul:htmlControlAttribute property="newHierarchyChildProposalNumber" attributeEntry="${DataDictionary.DevelopmentProposal.attributes.proposalNumber}" />
 			                	<kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" 
-			                	            fieldConversions="proposalNumber:newHierarchyChildProposal.proposalNumber" 
+			                	            fieldConversions="proposalNumber:newHierarchyChildProposalNumber" 
 			                	            lookupParameters="hierarchyNoneStatus:hierarchyStatus"
 			                	            anchor="${tabKey}" />
 								<html:image property="methodToCall.linkChildToHierarchy.anchor${tabKey}"
@@ -81,11 +81,11 @@
 						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-createhierarchy.gif' styleClass="tinybutton"/>
 							    - or -
 							    <kul:htmlAttributeLabel attributeEntry="${DataDictionary.DevelopmentProposal.attributes.proposalNumber}" />
-							    <kul:htmlControlAttribute property="newHierarchyProposal.proposalNumber" 
+							    <kul:htmlControlAttribute property="newHierarchyProposalNumber" 
 							    		attributeEntry="${DataDictionary.DevelopmentProposal.attributes.proposalNumber}" 
 							    		onblur="" />
 			                	<kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" 
-			                	            fieldConversions="proposalNumber:newHierarchyProposal.proposalNumber" 
+			                	            fieldConversions="proposalNumber:newHierarchyProposalNumber" 
 			                	            lookupParameters="hierarchyParentStatus:hierarchyStatus"
 			                	            anchor="${tabKey}" />
 								<html:image property="methodToCall.linkToHierarchy.anchor${tabKey}"
