@@ -22,11 +22,15 @@ import java.util.Map;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
@@ -54,7 +58,7 @@ import org.kuali.rice.kns.workflow.DocumentInitiator;
 import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
 
-public class ProposalDevelopmentDocument extends BudgetParentDocument implements Copyable, SessionDocument, Permissionable {
+public class ProposalDevelopmentDocument extends BudgetParentDocument<DevelopmentProposal> implements Copyable, SessionDocument, Permissionable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
 
     public static final String DOCUMENT_TYPE_CODE = "PRDV";
@@ -257,90 +261,18 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument implements
         return budgetDocumentVersions;
     }
 
-    @Override
-    public String getActivityTypeCode() {
-        return getDevelopmentProposal().getActivityTypeCode();
-    }
-
-    @Override
-    public String getBudgetStatus() {
-        return getDevelopmentProposal().getBudgetStatus();
-    }
 
     @Override
     public Task getParentAuthZTask(String taskName) {
         return new ProposalTask(taskName,this);
     }
 
-    @Override
-    public Date getRequestedEndDateInitial() {
-        return getDevelopmentProposal().getRequestedEndDateInitial();
-    }
-
-    @Override
-    public Date getRequestedStartDateInitial() {
-        return getDevelopmentProposal().getRequestedStartDateInitial();
-    }
 
     @Override
     public boolean isComplete() {
         return getDevelopmentProposal().isProposalComplete();
     }
 
-    @Override
-    public void setBudgetStatus(String budgetStatus) {
-        getDevelopmentProposal().setBudgetStatus(budgetStatus);
-    }
-
-    @Override
-    public ActivityType getActivityType() {
-        return getDevelopmentProposal().getActivityType();
-    }
-
-    @Override
-    public Unit getUnit() {
-        return getDevelopmentProposal().getOwnedByUnit();
-    }
-
-    @Override
-    public List getPersonRolodexList() {
-        return getDevelopmentProposal().getProposalPersons();
-    }
-
-    @Override
-    public String getUnitNumber() {
-        return getDevelopmentProposal().getOwnedByUnitNumber();
-    }
-
-    @Override
-    public Map<String, String> getNihDescription() {
-        return getDevelopmentProposal().getNihDescription();
-    }
-
-    @Override
-    public PersonRolodex getProposalEmployee(String personId) {
-        return getDevelopmentProposal().getProposalEmployee(personId);
-    }
-
-    @Override
-    public ProposalPersonRole getProposalEmployeeRole(String personId) {
-        return getDevelopmentProposal().getProposalEmployeeRole(personId);
-    }
-
-    @Override
-    public PersonRolodex getProposalNonEmployee(Integer rolodexId) {
-        return getDevelopmentProposal().getProposalNonEmployee(rolodexId);
-    }
-
-    @Override
-    public ProposalPersonRole getProposalNonEmployeeRole(Integer rolodexId) {
-        return getDevelopmentProposal().getProposalNonEmployeeRole(rolodexId);
-    }
-
-    @Override
-    public boolean isNih() {
-        return getDevelopmentProposal().isNih();
-    }
 
     @Override
     public void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument) {
@@ -378,6 +310,11 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument implements
 
     private KualiConfigurationService lookupKualiConfigurationService() {
         return KraServiceLocator.getService(KualiConfigurationService.class);
+    }
+
+    @Override
+    public DevelopmentProposal getBudgetParent() {
+        return getDevelopmentProposal();
     }
 
 }

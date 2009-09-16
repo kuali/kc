@@ -34,9 +34,9 @@
 	<kra-b:budgetVersions 
 		budgetDocumentVersions="${KualiForm.document.parentDocument.budgetDocumentVersions}"
 		pathToVersions="document.parentDocument"
-		errorKey="document.parentDocument.budgetDocumentVersion*,document.parentDocument.finalVersionFlag,document.parentDocument.documentDescription"
-		requestedStartDateInitial="${KualiForm.document.parentDocument.requestedStartDateInitial}"
-		requestedEndDateInitial="${KualiForm.document.parentDocument.requestedEndDateInitial}"
+		errorKey="document.parentDocument.budgetDocumentVersion*,document.parentDocument.budgetParent.finalVersionFlag,document.parentDocument.documentDescription"
+		requestedStartDateInitial="${KualiForm.document.parentDocument.budgetParent.requestedStartDateInitial}"
+		requestedEndDateInitial="${KualiForm.document.parentDocument.budgetParent.requestedEndDateInitial}"
 		/>
 
 	<kul:documentControls 

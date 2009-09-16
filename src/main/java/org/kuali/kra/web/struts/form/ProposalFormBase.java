@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.ArrayFormatter;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
@@ -104,10 +105,10 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
         Date date = null;
         if (this instanceof BudgetForm) {
             BudgetForm budgetForm = (BudgetForm) this;
-            date = budgetForm.getDocument().getParentDocument().getRequestedStartDateInitial();
-        } else if (this instanceof ProposalDevelopmentForm) {
-            ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) this;
-            date = pdForm.getDocument().getDevelopmentProposal().getRequestedStartDateInitial();
+            date = budgetForm.getDocument().getParentDocument().getBudgetParent().getRequestedStartDateInitial();
+        } else {
+            BudgetParentDocument parentDocument = (BudgetParentDocument)getDocument();
+            date = parentDocument.getBudgetParent().getRequestedStartDateInitial();
         }
         if (date != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat();
@@ -121,10 +122,10 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
         Date date = null;
         if (this instanceof BudgetForm) {
             BudgetForm budgetForm = (BudgetForm) this;
-            date = budgetForm.getDocument().getParentDocument().getRequestedEndDateInitial();
-        } else if (this instanceof ProposalDevelopmentForm) {
-            ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) this;
-            date = pdForm.getDocument().getDevelopmentProposal().getRequestedEndDateInitial();
+            date = budgetForm.getDocument().getParentDocument().getBudgetParent().getRequestedEndDateInitial();
+        } else {
+            BudgetParentDocument parentDocument = (BudgetParentDocument)getDocument();
+            date = parentDocument.getBudgetParent().getRequestedEndDateInitial();
         }
         if (date != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat();

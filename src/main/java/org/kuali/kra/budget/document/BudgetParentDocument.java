@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
@@ -41,14 +42,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 @SuppressWarnings("serial")
-public abstract class BudgetParentDocument extends ResearchDocumentBase implements BudgetVersionCollection,Permissionable {
-    public abstract String getBudgetStatus();
-    public abstract void setBudgetStatus(String budgetStatus);
-    public abstract String getActivityTypeCode();
-    public abstract Date getRequestedStartDateInitial();
-    public abstract Date getRequestedEndDateInitial();
-    public abstract Task getParentAuthZTask(String taskName);
-    public abstract boolean isComplete();
+public abstract class BudgetParentDocument<T extends BudgetParent> extends ResearchDocumentBase implements BudgetVersionCollection,Permissionable {
     public BudgetDocumentVersion getFinalBudgetVersion() {
       for (BudgetDocumentVersion version : getBudgetDocumentVersions()) {
           if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
@@ -99,23 +93,32 @@ public abstract class BudgetParentDocument extends ResearchDocumentBase implemen
     public BudgetDocumentVersion getBudgetDocumentVersion(int selectedLine) {
         return getBudgetDocumentVersions().get(selectedLine);
     }
-    public abstract ActivityType getActivityType();
-    public abstract String getUnitNumber();
-    public abstract Unit getUnit();
-    public abstract List<PersonRolodex> getPersonRolodexList();
-    public abstract ProposalPersonRole getProposalNonEmployeeRole(Integer rolodexId);
-    public abstract PersonRolodex getProposalEmployee(String personId);
-    public abstract PersonRolodex getProposalNonEmployee(Integer rolodexId);
-    public abstract ProposalPersonRole getProposalEmployeeRole(String personId);
-    public abstract boolean isNih();
-    public abstract Map<String, String> getNihDescription();
+//    public abstract String getBudgetStatus();
+//    public abstract void setBudgetStatus(String budgetStatus);
+//    public abstract String getActivityTypeCode();
+//    public abstract Date getRequestedStartDateInitial();
+//    public abstract Date getRequestedEndDateInitial();
+//    public abstract ActivityType getActivityType();
+//    public abstract String getUnitNumber();
+//    public abstract Unit getUnit();
+//    public abstract List<PersonRolodex> getPersonRolodexList();
+//    public abstract ProposalPersonRole getProposalNonEmployeeRole(Integer rolodexId);
+//    public abstract PersonRolodex getProposalEmployee(String personId);
+//    public abstract PersonRolodex getProposalNonEmployee(Integer rolodexId);
+//    public abstract ProposalPersonRole getProposalEmployeeRole(String personId);
+//    public abstract boolean isNih();
+//    public abstract Map<String, String> getNihDescription();
+    
+    public abstract boolean isComplete();
     public abstract void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument);
     public abstract void processAfterRetrieveForBudget(BudgetDocument budgetDocument);
     public abstract String getTaskGroupName();
+    public abstract Task getParentAuthZTask(String taskName);
     public abstract ExtraButton configureReturnToParentTopButton();
     public List<HeaderNavigation> getBudgetHeaderNavigatorList(){
       DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
       DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
       return docEntry.getHeaderNavigationList();
     }
+    public abstract T getBudgetParent();
 }

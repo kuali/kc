@@ -34,6 +34,7 @@ import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
@@ -199,12 +200,12 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
     
     private String getActivityTypeDescription(BudgetDocument budgetDocument) {
         Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
+        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
         
         if (budget.isRateSynced() || !KraServiceLocator.getService(BudgetService.class).
                 checkActivityTypeChange(getBudgetParentDocument(budget), budget)) {
-            if(parentDocument.getActivityType()!= null){
-                return parentDocument.getActivityType().getDescription().concat(SPACE);
+            if(budgetParent.getActivityType()!= null){
+                return budgetParent.getActivityType().getDescription().concat(SPACE);
             }
             else
             {
@@ -327,19 +328,19 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
      * */
     @SuppressWarnings("unchecked")
     private Collection<InstituteLaRate> getInstituteLaRates(BudgetDocument budgetDocument) {
-        Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument parentDocument = budgetDocument.getParentDocument(); 
-        String unitNumber = parentDocument.getUnitNumber();                               
-        Collection abstractInstituteRates = getFilteredInstituteLaRates(InstituteLaRate.class, unitNumber, parentDocument.getUnit(), getRateFilterMap(budgetDocument));
+//        Budget budget = budgetDocument.getBudget();
+        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent(); 
+        String unitNumber = budgetParent.getUnitNumber();                               
+        Collection abstractInstituteRates = getFilteredInstituteLaRates(InstituteLaRate.class, unitNumber, budgetParent.getUnit(), getRateFilterMap(budgetDocument));
         abstractInstituteRates = abstractInstituteRates.size() > 0 ? abstractInstituteRates : new ArrayList();
         return (Collection<InstituteLaRate>)abstractInstituteRates ;
     }
     
     @SuppressWarnings("unchecked")
     private Collection getAbstractInstituteRates(BudgetDocument budgetDocument, Class rateType, Map rateFilterMap) {
-        BudgetParentDocument parentDocument = budgetDocument.getParentDocument(); 
-        String unitNumber = parentDocument.getUnitNumber();                               
-        Collection abstractInstituteRates = getFilteredInstituteRates(rateType, unitNumber, parentDocument.getUnit(), rateFilterMap);        
+        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent(); 
+        String unitNumber = budgetParent.getUnitNumber();                               
+        Collection abstractInstituteRates = getFilteredInstituteRates(rateType, unitNumber, budgetParent.getUnit(), rateFilterMap);        
         
         return abstractInstituteRates.size() > 0 ? abstractInstituteRates : new ArrayList();
     }
@@ -360,14 +361,14 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
     }
 
     private Map<String, String> getRateFilterMap(BudgetDocument budgetDocument) {        
-        BudgetParentDocument parentDocument = budgetDocument.getParentDocument(); 
+        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent(); 
         Map<String, String> rateFilterMap = new HashMap<String, String>();
-        rateFilterMap.put(UNIT_NUMBER_KEY, parentDocument.getUnitNumber());
+        rateFilterMap.put(UNIT_NUMBER_KEY, budgetParent.getUnitNumber());
         return rateFilterMap;
     }
     
     private Map<String, String> getRateFilterMapWithActivityTypeCode(BudgetDocument budgetDocument) {
-        BudgetParentDocument parentDocument = budgetDocument.getParentDocument(); 
+        BudgetParent parentDocument = budgetDocument.getParentDocument().getBudgetParent(); 
         Map<String, String> rateFilterMap = getRateFilterMap(budgetDocument);
         rateFilterMap.put(ACTIVITY_TYPE_CODE_KEY, parentDocument.getActivityTypeCode());
         return rateFilterMap;
@@ -864,13 +865,13 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
     }
 
     private AbstractBudgetRate generateBudgetProposalRate(BudgetDocument budgetDocument, InstituteRate instituteRate) {
-        BudgetParentDocument proposal = budgetDocument.getParentDocument();
-        return new BudgetProposalRate(proposal.getUnitNumber(), instituteRate);
+        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
+        return new BudgetProposalRate(budgetParent.getUnitNumber(), instituteRate);
     }
     
     private AbstractBudgetRate generateBudgetProposalLaRate(BudgetDocument budgetDocument, InstituteLaRate instituteLaRate) {
-        BudgetParentDocument proposal = budgetDocument.getParentDocument();
-        return new BudgetProposalLaRate(proposal.getUnitNumber(), instituteLaRate);
+        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
+        return new BudgetProposalLaRate(budgetParent.getUnitNumber(), instituteLaRate);
     }
 
     private AbstractBudgetRate generateBudgetRate(BudgetDocument budgetDocument, AbstractInstituteRate abstractInstituteRate) {

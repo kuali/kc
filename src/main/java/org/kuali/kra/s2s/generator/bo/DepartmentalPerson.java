@@ -292,7 +292,6 @@ public class DepartmentalPerson implements java.io.Serializable {
     // holds the person eraCommonsUsrName
     private String eraCommonsUsrName;
 
-    // Case #1602 Added for Person Enhancement - Contact Info End 2
 
     public DepartmentalPerson() {
         propertySupport = new PropertyChangeSupport(this);
@@ -356,7 +355,6 @@ public class DepartmentalPerson implements java.io.Serializable {
         setVisaType(copyBean.getVisaType());
         setYearGraduated(copyBean.getYearGraduated());
 
-        // Case #1602 Added for Person Enhancement - Contact Info Start 3
         setAddress1(copyBean.getAddress1());
         setAddress2(copyBean.getAddress2());
         setAddress3(copyBean.getAddress3());
@@ -370,7 +368,6 @@ public class DepartmentalPerson implements java.io.Serializable {
         setMobilePhNumber(copyBean.getMobilePhNumber());
         setEraCommonsUsrName(copyBean.getEraCommonsUsrName());
 
-        // Case #1602 Added for Person Enhancement - Contact Info End 3
     }
 
     public String getPersonId() {

@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -59,9 +60,9 @@ public class BudgetPeriodAuditRule extends ResearchDocumentRuleBase {
     private boolean validatePeriodDates(final BudgetDocument budgetDocument) {
         assert budgetDocument != null : "the document is null";
         boolean retval = true;
-        
-        final Date projectStartDate = budgetDocument.getParentDocument().getRequestedStartDateInitial();
-        final Date projectEndDate = budgetDocument.getParentDocument().getRequestedEndDateInitial();
+        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
+        final Date projectStartDate = budgetParent.getRequestedStartDateInitial();
+        final Date projectEndDate = budgetParent.getRequestedEndDateInitial();
         
         int i = 0;
         for (final BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {

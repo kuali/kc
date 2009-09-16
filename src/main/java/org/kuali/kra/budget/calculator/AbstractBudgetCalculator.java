@@ -99,7 +99,7 @@ public abstract class AbstractBudgetCalculator {
 //            BudgetRatesService budgetRateService = KraServiceLocator.getService(BudgetRatesService.class);
 //            budgetRateService.resetAllBudgetRates(budget);
 //        }
-        String activityTypeCode = budget.getBudgetDocument().getParentDocument().getActivityTypeCode();
+        String activityTypeCode = budget.getBudgetDocument().getParentDocument().getBudgetParent().getActivityTypeCode();
         if (!rates.isEmpty() && rates.get(0) instanceof BudgetProposalRate) {
             QueryList qList = filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), activityTypeCode);
             if (qList.isEmpty() && !budget.getActivityTypeCode().equals(activityTypeCode)) {

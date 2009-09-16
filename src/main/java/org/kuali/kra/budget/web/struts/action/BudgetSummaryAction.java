@@ -135,7 +135,7 @@ public class BudgetSummaryAction extends BudgetAction {
                             budget.getOnOffCampusFlag());
                 }
                 if (budget.getFinalVersionFlag()) {
-                    budget.getBudgetDocument().getParentDocument().setBudgetStatus(budget.getBudgetStatus());
+                    budget.getBudgetDocument().getParentDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
                 }
                 updateBudgetPeriodDbVersion(budget);
                 return super.save(mapping, form, request, response);
@@ -166,7 +166,7 @@ public class BudgetSummaryAction extends BudgetAction {
                         budget.getOnOffCampusFlag());
             }
             if (budget.getFinalVersionFlag()) {
-                budget.getBudgetDocument().getParentDocument().setBudgetStatus(budget.getBudgetStatus());
+                budget.getBudgetDocument().getParentDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
             }
             updateBudgetPeriodDbVersion(budget);
             return super.save(mapping, form, request, response);
@@ -195,7 +195,7 @@ public class BudgetSummaryAction extends BudgetAction {
                         budget.getOnOffCampusFlag());
             }
             if (budget.getFinalVersionFlag()) {
-                budget.getBudgetDocument().getParentDocument().setBudgetStatus(budget.getBudgetStatus());
+                budget.getBudgetDocument().getParentDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
             }
             updateBudgetPeriodDbVersion(budget);
             return super.save(mapping, form, request, response);
