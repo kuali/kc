@@ -39,7 +39,7 @@
 	<param name="application.url">${app.host}/${app.context.name}</param>
 	<param name="serviceServletUrl">${app.host}/${app.context.name}/remoting/</param>
 	
-	<param name="workflow.documentsearch.base.url">kew/DocumentSearch.do</param>
+	<param name="workflow.documentsearch.base.url">kew/DocumentSearch.do?backLocation=${app.host}/${app.context.name}</param>
 
 	<param name="datasource.url">jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI</param>
 	<param name="datasource.username">KRADEV</param>
