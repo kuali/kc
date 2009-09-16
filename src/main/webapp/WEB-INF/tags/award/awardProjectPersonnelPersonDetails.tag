@@ -22,7 +22,7 @@
 
 <c:set var="awardPersonAttributes" value="${DataDictionary.AwardPerson.attributes}" />
 
-<kul:innerTab tabTitle="Person Details" parentTab="${awardContact.fullName}" defaultOpen="false" tabErrorKey="document.award.projectPersons*">
+<kra:innerTab tabTitle="Person Details" parentTab="${awardContact.fullName}" defaultOpen="false" tabErrorKey="document.award.projectPersons*">
 	<table>
 		<tr>
 			<th class="infoline">
@@ -78,4 +78,4 @@
 			</td>
 		</tr>	            				
 	</table>
-</kul:innerTab>
+</kra:innerTab>

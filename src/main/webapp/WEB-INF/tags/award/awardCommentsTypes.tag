@@ -21,7 +21,7 @@
 <c:set var="commentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 <c:set var="commentMethodName" value="${fn:replace(commentTypeDescription,' ','')}"/>
 
-	<kul:innerTab parentTab="Comments" defaultOpen="false" tabTitle="${commentTypeDescription}" tabErrorKey="" >
+	<kra:innerTab parentTab="Comments" defaultOpen="false" tabTitle="${commentTypeDescription}" tabErrorKey="" >
 		<table>
         	<th width="100" align="right" scope="row"><div align="center">Add:</div></th>
         	<td class="infoline">
@@ -31,4 +31,4 @@
             	 </div>
             </td>
         </table
-  	</kul:innerTab>	
+  	</kra:innerTab>	

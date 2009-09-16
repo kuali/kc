@@ -24,7 +24,7 @@
 
 <c:set var="awardPaymentScheduleAttributes" value="${DataDictionary.AwardPaymentSchedule.attributes}" />
 <c:set var="action" value="awardPaymentSchedule" />
-<kul:innerTab parentTab="Payment & Invoices" defaultOpen="true" tabTitle="Award Payment Schedule" tabErrorKey="paymentScheduleBean.newAwardPaymentSchedule.*,document.awardList[0].paymentScheduleItems*" noShowHideButton="true" >
+<kra:innerTab parentTab="Payment & Invoices" defaultOpen="true" tabTitle="Award Payment Schedule" tabErrorKey="paymentScheduleBean.newAwardPaymentSchedule.*,document.awardList[0].paymentScheduleItems*" noShowHideButton="true" >
     	<table cellpadding="0" cellspacing="0" summary="">
           	<%-- Header --%>
           	<tr>
@@ -143,4 +143,4 @@
             <%-- Existing data --%>
         </table>
 
-</kul:innerTab>
+</kra:innerTab>

@@ -22,7 +22,7 @@
 <c:set var="personAttributes" value="${DataDictionary.Person.attributes}" />
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.PROTOCOL_SUMMARY_VOTINGCOMMENTS%>" />
 
-    	<kul:innerTab parentTab="Summary, History, & Print" defaultOpen="false" tabTitle="View Summary (Notified Committee dd/mm/yyyy)">
+    	<kra:innerTab parentTab="Summary, History, & Print" defaultOpen="false" tabTitle="View Summary (Notified Committee dd/mm/yyyy)">
             <table cellpadding="0" cellspacing="0">
                 <tr>
                     <th style="text-align:right; width:135px;">
@@ -339,5 +339,5 @@
               </table>
               <p/>
     			
-    	</kul:innerTab>
+    	</kra:innerTab>
 

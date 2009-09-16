@@ -23,7 +23,7 @@
                                     
 <kra:permission value="${KualiForm.actionHelper.canNotifyIrb}">
 
-<kul:innerTab tabTitle="Notify IRB" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolNotifyIrbBean*">
+<kra:innerTab tabTitle="Notify IRB" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolNotifyIrbBean*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
@@ -90,6 +90,6 @@
         </table>
     </div>
     
-</kul:innerTab>
+</kra:innerTab>
 
 </kra:permission>

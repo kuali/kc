@@ -21,7 +21,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canWithdraw}">
 
-<kul:innerTab tabTitle="Withdraw Protocol" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolWithdrawBean*">
+<kra:innerTab tabTitle="Withdraw Protocol" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolWithdrawBean*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
@@ -52,6 +52,6 @@
         </table>
     </div>
     
-</kul:innerTab>
+</kra:innerTab>
 
 </kra:permission>

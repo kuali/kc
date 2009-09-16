@@ -161,7 +161,7 @@
         <tr>
             <td style="padding: 3px;" colspan="3">
                 <c:if test="${(!empty proposalSiteBo.organizationId) || (!empty proposalSiteBo.rolodexId)}">
-                    <kul:innerTab tabTitle="Congressional Districts" parentTab="${tabTitle}" defaultOpen="false">
+                    <kra:innerTab tabTitle="Congressional Districts" parentTab="${tabTitle}" defaultOpen="false">
                         <table cellspacing="0" cellpadding="0" align="center" summary="">
                             <kra:section permission="modifyProposal">
                                 <tr>
@@ -195,7 +195,7 @@
                                 </tr>
                             </c:forEach>
                         </table>
-                    </kul:innerTab>
+                    </kra:innerTab>
                 </c:if>
             </td>
         <%-- End of Cong. Districts list --%>

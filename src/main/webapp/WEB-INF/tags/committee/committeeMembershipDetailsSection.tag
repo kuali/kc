@@ -5,7 +5,7 @@
 <table cellpadding=0 cellspacing=0 summary="">
     <tr>
         <td>
-            <kul:innerTab tabTitle="Person Details" 
+            <kra:innerTab tabTitle="Person Details" 
                           parentTab="${parentTabValue}" 
                           defaultOpen="false"
                           useCurrentTabIndexAsKey="true" 
@@ -97,7 +97,7 @@
                         </tr>
                     </table>
                 </div>
-            </kul:innerTab>
+            </kra:innerTab>
         </td>
     </tr>
 </table>

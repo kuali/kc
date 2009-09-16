@@ -20,7 +20,7 @@
 
 <c:set var="awardReportingAttributes" value="${DataDictionary.AwardReporting.attributes}" />
 
-<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Details" useCurrentTabIndexAsKey="true" tabErrorKey="document.awardList[0].awardReportTermItems[${index}].awardReportings*" overrideToggleTabMethodString="Reporting.awardReportTerm${index}" >
+<kra:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Details" useCurrentTabIndexAsKey="true" tabErrorKey="document.awardList[0].awardReportTermItems[${index}].awardReportings*" overrideToggleTabMethodString="Reporting.awardReportTerm${index}" >
 
         
         <table cellpadding="0" cellspacing="0" summary="">
@@ -85,4 +85,4 @@
             <%-- Existing data --%>
         </table>
 
-</kul:innerTab>
+</kra:innerTab>

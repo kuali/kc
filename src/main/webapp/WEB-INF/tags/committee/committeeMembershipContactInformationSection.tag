@@ -21,7 +21,7 @@
 <table cellpadding=0 cellspacing=0 summary="">
     <tr>
         <td>
-            <kul:innerTab tabTitle="Contact Information" 
+            <kra:innerTab tabTitle="Contact Information" 
                           parentTab="${parentTabName}" 
                           defaultOpen="false"
                           useCurrentTabIndexAsKey="true" 
@@ -227,7 +227,7 @@
                         </tr>
                     </table>
                 </div>
-            </kul:innerTab>
+            </kra:innerTab>
         </td>
     </tr>
 </table>
