@@ -128,7 +128,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                   
                     if (budgetRateAndBase.getRateClass().getRateClassType().equals(fnaRateClassType)) {
                         BudgetModularIdc budgetModularIdc = new BudgetModularIdc();
-                        budgetModularIdc.setRateNumber(getBudgetDocument(budget).getHackedDocumentNextValue(RATE_NUMBER_PROPERTY_NAME));
+                        budgetModularIdc.setRateNumber(budget.getBudgetDocument().getHackedDocumentNextValue(RATE_NUMBER_PROPERTY_NAME));
                         budgetModularIdc.setDescription(budgetRateAndBase.getRateClassCode());
                         budgetModularIdc.setIdcRate(budgetRateAndBase.getAppliedRate());
                         budgetModularIdc.setFundsRequested(budgetRateAndBase.getCalculatedCost());  
@@ -147,11 +147,6 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             budgetModular.setConsortiumFna(consortiumFna);
             budgetModular.calculateAllTotals();
         }
-    }
-    
-    private BudgetDocument getBudgetDocument(Budget budget) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     protected List<BudgetModularIdc> generateBudgetModularIdcsForLineItem(BudgetLineItem budgetLineItem) {
