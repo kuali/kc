@@ -128,7 +128,7 @@ public class BudgetRatesServiceTest {
     public void testSyncAllBudgetRates_ChangingRatesNotProposalActivityType() throws Exception {
         changeInstituteRates();        
         budgetRatesService.syncAllBudgetRates(budgetDocument);
-        String activityTypeCode = budgetDocument.getParentDocument().getActivityTypeCode();
+        String activityTypeCode = budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode();
         Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudget().getBudgetProposalRates().size());
         checkSyncedRates();        
     }
@@ -138,7 +138,7 @@ public class BudgetRatesServiceTest {
         ((ProposalDevelopmentDocument)budgetDocument.getParentDocument()).getDevelopmentProposal().setActivityTypeCode(INSTRUCTION_ACTIVITY_CODE);
         changeInstituteRates();
         budgetRatesService.syncAllBudgetRates(budgetDocument);
-        String activityTypeCode = budgetDocument.getParentDocument().getActivityTypeCode();
+        String activityTypeCode = budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode();
         Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudget().getBudgetProposalRates().size());
         checkSyncedRates();        
     }  
@@ -148,7 +148,7 @@ public class BudgetRatesServiceTest {
         ((ProposalDevelopmentDocument)budgetDocument.getParentDocument()).getDevelopmentProposal().setActivityTypeCode(OTHER_ACTIVITY_CODE);
         changeInstituteRates();
         budgetRatesService.syncAllBudgetRates(budgetDocument);
-        String activityTypeCode = budgetDocument.getParentDocument().getActivityTypeCode();
+        String activityTypeCode = budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode();
         Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudget().getBudgetProposalRates().size());
         checkSyncedRates();        
     } 
@@ -191,8 +191,8 @@ public class BudgetRatesServiceTest {
         Budget budget = budgetDocument.getBudget();
         budget.setBudgetVersionNumber(1);
         budgetDocument.setParentDocument(initializeProposalDevelopmentDocument());
-        budget.setStartDate(budgetDocument.getParentDocument().getRequestedStartDateInitial());
-        budget.setEndDate(budgetDocument.getParentDocument().getRequestedEndDateInitial());
+        budget.setStartDate(budgetDocument.getParentDocument().getBudgetParent().getRequestedStartDateInitial());
+        budget.setEndDate(budgetDocument.getParentDocument().getBudgetParent().getRequestedEndDateInitial());
         budget.add(generateBudgetPeriod(1, budgetPeriod1Start, budgetPeriod1End));
         budget.add(generateBudgetPeriod(2, budgetPeriod2Start, budgetPeriod2End));
     }

@@ -48,6 +48,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
@@ -94,7 +95,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
                     .getDescription()));
         }
         rrsf424.setSubmittedDate(s2sUtilService.getCurrentCalendar());
-        Rolodex rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex();
+        Rolodex rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getRolodex();
         if (rolodex != null) {
             rrsf424.setStateID(rolodex.getState());
         }
@@ -126,7 +127,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
         }
         rrsf424.setProjectTitle(pdDoc.getDevelopmentProposal().getTitle());
         if (pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
-            Rolodex rolodexOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization().getRolodex();
+            Rolodex rolodexOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization().getOrganization().getRolodex();
             if (rolodexOrganization != null) {
                 rrsf424.setLocation(rolodexOrganization.getState());
             }
@@ -172,19 +173,20 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
      * @throws S2SException
      */
     private EstimatedProjectFunding getProjectFunding() throws S2SException {
-        Budget budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc).getBudget();
+        BudgetDocument budgetDocument = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+        Budget budget = budgetDocument==null?null:budgetDocument.getBudget();
         EstimatedProjectFunding funding = EstimatedProjectFunding.Factory.newInstance();
         funding.setTotalEstimatedAmount(BigDecimal.ZERO);
         funding.setTotalfedNonfedrequested(BigDecimal.ZERO);
         funding.setEstimatedProgramIncome(BigDecimal.ZERO);
         
-        if (budgetDoc != null) {
-            if (budgetDoc.getModularBudgetFlag()) {
+        if (budget != null) {
+            if (budget.getModularBudgetFlag()) {
                 BudgetDecimal fundsRequested = BudgetDecimal.ZERO;
                 BudgetDecimal totalDirectCost = BudgetDecimal.ZERO;
                 BudgetDecimal totalCost = BudgetDecimal.ZERO;
                 // get modular budget amounts instead of budget detail amounts
-                for (BudgetPeriod budgetPeriod : budgetDoc.getBudgetPeriods()) {
+                for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                     totalDirectCost.add(budgetPeriod.getBudgetModular().getTotalDirectCost());
                     for (BudgetModularIdc budgetModularIdc : budgetPeriod.getBudgetModular().getBudgetModularIdcs()) {
                         fundsRequested.add(budgetModularIdc.getFundsRequested());
@@ -192,21 +194,21 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
                 }
                 totalCost.add(totalDirectCost);
                 totalCost.add(fundsRequested);
-                budgetDoc.setTotalIndirectCost(fundsRequested);
-                budgetDoc.setTotalCost(totalCost);
+                budget.setTotalIndirectCost(fundsRequested);
+                budget.setTotalCost(totalCost);
             }
 
             BudgetDecimal fedNonFedCost = BudgetDecimal.ZERO;
-            fedNonFedCost.add(budgetDoc.getTotalCost());
-            fedNonFedCost.add(budgetDoc.getCostSharingAmount());
+            fedNonFedCost.add(budget.getTotalCost());
+            fedNonFedCost.add(budget.getCostSharingAmount());
 
             BigDecimal totalProjectIncome = BigDecimal.ZERO;
-            for (BudgetProjectIncome budgetProjectIncome : budgetDoc.getBudgetProjectIncomes()) {
+            for (BudgetProjectIncome budgetProjectIncome : budget.getBudgetProjectIncomes()) {
                 if (budgetProjectIncome.getProjectIncome() != null) {
                     totalProjectIncome = totalProjectIncome.add(budgetProjectIncome.getProjectIncome().bigDecimalValue());
                 }
             }
-            funding.setTotalEstimatedAmount(budgetDoc.getTotalCost().bigDecimalValue());
+            funding.setTotalEstimatedAmount(budget.getTotalCost().bigDecimalValue());
             funding.setTotalfedNonfedrequested(fedNonFedCost.bigDecimalValue());
             funding.setEstimatedProgramIncome(totalProjectIncome);
         }
@@ -225,7 +227,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
         if (CONTACT_TYPE_I.equals(contactType)) {
             // use organization rolodex contact
             if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
-                appInfo.setContactPersonInfo(getContactInfo(pdDoc.getDevelopmentProposal().getApplicantOrganization().getRolodex()));
+                appInfo.setContactPersonInfo(getContactInfo(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getRolodex()));
             }
         }
         else {
@@ -292,7 +294,9 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
             for (ProposalPerson person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
                 for (ProposalPersonUnit unit : person.getUnits()) {
                     if (unit.isLeadUnit()) {
-                        for (UnitAdministrator admin : unit.getUnit().getUnitAdministrators()) {
+                        Unit leadUnit = unit.getUnit();
+                        leadUnit.refreshReferenceObject("unitAdministrators");
+                        for (UnitAdministrator admin : leadUnit.getUnitAdministrators()) {
                             if (admin.getUnitAdministratorTypeCode().equals(contactType)) {
                                 depPerson.setLastName(person.getLastName());
                                 depPerson.setFirstName(person.getFirstName());

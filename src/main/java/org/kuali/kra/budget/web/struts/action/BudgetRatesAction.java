@@ -195,8 +195,8 @@ public class BudgetRatesAction extends BudgetAction {
             
             budget.setRateSynced(true);
             BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
-            if (!budget.getActivityTypeCode().equals(parentDocument.getActivityTypeCode())) {
-                budget.setActivityTypeCode(parentDocument.getActivityTypeCode());
+            if (!budget.getActivityTypeCode().equals(parentDocument.getBudgetParent().getActivityTypeCode())) {
+                budget.setActivityTypeCode(parentDocument.getBudgetParent().getActivityTypeCode());
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);

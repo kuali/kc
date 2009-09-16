@@ -26,6 +26,7 @@ import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -65,8 +66,9 @@ public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
         
         int i=0;
         int j=0;
-        Date projectStartDate = budget.getBudgetDocument().getParentDocument().getRequestedStartDateInitial();
-        Date projectEndDate = budget.getBudgetDocument().getParentDocument().getRequestedEndDateInitial();
+        BudgetParent budgetParent = budget.getBudgetDocument().getParentDocument().getBudgetParent();
+        Date projectStartDate = budgetParent.getRequestedStartDateInitial();
+        Date projectEndDate = budgetParent.getRequestedEndDateInitial();
 
         // Forces inclusion of source account
         boolean duplicateEntryFound = false;

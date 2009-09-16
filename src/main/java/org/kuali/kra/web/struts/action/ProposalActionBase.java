@@ -106,12 +106,12 @@ public class ProposalActionBase extends KraTransactionalDocumentActionBase {
     /**
      * This method sets the proposal budget status to the status of the final budget version.  If there is no final version, do nothing.
      * 
-     * @param proposalDevelopmentDocument
+     * @param parentDocument
      */
-    protected void setProposalStatus(BudgetParentDocument proposalDevelopmentDocument) {
-        for (BudgetDocumentVersion budgetVersion: proposalDevelopmentDocument.getBudgetDocumentVersions()) {
+    protected void setProposalStatus(BudgetParentDocument parentDocument) {
+        for (BudgetDocumentVersion budgetVersion: parentDocument.getBudgetDocumentVersions()) {
             if (budgetVersion.getBudgetVersionOverview().isFinalVersionFlag()) {
-                proposalDevelopmentDocument.setBudgetStatus(budgetVersion.getBudgetVersionOverview().getBudgetStatus());
+                parentDocument.getBudgetParent().setBudgetStatus(budgetVersion.getBudgetVersionOverview().getBudgetStatus());
                 return;
             }
         }
@@ -132,7 +132,7 @@ public class ProposalActionBase extends KraTransactionalDocumentActionBase {
         for (BudgetDocumentVersion budgetDocumentVersion: proposalDevelopmentDocument.getBudgetDocumentVersions()) {
             BudgetVersionOverview budgetVersion =  budgetDocumentVersion.getBudgetVersionOverview();
             if (budgetVersion.isFinalVersionFlag()) {
-                budgetVersion.setBudgetStatus(proposalDevelopmentDocument.getBudgetStatus());
+                budgetVersion.setBudgetStatus(proposalDevelopmentDocument.getBudgetParent().getBudgetStatus());
             }
             else {
                 budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);

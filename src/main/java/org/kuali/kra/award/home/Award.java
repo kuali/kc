@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.authorization.Task;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -32,6 +33,7 @@ import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
@@ -50,6 +52,8 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.core.BudgetParent;
+import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
@@ -59,6 +63,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -68,7 +73,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>,
                                                                         SpecialReviewHandler<AwardSpecialReview>, 
-                                                                        Permissionable, SequenceOwner<Award> {
+                                                                        Permissionable, SequenceOwner<Award>,
+                                                                        BudgetParent{
     public static final String AWARD_NAMESPACE_CODE = "KC-AWARD";
     public static final String DEFAULT_AWARD_NUMBER = "000000-00000";
     
@@ -100,7 +106,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private String sponsorAwardNumber;
     private String transferSponsorIndicator;
     private Integer accountTypeCode;
-    private Integer activityTypeCode;
+    private String activityTypeCode;
     private Integer awardTypeCode;
     private String cfdaNumber;
     private String documentFundingId;
@@ -751,7 +757,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * 
      * @return
      */
-    public Integer getActivityTypeCode() {
+    public String getActivityTypeCode() {
         return activityTypeCode;
     }
 
@@ -759,7 +765,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @param activityTypeCode
      */
-    public void setActivityTypeCode(Integer activityTypeCode) {
+    public void setActivityTypeCode(String activityTypeCode) {
         this.activityTypeCode = activityTypeCode;
     }
 
@@ -2541,6 +2547,72 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
         
         return comment;
     }
+
+    public String getBudgetStatus() {
+        // hard coded as completed
+        return "2";
+    }
+
+    public Map<String, String> getNihDescription() {
+        return new HashMap<String, String>();
+    }
+
+    public List getPersonRolodexList() {
+        return getProjectPersons();
+    }
+
+    public PersonRolodex getProposalEmployee(String personId) {
+        return getPerson(personId,true);
+   }
+
+    /**
+     * This method...
+     * @param personId
+     */
+    private PersonRolodex getPerson(String personId, boolean personFindFlag) {
+        List<AwardPerson> awardPersons = getProjectPersons();
+        for (AwardPerson awardPerson : awardPersons) {
+            if(awardPerson.getPersonId().equals(personId)){
+                if(personFindFlag && awardPerson.isEmployee()){
+                    return awardPerson;
+                }else{
+                    return awardPerson;
+                }
+            }
+        }
+        return null;
+    }
+
+    public ProposalPersonRole getProposalEmployeeRole(String personId) {
+        return new ProposalPersonRole();//((AwardPerson)getProposalEmployee(personId)).getContactRole();
+    }
+
+    public PersonRolodex getProposalNonEmployee(Integer rolodexId) {
+        return getPerson(rolodexId.toString(), false);
+    }
+
+    public ProposalPersonRole getProposalNonEmployeeRole(Integer rolodexId) {
+        return new ProposalPersonRole();
+    }
+
+    public Date getRequestedEndDateInitial() {
+        return getProjectEndDate();
+    }
+
+    public Date getRequestedStartDateInitial() {
+        return getBeginDate();
+    }
+
+    public Unit getUnit() {
+        return getLeadUnit();
+    }
+
+    public boolean isNih() {
+        return false;
+    }
+
+    public void setBudgetStatus(String budgetStatus) {
+    }
     
     /**
      * Gets the attachmentsw. Cannot return {@code null}.
@@ -2596,4 +2668,5 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
     public boolean isPersisted() {
         return awardId != null;
     }
+
 }

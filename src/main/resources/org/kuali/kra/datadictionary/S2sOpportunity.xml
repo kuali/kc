@@ -79,12 +79,6 @@
     <property name="summary" value="The CFDA Number for this Proposal." />
     <property name="description" value="A unique identifier for the sponsor and the funding opportunity announcement.  AKA &quot;Catalogue of Federal Domestic Assistance Number&quot;" />
   </bean>
-  <bean id="S2sOpportunity-closingDate" parent="S2sOpportunity-closingDate-parentBean" />
-
-  <bean id="S2sOpportunity-closingDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
-    <property name="name" value="closingDate" />
-    <property name="label" value="Closing Date" />
-  </bean>
   <bean id="S2sOpportunity-competetionId" parent="S2sOpportunity-competetionId-parentBean" />
 
   <bean id="S2sOpportunity-competetionId-parentBean" abstract="true" parent="AttributeDefinition">
@@ -139,11 +133,55 @@
     <property name="summary" value="Opportunity" />
     <property name="description" value="Opportunity" />
   </bean>
+  <bean id="S2sOpportunity-closingDate" parent="S2sOpportunity-closingDate-parentBean" />
+
+  <bean id="S2sOpportunity-closingDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false" />
+    <property name="shortLabel" value="ClosingDate" />
+    <property name="maxLength" value="21" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:datePicker="true"
+            p:size="10" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+    <property name="name" value="closingDate" />
+    <property name="label" value="Closing Date" />
+    <property name="description" value="Closing Date" />
+  </bean>
+
+  <!--<bean id="S2sOpportunity-closingDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="closingDate" />
+    <property name="label" value="Closing Date" />
+    <property name="shortLabel" value="Closing Date" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Closing Date" />
+    <property name="description" value="Closing Date" />
+  </bean>-->
   <bean id="S2sOpportunity-openingDate" parent="S2sOpportunity-openingDate-parentBean" />
 
-  <bean id="S2sOpportunity-openingDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+  <bean id="S2sOpportunity-openingDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false" />
+    <property name="shortLabel" value="OpeningDate" />
+    <property name="maxLength" value="21" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:datePicker="true"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Opening Date" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
     <property name="name" value="openingDate" />
     <property name="label" value="Opening Date" />
+    <property name="description" value="Opening Date" />
   </bean>
   <bean id="S2sOpportunity-opportunityId" parent="S2sOpportunity-opportunityId-parentBean" />
 
