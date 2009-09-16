@@ -65,8 +65,11 @@ import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SFormGeneratorService;
+import org.kuali.kra.s2s.service.S2SGeneratorUtilService;
+import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -107,7 +110,7 @@ public class PrintServiceImpl implements PrintService {
     private static final String SPONSOR_CODE_DB_KEY = "sponsorCode";
     private static final String PAGE_NUMBER_DB_KEY = "pageNumber";
 
-
+    private S2SUtilService s2SUtilService;
     /**
      * Prints the proposal sponsor forms by passing the given proposal information to {@link ProposalPrintReader}
      * 
@@ -187,16 +190,10 @@ public class PrintServiceImpl implements PrintService {
 
         if (sponsorFormTemplates.isEmpty()) {
             // fetch all templates for proposal sponsor code
-            String genericSponsorCode = null;
             Collection<SponsorFormTemplateList> clsponsorFormTemplates = getSponsorTemplatesList(sponsorCode);
             sponsorFormTemplates.addAll(clsponsorFormTemplates);
             // fetch all templates for generic sponsor code
-            Map<String, String> parameterMap = new HashMap<String, String>();
-            parameterMap.put(KEY_PARAMETER, Constants.GENERIC_SPONSOR_CODE);
-            Collection<Parameter> parameters = getBusinessObjectService().findMatching(Parameter.class, parameterMap);
-            for (Parameter parameter : parameters) {
-                genericSponsorCode = parameter.getValue();
-            }
+            String genericSponsorCode = s2SUtilService.getParameterValue(Constants.GENERIC_SPONSOR_CODE);
             clsponsorFormTemplates = getSponsorTemplatesList(genericSponsorCode);
             sponsorFormTemplates.addAll(clsponsorFormTemplates);
         }
@@ -862,4 +859,21 @@ public class PrintServiceImpl implements PrintService {
             this.streamData = streamData;
         }
     }
+
+    /**
+     * Gets the s2SUtilService attribute. 
+     * @return Returns the s2SUtilService.
+     */
+    public S2SUtilService getS2SUtilService() {
+        return s2SUtilService;
+    }
+
+    /**
+     * Sets the s2SUtilService attribute value.
+     * @param utilService The s2SUtilService to set.
+     */
+    public void setS2SUtilService(S2SUtilService utilService) {
+        s2SUtilService = utilService;
+    }
+
 }
