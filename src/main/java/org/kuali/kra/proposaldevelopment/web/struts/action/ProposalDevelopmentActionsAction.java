@@ -1043,8 +1043,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward linkChildToHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
         DevelopmentProposal hierarchyProposal = pdForm.getDocument().getDevelopmentProposal();
-        DevelopmentProposal newChildProposal = pdForm.getNewHierarchyChildProposal();
-        getHierarchyHelper().linkChildToHierarchy(hierarchyProposal, newChildProposal);
+        DevelopmentProposal newChildProposal = getHierarchyHelper().getDevelopmentProposal(pdForm.getNewHierarchyChildProposalNumber());
+        getHierarchyHelper().linkToHierarchy(hierarchyProposal, newChildProposal);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -1078,7 +1078,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     
     public ActionForward linkToHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
-        DevelopmentProposal hierarchyProposal = pdForm.getNewHierarchyProposal();
+        DevelopmentProposal hierarchyProposal = getHierarchyHelper().getDevelopmentProposal(pdForm.getNewHierarchyProposalNumber());
         DevelopmentProposal newChildProposal = pdForm.getDocument().getDevelopmentProposal();
         getHierarchyHelper().linkToHierarchy(hierarchyProposal, newChildProposal);
         return mapping.findForward(Constants.MAPPING_BASIC);

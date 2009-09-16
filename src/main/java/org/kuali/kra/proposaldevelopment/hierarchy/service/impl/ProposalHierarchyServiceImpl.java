@@ -217,6 +217,17 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         businessObjectService.save(hierarchy);
     }
+    
+    
+
+    /**
+     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#lookupParent(org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal)
+     */
+    public DevelopmentProposal lookupParent(DevelopmentProposal childProposal) throws ProposalHierarchyException {
+        ProposalHierarchyChild hierarchyChild = getHierarchyChild(childProposal.getProposalNumber());
+        DevelopmentProposal hierarchy = getHierarchy(hierarchyChild.getHierarchyProposalNumber());
+        return hierarchy;
+    }
 
     /**
      * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getProposalSummaries(java.lang.String)
@@ -482,7 +493,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return child;
     }
 
-    private DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
+    public DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
         Map<String, String> pk = new HashMap<String, String>();
         pk.put("proposalNumber", proposalNumber);
         return (DevelopmentProposal) (businessObjectService.findByPrimaryKey(DevelopmentProposal.class, pk));

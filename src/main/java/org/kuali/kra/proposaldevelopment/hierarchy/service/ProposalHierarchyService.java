@@ -69,6 +69,8 @@ public interface ProposalHierarchyService {
      */
     public void synchronizeAllChildren(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException;
 
+    public DevelopmentProposal getDevelopmentProposal(String proposalNumber);
+    public DevelopmentProposal lookupParent(DevelopmentProposal childProposal) throws ProposalHierarchyException;
     public List<HierarchyProposalSummary> getProposalSummaries(String proposalNumber) throws ProposalHierarchyException;
 
 }
