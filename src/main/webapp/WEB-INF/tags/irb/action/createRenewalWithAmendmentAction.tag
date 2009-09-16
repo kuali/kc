@@ -21,7 +21,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canCreateRenewal && KualiForm.actionHelper.canCreateAmendment}">
 
-<kul:innerTab tabTitle="Create Renewal with Amendment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolCreateRenewalWithAmendment*">
+<kra:innerTab tabTitle="Create Renewal with Amendment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolCreateRenewalWithAmendment*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
@@ -137,6 +137,6 @@
         </table>
     </div>
     
-</kul:innerTab>
+</kra:innerTab>
 
 </kra:permission>

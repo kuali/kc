@@ -34,7 +34,7 @@
     </c:if>
 	<c:choose>				
 	<c:when test="${not empty noOfForms}" >	
-	<kul:innerTab parentTab="Print Forms" defaultOpen="false" tabTitle="Print Grants.gov Forms${noOfForms}">
+	<kra:innerTab parentTab="Print Forms" defaultOpen="false" tabTitle="Print Grants.gov Forms${noOfForms}">
 	<div class="innerTab-container" align="left">
 		 <table class=tab cellpadding=0 cellspacing="0" summary=""> 
 		 <tbody id="G1">
@@ -71,7 +71,7 @@
 		    	
 			   </tbody>
 		</table></div>    
-	</kul:innerTab>
+	</kra:innerTab>
 	</c:when>
 	<c:when test="${empty KualiForm.document.developmentProposalList[0].s2sOpportunity}" >
 		No Grants.gov opportunity has been selected 	

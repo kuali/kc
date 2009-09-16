@@ -6,7 +6,7 @@
 
 <c:if test="${!readOnly}">
     <kra:permission value="${KualiForm.membershipHelper.modifyCommittee}">
-        <kul:uncollapsable tabTitle="Add ${KualiForm.document.committee.committeeType.description} Member"
+        <kra:uncollapsable tabTitle="Add ${KualiForm.document.committee.committeeType.description} Member"
             tabErrorKey="membershipHelper.newCommitteeMembership.*" 
             auditCluster="committeeMembershipAuditErrors" 
             tabAuditKey="newCommitteeMembership*">
@@ -50,7 +50,7 @@
                  alt="Add Committee Member" 
                  styleClass="tinybutton"/>
           </div>
-        </kul:uncollapsable>
+        </kra:uncollapsable>
     </kra:permission>
     <br/>
 </c:if>

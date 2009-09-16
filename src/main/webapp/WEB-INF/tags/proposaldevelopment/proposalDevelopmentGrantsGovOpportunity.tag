@@ -21,7 +21,7 @@
 <c:set var="textAreaFieldName" value="document.developmentProposalList[0].opportunityTitle" />
 <c:set var="action" value="proposalDevelopmentProposal" />
 
-<kul:innerTab parentTab="Opportunity Search" defaultOpen="false" tabTitle="Opportunity" tabErrorKey="document.developmentProposalList[0].s2sOpportunity.opportunityId,document.developmentProposalList[0].s2sOpportunity.opportunityTitle,document.developmentProposalList[0].s2sOpportunity.s2sSubmissionTypeCode,document.developmentProposalList[0].s2sOpportunity.revisionCode,document.developmentProposalList[0].s2sOpportunity.cfdaNumber,document.developmentProposalList[0].s2sOpportunity.competetionId,document.developmentProposalList[0].s2sOpportunity.openingDate,document.developmentProposalList[0].s2sOpportunity.closingDate,document.developmentProposalList[0].s2sOpportunity.instructionUrl,document.developmentProposalList[0].s2sOpportunity.schemaUrl,document.developmentProposalList[0].s2sOpportunity.revisionOtherDescription,noField" auditCluster="grantsGovAuditWarnings,grantsGovAuditErrors" tabAuditKey="document.developmentProposalList[0].s2sOpportunity.s2sSubmissionTypeCode,document.developmentProposalList[0].s2sOpportunity.revisionCode">
+<kra:innerTab parentTab="Opportunity Search" defaultOpen="false" tabTitle="Opportunity" tabErrorKey="document.developmentProposalList[0].s2sOpportunity.opportunityId,document.developmentProposalList[0].s2sOpportunity.opportunityTitle,document.developmentProposalList[0].s2sOpportunity.s2sSubmissionTypeCode,document.developmentProposalList[0].s2sOpportunity.revisionCode,document.developmentProposalList[0].s2sOpportunity.cfdaNumber,document.developmentProposalList[0].s2sOpportunity.competetionId,document.developmentProposalList[0].s2sOpportunity.openingDate,document.developmentProposalList[0].s2sOpportunity.closingDate,document.developmentProposalList[0].s2sOpportunity.instructionUrl,document.developmentProposalList[0].s2sOpportunity.schemaUrl,document.developmentProposalList[0].s2sOpportunity.revisionOtherDescription,noField" auditCluster="grantsGovAuditWarnings,grantsGovAuditErrors" tabAuditKey="document.developmentProposalList[0].s2sOpportunity.s2sSubmissionTypeCode,document.developmentProposalList[0].s2sOpportunity.revisionCode">
     <div class="innerTab-container" align="left">
         <table cellpadding=0 cellspacing=0 summary="">
         <tr>
@@ -211,4 +211,4 @@
         </tr>
         </table>
     </div>
-</kul:innerTab>    
+</kra:innerTab>    
