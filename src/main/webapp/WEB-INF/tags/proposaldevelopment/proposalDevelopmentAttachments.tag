@@ -118,7 +118,7 @@
 			<c:set var="replaceAttachment" value="${KualiForm.editingMode[replaceKey]}" />
 			<c:set var="deleteKey" value="proposalAttachment.${narrative.moduleNumber}.delete" />
             <c:set var="deleteAttachment" value="${KualiForm.editingMode[deleteKey]}" />
-			<kul:innerTab parentTab="Proposal Attachments" defaultOpen="false" tabDescription="${narrType} - ${narrStatus}" tabTitle="${status.index+1}. ${narrType} - ${narrStatus}" auditCluster="proposalAttachmentsAuditWarnings" tabAuditKey="document.developmentProposalList[0].narrative[${status.index}]*">
+			<kra:innerTab parentTab="Proposal Attachments" defaultOpen="false" tabDescription="${narrType} - ${narrStatus}" tabTitle="${status.index+1}. ${narrType} - ${narrStatus}" auditCluster="proposalAttachmentsAuditWarnings" tabAuditKey="document.developmentProposalList[0].narrative[${status.index}]*">
 				<div class="innerTab-container" align="left">
 					<table class=tab cellpadding=0 cellspacing=0 summary="">
 			          	<tr>
@@ -214,7 +214,7 @@
 			            </tr>
 			          </table>
 			       </div>
-			     </kul:innerTab>
+			     </kra:innerTab>
 			   </c:if>
         	</c:forEach> 
         	

@@ -28,7 +28,7 @@
     </c:if>
 </c:forEach>
 
-<kul:innerTab parentTab="Award Terms" tabItemCount="${tabItemCount}" defaultOpen="false" tabTitle="${sponsorTermTypeLabel}" tabErrorKey="newAwardSponsorTerm[${sponsorTermTypeKey}]*" >
+<kra:innerTab parentTab="Award Terms" tabItemCount="${tabItemCount}" defaultOpen="false" tabTitle="${sponsorTermTypeLabel}" tabErrorKey="newAwardSponsorTerm[${sponsorTermTypeKey}]*" >
 	<table border="0" cellpadding="0" cellspacing="0" summary="">
         <tr>
             <th width="6%"><div align="center">&nbsp;</div></th>          		
@@ -77,4 +77,4 @@
 	        </c:choose>                    
 	  	</c:forEach>
 	</table>
-</kul:innerTab>	
+</kra:innerTab>	

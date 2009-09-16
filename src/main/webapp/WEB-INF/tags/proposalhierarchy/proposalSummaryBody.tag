@@ -19,7 +19,7 @@
 <c:set var="summary" value="${KualiForm.hierarchyProposalSummaries[summaryIndex]}"/>
 <div class="tab-container" align="center">
 	<h3><span class="subhead-left">Proposal Summary</span><span class="subhead-right"><!-- "Open Proposal" button here? --></span></h3>
-	<kul:innerTab parentTab="${parentTabTitle}" tabTitle="Overview" tabDescription="Overview" defaultOpen="false">
+	<kra:innerTab parentTab="${parentTabTitle}" tabTitle="Overview" tabDescription="Overview" defaultOpen="false">
 		<div class="innerTab-container" align="left">
 			<table cellpadding=0 cellspacing=0 summary="">
 	          	<tr><th width="20%" align="right" valign="middle">Proposal Number:</th><td width="30%" align="left" valign="middle">${summary.proposalNumber}&nbsp;</td>
@@ -34,8 +34,8 @@
 					<th width="20%" align="right" valign="middle">Project Title:</th><td width="30%" align="left" valign="middle">${summary.title}&nbsp;</td></tr>
 			</table>
 		</div>
-	</kul:innerTab>
-	<kul:innerTab parentTab="${parentTabTitle}" tabTitle="Sponsor &amp; Program Information" tabDescription="Sponsor &amp; Program Information" defaultOpen="false">
+	</kra:innerTab>
+	<kra:innerTab parentTab="${parentTabTitle}" tabTitle="Sponsor &amp; Program Information" tabDescription="Sponsor &amp; Program Information" defaultOpen="false">
 		<div class="innerTab-container" align="left">
 			<table cellpadding=0 cellspacing=0 summary="">
 	          	<tr><th width="20%" align="right" valign="middle">Sponsor Deadline Date:</th><td width="30%" align="left" valign="middle">${summary.deadlineDate}&nbsp;</td>
@@ -54,8 +54,8 @@
 					</tr>
 			</table>
 		</div>
-	</kul:innerTab>
-	<kul:innerTab parentTab="${parentTabTitle}" tabTitle="Investigator/Units" tabDescription="Investigator/Units" defaultOpen="false">
+	</kra:innerTab>
+	<kra:innerTab parentTab="${parentTabTitle}" tabTitle="Investigator/Units" tabDescription="Investigator/Units" defaultOpen="false">
 		<div class="innerTab-container" align="left">
 			<table cellpadding=0 cellspacing=0 summary="">
 	          	<tr><th width="20%" align="right" valign="middle">Principle Investigator:</th><td width="30%" align="left" valign="middle">??</td>
@@ -66,7 +66,7 @@
 					<th width="20%" align="right" valign="middle">Unit(s):</th><td width="30%" align="left" valign="middle">??</td></tr>
 			</table>
 		</div>
-	</kul:innerTab>
+	</kra:innerTab>
 	<br />
 	<h3><span class="subhead-left">Budget Summary</span><span class="subhead-right"><!-- "Open Budget" button here? --></span></h3>
 </div>

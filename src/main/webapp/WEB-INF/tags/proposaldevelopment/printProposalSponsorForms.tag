@@ -20,7 +20,7 @@
 <table cellpadding="0" cellspacing="0" summary="">
 <tr>
 <td>
-<kul:innerTab parentTab="Print Forms" tabTitle="${KualiForm.proposalFormTabTitle}" defaultOpen="false" tabErrorKey="">
+<kra:innerTab parentTab="Print Forms" tabTitle="${KualiForm.proposalFormTabTitle}" defaultOpen="false" tabErrorKey="">
 	<div class="innerTab-container" align="center" >
         <table align="right" cellpadding="0" cellspacing="0" summary="">
         <tbody>    
@@ -62,7 +62,7 @@
 			</tbody>
         </table>
 	</div>
-</kul:innerTab>
+</kra:innerTab>
 </td>
 </tr>
 </table>

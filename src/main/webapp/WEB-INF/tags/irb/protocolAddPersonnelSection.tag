@@ -2,7 +2,7 @@
 <c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
 
 	<kra:permission value="${KualiForm.personnelHelper.modifyPersonnel}">
-    	<kul:uncollapsable tabTitle="Add Personnel:" tabErrorKey="newProtocolPerson.*" auditCluster="personnelAuditErrors" tabAuditKey="newProtocolPerson*">
+    	<kra:uncollapsable tabTitle="Add Personnel:" tabErrorKey="newProtocolPerson.*" auditCluster="personnelAuditErrors" tabAuditKey="newProtocolPerson*">
           <div align="center">
             <table  cellpadding="0" cellspacing="0" class="grid" summary="">
               <tr>
@@ -39,6 +39,6 @@
             <html:image property="methodToCall.clearProtocolPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton"/>
             <html:image property="methodToCall.addProtocolPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-addpers.gif" title="Add Protocol Person" alt="Add Protocol Person" styleClass="tinybutton"/>
           </div>
-    	</kul:uncollapsable>
+    	</kra:uncollapsable>
 	</kra:permission>
     <br/>

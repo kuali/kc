@@ -48,7 +48,7 @@
 <c:set var="tabErrorKey" value="${tabErrorKey},document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemDescription" />
 
           		
-       			<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="${tabTitle} Details" tabErrorKey="${tabErrorKey}" useCurrentTabIndexAsKey="true">
+       			<kra:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="${tabTitle} Details" tabErrorKey="${tabErrorKey}" useCurrentTabIndexAsKey="true">
        				<div>
        				<table cellpadding=0 cellspacing=0 summary="" style="width:100%;border:none;">
 			        	<tr>
@@ -96,7 +96,7 @@
 <c:set var="tabErrorKey"                value="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts*" />
 <c:set var="tabErrorKey" value="${tabErrorKey},document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts*" />
 			        
-			        <kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Rate Classes" useCurrentTabIndexAsKey="true" tabErrorKey="${tabErrorKey}">
+			        <kra:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Rate Classes" useCurrentTabIndexAsKey="true" tabErrorKey="${tabErrorKey}">
 	     				
      					<table cellpadding=0 cellspacing=0 summary="" width="80%">
       						<tr>
@@ -178,7 +178,7 @@
 							</c:if>
 								         		
 			          	</table>
-			        </kul:innerTab>
+			        </kra:innerTab>
 			        
 			       <table cellpadding=0 cellspacing=0 summary="" style="width:100%;border:none;">
       				<tr>								
@@ -197,4 +197,4 @@
 					</tr>
 				</table>
 		</div>
-</kul:innerTab>
+</kra:innerTab>

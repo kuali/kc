@@ -23,7 +23,7 @@
                                     
 <kra:permission value="${KualiForm.actionHelper.canRequestCloseEnrollment}">
 
-<kul:innerTab tabTitle="Request to Close Enrollment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolCloseEnrollmentRequest*">
+<kra:innerTab tabTitle="Request to Close Enrollment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolCloseEnrollmentRequest*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
@@ -80,6 +80,6 @@
         </table>
     </div>
     
-</kul:innerTab>
+</kra:innerTab>
 
 </kra:permission>
