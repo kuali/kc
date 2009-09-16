@@ -257,7 +257,7 @@ public class AwardVersioningTest extends KraTestBase {
         Award awardVersion1 = new Award();
         awardVersion1.setAwardTypeCode(1);
         awardVersion1.setTitle(AWARD_TITLE);
-        awardVersion1.setActivityTypeCode(1);
+        awardVersion1.setActivityTypeCode("1");
         awardVersion1.setPrimeSponsorCode(GOOGLE_SPONSOR_CODE);
         awardVersion1.setSponsorCode(GOOGLE_SPONSOR_CODE);
         awardVersion1.setStatusCode(1);

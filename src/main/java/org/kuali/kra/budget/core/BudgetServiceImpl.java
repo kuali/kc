@@ -88,8 +88,8 @@ public class BudgetServiceImpl implements BudgetService {
         budget.setBudgetVersionNumber(budgetVersionNumber);
         budget.setBudgetDocument(budgetDocument);
         
-        budget.setStartDate(parentDocument.getRequestedStartDateInitial());
-        budget.setEndDate(parentDocument.getRequestedEndDateInitial());
+        budget.setStartDate(parentDocument.getBudgetParent().getRequestedStartDateInitial());
+        budget.setEndDate(parentDocument.getBudgetParent().getRequestedEndDateInitial());
         budget.setOhRateTypeCode(kualiConfigurationService.getParameterValue(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
         budget.setOhRateClassCode(kualiConfigurationService.getParameterValue(
@@ -100,11 +100,11 @@ public class BudgetServiceImpl implements BudgetService {
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_MODULAR_FLAG).equalsIgnoreCase(Constants.TRUE_FLAG));
         
         // Copy in key personnel
-        for (PersonRolodex proposalPerson: parentDocument.getPersonRolodexList()) {
+        for (PersonRolodex proposalPerson: parentDocument.getBudgetParent().getPersonRolodexList()) {
             if (!proposalPerson.isOtherSignificantContributorFlag()) {
                 BudgetPerson budgetPerson = new BudgetPerson(proposalPerson);
                 budgetPersonService.populateBudgetPersonData(budget, budgetPerson);
-                budgetPerson.setEffectiveDate(parentDocument.getRequestedStartDateInitial());
+                budgetPerson.setEffectiveDate(parentDocument.getBudgetParent().getRequestedStartDateInitial());
                 budget.addBudgetPerson(budgetPerson);
             }
         }
@@ -296,7 +296,7 @@ public class BudgetServiceImpl implements BudgetService {
     }
     
     public boolean checkActivityTypeChange(BudgetParentDocument pdDoc, Budget budget) {
-        return checkActivityTypeChange(getSavedProposalRates(budget), pdDoc.getActivityTypeCode());
+        return checkActivityTypeChange(getSavedProposalRates(budget), pdDoc.getBudgetParent().getActivityTypeCode());
     }
     
     public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem) {
@@ -324,26 +324,25 @@ public class BudgetServiceImpl implements BudgetService {
 
     public String getActivityTypeForBudget(BudgetDocument budgetDocument) {
         Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
-        if(parentDocument==null){
+        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
+        if(budgetParent==null){
             budgetDocument.refreshReferenceObject("parentDocument");
         }
-//        DevelopmentProposal proposal = budgetDocument.getParentDocument().getDevelopmentProposal();
         Map<String,Object> qMap = new HashMap<String,Object>();
         qMap.put("budgetId",budget.getBudgetId());
         ArrayList<BudgetProposalRate> allPropRates = (ArrayList)businessObjectService.findMatching(
                 BudgetProposalRate.class, qMap);
         if (CollectionUtils.isNotEmpty(allPropRates)) {
-            qMap.put("activityTypeCode",parentDocument.getActivityTypeCode());
+            qMap.put("activityTypeCode",budgetParent.getActivityTypeCode());
             Collection<BudgetProposalRate> matchActivityTypePropRates =businessObjectService.findMatching(
                 BudgetProposalRate.class, qMap);
             if (CollectionUtils.isNotEmpty(matchActivityTypePropRates)) {
                 for (BudgetProposalRate budgetProposalRate : allPropRates) { 
-                    if (!budgetProposalRate.getActivityTypeCode().equals(parentDocument.getActivityTypeCode())) {
+                    if (!budgetProposalRate.getActivityTypeCode().equals(budgetParent.getActivityTypeCode())) {
                         return budgetProposalRate.getActivityTypeCode();
                     }
                 }
-                return parentDocument.getActivityTypeCode();                
+                return budgetParent.getActivityTypeCode();                
             } else {
                 return allPropRates.get(0).getActivityTypeCode();
             }

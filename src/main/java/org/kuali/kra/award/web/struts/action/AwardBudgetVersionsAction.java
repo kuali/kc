@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.rates.BudgetProposalRate;
@@ -127,7 +128,8 @@ public class AwardBudgetVersionsAction extends AwardAction {
         BudgetDocumentVersion budgetDocumentToOpen = pdDoc.getBudgetDocumentVersion(getSelectedLine(request));
         BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
         Collection<BudgetProposalRate> allPropRates = budgetService.getSavedProposalRates(budgetToOpen);
-        if (budgetService.checkActivityTypeChange(allPropRates, pdDoc.getActivityTypeCode())) {
+        BudgetParent budgetParent = pdDoc.getBudgetParent();
+        if (budgetService.checkActivityTypeChange(allPropRates, budgetParent.getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
         } else if(CollectionUtils.isEmpty(allPropRates)) {
@@ -139,8 +141,8 @@ public class AwardBudgetVersionsAction extends AwardAction {
             BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
             Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
             Budget budget = budgetDocument.getBudget();
-            if (!budget.getActivityTypeCode().equals(pdDoc.getActivityTypeCode())) {
-                budget.setActivityTypeCode(pdDoc.getActivityTypeCode());
+            if (!budget.getActivityTypeCode().equals(budgetParent.getActivityTypeCode())) {
+                budget.setActivityTypeCode(budgetParent.getActivityTypeCode());
             }
             String forward = buildForwardUrl(routeHeaderId);
             if (awardForm.isAuditActivated()) {
@@ -168,7 +170,7 @@ public class AwardBudgetVersionsAction extends AwardAction {
         Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {
-            budgetDocument.getBudget().setActivityTypeCode(awardDoc.getActivityTypeCode());
+            budgetDocument.getBudget().setActivityTypeCode(awardDoc.getBudgetParent().getActivityTypeCode());
             forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?syncBudgetRate=Y&");
         }
         if (awardForm.isAuditActivated()) {

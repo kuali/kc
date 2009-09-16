@@ -33,8 +33,8 @@
   		budgetDocumentVersions="${KualiForm.document.budgetDocumentVersions}" 
   		pathToVersions="document"
   		errorKey="document.award.budgetVersion*,document.award.finalVersionFlag"
-  		requestedStartDateInitial="${KualiForm.document.requestedStartDateInitial}"
-		requestedEndDateInitial="${KualiForm.document.requestedEndDateInitial}"
+  		requestedStartDateInitial="${KualiForm.document.award.beginDate}"
+		requestedEndDateInitial="${KualiForm.document.award.projectEndDate}"
 		/>
   	
   	<kul:documentControls 

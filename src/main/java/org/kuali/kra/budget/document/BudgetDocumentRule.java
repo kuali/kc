@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.distributionincome.AddBudgetCostShareEvent;
 import org.kuali.kra.budget.distributionincome.AddBudgetCostShareRule;
 import org.kuali.kra.budget.distributionincome.AddBudgetProjectIncomeEvent;
@@ -418,14 +419,15 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
             BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview(); 
             budgetVersionsExists = true;
             if (budgetVersion.isFinalVersionFlag()) {
-                if (parentDocument.getBudgetStatus()!= null 
-                        && parentDocument.getBudgetStatus().equals(budgetStatusCompleteCode)) {
+                BudgetParent budgetParent =parentDocument.getBudgetParent(); 
+                if (budgetParent.getBudgetStatus()!= null 
+                        && budgetParent.getBudgetStatus().equals(budgetStatusCompleteCode)) {
                     finalAndCompleteBudgetVersionFound = true;
                 }
             }
         }
         if(budgetVersionsExists && !finalAndCompleteBudgetVersionFound){
-            auditErrors.add(new AuditError("document.developmentProposalList[0].budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
+            auditErrors.add(new AuditError("document.parentBudget.budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
             retval = false;
         }
         if (auditErrors.size() > 0) {

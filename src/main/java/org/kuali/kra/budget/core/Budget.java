@@ -538,8 +538,8 @@ public class Budget extends KraPersistableBusinessObjectBase {
         /* check for new budget version - if new, generate budget periods */
         //not sure we need to set this here... need to move this some other place
         if(proposal != null) {
-            setStartDate(proposal.getRequestedStartDateInitial());
-            setEndDate(proposal.getRequestedEndDateInitial());
+            setStartDate(proposal.getBudgetParent().getRequestedStartDateInitial());
+            setEndDate(proposal.getBudgetParent().getRequestedEndDateInitial()); 
         }
         if(budgetPeriods.isEmpty() && startDate != null) {
             getBudgetSummaryService().generateBudgetPeriods(this,budgetPeriods);

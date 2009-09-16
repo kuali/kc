@@ -21,6 +21,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -66,9 +67,9 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
      * @see org.kuali.kra.budget.personnel.BudgetPersonService#synchBudgetPersonsToProposal(org.kuali.kra.budget.core.Budget)
      */
     public void synchBudgetPersonsToProposal(Budget budget) {
-        BudgetParentDocument proposal = budget.getBudgetDocument().getParentDocument();
-        budget.getBudgetDocument().refreshReferenceObject("documentNextvalues");
-        for (PersonRolodex proposalPerson: proposal.getPersonRolodexList()) {
+        budget.refreshReferenceObject("documentNextvalues");
+        BudgetParent budgetParent = budget.getBudgetDocument().getParentDocument().getBudgetParent();
+        for (PersonRolodex proposalPerson: budgetParent.getPersonRolodexList()) {
             if (!proposalPerson.isOtherSignificantContributorFlag()) {
                 boolean present = false;
                 for (BudgetPerson budgetPerson: budget.getBudgetPersons()) {
@@ -90,7 +91,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     }
     
     private void populatePersonDefaultDataIfEmpty(Budget budget, BudgetPerson budgetPerson) {
-        BudgetParentDocument proposal = budget.getBudgetDocument().getParentDocument();
+        BudgetParent proposal = budget.getBudgetDocument().getParentDocument().getBudgetParent();
         if (proposal != null && ObjectUtils.isNull(budgetPerson.getEffectiveDate())) {
             budgetPerson.setEffectiveDate(proposal.getRequestedStartDateInitial());
         }

@@ -37,6 +37,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
@@ -155,9 +156,10 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetDocument budgetDoc = budgetForm.getDocument();
         Budget budget = budgetDoc.getBudget();
         BudgetParentDocument pdDoc = budgetDoc.getParentDocument();
+        BudgetParent budgetParent = pdDoc.getBudgetParent();
         
         Collection<BudgetProposalRate> allPropRates = budgetService.getSavedProposalRates(budget);
-        if (budgetService.checkActivityTypeChange(allPropRates, pdDoc.getActivityTypeCode())) {
+        if (budgetService.checkActivityTypeChange(allPropRates, budgetParent.getActivityTypeCode())) {
             //Rates-Refresh Scenario-2
             budget.setRateClassTypesReloaded(true);
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
@@ -173,8 +175,8 @@ public class BudgetVersionsAction extends BudgetAction {
             BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
             Budget budgetOpen = budgetDocument.getBudget();
             Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-            if (!budgetOpen.getActivityTypeCode().equals(budgetDocument.getParentDocument().getActivityTypeCode())) {
-                budgetOpen.setActivityTypeCode(budgetDocument.getParentDocument().getActivityTypeCode());
+            if (!budgetOpen.getActivityTypeCode().equals(budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode())) {
+                budgetOpen.setActivityTypeCode(budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode());
             }
             String forward = buildForwardUrl(routeHeaderId);
             return new ActionForward(forward, true);
@@ -200,7 +202,7 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         Budget budgetOpen = budgetDocument.getBudget();
         Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        budgetOpen.setActivityTypeCode(budgetDocument.getParentDocument().getActivityTypeCode());
+        budgetOpen.setActivityTypeCode(budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode());
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {
             forward = forward.replace("budgetParameters.do?", "budgetParameters.do?syncBudgetRate=Y&");

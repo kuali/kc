@@ -59,7 +59,7 @@
 		<field-descriptor name="sponsorAwardNumber" column="SPONSOR_AWARD_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="transferSponsorIndicator" column="TRANSFER_SPONSOR_INDICATOR" jdbc-type="VARCHAR"/>
 		<field-descriptor name="accountTypeCode" column="ACCOUNT_TYPE_CODE" jdbc-type="INTEGER"/>
-		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="awardTypeCode" column="AWARD_TYPE_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="primeSponsorCode" column="PRIME_SPONSOR_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="basisOfPaymentCode" column="BASIS_OF_PAYMENT_CODE" jdbc-type="VARCHAR"/>

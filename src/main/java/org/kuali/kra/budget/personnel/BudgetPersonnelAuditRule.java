@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.infrastructure.Constants;
@@ -47,13 +48,13 @@ public class BudgetPersonnelAuditRule extends ResearchDocumentRuleBase implement
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         BudgetDocument budgetDocument = (BudgetDocument) document;
         Budget budget = ((BudgetDocument) document).getBudget();
-        BudgetParentDocument proposal = budgetDocument.getParentDocument();
+        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
         for (BudgetPerson budgetPerson: budget.getBudgetPersons()) {
             if (budgetPerson.getRolodexId() != null) {
-                ProposalPersonRole role = proposal.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
+                ProposalPersonRole role = budgetParent.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
                 if (role != null) { budgetPerson.setRole(role.getDescription()); }
             } else if (budgetPerson.getPersonId() != null) {
-                PersonRolodex proposalPerson = proposal.getProposalEmployee(budgetPerson.getPersonId());
+                PersonRolodex proposalPerson = budgetParent.getProposalEmployee(budgetPerson.getPersonId());
                 if (proposalPerson != null && proposalPerson.isOtherSignificantContributorFlag()) {
                     // Audit Error
                     auditErrors.add(new AuditError(
@@ -61,7 +62,7 @@ public class BudgetPersonnelAuditRule extends ResearchDocumentRuleBase implement
                             Constants.BUDGET_PERSONNEL_PAGE, new String[] { budgetPerson.getPersonName() } ));
                 }
             } else if (budgetPerson.getRolodexId() != null) {
-                PersonRolodex proposalPerson = proposal.getProposalNonEmployee(budgetPerson.getRolodexId());
+                PersonRolodex proposalPerson = budgetParent.getProposalNonEmployee(budgetPerson.getRolodexId());
                 if (proposalPerson != null && proposalPerson.isOtherSignificantContributorFlag()) {
                     // Audit Error
                     auditErrors.add(new AuditError(
