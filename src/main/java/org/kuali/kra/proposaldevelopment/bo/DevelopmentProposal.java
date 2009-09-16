@@ -31,6 +31,8 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.core.BudgetParent;
+import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -56,7 +58,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * This class...
  */
-public class DevelopmentProposal extends KraPersistableBusinessObjectBase {
+public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements BudgetParent {
 
     private static final long serialVersionUID = -9211313487776934111L;
 
@@ -1834,6 +1836,18 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase {
      */
     public void setHierarchyNarratives(List<Narrative> hierarchyNarratives) {
         this.hierarchyNarratives = hierarchyNarratives;
+    }
+
+    public List getPersonRolodexList() {
+        return getProposalPersons();
+    }
+
+    public Unit getUnit() {
+        return getOwnedByUnit();
+    }
+
+    public String getUnitNumber() {
+        return getOwnedByUnitNumber();
     }
  
 }

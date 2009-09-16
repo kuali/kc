@@ -32,6 +32,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeServiceImpl;
@@ -370,18 +371,18 @@ public class BudgetAction extends ProposalActionBase {
     }
 
     protected void populatePersonnelRoles(BudgetDocument budgetDocument) {
-        KeyPersonnelService keyPersonnelService = KraServiceLocator.getService(KeyPersonnelService.class);
-        BudgetParentDocument proposal = budgetDocument.getParentDocument();
+//        KeyPersonnelService keyPersonnelService = KraServiceLocator.getService(KeyPersonnelService.class);
+        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
 //        boolean nihSponsorProposal = keyPersonnelService.isSponsorNIH(budgetDocument.getParentDocument());
-        boolean nihSponsorProposal = proposal.isNih();
-        Map<String, String> roleDescriptions = proposal.getNihDescription();
+        boolean nihSponsorProposal = budgetParent.isNih();
+        Map<String, String> roleDescriptions = budgetParent.getNihDescription();
         
         List<BudgetPerson> budgetPersons = budgetDocument.getBudget().getBudgetPersons();
         for (BudgetPerson budgetPerson: budgetPersons) {
             String roleDesc = "";
             if (budgetPerson.getRolodexId() != null) {
-                PersonRolodex person = proposal.getProposalNonEmployee(budgetPerson.getRolodexId());
-                ProposalPersonRole role = proposal.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
+                PersonRolodex person = budgetParent.getProposalNonEmployee(budgetPerson.getRolodexId());
+                ProposalPersonRole role = budgetParent.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
                 if (role != null) { 
                     roleDesc = (nihSponsorProposal && roleDescriptions.get(role.getProposalPersonRoleId()) != null) ? roleDescriptions.get(role.getProposalPersonRoleId()) : role.getDescription();
                     if(person != null && StringUtils.equals(Constants.KEY_PERSON_ROLE, role.getProposalPersonRoleId()) && StringUtils.isNotEmpty(person.getProjectRole())) {
@@ -389,8 +390,8 @@ public class BudgetAction extends ProposalActionBase {
                     }
                 }
             } else if (budgetPerson.getPersonId() != null) {
-                PersonRolodex person = proposal.getProposalEmployee(budgetPerson.getPersonId());  
-                ProposalPersonRole role = proposal.getProposalEmployeeRole(budgetPerson.getPersonId());
+                PersonRolodex person = budgetParent.getProposalEmployee(budgetPerson.getPersonId());  
+                ProposalPersonRole role = budgetParent.getProposalEmployeeRole(budgetPerson.getPersonId());
                 if (role != null) { 
                     roleDesc = (nihSponsorProposal && roleDescriptions.get(role.getProposalPersonRoleId()) != null) ? roleDescriptions.get(role.getProposalPersonRoleId()) : role.getDescription();
                     if(person != null && StringUtils.equals(Constants.KEY_PERSON_ROLE, role.getProposalPersonRoleId()) && StringUtils.isNotEmpty(person.getProjectRole())) {
@@ -507,15 +508,15 @@ public class BudgetAction extends ProposalActionBase {
     public void reconcilePersonnelRoles(BudgetDocument budgetDocument) {
 //      Populate the person's proposal roles, if they exist
         Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument proposal = budgetDocument.getParentDocument();
+        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
         List<BudgetPerson> budgetPersons = budget.getBudgetPersons();
         
         for (BudgetPerson budgetPerson: budgetPersons) {
             if (budgetPerson.getRolodexId() != null) {
-                ProposalPersonRole role = proposal.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
+                ProposalPersonRole role = budgetParent.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
                 if (role != null) { budgetPerson.setRole(role.getDescription()); }
             } else if (budgetPerson.getPersonId() != null) {
-                ProposalPersonRole role = proposal.getProposalEmployeeRole(budgetPerson.getPersonId());
+                ProposalPersonRole role = budgetParent.getProposalEmployeeRole(budgetPerson.getPersonId());
                 if (role != null) { budgetPerson.setRole(role.getDescription()); }
             }
         }
@@ -524,9 +525,9 @@ public class BudgetAction extends ProposalActionBase {
     protected void reconcileBudgetStatus(BudgetForm budgetForm) {
         BudgetDocument budgetDocument = budgetForm.getDocument();
         Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
+        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
         if (budget.getFinalVersionFlag() != null && Boolean.TRUE.equals(budget.getFinalVersionFlag())) {
-            budget.setBudgetStatus(parentDocument.getBudgetStatus());
+            budget.setBudgetStatus(budgetParent.getBudgetStatus());
         } else {
             String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
                     Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);

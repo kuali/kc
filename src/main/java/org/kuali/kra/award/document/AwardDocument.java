@@ -36,26 +36,29 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.service.AwardCustomAttributeService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -67,7 +70,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Also we have provided convenient getter and setter methods so that to the outside world;
  * Award and AwardDocument can have a 1:1 relationship.
  */
-public class AwardDocument extends BudgetParentDocument implements  Copyable, SessionDocument{
+public class AwardDocument extends BudgetParentDocument<Award> implements  Copyable, SessionDocument{
     private static final Log LOG = LogFactory.getLog(AwardDocument.class);
 
     /**
@@ -275,121 +278,7 @@ public class AwardDocument extends BudgetParentDocument implements  Copyable, Se
         return KraServiceLocator.getService(VersionHistoryService.class);
     }
 
-    @Override
-    public ActivityType getActivityType() {
-        return getAward().getActivityType();
-    }
-
-    @Override
-    public String getActivityTypeCode() {
-        return getAward().getActivityTypeCode().toString();
-    }
-
-    @Override
-    public String getBudgetStatus() {
-        // hard coded as completed
-        return "2";
-    }
-
-    @Override
-    public Map<String, String> getNihDescription() {
-        return new HashMap<String, String>();
-    }
-
-    @Override
-    public Task getParentAuthZTask(String taskName) {
-        return new AwardTask(taskName,getAward());
-    }
-
-    @Override
-    public List getPersonRolodexList() {
-        return getAward().getProjectPersons();
-    }
-
-    @Override
-    public PersonRolodex getProposalEmployee(String personId) {
-        return getPerson(personId,true);
-   }
-
-    /**
-     * This method...
-     * @param personId
-     */
-    private PersonRolodex getPerson(String personId, boolean personFindFlag) {
-        List<AwardPerson> awardPersons = getAward().getProjectPersons();
-        for (AwardPerson awardPerson : awardPersons) {
-            if(awardPerson.getPersonId().equals(personId)){
-                if(personFindFlag && awardPerson.isEmployee()){
-                    return awardPerson;
-                }else{
-                    return awardPerson;
-                }
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public ProposalPersonRole getProposalEmployeeRole(String personId) {
-        return new ProposalPersonRole();//((AwardPerson)getProposalEmployee(personId)).getContactRole();
-    }
-
-    @Override
-    public PersonRolodex getProposalNonEmployee(Integer rolodexId) {
-        return getPerson(rolodexId.toString(), false);
-    }
-
-    @Override
-    public ProposalPersonRole getProposalNonEmployeeRole(Integer rolodexId) {
-        return new ProposalPersonRole();
-    }
-
-    @Override
-    public Date getRequestedEndDateInitial() {
-        // FIXME get the obligated start date
-        return getAward().getProjectEndDate();
-    }
-
-    @Override
-    public Date getRequestedStartDateInitial() {
-        // FIXME get the obligated end date
-        return getAward().getBeginDate();
-    }
-
-    @Override
-    public Unit getUnit() {
-        return getAward().getLeadUnit();
-    }
-
-    @Override
-    public String getUnitNumber() {
-        return getAward().getLeadUnit()==null?"":getAward().getLeadUnit().getUnitNumber();
-    }
-
-    @Override
-    public boolean isComplete() {
-        return true;
-    }
-
-    @Override
-    public boolean isNih() {
-        return false;
-    }
-    
-    /**
-     * This method specifies if this document may be edited; i.e. it's only initiated or saved
-     * @return
-     */
-    public boolean isEditable() {
-        KualiWorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
-        return workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved(); 
-    }
-
-    @Override
-    public void setBudgetStatus(String budgetStatus) {
-    }
-
-    public List<BudgetDocumentVersion> getBudgetDocumentVersions() {
+     public List<BudgetDocumentVersion> getBudgetDocumentVersions() {
         return this.budgetDocumentVersions;
     }
 
@@ -460,5 +349,28 @@ public class AwardDocument extends BudgetParentDocument implements  Copyable, Se
         }
         return awardHeaderList;
     }
+
+    @Override
+    public Award getBudgetParent() {
+        return getAward();
+    }
+
+    @Override
+    public Task getParentAuthZTask(String taskName) {
+        return new AwardTask(taskName,getAward());
+    }
+
+    @Override
+    public boolean isComplete() {
+        return true;
+    }
     
+    /**
+     * This method specifies if this document may be edited; i.e. it's only initiated or saved
+     * @return
+     */
+    public boolean isEditable() {
+        KualiWorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
+        return workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved(); 
+    }
 }

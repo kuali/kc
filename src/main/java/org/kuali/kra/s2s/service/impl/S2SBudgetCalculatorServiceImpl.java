@@ -1760,7 +1760,8 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
      */
     public BudgetDocument getFinalBudgetVersion(ProposalDevelopmentDocument pdDoc) throws S2SException {
         BudgetDocument budgetDocument = null;
-        BudgetVersionOverview versionOverview = pdDoc.getFinalBudgetVersion().getBudgetVersionOverview();
+        BudgetVersionOverview versionOverview = pdDoc.getFinalBudgetVersion()==null?null:
+                                                pdDoc.getFinalBudgetVersion().getBudgetVersionOverview();
         try {
             if (versionOverview != null) {
                 budgetDocument = (BudgetDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(
@@ -1768,7 +1769,7 @@ public class S2SBudgetCalculatorServiceImpl implements S2SBudgetCalculatorServic
             }
             else {
                 List<BudgetDocumentVersion> budgetVersions = pdDoc.getBudgetDocumentVersions();
-                if (budgetVersions.size() > 0) {
+                if (budgetVersions!=null && budgetVersions.size() > 0) {
                     // If no final version found and if there are more than zero budget versions, get the last one
                     budgetDocument = (BudgetDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(
                             budgetVersions.get(budgetVersions.size() - 1).getBudgetVersionOverview().getDocumentNumber());
