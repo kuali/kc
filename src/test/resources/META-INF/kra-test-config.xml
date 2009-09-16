@@ -5,4 +5,5 @@
 	<param name="config.location">classpath:META-INF/common-config-test-locations.xml</param>
 	<param name="config.location">${user.home}/kuali/test/dev/kra-test-config-2-0.xml</param>
 	<param name="config.location">${alt.build.location}</param>
+	<param name="config.location">${alt.config.location}</param>
 </config>
