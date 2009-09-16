@@ -1,7 +1,8 @@
 <config>
 	<!-- App specific parameters -->
 	<param name="app.code">kra</param>
-	<param name="app.host">http://localhost:8080</param>
+	<param name="kc.port">8080</param>
+	<param name="app.host">http://localhost:${kc.port}</param>
 	<param name="app.context.name">${app.code}-${environment}</param>
 	<param name="production.environment.code">PRD</param>
 	<param name="externalizable.help.url">/${app.context.name}/static/help/</param>
@@ -10,16 +11,16 @@
 	<param name="kra.externalizable.images.url">/${app.context.name}/static/images/</param>
 
 	<param name="javascript.files">scripts/kuali_application.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js,dwr/interface/CustomAttributeService.js,dwr/interface/ProposalDevelopmentService.js,dwr/interface/BudgetService.js</param>
-  	<param name="css.files">kr/css/kuali.css,css/kuali_application.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
-	
+	<param name="css.files">kr/css/kuali.css,css/kuali_application.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
+
 	<param name="portal.css.files">rice-portal/css/portal.css,css/kuali_overrides.css</param>
 	<param name="portal.javascript.files"></param>
-	
+
 	<param name="kr.url">${app.host}/${app.context.name}/kr</param>
 
 	<param name="attachments.pending.directory">${java.io.tmpdir}</param>
-    <param name="attachments.directory">${java.io.tmpdir}</param>
-    <param name="kuali.docHandler.url.prefix">${app.host}/${app.context.name}</param>
+	<param name="attachments.directory">${java.io.tmpdir}</param>
+	<param name="kuali.docHandler.url.prefix">${app.host}/${app.context.name}</param>
 
 	<!-- Misc parameters -->
 	<param name="institution">iu</param>
@@ -29,7 +30,6 @@
 
 	<param name="transaction.timeout">3600</param>
 	<param name="memory.monitor.threshold">.85</param>
-	<param name="production.environment.code">prd</param>
 	<param name="maintain.users.locally">true</param>
 
 	<param name="log4j.reload.minutes">5</param>
@@ -38,7 +38,7 @@
 	<param name="workflow.url">${app.host}/${app.context.name}/kew</param>
 	<param name="application.url">${app.host}/${app.context.name}</param>
 	<param name="serviceServletUrl">${app.host}/${app.context.name}/remoting/</param>
-	
+
 	<param name="workflow.documentsearch.base.url">kew/DocumentSearch.do?backLocation=${app.host}/${app.context.name}</param>
 
 	<param name="datasource.url">jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI</param>
@@ -83,49 +83,48 @@
 	<param name="encryption.key">7IC64w6ksLU</param>
 	<param name="keystore.alias">kul</param>
 	<param name="keystore.password">kulpass</param>
-
 	<param name="kfsLocator.useAppContext">true</param>
-	<param name="production.environment.code">prd</param>
 	<param name="rice.user">true</param>
-    <param name="actionlist.outbox">true</param>
-    
-    <!-- Configuration for Exception Incident handling and reporting -->
-    <param name="KualiExceptionHandlerAction.EXCEPTION_INCIDENT_REPORT_SERVICE">knsExceptionIncidentService</param>
-    <param name="MailMessage.from">admin@kuali.org</param>
-    <param name="KualiExceptionIncidentServiceImpl.additionalExceptionNameList"></param>
-    <param name="KualiExceptionIncidentServiceImpl.REPORT_MAIL_LIST"></param>
-    <!-- End of Exception Incident handling and reporting -->
+	<param name="actionlist.outbox">true</param>
+	<param name="ActionList.norefresh">false</param>
+
+	<!-- Configuration for Exception Incident handling and reporting -->
+	<param name="KualiExceptionHandlerAction.EXCEPTION_INCIDENT_REPORT_SERVICE">knsExceptionIncidentService</param>
+	<param name="MailMessage.from">admin@kuali.org</param>
+	<param name="KualiExceptionIncidentServiceImpl.additionalExceptionNameList"></param>
+	<param name="KualiExceptionIncidentServiceImpl.REPORT_MAIL_LIST"></param>
+	<!-- End of Exception Incident handling and reporting -->
 
 	<!-- Ken stuffs... -->
-    <!-- stock notification system configuration properties -->
+	<!-- stock notification system configuration properties -->
 
-    <!-- Quartz Jobs (MS = Milli Seconds) -->
-    <param name="notification.resolveMessageDeliveriesJob.startDelayMS">5000</param>
-    <param name="notification.resolveMessageDeliveriesJob.intervalMS">10000</param>
+	<!-- Quartz Jobs (MS = Milli Seconds) -->
+	<param name="notification.resolveMessageDeliveriesJob.startDelayMS">5000</param>
+	<param name="notification.resolveMessageDeliveriesJob.intervalMS">10000</param>
 
-    <param name="notification.processUndeliveredJob.startDelayMS">10000</param>
-    <param name="notification.processUndeliveredJob.intervalMS">10000</param>
+	<param name="notification.processUndeliveredJob.startDelayMS">10000</param>
+	<param name="notification.processUndeliveredJob.intervalMS">10000</param>
 
-    <param name="notification.processAutoRemovalJob.startDelayMS">60000</param>
-    <param name="notification.processAutoRemovalJob.intervalMS">60000</param>
+	<param name="notification.processAutoRemovalJob.startDelayMS">60000</param>
+	<param name="notification.processAutoRemovalJob.intervalMS">60000</param>
 
-    <param name="notification.quartz.autostartup">true</param>
-    <param name="notification.concurrent.jobs">true</param>
+	<param name="notification.quartz.autostartup">true</param>
+	<param name="notification.concurrent.jobs">true</param>
 
-    <param name="notification.basewebappurl">http://localhost:8080/kr-dev/ken</param>
+	<param name="notification.basewebappurl">${app.host}/${app.context.name}/ken</param>
 
-    <param name="notification.ojb.platform">Oracle</param>
+	<param name="notification.ojb.platform">Oracle</param>
 
-    <!-- Email Plugin Properties -->
-    <param name="emailDeliverer.smtp.host">no_such_smtp_host</param>
+	<!-- Email Plugin Properties -->
+	<param name="emailDeliverer.smtp.host">no_such_smtp_host</param>
 
-    <!-- Turn off KEW use of quartz db to avoid db clear issues -->
-    <param name="useQuartzDatabase">false</param>
+	<!-- Turn off KEW use of quartz db to avoid db clear issues -->
+	<param name="useQuartzDatabase">false</param>
 
-    <!-- Register the CAS Web Authentication Filter -->
-    <param name="filter.cas.class">org.kuali.rice.kns.web.filter.KualiCasFilter</param>
-    <param name="filter.cas.edu.yale.its.tp.cas.client.filter.loginUrl">${app.host}/${app.context.name}/cas/login</param>
-    <param name="filter.cas.edu.yale.its.tp.cas.client.filter.validateUrl">${app.host}/${app.context.name}/cas/serviceValidate</param>
+	<!-- Register the CAS Web Authentication Filter -->
+	<param name="filter.cas.class">org.kuali.rice.kns.web.filter.KualiCasFilter</param>
+	<param name="filter.cas.edu.yale.its.tp.cas.client.filter.loginUrl">${app.host}/${app.context.name}/cas/login</param>
+	<param name="filter.cas.edu.yale.its.tp.cas.client.filter.validateUrl">${app.host}/${app.context.name}/cas/serviceValidate</param>
 	<param name="filtermapping.cas.0">/*</param>
 	<param name="documentSearch.resultProcessor.class.name">org.kuali.kra.proposaldevelopment.document.search.ProposalDocumentSearchResultProcessor</param>
 
@@ -148,26 +147,25 @@
 	<param name="kim.cache.person.max.size" override="false">3000</param>
 	<param name="kim.cache.person.max.age.seconds" override="false">3600</param>
 
-	
 	<!-- Java mail properties -->
-    <param name="mail.from">mail.from@kuali.org</param>
-    <param name="mail.transport.protocol">smtp</param>
-    <param name="mail.smtp.host">host.server.address</param>
-    <param name="mail.smtp.port">host.server.port</param>
-    <param name="mail.smtp.user">userId</param>
-    <param name="mail.user.credentials">password</param>
-    <param name="mail.smtp.auth">false</param>
-    <!--set it to '0' to disable s2s mail service-->
-    <param name="edu.coeus.mail.enabled">1</param>
-    <!-- possible options are, T for Test and P for Production-->
-    <param name="edu.coeus.mail.mode">T</param>
-    <param name="edu.coeus.mail.testReceiverId">kc.grants.gov@kuali.org</param>
-    
-    <param name="s2s.keystore.location">path to keystore</param>
-    <param name="s2s.keystore.password">keystore password</param>
-    <param name="s2s.truststore.location">path to truststore</param>
-    <param name="s2s.truststore.password">truststore password</param>
-    <param name="grants.gov.s2s.host">grants.gov host</param>
-    <param name="grants.gov.s2s.port">grants.gov port</param>
-	
+	<param name="mail.from">mail.from@kuali.org</param>
+	<param name="mail.transport.protocol">smtp</param>
+	<param name="mail.smtp.host">host.server.address</param>
+	<param name="mail.smtp.port">host.server.port</param>
+	<param name="mail.smtp.user">userId</param>
+	<param name="mail.user.credentials">password</param>
+	<param name="mail.smtp.auth">false</param>
+	<!--set it to '0' to disable s2s mail service-->
+	<param name="edu.coeus.mail.enabled">1</param>
+	<!-- possible options are, T for Test and P for Production-->
+	<param name="edu.coeus.mail.mode">T</param>
+	<param name="edu.coeus.mail.testReceiverId">kc.grants.gov@kuali.org</param>
+
+	<param name="s2s.keystore.location">path to keystore</param>
+	<param name="s2s.keystore.password">keystore password</param>
+	<param name="s2s.truststore.location">path to truststore</param>
+	<param name="s2s.truststore.password">truststore password</param>
+	<param name="grants.gov.s2s.host">grants.gov host</param>
+	<param name="grants.gov.s2s.port">grants.gov port</param>
+
 </config>
