@@ -1586,6 +1586,9 @@
 		<property name="s2SValidatorService">
 			<ref bean="s2SValidatorService" />
 		</property>
+		<property name="s2SUtilService">
+			<ref bean="s2SUtilService" />
+		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
