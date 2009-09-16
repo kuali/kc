@@ -2,7 +2,7 @@
 
 <c:set var="dateRangeFilterAttributes" value="${DataDictionary.DateRangeFilter.attributes}" />
 
-<kul:innerTab tabTitle="History" parentTab="" defaultOpen="false">
+<kra:innerTab tabTitle="History" parentTab="" defaultOpen="false">
 
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -85,7 +85,7 @@
             		    <tr>
             		        <td class="infoline">&nbsp;</td>
             		        <td colspan="5">
-            		        <kul:innerTab tabTitle="Attachments" tabItemCount="${fn:length(protocolAction.protocol.attachmentProtocols)}" parentTab="" defaultOpen="false" tabErrorKey="">
+            		        <kra:innerTab tabTitle="Attachments" tabItemCount="${fn:length(protocolAction.protocol.attachmentProtocols)}" parentTab="" defaultOpen="false" tabErrorKey="">
     
                                 <div class="innerTab-container" align="left">
                                 
@@ -117,7 +117,7 @@
             		                    </tbody>
             		                </table>
             		            </div>
-            		        </kul:innerTab>
+            		        </kra:innerTab>
             		        </td>
             		    </tr>
             		</c:if>
@@ -134,4 +134,4 @@
         </table>
     </div>
     			
-</kul:innerTab>
+</kra:innerTab>

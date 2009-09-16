@@ -198,7 +198,7 @@
 	            <c:if test="${empty KualiForm.personnelBudgetViewMode || KualiForm.personnelBudgetViewMode == 0}" >     
             	<tr>
 					<td colspan="6">          		
-	        			<kul:innerTab parentTab="Personnel Budget" defaultOpen="false" tabTitle="Personnel Budget Details" useCurrentTabIndexAsKey = "true">
+	        			<kra:innerTab parentTab="Personnel Budget" defaultOpen="false" tabTitle="Personnel Budget Details" useCurrentTabIndexAsKey = "true">
 	        				<div>
 	        				<table cellpadding=0 cellspacing=0 summary="">
 					        	<tr>
@@ -251,7 +251,7 @@
 				          		</c:if>
        						</table>
        						</div>	
-	        			</kul:innerTab>	
+	        			</kra:innerTab>	
        				</td>
        			</tr>
 				</c:if>				

@@ -17,7 +17,7 @@
 
 <%@ include file="/WEB-INF/jsp/award/awardTldHeader.jsp"%>
 
-<kul:innerTab parentTab="Special Approval" tabItemCount="${formAward.approvedEquipmentItemCount}" defaultOpen="false" 
+<kra:innerTab parentTab="Special Approval" tabItemCount="${formAward.approvedEquipmentItemCount}" defaultOpen="false" 
 				tabTitle="Approved Equipment" tabErrorKey="approvedEquipmentBean.newAwardApprovedEquipment*,${docAward}.approvedEquipmentItems*" >
 	<c:set var="approvedEquipmentAttributes" value="${DataDictionary.AwardApprovedEquipment.attributes}" />	
 	
@@ -114,4 +114,4 @@
 			</th>
 	  	</tr>
 	</table>
-</kul:innerTab>
+</kra:innerTab>
