@@ -446,6 +446,22 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<build>
+				<testResources>
+					<testResource>
+						<filtering>true</filtering>
+						<directory>${basedir}/src/main/resources</directory>
+						<includes>
+							<include>META-INF/kra-config.xml</include>
+							<include>log4j.xml</include>
+						</includes>
+					</testResource>
+					<testResource>
+						<directory>${basedir}/src/main/resources</directory>
+						<excludes>
+							<exclude>kra-config.xml</exclude> 
+						</excludes>
+					</testResource>
+				</testResources>
 				<!-- 
 				<resources>
 					<resource>
