@@ -18,6 +18,7 @@ package org.kuali.kra.award.web.struts.action;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,8 @@ import org.kuali.kra.award.AwardSponsorTermRuleEvent;
 import org.kuali.kra.award.AwardSponsorTermRuleImpl;
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.bo.SponsorTerm;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -51,31 +54,15 @@ public class SponsorTermActionHelper implements Serializable {
      * @throws Exception
      */
     public boolean addSponsorTerm(SponsorTermFormHelper formHelper, HttpServletRequest request) throws Exception {
-        
-        boolean success;
-        if(getSponsorTermId(formHelper, request) != null){
-                 success = addSponsorTermFromLookup(formHelper, request);
-            }else {
-               success = addSponsorTermFromDatabase(formHelper, request);
-               }
-            return success;
-        
+        boolean success = addSponsorTermFromDatabase(formHelper, request);
+        return success;
     }
     
-    private Long getSponsorTermId(SponsorTermFormHelper formHelper, HttpServletRequest request) {  
-        return formHelper.getNewSponsorTerms().get(getSponsorTermTypeIndex(request)).getSponsorTermId();
-        }
-
+   
     
-    /**
-     * This method adds sponsor term with data from a lookup in User Interface.  Here you do not need to pull data from Database
-     * to set fields in AwardSponsorTerm
-     * @return
-     */
-    protected boolean addSponsorTermFromLookup(SponsorTermFormHelper formHelper, HttpServletRequest request) {
-        AwardSponsorTerm newAwardSponsorTerm = new AwardSponsorTerm(formHelper.getNewSponsorTerms().get(getSponsorTermTypeIndex(request)).getSponsorTermId(),
-                                                                        formHelper.getNewSponsorTerms().get(getSponsorTermTypeIndex(request)));
-        return applyRulesToAwardSponsorTerm(newAwardSponsorTerm, formHelper, request);
+    public boolean addSponsorTermFromMutiValueLookup(SponsorTermFormHelper formHelper, SponsorTerm sponsorTerm, HttpServletRequest request) {
+        AwardSponsorTerm newAwardSponsorTerm = new AwardSponsorTerm(sponsorTerm.getSponsorTermId(), sponsorTerm);
+        return applyRulesToAwardSponsorTermFromMultiValueLookup(newAwardSponsorTerm, formHelper, request, sponsorTerm);
     }
     
     
@@ -115,6 +102,7 @@ public class SponsorTermActionHelper implements Serializable {
     protected boolean applyRulesToAwardSponsorTerm(AwardSponsorTerm newAwardSponsorTerm, SponsorTermFormHelper formHelper, HttpServletRequest request) {
         String sponsorTermCode = formHelper.getNewSponsorTerms().get(getSponsorTermTypeIndex(request)).getSponsorTermCode();
         int sponsorTermTypeCode = getSponsorTermTypeIndex(request) + 1;
+        
         AwardSponsorTermRuleEvent event = 
             new AwardSponsorTermRuleEvent(NEW_AWARD_SPONSOR_TERM, formHelper.getAwardDocument(), newAwardSponsorTerm, sponsorTermCode, sponsorTermTypeCode);
         boolean success = new AwardSponsorTermRuleImpl().processAddSponsorTermBusinessRules(event);
@@ -122,6 +110,43 @@ public class SponsorTermActionHelper implements Serializable {
             addAwardSponsorTerm(newAwardSponsorTerm, formHelper, request);
         }
         return success;
+    }
+    
+    /**
+     * This method applies the rules to the Award Sponsor Term before adding.
+     * @param newAwardSponsorTerm
+     * @return
+     */
+    protected boolean applyRulesToAwardSponsorTermFromMultiValueLookup(AwardSponsorTerm newAwardSponsorTerm, SponsorTermFormHelper formHelper, HttpServletRequest request, SponsorTerm sponsorTerm) {
+        boolean success = validateAwardSponsorTermNotDuplicate(newAwardSponsorTerm, formHelper.getAwardDocument().getAward().getAwardSponsorTerms());
+        if (success) {
+            addAwardSponsorTermFromMultiValueLookup(newAwardSponsorTerm, formHelper, request);
+        }
+        return success;
+    }
+    
+    /**
+    *
+    * Validate that Award Sponsor term is not a duplicate.
+    * @param AwardSponsorTerm, ErrorMap
+    * @return Boolean
+    */
+    boolean validateAwardSponsorTermNotDuplicate(AwardSponsorTerm awardSponsorTerm, List<AwardSponsorTerm> awardSponsorTerms){
+        boolean valid = true;
+        for(AwardSponsorTerm tempAwardSponsorTerm : awardSponsorTerms){
+            if (awardSponsorTerm.getSponsorTermId().equals(tempAwardSponsorTerm.getSponsorTermId())){
+                valid = false;
+            }
+        }
+        return valid;
+    }
+    
+    /**
+     * Helper method to add sponsorTerm to Award.
+     * @param newAwardSponsorTerm
+     */
+    protected void addAwardSponsorTermFromMultiValueLookup(AwardSponsorTerm newAwardSponsorTerm, SponsorTermFormHelper formHelper, HttpServletRequest request) {
+        formHelper.getAwardDocument().getAward().add(newAwardSponsorTerm);          
     }
     
     /**

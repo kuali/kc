@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,10 +35,16 @@ import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutService;
+import org.kuali.kra.bo.ScienceKeyword;
+import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KeywordsService;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -196,6 +205,31 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         
         refreshAwardReportTermRecipients(awardForm, awardDocument);
         
+        String lookupResultsBOClassName = request.getParameter(KNSConstants.LOOKUP_RESULTS_BO_CLASS_NAME);
+        String lookupResultsSequenceNumber = request.getParameter(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+        awardForm.setLookupResultsBOClassName(lookupResultsBOClassName);
+        awardForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);        
+        try{
+            // check to see if we are coming back from a lookup
+            if (Constants.MULTIPLE_VALUE.equals(awardForm.getRefreshCaller())) {
+                // Multivalue lookup. Note that the multivalue keyword lookup results are returned persisted to avoid using session.
+                // Since URLs have a max length of 2000 chars, field conversions can not be done.
+                String thisLookupResultsSequenceNumber = awardForm.getLookupResultsSequenceNumber();//implement MultiLookupFormSupport
+                if (StringUtils.isNotBlank(thisLookupResultsSequenceNumber)) {
+                    Class lookupResultsBOClass = Class.forName(awardForm.getLookupResultsBOClassName());
+                    Collection<PersistableBusinessObject> rawValues = KNSServiceLocator.getLookupResultsService()
+                        .retrieveSelectedResultBOs(thisLookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getPrincipalId());
+                    if (lookupResultsBOClass.isAssignableFrom(SponsorTerm.class)) {
+                        for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
+                            SponsorTerm sponsorTerm = (SponsorTerm) iter.next();
+                            sponsorTermActionHelper.addSponsorTermFromMutiValueLookup(((AwardForm) form).getSponsorTermFormHelper(), sponsorTerm, request);
+                        }
+                    }
+                }
+            }   
+        }catch(Exception ex){
+            System.out.print(ex);
+        }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
