@@ -130,12 +130,16 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetParentDocument pdDoc = budgetDocument.getParentDocument();
-        getProposalDevelopmentService().addBudgetVersion(pdDoc, budgetForm.getNewBudgetVersionName());
+        getBudgetService().addBudgetVersion(pdDoc, budgetForm.getNewBudgetVersionName());
         budgetForm.setNewBudgetVersionName("");
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    private BudgetService getBudgetService() {
+        return KraServiceLocator.getService(BudgetService.class);
+    }
+
     /**
      * This method opens a budget version.
      * 
@@ -253,7 +257,7 @@ public class BudgetVersionsAction extends BudgetAction {
         Budget budget = budgetDocument.getBudget();
         if(budgetForm.isAuditActivated()) {
             try {
-                valid &=getProposalDevelopmentService().validateBudgetAuditRuleBeforeSaveBudgetVersion(budgetDocument.getParentDocument());
+                valid &=getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(budgetDocument.getParentDocument());
             } catch (Exception ex) {
                 info("Audit rule check failed ", ex.getStackTrace());
             }
@@ -278,7 +282,7 @@ public class BudgetVersionsAction extends BudgetAction {
             String copiedName = copiedOverview.getDocumentDescription();
             copiedOverview.setDocumentDescription("copied placeholder");
             debug("validating ", copiedName);
-            valid = getProposalDevelopmentService().isBudgetVersionNameValid(budgetForm.getDocument().getParentDocument(), copiedName);
+            valid = getBudgetService().isBudgetVersionNameValid(budgetForm.getDocument().getParentDocument(), copiedName);
             copiedOverview.setDocumentDescription(copiedName);
             budgetForm.setSaveAfterCopy(!valid);
         }

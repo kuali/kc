@@ -143,4 +143,40 @@ public interface BudgetService {
     public String getBudgetExpensePanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
 
     public Collection<BudgetProposalRate> getSavedProposalRates(BudgetVersionOverview budgetToOpen);
+
+    /**
+     * 
+     * This method to check the audit rule when try to save 'budgetversion' and with 'complete' status.
+     * @param proposalDevelopmentDocument
+     * @return
+     * @throws Exception
+     */
+    public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(BudgetParentDocument proposalDevelopmentDocument) throws Exception;
+    /**
+     * Add a new Budget Version by name to a {@link BudgetParentDocument}
+     * 
+     * @param document instance to add {@link BudgetVersionOverview} to
+     * @param versionName of the {@link BudgetVersionOverview}
+     */
+    public void addBudgetVersion(BudgetParentDocument document, String versionName) throws WorkflowException;
+
+    /**
+     * Determine if the names of a {@link BudgetVersionOverview} instances in the given {@link  ProposalDevelopmentDocument} instance is valid
+     *
+     * @param document {@link ProposalDevelopmentDocument} instance to get {@link BudgetVersionOverview} instances from
+     * @param versionName to check
+     * @return true for valid false otherwie
+     */
+    public boolean isBudgetVersionNameValid(BudgetParentDocument document, String versionName);
+
+    /**
+     * 
+     * This method to invoke audit rule check for budget if status is final only
+     * This is called by PD's turnon validation
+     * @param proposalDevelopmentDocument
+     * @return
+     */
+    public boolean validateBudgetAuditRule(BudgetParentDocument parentDocument) throws Exception;
+
+    
 }
