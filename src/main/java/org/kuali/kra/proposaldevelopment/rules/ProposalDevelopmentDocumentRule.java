@@ -119,7 +119,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
 
         valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
-        valid &= processOrganizationLocationBusinessRule(proposalDevelopmentDocument);
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
         valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument, false);
         valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument, false);
@@ -366,29 +365,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
                 proposalTypeCode.equals(proposalTypeCodeContinuation));
     }
 
-    /**
-     *
-     * Validate organization/location rule. specifically, at least one location is required.
-     * 
-     * @param proposalDevelopmentDocument
-     * @return
-     */
-    private boolean processOrganizationLocationBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        boolean valid = true;
-
-        DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
-        if (developmentProposal.getApplicantOrganization() != null && (developmentProposal.getProposalSites().size() == 0 ||
-                (proposalDevelopmentDocument.getDevelopmentProposal().getProposalSites().size() == 1 &&
-                        developmentProposal.getProposalSites().get(0).getSiteNumber() == 0))) {
-            GlobalVariables.getErrorMap().removeFromErrorPath("document");
-            reportError("newPropLocation.location", KeyConstants.ERROR_REQUIRED_FOR_PROPLOCATION);
-            GlobalVariables.getErrorMap().addToErrorPath("document");
-            valid = false;
-        }
-        return valid;
-
-    }
-    
     /**
     *
     * Validate Grants.gov business rules.

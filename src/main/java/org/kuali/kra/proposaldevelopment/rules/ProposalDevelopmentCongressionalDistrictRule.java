@@ -38,8 +38,9 @@ public class ProposalDevelopmentCongressionalDistrictRule extends ProposalSiteRu
         boolean isValid = isIndexValid(siteIndexStr, "Site Index");
         
         CongressionalDistrictHelper proposalSiteHelper = null;
+        int siteIndex = -1;
         if (isValid) {
-            int siteIndex = new Integer(siteIndexStr);
+            siteIndex = new Integer(siteIndexStr);
             proposalSiteHelper = addCongressionalDistrictEvent.getProposalSiteHelpers().get(siteIndex);
         }
 
@@ -83,14 +84,15 @@ public class ProposalDevelopmentCongressionalDistrictRule extends ProposalSiteRu
     private boolean isDistrictNumberValid(String districtNumber) {
         boolean isValid = true;
         
+        String propertyName = "newDistrictNumber";
         try {
             if (Integer.parseInt(districtNumber) < 1) {
-                reportError("newPropLocation.location", KeyConstants.ERROR_PROPOSAL_SITES_DISTRICT_NUMBER_LESS_THAN_ONE, "District Number");
+                reportError(propertyName, KeyConstants.ERROR_PROPOSAL_SITES_DISTRICT_NUMBER_LESS_THAN_ONE, "District Number");
                 isValid = false;
             }
         }
         catch (NumberFormatException e) {
-            reportError("newPropLocation.location", KeyConstants.ERROR_PROPOSAL_SITES_DISTRICT_NUMBER_INVALID_FORMAT, "The value " + districtNumber + " for District Number");
+            reportError(propertyName, KeyConstants.ERROR_PROPOSAL_SITES_DISTRICT_NUMBER_INVALID_FORMAT, "The value " + districtNumber + " for District Number");
             isValid = false;
         }
         

@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.bo.Organization;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
@@ -29,7 +30,6 @@ import org.kuali.rice.kns.util.TypedArrayList;
 
 public class ProposalDevelopmentProposalLocationRuleTest extends ProposalDevelopmentRuleTestBase {
 
-    private static final String NEW_PROPOSAL_LOCATION = "newPropLocation";
     private ProposalDevelopmentProposalLocationRule rule = null;
 
     @Before
@@ -56,6 +56,7 @@ public class ProposalDevelopmentProposalLocationRuleTest extends ProposalDevelop
 
         ProposalSite newProposalSite = new ProposalSite();
         newProposalSite.setLocationName("test location");
+        newProposalSite.setOrganization(new Organization());
         AddProposalSiteEvent addProposalLocationEvent = new AddProposalSiteEvent(Constants.EMPTY_STRING, document,
             newProposalSite);
         assertTrue(rule.processAddProposalSiteBusinessRules(addProposalLocationEvent));
@@ -71,16 +72,36 @@ public class ProposalDevelopmentProposalLocationRuleTest extends ProposalDevelop
     public void testEmptyLocationName() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         ProposalSite newProposalSite = new ProposalSite();
-        // newProposalSite.setLocationName("test location");
+        newProposalSite.setOrganization(new Organization());
         AddProposalSiteEvent addProposalLocationEvent = new AddProposalSiteEvent(Constants.EMPTY_STRING, document,
             newProposalSite);
         assertFalse(rule.processAddProposalSiteBusinessRules(addProposalLocationEvent));
 
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROPOSAL_LOCATION + ".location");
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("locationName");
         assertTrue(errors.size() == 1);
 
         ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), KeyConstants.ERROR_REQUIRED_FOR_PROPLOCATION_NAME);
+        assertEquals(message.getErrorKey(), KeyConstants.ERROR_PROPOSAL_SITES_LOCATION_NAME_REQUIRED);
     }
 
+    /**
+     * Test adding an proposal location with no Organization.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testEmptyAddress() throws Exception {
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
+        ProposalSite newProposalSite = new ProposalSite();
+        newProposalSite.setLocationName("test location");
+        AddProposalSiteEvent addProposalLocationEvent = new AddProposalSiteEvent(Constants.EMPTY_STRING, document,
+            newProposalSite);
+        assertFalse(rule.processAddProposalSiteBusinessRules(addProposalLocationEvent));
+
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("address");
+        assertTrue(errors.size() == 1);
+
+        ErrorMessage message = (ErrorMessage) errors.get(0);
+        assertEquals(message.getErrorKey(), KeyConstants.ERROR_PROPOSAL_SITES_ADDRESS_REQUIRED);
+    }
 }
