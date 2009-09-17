@@ -34,9 +34,6 @@ public final class KeyConstants {
     public static final String ERROR_REQUIRED_SELECT_SPECIAL_REVIEW_CODE = "error.required.select.special.review.code";
 
     public static final String ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW = "error.required.for.valid.specialReview";
-    public static final String ERROR_REQUIRED_FOR_PROPLOCATION = "error.required.for.propLocation";
-    public static final String ERROR_REQUIRED_FOR_PROPLOCATION_NAME = "error.required.for.locationName";
-    public static final String ERROR_REQUIRED_FOR_PROPOSALTYPE_NOTNEW = "error.required.for.proposalType.notNew";
     public static final String ERROR_REQUIRED_PROPOSAL_SPONSOR_ID = "error.required.proposalSponsorId";
     public static final String ERROR_NIH_SPONSOR_PROJECT_TITLE_LENGTH = "error.nih.sponsor.project.title.length";
     public static final String WARNING_EMPTY_DEADLINE_DATE = "warning.empty.deadline.date";
@@ -59,6 +56,8 @@ public final class KeyConstants {
     public static final String ERROR_PROPOSAL_SITES_DISTRICT_NUMBER_LESS_THAN_ONE = "error.lessThanOne";
     public static final String ERROR_PROPOSAL_SITES_DISTRICT_NUMBER_INVALID_FORMAT = "error.integer";
     public static final String ERROR_PROPOSAL_SITES_INDEX_INVALID_FORMAT = "error.integer";   // used for site indexes and district indexes
+    public static final String ERROR_PROPOSAL_SITES_LOCATION_NAME_REQUIRED = "error.required.locationName";
+    public static final String ERROR_PROPOSAL_SITES_ADDRESS_REQUIRED = "error.required.address";
         
     // Key Personnel Mojo
     public static final String ERROR_INVESTIGATOR_UNITS_UPBOUND = "error.investigatorUnits.upbound";

@@ -48,9 +48,8 @@ import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalCongressionalD
 import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper;
-import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
@@ -148,7 +147,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         
         ProposalSite newOtherOrganization = proposalDevelopmentForm.getNewOtherOrganization();
-        if (checkAndInitNewLocation(proposalDevelopmentDocument, newOtherOrganization)) {
+        if (checkAndInitNewLocation("newOtherOrganization", proposalDevelopmentDocument, newOtherOrganization)) {
             proposalDevelopmentDocument.getDevelopmentProposal().addOtherOrganization(newOtherOrganization);
             
             // reset input fields on the form
@@ -166,7 +165,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
 
         ProposalSite newPerformanceSite = proposalDevelopmentForm.getNewPerformanceSite();
-        if (checkAndInitNewLocation(proposalDevelopmentDocument, newPerformanceSite)) {
+        if (checkAndInitNewLocation("newPerformanceSite", proposalDevelopmentDocument, newPerformanceSite)) {
             proposalDevelopmentDocument.getDevelopmentProposal().addPerformanceSite(newPerformanceSite);
             
             // reset input fields on the form
@@ -175,9 +174,9 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private boolean checkAndInitNewLocation(ProposalDevelopmentDocument proposalDevelopmentDocument, ProposalSite newProposalSite) {
+    private boolean checkAndInitNewLocation(String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument, ProposalSite newProposalSite) {
         if (getKualiRuleService().applyRules(
-                new AddProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument, newProposalSite))) {
+                new AddProposalSiteEvent(errorPathPrefix, proposalDevelopmentDocument, newProposalSite))) {
             newProposalSite.setSiteNumber(proposalDevelopmentDocument.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
             return true;
         }
@@ -272,7 +271,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalSite applicantOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getApplicantOrganization();
         CongressionalDistrictHelper applicantOrganizationHelper = proposalDevelopmentForm.getApplicantOrganizationHelper();
         if (getKualiRuleService().applyRules(
-                new AddProposalCongressionalDistrictEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument,
+                new AddProposalCongressionalDistrictEvent("applicantOrganizationHelper", proposalDevelopmentDocument,
                         applicantOrganization, applicantOrganizationHelper))) {
             return addCongressionalDistrict(mapping, applicantOrganization, applicantOrganizationHelper);
         }
@@ -296,7 +295,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalSite performingOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getPerformingOrganization();
         CongressionalDistrictHelper performingOrganizationHelper = proposalDevelopmentForm.getPerformingOrganizationHelper();
         if (getKualiRuleService().applyRules(
-                new AddProposalCongressionalDistrictEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument,
+                new AddProposalCongressionalDistrictEvent("performingOrganizationHelper", proposalDevelopmentDocument,
                         performingOrganization, performingOrganizationHelper))) {
             return addCongressionalDistrict(mapping, performingOrganization, performingOrganizationHelper);
         }
@@ -322,7 +321,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         List<CongressionalDistrictHelper> proposalSiteHelpers = proposalDevelopmentForm.getPerformanceSiteHelpers();
         String siteIndexStr = getSiteIndex(request);
         if (getKualiRuleService().applyRules(
-                new AddProposalCongressionalDistrictEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument,
+                new AddProposalCongressionalDistrictEvent("performanceSiteHelpers[" + siteIndexStr + "]", proposalDevelopmentDocument,
                         performanceSites, proposalSiteHelpers, siteIndexStr))) {
             return addCongressionalDistrict(mapping, performanceSites, proposalSiteHelpers, siteIndexStr);
         }
@@ -348,7 +347,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         List<CongressionalDistrictHelper> otherOrganizationHelpers = proposalDevelopmentForm.getOtherOrganizationHelpers();
         String siteIndexStr = getSiteIndex(request);
         if (getKualiRuleService().applyRules(
-                new AddProposalCongressionalDistrictEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument,
+                new AddProposalCongressionalDistrictEvent("otherOrganizationHelpers[" + siteIndexStr + "]", proposalDevelopmentDocument,
                         otherOrganizations, otherOrganizationHelpers, siteIndexStr))) {
             return addCongressionalDistrict(mapping, otherOrganizations, otherOrganizationHelpers, siteIndexStr);
         }
