@@ -23,20 +23,25 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 public class ProposalDevelopmentProposalLocationRule extends ResearchDocumentRuleBase implements AddProposalSiteRule {
-    private static final String NEW_PROPOSAL_LOCATION = "newPropLocation";
+    private static final String LOCATION_NAME_PROPERTY = "locationName";
+    private static final String ADDRESS_NAME_PROPERTY = "address";
 
     /**
      * 
      * @see org.kuali.kra.proposaldevelopment.rule.AddProposalSiteRule#processAddProposalSiteBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddProposalSiteEvent)
      */
-    public boolean processAddProposalSiteBusinessRules(AddProposalSiteEvent addProposalLocationEvent) {
-        ProposalSite proposalSite = addProposalLocationEvent.getProposalSite();
+    public boolean processAddProposalSiteBusinessRules(AddProposalSiteEvent addProposalSiteEvent) {
+        ProposalSite proposalSite = addProposalSiteEvent.getProposalSite();
         boolean rulePassed = true;
-        String errorPath = NEW_PROPOSAL_LOCATION;
 
-        if(StringUtils.isBlank(proposalSite.getLocationName())){
+        if (StringUtils.isBlank(proposalSite.getLocationName())) {
             rulePassed = false;
-            reportError(errorPath+".location", KeyConstants.ERROR_REQUIRED_FOR_PROPLOCATION_NAME);
+            reportError(LOCATION_NAME_PROPERTY, KeyConstants.ERROR_PROPOSAL_SITES_LOCATION_NAME_REQUIRED);
+        }
+
+        if (proposalSite.getOrganization()==null && proposalSite.getRolodex()==null) {
+            rulePassed = false;
+            reportError(ADDRESS_NAME_PROPERTY, KeyConstants.ERROR_PROPOSAL_SITES_ADDRESS_REQUIRED);
         }
 
         return rulePassed;
