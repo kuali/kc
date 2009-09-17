@@ -1030,5 +1030,9 @@ public class BudgetRatesServiceImpl implements BudgetRatesService<ProposalDevelo
         return keys;
     }
 
+    public void populateBudgetRatesForNewVersion(BudgetDocument budgetDocument) {
+        getBudgetRates(new ArrayList<RateClassType>(), budgetDocument);
+    }
+
 
 }

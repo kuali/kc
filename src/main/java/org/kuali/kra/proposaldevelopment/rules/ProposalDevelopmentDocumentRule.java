@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -469,7 +470,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         // audit check for budgetversion with final status
         try {
-            retval &= KraServiceLocator.getService(ProposalDevelopmentService.class).validateBudgetAuditRule((ProposalDevelopmentDocument)document);
+            retval &= KraServiceLocator.getService(BudgetService.class).validateBudgetAuditRule((ProposalDevelopmentDocument)document);
         } catch (Exception ex) {
             // TODO : should log it here
             throw new RuntimeException("Validate Budget Audit rules encountered exception", ex);
