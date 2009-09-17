@@ -16,10 +16,12 @@
 package org.kuali.kra.timeandmoney.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 
 public interface ActivePendingTransactionsService {
@@ -31,6 +33,9 @@ public interface ActivePendingTransactionsService {
      * @param newAwardAmountTransaction
      */
     void approveTransactions(TimeAndMoneyDocument document, AwardAmountTransaction newAwardAmountTransaction);
+    
+    List<AwardAmountTransaction> processTransactions(TimeAndMoneyDocument doc, AwardAmountTransaction newAwardAmountTransaction, Map<String
+            , AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems);
     
     /**
      * 

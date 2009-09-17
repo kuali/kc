@@ -60,82 +60,6 @@
          // return false;
        });
     }); // $(document).ready
-    
-    /*
-	 * top level to add research area
-	 */
-   $("#add0").click(function(){    
-   // click 'add' for 000001
-         var trNode = $(this).parents('tr:eq(0)');
-        // alert(trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+"-"+trNode.children('td:eq(2)').children('input:eq(0)').attr("value"));
-
-       if (trNode.children('td:eq(1)').children('input:eq(0)').attr("value") == "") {
-         alert("must enter research area code");
-       } else if (trNode.children('td:eq(2)').children('input:eq(0)').attr("value") == "") {
-         alert("must enter research area");
-       } else {
-       
-       // check if code exists
-           var raExist
-           $.ajax({
-               url: 'researchAreaAjax.do',
-               type: 'GET',
-               dataType: 'html',
-               data:'researchAreaCode='+trNode.children('td:eq(1)').children('input:eq(0)').attr("value")+'&addRA=Y',
-               cache: false,
-               async: false,
-               timeout: 1000,
-               error: function(){
-                  alert('Error loading XML document');
-               },
-               success: function(xml){
-                  $(xml).find('h3').each(function(){
-                     raExist = $(this).text();
-                  // alert(raExist);
-      
-                   });
-                }
-             });   // end ajax
-       
-       
-         if (raExist == 'false') {
-             var ulTag = $("#researcharea");
-                                                        
-             var item_text = trNode.children('td:eq(1)').children('input:eq(0)').attr("value") +" : "+trNode.children('td:eq(2)').children('input:eq(0)').attr("value");
-             var listitem = setupListItem(trNode.children('td:eq(1)').children('input:eq(0)').attr("value") , trNode.children('td:eq(2)').children('input:eq(0)').attr("value"));
-             // alert(listitem.html());
-          // need this ultag to force to display folder.
-          var childUlTag = $('<ul></ul>').attr("id","ul"+i);
-          childUlTag.appendTo(listitem);
-          
-          // this is new nodes, so it is same as already loaded from DB
-          var loadedId = "loaded"+i;
-          var inputtag = $('<input type="hidden"></input>').attr("id",loadedId);
-          inputtag.appendTo(childUlTag);
-          
-             listitem.appendTo(ulTag);
-             // alert("ultagid "+ulTag.attr("id").substring(2));
-             // force to display folder icon
-             $("#researcharea").treeview({
-                 add: listitem
-             // toggle: function() {
-             // var subul=this.getElementsByTagName("ul")[0]
-             // if (subul.style.display=="block")
-             // alert("You've opened this Folder!")
-             // }
-             });
-             
-             // apend to sqlScripts
-             addSqlScripts(getInsertClause(trNode.children('td:eq(1)').children('input:eq(0)').attr("value"), '000001', trNode.children('td:eq(2)').children('input:eq(0)').attr("value")));
-             // alert("sqlScripts = "+sqlScripts);
-          }  else {
-               alert ("Research Area Code already exist");
-          }
-         };                                
-     
-      
-     return false;
-    }); // add0    
      
 
     /*
@@ -298,7 +222,6 @@
         var i2 = 12 - index;
         var racode2 = racode.substring(i2,12);
         
-        
       	var abc = "<table style=\"border: medium none ; padding: 0px; width: 100%; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1 
       				+"</td></tr></tbody></table>";
         
@@ -369,6 +292,49 @@
       name = name.substring(name.indexOf("%3A")+3, name.length).trim();
       text1 = text1.substr(0,12);
       
+      var text1reverse = revString(text1);
+      var index = text1reverse.indexOf("0");
+      var i2 = 12 - index;
+      var indexForHiddenField = text1.substring(i2,12);
+            
+	  var text2 = name.substring(0,name.indexOf("%3A")).trim();
+      
+	  name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text3 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text4 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text5 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text6 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text7 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text8 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text9 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text10 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text11 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text12 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text13 = name.substring(0,name.indexOf("%3A")).trim();
+      
+      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
+      var text14 = name.substring(0,name.indexOf("%3A")).trim();
+      
 	  var tblTag = $('<table id="tbody3_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; width: 97%; border-collapse: collapse;"></table>')
 
 	    var trTag0 = $('<tr></tr>');
@@ -386,8 +352,8 @@
 	    var subTdTag1 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; text-align: left; width: 60px;"></td>');
 	    var subTdTag2 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right; width: 140px;"></td>');
 	    var subTdTag3 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right; width: 130px;"></td>');
-	    var subTdTag4 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: left; width: 325px;">select box will come here</td>');
-	    var subTdTag5 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: center; width: 20px;">aw</td>');
+	    var subTdTag4 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: left; width: 325px;"></td>');
+	    var subTdTag5 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: center; width: 20px;"></td>');
 	    	    
 	    var radio1 = $('<input class="nobord" type="radio" />').attr("id","copyDescendantsRadio1"+text1).attr("name","copyDescendantsRadio1"+text1);
 	    subTdTag1.html('new');
@@ -400,6 +366,27 @@
 	    var radio3 = $('<input class="nobord" type="radio" />').attr("id","copyDescendantsRadio2"+text1).attr("name","copyDescendantsRadio2"+text1);
 	    subTdTag3.html('selected award');
 	    radio3.appendTo(subTdTag3);	
+
+	    var lookupField = $('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempOjbect["+indexForHiddenField+"].awardNumber1))).((#awardHierarchyTempOjbect["+indexForHiddenField+"].awardNumber1:awardNumber#)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
+	    var selectBoxText = $("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.selectBox1").attr("value");
+	    var selectTag = $('<select />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].newChildPanelTargetAward").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].newChildPanelTargetAward");   
+	    var optionTag = $("<option> select: </option>").attr("value","");
+	    optionTag.appendTo(selectTag);
+	    while(selectBoxText.length>1){
+	    	var optionValue = selectBoxText.substring(0,selectBoxText.indexOf("%3A")).trim();	    	
+	    	var optionText = selectBoxText.substring(0,selectBoxText.indexOf("#")).trim();
+	    	optionText = optionText.replace("%3A",":");
+	    	selectBoxText = selectBoxText.substring(selectBoxText.indexOf("#")+1, selectBoxText.length).trim();
+	    	if($("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.awardNumber1").attr("value") == optionValue){
+	    		var optionTag = $("<option>"+optionText+"</option>").attr("value",optionValue).attr("selected",true);
+	    	}else{
+	    		var optionTag = $("<option>"+optionText+"</option>").attr("value",optionValue);
+	    	}
+	    	optionTag.appendTo(selectTag);	    	
+	    }
+	    selectTag.appendTo(subTdTag4)
+	    
+	    lookupField.appendTo(subTdTag5);
 	    
 	    subTdTag1.appendTo(subTrTag);
 	    subTdTag2.appendTo(subTrTag);

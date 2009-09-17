@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempOjbect;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.commitments.CostShareFormHelper;
 import org.kuali.kra.award.contacts.AwardCentralAdminContactsBean;
@@ -136,6 +137,7 @@ public class AwardForm extends ProposalFormBase
     private String addRA;    
     private String deletedRas;
     private String rootAwardNumber;
+    private List<AwardHierarchyTempOjbect> awardHierarchyTempOjbect;
     
     /**
      * 
@@ -189,6 +191,10 @@ public class AwardForm extends ProposalFormBase
         awardHierarchyNodes = new TreeMap<String, AwardHierarchy>();
         fundingProposalBean = new AwardFundingProposalBean(this);
         order = new ArrayList<String>();
+        awardHierarchyTempOjbect = new ArrayList<AwardHierarchyTempOjbect>();
+        for(int i=0;i<100;i++){
+            awardHierarchyTempOjbect.add(new AwardHierarchyTempOjbect());   
+        }
     }
     
     /**
@@ -871,4 +877,21 @@ public class AwardForm extends ProposalFormBase
     public void setRootAwardNumber(String rootAwardNumber) {
         this.rootAwardNumber = rootAwardNumber;
     }
+    
+    /**
+     * Gets the hiddenObject attribute. 
+     * @return Returns the hiddenObject.
+     */
+    public List<AwardHierarchyTempOjbect> getAwardHierarchyTempOjbect() {
+        return awardHierarchyTempOjbect;
+    }
+
+    /**
+     * Sets the hiddenObject attribute value.
+     * @param hiddenObject The hiddenObject to set.
+     */
+    public void setAwardHierarchyTempOjbect(List<AwardHierarchyTempOjbect> awardHierarchyTempOjbect) {
+        this.awardHierarchyTempOjbect = awardHierarchyTempOjbect;
+    }
+    
 }

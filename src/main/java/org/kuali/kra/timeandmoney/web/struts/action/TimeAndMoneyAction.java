@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.timeandmoney.web.struts.action;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +30,6 @@ import org.apache.ojb.broker.accesslayer.LookupException;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
@@ -41,10 +38,12 @@ import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
+import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyActionSummaryService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
@@ -110,56 +109,27 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;        
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+        TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
+        
         ActionForward forward = handleDocument(mapping, form, request, response, timeAndMoneyForm);
         timeAndMoneyForm.initializeFormOrDocumentBasedOnCommand();        
         String rootAwardNumber = timeAndMoneyForm.getTimeAndMoneyDocument().getRootAwardNumber();
-        List<String> order = new ArrayList<String>();        
-        timeAndMoneyForm.getTimeAndMoneyDocument().setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(rootAwardNumber, order));
-        timeAndMoneyForm.getTimeAndMoneyDocument().setAwardNumber(rootAwardNumber);
-        timeAndMoneyForm.setOrder(order);
-        setupHierachyNodes(timeAndMoneyForm.getTimeAndMoneyDocument());        
+                
+        timeAndMoneyDocument.setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(rootAwardNumber, timeAndMoneyForm.getOrder()));
+        timeAndMoneyDocument.setAwardNumber(rootAwardNumber);
+        
+        getAwardHierarchyUIService().populateAwardHierarchyNodes(timeAndMoneyDocument.getAwardHierarchyItems(), timeAndMoneyDocument.getAwardHierarchyNodes());        
         populateOtherPanels(timeAndMoneyForm.getTransactionBean().getNewAwardAmountTransaction(), timeAndMoneyForm, rootAwardNumber);
         return forward;
     }
-    
-    private String convertToString(Date date){
-        if(date!=null){
-            return date.toString();
-        }else{
-            return null;
-        }
-    }
-    
+        
     public AwardHierarchyService getAwardHierarchyService(){        
         return (AwardHierarchyService) KraServiceLocator.getService(AwardHierarchyService.class);
     }
     
-    protected void setupHierachyNodes(TimeAndMoneyDocument timeAndMoneyDocument){
-        AwardHierarchyNode awardHierarchyNode;
-        ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
-        
-        for(Entry<String, AwardHierarchy> awardHierarchy:timeAndMoneyDocument.getAwardHierarchyItems().entrySet()){
-            awardHierarchyNode = new AwardHierarchyNode();
-            awardHierarchyNode.setAwardNumber(awardHierarchy.getValue().getAwardNumber());
-            awardHierarchyNode.setParentAwardNumber(awardHierarchy.getValue().getParentAwardNumber());
-            awardHierarchyNode.setRootAwardNumber(awardHierarchy.getValue().getRootAwardNumber());
-            
-            Award award = aptService.getActiveAwardVersion(awardHierarchy.getValue().getAwardNumber());
-            AwardAmountInfo awardAmountInfo = aptService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());            
-            
-            awardHierarchyNode.setFinalExpirationDate(award.getProjectEndDate());
-            awardHierarchyNode.setLeadUnitName(award.getUnitName());
-            awardHierarchyNode.setPrincipalInvestigatorName(award.getPrincipalInvestigatorName());
-            awardHierarchyNode.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
-            awardHierarchyNode.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
-            awardHierarchyNode.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
-            awardHierarchyNode.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
-            awardHierarchyNode.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
-            awardHierarchyNode.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
-            timeAndMoneyDocument.getAwardHierarchyNodes().put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
-        }
-
+    AwardHierarchyUIService getAwardHierarchyUIService(){
+        return KraServiceLocator.getService(AwardHierarchyUIService.class);
     }
     
     /**
@@ -388,6 +358,19 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     public BusinessObjectService getBusinessObjectService() {
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         return businessObjectService;
+    }
+    
+    public ActionForward processTransactions(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+        TimeAndMoneyDocument doc = timeAndMoneyForm.getTimeAndMoneyDocument();
+        Map<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
+        List<Award> awardItems = new ArrayList<Award>();
+        List<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
+
+        ActivePendingTransactionsService service = KraServiceLocator.getService(ActivePendingTransactionsService.class);
+        service.processTransactions(doc, doc.getNewAwardAmountTransaction(), awardAmountTransactionItems, awardItems, transactionDetailItems);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
 }
