@@ -44,11 +44,7 @@
     </tr>
 
     <kra:section permission="modifyProposal">
-        <tr>
-            <td colspan="4">
-                <kra-pd:addProposalSite newProposalSite="${newProposalSite}" newProposalSiteField="${newProposalSiteField}" addMethodToCall="${addSiteMethodToCall}" rolodexLookup="${rolodexLookup}" />
-            </td>
-        </tr>
+        <kra-pd:addProposalSite newProposalSite="${newProposalSite}" newProposalSiteField="${newProposalSiteField}" addMethodToCall="${addSiteMethodToCall}" rolodexLookup="${rolodexLookup}" />
     </kra:section>
     <c:forEach var="proposalSite" items="${proposalSitesList}" varStatus="status">
         <tr>

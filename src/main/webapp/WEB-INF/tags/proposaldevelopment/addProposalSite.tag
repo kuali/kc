@@ -57,6 +57,10 @@
             </c:choose>
             
             <%-- Lookup control --%>
+            <kul:checkErrors keyMatch="${newProposalSiteField}.address" />
+            <c:if test="${hasErrors}">
+                <kul:fieldShowErrorIcon />
+            </c:if>
             <kra:section permission="modifyProposal">
                 <kul:lookup
                     boClassName="org.kuali.kra.bo.Rolodex" 
@@ -102,6 +106,10 @@
             </c:choose>
             
             <%-- Lookup control --%>
+            <kul:checkErrors keyMatch="${newProposalSiteField}.address" />
+            <c:if test="${hasErrors}">
+                <kul:fieldShowErrorIcon />
+            </c:if>
             <kra:section permission="modifyProposal">
                 <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
                     fieldConversions="organizationId:${newProposalSiteField}.organizationId,organizationName:${newProposalSiteField}.organization.organizationName,address:${newProposalSiteField}.organization.address"

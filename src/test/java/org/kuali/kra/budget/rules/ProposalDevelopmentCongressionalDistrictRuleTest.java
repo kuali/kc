@@ -17,7 +17,6 @@ package org.kuali.kra.budget.rules;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
@@ -26,20 +25,18 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddProposalCongressionalDist
 import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalCongressionalDistrictEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalSiteEventBase;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentCongressionalDistrictRule;
-import org.kuali.kra.proposaldevelopment.rules.ProposalSiteRule;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
 import org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public class ProposalDevelopmentCongressionalDistrictRuleTest extends KraTestBase {
+public class ProposalDevelopmentCongressionalDistrictRuleTest extends ProposalDevelopmentRuleTestBase {
     private static final String ERROR_PATH_PREFIX = "document.developmentProposalList[0]";
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setErrorMap(new ErrorMap());
     }
     
     @Test
@@ -54,7 +51,7 @@ public class ProposalDevelopmentCongressionalDistrictRuleTest extends KraTestBas
         proposalSite.addCongressionalDistrict(district1);
         proposalSite.addCongressionalDistrict(district2);
         
-        ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         document.getDevelopmentProposal().setApplicantOrganization(proposalSite);
         
         DeleteProposalCongressionalDistrictEvent deleteCongressionalDistrictEvent;
@@ -82,7 +79,7 @@ public class ProposalDevelopmentCongressionalDistrictRuleTest extends KraTestBas
     @Test
     public void testProcessAddCongressionalDistrictRules() throws Exception {
         ProposalSite proposalSite = new ProposalSite();
-        ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         document.getDevelopmentProposal().setApplicantOrganization(proposalSite);
         
         // set up districts, proposal site, document
