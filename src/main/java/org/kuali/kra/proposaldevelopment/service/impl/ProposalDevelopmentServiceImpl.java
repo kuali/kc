@@ -59,25 +59,25 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * @param proposalDevelopmentDocument
      */
     public void initializeUnitOrganzationLocation(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        Organization proposalOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getApplicantOrganization().getOrganization();
+        ProposalSite applicantOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getApplicantOrganization();
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
 
         // Unit number chosen, set Applicant Organization
-        if (developmentProposal.getOwnedByUnitNumber() != null && proposalOrganization == null) {
+        if (developmentProposal.getOwnedByUnitNumber() != null && applicantOrganization.getOrganization() == null) {
             // get Lead Unit details
             developmentProposal.refreshReferenceObject("ownedByUnit");
             String applicantOrganizationId = developmentProposal.getOwnedByUnit().getOrganizationId();
 
             // get Organzation assoc. w/ Lead Unit, set applicant org
-            ProposalSite applicantOrganization = createProposalSite(applicantOrganizationId, getNextSiteNumber(proposalDevelopmentDocument));
+            applicantOrganization = createProposalSite(applicantOrganizationId, getNextSiteNumber(proposalDevelopmentDocument));
             developmentProposal.setApplicantOrganization(applicantOrganization);
         }
 
         // Set Performing Organization if not selected
         ProposalSite performingOrganization = developmentProposal.getPerformingOrganization();
-        if (performingOrganization.getOrganization()==null && performingOrganization.getRolodex()==null) {
-            String applicantOrganizationId = developmentProposal.getOwnedByUnit().getOrganizationId();
-            performingOrganization = createProposalSite(applicantOrganizationId, getNextSiteNumber(proposalDevelopmentDocument));
+        if (performingOrganization.getOrganization() == null && developmentProposal.getOwnedByUnitNumber() != null) {
+            String performingOrganizationId = developmentProposal.getOwnedByUnit().getOrganizationId();
+            performingOrganization = createProposalSite(performingOrganizationId, getNextSiteNumber(proposalDevelopmentDocument));
             developmentProposal.setPerformingOrganization(performingOrganization);
         }
     }
