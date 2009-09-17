@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,9 +30,12 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempOjbect;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.AwardHierarchyUIService;
+import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -137,4 +142,34 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
 
         return awardNumber;
     }
+    
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
+        
+        AwardForm awardForm = (AwardForm)form;
+        for(AwardHierarchyTempOjbect temp: awardForm.getAwardHierarchyTempOjbect()){
+            List<String> order = new ArrayList<String>();
+            if(StringUtils.isNotBlank(temp.getAwardNumber1())){
+                Map<String,AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
+                Map<String,AwardHierarchy> awardHierarchyItems = getAwardHierarchyService().getAwardHierarchy(temp.getAwardNumber1(), order);
+                getAwardHierarchyUIService().populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);
+                StringBuilder sb = new StringBuilder();
+                for(String str:order){                    
+                    sb.append(awardHierarchyNodes.get(str).getAwardNumber());
+                    sb.append(KNSConstants.BLANK_SPACE).append("%3A").append(KNSConstants.BLANK_SPACE).append(awardHierarchyNodes.get(str).getAccountNumber());
+                    sb.append(KNSConstants.BLANK_SPACE).append(":").append(KNSConstants.BLANK_SPACE).append(awardHierarchyNodes.get(str).getPrincipalInvestigatorName());
+                    sb.append(KNSConstants.BLANK_SPACE).append(":").append(KNSConstants.BLANK_SPACE).append(awardHierarchyNodes.get(str).getLeadUnitName());
+                    sb.append("#");
+                }
+                temp.setSelectBox1(sb.toString());
+            }
+        }
+
+        return super.refresh(mapping, form, request, response);
+    }
+    
+    private AwardHierarchyUIService getAwardHierarchyUIService(){
+        return KraServiceLocator.getService(AwardHierarchyUIService.class);
+    }
+    
+    
 }

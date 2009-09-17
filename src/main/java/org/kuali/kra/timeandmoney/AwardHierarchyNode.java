@@ -36,6 +36,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
     private String accountNumber;
     private Integer awardStatusCode;
     private String title;
+    private Long awardId;
     
     public AwardHierarchyNode() {
         anticipatedTotalAmount = new KualiDecimal("0");
@@ -276,6 +277,22 @@ public class AwardHierarchyNode extends AwardHierarchy {
      */
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    /**
+     * Gets the awardId attribute. 
+     * @return Returns the awardId.
+     */
+    public Long getAwardId() {
+        return awardId;
+    }
+
+    /**
+     * Sets the awardId attribute value.
+     * @param awardId The awardId to set.
+     */
+    public void setAwardId(Long awardId) {
+        this.awardId = awardId;
     }
     
 }
