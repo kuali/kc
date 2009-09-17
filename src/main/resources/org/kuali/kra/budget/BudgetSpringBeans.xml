@@ -41,4 +41,215 @@
         <property name="personService" ref="personService" />
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
     </bean>
+	<bean id="budgetLockService" class="org.kuali.kra.budget.service.impl.BudgetLockServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
+	<bean id="budgetSummaryService" class="org.kuali.kra.budget.summary.BudgetSummaryServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="budgetCalculationService">
+			<ref bean="budgetCalculationService"/>
+		</property>
+	</bean>
+
+	<bean id="budgetRatesService" class="org.kuali.kra.budget.rates.BudgetRatesServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<bean id="budgetPersonService" class="org.kuali.kra.budget.personnel.BudgetPersonServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService"/>
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
+		</property>
+	</bean>
+	
+	<bean id="budgetPersonnelBudgetService" class="org.kuali.kra.budget.personnel.BudgetPersonnelBudgetServiceImpl">
+		<property name="budgetPersonService">
+			<ref bean="budgetPersonService"/>
+		</property>
+		<property name="budgetCalculationService">
+			<ref bean="budgetCalculationService"/>
+		</property>
+	</bean>
+	<bean id="budgetService" class="org.kuali.kra.budget.core.BudgetServiceImpl">
+		<property name="documentService">
+			<ref bean="documentService"/>
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService"/>
+		</property>
+		<property name="budgetPersonService">
+			<ref bean="budgetPersonService"/>
+		</property>
+		<property name="budgetRatesService">
+			<ref bean="budgetRatesService"/>
+		</property>
+		<property name="pessimisticLockService">
+			<ref bean="pessimisticLockService"/>
+		</property>
+		<property name="budgetVersionRule">
+			<ref bean="budgetVersionRule"/>
+		</property>
+	</bean>
+	
+	<bean id="jobCodeService" class="org.kuali.kra.budget.personnel.JobCodeServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+ 	</bean>
+
+	<bean id="budgetVersionRule" class="org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule" scope="prototype" />
+
+	<bean id="budgetCalculationService" class="org.kuali.kra.budget.calculator.BudgetCalculationServiceImpl">
+		<property name="businessObjectService" >
+  			<ref bean="businessObjectService"/>
+  		</property>
+  		<property name="budgetDistributionAndIncomeService" >
+  			<ref bean="budgetDistributionAndIncomeService"/>
+  		</property>
+  		
+	</bean>
+
+	<bean id="budgetDistributionAndIncomeService" class="org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeServiceImpl">
+	</bean>
+
+    <!-- Budget Authorizers -->
+    <bean id="budgetTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="proposalBudget" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ProposalBudgetModifyAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="modifyBudget" />
+                </bean>
+                
+                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ProposalBudgetViewAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="viewBudget" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="awardBudgetTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="awardBudget" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.award.budget.document.authorizer.AwardBudgetModifyAuthorizer" >
+                    <property name="taskName" value="modifyBudget" />
+                </bean>
+                
+                <bean class="org.kuali.kra.award.budget.document.authorizer.AwardBudgetViewAuthorizer">
+                    <property name="taskName" value="viewBudget" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="budgetWebAuthorizer"
+          class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+
+        <property name="classname"
+                  value="org.kuali.kra.budget.web.struts.action.BudgetAction" />
+        <property name="mappings">
+            <map>
+                <entry key="save">
+                    <bean class="org.kuali.kra.budget.document.authorization.BudgetTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="modifyBudget" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="budgetVersionsWebAuthorizer"
+          class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+
+        <property name="classname"
+                  value="org.kuali.kra.budget.web.struts.action.BudgetVersionsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="addBudgetVersion">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.BudgetProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="addBudget" />
+                    </bean>
+                </entry>
+                <entry key="openBudgetVersion">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.BudgetProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="openBudgets" />
+                    </bean>
+                </entry>
+                <entry key="copyBudgetVersion">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.BudgetProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="addBudget" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="budgetActionsWebAuthorizer"
+          class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+
+        <property name="classname"
+                  value="org.kuali.kra.budget.web.struts.action.BudgetActionsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="printBudgetForm">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.BudgetProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="printProposal" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+	<bean id="budgetModularService" class="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="budgetCalculationService">
+			<ref bean="budgetCalculationService" />
+		</property>
+	</bean>
+	
+	<bean id="budgetExpenseLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="budgetExpenseLookupableHelperService" />
+  		</property>  		
+	</bean>	
+
+	<bean id="budgetExpenseLookupableHelperService" class="org.kuali.kra.lookup.BudgetExpenseLookupableHelperServiceImpl" 
+ 		scope="prototype" parent="lookupableHelperService">
+  	</bean>
+  	
+	<bean id="objectCodeToBudgetCategoryCodeService" class="org.kuali.kra.service.impl.ObjectCodeToBudgetCategoryCodeServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	
+	<bean id="onOffCampusLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="onOffCampusLookupableHelperServiceImpl" />
+  		</property>  		
+	</bean>	
+	
+	<bean id="onOffCampusLookupableHelperServiceImpl" class="org.kuali.kra.lookup.OnOffCampusLookupableHelperServiceImpl" 
+ 		scope="prototype" parent="lookupableHelperService">
+  	</bean>
+  	
+  	<bean id="copyPeriodsQuestion" class="org.kuali.kra.question.CopyPeriodsQuestion" scope="prototype" />
+  	
+  	<bean id="budgetPrintService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetPrintServiceDummyImpl">
+	</bean>
+	<bean id="proposalStateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStateServiceImpl" />
+    <bean id="budgetSubAwardService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetSubAwardServiceImpl" />
+    
 </beans>

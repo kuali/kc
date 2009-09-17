@@ -100,12 +100,16 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
 
-        getProposalDevelopmentService().addBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
+        getBudgetService().addBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
         pdForm.setNewBudgetVersionName("");
 
         return mapping.findForward(Constants.MAPPING_BASIC); 
     }
     
+    private BudgetService getBudgetService() {
+        return KraServiceLocator.getService(BudgetService.class);
+    }
+
     /**
      * This method opens a particular budget version.
      * 
@@ -152,8 +156,6 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             if (pdForm.isAuditActivated()) {
                 forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetParameters.do?auditActivated=true&");
             }
-//            forward = "http://localhost:8080/kra-dev/kew/DocHandler.do?command=displayDocSearchView&docId="+routeHeaderId;
-//            response.sendRedirect(forward);
             
             return new ActionForward(forward, true);
         }
@@ -235,14 +237,14 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             final String copiedName = copiedOverview.getDocumentDescription();
             copiedOverview.setDocumentDescription("copied placeholder");
             BufferedLogger.debug("validating ", copiedName);
-            valid = this.getProposalDevelopmentService().isBudgetVersionNameValid(
+            valid = getBudgetService().isBudgetVersionNameValid(
                 pdForm.getDocument(), copiedName);
             copiedOverview.setDocumentDescription(copiedName);
             pdForm.setSaveAfterCopy(!valid);
         }
 
         if(pdForm.isAuditActivated()) {
-            valid &= this.getProposalDevelopmentService().validateBudgetAuditRuleBeforeSaveBudgetVersion(
+            valid &= getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(
                 pdForm.getDocument());
     
             if (!valid) {

@@ -60,6 +60,7 @@ public class AwardBudgetVersionsAction extends AwardAction {
     private static final String TOGGLE_TAB = "toggleTab";
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
+    private BudgetService budgetService;
 
     /**
      * Main execute method that is run. Populates A map of rate types in the {@link HttpServletRequest} instance to be used
@@ -100,7 +101,7 @@ public class AwardBudgetVersionsAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDoc = awardForm.getAwardDocument();
 
-        getProposalDevelopmentService().addBudgetVersion(awardDoc, awardForm.getNewBudgetVersionName());
+        getBudgetService().addBudgetVersion(awardDoc, awardForm.getNewBudgetVersionName());
         awardForm.setNewBudgetVersionName("");
 
         return mapping.findForward(Constants.MAPPING_BASIC); 
@@ -228,14 +229,14 @@ public class AwardBudgetVersionsAction extends AwardAction {
             final String copiedName = copiedOverview.getDocumentDescription();
             copiedOverview.setDocumentDescription("copied placeholder");
             BufferedLogger.debug("validating ", copiedName);
-            valid = this.getProposalDevelopmentService().isBudgetVersionNameValid(
+            valid = getBudgetService().isBudgetVersionNameValid(
                 awardForm.getAwardDocument(), copiedName);
             copiedOverview.setDocumentDescription(copiedName);
             awardForm.setSaveAfterCopy(!valid);
         }
 
         if(awardForm.isAuditActivated()) {
-            valid &= this.getProposalDevelopmentService().validateBudgetAuditRuleBeforeSaveBudgetVersion(
+            valid &= getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(
                 awardForm.getAwardDocument());
     
             if (!valid) {
@@ -360,6 +361,22 @@ public class AwardBudgetVersionsAction extends AwardAction {
      */
     private ProposalDevelopmentService getProposalDevelopmentService() {
         return KraServiceLocator.getService(ProposalDevelopmentService.class);
+    }
+
+    /**
+     * Gets the budgetService attribute. 
+     * @return Returns the budgetService.
+     */
+    public BudgetService getBudgetService() {
+        return budgetService;
+    }
+
+    /**
+     * Sets the budgetService attribute value.
+     * @param budgetService The budgetService to set.
+     */
+    public void setBudgetService(BudgetService budgetService) {
+        this.budgetService = budgetService;
     }
 
 }

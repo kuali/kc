@@ -57,5 +57,6 @@ public interface BudgetRatesService <T>{
     
     public BusinessObjectService getBusinessObjectService();
     public boolean isOutOfSyncForRateAudit(BudgetDocument budgetDocument);
+    public void populateBudgetRatesForNewVersion(BudgetDocument budgetDocument);
 
 }
