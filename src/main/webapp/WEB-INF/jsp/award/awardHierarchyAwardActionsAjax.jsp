@@ -42,7 +42,9 @@ body {
 </head>
 
 <body class=" yui-skin-sam">
-
+<html:form styleId="kualiForm" method="post"
+    action="/awardHierarchyAwardActionsAjax.do" enctype=""
+    onsubmit="return hasFormAlreadyBeenSubmitted();"> 
 <!--  initial data here -->
 <%-- <input type="text" id = "researchAreas" name="researchAreas"   value="${ResearchAreasForm.researchAreas}"/> --%>
 
@@ -57,5 +59,6 @@ alert ("in researchareaload ");
 
 
 <!--END SOURCE CODE =============================== -->
+</html:form>
 </body>
 </html>

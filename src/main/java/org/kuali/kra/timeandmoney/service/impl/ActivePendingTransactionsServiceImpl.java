@@ -51,9 +51,28 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         
         Map<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
         List<Award> awardItems = new ArrayList<Award>();
-        List<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
+        List<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();        
+        List<AwardAmountTransaction> awardAmountTransactions = processTransactions(doc, newAwardAmountTransaction,
+                awardAmountTransactionItems, awardItems, transactionDetailItems);
+        
+        performSave(doc, transactionDetailItems, awardItems, awardAmountTransactions);
+    }
+
+    /**
+     * This method...
+     * @param doc
+     * @param newAwardAmountTransaction
+     * @param awardAmountTransactionItems
+     * @param awardItems
+     * @param transactionDetailItems
+     * @param pendingTransactionsToBeDeleted
+     * @return
+     */
+    public List<AwardAmountTransaction> processTransactions(TimeAndMoneyDocument doc,AwardAmountTransaction newAwardAmountTransaction
+            , Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems) {
+        
+        List<PendingTransaction> updatedPendingTransactions = new ArrayList<PendingTransaction>();
         List<PendingTransaction> pendingTransactionsToBeDeleted = new ArrayList<PendingTransaction>();
-        List<PendingTransaction> updatedPendingTransactions = new ArrayList<PendingTransaction>();        
         updatedPendingTransactions.addAll(doc.getPendingTransactions());
         
         for(PendingTransaction pendingTransaction: doc.getPendingTransactions()){
@@ -78,11 +97,22 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             pendingTransactionsToBeDeleted.add(pendingTransaction);
         }
         
+        for(Entry<String,AwardHierarchyNode> awardHierarchyNode : doc.getAwardHierarchyNodes().entrySet()){
+            for(Award award: awardItems){
+                if(StringUtils.equalsIgnoreCase(award.getAwardNumber(),awardHierarchyNode.getValue().getAwardNumber())){
+                    awardHierarchyNode.getValue().setCurrentFundEffectiveDate(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getCurrentFundEffectiveDate());
+                    awardHierarchyNode.getValue().setObligationExpirationDate(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getObligationExpirationDate());
+                    awardHierarchyNode.getValue().setFinalExpirationDate(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getFinalExpirationDate());
+                    awardHierarchyNode.getValue().setAnticipatedTotalAmount(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getAnticipatedTotalAmount());
+                    awardHierarchyNode.getValue().setAmountObligatedToDate(award.getAwardAmountInfos().get(award.getAwardAmountInfos().size()-1).getAmountObligatedToDate());
+                }
+            }
+        }
+        
         deletePendingTransactions(doc, pendingTransactionsToBeDeleted);
         
         List<AwardAmountTransaction> awardAmountTransactions = prepareAwardAmountTransactionsListForPersistence(awardAmountTransactionItems);
-        
-        performSave(doc, transactionDetailItems, awardItems, awardAmountTransactions);
+        return awardAmountTransactions;
     }
 
     /*
