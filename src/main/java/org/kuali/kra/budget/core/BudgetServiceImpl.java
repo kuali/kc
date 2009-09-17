@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.core;
 
+import static org.kuali.kra.logging.BufferedLogger.debug;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +27,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.query.Equals;
@@ -39,21 +42,32 @@ import org.kuali.kra.budget.personnel.BudgetPersonService;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.budget.personnel.ValidCeJobCode;
 import org.kuali.kra.budget.rates.BudgetProposalRate;
+import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.rates.ValidCeRateType;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
+import org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.PessimisticLockService;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
@@ -68,7 +82,96 @@ public class BudgetServiceImpl implements BudgetService {
     private BusinessObjectService businessObjectService;
     private KualiConfigurationService kualiConfigurationService;
     private BudgetPersonService budgetPersonService;
-    private KualiRuleService rulesService;
+    private BudgetRatesService budgetRatesService;
+    private PessimisticLockService pessimisticLockService;
+    private BudgetVersionRule budgetVersionRule;
+    
+
+    
+    /**
+     * Service method for adding a {@link BudgetVersionOverview} to a {@link ProposalDevelopmentDocument}. If a 
+     * {@link BudgetVersionOverview} instance with the  <code>versionName</code> already exists 
+     * in the {@link ProposalDevelopmentDocument}, then a hard error will occur. Try it and you'll see what I mean.
+     * 
+     * @param document instance to add {@link BudgetVersionOverview} to
+     * @param versionName of the {@link BudgetVersionOverview}
+     */
+    public void addBudgetVersion(BudgetParentDocument document, String versionName) throws WorkflowException {
+        if (!isBudgetVersionNameValid(document, versionName)) {
+            debug("Buffered Version not Valid");
+            return;
+        }
+
+        BudgetDocument newBudgetDoc = getNewBudgetVersion(document, versionName);
+        
+        PessimisticLock budgetLockForProposalDoc = null;
+
+        for(PessimisticLock pdLock : document.getPessimisticLocks()) {
+            if(pdLock.getLockDescriptor()!=null && pdLock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
+                budgetLockForProposalDoc = pdLock;
+                break;
+            }
+        }
+
+        try {
+            PessimisticLock budgetLockForBudgetDoc = getPessimisticLockService().generateNewLock(newBudgetDoc.getDocumentNumber(), budgetLockForProposalDoc.getLockDescriptor(), budgetLockForProposalDoc.getOwnedByUser());
+            newBudgetDoc.addPessimisticLock(budgetLockForBudgetDoc);
+        } catch (Exception e) {
+            
+        }
+
+//        document.addNewBudgetVersion(newBudgetDoc, versionName, false);
+    }
+
+    /**
+     * Runs business rules on the given name of a {@link BudgetVersionOverview} instance and {@link ProposalDevelopmentDocument} instance to 
+     * determine if it is ok to add a {@link BudgetVersionOverview} instance to a {@link BudgetDocument} instance. If the business rules fail, 
+     * this should be false and there will be errors in the error map.<br/>
+     *
+     * <p>Takes care of all the setup and calling of the {@link KualiRuleService}. Uses the {@link AddBudgetVersionEvent}.</p>
+     *
+     * @param document {@link ProposalDevelopmentDocument} to validate against
+     * @param name of the pseudo-{@link BudgetVersionOverview} instance to validate
+     * @returns true if the rules passed, false otherwise
+     */
+    public boolean isBudgetVersionNameValid(BudgetParentDocument document,  String name) {
+        debug("Invoking budgetrule " + getBudgetVersionRule());
+        return new AddBudgetVersionEvent(document, name).invokeRuleMethod(getBudgetVersionRule());
+    }
+    /**
+     * Retrieve injected <code>{@link PessimisticLockService}</code> singleton
+     * 
+     * @return PessimisticLockService
+     */
+    public PessimisticLockService getPessimisticLockService() {
+        return pessimisticLockService;
+    }
+
+    /**
+     * Inject <code>{@link PessimisticLockService}</code> singleton
+     * 
+     * @param pessimisticLockService to assign
+     */
+    public void setPessimisticLockService(PessimisticLockService pessimisticLockService) {
+        this.pessimisticLockService = pessimisticLockService;
+    }
+    /**
+     * Retrieve injected <code>{@link BudgetVersionRule}</code> singleton
+     * 
+     * @return BudgetVersionRule
+     */
+    public BudgetVersionRule getBudgetVersionRule() {
+        return budgetVersionRule;
+    }
+
+    /**
+     * Inject <code>{@BudgetVersionRule}</code> singleton
+     * 
+     * @return BudgetVersionRule
+     */
+    public void setBudgetVersionRule(BudgetVersionRule budgetVersionRule) {
+        this.budgetVersionRule = budgetVersionRule;
+    }
     
     /**
      * @see org.kuali.kra.budget.core.BudgetService#getNewBudgetVersion(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.lang.String)
@@ -98,7 +201,10 @@ public class BudgetServiceImpl implements BudgetService {
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
         budget.setModularBudgetFlag(kualiConfigurationService.getParameterValue(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_MODULAR_FLAG).equalsIgnoreCase(Constants.TRUE_FLAG));
-        
+        String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+        budget.setBudgetStatus(budgetStatusIncompleteCode);
+
         // Copy in key personnel
         for (PersonRolodex proposalPerson: parentDocument.getBudgetParent().getPersonRolodexList()) {
             if (!proposalPerson.isOtherSignificantContributorFlag()) {
@@ -111,12 +217,10 @@ public class BudgetServiceImpl implements BudgetService {
 
         //Rates-Refresh Scenario-1
         budget.setRateClassTypesReloaded(true);
-        
         documentService.saveDocument(budgetDocument);
         documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
         budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-        
-//        parentDocument.refreshReferenceObject("budgetDocumentVersions");
+        parentDocument.refreshReferenceObject("budgetDocumentVersions");
 //        budgetDocument.refreshReferenceObject("budgets");
 //        budgetDocument.setParentDocument(parentDocument);
         return budgetDocument;
@@ -460,6 +564,98 @@ public class BudgetServiceImpl implements BudgetService {
         Map qMap = new HashMap();
         qMap.put("budgetId",budgetToOpen.getBudgetId());
         return businessObjectService.findMatching(BudgetProposalRate.class, qMap);
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#validateBudgetAuditRule(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     */
+    public boolean validateBudgetAuditRule(BudgetParentDocument parentDocument) throws Exception {
+        boolean valid = true;
+        boolean finalAndCompleteBudgetVersionFound = false;
+        boolean budgetVersionsExists = false;
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+        for (BudgetDocumentVersion budgetDocumentVersion : parentDocument.getBudgetDocumentVersions()) {
+            BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
+            budgetVersionsExists = true;
+            if (budgetVersion.isFinalVersionFlag()) {
+                valid &= applyAuditRuleForBudgetDocument(budgetVersion);
+                if (parentDocument.getBudgetParent().getBudgetStatus()!= null 
+                        && parentDocument.getBudgetParent().getBudgetStatus().equals(budgetStatusCompleteCode)) {
+                    finalAndCompleteBudgetVersionFound = true;
+                }
+            }
+        }
+        if(budgetVersionsExists && !finalAndCompleteBudgetVersionFound){
+            auditErrors.add(new AuditError("document.budgetDocumentVersion[0].budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
+            valid &= false;
+        }
+        if (auditErrors.size() > 0) {
+            GlobalVariables.getAuditErrorMap().put("budgetVersionErrors", new AuditCluster(Constants.BUDGET_VERSION_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
+        }
+
+        return valid;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#validateBudgetAuditRuleBeforeSaveBudgetVersion(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     */
+    public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(BudgetParentDocument proposalDevelopmentDocument)
+            throws Exception {
+        boolean valid = true;
+        for (BudgetDocumentVersion budgetDocumentVersion : proposalDevelopmentDocument.getBudgetDocumentVersions()) {
+            BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
+            
+            String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
+                    Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT,
+                    Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+            // if status is complete and version is not final, then business rule will take care of it
+            if (budgetVersion.isFinalVersionFlag() && budgetVersion.getBudgetStatus() != null
+                    && budgetVersion.getBudgetStatus().equals(budgetStatusCompleteCode)) {
+                valid &= applyAuditRuleForBudgetDocument(budgetVersion);
+            }
+        }
+
+        if (!valid) {
+            // audit warnings are OK.  only audit errors prevent to change to complete status.
+            valid = true;
+            for (Object key : GlobalVariables.getAuditErrorMap().keySet()) {
+                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(key);
+                if (auditCluster.getCategory().equals(Constants.AUDIT_ERRORS)) {
+                    valid = false;
+                    break;
+                }
+            }
+        }
+
+        return valid;
+    }
+
+    private boolean applyAuditRuleForBudgetDocument(BudgetVersionOverview budgetVersion) throws Exception {
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
+        return KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(budgetDocument));
+
+    }
+    
+    
+    /**
+     * Gets the budgetRatesService attribute. 
+     * @return Returns the budgetRatesService.
+     */
+    public BudgetRatesService getBudgetRatesService() {
+        return budgetRatesService;
+    }
+
+    /**
+     * Sets the budgetRatesService attribute value.
+     * @param budgetRatesService The budgetRatesService to set.
+     */
+    public void setBudgetRatesService(BudgetRatesService budgetRatesService) {
+        this.budgetRatesService = budgetRatesService;
     }
 
 }
