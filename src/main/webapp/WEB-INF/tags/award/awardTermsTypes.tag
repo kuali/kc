@@ -43,8 +43,10 @@
 				<div align="left"> 
 					<kul:htmlControlAttribute property="sponsorTermFormHelper.newSponsorTerms[${index}].sponsorTermCode" attributeEntry="${sponsorTermAttributes.sponsorTermCode}"/>
 					<input type="hidden" name="document.keyValue${index}" value="${sponsorTermTypeKey}">
-					<kul:lookup boClassName="org.kuali.kra.bo.SponsorTerm" fieldConversions="sponsorTermCode:sponsorTermFormHelper.newSponsorTerms[${index}].sponsorTermCode,description:sponsorTermFormHelper.newSponsorTerms[${index}].description,sponsorTermId:sponsorTermFormHelper.newSponsorTerms[${index}].sponsorTermId,sponsorTermTypeCode:sponsorTermFormHelper.newSponsorTerms[${index}].sponsorTermTypeCode" lookupParameters="document.keyValue${index}:sponsorTermTypeCode" anchor="${tabKey}" />
-					${KualiForm.sponsorTermFormHelper.newSponsorTerms[index].description}	
+					<kul:multipleValueLookup boClassName="org.kuali.kra.bo.SponsorTerm" 
+					lookedUpCollectionName="newSponsorTerms"
+              		lookupParameters="document.keyValue${index}:sponsorTermTypeCode"
+              		anchor="${tabKey}"/>
 				</div>
 			</td>
 			<td class="infoline">
