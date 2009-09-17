@@ -46,7 +46,8 @@
         <property name="additionalSectionsFile" value="/WEB-INF/jsp/questionnaire/questionManager.jsp" />
         <property name="webScriptFiles">
             <list>
-                <value>../dwr/interface/CustomAttributeService.js</value>
+                <value>dwr/interface/CustomAttributeService.js</value>
+                <value>dwr/interface/ArgValueLookupService.js</value>
             </list>
         </property>
     </bean>
