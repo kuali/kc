@@ -51,6 +51,8 @@ import org.kuali.kra.award.paymentreports.paymentschedule.PaymentScheduleBean;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBean;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.ApprovedForeignTravelBean;
 import org.kuali.kra.award.permissions.PermissionsHelper;
+import org.kuali.kra.award.printing.AwardPrintChangeReport;
+import org.kuali.kra.award.printing.AwardPrintNotice;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
@@ -139,6 +141,9 @@ public class AwardForm extends ProposalFormBase
     private String rootAwardNumber;
     private List<AwardHierarchyTempOjbect> awardHierarchyTempOjbect;
     
+    private AwardPrintNotice awardPrintNotice;
+    private AwardPrintChangeReport awardPrintChangeReport;
+    
     /**
      * 
      * Constructs a AwardForm.
@@ -190,6 +195,8 @@ public class AwardForm extends ProposalFormBase
         awardCloseoutBean = new AwardCloseoutBean(this);
         awardHierarchyNodes = new TreeMap<String, AwardHierarchy>();
         fundingProposalBean = new AwardFundingProposalBean(this);
+        awardPrintNotice = new AwardPrintNotice();
+        awardPrintChangeReport = new AwardPrintChangeReport();
         order = new ArrayList<String>();
         awardHierarchyTempOjbect = new ArrayList<AwardHierarchyTempOjbect>();
         for(int i=0;i<100;i++){
@@ -876,6 +883,30 @@ public class AwardForm extends ProposalFormBase
      */
     public void setRootAwardNumber(String rootAwardNumber) {
         this.rootAwardNumber = rootAwardNumber;
+    }
+
+    /**
+     * @return the AwardPrintNotice object
+     */
+    public AwardPrintNotice getAwardPrintNotice() {
+        return awardPrintNotice;
+    }
+
+    /**
+     * Set the AwardPrintNotice object - responsible for passing Award Notice choices for printing.
+     * This method...
+     * @param awardPrintNotice
+     */
+    public void setAwardPrintNotice(AwardPrintNotice awardPrintNotice) {
+        this.awardPrintNotice = awardPrintNotice;
+    }
+
+    public AwardPrintChangeReport getAwardPrintChangeReport() {
+        return awardPrintChangeReport;
+    }
+
+    public void setAwardPrintChangeReport(AwardPrintChangeReport awardPrintChangeReport) {
+        this.awardPrintChangeReport = awardPrintChangeReport;
     }
     
     /**

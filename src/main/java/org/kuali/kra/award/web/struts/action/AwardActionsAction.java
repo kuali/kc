@@ -127,6 +127,56 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
+    
+    public ActionForward selectAllAwardPrintNoticeItems(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        awardForm.getAwardPrintNotice().selectAllItems();
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);        
+    }
+    public ActionForward deselectAllAwardPrintNoticeItems(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        awardForm.getAwardPrintNotice().deselectAllItems();
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);                
+    }
+    public ActionForward printNotice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        //TODO: Add printing service call here
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);        
+    }
+    public ActionForward printChangeReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        //TODO: Add printing service call here
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);        
+    }
+    public ActionForward printHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        //TODO: Add printing service call here
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);        
+    }
+    public ActionForward printHierarchyModification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        //TODO: Add printing service call here
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);        
+    }
+    public ActionForward printBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        //TODO: Add printing service call here
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);        
+    }
+    public ActionForward printTimeMoneyHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        //TODO: Add printing service call here
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);        
+    }
+    public ActionForward printTransactionDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        //TODO: Add printing service call here
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);        
+    }
+
+    
+    
+    
 
     
     public AwardNumberService getAwardNumberService(){

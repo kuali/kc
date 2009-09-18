@@ -1570,6 +1570,10 @@ function selectAllAwardKeywords(document) {
 	}
 }
 
+function setAllItemsIn(id, value) {
+	$("#" + id + " INPUT[type='checkbox']").attr('checked', value);
+}
+
 
 //End Award module
 
