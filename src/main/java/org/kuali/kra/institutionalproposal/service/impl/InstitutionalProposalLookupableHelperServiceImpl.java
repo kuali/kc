@@ -36,15 +36,17 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     private boolean includeMainSearchCustomActionUrls;
     private boolean includeMergeCustomActionUrls;
 
+    /* 
+     * Overriding this to only return the currently Active version of a proposal 
+     */
     @Override
-    // Overriding this to only return the currently Active version of a proposal
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocationDocFormKey(fieldValues);
         
         configureCustomActions(fieldValues);
         
-        fieldValues.remove("proposalSequenceStatus");
-        fieldValues.put("proposalSequenceStatus", VersionStatus.ACTIVE.toString()); // Constant
+        fieldValues.remove(InstitutionalProposal.PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING);
+        fieldValues.put(InstitutionalProposal.PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING, VersionStatus.ACTIVE.toString());
         return super.getSearchResults(fieldValues);
     }
 
@@ -76,7 +78,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     
     @Override
     protected String getKeyFieldName() {
-        return "proposalNumber";
+        return InstitutionalProposal.PROPOSAL_NUMBER_PROPERTY_STRING;
     }
     
     // Determine whether lookup is being called from a location that shouldn't include the custom action links
