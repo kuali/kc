@@ -18,13 +18,18 @@ package org.kuali.kra.irb.actions;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
+import javax.mail.internet.HeaderTokenizer;
+import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -45,6 +50,9 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
+import org.kuali.kra.irb.noteattachment.ProtocolNoteAndAttachmentAction;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -54,12 +62,19 @@ import org.kuali.rice.kns.web.struts.action.AuditModeAction;
  * The set of actions for the Protocol Actions tab.
  */
 public class ProtocolProtocolActionsAction extends ProtocolAction implements AuditModeAction {
-
+    
+    private static final Log LOG = LogFactory.getLog(ProtocolProtocolActionsAction.class);
+    
     private static final String PROTOCOL_TAB = "protocol";
     private static final String CONFIRM_SUBMIT_FOR_REVIEW_KEY = "confirmSubmitForReview";
     
+    private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
+    
     private static final String CONFIRM_DELETE_PROTOCOL_KEY = "confirmDeleteProtocol";
    
+    /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
+    private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
+    
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -601,5 +616,47 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         System.out.println("Selected History Item: " + protocolForm.getActionHelper().getSelectedHistoryItem());
         return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    
+    public ActionForward viewAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {  
+       
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        
+        final int selectedIndex = getSelectedLine(request);
+        final ProtocolAttachmentBase attachment = protocolForm.getProtocolDocument().getProtocol().getAttachmentProtocol(selectedIndex);
+        
+        if (attachment == null) {
+            LOG.info(NOT_FOUND_SELECTION + selectedIndex);
+            //may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        
+        final AttachmentFile file = attachment.getFile();
+        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
+        
+        return RESPONSE_ALREADY_HANDLED;
+    }
+    
+    /**
+     * Quotes a string that follows RFC 822 and is valid to include in an http header.
+     * 
+     * <p>
+     * This really should be a part of {@link org.kuali.rice.kns.util.WebUtils WebUtils}.
+     * <p>
+     * 
+     * For example: without this method, file names with spaces will not show up to the client correctly.
+     * 
+     * <p>
+     * This method is not doing a Base64 encode just a quoted printable character otherwise we would have
+     * to set the encoding type on the header.
+     * <p>
+     * 
+     * @param s the original string
+     * @return the modified header string
+     */
+    private String getValidHeaderString(String s) {
+        return MimeUtility.quote(s, HeaderTokenizer.MIME);
     }
 }
