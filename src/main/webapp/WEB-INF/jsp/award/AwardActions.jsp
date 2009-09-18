@@ -28,7 +28,7 @@
 <kra-a:awardDataValidation />
 <%--<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>--%>
 <kra-a:awardHierarchy />
-
+<kra-a:awardPrint />
 <kul:adHocRecipients />
 <kul:routeLog /> 
 
