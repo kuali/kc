@@ -71,6 +71,8 @@
 	
 	<bean id="institutionalProposalService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalServiceImpl">
         <property name="documentService" ref="documentService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="versioningService" ref="versioningService" />
     </bean>
     
     <bean id="proposalLogLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

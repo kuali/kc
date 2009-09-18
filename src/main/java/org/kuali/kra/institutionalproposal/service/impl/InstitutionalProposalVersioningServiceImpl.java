@@ -35,9 +35,10 @@ public class InstitutionalProposalVersioningServiceImpl implements Institutional
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
     
-    public void createNewInstitutionalProposalVersion(InstitutionalProposal currentProposalVersion) {
-        
-    }
+//    public InstitutionalProposal createNewInstitutionalProposalVersion(InstitutionalProposal currentProposalVersion)
+//    throws VersionException {
+//        return versioningService.createNewVersion(currentProposalVersion);
+//    }
     
     public IntellectualPropertyReview createNewIntellectualPropertyReviewVersion(IntellectualPropertyReview intellectualPropertyReview)
     throws VersionException {
@@ -74,8 +75,8 @@ public class InstitutionalProposalVersioningServiceImpl implements Institutional
     @SuppressWarnings("unchecked")
     protected List<InstitutionalProposal> findProposalsByStatus(String proposalNumber, VersionStatus versionStatus) {
         Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("proposalNumber", proposalNumber);
-        criteria.put("proposalSequenceStatus", versionStatus.toString());
+        criteria.put(InstitutionalProposal.PROPOSAL_NUMBER_PROPERTY_STRING, proposalNumber);
+        criteria.put(InstitutionalProposal.PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING, versionStatus.toString());
         List<InstitutionalProposal> results = new ArrayList<InstitutionalProposal>(
                 businessObjectService.findMatching(InstitutionalProposal.class, criteria));
         return results;

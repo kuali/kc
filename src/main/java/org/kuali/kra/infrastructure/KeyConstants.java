@@ -243,6 +243,10 @@ public final class KeyConstants {
     
     public static final String ERROR_EFFECTIVE_DATE_OUT_OF_RANGE = "error.effective.date.out.of.range";
     public static final String ERROR_IMCOMPLETE_PERSON_ENTRIES = "error.incomplete.person.entries";
+    
+    // Submit to Sponsor
+    public static final String MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED = "message.institutionalproposal.created";
+    public static final String MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED = "message.institutionalproposal.versioned";
 
     // budget rates
     public static final String ERROR_REQUIRED_APPLICABLE_RATE = "error.required.applicableRate";

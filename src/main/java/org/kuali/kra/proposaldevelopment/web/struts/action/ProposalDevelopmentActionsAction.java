@@ -44,6 +44,7 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.kim.service.KIMService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -51,7 +52,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
@@ -66,14 +66,11 @@ import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.kra.web.struts.form.ProposalFormBase;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.NetworkIdDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
 import org.kuali.rice.kew.engine.node.KeyValuePair;
-import org.kuali.rice.kew.engine.node.RouteNodeInstance;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -677,8 +674,30 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         DocumentService documentService = KNSServiceLocator.getDocumentService();
         documentService.saveDocument(proposalDevelopmentDocument);
         
+        if (true) { // If param is set
+            if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode().equals(getRevisionProposalTypeCode())) {
+                String versionNumber = createInstitutionalProposalVersion(
+                        proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom(), 
+                        proposalDevelopmentDocument.getDevelopmentProposal());
+                GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
+                        versionNumber,
+                        proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom());
+            } else {
+                String proposalNumber = createInstitutionalProposal(proposalDevelopmentDocument.getDevelopmentProposal());
+                GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED, proposalNumber);
+            }
+        }
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    private String getRevisionProposalTypeCode() {
+        return getKualiConfigurationService().getParameter(
+                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION).getParameterValue();
+    }
+    
     
     /**
      * Submit a proposal to Grants.gov.
@@ -753,7 +772,19 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private StrutsConfirmation buildSubmitToGrantsGovWithWarningsQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SUBMISSION_WITH_WARNINGS_KEY, KeyConstants.QUESTION_SUMBMIT_OPPORTUNITY_WITH_WARNINGS_CONFIRMATION);
     }
-
+    
+    private String createInstitutionalProposal(DevelopmentProposal developmentProposal) {
+        InstitutionalProposalService institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
+        String proposalNumber = institutionalProposalService.createInstitutionalProposal(developmentProposal);
+        return proposalNumber;
+    }
+    
+    private String createInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal) {
+        InstitutionalProposalService institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
+        String versionNumber = institutionalProposalService.createActiveInstitutionalProposalVersion(proposalNumber, developmentProposal);
+        return versionNumber;
+    }
+    
     
 
     @Override
