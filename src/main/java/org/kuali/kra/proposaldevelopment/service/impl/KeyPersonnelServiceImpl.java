@@ -762,7 +762,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
                         SPONSOR_LEVEL_HIERARCHY )))){
                     document.getDevelopmentProposal().setNih(true);
                     nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel9()) && (sponhierarchy.getLevel10().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel10()) && (sponhierarchy.getLevel10().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
                         SPONSOR_LEVEL_HIERARCHY )))){
                     document.getDevelopmentProposal().setNih(true);

@@ -60,7 +60,7 @@
                 <th class="grid"><div align="right">*Proposal Role:</div></th>
                 <td class="grid" >
 <c:set var="roleIdAttribute" value="${proposalPersonAttributes.proposalPersonRoleId}" />
-<c:if test="${KualiForm.document.developmentProposalList[0].sponsor.acronym == 'NIH'}">
+<c:if test="${KualiForm.document.developmentProposalList[0].nih}">
   <c:set var="roleIdAttribute" value="${proposalPersonAttributes.nonNihProposalPersonRoleId}" />
 </c:if>
                   <kul:htmlControlAttribute property="newProposalPerson.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" 
