@@ -138,8 +138,8 @@
       			  </li>
       			 </ul></dd></dl></div>
       			 <div style="clear:both; text-align:center;">
-      			  <html:image property="methodToCall.selectAllAwardPrintNoticeItems.anchor${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="setAllItemsIn('awardPrintNoticeItems', true);return false;" />
-      			  <html:image property="methodToCall.deselectAllAwardPrintNoticeItems.anchor${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="setAllItemsIn('awardPrintNoticeItems', false);return false;" />
+      			  <html:image property="methodToCall.selectAllAwardPrintNoticeItems.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="setAllItemsIn('awardPrintNoticeItems', true);return false;" />
+      			  <html:image property="methodToCall.deselectAllAwardPrintNoticeItems.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="setAllItemsIn('awardPrintNoticeItems', false);return false;" />
       			  <div style="float:right;">
       			   <kul:htmlAttributeLabel attributeEntry="${awardPrintNoticeAttributes.requireSignature}" useShortLabel="true" />
       			   <kul:htmlControlAttribute property="awardPrintNotice.requireSignature" 
