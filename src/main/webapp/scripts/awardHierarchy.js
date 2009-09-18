@@ -233,6 +233,12 @@
       name = name.substring(name.indexOf("%3A")+3, name.length).trim();
       text1 = text1.substr(0,12);
       
+      var text1reverse = revString(text1);
+      var index = text1reverse.indexOf("0");
+      var i2 = 12 - index;
+      var indexForHiddenField = text1.substring(i2,12);
+      
+      
 	  var tblTag = $('<table id="tbody2_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; width: 97%; border-collapse: collapse;"></table>')
 	    
 	  	var trTag0 = $('<tr></tr>');
@@ -243,9 +249,18 @@
 	    var trTag = $('<tr></tr>');
 	    var thTag1=$('<th style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(230, 230, 230); background-image: none; width: 130px; vertical-align: middle;">').html('<b>Copy Descendents: </b>');
 	    trTag.html(thTag1);
-	    var checkbox = $('<input class="nobord" type="checkbox" ></input>').attr("id","copyDescendants"+text1).attr("name","copyDescendants"+text1);        	   
+	    if($("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.copyDescendants").attr("value")){
+	    	var checkbox = $('<input class="nobord" type="checkbox" ></input>').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].copyDescendants").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].copyDescendants").attr("value",$("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.copyDescendants").attr("value")).attr("checked",$("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.copyDescendants").attr("value"));
+	    }else{
+	    	var checkbox = $('<input class="nobord" type="checkbox" ></input>').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].copyDescendants").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].copyDescendants");
+	    }
+	    
+	    //var hiddenTagForCheckBox = $('<input type="hidden" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].copyDescendants").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].copyDescendants").attr("value",false);
+	    var hiddenTagForCheckBox = $('<input type="hidden" />').attr("name","elementsToReset").attr("value","awardHierarchyTempOjbect["+indexForHiddenField+"].copyDescendants");
+	    
 	    var tdTag1=$('<td style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; width: 30px;">');
 	    checkbox.appendTo(tdTag1);
+	    hiddenTagForCheckBox.appendTo(tdTag1);
 	    tdTag1.appendTo(trTag);	    
 	    var thTag2=$('<th style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(230, 230, 230); background-image: none; width: 60px; vertical-align: middle;">').html('<b>Copy as:</b>');
 	    thTag2.appendTo(trTag);
@@ -257,14 +272,44 @@
 	    var subTdTag3 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: left; width: 325px;">');
 	    var subTdTag4 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: center; width: 20px;">');
 	    	    
-	    var radio1 = $('<input class="nobord" type="radio" />').attr("id","copyDescendantsRadio1"+text1).attr("name","copyDescendantsRadio1"+text1);
+	    if($("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.copyAwardRadio").attr("value") == "a"){
+	    	var radio1 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardRadio").attr("value","a").attr("checked",true);
+	    }else{
+	    	var radio1 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardRadio").attr("value","a");
+	    }
+	    
 	    subTdTag1.html('new');
 	    radio1.appendTo(subTdTag1);
 	    
-	    var radio2 = $('<input class="nobord" type="radio" />').attr("id","copyDescendantsRadio2"+text1).attr("name","copyDescendantsRadio2"+text1);
+	    if($("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.copyAwardRadio").attr("value") == "b"){
+	    	var radio2 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardRadio").attr("value","b").attr("checked",true);
+	    }else{
+	    	var radio2 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardRadio").attr("value","b");
+	    }
+	    
 	    subTdTag2.html('child of');
 	    radio2.appendTo(subTdTag2);
 	    
+	    var lookupField = $('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempOjbect["+indexForHiddenField+"].awardNumber2))).((#awardHierarchyTempOjbect["+indexForHiddenField+"].awardNumber2:awardNumber#)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
+	    var selectBoxText = $("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.selectBox2").attr("value");
+	    var selectTag = $('<select />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardPanelTargetAward").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].copyAwardPanelTargetAward");   
+	    var optionTag = $("<option> select: </option>").attr("value","");
+	    optionTag.appendTo(selectTag);
+	    while(selectBoxText.length>1){
+	    	var optionValue = selectBoxText.substring(0,selectBoxText.indexOf("%3A")).trim();	    	
+	    	var optionText = selectBoxText.substring(0,selectBoxText.indexOf("#")).trim();
+	    	optionText = optionText.replace("%3A",":");
+	    	selectBoxText = selectBoxText.substring(selectBoxText.indexOf("#")+1, selectBoxText.length).trim();
+	    	if($("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.awardNumber2").attr("value") == optionValue){
+	    		var optionTag = $("<option>"+optionText+"</option>").attr("value",optionValue).attr("selected",true);
+	    	}else{
+	    		var optionTag = $("<option>"+optionText+"</option>").attr("value",optionValue);
+	    	}
+	    	optionTag.appendTo(selectTag);	    	
+	    }
+	    selectTag.appendTo(subTdTag3)
+	    
+	    lookupField.appendTo(subTdTag4);
 	    
 	    subTdTag1.appendTo(subTrTag);
 	    subTdTag2.appendTo(subTrTag);
@@ -278,7 +323,7 @@
 	    trTag.appendTo(tblTag);
 	    
 	    var tdTag3=$('<td style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; text-align: center; width: 65px;">');
-	    var copyButton = $('<input type="image" title="Copy" alt="copy" style="border: medium none ;" src="static/images/tinybutton-copy2.gif"/>').attr("property","methodToCall.createANewChildAward.awardNumber"+text1);
+	    var copyButton = $('<input type="image" title="Copy" alt="copy" style="border: medium none ;" src="static/images/tinybutton-copy2.gif"/>').attr("property","methodToCall.copy.awardNumber"+text1);
 	    copyButton.appendTo(tdTag3);	    
 	    tdTag3.appendTo(trTag);	    
 	    trTag.appendTo(tblTag);
@@ -296,44 +341,6 @@
       var index = text1reverse.indexOf("0");
       var i2 = 12 - index;
       var indexForHiddenField = text1.substring(i2,12);
-            
-	  var text2 = name.substring(0,name.indexOf("%3A")).trim();
-      
-	  name = name.substring(name.indexOf("%3A")+3, name.length).trim();
-      var text3 = name.substring(0,name.indexOf("%3A")).trim();
-      
-      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
-      var text4 = name.substring(0,name.indexOf("%3A")).trim();
-      
-      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
-      var text5 = name.substring(0,name.indexOf("%3A")).trim();
-      
-      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
-      var text6 = name.substring(0,name.indexOf("%3A")).trim();
-      
-      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
-      var text7 = name.substring(0,name.indexOf("%3A")).trim();
-      
-      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
-      var text8 = name.substring(0,name.indexOf("%3A")).trim();
-      
-      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
-      var text9 = name.substring(0,name.indexOf("%3A")).trim();
-      
-      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
-      var text10 = name.substring(0,name.indexOf("%3A")).trim();
-      
-      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
-      var text11 = name.substring(0,name.indexOf("%3A")).trim();
-      
-      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
-      var text12 = name.substring(0,name.indexOf("%3A")).trim();
-      
-      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
-      var text13 = name.substring(0,name.indexOf("%3A")).trim();
-      
-      name = name.substring(name.indexOf("%3A")+3, name.length).trim();
-      var text14 = name.substring(0,name.indexOf("%3A")).trim();
       
 	  var tblTag = $('<table id="tbody3_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; width: 97%; border-collapse: collapse;"></table>')
 
@@ -355,15 +362,30 @@
 	    var subTdTag4 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: left; width: 325px;"></td>');
 	    var subTdTag5 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: center; width: 20px;"></td>');
 	    	    
-	    var radio1 = $('<input class="nobord" type="radio" />').attr("id","copyDescendantsRadio1"+text1).attr("name","copyDescendantsRadio1"+text1);
+	    
+	    
+	    if($("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.createNewChildRadio").attr("value") == "a"){
+	    	var radio1 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("value","a").attr("checked",true);
+	    }else{
+	    	var radio1 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("value","a");
+	    }
 	    subTdTag1.html('new');
 	    radio1.appendTo(subTdTag1);
 	    
-	    var radio2 = $('<input class="nobord" type="radio" />').attr("id","copyDescendantsRadio2"+text1).attr("name","copyDescendantsRadio2"+text1);
+	    if($("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.createNewChildRadio").attr("value") == "b"){
+	    	var radio2 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("value","b").attr("checked",true);
+	    }else{
+	    	var radio2 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("value","b");
+	    }
 	    subTdTag2.html('copy from parent');
-	    radio2.appendTo(subTdTag2);	
+	    radio2.appendTo(subTdTag2);
 	    
-	    var radio3 = $('<input class="nobord" type="radio" />').attr("id","copyDescendantsRadio2"+text1).attr("name","copyDescendantsRadio2"+text1);
+	    if($("#awardHierarchyTempOjbect\\[" + indexForHiddenField + "\\]\\.createNewChildRadio").attr("value") == "c"){
+	    	var radio3 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("value","c").attr("checked",true);
+	    }else{
+	    	var radio3 = $('<input class="nobord" type="radio" />').attr("name","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("id","awardHierarchyTempOjbect["+indexForHiddenField+"].createNewChildRadio").attr("value","c");
+	    }
+	    
 	    subTdTag3.html('selected award');
 	    radio3.appendTo(subTdTag3);	
 
@@ -402,7 +424,7 @@
 	    
 	    
 	    var tdTag2=$('<td style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; text-align: center; width: 65px;"></td>');
-	    var createButton = $('<input type="image" title="Copy" alt="copy" style="border: medium none ;" src="static/images/tinybutton-create.gif"/>').attr("property","methodToCall.createANewChildAward.awardNumber"+text1).attr("name","methodToCall.createANewChildAward.awardNumber"+text1);
+	    var createButton = $('<input type="image" title="Copy" alt="copy" style="border: medium none ;" src="static/images/tinybutton-create.gif"/>').attr("property","methodToCall.createANewChildAward.awardNumber"+text1).attr("name","methodToCall.create.awardNumber"+text1);
 	    createButton.appendTo(tdTag2);	    
 	    tdTag2.appendTo(trTag);
 	    

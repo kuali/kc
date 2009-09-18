@@ -126,7 +126,8 @@
     </div>
     
     <input type="hidden" id = "rootAwardNumber" name="rootAwardNumber" value="${KualiForm.rootAwardNumber}">
-        <input type="hidden" id = "awardHierarchyTempOjbect[1].awardNumber1" name="awardHierarchyTempOjbect[1].awardNumber1" value="${KualiForm.awardHierarchyTempOjbect[1].awardNumber1}">
+    
+    <input type="hidden" id = "awardHierarchyTempOjbect[1].awardNumber1" name="awardHierarchyTempOjbect[1].awardNumber1" value="${KualiForm.awardHierarchyTempOjbect[1].awardNumber1}">
     <input type="hidden" id = "awardHierarchyTempOjbect[2].awardNumber1" name="awardHierarchyTempOjbect[2].awardNumber1" value="${KualiForm.awardHierarchyTempOjbect[2].awardNumber1}">
     <input type="hidden" id = "awardHierarchyTempOjbect[3].awardNumber1" name="awardHierarchyTempOjbect[3].awardNumber1" value="${KualiForm.awardHierarchyTempOjbect[3].awardNumber1}">
     <input type="hidden" id = "awardHierarchyTempOjbect[4].awardNumber1" name="awardHierarchyTempOjbect[4].awardNumber1" value="${KualiForm.awardHierarchyTempOjbect[4].awardNumber1}">
@@ -157,4 +158,85 @@
     <input type="hidden" id = "awardHierarchyTempOjbect[13].selectBox1" name="awardHierarchyTempOjbect[13].selectBox1" value="${KualiForm.awardHierarchyTempOjbect[13].selectBox1}">
     <input type="hidden" id = "awardHierarchyTempOjbect[14].selectBox1" name="awardHierarchyTempOjbect[14].selectBox1" value="${KualiForm.awardHierarchyTempOjbect[14].selectBox1}">
     <input type="hidden" id = "awardHierarchyTempOjbect[15].selectBox1" name="awardHierarchyTempOjbect[15].selectBox1" value="${KualiForm.awardHierarchyTempOjbect[15].selectBox1}">
+    
+    <input type="hidden" id = "awardHierarchyTempOjbect[1].awardNumber2" name="awardHierarchyTempOjbect[1].awardNumber2" value="${KualiForm.awardHierarchyTempOjbect[1].awardNumber2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[2].awardNumber2" name="awardHierarchyTempOjbect[2].awardNumber2" value="${KualiForm.awardHierarchyTempOjbect[2].awardNumber2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[3].awardNumber2" name="awardHierarchyTempOjbect[3].awardNumber2" value="${KualiForm.awardHierarchyTempOjbect[3].awardNumber2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[4].awardNumber2" name="awardHierarchyTempOjbect[4].awardNumber2" value="${KualiForm.awardHierarchyTempOjbect[4].awardNumber2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[5].awardNumber2" name="awardHierarchyTempOjbect[5].awardNumber2" value="${KualiForm.awardHierarchyTempOjbect[5].awardNumber2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[6].awardNumber2" name="awardHierarchyTempOjbect[6].awardNumber2" value="${KualiForm.awardHierarchyTempOjbect[6].awardNumber2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[7].awardNumber2" name="awardHierarchyTempOjbect[7].awardNumber2" value="${KualiForm.awardHierarchyTempOjbect[7].awardNumber2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[8].awardNumber2" name="awardHierarchyTempOjbect[8].awardNumber2" value="${KualiForm.awardHierarchyTempOjbect[8].awardNumber2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[9].awardNumber2" name="awardHierarchyTempOjbect[9].awardNumber2" value="${KualiForm.awardHierarchyTempOjbect[9].awardNumber2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[10].awardNumber2" name="awardHierarchyTempOjbect[10].awardNumber2" value="${KualiForm.awardHierarchyTempOjbect[10].awardNumber2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[11].awardNumber2" name="awardHierarchyTempOjbect[11].awardNumber2" value="${KualiForm.awardHierarchyTempOjbect[11].awardNumber2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[12].awardNumber2" name="awardHierarchyTempOjbect[12].awardNumber2" value="${KualiForm.awardHierarchyTempOjbect[12].awardNumber2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[13].awardNumber2" name="awardHierarchyTempOjbect[13].awardNumber2" value="${KualiForm.awardHierarchyTempOjbect[13].awardNumber2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[14].awardNumber2" name="awardHierarchyTempOjbect[14].awardNumber2" value="${KualiForm.awardHierarchyTempOjbect[14].awardNumber2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[15].awardNumber2" name="awardHierarchyTempOjbect[15].awardNumber2" value="${KualiForm.awardHierarchyTempOjbect[15].awardNumber2}">
+    
+    <input type="hidden" id = "awardHierarchyTempOjbect[1].selectBox2" name="awardHierarchyTempOjbect[1].selectBox2" value="${KualiForm.awardHierarchyTempOjbect[1].selectBox2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[2].selectBox2" name="awardHierarchyTempOjbect[2].selectBox2" value="${KualiForm.awardHierarchyTempOjbect[2].selectBox2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[3].selectBox2" name="awardHierarchyTempOjbect[3].selectBox2" value="${KualiForm.awardHierarchyTempOjbect[3].selectBox2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[4].selectBox2" name="awardHierarchyTempOjbect[4].selectBox2" value="${KualiForm.awardHierarchyTempOjbect[4].selectBox2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[5].selectBox2" name="awardHierarchyTempOjbect[5].selectBox2" value="${KualiForm.awardHierarchyTempOjbect[5].selectBox2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[6].selectBox2" name="awardHierarchyTempOjbect[6].selectBox2" value="${KualiForm.awardHierarchyTempOjbect[6].selectBox2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[7].selectBox2" name="awardHierarchyTempOjbect[7].selectBox2" value="${KualiForm.awardHierarchyTempOjbect[7].selectBox2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[8].selectBox2" name="awardHierarchyTempOjbect[8].selectBox2" value="${KualiForm.awardHierarchyTempOjbect[8].selectBox2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[9].selectBox2" name="awardHierarchyTempOjbect[9].selectBox2" value="${KualiForm.awardHierarchyTempOjbect[9].selectBox2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[10].selectBox2" name="awardHierarchyTempOjbect[10].selectBox2" value="${KualiForm.awardHierarchyTempOjbect[10].selectBox2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[11].selectBox2" name="awardHierarchyTempOjbect[11].selectBox2" value="${KualiForm.awardHierarchyTempOjbect[11].selectBox2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[12].selectBox2" name="awardHierarchyTempOjbect[12].selectBox2" value="${KualiForm.awardHierarchyTempOjbect[12].selectBox2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[13].selectBox2" name="awardHierarchyTempOjbect[13].selectBox2" value="${KualiForm.awardHierarchyTempOjbect[13].selectBox2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[14].selectBox2" name="awardHierarchyTempOjbect[14].selectBox2" value="${KualiForm.awardHierarchyTempOjbect[14].selectBox2}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[15].selectBox2" name="awardHierarchyTempOjbect[15].selectBox2" value="${KualiForm.awardHierarchyTempOjbect[15].selectBox2}">
+    
+    <input type="hidden" id = "awardHierarchyTempOjbect[1].copyDescendants" name="awardHierarchyTempOjbect[1].copyDescendants" value="${KualiForm.awardHierarchyTempOjbect[1].copyDescendants}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[2].copyDescendants" name="awardHierarchyTempOjbect[2].copyDescendants" value="${KualiForm.awardHierarchyTempOjbect[2].copyDescendants}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[3].copyDescendants" name="awardHierarchyTempOjbect[3].copyDescendants" value="${KualiForm.awardHierarchyTempOjbect[3].copyDescendants}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[4].copyDescendants" name="awardHierarchyTempOjbect[4].copyDescendants" value="${KualiForm.awardHierarchyTempOjbect[4].copyDescendants}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[5].copyDescendants" name="awardHierarchyTempOjbect[5].copyDescendants" value="${KualiForm.awardHierarchyTempOjbect[5].copyDescendants}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[6].copyDescendants" name="awardHierarchyTempOjbect[6].copyDescendants" value="${KualiForm.awardHierarchyTempOjbect[6].copyDescendants}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[7].copyDescendants" name="awardHierarchyTempOjbect[7].copyDescendants" value="${KualiForm.awardHierarchyTempOjbect[7].copyDescendants}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[8].copyDescendants" name="awardHierarchyTempOjbect[8].copyDescendants" value="${KualiForm.awardHierarchyTempOjbect[8].copyDescendants}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[9].copyDescendants" name="awardHierarchyTempOjbect[9].copyDescendants" value="${KualiForm.awardHierarchyTempOjbect[9].copyDescendants}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[10].copyDescendants" name="awardHierarchyTempOjbect[10].copyDescendants" value="${KualiForm.awardHierarchyTempOjbect[10].copyDescendants}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[11].copyDescendants" name="awardHierarchyTempOjbect[11].copyDescendants" value="${KualiForm.awardHierarchyTempOjbect[11].copyDescendants}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[12].copyDescendants" name="awardHierarchyTempOjbect[12].copyDescendants" value="${KualiForm.awardHierarchyTempOjbect[12].copyDescendants}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[13].copyDescendants" name="awardHierarchyTempOjbect[13].copyDescendants" value="${KualiForm.awardHierarchyTempOjbect[13].copyDescendants}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[14].copyDescendants" name="awardHierarchyTempOjbect[14].copyDescendants" value="${KualiForm.awardHierarchyTempOjbect[14].copyDescendants}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[15].copyDescendants" name="awardHierarchyTempOjbect[15].copyDescendants" value="${KualiForm.awardHierarchyTempOjbect[15].copyDescendants}">
+    
+	<input type="hidden" id = "awardHierarchyTempOjbect[1].createNewChildRadio" name="awardHierarchyTempOjbect[1].createNewChildRadio" value="${KualiForm.awardHierarchyTempOjbect[1].createNewChildRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[2].createNewChildRadio" name="awardHierarchyTempOjbect[2].createNewChildRadio" value="${KualiForm.awardHierarchyTempOjbect[2].createNewChildRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[3].createNewChildRadio" name="awardHierarchyTempOjbect[3].createNewChildRadio" value="${KualiForm.awardHierarchyTempOjbect[3].createNewChildRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[4].createNewChildRadio" name="awardHierarchyTempOjbect[4].createNewChildRadio" value="${KualiForm.awardHierarchyTempOjbect[4].createNewChildRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[5].createNewChildRadio" name="awardHierarchyTempOjbect[5].createNewChildRadio" value="${KualiForm.awardHierarchyTempOjbect[5].createNewChildRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[6].createNewChildRadio" name="awardHierarchyTempOjbect[6].createNewChildRadio" value="${KualiForm.awardHierarchyTempOjbect[6].createNewChildRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[7].createNewChildRadio" name="awardHierarchyTempOjbect[7].createNewChildRadio" value="${KualiForm.awardHierarchyTempOjbect[7].createNewChildRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[8].createNewChildRadio" name="awardHierarchyTempOjbect[8].createNewChildRadio" value="${KualiForm.awardHierarchyTempOjbect[8].createNewChildRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[9].createNewChildRadio" name="awardHierarchyTempOjbect[9].createNewChildRadio" value="${KualiForm.awardHierarchyTempOjbect[9].createNewChildRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[10].createNewChildRadio" name="awardHierarchyTempOjbect[10].createNewChildRadio" value="${KualiForm.awardHierarchyTempOjbect[10].createNewChildRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[11].createNewChildRadio" name="awardHierarchyTempOjbect[11].createNewChildRadio" value="${KualiForm.awardHierarchyTempOjbect[11].createNewChildRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[12].createNewChildRadio" name="awardHierarchyTempOjbect[12].createNewChildRadio" value="${KualiForm.awardHierarchyTempOjbect[12].createNewChildRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[13].createNewChildRadio" name="awardHierarchyTempOjbect[13].createNewChildRadio" value="${KualiForm.awardHierarchyTempOjbect[13].createNewChildRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[14].createNewChildRadio" name="awardHierarchyTempOjbect[14].createNewChildRadio" value="${KualiForm.awardHierarchyTempOjbect[14].createNewChildRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[15].createNewChildRadio" name="awardHierarchyTempOjbect[15].createNewChildRadio" value="${KualiForm.awardHierarchyTempOjbect[15].createNewChildRadio}">
+    
+	<input type="hidden" id = "awardHierarchyTempOjbect[1].copyAwardRadio" name="awardHierarchyTempOjbect[1].copyAwardRadio" value="${KualiForm.awardHierarchyTempOjbect[1].copyAwardRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[2].copyAwardRadio" name="awardHierarchyTempOjbect[2].copyAwardRadio" value="${KualiForm.awardHierarchyTempOjbect[2].copyAwardRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[3].copyAwardRadio" name="awardHierarchyTempOjbect[3].copyAwardRadio" value="${KualiForm.awardHierarchyTempOjbect[3].copyAwardRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[4].copyAwardRadio" name="awardHierarchyTempOjbect[4].copyAwardRadio" value="${KualiForm.awardHierarchyTempOjbect[4].copyAwardRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[5].copyAwardRadio" name="awardHierarchyTempOjbect[5].copyAwardRadio" value="${KualiForm.awardHierarchyTempOjbect[5].copyAwardRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[6].copyAwardRadio" name="awardHierarchyTempOjbect[6].copyAwardRadio" value="${KualiForm.awardHierarchyTempOjbect[6].copyAwardRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[7].copyAwardRadio" name="awardHierarchyTempOjbect[7].copyAwardRadio" value="${KualiForm.awardHierarchyTempOjbect[7].copyAwardRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[8].copyAwardRadio" name="awardHierarchyTempOjbect[8].copyAwardRadio" value="${KualiForm.awardHierarchyTempOjbect[8].copyAwardRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[9].copyAwardRadio" name="awardHierarchyTempOjbect[9].copyAwardRadio" value="${KualiForm.awardHierarchyTempOjbect[9].copyAwardRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[10].copyAwardRadio" name="awardHierarchyTempOjbect[10].copyAwardRadio" value="${KualiForm.awardHierarchyTempOjbect[10].copyAwardRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[11].copyAwardRadio" name="awardHierarchyTempOjbect[11].copyAwardRadio" value="${KualiForm.awardHierarchyTempOjbect[11].copyAwardRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[12].copyAwardRadio" name="awardHierarchyTempOjbect[12].copyAwardRadio" value="${KualiForm.awardHierarchyTempOjbect[12].copyAwardRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[13].copyAwardRadio" name="awardHierarchyTempOjbect[13].copyAwardRadio" value="${KualiForm.awardHierarchyTempOjbect[13].copyAwardRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[14].copyAwardRadio" name="awardHierarchyTempOjbect[14].copyAwardRadio" value="${KualiForm.awardHierarchyTempOjbect[14].copyAwardRadio}">
+    <input type="hidden" id = "awardHierarchyTempOjbect[15].copyAwardRadio" name="awardHierarchyTempOjbect[15].copyAwardRadio" value="${KualiForm.awardHierarchyTempOjbect[15].copyAwardRadio}">
+            
 </kul:tab>
