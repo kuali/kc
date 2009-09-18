@@ -86,7 +86,7 @@ public class QuestionLookupAction extends KualiAction {
         }
 
         questionLookupForm.setSelectedQuestions(questions);
-        if (questionLookupForm.getNodeIndex() > 0) {
+        if (questionLookupForm.getNodeIndex() >= 0) {
             // when single lookup return, this refresh will be called too
             forward = mapping.findForward(SINGLE_LOOKUP);
         }
