@@ -373,6 +373,14 @@ function tbodyTag(name, id) {
 						$("#pcode"+$("li#" + liId).attr("id").substring(4)).html(getResearchAreaCode($("#" + id)));
 						cutNode = null;
 						ulTag.appendTo(parentNode);
+						if ($("#" + id).children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
+                            /* to force it to show the child node just added.
+                             * the div 'class' is changing based on whether the node is expand or collapsed
+                             */
+							$("#" + id).children('div:eq(0)').click();
+								$("#listcontrol"+liId.substring(4)).click();
+						}
+
 					} // if then else if not paste back to parent node
 				}
 				// right now is only doing for cutnode
@@ -578,6 +586,15 @@ function tbodyTag(name, id) {
 									"value"), getResearchAreaCode($("#" + id)),
 									trNode.children('td:eq(2)').children(
 											'input:eq(0)').attr("value")));
+							if (parentNode.children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
+                               /* to force it to show the child node just added.
+                                * the div 'class' is changing based on whether the node is expand or collapsed
+                                */
+								parentNode.children('div:eq(0)').click();
+								$("#listcontrol"+listitem.attr("id").substring(4)).click();
+							}
+							//$("#listcontrol"+listitem.attr("id").substring(4)).show();
+							//$("#listcontent"+listitem.attr("id").substring(4)).slideToggle(300);
 						} else {
 							alert("Research Area Code already exist");
 						}
