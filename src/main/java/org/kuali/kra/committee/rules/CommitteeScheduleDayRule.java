@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.committee.rules;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDayEvent;
 import org.kuali.kra.committee.web.struts.form.schedule.MonthlyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
@@ -50,7 +51,7 @@ public class CommitteeScheduleDayRule extends ResearchDocumentRuleBase implement
                 YearlyScheduleDetails.yearOptionValues yearOption = YearlyScheduleDetails.yearOptionValues.valueOf(scheduleData.getYearlySchedule().getYearOption());
                 switch(yearOption) {
                     case XDAY :
-                        rulePassed = validateDay(scheduleData.getYearlySchedule().getDay(), SCHEDULEDATA_YEARLY_DAY);   
+                        rulePassed = validateDay(scheduleData.getYearlySchedule().getDay(), scheduleData.getYearlySchedule().getSelectedOption1Month(), SCHEDULEDATA_YEARLY_DAY);   
                         break;
                 }
                 break;              
@@ -58,12 +59,33 @@ public class CommitteeScheduleDayRule extends ResearchDocumentRuleBase implement
         return rulePassed;
     }
     
-    private boolean validateDay(int day, String key) {
+    private boolean validateDay(Integer day, String key) {
         boolean rulePassed = true;
-        if(day > 31 ) {
+        if((day != null) && (day.compareTo(31) > 0)) {
             rulePassed = false;
-            reportError(key, KeyConstants.ERROR_COMMITTEESCHEDULE_DAY);
+            reportError(key, KeyConstants.ERROR_COMMITTEESCHEDULE_DAY, "31");
         }
+        return rulePassed;     
+    }
+
+    private boolean validateDay(Integer day, String month, String key) {
+        boolean rulePassed = true;
+        int maxDay;
+        
+        if (StringUtils.equalsIgnoreCase(month, "FEBRUARY")) {
+            maxDay = 29;
+        } else if(StringUtils.equalsIgnoreCase(month, "APRIL") || StringUtils.equalsIgnoreCase(month, "JUNE")
+                || StringUtils.equalsIgnoreCase(month, "SEPTEMBER") || StringUtils.equalsIgnoreCase(month, "NOVEMBER")) {
+            maxDay = 30;
+        } else {
+            maxDay = 31;
+        }
+
+        if((day != null) && (day.compareTo(maxDay) > 0)) {
+            rulePassed = false;
+            reportError(key, KeyConstants.ERROR_COMMITTEESCHEDULE_DAY, "31");
+        }
+
         return rulePassed;     
     }
 
