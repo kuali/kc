@@ -1,0 +1,223 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AwardPrintNotice" parent="AwardPrintNotice-parentBean" />
+
+  <bean id="AwardPrintNotice-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.award.printing.AwardPrintNotice" />
+    <property name="titleAttribute" value="awardPrintNotice" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AwardPrintNotice-addressList" />
+        <ref bean="AwardPrintNotice-closeout" />
+        <ref bean="AwardPrintNotice-comments" />
+        <ref bean="AwardPrintNotice-costShare" />
+        <ref bean="AwardPrintNotice-equipment" />
+        <ref bean="AwardPrintNotice-faCost" />
+        <ref bean="AwardPrintNotice-flowThru" />
+        <ref bean="AwardPrintNotice-foreignTravel" />
+        <ref bean="AwardPrintNotice-fundingSummary" />
+        <ref bean="AwardPrintNotice-hierarchy" />
+        <ref bean="AwardPrintNotice-keywords" />
+        <ref bean="AwardPrintNotice-otherData" />
+        <ref bean="AwardPrintNotice-payment" />
+        <ref bean="AwardPrintNotice-proposalsDue" />
+        <ref bean="AwardPrintNotice-reporting" />
+        <ref bean="AwardPrintNotice-specialReview" />
+        <ref bean="AwardPrintNotice-subAward" />
+        <ref bean="AwardPrintNotice-technicalReporting" />
+        <ref bean="AwardPrintNotice-terms" />
+        <ref bean="AwardPrintNotice-requireSignature" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="AwardPrintNotice-addressList" parent="AwardPrintNotice-addressList-parentBean" />
+  <bean id="AwardPrintNotice-addressList-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="addressList" />
+    <property name="label" value="Address List" />
+    <property name="shortLabel" value="Address List" />
+    <property name="summary" value="Address List" />
+    <property name="description" value="Address List" />
+  </bean>
+  
+  <bean id="AwardPrintNotice-closeout" parent="AwardPrintNotice-closeout-parentBean" />
+  <bean id="AwardPrintNotice-closeout-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="closeout" />
+    <property name="label" value="Closeout" />
+    <property name="shortLabel" value="Closeout" />
+    <property name="summary" value="Closeout" />
+    <property name="description" value="Closeout" />
+  </bean>
+  
+  <bean id="AwardPrintNotice-comments" parent="AwardPrintNotice-comments-parentBean" />
+  <bean id="AwardPrintNotice-comments-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="comments" />
+    <property name="label" value="Comments" />
+    <property name="shortLabel" value="Comments" />
+    <property name="summary" value="Comments" />
+    <property name="description" value="Comments" />
+  </bean>
+  
+  <bean id="AwardPrintNotice-costShare" parent="AwardPrintNotice-costShare-parentBean" />
+  <bean id="AwardPrintNotice-costShare-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="costShare" />
+    <property name="label" value="Cost Share" />
+    <property name="shortLabel" value="Cost Share" />
+    <property name="summary" value="Cost Share" />
+    <property name="description" value="Cost Share" />
+  </bean>
+  
+  <bean id="AwardPrintNotice-equipment" parent="AwardPrintNotice-equipment-parentBean" />
+  <bean id="AwardPrintNotice-equipment-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="equipment" />
+    <property name="label" value="Equipment" />
+    <property name="shortLabel" value="Equipment" />
+    <property name="summary" value="Equipment" />
+    <property name="description" value="Equipment" />
+  </bean>
+    
+  <bean id="AwardPrintNotice-faCost" parent="AwardPrintNotice-faCost-parentBean" />
+  <bean id="AwardPrintNotice-faCost-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="faCost" />
+    <property name="label" value="F&amp;A Cost" />
+    <property name="shortLabel" value="F&amp;A Cost" />
+    <property name="summary" value="F&amp;A Cost" />
+    <property name="description" value="F&amp;A Cost" />
+  </bean>
+
+  <bean id="AwardPrintNotice-flowThru" parent="AwardPrintNotice-flowThru-parentBean" />
+  <bean id="AwardPrintNotice-flowThru-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="flowThru" />
+    <property name="label" value="Flow Thru" />
+    <property name="shortLabel" value="Flow Thru" />
+    <property name="summary" value="Flow Thru" />
+    <property name="description" value="Flow Thru" />
+  </bean>      
+
+  <bean id="AwardPrintNotice-foreignTravel" parent="AwardPrintNotice-foreignTravel-parentBean" />
+  <bean id="AwardPrintNotice-foreignTravel-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="foreignTravel" />
+    <property name="label" value="Foreign Travel" />
+    <property name="shortLabel" value="Foreign Travel" />
+    <property name="summary" value="Foreign Travel" />
+    <property name="description" value="Foreign Travel" />
+  </bean>
+  
+  <bean id="AwardPrintNotice-fundingSummary" parent="AwardPrintNotice-fundingSummary-parentBean" />
+  <bean id="AwardPrintNotice-fundingSummary-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="fundingSummary" />
+    <property name="label" value="Funding Summary" />
+    <property name="shortLabel" value="Funding Summary" />
+    <property name="summary" value="Funding Summary" />
+    <property name="description" value="Funding Summary" />
+  </bean>
+  
+  <bean id="AwardPrintNotice-hierarchy" parent="AwardPrintNotice-hierarchy-parentBean" />
+  <bean id="AwardPrintNotice-hierarchy-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="hierarchy" />
+    <property name="label" value="Hierarchy" />
+    <property name="shortLabel" value="Hierarchy" />
+    <property name="summary" value="Hierarchy" />
+    <property name="description" value="Hierarchy" />
+  </bean>
+  
+  <bean id="AwardPrintNotice-keywords" parent="AwardPrintNotice-keywords-parentBean" />
+  <bean id="AwardPrintNotice-keywords-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="keywords" />
+    <property name="label" value="Keywords" />
+    <property name="shortLabel" value="Keywords" />
+    <property name="summary" value="Keywords" />
+    <property name="description" value="Keywords" />
+  </bean>
+  
+  <bean id="AwardPrintNotice-otherData" parent="AwardPrintNotice-otherData-parentBean" />
+  <bean id="AwardPrintNotice-otherData-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="otherData" />
+    <property name="label" value="Other Data" />
+    <property name="shortLabel" value="Other Data" />
+    <property name="summary" value="Other Data" />
+    <property name="description" value="Other Data" />
+  </bean>
+  
+  <bean id="AwardPrintNotice-payment" parent="AwardPrintNotice-payment-parentBean" />
+  <bean id="AwardPrintNotice-payment-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="payment" />
+    <property name="label" value="Payment" />
+    <property name="shortLabel" value="Payment" />
+    <property name="summary" value="Payment" />
+    <property name="description" value="Payment" />
+  </bean>
+  
+  <bean id="AwardPrintNotice-proposalsDue" parent="AwardPrintNotice-proposalsDue-parentBean" />
+  <bean id="AwardPrintNotice-proposalsDue-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="proposalsDue" />
+    <property name="label" value="Proposals Due" />
+    <property name="shortLabel" value="Proposals Due" />
+    <property name="summary" value="Proposals Due" />
+    <property name="description" value="Proposals Due" />
+  </bean>
+  
+  <bean id="AwardPrintNotice-reporting" parent="AwardPrintNotice-reporting-parentBean" />
+  <bean id="AwardPrintNotice-reporting-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="reporting" />
+    <property name="label" value="Reporting" />
+    <property name="shortLabel" value="Reporting" />
+    <property name="summary" value="Reporting" />
+    <property name="description" value="Reporting" />
+  </bean>
+  
+  <bean id="AwardPrintNotice-specialReview" parent="AwardPrintNotice-specialReview-parentBean" />
+  <bean id="AwardPrintNotice-specialReview-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="specialReview" />
+    <property name="label" value="Special Review" />
+    <property name="shortLabel" value="Special Review" />
+    <property name="summary" value="Special Review" />
+    <property name="description" value="Special Review" />
+  </bean>
+  
+  <bean id="AwardPrintNotice-subAward" parent="AwardPrintNotice-subAward-parentBean" />
+  <bean id="AwardPrintNotice-subAward-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="subAward" />
+    <property name="label" value="Subaward" />
+    <property name="shortLabel" value="Subaward" />
+    <property name="summary" value="Subaward" />
+    <property name="description" value="Subaward" />
+  </bean>                        
+
+  <bean id="AwardPrintNotice-technicalReporting" parent="AwardPrintNotice-technicalReporting-parentBean" />
+  <bean id="AwardPrintNotice-technicalReporting-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="technicalReporting" />
+    <property name="label" value="Technical Reporting" />
+    <property name="shortLabel" value="Technical Reporting" />
+    <property name="summary" value="Technical Reporting" />
+    <property name="description" value="Technical Reporting" />
+  </bean>                        
+
+  <bean id="AwardPrintNotice-terms" parent="AwardPrintNotice-terms-parentBean" />
+  <bean id="AwardPrintNotice-terms-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="terms" />
+    <property name="label" value="Terms" />
+    <property name="shortLabel" value="Terms" />
+    <property name="summary" value="Terms" />
+    <property name="description" value="Terms" />
+  </bean>
+  
+  <bean id="AwardPrintNotice-requireSignature" parent="AwardPrintNotice-requireSignature-parentBean" />
+  <bean id="AwardPrintNotice-requireSignature-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="requireSignature" />
+    <property name="label" value="Signature Required" />
+    <property name="shortLabel" value="Signature Required" />
+    <property name="summary" value="Signature Required" />
+    <property name="description" value="Signature Required" />
+  </bean>                        
+                          
+ 
+
+</beans>
