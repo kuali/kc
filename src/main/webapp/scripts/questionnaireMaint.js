@@ -140,6 +140,7 @@ function getMaintTable(description, qtypeid, vers, idx, childNode) {
 		var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 		var response = splitq[6];
 		var value = splitq[7];
+		// alert ("resp value "+response+"-"+idx+$("#qnaireQuestions\\["+ idx+"\\]").attr("value")+"-"+"-"+value);
 		if (value != '') {
 			// alert ("resp value "+response+"-"+value);
 			var newResponse = getRequirementDeleteRow(responseArray[response],
@@ -437,6 +438,14 @@ function getQuestionActionSubTable(qnaireid) {
 						   } // not paste to itself or its children
 						  }							
 						//}// cutnode
+							if ($(parentNode).children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
+	                               /* to force it to show the child node just added.
+	                                * the div 'class' is changing based on whether the node is expand or collapsed
+	                                */
+								$(parentNode).children('div:eq(0)').click();
+									//$("#listcontrol"+listitem.attr("id").substring(8)).click();
+								}
+
 						
 					}// if cutnode
 
@@ -449,6 +458,13 @@ function getQuestionActionSubTable(qnaireid) {
 						pasteChild(qnaireid, copyNode);
 						//maxCopyNodeIdx = 0;
 						isCopy = "false";
+						if ($("#"+qnaireid).children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
+                            /* to force it to show the child node just added.
+                             * the div 'class' is changing based on whether the node is expand or collapsed
+                             */
+							$("#"+qnaireid).children('div:eq(0)').click();
+								//$("#listcontrol"+listitem.attr("id").substring(8)).click();
+							}
 
 					}
 					return false;  // so when clicked, the page will not jump
@@ -975,7 +991,13 @@ function getAddQuestionRow(curidx) {
 
 						//alert(childNode)
 						if (childNode == 'true') {
-							// alert("parent li
+							if ($(this).parents('li:eq(0)').children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
+	                               /* to force it to show the child node just added.
+	                                * the div 'class' is changing based on whether the node is expand or collapsed
+	                                */
+								$(this).parents('li:eq(0)').children('div:eq(0)').click();
+									//$("#listcontrol"+listitem.attr("id").substring(8)).click();
+								}
 						}
 						// TODO : set up for insert
 						/*
@@ -1216,11 +1238,12 @@ function checkToAddQn(nodeIndex) {
 	var idx2 = url.indexOf("/", idx1 + 1);
 	var extractUrl = url.substr(0, idx2);
 	var lookupType;
-	if (nodeIndex == 0) {
+	if (nodeIndex == -1) {
 		lookupType = "multivalue";
 	} else {
 		lookupType = "single";
 	}
+//	alert("nodeidx "+nodeIndex)
 	var winPop = window.open(extractUrl + "/questionLookup.do?nodeIndex="
 			+ nodeIndex + "&lookupType=" + lookupType + "&anchor=topOfForm",
 			"_blank", "width=1000, height=800, scrollbars=yes");
@@ -1235,6 +1258,7 @@ function returnQuestion(newQuestionId, newQuestion, newQuestionTypeId,newQuestio
 	// TODO : these need to be defined in 'input' tag, otherwise, the value set
 	// will not stuck.
 	// questionid, description, and typeid returned from question lookup.
+	// alert("qid "+ nodeIndex+"-"+newQuestionId);
 	$("#newqid" + nodeIndex).attr("value", newQuestionId);
 	$("#newqdesc" + nodeIndex).attr("value", newQuestion);
 	$("#newqtypeid" + nodeIndex).attr("value", newQuestionTypeId);
@@ -1242,7 +1266,7 @@ function returnQuestion(newQuestionId, newQuestion, newQuestionTypeId,newQuestio
 	$("#newqdispans" + nodeIndex).attr("value", displayedAnswers);
 	$("#newqmaxans" + nodeIndex).attr("value", maxAnswers);
 	$("#newqmaxlength" + nodeIndex).attr("value", answerMaxLength);
-	// alert("qid "+ nodeIndex+$("#qid"+nodeIndex).attr("value"));
+	 //alert("qid "+ nodeIndex+"-"+$("#newqdesc" + nodeIndex).attr("value")+"-"+newQuestion);
 }
 
 /*
@@ -1725,7 +1749,7 @@ $("#rootSearch").click(function() {
 		// of the image got lost.
 		// so, before figuring a solution, use this alternative to fin parents
 		// id.
-		checkToAddQn(0);
+		checkToAddQn(-1);
 		return false;
 	});
 
