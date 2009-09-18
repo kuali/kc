@@ -43,6 +43,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.bo.Parameter;
@@ -93,6 +94,8 @@ public class ActionHelper implements Serializable {
      * Identifies the protocol "document" to print.
      */
     private String printTag;
+    
+    private ProtocolSummary protocolSummary;
     
     private String selectedHistoryItem;
     private DateRangeFilter historyDateRangeFilter = new DateRangeFilter();
@@ -201,6 +204,8 @@ public class ActionHelper implements Serializable {
         canRequestReOpenEnrollment = hasRequestReOpenEnrollmentPermission();
         canRequestDataAnalysis = hasRequestDataAnalysisPermission();
         canDeleteProtocolAmendRenew = hasDeleteProtocolAmendRenewPermission();
+        
+        protocolSummary = getProtocol().getProtocolSummary();
     }
 
     private String getParameterValue(String parameterName) {
@@ -390,6 +395,10 @@ public class ActionHelper implements Serializable {
     
     public String getPrintTag() {
         return printTag;
+    }
+    
+    public ProtocolSummary getProtocolSummary() {
+        return protocolSummary;
     }
     
     public void setSelectedHistoryItem(String selectedHistoryItem) {

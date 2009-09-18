@@ -1,343 +1,260 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
-<c:set var="protocolDocumentAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
-<c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
-<c:set var="action" value="protocolProtocolActions" />
-<c:set var="textAreaFieldName" value="document.protocolList[0].protocolSubmission.votingComments" />
-<c:set var="protocol" value="${KualiForm.document.protocolList[0]}" />
-<c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
-<c:set var="protocolUnitAttributes" value="${DataDictionary.ProtocolUnit.attributes}" />
-<c:set var="protocolResearchAreaAttributes" value="${DataDictionary.ProtocolResearchArea.attributes}" />
-<c:set var="researchAreaAttributes" value="${DataDictionary.ResearchArea.attributes}" />
-<c:set var="protocolSubmissionAttributes" value="${DataDictionary.ProtocolSubmission.attributes}" />
-<c:set var="committeeAttributes" value="${DataDictionary.Committee.attributes}" />
-<c:set var="protocolSubmissionTypeAttributes" value="${DataDictionary.ProtocolSubmissionType.attributes}" />
-<c:set var="protocolReviewTypeAttributes" value="${DataDictionary.ProtocolReviewType.attributes}" />
-<c:set var="protocolSubmissionQualifierTypeAttributes" value="${DataDictionary.ProtocolSubmissionQualifierType.attributes}" />
-<c:set var="protocolSubmissionStatusAttributes" value="${DataDictionary.ProtocolSubmissionStatus.attributes}" />
-<c:set var="protocolStatusAttributes" value="${DataDictionary.ProtocolStatus.attributes}" />
-<c:set var="protocolTypeAttributes" value="${DataDictionary.ProtocolType.attributes}" />
-<c:set var="committeeMembershipTypeAttributes" value="${DataDictionary.CommitteeMembershipType.attributes}" />
-<c:set var="committeeMembershipAttributes" value="${DataDictionary.CommitteeMembership.attributes}" />
-<c:set var="personAttributes" value="${DataDictionary.Person.attributes}" />
-<c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.PROTOCOL_SUMMARY_VOTINGCOMMENTS%>" />
-
-    	<kra:innerTab parentTab="Summary, History, & Print" defaultOpen="false" tabTitle="View Summary (Notified Committee dd/mm/yyyy)">
-            <table cellpadding="0" cellspacing="0">
-                <tr>
-                    <th style="text-align:right; width:135px;">
-                        Protocol Number:
-                    </th>
-                    <td>
-                    	<kul:htmlControlAttribute property="document.protocolList[0].protocolNumber" 
-									                							readOnly="true"	attributeEntry="${protocolAttributes.protocolNumber}"  />
-                    </td>
-                    <th style="text-align:right">
-                        Application Date:
-                    </th>
-                    <td>
-                    	<kul:htmlControlAttribute property="document.protocolList[0].applicationDate" 
-									                							readOnly="true"	attributeEntry="${protocolAttributes.applicationDate}"  />                  
-                    </td>
-                    <th rowspan="5">
-                        <a href="#"><img src="../images/tinybutton-previous3.gif" alt="close" width="70" height="15" border="0" style="padding:2px;" /></a><br />
-                        <a href="#"><img src="../images/tinybutton-next3.gif" alt="close" width="70" height="15" border="0" style="padding:2px;" /></a>
-                    </th>
-                </tr>
-                <tr>
-                    <th style="text-align:right">
-                        Approval Date:
-                    </th>
-                    <td>
-                    	<kul:htmlControlAttribute property="document.protocolList[0].approvalDate" 
-									                							readOnly="true"	attributeEntry="${protocolAttributes.approvalDate}"  />      
-                    </td>
-                    <th style="text-align:right">
-                        Expiration Date:
-                    </th>
-                    <td>
-                    	<kul:htmlControlAttribute property="document.protocolList[0].expirationDate" 
-									                							readOnly="true"	attributeEntry="${protocolAttributes.expirationDate}"  />                       
-                    </td>
-                </tr>
-                <tr>
-                    <th style="text-align:right">
-                        Status:
-                    </th>
-                    <td>
-                    	<kul:htmlControlAttribute property="document.protocolList[0].protocolStatus.description" 
-									                							readOnly="true"	attributeEntry="${protocolStatusAttributes.description}"  />
-                    </td>
-                    <th style="text-align:right">&nbsp;
-                        Type:
-                    </th>
-                    <td>
-                    	<kul:htmlControlAttribute property="document.protocolList[0].protocolType.description" 
-									                							readOnly="true"	attributeEntry="${protocolTypeAttributes.description}"  />
-                    </td>
-                </tr>
-                <tr>
-                    <th style="text-align:right; height:50px;">
-                        Title:
-                    </th>
-                    <td colspan="3" style="text-align:left; vertical-align:top;">
-                    	<kul:htmlControlAttribute property="document.protocolList[0].title" 
-									                							readOnly="true"	attributeEntry="${protocolAttributes.title}"  />  
-                    </td>
-
-                </tr>
-            </table>
-    		
-            <!-- Investigators -->
-                <table  cellpadding="0" cellspacing="0"  summary="">
-                    <tr>
-                        <td class="tab-subhead" colspan="4">
-                           Personnel
-                      </td>
-                    </tr>
-                        <tr>
-                            <th>Name</th>
-                            <th>Role</th>
-                            <th>Affiliation </th>
-                            <th>Unit(s)</th>
-                        </tr>   		
-			        	<c:forEach var="protocolPerson" items="${protocol.protocolPersons}" varStatus="status">
-				             <tr>
-			                          <td><kul:htmlControlAttribute property="document.protocolList[0].protocolPersons[${status.index}].personName" 
-				                									readOnly="true"	attributeEntry="${protocolPersonAttributes.personName}"  /></td>
-			                          <td><kul:htmlControlAttribute property="document.protocolList[0].protocolPersons[${status.index}].protocolPersonRole.description" 
-				                									readOnly="true"	attributeEntry="${protocolPersonAttributes.protocolPersonRole.description}"  /></td>
-			                          <td><kul:htmlControlAttribute property="document.protocolList[0].protocolPersons[${status.index}].affiliationType.description" 
-				                									readOnly="true"	attributeEntry="${protocolPersonAttributes.affiliationType.description}"  /></td>
-			                          <td> 
-								        	<c:forEach var="protocolUnit" items="${protocolPerson.protocolUnits}" varStatus="it">						        
-								            	<kul:htmlControlAttribute property="document.protocolList[0].protocolPersons[${status.index}].protocolUnits[${it.index}].protocolUnitsId" 
-									                							readOnly="true"	attributeEntry="${protocolUnitAttributes.protocolUnitsId}"  />	
-									        &nbsp;:&nbsp;	
-									        <kul:htmlControlAttribute property="document.protocolList[0].protocolPersons[${status.index}].protocolUnits[${it.index}].unitName" 
-									                							readOnly="true"	attributeEntry="${protocolUnitAttributes.unitName}"  />	        										                 
-								        	</c:forEach>                                                    
-			                          </td>
-				            </tr>     
-			        	</c:forEach>
-    			</table>
-    			
-	          <!-- Areas of Research -->
-              <table  cellpadding="0" cellspacing="0"  summary="">
-                    <tr>
-                        <td class="tab-subhead" >Areas of Research</td>
-                    </tr>
-			        	<c:forEach var="protocolPerson" items="${protocol.protocolResearchAreas}" varStatus="status">
-				             <tr>
-			                     <td>
-			                     	<kul:htmlControlAttribute property="document.protocolList[0].protocolResearchAreas[${status.index}].researchAreas.researchAreaCode" 
-				                									readOnly="true"	attributeEntry="${researchAreaAttributes.researchAreas.researchAreaCode}"  />
-				                	:&nbsp;
-				                	<kul:htmlControlAttribute property="document.protocolList[0].protocolResearchAreas[${status.index}].researchAreas.description" 
-				                									readOnly="true"	attributeEntry="${researchAreaAttributes.researchAreas.description}"  />
-				                 </td>
-				             </tr>     
-			        	</c:forEach>
-			  </table>
-
-			<!-- Submission Details -->
-                <table  cellpadding="0" cellspacing="0"  summary="">
-                    <tr>
-                        <td class="tab-subhead" colspan="2">
-                            Submission Details
-                        </td>
-
-                    </tr>
-                         <tr>
-                            <th style="text-align:right; width:135px;">
-                                Committee Id:
-                            </th>
-                            <td>
-                            	<kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.committee.committeeId" 
-									                							readOnly="true"	attributeEntry="${committeeAttributes.committeeId}"  />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <th style="text-align:right;">
-                                Committee Name:
-                            </th>
-                            <td>
-                            	<kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.committee.committeeName" 
-									                							readOnly="true"	attributeEntry="${committeeAttributes.committeeName}"  />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th style="text-align:right;">
-                                Scheduled Date:
-                            </th>
-                            <td>
-                            	<kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.submissionDate" 
-									                							readOnly="true"	attributeEntry="${protocolSubmissionAttributes.submissionDate}"  />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th style="text-align:right;">
-                                Submission Type:
-                            </th>
-
-                            <td>
-                            	<kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.protocolSubmissionType.description" 
-									                							readOnly="true"	attributeEntry="${protocolSubmissionTypeAttributes.description}"  />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th style="text-align:right;">
-                                Review Type:
-                            </th>
-                            <td>
-                            	<kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.protocolReviewType.description" 
-									                							readOnly="true"	attributeEntry="${protocolReviewTypeAttributes.description}"  />
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <th style="text-align:right;">
-                                Type Qualifier:
-                            </th>
-                            <td>
-                            	<kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.protocolSubmissionQualifierType.description" 
-									                							readOnly="true"	attributeEntry="${protocolSubmissionQualifierTypeAttributes.description}"  />
-                            </td>
-                        </tr>
-                        <tr>
-
-                            <th style="text-align:right;">
-                                Submission Status:
-                            </th>
-                            <td>
-                            	<kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.submissionStatus.description" 
-									                							readOnly="true"	attributeEntry="${protocolSubmissionStatusAttributes.description}"  />
-                            </td>
-                        </tr>
-                </table>
-
-			<!-- Reviewers -->
-                <table  cellpadding="0" cellspacing="0"  summary="">
-                    <tr>
-                        <td class="tab-subhead" colspan="2">
-                             Reviewers
-                        </td>
-                    </tr>
-                    <!--<tbody id="G700" style="display: none;">-->
-                        <tr>
-
-                            <th>
-                                Name
-                            </th>
-                            <th>
-                                Type
-                            </th>
-                        </tr>
-			        	<c:forEach var="committeeMembership" items="${protocol.protocolSubmission.committee.committeeMemberships}" varStatus="status">
-				             <tr>
-			                    <td>
-			                     	<kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.committee.committeeMemberships[${status.index}].personName" 
-				                									readOnly="true"	attributeEntry="${committeeMembershipAttributes.personName}"  />
-				                </td>
-                            	<td>
-				                	<kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.committee.committeeMemberships[${status.index}].membershipType.description" 
-				                									readOnly="true"	attributeEntry="${committeeMembershipTypeAttributes.description}"  />
-				                </td>
-				             </tr>     
-			        	</c:forEach>                        
-                </table>
-
-              <table  cellpadding="0" cellspacing="0"  summary="">
-                <tr>
-                  <td class="tab-subhead" colspan="4">
-                    Vote Summary </td>
-                </tr>
-                <tr>
-                  <th style="text-align:right;">Yes:</th>
-
-                  <td><kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.yesVoteCount" 
-									                							readOnly="true"	attributeEntry="${protocolSubmissionAttributes.yesVoteCount}"/></td>
-                  <th style="text-align:right;">Abstain:</th>
-                  <td><kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.abstainerCount" 
-									                							readOnly="true"	attributeEntry="${protocolSubmissionAttributes.abstainerCount}"/></td>
-                </tr>
-                <tr>
-                  <th style="text-align:right;">No:</th>
-                  <td><kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.noVoteCount" 
-									                							readOnly="true"	attributeEntry="${protocolSubmissionAttributes.noVoteCount}"/></td>
-                  <th style="text-align:right;">Abstainers:</th>
-                  <td>
-                  	<c:forEach var="committeeScheduleAttendance" items="${protocol.protocolSubmission.committeeSchedule.committeeScheduleAttendances}" varStatus="status">
-                  	
-			                 <kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.committeeSchedule.committeeScheduleAttendances[${status.index}].person.lastName" 
-				                									readOnly="true"	attributeEntry="${personAttributes.lastName}"/>
-				                									,
-				             <kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.committeeSchedule.committeeScheduleAttendances[${status.index}].person.firstName" 
-				                									readOnly="true"	attributeEntry="${personAttributes.firstName}"/>
-    																&nbsp;	
-			        </c:forEach>                  
-                  </td>
-                </tr>
-                <tr>
-                  <th style="text-align:right;">Comments:</th>
-                  <td colspan="3"><span style="border:none;">                  
-                    <kra:truncateComment textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolSubmissionAttributes.votingComments.label}" 
-    	                       	textValue="${KualiForm.document.protocolList[0].protocolSubmission.votingComments}" displaySize="${commentDisplayLength}"/>                  		                    			
-                    <span style="border:none; width:20px; vertical-align:bottom;">                    	
-                  	</span>
-                  </span></td>
-                </tr>
-              </table>
-
-<p>-- or --</p>
-
-              <table  cellpadding="0" cellspacing="0"  summary="">
-                  <tr>
-                    <td class="tab-subhead" colspan="8"><!--<a href="#" id="A700" onclick="rend(this, false)"><img src="../images/tinybutton-show.gif" alt="show/hide this panel" width=45 height=15 border=0 align="absmiddle" id="F700"></a>-->
-                      Vote Summary </td>
-
-                </tr>
-                  <!--<tbody id="G700" style="display: none;">-->
-                  <tr>
-                    <th> No: </th>
-                    <td><kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.noVoteCount" 
-									                							readOnly="true"	attributeEntry="${protocolSubmissionAttributes.noVoteCount}"/></td>
-                    <th> Yes: </th>
-                    <td><kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.yesVoteCount" 
-									                							readOnly="true"	attributeEntry="${protocolSubmissionAttributes.yesVoteCount}"/></td>
-                    <th> Abstain: </th>
-                    <td><kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.abstainerCount" 
-									                							readOnly="true"	attributeEntry="${protocolSubmissionAttributes.abstainerCount}"/></td>
-                    <th style="text-align:right;"> Comments: </th>
-                    <td><table style="border:none; width:100%;" cellpadding="0" cellspacing="0">
-
-                      <tr>
-                        <td style="border:none;"> 
-							<kra:truncateComment textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolSubmissionAttributes.votingComments.label}" 
-    	                       	textValue="${KualiForm.document.protocolList[0].protocolSubmission.votingComments}" displaySize="${commentDisplayLength}"/> 
-						</td>
-                      </tr>
-                    </table></td>
-                  </tr>
-                  <tr>
-                    <th colspan="7" style="text-align:right;">Abstainers:</th>
-                    <td>
-                  	<c:forEach var="committeeScheduleAttendance" items="${protocol.protocolSubmission.committeeSchedule.committeeScheduleAttendances}" varStatus="status">
-                  	
-			                 <kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.committeeSchedule.committeeScheduleAttendances[${status.index}].person.lastName" 
-				                									readOnly="true"	attributeEntry="${personAttributes.lastName}"  />
-				                									,
-				             <kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.committeeSchedule.committeeScheduleAttendances[${status.index}].person.firstName" 
-				                									readOnly="true"	attributeEntry="${personAttributes.firstName}"  />
-				                									&nbsp;
+          
+<kra:innerTab tabTitle="Summary" parentTab="" defaultOpen="false">
+    <div class="tab-container">
+	<table cellpadding="0" cellspacing="0">
+    	<tbody>
+            <tr>
+                <th style="text-align:right; width:135px;">Protocol Number:</th>
+                <td>${KualiForm.actionHelper.protocolSummary.protocolNumber}&nbsp;</td>
+                <th style="text-align:right; width:135px">Application Date:</th>
+                <td>${KualiForm.actionHelper.protocolSummary.applicationDate}&nbsp;</td>
+			</tr>
+			
+			<tr>
+                <th style="text-align:right; width:135px;">Approval Date:</th>
+                <td>${KualiForm.actionHelper.protocolSummary.approvalDate}&nbsp;</td>
+                <th style="text-align:right; width:135px;">Expiration Date:</th>
+                <td>${KualiForm.actionHelper.protocolSummary.expirationDate}&nbsp;</td>
+			</tr>
+			
+			<tr>
+                <th style="text-align:right; width:135px;">Last Approval Date:</th>
+                <td>${KualiForm.actionHelper.protocolSummary.lastApprovalDate}&nbsp;</td>
+                <th style="text-align:right; width:135px">Type:</th>
+                <td>${KualiForm.actionHelper.protocolSummary.type}&nbsp;</td>
+			</tr>
+			
+			<tr>
+                <th style="text-align:right; width:135px;">PI:</th>
+                <td>
+                    ${KualiForm.actionHelper.protocolSummary.piName}&nbsp;
+                    <input type="hidden" name="actionHelper.protocolSummary.piProtocolPersonId"
+                           value="${KualiForm.actionHelper.protocolSummary.piProtocolPersonId}" />
+                    <kul:directInquiry boClassName="org.kuali.kra.irb.personnel.ProtocolPerson"
+	                     inquiryParameters="actionHelper.protocolSummary.piProtocolPersonId:protocolPersonId" 
+	                     anchor="${currentTabIndex}" />
+                </td>
+                <th style="text-align:right; width:135px">Status:</th>
+                <td>${KualiForm.actionHelper.protocolSummary.status}&nbsp;</td>
+			</tr>
+			
+			<tr>
+                <th style="text-align:right; width:135px;">Title:</th>
+                <td colspan="3">${KualiForm.actionHelper.protocolSummary.title}&nbsp;</td>
+			</tr>
+		</tbody>                  
+    </table>
     
-			        </c:forEach>                     
+    <table cellpadding="0" cellspacing="0">
+    	<tbody>
+            <tr>
+                <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="5">Personnel:</td>
+            </tr>
+            
+            <tr>
+                <th style="width: 50px;">&nbsp;</th>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Name</td>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Role</td>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Affiliation</td>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Unit(s)</td>              
+            </tr>
+            
+            <c:forEach items="${KualiForm.actionHelper.protocolSummary.persons}" var="person" varStatus="status">
+                <tr>
+                    <th style="width:50px">${status.index + 1}</th>
+                    <td class="changed">${person.name}</td>
+                    <td class="changed">${person.roleName}</td>
+                    <td class="changed">${person.affiliation}&nbsp;</td>
+                    <td class="changed">
+                        <c:forEach items="${person.units}" var="unit" varStatus="status">
+           					${unit.unitNumber} : ${unit.unitName}<br />
+           				</c:forEach>
+                  	</td>
+                </tr>
+            </c:forEach>
+    	</tbody>
+    </table>
+    
+    <table cellpadding="0" cellspacing="0">
+    	<tbody>
+            <tr>
+                <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="2">Areas of Research:</td>
+            </tr>
+            <c:forEach items="${KualiForm.actionHelper.protocolSummary.researchAreas}" var="researchArea" varStatus="status">
+                <tr>
+                    <th style="width:50px">${status.index + 1}</th>
+                    <td class="changed">${researchArea.researchAreaCode} : ${researchArea.description}</td>
+               </tr>
+            </c:forEach>
+    	</tbody>
+    </table>
+    
+    <table cellpadding="0" cellspacing="0">
+    	<tbody>
+            <tr>
+                <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="3">Attachments:</td>
+            </tr>
+            <c:forEach items="${KualiForm.actionHelper.protocolSummary.attachments}" var="attachment" varStatus="status">
+                <tr>
+                    <th style="width:50px">${status.index + 1}</th>
+                    <td class="changed">${attachment.fileName}</td>
+                    <td style="width:90%">
+                        <html:image property="methodToCall.viewAttachmentProtocol.line${status.index}.anchor${currentTabIndex}"
+						  	        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+						     	    alt="View Protocol Attachment" onclick="excludeSubmitRestriction = true;"/>
                     </td>
-                  </tr>
-                  <!--</tbody>-->
-              </table>
-              <p/>
-    			
-    	</kra:innerTab>
-
+               </tr>
+            </c:forEach>
+    	</tbody>
+    </table>
+    
+    <table cellpadding="0" cellspacing="0">
+    	<tbody>
+            <tr>
+                <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="5">Funding Source:</td>
+            </tr>
+            
+            <tr>
+                <th style="width: 50px;">&nbsp;</th>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Funding Type</td>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Funding ID</td>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Source</td>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Title</td>              
+            </tr>
+            
+            <c:forEach items="${KualiForm.actionHelper.protocolSummary.fundingSources}" var="fundingSource" varStatus="status">
+                <tr>
+                    <th style="width:50px">${status.index + 1}</th>
+                    <td class="changed">${fundingSource.fundingType}</td>
+                    <td class="changed">${fundingSource.fundingId}</td>
+                    <td class="changed">${fundingSource.fundingSource}</td>
+                    <td class="changed">${fundingSource.title}&nbsp;</td>
+               </tr>
+            </c:forEach>
+    	</tbody>
+    </table>
+    
+    <table cellpadding="0" cellspacing="0">
+    	<tbody>
+            <tr>
+                <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="3">Participant Types:</td>
+            </tr>
+            
+            <tr>
+                <th style="width: 50px;">&nbsp;</th>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Description</td>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Count</td>
+            </tr>
+            
+            <c:forEach items="${KualiForm.actionHelper.protocolSummary.participants}" var="participant" varStatus="status">
+                <tr>
+                    <th style="width:50px">${status.index + 1}</th>
+                    <td class="changed">${participant.description}</td>
+                    <td class="changed">${participant.count}</td>
+               </tr>
+            </c:forEach>
+    	</tbody>
+    </table>
+    
+    <table cellpadding="0" cellspacing="0">
+    	<tbody>
+            <tr>
+                <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="5">Organization:</td>
+            </tr>
+            
+            <tr>
+                <th style="width: 50px;">&nbsp;</th>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Organization ID</td>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Organization Type</td>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Contact</td>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">FWA Number</td>
+            </tr>
+            
+            <c:forEach items="${KualiForm.actionHelper.protocolSummary.organizations}" var="organization" varStatus="status">
+                <tr>
+                    <th style="width:50px">${status.index + 1}</th>
+                    <td class="changed">
+                        ${organization.id}
+                        <input type="hidden" name="actionHelper.protocolSummary.organizations[${status.index}].organizationId"
+                               value="${organization.organizationId}" />
+                        <kul:directInquiry boClassName="org.kuali.kra.bo.Organization"
+                             inquiryParameters="actionHelper.protocolSummary.organizations[${status.index}].organizationId:organizationId" 
+                             anchor="${currentTabIndex}" />
+                        <br /><span class="fineprint">${organization.name}</span>
+                    </td>
+                    <td class="changed">${organization.type}</td>
+                    <td class="changed">
+                        ${organization.contact}
+                        <input type="hidden" name="actionHelper.protocolSummary.organizations[${status.index}].contactId"
+                               value="${organization.contactId}" />
+                        <kul:directInquiry boClassName="org.kuali.kra.bo.Rolodex"
+                             inquiryParameters="actionHelper.protocolSummary.organizations[${status.index}].contactId:rolodexId" 
+                             anchor="${currentTabIndex}" />
+                    </td>
+                    <td class="changed">${organization.fwaNumber}&nbsp;</td>
+               </tr>
+            </c:forEach>
+    	</tbody>
+    </table>
+    
+    <table cellpadding="0" cellspacing="0">
+    	<tbody>
+            <tr>
+                <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="8">Special Reviews:</td>
+            </tr>
+            
+             <tr>
+                <th style="width: 50px;">&nbsp;</th>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Type</td>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Approval Status</td>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Protocol #</td>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Application Date</td>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Approval Date</td>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Expiration Date</td>
+                <td class="infoline fineprint" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Exemption #</td>
+            </tr>
+            
+            <c:forEach items="${KualiForm.actionHelper.protocolSummary.specialReviews}" var="specialReview" varStatus="status">
+                <tr>
+                    <th style="width:50px">${status.index + 1}</th>
+                    <td class="changed">${specialReview.type}</td>
+                    <td class="changed">${specialReview.approvalStatus}</td>
+                    <td class="changed">${specialReview.protocolNumber}&nbsp;</td>
+                    <td class="changed">${specialReview.applicationDate}&nbsp;</td>
+                    <td class="changed">${specialReview.approvalDate}&nbsp;</td>
+                    <td class="changed">${specialReview.expirationDate}&nbsp;</td>
+                    <td class="changed">${specialReview.exemptionNumbers}&nbsp;</td>
+               </tr>
+            </c:forEach>
+    	</tbody>
+    </table>
+    
+    <table cellpadding="0" cellspacing="0">
+    	<tbody>
+            <tr>
+                <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="5">Additional Information:</td>
+            </tr>
+            
+            <tr>
+                <th style="text-align:right; width:135px;">FDA IND or IDE #:</th>
+                <td>${KualiForm.actionHelper.protocolSummary.additionalInfo.fdaApplicationNumber}&nbsp;</td>
+                <th style="text-align:right; width:135px">Billable:</th>
+                <td>${KualiForm.actionHelper.protocolSummary.additionalInfo.billable}&nbsp;</td>
+            </tr>
+            
+            <tr>
+                <th style="text-align:right; width:135px;">Reference ID1:</th>
+                <td>${KualiForm.actionHelper.protocolSummary.additionalInfo.referenceId1}&nbsp;</td>
+                <th style="text-align:right; width:135px;">Reference ID2:</th>
+                <td>${KualiForm.actionHelper.protocolSummary.additionalInfo.referenceId1}&nbsp;</td>
+            </tr>
+            
+            <tr>
+                <th style="text-align:right; width:135px;">Summary/Keywords:</th>
+                <td colspan="3">${KualiForm.actionHelper.protocolSummary.additionalInfo.description}&nbsp;</td>
+            </tr>
+    	</tbody>
+    </table>
+    </div>
+</kra:innerTab>
