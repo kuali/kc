@@ -20,9 +20,10 @@
 <c:set var="awardPersonAttributes" value="${DataDictionary.AwardPerson.attributes}" />
 
 <%-- kra:section permission="modifyAward" --%>
-<kul:tabTop tabTitle="Project Personnel (${KualiForm.projectPersonnelBean.projectPersonnelCount})" defaultOpen="false" 
+<kul:tab tabTitle="Project Personnel" tabItemCount="${KualiForm.projectPersonnelBean.projectPersonnelCount}" defaultOpen="false" 
 			 tabErrorKey="document.awardList[0].projectPerson*,projectPersonnelBean.newAwardContact*,"
-			 auditCluster="contactsAuditErrors" tabAuditKey="document.awardList[0].projectPerson*">
+			 auditCluster="contactsAuditErrors" tabAuditKey="document.awardList[0].projectPerson*"
+			 transparentBackground="true">
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Project Personnel</span>
@@ -166,4 +167,4 @@
 	    	<kra-a:creditSplit/>
 	    </c:if>	    
     </div>    
-</kul:tabTop>
+</kul:tab>
