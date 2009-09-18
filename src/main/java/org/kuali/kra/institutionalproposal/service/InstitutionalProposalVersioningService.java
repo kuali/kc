@@ -22,11 +22,11 @@ import org.kuali.kra.service.VersionException;
 
 public interface InstitutionalProposalVersioningService {
     
-    public void createNewInstitutionalProposalVersion(InstitutionalProposal currentProposalVersion);
+    // InstitutionalProposal createNewInstitutionalProposalVersion(InstitutionalProposal currentProposalVersion) throws VersionException;
     
-    public IntellectualPropertyReview createNewIntellectualPropertyReviewVersion(IntellectualPropertyReview intellectualPropertyReview) throws VersionException;
+    IntellectualPropertyReview createNewIntellectualPropertyReviewVersion(IntellectualPropertyReview intellectualPropertyReview) throws VersionException;
 
-    public void updateInstitutionalProposalVersionStatus(InstitutionalProposal proposalToUpdate, VersionStatus versionStatus);
+    void updateInstitutionalProposalVersionStatus(InstitutionalProposal proposalToUpdate, VersionStatus versionStatus);
     
-    public InstitutionalProposal getPendingInstitutionalProposalVersion(String proposalNumber);
+    InstitutionalProposal getPendingInstitutionalProposalVersion(String proposalNumber);
 }

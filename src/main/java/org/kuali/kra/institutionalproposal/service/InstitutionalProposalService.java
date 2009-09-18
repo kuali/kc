@@ -21,6 +21,7 @@ public interface InstitutionalProposalService {
     
     String createInstitutionalProposal(DevelopmentProposal developmentProposal);
     
-    void createInstutitionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal);
+    String createPendingInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal);
 
+    String createActiveInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal);
 }
