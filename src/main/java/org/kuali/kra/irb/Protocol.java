@@ -59,6 +59,15 @@ import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
+import org.kuali.kra.irb.summary.AdditionalInfoSummary;
+import org.kuali.kra.irb.summary.AttachmentSummary;
+import org.kuali.kra.irb.summary.FundingSourceSummary;
+import org.kuali.kra.irb.summary.OrganizationSummary;
+import org.kuali.kra.irb.summary.ParticipantSummary;
+import org.kuali.kra.irb.summary.PersonnelSummary;
+import org.kuali.kra.irb.summary.ProtocolSummary;
+import org.kuali.kra.irb.summary.ResearchAreaSummary;
+import org.kuali.kra.irb.summary.SpecialReviewSummary;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -1152,5 +1161,133 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     
     private Object deepCopy(Object obj) {
         return ObjectUtils.deepCopy((Serializable) obj);
+    }
+    
+    public ProtocolSummary getProtocolSummary() {
+        ProtocolSummary protocolSummary = createProtocolSummary();
+        addPersonnelSummaries(protocolSummary);
+        addResearchAreaSummaries(protocolSummary);
+        addAttachmentSummaries(protocolSummary);
+        addFundingSourceSummaries(protocolSummary);
+        addParticipantSummaries(protocolSummary);
+        addOrganizationSummaries(protocolSummary);
+        addSpecialReviewSummaries(protocolSummary);
+        addAdditionalInfoSummary(protocolSummary);
+        return protocolSummary;
+    }
+    
+    private void addAdditionalInfoSummary(ProtocolSummary protocolSummary) {
+        AdditionalInfoSummary additionalInfoSummary = new AdditionalInfoSummary();
+        additionalInfoSummary.setFdaApplicationNumber(this.getFdaApplicationNumber());
+        additionalInfoSummary.setBillable(isBillable());
+        additionalInfoSummary.setReferenceId1(this.getReferenceNumber1());
+        additionalInfoSummary.setReferenceId2(this.getReferenceNumber2());
+        additionalInfoSummary.setDescription(getDescription());
+        protocolSummary.setAdditionalInfo(additionalInfoSummary);
+    }
+
+    private void addSpecialReviewSummaries(ProtocolSummary protocolSummary) {
+        for (ProtocolSpecialReview specialReview : getSpecialReviews()) {
+            SpecialReviewSummary specialReviewSummary = new SpecialReviewSummary();
+            specialReview.refreshReferenceObject("specialReview");
+            specialReviewSummary.setType(specialReview.getSpecialReview().getDescription());
+            specialReview.refreshReferenceObject("specialReviewApprovalType");
+            specialReviewSummary.setApprovalStatus(specialReview.getSpecialReviewApprovalType().getDescription());
+            specialReviewSummary.setProtocolNumber(specialReview.getProtocolNumber());
+            specialReviewSummary.setApplicationDate(specialReview.getApplicationDate());
+            specialReviewSummary.setApprovalDate(specialReview.getApprovalDate());
+            specialReviewSummary.setExpirationDate(specialReview.getExpirationDate());
+            specialReview.refreshReferenceObject("specialReviewExemptions");
+            specialReviewSummary.setExemptionNumbers(specialReview.getSpecialReviewExemptions());
+            protocolSummary.add(specialReviewSummary);
+        }
+    }
+
+    private void addOrganizationSummaries(ProtocolSummary protocolSummary) {
+        for (ProtocolLocation organization : this.getProtocolLocations()) {
+             OrganizationSummary organizationSummary = new OrganizationSummary();
+             organizationSummary.setId(organization.getOrganizationId());
+             organizationSummary.setOrganizationId(organization.getOrganizationId());
+             organizationSummary.setName(organization.getOrganization().getOrganizationName());
+             organizationSummary.setType(organization.getProtocolOrganizationType().getDescription());
+             organizationSummary.setContactId(organization.getRolodexId());
+             organizationSummary.setContact(organization.getRolodex());
+             organizationSummary.setFwaNumber(organization.getOrganization().getHumanSubAssurance());
+             protocolSummary.add(organizationSummary);
+        }
+    }
+
+    private void addParticipantSummaries(ProtocolSummary protocolSummary) {
+        for (ProtocolParticipant participant : this.getProtocolParticipants()) {
+            ParticipantSummary participantSummary = new ParticipantSummary();
+            participantSummary.setDescription(participant.getParticipantType().getDescription());
+            participantSummary.setCount(participant.getParticipantCount());
+            protocolSummary.add(participantSummary);
+        }
+    }
+
+    private void addFundingSourceSummaries(ProtocolSummary protocolSummary) {
+        for (ProtocolFundingSource fundingSource : getProtocolFundingSources()) {
+            FundingSourceSummary fundingSourceSummary = new FundingSourceSummary();
+            fundingSourceSummary.setFundingType(fundingSource.getFundingSourceType().getDescription());
+            fundingSourceSummary.setFundingId(fundingSource.getFundingSource());
+            fundingSourceSummary.setFundingSource(fundingSource.getFundingSourceName());
+            fundingSourceSummary.setTitle(fundingSource.getFundingSourceTitle());
+            protocolSummary.add(fundingSourceSummary);
+        }
+    }
+
+    private void addAttachmentSummaries(ProtocolSummary protocolSummary) {
+        for (ProtocolAttachmentProtocol attachment : getAttachmentProtocols()) {
+            AttachmentSummary attachmentSummary = new AttachmentSummary();
+            attachmentSummary.setAttachmentId(attachment.getId());
+            attachmentSummary.setFileName(attachment.getFile().getName());
+            protocolSummary.add(attachmentSummary);
+        }
+    }
+
+    private void addResearchAreaSummaries(ProtocolSummary protocolSummary) {
+        for (ProtocolResearchArea researchArea : getProtocolResearchAreas()) {
+            ResearchAreaSummary researchAreaSummary = new ResearchAreaSummary();
+            researchAreaSummary.setResearchAreaCode(researchArea.getResearchAreaCode());
+            researchAreaSummary.setDescription(researchArea.getResearchAreas().getDescription());
+            protocolSummary.add(researchAreaSummary);
+        }
+    }
+
+    private void addPersonnelSummaries(ProtocolSummary protocolSummary) {
+        for (ProtocolPerson person : getProtocolPersons()) {
+            PersonnelSummary personnelSummary = new PersonnelSummary();
+            personnelSummary.setName(person.getPersonName());
+            personnelSummary.setRoleName(person.getProtocolPersonRole().getDescription());
+            if (person.getAffiliationTypeCode() == null) {
+                personnelSummary.setAffiliation("");
+            }
+            else {
+                person.refreshReferenceObject("affiliationType");
+                personnelSummary.setAffiliation(person.getAffiliationType().getDescription());
+            }
+            for (ProtocolUnit unit : person.getProtocolUnits()) {
+                personnelSummary.addUnit(unit.getUnitNumber(), unit.getUnitName());
+                protocolSummary.add(personnelSummary);
+            }
+        }
+    }
+
+    private ProtocolSummary createProtocolSummary() {
+        ProtocolSummary summary = new ProtocolSummary();
+        summary.setProtocolNumber(getProtocolNumber().toString());
+        summary.setPiName(this.getPrincipalInvestigator().getPersonName());
+        summary.setPiProtocolPersonId(this.getPrincipalInvestigator().getProtocolPersonId());
+        summary.setApplicationDate(getApplicationDate());
+        summary.setApplicationDate(getApprovalDate());
+        summary.setLastApprovalDate(getLastApprovalDate());
+        summary.setExpirationDate(getExpirationDate());
+        refreshReferenceObject("protocolType");
+        summary.setType(getProtocolType().getDescription());
+        refreshReferenceObject("protocolStatus");
+        summary.setStatus(getProtocolStatus().getDescription());
+        summary.setTitle(getTitle());
+        return summary;
     }
 }
