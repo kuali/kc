@@ -70,8 +70,10 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         // If this is the initial save, we need to set the fiscal year and month.
         ProposalLog proposalLog = (ProposalLog) this.getBusinessObject();
         if (StringUtils.isBlank(proposalLog.getProposalNumber())) {
-            proposalLog.setFiscalMonth(getFiscalCalendarValue(Calendar.MONTH));
-            proposalLog.setFiscalYear(getFiscalCalendarValue(Calendar.YEAR));
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH, FISCAL_YEAR_OFFSET);
+            proposalLog.setFiscalMonth(calendar.get(Calendar.MONTH) + 1);
+            proposalLog.setFiscalYear(calendar.get(Calendar.YEAR));
         }
     }
     
@@ -84,11 +86,6 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         }
     }
     
-    private int getFiscalCalendarValue(int dateType) {
-        Calendar calendar = this.getDateTimeService().getCurrentCalendar();
-        calendar.add(Calendar.MONTH, FISCAL_YEAR_OFFSET);
-        return calendar.get(dateType);
-    }
     
     private DateTimeService getDateTimeService() {
         if (this.dateTimeService == null) {
