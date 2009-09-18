@@ -18,16 +18,24 @@ package org.kuali.kra.award.awardhierarchy;
 import java.io.Serializable;
 
 public class AwardHierarchyTempOjbect implements Serializable{
+    
     private String awardNumber1;
     private String awardNumber2;
     private String selectBox1;
+    private String selectBox2;
     private String newChildPanelTargetAward;
+    private String copyAwardPanelTargetAward;
+    private Boolean copyDescendants;
+    private String copyAwardRadio;
+    private String createNewChildRadio;
     
     public AwardHierarchyTempOjbect(){
         awardNumber1 = "";
         awardNumber2 = "";
         selectBox1 = "";
+        selectBox2 = "";
         newChildPanelTargetAward = "";
+        copyAwardPanelTargetAward = "";
     }
     
     
@@ -99,4 +107,94 @@ public class AwardHierarchyTempOjbect implements Serializable{
     public void setNewChildPanelTargetAward(String newChildPanelTargetAward) {
         this.newChildPanelTargetAward = newChildPanelTargetAward;
     }
+
+
+    /**
+     * Gets the selectBox2 attribute. 
+     * @return Returns the selectBox2.
+     */
+    public String getSelectBox2() {
+        return selectBox2;
+    }
+
+
+    /**
+     * Sets the selectBox2 attribute value.
+     * @param selectBox2 The selectBox2 to set.
+     */
+    public void setSelectBox2(String selectBox2) {
+        this.selectBox2 = selectBox2;
+    }
+
+
+    /**
+     * Gets the copyAwardPanelTargetAward attribute. 
+     * @return Returns the copyAwardPanelTargetAward.
+     */
+    public String getCopyAwardPanelTargetAward() {
+        return copyAwardPanelTargetAward;
+    }
+
+
+    /**
+     * Sets the copyAwardPanelTargetAward attribute value.
+     * @param copyAwardPanelTargetAward The copyAwardPanelTargetAward to set.
+     */
+    public void setCopyAwardPanelTargetAward(String copyAwardPanelTargetAward) {
+        this.copyAwardPanelTargetAward = copyAwardPanelTargetAward;
+    }
+
+
+    /**
+     * Gets the copyDescendants attribute. 
+     * @return Returns the copyDescendants.
+     */
+    public Boolean getCopyDescendants() {
+        return copyDescendants;
+    }
+
+
+    /**
+     * Sets the copyDescendants attribute value.
+     * @param copyDescendants The copyDescendants to set.
+     */
+    public void setCopyDescendants(Boolean copyDescendants) {
+        this.copyDescendants = copyDescendants;
+    }
+
+
+    /**
+     * Gets the copyAwardRadio attribute. 
+     * @return Returns the copyAwardRadio.
+     */
+    public String getCopyAwardRadio() {
+        return copyAwardRadio;
+    }
+
+
+    /**
+     * Sets the copyAwardRadio attribute value.
+     * @param copyAwardRadio The copyAwardRadio to set.
+     */
+    public void setCopyAwardRadio(String copyAwardRadio) {
+        this.copyAwardRadio = copyAwardRadio;
+    }
+
+
+    /**
+     * Gets the createNewChildRadio attribute. 
+     * @return Returns the createNewChildRadio.
+     */
+    public String getCreateNewChildRadio() {
+        return createNewChildRadio;
+    }
+
+
+    /**
+     * Sets the createNewChildRadio attribute value.
+     * @param createNewChildRadio The createNewChildRadio to set.
+     */
+    public void setCreateNewChildRadio(String createNewChildRadio) {
+        this.createNewChildRadio = createNewChildRadio;
+    }    
 }
