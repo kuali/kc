@@ -34,9 +34,10 @@
 	<kra-a:awardUnitContacts />
 	<kra-a:awardSponsorContacts />
 	<kra-a:awardCentralAdministrationContacts />
+	<kul:panelFooter />
 </div>
 
-<kul:panelFooter />
+
 
 <SCRIPT type="text/javascript">
 	var kualiForm = document.forms['KualiForm'];
