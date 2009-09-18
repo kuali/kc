@@ -1667,6 +1667,9 @@
 		<property name="proposalAuthorizationService">
 					<ref bean="proposalAuthorizationService" />
 		</property>	
+		<property name="narrativeService">
+					<ref bean="narrativeService" />
+		</property>	
 		<property name="proposalHierarchyDao">
 			<ref bean="proposalHierarchyDao" />
 		</property>	
