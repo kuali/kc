@@ -67,7 +67,31 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         super.populateAwardHierarchy(form);
         
         return forward;
-    }    
+    }
+    
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return super.save(mapping, form, request, response);
+    }
+    
+    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    
+    public ActionForward create(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        String awardNumber = getAwardNumber(request);
+        String reversedAwardNumber = StringUtils.reverse(awardNumber);
+        String index = StringUtils.substring(reversedAwardNumber, 0,reversedAwardNumber.indexOf("0"));
+        if(awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCopyAwardRadio()!=null){
+            String radio = awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getNewChildPanelTargetAward();
+        }
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
     
     public ActionForward createANewChildAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String awardNumber = getAwardNumber(request);
@@ -211,6 +235,21 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                     sb.append("#");
                 }
                 temp.setSelectBox1(sb.toString());
+            }
+            
+            if(StringUtils.isNotBlank(temp.getAwardNumber2())){
+                Map<String,AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
+                Map<String,AwardHierarchy> awardHierarchyItems = getAwardHierarchyService().getAwardHierarchy(temp.getAwardNumber2(), order);
+                getAwardHierarchyUIService().populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);
+                StringBuilder sb = new StringBuilder();
+                for(String str:order){                    
+                    sb.append(awardHierarchyNodes.get(str).getAwardNumber());
+                    sb.append(KNSConstants.BLANK_SPACE).append("%3A").append(KNSConstants.BLANK_SPACE).append(awardHierarchyNodes.get(str).getAccountNumber());
+                    sb.append(KNSConstants.BLANK_SPACE).append(":").append(KNSConstants.BLANK_SPACE).append(awardHierarchyNodes.get(str).getPrincipalInvestigatorName());
+                    sb.append(KNSConstants.BLANK_SPACE).append(":").append(KNSConstants.BLANK_SPACE).append(awardHierarchyNodes.get(str).getLeadUnitName());
+                    sb.append("#");
+                }
+                temp.setSelectBox2(sb.toString());
             }
         }
 
