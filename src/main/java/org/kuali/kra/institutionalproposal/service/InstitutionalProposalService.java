@@ -15,13 +15,14 @@
  */
 package org.kuali.kra.institutionalproposal.service;
 
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 
 public interface InstitutionalProposalService {
     
-    String createInstitutionalProposal(DevelopmentProposal developmentProposal);
+    String createInstitutionalProposal(DevelopmentProposal developmentProposal, Budget budget);
     
-    String createPendingInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal);
+    String createPendingInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal, Budget budget);
 
-    String createActiveInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal);
+    String createActiveInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal, Budget budget);
 }

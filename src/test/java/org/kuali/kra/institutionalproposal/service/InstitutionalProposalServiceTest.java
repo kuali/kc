@@ -46,7 +46,7 @@ public class InstitutionalProposalServiceTest extends KraTestBase {
     @Test
     public void testCreateInstitutionalProposal() throws Exception {
         DevelopmentProposal developmentProposal = getBaseDevelopmentProposal();
-        String proposalNumber = getInstitutionalProposalService().createInstitutionalProposal(developmentProposal);
+        String proposalNumber = getInstitutionalProposalService().createInstitutionalProposal(developmentProposal, null);
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("proposalNumber", proposalNumber);
         List<InstitutionalProposal> proposals = 
