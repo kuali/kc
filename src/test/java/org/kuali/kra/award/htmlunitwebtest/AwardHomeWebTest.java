@@ -110,7 +110,6 @@ public class AwardHomeWebTest extends AwardWebTestBase {
     
     private void savePageAndVerifySave() throws IOException {
         awardHomePage = clickOn(awardHomePage, SAVE_METHOD);
-        System.err.println(awardHomePage.asXml());
         assertContains(awardHomePage, SAVE_SUCCESS_MESSAGE);
     }
     
