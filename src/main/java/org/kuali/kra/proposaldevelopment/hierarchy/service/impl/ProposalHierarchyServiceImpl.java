@@ -355,6 +355,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         hierarchyChild.getPropScienceKeywords().clear();
         for (PropScienceKeyword keyword : childProposal.getPropScienceKeywords()) {
             PropScienceKeyword newKeyword = new PropScienceKeyword(hierarchyProposal.getProposalNumber(), keyword.getScienceKeyword());
+            newKeyword.setHierarchyProposalNumber(childProposal.getProposalNumber());
             hierarchyProposal.addPropScienceKeyword(newKeyword);
             hierarchyChild.getPropScienceKeywords().add(newKeyword);
         }
@@ -368,6 +369,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             ProposalSpecialReview newReview = (ProposalSpecialReview)ObjectUtils.deepCopy(review);
             newReview.setProposalNumber(hierarchyProposal.getProposalNumber());
             newReview.setVersionNumber(null);
+            newReview.setHierarchyProposalNumber(childProposal.getProposalNumber());
             hierarchyProposal.getPropSpecialReviews().add(newReview);
             hierarchyChild.getPropSpecialReviews().add(newReview);
         }
@@ -388,6 +390,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 
                 Narrative newNarrative = (Narrative)ObjectUtils.deepCopy(narrative);
                 newNarrative.setVersionNumber(null);
+                newNarrative.setHierarchyProposalNumber(childProposal.getProposalNumber());
                 narrativeService.addNarrative(hierarchyProposal.getProposalDocument(), newNarrative);
                 hierarchyChild.getNarratives().add(newNarrative);
             }
@@ -412,6 +415,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             newPerson.setProposalNumber(hierarchyProposal.getProposalNumber());
             newPerson.setProposalPersonNumber(null);
             newPerson.setVersionNumber(null);
+            newPerson.setHierarchyProposalNumber(childProposal.getProposalNumber());
             hierarchyProposal.addProposalPerson(newPerson);
             hierarchyChild.getProposalPersons().add(newPerson);
         }
