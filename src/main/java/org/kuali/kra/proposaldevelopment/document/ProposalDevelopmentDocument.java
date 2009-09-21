@@ -120,7 +120,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         if (isLastSubmitterApprovalAction(event.getActionTaken())) {
             // And IP config param is 'active'
             InstitutionalProposalService institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
-            String proposalNumber = institutionalProposalService.createInstitutionalProposal(this.getDevelopmentProposal());
+            
+            String proposalNumber = institutionalProposalService.createInstitutionalProposal(this.getDevelopmentProposal(), this.getFinalBudgetForThisProposal());
             // Display proposal number
         }
     }
@@ -128,6 +129,14 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     private boolean isLastSubmitterApprovalAction(ActionTakenDTO actionTaken) {
         return actionTaken.getActionTaken().equals(KEWConstants.ACTION_TAKEN_APPROVED_CD);
         // also check person is last submitter
+    }
+    
+    public Budget getFinalBudgetForThisProposal() {
+        BudgetDocumentVersion budgetDocumentVersion = this.getFinalBudgetVersion();
+        if (budgetDocumentVersion != null) {
+            return budgetDocumentVersion.getFinalBudget();
+        }
+        return null;
     }
 
 
