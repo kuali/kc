@@ -40,7 +40,7 @@ implements ValuableItem, SequenceAssociate {
     private IndirectcostRateType indirectcostRateType; 
     
     public InstitutionalProposalUnrecoveredFandA() { 
-
+        onCampusFlag = true;
     } 
     
     public Long getProposalUnrecoveredFandAId() {

@@ -42,6 +42,7 @@ public class InstitutionalProposalUnrecoveredFandABean implements Serializable {
      */
     public InstitutionalProposalUnrecoveredFandABean() {
         super();
+        newInstitutionalProposalUnrecoveredFandA = new InstitutionalProposalUnrecoveredFandA(); 
     }
     /**
      * Constructs a InstitutionalProposalUnrecoveredFandABean
@@ -49,6 +50,7 @@ public class InstitutionalProposalUnrecoveredFandABean implements Serializable {
      */
     public InstitutionalProposalUnrecoveredFandABean(InstitutionalProposalForm parent) {
         this.parent = parent;
+        newInstitutionalProposalUnrecoveredFandA = new InstitutionalProposalUnrecoveredFandA(); 
     }
     
     /**
