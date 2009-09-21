@@ -15,6 +15,8 @@
 --%>
 <%@ include file="tldHeader.jsp"%>
 
+<%@ page buffer = "16kb" %>
+
 <%--NOTE: DO NOT FORMAT THIS FILE, DISPLAY:COLUMN WILL NOT WORK CORRECTLY IF IT CONTAINS LINE BREAKS --%>
 
 <kul:page lookup="true" showDocumentInfo="false"
