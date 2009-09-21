@@ -16,13 +16,17 @@
 package org.kuali.kra.budget.versions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase implements Comparable<BudgetDocumentVersion>{
 
@@ -89,6 +93,22 @@ public class BudgetDocumentVersion  extends KraPersistableBusinessObjectBase imp
         hashMap.put("parentDocumentKey", parentDocumentKey);
         return hashMap;
     }
+    
+    public Budget getFinalBudget() {
+        for (BudgetVersionOverview budgetVersionOverview: this.getBudgetVersionOverviews()) {
+            if (budgetVersionOverview.getBudgetStatus().equals("2") && budgetVersionOverview.isFinalVersionFlag()) {
+                BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+                Map<String, Object> criteria = new HashMap<String, Object>();
+                criteria.put("budgetId", budgetVersionOverview.getBudgetId());
+                PersistableBusinessObject result = businessObjectService.findByPrimaryKey(Budget.class, criteria);
+                if (result != null) {
+                    return (Budget) result;
+                }
+            }
+        }
+        return null;
+    }
+    
     /**
      * 
      * @see java.lang.Comparable
