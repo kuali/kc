@@ -58,6 +58,7 @@ import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.ConnectionType;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.apache.log4j.Logger;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.GrantsGovConnectorService;
@@ -214,13 +215,13 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
     private ApplicantIntegrationPortType getApplicantIntegrationSoapPort(String proposalNumber) throws S2SException {
         Map<String, String> proposalMap = new HashMap<String, String>();
         proposalMap.put(KEY_PROPOSAL_NUMBER, proposalNumber);
-        ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) businessObjectService.findByPrimaryKey(
+        DevelopmentProposal pdDoc = (DevelopmentProposal) businessObjectService.findByPrimaryKey(
                 ProposalDevelopmentDocument.class, proposalMap);
         String multiCampusEnabledStr = s2SUtilService.getParameterValue(MULTI_CAMPUS_ENABLED);
         boolean mulitCampusEnabled = multiCampusEnabledStr.equals(MULTI_CAMPUS_ENABLED_VALUE) ? true : false;
 //        S2SSSLProtocolSocketFactory socketFactory = new S2SSSLProtocolSocketFactory(pdDoc.getOrganization().getDunsNumber(),
 //            mulitCampusEnabled);
-        return configureApplicantIntegrationSoapPort(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getDunsNumber(),
+        return configureApplicantIntegrationSoapPort(pdDoc.getApplicantOrganization().getOrganization().getDunsNumber(),
                 mulitCampusEnabled);
     }
     
