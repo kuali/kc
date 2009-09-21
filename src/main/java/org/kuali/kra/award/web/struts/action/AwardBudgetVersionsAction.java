@@ -60,7 +60,6 @@ public class AwardBudgetVersionsAction extends AwardAction {
     private static final String TOGGLE_TAB = "toggleTab";
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
-    private BudgetService budgetService;
 
     /**
      * Main execute method that is run. Populates A map of rate types in the {@link HttpServletRequest} instance to be used
@@ -355,28 +354,11 @@ public class AwardBudgetVersionsAction extends AwardAction {
     }
 
     /**
-     * Locate from Spring the <code>{@link AwardService}</code> singleton
-     * 
-     * @return AwardService
-     */
-    private ProposalDevelopmentService getProposalDevelopmentService() {
-        return KraServiceLocator.getService(ProposalDevelopmentService.class);
-    }
-
-    /**
      * Gets the budgetService attribute. 
      * @return Returns the budgetService.
      */
     public BudgetService getBudgetService() {
-        return budgetService;
-    }
-
-    /**
-     * Sets the budgetService attribute value.
-     * @param budgetService The budgetService to set.
-     */
-    public void setBudgetService(BudgetService budgetService) {
-        this.budgetService = budgetService;
+        return KraServiceLocator.getService(BudgetService.class);
     }
 
 }
