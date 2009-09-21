@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempOjbect;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.commitments.CostShareFormHelper;
@@ -140,20 +141,28 @@ public class AwardForm extends ProposalFormBase
     private String deletedRas;
     private String rootAwardNumber;
     private List<AwardHierarchyTempOjbect> awardHierarchyTempOjbect;
-    
+    private AwardHierarchyBean awardHierarchyBean;
     private AwardPrintNotice awardPrintNotice;
     private AwardPrintChangeReport awardPrintChangeReport;
     
     /**
-     * 
+     *
      * Constructs a AwardForm.
      */
     public AwardForm() {
-        super();        
-        this.setDocument(new AwardDocument());
-        initialize();        
+        this(new AwardDocument());
     }
-    
+
+    /**
+     * Constructs a AwardForm with an existing AwardDocument. Used primarily by tests outside of Struts
+     * @param document
+     */
+    public AwardForm(AwardDocument document) {
+        super();
+        this.setDocument(document);
+        initialize();
+    }
+
     // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
     public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
         
@@ -200,10 +209,11 @@ public class AwardForm extends ProposalFormBase
         order = new ArrayList<String>();
         awardHierarchyTempOjbect = new ArrayList<AwardHierarchyTempOjbect>();
         for(int i=0;i<100;i++){
-            awardHierarchyTempOjbect.add(new AwardHierarchyTempOjbect());   
+            awardHierarchyTempOjbect.add(new AwardHierarchyTempOjbect());
         }
+        awardHierarchyBean = new AwardHierarchyBean(this);
     }
-    
+
     /**
      * 
      * This method returns the AwardDocument object.
@@ -667,7 +677,7 @@ public class AwardForm extends ProposalFormBase
         this.awardNotepadBean = awardNotepadBean;
     }
     
-    
+
 
     /**
      * Gets the awardAttachmentFormBean attribute. 
@@ -781,6 +791,10 @@ public class AwardForm extends ProposalFormBase
         this.order = order;
     }
     
+    public AwardHierarchyBean getAwardHierarchyBean() {
+        return awardHierarchyBean;
+    }
+
     public String getAwardHierarchy() throws ParseException {
         awardHierarchy = "";
         if(StringUtils.isBlank(awardNumber)){
@@ -910,7 +924,7 @@ public class AwardForm extends ProposalFormBase
     }
     
     /**
-     * Gets the hiddenObject attribute. 
+     * Gets the hiddenObject attribute.
      * @return Returns the hiddenObject.
      */
     public List<AwardHierarchyTempOjbect> getAwardHierarchyTempOjbect() {
@@ -924,5 +938,5 @@ public class AwardForm extends ProposalFormBase
     public void setAwardHierarchyTempOjbect(List<AwardHierarchyTempOjbect> awardHierarchyTempOjbect) {
         this.awardHierarchyTempOjbect = awardHierarchyTempOjbect;
     }
-    
+
 }

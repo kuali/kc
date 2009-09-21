@@ -22,196 +22,222 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
+import org.kuali.kra.award.AwardNumberService;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.service.ServiceHelper;
+import org.kuali.kra.service.VersionException;
+import org.kuali.kra.service.VersioningService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class AwardHierarchyServiceImpl implements AwardHierarchyService {
+    private static final Log LOG = LogFactory.getLog(AwardHierarchyServiceImpl.class);
 
+    private static final String DOCUMENT_DESCRIPTION_FIELD_NAME = "documentDescription";
+    
+    AwardNumberService awardNumberService;
     BusinessObjectService businessObjectService;
-    
-    public void persistAwardHierarchy(AwardHierarchy awardHierarchy){
-        businessObjectService.save(awardHierarchy);
-    }
-    
+    DocumentService documentService;
+    VersioningService versioningService;
+
     /**
-     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#persistAwardHierarchy(org.kuali.kra.award.awardhierarchy.AwardHierarchy, boolean)
+     * 
+     * @param targetNode
+     * @return
      */
-    public void persistAwardHierarchy(AwardHierarchy awardHierarchy, boolean recurse){
-        businessObjectService.save(awardHierarchy);
-        if(recurse && awardHierarchy.hasChildren()) {
-            for(AwardHierarchy childNode: awardHierarchy.getChildren()) {
-                persistAwardHierarchy(childNode, RECURSE_HIERARCHY);
-            }
+    public AwardHierarchy copyAwardAndAllDescendantsAsNewHierarchy(AwardHierarchy targetNode) {
+        String newRootAwardNumber = awardNumberService.getNextAwardNumber();
+        AwardHierarchy newRootNode = createBasicHierarchy(newRootAwardNumber);
+        Award newRootAward = copyAward(targetNode.getAward(), newRootAwardNumber);
+        newRootNode.setAward(newRootAward);
+        for(AwardHierarchy childNode: targetNode.getChildren()) {
+            copyNodeRecursively(childNode, newRootNode, newRootNode);
         }
-    }
-    
-    public void createBasicHierarchy(String awardNumber){
-        AwardHierarchy awardHierarchy = new AwardHierarchy();
-        awardHierarchy.setRootAwardNumber(awardNumber);
-        awardHierarchy.setAwardNumber(awardNumber);
-        awardHierarchy.setParentAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
-    }
-    
-    public AwardHierarchy getAwardHierarchy(String awardNumber) {
-        return getAwardHierarchy(awardNumber, false);
+        return newRootNode;
     }
 
-    public AwardHierarchy getAwardHierarchy(String awardNumber, boolean recurse) {
-        AwardHierarchy branchNode = findSingleAwardHierarchyNode(awardNumber);
-        if(recurse) {
-            recurseTree(branchNode);
-        }
-        return branchNode;
+    public AwardHierarchy copyAwardAndDescendantsAsChildOfAnAwardInAnotherHierarchy(AwardHierarchy sourceNode, AwardHierarchy targetParentNode){
+        return copyAwardAndDescendantsAsChildOfAnotherNode(sourceNode, targetParentNode);
     }
-    
-    public Map<String, AwardHierarchy> getAwardHierarchy(String awardNumber, List<String> listForAwardHierarchySort){
-        Map<String, AwardHierarchy> awardHierarchies = new HashMap<String, AwardHierarchy>();
+
+    public AwardHierarchy copyAwardAndDescendantsAsChildOfAnAwardInCurrentHierarchy(AwardHierarchy sourceNode, AwardHierarchy targetParentNode) {
+        return copyAwardAndDescendantsAsChildOfAnotherNode(sourceNode, targetParentNode);
+    }
+
+    public AwardHierarchy copyAwardAsChildOfAnAwardInAnotherHierarchy(AwardHierarchy sourceNode, AwardHierarchy targetParentNode) {
+        return copyAwardAsChildOfAnotherNode(sourceNode, targetParentNode);
+    }
+
+    public AwardHierarchy copyAwardAsChildOfAnAwardInCurrentHierarchy(AwardHierarchy sourceNode, AwardHierarchy targetParentNode) {
+        return copyAwardAsChildOfAnotherNode(sourceNode, targetParentNode);
+    }
+
+    /**
+     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#copyAwardAsNewHierarchy(AwardHierarchy)
+     */
+    public AwardHierarchy copyAwardAsNewHierarchy(AwardHierarchy targetNode) {
+        String nextAwardNumber = awardNumberService.getNextAwardNumber();
+        Award newAward = copyAward(targetNode.getAward(), nextAwardNumber);
+        AwardHierarchy newNode = createBasicHierarchy(nextAwardNumber);
+        newNode.setAward(newAward);
+        return newNode;
+    }
+
+    /**
+     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#createBasicHierarchy(java.lang.String)
+     */
+    public AwardHierarchy createBasicHierarchy(String awardNumber){
+        return new AwardHierarchy(awardNumber, Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, awardNumber, awardNumber);
+    }
+
+    public AwardHierarchy createNewAwardBasedOnAnotherAwardInHierarchy(AwardHierarchy nodeToCopyFrom, AwardHierarchy targetParentNode) {
+        return copyAwardAsChildOfAnotherNode(nodeToCopyFrom, targetParentNode);
+    }
+
+    /**
+     * @param targetNode
+     * @return
+     */
+    public AwardHierarchy createNewAwardBasedOnParent(AwardHierarchy targetNode) {
+        if(targetNode.isRootNode()) {
+            return null;
+        }
+        String nextAwardNumber = targetNode.generateNextAwardNumberInSequence();
+        Award newAward = copyAward(targetNode.getParent().getAward(), nextAwardNumber);
+        AwardHierarchy newNode = new AwardHierarchy(targetNode.getRoot(), targetNode, nextAwardNumber, targetNode.getParent().getAward().getAwardNumber());
+        newNode.setAward(newAward);
+        targetNode.getChildren().add(newNode);
+        return newNode;
+    }
+
+    public AwardHierarchy createNewChildAward(AwardHierarchy targetNode) {
+        Award newAward = new Award();
+        newAward.setAwardNumber(targetNode.generateNextAwardNumberInSequence());
+        AwardHierarchy newNode = new AwardHierarchy(targetNode.getRoot(), targetNode, newAward.getAwardNumber(), newAward.getAwardNumber());
+        newNode.setAward(newAward);
+        targetNode.getChildren().add(newNode);
+        return newNode;
+    }
+
+    /**
+     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#loadAwardHierarchy(java.lang.String)
+     */
+    public AwardHierarchy loadAwardHierarchy(String awardNumber) {
+        return awardNumber == null || awardNumber.equals(Award.DEFAULT_AWARD_NUMBER) ? null : loadAwardHierarchyBranch(awardNumber);
+    }
+
+    /**
+     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#loadAwardHierarchy(java.lang.String)
+     */
+    public AwardHierarchy loadAwardHierarchyBranch(String awardNumber) {
+        return loadAwardHierarchyBranch(loadSingleAwardHierarchyNode(awardNumber));
+    }
+
+     /**/
+    public Map<String, AwardHierarchy> getAwardHierarchy(AwardHierarchy rootNode, List<String> order) {
         Map<String, Collection<AwardHierarchy>> mapOfChildren = new HashMap<String, Collection<AwardHierarchy>>();
-        Map<String, String> primaryKeys = new HashMap<String, String>();        
-        primaryKeys.put("awardNumber", awardNumber);
-                
-        AwardHierarchy awardHierarchyRootNode = getRootNode(((AwardHierarchy)businessObjectService.findByPrimaryKey(AwardHierarchy.class, primaryKeys)).getRootAwardNumber());
-        
-        createAwardHierarchyAndPrepareCollectionForSort(awardNumber, awardHierarchies, mapOfChildren, awardHierarchyRootNode);
+        Map<String, AwardHierarchy> awardHierarchies = createAwardHierarchyAndPrepareCollectionForSort(rootNode, mapOfChildren);
 
-        String parentAwardNumber = awardHierarchyRootNode.getAwardNumber();
-        
-        listForAwardHierarchySort.add(parentAwardNumber);        
-        Collection<AwardHierarchy> ahCollection = null;
-        AwardHierarchy ah1 = null;
-        if(awardHierarchies.size()>1){
-            createSortOrder(listForAwardHierarchySort, awardHierarchies, mapOfChildren, parentAwardNumber, ahCollection, ah1);
-        }    
-        
+        String parentAwardNumber = rootNode.getAwardNumber();
+        order.add(parentAwardNumber);
+        if(awardHierarchies.size() > 1){
+            createSortOrder(order, awardHierarchies, mapOfChildren, parentAwardNumber, null, null);
+        }
+
         return awardHierarchies;
     }
 
-    /*
-     * This method updates the @listForAwardHierarchySort as per the correct parent-child order. This list will be used to display the award hierarchy nodes
-     * in correct sort order.
-     * The order is going to be root followed by all its children followed by all of their children until there are no children.
+    /**
+     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#getAwardHierarchy(java.lang.String, java.util.List)
      */
-    private void createSortOrder(List<String> listForAwardHierarchySort, Map<String, AwardHierarchy> awardHierarchies
-        , Map<String, Collection<AwardHierarchy>> mapOfChildren, String parentAwardNumber, Collection<AwardHierarchy> ahCollection, AwardHierarchy ah1) {
-    
-        while(!StringUtils.equalsIgnoreCase(parentAwardNumber,Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
-            if(mapOfChildren.get(parentAwardNumber).size()!=0){
-                ahCollection = mapOfChildren.get(parentAwardNumber);
-                ah1 = ahCollection.iterator().next();
-                parentAwardNumber = ah1.getAwardNumber();        
-                listForAwardHierarchySort.add(parentAwardNumber);                           
-            }else if(ahCollection!=null && ahCollection.size() ==0){
-                ah1 = awardHierarchies.get(awardHierarchies.get(parentAwardNumber).getAwardNumber());
-                if(ah1!=null){
-                    parentAwardNumber = ah1.getParentAwardNumber();
-                    if(!StringUtils.equalsIgnoreCase(parentAwardNumber,Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){                    
-                        mapOfChildren.get(parentAwardNumber).remove(ah1);    
-                    }   
-                }else{
-                    parentAwardNumber = Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT;
-                }
-            }
-            else if(ah1!=null){                
-                parentAwardNumber = ah1.getParentAwardNumber();
-                ahCollection.remove(ah1);                
-            }
-        }
-        
+    public Map<String, AwardHierarchy> getAwardHierarchy(String awardNumber, List<String> order) {
+        return getAwardHierarchy(getAwardHierarchyRootNode(awardNumber), order);
     }
 
-    /*
-     * This method constructs the entire award hierarchy based on the root node.
-     * 
-     * This method also creates a map of children - where the key is parent award number and value is a list of all of its children.
-     * This map will be used to sort award hierarchy nodes in correct parent-child order.
-     * 
-     * Both awardHierarchy and mapOfChildren are being updated in same for loop so its not possible to have two separate methods for them.
+    /**
+     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#loadFullHierarchyFromAnyNode(java.lang.String)
      */
-    @SuppressWarnings("unchecked")
-    private void createAwardHierarchyAndPrepareCollectionForSort(String awardNumber, Map<String, AwardHierarchy> awardHierarchies,
-            Map<String, Collection<AwardHierarchy>> mapOfChildren, AwardHierarchy awardHierarchyRootNode) {
-        
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("parentAwardNumber", awardHierarchyRootNode.getAwardNumber());
-        
-        Collection<AwardHierarchy> awardHierarchyChildren;        
-        
-        awardHierarchies.put(awardHierarchyRootNode.getAwardNumber(), awardHierarchyRootNode);        
-        awardHierarchyChildren = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, "parentAwardNumber", true);        
-        mapOfChildren.put(awardHierarchyRootNode.getAwardNumber(), awardHierarchyChildren);
-        
-        while(awardHierarchyChildren.size()!=0){
-            Collection<AwardHierarchy> awardHierarchyChildren2 = null;
-            for(AwardHierarchy awardHierarchyItem : awardHierarchyChildren){
-                awardHierarchies.put(awardHierarchyItem.getAwardNumber(), awardHierarchyItem);
-                fieldValues = new HashMap<String, String>();
-                fieldValues.put("parentAwardNumber", awardHierarchyItem.getAwardNumber());
-                Collection<AwardHierarchy> listOfChildren = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, "parentAwardNumber", true);
-                
-                if(awardHierarchyChildren2!=null){
-                    awardHierarchyChildren2.addAll(listOfChildren);    
-                }else{
-                    awardHierarchyChildren2 = listOfChildren;
-                }
-                mapOfChildren.put(awardHierarchyItem.getAwardNumber(), businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, "parentAwardNumber", true));
+    public AwardHierarchy loadFullHierarchyFromAnyNode(String awardNumber) {
+        AwardHierarchy rootNode = null;
+        if(!Award.DEFAULT_AWARD_NUMBER.equals(awardNumber)) {
+            AwardHierarchy someNode = loadSingleAwardHierarchyNode(awardNumber);
+            if(someNode != null) {
+                rootNode = someNode.isRootNode() ? someNode : loadSingleAwardHierarchyNode(someNode.getRootAwardNumber());
+                rootNode.setRoot(rootNode);
+                rootNode.setParent(null);
+                rootNode = loadAwardHierarchyBranch(rootNode);
             }
-            awardHierarchyChildren = awardHierarchyChildren2; 
+        }
+        return rootNode;
+    }
+
+    /**
+     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#loadPlaceholderDocument()
+     */
+    public AwardDocument loadPlaceholderDocument() {
+        DocumentHeader header = findPlaceholderDocumentHeader();
+        try {
+            return header != null ? (AwardDocument) documentService.getByDocumentHeaderId(header.getDocumentNumber()) : createPlaceholderDocument();
+        } catch(WorkflowException e) {
+            throw uncheckedException(e);
         }
     }
-    
-    protected AwardHierarchy getRootNode(String rootAwardNumber){
-        Map<String, String> primaryKey = new HashMap<String, String>();
-        
-        primaryKey.put("awardNumber", rootAwardNumber);
-        return (AwardHierarchy) businessObjectService.findByPrimaryKey(AwardHierarchy.class, primaryKey);
-    }
-    
-    public void createNewChildAward(String newAwardNumber, String parentAwardNumber, String rootAwardNumber){
-        AwardHierarchy awardHierarchy = new AwardHierarchy();
-        awardHierarchy.setRootAwardNumber(rootAwardNumber);
-        awardHierarchy.setAwardNumber(newAwardNumber);
-        awardHierarchy.setParentAwardNumber(parentAwardNumber);
-        
-    }
-    
-    public void createNewAwardBasedOnParent(String awardNumber){
-        
-    }
-    
-    public void createNewAwardBasedOnAnotherAwardInHierarchy(String awardNumber){
-        
-    }
-    
-    public void copyAwardAsNewHierarchy(){
-        
-    }
-    
-    public void copyAwardAndAllDescendantsAsNewHierarchy(){
-        
-    }
-    
-    public void copyAwardAsChildOfAnAwardInCurrentHierarchy(){
-        
-    }
-    
-    public void copyAwardAndDescendantsAsChildOfAnAwardInCurrentHierarchy(){
-        
-    }
-    
-    public void copyAwardAsChildOfAnAwardInAnotherHierarchy(){
-        
-    }
-    
-    public void copyAwardAndDescendantsAsChildOfAnAwardInAnotherHierarchy(){
-        
-    }
-    
+
     /**
-     * Gets the businessObjectService attribute. 
-     * @return Returns the businessObjectService.
+     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#persistAwardHierarchy(org.kuali.kra.award.awardhierarchy.AwardHierarchy)
      */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+    public void persistAwardHierarchy(AwardHierarchy node) {
+        if(node.isNew()) {            // only save new nodes; no updates or deletes
+            businessObjectService.save(node);
+        }
+    }
+
+    /**
+     * @param rootNodes
+     */
+    public void persistAwardHierarchies(Collection<AwardHierarchy> rootNodes) {
+        if(rootNodes == null || rootNodes.size() == 0) {
+            return;
+        }
+        for(AwardHierarchy rootNode : rootNodes) {
+            persistAwardHierarchy(rootNode, RECURS_HIERARCHY);
+        }
+    }
+
+    /**
+     * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#persistAwardHierarchy(org.kuali.kra.award.awardhierarchy.AwardHierarchy, boolean)
+     */
+    public void persistAwardHierarchy(AwardHierarchy branchNode, boolean recurse) {
+        AwardDocument placeholderDocument = loadPlaceholderDocument();
+        if(placeholderDocument != null) { // should only be null in unit test because we can't new AwardDocument
+            int startingAwardCount = placeholderDocument.getAwardList().size();
+            if(branchNode.hasChildren() && recurse) {
+                List<AwardHierarchy> nodes = branchNode.getFlattenedListOfNodesInHierarchy();
+                for(AwardHierarchy node: nodes) {
+                    saveNodeWithAward(node, placeholderDocument);
+                }
+            } else {
+                saveNodeWithAward(branchNode, placeholderDocument);
+            }
+            if(placeholderDocument.getAwardList().size() > startingAwardCount) {
+                savePlaceholderDocument(placeholderDocument);
+            }
+        }
+    }
+
+    /**
+     * @param awardNumberService
+     */
+    public void setAwardNumberService(AwardNumberService awardNumberService) {
+        this.awardNumberService = awardNumberService;
     }
 
     /**
@@ -222,21 +248,244 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         this.businessObjectService = businessObjectService;
     }
 
-    AwardHierarchy findSingleAwardHierarchyNode(String awardNumber) {
-        Map<String, Object> identifiers = new HashMap<String, Object>();
-        identifiers.put("awardNumber", awardNumber);
-        return (AwardHierarchy) businessObjectService.findByPrimaryKey(AwardHierarchy.class, identifiers);
+    /**
+     * @param documentService
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
-    
+
+    /**
+     * @param versioningService
+     */
+    public void setVersioningService(VersioningService versioningService) {
+        this.versioningService = versioningService;
+    }
+
+    protected AwardHierarchy getRootNode(String rootAwardNumber){
+        return loadAwardHierarchy(rootAwardNumber);
+    }
+
+    /**
+     * This method copies an Award to a new Award, sequence #1, with newAwardNumber
+     * @param award
+     * @param nextAwardNumber
+     * @return
+     */
+    Award copyAward(Award award, String nextAwardNumber) {
+        Award newAward;
+        try {
+            String originalAwardNumber = award.getAwardNumber();
+            Integer originalSequenceNumber = award.getSequenceNumber();
+            newAward = useOriginalAwardAsTemplateForCopy(award, nextAwardNumber);
+            restoreOriginalAwardPropertiesAfterCopy(award, originalAwardNumber, originalSequenceNumber);
+        } catch(VersionException e) {
+            throw uncheckedException(e);
+        }
+        return newAward;
+    }
+
+    AwardHierarchy copyAwardAsChildOfAnotherNode(AwardHierarchy sourceNode, AwardHierarchy targetParentNode) {
+        String newAwardNumber = targetParentNode.generateNextAwardNumberInSequence();
+        AwardHierarchy newLeafNode = new AwardHierarchy(targetParentNode.getRoot(), targetParentNode, newAwardNumber, sourceNode.getOriginatingAwardNumber());
+        Award newLeafAward = copyAward(sourceNode.getAward(), newAwardNumber);
+        newLeafNode.setAward(newLeafAward);
+        targetParentNode.getChildren().add(newLeafNode);
+        return newLeafNode;
+    }
+
+    AwardHierarchy copyAwardAndDescendantsAsChildOfAnotherNode(AwardHierarchy sourceNode, AwardHierarchy targetParentNode) {
+        String newAwardNumber = targetParentNode.generateNextAwardNumberInSequence();
+        AwardHierarchy newBranchNode = new AwardHierarchy(targetParentNode.getRoot(), targetParentNode, newAwardNumber, sourceNode.getOriginatingAwardNumber());
+        Award newBranchAward = copyAward(sourceNode.getAward(), newAwardNumber);
+        targetParentNode.getChildren().add(newBranchNode);
+        newBranchNode.setAward(newBranchAward);
+        for(AwardHierarchy childNode: sourceNode.getChildren()) {
+            copyNodeRecursively(childNode, newBranchNode, targetParentNode.getRoot());
+        }
+        return newBranchNode;
+    }
+
+    void copyNodeRecursively(AwardHierarchy sourceNode, AwardHierarchy newParentNode, AwardHierarchy newRootNode) {
+        String nextAwardNumberInHierarchy = newParentNode.generateNextAwardNumberInSequence();
+        AwardHierarchy newNode = new AwardHierarchy(newRootNode, newParentNode, nextAwardNumberInHierarchy,
+                                                    sourceNode.getOriginatingAwardNumber());
+        Award newAward = copyAward(sourceNode.getAward(), nextAwardNumberInHierarchy);
+        newNode.setAward(newAward);
+        newParentNode.getChildren().add(newNode);
+        for(AwardHierarchy childNode: sourceNode.getChildren()) {
+            copyNodeRecursively(childNode, newNode, newRootNode);
+        }
+    }
+
+    AwardDocument createPlaceholderDocument() throws WorkflowException {
+        AwardDocument document;
+        document = (AwardDocument) documentService.getNewDocument(AwardDocument.class);
+        if(document != null) {  // will be null in unit test, but not otherwise. Rice should allow us to create a new Document() (or new form) in a unit test
+            document.getDocumentHeader().setDocumentDescription(AwardDocument.PLACEHOLDER_DOC_DESCRIPTION);
+            document.getAwardList().clear();
+            documentService.saveDocument(document);
+            LOG.info("Created Placeholder Document #" + document.getDocumentNumber());
+        }
+        return document;
+    }
+
+    /**
+     * This method finds the placeholder document header
+     * @return
+     */
+    DocumentHeader findPlaceholderDocumentHeader() {
+        @SuppressWarnings("unchecked")
+        Collection c = businessObjectService.findMatching(DocumentHeader.class, getDocumentDescriptionCriteriaMap());
+        return c.size() == 1 ? (DocumentHeader) c.iterator().next() : null;
+    }
+
+    AwardHierarchy loadAwardHierarchyBranch(AwardHierarchy branchNode) {
+        if(branchNode != null) {
+            recurseTree(branchNode);
+        }
+        return branchNode;
+    }
+
+    AwardHierarchy loadSingleAwardHierarchyNode(String awardNumber) {
+        return (AwardHierarchy) businessObjectService.findByPrimaryKey(AwardHierarchy.class, getAwardHierarchyCriteriaMap(awardNumber));
+    }
+
+    Map<String, Object> getDocumentDescriptionCriteriaMap() {
+        return ServiceHelper.getInstance().buildCriteriaMap(DOCUMENT_DESCRIPTION_FIELD_NAME, AwardDocument.PLACEHOLDER_DOC_DESCRIPTION);
+    }
+
+    /**
+     * This method recurses the AwardHierarchy tree
+     * @param branchNode
+     */
     @SuppressWarnings("unchecked")
     void recurseTree(AwardHierarchy branchNode) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("parentAwardNumber", branchNode.getAwardNumber());
-        branchNode.setChildren(new ArrayList<AwardHierarchy>(businessObjectService.findMatchingOrderBy(AwardHierarchy.class, fieldValues, "awardNumber", true)));
+        Map<String, Object> criteria = ServiceHelper.getInstance().buildCriteriaMap("parentAwardNumber", branchNode.getAwardNumber());
+        Collection c = businessObjectService.findMatchingOrderBy(AwardHierarchy.class, criteria, AwardHierarchy.UNIQUE_IDENTIFIER_FIELD, true);
+        branchNode.setChildren(new ArrayList<AwardHierarchy>(c));
         if(branchNode.hasChildren()) {
             for(AwardHierarchy childNode: branchNode.getChildren()) {
+                childNode.setParent(branchNode);
+                childNode.setRoot(branchNode.getRoot());
                 recurseTree(childNode);
             }
         }
+    }
+
+    private void addNewAwardToPlaceholderDocument(AwardDocument doc, AwardHierarchy node) {
+        Award award = node.getAward();
+        if (award.isNew()) {
+            doc.getAwardList().add(award);
+        }
+    }
+
+    /*
+     * This method constructs the entire award hierarchy based on the root node.
+     *
+     * This method also creates a map of children - where the key is parent award number and value is a list of all of its children.
+     * This map will be used to sort award hierarchy nodes in correct parent-child order.
+     *
+     * Both awardHierarchy and mapOfChildren are being updated in same for loop so its not possible to have two separate methods for them.
+     */
+    @SuppressWarnings("unchecked")
+    private Map<String, AwardHierarchy> createAwardHierarchyAndPrepareCollectionForSort(AwardHierarchy awardHierarchyRootNode,
+                                                                                        Map<String, Collection<AwardHierarchy>> mapOfChildren) {
+        Map<String, AwardHierarchy> hierarchyMap = new HashMap<String, AwardHierarchy>();
+        createAwardHierarchyMap(hierarchyMap, awardHierarchyRootNode, mapOfChildren);
+        return hierarchyMap;
+    }
+
+    // recursively walk hierarchy tree, populating maps
+    private void createAwardHierarchyMap(Map<String, AwardHierarchy> hierarchyMap, AwardHierarchy node, Map<String, Collection<AwardHierarchy>> mapOfChildren) {
+        if(node != null) {
+            hierarchyMap.put(node.getAwardNumber(), node);
+            // there is a pernicious side-effect in createSortOrder that causes child collection to be cleared, so store a copy of the children collection
+            mapOfChildren.put(node.getAwardNumber(), new ArrayList<AwardHierarchy>(node.getChildren()));
+            for(AwardHierarchy childNode: node.getChildren()) {
+                createAwardHierarchyMap(hierarchyMap, childNode, mapOfChildren);
+            }
+        }
+    }
+
+    private AwardHierarchy getAwardHierarchyRootNode(String someNodeAwardNumberInHierarchy) {
+        Collection c = businessObjectService.findMatching(AwardHierarchy.class, getAwardHierarchyCriteriaMap(someNodeAwardNumberInHierarchy));
+        AwardHierarchy someNodeInHierarchy = null;
+        if(c.size() == 1) {
+            someNodeInHierarchy = (AwardHierarchy) c.iterator().next();
+        }
+        if(someNodeInHierarchy == null) {
+            throw new MissingHierarchyException(someNodeAwardNumberInHierarchy);
+        }
+        return getRootNode(someNodeInHierarchy.getRootAwardNumber());
+    }
+
+    /*
+     * This method updates the @listForAwardHierarchySort as per the correct parent-child order. This list will be used to display the award hierarchy nodes
+     * in correct sort order.
+     * The order is going to be root followed by all its children followed by all of their children until there are no children.
+     */
+    private void createSortOrder(List<String> listForAwardHierarchySort, Map<String, AwardHierarchy> awardHierarchies,
+                                 Map<String, Collection<AwardHierarchy>> mapOfChildren, String parentAwardNumber,
+                                 Collection<AwardHierarchy> ahCollection, AwardHierarchy ah1) {
+
+        while(!StringUtils.equalsIgnoreCase(parentAwardNumber,Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+            if(mapOfChildren.get(parentAwardNumber).size()!=0){
+                ahCollection = mapOfChildren.get(parentAwardNumber);
+                ah1 = ahCollection.iterator().next();
+                parentAwardNumber = ah1.getAwardNumber();
+                listForAwardHierarchySort.add(parentAwardNumber);
+            }else if(ahCollection!=null && ahCollection.size() ==0){
+                ah1 = awardHierarchies.get(awardHierarchies.get(parentAwardNumber).getAwardNumber());
+                if(ah1!=null){
+                    parentAwardNumber = ah1.getParentAwardNumber();
+                    if(!StringUtils.equalsIgnoreCase(parentAwardNumber,Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+                        mapOfChildren.get(parentAwardNumber).remove(ah1);
+                    }
+                }else{
+                    parentAwardNumber = Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT;
+                }
+            }
+            else if(ah1!=null){
+                parentAwardNumber = ah1.getParentAwardNumber();
+                ahCollection.remove(ah1);
+            }
+        }
+
+    }
+
+    private Map<String, Object> getAwardHierarchyCriteriaMap(String awardNumber) {
+        return ServiceHelper.getInstance().buildCriteriaMap(AwardHierarchy.UNIQUE_IDENTIFIER_FIELD, awardNumber);
+    }
+
+    private void restoreOriginalAwardPropertiesAfterCopy(Award award, String originalAwardNumber, Integer originalSequenceNumber) {
+        award.setAwardNumber(originalAwardNumber);
+        award.setSequenceNumber(originalSequenceNumber);
+    }
+
+    private void saveNodeWithAward(AwardHierarchy node, AwardDocument doc) {
+        if(node.isNew()) {
+            persistAwardHierarchy(node);
+            addNewAwardToPlaceholderDocument(doc, node);
+        }
+    }
+
+    private void savePlaceholderDocument(AwardDocument doc) {
+        try {
+            documentService.saveDocument(doc);
+        } catch (WorkflowException e) {
+            LOG.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    private RuntimeException uncheckedException(Exception e) {
+        return new RuntimeException(e.getMessage(), e);
+    }
+
+    private Award useOriginalAwardAsTemplateForCopy(Award award, String nextAwardNumber) throws VersionException {
+        award.setAwardNumber(nextAwardNumber);
+        award.setSequenceNumber(0);
+        return versioningService.createNewVersion(award);
     }
 }

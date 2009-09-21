@@ -52,7 +52,7 @@ import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.service.BusinessObjectServiceAdapter;
+import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
 import org.kuali.rice.kns.util.DateUtils;
 
 /**
@@ -432,7 +432,7 @@ public class BudgetRatesServiceTest {
     }
     
     @SuppressWarnings("unchecked")
-    public class MockBusinessObjectService extends BusinessObjectServiceAdapter {        
+    public class MockBusinessObjectService extends BusinessObjectServiceAdapter {
         
         @Override
         public Collection findMatching(Class clazz, Map fieldValues) {
