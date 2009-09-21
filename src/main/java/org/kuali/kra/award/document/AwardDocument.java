@@ -72,6 +72,8 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class AwardDocument extends BudgetParentDocument<Award> implements  Copyable, SessionDocument{
     private static final Log LOG = LogFactory.getLog(AwardDocument.class);
+    
+    public static final String PLACEHOLDER_DOC_DESCRIPTION = "*****PLACEHOLDER*****";
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -104,7 +106,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
      * @return
      */
     public Award getAward() {
-        return awardList.get(0);
+        return awardList.size() > 0 ? awardList.get(0) : new Award();
     }
 
     /**

@@ -15,28 +15,26 @@
  */
 package org.kuali.kra.award.awardhierarchy;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.service.BusinessObjectServiceAdapter;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 public class AwardHierarchyServiceImplTest {
     AwardHierarchyServiceImpl service;
-    
     private AwardHierarchyTestHelper helper;
-    
+
+    private AwardHierarchy rootNode;
+    private static final String NEXT_AWARD_NUMBER_FOR_NEW_HIERARCHY = "100002-00001";
+
     @Before
     public void setUp() {
         service = new AwardHierarchyServiceImpl();
-        service.setBusinessObjectService(new MockBusinessObjectService());
+        service.setAwardNumberService(new AwardHierarchyTestHelper.MockAwardNumberService());
+        service.setBusinessObjectService(new AwardHierarchyTestHelper.MockBusinessObjectService());
+        service.setDocumentService(new AwardHierarchyTestHelper.MockDocumentService());
+        service.setVersioningService(new AwardHierarchyTestHelper.MockVersioningService());
         helper = new AwardHierarchyTestHelper(service);
+        rootNode = helper.createFullAwardHierarchy(100001L, 10, 5);
     }
     
     @After
@@ -46,54 +44,85 @@ public class AwardHierarchyServiceImplTest {
     }
 
     @Test
-    public void testCreatingRootNode() {
-        helper.testCreatingRootNode();
+    public void testFindingNode_NotPersisted() {
+        helper.testFindingNode_NotPersisted();
     }
-    
+
     @Test
-    public void testCreatingHierarchy() {
-        helper.testCreatingHierarchy();
+    public void testCopyingAwardAsNewHierarchy() {
+        stageNewAwardNumberForNewHierarchy();
+        helper.testCopyingAwardAsNewHierarchy();
     }
-    
+
+    @Test
+    public void testCopyingAwardAsChildOfAnAwardInAnotherHierarchy() {
+        helper.testCopyingAwardAsChildOfAnAwardInAnotherHierarchy();
+    }
+
+    @Test
+    public void testCopyingAwardAndDescendantsAsChildOfAnAwardInAnotherHierarchy() {
+        helper.testCopyingAwardAndDescendantsAsChildOfAnAwardInAnotherHierarchy();
+    }
+
+    @Test
+    public void testCopyingAwardAndDescendantsAsChildOfAnAwardInCurrentHierarchy() {
+        helper.testCopyingAwardAndDescendantsAsChildOfAnAwardInCurrentHierarchy();
+    }
+
+    @Test
+    public void testCopyingAwardAndDescendantsAsNewHierarchy() {
+        stageNewAwardNumberForNewHierarchy();
+        helper.testCopyingAwardAndDescendantsAsNewHierarchy();
+    }
+
+    @Test
+    public void testCopyingAwardAsChildOfAnAwardInCurrentHierarchy() {
+        helper.testCopyingAwardAsChildOfAnAwardInCurrentHierarchy();
+    }
+
+    @Test
+    public void testCreatingBasicHierarchy() {
+        helper.testCreatingBasicHierarchy();
+    }
+
+    @Test
+    public void testCreatingFullHierarchy() {
+        helper.testCreatingFullHierarchy();
+    }
+
+    @Test
+    public void testCreatingANewChildAward() {
+        helper.testCreatingANewChildAward();    
+    }
+
+    @Test
+    public void testCreatingNewChildAwardBasedOnAnotherAwardInHierarchy() {
+        helper.testCreatingNewChildAwardBasedOnAnotherAwardInHierarchy();
+    }
+
+    @Test
+    public void testCreatingNewAwardBasedOnParent() {
+        helper.testCreatingNewAwardBasedOnParent();
+    }
+
     @Test
     public void testCreatingRootNode_NullAwardNumber() {
         helper.testCreatingRootNode_NullAwardNumber();
     }
-    
-    private class MockBusinessObjectService extends BusinessObjectServiceAdapter {
-        Map<String, AwardHierarchy> awardHierarchyMap = new TreeMap<String, AwardHierarchy>();
 
-        @SuppressWarnings("unchecked")
-        @Override
-        public PersistableBusinessObject findByPrimaryKey(Class klass, Map identifiers) {
-            String awardNumber = (String) identifiers.get("awardNumber");
-            return awardNumber != null ? awardHierarchyMap.get(awardNumber) : null;
-        }
-
-        @Override
-        public void save(PersistableBusinessObject bo) {
-            AwardHierarchy awardHierarchy = (AwardHierarchy) bo;
-            awardHierarchyMap.put(awardHierarchy.getAwardNumber(), awardHierarchy);
-        }
-
-        /**
-         * @see org.kuali.kra.service.BusinessObjectServiceAdapter#findMatchingOrderBy(java.lang.Class, java.util.Map, java.lang.String, boolean)
-         */
-        @SuppressWarnings("unchecked")
-        @Override
-        public Collection findMatchingOrderBy(Class klass, Map fieldValues, String sortField, boolean sortAscending) {
-            String parentAwardNumber = (String) fieldValues.get("parentAwardNumber");
-            Map<String, AwardHierarchy> matching = new TreeMap<String, AwardHierarchy>();
-            for(AwardHierarchy node: awardHierarchyMap.values()) {
-                if(node.getParentAwardNumber().equals(parentAwardNumber)) {
-                    matching.put(node.getAwardNumber(), node);
-                }
-            }
-            List<AwardHierarchy> list = new ArrayList<AwardHierarchy>();
-            for(String awardNumber: matching.keySet()) {
-                list.add(matching.get(awardNumber));
-            }
-            return list;
-        }
+    @Test
+    public void testCreateNewChildAward() {
+        helper.testCreateNewChildAward();
     }
+
+    @Test
+    public void testGettingHierarchyAsMap_UsingVarunification() {
+        helper.testGettingHierarchyAsMap_UsingVarunification();
+    }
+
+    private void stageNewAwardNumberForNewHierarchy() {
+        ((AwardHierarchyTestHelper.MockAwardNumberService) service.awardNumberService).nextAwardNumber = NEXT_AWARD_NUMBER_FOR_NEW_HIERARCHY;
+    }
+
+
 }

@@ -255,11 +255,15 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
 
     /**
      * 
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(
      * org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        if(skipRuleProcessing(document)) {
+            return true;
+        }
+        
         boolean retval = true;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         if (!(document instanceof AwardDocument)) {
@@ -287,6 +291,10 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processAwardCommentsBusinessRules(awardDocument);
         
         return retval;
+    }
+
+    private boolean skipRuleProcessing(Document document) {
+        return AwardDocument.PLACEHOLDER_DOC_DESCRIPTION.equals(document.getDocumentHeader().getDocumentDescription());
     }    
     
     private boolean processApprovedEquipmentBusinessRules(ErrorMap errorMap, AwardDocument awardDocument) {
