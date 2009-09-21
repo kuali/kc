@@ -16,10 +16,8 @@
 package org.kuali.kra.award.home.fundingproposal;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -30,8 +28,6 @@ import org.junit.Test;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.AwardServiceImpl;
-import org.kuali.kra.service.BusinessObjectServiceAdapter;
-import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class AwardFundingProposalBeanTest {
     private AwardFundingProposalBean bean;

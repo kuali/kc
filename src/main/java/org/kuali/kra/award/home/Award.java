@@ -60,8 +60,6 @@ import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -145,7 +143,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Sponsor sponsor;
     private Sponsor primeSponsor;
 
-    private Unit leadUnit;
     @AwardSyncableList(syncClass = AwardComment.class,syncMethodName="syncAwardComments")
     public List<AwardComment> awardComments;
     @AwardSyncableList(syncClass = AwardReportTerm.class)
@@ -568,7 +565,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public List<AwardFundingProposal> getFundingProposals() {
         return fundingProposals;
     }
-    
     
     /**
      * 
@@ -2119,7 +2115,6 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
                 }
             }
         }
-        this.leadUnit = leadUnit;
         return leadUnit;
     }
     
@@ -2652,14 +2647,6 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
          this.getAwardAttachments().add(attachment);
          attachment.setAward(this);
     }
-
-    /**
-     * remove an attachment personnel.
-     * @param attachmentPersonnel the attachment personnel
-     * @throws IllegalArgumentException if attachmentPersonnel is null
-     */
-    private void removeAttachment(AwardAttachment attachment) {
-        this.getAwardAttachments().remove(attachment);    }
 
     /**
      * This method indicates if the Awrd has been persisted

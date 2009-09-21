@@ -191,7 +191,16 @@
     <bean id="awardHierarchyService" class="org.kuali.kra.award.awardhierarchy.AwardHierarchyServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
-        </property>        
+        </property>
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+        <property name="awardNumberService">
+            <ref bean="awardNumberService" />
+        </property>
+        <property name="versioningService">
+            <ref bean="versioningService" />
+        </property>
     </bean>
 	<bean id="awardLockService" class="org.kuali.kra.award.AwardLockServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
