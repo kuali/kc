@@ -23,6 +23,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -36,7 +37,10 @@ public class AwardValuesFinder extends KeyValuesBase{
         keyValues.add(new KeyLabelPair(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, "External"));
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) GlobalVariables.getKualiForm();        
         TimeAndMoneyDocument document = timeAndMoneyForm.getTimeAndMoneyDocument();
-        document.setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(document.getRootAwardNumber(), timeAndMoneyForm.getOrder()));
+        if(document.getAwardHierarchyItems()==null || document.getAwardHierarchyItems().size()==0){
+            document.setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(document.getRootAwardNumber(), timeAndMoneyForm.getOrder()));
+            getAwardHierarchyUIService().populateAwardHierarchyNodes(document.getAwardHierarchyItems(), document.getAwardHierarchyNodes());    
+        }
         if(document.getAwardHierarchyItems()!=null && document.getAwardHierarchyItems().size()!=0){
             for(Entry<String, AwardHierarchy> awardHierachy: document.getAwardHierarchyItems().entrySet()){            
                 keyValues.add(new KeyLabelPair(awardHierachy.getKey(), awardHierachy.getValue().getAwardNumber()));
@@ -48,6 +52,10 @@ public class AwardValuesFinder extends KeyValuesBase{
     
     public AwardHierarchyService getAwardHierarchyService(){        
         return (AwardHierarchyService) KraServiceLocator.getService(AwardHierarchyService.class);
+    }
+    
+    public AwardHierarchyUIService getAwardHierarchyUIService(){        
+        return (AwardHierarchyUIService) KraServiceLocator.getService(AwardHierarchyUIService.class);
     }
 
 }
