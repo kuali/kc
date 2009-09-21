@@ -216,7 +216,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
         Map<String, String> proposalMap = new HashMap<String, String>();
         proposalMap.put(KEY_PROPOSAL_NUMBER, proposalNumber);
         DevelopmentProposal pdDoc = (DevelopmentProposal) businessObjectService.findByPrimaryKey(
-                ProposalDevelopmentDocument.class, proposalMap);
+                DevelopmentProposal.class, proposalMap);
         String multiCampusEnabledStr = s2SUtilService.getParameterValue(MULTI_CAMPUS_ENABLED);
         boolean mulitCampusEnabled = multiCampusEnabledStr.equals(MULTI_CAMPUS_ENABLED_VALUE) ? true : false;
 //        S2SSSLProtocolSocketFactory socketFactory = new S2SSSLProtocolSocketFactory(pdDoc.getOrganization().getDunsNumber(),
