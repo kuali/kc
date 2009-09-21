@@ -38,6 +38,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.SponsorFormTemplateList;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
@@ -678,12 +679,14 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode().equals(getRevisionProposalTypeCode())) {
                 String versionNumber = createInstitutionalProposalVersion(
                         proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom(), 
-                        proposalDevelopmentDocument.getDevelopmentProposal());
+                        proposalDevelopmentDocument.getDevelopmentProposal(),
+                        proposalDevelopmentDocument.getFinalBudgetForThisProposal());
                 GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
                         versionNumber,
                         proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom());
             } else {
-                String proposalNumber = createInstitutionalProposal(proposalDevelopmentDocument.getDevelopmentProposal());
+                String proposalNumber = createInstitutionalProposal(
+                        proposalDevelopmentDocument.getDevelopmentProposal(), proposalDevelopmentDocument.getFinalBudgetForThisProposal());
                 GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED, proposalNumber);
             }
         }
@@ -773,15 +776,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SUBMISSION_WITH_WARNINGS_KEY, KeyConstants.QUESTION_SUMBMIT_OPPORTUNITY_WITH_WARNINGS_CONFIRMATION);
     }
     
-    private String createInstitutionalProposal(DevelopmentProposal developmentProposal) {
+    private String createInstitutionalProposal(DevelopmentProposal developmentProposal, Budget budget) {
         InstitutionalProposalService institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
-        String proposalNumber = institutionalProposalService.createInstitutionalProposal(developmentProposal);
+        String proposalNumber = institutionalProposalService.createInstitutionalProposal(developmentProposal, budget);
         return proposalNumber;
     }
     
-    private String createInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal) {
+    private String createInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal, Budget budget) {
         InstitutionalProposalService institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
-        String versionNumber = institutionalProposalService.createActiveInstitutionalProposalVersion(proposalNumber, developmentProposal);
+        String versionNumber = institutionalProposalService.createActiveInstitutionalProposalVersion(proposalNumber, developmentProposal, budget);
         return versionNumber;
     }
     
