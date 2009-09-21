@@ -15,50 +15,105 @@
  */
 package org.kuali.kra.award.awardhierarchy;
 
+import org.kuali.kra.award.document.AwardDocument;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Collection;
 
 public interface AwardHierarchyService {
-    static boolean RECURSE_HIERARCHY = true;
-    static boolean DONT_RECURSE_HIERARCHY = false;
-    
-    void persistAwardHierarchy(AwardHierarchy awardHierarchy);
+    static boolean RECURS_HIERARCHY = true;
+
+    // Create new node, with Award copied from target node's Award. New node will be a root node and will be a branch node. (Descendant nodes are copied)
+    AwardHierarchy copyAwardAndAllDescendantsAsNewHierarchy(AwardHierarchy targetNode);
+
+    // Create new node. New node will be a child node of another node in a different hierarchy and will be a branch node,
+    // All new Awards associated with copied branch will be copies of Awards from first hierarchy branch
+    AwardHierarchy copyAwardAndDescendantsAsChildOfAnAwardInAnotherHierarchy(AwardHierarchy sourceNode, AwardHierarchy targetParentNode);
+
+    // Create new node, with Award copied from target node's Award. New node will be a child node of another node in SAME hierarchy and will be a branch node
+    AwardHierarchy copyAwardAndDescendantsAsChildOfAnAwardInCurrentHierarchy(AwardHierarchy sourceNode, AwardHierarchy targetParentNode);
+
+    // Create new node, with Award copied from target node's Award. New node will be a child node of another node in a DIFFERENT hierarchy and will be a leaf node
+    AwardHierarchy copyAwardAsChildOfAnAwardInAnotherHierarchy(AwardHierarchy sourceNode, AwardHierarchy targetParentNode);
+
+    // Create new node, with Award copied from target node's Award. New node will be a child node of another node in same hierarchy and will be a leaf node
+    AwardHierarchy copyAwardAsChildOfAnAwardInCurrentHierarchy(AwardHierarchy sourceNode, AwardHierarchy targetParentNode);
+
+    // Create new node, with Award copied from target node's Award. New node will be a root node and will be a leaf node. (Descendant nodes not copied)
+    AwardHierarchy copyAwardAsNewHierarchy(AwardHierarchy award);
+
+    // Create a root hierarchy node
+    AwardHierarchy createBasicHierarchy(String awardNumber);
+
+    // Create new node, with Award copied from another Award in SAME hierarchy. New node will be child of target node and will be a leaf node
+    AwardHierarchy createNewAwardBasedOnAnotherAwardInHierarchy(AwardHierarchy nodeToCopyFrom, AwardHierarchy targetParentNode);
+
+    // Create new node, with Award copied from parent Award. New node will be child of target node and will be a leaf node
+    AwardHierarchy createNewAwardBasedOnParent(AwardHierarchy targetNode);
+
+    // Create new node, with new Award having awardNumber = newAwardNumber. New node will be child of target node and will be a leaf node
+    AwardHierarchy createNewChildAward(AwardHierarchy targetNode);
+
+    // Load single hierarchy node
+    AwardHierarchy loadAwardHierarchy(String awardNumber);
     
     /**
-     * This method saves an awardHierarchy. If recurse is true, then all children are also saved; otherwise, just that node is saved
-     * @param awardHierarchy
-     * @param recurse
+     * This method loads the AwardHierarchy and recurs through all children (if any)
+     * @param parentAwardNumber
+     * @return The AwardHierarchy tree branch starting with the node at awardNumber
      */
-    void persistAwardHierarchy(AwardHierarchy awardHierarchy, boolean recurse);
-    
+    AwardHierarchy loadAwardHierarchyBranch(String parentAwardNumber);
+
+    /**
+     * Load a full hierarchy, returning the root node
+     * @param awardNumber
+     * @return
+     */
+    AwardHierarchy loadFullHierarchyFromAnyNode(String awardNumber);
+
+    // Get hiearchy as map, starting with a node's awardNumber
     Map<String, AwardHierarchy> getAwardHierarchy(String awardNumber, List<String> order);
-    
-    AwardHierarchy getAwardHierarchy(String awardNumber);
-    
+
     /**
-     * This method loads the AwardHierarchy and recurses through all children (if any)
-     * @param rootAwardNumber
-     * @param recurse
-     * @return The AwardHierarchy tree branch starting with the node at awardNumber 
+     * Get hierarchy as map, starting with the rootNode. Suppose the hiearchy looks like this:
+     *              Root
+     *         _______|______
+     *        |              |
+     *     Node 1         Node 2
+     *     |- Node 1.1      |- Node 2.1
+     *     |- Node 1.2      |- Node 2.2
+     *                      | -Node 3.2
+     *
+     *  The default flattened (i.e. List) presentation will be:
+     *    Root
+     *    Node 1
+     *    Node 1.1
+     *    Node 1.2
+     *    Node 2
+     *    Node 2.1
+     *    Node 2.2
+     *
+     * @param rootNode
+     * @return
      */
-    AwardHierarchy getAwardHierarchy(String awardNumber, boolean recurse);
+    Map<String, AwardHierarchy> getAwardHierarchy(AwardHierarchy rootNode, List<String> order);
     
-    void createNewChildAward(String newAwardNumber, String parentAwardNumber, String rootAwardNumber);
-    
-    void createNewAwardBasedOnParent(String awardNumber);
-    
-    void createNewAwardBasedOnAnotherAwardInHierarchy(String awardNumber);
-    
-    void copyAwardAsNewHierarchy();
-    
-    void copyAwardAndAllDescendantsAsNewHierarchy();
-    
-    void copyAwardAsChildOfAnAwardInCurrentHierarchy();
-    
-    void copyAwardAndDescendantsAsChildOfAnAwardInCurrentHierarchy();
-    
-    void copyAwardAsChildOfAnAwardInAnotherHierarchy();
-    
-    void copyAwardAndDescendantsAsChildOfAnAwardInAnotherHierarchy();
-    
+    AwardDocument loadPlaceholderDocument();
+
+    // save single hierarchy node, same as persistAwardHierarchy(node, false)
+    void persistAwardHierarchy(AwardHierarchy awardHierarchy);
+
+    /**
+     * This method saves a node. If recurs is true, save complete branch; i.e. all child nodes, grandchildren, etc.
+     * @param awardHierarchy
+     * @param recurs
+     */
+    void persistAwardHierarchy(AwardHierarchy awardHierarchy, boolean recurs);
+
+    /**
+     * Save all hierarchy nodes for each hierarchy represented by each root node element in the supplied list
+     * @param awardHierarchyRootNodes
+     */
+    void persistAwardHierarchies(Collection<AwardHierarchy> awardHierarchyRootNodes);
 }
