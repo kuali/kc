@@ -42,6 +42,7 @@ public class ProposalHierarcyActionHelper {
     private static final String WARNING_LINK_NO_FINAL_BUDGET = "warning.hierarchy.link.noFinalBudget";
     private static final String WARNING_LINK_DIFFERENT_SPONSOR = "warning.hierarchy.link.differentSponsor";
     
+    private static final String ERROR_LINK_ALREADY_MEMBER = "error.hierarchy.link.alreadyHierarchyMember";
     private static final String ERROR_LINK_NOT_PARENT = "error.hierarchy.link.notParent";
     private static final String ERROR_LINK_NO_PRINCIPLE_INVESTIGATOR = "error.hierarchy.link.noPrincipleInvestigator";
     private static final String ERROR_LINK_NO_BUDGET_VERSION = "error.hierarchy.link.noBudgetVersion";
@@ -103,8 +104,7 @@ public class ProposalHierarcyActionHelper {
         if (validateParent(hierarchyProposal)) {
             boolean valid = true;
             valid &= validateChildCandidate(newChildProposal);
-            valid &= validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal);
-            if (valid) {
+            if (valid && validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal)) {
                 try {
                     getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal);
                     GlobalVariables.getMessageList().add(MESSAGE_LINK_SUCCESS, newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
@@ -150,6 +150,10 @@ public class ProposalHierarcyActionHelper {
     private boolean validateChildCandidate(DevelopmentProposal proposal) {
         boolean valid = true;
         proposal.getProposalDocument().refreshReferenceObject("budgetDocumentVersions");
+        if (proposal.isInHierarchy()) {
+            GlobalVariables.getErrorMap().putError(FIELD_CHILD_NUMBER, ERROR_LINK_ALREADY_MEMBER, new String[0]);
+            return false;
+        }
         if (proposal.getProposalDocument().getBudgetDocumentVersions().isEmpty()) {
             GlobalVariables.getErrorMap().putError(FIELD_CHILD_NUMBER, ERROR_LINK_NO_BUDGET_VERSION, new String[0]);
             valid = false;
