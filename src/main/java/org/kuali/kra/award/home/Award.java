@@ -2591,11 +2591,11 @@ OUTER:  for(AwardPerson p: getProjectPersons()) {
     }
 
     public Date getRequestedEndDateInitial() {
-        return getProjectEndDate();
+        return getObligationExpirationDate();
     }
 
     public Date getRequestedStartDateInitial() {
-        return getBeginDate();
+        return getAwardEffectiveDate();
     }
 
     public Unit getUnit() {
