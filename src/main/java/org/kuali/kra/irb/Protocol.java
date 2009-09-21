@@ -1199,6 +1199,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
             specialReviewSummary.setExpirationDate(specialReview.getExpirationDate());
             specialReview.refreshReferenceObject("specialReviewExemptions");
             specialReviewSummary.setExemptionNumbers(specialReview.getSpecialReviewExemptions());
+            specialReviewSummary.setComment(specialReview.getComments());
             protocolSummary.add(specialReviewSummary);
         }
     }

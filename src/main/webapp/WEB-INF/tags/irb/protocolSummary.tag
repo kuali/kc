@@ -217,7 +217,7 @@
             
             <c:forEach items="${KualiForm.actionHelper.protocolSummary.specialReviews}" var="specialReview" varStatus="status">
                 <tr>
-                    <th style="width:50px">${status.index + 1}</th>
+                    <th rowspan="2" style="width:50px">${status.index + 1}</th>
                     <td class="changed">${specialReview.type}</td>
                     <td class="changed">${specialReview.approvalStatus}</td>
                     <td class="changed">${specialReview.protocolNumber}&nbsp;</td>
@@ -225,6 +225,21 @@
                     <td class="changed">${specialReview.approvalDate}&nbsp;</td>
                     <td class="changed">${specialReview.expirationDate}&nbsp;</td>
                     <td class="changed">${specialReview.exemptionNumbers}&nbsp;</td>
+               </tr>
+               
+               <tr>
+                   <td colspan="7">
+                       <span class="fineprint">
+                           <c:choose>
+                               <c:when test="${specialReview.comment == null || specialReviewComment == ''}">
+                                   Comment: <i>This is no comment for this record.</i>
+                               </c:when>
+                               <c:otherwise>
+                                   ${specialReview.comment}
+                               </c:otherwise>
+                           </c:choose>
+                       </span>
+                   </td>
                </tr>
             </c:forEach>
     	</tbody>
