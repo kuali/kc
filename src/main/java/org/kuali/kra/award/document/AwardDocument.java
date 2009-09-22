@@ -59,6 +59,7 @@ import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -234,7 +235,9 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     @Override
     public void prepareForSave() {
         super.prepareForSave();
-
+        if (ObjectUtils.isNull(this.getVersionNumber())) {
+            this.setVersionNumber(new Long(0));
+        }
         if (getBudgetDocumentVersions() != null) {
             updateDocumentDescriptions(getBudgetDocumentVersions());
         }
