@@ -24,7 +24,7 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
 /**
  * This class...
  */
-public class HierarchyStatusValuesFinder extends KeyValuesBase {
+public class HierarchyBudgetTypeValuesFinder extends KeyValuesBase {
 
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
@@ -32,8 +32,8 @@ public class HierarchyStatusValuesFinder extends KeyValuesBase {
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
 
-        for (HierarchyStatusConstants hierarcyStatus : HierarchyStatusConstants.values()) {
-            keyLabelPairs.add(new KeyLabelPair(hierarcyStatus.code(), hierarcyStatus.description()));
+        for (HierarchyBudgetTypeConstants hierarcyBudgetType : HierarchyBudgetTypeConstants.values()) {
+            keyLabelPairs.add(new KeyLabelPair(hierarcyBudgetType.code(), hierarcyBudgetType.description()));
         }
         return keyLabelPairs; 
     }
