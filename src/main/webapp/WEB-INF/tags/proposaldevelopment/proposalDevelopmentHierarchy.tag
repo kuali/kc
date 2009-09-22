@@ -34,7 +34,7 @@
 		
 		<table cellpadding="0" cellspacing="0" summary="">
 			<tr>
-				<td>
+				<td colspan="3">
 					<div class="floaters">
 						You are currently viewing <b>Proposal #${proposalNumber} (Document #${documentNumber})</b>, which is 
 						<c:choose>
@@ -53,34 +53,47 @@
 				</td>
 			</tr>
 			<kra:section permission="${maintainProposalHierarchy}">
-			<tr>
-				<td class="infoline" align="center">
-					<div align="center">
-						<c:choose>
-							<c:when test="${hierarchyStatus == hierarchyParentStatus}" >
-							    <kul:htmlAttributeLabel attributeEntry="${DataDictionary.DevelopmentProposal.attributes.proposalNumber}" />
-							    <kul:htmlControlAttribute property="newHierarchyChildProposalNumber" attributeEntry="${DataDictionary.DevelopmentProposal.attributes.proposalNumber}" />
-			                	<kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" 
-			                	            fieldConversions="proposalNumber:newHierarchyChildProposalNumber" 
-			                	            lookupParameters="hierarchyNoneStatus:hierarchyStatus"
-			                	            anchor="${tabKey}" />
-								<html:image property="methodToCall.linkChildToHierarchy.anchor${tabKey}"
-						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-linkchildprop.gif' styleClass="tinybutton"/>
-						        - or -
-								<html:image property="methodToCall.syncAllHierarchy.anchor${tabKey}"
+			<c:choose>
+				<c:when test="${hierarchyStatus == hierarchyParentStatus}" >
+					<tr><th>Link Child Proposal</th><th>Link Budget Type</th><th>Actions</th></tr>
+					<tr><td><div align="center">
+							<kul:htmlControlAttribute property="newHierarchyChildProposalNumber" attributeEntry="${DataDictionary.DevelopmentProposal.attributes.proposalNumber}" />
+			                <kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" 
+			                            fieldConversions="proposalNumber:newHierarchyChildProposalNumber" 
+			                            lookupParameters="hierarchyNoneStatus:hierarchyStatus"
+			                            anchor="${tabKey}" />
+			            </div></td>
+			            <td><div align="center">To Be Implemented</div></td>
+			            <td><div align="center">
+			            	<html:image property="methodToCall.linkChildToHierarchy.anchor${tabKey}"
+						       	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-linkchildprop.gif' styleClass="tinybutton"/>
+						</div></td>
+					</tr>        				
+					<tr>
+						<td class="infoline" colspan="2">&nbsp;</td>
+						<td class="infoline">
+							<div align="center">
+							    <html:image property="methodToCall.syncAllHierarchy.anchor${tabKey}"
 						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-syncall.gif' styleClass="tinybutton"/>
-							</c:when>
-							<c:when test="${hierarchyStatus == hierarchyChildStatus}" >
+							</div>
+		                </td>
+					</tr>
+				</c:when>
+				<c:when test="${hierarchyStatus == hierarchyChildStatus}" >
+					<tr>
+						<td class="infoline" colspan="3">
+							<div align="center">
 								<html:image property="methodToCall.removeFromHierarchy.anchor${tabKey}"
 						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-remhierarchy.gif' styleClass="tinybutton"/>
 								<html:image property="methodToCall.syncToHierarchyParent.anchor${tabKey}"
 						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctoparent.gif' styleClass="tinybutton"/>
-							</c:when>
-							<c:otherwise>
-								<html:image property="methodToCall.createHierarchy.anchor${tabKey}"
-						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-createhierarchy.gif' styleClass="tinybutton"/>
-							    - or -
-							    <kul:htmlAttributeLabel attributeEntry="${DataDictionary.DevelopmentProposal.attributes.proposalNumber}" />
+							</div>
+		                </td>
+					</tr>
+				</c:when>
+				<c:otherwise>
+					<tr><th>Link Child Proposal</th><th>Link Budget Type</th><th>Actions</th></tr>
+					<tr><td><div align="center">
 							    <kul:htmlControlAttribute property="newHierarchyProposalNumber" 
 							    		attributeEntry="${DataDictionary.DevelopmentProposal.attributes.proposalNumber}" 
 							    		onblur="" />
@@ -88,13 +101,24 @@
 			                	            fieldConversions="proposalNumber:newHierarchyProposalNumber" 
 			                	            lookupParameters="hierarchyParentStatus:hierarchyStatus"
 			                	            anchor="${tabKey}" />
+			            </div></td>
+			            <td><div align="center">To Be Implemented</div></td>
+			            <td><div align="center">
 								<html:image property="methodToCall.linkToHierarchy.anchor${tabKey}"
 						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-linktohierarchy.gif' styleClass="tinybutton"/>
-							</c:otherwise>
-						</c:choose>
-					</div>
-                </td>
-			</tr>
+						</div></td>
+					</tr>        				
+					<tr>
+						<td class="infoline" colspan="2">&nbsp;</td>
+						<td class="infoline">
+							<div align="center">
+								<html:image property="methodToCall.createHierarchy.anchor${tabKey}"
+						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-createhierarchy.gif' styleClass="tinybutton"/>
+							</div>
+		                </td>
+					</tr>
+				</c:otherwise>
+			</c:choose>
 			</kra:section>
 			<c:if test="${not KualiForm.editingMode[maintainProposalHierarchy]}"><tr>
 				<td class="infoline" align="center">
