@@ -32,6 +32,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
@@ -96,6 +97,7 @@ public class ActionHelper implements Serializable {
     private String printTag;
     
     private ProtocolSummary protocolSummary;
+    private int currentSequenceNumber = -1;
     
     private String selectedHistoryItem;
     private DateRangeFilter historyDateRangeFilter = new DateRangeFilter();
@@ -205,7 +207,23 @@ public class ActionHelper implements Serializable {
         canRequestDataAnalysis = hasRequestDataAnalysisPermission();
         canDeleteProtocolAmendRenew = hasDeleteProtocolAmendRenewPermission();
         
-        protocolSummary = getProtocol().getProtocolSummary();
+        if (currentSequenceNumber == -1) {
+            currentSequenceNumber = getProtocol().getSequenceNumber();
+        }
+        createProtocolSummary();
+    }
+
+    private void createProtocolSummary() {
+        protocolSummary =  null;
+        String protocolNumber = getProtocol().getProtocolNumber();
+        Protocol protocol = getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber);
+        if (protocol != null) {
+            protocolSummary = protocol.getProtocolSummary();
+        }
+    }
+    
+    private ProtocolVersionService getProtocolVersionService() {
+        return KraServiceLocator.getService(ProtocolVersionService.class);
     }
 
     private String getParameterValue(String parameterName) {
@@ -462,5 +480,26 @@ public class ActionHelper implements Serializable {
             }
         }
         return true;
+    }
+    
+    public ProtocolAction getSelectedProtocolAction() {
+        for (ProtocolAction action : getProtocol().getProtocolActions()) {
+            if (StringUtils.equals(action.getProtocolActionId().toString(), selectedHistoryItem)) {
+                return action;
+            }
+        }
+        return null;
+    }
+    
+    public void setCurrentSequenceNumber(int currentSequenceNumber) {
+        this.currentSequenceNumber = currentSequenceNumber;
+    }
+    
+    public int getCurrentSequenceNumber() {
+        return currentSequenceNumber;
+    }
+    
+    public int getSequenceCount() {
+        return getProtocol().getSequenceNumber()  + 1;
     }
 }
