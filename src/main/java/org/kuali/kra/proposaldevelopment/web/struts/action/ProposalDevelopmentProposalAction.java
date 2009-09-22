@@ -569,7 +569,6 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
                         if (!isDuplicateKeyword(propScienceKeyword.getScienceKeywordCode(), proposalDevelopmentDocument
                                 .getDevelopmentProposal().getPropScienceKeywords())) {
                             proposalDevelopmentDocument.getDevelopmentProposal().addPropScienceKeyword(propScienceKeyword);
-                            proposalDevelopmentDocument.getDevelopmentProposal().getHierarchyPropScienceKeywords().add(propScienceKeyword);
                         }
                     }
                 }
