@@ -41,6 +41,7 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * 
@@ -305,6 +306,14 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
      */
     public void setRootAwardNumber(String rootAwardNumber) {
         this.rootAwardNumber = rootAwardNumber;
+    }
+    
+    @Override
+    public void prepareForSave() {
+        super.prepareForSave();
+        if (ObjectUtils.isNull(this.getVersionNumber())) {
+            this.setVersionNumber(new Long(0));
+        }
     }
     
 }
