@@ -75,6 +75,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
 
         CustomAttributeService customAttributeService = this.getService(CustomAttributeService.class);
         customAttributeService.saveCustomAttributeValues(this);
+        if (this.getVersionNumber() == null) this.setVersionNumber(new Long(0));
     }
 
     @Override
