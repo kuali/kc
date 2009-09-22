@@ -66,6 +66,7 @@ import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
@@ -145,10 +146,11 @@ public class AwardAction extends BudgetParentActionBase {
             }
 
             AwardHierarchyBean bean = awardForm.getAwardHierarchyBean();
-            bean.saveHierarchyChanges();
-            List<String> order = new ArrayList<String>();
-            awardForm.setAwardHierarchyNodes(bean.getAwardHierarchy(bean.getRootNode().getAwardNumber(), order));
-            awardForm.setOrder(order);
+            if(bean.saveHierarchyChanges()) {
+                List<String> order = new ArrayList<String>();
+                awardForm.setAwardHierarchyNodes(bean.getAwardHierarchy(bean.getRootNode().getAwardNumber(), order));
+                awardForm.setOrder(order);
+            }
         }
 
         return forward;
