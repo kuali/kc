@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -363,8 +364,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         for(ProposalSpecialReview review : childProposal.getPropSpecialReviews()) {
             ProposalSpecialReview newReview = (ProposalSpecialReview)ObjectUtils.deepCopy(review);
             newReview.setProposalNumber(hierarchyProposal.getProposalNumber());
-            newReview.setVersionNumber(null);
+            newReview.setSpecialReviewNumber(hierarchyProposal.getProposalDocument().getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));            newReview.setVersionNumber(null);
             newReview.setHierarchyProposalNumber(childProposal.getProposalNumber());
+            newReview.setVersionNumber(null);
             hierarchyProposal.getPropSpecialReviews().add(newReview);
             hierarchyChild.getPropSpecialReviews().add(newReview);
         }
