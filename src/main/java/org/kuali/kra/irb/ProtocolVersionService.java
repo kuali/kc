@@ -27,4 +27,12 @@ public interface ProtocolVersionService {
      * @throws Exception
      */
     public ProtocolDocument versionProtocolDocument(ProtocolDocument protocolDocument) throws Exception;
+    
+    /**
+     * Get a particular version of a protocol.
+     * @param protocolNumber
+     * @param sequenceNumber
+     * @return
+     */
+    public Protocol getProtocolVersion(String protocolNumber, Integer sequenceNumber);
 }

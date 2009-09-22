@@ -614,11 +614,22 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     public ActionForward loadProtocolSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        System.out.println("Selected History Item: " + protocolForm.getActionHelper().getSelectedHistoryItem());
+        org.kuali.kra.irb.actions.ProtocolAction action = protocolForm.getActionHelper().getSelectedProtocolAction();
+        if (action != null) {
+            protocolForm.getActionHelper().setCurrentSequenceNumber(action.getSequenceNumber());
+        }
         return mapping.findForward(MAPPING_BASIC);
     }
     
-    
+    /**
+     * View an attachment via the Summary sub-panel.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward viewAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {  
        
@@ -637,6 +648,44 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
         
         return RESPONSE_ALREADY_HANDLED;
+    }
+    
+    /**
+     * Go to the previous summary.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewPreviousProtocolSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+        actionHelper.setCurrentSequenceNumber(actionHelper.getCurrentSequenceNumber() - 1);
+        
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    /**
+     * Go to the next summary.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewNextProtocolSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception { 
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+        actionHelper.setCurrentSequenceNumber(actionHelper.getCurrentSequenceNumber() + 1);
+        
+        return mapping.findForward(MAPPING_BASIC);
     }
     
     /**
