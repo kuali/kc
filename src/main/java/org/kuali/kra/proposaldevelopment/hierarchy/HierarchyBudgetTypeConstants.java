@@ -15,27 +15,26 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
-
 /**
  * This class...
  */
-public class HierarchyStatusValuesFinder extends KeyValuesBase {
-
-    /**
-     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
-     */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
-
-        for (HierarchyStatusConstants hierarcyStatus : HierarchyStatusConstants.values()) {
-            keyLabelPairs.add(new KeyLabelPair(hierarcyStatus.code(), hierarcyStatus.description()));
-        }
-        return keyLabelPairs; 
+public enum HierarchyBudgetTypeConstants {
+    SubProject ("P", "Sub-Project"),
+    SubBudget ("B", "Sub-Budget");
+    
+    private final String code;
+    private final String description;
+    
+    HierarchyBudgetTypeConstants(String code, String description) {
+        this.code = code;
+        this.description = description;
+   }
+    
+    public String code() {
+        return code;
     }
-
+    
+    public String description() {
+        return description;
+    }
 }
