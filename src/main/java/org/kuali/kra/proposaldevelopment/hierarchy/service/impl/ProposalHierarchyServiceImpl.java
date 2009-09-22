@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.service.impl;
 
-import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,7 +32,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
@@ -42,11 +39,9 @@ import org.kuali.kra.proposaldevelopment.hierarchy.bo.ProposalHierarchyChild;
 import org.kuali.kra.proposaldevelopment.hierarchy.dao.ProposalHierarchyDao;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -60,7 +55,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
-    private ProposalAuthorizationService proposalAuthorizationService;
+    private KraAuthorizationService kraAuthorizationService;
     private ProposalHierarchyDao proposalHierarchyDao;
     private NarrativeService narrativeService;
 
@@ -77,8 +72,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         this.documentService = documentService;
     }
 
-    public void setProposalAuthorizationService(ProposalAuthorizationService proposalAuthorizationService) {
-        this.proposalAuthorizationService = proposalAuthorizationService;
+    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+        this.kraAuthorizationService = kraAuthorizationService;
     }
 
     public void setProposalHierarchyDao(ProposalHierarchyDao proposalHierarchyDao) {
@@ -126,7 +121,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         // add aggregator to the document
         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
-        proposalAuthorizationService.addRole(username, RoleConstants.AGGREGATOR, newDoc);
+        kraAuthorizationService.addRole(username, RoleConstants.AGGREGATOR, newDoc);
 
         // link the child to the parent
         linkChild(hierarchy, initialChild);
