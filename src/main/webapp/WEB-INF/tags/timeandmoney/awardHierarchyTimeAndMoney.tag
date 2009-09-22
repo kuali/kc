@@ -19,7 +19,13 @@
 <c:set var="awardAmountTransactionAttributes" value="${DataDictionary.AwardAmountTransaction.attributes}" />
 
 <kul:tab tabTitle="Award Hierarchy" defaultOpen="true" tabErrorKey="" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
-	<div class="tab-container" align="right">    	        
+	<div class="tab-container" align="right">
+		<h3>
+    		<span class="subhead-left">Award Hierarchy</span>
+    		<span class="subhead-right">
+    			<kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardFandaRate" altText="help"/>
+			</span>
+        </h3>    	        
     <table cellpadding="0" cellspacing="0" summary="">
     	<tr>
     		<kul:htmlAttributeHeaderCell attributeEntry="${awardAmountTransactionAttributes.transactionTypeCode}" scope="col" /></div></th>

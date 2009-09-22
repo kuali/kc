@@ -72,7 +72,39 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     
     public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        AwardForm awardForm = (AwardForm)form;
+        String awardNumber = getAwardNumber(request);
+        String reversedAwardNumber = StringUtils.reverse(awardNumber);
+        String index = StringUtils.substring(reversedAwardNumber, 0,reversedAwardNumber.indexOf("0"));
+        ActionForward forward = null;        
+        if(awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCopyAwardRadio()!=null){
+            String radio = awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCreateNewChildRadio();
+            Boolean copyDescendants = awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCopyDescendants();
+            if(StringUtils.equalsIgnoreCase(radio, "a")){
+                if(copyDescendants){
+                    forward = this.copyAwardAsANewHierarchyWithDescendants(mapping, form, request, response);
+                }else{
+                    forward = this.copyAwardAsANewHierarchy(mapping, form, request, response);    
+                }
+            }else if(StringUtils.equalsIgnoreCase(radio, "b")){
+                String copyAwardPanelAward = awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCopyAwardPanelTargetAward();
+                if(StringUtils.equalsIgnoreCase(StringUtils.substring(copyAwardPanelAward, 0, 6),StringUtils.substring(awardNumber, 0, 6))){
+                    if(copyDescendants){
+                        forward = this.copyAwardAsAChildInCurrentHierarchyWithDescendants(mapping, form, request, response);
+                    }else{
+                        forward = this.copyAwardAsAChildInCurrentHierarchy(mapping, form, request, response);    
+                    }
+                }else{
+                    if(copyDescendants){
+                        forward = this.copyAwardAsAChildOfAwardInAnotherHierarchyWithDescendants(mapping, form, request, response);
+                    }else{
+                        forward = this.copyAwardAsAChildOfAwardInAnotherHierarchy(mapping, form, request, response);    
+                    }
+                }
+                forward = createANewChildAwardBasedOnParent(mapping, form, request, response);
+            }
+        }
+        return forward;
     }
     
     
@@ -81,11 +113,19 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         String awardNumber = getAwardNumber(request);
         String reversedAwardNumber = StringUtils.reverse(awardNumber);
         String index = StringUtils.substring(reversedAwardNumber, 0,reversedAwardNumber.indexOf("0"));
-        if(awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCopyAwardRadio()!=null){
-            String radio = awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getNewChildPanelTargetAward();
+        ActionForward forward = null;
+        if(awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCreateNewChildRadio()!=null){
+            String radio = awardForm.getAwardHierarchyTempOjbect().get(Integer.parseInt(index)).getCreateNewChildRadio();
+            if(StringUtils.equalsIgnoreCase(radio, "a")){
+                forward = createANewChildAward(mapping, form, request, response);
+            }else if(StringUtils.equalsIgnoreCase(radio, "b")){
+                forward = createANewChildAwardBasedOnParent(mapping, form, request, response);
+            }else if(StringUtils.equalsIgnoreCase(radio, "c")){
+                forward = createANewChildAwardBasedOnAnotherAwardInHierarchy(mapping, form, request, response);
+            }
         }
+        return forward;
         
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
     /**
