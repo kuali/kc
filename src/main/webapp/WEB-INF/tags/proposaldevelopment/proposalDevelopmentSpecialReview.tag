@@ -16,7 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
-<c:set var="proSpecialAttriburesAttributes" value="${DataDictionary.ProposalSpecialReview.attributes}" />
+<c:set var="proposalSpecialReviewAttributes" value="${DataDictionary.ProposalSpecialReview.attributes}" />
 <c:set var="exemptionTypeAttributes" value="${DataDictionary.ProposalExemptNumber.attributes}" />
 
 <c:set var="action" value="proposalDevelopmentSpecialReview" />
@@ -31,14 +31,14 @@
         <table cellpadding="0" cellspacing="0" summary="">
           	<tr>
           		<th><div align="left">&nbsp</div></th> 
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}" noColon="true" /></div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.approvalTypeCode}" noColon="true" /></div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.protocolNumber}" noColon="true" /></div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.applicationDate}" noColon="true" /></div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.approvalDate}"noColon="true" /></div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.expirationDate}"noColon="true" /></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proposalSpecialReviewAttributes.specialReviewCode}" noColon="true" /></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proposalSpecialReviewAttributes.approvalTypeCode}" noColon="true" /></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proposalSpecialReviewAttributes.protocolNumber}" noColon="true" /></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proposalSpecialReviewAttributes.applicationDate}" noColon="true" /></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proposalSpecialReviewAttributes.approvalDate}"noColon="true" /></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proposalSpecialReviewAttributes.expirationDate}"noColon="true" /></div></th>
           		<th><div align="center">Exempt #</div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.comments}" noColon="true" /></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proposalSpecialReviewAttributes.comments}" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	
           	</tr>     
@@ -52,31 +52,31 @@
 
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
-                	<kul:htmlControlAttribute property="newPropSpecialReview.specialReviewCode" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}" styleClass="fixed-size-select"/>
+                	<kul:htmlControlAttribute property="newPropSpecialReview.specialReviewCode" attributeEntry="${proposalSpecialReviewAttributes.specialReviewCode}" styleClass="fixed-size-select"/>
 	            </div>
 				</td>
                 <td class="infoline">
                 <div align="center">
-                	<kul:htmlControlAttribute property="newPropSpecialReview.approvalTypeCode" attributeEntry="${proSpecialAttriburesAttributes.approvalTypeCode}" />
+                	<kul:htmlControlAttribute property="newPropSpecialReview.approvalTypeCode" attributeEntry="${proposalSpecialReviewAttributes.approvalTypeCode}" />
                 <div align="center">
                 </td>
                 <td class="infoline">   
                 <div align="center">             	
-                  <kul:htmlControlAttribute property="newPropSpecialReview.protocolNumber" attributeEntry="${proSpecialAttriburesAttributes.protocolNumber}" />
+                  <kul:htmlControlAttribute property="newPropSpecialReview.protocolNumber" attributeEntry="${proposalSpecialReviewAttributes.protocolNumber}" />
 				</div>
 				</td>
                 <td align="left" valign="middle" class="infoline">
-                	<div align="center"><kul:htmlControlAttribute property="newPropSpecialReview.applicationDate" attributeEntry="${proSpecialAttriburesAttributes.applicationDate}" datePicker="true"/>
+                	<div align="center"><kul:htmlControlAttribute property="newPropSpecialReview.applicationDate" attributeEntry="${proposalSpecialReviewAttributes.applicationDate}" datePicker="true"/>
                 </div>
                 </td>
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
-                	<kul:htmlControlAttribute property="newPropSpecialReview.approvalDate" attributeEntry="${proSpecialAttriburesAttributes.approvalDate}" datePicker="true"/>
+                	<kul:htmlControlAttribute property="newPropSpecialReview.approvalDate" attributeEntry="${proposalSpecialReviewAttributes.approvalDate}" datePicker="true"/>
                 </div>
                 </td>
                 <td align="left" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="newPropSpecialReview.expirationDate" attributeEntry="${proSpecialAttriburesAttributes.expirationDate}" datePicker="true"/>
+                	<kul:htmlControlAttribute property="newPropSpecialReview.expirationDate" attributeEntry="${proposalSpecialReviewAttributes.expirationDate}" datePicker="true"/>
                </div>
                 </td>
                 
@@ -87,8 +87,8 @@
                 </td>
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
-                	<kul:htmlControlAttribute property="newPropSpecialReview.comments" attributeEntry="${proSpecialAttriburesAttributes.comments}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proSpecialAttriburesAttributes.comments.label}" />
+                	<kul:htmlControlAttribute property="newPropSpecialReview.comments" attributeEntry="${proposalSpecialReviewAttributes.comments}" />
+                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalSpecialReviewAttributes.comments.label}" />
                 </div>
                 </td>
 				<td class="infoline">
@@ -107,26 +107,26 @@
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
-	                	<div align="center"> <kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].specialReviewCode" readOnlyAlternateDisplay="${specialReview.specialReview.description}" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}"  styleClass="fixed-size-select"/>
+	                	<div align="center"> <kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].specialReviewCode" readOnlyAlternateDisplay="${specialReview.specialReview.description}" attributeEntry="${proposalSpecialReviewAttributes.specialReviewCode}"  styleClass="fixed-size-select"/>
 					</div>
 					</td>
 	                <td>
-	                <div align="center"> <kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].approvalTypeCode" readOnlyAlternateDisplay="${specialReview.specialReviewApprovalType.description}" attributeEntry="${proSpecialAttriburesAttributes.approvalTypeCode}" />
+	                <div align="center"> <kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].approvalTypeCode" readOnlyAlternateDisplay="${specialReview.specialReviewApprovalType.description}" attributeEntry="${proposalSpecialReviewAttributes.approvalTypeCode}" />
 	                </div>
 	                </td>
 	                <td>     
 	                <div align="center">           	
-	                  <kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].protocolNumber" attributeEntry="${proSpecialAttriburesAttributes.protocolNumber}" />	
+	                  <kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].protocolNumber" attributeEntry="${proposalSpecialReviewAttributes.protocolNumber}" />	
 					</div>
 					</td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].applicationDate" attributeEntry="${proSpecialAttriburesAttributes.applicationDate}" datePicker="true"/></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].applicationDate" attributeEntry="${proposalSpecialReviewAttributes.applicationDate}" datePicker="true"/></div>
 	                </td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].approvalDate" attributeEntry="${proSpecialAttriburesAttributes.approvalDate}" datePicker="true"/></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].approvalDate" attributeEntry="${proposalSpecialReviewAttributes.approvalDate}" datePicker="true"/></div>
 	                </td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].expirationDate" attributeEntry="${proSpecialAttriburesAttributes.expirationDate}" datePicker="true"/></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].expirationDate" attributeEntry="${proposalSpecialReviewAttributes.expirationDate}" datePicker="true"/></div>
 	                </td>
  
                 <td align="left" valign="middle" class="infoline">
@@ -138,8 +138,8 @@
 
 	                <td align="left" valign="middle">
 	                <div align="center">
-	                	<kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].comments" attributeEntry="${proSpecialAttriburesAttributes.comments}" />
-                        <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proSpecialAttriburesAttributes.comments.label}" />
+	                	<kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].comments" attributeEntry="${proposalSpecialReviewAttributes.comments}" />
+                        <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalSpecialReviewAttributes.comments.label}" />
 	                
 	                </div>
 	                </td>
