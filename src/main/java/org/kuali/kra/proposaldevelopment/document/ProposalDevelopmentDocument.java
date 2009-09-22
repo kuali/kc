@@ -15,40 +15,31 @@
  */
 package org.kuali.kra.proposaldevelopment.document;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kra.authorization.Task;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
-import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kew.dto.ActionTakenDTO;
 import org.kuali.rice.kew.dto.ActionTakenEventDTO;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -153,7 +144,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     @Override
     // This method should go away in favor of using DD workflowProperties bean to serialize properties
     public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
-        ProposalAuthorizationService proposalauthservice = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        KraAuthorizationService kraauthservice = KraServiceLocator.getService(KraAuthorizationService.class);
         KualiTransactionalDocumentInformation transInfo = new KualiTransactionalDocumentInformation();
         DocumentInitiator initiatior = new DocumentInitiator();
         // String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
@@ -171,7 +162,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         // KualiDocumentXmlMaterializer xmlWrapper = new KualiDocumentXmlMaterializer();
         xmlWrapper.setDocument(this);
         xmlWrapper.setKualiTransactionalDocumentInformation(transInfo);
-        xmlWrapper.setRolepersons(proposalauthservice.getAllRolePersons(this));
+        xmlWrapper.setRolepersons(kraauthservice.getAllRolePersons(this));
         return xmlWrapper;
 
     }

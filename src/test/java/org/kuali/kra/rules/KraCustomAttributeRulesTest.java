@@ -25,10 +25,10 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -100,8 +100,8 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
         
         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
-        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
-        proposalAuthService.addRole(username, RoleConstants.AGGREGATOR, document);
+        KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+        kraAuthService.addRole(username, RoleConstants.AGGREGATOR, document);
         ProposalRoleTemplateService proposalRoleTemplateService = KraServiceLocator.getService(ProposalRoleTemplateService.class);
         proposalRoleTemplateService.addUsers(document);
 
