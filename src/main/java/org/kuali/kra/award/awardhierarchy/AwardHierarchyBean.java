@@ -20,6 +20,9 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.util.MessageList;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ErrorMessage;
 
 import java.io.Serializable;
 import java.util.*;
@@ -56,6 +59,7 @@ public class AwardHierarchyBean implements Serializable {
     private transient AwardHierarchyService awardHierarchyService;
 
     Map<String, AwardHierarchy> rootNodes;
+    private static final String ERROR_AWARD_HIERARCHY_NOTSAVED = "error.award.hierarchy.notsaved";
 
     /**
      * C'tor
@@ -175,15 +179,24 @@ public class AwardHierarchyBean implements Serializable {
      * @return
      */
     public boolean saveHierarchyChanges() {
+        MessageList messageList = new MessageList();
+        MessageList originalMessageList = GlobalVariables.getMessageList();
+        if(originalMessageList != null) {
+            messageList.addAll(originalMessageList);
+        }
+        boolean result;
         try {
             awardHierarchyService.persistAwardHierarchies(rootNodes.values());
             refreshCurrentHierarchy();
             LOG.info("Hierarchy changes saved");
-            return true;
+            result = true;
         } catch(Exception e) {
             LOG.error(e.getMessage(), e);
-            return false;
+            messageList.add(new ErrorMessage(ERROR_AWARD_HIERARCHY_NOTSAVED, e.getMessage()));
+            result = false;
         }
+        GlobalVariables.setMessageList(messageList);
+        return result;
     }
 
     public AwardHierarchy getRootNode() {
