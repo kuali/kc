@@ -50,7 +50,6 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.kim.service.KIMService;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
@@ -70,11 +69,11 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitService;
@@ -882,7 +881,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * @param roleName the name of role to query for persons assigned to that role
      */
     private void addPersons(List<ProposalUserRoles> propUserRolesList, String roleName) {
-        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        KraAuthorizationService proposalAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         ProposalDevelopmentDocument doc = this.getDocument();
         
         List<Person> persons = proposalAuthService.getPersonsInRole(doc, roleName);
@@ -1206,7 +1205,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     
     public boolean isSubmissionStatusReadOnly() {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
-        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        KraAuthorizationService proposalAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         boolean canModify = proposalAuthService.hasPermission(principalId, this.getDocument(), PermissionConstants.MODIFY_PROPOSAL);
         KIMService kimService = KraServiceLocator.getService(KIMService.class);
         if (canModify) { return false; }

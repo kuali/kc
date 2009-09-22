@@ -519,8 +519,8 @@
 		<property name="systemAuthorizationService">
 			<ref bean="systemAuthorizationService" />
 		</property>
-		<property name="proposalAuthorizationService">
-			<ref bean="proposalAuthorizationService" />
+		<property name="kraAuthorizationService">
+			<ref bean="kraAuthorizationService" />
 		</property>
 	</bean>
 
@@ -696,21 +696,6 @@
 		</property>
 	</bean>	
 	
-	<bean id="proposalAuthorizationService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalAuthorizationServiceImpl">
-        <property name="unitAuthorizationService">
-            <ref bean="unitAuthorizationService" />
-        </property>
-        <property name="personService">
-            <ref bean="personService" />
-        </property>
-        <property name="kimPersonService">
-            <ref bean="kimPersonService" />
-        </property>
-        <property name="kimQualifiedRoleService">
-            <ref bean="kimQualifiedRoleService" />
-        </property>
-    </bean>
-
 	<bean id="researchDocumentService" class="org.kuali.kra.service.impl.ResearchDocumentServiceImpl">
 		<property name="routeHeaderService">
 			<ref bean="routeHeaderService"/>
@@ -1174,8 +1159,8 @@
 	
 	
 	<bean id="proposalRoleTemplateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalRoleTemplateServiceImpl">
-        <property name="proposalAuthorizationService">
-            <ref bean="proposalAuthorizationService" />
+        <property name="kraAuthorizationService">
+            <ref bean="kraAuthorizationService" />
         </property>
         <property name="personService">
             <ref bean="personService" />
@@ -1664,8 +1649,8 @@
         <property name="documentService">
             <ref bean="documentService" />
         </property>
-		<property name="proposalAuthorizationService">
-					<ref bean="proposalAuthorizationService" />
+		<property name="kraAuthorizationService">
+					<ref bean="kraAuthorizationService" />
 		</property>	
 		<property name="narrativeService">
 					<ref bean="narrativeService" />
