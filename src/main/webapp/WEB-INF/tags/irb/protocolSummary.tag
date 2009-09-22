@@ -1,9 +1,37 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
           
+<c:set var="prevDisabled" value="false" />
+<c:if test="${KualiForm.actionHelper.currentSequenceNumber == 0}">
+    <c:set var="prevDisabled" value="true" />
+</c:if>
+
+<c:set var="nextDisabled" value="false" />
+<c:if test="${KualiForm.actionHelper.currentSequenceNumber + 1 == KualiForm.actionHelper.sequenceCount}">
+    <c:set var="nextDisabled" value="true" />
+</c:if>
+
 <kra:innerTab tabTitle="Summary" parentTab="" defaultOpen="false">
-    <div class="tab-container">
+    <div class="innerTab-container">
 	<table cellpadding="0" cellspacing="0">
     	<tbody>
+    	    <tr>
+    	        <th colspan="4" style="text-align:center">
+    	            Sequence ${KualiForm.actionHelper.currentSequenceNumber + 1}/${KualiForm.actionHelper.sequenceCount}
+                    <html:image property="methodToCall.viewPreviousProtocolSummary.line${status.index}.anchor${currentTabIndex}"
+                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-previous3.gif' 
+                                styleClass="tinybutton"
+                                alt="View Previous Summary" 
+                                onclick="excludeSubmitRestriction = true;"
+                                disabled="${prevDisabled}"/>
+                    <html:image property="methodToCall.viewNextProtocolSummary.line${status.index}.anchor${currentTabIndex}"
+                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-next3.gif' 
+                                styleClass="tinybutton"
+                                alt="View Next Summary" 
+                                onclick="excludeSubmitRestriction = true;"
+                                disabled="${nextDisabled}" />
+    	        </th>
+    	    </tr>
+    	    
             <tr>
                 <th style="text-align:right; width:135px;">Protocol Number:</th>
                 <td>${KualiForm.actionHelper.protocolSummary.protocolNumber}&nbsp;</td>
