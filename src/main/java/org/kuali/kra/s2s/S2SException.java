@@ -45,6 +45,15 @@ public class S2SException extends java.lang.Exception {
     }
 
     /**
+     * 
+     * Creates new <code>KraException</code> with detail message.
+     * 
+     * @param ex
+     */
+    public S2SException(String message,Exception ex) {
+        super(message,ex);
+    }
+    /**
      * Constructs an <code>KraException</code> with the specified detail message.
      * 
      * @param msg errorMessage the detail message.

@@ -264,15 +264,14 @@ public class KRAS2SServiceImpl implements S2SService {
             try {
                 response = grantsGovConnectorService.submitApplication(grantApplicationDocument.xmlText(), attachments, pdDoc
                         .getDevelopmentProposal().getProposalNumber());
-            }
-            catch (S2SException ex) {
+            }catch (S2SException ex) {
                 appSubmission.setStatus(S2SConstants.STATUS_GRANTS_GOV_SUBMISSION_ERROR);
                 StringBuilder errMsg = new StringBuilder();
                 errMsg.append(S2SConstants.GRANTS_GOV_SUBMISION_ERROR_MESSAGE);
                 errMsg.append(ex.getMessage());
                 appSubmission.setComments(errMsg.toString());
                 businessObjectService.save(appSubmission);
-                throw new S2SException(ex);
+                throw ex;
             }
             saveSubmissionDetails(pdDoc, appSubmission, response, grantApplicationDocument.xmlText(), s2sAppAttachmentList);
             submissionStatus = true;
@@ -403,16 +402,20 @@ public class KRAS2SServiceImpl implements S2SService {
                 // Form generator not available
                 continue;
             }
-
-            XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
-            if (validateForm(formObject, errors, info.getFormName())) {
-                if (forms != null && attList != null) {
-                    setFormObject(forms, formObject);
-                    attList.addAll(s2sFormGenerator.getAttachments());
+            try{
+                XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
+                if (validateForm(formObject, errors, info.getFormName())) {
+                    if (forms != null && attList != null) {
+                        setFormObject(forms, formObject);
+                        attList.addAll(s2sFormGenerator.getAttachments());
+                    }
                 }
-            }
-            else {
-                validationSucceeded = false;
+                else {
+                    validationSucceeded = false;
+                }
+            }catch(Exception ex){
+                LOG.error("Unknown error from "+oppForms.getFormName(), ex);
+                throw new S2SException("Could not generate form for "+oppForms.getFormName(),ex);
             }
         }
         if (!validationSucceeded) {

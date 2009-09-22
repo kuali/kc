@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.s2s.service.impl;
 
+import org.apache.log4j.Logger;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SFormGenerator;
 import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
+import org.kuali.kra.s2s.generator.impl.RRPerformanceSiteV1_0Generator;
 import org.kuali.kra.s2s.service.S2SFormGeneratorService;
 
 /**
@@ -30,6 +32,7 @@ import org.kuali.kra.s2s.service.S2SFormGeneratorService;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class S2SFormGeneratorServiceImpl implements S2SFormGeneratorService {
+    private static final Logger LOG = Logger.getLogger(S2SFormGeneratorServiceImpl.class);
 
     
     /**
@@ -48,15 +51,18 @@ public class S2SFormGeneratorServiceImpl implements S2SFormGeneratorService {
         S2SFormGenerator formGenerator;
         try {
             formGenerator = (S2SFormGenerator) Class.forName(formInfo.getMainClass()).newInstance();
-        }
-        catch (InstantiationException e) {
+        }catch (InstantiationException e) {
+            LOG.error("Cannot instantiate "+formInfo.getMainClass(), e);
             throw new S2SException(e);
-        }
-        catch (IllegalAccessException e) {
+        }catch (IllegalAccessException e) {
+            LOG.error("Illegal access : "+formInfo.getMainClass(), e);
             throw new S2SException(e);
-        }
-        catch (ClassNotFoundException e) {
+        }catch (ClassNotFoundException e) {
+            LOG.error("No class found : "+formInfo.getMainClass(), e);
             throw new S2SException(e);
+        }catch(Exception e){
+            LOG.error("Unknown error from "+formInfo.getMainClass(), e);
+            throw new S2SException("Could not generate form for "+formInfo.getMainClass(),e);
         }
         return formGenerator;
     }
