@@ -375,7 +375,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         hierarchyChild.getNarratives().clear();
         for (Narrative narrative : childProposal.getNarratives()) {
-            if (StringUtils.equalsIgnoreCase(narrative.getNarrativeType().getAllowMultiple(), "Y")) {
+            if (!StringUtils.equalsIgnoreCase(narrative.getNarrativeType().getAllowMultiple(), "N")) {
                 Map<String,String> primaryKey = new HashMap<String,String>();            
                 primaryKey.put("proposalNumber", narrative.getProposalNumber());
                 primaryKey.put("moduleNumber", narrative.getModuleNumber()+"");
