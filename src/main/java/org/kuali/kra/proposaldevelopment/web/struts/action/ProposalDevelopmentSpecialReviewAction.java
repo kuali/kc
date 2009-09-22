@@ -57,9 +57,6 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
             
             newProposalSpecialReview.setSpecialReviewNumber(pdForm.getDocument().getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
             pdDoc.getDevelopmentProposal().getPropSpecialReviews().add(newProposalSpecialReview);
-            if (pdDoc.getDevelopmentProposal().isParent()) {
-                pdDoc.getDevelopmentProposal().getHierarchySpecialReviews().add(newProposalSpecialReview);
-            }
 
             pdForm.setNewPropSpecialReview(new ProposalSpecialReview());
         }
@@ -81,7 +78,6 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = proposalDevelopmentForm.getDocument();
         ProposalSpecialReview delProposalSpecialReview = pdDoc.getDevelopmentProposal().getPropSpecialReviews().get(getLineToDelete(request));
-        pdDoc.getDevelopmentProposal().getHierarchySpecialReviews().remove(delProposalSpecialReview);
         pdDoc.getDevelopmentProposal().getPropSpecialReviews().remove(delProposalSpecialReview);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
