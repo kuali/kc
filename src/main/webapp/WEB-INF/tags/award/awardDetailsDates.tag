@@ -25,10 +25,8 @@
 <!-- Institution -->
 <div class="tab-container" align="center">
 
-<h3>
-	<span class="subhead-left">Institution</span>
-	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.home.Award" altText="help"/></span>
-</h3>
+<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="false" tabTitle="Institution" tabErrorKey="" >
+
 <table cellpAdding="0" cellspacing="0" summary="">
   	<tr>
     	<th><div align="right">*Award ID:</div></th>
@@ -96,12 +94,12 @@
     	</td>
   	</tr>
 </table>
+</kra:innerTab>	
 
 <!-- Sponsor -->
-<h3>
-	<span class="subhead-left">Sponsor</span>
-	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Sponsor" altText="help"/></span>
-</h3>
+
+<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="false" tabTitle="Sponsor" tabErrorKey="" >
+
 <table cellpadding="0" cellspacing="0" summary="">
     <tr>
         <th>
@@ -173,10 +171,12 @@
         </td>
     </tr>
 </table>
-
+</kra:innerTab>	
 
 <!-- Sponsor Funding Transferred -->
-<div class="innerTab-head">Sponsor Funding Transferred</div>
+
+<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="false" tabTitle="Sponsor Funding Transferred" tabErrorKey="" >
+
 <table cellpAdding="0" cellspacing="0" summary="" id="sponsor-funding-transferred-table">
     <tr>
         <th style="text-align:center;">&nbsp; </th>
@@ -234,11 +234,12 @@
 		</tr>
     </c:forEach> 
 </table>
+</kra:innerTab>	
 
-<!-- Dates -->
-<h3>
-	<span class="subhead-left">Time & Money</span>
-</h3>
+<!-- Time & Money -->
+
+<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="false" tabTitle="Time & Money" tabErrorKey="" >
+
 <table cellpAdding="0" cellspacing="0" summary="">
 	<tr>
 		<th>
@@ -297,6 +298,7 @@
         </td>
     </tr>
 </table>
+</kra:innerTab>	
 
 </div>
 
