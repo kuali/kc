@@ -16,7 +16,10 @@
 package org.kuali.kra.irb;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.service.VersioningService;
@@ -92,5 +95,21 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
             newNextValues.add(newNextValue);
         }
         newDoc.setDocumentNextvalues(newNextValues);
+    }
+
+    /**
+     * @see org.kuali.kra.irb.ProtocolVersionService#getProtocolVersion(java.lang.String, java.lang.Integer)
+     */
+    @SuppressWarnings("unchecked")
+    public Protocol getProtocolVersion(String protocolNumber, Integer sequenceNumber) {
+        Protocol protocol = null;
+        Map<String, Object> fields = new HashMap<String, Object>();
+        fields.put("protocolNumber", protocolNumber);
+        fields.put("sequenceNumber", sequenceNumber);
+        Collection<Protocol> protocols = businessObjectService.findMatching(Protocol.class, fields);
+        if (protocols.size() == 1) {
+            protocol = protocols.iterator().next();
+        }
+        return protocol;
     }
 }

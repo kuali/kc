@@ -487,7 +487,7 @@
 		<field-descriptor name="exemptionTypeCode" column="EXEMPTION_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<reference-descriptor name="protocolSpecialReview" class-ref="org.kuali.kra.irb.specialreview.ProtocolSpecialReview" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocolSpecialReview" class-ref="org.kuali.kra.irb.specialreview.ProtocolSpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolSpecialReviewId"/>
 		</reference-descriptor>
 		<reference-descriptor name="exemptionType" class-ref="org.kuali.kra.bo.ExemptionType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
