@@ -26,6 +26,7 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
     /**
@@ -112,6 +113,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
             }
         } else {
             this.refreshReferenceObject("parentDocument");
+        }
+        
+        if (ObjectUtils.isNull(this.getVersionNumber())) {
+            this.setVersionNumber(new Long(0));
         }
  
         this.getBudget().getRateClassTypes();
