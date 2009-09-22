@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * A KIM Qualified Role Assignment represents an assignment between a Role
@@ -31,7 +31,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public abstract class KimQualifiedRoleAssignment extends PersistableBusinessObjectBase {
+public abstract class KimQualifiedRoleAssignment extends KraPersistableBusinessObjectBase {
     
     private Long id;
     private Long roleId;
@@ -179,4 +179,5 @@ public abstract class KimQualifiedRoleAssignment extends PersistableBusinessObje
         }
         return false;
     }
+    
 }

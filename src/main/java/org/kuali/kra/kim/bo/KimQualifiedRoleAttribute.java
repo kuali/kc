@@ -17,7 +17,7 @@ package org.kuali.kra.kim.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * A KIM Qualified Role Attribute is one name/value pair qualification
@@ -29,7 +29,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
-public abstract class KimQualifiedRoleAttribute extends PersistableBusinessObjectBase {
+public abstract class KimQualifiedRoleAttribute extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -5155126090045426553L;
 
