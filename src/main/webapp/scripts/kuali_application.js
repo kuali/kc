@@ -287,12 +287,12 @@ function unselectAllGGForms(document) {
 	  }
 	}
 }
-function selectAllKeywords(document) {
+function selectAllKeywords(document, keywordsArray) {
     var j = 0;
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
 	  var e = document.KualiForm.elements[i];
 	  if(e.type == 'checkbox') {
-	  	var name = 'document.propScienceKeyword[' + j + '].selectKeyword';
+	  	var name = keywordsArray + '[' + j + '].selectKeyword';
 	  	if (e.name == name) {
  		    e.checked = true;
 	  		j++; 
