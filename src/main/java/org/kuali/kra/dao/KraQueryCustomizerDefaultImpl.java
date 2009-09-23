@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.dao;
 
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -28,7 +24,9 @@ import org.apache.ojb.broker.metadata.CollectionDescriptor;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.service.ParameterService;
 /**
  * 
  * This class used for supplying customized query to OJB repository <code>collection-descriptor</code> tag.
@@ -48,7 +46,18 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 public class KraQueryCustomizerDefaultImpl extends org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl {
     private final Map<String,String> queryMap = new HashMap<String,String>();
     private final Map<String,String> proposalSystemQueryMap = new HashMap<String,String>();
+    private ParameterService parameterService;
     
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
     /**
      * 
      * @see org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl#customizeQuery(java.lang.Object, org.apache.ojb.broker.PersistenceBroker, org.apache.ojb.broker.metadata.CollectionDescriptor, org.apache.ojb.broker.query.QueryByCriteria)
@@ -66,7 +75,7 @@ public class KraQueryCustomizerDefaultImpl extends org.apache.ojb.broker.accessl
         while(systemKeys.hasNext()){
             String key = systemKeys.next();
             String value = proposalSystemQueryMap.get(key);
-            String sysParamVal = getService(KualiConfigurationService.class).getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, value);
+            String sysParamVal = this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, value);
             crit.addEqualTo(key, sysParamVal==null?value:sysParamVal);
         }
         return aQuery;

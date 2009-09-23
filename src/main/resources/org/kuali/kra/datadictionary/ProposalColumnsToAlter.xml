@@ -8,6 +8,7 @@
 
   <bean id="ProposalColumnsToAlter-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter" />
+		<property name="objectLabel" value="Proposal Columns To Alter" />
     <property name="inquiryDefinition" >
       <ref bean="ProposalColumnsToAlter-inquiryDefinition" />
     </property>
@@ -204,7 +205,7 @@
     <property name="title" value="Proposal Columns To Alter Lookup" />
     <property name="lookupableID" value="customLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Proposal Columns To Alter" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

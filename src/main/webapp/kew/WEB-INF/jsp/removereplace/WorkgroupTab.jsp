@@ -1,3 +1,18 @@
+<%--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
 <%@ taglib uri="../../tld/struts-html-el.tld" prefix="html-el" %>
 <%@ taglib uri="../../tld/struts-bean-el.tld" prefix="bean-el" %>
 <%@ taglib uri="../../tld/struts-logic-el.tld" prefix="logic-el"%>
@@ -30,17 +45,6 @@
             </div>
             <br>
             <table border="0" align="center" cellpadding="0" cellspacing="0" style="width:auto; background-color:#e4e4e4" class="nobord">
-
-              <tr>
-                <td class="nobord"style="width:auto; background-color:#e4e4e4"><div align="right"><strong>Workgroup Type:</strong></div></td>
-                <td class="nobord"style="width:auto; background-color:#e4e4e4">
-                <html-el:select property="workgroupType">
-    <c:set var="workgroupTypes" value="${RemoveReplaceForm.workgroupTypes}"/>
-	<html-el:option key="" value=""/>
-	<html-el:options collection="workgroupTypes" property="name" labelProperty="label"/>
-  </html-el:select></td>
-              </tr>
-
               <tr>
                 <td colspan="2" class="nobord"style="width:auto; background-color:#e4e4e4"><div align="center">
                     <html-el:image styleClass="nobord" styleId="imageField" src="images/tinybutton-choosewkgrps.gif" property="methodToCall.chooseWorkgroups"/>

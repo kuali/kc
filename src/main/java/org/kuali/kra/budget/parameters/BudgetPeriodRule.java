@@ -146,8 +146,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     private boolean isBudgetStatusValid(Budget budget) {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         boolean statusValid = true;
-        String budgetStatusCompleteCode = getKualiConfigurationService().getParameter(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+        String budgetStatusCompleteCode = getParameterService().getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
         String budgetStatus = budget.getBudgetStatus();
         boolean finalVersionFlag = budget.getFinalVersionFlag();
         errorMap.addToErrorPath(BUDGET_SUMMARY);

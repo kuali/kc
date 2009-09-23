@@ -24,6 +24,25 @@ package org.kuali.kra.infrastructure;
  */
 public class PropertyConstants {
 
+    public enum DOCUMENT {
+        TYPE_NAME("documentTypeName");
+
+        
+        private String value;
+        
+        private DOCUMENT(String val) {
+            value = val;
+        }
+        
+        /**
+         * 
+         * @see java.lang.Enum#toString()
+         */
+        public String toString() {
+            return value;
+        }
+    }
+    
     /**
      * Property Constants relating to <code>{@link org.kuali.core.bo.Parameter}</code>
      * 

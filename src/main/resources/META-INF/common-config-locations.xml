@@ -1,5 +1,0 @@
-<config>
-	<param name="environment" override="false">dev</param> <!--  NOTE: This environment parameter must be the first parameter in the file. -->
-	<param name="config.location">${user.home}/kuali/main/${environment}/common-config.xml</param>
-	<param name="config.location">${user.home}/kuali/main/${environment}/${module.name}-config.xml</param>
-</config>

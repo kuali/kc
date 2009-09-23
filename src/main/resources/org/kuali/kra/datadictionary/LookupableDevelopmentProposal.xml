@@ -24,6 +24,7 @@
     <bean id="LookupableDevelopmentProposal" parent="LookupableDevelopmentProposal-parentBean" />
     <bean id="LookupableDevelopmentProposal-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal" />
+		<property name="objectLabel" value="Lookupable Development Proposal" />
         <property name="lookupDefinition" >
             <ref bean="LookupableDevelopmentProposal-lookupDefinition" />
         </property>
@@ -101,7 +102,7 @@
     <property name="title" value="Proposal Development Document Lookup" />
     <property name="lookupableID" value="sponsorLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up an DevelopmentProposal" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

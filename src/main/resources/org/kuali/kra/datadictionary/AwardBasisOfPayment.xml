@@ -22,6 +22,7 @@
 	<bean id="AwardBasisOfPayment" parent="AwardBasisOfPayment-parentBean" />
 	<bean id="AwardBasisOfPayment-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardBasisOfPayment" />
+		<property name="objectLabel" value="Award Basis Of Payment" />
 		<property name="inquiryDefinition" >
 			<ref bean="AwardBasisOfPayment-inquiryDefinition" />
 		</property>
@@ -108,7 +109,7 @@
 	<bean id="AwardBasisOfPayment-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Basis Of Payment Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Basis Of Payment" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

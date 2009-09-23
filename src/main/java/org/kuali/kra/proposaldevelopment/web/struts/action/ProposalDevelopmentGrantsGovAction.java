@@ -52,7 +52,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentGrantsGovAction.class);  
     private static final String CONFIRM_REMOVE_OPPRTUNITY_KEY = "confirmRemoveOpportunity";
     private static final String EMPTY_STRING = "";
-    
+
     /**
      *  
      * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -257,9 +257,8 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         final ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         final ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         
-        String proposalTypeCodeRevision = getConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                Constants.PARAMETER_COMPONENT_DOCUMENT, 
-                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION).getParameterValue();
+        final String proposalTypeCodeRevision = this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, 
+                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
 
         if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity()!= null && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId()!= null && 
                 StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode(), proposalTypeCodeRevision) && 

@@ -24,8 +24,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * 
@@ -37,11 +38,14 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
     public static final long MILLIS_IN_LEAP_YEAR = new Long("31536000000");//365 * 24 * 60 * 60 * 1000
     public static final long MILLIS_IN_NON_LEAP_YEAR = new Long("31449600000");//364 * 24 * 60 * 60 * 1000
     DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
-        
-    private KualiConfigurationService kualiConfigurationService;
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    private ParameterService parameterService;
+    
+    /**
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
     
     /**
@@ -53,8 +57,7 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
                 
         if (StringUtils.isNotEmpty(fiscalYear) && fiscalYear.length()==FOUR_DIGIT_YEAR_LENGTH) {            
             String budgetFiscalYearStart
-                = kualiConfigurationService.getParameterValue(Constants.PARAMETER_MODULE_BUDGET
-                        , Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_CURRENT_FISCAL_YEAR);
+                = this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR);
             
             for(Date date:getFiscalYearStartAndDates(
                                 Integer.valueOf(fiscalYear), budgetFiscalYearStart.split("/"))){

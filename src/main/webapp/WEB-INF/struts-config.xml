@@ -7,8 +7,13 @@
     <data-sources />
 
     <form-beans >
-        <!--  Rice Bean Definitions : This is a bean declared in Rice, but is needed throughout this config -->
+<!-- Rice content Start -->
+    	<!-- Begin required KNS forms -->
+        <form-bean name="BackdoorForm" type="org.kuali.rice.kew.web.backdoor.BackdoorForm" />
         <form-bean name="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" />
+    	<!-- End required KNS forms -->
+<!-- Rice content End -->
+
 		<form-bean name="KualiExceptionIncidentForm" type="org.kuali.rice.kns.web.struts.form.KualiExceptionIncidentForm" />
 		<form-bean name="ProposalDevelopmentForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm" />
 		<form-bean name="BudgetForm" type="org.kuali.kra.budget.web.struts.form.BudgetForm" />
@@ -31,65 +36,61 @@
         <form-bean name="ProposalLogMergeForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeForm" />
     </form-beans>
 
-    <global-exceptions>
-        <!-- Begin required KNS exceptions -->
-        <!-- Moved to /kualiExceptionIncidentReport.do -->
-        <!--
-        <exception type="org.kuali.rice.kns.exceptions.AuthorizationException" key="meaningless" path="/authorizationException.do" />
-        <exception type="org.kuali.rice.kns.exceptions.DocumentInitiationAuthorizationException" key="meaningless" path="/initiationAuthorizationException.do" />
-        -->
-        <exception type="org.kuali.rice.kns.exceptions.UnknownDocumentIdException" key="error.document.noLongerExistsInKuali" path="/kr/WEB-INF/jsp/Exception.jsp" />
-        <exception type="org.kuali.rice.kns.exceptions.FileUploadLimitExceededException" key="error.document.attachmentMaximumFileSizeExceeded" path="/kr/WEB-INF/jsp/Exception.jsp" />
-       	<exception type="java.lang.Throwable" handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler" key="na"/>
-       	<!-- End required KNS exceptions -->
-    </global-exceptions>
+<!-- Rice content Start -->
+	<global-exceptions>
+		<exception type="java.lang.Throwable"
+			handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
+			key="meaningless" />
+	</global-exceptions>
+<!-- Rice content End -->
 
     <global-forwards >
-        <forward name="copyProposal" path="/WEB-INF/jsp/proposaldevelopment/copyProposal.jsp" redirect="true" />
+<!-- Rice content Start -->        
        	<!-- Begin required KNS forwards -->
-       	<forward name="save" path="/portal.jsp" redirect="true" />
+        <forward name="save" path="/portal.jsp" redirect="true" />
         <forward name="cancel" path="/portal.jsp" redirect="true" />
         <forward name="close" path="/portal.jsp" redirect="true" />
         <forward name="portal" path="/portal.jsp" redirect="true" />
-        <forward name="route_report" path="/kr/WEB-INF/jsp/RoutingReportForward.jsp"/>
-        <forward name="error" path="/kr/WEB-INF/jsp/KualiError.jsp" />
-        <forward name="exceptionIncidentHandler" path="/kualiExceptionIncidentReport.do" />
+        <forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp"/>
         <forward name="updateTextArea" path="/kr/WEB-INF/jsp/TextArea.jsp" />
-        <forward name="kraUpdateTextArea" path="/TextArea.jsp" />
+        <forward name="exceptionIncidentHandler" path="/kualiExceptionIncidentReport.do" />
        	<!-- End required KNS forwards -->
+<!-- Rice content End -->
+       	
        	<forward name="closePage" path="/EmptyClosePage.html" />
+       	<forward name="kraUpdateTextArea" path="/TextArea.jsp" />
+       	<forward name="copyProposal" path="/WEB-INF/jsp/proposaldevelopment/copyProposal.jsp" redirect="true" />
     </global-forwards>
 
     <action-mappings>
-       	<!-- Begin required KNS mappings -->
-        <action path="/authorizationException" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiAuthorizationExceptionAction">
-            <forward name="basic" path="/kr/WEB-INF/jsp/authorizationException.jsp" />
-        </action>
-        <action path="/initiationAuthorizationException" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentInitiationAuthorizationExceptionAction">
-            <forward name="basic" path="/kr/WEB-INF/jsp/authorizationException.jsp" />
-        </action>
+<!-- Rice content Start -->    
+ 		<!-- Rice Pass-through Actions : These delegate to the Rice (kr) struts module -->
         <action path="/kualiExceptionIncidentReport"
-                name="KualiExceptionIncidentForm"
-                attribute="KualiForm"
                 type="org.kuali.rice.kns.web.struts.action.KualiExceptionHandlerAction">
-            <forward name="basic" path="/kr/WEB-INF/jsp/KualiExceptionIncident.jsp" />
-            <forward name="AuthorizationException" path="/authorizationException.do" />
-            <forward name="DocumentInitiationAuthorizationException" path="/initiationAuthorizationException.do" />
+            <forward name="basic" path="/kr/kualiExceptionIncidentReport.do" />
         </action>        
-        <action path="/updateTextArea" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase">
-            <forward name="basic" path="/kr/WEB-INF/jsp/TextArea.jsp" />
-        </action>
-       	<!-- End required KNS mappings -->
-
-        <!--  Core Action Mappings -->
+		<!-- End Rice Pass-through Actions -->
+       	<!-- Begin required KNS mappings -->
         <action path="/portal" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
             <forward name="basic" path="/portal.jsp" />
+        </action>
+
+        <action path="/backdoorlogin" name="BackdoorForm" scope="request" parameter="methodToCall"
+        input="/WEB-INF/jsp/backdoor/index.jsp" type="org.kuali.rice.kew.web.backdoor.BackdoorAction">
+            <forward name="basic" path="/portal.jsp" />
+            <forward name="viewPortal" path="/portal.jsp" />
         </action>
 
         <action path="/index" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
             <forward name="basic" path="/portal.jsp" />
         </action>
-
+        <!-- KULRICE-2903: An action mapping to "/updateTextArea" is needed here when Javascript is enabled. -->
+        <action path="/updateTextArea" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase">
+            <forward name="basic" path="/kr/WEB-INF/jsp/TextArea.jsp" />
+        </action>
+       	<!-- End required KNS mappings -->
+<!-- Rice content End -->
+       	
  		<action path="/exception" name="KualiForm" type="org.kuali.kra.web.struts.action.KraExceptionAction">
             <forward name="basic" path="/error.jsp" />
         </action>
@@ -293,7 +294,7 @@
     </action-mappings>
 
     <controller processorClass="org.kuali.kra.web.struts.action.KraRequestProcessor" />
-    <message-resources parameter="Properties" factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory"/>
+    <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="ApplicationResources" />
 
-    <plug-in className="org.kuali.rice.kns.web.struts.pojo.PojoPlugin" />
+    <!-- <plug-in className="org.kuali.rice.kns.web.struts.pojo.PojoPlugin" />-->
 </struts-config>

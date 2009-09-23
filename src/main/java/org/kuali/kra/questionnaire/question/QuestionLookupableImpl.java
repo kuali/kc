@@ -32,7 +32,7 @@ public class QuestionLookupableImpl extends KualiLookupableImpl {
 
     private static final long serialVersionUID = -5431630475561370731L;
 
-    private QuestionAuthorizationService questionAuthorizationService;
+    private transient QuestionAuthorizationService questionAuthorizationService;
     
     /**
      * Only create the URL to create a new Question when proper permission is given.

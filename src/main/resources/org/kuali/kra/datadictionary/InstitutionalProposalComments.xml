@@ -22,6 +22,7 @@
     <bean id="InstitutionalProposalComments" parent="InstitutionalProposalComments-parentBean" />
     <bean id="InstitutionalProposalComments-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalComments" />
+		<property name="objectLabel" value="Institutional Proposal Comments" />
         <property name="inquiryDefinition" >
             <ref bean="InstitutionalProposalComments-inquiryDefinition" />
         </property>
@@ -193,7 +194,7 @@
     <bean id="InstitutionalProposalComments-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Proposal Comments Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Proposal Comments" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>

@@ -8,6 +8,7 @@
 
   <bean id="PermissionsUser-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.common.permissions.bo.PermissionsUser" />
+		<property name="objectLabel" value="Permissions User" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
             p:parameterNamespace="KC-PER"

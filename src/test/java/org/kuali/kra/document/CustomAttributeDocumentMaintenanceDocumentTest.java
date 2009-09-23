@@ -75,7 +75,7 @@ public class CustomAttributeDocumentMaintenanceDocumentTest  extends Maintenance
         CustomAttributeDocument customAttributeDocument = (CustomAttributeDocument)document.getNewMaintainableObject().getBusinessObject();
         assertEquals(customAttributeDocument.getCustomAttributeId(),new Integer(99));
         assertEquals(customAttributeDocument.getTypeName(),"test type name");
-        assertEquals(customAttributeDocument.getDocumentTypeCode(),"STTC");
+        assertEquals(customAttributeDocument.getDocumentTypeName(),"STTC");
 
 
     }
@@ -104,7 +104,7 @@ public class CustomAttributeDocumentMaintenanceDocumentTest  extends Maintenance
         CustomAttributeDocument customAttributeDocument = (CustomAttributeDocument)document.getNewMaintainableObject().getBusinessObject();
         assertEquals(customAttributeDocument.getCustomAttributeId(),new Integer(7));
         assertEquals(customAttributeDocument.getTypeName(),"test type name");
-        assertEquals(customAttributeDocument.getDocumentTypeCode(),"PRDV");
+        assertEquals(customAttributeDocument.getDocumentTypeName(),"PRDV");
 
 
     }
@@ -130,7 +130,7 @@ public class CustomAttributeDocumentMaintenanceDocumentTest  extends Maintenance
         CustomAttributeDocument customAttributeDocument = (CustomAttributeDocument)document.getNewMaintainableObject().getBusinessObject();
         assertEquals(customAttributeDocument.getCustomAttributeId(),new Integer(99));
         assertEquals(customAttributeDocument.getTypeName(),"Test Type");
-        assertEquals(customAttributeDocument.getDocumentTypeCode(),"STTC");
+        assertEquals(customAttributeDocument.getDocumentTypeName(),"STTC");
         
     }
 

@@ -34,7 +34,7 @@ public class TransactionBean implements Serializable {
     private static final long serialVersionUID = -5513993757805685581L;
     private PendingTransaction newPendingTransaction;
     private AwardAmountTransaction newAwardAmountTransaction;
-    private KualiRuleService ruleService;
+    private transient KualiRuleService ruleService;
     private TimeAndMoneyForm form;
     
     /**

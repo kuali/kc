@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.core.BudgetService;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -66,7 +65,6 @@ import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalSiteEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
@@ -75,7 +73,6 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.RiceKeyConstants;
@@ -356,9 +353,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      * @return true or false
      */
     private boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
-        String proposalTypeCodeRenewal = getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL).getParameterValue();
-        String proposalTypeCodeRevision = getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION).getParameterValue();
-        String proposalTypeCodeContinuation = getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION).getParameterValue();
+        String proposalTypeCodeRenewal = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
+        String proposalTypeCodeRevision = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+        String proposalTypeCodeContinuation = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
          
         return !StringUtils.isEmpty(proposalTypeCode) &&
                (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
@@ -378,8 +375,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null
                 && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId() != null
                 && StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionCode(),
-                        getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT,
-                                Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.S2S_REVISIONTYPE_OTHER).getParameterValue())
+                        this.getS2sRevisionTypeOther())
                 && (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionOtherDescription() == null || StringUtils
                         .equals(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionOtherDescription().trim(),
                                 ""))) {
@@ -390,8 +386,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null
                 && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId() != null
                 && !StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionCode(),
-                        getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT,
-                                Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.S2S_REVISIONTYPE_OTHER).getParameterValue())
+                        this.getS2sRevisionTypeOther())
                 && (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionOtherDescription() != null && !StringUtils
                         .equals(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionOtherDescription().trim(),
                                 ""))) {
@@ -400,6 +395,14 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             valid &= false;
         }        
         return valid;
+    }
+    
+    /**
+     * Gets the S2s Revision Type Other parameter
+     * @return the parameter
+     */
+    private String getS2sRevisionTypeOther() {
+        return this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.S2S_REVISIONTYPE_OTHER);
     }
     
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
@@ -590,11 +593,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     
     public boolean processCustomAttributeRules(SaveCustomAttributeEvent saveCustomAttributeEvent) {
         return new KraCustomAttributeRule().processCustomAttributeRules(saveCustomAttributeEvent);    
-    }
-
-    @Override
-    protected KualiConfigurationService getKualiConfigurationService(){
-        return KraServiceLocator.getService(KualiConfigurationService.class);
     }
 
     public boolean processCalculateCreditSplitBusinessRules(ProposalDevelopmentDocument document) {

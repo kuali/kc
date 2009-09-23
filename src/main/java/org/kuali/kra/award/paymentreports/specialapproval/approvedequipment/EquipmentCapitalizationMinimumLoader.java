@@ -19,10 +19,10 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.config.ConfigurationException;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * This class provides support to the AwardApprovedEquipmentRule 
@@ -37,8 +37,18 @@ public class EquipmentCapitalizationMinimumLoader implements Serializable {
     private static final String CONFIG_PARM_MISSING_MSG = "Configuration parameter %s is missing";
     
     private static final String CONFIG_PARM_NOT_NUMERIC_MSG = "Configuration parameter %s is not numeric";
+    private ParameterService parameterService;
     
-    private transient KualiConfigurationService configurationService;
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
         
     /**
      * This method gets the minimum capitalization requirement
@@ -53,34 +63,13 @@ public class EquipmentCapitalizationMinimumLoader implements Serializable {
     }
     
     /**
-     * This method sets the KualiConfigurationService
-     * @return
-     */
-    public void setConfigurationService(KualiConfigurationService configurationService) {
-        this.configurationService = configurationService;
-    }
-    
-    /**
      * This method fetches a parm value
      * @param parmName
      * @return
      */
     protected String fetchParameterValue(String parmName) {
-        return getConfigurationService().getParameterValue(Award.AWARD_NAMESPACE_CODE, 
-                                                            PARM_TYPE_CODE, parmName);
+        return getParameterService().getParameterValue(AwardDocument.class, parmName);
     }
-    
-    /**
-     * This method gets the KualiConfigurationService
-     * @return
-     */
-    protected KualiConfigurationService getConfigurationService() {
-        if(configurationService == null) {
-            configurationService = KraServiceLocator.getService(KualiConfigurationService.class);
-        }
-        return configurationService;
-    }
-    
 
     /**
      * 

@@ -24,6 +24,7 @@
 	<bean id="ProtocolSpecialReview" parent="ProtocolSpecialReview-parentBean" />
 	<bean id="ProtocolSpecialReview-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.specialreview.ProtocolSpecialReview" />
+		<property name="objectLabel" value="Protocol Special Review" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolSpecialReview-inquiryDefinition" />
 		</property>
@@ -160,7 +161,7 @@
 	<bean id="ProtocolSpecialReview-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Protocol Special Review Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Protocol Special Review" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

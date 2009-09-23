@@ -29,11 +29,9 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.dao.SponsorHierarchyDao;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.exception.RiceRuntimeException;
-import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.OjbCollectionAware;
 import org.springmodules.orm.ojb.PersistenceBrokerCallback;
 
@@ -43,7 +41,8 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
     private static final String ERROR_MSG = "Error get sponsor codes.";
     private static final String SPONSOR_CODE_NAME_SQL = "select sponsor_code, (select sponsor_name from sponsor where sponsor_code = sponsor_hierarchy.sponsor_code) from sponsor_hierarchy ";
     private static final String SPONSOR_CODE_HOLDER = "((sponsorcodeholder))";
-
+    private ParameterService parameterService;
+    
     public Iterator getTopSponsorHierarchy() {
         
       Criteria criteriaID = new Criteria();
@@ -97,9 +96,9 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
                     
                     int groupingNumber = 300;
                     try {
-                       Parameter sysParam = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
+                       String sysParam = SponsorHierarchyDaoOjb.this.parameterService.getParameterValue(
                             Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, "A", Constants.NUMBER_PER_SPONSOR_HIERARCHY_GROUP);
-                       groupingNumber=Integer.parseInt(sysParam.getParameterValue());
+                       groupingNumber=Integer.parseInt(sysParam);
                     } catch (Exception e) {
                         LOG.debug("System param for numberPerSponsorHierarchyGroup is not defined");
                     }
@@ -297,5 +296,12 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
         });
 
         }
-
+    
+    /**
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 }

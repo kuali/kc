@@ -8,6 +8,7 @@
 
   <bean id="AwardPersonUnitCreditSplit-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.contacts.AwardPersonUnitCreditSplit" />
+		<property name="objectLabel" value="Award Person Unit Credit Split" />
     <property name="titleAttribute" value="invCreditTypeCode" />
     <property name="attributes" >
       <list>

@@ -24,7 +24,7 @@ import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -32,7 +32,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     private BusinessObjectService businessObjectService;
     private QuestionnaireAuthorizationService questionnaireAuthorizationService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
     private Map <String, String> permissionModuleMap ;
     private  static final String PARAM_NAME = "associateModuleQuestionnairePermission";
 
@@ -113,7 +113,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
          */
 
         List<String> modules = new ArrayList<String>();
-        for (String permission : kualiConfigurationService.getParameterValues(Constants.PARAMETER_MODULE_QUESTIONNAIRE,
+        for (String permission : this.parameterService.getParameterValues(Constants.PARAMETER_MODULE_QUESTIONNAIRE,
                 Constants.PARAMETER_COMPONENT_PERMISSION, PARAM_NAME)) {
             if (questionnaireAuthorizationService.hasPermission(permission)) {
                 modules.add(permissionModuleMap.get(permission));
@@ -126,8 +126,12 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         this.questionnaireAuthorizationService = questionnaireAuthorizationService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    /**
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
 }

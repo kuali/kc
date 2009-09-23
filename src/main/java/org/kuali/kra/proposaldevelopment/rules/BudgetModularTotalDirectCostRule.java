@@ -19,9 +19,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
@@ -33,9 +30,11 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This validates the Budget Modular's Total Direct Cost.
@@ -63,11 +62,13 @@ public final class BudgetModularTotalDirectCostRule {
 
     private final DocumentService documentService;
     private final KualiConfigurationService configService;
+    private final ParameterService paramService;
     private final String budgetStatusCompleteCode;
     private final String tdcWarning;
 
     public BudgetModularTotalDirectCostRule() {
-        this(KNSServiceLocator.getKualiConfigurationService(), KraServiceLocator.getService(DocumentService.class));
+        this(KraServiceLocator.getService(KualiConfigurationService.class), KraServiceLocator.getService(DocumentService.class),
+                KraServiceLocator.getService(ParameterService.class));
     }
 
 
@@ -79,7 +80,7 @@ public final class BudgetModularTotalDirectCostRule {
      * @throws NullPointerException if the configService or documentService service is null
      */
     BudgetModularTotalDirectCostRule(final KualiConfigurationService configService,
-        final DocumentService documentService) {
+        final DocumentService documentService, final ParameterService paramService) {
 
         if (configService == null) {
             throw new NullPointerException("the configService is null");
@@ -88,13 +89,17 @@ public final class BudgetModularTotalDirectCostRule {
         if (documentService == null) {
             throw new NullPointerException("the documentService is null");
         }
+        
+        if (paramService == null) {
+            throw new NullPointerException("the paramService is null");
+        }
 
         this.documentService = documentService;
         this.configService = configService;
+        this.paramService = paramService;
 
-        this.budgetStatusCompleteCode = this.configService.getParameterValue(
-            Constants.PARAMETER_MODULE_BUDGET,
-            Constants.PARAMETER_COMPONENT_DOCUMENT,
+        this.budgetStatusCompleteCode = this.paramService.getParameterValue(
+            BudgetDocument.class,
             Constants.BUDGET_STATUS_COMPLETE_CODE);
 
         this.tdcWarning = this.configService.getPropertyString(

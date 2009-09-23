@@ -22,13 +22,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
-import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -38,7 +35,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetPersonServiceImpl.class);
     
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     
     /**
@@ -97,18 +94,22 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         }
         
         if (ObjectUtils.isNull(budgetPerson.getCalculationBase())) {
-            budgetPerson.setCalculationBase(new BudgetDecimal(kualiConfigurationService.getParameterValue(
-                    Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_CALCULATION_BASE)));
+            budgetPerson.setCalculationBase(new BudgetDecimal(this.parameterService.getParameterValue(
+                    BudgetDocument.class, Constants.BUDGET_PERSON_DEFAULT_CALCULATION_BASE)));
         }
         
         if (StringUtils.isBlank(budgetPerson.getAppointmentTypeCode())) {
-            budgetPerson.setAppointmentTypeCode(kualiConfigurationService.getParameterValue(
-                    Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE));
+            budgetPerson.setAppointmentTypeCode(this.parameterService.getParameterValue(
+                    BudgetDocument.class, Constants.BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE));
         }
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    /**
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     @SuppressWarnings("unchecked") 

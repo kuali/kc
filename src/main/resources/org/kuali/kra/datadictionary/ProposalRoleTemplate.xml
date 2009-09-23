@@ -8,6 +8,7 @@
 
   <bean id="ProposalRoleTemplate-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate" />
+		<property name="objectLabel" value="Proposal Role Template" />
     <property name="inquiryDefinition" >
       <ref bean="ProposalRoleTemplate-inquiryDefinition" />
     </property>
@@ -161,7 +162,7 @@
   <bean id="ProposalRoleTemplate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Proposal Role Template Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Proposal Role Template" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

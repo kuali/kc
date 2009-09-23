@@ -8,6 +8,7 @@
 
   <bean id="ProposalInvestigatorCertification-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification" />
+		<property name="objectLabel" value="Proposal Investigator Certification" />
     <property name="inquiryDefinition" >
       <ref bean="ProposalInvestigatorCertification-inquiryDefinition" />
     </property>
@@ -124,7 +125,7 @@
   <bean id="ProposalInvestigatorCertification-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Proposal Investigator Certification" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Proposal Investigator Certification" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

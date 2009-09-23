@@ -8,6 +8,7 @@
 
   <bean id="AwardApprovedForeignTravel-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel" />
+		<property name="objectLabel" value="Award Approved Foreign Travel" />
     <property name="titleAttribute" value="AwardApprovedForeignTravel" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"

@@ -8,6 +8,7 @@
 
   <bean id="ProposalPersonRole-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" />
+		<property name="objectLabel" value="Proposal Person Role" />
     <property name="inquiryDefinition" >
       <ref bean="ProposalPersonRole-inquiryDefinition" />
     </property>
@@ -87,7 +88,7 @@
   <bean id="ProposalPersonRole-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Proposal Person Role" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Proposal Person Role" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

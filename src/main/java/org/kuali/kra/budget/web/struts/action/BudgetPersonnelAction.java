@@ -129,15 +129,15 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         BudgetDocument budgetDocument = budgetForm.getDocument();
         Budget budget = budgetDocument.getBudget();
         DictionaryValidationService dictionaryValidationService = KraServiceLocator.getService(DictionaryValidationService.class);
-        KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+
         BudgetPersonnelRule budgetPersonnelRule = new BudgetPersonnelRule();
         
         Integer budgetCategoryTypeIndex = Integer.parseInt(getBudgetCategoryTypeIndex(request));
         BudgetLineItem newBudgetLineItem = budgetForm.getNewBudgetLineItems().get(budgetCategoryTypeIndex);
         BudgetPersonnelDetails budgetPersonDetails = budgetForm.getNewBudgetPersonnelDetails();
         budgetPersonDetails.setBudgetId(budget.getBudgetId());
-        budgetPersonDetails.setPeriodTypeCode(kualiConfigurationService.getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DETAILS_DEFAULT_PERIODTYPE));
+        budgetPersonDetails.setPeriodTypeCode(this.getParameterService().getParameterValue(
+                BudgetDocument.class, Constants.BUDGET_PERSON_DETAILS_DEFAULT_PERIODTYPE));
         budgetPersonDetails.setCostElement(newBudgetLineItem.getCostElement());
         
         String groupErrorKey = "";

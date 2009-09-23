@@ -39,6 +39,7 @@ import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -66,7 +67,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
      */
     @Test(expected = NullPointerException.class)
     public void testNullBusinessObjectService() {
-        new InstituteRateRateTypeRateClassRuleImpl(null, this.context.mock(KualiConfigurationService.class));
+        new InstituteRateRateTypeRateClassRuleImpl(null, this.context.mock(ParameterService.class));
     }
     
     /**
@@ -83,7 +84,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
     @Test(expected = NullPointerException.class)
     public void testNullDocument() {
         InstituteRateRateTypeRateClassRule rule = new InstituteRateRateTypeRateClassRuleImpl(this.context.mock(BusinessObjectService.class),
-            this.context.mock(KualiConfigurationService.class));
+            this.context.mock(ParameterService.class));
         rule.validateRateTypeAndRateClass(null);
     }
     
@@ -94,7 +95,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
     @Test(expected = IllegalArgumentException.class)
     public void testUnsupportedDocumentGetValidRateTypes() throws Throwable {
         InstituteRateRateTypeRateClassRule rule = new InstituteRateRateTypeRateClassRuleImpl(this.context.mock(BusinessObjectService.class),
-            this.context.mock(KualiConfigurationService.class));
+            this.context.mock(ParameterService.class));
         
         Method m = rule.getClass().getDeclaredMethod("getValidRateClassTypes", AbstractInstituteRate.class);
         m.setAccessible(true);
@@ -113,7 +114,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
     @Test
     public void testNoRateClassCheckCorrectRateClass() throws Throwable{
         InstituteRateRateTypeRateClassRule rule = new InstituteRateRateTypeRateClassRuleImpl(this.context.mock(BusinessObjectService.class),
-            this.context.mock(KualiConfigurationService.class));
+            this.context.mock(ParameterService.class));
         
         Method m = rule.getClass().getDeclaredMethod("checkCorrectRateClass", AbstractInstituteRate.class);
         m.setAccessible(true);
@@ -134,7 +135,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
     @Test
     public void testNoRateTypeCheckCorrectRateType() throws Throwable {
         InstituteRateRateTypeRateClassRule rule = new InstituteRateRateTypeRateClassRuleImpl(this.context.mock(BusinessObjectService.class),
-            this.context.mock(KualiConfigurationService.class));
+            this.context.mock(ParameterService.class));
         
         Method m = rule.getClass().getDeclaredMethod("checkCorrectRateType", AbstractInstituteRate.class);
         m.setAccessible(true);
@@ -154,10 +155,10 @@ public class InstituteRateRateTypeRateClassRuleTest {
     @Test
     public void testLaRatesValidTypes() throws Throwable {
         
-        final KualiConfigurationService cService = this.context.mock(KualiConfigurationService.class);
+        final ParameterService pService = this.context.mock(ParameterService.class);
         
         InstituteRateRateTypeRateClassRule rule = new InstituteRateRateTypeRateClassRuleImpl(this.context.mock(BusinessObjectService.class),
-            cService);
+                pService);
         
         Method m = rule.getClass().getDeclaredMethod("getValidRateClassTypes", AbstractInstituteRate.class);
         m.setAccessible(true);
@@ -168,7 +169,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(cService).getParameterValues("KRA-B", "A", "instituteLaRateClassTypes");
+                oneOf(pService).getParameterValues("KRA-B", "A", "instituteLaRateClassTypes");
                 will(returnValue(validTypes));
             }
         });
@@ -188,10 +189,10 @@ public class InstituteRateRateTypeRateClassRuleTest {
     @Test
     public void testRatesValidTypes() throws Throwable {
         
-        final KualiConfigurationService cService = this.context.mock(KualiConfigurationService.class);
+        final ParameterService pService = this.context.mock(ParameterService.class);
         
         InstituteRateRateTypeRateClassRule rule = new InstituteRateRateTypeRateClassRuleImpl(this.context.mock(BusinessObjectService.class),
-            cService);
+                pService);
         
         Method m = rule.getClass().getDeclaredMethod("getValidRateClassTypes", AbstractInstituteRate.class);
         m.setAccessible(true);
@@ -202,7 +203,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(cService).getParameterValues("KRA-B", "A", "instituteRateClassTypes");
+                oneOf(pService).getParameterValues("KRA-B", "A", "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
         });
@@ -221,10 +222,10 @@ public class InstituteRateRateTypeRateClassRuleTest {
      */
     @Test
     public void testInvalidRateTypeForRateType() throws Throwable {    
-        final KualiConfigurationService cService = this.context.mock(KualiConfigurationService.class);
+        final ParameterService pService = this.context.mock(ParameterService.class);
         final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
         
-        InstituteRateRateTypeRateClassRule rule = new InstituteRateRateTypeRateClassRuleImpl(boService, cService);
+        InstituteRateRateTypeRateClassRule rule = new InstituteRateRateTypeRateClassRuleImpl(boService, pService);
         
         Method m = rule.getClass().getDeclaredMethod("checkCorrectRateType", AbstractInstituteRate.class);
         m.setAccessible(true);
@@ -237,7 +238,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(cService).getParameterValues("KRA-B", "A", "instituteRateClassTypes");
+                oneOf(pService).getParameterValues("KRA-B", "A", "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
@@ -272,10 +273,10 @@ public class InstituteRateRateTypeRateClassRuleTest {
      */
     @Test
     public void testInvalidRateClassForRateType() throws Throwable {
-        final KualiConfigurationService cService = this.context.mock(KualiConfigurationService.class);
+        final ParameterService pService = this.context.mock(ParameterService.class);
         final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
         
-        InstituteRateRateTypeRateClassRule rule = new InstituteRateRateTypeRateClassRuleImpl(boService, cService);
+        InstituteRateRateTypeRateClassRule rule = new InstituteRateRateTypeRateClassRuleImpl(boService, pService);
         
         Method m = rule.getClass().getDeclaredMethod("checkCorrectRateClass", AbstractInstituteRate.class);
         m.setAccessible(true);
@@ -288,7 +289,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(cService).getParameterValues("KRA-B", "A", "instituteRateClassTypes");
+                oneOf(pService).getParameterValues("KRA-B", "A", "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
@@ -323,10 +324,10 @@ public class InstituteRateRateTypeRateClassRuleTest {
      */
     @Test
     public void testValidRateClassForRateType() throws Throwable {
-        final KualiConfigurationService cService = this.context.mock(KualiConfigurationService.class);
+        final ParameterService pService = this.context.mock(ParameterService.class);
         final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
         
-        InstituteRateRateTypeRateClassRule rule = new InstituteRateRateTypeRateClassRuleImpl(boService, cService);
+        InstituteRateRateTypeRateClassRule rule = new InstituteRateRateTypeRateClassRuleImpl(boService, pService);
         
         Method m = rule.getClass().getDeclaredMethod("checkCorrectRateClass", AbstractInstituteRate.class);
         m.setAccessible(true);
@@ -339,7 +340,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(cService).getParameterValues("KRA-B", "A", "instituteRateClassTypes");
+                oneOf(pService).getParameterValues("KRA-B", "A", "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             
@@ -374,10 +375,10 @@ public class InstituteRateRateTypeRateClassRuleTest {
      */
     @Test
     public void testValidRateTypeForRateType() throws Throwable {
-        final KualiConfigurationService cService = this.context.mock(KualiConfigurationService.class);
+        final ParameterService pService = this.context.mock(ParameterService.class);
         final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
         
-        InstituteRateRateTypeRateClassRule rule = new InstituteRateRateTypeRateClassRuleImpl(boService, cService);
+        InstituteRateRateTypeRateClassRule rule = new InstituteRateRateTypeRateClassRuleImpl(boService, pService);
         
         Method m = rule.getClass().getDeclaredMethod("checkCorrectRateType", AbstractInstituteRate.class);
         m.setAccessible(true);
@@ -390,7 +391,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
         
         this.context.checking(new Expectations() {
             {
-                oneOf(cService).getParameterValues("KRA-B", "A", "instituteRateClassTypes");
+                oneOf(pService).getParameterValues("KRA-B", "A", "instituteRateClassTypes");
                 will(returnValue(validTypes));
             }
             

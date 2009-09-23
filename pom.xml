@@ -92,7 +92,7 @@
 					<plugin>
 						<groupId>org.apache.cxf</groupId>
 						<artifactId>cxf-codegen-plugin</artifactId>
-						<version>2.1.3</version>
+						<version>${cxf.version}</version>
 						<executions>
 							<execution>
 								<id>generate-sources</id>
@@ -175,7 +175,7 @@
 				<dependency>
 					<groupId>xerces</groupId>
 					<artifactId>xercesImpl</artifactId>
-					<version>2.6.2</version>
+					<version>2.9.1</version>
 				</dependency>
 				<dependency>
 					<groupId>javax.servlet</groupId>
@@ -183,14 +183,6 @@
 					<version>2.4</version>
 					<scope>provided</scope>
 				</dependency>
-				<!--  maybe the cause for Jack's compiling error
-				<dependency>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-					<version>2.3</version>
-					<scope>provided</scope>
-				</dependency>
-				-->
 				<dependency>
 					<groupId>org.mortbay.jetty</groupId>
 					<artifactId>jetty</artifactId>
@@ -292,94 +284,11 @@
     				<artifactId>xmlbeans-maven-plugin</artifactId>
     				<version>2.3.2</version>
 				</dependency> 
-				<!-- <dependency>
-					<groupId>axis</groupId>
-					<artifactId>axis</artifactId>
-					<version>1.4</version>
-				</dependency>
-				-->
 				<dependency>
 					<groupId>fop</groupId>
 					<artifactId>fop</artifactId>
 					<version>0.20.5</version>
 				</dependency>
-				<!--
-				<dependency>
-					<groupId>org.kuali.kra.s2s</groupId>
-					<artifactId>gg_forms_jaxb</artifactId>
-					<version>1.0.2</version>
-				</dependency>
-				<dependency>
-					<groupId>org.kuali.kra.s2s</groupId>
-					<artifactId>kra_s2s</artifactId>
-					<version>1.0.22</version>
-				</dependency>
-				<dependency>
-					<groupId>org.kuali.kra.s2s</groupId>
-					<artifactId>propdev-schema-v2</artifactId>
-					<version>1.2</version>
- 				</dependency>  
-				<dependency>
-					<groupId>jaxb</groupId>
-					<artifactId>hyperjaxb</artifactId>
-					<version>1.0</version>
-				</dependency>
-				<dependency>
-					<groupId>jaxb</groupId>
-					<artifactId>jaxb-impl</artifactId>
-					<version>1.0.4</version>
-				</dependency>
-				<dependency>
-					<groupId>jaxb</groupId>
-					<artifactId>jaxb-libs</artifactId>
-					<version>1.0.4</version>
-				</dependency>
-				<dependency>
-					<groupId>jaxb</groupId>
-					<artifactId>jaxb-verification</artifactId>
-					<version>1.0.4</version>
-				</dependency>
-				<dependency>
-					<groupId>jaxb</groupId>
-					<artifactId>jaxb-xjc</artifactId>
-					<version>1.0.4</version>
-				</dependency>
-				<dependency>
-					<groupId>jaxrpc</groupId>
-					<artifactId>jaxrpc</artifactId>
-					<version>1.1.3</version>
-				</dependency>
-				<dependency>
-					<groupId>relaxng</groupId>
-					<artifactId>relaxngDatatype</artifactId>
-					<version>0.0.1</version>
-				</dependency>
-				<dependency>
-					<groupId>soap</groupId>
-					<artifactId>soap</artifactId>
-					<version>1.1</version>
- 				</dependency>
- 				<dependency>
-					<groupId>jax-qname</groupId>
-					<artifactId>jax-qname</artifactId>
-					<version>1.1</version>
-				</dependency>
-				<dependency>
- 					<groupId>jaxrpc</groupId>
- 					<artifactId>jaxrpc</artifactId>
- 					<version>1.1.3</version>
- 				</dependency>
- 				<dependency>
-					<groupId>namespace</groupId>
-					<artifactId>namespace</artifactId>
-					<version>1.0.1</version>
-				</dependency>
-				<dependency>
-					<groupId>xsdlib</groupId>
-					<artifactId>xsdlib</artifactId>
-					<version>1.0</version>
-				</dependency>
-				-->
 				<dependency>
 					<groupId>avalon-framework</groupId>
 					<artifactId>avalon-framework</artifactId>
@@ -421,13 +330,6 @@
 					<artifactId>drools-decisiontables</artifactId>
 					<version>4.0.7</version>
 				</dependency>
-				<!-- 
-				<dependency>
-					<groupId>org.apache.xmlgraphics</groupId>
-					<artifactId>fop</artifactId>
-					<version>0.95</version>
-				</dependency>
-				-->
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>MetaGrantApplication</artifactId>
@@ -436,7 +338,7 @@
 				<dependency>
 					<groupId>org.apache.cxf</groupId>
 					<artifactId>cxf-rt-transports-http-jetty</artifactId>
-					<version>2.1.3</version>
+					<version>${cxf.version}</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -510,6 +412,11 @@
 			</build>
 			<dependencies>
 				<dependency>
+					<groupId>xerces</groupId>
+					<artifactId>xercesImpl</artifactId>
+					<version>2.9.1</version>
+				</dependency>
+				<dependency>
 					<groupId>org.kuali.rice</groupId>
 					<artifactId>rice-kns</artifactId>
 					<version>1.0.x-KC-SNAPSHOT</version>
@@ -548,93 +455,12 @@
 							<groupId>javax.servlet</groupId>
 						</exclusion>
 					</exclusions>
-				</dependency><!--
-				<dependency>
-					<groupId>axis</groupId>
-					<artifactId>axis</artifactId>
-					<version>1.4</version>
 				</dependency>
-				--><dependency>
+				<dependency>
 					<groupId>fop</groupId>
 					<artifactId>fop</artifactId>
 					<version>0.20.5</version>
-				</dependency><!--
-				<dependency>
-					<groupId>org.kuali.kra.s2s</groupId>
-					<artifactId>gg_forms_jaxb</artifactId>
-					<version>1.0.2</version>
 				</dependency>
-				<dependency>
-					<groupId>org.kuali.kra.s2s</groupId>
-					<artifactId>kra_s2s</artifactId>
-					<version>1.0.22</version>
-				</dependency>
-				<dependency>
-					<groupId>jaxb</groupId>
-					<artifactId>hyperjaxb</artifactId>
-					<version>1.0</version>
-				</dependency>
-				<dependency>
-					<groupId>jaxb</groupId>
-					<artifactId>jaxb-impl</artifactId>
-					<version>1.0.4</version>
-				</dependency>
-				<dependency>
-					<groupId>jaxb</groupId>
-					<artifactId>jaxb-libs</artifactId>
-					<version>1.0.4</version>
-				</dependency>
-				<dependency>
-					<groupId>jaxb</groupId>
-					<artifactId>jaxb-verification</artifactId>
-					<version>1.0.4</version>
-				</dependency>
-				<dependency>
-					<groupId>jaxb</groupId>
-					<artifactId>jaxb-xjc</artifactId>
-					<version>1.0.4</version>
-				</dependency>
-				<dependency>
-					<groupId>jaxrpc</groupId>
-					<artifactId>jaxrpc</artifactId>
-					<version>1.1.3</version>
-				</dependency>
-				<dependency>
-					<groupId>relaxng</groupId>
-					<artifactId>relaxngDatatype</artifactId>
-					<version>0.0.1</version>
-				</dependency>
-				<dependency>
-					<groupId>soap</groupId>
-					<artifactId>soap</artifactId>
-					<version>1.1</version>
-				</dependency>
-				<dependency>
-					<groupId>org.kuali.kra.s2s</groupId>
-					<artifactId>propdev-schema-v2</artifactId>
-					<version>1.2</version>
- 				</dependency>
- 				<dependency>
-					<groupId>jax-qname</groupId>
-					<artifactId>jax-qname</artifactId>
-					<version>1.1</version>
-				</dependency>
-				<dependency>
- 					<groupId>jaxrpc</groupId>
- 					<artifactId>jaxrpc</artifactId>
- 					<version>1.1.3</version>
- 				</dependency>
- 				<dependency>
-					<groupId>namespace</groupId>
-					<artifactId>namespace</artifactId>
-					<version>1.0.1</version>
-				</dependency>
-				<dependency>
-					<groupId>xsdlib</groupId>
-					<artifactId>xsdlib</artifactId>
-					<version>1.0</version>
-				</dependency>
-				-->
 				<dependency>
 					<groupId>avalon-framework</groupId>
 					<artifactId>avalon-framework</artifactId>
@@ -707,13 +533,6 @@
 		      		   </exclusion>
                     </exclusions>
 				</dependency>
-				<!--	
-				<dependency>
-                    <groupId>org.apache.xmlgraphics</groupId>
-                    <artifactId>fop</artifactId>
-                    <version>0.95</version>                     
-                </dependency>
-                -->
                 <dependency>
     				<groupId>org.codehaus.mojo</groupId>
     				<artifactId>xmlbeans-maven-plugin</artifactId>
@@ -727,7 +546,7 @@
 				<dependency>
 					<groupId>org.apache.cxf</groupId>
 					<artifactId>cxf-rt-transports-http-jetty</artifactId>
-					<version>2.1.3</version>
+					<version>${cxf.version}</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -841,7 +660,7 @@
   	
   	<properties>
   		<servlet-api.version>2.4</servlet-api.version>
-		<cxf.version>2.1.3</cxf.version>
+		<cxf.version>2.1.5</cxf.version>
 		<!-- Checkstyle config -->
 		<checkstyle.config.location>${basedir}/src/main/config/KC_Checkstyle.xml</checkstyle.config.location>
 		<checkstyle.enable.rss>false</checkstyle.enable.rss>

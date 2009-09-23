@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -32,7 +30,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
@@ -53,6 +51,18 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
 public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObjectValuesFinder {
     private static final String NO = "N";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalNarrativeTypeValuesFinder.class);
+    private ParameterService parameterService;
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
     
     @Override
     public List<KeyLabelPair> getKeyValues() {
@@ -98,9 +108,8 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
     @SuppressWarnings("unchecked")
     protected Collection<NarrativeType> loadAllNarrativeTypes() {
         BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
-        KualiConfigurationService configurationService = KNSServiceLocator.getKualiConfigurationService();
         
-        String proposalNarrativeTypeGroup = configurationService.getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
+        String proposalNarrativeTypeGroup = this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
         Map<String,String> queryMap = new HashMap<String,String>();
         queryMap.put("narrativeTypeGroup", proposalNarrativeTypeGroup);
         queryMap.put("systemGenerated", "N");

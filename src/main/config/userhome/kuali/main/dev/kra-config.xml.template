@@ -2,7 +2,7 @@
 	<!-- App specific parameters -->
 	<param name="app.code">kra</param>
 	<param name="kc.port">8080</param>
-	<param name="app.host">http://localhost:${kc.port}</param>
+	<param name="app.host">http://127.0.0.1:${kc.port}</param>
 	<param name="app.context.name">${app.code}-${environment}</param>
 	<param name="production.environment.code">PRD</param>
 	<param name="externalizable.help.url">/${app.context.name}/static/help/</param>
@@ -14,9 +14,20 @@
 	<param name="css.files">kr/css/kuali.css,css/kuali_application.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
 
 	<param name="portal.css.files">rice-portal/css/portal.css,css/kuali_overrides.css</param>
-	<param name="portal.javascript.files"></param>
+	<param name="portal.javascript.files">kr/scripts/my_common.js</param>
 
-	<param name="kr.url">${app.host}/${app.context.name}/kr</param>
+	<param name="application.url">${app.host}/${app.context.name}</param>
+	<param name="kr.url">${application.url}/kr</param>
+	<param name="appserver.url">http://127.0.0.1:8080</param>
+	<param name="ken.url">${application.url}/ken</param>
+	<param name="kew.url">${application.url}/kew</param>
+	<param name="kim.url">${application.url}/kim</param>
+	<param name="ksb.url">${application.url}/ksb</param>
+	<param name="rice.url">${application.url}/kr</param>
+	<param name="workflow.url">${application.url}/kew</param>
+	<param name="serviceServletUrl">${application.url}/remoting/</param>
+	
+	<param name="workflow.documentsearch.base.url">kew/DocumentSearch.do?backLocation=${application.url}</param>
 
 	<param name="attachments.pending.directory">${java.io.tmpdir}</param>
 	<param name="attachments.directory">${java.io.tmpdir}</param>
@@ -35,11 +46,8 @@
 	<param name="log4j.reload.minutes">5</param>
 	<param name="log4j.settings.path">classpath:log4j.properties</param>
 
-	<param name="workflow.url">${app.host}/${app.context.name}/kew</param>
-	<param name="application.url">${app.host}/${app.context.name}</param>
-	<param name="serviceServletUrl">${app.host}/${app.context.name}/remoting/</param>
-
-	<param name="workflow.documentsearch.base.url">kew/DocumentSearch.do?backLocation=${app.host}/${app.context.name}</param>
+	<param name="bus.refresh.rate">30</param>
+	<param name="threadPool.size">5</param>
 
 	<param name="datasource.url">jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI</param>
 	<param name="datasource.username">KRADEV</param>
@@ -121,11 +129,6 @@
 	<!-- Turn off KEW use of quartz db to avoid db clear issues -->
 	<param name="useQuartzDatabase">false</param>
 
-	<!-- Register the CAS Web Authentication Filter -->
-	<param name="filter.cas.class">org.kuali.rice.kns.web.filter.KualiCasFilter</param>
-	<param name="filter.cas.edu.yale.its.tp.cas.client.filter.loginUrl">${app.host}/${app.context.name}/cas/login</param>
-	<param name="filter.cas.edu.yale.its.tp.cas.client.filter.validateUrl">${app.host}/${app.context.name}/cas/serviceValidate</param>
-	<param name="filtermapping.cas.0">/*</param>
 	<param name="documentSearch.resultProcessor.class.name">org.kuali.kra.proposaldevelopment.document.search.ProposalDocumentSearchResultProcessor</param>
 
 	<!-- Configuration for Session Document Cache Size -->
@@ -133,7 +136,7 @@
 
 	<param name="kr.incident.mailing.list"></param>
 
-	<!-- new KIM parameters -->
+	<!-- KIM parameters -->
 	<param name="kim.cache.entity.max.size" override="false">3000</param>
 	<param name="kim.cache.entity.max.age.seconds" override="false">3600</param>
 	<param name="kim.cache.group.max.size" override="false">3000</param>
@@ -146,6 +149,23 @@
 	<param name="kim.cache.responsibility.max.age.seconds" override="false">30</param>
 	<param name="kim.cache.person.max.size" override="false">3000</param>
 	<param name="kim.cache.person.max.age.seconds" override="false">3600</param>
+
+	<param name="kns.cache.parameter.max.size" override="false">3000</param>
+	<param name="kns.cache.parameter.max.age.seconds" override="false">3600</param>
+	<param name="kns.cache.nonDatabaseComponent.max.size">300</param>
+	<param name="kns.cache.nonDatabaseComponent.max.age.seconds">3600</param>
+
+	<!-- endpoint security settings -->
+	<param name="kim.soapExposedService.jaxws.security">true</param>
+	<param name="secure.workflowutility.soapservice.endpoint">true</param>
+
+	<param name="kcb.maxProcessAttempts">3</param>
+	<param name="kcb.messageprocessing.repeatIntervalMS">30000</param>
+	<param name="kcb.messageprocessing.startDelayMS">50000</param>
+	<param name="kcb.messaging.synchronous">false</param>
+	<param name="kcb.quartz.group">KCB-Delivery</param>
+	<param name="kcb.quartz.job.name">MessageProcessingJobDetail</param>
+	<param name="kcb.smtp.host">127.0.0.1</param>
 
 	<!-- Java mail properties -->
 	<param name="mail.from">mail.from@kuali.org</param>

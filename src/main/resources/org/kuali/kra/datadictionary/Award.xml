@@ -8,6 +8,7 @@
 
   <bean id="Award-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.home.Award" />
+		<property name="objectLabel" value="Award" />
     
     <property name="lookupDefinition" >
       <ref bean="Award-lookupDefinition" />
@@ -162,7 +163,7 @@
   <bean id="Award-nonCompetingContPrpslDueCode" parent="Award-nonCompetingContPrpslDueCode-parentBean" />
 
   <bean id="Award-nonCompetingContPrpslDueCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nonCompetingContProposalDue" />
+    <property name="name" value="nonCompetingContPrpslDueCode" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Non Competing Continuation" />
     <property name="shortLabel" value="Type" />
@@ -187,7 +188,7 @@
   <bean id="Award-competingRenewalPrpslDueCode" parent="Award-competingRenewalPrpslDueCode-parentBean" />
 
   <bean id="Award-competingRenewalPrpslDueCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="competingRenewalProposalDue" />
+    <property name="name" value="competingRenewalPrpslDueCode" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Competing Renewal" />
     <property name="shortLabel" value="Type" />
@@ -382,7 +383,8 @@
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
       <bean parent="RegexValidationPattern"
-            p:pattern="\d\d\d\d\d\d-\d\d\d\d\d" />
+            p:pattern="\d\d\d\d\d\d-\d\d\d\d\d" 
+            p:validationErrorMessageKey="FIXME"/>
     </property>
     <property name="required" value="false" />
     <property name="control" >
@@ -624,7 +626,8 @@
     <property name="maxLength" value="7" />
     <property name="validationPattern" >
       <bean parent="RegexValidationPattern"
-      		p:pattern="[0-9]{2}.[0-9]{3}[A-Za-z]" />
+      		p:pattern="[0-9]{2}.[0-9]{3}[A-Za-z]"
+      		p:validationErrorMessageKey="FIXME"/>
     </property>
     <property name="required" value="false" />
     <property name="control" >
@@ -899,7 +902,7 @@
 		<property name="title" value="Award Lookup" />
 		<property name="lookupableID" value="awardLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up an Award" />
+
 		<property name="defaultSort" >
 		  <bean parent="SortDefinition">
 		  </bean>

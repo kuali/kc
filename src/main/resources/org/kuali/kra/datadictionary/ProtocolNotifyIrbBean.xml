@@ -22,6 +22,7 @@
 	<bean id="ProtocolNotifyIrbBean" parent="ProtocolNotifyIrbBean-parentBean" />
 	<bean id="ProtocolNotifyIrbBean-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean" />
+		<property name="objectLabel" value="Protocol Notify Irb Bean" />
 		<property name="titleAttribute" value="ProtocolNotifyIrbBean-comment" />
 		<property name="attributes" >
 			<list>

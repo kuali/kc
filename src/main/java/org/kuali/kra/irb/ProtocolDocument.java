@@ -22,6 +22,7 @@ import java.util.List;
 import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -35,6 +36,8 @@ import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
+import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 
 /**
  * 
@@ -45,6 +48,8 @@ import org.kuali.rice.kns.service.DocumentService;
  * Also we have provided convenient getter and setter methods so that to the outside world;
  * Protocol and ProtocolDocument can have a 1:1 relationship.
  */
+@NAMESPACE(namespace=Constants.PARAMETER_MODULE_PROTOCOL)
+@COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
 public class ProtocolDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
 	
     private static final String DOCUMENT_TYPE_CODE = "PROT";

@@ -8,6 +8,7 @@
 
   <bean id="CostShareType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.CostShareType" />
+		<property name="objectLabel" value="Cost Share Type" />
     <property name="inquiryDefinition" >
       <ref bean="CostShareType-inquiryDefinition" />
     </property>
@@ -96,7 +97,7 @@
   <bean id="CostShareType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Cost Share Type Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Cost Share Type" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

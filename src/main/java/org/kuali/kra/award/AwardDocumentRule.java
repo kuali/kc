@@ -34,6 +34,7 @@ import org.kuali.kra.award.contacts.AwardPersonCreditSplitRuleImpl;
 import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplitRule;
 import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplitRuleEvent;
 import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplitRuleImpl;
+import org.kuali.kra.award.contacts.AwardProjectPersonsAuditRule;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRuleImpl;
 import org.kuali.kra.award.contacts.SaveAwardProjectPersonsRuleEvent;
@@ -79,19 +80,13 @@ import org.kuali.kra.award.permissions.AwardPermissionsRule;
 import org.kuali.kra.award.rule.AwardCommentsRule;
 import org.kuali.kra.award.rule.AwardCommentsRuleImpl;
 import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
-import org.kuali.kra.award.contacts.AwardProjectPersonsAuditRule;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
-import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
-import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRule;
-import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleEvent;
-import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleImpl;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
@@ -100,7 +95,6 @@ import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.rules.SpecialReviewRulesImpl;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
@@ -693,15 +687,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      */
     public boolean processAwardReportTermRecipientEvent(AwardReportTermRecipientRuleEvent event){
         return new AwardReportTermRecipientRuleImpl().processAwardReportTermRecipientBusinessRules(event);
-    }
-    
-    
-    /**
-     * 
-     * @see org.kuali.core.rules.DocumentRuleBase#getKualiConfigurationService()
-     */
-    protected KualiConfigurationService getKualiConfigurationService(){
-        return KraServiceLocator.getService(KualiConfigurationService.class);
     }
 
     /**

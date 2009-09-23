@@ -8,6 +8,7 @@
 
   <bean id="ProposalPersonCreditSplit-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit" />
+		<property name="objectLabel" value="Proposal Person Credit Split" />
     <property name="titleAttribute" value="invCreditTypeCode" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"

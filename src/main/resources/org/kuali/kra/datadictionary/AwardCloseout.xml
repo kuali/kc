@@ -22,6 +22,7 @@
     <bean id="AwardCloseout" parent="AwardCloseout-parentBean" />
     <bean id="AwardCloseout-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.closeout.AwardCloseout" />
+		<property name="objectLabel" value="Award Closeout" />
         <property name="inquiryDefinition" >
             <ref bean="AwardCloseout-inquiryDefinition" />
         </property>
@@ -32,7 +33,6 @@
         <property name="attributes" >
             <list>
                 <ref bean="AwardCloseout-awardCloseoutId" />
-                <ref bean="AwardCloseout-awardId" />
                 <ref bean="AwardCloseout-closeoutReportCode" />
                 <ref bean="AwardCloseout-closeoutReportName" />
                 <ref bean="AwardCloseout-awardNumber" />
@@ -62,24 +62,6 @@
         </property>
         <property name="summary" value="Award Closeout Id" />
         <property name="description" value="Award Closeout Id" />
-    </bean>
-
-    <bean id="AwardCloseout-awardId" parent="AwardCloseout-awardId-parentBean" />
-    <bean id="AwardCloseout-awardId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="awardId" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Award Id" />
-        <property name="shortLabel" value="Award Id" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Award Id" />
-        <property name="description" value="Award Id" />
     </bean>
     
     <bean id="AwardCloseout-closeoutReportCode" parent="AwardCloseout-closeoutReportCode-parentBean" />
@@ -178,8 +160,6 @@
                                 p:attributeName="awardCloseoutId" 
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="awardId" />
-                            <bean parent="FieldDefinition"
                                 p:attributeName="closeoutReportCode" />    
                             <bean parent="FieldDefinition"
                                 p:attributeName="awardNumber" />
@@ -201,7 +181,7 @@
     <bean id="AwardCloseout-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Award Closeout Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Award Closeout" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>
@@ -211,8 +191,6 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="awardCloseoutId" 
                     p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="awardId" />
                 <bean parent="FieldDefinition"
                     p:attributeName="closeoutReportCode" />    
                 <bean parent="FieldDefinition"
@@ -230,8 +208,6 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="awardCloseoutId" 
                     p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="awardId" />
                 <bean parent="FieldDefinition"
                     p:attributeName="closeoutReportCode" />     
                 <bean parent="FieldDefinition"

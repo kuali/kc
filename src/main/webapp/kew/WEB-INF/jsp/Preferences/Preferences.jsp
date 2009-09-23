@@ -289,9 +289,10 @@
       </tr>
     </table>
 	<div class="globalbuttons">
+	  <html-el:hidden property="backLocation" />
       <html-el:image style="border-width:0px" property="methodToCall.save" src="images/buttonsmall_save.gif"  />
 	  <a href="javascript:document.forms[0].reset()"><img src="images/buttonsmall_reset.gif" alt="cancel" width="59" height="18" hspace="5" border="0"></a>
-      <a href="ActionList.do?methodToCall=start"><img src="images/buttonsmall_cancel.gif" border=0 alt="cancel"></a>
+      <a href="${KualiForm.backLocation}"><img src="images/buttonsmall_cancel.gif" border="0" alt="cancel"></a>
     </div>
   </div> <!-- End workarea -->
 </kul:page>

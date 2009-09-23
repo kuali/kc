@@ -69,10 +69,6 @@ public class BusinessObjectServiceAdapter implements BusinessObjectService {
 
     }
 
-    public void linkAndSave(List<PersistableBusinessObject> businessObjects) {
-
-    }
-
     public void linkUserFields(PersistableBusinessObject bo) {
 
     }
@@ -89,7 +85,15 @@ public class BusinessObjectServiceAdapter implements BusinessObjectService {
 
     }
 
-    public void save(List businessObjects) {
+    public <T> T findBySinglePrimaryKey(Class<T> clazz, Object primaryKey) {
+        return null;
+    }
 
+    public void linkAndSave(List<? extends PersistableBusinessObject> businessObjects) {
+        
+    }
+
+    public void save(List<? extends PersistableBusinessObject> businessObjects) {
+        
     }
 }

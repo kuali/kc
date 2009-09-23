@@ -36,6 +36,7 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRule;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -61,7 +62,7 @@ public class BudgetPersonnelRuleTest {
      */
     @Test(expected = NullPointerException.class)
     public void testNullBusinessObjectService() {
-        new BudgetPersonnelRule(null, context.mock(KualiConfigurationService.class), context.mock(BudgetService.class));
+        new BudgetPersonnelRule(null, context.mock(ParameterService.class), context.mock(BudgetService.class));
     }
     
     /**
@@ -77,7 +78,7 @@ public class BudgetPersonnelRuleTest {
      */
     @Test(expected = NullPointerException.class)
     public void testNullBudgetService() {
-        new BudgetPersonnelRule(context.mock(BusinessObjectService.class), context.mock(KualiConfigurationService.class), null);
+        new BudgetPersonnelRule(context.mock(BusinessObjectService.class), context.mock(ParameterService.class), null);
     }
     
     /**
@@ -86,7 +87,7 @@ public class BudgetPersonnelRuleTest {
     @Test(expected = NullPointerException.class)
     public void testProcessCheckForJobCodeChangeNullDoc() {
         BudgetPersonnelRule rule = new BudgetPersonnelRule(context.mock(BusinessObjectService.class),
-            context.mock(KualiConfigurationService.class), context.mock(BudgetService.class));
+            context.mock(ParameterService.class), context.mock(BudgetService.class));
         rule.processCheckForJobCodeChange(null, 1);
     }
     
@@ -96,7 +97,7 @@ public class BudgetPersonnelRuleTest {
     @Test(expected = IllegalArgumentException.class)
     public void testProcessCheckForJobCodeChangeInvalidPeriod() {
         BudgetPersonnelRule rule = new BudgetPersonnelRule(context.mock(BusinessObjectService.class),
-            context.mock(KualiConfigurationService.class), context.mock(BudgetService.class));
+            context.mock(ParameterService.class), context.mock(BudgetService.class));
         rule.processCheckForJobCodeChange(new BudgetDocument(), 0);
     }
     
@@ -108,7 +109,7 @@ public class BudgetPersonnelRuleTest {
         final BudgetService budgetService = context.mock(BudgetService.class);
         
         BudgetPersonnelRule rule = new BudgetPersonnelRule(context.mock(BusinessObjectService.class),
-            context.mock(KualiConfigurationService.class), budgetService);
+            context.mock(ParameterService.class), budgetService);
         
         context.checking(new Expectations() {
             {   
@@ -136,7 +137,7 @@ public class BudgetPersonnelRuleTest {
         final BudgetService budgetService = context.mock(BudgetService.class);
         
         BudgetPersonnelRule rule = new BudgetPersonnelRule(context.mock(BusinessObjectService.class),
-            context.mock(KualiConfigurationService.class), budgetService);
+            context.mock(ParameterService.class), budgetService);
         
         context.checking(new Expectations() {
             {   

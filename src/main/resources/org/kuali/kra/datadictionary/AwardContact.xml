@@ -8,6 +8,7 @@
 
   <bean id="AwardContact-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.contacts.AwardContact" />
+		<property name="objectLabel" value="Award Contact" />
     <property name="titleAttribute" value="awardContact" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"

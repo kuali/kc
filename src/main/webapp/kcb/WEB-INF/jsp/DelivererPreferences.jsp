@@ -1,3 +1,18 @@
+<%--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page contentType="text/html"%>
 <%@ taglib prefix="spring" uri="../../tlds/spring.tld"%>
@@ -7,7 +22,7 @@
 <html>
 <head>
 <title>Kuali Communications Broker - Deliverer Configuration</title>
-<link href="../ken/css/notification.css" rel="stylesheet" type="text/css" />
+<link href="${ConfigProperties.ken.url}/css/notification.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
@@ -70,16 +85,15 @@ channels.</p>
     </c:forEach>
     <tr>
         <td class="thnormal" colspan="3" align="center">
-            <input type="image" src="../ken/images/buttonsmall_save.gif" value="save" alt="Save" name="save" />
-            <img src="../ken/images/transparent_002.gif" height="1" width="1">
-            <a href="../ken/HomePage.form" target="parent">
-              <img src="../ken/images/buttonsmall_cancel.gif" alt="Cancel" border="0" />
+            <input type="image" src="${ConfigProperties.ken.url}/images/buttonsmall_save.gif" value="save" alt="Save" name="save" />
+            <img src="${ConfigProperties.ken.url}/images/transparent_002.gif" height="1" width="1">
+            <a href="${ConfigProperties.application.url}/portal.do">
+              <img src="${ConfigProperties.ken.url}/images/buttonsmall_cancel.gif" alt="Cancel" border="0" />
             </a>
         </td>
     </tr>
 </table>
 </form>
-</div>
 </div>
 </div>
 </body>

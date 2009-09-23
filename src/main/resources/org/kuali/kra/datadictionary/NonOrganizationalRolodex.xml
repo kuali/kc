@@ -8,6 +8,7 @@
 
   <bean id="NonOrganizationalRolodex-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.NonOrganizationalRolodex" />
+		<property name="objectLabel" value="Non Organizational Rolodex" />
     <property name="inquiryDefinition" >
       <ref bean="NonOrganizationalRolodex-inquiryDefinition" />
     </property>
@@ -552,7 +553,7 @@
     <property name="title" value="Non-Organizational Rolodex Lookup" />
     <property name="lookupableID" value="nonOrganizationalRolodexLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Non-Organizational Rolodex" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

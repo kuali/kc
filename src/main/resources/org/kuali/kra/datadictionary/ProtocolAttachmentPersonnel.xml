@@ -22,6 +22,7 @@
 	<bean id="ProtocolAttachmentPersonnel" parent="ProtocolAttachmentPersonnel-parentBean" />
 	<bean id="ProtocolAttachmentPersonnel-parentBean" abstract="true" parent="ProtocolAttachmentBase">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" />
+		<property name="objectLabel" value="Protocol Attachment Personnel" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolAttachmentPersonnel-inquiryDefinition" />
 		</property>
@@ -145,7 +146,7 @@
 		<property name="title" value="Protocol Attachment Lookup" />
         <property name="lookupableID" value="ProtocolAttachmentPersonnelLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Personnel Attachment" />
+
 		<property name="lookupFields" >
 			<list merge="true">
 				<bean parent="FieldDefinition"

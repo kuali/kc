@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +26,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -39,6 +36,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implements ExecuteProtocolSubmitActionRule {
 
     private static final String MANDATORY = "M";
+    private ParameterService parameterService;
 
     /**
      * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.submit.ProtocolSubmitAction)
@@ -240,11 +238,19 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
      * @return true if mandatory; otherwise false
      */
     private boolean isMandatory() {
-        KualiConfigurationService configService = getService(KualiConfigurationService.class);
-        Parameter param = configService.getParameterWithoutExceptions(Constants.PARAMETER_MODULE_PROTOCOL, 
-                                                                      Constants.PARAMETER_COMPONENT_DOCUMENT, 
-                                                                      Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
+        final String param = this.getParameterService().getParameterValue(ProtocolDocument.class, Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
         
-        return StringUtils.equalsIgnoreCase(MANDATORY, param.getParameterValue());  
+        return StringUtils.equalsIgnoreCase(MANDATORY, param);  
+    }
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
     }
 }

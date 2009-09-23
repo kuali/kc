@@ -20,9 +20,12 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map.Entry;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
@@ -37,6 +40,7 @@ import org.kuali.rice.kns.rule.DocumentAuditRule;
 import org.kuali.rice.kns.rules.DocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ExceptionUtils;
@@ -56,7 +60,7 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
     private final ErrorReporter errorReporter = new ErrorReporter();
 
     private BusinessObjectService businessObjectService;
-
+    private ParameterService parameterService;
 
     /**
      * Delegates to {@link ErrorReporter#reportError(String, String, String...) ErrorReporter#reportError(String, String, String...)}
@@ -151,9 +155,7 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
                 }
             }
 
-            final String budgetStatusCompleteCode = getKualiConfigurationService().getParameter(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT,
-                Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+            final String budgetStatusCompleteCode = getParameterService().getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 
             if (budgetStatusCompleteCode.equalsIgnoreCase(budgetVersion.getBudgetStatus())) {
                 if (!budgetVersion.isFinalVersionFlag()) {
@@ -297,6 +299,17 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService){
         this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
     }
     
     /**

@@ -13,7 +13,7 @@
     <property name="lockingKeys">
       <list>
         <value>customAttributeId</value>
-        <value>documentTypeCode</value>
+        <value>documentTypeName</value>
       </list>
     </property>
     
@@ -38,7 +38,7 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="customAttributeId" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="documentTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="documentTypeName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="required"/>
         <bean parent="MaintainableFieldDefinition" p:name="typeName"/>
         <bean parent="MaintainableFieldDefinition" p:name="active"/>

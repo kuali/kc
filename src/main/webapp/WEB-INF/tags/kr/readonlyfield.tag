@@ -1,11 +1,11 @@
 <%--
- Copyright 2007 The Kuali Foundation.
+ Copyright 2007-2008 The Kuali Foundation
 
- Licensed under the Educational Community License, Version 1.0 (the "License");
+ Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
 
- http://www.opensource.org/licenses/ecl1.php
+ http://www.opensource.org/licenses/ecl2.php
 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,21 +30,25 @@
         <c:set var="value_found" value="false" />
         <c:forEach items="${field.fieldValidValues}" var="select">
           <c:if test="${field.propertyValue==select.key}">
-            <c:out value="${select.label}" />
-            <c:if test="${isLookup}">
-      		  <input type="hidden" name="${field.propertyName}" value="<c:out value="${field.propertyValue}"/>" />
-		    </c:if>
-            <c:set var="value_found" value="true" />
+            <c:if test="${!value_found}">
+              <c:out value="${select.label}" />
+              <c:if test="${isLookup}">
+      		    <input type="hidden" name="${field.propertyName}" value="<c:out value="${field.propertyValue}"/>" />
+		      </c:if>
+              <c:set var="value_found" value="true" />
+            </c:if>
           </c:if>
         </c:forEach>
         <c:if test="${!value_found}">
 			<c:forEach items="${field.fieldInactiveValidValues}" var="select">
 	          <c:if test="${field.propertyValue==select.key}">
-	            <c:out value="${select.label}" />
-                <c:if test="${isLookup}">
-      		      <input type="hidden" name="${field.propertyName}" value="<c:out value="${field.propertyValue}"/>" />
-		        </c:if>
-	            <c:set var="value_found" value="true" />
+	            <c:if test="${!value_found}">
+	              <c:out value="${select.label}" />
+                  <c:if test="${isLookup}">
+      		        <input type="hidden" name="${field.propertyName}" value="<c:out value="${field.propertyValue}"/>" />
+		          </c:if>
+	              <c:set var="value_found" value="true" />
+	            </c:if>
 	          </c:if>
 	        </c:forEach>
         </c:if>

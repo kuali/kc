@@ -22,14 +22,17 @@ import java.util.GregorianCalendar;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardCommentFactory;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     private static final String FANDA_COMMENT_PATTERN = "Added Unrecovered F & A from Proposal Number %s";
+    
+    private ParameterService parameterService;
     
     /**
      * Constructs a FandARatesDataFeedCommand
@@ -39,15 +42,7 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     public FandARatesDataFeedCommand(Award award, InstitutionalProposal proposal) {
         super(award, proposal);
     }
-
-    /**
-     * 
-     * @see org.kuali.core.rules.DocumentRuleBase#getKualiConfigurationService()
-     */
-    protected KualiConfigurationService getKualiConfigurationService(){
-        return KraServiceLocator.getService(KualiConfigurationService.class);
-    }
-    
+   
     /**
      * @see org.kuali.kra.award.home.fundingproposal.ProposalDataFeedCommandBase#performDataFeed()
      */
@@ -143,14 +138,17 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     }
     
     private String readFiscalYearStartDate() {
-        String fiscalYearStartDate;
-        try {
-            fiscalYearStartDate = getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_BUDGET,
-                                                            Constants.PARAMETER_COMPONENT_DOCUMENT, 
-                                                            Constants.BUDGET_CURRENT_FISCAL_YEAR).getParameterValue();
-        } catch(IllegalArgumentException e) {
-            fiscalYearStartDate = null;
+        return this.getParameterService().getParameterValue(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR);
+    }
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
         }
-        return fiscalYearStartDate;
+        return this.parameterService;
     }
 }

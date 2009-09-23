@@ -8,6 +8,7 @@
 
   <bean id="NarrativeAttachment-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment" />
+		<property name="objectLabel" value="Narrative Attachment" />
     <property name="inquiryDefinition" >
       <ref bean="NarrativeAttachment-inquiryDefinition" />
     </property>
@@ -143,7 +144,7 @@
   <bean id="NarrativeAttachment-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Proposal Attachement Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Proposal attachment" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>
