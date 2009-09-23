@@ -30,6 +30,8 @@ import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 /**
  * Gets all sequence numbers for the current award id.  See
  * the method <code>getKeyValues()</code> for a full description.
@@ -48,14 +50,19 @@ public class AwardSequenceNumberValuesFinder extends KeyValuesBase {
      */
     public List<KeyLabelPair> getKeyValues() {
         AwardDocument doc = getDocument();
-        Long awardId = doc.getAward().getAwardId();
+        String awardNumber = doc.getAward().getAwardNumber();
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        Map<String, Long> idMatch = new HashMap<String, Long>();
-        idMatch.put("awardId", awardId);
+        Map<String, String> idMatch = new HashMap<String, String>();
+        idMatch.put("awardNumber", awardNumber);
         Collection<Award> awards = keyValuesService.findMatching(Award.class, idMatch);
+        List<Integer> sortedList = new ArrayList<Integer>();
+        for (Award award : awards ) {
+            sortedList.add(award.getSequenceNumber());
+        }
+        Collections.sort(sortedList, Collections.reverseOrder());
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        for (Award award : awards) {
-                keyValues.add(new KeyLabelPair(award.getSequenceNumber().toString(), award.getSequenceNumber().toString()));
+        for (Integer num : sortedList) {
+                keyValues.add(new KeyLabelPair(num.toString(), num.toString()));
         }
         return keyValues;
     }
