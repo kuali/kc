@@ -44,7 +44,6 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -261,15 +260,6 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
      */
     private KeyPersonnelService getKeyPersonnelService() {
         return getService(KeyPersonnelService.class);
-    }
-    
-    /**
-     * Locate in Spring the <code>{@link KualiConfigurationService}</code> singleton instance
-     * 
-     * @return KualiConfigurationService
-     */
-    private KualiConfigurationService getConfigurationService() {
-        return getService(KualiConfigurationService.class);
     }
 
     /**

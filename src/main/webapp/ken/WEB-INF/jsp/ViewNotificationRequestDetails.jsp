@@ -1,3 +1,18 @@
+<%--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
 <%@ include file="Include.jsp"%>
 
 <html>
@@ -10,7 +25,7 @@
 <body>
 
 <div id="pagebody">
-        <div class="title">View a ${command.notification.contentType.name} Notification Message (${command.docId})</div>
+        <div class="title">View a(n) ${command.notification.contentType.name} Notification Message (${command.docId})</div>
 
         <c:if test="${! empty command.message}">
             <div class="note">${command.message}</div>
@@ -24,7 +39,7 @@
 				<tr>
 					<td class="thnormal"><strong>Sent By:</strong></td>
 					<td class="thnormal">
-						<i> ${command.document.routeHeader.initiator.displayName} on ${document.dateCreated} </i>
+						<i> ${command.document.routeHeader.initiatorPrincipalId} on ${document.dateCreated} </i>
 					</td>
 				</tr>
 				<tr>

@@ -19,27 +19,26 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.Budget.FiscalYearSummary;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributionAndIncomeService {
 
-    private KualiConfigurationService kualiConfigurationService = null;
-    protected KualiConfigurationService getKualiConfigurationService() {
-        if ( kualiConfigurationService == null ) {
-            kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
-        }
-        return kualiConfigurationService;
-    }
-    protected void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    private ParameterService parameterService;
+    
+    /**
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
     
     
     protected boolean isBudgetFinalAndComplete(Budget budget) {
-        String budgetStatusCompleteValue = getKualiConfigurationService().getParameter(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+        String budgetStatusCompleteValue = this.parameterService.getParameterValue(
+                BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
         return (budget.getFinalVersionFlag() && budgetStatusCompleteValue.equals(budget.getBudgetStatus()));
     }
     

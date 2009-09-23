@@ -8,6 +8,7 @@
 
   <bean id="S2sOpportunity-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sOpportunity" />
+		<property name="objectLabel" value="S2s Opportunity" />
     <property name="inquiryDefinition" >
       <ref bean="S2sOpportunity-inquiryDefinition" />
     </property>
@@ -332,7 +333,7 @@
     <property name="title" value="Opportunity Lookup" />
     <property name="lookupableID" value="s2sOpportunityLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up an Opportunity" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

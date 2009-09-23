@@ -321,13 +321,13 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
                 Iterator iter = ((Collection) formProps.get(propertyName)).iterator();
                 while (iter.hasNext()) {
                     if (!lookupDao.createCriteria(businessObject, (String) iter.next(), propertyName, 
-                            isCaseSensitive(businessObject,  propertyName), criteria)) {
+                            isCaseSensitive(businessObject,  propertyName), false, criteria)) {
                         throw new RuntimeException("Invalid value in Collection");
                     }
                 }
             } else {
                 if (!lookupDao.createCriteria(businessObject, (String) formProps.get(propertyName), propertyName, 
-                        isCaseSensitive(businessObject,  propertyName), criteria)) {
+                        isCaseSensitive(businessObject,  propertyName), false, criteria)) {
                     continue;
                 }
             }

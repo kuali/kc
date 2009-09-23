@@ -26,6 +26,7 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.kew.dto.NetworkIdDTO;
 import org.kuali.rice.kew.dto.WorkflowAttributeDefinitionDTO;
@@ -50,7 +51,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
 
         Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put(KNSPropertyConstants.DOCUMENT_TYPE_CODE, documentTypeCode);
+        queryMap.put(PropertyConstants.DOCUMENT.TYPE_NAME.toString(), documentTypeCode);
         // still display the inactive in old doc
         //queryMap.put(RicePropertyConstants.ACTIVE, "Y");
 

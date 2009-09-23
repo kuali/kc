@@ -8,6 +8,7 @@
 
   <bean id="ValidCalcType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.calculator.ValidCalcType" />
+		<property name="objectLabel" value="Valid Calc Type" />
     <property name="inquiryDefinition" >
       <ref bean="ValidCalcType-inquiryDefinition" />
     </property>
@@ -188,7 +189,7 @@
   <bean id="ValidCalcType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Valid Calc Types Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Valid Calc Types" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

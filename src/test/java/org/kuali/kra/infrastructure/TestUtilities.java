@@ -530,7 +530,7 @@ public class TestUtilities {
     private static CustomAttributeDocument buildCustomAttributeDocument(String documentTypeCode, boolean required, CustomAttribute customAttribute) {
         CustomAttributeDocument customAttributeDocument = new CustomAttributeDocument();
         customAttributeDocument.setCustomAttributeId(customAttribute.getId());
-        customAttributeDocument.setDocumentTypeCode(documentTypeCode);
+        customAttributeDocument.setDocumentTypeName(documentTypeCode);
         customAttributeDocument.setRequired(required);
 
         customAttributeDocument.setCustomAttribute(customAttribute);

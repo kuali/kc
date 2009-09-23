@@ -8,14 +8,15 @@
 
   <bean id="BudgetRateAndBase-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase" />
+		<property name="objectLabel" value="Budget Rate And Base" />
     <property name="lookupDefinition" >
       <ref bean="BudgetRateAndBase-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="budgetPeriod" />
     <property name="attributes" >
       <list>
-        <ref bean="BudgetRateAndBase-proposalNumber" />
-        <ref bean="BudgetRateAndBase-budgetVersionNumber" />
+<!--        <ref bean="BudgetRateAndBase-proposalNumber" />-->
+<!--        <ref bean="BudgetRateAndBase-budgetVersionNumber" />-->
         <ref bean="BudgetRateAndBase-budgetPeriod" />
         <ref bean="BudgetRateAndBase-lineItemNumber" />
         <ref bean="BudgetRateAndBase-versionNumber" />
@@ -37,14 +38,14 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="BudgetRateAndBase-proposalNumber" parent="BudgetRateAndBase-proposalNumber-parentBean" />
-
-  <bean id="BudgetRateAndBase-proposalNumber-parentBean" abstract="true" parent="BudgetLineItem-proposalNumber">
-  </bean>
-  <bean id="BudgetRateAndBase-budgetVersionNumber" parent="BudgetRateAndBase-budgetVersionNumber-parentBean" />
-
-  <bean id="BudgetRateAndBase-budgetVersionNumber-parentBean" abstract="true" parent="BudgetModular-budgetVersionNumber">
-  </bean>
+<!--  <bean id="BudgetRateAndBase-proposalNumber" parent="BudgetRateAndBase-proposalNumber-parentBean" />-->
+<!---->
+<!--  <bean id="BudgetRateAndBase-proposalNumber-parentBean" abstract="true" parent="BudgetLineItem-proposalNumber">-->
+<!--  </bean>-->
+<!--  <bean id="BudgetRateAndBase-budgetVersionNumber" parent="BudgetRateAndBase-budgetVersionNumber-parentBean" />-->
+<!---->
+<!--  <bean id="BudgetRateAndBase-budgetVersionNumber-parentBean" abstract="true" parent="BudgetModular-budgetVersionNumber">-->
+<!--  </bean>-->
   <bean id="BudgetRateAndBase-budgetPeriod" parent="BudgetRateAndBase-budgetPeriod-parentBean" />
 
   <bean id="BudgetRateAndBase-budgetPeriod-parentBean" abstract="true" parent="BudgetLineItemCalculatedAmount-budgetPeriod">
@@ -143,17 +144,17 @@
   <bean id="BudgetRateAndBase-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Rate and Base" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Budget Rate and Base" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="budgetVersionNumber" />
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="proposalNumber" />-->
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="budgetVersionNumber" />-->
         <bean parent="FieldDefinition"
               p:attributeName="budgetPeriod" />
         <bean parent="FieldDefinition"
@@ -184,10 +185,10 @@
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="budgetVersionNumber" />
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="proposalNumber" />-->
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="budgetVersionNumber" />-->
         <bean parent="FieldDefinition"
               p:attributeName="budgetPeriod" />
         <bean parent="FieldDefinition"

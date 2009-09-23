@@ -39,10 +39,24 @@ import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 @SuppressWarnings("serial")
 public abstract class BudgetParentDocument<T extends BudgetParent> extends ResearchDocumentBase implements BudgetVersionCollection,Permissionable {
+    private ParameterService parameterService;
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
+    
     public BudgetDocumentVersion getFinalBudgetVersion() {
       for (BudgetDocumentVersion version : getBudgetDocumentVersions()) {
           if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
@@ -84,8 +98,8 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends Resea
         budgetVersion.setVersionNumber(budget.getVersionNumber());
         budgetVersion.setDescriptionUpdatable(isDescriptionUpdatable);
         
-        String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+        String budgetStatusIncompleteCode = this.getParameterService().getParameterValue(
+                BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
         budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
         
         getBudgetDocumentVersions().add(budgetDocumentVersion);

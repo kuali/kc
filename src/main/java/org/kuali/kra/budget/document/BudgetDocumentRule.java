@@ -413,8 +413,8 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         boolean retval = true;
         
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+        String budgetStatusCompleteCode = getParameterService().getParameterValue(
+                BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
         for (BudgetDocumentVersion budgetDocumentVersion : parentDocument.getBudgetDocumentVersions()) {
             BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview(); 
             budgetVersionsExists = true;

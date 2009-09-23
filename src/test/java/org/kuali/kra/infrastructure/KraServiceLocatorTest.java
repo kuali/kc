@@ -24,19 +24,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.MailType;
+import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.dao.BusinessObjectDao;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * This class tests the KraServiceLocator
  */
 public class KraServiceLocatorTest extends KraTestBase {
 
+    private ParameterService parameterService;
+    
+    @Before
+    public void setUpServices() {
+        this.parameterService = KraServiceLocator.getService(ParameterService.class);
+    }
+    
     @Test public void testGetDataDictionaryService() throws Exception {
         DataDictionaryService dataDictionaryService = (DataDictionaryService)KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         assertNotNull(dataDictionaryService);
@@ -63,13 +72,12 @@ public class KraServiceLocatorTest extends KraTestBase {
     }
 
     @Test public void testProposalDevelopmentParameters() throws Exception {
-        KualiConfigurationService configService = (KualiConfigurationService)KraServiceLocator.getService(KualiConfigurationService.class);
 
         Map<String, String> criteria = new HashMap<String, String>(2);
         criteria.put("parameterNamespaceCode", PARAMETER_MODULE_PROPOSAL_DEVELOPMENT);
         criteria.put("parameterDetailTypeCode", PARAMETER_COMPONENT_DOCUMENT);
 
-        List parameters = configService.getParameters(criteria);
+        List<Parameter> parameters = this.parameterService.retrieveParametersGivenLookupCriteria(criteria);
         assertNotNull(parameters);
         assertTrue(parameters.size() > 1);
     }

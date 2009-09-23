@@ -22,6 +22,7 @@
 	<bean id="ProtocolWithdrawBean" parent="ProtocolWithdrawBean-parentBean" />
 	<bean id="ProtocolWithdrawBean-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean" />
+		<property name="objectLabel" value="Protocol Withdraw Bean" />
 		<property name="titleAttribute" value="ProtocolWithdrawBean-reason" />
 		<property name="attributes" >
 			<list>

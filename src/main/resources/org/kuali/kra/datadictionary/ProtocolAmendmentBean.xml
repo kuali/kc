@@ -22,6 +22,7 @@
 	<bean id="ProtocolAmendmentBean" parent="ProtocolAmendmentBean-parentBean" />
 	<bean id="ProtocolAmendmentBean-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean" />
+		<property name="objectLabel" value="Protocol Amendment Bean" />
 		<property name="titleAttribute" value="ProtocolAmendmentBean-summary" />
 		<property name="attributes" >
 			<list>

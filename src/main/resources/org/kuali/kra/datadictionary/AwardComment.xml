@@ -8,6 +8,7 @@
 
   <bean id="AwardComment-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardComment" />
+		<property name="objectLabel" value="Award Comment" />
     <property name="titleAttribute" value="awardComment" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"

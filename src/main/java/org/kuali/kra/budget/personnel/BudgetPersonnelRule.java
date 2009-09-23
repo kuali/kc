@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -33,10 +32,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 
 /**
@@ -50,7 +48,7 @@ public class BudgetPersonnelRule {
     private static final String BUDGET_PERSONS_FIELD_NAME_CALC_BASE = "].calculationBase";
     
     private final BusinessObjectService boService;
-    private final KualiConfigurationService kConfigService;
+    private final ParameterService paramService;
     private final BudgetService budgetService;
     
     /**
@@ -59,7 +57,7 @@ public class BudgetPersonnelRule {
      */
     public BudgetPersonnelRule() {
         this(KraServiceLocator.getService(BusinessObjectService.class),
-            KraServiceLocator.getService(KualiConfigurationService.class),
+            KraServiceLocator.getService(ParameterService.class),
             KraServiceLocator.getService(BudgetService.class));
     }
     
@@ -69,20 +67,20 @@ public class BudgetPersonnelRule {
      * Default access for easy unit testing.
      * </p>
      * @param boService the BusinessObjectService
-     * @param kConfigService the KualiConfigurationService
+     * @param paramService the ParameterService
      * @param budgetService the BudgetService
      * @throws NullPointerException if any of the services are null.
      */
     public BudgetPersonnelRule(final BusinessObjectService boService,
-        final KualiConfigurationService kConfigService,
+        final ParameterService paramService,
         final BudgetService budgetService) {
         
         if (boService == null) {
             throw new NullPointerException("the boService is null");
         }
         
-        if (kConfigService == null) {
-            throw new NullPointerException("the kConfigService is null");
+        if (paramService == null) {
+            throw new NullPointerException("the paramService is null");
         }
         
         if (budgetService == null) {
@@ -90,7 +88,7 @@ public class BudgetPersonnelRule {
         }
         
         this.boService = boService;
-        this.kConfigService = kConfigService;
+        this.paramService = paramService;
         this.budgetService = budgetService;
     }
     
@@ -336,10 +334,8 @@ public class BudgetPersonnelRule {
     private List<ValidCeJobCode> getApplicableCostElements(BudgetDocument budgetDocument, BudgetPersonnelDetails newBudgetPersonnelDetails, boolean save) {
         List<ValidCeJobCode> validCostElements = null;
     
-        if(save) {
-            String jobCodeValidationEnabledInd = this.kConfigService.getParameter(
-                    Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT,
-                    Constants.BUDGET_JOBCODE_VALIDATION_ENABLED).getParameterValue();
+        if (save) {
+            String jobCodeValidationEnabledInd = this.paramService.getParameterValue(BudgetDocument.class, Constants.BUDGET_JOBCODE_VALIDATION_ENABLED);
             
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             BudgetPerson budgetPerson = null;

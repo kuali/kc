@@ -22,6 +22,7 @@
 	<bean id="ProtocolType" parent="ProtocolType-parentBean" />
 	<bean id="ProtocolType-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.protocol.ProtocolType" />
+		<property name="objectLabel" value="Protocol Type" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolType-inquiryDefinition" />
 		</property>
@@ -108,7 +109,7 @@
 	<bean id="ProtocolType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Protocol Type Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Protocol Type" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

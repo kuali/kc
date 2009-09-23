@@ -34,8 +34,7 @@ import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl.FundingSourceLookup;
 import org.kuali.kra.irb.test.ProtocolTestUtil;
 import org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal;
@@ -46,7 +45,7 @@ import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -225,7 +224,7 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
 
         protocolFundingSourceService.setAwardService(getAwardService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        protocolFundingSourceService.setKualiConfigurationService(getKualiConfigurationService());
+        protocolFundingSourceService.setParameterService(getParameterService());
         
         ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, awardIdGood, null);
         assertNotNull(fundingSource);
@@ -239,7 +238,7 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setAwardService(getAwardService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        protocolFundingSourceService.setKualiConfigurationService(getKualiConfigurationService());
+        protocolFundingSourceService.setParameterService(getParameterService());
 
         ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, awardIdBad, null);
         assertNotNull(fundingSource);
@@ -252,7 +251,7 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setAwardService(getAwardService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        protocolFundingSourceService.setKualiConfigurationService(getKualiConfigurationService());
+        protocolFundingSourceService.setParameterService(getParameterService());
 
         ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, emptyId, null);
         assertNull(fundingSource);
@@ -261,7 +260,7 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
     @Test
     public void testCalculateDevProposalFunding() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setKualiConfigurationService(getKualiConfigurationService());
+        protocolFundingSourceService.setParameterService(getParameterService());
         protocolFundingSourceService.setLookupableDevelopmentProposalService(getDevProposalService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         
@@ -275,7 +274,7 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
     @Test
     public void testCalculateDevProposalFundingNegative() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setKualiConfigurationService(getKualiConfigurationService());
+        protocolFundingSourceService.setParameterService(getParameterService());
         protocolFundingSourceService.setLookupableDevelopmentProposalService(getDevProposalService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, devProposalIdBad, null);
@@ -287,7 +286,7 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
     @Test
     public void testCalculateDevProposalFundingNegative2() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setKualiConfigurationService(getKualiConfigurationService());
+        protocolFundingSourceService.setParameterService(getParameterService());
         protocolFundingSourceService.setLookupableDevelopmentProposalService(getDevProposalService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, emptyId, null);
@@ -357,7 +356,7 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());    
         protocolFundingSourceService.setAwardService(getAwardService());
-        protocolFundingSourceService.setKualiConfigurationService(getKualiConfigurationService());
+        protocolFundingSourceService.setParameterService(getParameterService());
 
 
         ProtocolFundingSource fundingSource = new ProtocolFundingSource(awardIdGood, fundingAwardSourceType, null, null);
@@ -446,7 +445,7 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
   public void testIsViewableFundingSource() throws Exception {
       int badFundingTypeCode = -99;
       protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-      protocolFundingSourceService.setKualiConfigurationService(getKualiConfigurationService());
+      protocolFundingSourceService.setParameterService(getParameterService());
 
       
       assertFalse(protocolFundingSourceService.isViewable(FundingSourceLookup.INSTITUTE_PROPOSAL.getFundingTypeCode()));
@@ -462,7 +461,7 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
   @Test
   public void testUpdateSourceNameEditable() throws Exception {
       protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-      protocolFundingSourceService.setKualiConfigurationService(getKualiConfigurationService());
+      protocolFundingSourceService.setParameterService(getParameterService());
       
       assertTrue(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.INSTITUTE_PROPOSAL.getFundingTypeCode())));
       assertTrue(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.OTHER.getFundingTypeCode())));
@@ -479,7 +478,7 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setSponsorService(getSponsorService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        protocolFundingSourceService.setKualiConfigurationService(getKualiConfigurationService());
+        protocolFundingSourceService.setParameterService(getParameterService());
 
         ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId,
                 sponsorIdAirForce, null);
@@ -575,19 +574,19 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
         return protocolLookupableHelperService;
     }
 
-    protected KualiConfigurationService getKualiConfigurationService() {
-        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);
+    protected ParameterService getParameterService() {
+        final ParameterService parameterService = context.mock(ParameterService.class);
         context.checking(new Expectations() {{
-            allowing(kualiConfigurationService).getParameterWithoutExceptions(with(any(String.class)), with(any(String.class)), with(any(String.class)) ); 
-            will(returnValue(parameter));
-            allowing(kualiConfigurationService).getIndicatorParameter( Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_PROTOCOL_TO_AWARD_LINK ); 
+            allowing(parameterService).parameterExists(ProtocolDocument.class, with(any(String.class))); 
             will(returnValue(true));
-            allowing(kualiConfigurationService).getIndicatorParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK ); 
+            allowing(parameterService).getIndicatorParameter( ProtocolDocument.class, Constants.ENABLE_PROTOCOL_TO_AWARD_LINK ); 
             will(returnValue(true));
-            allowing(kualiConfigurationService).getIndicatorParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK ); 
+            allowing(parameterService).getIndicatorParameter(ProtocolDocument.class, Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK ); 
+            will(returnValue(true));
+            allowing(parameterService).getIndicatorParameter(ProtocolDocument.class, Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK ); 
             will(returnValue(false));
         }});
-        return kualiConfigurationService;
+        return parameterService;
     }
 
     protected FundingSourceTypeService getFundingSourceTypeService() {

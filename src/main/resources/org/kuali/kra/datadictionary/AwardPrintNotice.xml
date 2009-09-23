@@ -8,6 +8,7 @@
 
   <bean id="AwardPrintNotice-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.printing.AwardPrintNotice" />
+    <property name="objectLabel" value="Award Print Notice" />
     <property name="titleAttribute" value="awardPrintNotice" />
     <property name="attributes" >
       <list>

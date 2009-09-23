@@ -22,6 +22,7 @@
     <bean id="InstitutionalProposalUnitAdministrator" parent="InstitutionalProposalUnitAdministrator-parentBean" />
     <bean id="InstitutionalProposalUnitAdministrator-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnitAdministrator" />
+		<property name="objectLabel" value="Institutional Proposal Unit Administrator" />
         <property name="inquiryDefinition" >
             <ref bean="InstitutionalProposalUnitAdministrator-inquiryDefinition" />
         </property>
@@ -32,7 +33,7 @@
         <property name="attributes" >
             <list>
                 <ref bean="InstitutionalProposalUnitAdministrator-proposalUnitAdministratorsId" />
-                <ref bean="InstitutionalProposalUnitAdministrator-proposalId" />
+<!--                <ref bean="InstitutionalProposalUnitAdministrator-proposalId" />-->
                 <ref bean="InstitutionalProposalUnitAdministrator-proposalNumber" />
                 <ref bean="InstitutionalProposalUnitAdministrator-sequenceNumber" />
                 <ref bean="InstitutionalProposalUnitAdministrator-unitAdministratorTypeCode" />
@@ -62,23 +63,23 @@
         <property name="description" value="Proposal Unit Administrators Id" />
     </bean>
 
-    <bean id="InstitutionalProposalUnitAdministrator-proposalId" parent="InstitutionalProposalUnitAdministrator-proposalId-parentBean" />
-    <bean id="InstitutionalProposalUnitAdministrator-proposalId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="proposalId" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Proposal Id" />
-        <property name="shortLabel" value="Proposal Id" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Proposal Id" />
-        <property name="description" value="Proposal Id" />
-    </bean>
+<!--    <bean id="InstitutionalProposalUnitAdministrator-proposalId" parent="InstitutionalProposalUnitAdministrator-proposalId-parentBean" />-->
+<!--    <bean id="InstitutionalProposalUnitAdministrator-proposalId-parentBean" abstract="true" parent="AttributeDefinition" >-->
+<!--        <property name="name" value="proposalId" />-->
+<!--        <property name="forceUppercase" value="false" />-->
+<!--        <property name="label" value="Proposal Id" />-->
+<!--        <property name="shortLabel" value="Proposal Id" />-->
+<!--        <property name="maxLength" value="22" />-->
+<!--        <property name="validationPattern" >-->
+<!--            <bean parent="NumericValidationPattern" />-->
+<!--        </property>-->
+<!--        <property name="control" >-->
+<!--            <bean parent="TextControlDefinition"-->
+<!--                p:size="10" />-->
+<!--        </property>-->
+<!--        <property name="summary" value="Proposal Id" />-->
+<!--        <property name="description" value="Proposal Id" />-->
+<!--    </bean>-->
 
     <bean id="InstitutionalProposalUnitAdministrator-proposalNumber" parent="InstitutionalProposalUnitAdministrator-proposalNumber-parentBean" />
     <bean id="InstitutionalProposalUnitAdministrator-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -175,8 +176,8 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="proposalUnitAdministratorsId" 
                                 p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="proposalId" />
+<!--                            <bean parent="FieldDefinition"-->
+<!--                                p:attributeName="proposalId" />-->
                             <bean parent="FieldDefinition"
                                 p:attributeName="proposalNumber" />
                             <bean parent="FieldDefinition"
@@ -197,7 +198,7 @@
     <bean id="InstitutionalProposalUnitAdministrator-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Proposal Unit Administrators Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Proposal Unit Administrators" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>
@@ -207,8 +208,8 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalUnitAdministratorsId" 
                     p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="proposalId" />
+<!--                <bean parent="FieldDefinition"-->
+<!--                    p:attributeName="proposalId" />-->
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalNumber" />
                 <bean parent="FieldDefinition"
@@ -224,8 +225,8 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalUnitAdministratorsId" 
                     p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="proposalId" />
+<!--                <bean parent="FieldDefinition"-->
+<!--                    p:attributeName="proposalId" />-->
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalNumber" />
                 <bean parent="FieldDefinition"

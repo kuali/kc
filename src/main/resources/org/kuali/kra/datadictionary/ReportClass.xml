@@ -24,6 +24,7 @@
 	<bean id="ReportClass" parent="ReportClass-parentBean" />
 	<bean id="ReportClass-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.ReportClass" />
+		<property name="objectLabel" value="Report Class" />
 		<property name="inquiryDefinition" >
 			<ref bean="ReportClass-inquiryDefinition" />
 		</property>
@@ -122,7 +123,7 @@
 	<bean id="ReportClass-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Report Class Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Report Class" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

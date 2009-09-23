@@ -32,7 +32,7 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
     private static final String PERSON_OBJECT_REFERENCE = "person";
     private static final int FISCAL_YEAR_OFFSET = 6;
     
-    private DateTimeService dateTimeService;
+    private transient DateTimeService dateTimeService;
     
     /**
      * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)

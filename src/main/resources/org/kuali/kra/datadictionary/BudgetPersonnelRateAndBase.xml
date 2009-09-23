@@ -8,14 +8,15 @@
 
   <bean id="BudgetPersonnelRateAndBase-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase" />
+		<property name="objectLabel" value="Budget Personnel Rate And Base" />
     <property name="lookupDefinition" >
       <ref bean="BudgetPersonnelRateAndBase-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="personId" />
     <property name="attributes" >
       <list>
-        <ref bean="BudgetPersonnelRateAndBase-proposalNumber" />
-        <ref bean="BudgetPersonnelRateAndBase-budgetVersionNumber" />
+<!--        <ref bean="BudgetPersonnelRateAndBase-proposalNumber" />-->
+<!--        <ref bean="BudgetPersonnelRateAndBase-budgetVersionNumber" />-->
         <ref bean="BudgetPersonnelRateAndBase-budgetPeriod" />
         <ref bean="BudgetPersonnelRateAndBase-personId" />
         <ref bean="BudgetPersonnelRateAndBase-lineItemNumber" />
@@ -38,14 +39,14 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="BudgetPersonnelRateAndBase-proposalNumber" parent="BudgetPersonnelRateAndBase-proposalNumber-parentBean" />
-
-  <bean id="BudgetPersonnelRateAndBase-proposalNumber-parentBean" abstract="true" parent="BudgetLineItem-proposalNumber">
-  </bean>
-  <bean id="BudgetPersonnelRateAndBase-budgetVersionNumber" parent="BudgetPersonnelRateAndBase-budgetVersionNumber-parentBean" />
-
-  <bean id="BudgetPersonnelRateAndBase-budgetVersionNumber-parentBean" abstract="true" parent="BudgetModular-budgetVersionNumber">
-  </bean>
+<!--  <bean id="BudgetPersonnelRateAndBase-proposalNumber" parent="BudgetPersonnelRateAndBase-proposalNumber-parentBean" />-->
+<!---->
+<!--  <bean id="BudgetPersonnelRateAndBase-proposalNumber-parentBean" abstract="true" parent="BudgetLineItem-proposalNumber">-->
+<!--  </bean>-->
+<!--  <bean id="BudgetPersonnelRateAndBase-budgetVersionNumber" parent="BudgetPersonnelRateAndBase-budgetVersionNumber-parentBean" />-->
+<!---->
+<!--  <bean id="BudgetPersonnelRateAndBase-budgetVersionNumber-parentBean" abstract="true" parent="BudgetModular-budgetVersionNumber">-->
+<!--  </bean>-->
   <bean id="BudgetPersonnelRateAndBase-budgetPeriod" parent="BudgetPersonnelRateAndBase-budgetPeriod-parentBean" />
 
   <bean id="BudgetPersonnelRateAndBase-budgetPeriod-parentBean" abstract="true" parent="BudgetLineItemCalculatedAmount-budgetPeriod">
@@ -148,17 +149,17 @@
   <bean id="BudgetPersonnelRateAndBase-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Personnel Rate and Base" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Budget Personnel Rate and Base" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="budgetVersionNumber" />
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="proposalNumber" />-->
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="budgetVersionNumber" />-->
         <bean parent="FieldDefinition"
               p:attributeName="budgetPeriod" />
         <bean parent="FieldDefinition"
@@ -191,10 +192,10 @@
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="budgetVersionNumber" />
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="proposalNumber" />-->
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="budgetVersionNumber" />-->
         <bean parent="FieldDefinition"
               p:attributeName="budgetPeriod" />
         <bean parent="FieldDefinition"

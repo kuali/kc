@@ -22,6 +22,7 @@
     <bean id="QuestionnaireQuestion" parent="QuestionnaireQuestion-parentBean" />
     <bean id="QuestionnaireQuestion-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.questionnaire.QuestionnaireQuestion" />
+		<property name="objectLabel" value="Questionnaire Question" />
         <property name="inquiryDefinition" >
             <ref bean="QuestionnaireQuestion-inquiryDefinition" />
         </property>
@@ -219,8 +220,6 @@
                                 p:attributeName="questionnaireQuestionsId" 
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="questionnaireId" />
-                            <bean parent="FieldDefinition"
                                 p:attributeName="questionRefIdFk" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="questionNumber" />
@@ -246,7 +245,7 @@
     <bean id="QuestionnaireQuestion-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Questionnaire Questions Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Questionnaire Questions" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>
@@ -256,8 +255,6 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="questionnaireQuestionsId" 
                     p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionnaireId" />
                 <bean parent="FieldDefinition"
                     p:attributeName="questionRefIdFk" />
                 <bean parent="FieldDefinition"
@@ -279,8 +276,6 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="questionnaireQuestionsId" 
                     p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="questionnaireId" />
                 <bean parent="FieldDefinition"
                     p:attributeName="questionRefIdFk" />
                 <bean parent="FieldDefinition"

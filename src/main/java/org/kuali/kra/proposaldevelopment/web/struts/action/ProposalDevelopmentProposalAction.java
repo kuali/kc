@@ -132,8 +132,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      * @param request
      */
     private void setKeywordsPanelFlag(HttpServletRequest request) {
-        String keywordPanelDisplay = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
-                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,
+        String keywordPanelDisplay = this.getParameterService().getParameterValue(
+                ProposalDevelopmentDocument.class,
                 Constants.KEYWORD_PANEL_DISPLAY);
         request.getSession().setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
     }

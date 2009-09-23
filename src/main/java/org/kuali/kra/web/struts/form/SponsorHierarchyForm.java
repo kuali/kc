@@ -29,6 +29,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -55,6 +56,7 @@ public class SponsorHierarchyForm extends KualiForm {
     private String timestamp;
     private int numberPerGroup;
     private static final Log LOG = LogFactory.getLog(SponsorHierarchyForm.class);
+    private transient ParameterService parameterService;
 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -70,6 +72,17 @@ public class SponsorHierarchyForm extends KualiForm {
         newSponsors = new TypedArrayList(ArrayList.class);
         //topSponsorHierarchies = KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy();        
 
+    }
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
     }
 
     
@@ -273,9 +286,9 @@ public class SponsorHierarchyForm extends KualiForm {
     public int getNumberPerGroup() {
         int groupingNumber = 300;
         try {
-           Parameter sysParam = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
+           String sysParam = this.getParameterService().getParameterValue(
                 Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, "A", Constants.NUMBER_PER_SPONSOR_HIERARCHY_GROUP);
-           groupingNumber=Integer.parseInt(sysParam.getParameterValue());
+           groupingNumber=Integer.parseInt(sysParam);
         } catch (Exception e) {
             LOG.debug("System param for numberPerSponsorHierarchyGroup is not defined");
         }

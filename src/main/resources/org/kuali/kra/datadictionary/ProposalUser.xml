@@ -8,6 +8,7 @@
 
   <bean id="ProposalUser-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalUser" />
+		<property name="objectLabel" value="Proposal User" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
             p:parameterNamespace="KRA-PD"

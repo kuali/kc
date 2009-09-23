@@ -22,6 +22,7 @@
 	<bean id="ProtocolAttachmentProtocol" parent="ProtocolAttachmentProtocol-parentBean" />
 	<bean id="ProtocolAttachmentProtocol-parentBean" abstract="true" parent="ProtocolAttachmentBase">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol" />
+		<property name="objectLabel" value="Protocol Attachment Protocol" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolAttachmentProtocol-inquiryDefinition" />
 		</property>
@@ -209,7 +210,7 @@
 		<property name="title" value="Protocol Attachment Lookup" />
         <property name="lookupableID" value="protocolAttachmentProtocolLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Protocol Attachment" />
+
 		<property name="lookupFields" >
 			<list merge="true">
 				<bean parent="FieldDefinition"

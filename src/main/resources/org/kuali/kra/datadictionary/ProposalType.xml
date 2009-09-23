@@ -8,6 +8,7 @@
 
   <bean id="ProposalType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalType" />
+		<property name="objectLabel" value="Proposal Type" />
     <property name="inquiryDefinition" >
       <ref bean="ProposalType-inquiryDefinition" />
     </property>
@@ -94,7 +95,7 @@
   <bean id="ProposalType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Proposal Type Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Proposal Type" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.award.document;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
@@ -34,31 +34,32 @@ import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.RolePersons;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.proposaldevelopment.bo.ActivityType;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
-import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.AwardCustomAttributeService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.exception.PessimisticLockingException;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
+import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -71,6 +72,8 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Also we have provided convenient getter and setter methods so that to the outside world;
  * Award and AwardDocument can have a 1:1 relationship.
  */
+@NAMESPACE(namespace=Constants.PARAMETER_MODULE_AWARD)
+@COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
 public class AwardDocument extends BudgetParentDocument<Award> implements  Copyable, SessionDocument{
     private static final Log LOG = LogFactory.getLog(AwardDocument.class);
     
@@ -377,5 +380,22 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     public boolean isEditable() {
         KualiWorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
         return workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved(); 
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public boolean useCustomLockDescriptors() {
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getCustomLockDescriptor(Person user) {
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        if (StringUtils.isNotEmpty(activeLockRegion)) {
+            return this.getDocumentNumber() + "-" + activeLockRegion; 
+        }
+
+        return null;
     }
 }

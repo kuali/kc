@@ -86,7 +86,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         documentService = KNSServiceLocator.getDocumentService();
         webClient = new WebClient();
 
-        setPortalPage(buildPageFromUrl("http://localhost:" + getPort() + "/kra-dev/", "Kuali Portal Index"));
+        setPortalPage(buildPageFromUrl("http://127.0.0.1:" + getPort() + "/kra-dev/", "Kuali Portal Index"));
 
     }
 
@@ -970,14 +970,14 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @throws IOException
      */
     private HtmlPage checkForLoginPage(HtmlPage page) throws IOException {
-        if (page.getTitleText().equals("Central Authentication Service")) {
+        if (page.getTitleText().equals("Login")) {
             HtmlForm form = (HtmlForm) page.getForms().get(0);
-            setFieldValue(page, "username", getLoginUserName());
+            setFieldValue(page, "__login_user", getLoginUserName());
             HtmlSubmitInput loginBtn = (HtmlSubmitInput) form.getInputByValue("Login");
             //boolean javascriptEnabled = webClient.isJavaScriptEnabled();
             //webClient.setThrowExceptionOnScriptError(false);
             page = (HtmlPage) loginBtn.click();
-            if (page.getTitleText().equals("Central Authentication Service")) {
+            if (page.getTitleText().equals("Login")) {
                 page = (HtmlPage) loginBtn.click();
             }
             //webClient.setThrowExceptionOnScriptError(true);

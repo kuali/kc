@@ -19,8 +19,6 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_INVESTIGATOR;
 import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX;
@@ -43,7 +41,6 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.Ynq;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
@@ -58,7 +55,7 @@ import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -75,7 +72,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
     private NarrativeService narrativeService;
     private YnqService ynqService;
-    private KualiConfigurationService configurationService;    
+    private ParameterService parameterService;    
 
     /**
      * Part of a complete breakfast, it has everything you need to populate Key Personnel into a <code>{@link ProposalDevelopmentDocument}</code>
@@ -638,29 +635,21 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     }
 
     /**
-     * Uses the {@link KualiConfigurationService} to determine if the application-level configuration parameter is enabled
+     * Uses the {@link ParameterService} to determine if the application-level configuration parameter is enabled
      * 
      * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isCreditSplitEnabled()
      */
     public boolean isCreditSplitEnabled() {
-        return getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME);
+        return this.parameterService.getIndicatorParameter(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME);
     }
 
     /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#getConfigurationService()
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
      */
-    public KualiConfigurationService getConfigurationService() {
-        return this.configurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
-
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#setConfigurationService(org.kuali.rice.kns.service.KualiConfigurationService)
-     */
-    public void setConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.configurationService = kualiConfigurationService;        
-    }    
 
     /**
      * Compares the given <code>roleId</code> against the <code>proposaldevelopment.personrole.readonly.roles</code> to see if it is 
@@ -674,8 +663,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         if (roleId == null) {
             return false;
         }
-        // return true;
-        return getConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,READ_ONLY_ROLES_PARAM_NAME).getParameterValue().toLowerCase().contains(roleId.toLowerCase());
+        return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, READ_ONLY_ROLES_PARAM_NAME).toLowerCase().contains(roleId.toLowerCase());
     }
 
     /**
@@ -698,7 +686,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         if (document.getDevelopmentProposal().getSponsor() != null && document.getDevelopmentProposal().getSponsor().getAcronym() != null && document.getDevelopmentProposal().getSponsor().getAcronym().toLowerCase().equals("nih")) {
             parameterName = "proposaldevelopment.personrole.nonnih.pi";
         }
-        return getConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,parameterName).getParameterValue();
+        return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, parameterName);
     }
 
     public boolean isSponsorNIH(ProposalDevelopmentDocument document) {
@@ -710,60 +698,48 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         final Collection<ProposalPersonRole> roles = bos.findAll(ProposalPersonRole.class);
         document.getDevelopmentProposal().setNih(false);
         valueMap.put("sponsorCode", document.getDevelopmentProposal().getSponsorCode());
-        valueMap.put("hierarchyName",getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                PARAMETER_COMPONENT_DOCUMENT, 
-                SPONSOR_HIERARCHY_NAME ));
+        valueMap.put("hierarchyName", this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, SPONSOR_HIERARCHY_NAME ));
         Collection<SponsorHierarchy> sponsor_hierarchy=  bos.findMatching(SponsorHierarchy.class, valueMap);
         if (CollectionUtils.isNotEmpty(sponsor_hierarchy)) {
             for (Object variable : sponsor_hierarchy) {
                 SponsorHierarchy sponhierarchy=(SponsorHierarchy) variable;
-                if(StringUtils.isNotEmpty(sponhierarchy.getLevel1()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
+                if(StringUtils.isNotEmpty(sponhierarchy.getLevel1()) && (sponhierarchy.getLevel1().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
                         SPONSOR_LEVEL_HIERARCHY )))){
                     document.getDevelopmentProposal().setNih(true);
                     nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel2()) && (sponhierarchy.getLevel2().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel2()) && (sponhierarchy.getLevel2().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
                         SPONSOR_LEVEL_HIERARCHY )))){
                     document.getDevelopmentProposal().setNih(true);
                     nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel3()) && (sponhierarchy.getLevel3().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel3()) && (sponhierarchy.getLevel3().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
                         SPONSOR_LEVEL_HIERARCHY )))){
                     document.getDevelopmentProposal().setNih(true);
                     nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel4()) && (sponhierarchy.getLevel4().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel4()) && (sponhierarchy.getLevel4().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
                         SPONSOR_LEVEL_HIERARCHY )))){
                     document.getDevelopmentProposal().setNih(true);
                     nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel5()) && (sponhierarchy.getLevel5().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel5()) && (sponhierarchy.getLevel5().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
                         SPONSOR_LEVEL_HIERARCHY )))){
                     document.getDevelopmentProposal().setNih(true);
                     nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel6()) && (sponhierarchy.getLevel6().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel6()) && (sponhierarchy.getLevel6().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
                         SPONSOR_LEVEL_HIERARCHY )))){
                     document.getDevelopmentProposal().setNih(true);
                     nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel7()) && (sponhierarchy.getLevel7().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel7()) && (sponhierarchy.getLevel7().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
                         SPONSOR_LEVEL_HIERARCHY )))){
                     document.getDevelopmentProposal().setNih(true);
                     nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel8()) && (sponhierarchy.getLevel8().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel8()) && (sponhierarchy.getLevel8().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
                         SPONSOR_LEVEL_HIERARCHY )))){
                     document.getDevelopmentProposal().setNih(true);
                     nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel9()) && (sponhierarchy.getLevel9().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel9()) && (sponhierarchy.getLevel9().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
                         SPONSOR_LEVEL_HIERARCHY )))){
                     document.getDevelopmentProposal().setNih(true);
                     nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel10()) && (sponhierarchy.getLevel10().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel10()) && (sponhierarchy.getLevel10().equals(this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, 
                         SPONSOR_LEVEL_HIERARCHY )))){
                     document.getDevelopmentProposal().setNih(true);
                     nih=true;
@@ -782,8 +758,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
 
     }
     protected String findNIHRoleDescription(ProposalPersonRole role) {
-        return getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                PARAMETER_COMPONENT_DOCUMENT, 
+        return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,
                 PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
                 + "nonnih."
                 + role.getProposalPersonRoleId().toLowerCase());    

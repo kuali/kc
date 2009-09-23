@@ -8,6 +8,7 @@
 
   <bean id="MailBy-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.MailBy" />
+		<property name="objectLabel" value="Mail By" />
     <property name="inquiryDefinition" >
       <ref bean="MailBy-inquiryDefinition" />
     </property>
@@ -94,7 +95,7 @@
   <bean id="MailBy-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Mail By Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Mail By" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

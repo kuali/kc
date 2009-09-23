@@ -22,6 +22,7 @@
     <bean id="AwardHierarchyNode" parent="AwardHierarchyNode-parentBean" />
     <bean id="AwardHierarchyNode-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.timeandmoney.AwardHierarchyNode" />
+		<property name="objectLabel" value="Award Hierarchy Node" />
         <property name="inquiryDefinition" >
             <ref bean="AwardHierarchyNode-inquiryDefinition" />
         </property>
@@ -225,7 +226,7 @@
     <bean id="AwardHierarchyNode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Award Hierarchy Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Award Hierarchy" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>

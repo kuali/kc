@@ -43,7 +43,7 @@ public class AwardReportingBean implements Serializable {
     private List<AwardReporting> newAwardReportings;
     private AwardReporting newAwardReporting;
         
-    private KualiRuleService ruleService;
+    private transient KualiRuleService ruleService;
     private AwardForm form;
     
     /**
@@ -135,17 +135,7 @@ public class AwardReportingBean implements Serializable {
     protected void setRuleService(KualiRuleService ruleService) {
         this.ruleService = ruleService;
     }
-        
-    /**
-     * 
-     * This is a wrapper method for the retrieval of KualiConfigurationService.
-     * 
-     * @return
-     */
-    protected KualiConfigurationService getKualiConfigurationService(){
-        return KraServiceLocator.getService(KualiConfigurationService.class);
-    }
-    
+           
     /**
      * 
      * This is a wrapper method for the retrieval of KeyValuesService.

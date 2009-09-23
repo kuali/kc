@@ -22,6 +22,7 @@
 	<bean id="ProtocolRequestBean" parent="ProtocolRequestBean-parentBean" />
 	<bean id="ProtocolRequestBean-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.request.ProtocolRequestBean" />
+		<property name="objectLabel" value="Protocol Request Bean" />
 		<property name="titleAttribute" value="ProtocolRequestBean-reason" />
 		<property name="attributes" >
 			<list>

@@ -8,6 +8,7 @@
 
   <bean id="BudgetPerson-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.personnel.BudgetPerson" />
+		<property name="objectLabel" value="Budget Person" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetPerson-inquiryDefinition" />
     </property>
@@ -27,7 +28,7 @@
         <ref bean="BudgetPerson-jobCode" />
         <ref bean="BudgetPerson-nonEmployeeFlag" />
         <ref bean="BudgetPerson-personId" />
-        <ref bean="BudgetPerson-proposalNumber" />
+<!--        <ref bean="BudgetPerson-proposalNumber" />-->
         <ref bean="BudgetPerson-versionNumber" />
         <ref bean="BudgetPerson-appointmentType" />
         <ref bean="BudgetPerson-calculationBase" />
@@ -90,24 +91,24 @@
 
   <bean id="BudgetPerson-personId-parentBean" abstract="true" parent="Person-personId">
   </bean>
-  <bean id="BudgetPerson-proposalNumber" parent="BudgetPerson-proposalNumber-parentBean" />
-
-  <bean id="BudgetPerson-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Proposal Number" />
-    <property name="shortLabel" value="Proposal Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
-    </property>
-    <property name="summary" value="Proposal Number" />
-    <property name="description" value="Proposal Number" />
-  </bean>
+<!--  <bean id="BudgetPerson-proposalNumber" parent="BudgetPerson-proposalNumber-parentBean" />-->
+<!---->
+<!--  <bean id="BudgetPerson-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
+<!--    <property name="name" value="proposalNumber" />-->
+<!--    <property name="forceUppercase" value="false" />-->
+<!--    <property name="label" value="Proposal Number" />-->
+<!--    <property name="shortLabel" value="Proposal Number" />-->
+<!--    <property name="maxLength" value="12" />-->
+<!--    <property name="validationPattern" >-->
+<!--      <bean parent="AlphaNumericValidationPattern" />-->
+<!--    </property>-->
+<!--    <property name="control" >-->
+<!--      <bean parent="TextControlDefinition"-->
+<!--            p:size="8" />-->
+<!--    </property>-->
+<!--    <property name="summary" value="Proposal Number" />-->
+<!--    <property name="description" value="Proposal Number" />-->
+<!--  </bean>-->
   <bean id="BudgetPerson-versionNumber" parent="BudgetPerson-versionNumber-parentBean" />
 
   <bean id="BudgetPerson-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -200,9 +201,9 @@
               <bean parent="FieldDefinition"
                     p:attributeName="personId"
                     p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber"
-                    p:forceInquiry="true" />
+<!--              <bean parent="FieldDefinition"-->
+<!--                    p:attributeName="proposalNumber"-->
+<!--                    p:forceInquiry="true" />-->
               <bean parent="FieldDefinition"
                     p:attributeName="versionNumber"
                     p:forceInquiry="true" />
@@ -227,7 +228,7 @@
   <bean id="BudgetPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Persons Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Budget Persons" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>
@@ -242,8 +243,8 @@
               p:attributeName="nonEmployeeFlag" />
         <bean parent="FieldDefinition"
               p:attributeName="personId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="proposalNumber" />-->
         <bean parent="FieldDefinition"
               p:attributeName="versionNumber" />
         <bean parent="FieldDefinition"
@@ -268,9 +269,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="personId"
               p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber"
-              p:forceInquiry="true" />
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="proposalNumber"-->
+<!--              p:forceInquiry="true" />-->
         <bean parent="FieldDefinition"
               p:attributeName="versionNumber"
               p:forceInquiry="true" />

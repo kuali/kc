@@ -49,7 +49,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     
     private static final long serialVersionUID = 6304433555064511153L;
     
-    AwardDao awardDao;
+    private transient AwardDao awardDao;
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {

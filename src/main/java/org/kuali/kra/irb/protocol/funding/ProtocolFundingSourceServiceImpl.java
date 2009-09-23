@@ -26,9 +26,8 @@ import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.protocol.ProtocolProtocolAction;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.protocol.ProtocolProtocolAction;
 import org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -40,7 +39,7 @@ import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -69,7 +68,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     private LookupableDevelopmentProposalService lookupableDevelopmentProposalService;
     private LookupableHelperService protocolLookupableHelperService;
     private DocumentService documentService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
     
     
     private Map<Integer , FundingSourceLookup> fundingEnumMap;
@@ -407,40 +406,30 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     }
     
     private boolean isLinkedWithDevProposal() {
-        boolean ret = true;
-        // Just eat this no param found exception
-        try {
-            ret = getKualiConfigurationService().getIndicatorParameter(Constants.PARAMETER_MODULE_PROTOCOL,
-                    Constants.PARAMETER_COMPONENT_DOCUMENT,
-                Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK);
-        } catch (Exception e) {}
-        return ret;        
+        return this.isLinkedWith(Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK);     
     }
     
     private boolean isLinkedWithProposal() {
-        boolean ret = true;
-        if (getKualiConfigurationService().getParameterWithoutExceptions(
-                Constants.PARAMETER_MODULE_PROTOCOL,
-                Constants.PARAMETER_COMPONENT_DOCUMENT,
-                Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK)!= null) {
-            ret = getKualiConfigurationService().getIndicatorParameter(Constants.PARAMETER_MODULE_PROTOCOL,
-                    Constants.PARAMETER_COMPONENT_DOCUMENT,
-                Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK);
-        }
-        return ret;        
+        return this.isLinkedWith(Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK);       
     }
     
     private boolean isLinkedWithAward() {
-        boolean ret = true;
-        if (getKualiConfigurationService().getParameterWithoutExceptions(
-                Constants.PARAMETER_MODULE_PROTOCOL,
-                Constants.PARAMETER_COMPONENT_DOCUMENT,
-                Constants.ENABLE_PROTOCOL_TO_AWARD_LINK)!= null) {
-            ret = getKualiConfigurationService().getIndicatorParameter(Constants.PARAMETER_MODULE_PROTOCOL,
-                    Constants.PARAMETER_COMPONENT_DOCUMENT,
-                Constants.ENABLE_PROTOCOL_TO_AWARD_LINK);
+        return this.isLinkedWith(Constants.ENABLE_PROTOCOL_TO_AWARD_LINK);          
+    }
+    
+    /**
+     * Gets if a protocol doc is linked to something based on a passed in parameter name
+     * @param link the parameter name
+     * @return true if linked false if not
+     */
+    private boolean isLinkedWith(String link) {
+        assert link != null : "link is null";
+        
+        if (!this.parameterService.parameterExists(ProtocolDocument.class, link)) {
+            return true;
         }
-        return ret;        
+        
+        return this.parameterService.getIndicatorParameter(ProtocolDocument.class, link);  
     }
     
     public boolean updateSourceNameEditable(String fundingTypeCode) {
@@ -488,15 +477,12 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         this.documentService =  documentService;
     }
     
-    private KualiConfigurationService getKualiConfigurationService() {
-        if (kualiConfigurationService == null) {
-            kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);        
-        }
-        return kualiConfigurationService;
-    }
-    
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    /**
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
     
 }

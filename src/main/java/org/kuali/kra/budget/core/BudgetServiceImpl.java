@@ -34,8 +34,8 @@ import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonService;
@@ -49,10 +49,7 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
 import org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -62,8 +59,8 @@ import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
@@ -80,7 +77,7 @@ public class BudgetServiceImpl implements BudgetService {
     
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
     private BudgetPersonService budgetPersonService;
     private BudgetRatesService budgetRatesService;
     private PessimisticLockService pessimisticLockService;
@@ -193,17 +190,11 @@ public class BudgetServiceImpl implements BudgetService {
         
         budget.setStartDate(parentDocument.getBudgetParent().getRequestedStartDateInitial());
         budget.setEndDate(parentDocument.getBudgetParent().getRequestedEndDateInitial());
-        budget.setOhRateTypeCode(kualiConfigurationService.getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
-        budget.setOhRateClassCode(kualiConfigurationService.getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_CODE));
-        budget.setUrRateClassCode(kualiConfigurationService.getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
-        budget.setModularBudgetFlag(kualiConfigurationService.getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_MODULAR_FLAG).equalsIgnoreCase(Constants.TRUE_FLAG));
-        String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
-        budget.setBudgetStatus(budgetStatusIncompleteCode);
+        budget.setOhRateTypeCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
+        budget.setOhRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_CODE));
+        budget.setUrRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
+        budget.setModularBudgetFlag(this.parameterService.getIndicatorParameter(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
+        budget.setBudgetStatus(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE));
 
         // Copy in key personnel
         for (PersonRolodex proposalPerson: parentDocument.getBudgetParent().getPersonRolodexList()) {
@@ -292,9 +283,13 @@ public class BudgetServiceImpl implements BudgetService {
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    
+    /**
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     public void setBudgetPersonService(BudgetPersonService budgetPersonService) {
@@ -461,9 +456,8 @@ public class BudgetServiceImpl implements BudgetService {
     public List<ValidCeJobCode> getApplicableCostElements(Long budgetId, String personSequenceNumber) {
         List<ValidCeJobCode> validCostElements = null;
 
-        String jobCodeValidationEnabledInd = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT,
-                Constants.BUDGET_JOBCODE_VALIDATION_ENABLED).getParameterValue();
+        String jobCodeValidationEnabledInd = this.parameterService.getParameterValue(
+                BudgetDocument.class, Constants.BUDGET_JOBCODE_VALIDATION_ENABLED);
         
         if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) { 
             Map fieldValues = new HashMap();
@@ -575,8 +569,7 @@ public class BudgetServiceImpl implements BudgetService {
         boolean finalAndCompleteBudgetVersionFound = false;
         boolean budgetVersionsExists = false;
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+        String budgetStatusCompleteCode = this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
         for (BudgetDocumentVersion budgetDocumentVersion : parentDocument.getBudgetDocumentVersions()) {
             BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
             budgetVersionsExists = true;
@@ -609,9 +602,8 @@ public class BudgetServiceImpl implements BudgetService {
         for (BudgetDocumentVersion budgetDocumentVersion : proposalDevelopmentDocument.getBudgetDocumentVersions()) {
             BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
             
-            String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
-                    Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT,
-                    Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+            String budgetStatusCompleteCode = this.parameterService.getParameterValue(BudgetDocument.class,
+                    Constants.BUDGET_STATUS_COMPLETE_CODE);
             // if status is complete and version is not final, then business rule will take care of it
             if (budgetVersion.isFinalVersionFlag() && budgetVersion.getBudgetStatus() != null
                     && budgetVersion.getBudgetStatus().equals(budgetStatusCompleteCode)) {

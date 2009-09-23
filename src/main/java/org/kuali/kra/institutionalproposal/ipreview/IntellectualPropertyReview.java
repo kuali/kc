@@ -27,15 +27,14 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
-import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.institutionalproposal.ProposalComment;
 import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
+import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class IntellectualPropertyReview extends InstitutionalProposalAssociate implements SequenceOwner {
@@ -61,7 +60,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     private String ipReviewSequenceStatus;
     private Long proposalIdToLink;
     
-    private transient KualiConfigurationService kualiConfigurationService;
+    private transient ParameterService parameterService;
     private transient String generalCommentCode;
     private transient String reviewerCommentCode;
     
@@ -358,27 +357,29 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     
     String getGeneralCommentCode() {
         if (generalCommentCode == null) {
-            generalCommentCode = getKualiConfigurationService().getParameterValue(
-                    InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
-                    Constants.PARAMETER_COMPONENT_DOCUMENT, GENERAL_COMMENT_CODE_PARM_NM);
+            generalCommentCode = this.getParameterService().getParameterValue(
+                    InstitutionalProposalDocument.class, GENERAL_COMMENT_CODE_PARM_NM);
         }
         return generalCommentCode;
     }
     
     String getReviewerCommentCode() {
         if (reviewerCommentCode == null) {
-            reviewerCommentCode = getKualiConfigurationService().getParameterValue(
-                    InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
-                    Constants.PARAMETER_COMPONENT_DOCUMENT, REVIEWER_COMMENT_CODE_PARM_NM);
+            reviewerCommentCode = this.getParameterService().getParameterValue(
+                    InstitutionalProposalDocument.class, REVIEWER_COMMENT_CODE_PARM_NM);
         }
         return reviewerCommentCode;
     }
     
-    KualiConfigurationService getKualiConfigurationService() {
-        if (this.kualiConfigurationService == null) {
-            kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
         }
-        return this.kualiConfigurationService;
+        return this.parameterService;
     }
     
     BusinessObjectService getBusinessObjectService() {

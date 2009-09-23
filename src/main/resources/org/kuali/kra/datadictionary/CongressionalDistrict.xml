@@ -7,14 +7,15 @@
   <bean id="CongressionalDistrict" parent="CongressionalDistrict-parentBean" />
   <bean id="CongressionalDistrict-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict" />
+		<property name="objectLabel" value="Congressional District" />
     <property name="titleAttribute" value="CongressionalDistrict" />
     <property name="attributes" >
       <list>
         <ref bean="CongressionalDistrict-proposalNumber" />
         <ref bean="CongressionalDistrict-siteNumber" />
         <ref bean="CongressionalDistrict-congressionalDistrict" />
-        <ref bean="CongressionalDistrict-stateCode" />
-        <ref bean="CongressionalDistrict-districtNumber" />
+<!--        <ref bean="CongressionalDistrict-stateCode" />-->
+<!--        <ref bean="CongressionalDistrict-districtNumber" />-->
       </list>
     </property>
   </bean>
@@ -72,44 +73,44 @@
     <property name="description" value="State code plus congressional district number" />
   </bean>
   
-  <bean id="CongressionalDistrict-stateCode" parent="CongressionalDistrict-stateCode-parentBean" />
-  <bean id="CongressionalDistrict-stateCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="stateCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="State" />
-    <property name="shortLabel" value="State" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.bo.State"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="stateCode"
-            p:labelAttribute="stateCode" />
-    </property>
-    <property name="summary" value="State code, e.g. AZ" />
-    <property name="description" value="State code, e.g. AZ" />
-  </bean>
+<!--  <bean id="CongressionalDistrict-stateCode" parent="CongressionalDistrict-stateCode-parentBean" />-->
+<!--  <bean id="CongressionalDistrict-stateCode-parentBean" abstract="true" parent="AttributeDefinition">-->
+<!--    <property name="name" value="stateCode" />-->
+<!--    <property name="forceUppercase" value="false" />-->
+<!--    <property name="label" value="State" />-->
+<!--    <property name="shortLabel" value="State" />-->
+<!--    <property name="maxLength" value="10" />-->
+<!--    <property name="validationPattern" >-->
+<!--      <bean parent="AlphaNumericValidationPattern" />-->
+<!--    </property>-->
+<!--    <property name="control" >-->
+<!--      <bean parent="SelectControlDefinition"-->
+<!--            p:businessObjectClass="org.kuali.kra.bo.State"-->
+<!--            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"-->
+<!--            p:includeKeyInLabel="false"-->
+<!--            p:includeBlankRow="false"-->
+<!--            p:keyAttribute="stateCode"-->
+<!--            p:labelAttribute="stateCode" />-->
+<!--    </property>-->
+<!--    <property name="summary" value="State code, e.g. AZ" />-->
+<!--    <property name="description" value="State code, e.g. AZ" />-->
+<!--  </bean>-->
   
-  <bean id="CongressionalDistrict-districtNumber" parent="CongressionalDistrict-districtNumber-parentBean" />
-  <bean id="CongressionalDistrict-districtNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="districtNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="District Number" />
-    <property name="shortLabel" value="District Number" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10" />
-    </property>
-    <property name="summary" value="District Number" />
-    <property name="description" value="District Number" />
-  </bean>
+<!--  <bean id="CongressionalDistrict-districtNumber" parent="CongressionalDistrict-districtNumber-parentBean" />-->
+<!--  <bean id="CongressionalDistrict-districtNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
+<!--    <property name="name" value="districtNumber" />-->
+<!--    <property name="forceUppercase" value="false" />-->
+<!--    <property name="label" value="District Number" />-->
+<!--    <property name="shortLabel" value="District Number" />-->
+<!--    <property name="maxLength" value="10" />-->
+<!--    <property name="validationPattern" >-->
+<!--      <bean parent="NumericValidationPattern" />-->
+<!--    </property>-->
+<!--    <property name="control" >-->
+<!--      <bean parent="TextControlDefinition" p:size="10" />-->
+<!--    </property>-->
+<!--    <property name="summary" value="District Number" />-->
+<!--    <property name="description" value="District Number" />-->
+<!--  </bean>-->
   
 </beans>

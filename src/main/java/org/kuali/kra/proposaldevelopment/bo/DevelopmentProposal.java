@@ -32,7 +32,7 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.BudgetParent;
-import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -47,11 +47,9 @@ import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.service.YnqService;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -138,6 +136,18 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private String hierarchyStatusName;
 
     private List<ProposalHierarchyChild> children;
+    private transient ParameterService parameterService;
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
     
     /**
      * Gets the hierarchy attribute. 
@@ -1576,8 +1586,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     public boolean isProposalComplete() {
-        String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        String budgetStatusCompleteCode = this.getParameterService().getParameterValue(
+               BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 
         if (this.getBudgetStatus() != null && budgetStatusCompleteCode != null
                 && this.getBudgetStatus().equals(budgetStatusCompleteCode)) {

@@ -64,14 +64,14 @@ import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RateDecimalFormatter;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetPrintForm;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.format.Formatter;
@@ -154,6 +154,8 @@ public class Budget extends KraPersistableBusinessObjectBase {
     private List<BudgetPrintForm> budgetPrintForms;
     private List<BudgetSubAwards> budgetSubAwards;
     private boolean rateSynced;
+    private transient ParameterService parameterService;
+    
     public Budget(){
         super();
         budgetCostShares = new ArrayList<BudgetCostShare>();
@@ -174,6 +176,17 @@ public class Budget extends KraPersistableBusinessObjectBase {
         budgetPrintForms = new ArrayList<BudgetPrintForm>();
         budgetSubAwards = new ArrayList<BudgetSubAwards>();
         setOnOffCampusFlag("D");
+    }
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
     }
 
     
@@ -1049,8 +1062,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
      * @return
      */
     public Date loadFiscalYearStart() {
-        KualiConfigurationService kualiConfigurationService = getService(KualiConfigurationService.class);
-        return createDateFromString(kualiConfigurationService.getParameterValue(Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_CURRENT_FISCAL_YEAR));        
+        return createDateFromString(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR));        
     }
     
     /**
@@ -1222,11 +1234,10 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     protected Boolean getBooleanValue(String parmName) {
         String parmValue;
         
-        try {
-            KualiConfigurationService kualiConfigurationService = getService(KualiConfigurationService.class);
-            parmValue = kualiConfigurationService.getParameterValue(Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, parmName);
-        } catch(Exception exc) {
+        if (this.parameterService.parameterExists(BudgetDocument.class, parmName)) {
             parmValue = FALSE_FLAG;
+        } else {
+            parmValue = this.parameterService.getParameterValue(BudgetDocument.class, parmName);
         }
         
         return parmValue.equalsIgnoreCase(TRUE_FLAG);

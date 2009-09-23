@@ -16,8 +16,6 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.info;
@@ -26,13 +24,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
@@ -44,6 +43,18 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  */
 public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     private String forAddedPerson;
+    private ParameterService parameterService;
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
     
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase#getKeyValues()
@@ -91,8 +102,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
         }
     }
     protected String findRoleDescription(ProposalPersonRole role,ProposalDevelopmentDocument document) {
-          return getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                PARAMETER_COMPONENT_DOCUMENT, 
+          return this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, 
                 PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
                 + getRoleIdPrefix(document)
                 + role.getProposalPersonRoleId().toLowerCase());    
@@ -100,8 +110,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
 
 
     protected String findNIHRoleDescription(ProposalPersonRole role,ProposalDevelopmentDocument document) {
-            return getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                PARAMETER_COMPONENT_DOCUMENT, 
+            return this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, 
                 PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
                 + getRoleIdPrefix(document)
                 + role.getProposalPersonRoleId().toLowerCase());    
@@ -113,15 +122,6 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
      */
     private boolean isNewProposalPersonRoleRendered() {
         return ((ProposalDevelopmentForm) GlobalVariables.getKualiForm()).isNewProposalPersonRoleRendered();
-    }
-
-    /**
-     * Locate from Spring a singleton instance of the <code>{@link KualiConfigurationService}</code>.
-     * 
-     * @return KualiConfigurationService
-     */
-    protected KualiConfigurationService getConfigurationService() {
-        return getService(KualiConfigurationService.class);
     }
 
     /**

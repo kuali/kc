@@ -22,6 +22,7 @@
 	<bean id="InstitutionalProposalSpecialReviewExemption" parent="InstitutionalProposalSpecialReviewExemption-parentBean" />
 	<bean id="InstitutionalProposalSpecialReviewExemption-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption" />
+		<property name="objectLabel" value="Institutional Special Review Exemption" />
 		<property name="inquiryDefinition" >
 			<ref bean="InstitutionalProposalSpecialReviewExemption-inquiryDefinition" />
 		</property>
@@ -115,7 +116,7 @@
 	<bean id="InstitutionalProposalSpecialReviewExemption-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Institutional Proposal Exempt Number Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Institutional Proposal Exempt Number" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

@@ -33,6 +33,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
@@ -66,6 +67,13 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
     private static final String MANDATORY = "M";
     private static final String OPTIONAL = "O";
 
+    private ParameterService parameterService;
+    
+    @Before
+    public void setUpServices() {
+        this.parameterService = KraServiceLocator.getService(ParameterService.class);
+    }
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -380,12 +388,6 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
      * either mandatory or optional.
      */
     private void setParameter(String value) {
-        KualiConfigurationService configService = getService(KualiConfigurationService.class);
-        Parameter param = configService.getParameterWithoutExceptions(Constants.PARAMETER_MODULE_PROTOCOL, 
-                                                                      Constants.PARAMETER_COMPONENT_DOCUMENT, 
-                                                                      Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
-        param.setParameterValue(value);
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        businessObjectService.save(param);
+        this.parameterService.setParameterForTesting(ProtocolDocument.class, Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION, value);
     }
 }

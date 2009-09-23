@@ -8,6 +8,7 @@
 
   <bean id="ProposalExemptNumber-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalExemptNumber" />
+		<property name="objectLabel" value="Proposal Exempt Number" />
     <property name="inquiryDefinition" >
       <ref bean="ProposalExemptNumber-inquiryDefinition" />
     </property>
@@ -113,7 +114,7 @@
   <bean id="ProposalExemptNumber-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Prop Exempt Number Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Prop Exempt Number" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

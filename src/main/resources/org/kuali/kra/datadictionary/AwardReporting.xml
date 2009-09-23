@@ -22,6 +22,7 @@
     <bean id="AwardReporting" parent="AwardReporting-parentBean" />
     <bean id="AwardReporting-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.awardreports.reporting.AwardReporting" />
+		<property name="objectLabel" value="Award Reporting" />
         <property name="inquiryDefinition" >
             <ref bean="AwardReporting-inquiryDefinition" />
         </property>
@@ -244,7 +245,7 @@
     <bean id="AwardReporting-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Award Reporting Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Award Reporting" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>

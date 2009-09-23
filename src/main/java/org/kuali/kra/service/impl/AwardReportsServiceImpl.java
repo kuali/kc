@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
@@ -31,7 +32,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,8 +47,8 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     private static final String SEMICOLON_AS_DELIMITOR = ";";
     private static final String COMMA_AS_DELIMITOR = ",";
     
-    KualiConfigurationService kualiConfigurationService;
-    BusinessObjectService businessObjectService;
+    private ParameterService parameterService;
+    private BusinessObjectService businessObjectService;
     
     
     /**
@@ -81,9 +82,8 @@ public class AwardReportsServiceImpl implements AwardReportsService {
             Map<String, Object> hashMap){        
         Map<String, String> primaryKeyField = new HashMap<String, String>();
         
-        primaryKeyField.put(REPORT_CLASS_CODE_FIELD, getKualiConfigurationService().getParameter(Constants
-                .PARAMETER_MODULE_AWARD ,Constants.PARAMETER_COMPONENT_DOCUMENT
-                ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES).getParameterValue());        
+        primaryKeyField.put(REPORT_CLASS_CODE_FIELD, this.getParameterService().getParameterValue(AwardDocument.class
+                ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES));        
         
         hashMap.put(Constants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL, 
                 (ReportClass) getBusinessObjectService().findByPrimaryKey(ReportClass.class, primaryKeyField));
@@ -208,12 +208,11 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     }
 
     /**
-     * 
-     * This method...
-     * @param kualiConfigurationService
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
     
     /**
@@ -221,8 +220,8 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      * This method...
      * @return
      */
-    protected KualiConfigurationService getKualiConfigurationService(){
-        return kualiConfigurationService;
+    protected ParameterService getParameterService(){
+        return this.parameterService;
     }
 
     /**

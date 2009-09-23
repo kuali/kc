@@ -8,6 +8,7 @@
 
   <bean id="ProposalPersonBiography-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography" />
+		<property name="objectLabel" value="Proposal Person Biography" />
     <property name="inquiryDefinition" >
       <ref bean="ProposalPersonBiography-inquiryDefinition" />
     </property>
@@ -210,7 +211,7 @@
             p:size="150" />
     </property>
     <property name="summary" value="File Name" />
-    <property name="description" value="This is the name of the file path and name that the user is uploading; can be typed in or the user can use the “browse” feature to find the file on their computer or attached mass storage device" />
+    <property name="description" value="This is the name of the file path and name that the user is uploading; can be typed in or the user can use the “browse�? feature to find the file on their computer or attached mass storage device" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
@@ -258,7 +259,7 @@
   <bean id="ProposalPersonBiography-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Proposal Person Biography Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Prop Person Bio" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

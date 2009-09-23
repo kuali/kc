@@ -22,6 +22,7 @@
     <bean id="ProposalCustomData" parent="ProposalCustomData-parentBean" />
     <bean id="ProposalCustomData-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData" />
+		<property name="objectLabel" value="Institutional Proposal Custom Data" />
         <property name="inquiryDefinition" >
             <ref bean="ProposalCustomData-inquiryDefinition" />
         </property>
@@ -32,7 +33,7 @@
         <property name="attributes" >
             <list>
                 <ref bean="ProposalCustomData-proposalCustomDataId" />
-                <ref bean="ProposalCustomData-proposalId" />
+<!--                <ref bean="ProposalCustomData-proposalId" />-->
                 <ref bean="ProposalCustomData-proposalNumber" />
                 <ref bean="ProposalCustomData-sequenceNumber" />
                 <ref bean="ProposalCustomData-customAttributeId" />
@@ -62,23 +63,23 @@
         <property name="description" value="Proposal Custom Data Id" />
     </bean>
 
-    <bean id="ProposalCustomData-proposalId" parent="ProposalCustomData-proposalId-parentBean" />
-    <bean id="ProposalCustomData-proposalId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="proposalId" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Proposal Id" />
-        <property name="shortLabel" value="Proposal Id" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Proposal Id" />
-        <property name="description" value="Proposal Id" />
-    </bean>
+<!--    <bean id="ProposalCustomData-proposalId" parent="ProposalCustomData-proposalId-parentBean" />-->
+<!--    <bean id="ProposalCustomData-proposalId-parentBean" abstract="true" parent="AttributeDefinition" >-->
+<!--        <property name="name" value="proposalId" />-->
+<!--        <property name="forceUppercase" value="false" />-->
+<!--        <property name="label" value="Proposal Id" />-->
+<!--        <property name="shortLabel" value="Proposal Id" />-->
+<!--        <property name="maxLength" value="22" />-->
+<!--        <property name="validationPattern" >-->
+<!--            <bean parent="NumericValidationPattern" />-->
+<!--        </property>-->
+<!--        <property name="control" >-->
+<!--            <bean parent="TextControlDefinition"-->
+<!--                p:size="10" />-->
+<!--        </property>-->
+<!--        <property name="summary" value="Proposal Id" />-->
+<!--        <property name="description" value="Proposal Id" />-->
+<!--    </bean>-->
 
     <bean id="ProposalCustomData-proposalNumber" parent="ProposalCustomData-proposalNumber-parentBean" />
     <bean id="ProposalCustomData-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -171,8 +172,8 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="proposalCustomDataId" 
                                 p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="proposalId" />
+<!--                            <bean parent="FieldDefinition"-->
+<!--                                p:attributeName="proposalId" />-->
                             <bean parent="FieldDefinition"
                                 p:attributeName="proposalNumber" />
                             <bean parent="FieldDefinition"
@@ -193,7 +194,7 @@
     <bean id="ProposalCustomData-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Proposal Custom Data Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Proposal Custom Data" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>
@@ -203,8 +204,8 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalCustomDataId" 
                     p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="proposalId" />
+<!--                <bean parent="FieldDefinition"-->
+<!--                    p:attributeName="proposalId" />-->
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalNumber" />
                 <bean parent="FieldDefinition"
@@ -220,8 +221,8 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalCustomDataId" 
                     p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="proposalId" />
+<!--                <bean parent="FieldDefinition"-->
+<!--                    p:attributeName="proposalId" />-->
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalNumber" />
                 <bean parent="FieldDefinition"

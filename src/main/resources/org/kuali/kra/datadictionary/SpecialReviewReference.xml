@@ -24,6 +24,7 @@
 	<bean id="SpecialReviewReference" parent="SpecialReviewReference-parentBean" />
 	<bean id="SpecialReviewReference-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.bo.AbstractSpecialReview" />
+		<property name="objectLabel" value="Special Review Reference" />
 		<property name="inquiryDefinition" >
 			<ref bean="SpecialReviewReference-inquiryDefinition" />
 		</property>
@@ -237,7 +238,7 @@
 	<bean id="SpecialReviewReference-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value=" Special Review Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a  Special Review" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

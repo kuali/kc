@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <descriptor-repository version="1.0">
-	<descriptor-repository version="1.0">
-		<jdbc-connection-descriptor
-			jcd-alias="dataSource"
-			default-connection="true"
-			platform="Oracle9i"
-			jdbc-level="3.0"
-			useAutoCommit="0">
-			<sequence-manager className="org.apache.ojb.broker.util.sequence.SequenceManagerNextValImpl" />
-			<object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />
-		</jdbc-connection-descriptor>
-	</descriptor-repository>
+	<jdbc-connection-descriptor
+		jcd-alias="dataSource"
+		default-connection="false"
+		jdbc-level="3.0"
+		eager-release="false"
+		batch-mode="false"
+		useAutoCommit="0"
+		ignoreAutoCommitExceptions="false">
+    	<sequence-manager className="org.kuali.rice.core.ojb.ConfigurableSequenceManager">
+      		<attribute attribute-name="property.prefix" attribute-value="datasource.ojb.sequenceManager" />
+    	</sequence-manager>
+    	<object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />
+    </jdbc-connection-descriptor>
 
 	<!-- Proposal Development Document and Children -->
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" table="EPS_PROPOSAL_DOCUMENT">
@@ -1921,7 +1923,7 @@
 
 	<class-descriptor class="org.kuali.kra.bo.CustomAttributeDocument" table="CUSTOM_ATTRIBUTE_DOCUMENT">
 		<field-descriptor name="customAttributeId" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="INTEGER" primarykey="true"/>
-		<field-descriptor name="documentTypeCode" column="DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="documentTypeName" column="DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="required" column="IS_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="typeName" column="TYPE_NAME" jdbc-type="VARCHAR"/>

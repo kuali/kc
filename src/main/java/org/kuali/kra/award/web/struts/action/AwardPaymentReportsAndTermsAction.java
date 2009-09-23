@@ -589,16 +589,6 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return true;
     }
     
-    /**
-     * 
-     * This is a wrapper method for the retrieval of KualiConfigurationService.
-     * 
-     * @return
-     */
-    protected KualiConfigurationService getKualiConfigurationService(){
-        return KraServiceLocator.getService(KualiConfigurationService.class);
-    }
-    
     protected AwardCloseoutService getAwardCloseoutService(){
         return KraServiceLocator.getService(AwardCloseoutService.class);
     }

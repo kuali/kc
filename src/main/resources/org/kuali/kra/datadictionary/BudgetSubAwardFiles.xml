@@ -8,6 +8,7 @@
 
   <bean id="BudgetSubAwardFiles-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles" />
+		<property name="objectLabel" value="Budget Sub Award Files" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetSubAwardFiles-inquiryDefinition" />
     </property>
@@ -18,8 +19,8 @@
     <property name="attributes" >
       <list>
         <ref bean="BudgetSubAwardFiles-subAwardNumber" />
-        <ref bean="BudgetSubAwardFiles-proposalNumber" />
-        <ref bean="BudgetSubAwardFiles-budgetVersionNumber" />
+<!--        <ref bean="BudgetSubAwardFiles-proposalNumber" />-->
+<!--        <ref bean="BudgetSubAwardFiles-budgetVersionNumber" />-->
         <ref bean="BudgetSubAwardFiles-versionNumber" />
       </list>
     </property>
@@ -45,42 +46,42 @@
     <property name="summary" value="subAwardNumber" />
     <property name="description" value="subAwardNumber" />
   </bean>
-  <bean id="BudgetSubAwardFiles-proposalNumber" parent="BudgetSubAwardFiles-proposalNumber-parentBean" />
-
-  <bean id="BudgetSubAwardFiles-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Proposal Number" />
-    <property name="shortLabel" value="Proposal Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
-    <property name="summary" value="Proposal Number" />
-    <property name="description" value="Proposal Number" />
-  </bean>
-  <bean id="BudgetSubAwardFiles-budgetVersionNumber" parent="BudgetSubAwardFiles-budgetVersionNumber-parentBean" />
-
-  <bean id="BudgetSubAwardFiles-budgetVersionNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="budgetVersionNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Budget Version Number" />
-    <property name="shortLabel" value="Budget Version Number" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
-    <property name="summary" value="Budget Version Number" />
-    <property name="description" value="Budget Version Number" />
-  </bean>
+<!--  <bean id="BudgetSubAwardFiles-proposalNumber" parent="BudgetSubAwardFiles-proposalNumber-parentBean" />-->
+<!---->
+<!--  <bean id="BudgetSubAwardFiles-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
+<!--    <property name="name" value="proposalNumber" />-->
+<!--    <property name="forceUppercase" value="false" />-->
+<!--    <property name="label" value="Proposal Number" />-->
+<!--    <property name="shortLabel" value="Proposal Number" />-->
+<!--    <property name="maxLength" value="12" />-->
+<!--    <property name="validationPattern" >-->
+<!--      <bean parent="AlphaNumericValidationPattern" />-->
+<!--    </property>-->
+<!--    <property name="control" >-->
+<!--      <bean parent="TextControlDefinition"-->
+<!--            p:size="12" />-->
+<!--    </property>-->
+<!--    <property name="summary" value="Proposal Number" />-->
+<!--    <property name="description" value="Proposal Number" />-->
+<!--  </bean>-->
+<!--  <bean id="BudgetSubAwardFiles-budgetVersionNumber" parent="BudgetSubAwardFiles-budgetVersionNumber-parentBean" />-->
+<!---->
+<!--  <bean id="BudgetSubAwardFiles-budgetVersionNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
+<!--    <property name="name" value="budgetVersionNumber" />-->
+<!--    <property name="forceUppercase" value="false" />-->
+<!--    <property name="label" value="Budget Version Number" />-->
+<!--    <property name="shortLabel" value="Budget Version Number" />-->
+<!--    <property name="maxLength" value="3" />-->
+<!--    <property name="validationPattern" >-->
+<!--      <bean parent="NumericValidationPattern" />-->
+<!--    </property>-->
+<!--    <property name="control" >-->
+<!--      <bean parent="TextControlDefinition"-->
+<!--            p:size="3" />-->
+<!--    </property>-->
+<!--    <property name="summary" value="Budget Version Number" />-->
+<!--    <property name="description" value="Budget Version Number" />-->
+<!--  </bean>-->
   <bean id="BudgetSubAwardFiles-versionNumber" parent="BudgetSubAwardFiles-versionNumber-parentBean" />
 
   <bean id="BudgetSubAwardFiles-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -100,15 +101,15 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber"
-                    p:forceInquiry="true" />
+<!--              <bean parent="FieldDefinition"-->
+<!--                    p:attributeName="proposalNumber"-->
+<!--                    p:forceInquiry="true" />-->
               <bean parent="FieldDefinition"
                     p:attributeName="subAwardNumber"
                     p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="budgetVersionNumber"
-                    p:forceInquiry="true" />
+<!--              <bean parent="FieldDefinition"-->
+<!--                    p:attributeName="budgetVersionNumber"-->
+<!--                    p:forceInquiry="true" />-->
               <bean parent="FieldDefinition"
                     p:attributeName="versionNumber"
                     p:forceInquiry="true" />
@@ -127,7 +128,7 @@
   <bean id="BudgetSubAwardFiles-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Sub Awards" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Budget Sub Award" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>
@@ -136,10 +137,10 @@
       <list>
         <bean parent="FieldDefinition"
               p:attributeName="subAwardNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="budgetVersionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="budgetVersionNumber" />-->
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="proposalNumber" />-->
         <bean parent="FieldDefinition"
               p:attributeName="versionNumber" />
       </list>
@@ -149,12 +150,12 @@
         <bean parent="FieldDefinition"
               p:attributeName="subAwardNumber"
               p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="budgetVersionNumber"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber"
-              p:forceInquiry="true" />
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="budgetVersionNumber"-->
+<!--              p:forceInquiry="true" />-->
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="proposalNumber"-->
+<!--              p:forceInquiry="true" />-->
         <bean parent="FieldDefinition"
               p:attributeName="versionNumber"
               p:forceInquiry="true" />

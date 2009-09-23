@@ -13,8 +13,8 @@
 	    <form-bean name="RouteLogForm" type="org.kuali.rice.kew.routelog.web.RouteLogForm" />
 	    <form-bean name="RoutingReportForm" type="org.kuali.rice.kew.rule.web.RoutingReportForm" />
 	    <form-bean name="DelegateRuleForm" type="org.kuali.rice.kew.rule.web.DelegateRuleForm" />
-	    <form-bean name="ActionListFormNew" type="org.kuali.rice.kew.actionlist.web.ActionListForm" />
-	    <form-bean name="ActionListFilterFormNew" type="org.kuali.rice.kew.actionlist.web.ActionListFilterForm" />
+	    <form-bean name="ActionListForm" type="org.kuali.rice.kew.actionlist.web.ActionListForm" />
+	    <form-bean name="ActionListFilterForm" type="org.kuali.rice.kew.actionlist.web.ActionListFilterForm" />
 	    <form-bean name="DocumentOperationForm" type="org.kuali.rice.kew.documentoperation.web.DocumentOperationForm" />
         <form-bean name="DocumentConfigurationViewForm" type="org.kuali.rice.kew.rule.web.DocumentConfigurationViewForm" />
 
@@ -68,16 +68,16 @@
        	<!-- End required KNS mappings -->
 
       <action path="/ActionList" scope="request" validate="false" parameter="methodToCall"
-        type="org.kuali.rice.kew.actionlist.web.ActionListAction" name="ActionListFormNew"
-        input="/WEB-INF/jsp/ActionList/ActionListNew.jsp" >
-        <forward name="basic" path="/WEB-INF/jsp/ActionList/ActionListNew.jsp"/>
-        <forward name="viewActionList" path="/WEB-INF/jsp/ActionList/ActionListNew.jsp"/>
-        <forward name="count" path="/WEB-INF/jsp/ActionList/ActionListCountNew.jsp"/>
-        <forward name="requiredStateError" path="/WEB-INF/jsp/ActionList/ActionListNew.jsp"/>
-        <forward name="finalStateError" path="/WEB-INF/jsp/ActionList/ActionListNew.jsp"/>
+        type="org.kuali.rice.kew.actionlist.web.ActionListAction" name="ActionListForm"
+        input="/WEB-INF/jsp/ActionList/ActionList.jsp" >
+        <forward name="basic" path="/WEB-INF/jsp/ActionList/ActionList.jsp"/>
+        <forward name="viewActionList" path="/WEB-INF/jsp/ActionList/ActionList.jsp"/>
+        <forward name="count" path="/WEB-INF/jsp/ActionList/ActionListCount.jsp"/>
+        <forward name="requiredStateError" path="/WEB-INF/jsp/ActionList/ActionList.jsp"/>
+        <forward name="finalStateError" path="/WEB-INF/jsp/ActionList/ActionList.jsp"/>
       </action>
 
-      <action path="/ActionListFilter" scope="request" validate="false" name="ActionListFilterFormNew"
+      <action path="/ActionListFilter" scope="request" validate="false" name="ActionListFilterForm"
         input="/WEB-INF/jsp/ActionList/ActionListFilter.jsp"
         type="org.kuali.rice.kew.actionlist.web.ActionListFilterAction" parameter="methodToCall">
         <forward name="basic" path="/WEB-INF/jsp/ActionList/ActionListFilter.jsp"/>
@@ -145,26 +145,6 @@
         <forward name="viewActionList" path="/ActionList.do?methodToCall=start" redirect="true"/>
         <forward name="requiredStateError" path="/WEB-INF/jsp/Preferences/Preferences.jsp"/>
         <forward name="finalStateError" path="/WEB-INF/jsp/Preferences/Preferences.jsp"/>
-      </action>
-
-      <action path="/Backdoor" name="BackdoorForm" input="/WEB-INF/jsp/backdoor/Backdoor.jsp" type="org.kuali.rice.kew.web.backdoor.BackdoorAction"
-          scope="request" parameter="methodToCall" validate="false" >
-        <forward name="basic" path="/WEB-INF/jsp/backdoor/Backdoor.jsp"/>
-        <forward name="viewPortal" path="/WEB-INF/jsp/backdoor/index.jsp"/>
-        <forward name="requiredStateError" path="/WEB-INF/jsp/backdoor/Backdoor.jsp"/>
-        <forward name="finalStateError" path="/WEB-INF/jsp/backdoor/Backdoor.jsp"/>
-      </action>
-
-      <action path="/Portal" name="BackdoorForm" scope="request" parameter="methodToCall"
-      	input="/WEB-INF/jsp/backdoor/index.jsp"
-      	type="org.kuali.rice.kew.web.backdoor.BackdoorAction">
-      	<forward name="viewPortal" path="/WEB-INF/jsp/backdoor/index.jsp"/>
-      	<forward name="portal" path="/../portal.jsp" redirect="true" />
-      </action>
-
-      <action path="/Administration" name="BackdoorForm" scope="request" parameter="methodToCall"
-        type="org.kuali.rice.kew.web.backdoor.BackdoorAction">
-        <forward name="administration" path="/WEB-INF/jsp/backdoor/Admin.jsp"/>
       </action>
 
       <action path="/DocHandler" name="DocHandlerForm" scope="request" parameter="methodToCall"
