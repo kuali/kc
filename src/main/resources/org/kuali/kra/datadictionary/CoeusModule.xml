@@ -22,6 +22,7 @@
     <bean id="CoeusModule" parent="CoeusModule-parentBean" />
     <bean id="CoeusModule-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.bo.CoeusModule" />
+		<property name="objectLabel" value="Coeus Module" />
         <property name="inquiryDefinition" >
             <ref bean="CoeusModule-inquiryDefinition" />
         </property>
@@ -93,7 +94,7 @@
     <bean id="CoeusModule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Coeus Module Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Coeus Module" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>

@@ -8,6 +8,7 @@
 
   <bean id="SpecialReviewApprovalType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.SpecialReviewApprovalType" />
+		<property name="objectLabel" value="Special Review Approval Type" />
     <property name="inquiryDefinition" >
       <ref bean="SpecialReviewApprovalType-inquiryDefinition" />
     </property>
@@ -88,7 +89,7 @@
   <bean id="SpecialReviewApprovalType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Special Review Approval Status Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Special Review Approval Status" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

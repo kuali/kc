@@ -172,22 +172,6 @@ public interface KeyPersonnelService {
      * @see org.kuali.kra.proposaldevelopment.bo.CreditSplit
      */
     public boolean isCreditSplitEnabled();
-    
-    
-    /**
-     * Used by Spring to inject the {@link KualiConfigurationService}
-     * 
-     * @param kualiConfigurationService instance to assign
-     */
-    public void setConfigurationService(KualiConfigurationService kualiConfigurationService);
-    
-    
-    /**
-     * Retrieve the injected {@link KualiConfigurationService}
-     * 
-     * @return {@link KualiConfigurationService}
-     */
-    public KualiConfigurationService getConfigurationService();
         
     /**
      * Compares the given <code>roleId</code> against the <code>proposaldevelopment.personrole.readonly.roles</code> to see if it is 

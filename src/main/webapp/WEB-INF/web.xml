@@ -9,84 +9,16 @@
       <param-name>kew.bootstrap.spring.file</param-name>
       <param-value>SpringBeans.xml</param-value>
     </context-param>
-<!-- Rice content End -->
 
-	<!-- ******************* CAS Context Parameters ********************* -->
-
-    <!-- Authentication handler -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.authHandler</param-name>
-        <param-value>org.kuali.cas.auth.KraPasswordHandler</param-value>
-    </context-param>
-
-    <!-- Timeout for granting tickets -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.grantingTimeout</param-name>
-        <param-value>3600</param-value>
-    </context-param>
-
-    <!-- Timeout for service tickets -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.serviceTimeout</param-name>
-        <param-value>300</param-value>
-    </context-param>
-
-    <!-- Timeout for login tickets -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.loginTimeout</param-name>
-        <param-value>3600</param-value>
-    </context-param>
-
-    <!-- Service validation URL -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.serviceValidate</param-name>
-        <param-value>/serviceValidate</param-value>
-    </context-param>
-
-    <!-- Login page URL -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.loginForm</param-name>
-        <param-value>/cas/login.jsp</param-value>
-    </context-param>
-
-    <!-- Page URL for generic login success message -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.genericSuccess</param-name>
-        <param-value>/cas/success.jsp</param-value>
-    </context-param>
-
-    <!-- Page URL for simple JavaScript-based redirection -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.redirect</param-name>
-        <param-value>/cas/redirect.jsp</param-value>
-    </context-param>
-
-    <!-- Page URL for login success message when 'service' is specified -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.serviceSuccess</param-name>
-        <param-value>/cas/goService.jsp</param-value>
-    </context-param>
-
-    <!-- Page URL for login success message + confirmation
-         when 'service' is specified -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.confirmService</param-name>
-        <param-value>/cas/warnService.jsp</param-value>
-    </context-param>
-
-    <!-- Logout page URL -->
-    <context-param>
-        <param-name>edu.yale.its.tp.cas.logoutPage</param-name>
-        <param-value>/cas/logout.jsp</param-value>
-    </context-param>
-
-    <!-- ******************* END CAS Context Parameters ********************* -->
-
-<!-- Rice content Start -->
 	<filter>
         <filter-name>HideWebInfFilter</filter-name>
         <filter-class>org.kuali.rice.kns.web.filter.HideWebInfFilter</filter-class>
     </filter>
+    
+    <filter>
+		<filter-name>ResponseOverrideFilter</filter-name>
+		<filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
+	</filter>
 
 	<filter>
 		<filter-name>BootstrapFilter</filter-name>
@@ -103,14 +35,19 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+	<filter-mapping>
+		<filter-name>ResponseOverrideFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+
     <filter-mapping>
-      <filter-name>BootstrapFilter</filter-name>
-      <servlet-name>action</servlet-name>
+		<filter-name>BootstrapFilter</filter-name>
+		<servlet-name>action</servlet-name>
     </filter-mapping>
 
     <filter-mapping>
-      <filter-name>BootstrapFilter</filter-name>
-      <servlet-name>notification</servlet-name>
+		<filter-name>BootstrapFilter</filter-name>
+		<servlet-name>notification</servlet-name>
     </filter-mapping>
 
 	<filter-mapping>
@@ -148,15 +85,6 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>     
 
-  <filter>
-    <filter-name>ResponseOverrideFilter</filter-name>
-    <filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
-  </filter>
-
-  <filter-mapping>
-    <filter-name>ResponseOverrideFilter</filter-name>
-    <url-pattern>*.do</url-pattern>
-  </filter-mapping>
   <filter-mapping>
     <filter-name>ResponseOverrideFilter</filter-name>
     <url-pattern>*.jsp</url-pattern>
@@ -217,58 +145,9 @@
 	</listener>
 <!-- Rice content End -->
 
-  <!-- ******************* CAS Listeners ********************* -->
-
-  <!-- Sets up ticket caches -->
-  <listener>
-    <listener-class>edu.yale.its.tp.cas.servlet.CacheInit</listener-class>
-  </listener>
-
-  <!-- ******************* END CAS Listeners ********************* -->
-
-  <!-- ******************* CAS Servlets ********************* -->
-
-    <!-- Login -->
-    <servlet>
-      <servlet-name>Login</servlet-name>
-      <servlet-class>edu.yale.its.tp.cas.servlet.Login</servlet-class>
-    </servlet>
-
-    <!-- Logout -->
-    <servlet>
-      <servlet-name>Logout</servlet-name>
-      <servlet-class>edu.yale.its.tp.cas.servlet.Logout</servlet-class>
-    </servlet>
-
-    <!-- Legacy validation -->
-    <servlet>
-      <servlet-name>LegacyValidate</servlet-name>
-      <servlet-class>edu.yale.its.tp.cas.servlet.LegacyValidate</servlet-class>
-    </servlet>
-
-    <!-- Modern service validation -->
-    <servlet>
-      <servlet-name>ServiceValidate</servlet-name>
-      <servlet-class>edu.yale.its.tp.cas.servlet.ServiceValidate</servlet-class>
-    </servlet>
-
-    <!-- Proxy (PGT acquisition) -->
-    <servlet>
-      <servlet-name>Proxy</servlet-name>
-      <servlet-class>edu.yale.its.tp.cas.servlet.Proxy</servlet-class>
-    </servlet>
-
-    <!-- Modern proxy-service validation -->
-    <servlet>
-      <servlet-name>ProxyValidate</servlet-name>
-      <servlet-class>edu.yale.its.tp.cas.servlet.ProxyValidate</servlet-class>
-    </servlet>
-
-	<!-- ******************* END CAS Servlets ********************* -->
-
 	<servlet>
 		<servlet-name>action</servlet-name>
-		<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+		<servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>
 		<init-param>
 			<param-name>config</param-name>
 			<param-value>/WEB-INF/struts-config.xml</param-value>
@@ -307,7 +186,6 @@
 <!-- Rice content Start -->
     <!-- Notification system servlets -->
     <!-- Notification System Spring MVC UI -->
-<!--
     <servlet>
         <servlet-name>notification</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -324,7 +202,7 @@
         </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>
--->
+    
 	<servlet>
 		<servlet-name>dwr-invoker</servlet-name>
 <!-- KC MODIFICATION START -->
@@ -342,7 +220,6 @@
 	</servlet>
 	
     <!-- KCB servlets -->
-<!--
     <servlet>
         <servlet-name>kcb</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -359,7 +236,7 @@
         </init-param>
         <load-on-startup>2</load-on-startup>
 	</servlet>
--->
+
 	<servlet>
 		<servlet-name>remoting</servlet-name>
 		<servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
@@ -396,18 +273,16 @@
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 
-<!--
     <servlet-mapping>
         <servlet-name>notification</servlet-name>
         <url-pattern>*.form</url-pattern>
     </servlet-mapping>
--->
-<!--
+
 	<servlet-mapping>
         <servlet-name>kcb</servlet-name>
         <url-pattern>*.kcb</url-pattern>
     </servlet-mapping>
--->
+
 	<servlet-mapping>
 		<servlet-name>dwr-invoker</servlet-name>
 		<url-pattern>/dwr/*</url-pattern>
@@ -432,44 +307,13 @@
 		<servlet-name>edoclite</servlet-name>
 		<url-pattern>/kew/EDocLite</url-pattern>
 	</servlet-mapping>
-<!-- Rice content End -->
 
-	<!-- ******************* CAS Servlet Mappings ********************* -->
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
 
-    <!-- Servlet mappings to local URLs -->
-    <servlet-mapping>
-      <servlet-name>Login</servlet-name>
-      <url-pattern>/cas/login</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-      <servlet-name>Logout</servlet-name>
-      <url-pattern>/cas/logout</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-      <servlet-name>LegacyValidate</servlet-name>
-      <url-pattern>/cas/validate</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-      <servlet-name>ServiceValidate</servlet-name>
-      <url-pattern>/cas/serviceValidate</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-      <servlet-name>Proxy</servlet-name>
-      <url-pattern>/cas/proxy</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-      <servlet-name>ProxyValidate</servlet-name>
-      <url-pattern>/cas/proxyValidate</url-pattern>
-    </servlet-mapping>
-	<!-- ******************* END CAS Servlet Mappings ********************* -->
-
-<!-- Rice content Start -->
-    <session-config>
-    	<session-timeout>60</session-timeout> 
-    </session-config>
-	
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 <!-- Rice content End -->
 

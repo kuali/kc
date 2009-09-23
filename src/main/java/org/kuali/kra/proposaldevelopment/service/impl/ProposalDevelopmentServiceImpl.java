@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.BudgetService;
@@ -42,6 +41,7 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -51,6 +51,15 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     private UnitAuthorizationService unitAuthService;
     private KraPersistenceStructureService kraPersistenceStructureService;
     private BudgetService budgetService;
+    private ParameterService parameterService;
+    
+    /**
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
     
     /**
      * This method gets called from the "save" action. It initializes the applicant org. on the first save;
@@ -159,7 +168,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     public void setUnitAuthorizationService(UnitAuthorizationService unitAuthService) {
         this.unitAuthService = unitAuthService;
     }
-
 
     public String populateProposalEditableFieldMetaDataForAjaxCall(String proposalNumber, String editableFieldDBColumn) {
         return populateProposalEditableFieldMetaData(proposalNumber, editableFieldDBColumn);

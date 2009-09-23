@@ -1,3 +1,18 @@
+<%--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 <c:set var="docRoleAttributes" value="${DataDictionary.PersonDocumentRole.attributes}" />
@@ -61,6 +76,7 @@
        		</tr>         
      	</c:if>       
         <c:forEach var="role" items="${KualiForm.document.roles}" varStatus="status">
+			<c:set var="readOnlyRole" scope="request" value="${!role.editable || readOnly}" />
         	<%-- add header label for each 'role' to see if it is less confusion for user --%>
           	<tr>
           		<th>&nbsp;</th> 
@@ -75,7 +91,7 @@
 	          	</c:if>	
           	</tr>             	
        	    <c:set var="rows" value="2"/>
-       		<c:if test="${empty role.definitions and fn:length(role.rolePrncpls[0].roleRspActions) < 1}">	
+       		<c:if test="${empty role.definitions and (empty role.rolePrncpls or fn:length(role.rolePrncpls) < 1 or fn:length(role.rolePrncpls[0].roleRspActions) < 1)}">	
         	       <c:set var="rows" value="1"/>       		
        		</c:if>        	
 	        <tr>
@@ -100,19 +116,20 @@
                 	<div align="center"> <kul:htmlControlAttribute property="document.roles[${status.index}].kimRoleType.name"  attributeEntry="${docRoleAttributes.kimGroupType.name}" readOnly="true"  />
 				</div>
 				</td>
+				<c:set var="roleMemberActiveDatesReadOnly" value="${(!empty role.definitions and fn:length(role.definitions) > 0) || readOnlyRole}" />
                 <td align="left" valign="middle">
-                   	<c:if test="${fn:length(role.rolePrncpls) > 0}">
-                		<div align="center"> <kul:htmlControlAttribute property="document.roles[${status.index}].rolePrncpls[0].activeFromDate"  attributeEntry="${docRolePrncplAttributes.activeFromDate}"  datePicker="true" readOnly="${readOnly}" />
-						</div>
-                	</c:if>
-				</td>
-                <td align="left" valign="middle">
-                   	<c:if test="${fn:length(role.rolePrncpls) > 0}">
-                		<div align="center"> <kul:htmlControlAttribute property="document.roles[${status.index}].rolePrncpls[0].activeToDate"  attributeEntry="${docRolePrncplAttributes.activeToDate}"  datePicker="true" readOnly="${readOnly}" />
+                	<c:if test="${fn:length(role.rolePrncpls) > 0}">
+                		<div align="center"> <kul:htmlControlAttribute property="document.roles[${status.index}].rolePrncpls[0].activeFromDate"  attributeEntry="${docRolePrncplAttributes.activeFromDate}"  datePicker="true" readOnly="${roleMemberActiveDatesReadOnly}" />
 						</div>
 					</c:if>
 				</td>
-           		<c:if test="${!readOnly}">						
+                <td align="left" valign="middle">
+                	<c:if test="${fn:length(role.rolePrncpls) > 0}">
+	               		<div align="center"> <kul:htmlControlAttribute property="document.roles[${status.index}].rolePrncpls[0].activeToDate"  attributeEntry="${docRolePrncplAttributes.activeToDate}"  datePicker="true" readOnly="${roleMemberActiveDatesReadOnly}" />
+						</div>
+					</c:if>
+				</td>
+           		<c:if test="${!readOnlyRole}">
 					<td>
 						<div align=center>&nbsp;
 			        	     <c:choose>

@@ -1,11 +1,11 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2005-2008 The Kuali Foundation
 
- Licensed under the Educational Community License, Version 1.0 (the "License");
+ Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
 
- http://www.opensource.org/licenses/ecl1.php
+ http://www.opensource.org/licenses/ecl2.php
 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,6 +17,8 @@
 
 <c:set var="inquiry" scope="request" value="${KualiForm.inquiry}" />
 <c:set var="readOnly" scope="request" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] || inquiry}" />
+<c:set var="readOnlyEntity" scope="request" value="${!KualiForm.canModifyEntity || readOnly}" />
+
 <c:set var="formAction" value="identityManagementPersonDocument" />
 <c:if test="${inquiry}">
     <c:set var="formAction" value="identityManagementPersonInquiry" />

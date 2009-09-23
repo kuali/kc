@@ -22,6 +22,7 @@
 	<bean id="ProtocolSpecialReviewExemption" parent="ProtocolSpecialReviewExemption-parentBean" />
 	<bean id="ProtocolSpecialReviewExemption-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption" />
+		<property name="objectLabel" value="Protocol Special Review Exemption" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolSpecialReviewExemption-inquiryDefinition" />
 		</property>
@@ -95,7 +96,7 @@
 	<bean id="ProtocolSpecialReviewExemption-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Protocol Exempt Number Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Protocol Exempt Number" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

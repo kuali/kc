@@ -75,6 +75,7 @@
         <property name="fundingSourceTypeService" ref="fundingSourceTypeService" />
         <property name="protocolLookupableHelperService" ref="protocolLookupableHelperService" />
         <property name="documentService" ref="documentService" />
+        <property name="parameterService" ref="parameterService" />
     </bean>
     
 	<bean id="protocolPersonnelService" class="org.kuali.kra.irb.personnel.ProtocolPersonnelServiceImpl">

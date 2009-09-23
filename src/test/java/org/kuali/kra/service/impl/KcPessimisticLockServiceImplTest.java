@@ -28,10 +28,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 @RunWith(JMock.class)
 public class KcPessimisticLockServiceImplTest {
@@ -87,14 +89,13 @@ public class KcPessimisticLockServiceImplTest {
          * The configuration service will be invoked once to get the Lock Expiration Age
          * which for this test will be one day (1440 minutes).
          */
-        final KualiConfigurationService configurationService = context.mock(KualiConfigurationService.class);
+        final ParameterService parameterService = context.mock(ParameterService.class);
         context.checking(new Expectations() {{
-            one(configurationService).getParameterValue(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                                                        Constants.PARAMETER_COMPONENT_DOCUMENT, 
+            one(parameterService).getParameterValue(ProposalDevelopmentDocument.class, 
                                                         KeyConstants.PESSIMISTIC_LOCKING_EXPIRATION_AGE); 
             will(returnValue("1440"));
         }});
-        pessimisticLockService.setConfigurationService(configurationService);
+        pessimisticLockService.setParameterService(parameterService);
         
         /*
          * The date time service is invoked once to get the current time of day.

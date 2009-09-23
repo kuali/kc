@@ -31,6 +31,7 @@ import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class PersonnelHelper implements Serializable {
@@ -45,6 +46,7 @@ public class PersonnelHelper implements Serializable {
     private ProtocolPerson newProtocolPerson;
     private List<ProtocolUnit> newProtocolPersonUnits;
     private boolean personTrainingSectionRequired;
+    private transient ParameterService parameterService;
 
     public PersonnelHelper(ProtocolForm form) {
         setForm(form); 
@@ -123,8 +125,7 @@ public class PersonnelHelper implements Serializable {
      * @return parameter value
      */
     private String getParameterValue(String parameterName) {
-        KualiConfigurationService configService = getService(KualiConfigurationService.class);
-        return (configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, parameterName)).getParameterValue();        
+        return this.getParameterService().getParameterValue(ProtocolDocument.class, parameterName);        
     }
 
     public boolean isPersonTrainingSectionRequired() {
@@ -135,4 +136,15 @@ public class PersonnelHelper implements Serializable {
         this.personTrainingSectionRequired = personTrainingSectionRequired;
     }   
 
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
 }

@@ -8,6 +8,7 @@
 
   <bean id="ProposalCopyCriteria-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria" />
+		<property name="objectLabel" value="Proposal Copy Criteria" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
             p:parameterNamespace="KRA-PD"

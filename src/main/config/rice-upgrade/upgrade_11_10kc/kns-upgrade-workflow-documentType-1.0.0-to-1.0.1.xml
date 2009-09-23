@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType>
+      <name>IdentityManagementDocument</name>
+      <parent>RiceDocument</parent>
+      <label>Undefined</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>IdentityManagementRoleDocument</name>
+      <parent>IdentityManagementDocument</parent>
+      <label>Role</label>
+      <docHandler>${kim.url}/identityManagementRoleDocument.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RoleType" />
+          <role name="RoleType" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="RoleType">
+          <qualifierResolverClass>org.kuali.rice.kim.workflow.attribute.KimTypeQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>IdentityManagementGroupDocument</name>
+      <parent>IdentityManagementDocument</parent>
+      <label>Group</label>
+      <docHandler>${kim.url}/identityManagementGroupDocument.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="GroupType" />
+          <role name="GroupType" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="GroupType">
+          <qualifierResolverClass>org.kuali.rice.kim.workflow.attribute.KimTypeQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>IdentityManagementPersonDocument</name>
+      <parent>IdentityManagementDocument</parent>
+      <label>Person</label>
+      <docHandler>${kim.url}/identityManagementPersonDocument.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="GroupType" />
+          <role name="GroupType" nextNode="RoleType" />
+          <role name="RoleType" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="GroupType">
+          <qualifierResolverClass>org.kuali.rice.kim.workflow.attribute.KimTypeQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="RoleType">
+          <qualifierResolverClass>org.kuali.rice.kim.workflow.attribute.KimTypeQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>IdentityManagementReviewResponsibilityMaintenanceDocument</name>
+      <parent>IdentityManagementDocument</parent>
+      <label>Review Responsibility</label>
+      <docHandler>${kr.url}/maintenance.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>IdentityManagementGenericPermissionMaintenanceDocument</name>
+      <parent>IdentityManagementDocument</parent>
+      <label>Permission</label>
+      <docHandler>${kr.url}/maintenance.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

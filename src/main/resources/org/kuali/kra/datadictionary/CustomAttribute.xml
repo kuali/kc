@@ -8,6 +8,7 @@
 
   <bean id="CustomAttribute-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.CustomAttribute" />
+		<property name="objectLabel" value="Custom Attribute" />
     <property name="inquiryDefinition" >
       <ref bean="CustomAttribute-inquiryDefinition" />
     </property>
@@ -265,7 +266,7 @@
     <property name="title" value="Custom Attribute Lookup" />
     <property name="lookupableID" value="customLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Custom Attribute" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

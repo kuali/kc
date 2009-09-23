@@ -22,6 +22,7 @@
     <bean id="Question" parent="Question-parentBean" />
     <bean id="Question-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.Question" />
+		<property name="objectLabel" value="Question" />
         <property name="inquiryDefinition" >
             <ref bean="Question-inquiryDefinition" />
         </property>
@@ -395,7 +396,7 @@
         <property name="title" value="Question Lookup" />
         <property name="lookupableID" value="questionLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Question" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>

@@ -20,14 +20,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
+import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
+@NAMESPACE(namespace=Constants.PARAMETER_MODULE_BUDGET)
+@COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
 public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
     /**
      * Comment for <code>serialVersionUID</code>
@@ -217,22 +226,25 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         this.parentDocumentTypeCode = parentDocumentTypeCode;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public boolean useCustomLockDescriptors() {
+        return true;
+    }
 
-//    /**
-//     * Gets the budgetVersionNumber attribute. 
-//     * @return Returns the budgetVersionNumber.
-//     */
-//    public Integer getBudgetVersionNumber() {
-//        return budgetVersionNumber;
-//    }
-
-//    /**
-//     * Sets the budgetVersionNumber attribute value.
-//     * @param budgetVersionNumber The budgetVersionNumber to set.
-//     */
-//    public void setBudgetVersionNumber(Integer budgetVersionNumber) {
-//        this.budgetVersionNumber = budgetVersionNumber;
-//    }
-//
+    /** {@inheritDoc} */
+    @Override
+    public String getCustomLockDescriptor(Person user) {
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        if (StringUtils.isNotEmpty(activeLockRegion)) {
+            BudgetParentDocument parent = this.getParentDocument();
+            if (parent != null) {
+                return parent.getDocumentNumber() + "-" + activeLockRegion; 
+            }
+            return this.getDocumentNumber() + "-" + activeLockRegion;
+        }
+        
+        return null;
+    }
 }
 

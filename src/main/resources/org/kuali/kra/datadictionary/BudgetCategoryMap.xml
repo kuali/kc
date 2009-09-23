@@ -8,6 +8,7 @@
 
   <bean id="BudgetCategoryMap-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.core.BudgetCategoryMap" />
+		<property name="objectLabel" value="Budget Category Map" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetCategoryMap-inquiryDefinition" />
     </property>
@@ -132,7 +133,7 @@
   <bean id="BudgetCategoryMap-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Category Maps Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Budget Category Maps" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

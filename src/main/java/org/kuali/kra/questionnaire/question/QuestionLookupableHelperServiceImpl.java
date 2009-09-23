@@ -37,7 +37,7 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
 
     private static final String VIEW = "view";
     
-    private QuestionAuthorizationService questionAuthorizationService;
+    private transient QuestionAuthorizationService questionAuthorizationService;
 
     /**
      * Since Question is being versioned, the lookup should only return active versions of the question

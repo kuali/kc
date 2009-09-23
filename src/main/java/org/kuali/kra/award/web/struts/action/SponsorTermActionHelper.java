@@ -44,7 +44,7 @@ public class SponsorTermActionHelper implements Serializable {
     private static final String SPONSOR_TERM_TYPE_CODE = "sponsorTermTypeCode";
     private static final String PERIOD = ".";
     private static final String NEW_AWARD_SPONSOR_TERM = "newAwardSponsorTerm";
-    BusinessObjectService businessObjectService;
+    private transient BusinessObjectService businessObjectService;
     
     /**
      * This method is called when adding a new AwardSponsorTerm. It checks if the add is coming from a lookup or a hardcoded

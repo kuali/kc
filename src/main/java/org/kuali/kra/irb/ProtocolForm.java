@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +44,6 @@ import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -158,10 +155,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         this.setLookupResultsSequenceNumber(null);
         this.setLookupResultsBOClassName(null);
         getSpecialReviewHelper().reset();
-    }
-
-    public KualiConfigurationService getConfigurationService() {
-        return getService(KualiConfigurationService.class);
     }
     
     public String getLookupResultsSequenceNumber() {

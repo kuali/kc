@@ -8,6 +8,7 @@
 
   <bean id="RateClassType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.rates.RateClassType" />
+		<property name="objectLabel" value="Rate Class Type" />
     <property name="inquiryDefinition" >
       <ref bean="RateClassType-inquiryDefinition" />
     </property>
@@ -121,7 +122,7 @@
   <bean id="RateClassType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Rate Class Type Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Rate Class Type" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

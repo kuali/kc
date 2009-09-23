@@ -22,6 +22,7 @@
 	<bean id="ValidFrequencyBase" parent="ValidFrequencyBase-parentBean" />
 	<bean id="ValidFrequencyBase-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.ValidFrequencyBase" />
+		<property name="objectLabel" value="Valid Frequency Base" />
 		<property name="inquiryDefinition" >
 			<ref bean="ValidFrequencyBase-inquiryDefinition" />
 		</property>
@@ -129,7 +130,7 @@
 	<bean id="ValidFrequencyBase-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Valid Frequency Base Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Valid Frequency Base" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

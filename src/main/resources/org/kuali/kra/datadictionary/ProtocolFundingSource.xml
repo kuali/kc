@@ -22,6 +22,7 @@
 	<bean id="ProtocolFundingSource" parent="ProtocolFundingSource-parentBean" />
 	<bean id="ProtocolFundingSource-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.protocol.funding.ProtocolFundingSource" />
+		<property name="objectLabel" value="Protocol Funding Source" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolFundingSource-inquiryDefinition" />
 		</property>
@@ -243,7 +244,7 @@
 	<bean id="ProtocolFundingSource-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Protocol Funding Source Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Protocol Funding Source" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

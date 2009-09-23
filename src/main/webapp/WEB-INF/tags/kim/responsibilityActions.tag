@@ -1,3 +1,18 @@
+<%--
+ Copyright 2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 <%@ attribute name="mbrIdx" required="true" %>
 <c:set var="roleMember" value="${KualiForm.document.members[mbrIdx]}"/>
@@ -16,14 +31,11 @@
 		<c:forEach var="roleRspAction" items="${roleMember.roleRspActions}" varStatus="actionStatus">
            	<tr>	
 				<td>
-					<div align="center">
-					${roleRspAction.kimResponsibility.namespaceCode}
-					${roleRspAction.kimResponsibility.name}		            
-					</div>
+					All
         		</td>
 				<td>
 					<div align="center">
-		            	<kul:htmlControlAttribute property="document.members[${mbrIdx}].roleRspActions[${actionStatus.index}].actionTypeCode"  attributeEntry="${docRoleRspActionAttributes.actionTypeCode}" readOnlyAlternateDisplay="${roleRspAction.actionTypeDescription}" readOnly="${readOnly}" />
+		            	<kul:htmlControlAttribute property="document.members[${mbrIdx}].roleRspActions[${actionStatus.index}].actionTypeCode"  attributeEntry="${docRoleRspActionAttributes.actionTypeCode}" readOnlyAlternateDisplay="${fn:escapeXml(roleRspAction.actionTypeDescription)}" readOnly="${readOnly}" />
 		            </div>
         		</td>
         		<td>
@@ -33,7 +45,7 @@
         		</td>
         		<td>
 	        		<div align="center">
-		            	<kul:htmlControlAttribute property="document.members[${mbrIdx}].roleRspActions[${actionStatus.index}].actionPolicyCode"  attributeEntry="${docRoleRspActionAttributes.actionPolicyCode}" readOnlyAlternateDisplay="${roleRspAction.actionPolicyDescription}" readOnly="${readOnly}" />
+		            	<kul:htmlControlAttribute property="document.members[${mbrIdx}].roleRspActions[${actionStatus.index}].actionPolicyCode"  attributeEntry="${docRoleRspActionAttributes.actionPolicyCode}" readOnlyAlternateDisplay="${fn:escapeXml(roleRspAction.actionPolicyDescription)}" readOnly="${readOnly}" />
 	        		</div>
         		</td>
 	       		<td>

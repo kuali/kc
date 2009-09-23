@@ -29,7 +29,6 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.State;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -41,6 +40,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * 
@@ -54,6 +54,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
     private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
     private static final String SUBMISSION_TYPE_DESCRIPTION = "submissionTypeDescription";
     private static final String PROPOSAL_YNQ_STATE_REVIEW = "EQ";
@@ -253,8 +254,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * @see org.kuali.kra.s2s.service.S2SUtilService#getParameterValue(java.lang.String)
      */
     public String getParameterValue(String parameter) {
-        return kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT,
-                Constants.PARAMETER_COMPONENT_DOCUMENT, parameter).getParameterValue();
+        return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, parameter);
     }
 
     /**
@@ -463,5 +463,13 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             }
         }         
         return equal;
+    }
+    
+    /**
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

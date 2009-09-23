@@ -8,6 +8,7 @@
 
   <bean id="Person-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.Person" />
+		<property name="objectLabel" value="Person" />
     <property name="inquiryDefinition" >
       <ref bean="Person-inquiryDefinition" />
     </property>
@@ -1058,7 +1059,7 @@
   <bean id="Person-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Person Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Person" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

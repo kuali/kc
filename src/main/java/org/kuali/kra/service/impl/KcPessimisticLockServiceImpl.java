@@ -19,11 +19,13 @@ import java.util.Collection;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KcPessimisticLockService;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -41,16 +43,16 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
      */
     private static final int DEFAULT_EXPIRATION_AGE = 24 * 60; // one day in minutes
     
-    private KualiConfigurationService configurationService;
+    private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     
     /**
-     * Set the Configuration Service.  Injected by Spring.
-     * @param configurationService the configuration service
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
      */
-    public void setConfigurationService(KualiConfigurationService configurationService) {
-        this.configurationService = configurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
     
     /**
@@ -131,7 +133,6 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
      * @return the parameter's value
      */
     private String getParameterValue(String key) {
-        return configurationService.getParameterValue(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                                                      Constants.PARAMETER_COMPONENT_DOCUMENT, key);
+        return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, key);
     }
 }

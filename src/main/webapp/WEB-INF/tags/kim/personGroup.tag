@@ -1,3 +1,18 @@
+<%--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 <c:set var="docGroupAttributes" value="${DataDictionary.PersonDocumentGroup.attributes}" />
@@ -24,7 +39,7 @@
                 <td align="left" valign="middle" class="infoline" >
                 	<div align="center">
 	                	<kul:htmlControlAttribute property="newGroup.groupId" attributeEntry="${docGroupAttributes.groupId}" readOnly="${readOnly}"/>
-	                	<kul:lookup boClassName="org.kuali.rice.kim.bo.impl.GroupImpl" fieldConversions="groupId:newGroup.groupId,kimTypeId:newGroup.groupType,groupName:newGroup.groupName,namespaceCode:newGroup.namespaceCode,kimGroupType.name:newGroup.kimGroupType.name" anchor="${tabKey}" />
+	                	<kul:lookup boClassName="org.kuali.rice.kim.bo.impl.GroupImpl" fieldConversions="groupId:newGroup.groupId,kimTypeId:newGroup.groupType,groupName:newGroup.groupName,namespaceCode:newGroup.namespaceCode,kimTypeInfo.name:newGroup.kimGroupType.name" anchor="${tabKey}" />
 						<html:hidden property="newGroup.groupName" />
 						<html:hidden property="newGroup.groupType" />
 						<html:hidden property="newGroup.kimGroupType.name" />
@@ -68,7 +83,7 @@
 					<c:out value="${status.index+1}" />
 				</th>
                 <td align="left" valign="middle">
-                	<div align="center"> <kul:htmlControlAttribute property="document.groups[${status.index}].groupId"  attributeEntry="${docGroupAttributes.groupId}"  readOnly="${readOnly}" />
+                	<div align="center"> <kul:htmlControlAttribute property="document.groups[${status.index}].groupId"  attributeEntry="${docGroupAttributes.groupId}"  readOnly="true" />
 					</div>
 				</td>
                 <td align="left" valign="middle">

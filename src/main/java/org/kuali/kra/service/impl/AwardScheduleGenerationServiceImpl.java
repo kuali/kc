@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.paymentschedule.FrequencyBaseConstants;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.scheduling.sequence.DefaultScheduleSequence;
 import org.kuali.kra.scheduling.sequence.ScheduleSequence;
@@ -38,7 +38,7 @@ import org.kuali.kra.scheduling.sequence.XMonthlyScheduleSequenceDecorator;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
 import org.kuali.kra.service.AwardScheduleGenerationService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,7 +55,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
     
     private ScheduleService scheduleService;
     private PersistenceService persistenceService;
-    private KualiConfigurationService kualiConfigurationService;    
+    private ParameterService parameterService;    
     
     /**
      * 
@@ -155,8 +155,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * @return
      */
     private boolean canGenerateSchedules(AwardReportTerm awardReportTerm, boolean isThisNotPaymentPanel) {
-        return isThisNotPaymentPanel || StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD
-                ,Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES).getParameterValue());
+        return isThisNotPaymentPanel || StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), getParameterService().getParameterValue(AwardDocument.class, KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES));
     }    
     
     
@@ -247,8 +246,8 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
         
         if(frequencyBaseCode.equals(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase())){
             calendar.setTime(startDate);   
-            calendar.add(Calendar.YEAR, Integer.parseInt(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
-                    ,KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE).getParameterValue()));            
+            calendar.add(Calendar.YEAR, Integer.parseInt(this.getParameterService().getParameterValue(AwardDocument.class
+                    ,KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE)));            
         }else{
             calendar.setTime(mapOfDates.get(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase()));
         }
@@ -309,19 +308,19 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
     }
 
     /**
-     * Gets the kualiConfigurationService attribute. 
-     * @return Returns the kualiConfigurationService.
+     * Gets the ParameterService attribute. 
+     * @return Returns the ParameterService.
      */
-    public KualiConfigurationService getKualiConfigurationService() {
-        return kualiConfigurationService;
+    protected ParameterService getParameterService() {
+        return this.parameterService;
     }
 
     /**
-     * Sets the kualiConfigurationService attribute value.
-     * @param kualiConfigurationService The kualiConfigurationService to set.
+     * Sets the ParameterService attribute value.
+     * @param parameterService The ParameterService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }
 

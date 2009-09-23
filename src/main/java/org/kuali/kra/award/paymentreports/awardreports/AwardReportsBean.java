@@ -31,6 +31,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * This class supports the AwardForm class
@@ -43,8 +44,9 @@ public class AwardReportsBean implements Serializable {
     private static final long serialVersionUID = -7425300585057908055L;
     private List<AwardReportTerm> newAwardReportTerms;
     private List<AwardReportTermRecipient> newAwardReportTermRecipients;    
-    private KualiRuleService ruleService;
+    private transient KualiRuleService ruleService;
     private AwardForm form;
+    private transient ParameterService parameterService;
     
     /**
      * 
@@ -91,9 +93,7 @@ public class AwardReportsBean implements Serializable {
         if(newAwardReportTermRecipient.getContactId()!=null){
             populateContactTypeAndRolodex(newAwardReportTermRecipient);
         }else if(newAwardReportTermRecipient.getRolodexId()!=null){
-            newAwardReportTermRecipient.setContactTypeCode(getKualiConfigurationService().getParameter(Constants
-                    .PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
-                    ,KeyConstants.CONTACT_TYPE_OTHER).getParameterValue());            
+            newAwardReportTermRecipient.setContactTypeCode(this.getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CONTACT_TYPE_OTHER));            
         }
         
         AddAwardReportTermRecipientRuleEvent event = generateAddAwardReportTermRecipientEvent(index);
@@ -283,13 +283,14 @@ public class AwardReportsBean implements Serializable {
     }
     
     /**
-     * 
-     * This is a wrapper method for the retrieval of KualiConfigurationService.
-     * 
-     * @return
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
      */
-    protected KualiConfigurationService getKualiConfigurationService(){
-        return KraServiceLocator.getService(KualiConfigurationService.class);
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
     }
     
     /**

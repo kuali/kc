@@ -8,15 +8,10 @@
 
   <bean id="CommitteeScheduleAttributeReferenceDummy-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.committee.bo.CommitteeScheduleAttributeReferenceDummy" />
+		<property name="objectLabel" value="Committee Schedule Attribute Reference Dummy" />
     <property name="attributes" >
       <list>
         <ref bean="CommitteeScheduleAttributeReferenceDummy-intValue" />
-        <ref bean="CommitteeScheduleAttributeReferenceDummy-dayRecurrence" />
-        <ref bean="CommitteeScheduleAttributeReferenceDummy-weekRecurrence" />
-        <ref bean="CommitteeScheduleAttributeReferenceDummy-monthDay" />
-        <ref bean="CommitteeScheduleAttributeReferenceDummy-monthRecurrence" />
-        <ref bean="CommitteeScheduleAttributeReferenceDummy-yearDay" />
-        <ref bean="CommitteeScheduleAttributeReferenceDummy-yearRecurrence" />
         <ref bean="CommitteeScheduleAttributeReferenceDummy-monthsWeek" />
         <ref bean="CommitteeScheduleAttributeReferenceDummy-weekDay" />
         <ref bean="CommitteeScheduleAttributeReferenceDummy-month" />
@@ -28,6 +23,7 @@
 
 <!-- Attribute Definitions -->
   <bean id="CommitteeScheduleAttributeReferenceDummy-intValue" parent="CommitteeScheduleAttributeReferenceDummy-intValue-parentBean" />
+
   <bean id="CommitteeScheduleAttributeReferenceDummy-intValue-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="intValue" />
     <property name="forceUppercase" value="false" />
@@ -46,48 +42,7 @@
     <property name="description" value="intValue" />
   </bean>
 
-  <bean id="CommitteeScheduleAttributeReferenceDummy-dayRecurrence" parent="CommitteeScheduleAttributeReferenceDummy-dayRecurrence-parentBean" />
-  <bean id="CommitteeScheduleAttributeReferenceDummy-dayRecurrence-parentBean" abstract="true" parent="CommitteeScheduleAttributeReferenceDummy-intValue">
-    <property name="name" value="dayRecurrence" />
-    <property name="label" value="recurrence" />
-    <property name="shortLabel" value="Every # days" />
-  </bean>
 	
-  <bean id="CommitteeScheduleAttributeReferenceDummy-weekRecurrence" parent="CommitteeScheduleAttributeReferenceDummy-weekRecurrence-parentBean" />
-  <bean id="CommitteeScheduleAttributeReferenceDummy-weekRecurrence-parentBean" abstract="true" parent="CommitteeScheduleAttributeReferenceDummy-intValue">
-    <property name="name" value="weekRecurrence" />
-    <property name="label" value="recurrence" />
-    <property name="shortLabel" value="Recur every # weeks" />
-  </bean>
-    
-  <bean id="CommitteeScheduleAttributeReferenceDummy-monthDay" parent="CommitteeScheduleAttributeReferenceDummy-monthDay-parentBean" />
-  <bean id="CommitteeScheduleAttributeReferenceDummy-monthDay-parentBean" abstract="true" parent="CommitteeScheduleAttributeReferenceDummy-intValue">
-    <property name="name" value="monthDay" />
-    <property name="label" value="day" />
-    <property name="shortLabel" value="Day #" />
-  </bean>
-    
-  <bean id="CommitteeScheduleAttributeReferenceDummy-monthRecurrence" parent="CommitteeScheduleAttributeReferenceDummy-monthRecurrence-parentBean" />
-  <bean id="CommitteeScheduleAttributeReferenceDummy-monthRecurrence-parentBean" abstract="true" parent="CommitteeScheduleAttributeReferenceDummy-intValue">
-    <property name="name" value="monthRecurrence" />
-    <property name="label" value="recurrence" />
-    <property name="shortLabel" value="every # months" />
-  </bean>
-    
-  <bean id="CommitteeScheduleAttributeReferenceDummy-yearDay" parent="CommitteeScheduleAttributeReferenceDummy-yearDay-parentBean" />
-  <bean id="CommitteeScheduleAttributeReferenceDummy-yearDay-parentBean" abstract="true" parent="CommitteeScheduleAttributeReferenceDummy-intValue">
-    <property name="name" value="yearDay" />
-    <property name="label" value="day" />
-    <property name="shortLabel" value="day of month" />
-  </bean>
-    
-  <bean id="CommitteeScheduleAttributeReferenceDummy-yearRecurrence" parent="CommitteeScheduleAttributeReferenceDummy-yearRecurrence-parentBean" />
-  <bean id="CommitteeScheduleAttributeReferenceDummy-yearRecurrence-parentBean" abstract="true" parent="CommitteeScheduleAttributeReferenceDummy-intValue">
-    <property name="name" value="yearRecurrence" />
-    <property name="label" value="recurrence" />
-    <property name="shortLabel" value="every # years" />
-  </bean>
-    
 	<!-- Validation Pattern -->
 	<bean id="Postive2DigitFieldLevelValidationPattern" class="org.kuali.kra.core.datadictionary.validation.Postive2DigitFieldLevelValidationPattern"/>
 	
@@ -157,7 +112,8 @@
 		<property name="maxLength" value="22" />
 	    <property name="validationPattern" >
 	      <bean parent="RegexValidationPattern"
-	      		p:pattern="(([0][1-9])|([1][0-2])):[0-5][0-9]" />
+	      		p:pattern="(([0][1-9])|([1][0-2])):[0-5][0-9]"
+	      		p:validationErrorMessageKey="FIXME"/>
 	    </property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"

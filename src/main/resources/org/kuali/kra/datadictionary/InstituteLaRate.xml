@@ -8,6 +8,7 @@
 
   <bean id="InstituteLaRate-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.InstituteLaRate" />
+		<property name="objectLabel" value="Institute La Rate" />
     <property name="inquiryDefinition" >
       <ref bean="InstituteLaRate-inquiryDefinition" />
     </property>
@@ -239,7 +240,7 @@
     <property name="title" value="Institute La Rates Lookup" />
     <property name="lookupableID" value="onOffCampusLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Institute La Rates" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

@@ -60,32 +60,6 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
     }
 
     /**
-     * @see org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl#useCustomLockDescriptors()
-     */
-    @Override
-    protected boolean useCustomLockDescriptors() {
-        return true;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl#getCustomLockDescriptor(org.kuali.rice.kns.document.Document, java.util.Map, org.kuali.rice.kim.bo.Person)
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    protected String getCustomLockDescriptor(Document document, Map editMode, Person user) {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        if (StringUtils.isNotEmpty(activeLockRegion)) {
-            BudgetParentDocument parent = ((BudgetDocument) document).getParentDocument();
-            if (parent != null) {
-                return parent.getDocumentNumber() + "-" + activeLockRegion; 
-            }
-            return document.getDocumentNumber() + "-" + activeLockRegion;
-        }
-        
-        return null;
-    }
-
-    /**
      * @see org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl#isEntryEditMode(java.util.Map.Entry)
      */
     @SuppressWarnings("unchecked")
@@ -96,7 +70,7 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
                  || ADD_BUDGET.equals(entry.getKey())
                 ) {
             String fullEntryEditModeValue = (String)entry.getValue();
-            return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && (EDIT_MODE_DEFAULT_TRUE_VALUE.equals(fullEntryEditModeValue)));
+            return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && ("TRUE".equals(fullEntryEditModeValue)));
         }
         return false;
     }
@@ -124,8 +98,8 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
     @Override
     protected PessimisticLock createNewPessimisticLock(Document document, Map editMode, Person user) {
         BudgetDocument budgetDocument = (BudgetDocument) document;
-        if (useCustomLockDescriptors()) {
-            String lockDescriptor = getCustomLockDescriptor(budgetDocument, editMode, user);
+        if (document.useCustomLockDescriptors()) {
+            String lockDescriptor = document.getCustomLockDescriptor(user);
             PessimisticLock budgetLockForProposal = generateNewLock(budgetDocument.getParentDocumentKey(), lockDescriptor, user);
             budgetDocument.getParentDocument().addPessimisticLock(budgetLockForProposal);
             return generateNewLock(document.getDocumentNumber(), lockDescriptor, user);

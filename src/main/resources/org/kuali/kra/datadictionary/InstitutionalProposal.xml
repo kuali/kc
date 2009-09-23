@@ -22,6 +22,7 @@
     <bean id="InstitutionalProposal" parent="InstitutionalProposal-parentBean" />
     <bean id="InstitutionalProposal-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+		<property name="objectLabel" value="Institutional Proposal" />
         <property name="inquiryDefinition" >
             <ref bean="InstitutionalProposal-inquiryDefinition" />
         </property>
@@ -975,7 +976,7 @@
         <property name="title" value="Proposal Lookup" />
         <property name="lookupableID" value="institutionalProposalLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Proposal" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>

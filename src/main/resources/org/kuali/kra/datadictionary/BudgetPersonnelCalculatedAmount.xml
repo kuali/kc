@@ -8,6 +8,7 @@
 
   <bean id="BudgetPersonnelCalculatedAmount-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount" />
+		<property name="objectLabel" value="Budget Personnel Calculated Amount" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetPersonnelCalculatedAmount-inquiryDefinition" />
     </property>
@@ -20,7 +21,7 @@
         <ref bean="BudgetPersonnelCalculatedAmount-budgetPeriod" />
         <ref bean="BudgetPersonnelCalculatedAmount-lineItemNumber" />
         <ref bean="BudgetPersonnelCalculatedAmount-personNumber" />
-        <ref bean="BudgetPersonnelCalculatedAmount-proposalNumber" />
+<!--        <ref bean="BudgetPersonnelCalculatedAmount-proposalNumber" />-->
         <ref bean="BudgetPersonnelCalculatedAmount-rateClassCode" />
         <ref bean="BudgetPersonnelCalculatedAmount-rateTypeCode" />
         <ref bean="BudgetPersonnelCalculatedAmount-versionNumber" />
@@ -88,24 +89,24 @@
     <property name="summary" value="Person Number" />
     <property name="description" value="Person Number" />
   </bean>
-  <bean id="BudgetPersonnelCalculatedAmount-proposalNumber" parent="BudgetPersonnelCalculatedAmount-proposalNumber-parentBean" />
-
-  <bean id="BudgetPersonnelCalculatedAmount-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Proposal Number" />
-    <property name="shortLabel" value="Proposal Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
-    <property name="summary" value="Proposal Number" />
-    <property name="description" value="Proposal Number" />
-  </bean>
+<!--  <bean id="BudgetPersonnelCalculatedAmount-proposalNumber" parent="BudgetPersonnelCalculatedAmount-proposalNumber-parentBean" />-->
+<!---->
+<!--  <bean id="BudgetPersonnelCalculatedAmount-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
+<!--    <property name="name" value="proposalNumber" />-->
+<!--    <property name="forceUppercase" value="false" />-->
+<!--    <property name="label" value="Proposal Number" />-->
+<!--    <property name="shortLabel" value="Proposal Number" />-->
+<!--    <property name="maxLength" value="12" />-->
+<!--    <property name="validationPattern" >-->
+<!--      <bean parent="AlphaNumericValidationPattern" />-->
+<!--    </property>-->
+<!--    <property name="control" >-->
+<!--      <bean parent="TextControlDefinition"-->
+<!--            p:size="12" />-->
+<!--    </property>-->
+<!--    <property name="summary" value="Proposal Number" />-->
+<!--    <property name="description" value="Proposal Number" />-->
+<!--  </bean>-->
   <bean id="BudgetPersonnelCalculatedAmount-rateClassCode" parent="BudgetPersonnelCalculatedAmount-rateClassCode-parentBean" />
 
   <bean id="BudgetPersonnelCalculatedAmount-rateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -220,9 +221,9 @@
               <bean parent="FieldDefinition"
                     p:attributeName="personNumber"
                     p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber"
-                    p:forceInquiry="true" />
+<!--              <bean parent="FieldDefinition"-->
+<!--                    p:attributeName="proposalNumber"-->
+<!--                    p:forceInquiry="true" />-->
               <bean parent="FieldDefinition"
                     p:attributeName="rateClassCode"
                     p:forceInquiry="true" />
@@ -253,7 +254,7 @@
   <bean id="BudgetPersonnelCalculatedAmount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Personnel Cal Amts Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Budget Personnel Cal Amts" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>
@@ -266,8 +267,8 @@
               p:attributeName="lineItemNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="personNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="proposalNumber" />-->
         <bean parent="FieldDefinition"
               p:attributeName="rateClassCode" />
         <bean parent="FieldDefinition"
@@ -293,9 +294,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="personNumber"
               p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber"
-              p:forceInquiry="true" />
+<!--        <bean parent="FieldDefinition"-->
+<!--              p:attributeName="proposalNumber"-->
+<!--              p:forceInquiry="true" />-->
         <bean parent="FieldDefinition"
               p:attributeName="rateClassCode"
               p:forceInquiry="true" />

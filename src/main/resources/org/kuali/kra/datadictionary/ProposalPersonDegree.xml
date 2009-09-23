@@ -8,6 +8,7 @@
 
   <bean id="ProposalPersonDegree-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree" />
+		<property name="objectLabel" value="Proposal Person Degree" />
     <property name="inquiryDefinition" >
       <ref bean="ProposalPersonDegree-inquiryDefinition" />
     </property>
@@ -264,7 +265,7 @@
   <bean id="ProposalPersonDegree-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Proposal Person Degree" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Proposal Person Degree" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

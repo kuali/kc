@@ -72,8 +72,8 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -165,7 +165,15 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private KeyPersonnelService keyPersonnelService;
     private DocumentService documentService;
     private PersonService personService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
+    
+    /**
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 
     /**
      * @see org.kuali.kra.proposaldevelopment.service.ProposalCopyService#copyProposal(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria)
@@ -641,8 +649,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     private void fixBudgetVersions(ProposalDevelopmentDocument doc) {
         if (doc.getBudgetDocumentVersions().size() > 0) {
-            String budgetStatusIncompleteCode = kualiConfigurationService.getParameterValue(
-                    Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+            String budgetStatusIncompleteCode = this.parameterService.getParameterValue(
+                    BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
             
             doc.getDevelopmentProposal().setBudgetStatus(budgetStatusIncompleteCode);
         }
@@ -1144,10 +1152,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private KualiRuleService getKualiRuleService() {
         return KraServiceLocator.getService(KualiRuleService.class);
     }
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
     
     /**
      * Is the Proposal Type set to Renewal, Revision, or a Continuation?
@@ -1155,9 +1159,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @return true or false
      */
     private boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
-        String proposalTypeCodeRenewal = kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL).getParameterValue();
-        String proposalTypeCodeRevision = kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION).getParameterValue();
-        String proposalTypeCodeContinuation = kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION).getParameterValue();
+        String proposalTypeCodeRenewal = this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
+        String proposalTypeCodeRevision = this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+        String proposalTypeCodeContinuation = this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
          
         return !StringUtils.isEmpty(proposalTypeCode) &&
                (proposalTypeCode.equals(proposalTypeCodeRenewal) ||

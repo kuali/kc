@@ -17,9 +17,14 @@ package org.kuali.kra.scheduling.quartz;
 
 import java.text.ParseException;
 
-import org.kuali.kra.infrastructure.Constants;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.service.ParameterService;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.scheduling.quartz.CronTriggerBean;
 
 /**
@@ -27,21 +32,24 @@ import org.springframework.scheduling.quartz.CronTriggerBean;
  * the Cron Expression from the SpringBeans.xml file.  Rather,
  * we have to retrieve the Cron Expression from the System Parameters.
  */
-public class KcCronTriggerBean extends CronTriggerBean {
+public class KcCronTriggerBean extends CronTriggerBean implements ApplicationListener {
+
+    private static final Log LOG = LogFactory.getLog(KcCronTriggerBean.class);
 
     /**
      * Default Cron expression which is 1 AM every day.
      */
     private static final String DEFAULT_CRON_EXPRESSION = "0 0 1 * * ?";
     
-    private KualiConfigurationService configurationService;
+    private ParameterService parameterService;
+    private boolean refreshed;
     
     /**
-     * Set the Configuration Service.  Injected by Spring.
-     * @param configurationService the configuration service
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
      */
-    public void setConfigurationService(KualiConfigurationService configurationService) {
-        this.configurationService = configurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
     
     /**
@@ -50,7 +58,7 @@ public class KcCronTriggerBean extends CronTriggerBean {
      * @see org.springframework.scheduling.quartz.CronTriggerBean#afterPropertiesSet()
      */
     public void afterPropertiesSet() throws ParseException {
-        setCronExpression(getSystemCronExpression());
+        setCronExpression(DEFAULT_CRON_EXPRESSION);
         super.afterPropertiesSet();
     }
     
@@ -59,20 +67,45 @@ public class KcCronTriggerBean extends CronTriggerBean {
      * @return the Cron Expression
      */
     private String getSystemCronExpression() {
-        try {
-            return getParameterValue(KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION);
-        } catch (Exception ex) {
-            return DEFAULT_CRON_EXPRESSION;
-        }
+        final String param = this.getParameterValue(KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION);
+        if (param != null) {
+            return param;
+        } 
+        LOG.warn("parameter [" + KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION + "] not found using default value of [" + DEFAULT_CRON_EXPRESSION + "].");
+        return DEFAULT_CRON_EXPRESSION;
     }
     
     /**
      * Get a proposal development system parameter value.
      * @param key the key (name) of the parameter
-     * @return the parameter's value
+     * @return the parameter's value or null if the parameter does not exist.
      */
     private String getParameterValue(String key) {
-        return configurationService.getParameterValue(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                                                      Constants.PARAMETER_COMPONENT_DOCUMENT, key);
+        if (this.parameterService.parameterExists(ProposalDevelopmentDocument.class, key)) {
+            return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, key);
+        }
+        
+        return null;
+    }
+
+    /**
+     * FIXME
+     * This is a hack as a result of a rice upgrade to reset the cron expression after it is initialized.
+     * This is because the ParamterService not being available when this Bean is being created by Spring
+     * and lazy-init or depends-on will not work in this case.
+     * {@inheritDoc}
+     */
+    public void onApplicationEvent(ApplicationEvent event) {
+        if (event instanceof ContextRefreshedEvent && !this.refreshed) {
+            try {
+                final String newExpr = this.getSystemCronExpression();
+                this.refreshed = true;
+                this.setCronExpression(newExpr);
+                LOG.info("refreshing cron expression to [" + newExpr + "].");
+            } catch (ParseException e) {
+                LOG.warn("unable refresh cron expression");
+            }
+        }
+        
     }
 }

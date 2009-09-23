@@ -66,7 +66,7 @@ public class AwardPersonDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCol
         Criteria criteria = new Criteria();
         for(String fieldName: fieldValues.keySet()) {
             String fieldValue = (String) fieldValues.get(fieldName);
-            if (!lookupDao.createCriteria(awardPerson, fieldValue, fieldName, isCaseSensitive(awardPerson,  fieldName), criteria)) {
+            if (!lookupDao.createCriteria(awardPerson, fieldValue, fieldName, isCaseSensitive(awardPerson,  fieldName), false, criteria)) {
                 continue;
             }
         }

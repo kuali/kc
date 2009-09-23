@@ -22,6 +22,7 @@
     <bean id="CommitteeScheduleMinutes" parent="CommitteeScheduleMinutes-parentBean" />
     <bean id="CommitteeScheduleMinutes-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.CommitteeScheduleMinutes" />
+		<property name="objectLabel" value="Committee Schedule Minutes" />
         <property name="inquiryDefinition" >
             <ref bean="CommitteeScheduleMinutes-inquiryDefinition" />
         </property>
@@ -331,7 +332,7 @@
     <bean id="CommitteeScheduleMinutes-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Comm Schedule Minutes Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Comm Schedule Minutes" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>

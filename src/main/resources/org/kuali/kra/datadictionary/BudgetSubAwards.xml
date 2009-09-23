@@ -8,6 +8,7 @@
 
   <bean id="BudgetSubAwards-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards" />
+		<property name="objectLabel" value="Budget Sub Awards" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetSubAwards-inquiryDefinition" />
     </property>
@@ -298,7 +299,7 @@
   <bean id="BudgetSubAwards-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Sub Awards" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Budget Sub Award" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

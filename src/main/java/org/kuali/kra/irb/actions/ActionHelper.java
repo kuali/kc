@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -47,8 +45,7 @@ import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -90,6 +87,7 @@ public class ActionHelper implements Serializable {
     private ProtocolAmendmentBean protocolAmendmentBean;
     private ProtocolAmendmentBean protocolRenewAmendmentBean;
     private ProtocolDeleteBean protocolDeleteBean;
+    private transient ParameterService parameterService;
     
     /*
      * Identifies the protocol "document" to print.
@@ -227,12 +225,7 @@ public class ActionHelper implements Serializable {
     }
 
     private String getParameterValue(String parameterName) {
-        KualiConfigurationService configService = getService(KualiConfigurationService.class);
-        Parameter param = configService.getParameterWithoutExceptions(Constants.PARAMETER_MODULE_PROTOCOL, 
-                                                                      Constants.PARAMETER_COMPONENT_DOCUMENT, 
-                                                                      parameterName);
-        
-        return param.getParameterValue();        
+        return this.getParameterService().getParameterValue(ProtocolDocument.class, parameterName);      
     }
 
     private Protocol getProtocol() {
@@ -502,4 +495,16 @@ public class ActionHelper implements Serializable {
     public int getSequenceCount() {
         return getProtocol().getSequenceNumber()  + 1;
     }
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
+
 }

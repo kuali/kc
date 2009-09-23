@@ -1,3 +1,18 @@
+<%--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 <c:if test="${ documentTypeStruct.shouldDisplay }" >
@@ -47,11 +62,11 @@
               <c:if test="${routeLevel.routeMethodName != Constants.EXCEPTION_ROUTE_MODULE_NAME &&
                   routeLevel.routeMethodName != Constants.ADHOC_ROUTE_MODULE_NAME}">
                 <c:if test="${routeLevel.flexRM}">
-	                <tr nowrap="nowrap">
-	                  <kul:htmlAttributeHeaderCell width="50%"  scope="col" align="left">
+	                <tr>
+	                  <kul:htmlAttributeHeaderCell width="50%"  scope="col" align="left" nowrap="nowrap">
 	                    <c:out value="${routeLevel.routeNodeName}" />&nbsp;
 	                  </kul:htmlAttributeHeaderCell>
-	                  <td class="datacell" width="50%">
+	                  <td class="datacell" width="50%" nowrap="nowrap">
 	                    <a href="<c:url value="${ConfigProperties.kr.url}/${Constants.MAINTENANCE_ACTION}">
 	                        <c:param name="methodToCall" value="start" />
 	                        <c:param name="businessObjectClassName" value="org.kuali.rice.kew.rule.RuleBaseValues"/>
@@ -94,8 +109,8 @@
 	                </tr>
 	              </c:if>
 	              <c:if test="${!routeLevel.flexRM && routeLevel.roleNode}">
-	              	<tr nowrap="nowrap">	              	
-	                  <kul:htmlAttributeHeaderCell width="50%"  scope="col" align="left" colspan="2">
+	              	<tr> 
+	                  <kul:htmlAttributeHeaderCell nowrap="nowrap" width="50%"  scope="col" align="left" colspan="2">
 	                    <c:out value="${routeLevel.routeNodeName}" />&nbsp;
 	                  </kul:htmlAttributeHeaderCell>
 					</tr>  
@@ -119,11 +134,11 @@
             <c:if test="${routeLevel.routeMethodName != Constants.EXCEPTION_ROUTE_MODULE_NAME &&
                 routeLevel.routeMethodName != Constants.ADHOC_ROUTE_MODULE_NAME}">
               <c:if test="${routeLevel.flexRM}">
-                <tr nowrap>
+                <tr>
                   <kul:htmlAttributeHeaderCell width="50%"  scope="col" align="left">
                     <c:out value="${routeLevel.routeNodeName}" />&nbsp;
                   </kul:htmlAttributeHeaderCell>
-                  <td class="datacell" width="50%">
+                  <td class="datacell" width="50%" nowrap>
                     <a href="<c:url value="${ConfigProperties.kr.url}/${Constants.MAINTENANCE_ACTION}">
                         <c:param name="methodToCall" value="start" />
                         <c:param name="businessObjectClassName" value="org.kuali.rice.kew.rule.RuleBaseValues"/>
@@ -166,8 +181,8 @@
                 </tr>
               </c:if>
               <c:if test="${!routeLevel.flexRM && routeLevel.roleNode}">
-              	<tr nowrap="nowrap">	              	
-                  <kul:htmlAttributeHeaderCell width="50%"  scope="col" align="left" colspan="2">
+              	<tr> 
+                  <kul:htmlAttributeHeaderCell width="50%"  scope="col" align="left" colspan="2" nowrap="nowrap">	              	>
                     <c:out value="${routeLevel.routeNodeName}" />&nbsp;
                   </kul:htmlAttributeHeaderCell>
 				</tr>  

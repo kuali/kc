@@ -27,6 +27,7 @@ import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class BudgetModularServiceImpl implements BudgetModularService {
@@ -36,7 +37,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     private static final BudgetDecimal TDC_NEXT_INCREMENT = new BudgetDecimal(25000);
     
     private BudgetCalculationService budgetCalculationService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
     
     public void generateModularPeriod(BudgetPeriod budgetPeriod) {
 
@@ -111,8 +112,8 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             for (BudgetLineItem budgetLineItem: budgetPeriod.getBudgetLineItems()) {
                 
                 budgetCalculationService.calculateBudgetLineItem(budget, budgetLineItem);
-                List<String> consortiumFnaCostElements = kualiConfigurationService.getParameterValues(
-                        Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_FNA_COST_ELEMENTS);
+                List<String> consortiumFnaCostElements = this.parameterService.getParameterValues(
+                        BudgetDocument.class, Constants.PARAMETER_FNA_COST_ELEMENTS);
                 
                 //is cost direct or indirect? Add cost to correct variable.
                 if (consortiumFnaCostElements.contains(budgetLineItem.getCostElement())) {
@@ -123,8 +124,8 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                 //for every indirect cost do this.
                 for (BudgetRateAndBase budgetRateAndBase: budgetLineItem.getBudgetRateAndBaseList()) {
                     budgetRateAndBase.refreshReferenceObject(RATE_CLASS_PROPERTY_NAME);
-                    String fnaRateClassType = kualiConfigurationService.getParameterValue(
-                            Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_FNA_RATE_CLASS_TYPE);
+                    String fnaRateClassType = this.parameterService.getParameterValue(
+                            BudgetDocument.class, Constants.PARAMETER_FNA_RATE_CLASS_TYPE);
                   
                     if (budgetRateAndBase.getRateClass().getRateClassType().equals(fnaRateClassType)) {
                         BudgetModularIdc budgetModularIdc = new BudgetModularIdc();
@@ -155,8 +156,12 @@ public class BudgetModularServiceImpl implements BudgetModularService {
         return budgetModularIdcs;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    /**
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     public BudgetCalculationService getBudgetCalculationService() {

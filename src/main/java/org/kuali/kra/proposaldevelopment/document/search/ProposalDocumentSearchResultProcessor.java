@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.document.search;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +39,7 @@ public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearc
     @Override
     public List<Column> constructColumnList(DocSearchCriteriaDTO criteria, List<DocSearchDTO> dtos) {
         List<Column> proposalSearchResultColumns = super.constructColumnList(criteria, dtos);
-        this.addColumnUsingKey(proposalSearchResultColumns, new HashMap<String,String>(), PROPERTY_NAME_COPY_DOCUMENT, "Copy Document");
+        this.addColumnUsingKey(proposalSearchResultColumns, PROPERTY_NAME_COPY_DOCUMENT, "Copy Document");
         
         return proposalSearchResultColumns;
     }  

@@ -25,10 +25,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
@@ -53,7 +50,6 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
     private static final String MULTIPLE = "M";
     
     private PersistenceService persistenceService;
-    private KualiConfigurationService kualiConfigurationService;
     private DateTimeService dateTimeService;
 
     /**
@@ -231,22 +227,6 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
      */
     public void setPersistenceService(PersistenceService persistenceService) {
         this.persistenceService = persistenceService;
-    }
-
-    /**
-     * Gets the kualiConfigurationService attribute. 
-     * @return Returns the kualiConfigurationService.
-     */
-    public KualiConfigurationService getKualiConfigurationService() {
-        return kualiConfigurationService;
-    }
-
-    /**
-     * Sets the kualiConfigurationService attribute value.
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
     }
 
     /**

@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteLaRate;
@@ -45,35 +46,35 @@ public final class InstituteRateRateTypeRateClassRuleImpl implements InstituteRa
     private static final String INSTITUTE_LA_RATE_CLASS_TYPES_PARAM = "instituteLaRateClassTypes";
 
     private final BusinessObjectService boService;
-    private final KualiConfigurationService configService;
+    private final ParameterService parameterService;
     
     /**
      * Constructs an InstituteRateRateTypeRateClassRule setting the used services using the
      * {@link KraServiceLocator KraServiceLocator}.
      */
     public InstituteRateRateTypeRateClassRuleImpl() {
-        this(KraServiceLocator.getService(BusinessObjectService.class), KraServiceLocator.getService(KualiConfigurationService.class));
+        this(KraServiceLocator.getService(BusinessObjectService.class), KraServiceLocator.getService(ParameterService.class));
     }
     
     /**
      * Constructs an InstituteRateRateTypeRateClassRule setting the used services. This ctor allows for easier unit testing.
      * 
      * @param boService the BusinessObjectService
-     * @param configService the KualiConfigurationService
+     * @param parameterService the ParameterService
      * @throws NullPointerException if boService or configService is null
      */
-    public InstituteRateRateTypeRateClassRuleImpl(final BusinessObjectService boService, final KualiConfigurationService configService) {
+    public InstituteRateRateTypeRateClassRuleImpl(final BusinessObjectService boService, final ParameterService parameterService) {
         
         if (boService == null) {
             throw new NullPointerException("the boService is null");
         }
         
-        if (configService == null) {
-            throw new NullPointerException("the configService is null");
+        if (parameterService == null) {
+            throw new NullPointerException("the parameterService is null");
         }
         
         this.boService = boService;
-        this.configService = configService;
+        this.parameterService = parameterService;
     }
     
     /**
@@ -237,7 +238,7 @@ public final class InstituteRateRateTypeRateClassRuleImpl implements InstituteRa
     private Collection<String> getRateClassTypesCollection(final String rateType) {
         assert rateType != null : "infoType is null";
         
-        return this.configService.getParameterValues(Constants.PARAMETER_MODULE_BUDGET,
+        return this.parameterService.getParameterValues(Constants.PARAMETER_MODULE_BUDGET,
             Constants.BUDGET_ALL_DETAIL_TYPE_CODE, rateType);
     }
 }

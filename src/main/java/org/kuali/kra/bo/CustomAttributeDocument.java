@@ -26,7 +26,7 @@ import org.kuali.rice.kew.doctype.bo.DocumentType;
 public class CustomAttributeDocument extends KraPersistableBusinessObjectBase {
 
 	private Integer customAttributeId;
-	private String documentTypeCode;
+	private String documentTypeName;
 	private boolean required;
 	private String typeName;
 
@@ -48,19 +48,19 @@ public class CustomAttributeDocument extends KraPersistableBusinessObjectBase {
 	}
 
     /**
-     * Sets the documentTypeCode attribute value.
-     * @param documentTypeCode The documentTypeCode to set.
+     * Sets the documentTypeName attribute value.
+     * @param documentTypeName The documentTypeName to set.
      */
-    public void setDocumentTypeCode(String documentTypeCode) {
-        this.documentTypeCode = documentTypeCode;
+    public void setDocumentTypeName(String documentTypeName) {
+        this.documentTypeName = documentTypeName;
     }
 
     /**
      * Gets the documentTypeCode attribute.
      * @return Returns the documentTypeCode.
      */
-    public String getDocumentTypeCode() {
-        return documentTypeCode;
+    public String getDocumentTypeName() {
+        return documentTypeName;
     }
 
 	public boolean isRequired() {
@@ -84,7 +84,7 @@ public class CustomAttributeDocument extends KraPersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("customAttributeId", getCustomAttributeId());
-		hashMap.put("documentTypeCode", getDocumentTypeCode());
+		hashMap.put("documentTypeName", getDocumentTypeName());
 		hashMap.put("required", isRequired());
 		hashMap.put("typeName", getTypeName());
 		return hashMap;

@@ -22,6 +22,7 @@
 	<bean id="CommSchedule" parent="CommSchedule-parentBean" />
 	<bean id="CommSchedule-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.committee.bo.CommitteeSchedule" />
+		<property name="objectLabel" value="Committee Schedule" />
 		<property name="inquiryDefinition" >
 			<ref bean="CommSchedule-inquiryDefinition" />
 		</property>
@@ -33,7 +34,7 @@
 			<list>
 				<ref bean="CommSchedule-id" />
 				<ref bean="CommSchedule-scheduleId" />
-				<ref bean="CommSchedule-committeeId" />
+				<ref bean="CommSchedule-committeeIdFk" />
 				<ref bean="CommSchedule-scheduledDate" />
 				<ref bean="CommSchedule-dayOfWeek" />
 				<ref bean="CommSchedule-place" />
@@ -90,9 +91,9 @@
 		<property name="description" value="Schedule Id" />
 	</bean>
 
-	<bean id="CommSchedule-committeeId" parent="CommSchedule-committeeId-parentBean" />
-	<bean id="CommSchedule-committeeId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="committeeId" />
+	<bean id="CommSchedule-committeeIdFk" parent="CommSchedule-committeeIdFk-parentBean" />
+	<bean id="CommSchedule-committeeIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="committeeIdFk" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Committee Id" />
 		<property name="shortLabel" value="Committee Id" />
@@ -310,7 +311,7 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="scheduleId" />
 							<bean parent="FieldDefinition"
-								p:attributeName="committeeId" />
+								p:attributeName="committeeIdFk" />
 							<bean parent="FieldDefinition"
 								p:attributeName="scheduledDate" />
 							<bean parent="FieldDefinition"
@@ -345,7 +346,7 @@
 	<bean id="CommSchedule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Comm Schedule Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Comm Schedule" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>
@@ -358,7 +359,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="scheduleId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="committeeId" />
+					p:attributeName="committeeIdFk" />
 				<bean parent="FieldDefinition"
 					p:attributeName="scheduledDate" />
 				<bean parent="FieldDefinition"
@@ -391,7 +392,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="scheduleId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="committeeId" />
+					p:attributeName="committeeIdFk" />
 				<bean parent="FieldDefinition"
 					p:attributeName="scheduledDate" />
 				<bean parent="FieldDefinition"

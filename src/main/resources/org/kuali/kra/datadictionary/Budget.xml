@@ -9,6 +9,7 @@
 
   <bean id="Budget-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.core.Budget" />
+		<property name="objectLabel" value="Budget" />
     <property name="lookupDefinition" >
       <ref bean="Budget-lookupDefinition" />
     </property>
@@ -20,8 +21,8 @@
     
     <property name="attributes">
       <list>
-        <ref bean="Budget-proposalNumber"/>
-        <ref bean="Budget-documentNumber"/>
+<!--        <ref bean="Budget-proposalNumber"/>-->
+<!--        <ref bean="Budget-documentNumber"/>-->
         <ref bean="Budget-costSharingAmount"/>
         <ref bean="Budget-endDate"/>
         <ref bean="Budget-finalVersionFlag"/>
@@ -48,43 +49,43 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="Budget-proposalNumber" parent="Budget-proposalNumber-parentBean"/>
+<!--  <bean id="Budget-proposalNumber" parent="Budget-proposalNumber-parentBean"/>-->
+<!---->
+<!--  <bean id="Budget-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
+<!--    <property name="name" value="proposalNumber"/>-->
+<!--    <property name="forceUppercase" value="false"/>-->
+<!--    <property name="label" value="Proposal Number"/>-->
+<!--    <property name="shortLabel" value="Proposal Number"/>-->
+<!--    <property name="maxLength" value="12"/>-->
+<!--    <property name="validationPattern">-->
+<!--      <bean parent="AlphaNumericValidationPattern"/>-->
+<!--    </property>-->
+<!--    <property name="required" value="false"/>-->
+<!--    <property name="control">-->
+<!--      <bean parent="HiddenControlDefinition"/>-->
+<!--    </property>-->
+<!--    <property name="summary" value="Proposal Number"/>-->
+<!--    <property name="description" value="Proposal Number"/>-->
+<!--  </bean>-->
 
-  <bean id="Budget-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalNumber"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Proposal Number"/>
-    <property name="shortLabel" value="Proposal Number"/>
-    <property name="maxLength" value="12"/>
-    <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
-    </property>
-    <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="HiddenControlDefinition"/>
-    </property>
-    <property name="summary" value="Proposal Number"/>
-    <property name="description" value="Proposal Number"/>
-  </bean>
-
-  <bean id="Budget-documentNumber" parent="Budget-documentNumber-parentBean"/>
-
-  <bean id="Budget-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Document Number"/>
-    <property name="shortLabel" value="Document Number"/>
-    <property name="maxLength" value="12"/>
-    <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
-    </property>
-    <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="HiddenControlDefinition"/>
-    </property>
-    <property name="summary" value="Document Number"/>
-    <property name="description" value="Document Number"/>
-  </bean>
+<!--  <bean id="Budget-documentNumber" parent="Budget-documentNumber-parentBean"/>-->
+<!---->
+<!--  <bean id="Budget-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
+<!--    <property name="name" value="documentNumber"/>-->
+<!--    <property name="forceUppercase" value="false"/>-->
+<!--    <property name="label" value="Document Number"/>-->
+<!--    <property name="shortLabel" value="Document Number"/>-->
+<!--    <property name="maxLength" value="12"/>-->
+<!--    <property name="validationPattern">-->
+<!--      <bean parent="AlphaNumericValidationPattern"/>-->
+<!--    </property>-->
+<!--    <property name="required" value="false"/>-->
+<!--    <property name="control">-->
+<!--      <bean parent="HiddenControlDefinition"/>-->
+<!--    </property>-->
+<!--    <property name="summary" value="Document Number"/>-->
+<!--    <property name="description" value="Document Number"/>-->
+<!--  </bean>-->
 
   <bean id="Budget-costSharingAmount" parent="Budget-costSharingAmount-parentBean"/>
 
@@ -321,15 +322,15 @@
 		<property name="title" value="Budget Lookup" />
 		<property name="lookupableID" value="budgetLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Budget" />
+
 		<property name="defaultSort" >
 		  <bean parent="SortDefinition">
 		  </bean>
 		</property>
 		<property name="lookupFields" >
 		  <list>
-	        <bean p:attributeName="proposalNumber" p:forceInquiry="true" parent="FieldDefinition" />
-	        <bean p:attributeName="documentNumber" parent="FieldDefinition" />
+<!--	        <bean p:attributeName="proposalNumber" p:forceInquiry="true" parent="FieldDefinition" />-->
+<!--	        <bean p:attributeName="documentNumber" parent="FieldDefinition" />-->
 	        <bean p:attributeName="costSharingAmount" parent="FieldDefinition" />
 	        <bean p:attributeName="endDate" parent="FieldDefinition" />
 	        <bean p:attributeName="finalVersionFlag" parent="FieldDefinition" />
@@ -353,8 +354,8 @@
 		</property>
 		<property name="resultFields" >
 		  <list>
-	        <bean p:attributeName="proposalNumber" p:forceInquiry="true" parent="FieldDefinition" />
-	        <bean p:attributeName="documentNumber" parent="FieldDefinition" />
+<!--	        <bean p:attributeName="proposalNumber" p:forceInquiry="true" parent="FieldDefinition" />-->
+<!--	        <bean p:attributeName="documentNumber" parent="FieldDefinition" />-->
 	        <bean p:attributeName="costSharingAmount" parent="FieldDefinition" />
 	        <bean p:attributeName="endDate" parent="FieldDefinition" />
 	        <bean p:attributeName="finalVersionFlag" parent="FieldDefinition" />

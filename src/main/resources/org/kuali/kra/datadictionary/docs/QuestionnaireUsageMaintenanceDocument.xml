@@ -36,7 +36,7 @@
                     p:name="moduleSubItemCode"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="questionnaireId"
+                    p:name="questionnaireRefIdFk"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="ruleId" />

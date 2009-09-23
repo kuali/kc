@@ -38,7 +38,7 @@ public class PaymentScheduleBean implements Serializable {
      */
     private static final long serialVersionUID = -5513993757805685581L;
     private AwardPaymentSchedule newAwardPaymentSchedule;
-    private KualiRuleService ruleService;
+    private transient KualiRuleService ruleService;
     private AwardForm form;
     
     /**

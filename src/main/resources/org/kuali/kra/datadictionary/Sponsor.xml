@@ -8,6 +8,7 @@
 
   <bean id="Sponsor-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.Sponsor" />
+		<property name="objectLabel" value="Sponsor" />
     <property name="inquiryDefinition" >
       <ref bean="Sponsor-inquiryDefinition" />
     </property>
@@ -422,7 +423,7 @@
     <property name="title" value="Sponsor Lookup" />
     <property name="lookupableID" value="sponsorLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Sponsor" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

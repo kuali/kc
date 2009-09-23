@@ -8,6 +8,7 @@
 
   <bean id="KimPermission-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.kim.bo.KimPermission" />
+		<property name="objectLabel" value="Kim Permission" />
     <property name="inquiryDefinition" >
       <ref bean="KimPermission-inquiryDefinition" />
     </property>
@@ -104,7 +105,7 @@
   <bean id="KimPermission-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="KIM Permission Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a KIM Permission" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

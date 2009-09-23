@@ -8,6 +8,7 @@
 
   <bean id="AwardApprovedEquipment-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment" />
+		<property name="objectLabel" value="Award Approved Equipment" />
     <property name="titleAttribute" value="awardApprovedEquipment" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"

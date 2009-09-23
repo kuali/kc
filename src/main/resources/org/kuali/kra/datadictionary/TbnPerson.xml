@@ -8,6 +8,7 @@
 
   <bean id="TbnPerson-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.personnel.TbnPerson" />
+		<property name="objectLabel" value="Tbn Person" />
     <property name="inquiryDefinition" >
       <ref bean="TbnPerson-inquiryDefinition" />
     </property>
@@ -152,7 +153,7 @@
   <bean id="TbnPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="To Be Named Persons Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a TBN Person" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

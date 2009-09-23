@@ -33,17 +33,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.paymentschedule.FrequencyBaseConstants;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.scheduling.sequence.ScheduleSequence;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * 
@@ -132,16 +131,12 @@ public class AwardScheduleGenerationServiceImplTest {
         calendar.clear();
         calendar.set(START_DATE_YEAR_2009, Calendar.JULY, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         
-        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);
-        
-        final Parameter parameter = new Parameter();
-        parameter.setParameterName(KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);
-        parameter.setParameterValue(PERIOD_IN_YEARS);
+        final ParameterService parameterService = context.mock(ParameterService.class);
         
         context.checking(new Expectations() {{
-            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);will(returnValue(parameter));
+            one(parameterService).getParameterValue(AwardDocument.class, KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);will(returnValue(PERIOD_IN_YEARS));
         }});
-        awardScheduleGenerationServiceImpl.setKualiConfigurationService(kualiConfigurationService);
+        awardScheduleGenerationServiceImpl.setParameterService(parameterService);
         java.util.Date endDate = awardScheduleGenerationServiceImpl.getEndDate(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase()
                                     , calendar.getTime(), mapOfDates);
         calendar.add(Calendar.YEAR, 1);        
@@ -298,11 +293,7 @@ public class AwardScheduleGenerationServiceImplTest {
         newAwardReportTerm.setFrequencyBaseCode(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase());
         
         final ScheduleService scheduleService = context.mock(ScheduleService.class);
-        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);
-        
-        final Parameter parameter = new Parameter();
-        parameter.setParameterName(KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);
-        parameter.setParameterValue(PERIOD_IN_YEARS);
+        final ParameterService parameterService = context.mock(ParameterService.class);
         
         context.checking(new Expectations() {{
             one(scheduleService).getScheduledDates(with(equal(START_DATE)), with(equal(END_DATE)), with(equal(new Time24HrFmt(ZERO_HOURS)))
@@ -310,11 +301,11 @@ public class AwardScheduleGenerationServiceImplTest {
         }});
         
         context.checking(new Expectations() {{
-            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);will(returnValue(parameter));
+            one(parameterService).getParameterValue(AwardDocument.class, KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);will(returnValue(PERIOD_IN_YEARS));
         }});
                         
         awardScheduleGenerationServiceImpl.setScheduleService(scheduleService);
-        awardScheduleGenerationServiceImpl.setKualiConfigurationService(kualiConfigurationService);
+        awardScheduleGenerationServiceImpl.setParameterService(parameterService);
         
         Assert.assertEquals(DATES, awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm, mapOfDates));
     }

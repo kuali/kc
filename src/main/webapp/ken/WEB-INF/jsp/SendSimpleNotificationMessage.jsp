@@ -1,3 +1,18 @@
+<%--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
 <%@ include file="Include.jsp"%>
 
 <html>
@@ -134,13 +149,21 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="thnormal"><strong>Workgroup Recipients:</strong></td>
+					<td class="thnormal"><strong>Group Recipients:</strong></td>
 					<td class="thnormal">
 						<input type="text" name="workgroupRecipients" value="${workgroupRecipients}"/>
                         <img src="images/transparent_002.gif" height="1" width="5">
                         <i>(separate names using a comma - i.e. GroupA, GroupB, ...)</i>
 					</td>
 				</tr>
+				<tr>
+                    <td class="thnormal"><strong>Group Namespace Codes:</strong></td>
+                    <td class="thnormal">
+						<input type="text" name="workgroupNamespaceCodes" value="${workgroupNamespaceCodes}"/>
+                        <img src="images/transparent_002.gif" height="1" width="5">
+                        <i>(separate namespace codes using a comma, corresponding them with the group names above - i.e. NamespaceA, NamespaceB, ...)</i>
+                    </td>
+                </tr>
                 <tr>
                     <td class="thnormal"><strong>Title:</strong></td>
                     <td class="thnormal">

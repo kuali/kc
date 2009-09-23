@@ -33,10 +33,9 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.rice.shim.UniversalUserService;
 import org.kuali.rice.kew.user.AuthenticationUserId;
-import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiographyService {
     private BusinessObjectService businessObjectService;
@@ -84,7 +83,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
         }
         DocumentNextvalue documentNextvalue = proposaldevelopmentDocument.getDocumentNextvalueBo(Constants.PROP_PERSON_BIO_NUMBER);
         documentNextvalue.setDocumentKey(proposaldevelopmentDocument.getDevelopmentProposal().getProposalNumber());
-        List<BusinessObject> businessObjects = new ArrayList<BusinessObject>();
+        List<PersistableBusinessObject> businessObjects = new ArrayList<PersistableBusinessObject>();
         businessObjects.add(documentNextvalue);
         businessObjects.add(proposalPersonBiography);
         getBusinessObjectService().save(businessObjects);

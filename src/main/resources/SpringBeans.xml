@@ -57,11 +57,6 @@
 				<value>repository.xml</value>
 			</list>
 		</property>
-		<property name="externalizableBusinessObjectImplementations">
-            <map>
-             	<entry key="org.kuali.rice.kim.bo.Person" value="org.kuali.rice.kim.bo.impl.PersonImpl" />
-            </map>
-        </property>
 	</bean>
 
 <!--
@@ -138,6 +133,10 @@
         <property name="serviceName" value="dbPlatform" />
   </bean>
   
+   <bean id="parameterService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="parameterService" />
+  </bean>
+  
    <!--<bean id="dbPlatformFactory" class="org.kuali.rice.kns.dbplatform.ConfigurableKualiDBPlatformFactory">
     <property name="ojbPlatform" value="${datasource.ojb.platform}" />
     <property name="dataSource" ref="dataSource" />
@@ -201,6 +200,7 @@
 		<property name="rootConfig" ref="config" />
 		<property name="rootResourceLoader" ref="kraRootResourceLoader" />
 		<property name="serviceNamespace" value="KRA" />
+		
 		<property name="ksbConfigurer">
       		<bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
         		<property name="messageDataSource" ref="dataSource" />
@@ -212,52 +212,36 @@
          		-->
       		</bean>
     	</property>
-		<property name="kimConfigurer">
-      		<bean class="org.kuali.rice.kim.config.KIMConfigurer" />
-    	</property>
-    	<property name="kewConfigurer">
-      		<bean class="org.kuali.rice.kew.config.KEWConfigurer">
-        <property name="clientProtocol" value="local" />
-        <property name="dataSource" ref="dataSource" />
-      		</bean>
-    	</property>
+		
     	<property name="knsConfigurer">
       		<bean class="org.kuali.rice.kns.config.KNSConfigurer">
         		<property name="loadDataDictionary" value="true" />
-        		<property name="validateDataDictionary" value="false" />
+        		<property name="validateDataDictionary" value="true" />
+        		<property name="validateDataDictionaryEboReferences" value="true" />
       		</bean>
     	</property>
-    	<!--
-		<property name="modules">
-			<list>
-			
-				<bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
-					<property name="serviceServletUrl" value="${serviceServletUrl}" />
-				</bean>
-				 <bean class="org.kuali.rice.kcb.config.KCBConfigurer"/>  
-				<bean class="org.kuali.rice.ken.config.KENConfigurer"/> 
-				<bean class="org.kuali.rice.kew.config.KEWConfigurer">
-					<property name="clientProtocol" value="local" />
-				</bean>
-				<bean class="org.kuali.rice.kns.config.KNSConfigurer">
-					<property name="loadDataDictionary" value="true" />
-        			<property name="validateDataDictionary" value="false" />
-					
-					<property name="dataDictionaryPackages">
-						<list>
-							<value>org/kuali/kra/datadictionary</value>
-						</list>
-					</property>
-					<property name="databaseRepositoryFilePaths">
-						<list>
-							<value>repository.xml</value>
-						</list>
-					</property>
-					
-				</bean>
-			</list>
+    		
+		<property name="kimConfigurer">
+      		<bean class="org.kuali.rice.kim.config.KIMConfigurer" />
+    	</property>
+    	
+    	<property name="kcbConfigurer">
+			<bean class="org.kuali.rice.kcb.config.KCBConfigurer">
+			</bean>
 		</property>
-		-->
+    	
+    	<property name="kewConfigurer">
+      		<bean class="org.kuali.rice.kew.config.KEWConfigurer">
+        		<property name="clientProtocol" value="local" />
+        		<property name="dataSource" ref="dataSource" />
+      		</bean>
+    	</property>
+
+    	<property name="kenConfigurer">
+			<bean class="org.kuali.rice.ken.config.KENConfigurer">
+			</bean>
+		</property>
+
 	</bean>
 	
 	<bean id="dictionaryValidationService" class="org.kuali.kra.rice.KraDictionaryValidationServiceImpl">
@@ -328,11 +312,6 @@
 		<property name="serviceName" value="kualiConfigurationService" />
 	</bean>
 	
-	<bean id="authenticationService" class="org.kuali.rice.kim.service.impl.AuthenticationServiceImpl">
-		<property name="validatePassword" value="false" />
-	</bean>
-	<!-- <alias name="webAuthenticationService" alias="enWebAuthenticationService" />  -->
-
 	<bean id="persistenceStructureService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="persistenceStructureService" />
 	</bean>
@@ -495,6 +474,7 @@
 		<property name="unitAuthorizationService" ref="unitAuthorizationService" />
 		<property name="kraPersistenceStructureService" ref="kraPersistenceStructureService" /> 
 		<property name="budgetService" ref="budgetService" /> 
+		<property name="parameterService" ref="parameterService" /> 
 	</bean>
 	
 	<bean id="proposalLockService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalLockServiceImpl">
@@ -509,7 +489,11 @@
         <ref bean="sponsorHierarchyDao" />
       </property>
     </bean>
+    
     <bean id="sponsorHierarchyDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.SponsorHierarchyDaoOjb">
+	    <property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
 	</bean>	
 
 	<bean id="narrativeAuthZService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeAuthZServiceImpl">
@@ -550,8 +534,8 @@
 		<property name="personService">
 		    <ref bean="personService" />
 		</property>
-		<property name="kualiConfigurationService">
-		    <ref bean="kualiConfigurationService" />
+		<property name="parameterService">
+		    <ref bean="parameterService" />
 		</property>
 	</bean>
 
@@ -584,7 +568,7 @@
 	<bean id="keyPersonnelService" class="org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="narrativeService" ref="narrativeService" />
-		<property name="configurationService" ref="kualiConfigurationService" />        
+		<property name="parameterService" ref="parameterService" />        
     	<property name="ynqService">
         	<ref bean="ynqService" />
     	</property>
@@ -1140,7 +1124,7 @@
     <bean id="nonOrganizationalRolodexLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="nonOrganizationalRolodexHelperService" />
     </bean>    
-	
+
 	<bean id="customLookupable" class="org.kuali.kra.lookup.CustomLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="lookupableHelperService" />
@@ -1171,7 +1155,7 @@
     </bean>
     
 	<bean id="kcPessimisticLockService" class="org.kuali.kra.service.impl.KcPessimisticLockServiceImpl">
-		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="parameterService" ref="parameterService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
@@ -1184,7 +1168,7 @@
 	
 	<bean id="kcCronTrigger" class="org.kuali.kra.scheduling.quartz.KcCronTriggerBean">
 		<property name="jobDetail" ref="kcLockJobDetail" />
-		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="parameterService" ref="parameterService" />
 	</bean>
 	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
@@ -1371,6 +1355,9 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
 	</bean>
 
 	<bean id="s2SBudgetCalculatorService"
@@ -1532,8 +1519,8 @@
 	<bean id="preValidationTrigger"
 		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
 		<property name="jobDetail" ref="preValidation" />
-		<property name="configurationService"
-			ref="kualiConfigurationService" />
+		<property name="parameterService"
+			ref="parameterService" />
 		<property name="cronExpressionParameterName"
 			value="s2sScheduler.preValidation.cronExpression">
 		</property>
@@ -1541,8 +1528,8 @@
 	<bean id="validationTrigger"
 		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
 		<property name="jobDetail" ref="validation" />
-		<property name="configurationService"
-			ref="kualiConfigurationService" />
+		<property name="parameterService"
+			ref="parameterService" />
 		<property name="cronExpressionParameterName"
 			value="s2sScheduler.validation.cronExpression">
 		</property>
@@ -1550,8 +1537,8 @@
 	<bean id="postValidationTrigger"
 		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
 		<property name="jobDetail" ref="postValidation" />
-		<property name="configurationService"
-			ref="kualiConfigurationService" />
+		<property name="parameterService"
+			ref="parameterService" />
 		<property name="cronExpressionParameterName"
 			value="s2sScheduler.postValidation.cronExpression">
 		</property>
@@ -1559,8 +1546,8 @@
 	<bean id="errorOutTrigger"
 		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
 		<property name="jobDetail" ref="errorOut" />
-		<property name="configurationService"
-			ref="kualiConfigurationService" />
+		<property name="parameterService"
+			ref="parameterService" />
 		<property name="cronExpressionParameterName"
 			value="s2sScheduler.errorOut.cronExpression">
 		</property>
@@ -1595,8 +1582,8 @@
         <property name="questionnaireAuthorizationService">
             <ref bean="questionnaireAuthorizationService" />
         </property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
+		<property name="parameterService">
+			<ref bean="parameterService" />
 		</property>
 	</bean>
 

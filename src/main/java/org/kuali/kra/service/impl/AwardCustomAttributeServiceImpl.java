@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.kra.service.AwardCustomAttributeService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
@@ -40,7 +41,7 @@ public class AwardCustomAttributeServiceImpl implements AwardCustomAttributeServ
     public Map<String, CustomAttributeDocument> getDefaultAwardCustomAttributeDocuments() {
         Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
         Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put(KNSPropertyConstants.DOCUMENT_TYPE_CODE, AwardDocument.DOCUMENT_TYPE_CODE);
+        queryMap.put(PropertyConstants.DOCUMENT.TYPE_NAME.toString(), AwardDocument.DOCUMENT_TYPE_CODE);
         List<CustomAttributeDocument> customAttributeDocumentList = 
             (List<CustomAttributeDocument>) getBusinessObjectService().findMatching(CustomAttributeDocument.class, queryMap);
         for(CustomAttributeDocument customAttributeDocument:customAttributeDocumentList) {

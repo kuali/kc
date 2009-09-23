@@ -8,6 +8,7 @@
 
   <bean id="SponsorForms-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorForms" />
+		<property name="objectLabel" value="Sponsor Forms" />
     <property name="inquiryDefinition" >
       <ref bean="SponsorForms-inquiryDefinition" />
     </property>
@@ -118,7 +119,7 @@
   <bean id="SponsorForms-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Sponsor Forms Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Sponsor Forms" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

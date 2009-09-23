@@ -24,6 +24,7 @@
 	<bean id="AwardSpecialReview" parent="AwardSpecialReview-parentBean" />
 	<bean id="AwardSpecialReview-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.specialreview.AwardSpecialReview" />
+		<property name="objectLabel" value="Award Special Review" />
 		<property name="inquiryDefinition" >
 			<ref bean="AwardSpecialReview-inquiryDefinition" />
 		</property>
@@ -140,7 +141,7 @@
 	<bean id="AwardSpecialReview-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Award Special Review Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Award Special Review" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

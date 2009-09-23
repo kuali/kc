@@ -22,6 +22,7 @@
     <bean id="AwardTransactionType" parent="AwardTransactionType-parentBean" />
     <bean id="AwardTransactionType-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.timeandmoney.transactions.AwardTransactionType" />
+		<property name="objectLabel" value="Award Transaction Type" />
         <property name="inquiryDefinition" >
             <ref bean="AwardTransactionType-inquiryDefinition" />
         </property>
@@ -120,7 +121,7 @@
     <bean id="AwardTransactionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Award Transaction Type Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Award Transaction Type" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>

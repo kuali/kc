@@ -78,7 +78,6 @@ import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.service.PessimisticLockService;
@@ -449,7 +448,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 //            workflowdocument.returnToPreviousNode(rejectNoteText, NodeName);
 		// Using deprecated method because nothing else available works
             workflowdocument.returnToPreviousRouteLevel(rejectNoteText, 0);
-            return super.returnToSender(mapping, kualiDocumentFormBase);
+            return super.returnToSender(request, mapping, kualiDocumentFormBase);
         }
         
        
@@ -638,10 +637,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      * @return the parameter's value
      */
     private String getProposalParameterValue(String parameterName) {
-        KualiConfigurationService configurationService = KraServiceLocator.getService(KualiConfigurationService.class);
-        return configurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                                                 Constants.PARAMETER_COMPONENT_DOCUMENT, 
-                                                 parameterName).getParameterValue();
+        return this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, parameterName);
     }
     
     /**
@@ -695,10 +691,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
     
     private String getRevisionProposalTypeCode() {
-        return getKualiConfigurationService().getParameter(
-                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                Constants.PARAMETER_COMPONENT_DOCUMENT,
-                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION).getParameterValue();
+        return this.getParameterService().getParameterValue(
+                ProposalDevelopmentDocument.class,
+                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
     }
     
     

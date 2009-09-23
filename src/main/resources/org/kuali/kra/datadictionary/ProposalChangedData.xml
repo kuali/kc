@@ -8,6 +8,7 @@
 
   <bean id="ProposalChangedData-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData" />
+		<property name="objectLabel" value="Proposal Changed Data" />
     <property name="inquiryDefinition" >
       <ref bean="ProposalChangedData-inquiryDefinition" />
     </property>
@@ -235,7 +236,7 @@
   <bean id="ProposalChangedData-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Prop Changed Data Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Prop Changed Data" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

@@ -22,6 +22,7 @@
     <bean id="ValidBasisMethodPayment" parent="ValidBasisMethodPayment-parentBean" />
     <bean id="ValidBasisMethodPayment-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.award.home.ValidBasisMethodPayment" />
+		<property name="objectLabel" value="Valid Basis Method Payment" />
         <property name="inquiryDefinition" >
             <ref bean="ValidBasisMethodPayment-inquiryDefinition" />
         </property>
@@ -153,7 +154,7 @@
     <bean id="ValidBasisMethodPayment-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Valid Basis Method Pmt Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Valid Basis Method Pmt" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>

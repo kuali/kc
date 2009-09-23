@@ -32,6 +32,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class QuestionnaireServiceTest {
     
@@ -102,15 +103,15 @@ public class QuestionnaireServiceTest {
         public void testValidCodes() {
 
             final QuestionnaireAuthorizationService questionnaireAuthorizationService = context.mock(QuestionnaireAuthorizationService.class);
-            final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);
+            final ParameterService parameterService = context.mock(ParameterService.class);
             final QuestionnaireServiceImpl questionnaireService = new QuestionnaireServiceImpl();
             questionnaireService.setQuestionnaireAuthorizationService(questionnaireAuthorizationService);
-            questionnaireService.setKualiConfigurationService(kualiConfigurationService);
+            questionnaireService.setParameterService(parameterService);
             final List<String> permissions = new ArrayList<String>();
             permissions.add(PermissionConstants.MODIFY_PROPOSAL);
             permissions.add(PermissionConstants.MODIFY_PROTOCOL);
             context.checking(new Expectations() {{
-                one(kualiConfigurationService).getParameterValues(Constants.PARAMETER_MODULE_QUESTIONNAIRE,
+                one(parameterService).getParameterValues(Constants.PARAMETER_MODULE_QUESTIONNAIRE,
                         Constants.PARAMETER_COMPONENT_PERMISSION, "associateModuleQuestionnairePermission");
                 will(returnValue(permissions));
                 one(questionnaireAuthorizationService).hasPermission(PermissionConstants.MODIFY_PROPOSAL);

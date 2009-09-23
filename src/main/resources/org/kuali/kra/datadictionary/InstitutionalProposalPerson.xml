@@ -22,6 +22,7 @@
     <bean id="InstitutionalProposalPerson" parent="InstitutionalProposalPerson-parentBean" />
     <bean id="InstitutionalProposalPerson-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.personnel.InstitutionalProposalPerson" />
+		<property name="objectLabel" value="Institutional Proposal Person" />
         <property name="inquiryDefinition" >
             <ref bean="InstitutionalProposalPerson-inquiryDefinition" />
         </property>
@@ -36,7 +37,7 @@
                 <ref bean="InstitutionalProposalPerson-sequenceNumber" />
                 <ref bean="InstitutionalProposalPerson-personId" />
                 <ref bean="InstitutionalProposalPerson-rolodexId" />
-                <ref bean="InstitutionalProposalPerson-propPersonRoleId" />
+                <ref bean="InstitutionalProposalPerson-proposalPersonRoleId" />
                 <ref bean="InstitutionalProposalPerson-personName" />
                 <ref bean="InstitutionalProposalPerson-facultyFlag" />
                 <ref bean="InstitutionalProposalPerson-conflictOfInterestFlag" />
@@ -144,9 +145,9 @@
         <property name="description" value="Rolodex Id" />
     </bean>
 
-    <bean id="InstitutionalProposalPerson-propPersonRoleId" parent="InstitutionalProposalPerson-propPersonRoleId-parentBean" />
-    <bean id="InstitutionalProposalPerson-propPersonRoleId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="propPersonRoleId" />
+    <bean id="InstitutionalProposalPerson-proposalPersonRoleId" parent="InstitutionalProposalPerson-proposalPersonRoleId-parentBean" />
+    <bean id="InstitutionalProposalPerson-proposalPersonRoleId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposalPersonRoleId" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Prop Person Role Id" />
         <property name="shortLabel" value="Prop Person Role Id" />
@@ -324,7 +325,7 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="rolodexId" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="propPersonRoleId" />
+                                p:attributeName="proposalPersonRoleId" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="personName" />
                             <bean parent="FieldDefinition"
@@ -357,7 +358,7 @@
     <bean id="InstitutionalProposalPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Proposal Persons Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Proposal Persons" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>
@@ -376,7 +377,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="rolodexId" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="propPersonRoleId" />
+                    p:attributeName="proposalPersonRoleId" />
                 <bean parent="FieldDefinition"
                     p:attributeName="personName" />
                 <bean parent="FieldDefinition"
@@ -413,7 +414,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="rolodexId" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="propPersonRoleId" />
+                    p:attributeName="proposalPersonRoleId" />
                 <bean parent="FieldDefinition"
                     p:attributeName="personName" />
                 <bean parent="FieldDefinition"

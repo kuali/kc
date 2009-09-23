@@ -15,17 +15,20 @@
  */
 package org.kuali.kra.institutionalproposal.document;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption;
@@ -33,8 +36,11 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioni
 import org.kuali.kra.service.InstitutionalProposalCustomAttributeService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
+import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.FormatException;
 
 /**
  * 
@@ -45,6 +51,8 @@ import org.kuali.rice.kns.web.format.FormatException;
  * Also we have provided convenient getter and setter methods so that to the outside world;
  * InstitutionalProposal and InstitutionalProposalDocument can have a 1:1 relationship.
  */
+@NAMESPACE(namespace=InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE)
+@COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
 public class InstitutionalProposalDocument extends ResearchDocumentBase {
     private static final Log LOG = LogFactory.getLog(InstitutionalProposalDocument.class);
     
@@ -189,4 +197,20 @@ public class InstitutionalProposalDocument extends ResearchDocumentBase {
         }
     }
     
+    /** {@inheritDoc} */
+    @Override
+    public boolean useCustomLockDescriptors() {
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getCustomLockDescriptor(Person user) {
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        if (StringUtils.isNotEmpty(activeLockRegion)) {
+            return this.getDocumentNumber() + "-" + activeLockRegion; 
+        }
+
+        return null;
+    }
 }

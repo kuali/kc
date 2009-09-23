@@ -55,7 +55,6 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.transport.http.HTTPConduit;
-import org.apache.cxf.transports.http.configuration.ConnectionType;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.apache.log4j.Logger;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -64,7 +63,6 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.GrantsGovConnectorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * 
@@ -87,8 +85,6 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
     private static final String TRUSTSTORE_PASSWORD = "s2s.truststore.password";
     public static final String GRANTS_GOV_HOST = "grants.gov.s2s.host";
     public static final String GRANTS_GOV_PORT = "grants.gov.s2s.port";
-
-    private KualiConfigurationService kualiConfigurationService;
 
     /**
      * This method is to get Opportunity List for the given cfda number,opportunity Id and competition Id from the grants guv. It
@@ -368,22 +364,6 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * Gets the kualiConfigurationService attribute. 
-     * @return Returns the kualiConfigurationService.
-     */
-    public KualiConfigurationService getKualiConfigurationService() {
-        return kualiConfigurationService;
-    }
-
-    /**
-     * Sets the kualiConfigurationService attribute value.
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
     }
 
     /**
