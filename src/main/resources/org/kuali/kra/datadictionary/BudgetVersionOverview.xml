@@ -8,6 +8,7 @@
 
   <bean id="BudgetVersionOverview-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.versions.BudgetVersionOverview" />
+		<property name="objectLabel" value="Budget Version Overview" />
     <property name="titleAttribute" value="name" />
     <property name="attributes" >
       <list>

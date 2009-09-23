@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.service.InstitutionalProposalCustomAttributeService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -39,7 +40,7 @@ private BusinessObjectService businessObjectService;
     public Map<String, CustomAttributeDocument> getDefaultInstitutionalProposalCustomAttributeDocuments() {
         Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
         Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put(KNSPropertyConstants.DOCUMENT_TYPE_CODE, InstitutionalProposalDocument.DOCUMENT_TYPE_CODE);
+        queryMap.put(PropertyConstants.DOCUMENT.TYPE_NAME.toString(), InstitutionalProposalDocument.DOCUMENT_TYPE_CODE);
         List<CustomAttributeDocument> customAttributeDocumentList = 
             (List<CustomAttributeDocument>) getBusinessObjectService().findMatching(CustomAttributeDocument.class, queryMap);
         for(CustomAttributeDocument customAttributeDocument:customAttributeDocumentList) {

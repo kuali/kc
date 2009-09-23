@@ -22,6 +22,7 @@
 	<bean id="AwardPaymentSchedule" parent="AwardPaymentSchedule-parentBean" />
 	<bean id="AwardPaymentSchedule-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule" />
+		<property name="objectLabel" value="Award Payment Schedule" />
 		<property name="inquiryDefinition" >
 			<ref bean="AwardPaymentSchedule-inquiryDefinition" />
 		</property>
@@ -239,7 +240,7 @@
 	<bean id="AwardPaymentSchedule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Award Payment Schedule Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Award Payment Schedule" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

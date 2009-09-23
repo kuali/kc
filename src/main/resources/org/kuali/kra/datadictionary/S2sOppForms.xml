@@ -8,6 +8,7 @@
 
   <bean id="S2sOppForms-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sOppForms" />
+		<property name="objectLabel" value="S2s Opp Forms" />
     <property name="inquiryDefinition" >
       <ref bean="S2sOppForms-inquiryDefinition" />
     </property>
@@ -205,7 +206,7 @@
   <bean id="S2sOppForms-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="S2s Opp Forms" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up an S2s Form" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

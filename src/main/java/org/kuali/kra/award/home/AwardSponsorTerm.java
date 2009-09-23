@@ -32,7 +32,7 @@ public class AwardSponsorTerm extends AwardAssociate {
      */
     private static final long serialVersionUID = -7613461089397009434L;
     
-    BusinessObjectService businessObjectService;
+    private transient BusinessObjectService businessObjectService;
    
     private Long awardSponsorTermId;
     @AwardSyncable private Long sponsorTermId;

@@ -8,6 +8,7 @@
 
   <bean id="ProposalBudgetStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus" />
+		<property name="objectLabel" value="Proposal Budget Status" />
     <property name="titleAttribute" value="budgetStatusCode" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"

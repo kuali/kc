@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
@@ -54,7 +55,7 @@ public class AwardCustomAttributeServiceImplTest {
     @Before
     public void setUp() throws Exception {
         awardCustomAttributeServiceImpl = new AwardCustomAttributeServiceImpl();
-        queryMap.put(KNSPropertyConstants.DOCUMENT_TYPE_CODE, "AWRD");
+        queryMap.put(PropertyConstants.DOCUMENT.TYPE_NAME.toString(), "AWRD");
         CustomAttributeDocument customAttributeDocument1 = new CustomAttributeDocument();
         CustomAttributeDocument customAttributeDocument2 = new CustomAttributeDocument();
         customAttributeDocument1.setActive(true);

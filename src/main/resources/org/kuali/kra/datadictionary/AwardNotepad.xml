@@ -22,6 +22,7 @@
     <bean id="AwardNotepad" parent="AwardNotepad-parentBean" />
     <bean id="AwardNotepad-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.award.notesandattachments.notes.AwardNotepad" />
+		<property name="objectLabel" value="Award Notepad" />
         <property name="inquiryDefinition" >
             <ref bean="AwardNotepad-inquiryDefinition" />
         </property>
@@ -129,7 +130,7 @@
     
     <bean id="AwardNotepad-createTimestamp" parent="AwardNotepad-createTimestamp-parentBean" />
     <bean id="AwardNotepad-createTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-        <property name="name" value="createTimeStamp" />
+        <property name="name" value="createTimestamp" />
         <property name="label" value="Posted Timestamp" />
         <property name="shortLabel" value="Posted Timestamp" />
         <property name="summary" value="Posted Timestamp" />
@@ -207,7 +208,7 @@
     <bean id="AwardNotepad-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Award Notepad Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Award Notepad" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>

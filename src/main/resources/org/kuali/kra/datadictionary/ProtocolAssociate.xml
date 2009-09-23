@@ -27,6 +27,7 @@ reference this file within there spring beans definition.
 	<bean id="ProtocolAssociate" abstract="true" parent="ProtocolAssociate-parentBean" />
 	<bean id="ProtocolAssociate-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.ProtocolAssociate" />
+		<property name="objectLabel" value="Protocol Associate" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolAssociate-inquiryDefinition" />
 		</property>
@@ -94,7 +95,7 @@ reference this file within there spring beans definition.
 		<property name="title" value="Protocol Associate Lookup" />
         <property name="lookupableID" value="ProtocolAssociateLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Protocol Associate" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

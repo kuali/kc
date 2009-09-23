@@ -8,6 +8,7 @@
 
   <bean id="BudgetUnrecoveredFandA-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA" />
+		<property name="objectLabel" value="Budget Unrecovered Fand A" />
     <property name="titleAttribute" value="documentComponentId" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
@@ -17,8 +18,8 @@
     </property>
     <property name="attributes" >
       <list>
-        <ref bean="BudgetUnrecoveredFandA-proposalNumber" />
-        <ref bean="BudgetUnrecoveredFandA-budgetVersionNumber" />
+<!--        <ref bean="BudgetUnrecoveredFandA-proposalNumber" />-->
+<!--        <ref bean="BudgetUnrecoveredFandA-budgetVersionNumber" />-->
         <ref bean="BudgetUnrecoveredFandA-documentComponentId" />
         <ref bean="BudgetUnrecoveredFandA-amount" />
         <ref bean="BudgetUnrecoveredFandA-applicableRate" />
@@ -31,43 +32,43 @@
 
 <!-- Attribute Definitions -->
 
-
-  <bean id="BudgetUnrecoveredFandA-proposalNumber" parent="BudgetUnrecoveredFandA-proposalNumber-parentBean" />
-
-  <bean id="BudgetUnrecoveredFandA-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Proposal Number" />
-    <property name="shortLabel" value="Proposal Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
-    </property>
-    <property name="summary" value="Proposal Number" />
-    <property name="description" value="Proposal Number" />
-  </bean>
-  <bean id="BudgetUnrecoveredFandA-budgetVersionNumber" parent="BudgetUnrecoveredFandA-budgetVersionNumber-parentBean" />
-
-  <bean id="BudgetUnrecoveredFandA-budgetVersionNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="budgetVersionNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Budget Version Number" />
-    <property name="shortLabel" value="Budget Version Number" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
-    <property name="summary" value="Budget Version Number" />
-    <property name="description" value="Budget Version Number" />
-  </bean>
+<!---->
+<!--  <bean id="BudgetUnrecoveredFandA-proposalNumber" parent="BudgetUnrecoveredFandA-proposalNumber-parentBean" />-->
+<!---->
+<!--  <bean id="BudgetUnrecoveredFandA-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
+<!--    <property name="name" value="proposalNumber" />-->
+<!--    <property name="forceUppercase" value="false" />-->
+<!--    <property name="label" value="Proposal Number" />-->
+<!--    <property name="shortLabel" value="Proposal Number" />-->
+<!--    <property name="maxLength" value="12" />-->
+<!--    <property name="validationPattern" >-->
+<!--      <bean parent="AlphaNumericValidationPattern" />-->
+<!--    </property>-->
+<!--    <property name="control" >-->
+<!--      <bean parent="TextControlDefinition"-->
+<!--            p:size="8" />-->
+<!--    </property>-->
+<!--    <property name="summary" value="Proposal Number" />-->
+<!--    <property name="description" value="Proposal Number" />-->
+<!--  </bean>-->
+<!--  <bean id="BudgetUnrecoveredFandA-budgetVersionNumber" parent="BudgetUnrecoveredFandA-budgetVersionNumber-parentBean" />-->
+<!---->
+<!--  <bean id="BudgetUnrecoveredFandA-budgetVersionNumber-parentBean" abstract="true" parent="AttributeDefinition">-->
+<!--    <property name="name" value="budgetVersionNumber" />-->
+<!--    <property name="forceUppercase" value="false" />-->
+<!--    <property name="label" value="Budget Version Number" />-->
+<!--    <property name="shortLabel" value="Budget Version Number" />-->
+<!--    <property name="maxLength" value="3" />-->
+<!--    <property name="validationPattern" >-->
+<!--      <bean parent="NumericValidationPattern" />-->
+<!--    </property>-->
+<!--    <property name="control" >-->
+<!--      <bean parent="TextControlDefinition"-->
+<!--            p:size="3" />-->
+<!--    </property>-->
+<!--    <property name="summary" value="Budget Version Number" />-->
+<!--    <property name="description" value="Budget Version Number" />-->
+<!--  </bean>-->
   <bean id="BudgetUnrecoveredFandA-documentComponentId" parent="BudgetUnrecoveredFandA-documentComponentId-parentBean" />
 
   <bean id="BudgetUnrecoveredFandA-documentComponentId-parentBean" abstract="true" parent="AttributeDefinition">

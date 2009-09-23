@@ -8,6 +8,7 @@
 
   <bean id="AwardDirectFandADistribution-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution" />
+		<property name="objectLabel" value="Award Direct Fand A Distribution" />
     <property name="titleAttribute" value="awardCostShare" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"

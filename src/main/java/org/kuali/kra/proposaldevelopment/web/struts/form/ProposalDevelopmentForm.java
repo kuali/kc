@@ -87,6 +87,7 @@ import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -155,6 +156,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
    
 
     private String proposalFormTabTitle = "Print Sponsor Form Packages ";
+    private ParameterService parameterService;
 
     /* This is just a list of sponsor form package details - large objects not loaded */
     private List<SponsorFormTemplateList> sponsorFormTemplates;
@@ -164,6 +166,17 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         this.setDocument(new ProposalDevelopmentDocument());
         initialize();
         sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
+    }
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
     }
 
     /**
@@ -1134,10 +1147,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         
         extraButtons.add(newButton);
     }
-    
-    public KualiConfigurationService getConfigurationService() {
-        return getService(KualiConfigurationService.class);
-    }
 
     /**
      * Overridden to force business logic even after validation failures. In this case we want to force the enabling of credit split.
@@ -1147,7 +1156,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     @Override
     public void processValidationFail() {
         try {
-            boolean cSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME)
+            boolean cSplitEnabled = this.getParameterService().getIndicatorParameter(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME)
                 && getDocument().getDevelopmentProposal().getInvestigators().size() > 0;
             setCreditSplitEnabled(cSplitEnabled);
         }

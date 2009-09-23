@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.service.impl;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -26,8 +25,6 @@ import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.exception.PessimisticLockingException;
 import org.kuali.rice.kns.service.impl.PessimisticLockServiceImpl;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -62,39 +59,6 @@ public class InstitutionalProposalLockServiceImpl extends PessimisticLockService
     }
 
     /**
-     * This method should be used to define Document Authorizer classes which will use custom lock descriptors in the
-     * {@link PessimisticLock} objects NOTE: if this method is overriden to return true then the method
-     * {@link #getCustomLockDescriptor(Document, Map, UniversalUser)} must be overriden
-     * 
-     * @return false if the document will not be using lock descriptors or true if the document will use lock descriptors.
-     *         The default return value is false
-     */
-    @Override
-    protected boolean useCustomLockDescriptors() {
-        return true;
-    }
-
-    /**
-     * This method should be overriden by groups requiring the lock descriptor field in the {@link PessimisticLock} objects.
-     * If it is not overriden and {@link #useCustomLockDescriptors()} returns true then this method will throw a
-     * {@link PessimisticLockingException}
-     * 
-     * @param document - document being checked for locking
-     * @param editMode - editMode generated for passed in user
-     * @param user - user attempting to establish locks
-     * @return a {@link PessimisticLockingException} will be thrown as the default implementation
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    protected String getCustomLockDescriptor(Document document, Map editMode, Person user) {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        if(StringUtils.isNotEmpty(activeLockRegion))
-            return document.getDocumentNumber()+"-"+activeLockRegion; 
-        
-        return null;
-    }
-
-    /**
      * This method is used to check if the given {@link Map.Entry} is an 'entry type' edit mode and that the value is set to
      * signify that this user has that edit mode available to them
      * 
@@ -115,7 +79,7 @@ public class InstitutionalProposalLockServiceImpl extends PessimisticLockService
                 || "addBudget".equals(entry.getKey()) 
                 ) {
             String fullEntryEditModeValue = (String)entry.getValue();
-            return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && (EDIT_MODE_DEFAULT_TRUE_VALUE.equals(fullEntryEditModeValue)) );
+            return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && ("TRUE".equals(fullEntryEditModeValue)) );
         }
         return false;
     }

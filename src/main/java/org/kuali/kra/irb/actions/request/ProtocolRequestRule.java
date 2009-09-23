@@ -15,15 +15,14 @@
  */
 package org.kuali.kra.irb.actions.request;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -32,7 +31,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 @SuppressWarnings("unchecked")
 public class ProtocolRequestRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<ProtocolRequestEvent> {
-
+    
     private static final String MANDATORY = "M";
 
     /**
@@ -66,11 +65,8 @@ public class ProtocolRequestRule extends ResearchDocumentRuleBase implements Bus
      * @return true if mandatory; otherwise false
      */
     private boolean isMandatory() {
-        KualiConfigurationService configService = getService(KualiConfigurationService.class);
-        Parameter param = configService.getParameterWithoutExceptions(Constants.PARAMETER_MODULE_PROTOCOL, 
-                                                                      Constants.PARAMETER_COMPONENT_DOCUMENT, 
-                                                                      Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
+        final String param = this.getParameterService().getParameterValue(ProtocolDocument.class, Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
         
-        return StringUtils.equalsIgnoreCase(MANDATORY, param.getParameterValue());  
+        return StringUtils.equalsIgnoreCase(MANDATORY, param);  
     }
 }

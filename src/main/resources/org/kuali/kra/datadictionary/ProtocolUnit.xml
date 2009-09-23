@@ -24,6 +24,7 @@
 	<bean id="ProtocolUnit" parent="ProtocolUnit-parentBean" />
 	<bean id="ProtocolUnit-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.personnel.ProtocolUnit" />
+		<property name="objectLabel" value="Protocol Unit" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolUnit-inquiryDefinition" />
 		</property>
@@ -204,7 +205,7 @@
 	<bean id="ProtocolUnit-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Protocol Units Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Protocol Units" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

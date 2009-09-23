@@ -22,6 +22,7 @@
 	<bean id="AwardSponsorTerm" parent="AwardSponsorTerm-parentBean" />
 	<bean id="AwardSponsorTerm-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardSponsorTerm" />
+		<property name="objectLabel" value="Award Sponsor Term" />
 		<property name="inquiryDefinition" >
 			<ref bean="AwardSponsorTerm-inquiryDefinition" />
 		</property>
@@ -108,7 +109,7 @@
 	<bean id="AwardSponsorTerm-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Award Sponsor Term Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Award Sponsor Term" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

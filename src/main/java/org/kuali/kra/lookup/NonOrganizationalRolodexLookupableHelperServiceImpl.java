@@ -39,7 +39,7 @@ public class NonOrganizationalRolodexLookupableHelperServiceImpl extends KualiLo
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3536764919498823536L;
-    private RolodexDao rolodexDao;
+    private transient RolodexDao rolodexDao;
 
     /**
      * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)

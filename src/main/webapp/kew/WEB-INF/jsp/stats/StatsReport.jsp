@@ -1,3 +1,18 @@
+<%--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 <c:set var="KualiForm" value="${StatsForm}" scope="request"/>
 <kul:page headerTitle="Workflow Statistics" lookup="false"
@@ -14,6 +29,7 @@
   <div id="workarea" >
     <div class="tab-container" align="center">
       <html-el:hidden property="methodToCall" value="" />
+      <html-el:hidden property="backLocation" />
       <table class="datatable-80" style="align:center" border="0" cellpadding="0" cellspacing="0" >
         <tr>
           <td colspan="2" class="subhead"><bean-el:message key="general.label.aggregates"/></td>
@@ -150,8 +166,8 @@
     </table>
     <br />
     <div width="100%" style="text-align:center">
-      <html-el:image src="images/buttonsmall_refresh.gif" style="border-width:0px" align="absmiddle" />&nbsp;&nbsp;
-      <html-el:image src="images/buttonsmall_cancel.gif" style="border-width:0px" align="absmiddle" onclick="javascript: window.close()"/>
+      <html-el:image src="images/buttonsmall_refresh.gif" styleClass="tinybutton" align="absmiddle" />&nbsp;&nbsp;
+      <a href="${KualiForm.backLocation}"><img src="images/buttonsmall_cancel.gif" class="tinybutton" align="absmiddle" alt="cancel" /></a>
     </div>
   </div>
 </kul:page>

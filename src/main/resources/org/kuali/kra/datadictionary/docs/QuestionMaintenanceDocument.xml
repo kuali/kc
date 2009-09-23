@@ -94,7 +94,7 @@
                     <property name="maintainableFields">
                         <list>
                             <bean parent="MaintainableFieldDefinition" 
-                                p:name="questionId" />
+                                p:name="questionRefIdFk" />
                             <bean parent="MaintainableFieldDefinition" 
                                 p:name="explanation" />
                         </list>

@@ -20,9 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class UnitHierarchyForm extends KualiForm {
@@ -32,6 +32,7 @@ public class UnitHierarchyForm extends KualiForm {
     
     private String units;
     private String selectedUnitNumber;
+    private transient ParameterService parameterService;
     
     /**
      * Constructs a UnitHierarchyForm.
@@ -68,11 +69,18 @@ public class UnitHierarchyForm extends KualiForm {
      * @return Initial Unit Depth
      */
     public int getInitialUnitDepth() {
-        
-        Parameter sysParam = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
-                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, DETAIL_TYPE_CODE_A,
-                Constants.INITIAL_UNIT_HIERARCHY_LOAD_DEPTH);
-        
-        return Integer.parseInt(sysParam.getParameterValue());
+        final String param = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, Constants.INITIAL_UNIT_HIERARCHY_LOAD_DEPTH);
+        return Integer.parseInt(param);
+    }
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
     }
 }

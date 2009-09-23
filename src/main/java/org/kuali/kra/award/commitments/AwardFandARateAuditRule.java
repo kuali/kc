@@ -28,7 +28,7 @@ import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFind
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -38,26 +38,29 @@ public class AwardFandARateAuditRule implements DocumentAuditRule {
     
     private List<AuditError> auditErrors;
     private KeyValuesFinder finder;
+    private ParameterService parameterService;
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
     
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
         AwardDocument awardDocument = (AwardDocument) document;
         if(StringUtils.equalsIgnoreCase(
-                getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD, 
-                        Constants.PARAMETER_COMPONENT_DOCUMENT,
-                        KeyConstants.MIT_IDC_VALIDATION_ENABLED).getParameterValue(),
+                this.getParameterService().getParameterValue(AwardDocument.class,
+                        KeyConstants.MIT_IDC_VALIDATION_ENABLED),
                         KeyConstants.MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON)){
             retval = isFandaRateInputInPairs(awardDocument.getAward().getAwardFandaRate());
         }        
         return retval;
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rules.DocumentRuleBase#getKualiConfigurationService()
-     */
-    protected KualiConfigurationService getKualiConfigurationService(){
-        return KraServiceLocator.getService(KualiConfigurationService.class);
     }
     
     /**

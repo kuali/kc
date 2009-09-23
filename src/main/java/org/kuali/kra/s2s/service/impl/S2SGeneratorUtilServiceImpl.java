@@ -18,7 +18,6 @@ package org.kuali.kra.s2s.service.impl;
 import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 import gov.grants.apply.system.universalCodesV20.StateCodeDataType;
 
-import java.io.IOException;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -31,17 +30,15 @@ import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.State;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SGeneratorUtilService;
-import org.kuali.kra.s2s.util.PropertyFileReader;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * 
@@ -51,7 +48,7 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
 
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService parameterService;
     private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
     private static final String SUBMISSION_TYPE_DESCRIPTION = "submissionTypeDescription";
     private static final String YNQ_QUESTION_ID_TYPE_EQ = "EQ";
@@ -182,8 +179,7 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
      * @return String
      */
     public String getParameterValue(String parameter) {
-        return kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                Constants.PARAMETER_COMPONENT_DOCUMENT,parameter).getParameterValue();
+        return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class,parameter);
     }
 
     /**
@@ -296,22 +292,12 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
 
     /**
-     * Gets the kualiConfigurationService attribute. 
-     * @return Returns the kualiConfigurationService.
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
      */
-    public KualiConfigurationService getKualiConfigurationService() {
-        return kualiConfigurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
-
-    /**
-     * Sets the kualiConfigurationService attribute value.
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-
 }

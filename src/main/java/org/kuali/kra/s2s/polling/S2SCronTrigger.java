@@ -17,8 +17,8 @@ package org.kuali.kra.s2s.polling;
 
 import java.text.ParseException;
 
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.scheduling.quartz.CronTriggerBean;
 
 /**
@@ -32,16 +32,15 @@ public class S2SCronTrigger extends CronTriggerBean {
      */
     private static final String DEFAULT_CRON_EXPRESSION = "0 0/20 * * * ?";
 
-    private KualiConfigurationService configurationService;
+    private ParameterService parameterService;
     private String cronExpressionParameterName;
 
     /**
-     * Set the Configuration Service. Injected by Spring.
-     * 
-     * @param configurationService the configuration service
+     * Sets the ParameterService.
+     * @param parameterService the parameter service. 
      */
-    public void setConfigurationService(KualiConfigurationService configurationService) {
-        this.configurationService = configurationService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     /**
@@ -75,8 +74,7 @@ public class S2SCronTrigger extends CronTriggerBean {
      * @return the parameter's value
      */
     private String getParameterValue(String key) {
-        return configurationService.getParameterValue(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT,
-                Constants.PARAMETER_COMPONENT_DOCUMENT, key);
+        return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, key);
     }
 
     /**

@@ -212,12 +212,12 @@ public class VersionHistoryServiceTest {
         public Collection findMatchingOrderBy(Class clazz, Map fieldValues, String sortField, boolean sortAscending) { return null; }
         public BusinessObject getReferenceIfExists(BusinessObject bo, String referenceName) { return null; }
         public void linkAndSave(PersistableBusinessObject bo) { }
-        public void linkAndSave(List<PersistableBusinessObject> businessObjects) { }
+        public void linkAndSave(List<? extends PersistableBusinessObject> businessObjects) { }
         public void linkUserFields(PersistableBusinessObject bo) { }
         public void linkUserFields(List<PersistableBusinessObject> bos) { }
         public PersistableBusinessObject retrieve(PersistableBusinessObject object) { return null; }
         
-        public void save(List businessObjects) {
+        public void save(List<? extends PersistableBusinessObject> businessObjects) {
             for(Object bo: businessObjects) {
                 save((PersistableBusinessObject) bo);
             }
@@ -229,6 +229,10 @@ public class VersionHistoryServiceTest {
         public void delete(PersistableBusinessObject bo) {}
         public void delete(List<? extends PersistableBusinessObject> boList) { }
 
-        public void deleteMatching(Class clazz, Map fieldValues) {}        
+        public void deleteMatching(Class clazz, Map fieldValues) {}
+
+        public <T> T findBySinglePrimaryKey(Class<T> clazz, Object primaryKey) {
+            throw new UnsupportedOperationException("not yet mocked");
+        }        
     } 
 }

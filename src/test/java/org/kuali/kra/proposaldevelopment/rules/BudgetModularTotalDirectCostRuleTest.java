@@ -42,6 +42,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.impl.DocumentServiceImpl;
 import org.kuali.rice.kns.service.impl.KualiConfigurationServiceImpl;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -90,6 +92,109 @@ public class BudgetModularTotalDirectCostRuleTest {
     }
 
     private ProposalDevelopmentDocument pdDocument;
+    
+    private ParameterService paramService = new ParameterService() {
+
+        public void clearCache() {
+            throw new UnsupportedOperationException("not supported.");
+            
+        }
+
+        public String getDetailType(Class<? extends Object> documentOrStepClass) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public boolean getIndicatorParameter(Class<? extends Object> componentClass, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public boolean getIndicatorParameter(String namespaceCode, String detailTypeCode, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public String getNamespace(Class<? extends Object> documentOrStepClass) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public ParameterEvaluator getParameterEvaluator(Class<? extends Object> componentClass, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public ParameterEvaluator getParameterEvaluator(String namespaceCode, String detailTypeCode, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public ParameterEvaluator getParameterEvaluator(Class<? extends Object> componentClass, String parameterName,
+                String constrainedValue) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public ParameterEvaluator getParameterEvaluator(String namespaceCode, String detailTypeCode, String parameterName,
+                String constrainedValue) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public ParameterEvaluator getParameterEvaluator(Class<? extends Object> componentClass, String parameterName,
+                String constrainingValue, String constrainedValue) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public ParameterEvaluator getParameterEvaluator(Class<? extends Object> componentClass, String allowParameterName,
+                String denyParameterName, String constrainingValue, String constrainedValue) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public String getParameterValue(Class<? extends Object> componentClass, String parameterName) {
+            if (BudgetDocument.class.equals(componentClass) && Constants.BUDGET_STATUS_COMPLETE_CODE.equals(parameterName)) {
+                return "1";
+            }
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public String getParameterValue(Class<? extends Object> componentClass, String parameterName, String constrainingValue) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public String getParameterValue(String namespaceCode,
+                String parameterDetailTypeCode, String parameterName) {
+                if (Constants.PARAMETER_MODULE_BUDGET.equals(namespaceCode)
+                    && Constants.PARAMETER_COMPONENT_DOCUMENT.equals(parameterDetailTypeCode)
+                    && Constants.BUDGET_STATUS_COMPLETE_CODE.equals(parameterName)) {
+                    return "1";
+                }
+                throw new UnsupportedOperationException("not supported.");
+        }
+
+        public List<String> getParameterValues(Class<? extends Object> componentClass, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public List<String> getParameterValues(Class<? extends Object> componentClass, String parameterName,
+                String constrainingValue) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public List<String> getParameterValues(String namespaceCode, String detailTypeCode, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public boolean parameterExists(Class<? extends Object> componentClass, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public Parameter retrieveParameter(String namespaceCode, String detailTypeCode, String parameterName) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public List<Parameter> retrieveParametersGivenLookupCriteria(Map<String, String> fieldValues) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+
+        public void setParameterForTesting(Class<? extends Object> componentClass, String parameterName, String parameterText) {
+            throw new UnsupportedOperationException("not supported.");
+        }
+        
+    };
     
     //if more methods are required override them to avoid loading all the spring junk
     private KualiConfigurationService configService = new KualiConfigurationService() {
@@ -192,7 +297,7 @@ public class BudgetModularTotalDirectCostRuleTest {
      */
     @Test(expected = NullPointerException.class)
     public void testNullConfigService() {
-        new BudgetModularTotalDirectCostRule(new KualiConfigurationServiceImpl(), null);
+        new BudgetModularTotalDirectCostRule(new KualiConfigurationServiceImpl(), null, null);
     }
 
     /**
@@ -200,7 +305,7 @@ public class BudgetModularTotalDirectCostRuleTest {
      */
     @Test(expected = NullPointerException.class)
     public void testNullDocu() {
-        new BudgetModularTotalDirectCostRule(null, new DocumentServiceImpl());
+        new BudgetModularTotalDirectCostRule(null, new DocumentServiceImpl(), null);
     }
     
     
@@ -216,7 +321,7 @@ public class BudgetModularTotalDirectCostRuleTest {
             }
         };
         
-        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service);
+        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service, this.paramService);
         rule.validateTotalDirectCost(null, true, new HashSet<String>());
     }
 
@@ -232,7 +337,7 @@ public class BudgetModularTotalDirectCostRuleTest {
             }
         };
         
-        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service);
+        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service, this.paramService);
         rule.validateTotalDirectCost(this.pdDocument, true, null);
     }
     
@@ -240,7 +345,7 @@ public class BudgetModularTotalDirectCostRuleTest {
 
     private void testNoErrors(final DocumentService service) {
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
-        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service);
+        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service, this.paramService);
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
         Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getErrorMap(), GlobalVariables.getErrorMap().isEmpty());
@@ -279,7 +384,7 @@ public class BudgetModularTotalDirectCostRuleTest {
         };
 
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_INCOMPLETE);
-        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service);
+        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service, this.paramService);
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
         Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getErrorMap(), GlobalVariables.getErrorMap().isEmpty());
@@ -431,7 +536,7 @@ public class BudgetModularTotalDirectCostRuleTest {
         };
         
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
-        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service);
+        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service, this.paramService);
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
 
@@ -443,7 +548,7 @@ public class BudgetModularTotalDirectCostRuleTest {
             + warnings, warnings.contains(getWarning(rule)));
 
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
-        rule = new BudgetModularTotalDirectCostRule(this.configService, service);
+        rule = new BudgetModularTotalDirectCostRule(this.configService, service, this.paramService);
         warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
 
@@ -486,7 +591,7 @@ public class BudgetModularTotalDirectCostRuleTest {
         };
 
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
-        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service);
+        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service, this.paramService);
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
 
@@ -499,7 +604,7 @@ public class BudgetModularTotalDirectCostRuleTest {
 
         GlobalVariables.getErrorMap().clear();
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
-        rule = new BudgetModularTotalDirectCostRule(this.configService, service);
+        rule = new BudgetModularTotalDirectCostRule(this.configService, service, this.paramService);
         warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
         Assert.assertEquals("Only one warning should have been produced, count "
@@ -542,7 +647,7 @@ public class BudgetModularTotalDirectCostRuleTest {
         };
 
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
-        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service);
+        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service, this.paramService);
         Set<String> warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
         Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getErrorMap(), GlobalVariables.getErrorMap().isEmpty());
@@ -553,7 +658,7 @@ public class BudgetModularTotalDirectCostRuleTest {
 
         
         this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
-        rule = new BudgetModularTotalDirectCostRule(this.configService, service);
+        rule = new BudgetModularTotalDirectCostRule(this.configService, service, this.paramService);
         warnings = new HashSet<String>();
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
         Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getErrorMap(), GlobalVariables.getErrorMap().isEmpty());

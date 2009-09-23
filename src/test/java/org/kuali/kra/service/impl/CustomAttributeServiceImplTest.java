@@ -85,7 +85,7 @@ public class CustomAttributeServiceImplTest extends KraTestBase {
             CustomAttributeDocument testCustomAttributeDocument = testCustomAttributeDocumentEntry.getValue();
             CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(testCustomAttributeDocument.getCustomAttributeId().toString());
             assertNotNull(customAttributeDocument);
-            assertEquals(testCustomAttributeDocument.getDocumentTypeCode(), customAttributeDocument.getDocumentTypeCode());
+            assertEquals(testCustomAttributeDocument.getDocumentTypeName(), customAttributeDocument.getDocumentTypeName());
             assertEquals(testCustomAttributeDocument.isRequired(), customAttributeDocument.isRequired());
             CustomAttribute testCustomAttribute = testCustomAttributeDocument.getCustomAttribute();
             CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();
@@ -111,7 +111,7 @@ public class CustomAttributeServiceImplTest extends KraTestBase {
             CustomAttributeDocument testCustomAttributeDocument = testCustomAttributeDocumentEntry.getValue();
             CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(testCustomAttributeDocument.getCustomAttributeId().toString());
             assertNotNull(customAttributeDocument);
-            assertEquals(testCustomAttributeDocument.getDocumentTypeCode(), customAttributeDocument.getDocumentTypeCode());
+            assertEquals(testCustomAttributeDocument.getDocumentTypeName(), customAttributeDocument.getDocumentTypeName());
             assertEquals(testCustomAttributeDocument.isRequired(), customAttributeDocument.isRequired());
             CustomAttribute testCustomAttribute = testCustomAttributeDocument.getCustomAttribute();
             CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();
@@ -140,7 +140,7 @@ public class CustomAttributeServiceImplTest extends KraTestBase {
             CustomAttributeDocument testCustomAttributeDocument = testCustomAttributeDocumentEntry.getValue();
             CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(testCustomAttributeDocument.getCustomAttributeId().toString());
             assertNotNull(customAttributeDocument);
-            assertEquals(testCustomAttributeDocument.getDocumentTypeCode(), customAttributeDocument.getDocumentTypeCode());
+            assertEquals(testCustomAttributeDocument.getDocumentTypeName(), customAttributeDocument.getDocumentTypeName());
             assertEquals(testCustomAttributeDocument.isRequired(), customAttributeDocument.isRequired());
             CustomAttribute testCustomAttribute = testCustomAttributeDocument.getCustomAttribute();
             CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();
@@ -189,7 +189,7 @@ public class CustomAttributeServiceImplTest extends KraTestBase {
             CustomAttributeDocument testCustomAttributeDocument = testCustomAttributeDocumentEntry.getValue();
             CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(testCustomAttributeDocument.getCustomAttributeId().toString());
             assertNotNull(customAttributeDocument);
-            assertEquals(testCustomAttributeDocument.getDocumentTypeCode(), customAttributeDocument.getDocumentTypeCode());
+            assertEquals(testCustomAttributeDocument.getDocumentTypeName(), customAttributeDocument.getDocumentTypeName());
             assertEquals(testCustomAttributeDocument.isRequired(), customAttributeDocument.isRequired());
             CustomAttribute testCustomAttribute = testCustomAttributeDocument.getCustomAttribute();
             CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();

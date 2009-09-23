@@ -8,6 +8,7 @@
 
   <bean id="NarrativeUserRights-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights" />
+		<property name="objectLabel" value="Narrative User Rights" />
     <property name="inquiryDefinition" >
       <ref bean="NarrativeUserRights-inquiryDefinition" />
     </property>
@@ -143,7 +144,7 @@
   <bean id="NarrativeUserRights-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Narrative User Rights Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Narrative User Rights" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

@@ -8,6 +8,7 @@
 
   <bean id="S2sAppSubmission-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sAppSubmission" />
+		<property name="objectLabel" value="S2s App Submission" />
     <property name="inquiryDefinition" >
       <ref bean="S2sAppSubmission-inquiryDefinition" />
     </property>
@@ -218,7 +219,7 @@
   <bean id="S2sAppSubmission-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="S2s App Submission" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up an S2s App Submission" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

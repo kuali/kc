@@ -8,6 +8,7 @@
 
   <bean id="DeadlineType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.DeadlineType" />
+		<property name="objectLabel" value="Deadline Type" />
     <property name="inquiryDefinition" >
       <ref bean="DeadlineType-inquiryDefinition" />
     </property>
@@ -85,7 +86,7 @@
   <bean id="DeadlineType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Deadline Type Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Deadline Type" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

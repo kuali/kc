@@ -22,6 +22,7 @@
 	<bean id="ProtocolReviewType" parent="ProtocolReviewType-parentBean" />
 	<bean id="ProtocolReviewType-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ProtocolReviewType" />
+		<property name="objectLabel" value="Protocol Review Type" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolReviewType-inquiryDefinition" />
 		</property>
@@ -93,7 +94,7 @@
 	<bean id="ProtocolReviewType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Protocol Review Type Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Protocol Review Type" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

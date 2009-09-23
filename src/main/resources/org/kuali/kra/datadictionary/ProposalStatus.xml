@@ -22,6 +22,7 @@
     <bean id="ProposalStatus" parent="ProposalStatus-parentBean" />
     <bean id="ProposalStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.ProposalStatus" />
+		<property name="objectLabel" value="Proposal Status" />
         <property name="inquiryDefinition" >
             <ref bean="ProposalStatus-inquiryDefinition" />
         </property>
@@ -108,7 +109,7 @@
     <bean id="ProposalStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Proposal Status Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Proposal Status" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>

@@ -27,7 +27,7 @@ import org.kuali.rice.kns.lookup.HtmlData;
 public class AwardPersonLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     private static final long serialVersionUID = 3716323161734123416L;
 
-    private AwardPersonDao awardPersonDao;
+    private transient AwardPersonDao awardPersonDao;
     
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, @SuppressWarnings("unchecked") List pkNames) {

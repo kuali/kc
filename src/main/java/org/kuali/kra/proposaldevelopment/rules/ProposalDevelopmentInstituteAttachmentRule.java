@@ -33,6 +33,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -43,6 +44,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.SaveInstituteAttachmentsEven
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocumentRuleBase implements AddInstituteAttachmentRule { 
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
@@ -50,7 +52,18 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
     private static final String NEW_INSTITUTE_ATTACHMENT = "newInstituteAttachment";
     private static final String NARRATIVE_TYPE_CODE = "narrativeTypeCode";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentInstituteAttachmentRule.class);
-
+    private ParameterService parameterService;
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
     /**
      * This method is to validate :
      *   attachment type code, status code exist. 
@@ -83,7 +96,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
         if (rulePassed) {
             populateNarrativeType(narrative);
             String[] param = {INSTITUTE, narrative.getNarrativeType().getDescription()};
-            String instituteNarrativeTypeGroup = getService(KualiConfigurationService.class).getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, INSTITUTE_NARRATIVE_TYPE_GROUP);
+            String instituteNarrativeTypeGroup = this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, INSTITUTE_NARRATIVE_TYPE_GROUP);
             if (narrative.getNarrativeType().getAllowMultiple().equalsIgnoreCase(NARRATIVE_TYPE_ALLOWMULTIPLE_NO)) {
                 for (Narrative narr : document.getDevelopmentProposal().getInstituteAttachments()) {
                     if (narr!=null && StringUtils.equals(narr.getNarrativeTypeCode(),narrative.getNarrativeTypeCode())) {

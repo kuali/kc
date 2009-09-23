@@ -29,7 +29,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -49,6 +49,7 @@ public class AwardCreditSplitBean implements Serializable {
     private AwardDocument awardDocument;
     
     private transient Collection<InvestigatorCreditType> investigatorCreditTypes;
+    private transient ParameterService parameterService;
 
     public AwardCreditSplitBean(AwardForm awardForm) {
         this.awardForm = awardForm;
@@ -146,7 +147,18 @@ public class AwardCreditSplitBean implements Serializable {
      * @return
      */
     protected String fetchParameterValue(String parmName) {
-        return getConfigurationService().getParameterValue(Award.AWARD_NAMESPACE_CODE, PARM_TYPE_CODE, parmName);
+        return this.getParameterService().getParameterValue(AwardDocument.class, parmName);
+    }
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
     }
     
     /**
@@ -155,14 +167,7 @@ public class AwardCreditSplitBean implements Serializable {
     protected BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
-    
-    /**
-     * @return
-     */
-    protected KualiConfigurationService getConfigurationService() {
-        return KraServiceLocator.getService(KualiConfigurationService.class);
-    }
-    
+        
     /**
      * This is  called to generate a map of the new credit split totals.
      *

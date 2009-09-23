@@ -8,6 +8,7 @@
 
   <bean id="AwardCustomData-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.award.customdata.AwardCustomData" />
+		<property name="objectLabel" value="Award Custom Data" />
     <property name="titleAttribute" value="awardCustomData" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"

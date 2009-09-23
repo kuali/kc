@@ -21,11 +21,10 @@ import java.util.List;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -39,13 +38,14 @@ public class AwardCloseoutBean implements Serializable {
     private static final long serialVersionUID = 7888151034323714279L;
     
     private AwardCloseout newAwardCloseout;
-    private KualiRuleService ruleService;
+    private transient KualiRuleService ruleService;
     private AwardForm form;
     private String closeoutReportTypeUserDefined;
     private String closeoutReportTypeFinancialReport;
     private String closeoutReportTypePatent;
     private String closeoutReportTypeTechnical;
     private String closeoutReportTypeProperty;
+    private transient ParameterService parameterService;
    
     /**
      * Constructs an AwardCloseoutBean.
@@ -65,16 +65,11 @@ public class AwardCloseoutBean implements Serializable {
     }
     
     private void initializeAwardCloseoutSystemParams(){
-        setCloseoutReportTypeUserDefined(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD ,Constants.PARAMETER_COMPONENT_DOCUMENT
-                    ,KeyConstants.CLOSE_OUT_REPORT_TYPE_USER_DEFINED).getParameterValue());
-        setCloseoutReportTypeFinancialReport(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD 
-                ,Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT).getParameterValue());
-        setCloseoutReportTypeTechnical(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD
-                ,Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.CLOSE_OUT_REPORT_TYPE_TECHNICAL).getParameterValue());
-        setCloseoutReportTypePatent(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD,
-                Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.CLOSE_OUT_REPORT_TYPE_PATENT).getParameterValue());
-        setCloseoutReportTypeProperty(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD
-                ,Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.CLOSE_OUT_REPORT_TYPE_PROPERTY).getParameterValue());
+        setCloseoutReportTypeUserDefined(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_USER_DEFINED));
+        setCloseoutReportTypeFinancialReport(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT));
+        setCloseoutReportTypeTechnical(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_TECHNICAL));
+        setCloseoutReportTypePatent(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_PATENT));
+        setCloseoutReportTypeProperty(getParameterService().getParameterValue(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_PROPERTY));
     }
     
     /**
@@ -199,8 +194,15 @@ public class AwardCloseoutBean implements Serializable {
         this.newAwardCloseout = newAwardCloseout;
     }
     
-    protected KualiConfigurationService getKualiConfigurationService(){
-        return (KualiConfigurationService) KraServiceLocator.getService(KualiConfigurationService.class);
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
     }
 
     /**

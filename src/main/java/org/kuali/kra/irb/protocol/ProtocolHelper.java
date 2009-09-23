@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.protocol;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
@@ -36,7 +34,7 @@ import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProtocolHelper implements Serializable {
@@ -77,7 +75,18 @@ public class ProtocolHelper implements Serializable {
     private boolean modifyOrganizations = false;
     private boolean modifySubjects = false;
     private boolean modifyAreasOfResearch = false;
-
+    private transient ParameterService parameterService;
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
+    }
     
     public boolean isEditProtocolFundingSourceName() {
         return editProtocolFundingSourceName;
@@ -186,8 +195,7 @@ public class ProtocolHelper implements Serializable {
      * @return parameter value
      */
     private String getParameterValue(String parameterName) {
-        KualiConfigurationService configService = getService(KualiConfigurationService.class);
-        return (configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, parameterName)).getParameterValue();        
+        return getParameterService().getParameterValue(ProtocolDocument.class, parameterName);        
     }
 
     public void setReferenceId1Label(String referenceId1Label) {

@@ -22,6 +22,7 @@
     <bean id="ProtocolCorrespondenceType" parent="ProtocolCorrespondenceType-parentBean" />
     <bean id="ProtocolCorrespondenceType-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.irb.actions.ProtocolCorrespondenceType" />
+		<property name="objectLabel" value="Protocol Correspondence Type" />
         <property name="inquiryDefinition" >
             <ref bean="ProtocolCorrespondenceType-inquiryDefinition" />
         </property>
@@ -120,7 +121,7 @@
     <bean id="ProtocolCorrespondenceType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Proto Corresp Type Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Proto Corresp Type" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>

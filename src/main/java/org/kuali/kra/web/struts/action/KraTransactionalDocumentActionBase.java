@@ -103,9 +103,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        if (((KualiDocumentFormBase) form).getErrorMapFromPreviousRequest() == null) {
-            ((KualiDocumentFormBase) form).setErrorMapFromPreviousRequest(new ErrorMap());
-        }
+//        if (((KualiDocumentFormBase) form).getErrorMapFromPreviousRequest() == null) {
+//            ((KualiDocumentFormBase) form).setErrorMapFromPreviousRequest(new ErrorMap());
+//        }
         
         /*
          * If the document is being opened in view only mode, mark the form.  We will also

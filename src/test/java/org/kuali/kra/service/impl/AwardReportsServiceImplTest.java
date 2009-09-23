@@ -29,6 +29,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
@@ -38,9 +39,8 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.AwardReportsService;
-import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -50,6 +50,7 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
 @RunWith(JMock.class)
 public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
 
+    private static final String P_AND_I_PARAM = "6";
     public static final String MOCK_EXPECTED_STRING = "1;test1,2;test2,3;test3,4;test4,5;test5";
     public static final int MOCK_EXPECTED_NUMBER_OF_NEW_AWARD_REPORT_TERM_OBJECTS = 5;
     public static final int MOCK_EXPECTED_NUMBER_OF_NEW_AWARD_REPORT_TERM_RECIPIENT_OBJECTS = 1;
@@ -170,28 +171,23 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
     public final void testSetReportClassForPaymentsAndInvoicesSubPanelSuccess(){
         AwardReportsServiceImpl service = new AwardReportsServiceImpl();
         
-        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);
+        final ParameterService parameterService = context.mock(ParameterService.class);
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
-        
-        final Parameter parameter = new Parameter();
-        parameter.setParameterName(KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);
-        parameter.setParameterValue("6");
-        
+              
         context.checking(new Expectations() {{
-            one(kualiConfigurationService).getParameter(Constants
-                    .PARAMETER_MODULE_AWARD ,Constants.PARAMETER_COMPONENT_DOCUMENT
-                    ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);will(returnValue(parameter));
+            one(parameterService).getParameterValue(AwardDocument.class
+                    ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);will(returnValue(P_AND_I_PARAM));
         }});
         
         final Map<String, String> primaryKeyField = new HashMap<String, String>();
         final ReportClass reportClass = new ReportClass();
-        primaryKeyField.put(REPORT_CLASS_CODE_FIELD,parameter.getParameterValue());
+        primaryKeyField.put(REPORT_CLASS_CODE_FIELD, P_AND_I_PARAM);
         
         context.checking(new Expectations() {{
             one(businessObjectService).findByPrimaryKey(ReportClass.class, primaryKeyField);will(returnValue(reportClass));
         }});
 
-        service.setKualiConfigurationService(kualiConfigurationService);
+        service.setParameterService(parameterService);
         service.setBusinessObjectService(businessObjectService);
         
         service.setReportClassForPaymentsAndInvoicesSubPanel(hashMap);

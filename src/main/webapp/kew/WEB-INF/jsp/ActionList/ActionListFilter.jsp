@@ -1,5 +1,5 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-<c:set var="KualiForm" value="${ActionListFilterFormNew}" scope="request"/>
+<c:set var="KualiForm" value="${ActionListFilterForm}" scope="request"/>
 <kul:page headerTitle="Action List Filter" lookup="false"
   headerMenuBar="" transactionalDocument="false" showDocumentInfo="false"
   htmlFormAction="ActionListFilter" docTitle="Action List Filter">
@@ -81,13 +81,13 @@
 	<tr>
 		<th><div align="right"><span class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.actionRequestGroup"/>: <bean-el:message key="general.help.actionRequestWorkgroup"/></span></div></th>
 		<td class="datacell">
-		    <html-el:select name="ActionListFilterFormNew" property="filter.groupId">
+		    <html-el:select name="ActionListFilterForm" property="filter.groupId">
               <html-el:optionsCollection property="userWorkgroups" label="value" value="key" filter="false"/>
             </html-el:select>&nbsp;<bean-el:message key="actionList.ActionListFilter.filter.label.exclude"/><html-el:checkbox property="filter.excludeGroupId"/></td>
 	</tr>
 	<tr>
 		<th><div align="right"><span class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.documentType"/>: <bean-el:message key="general.help.documentType"/></span></div></th>
-		<td class="datacell"><span id="docTypeElementId"><c:out value="${ActionListFilterFormNew.docTypeFullName}" /></span>
+		<td class="datacell"><span id="docTypeElementId"><c:out value="${ActionListFilterForm.docTypeFullName}" /></span>
 		    <kul:lookup boClassName="org.kuali.rice.kew.doctype.bo.DocumentType" fieldConversions="name:docTypeFullName"/>
 			&nbsp;<bean-el:message key="actionList.ActionListFilter.filter.label.exclude"/><html-el:checkbox property="filter.excludeDocumentType"/>
 	    </td>

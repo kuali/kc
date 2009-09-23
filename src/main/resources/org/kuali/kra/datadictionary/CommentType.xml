@@ -8,6 +8,7 @@
 
   <bean id="CommentType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.CommentType" />
+		<property name="objectLabel" value="Comment Type" />
     <property name="inquiryDefinition" >
       <ref bean="CommentType-inquiryDefinition" />
     </property>
@@ -161,7 +162,7 @@
   <bean id="CommentType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Comment Type Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Comment Type" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

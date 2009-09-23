@@ -22,6 +22,7 @@
     <bean id="IntellectualPropertyReview" parent="IntellectualPropertyReview-parentBean" />
     <bean id="IntellectualPropertyReview-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview" />
+		<property name="objectLabel" value="Intellectual Property Review" />
         <property name="titleAttribute" value="ipReviewId" />
         <property name="attributes" >
             <list>

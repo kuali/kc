@@ -22,6 +22,7 @@
 	<bean id="SpecialReviewExemptionReference" parent="SpecialReviewExemptionReference-parentBean" />
 	<bean id="SpecialReviewExemptionReference-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.bo.AbstractSpecialReviewExemption" />
+		<property name="objectLabel" value="Special Review Exemption Reference" />
 		<property name="inquiryDefinition" >
 			<ref bean="SpecialReviewExemptionReference-inquiryDefinition" />
 		</property>
@@ -92,7 +93,7 @@
 	<bean id="SpecialReviewExemptionReference-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value=" Exempt Number Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a  Exempt Number" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

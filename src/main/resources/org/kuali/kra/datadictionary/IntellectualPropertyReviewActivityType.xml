@@ -22,6 +22,7 @@
     <bean id="IntellectualPropertyReviewActivityType" parent="IntellectualPropertyReviewActivityType-parentBean" />
     <bean id="IntellectualPropertyReviewActivityType-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivityType" />
+		<property name="objectLabel" value="Intellectual Property Review Activity Type" />
         <property name="inquiryDefinition" >
             <ref bean="IntellectualPropertyReviewActivityType-inquiryDefinition" />
         </property>
@@ -109,7 +110,7 @@
     <bean id="IntellectualPropertyReviewActivityType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Intellectual Property Review Activity Type Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Intellectual Property Review Activity Type" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>

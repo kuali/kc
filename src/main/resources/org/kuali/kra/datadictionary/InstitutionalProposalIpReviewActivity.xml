@@ -22,6 +22,7 @@
     <bean id="InstitutionalProposalIpReviewActivity" parent="InstitutionalProposalIpReviewActivity-parentBean" />
     <bean id="InstitutionalProposalIpReviewActivity-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.ipreview.InstitutionalProposalIpReviewActivity" />
+		<property name="objectLabel" value="Institutional Proposal Ip Review Activity" />
         <property name="inquiryDefinition" >
             <ref bean="InstitutionalProposalIpReviewActivity-inquiryDefinition" />
         </property>
@@ -210,7 +211,7 @@
     <bean id="InstitutionalProposalIpReviewActivity-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Proposal Ip Rev Activity Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Proposal Ip Rev Activity" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>

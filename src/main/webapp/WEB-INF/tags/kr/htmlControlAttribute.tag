@@ -1,11 +1,11 @@
 <%--
- Copyright 2005-2007 The Kuali Foundation.
+ Copyright 2005-2007 The Kuali Foundation
 
- Licensed under the Educational Community License, Version 1.0 (the "License");
+ Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
 
- http://www.opensource.org/licenses/ecl1.php
+ http://www.opensource.org/licenses/ecl2.php
 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,10 +31,10 @@
 			  the main property.  The readOnlyBody attribute takes precedence." %>
 <%@ attribute name="readOnlyAlternateDisplay" required="false"
               description="when readOnly, you can specify a String value to display instead of
-              the main property.  The readOnlyBody and extraReadOnlyProperty attributes take precedence." %>
-<%@ attribute name="encryptValue" required="false"
-			  description="when readOnly or hidden field, boolean to indicate whether the value should
-			  be encrypted and display masked. Defaults to false." %>
+              the main property.  The readOnlyBody and extraReadOnlyProperty attributes take precedence.
+              THIS VALUE WILL BE DISPLAYED WITHOUT ANY XML FILTERING/ESCAPING, AND NEEDS TO BE PROPERLY ESCAPED TO PREVENT CROSS-SITE SCRIPTING VULNERABILITIES" %>
+<%@ attribute name="displayMask" required="false"
+              description="Specify whether to mask the given field using the displayMaskValue rather than showing the actual value." %>
 <%@ attribute name="displayMaskValue" required="false"
 			  description="when a field is not to be displayed in clear text and encrypted as hidden, the
 			  string to display." %>
@@ -45,24 +45,33 @@
         description="Use this to attach further information to the title attribute of a field
         if present"%>
 <%@ attribute name="forceRequired" required="false" %>
-<%@ attribute name="kimTypeName" required="false" %>
+<%@ attribute name="kimTypeId" required="false" %>
 <!-- Do not remove session check in this tag file since it is used by other type of files (not MD or TD) -->
 <c:set var="sessionDocument" value="${requestScope['sessionDoc']}" />
+<c:if test="${empty readOnly}">
+    <c:set var="readOnly" value="false"/>
+</c:if>
+
 <c:if test="${!empty attributeEntry.attributeSecurityMask && attributeEntry.attributeSecurityMask == true  }">
 	<c:set var="className" value ="${attributeEntry.fullClassName}" />
 	<c:set var="fieldName" value ="${attributeEntry.name}" />
-	<c:set var="readOnly" value="${kfunc:canFullyUnmaskField(className, fieldName)? 'false' : 'true'}" />
-	<c:set var="displayMask" value="${kfunc:canFullyUnmaskField(className, fieldName)? 'false' : 'true'}" />
-	<c:set var="displayMaskValue" value="${kfunc:getFullyMaskedValue(className, fieldName, KualiForm, property)}" />
+	<c:set var="displayMask" value="${kfunc:canFullyUnmaskField(className, fieldName,KualiForm)? 'false' : 'true'}" />
+	<c:set var="readOnly" value="${displayMask || readOnly}" />
+	<c:if test="${displayMask}">
+		<c:set var="displayMaskValue" value="${kfunc:getFullyMaskedValue(className, fieldName, KualiForm, property)}" />
+	</c:if>
 </c:if>
 
 
 <c:if test="${!displayMask && !empty attributeEntry.attributeSecurityPartialMask && attributeEntry.attributeSecurityPartialMask == true  }">
 	<c:set var="className" value ="${attributeEntry.fullClassName}" />
 	<c:set var="fieldName" value ="${attributeEntry.name}" />
-	<c:set var="readOnly" value="${kfunc:canPartiallyUnmaskField(attributeEntry.fullClassName, attributeEntry.name) ? 'false' : 'true'}"/>
-    <c:set var="displayMask" value="${kfunc:canPartiallyUnmaskField(className, fieldName)? 'false' : 'true'}" />
+    <c:set var="displayMask" value="${kfunc:canPartiallyUnmaskField(className, fieldName,KualiForm)? 'false' : 'true'}" />
+	<c:set var="readOnly" value="${displayMask || readOnly}"/>
 	<c:set var="displayMaskValue" value="${kfunc:getPartiallyMaskedValue(className, fieldName, KualiForm, property)}" />
+	<c:if test="${displayMask}">
+		<c:set var="displayMaskValue" value="${kfunc:getFullyMaskedValue(className, fieldName, KualiForm, property)}" />
+	</c:if>
 </c:if>
 
 
@@ -90,10 +99,6 @@
   <c:set var="disableField" value="true" />
 </c:if>
 
-<c:if test="${empty encryptValue}">
-    <c:set var="encryptValue" value="false"/>
-</c:if>
-
 <c:if test="${empty styleClass}">
 	<c:set var="styleClass" value=""/>
 </c:if>
@@ -115,15 +120,6 @@
 
      <c:otherwise>
         <c:choose>
-         <c:when test="${encryptValue}">
-            <%-- mask and encrypt --%>
-            <%
-              ((org.kuali.rice.kns.web.struts.form.KualiForm) request.getAttribute("KualiForm")).setFormatterType((String) property, org.kuali.rice.kns.web.format.EncryptionFormatter.class);
-            %>
-            <html:hidden property="encryptedProperties('${fn:replace(property,'.','_')}')" value="true"/>
-            <html:hidden write="false" property="${property}" style="${textStyle}"/>
-            ${displayMaskValue}
-         </c:when>
 		<c:when test="${displayMask}" >
 			${displayMaskValue}
 		</c:when>
@@ -188,11 +184,11 @@
             <c:set var="businessObjectClass" value="${fn:replace(attributeEntry.control.businessObject,'.','|')}"/>
 
 			<c:choose>
-              	<c:when test="${not empty businessObjectClass and empty kimTypeName}">
+              	<c:when test="${not empty businessObjectClass and empty kimTypeId}">
                   <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${businessObjectClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.keyAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.labelAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeBlankRow}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeKeyInLabel}"/>
               	</c:when>
-              	<c:when test="${not empty businessObjectClass and not empty kimTypeName}">
-                  <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${businessObjectClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.keyAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.labelAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeBlankRow}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeKeyInLabel}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${kimTypeName}"/>
+              	<c:when test="${not empty kimTypeId}">
+                  <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}IGNORED${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.name}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}IGNORED${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}IGNORED${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}IGNORED${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${kimTypeId}"/>
               	</c:when>
               	<c:otherwise>
                   <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}"/>
@@ -225,11 +221,11 @@
         <c:set var="businessObjectClass" value="${fn:replace(attributeEntry.control.businessObject,'.','|')}"/>
 
 		<c:choose>
-      		<c:when test="${not empty businessObjectClass and empty kimTypeName}">
+      		<c:when test="${not empty businessObjectClass and empty kimTypeId}">
             	<c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${businessObjectClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.keyAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.labelAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeBlankRow}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeKeyInLabel}"/>
       	  	</c:when>
-      		<c:when test="${not empty businessObjectClass and not empty kimTypeName}">
-            	<c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${businessObjectClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.keyAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.labelAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeBlankRow}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeKeyInLabel}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${kimTypeName}"/>
+      		<c:when test="${not empty kimTypeId}">
+                <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}IGNORED${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.name}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}IGNORED${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}IGNORED${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}IGNORED${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${kimTypeId}"/>
       	  	</c:when>
       	  	<c:otherwise>
             	<c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}"/>
@@ -239,7 +235,7 @@
        	<logic:iterate name="KualiForm" property="${methodAndParms}" id="KeyValue">
        		<c:set var="accessibleRadioTitle" value="${accessibleTitle} - ${KeyValue.label}"/>
             <html:radio property="${property}" style="${textStyle}" title="${accessibleRadioTitle}" tabindex="${tabindex}"
-            	value="key" idName="KeyValue" disabled="${disableField}" onchange="${onchange}"
+            	value="key" idName="KeyValue" disabled="${disableField}" onclick="${onchange}"
             	styleClass="${styleClass}"/>${KeyValue.label}
         </logic:iterate>
     </c:when>

@@ -8,6 +8,7 @@
 
   <bean id="PersonDegree-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.PersonDegree" />
+		<property name="objectLabel" value="Person Degree" />
     <property name="inquiryDefinition" >
       <ref bean="PersonDegree-inquiryDefinition" />
     </property>
@@ -222,7 +223,7 @@
   <bean id="PersonDegree-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Person Degree" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Person Degree" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

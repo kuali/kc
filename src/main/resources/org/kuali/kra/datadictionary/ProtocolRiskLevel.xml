@@ -24,6 +24,7 @@
 	<bean id="ProtocolRiskLevel" parent="ProtocolRiskLevel-parentBean" />
 	<bean id="ProtocolRiskLevel-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.ProtocolRiskLevel" />
+		<property name="objectLabel" value="Protocol Risk Level" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolRiskLevel-inquiryDefinition" />
 		</property>
@@ -232,7 +233,7 @@
 	<bean id="ProtocolRiskLevel-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Protocol Risk Levels Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="instructions" value="Look up a Protocol Risk Levels" />
+
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" >
 		</bean>

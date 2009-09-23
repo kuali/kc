@@ -22,6 +22,7 @@
     <bean id="ProtocolAmendRenewal" parent="ProtocolAmendRenewal-parentBean" />
     <bean id="ProtocolAmendRenewal-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal" />
+		<property name="objectLabel" value="Protocol Amend Renewal" />
         <property name="inquiryDefinition" >
             <ref bean="ProtocolAmendRenewal-inquiryDefinition" />
         </property>
@@ -202,7 +203,7 @@
     <bean id="ProtocolAmendRenewal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Proto Amend Renewal Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Proto Amend Renewal" />
+
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>

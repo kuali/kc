@@ -22,6 +22,7 @@
 	<bean id="ProtocolDeleteBean" parent="ProtocolDeleteBean-parentBean" />
 	<bean id="ProtocolDeleteBean-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.delete.ProtocolDeleteBean" />
+		<property name="objectLabel" value="Protocol Delete Bean" />
 		<property name="titleAttribute" value="ProtocolDeleteBean-reason" />
 		<property name="attributes" >
 			<list>

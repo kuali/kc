@@ -20,12 +20,12 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -33,6 +33,8 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  * This class is a values finder for <code>ReportClass</code> business object.
  */
 public class CloseoutReportTypeValuesFinder extends KeyValuesBase {
+    
+    private ParameterService parameterService;
     
     /**
      * Constructs the list of Report Classes using KeyValuesService.  
@@ -48,9 +50,9 @@ public class CloseoutReportTypeValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
         for(CloseoutReportType closeoutReportType: closeoutReportTypes){
-            if (!StringUtils.equalsIgnoreCase(closeoutReportType.getCloseoutReportCode(), getKualiConfigurationService().getParameter(
-                    Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, 
-                    KeyConstants.CLOSE_OUT_REPORT_TYPE_USER_DEFINED).getParameterValue())){
+            if (!StringUtils.equalsIgnoreCase(closeoutReportType.getCloseoutReportCode(), this.getParameterService().getParameterValue(
+                    AwardDocument.class, 
+                    KeyConstants.CLOSE_OUT_REPORT_TYPE_USER_DEFINED))){
                 keyValues.add(new KeyLabelPair(closeoutReportType.getCloseoutReportCode(), closeoutReportType.getDescription()));    
             }
         }
@@ -62,8 +64,15 @@ public class CloseoutReportTypeValuesFinder extends KeyValuesBase {
         return (KeyValuesService) KraServiceLocator.getService(KeyValuesService.class);
     }
     
-    protected KualiConfigurationService getKualiConfigurationService(){
-        return (KualiConfigurationService) KraServiceLocator.getService(KualiConfigurationService.class);
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+        }
+        return this.parameterService;
     }
    
 }

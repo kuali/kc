@@ -8,6 +8,7 @@
 
   <bean id="CustomAttributeDocument-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.CustomAttributeDocument" />
+		<property name="objectLabel" value="Custom Attribute Document" />
     <property name="inquiryDefinition" >
       <ref bean="CustomAttributeDocument-inquiryDefinition" />
     </property>
@@ -18,7 +19,7 @@
     <property name="attributes" >
       <list>
         <ref bean="CustomAttributeDocument-customAttributeId" />
-        <ref bean="CustomAttributeDocument-documentTypeCode" />
+        <ref bean="CustomAttributeDocument-documentTypeName" />
         <ref bean="CustomAttributeDocument-required" />
         <ref bean="CustomAttributeDocument-typeName" />
         <ref bean="CustomAttributeDocument-active" />
@@ -42,8 +43,8 @@
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="documentTypeCode"
-                    p:targetName="documentTypeCode" />
+                    p:sourceName="documentTypeName"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -63,10 +64,10 @@
     <property name="summary" value="Custom Attribute ID" />
     <property name="description" value="Custom Attribute ID" />
   </bean>
-  <bean id="CustomAttributeDocument-documentTypeCode" parent="CustomAttributeDocument-documentTypeCode-parentBean" />
+  <bean id="CustomAttributeDocument-documentTypeName" parent="CustomAttributeDocument-documentTypeName-parentBean" />
 
-  <bean id="CustomAttributeDocument-documentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentTypeCode" />
+  <bean id="CustomAttributeDocument-documentTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentTypeName" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Document Type Code" />
     <property name="shortLabel" value="Document Type Code" />
@@ -141,7 +142,7 @@
                     p:attributeName="customAttributeId"
                     p:forceInquiry="true" />
               <bean parent="FieldDefinition"
-                    p:attributeName="documentTypeCode"
+                    p:attributeName="documentTypeName"
                     p:forceInquiry="true" />
               <bean parent="FieldDefinition"
                     p:attributeName="required" />
@@ -164,7 +165,7 @@
   <bean id="CustomAttributeDocument-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Custom Attribute Document Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Custom Attribute Document" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>
@@ -174,7 +175,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="customAttributeId" />
         <bean parent="FieldDefinition"
-              p:attributeName="documentTypeCode" />
+              p:attributeName="documentTypeName" />
         <bean parent="FieldDefinition"
               p:attributeName="required" />
         <bean parent="FieldDefinition"
@@ -189,7 +190,7 @@
               p:attributeName="customAttributeId"
               p:forceInquiry="true" />
         <bean parent="FieldDefinition"
-              p:attributeName="documentTypeCode"
+              p:attributeName="documentTypeName"
               p:forceInquiry="true" />
         <bean parent="FieldDefinition"
               p:attributeName="required" />

@@ -8,6 +8,7 @@
 
   <bean id="BudgetCategoryType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.core.BudgetCategoryType" />
+		<property name="objectLabel" value="Budget Category Type" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetCategoryType-inquiryDefinition" />
     </property>
@@ -109,7 +110,7 @@
   <bean id="BudgetCategoryType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Category Type Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Budget Category Type" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

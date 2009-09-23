@@ -71,7 +71,6 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
@@ -693,15 +692,6 @@ public class AwardForm extends ProposalFormBase
      */
     public void setAwardAttachmentFormBean(AwardAttachmentFormBean awardAttachmentFormBean) {
         this.awardAttachmentFormBean = awardAttachmentFormBean;
-    }
-
-    /**
-     * 
-     * This method...
-     * @return
-     */
-    protected KualiConfigurationService getKualiConfigurationService(){
-        return KraServiceLocator.getService(KualiConfigurationService.class);
     }
 
     /**

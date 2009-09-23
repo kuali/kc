@@ -8,6 +8,7 @@
 
   <bean id="ProtocolSubmissionType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ProtocolSubmissionType" />
+		<property name="objectLabel" value="Protocol Submission Type" />
     <property name="inquiryDefinition" >
       <ref bean="ProtocolSubmissionType-inquiryDefinition" />
     </property>
@@ -82,7 +83,7 @@
   <bean id="ProtocolSubmissionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Submission Type Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Submission Type" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

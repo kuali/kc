@@ -14,7 +14,7 @@
 						<type>text</type>
 					</display>
 					<!-- This will probably use kimpersonservice ? -->
-					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />
+					<!-- <quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />-->
 					<fieldEvaluation>
 					    <!-- not sure yet -->
 					    <!--  example //organization/organizationId -->
@@ -41,7 +41,7 @@
 					<display>
 						<type>text</type>
 					</display>
-					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> 
+<!--					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> -->
 					<fieldEvaluation>
 						<xpathexpression>//users/budgetCreator/value</xpathexpression>
 					</fieldEvaluation> 
@@ -66,7 +66,7 @@
 					<display>
 						<type>text</type>
 					</display>
-					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />
+<!--					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />-->
 					<fieldEvaluation>
 						<xpathexpression>//narrativeWriter/value</xpathexpression>
 					</fieldEvaluation>
@@ -91,7 +91,7 @@
 					<display>
 						<type>text</type>
 					</display>
-					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />
+<!--					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />-->
 					<fieldEvaluation>
 						<xpathexpression>//viewer/value</xpathexpression>
 					</fieldEvaluation>
@@ -116,7 +116,7 @@
 					<display>
 						<type>text</type>
 					</display>
-					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />
+<!--					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />-->
 					<fieldEvaluation>
 						<xpathexpression>//approver/value</xpathexpression>
 					</fieldEvaluation>

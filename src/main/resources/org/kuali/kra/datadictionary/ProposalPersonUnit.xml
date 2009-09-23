@@ -8,6 +8,7 @@
 
   <bean id="ProposalPersonUnit-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit" />
+		<property name="objectLabel" value="Proposal Person Unit" />
     <property name="inquiryDefinition" >
       <ref bean="ProposalPersonUnit-inquiryDefinition" />
     </property>
@@ -108,7 +109,7 @@
   <bean id="ProposalPersonUnit-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Proposal Person Unit" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="instructions" value="Look up a Proposal Person Unit" />
+
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

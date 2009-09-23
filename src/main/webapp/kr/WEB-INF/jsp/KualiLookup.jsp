@@ -1,11 +1,11 @@
 <%--
- Copyright 2005-2007 The Kuali Foundation.
+ Copyright 2005-2007 The Kuali Foundation
 
- Licensed under the Educational Community License, Version 1.0 (the "License");
+ Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
 
- http://www.opensource.org/licenses/ecl1.php
+ http://www.opensource.org/licenses/ecl2.php
 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,10 @@
     <c:set var="headerMenu" value="${KualiForm.lookupable.createNewUrl}   ${KualiForm.lookupable.htmlMenuBar}" />
 </c:if>
 
+<c:set var="numberOfColumns" value="${KualiForm.numColumns}" />
+<c:set var="headerColspan" value="${numberOfColumns * 2}" />
+
+
 <kul:page lookup="true" showDocumentInfo="false"
 	headerMenuBar="${headerMenu}"
 	headerTitle="Lookup" docTitle="" transactionalDocument="false"
@@ -30,6 +34,7 @@
     var kualiForm = document.forms['KualiForm'];
     var kualiElements = kualiForm.elements;
   </SCRIPT>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/dwr/interface/DocumentTypeService.js"></script>
 
 	<div class="headerarea-small" id="headerarea-small">
 		<h1><c:out value="${KualiForm.lookupable.title}" /><kul:help
@@ -103,32 +108,32 @@
 
 			<div id="lookup" align="center"><br />
 			<br />
-			<table align="center" cellpadding=0 cellspacing=0 class="datatable-100">
+			<table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
 				<c:set var="FormName" value="KualiForm" scope="request" />
 				<c:set var="FieldRows" value="${KualiForm.lookupable.rows}" scope="request" />
 				<c:set var="ActionName" value="Lookup.do" scope="request" />
 				<c:set var="IsLookupDisplay" value="true" scope="request" />
 				<c:set var="cellWidth" value="50%" scope="request" />
 
-                <kul:rowDisplay rows="${FieldRows}" skipTheOldNewBar="true" />
+                <kul:rowDisplay rows="${FieldRows}" skipTheOldNewBar="true" numberOfColumns="${numberOfColumns}" />
 
-				<tr align=center>
-					<td height="30" colspan=2 class="infoline"><html:image
+				<tr align="center">
+					<td height="30" colspan="${headerColspan}"  class="infoline"><html:image
 						property="methodToCall.search" value="search"
 						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_search.gif" styleClass="tinybutton"
 						alt="search" title="search" border="0" /> <html:image
 						property="methodToCall.clearValues" value="clearValues"
 						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif" styleClass="tinybutton"
 						alt="clear" title="clear" border="0" /> <c:if test="${KualiForm.formKey!=''}">
-						<a
+						<c:if test="${!empty KualiForm.backLocation}"><a
 							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}&docNum=${KualiForm.docNum}" />'  title="cancel"><img
 							src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" class="tinybutton" alt="cancel" title="cancel"
-							border="0" /></a>
+							border="0" /></a></c:if>
 					</c:if>
 					<!-- Optional extra buttons -->
 					<c:forEach items="${KualiForm.extraButtons}" var="extraButton" varStatus="status">
 						<c:if test="${!empty extraButton.extraButtonSource && !empty extraButton.extraButtonParams}">
-							<c:if test="${not KualiForm.ddExtraButton}">
+							<c:if test="${not KualiForm.ddExtraButton && !empty KualiForm.backLocation}">
 								<a href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&refreshCaller=kualiLookupable&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}&docNum=${KualiForm.docNum}" /><c:out value="${extraButton.extraButtonParams}" />'><img
 							    	src='<c:out value="${extraButton.extraButtonSource}" />'
 									class="tinybutton" border="0" /></a>
@@ -139,7 +144,7 @@
 						</c:if>
 
 					</c:forEach>
-					<c:if test="${KualiForm.multipleValues }">
+					<c:if test="${KualiForm.multipleValues && !empty KualiForm.backLocation}">
 						<a
 							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}&docNum=${KualiForm.docNum}" />'>
 						<img src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retnovalue.gif" class="tinybutton"
@@ -157,15 +162,7 @@
 
 			<br>
 			<br>
-			<div class="right"><logic-el:present name="KualiForm"
-				property="formKey">
-				<c:if
-					test="${KualiForm.formKey!='' && KualiForm.hideReturnLink != true && !KualiForm.multipleValues}">
-					<a
-						href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}&docNum=${KualiForm.docNum}" />' title="return with no value">
-					return with no value</a>
-				</c:if>
-			</logic-el:present></div>
+
 			<c:if test="${reqSearchResultsActualSize>0}">
 				<c:out value="${reqSearchResultsActualSize}" /> items found.  Please refine your search criteria to narrow down your search.
           </c:if>
@@ -188,7 +185,7 @@
 				<c:if test="${param['d-16544-e'] == null}">
 					<logic:present name="KualiForm" property="formKey">
 						<c:if
-							test="${KualiForm.formKey!='' && KualiForm.hideReturnLink!=true && !KualiForm.multipleValues}">
+							test="${KualiForm.formKey!='' && KualiForm.hideReturnLink!=true && !KualiForm.multipleValues && !empty KualiForm.backLocation}">
 							<c:if test="${row.rowReturnable}">
 								<display:column class="infocell" property="returnUrl" media="html" title="Return Value"/>
 							</c:if>

@@ -1,11 +1,11 @@
 <%--
- Copyright 2005-2007 The Kuali Foundation.
+ Copyright 2005-2009 The Kuali Foundation
  
- Licensed under the Educational Community License, Version 1.0 (the "License");
+ Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
  
- http://www.opensource.org/licenses/ecl1.php
+ http://www.opensource.org/licenses/ecl2.php
  
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,11 @@
 
 <%@ attribute name="channelTitle" required="true" %>
 <%@ attribute name="channelUrl" required="true" %>
+<%@ attribute name="frameHeight" required="false" %>
 
+<c:if test="${empty frameHeight}">
+  <c:set var="frameHeight" value="500"/>
+</c:if>
 <%-- KC Modification Start (html unit bug) --%>
-<iframe src="${channelUrl}" onload='setFocusedIframeDimensions("iframeportlet", 500, true);' name="iframeportlet" id="iframeportlet" hspace="0" vspace="0" style="height: 500px;" title="E-Doc" frameborder="0" height="500" scrolling="auto" width="100%"></iframe>
-<%-- KC Modification End --%>                     
+<iframe src="${channelUrl}" onload='setFocusedIframeDimensions("iframeportlet", ${frameHeight}, true); /*setIframeAnchor("iframeportlet")*/' name="iframeportlet" id="iframeportlet" hspace="0" vspace="0" style="height: ${frameHeight}px;" title="E-Doc" frameborder="0" height="${frameHeight}" scrolling="auto" width="100%"></iframe>
+<%-- KC Modification End --%>

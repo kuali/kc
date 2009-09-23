@@ -1,11 +1,11 @@
 /*
- * Copyright 2005-2007 The Kuali Foundation.
+ * Copyright 2005-2009 The Kuali Foundation
  * 
- * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.opensource.org/licenses/ecl2.php
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -85,7 +85,7 @@ a:active
 	top: 0;
 	right: 0;
 	text-align: right;
-	background-image:  url("../../rice-portal/images/topcontrolback.gif");
+	background-image:  url("../images/topcontrolback.gif");
 	background-repeat: no-repeat;
 	height: 22px;
 	padding-left: 60px;
@@ -143,7 +143,7 @@ a:active
 	top: 70px;
 	right: 0;
 	text-align: right;
-	background-image:   url("../../rice-portal/images/searchback.gif");
+	background-image:   url("../images/searchback.gif");
 	height: 38px;
 	background-repeat: no-repeat;
 	padding-right: 10px;
@@ -228,7 +228,7 @@ a:active
 #header
 {
 	height: 70px;
-	background-image:  url("../../rice-portal/images/headerback.gif");
+	background-image:  url("../images/headerback.gif");
 	color: #FFFFFF;
 	font-size: 1.5em;
 }
@@ -237,7 +237,7 @@ a:active
 
 #header h1.kfs
 {
-	background-image:   url("../../rice-portal/images/logo-krice.png");
+	background-image:   url("../images/logo-krice.png");
 	margin: 0px;
 	padding: 0px;
 	height:65px;
@@ -249,7 +249,7 @@ a:active
 
 #header h1.kra
 {
-	background-image:   url("../../rice-portal/images/logo-krice.png");
+	background-image:   url("../images/logo-krice.png");
 	margin: 0px;
 	padding: 0px;
 	height:70px;
@@ -261,7 +261,7 @@ a:active
 
 div.header2
 {
-	background-image:   url("../../rice-portal/images/head2-back.gif");
+	background-image:   url("../images/head2-back.gif");
 	background-color: #F4D9D8;
 	background-repeat: repeat-x;
 	height: 38px;
@@ -269,14 +269,14 @@ div.header2
 
 div.header2-left
 {
-	background-image:   url("../../rice-portal/images/header2-left.gif");
+	background-image:   url("../images/header2-left.gif");
 	height: 38px;
 	background-repeat: no-repeat;
 }
 
 div.header2-left-focus
 {
-	background-image:   url("../../rice-portal/images/header2-left-focus.gif");
+	background-image:   url("../images/header2-left-focus.gif");
 	height: 38px;
 	background-repeat: no-repeat;
 }
@@ -329,7 +329,7 @@ div.tabposition
 
 #tabs li.red
 {
-	background:  url("../../rice-portal/images/left-red.gif") no-repeat left top;
+	background:  url("../images/left-red.gif") no-repeat left top;
 	margin: 0px 3px;
 	padding: 0px 0px 0px 9px;
 	float: left;
@@ -340,7 +340,7 @@ div.tabposition
 {
 	float: left;
 	display: block;
-	background:  url("../../rice-portal/images/right-red.gif") no-repeat right top;
+	background:  url("../images/right-red.gif") no-repeat right top;
 	padding: 5px 9px 4px 0px;
 	text-decoration: none;
 	font-weight: bold;
@@ -351,7 +351,7 @@ div.tabposition
 
 #tabs li.green
 {
-	background:   url("../../rice-portal/images/left-tan.gif") no-repeat left top;
+	background:   url("../images/left-tan.gif") no-repeat left top;
 	margin: 0 3px;
 	padding: 0 0 0 9px;
 	float: left;
@@ -361,7 +361,7 @@ div.tabposition
 {
 	float: left;
 	display: block;
-	background:   url("../../rice-portal/images/right-tan.gif") no-repeat right top;
+	background:   url("../images/right-tan.gif") no-repeat right top;
 	padding: 5px 9px 4px 0px;
 	text-decoration: none;
 	font-weight: bold;
@@ -404,7 +404,7 @@ h1, h2
 
 .footerbevel
 {
-	background-image: url(../rice-portal/images/bl-bevel-focus.gif);
+	background-image: url(../images/bl-bevel-focus.gif);
 	height: 27px;
 }
 
@@ -415,7 +415,7 @@ h1, h2
 	bottom: 0px;
 	width: 100%;
 	text-align: center;
-	background-image:   url("../../rice-portal/images/os-guy.gif");
+	background-image:   url("../images/os-guy.gif");
 	padding-top: 20px;
 	padding-bottom: 12px;
 	background-repeat: no-repeat;
@@ -449,7 +449,7 @@ h1, h2
 
 #footer-nav
 {
-	background-image:   url("../../rice-portal/images/leftback.gif");
+	background-image:   url("../images/leftback.gif");
 	background-repeat: no-repeat;
 	height: 20px;
 	background-color: #FFFFFF;
@@ -457,7 +457,7 @@ h1, h2
 
 #footer-nav-focus
 {
-	background-image:   url("../../rice-portal/images/bl-bevel-focus.gif");
+	background-image:   url("../images/bl-bevel-focus.gif");
 	background-repeat: no-repeat;
 	height: 20px;
 	background-color: #FFFFFF;
@@ -514,7 +514,7 @@ h1, h2
 
 div.leftswoop
 {
-	background:   url("../../rice-portal/images/subnav-left.gif") no-repeat left top;
+	background:   url("../images/subnav-left.gif") no-repeat left top;
 	padding: 0 0 0 9px;
 	float: left;
 	position: relative;
@@ -525,7 +525,7 @@ div.leftswoop
 
 html>body div.leftswoop
 {
-	background:   url("../../rice-portal/images/subnav-left.gif") no-repeat left top;
+	background:   url("../images/subnav-left.gif") no-repeat left top;
 	padding: 0 0 0 9px;
 	float: left;
 	position: relative;
@@ -538,7 +538,7 @@ span.rightswoop
 {
 	float: left;
 	display: block;
-	background:   url("../../rice-portal/images/subnav-right.gif") no-repeat right top;
+	background:   url("../images/subnav-right.gif") no-repeat right top;
 	padding: 5px 15px 4px 6px;
 	text-decoration: none;
 	font-weight: bold;
@@ -554,8 +554,8 @@ div#leftbox
 	width: 169px;
 }
 
-.leftback { background-image:   url("../../rice-portal/images/leftback.gif"); }
-.leftback-focus { background-image:   url("../../rice-portal/images/leftback-focus.gif"); }
+.leftback { background-image:   url("../images/leftback.gif"); }
+.leftback-focus { background-image:   url("../images/leftback-focus.gif"); }
 td.content { padding-bottom: 40px; }
 
 #middlebox
@@ -615,7 +615,7 @@ div#rightbox
 	padding-left: 0.25em;
 	background-color: #E5E5E5;
 	height: 22px;
-	background-image:  url("../../rice-portal/images/chanhead-back.gif");
+	background-image:  url("../images/chanhead-back.gif");
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #999999;
@@ -670,7 +670,7 @@ div#rightbox
 	padding: 4px 0px 4px 12px;
 	width: 169px;
 	border-bottom: 1px solid #333333;
-	background-image:   url("../../rice-portal/images/subnav-back.gif");
+	background-image:   url("../images/subnav-back.gif");
 	background-position: right;
 	text-decoration: none;
 	color: #FFFFFF;
@@ -686,7 +686,7 @@ html>body #navcontainer a
 	padding: 4px 0px 4px 12px;
 	width: 157px;
 	border-bottom: 1px solid #333333;
-	background-image:   url("../../rice-portal/images/subnav-back.gif");
+	background-image:   url("../images/subnav-back.gif");
 	background-position: right;
 	text-decoration: none;
 	color: #FFFFFF;
@@ -704,7 +704,7 @@ html>body #navcontainer a
 	padding: 4px 0px 4px 12px;
 	width: 169px;
 	border-bottom: 1px solid #333333;
-	background-image:   url("../../rice-portal/images/subnav-back1.gif");
+	background-image:   url("../images/subnav-back1.gif");
 	background-position: right;
 	text-decoration: none;
 	color: #000000;
@@ -721,7 +721,7 @@ html>body #navcontainer a.current
 	padding: 4px 0px 4px 12px;
 	width: 157px;
 	border-bottom: 1px solid #333333;
-	background-image:   url("../../rice-portal/images/subnav-back1.gif");
+	background-image:   url("../images/subnav-back1.gif");
 	background-position: right;
 	text-decoration: none;
 	color: #000000;
@@ -743,7 +743,7 @@ html>body #navcontainer a.current
 
 #navcontainer a:hover
 {
-	background-image:   url("../../rice-portal/images/subnav-back1.gif");
+	background-image:   url("../images/subnav-back1.gif");
 	color: #000000;
 }
 
@@ -753,7 +753,7 @@ html>body #navcontainer a.current
 	padding-left: 8px;
 }
 
-#misclinks li { list-style-image:   url("../../rice-portal/images/bullet.gif"); }
+#misclinks li { list-style-image:   url("../images/bullet.gif"); }
 
 #misclinks a:link
 {

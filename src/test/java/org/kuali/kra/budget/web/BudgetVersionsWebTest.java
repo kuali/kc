@@ -17,10 +17,11 @@ package org.kuali.kra.budget.web;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
@@ -50,7 +51,13 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
     private static final String ADD_BUDGET_VERSION_BUTTON = "methodToCall.addBudgetVersion";
 
     private int budgetVersionCount;
-
+    private ParameterService parameterService;
+    
+    @Before
+    public void setUpServices() {
+        this.parameterService = KraServiceLocator.getService(ParameterService.class);
+    }
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -78,8 +85,8 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
         HtmlTable table = getTable(bBudgetVersionsPage, BUDGET_VERSIONS_TABLE);
         assertTrue("row count is " + table.getRowCount(), table.getRowCount() == 3);
         
-        String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE).getParameterValue();
+        String budgetStatusIncompleteCode = this.parameterService.getParameterValue(
+                BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
         
         // Verify the fields are correct.
         HtmlElement bProposalNumber = getElementByName(bBudgetVersionsPage, "budgetDocument.proposalNumber");
@@ -139,8 +146,8 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
         //HtmlPage bBudgetVersionsPage = openBudgetVersion(pdBudgetVersionsPage, 0);
         //String bDocNbr = getDocNbr(bBudgetVersionsPage);
         
-        String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+        String budgetStatusCompleteCode = this.parameterService.getParameterValue(
+                BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
            
         setFieldValue(pdBudgetVersionsPage, PD_FIRST_BUDGET_STATUS, budgetStatusCompleteCode);
         setFieldValue(pdBudgetVersionsPage, PD_FIRST_FINAL_FLAG, "on");

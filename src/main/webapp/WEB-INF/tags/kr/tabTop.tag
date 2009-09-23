@@ -1,11 +1,11 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2005-2007 The Kuali Foundation
 
- Licensed under the Educational Community License, Version 1.0 (the "License");
+ Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
 
- http://www.opensource.org/licenses/ecl1.php
+ http://www.opensource.org/licenses/ecl2.php
 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,10 +17,6 @@
 <%@ attribute name="tabTitle" required="true" %>
 <%@ attribute name="defaultOpen" required="true" %>
 <%@ attribute name="tabErrorKey" required="false" %>
-<%-- KC MODIFICATION --%>
-<%@ attribute name="auditCluster" required="false" %>
-<%@ attribute name="tabAuditKey" required="false" %>
-<%-- END KC MODIFICATIN --%>
 <%@ attribute name="boClassName" required="false" %>
 <%@ attribute name="keyValues" required="false" %>
 
@@ -83,7 +79,7 @@
 <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}"><div style="display: block;" id="tab-${tabKey}-div"></c:if>
 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}"><div style="display: none;" id="tab-${tabKey}-div"></c:if>
 
-        <%-- KC MODIFICATION --%>
+<%-- KC MODIFICATION --%>
         <c:if test="${! (empty tabAuditKey)}">
         	<div class="tab-container-error"><div class="left-errmsg-tab">
 				<c:forEach items="${fn:split(auditCluster,',')}" var="cluster">
@@ -91,10 +87,9 @@
 				</c:forEach>
         	</div></div>
       	</c:if>
-      	<%-- END KC MODIFICATION --%>
-      	
-        <!-- Before the jsp:doBody of the kul:tab tag -->            
-        <jsp:doBody/>            
+<%-- END KC MODIFICATION --%>
+        <!-- Before the jsp:doBody of the kul:tab tag -->
+        <jsp:doBody/>
         <!-- After the jsp:doBody of the kul:tab tag -->
 
 </div>

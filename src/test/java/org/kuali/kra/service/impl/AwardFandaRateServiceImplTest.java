@@ -28,8 +28,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.award.commitments.AwardFandaRateServiceImpl;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * 
@@ -61,14 +62,13 @@ public class AwardFandaRateServiceImplTest {
     public final void testGetStartAndEndDatesWhenValidFiscalLeapYearPassed(){
         AwardFandaRateServiceImpl awardFandaRateService =  new AwardFandaRateServiceImpl();
         
-        final KualiConfigurationService kualiConfigurationService
-            = context.mock(KualiConfigurationService.class);
+        final ParameterService parameterService
+            = context.mock(ParameterService.class);
         context.checking(new Expectations() {{
-            one(kualiConfigurationService).getParameterValue(Constants.PARAMETER_MODULE_BUDGET
-                    , Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_CURRENT_FISCAL_YEAR); will(returnValue("07/01/2000"));
+            one(parameterService).getParameterValue(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR); will(returnValue("07/01/2000"));
         }});
 
-        awardFandaRateService.setKualiConfigurationService(kualiConfigurationService);
+        awardFandaRateService.setParameterService(parameterService);
         
         MOCK_EXPECTED_DATE_LEAP_YEAR.add("07/01/2007");
         MOCK_EXPECTED_DATE_LEAP_YEAR.add("06/30/2008");
@@ -81,14 +81,13 @@ public class AwardFandaRateServiceImplTest {
     public final void testGetStartAndEndDatesWhenValidFiscalNonLeapYearPassed(){
         AwardFandaRateServiceImpl awardFandaRateService =  new AwardFandaRateServiceImpl();
         
-        final KualiConfigurationService kualiConfigurationService
-            = context.mock(KualiConfigurationService.class);
+        final ParameterService parameterService
+        = context.mock(ParameterService.class);
         context.checking(new Expectations() {{
-            one(kualiConfigurationService).getParameterValue(Constants.PARAMETER_MODULE_BUDGET
-                    , Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_CURRENT_FISCAL_YEAR); will(returnValue("07/01/2000"));
+            one(parameterService).getParameterValue(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR); will(returnValue("07/01/2000"));
         }});
 
-        awardFandaRateService.setKualiConfigurationService(kualiConfigurationService);
+        awardFandaRateService.setParameterService(parameterService);
                 
         MOCK_EXPECTED_DATE_NON_LEAP_YEAR.add("07/01/2009");
         MOCK_EXPECTED_DATE_NON_LEAP_YEAR.add("06/30/2010");        

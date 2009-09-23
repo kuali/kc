@@ -25,9 +25,9 @@ import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.service.ParameterService;
 import org.quartz.JobDetail;
 
 /**
@@ -52,16 +52,14 @@ public class KcCronTriggerBeanTest {
         /*
          * The configuration service will be invoked once to get the Cron Expression.
          */
-        final KualiConfigurationService configurationService = context.mock(KualiConfigurationService.class);
+        final ParameterService parameterService = context.mock(ParameterService.class);
         context.checking(new Expectations() {{
-            one(configurationService).getParameterValue(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                                                        Constants.PARAMETER_COMPONENT_DOCUMENT, 
+            one(parameterService).getParameterValue(ProposalDevelopmentDocument.class, 
                                                         KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION); 
             will(returnValue(CRON_EXPRESSION));
         }});
-        cronTrigger.setConfigurationService(configurationService);
-        
-        cronTrigger.setConfigurationService(configurationService);
+        cronTrigger.setParameterService(parameterService);
+
         JobDetail jobDetail = new JobDetail();
         jobDetail.setName("test");
         cronTrigger.setBeanName("test");

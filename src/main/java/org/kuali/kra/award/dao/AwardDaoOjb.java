@@ -227,7 +227,7 @@ class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware,
         Award award = new Award();
         for(String fieldName: baseLookupFieldNameValuePairs.keySet()) {
             String fieldValue = (String) baseLookupFieldNameValuePairs.get(fieldName);
-            if (!lookupDao.createCriteria(award, fieldValue, fieldName, isCaseSensitive(award,  fieldName), criteria)) {
+            if (!lookupDao.createCriteria(award, fieldValue, fieldName, isCaseSensitive(award,  fieldName), false, criteria)) {
                 continue;
             }
         }

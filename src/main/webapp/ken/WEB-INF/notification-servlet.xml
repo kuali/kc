@@ -22,7 +22,7 @@
    <bean id="notificationChannelService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
    <bean id="notificationRecipientService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
    <bean id="messageContentService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
-   <bean id="genericDao" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
+   <bean id="kenGenericDao" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
    <bean id="notificationMessageDeliveryService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
    <bean id="userPreferenceService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
    <bean id="notificationContentTypeService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
@@ -77,21 +77,14 @@
         </property>
       <property name="mappings">
          <props>
-            <prop key="${prefix}/HomePage.form">notificationController</prop>
-            <prop key="${prefix}/NotificationsSent.form">notificationController</prop>
-            <prop key="${prefix}/Search.form">notificationController</prop>
             <prop key="${prefix}/DetailView.form">notificationController</prop>
-            <prop key="${prefix}/LookupUsers.form">notificationController</prop>
-            <prop key="${prefix}/LookupWorkgroups.form">notificationController</prop>
             <prop key="${prefix}/RemoveNotification.form">notificationController</prop>
             <prop key="${prefix}/DismissMessage.form">notificationController</prop>
-            <prop key="${prefix}/Logout.form">notificationController</prop>
             <prop key="${prefix}/ContentTypeManager.form">contentTypeController</prop>
             <prop key="${prefix}/ContentTypeForm.form">contentTypeController</prop>
             <prop key="${prefix}/UpdateContentType.form">contentTypeController</prop>
             <prop key="${prefix}/AddContentType.form">contentTypeController</prop>
             <prop key="${prefix}/DisplayUserPreferences.form">userPreferencesController</prop>
-            <prop key="${prefix}/DisplayActionListPreferences.form">userPreferencesController</prop>
             <prop key="${prefix}/SaveDelivererConfiguration.form">userPreferencesController</prop>
             <prop key="${prefix}/SubscribeToChannel.form">userPreferencesController</prop>
             <prop key="${prefix}/UnsubscribeFromChannel.form">userPreferencesController</prop>
@@ -103,18 +96,12 @@
             <prop key="${prefix}/SubmitEventNotificationMessage.form">sendEventNotificationMessageController</prop>
             
             <prop key="${prefix}/AdministerNotificationRequest.form">administerNotificationRequestController</prop>
-            
-            <prop key="${prefix}/KCBDelivererPreferences.form">kcbDelivererPrefs</prop>
          </props>
       </property>
    </bean>
 
    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
        <property name="defaultErrorView"><value>error</value></property>
-   </bean>
-
-   <bean name="kcbDelivererPrefs" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-       <property name="viewName" value="KCBDelivererPreferences"/>
    </bean>
 
    <!-- Multiaction Controllers  -->
@@ -124,15 +111,10 @@
          <bean class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
             <property name="mappings">
                <props>
-                  <prop key="${prefix}/HomePage.form">displayHome</prop>
                   <prop key="${prefix}/NotificationsSent.form">displayNotificationsSent</prop>
-                  <prop key="${prefix}/Search.form">displaySearch</prop>
                   <prop key="${prefix}/DetailView.form">displayNotificationDetail</prop>
-                  <prop key="${prefix}/LookupUsers.form">displayLookupUsers</prop>
-            	  <prop key="${prefix}/LookupWorkgroups.form">displayLookupWorkgroups</prop>
                   <prop key="${prefix}/RemoveNotification.form">removeNotification</prop>
                   <prop key="${prefix}/DismissMessage.form">dismissMessage</prop>
-                  <prop key="${prefix}/Logout.form">logout</prop>                                  
                </props>
             </property>
          </bean>          
@@ -167,7 +149,6 @@
                <props>
                   <prop key="${prefix}/DisplayUserPreferences.form">displayUserPreferences</prop>
                   <prop key="${prefix}/DisplayDelivererConfigurationForm.form">displayDelivererConfigurationForm</prop>
-                  <prop key="${prefix}/DisplayActionListPreferences.form">displayActionListPreferences</prop>
                   <prop key="${prefix}/SaveDelivererConfiguration.form">saveDelivererConfiguration</prop>
                   <prop key="${prefix}/SubscribeToChannel.form">subscribeToChannel</prop>
                   <prop key="${prefix}/UnsubscribeFromChannel.form">unsubscribeFromChannel</prop>                                             
@@ -196,7 +177,7 @@
       <property name="notificationChannelService"> <ref bean="notificationChannelService"/> </property>
       <property name="notificationRecipientService"> <ref bean="notificationRecipientService"/> </property>
       <property name="messageContentService"> <ref bean="messageContentService"/> </property>
-      <property name="businessObjectDao"> <ref bean="genericDao"/> </property>
+      <property name="businessObjectDao"> <ref bean="kenGenericDao"/> </property>
    </bean>
    
    <bean name="sendEventNotificationMessageController" class="org.kuali.rice.ken.web.spring.SendEventNotificationMessageController">     
@@ -215,7 +196,7 @@
       <property name="notificationChannelService"> <ref bean="notificationChannelService"/> </property>
       <property name="notificationRecipientService"> <ref bean="notificationRecipientService"/> </property>
       <property name="messageContentService"> <ref bean="messageContentService"/> </property>
-      <property name="businessObjectDao"> <ref bean="genericDao"/> </property>
+      <property name="businessObjectDao"> <ref bean="kenGenericDao"/> </property>
    </bean>
    
     <bean name="administerNotificationRequestController" class="org.kuali.rice.ken.web.spring.AdministerNotificationRequestController">
