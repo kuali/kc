@@ -33,6 +33,6 @@
 	
 <!--KC Modification Start-->
 	<param name="config.location">${user.home}/kuali/main/dev/kra-config-2-0.xml</param>
-	<param name="config.location">/opt/sa_forms/java/${environment}/${module.name}/${module.name}-config.xml</param>
+	<param name="config.location">/opt/sa_forms/java/${environment}/kra/kra-config.xml</param>
 <!--KC Modification End-->
 </config>
