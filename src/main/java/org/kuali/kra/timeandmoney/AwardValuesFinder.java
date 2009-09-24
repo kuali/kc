@@ -37,10 +37,9 @@ public class AwardValuesFinder extends KeyValuesBase{
         keyValues.add(new KeyLabelPair(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, "External"));
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) GlobalVariables.getKualiForm();        
         TimeAndMoneyDocument document = timeAndMoneyForm.getTimeAndMoneyDocument();
-        if(document.getAwardHierarchyItems()==null || document.getAwardHierarchyItems().size()==0){
-            document.setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(document.getRootAwardNumber(), timeAndMoneyForm.getOrder()));
-            getAwardHierarchyUIService().populateAwardHierarchyNodes(document.getAwardHierarchyItems(), document.getAwardHierarchyNodes());    
-        }
+        
+        document.setAwardHierarchyItems(((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId())).getAwardHierarchyItems());    
+        
         if(document.getAwardHierarchyItems()!=null && document.getAwardHierarchyItems().size()!=0){
             for(Entry<String, AwardHierarchy> awardHierachy: document.getAwardHierarchyItems().entrySet()){            
                 keyValues.add(new KeyLabelPair(awardHierachy.getKey(), awardHierachy.getValue().getAwardNumber()));

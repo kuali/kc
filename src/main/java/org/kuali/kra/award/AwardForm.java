@@ -790,26 +790,13 @@ public class AwardForm extends ProposalFormBase
         if(StringUtils.isBlank(awardNumber)){
             awardNumber = this.getRootAwardNumber();
         }
-        if (StringUtils.isNotBlank(addRA) && addRA.equals("Y")) {
-            if (getAwardHierarchyUIService().doesAwardHierarchyExist(awardNumber, deletedRas)) {
-                setAwardHierarchy("<h3>true</h3>");
-            }else {
-                setAwardHierarchy("<h3>false</h3>");
-            }
-        } else if (StringUtils.isNotBlank(addRA) && addRA.equals("S")) {
-            //KraServiceLocator.getService(AwardHierarchyUIService.class).saveResearchAreas(sqlScripts);
-            String error = (String) GlobalVariables.getUserSession().retrieveObject("raError");
-            if (StringUtils.isNotBlank(error)) {
-                setAwardHierarchy("<h3>" + error + "</h3>");
-                GlobalVariables.getUserSession().addObject("raError", (Object) null);
-            } else {
-                setAwardHierarchy("<h3>Success</h3>");
-            }
-        } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
+        
+        if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
             setAwardHierarchy(getAwardHierarchyUIService().getSubAwardHierarchiesForTreeView(awardNumber));
         } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("N")){
             setAwardHierarchy(getAwardHierarchyUIService().getRootAwardNode(awardNumber));
         }
+        
         return awardHierarchy;
     }
     

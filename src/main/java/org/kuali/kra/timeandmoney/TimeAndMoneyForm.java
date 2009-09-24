@@ -57,6 +57,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     private String addRA;    
     private String deletedRas;
     private String controlForAwardHierarchyView;
+    private String currentOrPendingView;
     
     public TimeAndMoneyForm() {
         super();        
@@ -81,6 +82,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
             awardHierarchyNodeItems.add(new AwardHierarchyNode());
         }
         setControlForAwardHierarchyView("0");
+        setCurrentOrPendingView("");
     }
     
     /**
@@ -366,22 +368,8 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         if(StringUtils.isBlank(awardNumber)){
             awardNumber = this.getTimeAndMoneyDocument().getRootAwardNumber();
         }
-        if (StringUtils.isNotBlank(addRA) && addRA.equals("Y")) {
-            if (getAwardHierarchyUIService().doesAwardHierarchyExist(awardNumber, deletedRas)) {
-                setAwardHierarchy("<h3>true</h3>");
-            }else {
-                setAwardHierarchy("<h3>false</h3>");
-            }
-        } else if (StringUtils.isNotBlank(addRA) && addRA.equals("S")) {
-            //KraServiceLocator.getService(AwardHierarchyUIService.class).saveResearchAreas(sqlScripts);
-            String error = (String) GlobalVariables.getUserSession().retrieveObject("raError");
-            if (StringUtils.isNotBlank(error)) {
-                setAwardHierarchy("<h3>" + error + "</h3>");
-                GlobalVariables.getUserSession().addObject("raError", (Object) null);
-            } else {
-                setAwardHierarchy("<h3>Success</h3>");
-            }
-        } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
+        
+        if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
             setAwardHierarchy(getAwardHierarchyUIService().getSubAwardHierarchiesForTreeView(awardNumber));
         } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("N")){
             setAwardHierarchy(getAwardHierarchyUIService().getRootAwardNode(awardNumber));
@@ -391,6 +379,22 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     
     public void setAwardHierarchy(String awardHierarchy) {
         this.awardHierarchy = awardHierarchy;
+    }
+
+    /**
+     * Gets the currentOrPendingView attribute. 
+     * @return Returns the currentOrPendingView.
+     */
+    public String getCurrentOrPendingView() {
+        return currentOrPendingView;
+    }
+
+    /**
+     * Sets the currentOrPendingView attribute value.
+     * @param currentOrPendingView The currentOrPendingView to set.
+     */
+    public void setCurrentOrPendingView(String currentOrPendingView) {
+        this.currentOrPendingView = currentOrPendingView;
     }
     
 

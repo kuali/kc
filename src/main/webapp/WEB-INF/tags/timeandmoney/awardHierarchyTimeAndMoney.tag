@@ -83,10 +83,27 @@
 				</div>
 			</th>
 			<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 170px;">
-				<input class="nobord" type="radio" checked="checked" value="0" name="when01"/>
-					current
-				<input class="nobord" type="radio" value="1" name="when01"/>
-					pending
+				
+				<c:choose>				
+					<c:when test="${KualiForm.currentOrPendingView == '0'}" >						
+						<input class="nobord" type="radio" value="0" name="currentOrPendingView" checked="true" />
+							current
+						<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
+							pending						
+					</c:when>
+					<c:when test="${KualiForm.currentOrPendingView == '1'}" >						
+						<input class="nobord" type="radio" value="0" name="currentOrPendingView"  />
+							current
+						<input class="nobord" type="radio" value="1" name="currentOrPendingView" checked="true" />
+							pending						
+					</c:when>
+					<c:otherwise>						
+						<input class="nobord" type="radio" value="0" name="currentOrPendingView" />
+							current
+						<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
+							pending					
+					</c:otherwise>
+				</c:choose>				
 			</td>
 			<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 185px;">
 				<select id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" >
@@ -95,8 +112,8 @@
 					<option ${KualiForm.controlForAwardHierarchyView eq 2 ? 'selected="selected"' : ''} value="2">Totals</option>
 				</select>
 			</td>
-			<td style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">
-				<input class="tinybutton" type="image" alt="refresh" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" name="x" methodToCall="refresh" />
+			<td style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">				
+				<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" styleClass="tinybutton" alt="Refresh" property="methodToCall.refreshView" />
 			</td>			
 		</tr>
 	</table>
@@ -141,8 +158,9 @@
                                                 &nbsp;&nbsp;&nbsp;&nbsp;<a title="Collapse the entire tree below" href="#"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
                                                 &nbsp;&nbsp;&nbsp;&nbsp;<a title="Expand the entire tree below" href="#"><img src="static/images/jquery/plus.gif" /> Expand All</a>
                                             </div> --%>
+
 	
-     <div style = "background:#e4e4e4" >     
+     <div style = "background:#e4e4e4; margin: 10px 0pt 0pt; clear: left; height: 285px; overflow-y: scroll; overflow-x: hidden; position: relative;" >     
   <ul id="awardhierarchy" class="filetree stripeli treeview"  >
         <%-- <li><span class="folder">00000</span>
         </li> --%>
