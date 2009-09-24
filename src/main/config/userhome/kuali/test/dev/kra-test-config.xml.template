@@ -35,7 +35,6 @@
 
 	<!-- Misc parameters -->
 	<param name="institution">iu</param>
-	<param name="version">03/19/2007 01:59 PM</param>
 	<param name="security.directory">/usr/local/rice/</param>
 	<param name="settings.directory">/usr/local/rice/</param>
 
