@@ -29,6 +29,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_PERSON_ROL
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ONE_UNIT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PERCENTAGE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS_WITH_ROLE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_SELECT_UNIT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.FormattedLogger.debug;
@@ -207,10 +208,23 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         
         debug("Does document contain a proposal person with PERSON_ID " + person.getPersonId() + "?");
         debug(document.getDevelopmentProposal().getProposalPersons().contains(person) + "");
-        
-        if (document.getDevelopmentProposal().getProposalPersons().contains(person)) {
-            reportError("newProposalPerson", ERROR_PROPOSAL_PERSON_EXISTS, person.getFullName());
-            retval = false;
+        int firstIndex = document.getDevelopmentProposal().getProposalPersons().indexOf(person);
+        int lastIndex = document.getDevelopmentProposal().getProposalPersons().lastIndexOf(person);
+        if (firstIndex != -1) {
+            if (firstIndex == lastIndex) {
+                if (isKeyPerson(person) && isKeyPerson(document.getDevelopmentProposal().getProposalPersons().get(firstIndex))) {
+                    reportError("newProposalPerson", ERROR_PROPOSAL_PERSON_EXISTS_WITH_ROLE, person.getFullName(), "Key Person");
+                    retval = false;
+                }
+                else if (isInvestigator(person) && isInvestigator(document.getDevelopmentProposal().getProposalPersons().get(firstIndex))) {
+                    reportError("newProposalPerson", ERROR_PROPOSAL_PERSON_EXISTS_WITH_ROLE, person.getFullName(), "Investigator");
+                    retval = false;                    
+                }      
+            }
+            else {
+                reportError("newProposalPerson", ERROR_PROPOSAL_PERSON_EXISTS_WITH_ROLE, person.getFullName(), "both Investigator and Key Person");
+                retval = false;                
+            }
         }
         
         if(isNotBlank(person.getProposalPersonRoleId())){
@@ -257,6 +271,10 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      */
     private boolean isCoInvestigator(ProposalPerson person){
         return getKeyPersonnelService().isCoInvestigator(person);
+    }
+    
+    private boolean isInvestigator(ProposalPerson person) {
+        return isCoInvestigator(person) || isPrincipalInvestigator(person);
     }
     
     /**
