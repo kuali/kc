@@ -126,7 +126,8 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
 
         Budget budget = null;
         try {
-            budget = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc).getBudget();
+            BudgetDocument budgetDocument = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+            budget = budgetDocument==null?null:budgetDocument.getBudget();
         }
         catch (S2SException e) {
             LOG.error(e.getMessage(), e);
