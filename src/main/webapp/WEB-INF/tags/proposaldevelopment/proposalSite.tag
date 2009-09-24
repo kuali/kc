@@ -24,7 +24,7 @@
 <%@ attribute name="addTable" required="false" type="java.lang.Boolean" description="If true, the HTML code is wrapped in a HTML table. Otherwise, the tag needs to be called from within a rowspan=2 row." %>
 <%@ attribute name="proposalSiteBo" required="true" type="org.kuali.kra.proposaldevelopment.bo.ProposalSite" description="The BO of type ProposalSite that is to be displayed" %>
 <%@ attribute name="proposalSiteBoName" required="true" description="The JSP name of the ProposalSite BO" %>
-<%@ attribute name="proposalSiteHelper" required="true" description="The JSP name of the org.kuali.kra.proposaldevelopment.web.struts.form.ProposalSiteHelper object to store added values in" %>
+<%@ attribute name="congressionalDistrictHelper" required="true" description="The JSP name of the org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHelper object to store added values in" %>
 <%@ attribute name="addDistrictMethodToCall" required="true" description="The method to call when the user clicks the Add button; this method should add a new congressional district" %>
 <%@ attribute name="deleteDistrictMethodToCall" required="true" description="The method to call when the user clicks the Delete button on the congressional district" %>
 <%@ attribute name="clearSiteMethodToCall" required="false" description="The method to call when the user clicks the Clear button; this method should clear the proposal site. If this parameter is present, a Clear button and a lookup control is shown." %>
@@ -34,6 +34,7 @@
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="organizationAttributes" value="${DataDictionary.Organization.attributes}" />
 <c:set var="congressionalDistrictAttributes" value="${DataDictionary.CongressionalDistrict.attributes}" /> 
+<c:set var="helperAttributes" value="${DataDictionary.CongressionalDistrictHelper.attributes}" /> 
 
 <c:set var="proposalSiteAttributes" value="${DataDictionary.ProposalSite.attributes}" />
 
@@ -167,8 +168,8 @@
                                 <tr>
                                     <th>Add:</th>
                                     <td class="infoline">
-                                        State:<kul:htmlControlAttribute property="${proposalSiteHelper}.newState" attributeEntry="${congressionalDistrictAttributes.stateCode}" />
-                                        District Number:<kul:htmlControlAttribute property="${proposalSiteHelper}.newDistrictNumber" attributeEntry="${congressionalDistrictAttributes.districtNumber}" />
+                                        State:<kul:htmlControlAttribute property="${congressionalDistrictHelper}.newState" attributeEntry="${helperAttributes.newState}" />
+                                        District Number:<kul:htmlControlAttribute property="${congressionalDistrictHelper}.newDistrictNumber" attributeEntry="${helperAttributes.newDistrictNumber}" />
                                     </td>
                                     <td class="infoline">
                                         <div align=center>
