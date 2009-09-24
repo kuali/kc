@@ -62,9 +62,19 @@
     	<th>
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.statusCode}" /></div>
     	</th>
-    	<td>
-    		<kul:htmlControlAttribute property="document.institutionalProposal.statusCode" attributeEntry="${institutionalProposalAttributes.statusCode}" />
-		</td>
+    	<%--${KualiForm.institutionalProposalDocument.institutionalProposal.statusCode}--%>
+    	<c:choose>
+			<c:when test="${KualiForm.institutionalProposalDocument.institutionalProposal.statusCode == 2}">
+				<td>
+ 					Funded
+ 				</td>
+			</c:when> 
+			<c:otherwise>
+ 				<td>
+    				<kul:htmlControlAttribute property="document.institutionalProposal.statusCode" attributeEntry="${institutionalProposalAttributes.statusCode}" />
+				</td>
+			</c:otherwise>
+		</c:choose>
   	</tr>
   	<tr>
     	<th>
