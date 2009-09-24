@@ -500,6 +500,11 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         }
         bo.setUpdateTimestamp((getService(DateTimeService.class)).getCurrentTimestamp());
         bo.setUpdateUser(updateUser);
+        if (bo instanceof ProposalAbstract) {
+            ProposalAbstract abstractBo = (ProposalAbstract)bo;
+            abstractBo.setTimestampDisplay((getService(DateTimeService.class)).getCurrentTimestamp());
+            abstractBo.setUserDisplay(updateUser);
+        }
     }
     
     /**
@@ -527,6 +532,8 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
             updateUserTimestamp(proposalAbstract);
+            proposalAbstract.setTimestampDisplay((getService(DateTimeService.class)).getCurrentTimestamp());
+            proposalAbstract.setUserDisplay(GlobalVariables.getUserSession().getPrincipalName());
             proposalDevelopmentForm.getDocument().getDevelopmentProposal().getProposalAbstracts().add(proposalAbstract);
             proposalDevelopmentForm.setNewProposalAbstract(new ProposalAbstract());
         }
